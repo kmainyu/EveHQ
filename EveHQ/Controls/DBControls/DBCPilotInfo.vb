@@ -78,23 +78,26 @@
 #Region "Control Configuration"
     Private Sub ReadFromConfig()
         For Each ConfigProperty As String In cControlConfig.Keys
-            Select Case ConfigProperty
-                Case "DefaultPilotName"
-                    Me.DefaultPilotName = CStr(cControlConfig(ConfigProperty))
-                Case "ControlHeight"
-                    Me.ControlHeight = CInt(cControlConfig(ConfigProperty))
-                Case "ControlWidth"
-                    Me.ControlWidth = CInt(cControlConfig(ConfigProperty))
-                Case "ControlPosition"
-                    Me.ControlPosition = CInt(cControlConfig(ConfigProperty))
-            End Select
+            Dim pi As System.Reflection.PropertyInfo = Me.GetType().GetProperty(ConfigProperty)
+            'pi.SetValue(Me, CType(cControlConfig(ConfigProperty), Object), Nothing)
+            pi.SetValue(Me, Convert.ChangeType(cControlConfig(ConfigProperty), pi.PropertyType, Globalization.CultureInfo.InvariantCulture), Nothing)
+            'Select Case ConfigProperty
+            '    Case "DefaultPilotName"
+            '        Me.DefaultPilotName = CStr(cControlConfig(ConfigProperty))
+            '    Case "ControlHeight"
+            '        Me.ControlHeight = CInt(cControlConfig(ConfigProperty))
+            '    Case "ControlWidth"
+            '        Me.ControlWidth = CInt(cControlConfig(ConfigProperty))
+            '    Case "ControlPosition"
+            '        Me.ControlPosition = CInt(cControlConfig(ConfigProperty))
+            'End Select
         Next
     End Sub
     Private Sub SetConfig(ByVal ConfigProperty As String, ByVal ConfigData As Object)
         If cControlConfig.ContainsKey(ConfigProperty) = False Then
-            cControlConfig.Add(ConfigProperty, Configdata)
+            cControlConfig.Add(ConfigProperty, ConfigData)
         Else
-            cControlConfig(ConfigProperty) = Configdata
+            cControlConfig(ConfigProperty) = ConfigData
         End If
     End Sub
 #End Region
@@ -111,6 +114,8 @@
         AGPPilotInfo.CornerRadius = 10
         AGPPilotInfo.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
         AGPPilotInfo.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
+        AGPHeader.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
+        AGPHeader.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
 
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
