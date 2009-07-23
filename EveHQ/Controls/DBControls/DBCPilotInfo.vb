@@ -46,7 +46,7 @@
         End Get
         Set(ByVal value As Integer)
             cControlHeight = value
-            Me.Width = cControlHeight
+            Me.Height = cControlHeight
             Me.SetConfig("ControlHeight", value)
         End Set
     End Property
@@ -58,7 +58,6 @@
         End Get
         Set(ByVal value As Integer)
             cControlPosition = value
-            Me.Width = cControlPosition
             Me.SetConfig("ControlPosition", value)
         End Set
     End Property
@@ -106,10 +105,8 @@
         InitializeComponent()
 
         ' Update the AGPs with the configured details
-        AGPHeader.Border = EveHQ.Core.HQ.EveHQSettings.DBCBorder
         AGPHeader.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
         AGPHeader.CornerRadius = 10
-        AGPPilotInfo.Border = EveHQ.Core.HQ.EveHQSettings.DBCBorder
         AGPPilotInfo.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
         AGPPilotInfo.CornerRadius = 10
         AGPPilotInfo.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
@@ -119,7 +116,9 @@
         cboPilot.BeginUpdate()
         cboPilot.Items.Clear()
         For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            cboPilot.Items.Add(pilot.Name)
+            If pilot.Active = True Then
+                cboPilot.Items.Add(pilot.Name)
+            End If
         Next
         cboPilot.EndUpdate()
 
@@ -211,4 +210,12 @@
         frmPilot.DisplayPilotName = cPilot.Name
         frmEveHQ.OpenPilotInfoForm()
     End Sub
+
+    Private Sub pbConfig_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbConfig.MouseDoubleClick
+        ' Initialise the configuration form
+        Dim newConfigForm As New DBCPilotInfoConfig
+        newConfigForm.DBControl = Me
+        newConfigForm.ShowDialog()
+    End Sub
+
 End Class

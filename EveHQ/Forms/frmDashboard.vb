@@ -57,7 +57,7 @@ Public Class frmDashboard
         Dim msg As String = ""
         Dim pv As Object
         For Each c As Control In FLP1.Controls
-            Dim pi As System.Reflection.PropertyInfo = c.GetType().GetProperty("PilotName")
+            Dim pi As System.Reflection.PropertyInfo = c.GetType().GetProperty("DefaultPilotName")
             pv = pi.GetValue(c, Nothing)
             msg &= pi.Name & ", " & CStr(pv) & ControlChars.CrLf
         Next

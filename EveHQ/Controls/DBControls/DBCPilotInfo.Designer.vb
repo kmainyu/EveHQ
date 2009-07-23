@@ -202,6 +202,7 @@ Partial Class DBCPilotInfo
         '
         'pbConfig
         '
+        Me.pbConfig.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbConfig.Image = Global.EveHQ.My.Resources.Resources.info_icon
         Me.pbConfig.Location = New System.Drawing.Point(275, 1)
         Me.pbConfig.Name = "pbConfig"
@@ -246,13 +247,13 @@ Partial Class DBCPilotInfo
         'ColorWithAlpha3
         '
         Me.ColorWithAlpha3.Alpha = 255
-        Me.ColorWithAlpha3.Color = System.Drawing.SystemColors.ControlDarkDark
+        Me.ColorWithAlpha3.Color = System.Drawing.Color.DimGray
         Me.ColorWithAlpha3.Parent = Me.AGPHeader
         '
         'ColorWithAlpha4
         '
         Me.ColorWithAlpha4.Alpha = 255
-        Me.ColorWithAlpha4.Color = System.Drawing.SystemColors.Control
+        Me.ColorWithAlpha4.Color = System.Drawing.Color.LightGray
         Me.ColorWithAlpha4.Parent = Me.AGPHeader
         '
         'lblHeader

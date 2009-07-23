@@ -22,20 +22,21 @@ Partial Public Class frmSettings
         Me.components = New System.ComponentModel.Container
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Colours & Styles")
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Database Format")
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
-        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Dashboard")
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Database Format")
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
+        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
+        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
+        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
         Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox
@@ -305,6 +306,7 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.gbDashboard = New System.Windows.Forms.GroupBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1467,9 +1469,9 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 12)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(686, 204)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(693, 504)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(113, 48)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
@@ -1634,7 +1636,7 @@ Partial Public Class frmSettings
         Me.clbColumns.Items.AddRange(New Object() {"Skill Name", "Current Level", "From Level", "To Level", "% Complete", "Training Time", "Date Completed", "Rank", "Primary Attribute", "Secondary Attribute", "SP Rate/Hour", "SP Rate/Day", "SP Rate/Week", "SP Rate/Month", "SP Rate/Year", "SP Earned", "SP Total"})
         Me.clbColumns.Location = New System.Drawing.Point(9, 47)
         Me.clbColumns.Name = "clbColumns"
-        Me.clbColumns.Size = New System.Drawing.Size(157, 259)
+        Me.clbColumns.Size = New System.Drawing.Size(157, 244)
         Me.clbColumns.TabIndex = 2
         '
         'gbDatabaseFormat
@@ -2654,35 +2656,37 @@ Partial Public Class frmSettings
         TreeNode1.Text = "General"
         TreeNode2.Name = "nodeColours"
         TreeNode2.Text = "Colours & Styles"
-        TreeNode3.Name = "nodeDatabaseFormat"
-        TreeNode3.Text = "Database Format"
-        TreeNode4.Name = "nodeEveAccounts"
-        TreeNode4.Text = "Eve Accounts"
-        TreeNode5.Name = "nodeEveFolders"
-        TreeNode5.Text = "Eve Folders"
-        TreeNode6.Name = "nodeEveServer"
-        TreeNode6.Text = "Eve API & Server"
-        TreeNode7.Name = "nodeFTPAccounts"
-        TreeNode7.Text = "FTP Accounts"
-        TreeNode8.Name = "nodeG15"
-        TreeNode8.Text = "G15 Display"
-        TreeNode9.Name = "nodeIGB"
-        TreeNode9.Text = "IGB"
-        TreeNode10.Name = "nodeNotifications"
-        TreeNode10.Text = "Notifications"
-        TreeNode11.Name = "nodePilots"
-        TreeNode11.Text = "Pilots"
-        TreeNode12.Name = "nodePlugins"
-        TreeNode12.Text = "Plug Ins"
-        TreeNode13.Name = "nodeProxyServer"
-        TreeNode13.Text = "Proxy Server"
-        TreeNode14.Name = "nodeTaskBarIcon"
-        TreeNode14.Text = "Taskbar Icon"
-        TreeNode15.Name = "nodeTrainingOverlay"
-        TreeNode15.Text = "Training Overlay"
-        TreeNode16.Name = "nodeTrainingQueue"
-        TreeNode16.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
+        TreeNode3.Name = "nodeDashboard"
+        TreeNode3.Text = "Dashboard"
+        TreeNode4.Name = "nodeDatabaseFormat"
+        TreeNode4.Text = "Database Format"
+        TreeNode5.Name = "nodeEveAccounts"
+        TreeNode5.Text = "Eve Accounts"
+        TreeNode6.Name = "nodeEveFolders"
+        TreeNode6.Text = "Eve Folders"
+        TreeNode7.Name = "nodeEveServer"
+        TreeNode7.Text = "Eve API & Server"
+        TreeNode8.Name = "nodeFTPAccounts"
+        TreeNode8.Text = "FTP Accounts"
+        TreeNode9.Name = "nodeG15"
+        TreeNode9.Text = "G15 Display"
+        TreeNode10.Name = "nodeIGB"
+        TreeNode10.Text = "IGB"
+        TreeNode11.Name = "nodeNotifications"
+        TreeNode11.Text = "Notifications"
+        TreeNode12.Name = "nodePilots"
+        TreeNode12.Text = "Pilots"
+        TreeNode13.Name = "nodePlugins"
+        TreeNode13.Text = "Plug Ins"
+        TreeNode14.Name = "nodeProxyServer"
+        TreeNode14.Text = "Proxy Server"
+        TreeNode15.Name = "nodeTaskBarIcon"
+        TreeNode15.Text = "Taskbar Icon"
+        TreeNode16.Name = "nodeTrainingOverlay"
+        TreeNode16.Text = "Training Overlay"
+        TreeNode17.Name = "nodeTrainingQueue"
+        TreeNode17.Text = "Training Queue"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
         '
@@ -3077,13 +3081,24 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
+        'gbDashboard
+        '
+        Me.gbDashboard.Location = New System.Drawing.Point(194, 12)
+        Me.gbDashboard.Name = "gbDashboard"
+        Me.gbDashboard.Size = New System.Drawing.Size(693, 500)
+        Me.gbDashboard.TabIndex = 33
+        Me.gbDashboard.TabStop = False
+        Me.gbDashboard.Text = "Dashboard"
+        Me.gbDashboard.Visible = False
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbEveServer)
@@ -3458,4 +3473,5 @@ Partial Public Class frmSettings
     Friend WithEvents chkDisableVisualStyles As System.Windows.Forms.CheckBox
     Friend WithEvents lblCSVSeparatorChar As System.Windows.Forms.Label
     Friend WithEvents txtCSVSeparator As System.Windows.Forms.TextBox
+    Friend WithEvents gbDashboard As System.Windows.Forms.GroupBox
 End Class

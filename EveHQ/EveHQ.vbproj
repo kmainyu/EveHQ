@@ -91,10 +91,16 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\DBCPilotInfo.Designer.vb">
+    <Compile Include="Controls\DBConfigs\DBCPilotInfoConfig.Designer.vb">
+      <DependentUpon>DBCPilotInfoConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DBConfigs\DBCPilotInfoConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\DBControls\DBCPilotInfo.Designer.vb">
       <DependentUpon>DBCPilotInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DBCPilotInfo.vb">
+    <Compile Include="Controls\DBControls\DBCPilotInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Classes\ListViewNoFlicker.Designer.vb">
@@ -307,7 +313,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\DBCPilotInfo.resx">
+    <EmbeddedResource Include="Controls\DBConfigs\DBCPilotInfoConfig.resx">
+      <DependentUpon>DBCPilotInfoConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DBControls\DBCPilotInfo.resx">
       <DependentUpon>DBCPilotInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\XPander.resx">
