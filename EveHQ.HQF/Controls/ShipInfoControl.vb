@@ -250,11 +250,18 @@ Public Class ShipInfoControl
 
         ' Targeting
         lblTargetRange.Text = FormatNumber(fittedShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m"
-        'lblMaxTargets.Text = FormatNumber(fittedShip.MaxLockedTargets, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblTargets.Text = FormatNumber(fittedShip.MaxLockedTargets, 0) & " / " & FormatNumber(CDbl(fittedShip.Attributes("10064")), 0)
+        ttt = "Max Ship Targets: " & FormatNumber(fittedShip.MaxLockedTargets, 0) & ControlChars.CrLf
+        ttt &= "Max Pilot Targets: " & FormatNumber(CDbl(fittedShip.Attributes("10064")), 0)
+        ToolTip1.SetToolTip(lblTargets, ttt)
         lblScanResolution.Text = FormatNumber(fittedShip.ScanResolution, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " mm"
         lblSensorStrength.Text = FormatNumber(Math.Max(Math.Max(Math.Max(fittedShip.GravSensorStrenth, fittedShip.LadarSensorStrenth), fittedShip.MagSensorStrenth), fittedShip.RadarSensorStrenth), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        ttt = "Gravimetric Strength: " & FormatNumber(fittedShip.GravSensorStrenth, 2) & ControlChars.CrLf
+        ttt &= "Ladar Strength: " & FormatNumber(fittedShip.LadarSensorStrenth, 2) & ControlChars.CrLf
+        ttt &= "Magnetometric Strength: " & FormatNumber(fittedShip.MagSensorStrenth, 2) & ControlChars.CrLf
+        ttt &= "Radar Strength: " & FormatNumber(fittedShip.RadarSensorStrenth, 2) & ControlChars.CrLf
+        ToolTip1.SetToolTip(lblSensorStrength, ttt)
         lblSigRadius.Text = FormatNumber(fittedShip.SigRadius, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m"
-
         ' Cargo and Drones
         lblCargoBay.Text = FormatNumber(fittedShip.CargoBay, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
         lblDroneBay.Text = FormatNumber(fittedShip.DroneBay, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"

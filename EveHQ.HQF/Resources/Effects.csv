@@ -71,7 +71,7 @@
 294,1,19759,54,2,291,0,1,0,0,Long Distance Jamming - TD
 294,1,19759,54,2,379,0,1,0,0,Long Distance Jamming - TP
 309,1,3428,76,3,6,0,1,0,0,Long Range Targeting
-#,1,3430,,,,0,1,0,0,Multitasking
+311,1,3430,10064,3,6,0,1,1,0,Multitasking
 1193,1,27911,669,2,842,0,1,0,0,Projected Electronic Counter Measures
 317,1,3435,6,2,52,0,1,0,0,Propulsion Jamming - Warp Scrambler
 317,1,3435,6,2,65,0,1,0,0,Propulsion Jamming - Stasis Webifier
@@ -87,7 +87,7 @@
 832,1,19922,554,2,379,0,1,0,0,Signature Focusing
 #,1,3551,,,,0,1,0,0,Survey
 317,1,19921,6,2,379,0,1,0,0,Target Painting
-#,1,3429,,,,0,1,0,0,Targeting
+311,1,3429,10064,3,6,0,1,1,0,Targeting
 828,1,19767,767,2,291,0,1,0,0,Turret Destabilization - Tracking Speed
 828,1,19767,351,2,291,0,1,0,0,Turret Destabilization - Optimal Range
 317,1,3434,6,2,291,0,1,0,0,Weapon Disruption

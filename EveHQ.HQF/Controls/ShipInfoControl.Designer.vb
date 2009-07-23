@@ -25,6 +25,8 @@ Partial Class ShipInfoControl
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.lblImplants = New System.Windows.Forms.Label
+        Me.cboImplants = New System.Windows.Forms.ComboBox
         Me.gbDefence = New System.Windows.Forms.GroupBox
         Me.lblTankAbility = New System.Windows.Forms.Label
         Me.btnEditProfiles = New System.Windows.Forms.Button
@@ -112,8 +114,8 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.cboImplants = New System.Windows.Forms.ComboBox
-        Me.lblImplants = New System.Windows.Forms.Label
+        Me.lblTargets = New System.Windows.Forms.Label
+        Me.pbTargets = New System.Windows.Forms.PictureBox
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -149,6 +151,7 @@ Partial Class ShipInfoControl
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbTargets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -185,6 +188,25 @@ Partial Class ShipInfoControl
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(270, 732)
         Me.Panel1.TabIndex = 0
+        '
+        'lblImplants
+        '
+        Me.lblImplants.AutoSize = True
+        Me.lblImplants.Location = New System.Drawing.Point(6, 38)
+        Me.lblImplants.Name = "lblImplants"
+        Me.lblImplants.Size = New System.Drawing.Size(32, 13)
+        Me.lblImplants.TabIndex = 36
+        Me.lblImplants.Text = "Imps:"
+        '
+        'cboImplants
+        '
+        Me.cboImplants.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboImplants.FormattingEnabled = True
+        Me.cboImplants.Location = New System.Drawing.Point(42, 35)
+        Me.cboImplants.Name = "cboImplants"
+        Me.cboImplants.Size = New System.Drawing.Size(165, 21)
+        Me.cboImplants.Sorted = True
+        Me.cboImplants.TabIndex = 35
         '
         'gbDefence
         '
@@ -992,6 +1014,8 @@ Partial Class ShipInfoControl
         '
         'gbTargeting
         '
+        Me.gbTargeting.Controls.Add(Me.lblTargets)
+        Me.gbTargeting.Controls.Add(Me.pbTargets)
         Me.gbTargeting.Controls.Add(Me.lblSigRadius)
         Me.gbTargeting.Controls.Add(Me.pbSigRadius)
         Me.gbTargeting.Controls.Add(Me.lblSensorStrength)
@@ -1012,7 +1036,7 @@ Partial Class ShipInfoControl
         'lblSigRadius
         '
         Me.lblSigRadius.AutoSize = True
-        Me.lblSigRadius.Location = New System.Drawing.Point(128, 48)
+        Me.lblSigRadius.Location = New System.Drawing.Point(130, 45)
         Me.lblSigRadius.Name = "lblSigRadius"
         Me.lblSigRadius.Size = New System.Drawing.Size(45, 13)
         Me.lblSigRadius.TabIndex = 18
@@ -1033,7 +1057,7 @@ Partial Class ShipInfoControl
         'lblSensorStrength
         '
         Me.lblSensorStrength.AutoSize = True
-        Me.lblSensorStrength.Location = New System.Drawing.Point(137, 22)
+        Me.lblSensorStrength.Location = New System.Drawing.Point(130, 22)
         Me.lblSensorStrength.Name = "lblSensorStrength"
         Me.lblSensorStrength.Size = New System.Drawing.Size(19, 13)
         Me.lblSensorStrength.TabIndex = 11
@@ -1167,24 +1191,26 @@ Partial Class ShipInfoControl
         Me.ToolTip1.ReshowDelay = 100
         Me.ToolTip1.ShowAlways = True
         '
-        'cboImplants
+        'lblTargets
         '
-        Me.cboImplants.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboImplants.FormattingEnabled = True
-        Me.cboImplants.Location = New System.Drawing.Point(42, 35)
-        Me.cboImplants.Name = "cboImplants"
-        Me.cboImplants.Size = New System.Drawing.Size(165, 21)
-        Me.cboImplants.Sorted = True
-        Me.cboImplants.TabIndex = 35
+        Me.lblTargets.AutoSize = True
+        Me.lblTargets.Location = New System.Drawing.Point(185, 22)
+        Me.lblTargets.Name = "lblTargets"
+        Me.lblTargets.Size = New System.Drawing.Size(30, 13)
+        Me.lblTargets.TabIndex = 20
+        Me.lblTargets.Text = "0 / 0"
+        Me.ToolTip1.SetToolTip(Me.lblTargets, "Sensor Strength")
         '
-        'lblImplants
+        'pbTargets
         '
-        Me.lblImplants.AutoSize = True
-        Me.lblImplants.Location = New System.Drawing.Point(6, 38)
-        Me.lblImplants.Name = "lblImplants"
-        Me.lblImplants.Size = New System.Drawing.Size(32, 13)
-        Me.lblImplants.TabIndex = 36
-        Me.lblImplants.Text = "Imps:"
+        Me.pbTargets.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMaxTargets
+        Me.pbTargets.Location = New System.Drawing.Point(161, 19)
+        Me.pbTargets.Name = "pbTargets"
+        Me.pbTargets.Size = New System.Drawing.Size(24, 24)
+        Me.pbTargets.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbTargets.TabIndex = 19
+        Me.pbTargets.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbTargets, "Max Locked Targets")
         '
         'ShipInfoControl
         '
@@ -1236,6 +1262,7 @@ Partial Class ShipInfoControl
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbTargets, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1329,5 +1356,7 @@ Partial Class ShipInfoControl
     Friend WithEvents lblTankAbility As System.Windows.Forms.Label
     Friend WithEvents lblImplants As System.Windows.Forms.Label
     Friend WithEvents cboImplants As System.Windows.Forms.ComboBox
+    Friend WithEvents lblTargets As System.Windows.Forms.Label
+    Friend WithEvents pbTargets As System.Windows.Forms.PictureBox
 
 End Class
