@@ -22,11 +22,15 @@ Partial Class frmDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDashboard))
         Me.FLP1 = New System.Windows.Forms.FlowLayoutPanel
         Me.Ticker1 = New EveHQ.Core.Ticker
         Me.ColorWithAlpha1 = New EveHQ.Core.ColorWithAlpha
         Me.ColorWithAlpha2 = New EveHQ.Core.ColorWithAlpha
+        Me.ctxDashboard = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuConfigureDB = New System.Windows.Forms.ToolStripMenuItem
+        Me.ctxDashboard.SuspendLayout()
         Me.SuspendLayout()
         '
         'FLP1
@@ -34,6 +38,7 @@ Partial Class frmDashboard
         Me.FLP1.AllowDrop = True
         Me.FLP1.AutoScroll = True
         Me.FLP1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.FLP1.ContextMenuStrip = Me.ctxDashboard
         Me.FLP1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FLP1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
         Me.FLP1.Location = New System.Drawing.Point(0, 0)
@@ -66,6 +71,18 @@ Partial Class frmDashboard
         Me.ColorWithAlpha2.Color = System.Drawing.Color.Khaki
         Me.ColorWithAlpha2.Parent = Nothing
         '
+        'ctxDashboard
+        '
+        Me.ctxDashboard.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuConfigureDB})
+        Me.ctxDashboard.Name = "ctxDashboard"
+        Me.ctxDashboard.Size = New System.Drawing.Size(188, 26)
+        '
+        'mnuConfigureDB
+        '
+        Me.mnuConfigureDB.Name = "mnuConfigureDB"
+        Me.mnuConfigureDB.Size = New System.Drawing.Size(187, 22)
+        Me.mnuConfigureDB.Text = "Configure Dashboard"
+        '
         'frmDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -77,6 +94,7 @@ Partial Class frmDashboard
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmDashboard"
         Me.Text = "EveHQ Dashboard"
+        Me.ctxDashboard.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -84,4 +102,6 @@ Partial Class frmDashboard
     Friend WithEvents ColorWithAlpha2 As EveHQ.Core.ColorWithAlpha
     Friend WithEvents FLP1 As System.Windows.Forms.FlowLayoutPanel
     Friend WithEvents Ticker1 As EveHQ.Core.Ticker
+    Friend WithEvents ctxDashboard As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuConfigureDB As System.Windows.Forms.ToolStripMenuItem
 End Class

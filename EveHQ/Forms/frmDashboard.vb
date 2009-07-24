@@ -95,6 +95,12 @@ Public Class frmDashboard
 
 #End Region
 
+    Private Sub mnuConfigureDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConfigureDB.Click
+        Dim EveHQSettings As New frmSettings
+        EveHQSettings.Tag = "nodeDashboard"
+        EveHQSettings.ShowDialog()
+        EveHQSettings.Dispose()
+    End Sub
 End Class
 
 Public Class MyWrapper
