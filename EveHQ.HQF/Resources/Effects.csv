@@ -219,7 +219,7 @@
 310,1,3318,50,2,501,0,1,0,0,Weapon Upgrades - Snowball
 310,1,3318,50,2,509,0,1,0,0,Weapon Upgrades - Standard
 # INDUSTRY,,,,,,,,,,
-#,1,25544,,,,0,1,0,0,Gas Cloud Harvesting
+280,1,25544,763,2,737,0,1,10,0,Gas Cloud Harvesting
 780,1,16281,73,4,1038,0,1,0,0,Ice Harvesting
 885,1,28585,714,1,28583,0,1,8,0,Industrial Reconfiguration
 434,1,3386,77,4,1039,0,1,0,0,Mining - Mining Laser
