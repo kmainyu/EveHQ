@@ -166,8 +166,10 @@ Public Class G15LCD
             strLCD &= cPilot.Name & ControlChars.CrLf
             strLCD &= cPilot.TrainingSkillName
             strLCD &= " (Lvl " & cPilot.TrainingSkillLevel & ")" & ControlChars.CrLf
+            Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingEndTime)
             Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-            strLCD &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime) & ControlChars.CrLf & ControlChars.CrLf
+            strLCD &= (Format(localdate, "ddd") & " " & localdate) & ControlChars.CrLf
+            strLCD &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime)
             screen.DrawString(strLCD, lcdFont, Brushes.White, New RectangleF(0, 0, 160, 43), strformat)
             If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
