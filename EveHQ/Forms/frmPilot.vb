@@ -723,11 +723,13 @@ Public Class frmPilot
     End Sub
 
     Private Sub clvSkills_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvSkills.DoubleClick
-        If clvSkills.SelectedItems(0).Depth = 2 Then
-            Dim skillID As String = ""
-            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(clvSkills.SelectedItems(0).Text)
-            frmSkillDetails.DisplayPilotName = displayPilot.Name
-            Call frmSkillDetails.ShowSkillDetails(skillID)
+        If clvSkills.SelectedItems.Count > 0 Then
+            If clvSkills.SelectedItems(0).Depth = 2 Then
+                Dim skillID As String = ""
+                skillID = EveHQ.Core.SkillFunctions.SkillNameToID(clvSkills.SelectedItems(0).Text)
+                frmSkillDetails.DisplayPilotName = displayPilot.Name
+                Call frmSkillDetails.ShowSkillDetails(skillID)
+            End If
         End If
     End Sub
 
