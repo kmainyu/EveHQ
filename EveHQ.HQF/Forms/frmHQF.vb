@@ -1204,7 +1204,9 @@ Public Class frmHQF
                 lvwItems.Items.Add(newModule)
             Else
                 Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                chkFilter.ForeColor = Color.LimeGreen
+                If chkFilter IsNot Nothing Then
+                    chkFilter.ForeColor = Color.LimeGreen
+                End If
             End If
         Next
         If lvwItems.Items.Count = 0 Then
