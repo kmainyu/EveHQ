@@ -307,6 +307,15 @@ Partial Public Class frmSettings
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
         Me.gbDashboard = New System.Windows.Forms.GroupBox
+        Me.dbDashboardConfig = New System.Windows.Forms.GroupBox
+        Me.lblWidgetTypes = New System.Windows.Forms.Label
+        Me.cboWidgets = New System.Windows.Forms.ComboBox
+        Me.btnAddWidget = New System.Windows.Forms.Button
+        Me.btnRemoveWidget = New System.Windows.Forms.Button
+        Me.lvWidgets = New System.Windows.Forms.ListView
+        Me.colWidgetType = New System.Windows.Forms.ColumnHeader
+        Me.colWidgetInfo = New System.Windows.Forms.ColumnHeader
+        Me.lblCurrentWidgets = New System.Windows.Forms.Label
         Me.gbDashboardColours = New System.Windows.Forms.GroupBox
         Me.pbWidgetHeader2 = New System.Windows.Forms.PictureBox
         Me.lblWidgetHeader2 = New System.Windows.Forms.Label
@@ -321,15 +330,6 @@ Partial Public Class frmSettings
         Me.lblWidgetMain2 = New System.Windows.Forms.Label
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
-        Me.dbDashboardConfig = New System.Windows.Forms.GroupBox
-        Me.lblCurrentWidgets = New System.Windows.Forms.Label
-        Me.lvWidgets = New System.Windows.Forms.ListView
-        Me.colWidgetType = New System.Windows.Forms.ColumnHeader
-        Me.colWidgetInfo = New System.Windows.Forms.ColumnHeader
-        Me.btnRemoveWidget = New System.Windows.Forms.Button
-        Me.btnAddWidget = New System.Windows.Forms.Button
-        Me.cboWidgets = New System.Windows.Forms.ComboBox
-        Me.lblWidgetTypes = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -386,6 +386,7 @@ Partial Public Class frmSettings
         Me.ctxPrices.SuspendLayout()
         Me.gbTaskbarIcon.SuspendLayout()
         Me.gbDashboard.SuspendLayout()
+        Me.dbDashboardConfig.SuspendLayout()
         Me.gbDashboardColours.SuspendLayout()
         CType(Me.pbWidgetHeader2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbWidgetHeader1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -393,7 +394,6 @@ Partial Public Class frmSettings
         CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.dbDashboardConfig.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -423,9 +423,9 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(499, 176)
+        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(132, 35)
+        Me.gbGeneral.Size = New System.Drawing.Size(693, 488)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -626,7 +626,7 @@ Partial Public Class frmSettings
         '
         Me.cboStartupView.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboStartupView.FormattingEnabled = True
-        Me.cboStartupView.Items.AddRange(New Object() {"Pilot Information", "Pilot Summary Report", "Skill Training"})
+        Me.cboStartupView.Items.AddRange(New Object() {"EveHQ Dashboard", "Pilot Information", "Pilot Summary Report", "Skill Training"})
         Me.cboStartupView.Location = New System.Drawing.Point(411, 32)
         Me.cboStartupView.Name = "cboStartupView"
         Me.cboStartupView.Size = New System.Drawing.Size(161, 21)
@@ -2730,7 +2730,7 @@ Partial Public Class frmSettings
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
         Me.gbColours.Location = New System.Drawing.Point(398, 378)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(182, 128)
+        Me.gbColours.Size = New System.Drawing.Size(131, 41)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
@@ -3117,13 +3117,97 @@ Partial Public Class frmSettings
         '
         Me.gbDashboard.Controls.Add(Me.dbDashboardConfig)
         Me.gbDashboard.Controls.Add(Me.gbDashboardColours)
-        Me.gbDashboard.Location = New System.Drawing.Point(194, 12)
+        Me.gbDashboard.Location = New System.Drawing.Point(709, 355)
         Me.gbDashboard.Name = "gbDashboard"
-        Me.gbDashboard.Size = New System.Drawing.Size(696, 504)
+        Me.gbDashboard.Size = New System.Drawing.Size(132, 36)
         Me.gbDashboard.TabIndex = 33
         Me.gbDashboard.TabStop = False
         Me.gbDashboard.Text = "Dashboard"
         Me.gbDashboard.Visible = False
+        '
+        'dbDashboardConfig
+        '
+        Me.dbDashboardConfig.Controls.Add(Me.lblWidgetTypes)
+        Me.dbDashboardConfig.Controls.Add(Me.cboWidgets)
+        Me.dbDashboardConfig.Controls.Add(Me.btnAddWidget)
+        Me.dbDashboardConfig.Controls.Add(Me.btnRemoveWidget)
+        Me.dbDashboardConfig.Controls.Add(Me.lvWidgets)
+        Me.dbDashboardConfig.Controls.Add(Me.lblCurrentWidgets)
+        Me.dbDashboardConfig.Location = New System.Drawing.Point(238, 27)
+        Me.dbDashboardConfig.Name = "dbDashboardConfig"
+        Me.dbDashboardConfig.Size = New System.Drawing.Size(449, 461)
+        Me.dbDashboardConfig.TabIndex = 39
+        Me.dbDashboardConfig.TabStop = False
+        Me.dbDashboardConfig.Text = "Dashboard Configuration"
+        '
+        'lblWidgetTypes
+        '
+        Me.lblWidgetTypes.AutoSize = True
+        Me.lblWidgetTypes.Location = New System.Drawing.Point(14, 435)
+        Me.lblWidgetTypes.Name = "lblWidgetTypes"
+        Me.lblWidgetTypes.Size = New System.Drawing.Size(77, 13)
+        Me.lblWidgetTypes.TabIndex = 5
+        Me.lblWidgetTypes.Text = "Widget Types:"
+        '
+        'cboWidgets
+        '
+        Me.cboWidgets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWidgets.FormattingEnabled = True
+        Me.cboWidgets.Items.AddRange(New Object() {"Pilot Information"})
+        Me.cboWidgets.Location = New System.Drawing.Point(93, 432)
+        Me.cboWidgets.Name = "cboWidgets"
+        Me.cboWidgets.Size = New System.Drawing.Size(184, 21)
+        Me.cboWidgets.Sorted = True
+        Me.cboWidgets.TabIndex = 4
+        '
+        'btnAddWidget
+        '
+        Me.btnAddWidget.Location = New System.Drawing.Point(283, 430)
+        Me.btnAddWidget.Name = "btnAddWidget"
+        Me.btnAddWidget.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddWidget.TabIndex = 3
+        Me.btnAddWidget.Text = "Add Widget"
+        Me.btnAddWidget.UseVisualStyleBackColor = True
+        '
+        'btnRemoveWidget
+        '
+        Me.btnRemoveWidget.Location = New System.Drawing.Point(364, 430)
+        Me.btnRemoveWidget.Name = "btnRemoveWidget"
+        Me.btnRemoveWidget.Size = New System.Drawing.Size(75, 23)
+        Me.btnRemoveWidget.TabIndex = 2
+        Me.btnRemoveWidget.Text = "Remove"
+        Me.btnRemoveWidget.UseVisualStyleBackColor = True
+        '
+        'lvWidgets
+        '
+        Me.lvWidgets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colWidgetType, Me.colWidgetInfo})
+        Me.lvWidgets.FullRowSelect = True
+        Me.lvWidgets.GridLines = True
+        Me.lvWidgets.Location = New System.Drawing.Point(11, 40)
+        Me.lvWidgets.Name = "lvWidgets"
+        Me.lvWidgets.Size = New System.Drawing.Size(428, 386)
+        Me.lvWidgets.TabIndex = 1
+        Me.lvWidgets.UseCompatibleStateImageBehavior = False
+        Me.lvWidgets.View = System.Windows.Forms.View.Details
+        '
+        'colWidgetType
+        '
+        Me.colWidgetType.Text = "Widget Type"
+        Me.colWidgetType.Width = 100
+        '
+        'colWidgetInfo
+        '
+        Me.colWidgetInfo.Text = "Widget information"
+        Me.colWidgetInfo.Width = 300
+        '
+        'lblCurrentWidgets
+        '
+        Me.lblCurrentWidgets.AutoSize = True
+        Me.lblCurrentWidgets.Location = New System.Drawing.Point(8, 24)
+        Me.lblCurrentWidgets.Name = "lblCurrentWidgets"
+        Me.lblCurrentWidgets.Size = New System.Drawing.Size(90, 13)
+        Me.lblCurrentWidgets.TabIndex = 0
+        Me.lblCurrentWidgets.Text = "Current Widgets:"
         '
         'gbDashboardColours
         '
@@ -3270,90 +3354,6 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
-        'dbDashboardConfig
-        '
-        Me.dbDashboardConfig.Controls.Add(Me.lblWidgetTypes)
-        Me.dbDashboardConfig.Controls.Add(Me.cboWidgets)
-        Me.dbDashboardConfig.Controls.Add(Me.btnAddWidget)
-        Me.dbDashboardConfig.Controls.Add(Me.btnRemoveWidget)
-        Me.dbDashboardConfig.Controls.Add(Me.lvWidgets)
-        Me.dbDashboardConfig.Controls.Add(Me.lblCurrentWidgets)
-        Me.dbDashboardConfig.Location = New System.Drawing.Point(238, 27)
-        Me.dbDashboardConfig.Name = "dbDashboardConfig"
-        Me.dbDashboardConfig.Size = New System.Drawing.Size(449, 461)
-        Me.dbDashboardConfig.TabIndex = 39
-        Me.dbDashboardConfig.TabStop = False
-        Me.dbDashboardConfig.Text = "Dashboard Configuration"
-        '
-        'lblCurrentWidgets
-        '
-        Me.lblCurrentWidgets.AutoSize = True
-        Me.lblCurrentWidgets.Location = New System.Drawing.Point(8, 24)
-        Me.lblCurrentWidgets.Name = "lblCurrentWidgets"
-        Me.lblCurrentWidgets.Size = New System.Drawing.Size(90, 13)
-        Me.lblCurrentWidgets.TabIndex = 0
-        Me.lblCurrentWidgets.Text = "Current Widgets:"
-        '
-        'lvWidgets
-        '
-        Me.lvWidgets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colWidgetType, Me.colWidgetInfo})
-        Me.lvWidgets.FullRowSelect = True
-        Me.lvWidgets.GridLines = True
-        Me.lvWidgets.Location = New System.Drawing.Point(11, 40)
-        Me.lvWidgets.Name = "lvWidgets"
-        Me.lvWidgets.Size = New System.Drawing.Size(428, 386)
-        Me.lvWidgets.TabIndex = 1
-        Me.lvWidgets.UseCompatibleStateImageBehavior = False
-        Me.lvWidgets.View = System.Windows.Forms.View.Details
-        '
-        'colWidgetType
-        '
-        Me.colWidgetType.Text = "Widget Type"
-        Me.colWidgetType.Width = 100
-        '
-        'colWidgetInfo
-        '
-        Me.colWidgetInfo.Text = "Widget information"
-        Me.colWidgetInfo.Width = 300
-        '
-        'btnRemoveWidget
-        '
-        Me.btnRemoveWidget.Location = New System.Drawing.Point(364, 430)
-        Me.btnRemoveWidget.Name = "btnRemoveWidget"
-        Me.btnRemoveWidget.Size = New System.Drawing.Size(75, 23)
-        Me.btnRemoveWidget.TabIndex = 2
-        Me.btnRemoveWidget.Text = "Remove"
-        Me.btnRemoveWidget.UseVisualStyleBackColor = True
-        '
-        'btnAddWidget
-        '
-        Me.btnAddWidget.Location = New System.Drawing.Point(283, 430)
-        Me.btnAddWidget.Name = "btnAddWidget"
-        Me.btnAddWidget.Size = New System.Drawing.Size(75, 23)
-        Me.btnAddWidget.TabIndex = 3
-        Me.btnAddWidget.Text = "Add Widget"
-        Me.btnAddWidget.UseVisualStyleBackColor = True
-        '
-        'cboWidgets
-        '
-        Me.cboWidgets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWidgets.FormattingEnabled = True
-        Me.cboWidgets.Items.AddRange(New Object() {"Pilot Information"})
-        Me.cboWidgets.Location = New System.Drawing.Point(93, 432)
-        Me.cboWidgets.Name = "cboWidgets"
-        Me.cboWidgets.Size = New System.Drawing.Size(184, 21)
-        Me.cboWidgets.Sorted = True
-        Me.cboWidgets.TabIndex = 4
-        '
-        'lblWidgetTypes
-        '
-        Me.lblWidgetTypes.AutoSize = True
-        Me.lblWidgetTypes.Location = New System.Drawing.Point(14, 435)
-        Me.lblWidgetTypes.Name = "lblWidgetTypes"
-        Me.lblWidgetTypes.Size = New System.Drawing.Size(77, 13)
-        Me.lblWidgetTypes.TabIndex = 5
-        Me.lblWidgetTypes.Text = "Widget Types:"
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3466,6 +3466,8 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon.ResumeLayout(False)
         Me.gbTaskbarIcon.PerformLayout()
         Me.gbDashboard.ResumeLayout(False)
+        Me.dbDashboardConfig.ResumeLayout(False)
+        Me.dbDashboardConfig.PerformLayout()
         Me.gbDashboardColours.ResumeLayout(False)
         Me.gbDashboardColours.PerformLayout()
         CType(Me.pbWidgetHeader2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3474,8 +3476,6 @@ Partial Public Class frmSettings
         CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.dbDashboardConfig.ResumeLayout(False)
-        Me.dbDashboardConfig.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

@@ -373,6 +373,9 @@ Public Class frmEveHQ
 
         ' Determine which view to display!
         Select Case EveHQ.Core.HQ.EveHQSettings.StartupView
+            Case "EveHQ Dashboard"
+                ' Open the dashboard
+                Call Me.OpenDashboard()
             Case "Pilot Information"
                 If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
                     ' Open the pilot info form
