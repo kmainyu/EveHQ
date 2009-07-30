@@ -193,6 +193,7 @@ Public Class frmPrism
                         newOwner.UseItemStyleForSubItems = False
                         newOwner.Name = selpilot.ID
                         newOwner.Text = selpilot.Name
+                        newOwner.ToolTipText = ""
                         newOwner.SubItems.Add("Character")
                         For si As Integer = 2 To 8
                             newOwner.SubItems.Add("")
@@ -360,7 +361,7 @@ Public Class frmPrism
             If apiXML IsNot Nothing Then
                 ' If we already have a corp rep, no sense in getting a new one!
                 If CorpRep.ContainsKey(Owner) = False Then
-                    APIOwner.ToolTipText = "Representative: " & Primary
+                    APIOwner.ToolTipText &= [Enum].GetName(GetType(PrismRepCodes), Pos - 2) & " Rep: " & Primary & ControlChars.CrLf
                     ' Check response string for any error codes?
                     Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
                     If errlist.Count <> 0 Then
@@ -383,6 +384,7 @@ Public Class frmPrism
                 End If
             Else
                 If CorpRep.ContainsKey(Owner) = False Then
+                    APIOwner.ToolTipText &= [Enum].GetName(GetType(PrismRepCodes), Pos - 2) & " Rep: " & Primary & ControlChars.CrLf
                     If Pos = 8 Then
                         APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Black
                         APIOwner.SubItems(Pos).Text = "n/a"
@@ -391,7 +393,6 @@ Public Class frmPrism
                         APIOwner.SubItems(Pos).Text = "missing"
                     End If
                 End If
-
             End If
         End If
         ProcessXMLCount += 1
@@ -3074,6 +3075,7 @@ Public Class frmPrism
         tabPrism.SelectTab(tabAPIStatus)
         ' Delete the current API Status data
         For Each Owner As ListViewItem In lvwCurrentAPIs.Items
+            Owner.ToolTipText = ""
             For si As Integer = 2 To 8
                 Owner.SubItems(si).Text = ""
             Next
@@ -5993,6 +5995,152 @@ Public Class frmPrism
 
 #End Region
 
-   
+#Region "Cache Clearing Routines"
+
+    Private Sub ctxAPIStatus_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxAPIStatus.Opening
+        If lvwCurrentAPIs.SelectedItems.Count > 0 Then
+            Dim OwnerLVI As ListViewItem = lvwCurrentAPIs.SelectedItems(0)
+            Dim RepData As String = OwnerLVI.ToolTipText.ToString
+            Dim RepList() As String = RepData.Split(CChar(ControlChars.CrLf))
+            Dim Reps As New ArrayList
+            For Each RepInfo As String In RepList
+                If RepInfo.Trim <> "" Then
+                    Dim Rep As String = RepInfo.Substring(RepInfo.IndexOf(":") + 2).Trim
+                    If Reps.Contains(Rep) = False Then
+                        Reps.Add(Rep)
+                    End If
+                End If
+            Next
+            Reps.Sort()
+            mnuClearXMLCache.DropDownItems.Clear()
+            For Each Rep As String In Reps
+                Dim newOwner As New ToolStripMenuItem
+                newOwner.Text = Rep
+                newOwner.Name = Rep
+                newOwner.Tag = OwnerLVI.SubItems(1).Text
+                AddHandler newOwner.Click, AddressOf Me.ClearPrismXMLCache
+                mnuClearXMLCache.DropDownItems.Add(newOwner)
+            Next
+        Else
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub ClearPrismXMLCache(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim selOwner As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim sPilot As String = selOwner.Name
+        Dim sType As String = selOwner.Tag.ToString
+        MessageBox.Show("Removing " & sType & " data for " & sPilot)
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(sPilot), Core.Pilot)
+        Dim prefix As String = "EVEHQAPI_"
+        Dim suffix As String = "_" & rPilot.Account & "_" & rPilot.ID
+        Dim ext As String = ".xml"
+        If sType = "Character" Then
+            Call Me.ClearCharacterCache(prefix, suffix, ext)
+        Else
+            Call Me.ClearCorporateCache(prefix, suffix, ext)
+        End If
+        ' Build a corp list
+        Call Me.BuildCorpList()
+        ' Set the Corp Reps to Default
+        PlugInData.CorpReps.Clear()
+        For API As Integer = 0 To 6
+            PlugInData.CorpReps.Add(New SortedList)
+        Next
+        ' Rescan XML Data
+        Call Me.ScanForExistingXMLs()
+    End Sub
+
+    Private Sub ClearCharacterCache(ByVal prefix As String, ByVal suffix As String, ByVal ext As String)
+        ' Delete Account Balances
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "AccountBalancesChar" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Assets
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "AssetsChar" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Jobs
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "IndustryChar" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Orders
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "OrdersChar" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Journal
+        For account As Integer = 1000 To 1000
+            Try
+                My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "WalletJournalChar" & suffix & "_" & account.ToString & ext))
+            Catch ex As Exception
+            End Try
+        Next
+        ' Delete Transactions
+        For account As Integer = 1000 To 1000
+            Try
+                My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "WalletTransChar" & suffix & "_" & account.ToString & ext))
+            Catch ex As Exception
+            End Try
+        Next
+    End Sub
+
+    Private Sub ClearCorporateCache(ByVal prefix As String, ByVal suffix As String, ByVal ext As String)
+        ' Delete Account Balances
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "AccountBalancesCorp" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Assets
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "AssetsCorp" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Jobs
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "IndustryCorp" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Orders
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "OrdersCorp" & suffix & ext))
+        Catch ex As Exception
+        End Try
+        ' Delete Journal
+        For account As Integer = 1000 To 1006
+            Try
+                My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "WalletJournalCorp" & suffix & "_" & account.ToString & ext))
+            Catch ex As Exception
+            End Try
+        Next
+        ' Delete Transactions
+        For account As Integer = 1000 To 1006
+            Try
+                My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "WalletTransCorp" & suffix & "_" & account.ToString & ext))
+            Catch ex As Exception
+            End Try
+        Next
+        ' Delete Corp Sheet
+        Try
+            My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, prefix & "CorpSheet" & suffix & ext))
+        Catch ex As Exception
+        End Try
+    End Sub
+
+#End Region
+
 End Class
+
+Public Enum PrismRepCodes As Integer
+    Assets = 0
+    Balances = 1
+    Jobs = 2
+    Journals = 3
+    Orders = 4
+    Transactions = 5
+    CorpSheet = 6
+End Enum
 
