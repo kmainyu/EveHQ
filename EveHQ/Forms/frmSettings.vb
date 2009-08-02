@@ -2145,6 +2145,7 @@ Public Class frmSettings
         ' Update the dashboard colours
         Call Me.UpdateDBColours()
         Call Me.UpdateWidgets()
+        Call Me.UpdateDBOptions()
     End Sub
 
     Private Sub UpdateDBColours()
@@ -2169,6 +2170,14 @@ Public Class frmSettings
             lvWidgets.Items.Add(newWidgetLVI)
         Next
         lvWidgets.EndUpdate()
+    End Sub
+
+    Private Sub UpdateDBOptions()
+        chkShowPriceTicker.Checked = EveHQ.Core.HQ.EveHQSettings.DBTicker
+        If EveHQ.Core.HQ.EveHQSettings.DBTickerLocation = "" Then
+            EveHQ.Core.HQ.EveHQSettings.DBTickerLocation = "Bottom"
+        End If
+        cboTickerLocation.SelectedItem = EveHQ.Core.HQ.EveHQSettings.DBTickerLocation
     End Sub
 
     Private Sub btnResetDBColors_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetDBColors.Click
@@ -2308,6 +2317,23 @@ Public Class frmSettings
         End If
     End Sub
 
+    Private Sub chkShowPriceTicker_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowPriceTicker.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.DBTicker = chkShowPriceTicker.Checked
+        frmDashboard.Ticker1.Visible = EveHQ.Core.HQ.EveHQSettings.DBTicker
+    End Sub
+
+    Private Sub cboTickerLocation_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTickerLocation.SelectedIndexChanged
+        EveHQ.Core.HQ.EveHQSettings.DBTickerLocation = cboTickerLocation.SelectedItem.ToString
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBTickerLocation
+            Case "Top"
+                frmDashboard.Ticker1.Dock = DockStyle.Top
+            Case "Bottom"
+                frmDashboard.Ticker1.Dock = DockStyle.Bottom
+        End Select
+    End Sub
+
 #End Region
 
+    
+    
 End Class

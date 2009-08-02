@@ -25,11 +25,13 @@ Partial Class frmDashboard
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDashboard))
         Me.FLP1 = New System.Windows.Forms.FlowLayoutPanel
+        Me.ctxDashboard = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuConfigureDB = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuRefreshDB = New System.Windows.Forms.ToolStripMenuItem
         Me.Ticker1 = New EveHQ.Core.Ticker
         Me.ColorWithAlpha1 = New EveHQ.Core.ColorWithAlpha
         Me.ColorWithAlpha2 = New EveHQ.Core.ColorWithAlpha
-        Me.ctxDashboard = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuConfigureDB = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxDashboard.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -45,6 +47,30 @@ Partial Class frmDashboard
         Me.FLP1.Name = "FLP1"
         Me.FLP1.Size = New System.Drawing.Size(717, 556)
         Me.FLP1.TabIndex = 0
+        '
+        'ctxDashboard
+        '
+        Me.ctxDashboard.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ctxDashboard.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuConfigureDB, Me.ToolStripMenuItem1, Me.mnuRefreshDB})
+        Me.ctxDashboard.Name = "ctxDashboard"
+        Me.ctxDashboard.Size = New System.Drawing.Size(177, 76)
+        '
+        'mnuConfigureDB
+        '
+        Me.mnuConfigureDB.Name = "mnuConfigureDB"
+        Me.mnuConfigureDB.Size = New System.Drawing.Size(176, 22)
+        Me.mnuConfigureDB.Text = "Configure Dashboard"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(173, 6)
+        '
+        'mnuRefreshDB
+        '
+        Me.mnuRefreshDB.Name = "mnuRefreshDB"
+        Me.mnuRefreshDB.Size = New System.Drawing.Size(176, 22)
+        Me.mnuRefreshDB.Text = "Refresh Dashboard"
         '
         'Ticker1
         '
@@ -71,18 +97,6 @@ Partial Class frmDashboard
         Me.ColorWithAlpha2.Color = System.Drawing.Color.Khaki
         Me.ColorWithAlpha2.Parent = Nothing
         '
-        'ctxDashboard
-        '
-        Me.ctxDashboard.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuConfigureDB})
-        Me.ctxDashboard.Name = "ctxDashboard"
-        Me.ctxDashboard.Size = New System.Drawing.Size(188, 26)
-        '
-        'mnuConfigureDB
-        '
-        Me.mnuConfigureDB.Name = "mnuConfigureDB"
-        Me.mnuConfigureDB.Size = New System.Drawing.Size(187, 22)
-        Me.mnuConfigureDB.Text = "Configure Dashboard"
-        '
         'frmDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -104,4 +118,6 @@ Partial Class frmDashboard
     Friend WithEvents Ticker1 As EveHQ.Core.Ticker
     Friend WithEvents ctxDashboard As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuConfigureDB As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuRefreshDB As System.Windows.Forms.ToolStripMenuItem
 End Class

@@ -158,7 +158,25 @@ Imports System.Diagnostics
     Private cDBCHeadColor2 As Long = System.Drawing.Color.LightGray.ToArgb
     Private cDBColor As Long = System.Drawing.Color.LightSteelBlue.ToArgb
     Private cDashboardConfiguration As New ArrayList
+    Private cDBTicker As Boolean = False
+    Private cDBTickerLocation As String = "Bottom"
 
+    Public Property DBTickerLocation() As String
+        Get
+            Return cDBTickerLocation
+        End Get
+        Set(ByVal value As String)
+            cDBTickerLocation = value
+        End Set
+    End Property
+    Public Property DBTicker() As Boolean
+        Get
+            Return cDBTicker
+        End Get
+        Set(ByVal value As Boolean)
+            cDBTicker = value
+        End Set
+    End Property
     Public Property DashboardConfiguration() As ArrayList
         Get
             If cDashboardConfiguration Is Nothing Then

@@ -330,6 +330,10 @@ Partial Public Class frmSettings
         Me.lblWidgetMain2 = New System.Windows.Forms.Label
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
+        Me.gbOtherDBOptions = New System.Windows.Forms.GroupBox
+        Me.chkShowPriceTicker = New System.Windows.Forms.CheckBox
+        Me.lblTickerLocation = New System.Windows.Forms.Label
+        Me.cboTickerLocation = New System.Windows.Forms.ComboBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -394,6 +398,7 @@ Partial Public Class frmSettings
         CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbOtherDBOptions.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -423,9 +428,9 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(517, 184)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(693, 488)
+        Me.gbGeneral.Size = New System.Drawing.Size(113, 36)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -3115,11 +3120,12 @@ Partial Public Class frmSettings
         '
         'gbDashboard
         '
+        Me.gbDashboard.Controls.Add(Me.gbOtherDBOptions)
         Me.gbDashboard.Controls.Add(Me.dbDashboardConfig)
         Me.gbDashboard.Controls.Add(Me.gbDashboardColours)
-        Me.gbDashboard.Location = New System.Drawing.Point(709, 355)
+        Me.gbDashboard.Location = New System.Drawing.Point(194, 12)
         Me.gbDashboard.Name = "gbDashboard"
-        Me.gbDashboard.Size = New System.Drawing.Size(132, 36)
+        Me.gbDashboard.Size = New System.Drawing.Size(694, 504)
         Me.gbDashboard.TabIndex = 33
         Me.gbDashboard.TabStop = False
         Me.gbDashboard.Text = "Dashboard"
@@ -3354,14 +3360,55 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
+        'gbOtherDBOptions
+        '
+        Me.gbOtherDBOptions.Controls.Add(Me.cboTickerLocation)
+        Me.gbOtherDBOptions.Controls.Add(Me.lblTickerLocation)
+        Me.gbOtherDBOptions.Controls.Add(Me.chkShowPriceTicker)
+        Me.gbOtherDBOptions.Location = New System.Drawing.Point(17, 259)
+        Me.gbOtherDBOptions.Name = "gbOtherDBOptions"
+        Me.gbOtherDBOptions.Size = New System.Drawing.Size(215, 229)
+        Me.gbOtherDBOptions.TabIndex = 40
+        Me.gbOtherDBOptions.TabStop = False
+        Me.gbOtherDBOptions.Text = "Other Dashboard Options"
+        '
+        'chkShowPriceTicker
+        '
+        Me.chkShowPriceTicker.AutoSize = True
+        Me.chkShowPriceTicker.Location = New System.Drawing.Point(20, 24)
+        Me.chkShowPriceTicker.Name = "chkShowPriceTicker"
+        Me.chkShowPriceTicker.Size = New System.Drawing.Size(109, 17)
+        Me.chkShowPriceTicker.TabIndex = 0
+        Me.chkShowPriceTicker.Text = "Show Price Ticker"
+        Me.chkShowPriceTicker.UseVisualStyleBackColor = True
+        '
+        'lblTickerLocation
+        '
+        Me.lblTickerLocation.AutoSize = True
+        Me.lblTickerLocation.Location = New System.Drawing.Point(23, 49)
+        Me.lblTickerLocation.Name = "lblTickerLocation"
+        Me.lblTickerLocation.Size = New System.Drawing.Size(82, 13)
+        Me.lblTickerLocation.TabIndex = 1
+        Me.lblTickerLocation.Text = "Ticker Location:"
+        '
+        'cboTickerLocation
+        '
+        Me.cboTickerLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTickerLocation.FormattingEnabled = True
+        Me.cboTickerLocation.Items.AddRange(New Object() {"Top", "Bottom"})
+        Me.cboTickerLocation.Location = New System.Drawing.Point(111, 46)
+        Me.cboTickerLocation.Name = "cboTickerLocation"
+        Me.cboTickerLocation.Size = New System.Drawing.Size(83, 21)
+        Me.cboTickerLocation.TabIndex = 2
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
         Me.Controls.Add(Me.gbDashboard)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbColours)
@@ -3476,6 +3523,8 @@ Partial Public Class frmSettings
         CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbOtherDBOptions.ResumeLayout(False)
+        Me.gbOtherDBOptions.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -3771,4 +3820,8 @@ Partial Public Class frmSettings
     Friend WithEvents lblWidgetTypes As System.Windows.Forms.Label
     Friend WithEvents cboWidgets As System.Windows.Forms.ComboBox
     Friend WithEvents btnAddWidget As System.Windows.Forms.Button
+    Friend WithEvents gbOtherDBOptions As System.Windows.Forms.GroupBox
+    Friend WithEvents cboTickerLocation As System.Windows.Forms.ComboBox
+    Friend WithEvents lblTickerLocation As System.Windows.Forms.Label
+    Friend WithEvents chkShowPriceTicker As System.Windows.Forms.CheckBox
 End Class

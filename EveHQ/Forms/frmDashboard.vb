@@ -8,6 +8,15 @@ Public Class frmDashboard
         ' Set the Panel colour
         Me.FLP1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
 
+        ' Set the options
+        Me.Ticker1.Visible = EveHQ.Core.HQ.EveHQSettings.DBTicker
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBTickerLocation
+            Case "Top"
+                Me.Ticker1.Dock = DockStyle.Top
+            Case "Bottom"
+                Me.Ticker1.Dock = DockStyle.Bottom
+        End Select
+
         ' Add the controls to the FLP
         Call Me.UpdateWidgets()
         
@@ -100,6 +109,10 @@ Public Class frmDashboard
         EveHQSettings.Tag = "nodeDashboard"
         EveHQSettings.ShowDialog()
         EveHQSettings.Dispose()
+    End Sub
+
+    Private Sub mnuRefreshDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRefreshDB.Click
+        Call Me.UpdateWidgets()
     End Sub
 End Class
 
