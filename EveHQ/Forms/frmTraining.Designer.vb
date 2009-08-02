@@ -203,6 +203,7 @@ Partial Class frmTraining
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.mnuViewItemDetailsInCertScreen = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.tsQueueOptions.SuspendLayout()
@@ -903,9 +904,9 @@ Partial Class frmTraining
         'ctxDepend
         '
         Me.ctxDepend.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator4, Me.mnuViewItemDetailsHere, Me.mnuViewItemDetails, Me.mnuViewItemDetailsInIB})
+        Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator4, Me.mnuViewItemDetailsHere, Me.mnuViewItemDetails, Me.mnuViewItemDetailsInIB, Me.mnuViewItemDetailsInCertScreen})
         Me.ctxDepend.Name = "ctxDepend"
-        Me.ctxDepend.Size = New System.Drawing.Size(212, 98)
+        Me.ctxDepend.Size = New System.Drawing.Size(212, 142)
         '
         'mnuItemName
         '
@@ -1487,6 +1488,13 @@ Partial Class frmTraining
         '
         Me.ColumnHeader2.Width = 200
         '
+        'mnuViewItemDetailsInCertScreen
+        '
+        Me.mnuViewItemDetailsInCertScreen.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.mnuViewItemDetailsInCertScreen.Name = "mnuViewItemDetailsInCertScreen"
+        Me.mnuViewItemDetailsInCertScreen.Size = New System.Drawing.Size(211, 22)
+        Me.mnuViewItemDetailsInCertScreen.Text = "View Details In Cert Screen"
+        '
         'frmTraining
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1685,4 +1693,5 @@ Partial Class frmTraining
     Friend WithEvents ToolStripSeparator20 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
     Friend WithEvents lblPilot As System.Windows.Forms.Label
+    Friend WithEvents mnuViewItemDetailsInCertScreen As System.Windows.Forms.ToolStripMenuItem
 End Class

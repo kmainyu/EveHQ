@@ -23,12 +23,12 @@ Public Class DragAndDropListView
 
     ' Methods
     Public Sub New()
+        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer Or ControlStyles.AllPaintingInWmPaint, True)
+        Me.SetStyle(ControlStyles.EnableNotifyMessage, True)
+
         Me.m_allowReorder = True
         Me.m_lineColor = Color.Red
         Me.m_displayPilotName = frmTraining.DisplayPilotName
-        displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(m_displayPilotName), Core.Pilot)
-        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer Or ControlStyles.AllPaintingInWmPaint, True)
-        Me.SetStyle(ControlStyles.EnableNotifyMessage, True)
     End Sub
 
     Protected Overrides Sub OnNotifyMessage(ByVal m As Message)
@@ -57,6 +57,8 @@ Public Class DragAndDropListView
             Else
                 di = MyBase.GetItemAt(pt.X, pt.Y).Index
             End If
+
+            Dim displayPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(m_displayPilotName), Core.Pilot)
 
             Dim testData As DragItemData = CType(drgevent.Data.GetData(GetType(DragItemData).ToString), DragItemData)
             Dim testItem As ListViewItem = CType(testData.DragItems.Item(0), ListViewItem)
@@ -140,12 +142,12 @@ Public Class DragAndDropListView
                     End If
                 End If
             End If
-                If (Not Me.m_previousItem Is Nothing) Then
-                    Me.m_previousItem = Nothing
-                End If
-                MyBase.Invalidate()
-                MyBase.OnDragDrop(drgevent)
+            If (Not Me.m_previousItem Is Nothing) Then
+                Me.m_previousItem = Nothing
             End If
+            MyBase.Invalidate()
+            MyBase.OnDragDrop(drgevent)
+        End If
     End Sub
     Protected Overrides Sub OnDragEnter(ByVal drgevent As DragEventArgs)
         If Not Me.m_allowReorder Then
@@ -284,7 +286,7 @@ Public Class DragAndDropListView
     Private m_includeCurrentTrining As Boolean
     Private m_previousItem As ListViewItem
     Private m_displayPilotName As String
-    Private displayPilot As EveHQ.Core.Pilot
+    'Private displayPilot As EveHQ.Core.Pilot
 
 End Class
 

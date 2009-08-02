@@ -1517,7 +1517,7 @@ Public Class frmHQF
         Fittings.FittingTabList.Remove(tp.Text)
         ShipLists.fittedShipList.Remove(tp.Text)
         tabHQF.TabPages.Remove(tp)
-        If tp.Text.EndsWith("Ship Preview") = False Then
+        If Not (tp.Equals(tabShipPreview)) Then
             tp.Dispose()
         End If
         If Fittings.FittingTabList.Count = 0 Then

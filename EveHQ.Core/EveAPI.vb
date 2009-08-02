@@ -302,8 +302,8 @@ Public Class EveAPI
                     errlist = tmpAPIXML.SelectNodes("/eveapi/error")
                     If errlist.Count <> 0 Then
                         Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Try
+                        If errlist(0).Attributes.GetNamedItem("code") IsNot Nothing Then
+                            ' Get error code
                             Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                             Dim errMsg As String = errNode.InnerText
                             If ReturnMethod = APIReturnMethod.ReturnStandard Then
@@ -313,18 +313,18 @@ Public Class EveAPI
                                 cLastAPIErrorText = errMsg
                                 Return APIXML
                             Else
-                                ' Return the current one regardless
+                               ' Return the current one regardless
                                 cLastAPIResult = APIResults.ReturnedActual
                                 tmpAPIXML.Save(fileLoc)
                                 Return tmpAPIXML
-                            End If
-                        Catch e As Exception
+                             End If
+                        Else
                             ' Return the old XML file but report a general error - usually as a result of a API Server error
                             cLastAPIResult = APIResults.UnknownError
                             cLastAPIError = 999
-                            cLastAPIErrorText = "A General Error occurred"
+                            cLastAPIErrorText = "A General Error occurred. " & errNode.InnerText
                             Return APIXML
-                        End Try
+                        End If
                     Else
                         ' No error codes so save, then return new XML file
                         cLastAPIResult = APIResults.ReturnedNew
@@ -333,7 +333,7 @@ Public Class EveAPI
                         tmpAPIXML.Save(fileLoc)
                         Return tmpAPIXML
                     End If
-                End If
+                    End If
             Else
                 If ReturnMethod = APIReturnMethod.ReturnCacheOnly Then
                     ' If we demand that a cached fle be returned, return nothing as the file does not exist
@@ -450,11 +450,17 @@ Public Class EveAPI
             If errlist.Count <> 0 Then
                 Dim errNode As XmlNode = errlist(0)
                 ' Get error code
-                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                Dim errMsg As String = errNode.InnerText
-                cLastAPIResult = APIResults.CCPError
-                cLastAPIError = CInt(errCode)
-                cLastAPIErrorText = errMsg
+                If errNode.Attributes.GetNamedItem("code") IsNot Nothing Then
+                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                    Dim errMsg As String = errNode.InnerText
+                    cLastAPIResult = APIResults.CCPError
+                    cLastAPIError = CInt(errCode)
+                    cLastAPIErrorText = errMsg
+                Else
+                    cLastAPIResult = APIResults.UnknownError
+                    cLastAPIError = 999
+                    cLastAPIErrorText = errNode.InnerText
+                End If
             Else
                 ' Result will be given in the calling sub
             End If

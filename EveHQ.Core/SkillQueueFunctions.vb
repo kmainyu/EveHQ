@@ -93,9 +93,13 @@ Public Class SkillQueueFunctions
                 Dim myCurSkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(mySkill.Name), EveHQ.Core.PilotSkill)
                 curLevel = myCurSkill.Level
                 percent = CInt((myCurSkill.SP + qPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100)
+                If (percent > 100) Then
+                    percent = 100
+                End If
 
                 Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
                 qItem.IsTraining = True
+                qItem.IsInjected = True
                 qItem.Key = mySkill.Name & curLevel & clevel
                 qItem.ID = mySkill.ID
                 qItem.Name = mySkill.Name
@@ -108,8 +112,15 @@ Public Class SkillQueueFunctions
                 qItem.Rank = CStr(mySkill.Rank)
                 qItem.PAtt = mySkill.PA
                 qItem.SAtt = mySkill.SA
-                qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, mySkill))
                 qItem.SPTrained = CStr(qPilot.TrainingEndSP - qPilot.TrainingStartSP)
+
+                If (totalSP + CDbl(qItem.SPTrained)) < trainingBonusLimit Then
+                    currentBonus = trainingBonus
+                Else
+                    currentBonus = 1
+                End If
+
+                qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, mySkill, , currentBonus))
                 totalSP += CLng(qItem.SPTrained)
                 arrQueue.Add(qItem)
 
@@ -272,6 +283,8 @@ Public Class SkillQueueFunctions
                 ' Get the time taken to train to that level
                 Dim cTime As Integer
                 Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
+                qItem.IsInjected = qPilot.PilotSkills.Contains(myskill.Name)
+
                 Try
                     If partiallyTrained = False Then
                         cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, fromLevel, attModifiers, currentBonus))
@@ -342,7 +355,7 @@ Public Class SkillQueueFunctions
                         qItem.Rank = CStr(myskill.Rank)
                         qItem.PAtt = myskill.PA
                         qItem.SAtt = myskill.SA
-                        qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill, attModifiers, currentBonus))
+
                         If qItem.Done = False Then
                             If curLevel < fromLevel Then
                                 qItem.SPTrained = CStr(EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, fromLevel))
@@ -352,6 +365,14 @@ Public Class SkillQueueFunctions
                         Else
                             qItem.SPTrained = "0"
                         End If
+
+                        If (totalSP + CDbl(qItem.SPTrained)) < trainingBonusLimit Then
+                            currentBonus = trainingBonus
+                        Else
+                            currentBonus = 1
+                        End If
+
+                        qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill, attModifiers, currentBonus))
                         arrQueue.Add(qItem)
                         totalSkills += 1
                         totalTime += cTime
@@ -1332,6 +1353,7 @@ Public Class SortedQueue
     Public FromLevel As String
     Public ToLevel As String
     Public PartTrained As Boolean
+    Public IsInjected As Boolean
     Public Percent As String
     Public TrainTime As String
     Public DateFinished As Date

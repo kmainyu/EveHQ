@@ -121,6 +121,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Classes\XPanderListDesigner.vb" />
+    <Compile Include="Controls\TrainingQueue.Designer.vb">
+      <DependentUpon>TrainingQueue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrainingQueue.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\frmDashboard.Designer.vb">
       <DependentUpon>frmDashboard.vb</DependentUpon>
     </Compile>
@@ -326,6 +332,9 @@
     <EmbeddedResource Include="Classes\XPanderList.resx">
       <DependentUpon>XPanderList.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TrainingQueue.resx">
+      <DependentUpon>TrainingQueue.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDashboard.resx">
       <DependentUpon>frmDashboard.vb</DependentUpon>

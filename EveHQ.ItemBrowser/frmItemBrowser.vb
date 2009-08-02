@@ -267,6 +267,8 @@ Public Class frmItemBrowser
                     Dim itemUnlocked As ArrayList = EveHQ.Core.HQ.SkillUnlocks(typeID & "." & CStr(lvl))
                     For Each item As String In itemUnlocked
                         Dim newItem As New ListViewItem
+                        Dim toolTipText As New StringBuilder
+
                         itemData = item.Split(CChar("_"))
                         groupID = itemData(1)
                         catID = EveHQ.Core.HQ.groupCats.Item(groupID)
@@ -280,21 +282,28 @@ Public Class frmItemBrowser
                             skillData = skillPair.Split(CChar("."))
                             skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillData(0))
                             If skillData(0) <> typeID Then
-                                newItem.ToolTipText &= skillName & " (Level " & skillData(1) & "), "
+                                toolTipText.Append(skillName)
+                                toolTipText.Append(" (Level ")
+                                toolTipText.Append(skillData(1))
+                                toolTipText.Append("), ")
                             End If
                             If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
                                 allTrained = False
                             End If
                         Next
-                        If newItem.ToolTipText <> "" Then
-                            newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
+                        If toolTipText.Length > 0 Then
+                            toolTipText.Insert(0, "Also Requires: ")
+
+                            If (toolTipText.ToString().EndsWith(", ")) Then
+                                toolTipText.Remove(toolTipText.Length - 2, 2)
+                            End If
                         End If
                         If allTrained = True Then
                             newItem.ForeColor = Color.Green
                         Else
                             newItem.ForeColor = Color.Red
                         End If
-                        newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                        newItem.ToolTipText = toolTipText.ToString()
                         newItem.SubItems.Add(EveHQ.Core.HQ.itemGroups(groupID))
                         newItem.SubItems.Add("Level " & lvl)
                         lvwDepend.Items.Add(newItem)

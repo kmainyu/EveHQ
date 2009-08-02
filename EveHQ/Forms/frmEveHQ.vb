@@ -1030,7 +1030,8 @@ Public Class frmEveHQ
             Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
             newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & _
              "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & _
-             CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime)))
+             CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime))) & _
+             CStr(IIf(cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60), " (Queue Time Available)", ""))
             newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
             newSSLabel.Tag = cPilot.Name
             pilotCount += 1
@@ -1064,7 +1065,8 @@ Public Class frmEveHQ
                 Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
                 newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & _
                  "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & _
-                 CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime)))
+                 CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime))) & _
+                 CStr(IIf(cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60), " (Queue Time Available)", ""))
                 newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
                 newSSLabel.Tag = cPilot.Name
                 pilotCount += 1
@@ -1613,9 +1615,12 @@ Public Class frmEveHQ
         If (MyBase.ActiveMdiChild Is Nothing) Then
             Me.tabMDI.Visible = False
         Else
-            MyBase.ActiveMdiChild.WindowState = FormWindowState.Maximized
-            If (MyBase.ActiveMdiChild.Tag Is Nothing) Then
-                Dim tp As New TabPage(MyBase.ActiveMdiChild.Text)
+            If Not MyBase.ActiveMdiChild.WindowState = FormWindowState.Maximized Then
+                MyBase.ActiveMdiChild.WindowState = FormWindowState.Maximized
+            End If
+            Dim tp As TabPage = TryCast(MyBase.ActiveMdiChild.Tag, TabPage)
+            If (tp Is Nothing) Then
+                tp = New TabPage(MyBase.ActiveMdiChild.Text)
                 tp.Tag = MyBase.ActiveMdiChild
                 tp.Name = MyBase.ActiveMdiChild.Text
                 tp.Parent = Me.tabMDI
@@ -1623,7 +1628,10 @@ Public Class frmEveHQ
                 MyBase.ActiveMdiChild.Tag = tp
                 AddHandler MyBase.ActiveMdiChild.FormClosed, New FormClosedEventHandler(AddressOf Me.ActiveMdiChild_FormClosed)
             End If
-            Me.tabMDI.SelectedTab = TryCast(MyBase.ActiveMdiChild.Tag, TabPage)
+
+            If Not Me.tabMDI.SelectedTab.Equals(tp) Then
+                Me.tabMDI.SelectedTab = tp
+            End If
             If Not Me.tabMDI.Visible Then
                 Me.tabMDI.Visible = True
             End If
@@ -2554,6 +2562,6 @@ Public Class frmEveHQ
 #End Region
 
 
-   
+
 End Class
 

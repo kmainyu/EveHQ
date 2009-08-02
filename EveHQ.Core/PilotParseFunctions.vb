@@ -543,7 +543,6 @@ Public Class PilotParseFunctions
             cPilot.CacheFileTime = CDate(CharDetails(0).ChildNodes(0).InnerText)
             cPilot.CacheExpirationTime = CDate(CharDetails(0).ChildNodes(2).InnerText)
         Else
-            cPilot.Name = cPilot.Name & " - ERROR!"
             cPilot.CacheFileTime = DateTime.Now.AddHours(1)
             cPilot.CacheExpirationTime = DateTime.Now.AddHours(1)
         End If
@@ -746,6 +745,9 @@ Public Class PilotParseFunctions
             Next
             pilotSkill.SP = cPilot.TrainingStartSP
             cPilot.PilotSkills.Add(pilotSkill, pilotSkill.Name)
+        Else
+            Dim sq As Core.PilotSkill = CType(cPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)), Core.PilotSkill)
+            sq.Level = cPilot.TrainingSkillLevel - 1
         End If
 
     End Sub

@@ -1,3 +1,5 @@
+Imports System.Text
+
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
 ' Copyright © 2005-2008  Lee Vessey
@@ -236,6 +238,8 @@ Public Class frmSkillDetails
                 Dim itemUnlocked As ArrayList = EveHQ.Core.HQ.SkillUnlocks(skillID & "." & CStr(lvl))
                 For Each item As String In itemUnlocked
                     Dim newItem As New ListViewItem
+                    Dim toolTipText As New StringBuilder
+
                     itemData = item.Split(CChar("_"))
                     catID = EveHQ.Core.HQ.groupCats.Item(itemData(1))
                     newItem.Group = lvwDepend.Groups("Cat" & catID)
@@ -247,21 +251,28 @@ Public Class frmSkillDetails
                         skillData = skillPair.Split(CChar("."))
                         skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillData(0))
                         If skillData(0) <> skillID Then
-                            newItem.ToolTipText &= skillName & " (Level " & skillData(1) & "), "
+                            toolTipText.Append(skillName)
+                            toolTipText.Append(" (Level ")
+                            toolTipText.Append(skillData(1))
+                            toolTipText.Append("), ")
                         End If
                         If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
                             allTrained = False
                         End If
                     Next
-                    If newItem.ToolTipText <> "" Then
-                        newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
+                    If toolTipText.Length > 0 Then
+                        toolTipText.Insert(0, "Also Requires: ")
+
+                        If (toolTipText.ToString().EndsWith(", ")) Then
+                            toolTipText.Remove(toolTipText.Length - 2, 2)
+                        End If
                     End If
                     If allTrained = True Then
                         newItem.ForeColor = Color.Green
                     Else
                         newItem.ForeColor = Color.Red
                     End If
-                    newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                    newItem.ToolTipText = toolTipText.ToString()
                     newItem.SubItems.Add("Level " & lvl)
                     lvwDepend.Items.Add(newItem)
                 Next
@@ -271,6 +282,8 @@ Public Class frmSkillDetails
                 Dim certUnlocked As ArrayList = EveHQ.Core.HQ.CertUnlockSkills(skillID & "." & CStr(lvl))
                 For Each item As String In certUnlocked
                     Dim newItem As New ListViewItem
+                    Dim toolTipText As New StringBuilder
+
                     newItem.Group = lvwDepend.Groups("CatCerts")
                     Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
                     certName = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
@@ -289,30 +302,34 @@ Public Class frmSkillDetails
                     For Each reqCertID As String In cert.RequiredCerts.Keys
                         Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
                         If reqCert.ID.ToString <> item Then
-                            newItem.ToolTipText &= CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                            toolTipText.Append(CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name)
                             Select Case reqCert.Grade
                                 Case 1
-                                    newItem.ToolTipText &= " (Basic), "
+                                    toolTipText.Append(" (Basic), ")
                                 Case 2
-                                    newItem.ToolTipText &= " (Standard), "
+                                    toolTipText.Append(" (Standard), ")
                                 Case 3
-                                    newItem.ToolTipText &= " (Improved), "
+                                    toolTipText.Append(" (Improved), ")
                                 Case 4
-                                    newItem.ToolTipText &= " (Advanced), "
+                                    toolTipText.Append(" (Advanced), ")
                                 Case 5
-                                    newItem.ToolTipText &= " (Elite), "
+                                    toolTipText.Append(" (Elite), ")
                             End Select
                         End If
                     Next
-                    If newItem.ToolTipText <> "" Then
-                        newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
-                        newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                    If toolTipText.Length > 0 Then
+                        toolTipText.Insert(0, "Also Requires: ")
+
+                        If (toolTipText.ToString().EndsWith(", ")) Then
+                            toolTipText.Remove(toolTipText.Length - 2, 2)
+                        End If
                     End If
                     If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
                         newItem.ForeColor = Color.Green
                     Else
                         newItem.ForeColor = Color.Red
                     End If
+                    newItem.ToolTipText = toolTipText.ToString()
                     newItem.Text = certName & " (" & certGrade & ")"
                     newItem.Name = item
                     newItem.SubItems.Add("Level " & lvl)

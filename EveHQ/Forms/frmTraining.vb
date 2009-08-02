@@ -1,3 +1,5 @@
+Imports System.Text
+
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
 ' Copyright © 2005-2008  Lee Vessey
@@ -124,7 +126,9 @@ Public Class frmTraining
             Else
                 If cboPilots.Items.Count > 0 Then
                     If cboPilots.Items.Contains(oldPilot) = True Then
-                        cboPilots.SelectedItem = oldPilot
+                        If Not (CStr(cboPilots.SelectedItem) = oldPilot) Then
+                            cboPilots.SelectedItem = oldPilot
+                        End If
                     Else
                         cboPilots.SelectedIndex = 0
                     End If
@@ -146,6 +150,13 @@ Public Class frmTraining
             displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
             ' Only update if we are not starting up
             If startup = False Then
+                tabQueues.SuspendLayout()
+                For i As Integer = tabQueues.TabPages.Count To 2 Step -1
+                    Dim tp As TabPage = tabQueues.TabPages(1)
+                    tabQueues.TabPages.RemoveAt(1)
+                    tp.Dispose()
+                Next
+                tabQueues.ResumeLayout()
                 Call Me.RefreshAllTraining()
                 ' See if the Neural Remapping form is open
                 If frmNeuralRemap.IsHandleCreated = True Then
@@ -161,9 +172,10 @@ Public Class frmTraining
 
     Public Sub SetupQueues()
 
+        Me.tabQueues.SuspendLayout()
         ' Remove all but the summary tab on the tabQueues
         For Each tp As TabPage In Me.tabQueues.TabPages
-            If tp.Name <> "tabSummary" Then
+            If tp.Name <> "tabSummary" And Not displayPilot.TrainingQueues.ContainsKey(tp.Name) Then
                 Me.tabQueues.TabPages.Remove(tp)
                 tp.Dispose()
             End If
@@ -172,85 +184,42 @@ Public Class frmTraining
         ' Delete the Shared SuggestionStatus
         suggestedQueues.Clear()
 
+        Dim i As Integer = 1
         For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
-            Dim newQTab As New TabPage
-            newQTab.Name = newQ.Name
-            newQTab.Text = newQ.Name
-            newQTab.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
-            Dim newLVQueue As New EveHQ.DragAndDropListView
-            newLVQueue.Name = "Q" & newQ.Name
-            newLVQueue.IncludeCurrentTraining = newQ.IncCurrentTraining
-            newLVQueue.FullRowSelect = True
-            newLVQueue.View = View.Details
-            newLVQueue.Location = New Point(3, 3)
-            newLVQueue.Width = newQTab.Width - 12 : newLVQueue.Height = newQTab.Height - 36
-            newLVQueue.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
-            newLVQueue.AllowDrop = True
-            newLVQueue.ShowItemToolTips = True
-            newLVQueue.ContextMenuStrip = Me.ctxQueue
-            newLVQueue.MultiSelect = True
-            newLVQueue.HideSelection = False
-            newLVQueue.AllowColumnReorder = True
-            AddHandler newLVQueue.Click, AddressOf activeLVW_Click
-            AddHandler newLVQueue.DoubleClick, AddressOf activeLVW_DoubleClick
-            AddHandler newLVQueue.DragDrop, AddressOf activeLVW_DragDrop
-            AddHandler newLVQueue.DragEnter, AddressOf activeLVW_DragEnter
-            AddHandler newLVQueue.ItemDrag, AddressOf activeLVW_ItemDrag
-            AddHandler newLVQueue.ColumnClick, AddressOf activeLVW_ColumnClick
-            AddHandler newLVQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
-            newQTab.Controls.Add(newLVQueue)
+            Dim newQTab As TabPage
+            If Not tabQueues.TabPages.ContainsKey(newQ.Name) Then
+                newQTab = New TabPage
+                newQTab.Name = newQ.Name
+                newQTab.Text = newQ.Name
 
-            newQTab.Left = 6 : newQTab.Top = 6
-            newQTab.Width = tabQueues.Width - 12
-            newQTab.Height = tabQueues.Height - 48
+                Dim tq As TrainingQueue = New TrainingQueue()
+                tq.Dock = DockStyle.Fill
+                tq.Name = "TQ" & newQ.Name
+                tq.lvQueue.IncludeCurrentTraining = newQ.IncCurrentTraining
+                tq.lvQueue.ContextMenuStrip = Me.ctxQueue
 
-            Call Me.DrawColumns(newLVQueue)
-            Dim newLblQueueTimeLabel As New Label
-            newLblQueueTimeLabel.AutoSize = False
-            newLblQueueTimeLabel.Name = "L" & newQ.Name
-            newLblQueueTimeLabel.Text = "Total Training Time:"
-            newLblQueueTimeLabel.Top = newQTab.Top + newQTab.Height - 27
-            newLblQueueTimeLabel.Left = 6
-            newLblQueueTimeLabel.Size = New Size(110, 15)
+                newQTab.Controls.Add(tq)
 
-            Dim newLblQueueTime As New Label
-            newLblQueueTimeLabel.AutoSize = False
-            newLblQueueTime.Name = "T" & newQ.Name
-            newLblQueueTime.Text = ""
-            newLblQueueTime.Top = newQTab.Top + newQTab.Height - 28
-            newLblQueueTime.Left = 116
-            newLblQueueTime.Size = New Size(110, 15)
-            newLblQueueTime.BorderStyle = BorderStyle.FixedSingle
-            newLblQueueTimeLabel.Anchor = AnchorStyles.Left Or AnchorStyles.Bottom
-            newLblQueueTime.Anchor = AnchorStyles.Left Or AnchorStyles.Bottom
-            newQTab.Controls.Add(newLblQueueTimeLabel)
-            newQTab.Controls.Add(newLblQueueTime)
+                AddHandler tq.lvQueue.Click, AddressOf activeLVW_Click
+                AddHandler tq.lvQueue.DoubleClick, AddressOf activeLVW_DoubleClick
+                AddHandler tq.lvQueue.DragDrop, AddressOf activeLVW_DragDrop
+                AddHandler tq.lvQueue.DragEnter, AddressOf activeLVW_DragEnter
+                AddHandler tq.lvQueue.ItemDrag, AddressOf activeLVW_ItemDrag
+                AddHandler tq.lvQueue.ColumnClick, AddressOf activeLVW_ColumnClick
+                AddHandler tq.lvQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
 
-            Dim newSuggestionPB As New PictureBox
-            newSuggestionPB.Name = "P" & newQ.Name
-            newSuggestionPB.Width = 32
-            newSuggestionPB.Height = 32
-            newSuggestionPB.Image = My.Resources.info_icon
-            newSuggestionPB.Left = newLblQueueTime.Left + newLblQueueTime.Width + 32
-            newSuggestionPB.Top = newLblQueueTime.Top - 10
-            newSuggestionPB.Anchor = AnchorStyles.Left Or AnchorStyles.Bottom
-            newSuggestionPB.Visible = False
-            AddHandler newSuggestionPB.Click, AddressOf Me.SuggestionIconClick
-            newQTab.Controls.Add(newSuggestionPB)
+                Call Me.DrawColumns(tq.lvQueue)
 
-            Dim newLblSuggestionLabel As New Label
-            newLblSuggestionLabel.AutoSize = True
-            newLblSuggestionLabel.Name = "S" & newQ.Name
-            newLblSuggestionLabel.Text = "Calculating, Please Wait..."
-            newLblSuggestionLabel.Top = newLblQueueTime.Top
-            newLblSuggestionLabel.Left = newSuggestionPB.Left + 40
-            newLblSuggestionLabel.Size = New Size(150, 15)
-            newLblSuggestionLabel.Anchor = AnchorStyles.Left Or AnchorStyles.Bottom
-            newLblSuggestionLabel.Visible = False
-            newQTab.Controls.Add(newLblSuggestionLabel)
+                AddHandler tq.newSuggestionPB.Click, AddressOf Me.SuggestionIconClick
+                tabQueues.TabPages.Insert(i, newQTab)
+            End If
 
-            tabQueues.TabPages.Add(newQTab)
+            i = i + 1
         Next
+
+        tabQueues_SelectedIndexChanged(Me, EventArgs.Empty)
+
+        Me.tabQueues.ResumeLayout()
     End Sub
     Private Sub DrawColumns(ByVal lv As EveHQ.DragAndDropListView)
 
@@ -326,7 +295,8 @@ Public Class frmTraining
                 newItem.Font = PrimaryFont
             End If
             newItem.SubItems.Add(newQ.Queue.Count.ToString)
-            Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
+            Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(newQ.Name).Controls("TQ" & newQ.Name), TrainingQueue)
+            Dim tTime As Double = CDbl(tq.lblQueueTime.Tag)
             Dim tTimeItem As New ListViewItem.ListViewSubItem
             tTimeItem.Tag = tTime
             tTimeItem.Text = EveHQ.Core.SkillFunctions.TimeToString(tTime)
@@ -354,8 +324,9 @@ Public Class frmTraining
             Dim aq As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(activeQueueName), Core.SkillQueue)
             activeQueue = aq
             displayPilot.ActiveQueue = activeQueue
-            activeTime = CType(Me.tabQueues.TabPages(activeQueueName).Controls("T" & activeQueueName), Label)
-            activeLVW = CType(Me.tabQueues.TabPages(activeQueueName).Controls("Q" & activeQueueName), EveHQ.DragAndDropListView)
+            Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(activeQueueName).Controls("TQ" & activeQueueName), TrainingQueue)
+            activeTime = tq.lblQueueTime
+            activeLVW = tq.lvQueue
             activeLVW.IncludeCurrentTraining = aq.IncCurrentTraining
             Call RedrawOptions()
             tsQueueOptions.Enabled = True
@@ -597,10 +568,16 @@ Public Class frmTraining
     End Sub
     Public Sub RefreshTraining(ByVal QueueName As String)
 
-        Dim lvwQueue As EveHQ.DragAndDropListView = CType(Me.tabQueues.Controls(QueueName).Controls("Q" & QueueName), EveHQ.DragAndDropListView)
+        If Me.tabQueues.TabPages(QueueName) Is Nothing Then
+            Exit Sub
+        End If
+
+        Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(QueueName).Controls("TQ" & QueueName), TrainingQueue)
+        Dim lvwQueue As EveHQ.DragAndDropListView = tq.lvQueue
 
         If displayPilot.PilotSkills.Count <> 0 Then
             ' Clear the visible training queue
+            lvwQueue.SuspendLayout()
             lvwQueue.BeginUpdate()
             lvwQueue.Items.Clear()
 
@@ -624,11 +601,11 @@ Public Class frmTraining
                     If qItem.Done = False Or (qItem.Done = True And EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills = True) Then
                         If qItem.Done = True Then newskill.Font = doneFont
                         If qItem.IsPrereq = True Then
-                            newskill.ToolTipText = qItem.Prereq
                             If qItem.HasPrereq = True Then
-                                newskill.ToolTipText &= ControlChars.CrLf & qItem.Reqs
+                                newskill.ToolTipText &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
                                 newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.BothPreReqColor))
                             Else
+                                newskill.ToolTipText = qItem.Prereq
                                 newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
                             End If
                         Else
@@ -663,13 +640,40 @@ Public Class frmTraining
                         newskill.Text = qItem.Name
                         newskill.Tag = qItem.ID
                         Dim newSI As New ListViewItem.ListViewSubItem
-                        newSI.Name = qItem.CurLevel : newSI.Text = qItem.CurLevel : newskill.SubItems.Add(newSI)
+                        If (qItem.IsInjected) Then
+                            newSI.Name = qItem.CurLevel : newSI.Text = qItem.CurLevel : newskill.SubItems.Add(newSI)
+                        Else
+                            newSI.Name = "" : newSI.Text = "" : newskill.SubItems.Add(newSI)
+                        End If
                         newSI = New ListViewItem.ListViewSubItem
                         newSI.Name = qItem.FromLevel : newSI.Text = qItem.FromLevel : newskill.SubItems.Add(newSI)
                         newSI = New ListViewItem.ListViewSubItem
                         newSI.Name = qItem.ToLevel : newSI.Text = qItem.ToLevel : newskill.SubItems.Add(newSI)
                         newSI = New ListViewItem.ListViewSubItem
-                        newSI.Name = qItem.Percent : newSI.Text = qItem.Percent : newskill.SubItems.Add(newSI)
+                        Dim skillPct As Double
+                        If displayPilot.PilotSkills.Contains(qItem.Name) Then
+                            Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(qItem.Name), Core.PilotSkill)
+                            Dim clevel As Integer = CInt(qItem.FromLevel)
+                            Dim nextLevelSp As Integer = myCurSkill.LevelUp(clevel + 1) - myCurSkill.LevelUp(clevel)
+
+                            If clevel <> myCurSkill.Level Then
+                                skillPct = 0
+                            Else
+                                If qItem.Name = displayPilot.TrainingSkillName Then
+                                    skillPct = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
+                                Else
+                                    skillPct = CInt(Int((myCurSkill.SP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
+                                End If
+                            End If
+
+                            If skillPct > 100 Then
+                                skillPct = 100
+                            End If
+                        Else
+                            skillPct = 0
+                        End If
+
+                        newSI.Name = CStr(skillPct) : newSI.Text = CStr(skillPct) : newskill.SubItems.Add(newSI)
                         newSI = New ListViewItem.ListViewSubItem
                         newSI.Name = qItem.TrainTime : newSI.Tag = qItem.TrainTime : newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime)) : newskill.SubItems.Add(newSI)
                         ' Now add the others as required
@@ -719,12 +723,13 @@ Public Class frmTraining
                 Next
             End If
 
-            Dim lblQueue As Label = CType(Me.tabQueues.Controls(QueueName).Controls("T" & QueueName), Label)
+            Dim lblQueue As Label = tq.lblQueueTime
             lblQueue.Tag = totalTime.ToString
             lblQueue.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
 
             ' Tidy up afterwards
             lvwQueue.EndUpdate()
+            lvwQueue.ResumeLayout()
             Call EveHQ.Core.SkillQueueFunctions.TidyQueue(displayPilot, aq, arrQueue)
             Call Me.RedrawOptions()
 
@@ -868,9 +873,18 @@ Public Class frmTraining
                 If Me.tabQueues.TabPages.Count > 1 Then
                     For Each tp As TabPage In Me.tabQueues.TabPages
                         If tp.Name <> "tabSummary" Then
-                            Dim cLabel As Label = CType(Me.tabQueues.TabPages(tp.Name).Controls("T" & tp.Name), Label)
-                            Dim cLVW As EveHQ.DragAndDropListView = CType(Me.tabQueues.TabPages(tp.Name).Controls("Q" & tp.Name), EveHQ.DragAndDropListView)
-                            If cLVW.IncludeCurrentTraining = True Then
+                            Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(tp.Name).Controls("TQ" & tp.Name), TrainingQueue)
+                            Dim cLabel As Label = tq.lblQueueTime
+                            Dim cLVW As EveHQ.DragAndDropListView = tq.lvQueue
+                            Dim newQ As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(tp.Name), Core.SkillQueue)
+                            Dim bIncludeSkill As Boolean = False
+                            For Each skill As EveHQ.Core.SkillQueueItem In newQ.Queue
+                                If (skill.Name = displayPilot.TrainingSkillName) And displayPilot.TrainingSkillLevel > skill.FromLevel And displayPilot.TrainingSkillLevel <= skill.ToLevel Then
+                                    bIncludeSkill = True
+                                    Exit For
+                                End If
+                            Next
+                            If bIncludeSkill Then
                                 If cLVW.Items.Count > 0 Then
                                     Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
                                     Dim clevel As Integer = displayPilot.TrainingSkillLevel
@@ -879,10 +893,19 @@ Public Class frmTraining
                                     Dim endtime As Date = displayPilot.TrainingEndTime
                                     Dim percent As Integer = 0
                                     percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
+                                    If (percent > 100) Then
+                                        percent = 100
+                                    End If
 
-                                    cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
-                                    cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
-                                    cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
+                                    Dim lvi As ListViewItem = Nothing
+                                    For Each lvi In cLVW.Items
+                                        If lvi.Text = myCurSkill.Name Then
+                                            Exit For
+                                        End If
+                                    Next
+                                    lvi.SubItems(4).Text = CStr(percent)
+                                    lvi.SubItems(5).Tag = cTime
+                                    lvi.SubItems(5).Text = strTime
 
                                     ' Calculate total time
                                     If cLVW.Items.Count > 0 Then
@@ -917,11 +940,19 @@ Public Class frmTraining
                 ' Update the queue summary data
                 For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
                     Try
-                        Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
+                        Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(activeQueueName).Controls("TQ" & activeQueueName), TrainingQueue)
+                        Dim tTime As Double = CDbl(tq.lblQueueTime.Tag)
                         lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
                         lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
                         Dim qTime As Double = tTime
-                        If newQ.IncCurrentTraining = True Then
+                        Dim bIncludeSkill As Boolean = False
+                        For Each skill As EveHQ.Core.SkillQueueItem In newQ.Queue
+                            If (skill.Name = displayPilot.TrainingSkillName) And displayPilot.TrainingSkillLevel > skill.FromLevel And displayPilot.TrainingSkillLevel <= skill.ToLevel Then
+                                bIncludeSkill = True
+                                Exit For
+                            End If
+                        Next
+                        If bIncludeSkill Then
                             qTime = tTime - displayPilot.TrainingCurrentTime
                         End If
                         lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
@@ -1425,32 +1456,41 @@ Public Class frmTraining
                 Dim itemUnlocked As ArrayList = EveHQ.Core.HQ.SkillUnlocks(skillID & "." & CStr(lvl))
                 For Each item As String In itemUnlocked
                     Dim newItem As New ListViewItem
+                    Dim toolTipText As New StringBuilder
                     itemData = item.Split(CChar("_"))
                     catID = EveHQ.Core.HQ.groupCats.Item(itemData(1))
                     newItem.Group = lvwDepend.Groups("Cat" & catID)
                     newItem.Text = EveHQ.Core.HQ.itemData(itemData(0)).Name
                     newItem.Name = itemData(0)
+                    newItem.Tag = itemData(0)
                     Dim skillUnlocked As ArrayList = EveHQ.Core.HQ.ItemUnlocks(itemData(0))
                     Dim allTrained As Boolean = True
                     For Each skillPair As String In skillUnlocked
                         skillData = skillPair.Split(CChar("."))
                         skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillData(0))
                         If skillData(0) <> skillID Then
-                            newItem.ToolTipText &= skillName & " (Level " & skillData(1) & "), "
+                            toolTipText.Append(skillName)
+                            toolTipText.Append(" (Level ")
+                            toolTipText.Append(skillData(1))
+                            toolTipText.Append("), ")
                         End If
                         If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
                             allTrained = False
                         End If
                     Next
-                    If newItem.ToolTipText <> "" Then
-                        newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
+                    If toolTipText.Length > 0 Then
+                        toolTipText.Insert(0, "Also Requires: ")
+
+                        If (toolTipText.ToString().EndsWith(", ")) Then
+                            toolTipText.Remove(toolTipText.Length - 2, 2)
+                        End If
                     End If
                     If allTrained = True Then
                         newItem.ForeColor = Color.Green
                     Else
                         newItem.ForeColor = Color.Red
                     End If
-                    newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                    newItem.ToolTipText = toolTipText.ToString()
                     newItem.SubItems.Add("Level " & lvl)
                     lvwDepend.Items.Add(newItem)
                 Next
@@ -1462,6 +1502,7 @@ Public Class frmTraining
                     Dim newItem As New ListViewItem
                     newItem.Group = lvwDepend.Groups("CatCerts")
                     Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
+                    newItem.Tag = cert.ID
                     certName = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
                     Select Case cert.Grade
                         Case 1
@@ -1604,11 +1645,10 @@ Public Class frmTraining
     Private Sub ctxDepend_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDepend.Opening
         If ctxDepend.SourceControl Is Me.lvwDepend Then
             If lvwDepend.SelectedItems.Count <> 0 Then
-                Dim itemName As String = ""
-                Dim itemID As String = ""
                 Dim item As ListViewItem = lvwDepend.SelectedItems(0)
-                itemName = item.Text
-                itemID = EveHQ.Core.HQ.itemList(itemName)
+                Dim itemName As String = item.Text
+                Dim itemID As String = item.Tag.ToString
+
                 If item.Group.Name = "Cat16" Then
                     mnuViewItemDetails.Visible = True
                     mnuViewItemDetailsHere.Visible = True
@@ -1616,6 +1656,9 @@ Public Class frmTraining
                     mnuViewItemDetails.Visible = False
                     mnuViewItemDetailsHere.Visible = False
                 End If
+                mnuViewItemDetailsInIB.Visible = Not (item.Group.Name = "CatCerts")
+                mnuViewItemDetailsInCertScreen.Visible = (item.Group.Name = "CatCerts")
+
                 mnuItemName.Text = itemName
                 mnuItemName.Tag = itemID
             Else
@@ -2226,7 +2269,7 @@ Public Class frmTraining
             selQueue.Primary = True
             displayPilot.PrimaryQueue = selQueue.Name
             Call Me.DrawQueueSummary()
-            End If
+        End If
     End Sub
     Private Sub btnCopyToPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopyToPilot.Click
         ' Check for some selection on the listview
@@ -2392,8 +2435,10 @@ Public Class frmTraining
     End Sub
     Private Sub SetSuggestionUIToCalc(ByVal QueueName As String)
         If Me.tabQueues.Controls.ContainsKey(QueueName) = True Then
-            Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
-            Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
+            Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(QueueName).Controls("TQ" & QueueName), TrainingQueue)
+            Dim activePB As PictureBox = tq.newSuggestionPB
+            Dim activeLabel As Label = tq.lblSuggestionLabel
+
             activePB.Image = My.Resources.info_grey
             activePB.Enabled = False
             activePB.Visible = True
@@ -2403,8 +2448,10 @@ Public Class frmTraining
     End Sub
     Private Sub SetSuggestionUIResult(ByVal QueueName As String, ByVal ActQueueTime As Double, ByVal SugQueueTime As Double)
         If Me.tabQueues.Controls.ContainsKey(QueueName) = True Then
-            Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
-            Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
+            Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(QueueName).Controls("TQ" & QueueName), TrainingQueue)
+            Dim activePB As PictureBox = tq.newSuggestionPB
+            Dim activeLabel As Label = tq.lblSuggestionLabel
+
             If SugQueueTime < ActQueueTime - 10 Then
                 activePB.Image = My.Resources.info_icon
                 activePB.Enabled = True
@@ -2434,10 +2481,10 @@ Public Class frmTraining
                 displayPilot.ActiveQueue = activeQueue
                 displayPilot.TrainingQueues(activeQueue.Name) = activeQueue
                 Call Me.RefreshTraining(activeQueueName)
-                Dim activePB As PictureBox = CType(Me.tabQueues.Controls(activeQueueName).Controls("P" & activeQueueName), PictureBox)
-                activePB.Visible = False
-                Dim activeLabel As Label = CType(Me.tabQueues.Controls(activeQueueName).Controls("S" & activeQueueName), Label)
-                activeLabel.Visible = False
+
+                Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(activeQueueName).Controls("TQ" & activeQueueName), TrainingQueue)
+                tq.newSuggestionPB.Visible = False
+                tq.lblSuggestionLabel.Visible = False
             End If
         End If
     End Sub
@@ -2794,16 +2841,10 @@ Public Class frmTraining
         frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
+    Private Sub mnuViewItemDetailsInCertScreen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetailsInCertScreen.Click
+        Dim certID As String = mnuItemName.Tag.ToString
+        frmCertificateDetails.DisplayPilotName = displayPilot.Name
+        frmCertificateDetails.ShowCertDetails(certID)
+    End Sub
 #End Region
-
-
-   
-
-   
-
- 
-
-   
-  
-
 End Class
