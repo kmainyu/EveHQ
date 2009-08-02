@@ -864,6 +864,8 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub QueryMyEveServer()
+        tsbRetrieveData.Enabled = False
+        mnuToolsGetAccountInfo.Enabled = False
         Threading.ThreadPool.QueueUserWorkItem(AddressOf StartCharacterAPIThread)
     End Sub
 
@@ -915,6 +917,10 @@ Public Class frmEveHQ
                 tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Update successful)"
             End If
         End If
+
+        ' Enable the option again
+        tsbRetrieveData.Enabled = True
+        mnuToolsGetAccountInfo.Enabled = True
 
         ' Update if we have retrieved new data
         If ContainsNew = True Then
