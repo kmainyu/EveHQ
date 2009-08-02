@@ -1071,7 +1071,7 @@ Public Class Reports
         End If
 
         For skill As Integer = 0 To arrQueue.Count - 1
-            Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), SortedQueue)
+            Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), EveHQ.Core.SortedQueue)
             Dim skillName As String = qItem.Name
             Dim curLevel As String = qItem.CurLevel
             Dim startLevel As String = qItem.FromLevel

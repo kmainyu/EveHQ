@@ -973,6 +973,11 @@ Public Class frmEveHQ
             mnuReportsHTMLChar.Enabled = True
         End If
 
+        ' Update the dashboard if applicable
+        If frmDashboard.IsHandleCreated = True Then
+            Call frmDashboard.UpdateWidgets()
+        End If
+
         ' Redraw Reports menu with new pilots and queues options?
         Call Me.DrawReportsMenu(allPilots)
 

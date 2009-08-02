@@ -36,6 +36,10 @@ Public Class frmDashboard
                     Dim newWidget As New DBCPilotInfo
                     newWidget.ControlConfiguration = config
                     FLP1.Controls.Add(newWidget)
+                Case "Skill Queue Information"
+                    Dim newWidget As New DBCSkillQueueInfo
+                    newWidget.ControlConfiguration = config
+                    FLP1.Controls.Add(newWidget)
             End Select
         Next
         FLP1.ResumeLayout()

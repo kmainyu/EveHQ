@@ -2166,6 +2166,12 @@ Public Class frmSettings
             Select Case CStr(config("ControlName"))
                 Case "Pilot Information"
                     newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")))
+                Case "Skill Queue Information"
+                    If CBool(config("EveQueue")) = True Then
+                        newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", Eve Queue")
+                    Else
+                        newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", EveHQ Queue (" & CStr(config("DefaultQueueName")) & ")")
+                    End If
             End Select
             lvWidgets.Items.Add(newWidgetLVI)
         Next
@@ -2262,6 +2268,22 @@ Public Class frmSettings
                         ' Process Aborted
                         MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
+                Case "Skill Queue Information"
+                    Dim newWidget As New DBCSkillQueueInfo
+                    Dim newWidgetConfig As New DBCSkillQueueInfoConfig
+                    newWidgetConfig.DBWidget = newWidget
+                    newWidgetConfig.ShowDialog()
+                    If newWidgetConfig.DialogResult = Windows.Forms.DialogResult.OK Then
+                        ' Save the Widget
+                        newWidget.ControlPosition = EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Count
+                        EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Add(newWidget.ControlConfiguration)
+                        Call Me.UpdateWidgets()
+                        ' Update the dashboard
+                        frmDashboard.UpdateWidgets()
+                    Else
+                        ' Process Aborted
+                        MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
             End Select
         Else
             ' Need a widget type before proceeding
@@ -2311,6 +2333,17 @@ Public Class frmSettings
                     newWidgetConfig.DBWidget = newWidget
                     newWidgetConfig.ShowDialog()
                     lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " & CStr(newWidget.ControlConfiguration("DefaultPilotName"))
+                Case "Skill Queue Information"
+                    Dim newWidget As New DBCSkillQueueInfo
+                    newWidget.ControlConfiguration = CType(EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Item(index), SortedList(Of String, Object))
+                    Dim newWidgetConfig As New DBCSkillQueueInfoConfig
+                    newWidgetConfig.DBWidget = newWidget
+                    newWidgetConfig.ShowDialog()
+                    If CBool(newWidget.ControlConfiguration("EveQueue")) = True Then
+                        lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " & CStr(newWidget.ControlConfiguration("DefaultPilotName")) & ", Eve Queue"
+                    Else
+                        lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " & CStr(newWidget.ControlConfiguration("DefaultPilotName")) & ", EveHQ Queue (" & CStr(newWidget.ControlConfiguration("DefaultQueueName")) & ")"
+                    End If
             End Select
             ' Update the dashboard
             frmDashboard.UpdateWidgets()
