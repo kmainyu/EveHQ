@@ -1,6 +1,36 @@
 EveHQ - Version History
 -----------------------
 
+1.12.1.770 (03/08/2009)
+----------
+New Features:
+- EveHQ Dashboard: New screen within the core application giving relevant pilot information
+Fixed and Improvements:
+- Core: Standardised font across all application and plug-ins
+- Core: Simplified internal data structures leading to slight performance increase all-round
+- Core: Skill Queue info now includes the day of the week
+- Core: Fixed crash when double-clicking on blank area in pilot skills
+- Core: Added training end date/time to G15 display
+- Core: Fixed error on Eve API request when returning an error message without a code attribute
+- Core: Training skills now assumes that the pilot has the skill level prior to it
+- Core: Percent of skill complete in the training form is now capped at 100%
+- Core: Training rate is now properly checked and calculated using the Training Bonus as CCP recently changed how it functioned
+- Core: Optimised routines relating to string generation
+- Core: Added "Queue Time Available" detail to the Training Bar
+- Core: Added "View in Cert Details" context menu item for the Skill Depends screen
+- Core: Training form no longer removes all training queue tabs during a refresh - now verifies that they all should be present
+- Core: Disabled the retrieve account info options while the data is being retrieved
+- Core: Fixed a reference in the skill queue report
+- HQF: Added maximum ship and pilot targets into the calcualations
+- HQF: Added mappings for Targeting and Multitasking skills
+- HQF: Added new info on ShipInfoControl for displaying maximum locked target info
+- HQF: Tooltip for sensor strength now provides a sensor type breakdown
+- HQF: Gas Cloud Harvesting skill now correctly increases the number of usable harvesters
+- HQF: Fixed crash in module filters when changing fittings
+- Prism: Extended CorpRep info in API Status tooltip
+- Prism: Added facility to remove Prism API data
+
+
 1.12.1.740 (16/07/2009)
 ----------
 Fixes and Improvements:
