@@ -296,10 +296,6 @@ Public Class frmEveHQ
 
 #Region "Form Opening & Closing & Resizing (+ Icon)"
 
-    Private Sub frmEveHQ_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
-        ' Dummy sub to force the FormClosing routine from the menu - unsure why it behaves like this but it works!
-    End Sub
-
     Private Sub frmEveHQ_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
         ' Check if we should minimise rather than exit?
