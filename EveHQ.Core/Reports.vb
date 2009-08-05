@@ -293,7 +293,12 @@ Public Class Reports
             repGroup(groupCount, 1) = cGroup.Name
             Dim skillCount As Long = 0
             Dim SPCount As Long = 0
+            ' Collect skills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
             For Each cSkill In rpilot.PilotSkills
+                repSkills.Add(cSkill.Name, cSkill)
+            Next
+            For Each cSkill In repSkills.Values
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     SPCount += cSkill.SP
@@ -2397,7 +2402,12 @@ Public Class Reports
             repGroup(groupCount, 1) = cGroup.Name
             Dim skillCount As Long = 0
             Dim SPCount As Long = 0
+            ' Collect skills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
             For Each cSkill In rpilot.PilotSkills
+                repSkills.Add(cSkill.Name, cSkill)
+            Next
+            For Each cSkill In repSkills.Values
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     SPCount += cSkill.SP
