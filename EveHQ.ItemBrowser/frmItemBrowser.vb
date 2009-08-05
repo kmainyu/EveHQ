@@ -24,6 +24,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Xml
 
+
 Public Class frmItemBrowser
 
     Const ActivityCount As Integer = 9
@@ -86,6 +87,7 @@ Public Class frmItemBrowser
         Me.tabItem.TabPages.Remove(Me.tabVariations)
         Me.tabItem.TabPages.Remove(Me.tabDepends)
         Me.tabItem.TabPages.Remove(Me.tabEveCentral)
+        Me.tabItem.TabPages.Remove(Me.tabInsurance)
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         itemTypeID = eveData.Tables(0).Rows(0).Item("typeID")
         itemTypeName = eveData.Tables(0).Rows(0).Item("typeName")
@@ -103,6 +105,9 @@ Public Class frmItemBrowser
         Call GetMaterials(itemTypeID, itemTypeName)
         Call GetComponents(itemTypeID, itemTypeName)
         Call GetDependencies(itemTypeID, itemTypeName)
+        If (itemCatName = "Ship") Then
+            Call GetInsurance(itemTypeID, itemTypeName)
+        End If
         System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetEveCentralData, itemTypeID)
         ssDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
         itemEnd = Now
@@ -459,6 +464,7 @@ Public Class frmItemBrowser
         Me.tabItem.TabPages.Remove(Me.tabMaterials)
         Me.tabItem.TabPages.Remove(Me.tabComponent)
         Me.tabItem.TabPages.Remove(Me.tabEveCentral)
+        Me.tabItem.TabPages.Remove(Me.tabInsurance)
         Me.lblUsable.Text = ""
         Me.lblUsableTime.Text = ""
 
@@ -551,6 +557,39 @@ Public Class frmItemBrowser
         Call Me.AddToNavigation(itemTypeName)
     End Sub
 
+    Private Sub GetInsurance(ByVal typeID As Long, ByVal typeName As String)
+        Me.tabItem.TabPages.Add(Me.tabInsurance)
+        lstInsurance.Items.Clear()
+        Dim strSQL As String = "SELECT * from invTypes where typeID=" & typeID
+        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Dim basePrice As Double = EveHQ.Core.HQ.BasePriceList(typeID.ToString)
+        Dim marketPrice As Double = EveHQ.Core.DataFunctions.GetPrice(typeID.ToString)
+        For counter As Integer = 5 To 30 Step 5
+            Dim newInsuranceItem As New ListViewItem
+            Select Case counter
+                Case 5
+                    newInsuranceItem.Text = "Basic"
+                Case 10
+                    newInsuranceItem.Text = "Standard"
+                Case 15
+                    newInsuranceItem.Text = "Bronze"
+                Case 20
+                    newInsuranceItem.Text = "Silver"
+                Case 25
+                    newInsuranceItem.Text = "Gold"
+                Case 30
+                    newInsuranceItem.Text = "Platinum"
+            End Select
+            Dim insuranceFee As Double = basePrice / 100 * counter
+            Dim insurancePayout As Double = basePrice / 100 * (40 + (2 * counter))
+            Dim insuranceProfit As Double = insurancePayout - marketPrice - insuranceFee
+            newInsuranceItem.SubItems.Add(insuranceFee.ToString("N02"))
+            newInsuranceItem.SubItems.Add(insurancePayout.ToString("N02"))
+            newInsuranceItem.SubItems.Add(marketPrice.ToString("N02"))
+            newInsuranceItem.SubItems.Add(insuranceProfit.ToString("N02"))
+            lstInsurance.Items.Add(newInsuranceItem)
+        Next
+    End Sub
     Private Sub GetAttributes(ByVal typeID As Long, ByVal typeName As String)
 
         ' Get parent type info for later on!

@@ -163,6 +163,12 @@ Partial Class frmItemBrowser
         Me.lstEveCentral = New System.Windows.Forms.ListView
         Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
+        Me.tabInsurance = New System.Windows.Forms.TabPage
+        Me.lstInsurance = New System.Windows.Forms.ListView
+        Me.Type = New System.Windows.Forms.ColumnHeader
+        Me.Fee = New System.Windows.Forms.ColumnHeader
+        Me.Payout = New System.Windows.Forms.ColumnHeader
+        Me.PayoutProfit = New System.Windows.Forms.ColumnHeader
         Me.picItem = New System.Windows.Forms.PictureBox
         Me.lblItem = New System.Windows.Forms.Label
         Me.lblUsable = New System.Windows.Forms.Label
@@ -234,10 +240,11 @@ Partial Class frmItemBrowser
         Me.ctxForward = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.lblUsableTime = New System.Windows.Forms.LinkLabel
         Me.btnWantedAdd = New System.Windows.Forms.Button
-        Me.sbtnBack = New EveHQ.ItemBrowser.SplitButton
-        Me.sbtnForward = New EveHQ.ItemBrowser.SplitButton
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
+        Me.MarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.sbtnBack = New EveHQ.ItemBrowser.SplitButton
+        Me.sbtnForward = New EveHQ.ItemBrowser.SplitButton
         Me.ctxSkills.SuspendLayout()
         Me.ssData.SuspendLayout()
         CType(Me.picBP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -276,6 +283,7 @@ Partial Class frmItemBrowser
         Me.tabC9.SuspendLayout()
         Me.tabDepends.SuspendLayout()
         Me.tabEveCentral.SuspendLayout()
+        Me.tabInsurance.SuspendLayout()
         CType(Me.picItem, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabBrowser.SuspendLayout()
         Me.tabBrowse.SuspendLayout()
@@ -1001,6 +1009,7 @@ Partial Class frmItemBrowser
         Me.tabItem.Controls.Add(Me.tabComponent)
         Me.tabItem.Controls.Add(Me.tabDepends)
         Me.tabItem.Controls.Add(Me.tabEveCentral)
+        Me.tabItem.Controls.Add(Me.tabInsurance)
         Me.tabItem.Location = New System.Drawing.Point(411, 177)
         Me.tabItem.Name = "tabItem"
         Me.tabItem.SelectedIndex = 0
@@ -1486,6 +1495,51 @@ Partial Class frmItemBrowser
         Me.ColumnHeader42.Text = "Data"
         Me.ColumnHeader42.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader42.Width = 210
+        '
+        'tabInsurance
+        '
+        Me.tabInsurance.Controls.Add(Me.lstInsurance)
+        Me.tabInsurance.Location = New System.Drawing.Point(4, 22)
+        Me.tabInsurance.Name = "tabInsurance"
+        Me.tabInsurance.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabInsurance.Size = New System.Drawing.Size(567, 325)
+        Me.tabInsurance.TabIndex = 10
+        Me.tabInsurance.Text = "Insurance"
+        Me.tabInsurance.UseVisualStyleBackColor = True
+        '
+        'lstInsurance
+        '
+        Me.lstInsurance.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Type, Me.Fee, Me.Payout, Me.MarketPrice, Me.PayoutProfit})
+        Me.lstInsurance.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lstInsurance.Location = New System.Drawing.Point(3, 3)
+        Me.lstInsurance.Name = "lstInsurance"
+        Me.lstInsurance.Size = New System.Drawing.Size(561, 319)
+        Me.lstInsurance.TabIndex = 0
+        Me.lstInsurance.UseCompatibleStateImageBehavior = False
+        Me.lstInsurance.View = System.Windows.Forms.View.Details
+        '
+        'Type
+        '
+        Me.Type.Text = "Type"
+        Me.Type.Width = 100
+        '
+        'Fee
+        '
+        Me.Fee.Text = "Fee"
+        Me.Fee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Fee.Width = 100
+        '
+        'Payout
+        '
+        Me.Payout.Text = "Payout"
+        Me.Payout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Payout.Width = 100
+        '
+        'PayoutProfit
+        '
+        Me.PayoutProfit.Text = "Payout Profit"
+        Me.PayoutProfit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.PayoutProfit.Width = 100
         '
         'picItem
         '
@@ -2160,6 +2214,33 @@ Partial Class frmItemBrowser
         Me.btnWantedAdd.Text = "Add to Wanted"
         Me.btnWantedAdd.UseVisualStyleBackColor = True
         '
+        'cboPilots
+        '
+        Me.cboPilots.DropDownHeight = 250
+        Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPilots.FormattingEnabled = True
+        Me.cboPilots.IntegralHeight = False
+        Me.cboPilots.Location = New System.Drawing.Point(632, 14)
+        Me.cboPilots.Name = "cboPilots"
+        Me.cboPilots.Size = New System.Drawing.Size(175, 21)
+        Me.cboPilots.Sorted = True
+        Me.cboPilots.TabIndex = 43
+        '
+        'lblPilot
+        '
+        Me.lblPilot.AutoSize = True
+        Me.lblPilot.Location = New System.Drawing.Point(596, 17)
+        Me.lblPilot.Name = "lblPilot"
+        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
+        Me.lblPilot.TabIndex = 42
+        Me.lblPilot.Text = "Pilot:"
+        '
+        'MarketPrice
+        '
+        Me.MarketPrice.Text = "Market Price"
+        Me.MarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.MarketPrice.Width = 100
+        '
         'sbtnBack
         '
         Me.sbtnBack.AutoSize = True
@@ -2186,27 +2267,6 @@ Partial Class frmItemBrowser
         Me.sbtnForward.Text = "Forward"
         Me.sbtnForward.UseVisualStyleBackColor = True
         '
-        'cboPilots
-        '
-        Me.cboPilots.DropDownHeight = 250
-        Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboPilots.FormattingEnabled = True
-        Me.cboPilots.IntegralHeight = False
-        Me.cboPilots.Location = New System.Drawing.Point(632, 14)
-        Me.cboPilots.Name = "cboPilots"
-        Me.cboPilots.Size = New System.Drawing.Size(175, 21)
-        Me.cboPilots.Sorted = True
-        Me.cboPilots.TabIndex = 43
-        '
-        'lblPilot
-        '
-        Me.lblPilot.AutoSize = True
-        Me.lblPilot.Location = New System.Drawing.Point(596, 17)
-        Me.lblPilot.Name = "lblPilot"
-        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
-        Me.lblPilot.TabIndex = 42
-        Me.lblPilot.Text = "Pilot:"
-        '
         'frmItemBrowser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2214,13 +2274,13 @@ Partial Class frmItemBrowser
         Me.ClientSize = New System.Drawing.Size(997, 560)
         Me.Controls.Add(Me.tabBrowser)
         Me.Controls.Add(Me.ssData)
-        Me.Controls.Add(Me.tabItem)
         Me.Controls.Add(Me.cboPilots)
         Me.Controls.Add(Me.lblPilot)
         Me.Controls.Add(Me.lblUsableTime)
         Me.Controls.Add(Me.sbtnBack)
         Me.Controls.Add(Me.sbtnForward)
         Me.Controls.Add(Me.btnWantedAdd)
+        Me.Controls.Add(Me.tabItem)
         Me.Controls.Add(Me.picItem)
         Me.Controls.Add(Me.lblUsable)
         Me.Controls.Add(Me.lblItem)
@@ -2273,6 +2333,7 @@ Partial Class frmItemBrowser
         Me.tabC9.ResumeLayout(False)
         Me.tabDepends.ResumeLayout(False)
         Me.tabEveCentral.ResumeLayout(False)
+        Me.tabInsurance.ResumeLayout(False)
         CType(Me.picItem, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabBrowser.ResumeLayout(False)
         Me.tabBrowse.ResumeLayout(False)
@@ -2503,4 +2564,11 @@ Partial Class frmItemBrowser
     Friend WithEvents btnRefreshWantedList As System.Windows.Forms.Button
     Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
     Friend WithEvents lblPilot As System.Windows.Forms.Label
+    Friend WithEvents tabInsurance As System.Windows.Forms.TabPage
+    Friend WithEvents lstInsurance As System.Windows.Forms.ListView
+    Friend WithEvents Type As System.Windows.Forms.ColumnHeader
+    Friend WithEvents Fee As System.Windows.Forms.ColumnHeader
+    Friend WithEvents Payout As System.Windows.Forms.ColumnHeader
+    Friend WithEvents PayoutProfit As System.Windows.Forms.ColumnHeader
+    Friend WithEvents MarketPrice As System.Windows.Forms.ColumnHeader
 End Class
