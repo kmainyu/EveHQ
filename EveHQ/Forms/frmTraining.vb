@@ -1287,8 +1287,9 @@ Public Class frmTraining
         With Me.lvwDetails
             Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-            If EveHQ.Core.HQ.SkillGroups.ContainsKey(cSkill.Name) = True Then
-                myGroup = EveHQ.Core.HQ.SkillGroups(cSkill.Name)
+            Dim groupName As String = EveHQ.Core.HQ.itemGroups(cSkill.GroupID)
+            If EveHQ.Core.HQ.SkillGroups.ContainsKey(groupName) = True Then
+                myGroup = EveHQ.Core.HQ.SkillGroups(groupName)
             Else
                 myGroup = Nothing
             End If
