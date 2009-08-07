@@ -817,6 +817,9 @@ Public Class SkillQueueFunctions
                 Return qQueue
                 Exit Function
             Else
+                If mySkill.Name = qPilot.TrainingSkillName Then
+                    myLevel = qPilot.TrainingSkillLevel
+                End If
                 If myLevel >= planLevel And exitIfTrained = True Then
                     Return qQueue
                     Exit Function

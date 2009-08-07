@@ -1685,9 +1685,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(626, 65)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(196, 12)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(187, 38)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(685, 495)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -3123,9 +3123,9 @@ Partial Public Class frmSettings
         Me.gbDashboard.Controls.Add(Me.gbOtherDBOptions)
         Me.gbDashboard.Controls.Add(Me.dbDashboardConfig)
         Me.gbDashboard.Controls.Add(Me.gbDashboardColours)
-        Me.gbDashboard.Location = New System.Drawing.Point(194, 12)
+        Me.gbDashboard.Location = New System.Drawing.Point(615, 33)
         Me.gbDashboard.Name = "gbDashboard"
-        Me.gbDashboard.Size = New System.Drawing.Size(694, 504)
+        Me.gbDashboard.Size = New System.Drawing.Size(96, 26)
         Me.gbDashboard.TabIndex = 33
         Me.gbDashboard.TabStop = False
         Me.gbDashboard.Text = "Dashboard"
@@ -3406,12 +3406,12 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbNotifications)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbColours)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)

@@ -20,6 +20,7 @@ Imports System.Text
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================#
 Imports System.IO
+Imports System.Xml
 
 Public Class frmTraining
 
@@ -877,13 +878,7 @@ Public Class frmTraining
                             Dim cLabel As Label = tq.lblQueueTime
                             Dim cLVW As EveHQ.DragAndDropListView = tq.lvQueue
                             Dim newQ As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(tp.Name), Core.SkillQueue)
-                            Dim bIncludeSkill As Boolean = False
-                            For Each skill As EveHQ.Core.SkillQueueItem In newQ.Queue
-                                If (skill.Name = displayPilot.TrainingSkillName) And displayPilot.TrainingSkillLevel > skill.FromLevel And displayPilot.TrainingSkillLevel <= skill.ToLevel Then
-                                    bIncludeSkill = True
-                                    Exit For
-                                End If
-                            Next
+                            Dim bIncludeSkill As Boolean = newQ.IncCurrentTraining
                             If bIncludeSkill Then
                                 If cLVW.Items.Count > 0 Then
                                     Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
@@ -940,18 +935,12 @@ Public Class frmTraining
                 ' Update the queue summary data
                 For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
                     Try
-                        Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(activeQueueName).Controls("TQ" & activeQueueName), TrainingQueue)
+                        Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(newQ.Name).Controls("TQ" & newQ.Name), TrainingQueue)
                         Dim tTime As Double = CDbl(tq.lblQueueTime.Tag)
                         lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
                         lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
                         Dim qTime As Double = tTime
-                        Dim bIncludeSkill As Boolean = False
-                        For Each skill As EveHQ.Core.SkillQueueItem In newQ.Queue
-                            If (skill.Name = displayPilot.TrainingSkillName) And displayPilot.TrainingSkillLevel > skill.FromLevel And displayPilot.TrainingSkillLevel <= skill.ToLevel Then
-                                bIncludeSkill = True
-                                Exit For
-                            End If
-                        Next
+                        Dim bIncludeSkill As Boolean = newQ.IncCurrentTraining
                         If bIncludeSkill Then
                             qTime = tTime - displayPilot.TrainingCurrentTime
                         End If
@@ -2850,4 +2839,52 @@ Public Class frmTraining
         frmCertificateDetails.ShowCertDetails(certID)
     End Sub
 #End Region
+
+    Private Sub mnuImportEMP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEMP.Click
+        ' Create a new file dialog
+        Dim ofd1 As New OpenFileDialog
+        With ofd1
+            .Title = "Select EveMon Plan file"
+            .FileName = ""
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            .Filter = "EveMon Plan files (*.emp)|*.emp|All files (*.*)|*.*"
+            .FilterIndex = 1
+            .RestoreDirectory = True
+            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                If My.Computer.FileSystem.FileExists(.FileName) = False Then
+                    MessageBox.Show("Specified file does not exist. Please try again.", "Error Finding File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                Else
+                    ' Open the file for reading
+                    Dim planXML As New XmlDocument
+                    Try
+                        ' UnGZip the file
+                        Dim fs As FileStream = New FileStream(.FileName, FileMode.Open, FileAccess.Read)
+                        Dim compstream As New System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress)
+                        Dim sr As New StreamReader(compstream)
+                        Dim strEMP As String = sr.ReadToEnd()
+                        sr.Close()
+                        fs.Close()
+                        planXML.LoadXml(strEMP)
+                    Catch ex As Exception
+                        MessageBox.Show("Unable to read file data. Please check the file is not corrupted and you have permissions to access this file", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Try
+                    ' Get the list of skills from the plan
+                    Dim skillList As XmlNodeList = planXML.SelectNodes("/plan/Entries/entry")
+                    Dim planSkills As New ArrayList
+                    For Each skill As XmlNode In skillList
+                        Dim skillName As String = skill.ChildNodes(0).InnerText
+                        Dim skillLevel As String = skill.ChildNodes(1).InnerText
+                        planSkills.Add(skillName & skillLevel)
+                    Next
+                    ' Get a dialog for the new skills
+                    Dim selectQueue As New frmSelectQueue
+                    selectQueue.DisplayPilotName = cDisplayPilotName
+                    selectQueue.skillsNeeded = planSkills
+                    selectQueue.ShowDialog()
+                    Call Me.RefreshAllTraining()
+                End If
+            End If
+        End With
+    End Sub
 End Class
