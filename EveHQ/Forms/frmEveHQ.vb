@@ -1138,13 +1138,17 @@ Public Class frmEveHQ
                         End If
                         reportMenu.DropDownItems.Add(pilotMenu)
                         If reportMenu.Name = "mnuReportTrainingQueue" Or reportMenu.Name = "mnuReportQueueShoppingList" Or reportMenu.Name = "mnuReportsTextTrainingQueue" Or reportMenu.Name = "mnuReportsTextShoppingList" Then
-                            For Each qItem As EveHQ.Core.SkillQueue In currentPilot.TrainingQueues.Values
-                                Dim queueMenu As New ToolStripMenuItem
-                                queueMenu.Text = qItem.Name
-                                queueMenu.Name = pilotMenu.Name & "_" & qItem.Name
-                                AddHandler queueMenu.Click, AddressOf Me.ReportsMenuHandler
-                                pilotMenu.DropDownItems.Add(queueMenu)
-                            Next
+                            If currentPilot IsNot Nothing Then
+                                If currentPilot.TrainingQueues IsNot Nothing Then
+                                    For Each qItem As EveHQ.Core.SkillQueue In currentPilot.TrainingQueues.Values
+                                        Dim queueMenu As New ToolStripMenuItem
+                                        queueMenu.Text = qItem.Name
+                                        queueMenu.Name = pilotMenu.Name & "_" & qItem.Name
+                                        AddHandler queueMenu.Click, AddressOf Me.ReportsMenuHandler
+                                        pilotMenu.DropDownItems.Add(queueMenu)
+                                    Next
+                                End If
+                            End If
                         End If
                     End If
                 Next
@@ -1152,6 +1156,7 @@ Public Class frmEveHQ
         Next
 
     End Sub
+
     Private Sub ReportsMenuHandler(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim reportMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim menuParts() As String = reportMenu.Name.Split("_".ToCharArray)
