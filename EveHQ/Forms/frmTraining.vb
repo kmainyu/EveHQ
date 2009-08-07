@@ -1704,9 +1704,11 @@ Public Class frmTraining
             Dim keyName As String = skillName & fromLevel & toLevel
             ' Remove it from the queue
             Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            ' Delete the Skill
-            Call Me.DeleteFromQueue(mySkill)
+            If activeQueue.Queue.Contains(keyName) = True Then
+                mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+                ' Delete the Skill
+                Call Me.DeleteFromQueue(mySkill)
+            End If
         Next
         ' Refresh the training view!
         Call Me.RefreshTraining(activeQueueName)
