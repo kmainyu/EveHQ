@@ -219,50 +219,57 @@ Public Class frmTraining
 
         Me.tabQueues.ResumeLayout()
     End Sub
+
     Private Sub DrawColumns(ByVal lv As EveHQ.DragAndDropListView)
 
         lv.Columns.Clear()
-        ' Add the 6 standard columns
+        ' Add the standard column
         lv.Columns.Add("Name", "Skill Name", 180, HorizontalAlignment.Left, "")
-        lv.Columns.Add("Curl", "Cur Lvl", 50, HorizontalAlignment.Center, "")
-        lv.Columns.Add("From", "From Lvl", 55, HorizontalAlignment.Center, "")
-        lv.Columns.Add("Tole", "To Lvl", 55, HorizontalAlignment.Center, "")
-        lv.Columns.Add("Perc", "%", 30, HorizontalAlignment.Center, "")
-        lv.Columns.Add("Trai", "Training Time", 100, HorizontalAlignment.Left, "")
-        ' Now find the other ones
-        For a As Integer = 6 To 16
-            If EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0) IsNot Nothing Then
-                If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
-                    Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
-                        Case "Date"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Date Completed", 150, HorizontalAlignment.Left, "")
-                        Case "Rank"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Rank", 60, HorizontalAlignment.Center, "")
-                        Case "PAtt"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Pri Attr", 60, HorizontalAlignment.Center, "")
-                        Case "SAtt"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Sec Attr", 60, HorizontalAlignment.Center, "")
-                        Case "SPRH"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /hour", 60, HorizontalAlignment.Center, "")
-                        Case "SPRD"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /day", 60, HorizontalAlignment.Center, "")
-                        Case "SPRW"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /week", 60, HorizontalAlignment.Center, "")
-                        Case "SPRM"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /mnth", 60, HorizontalAlignment.Center, "")
-                        Case "SPRY"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /year", 60, HorizontalAlignment.Center, "")
-                        Case "SPAd"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP Added", 100, HorizontalAlignment.Center, "")
-                        Case "SPTo"
-                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP @ End", 100, HorizontalAlignment.Center, "")
-                    End Select
-                End If
-            Else
-                ' Reset the columns and attempt a redraw
-                Call EveHQ.Core.EveHQSettingsFunctions.ResetColumns()
-                Call Me.DrawColumns(lv)
-                Exit For
+
+        ' Add subitems based on the user selected columns
+        Dim colName As String = ""
+        For Each col As String In EveHQ.Core.HQ.EveHQSettings.UserQueueColumns
+            If col.EndsWith("1") = True Then
+                colName = col.Substring(0, col.Length - 1)
+                Dim newSI As New ListViewItem.ListViewSubItem
+                Select Case colName
+                    Case "Current"
+                        lv.Columns.Add(colName, "Cur Lvl", 50, HorizontalAlignment.Center, "")
+                    Case "From"
+                        lv.Columns.Add(colName, "From Lvl", 55, HorizontalAlignment.Center, "")
+                    Case "To"
+                        lv.Columns.Add(colName, "To Lvl", 55, HorizontalAlignment.Center, "")
+                    Case "Percent"
+                        lv.Columns.Add(colName, "%", 30, HorizontalAlignment.Center, "")
+                    Case "TrainTime"
+                        lv.Columns.Add(colName, "Training Time", 100, HorizontalAlignment.Left, "")
+                    Case "DateEnded"
+                        lv.Columns.Add(colName, "Date Completed", 150, HorizontalAlignment.Left, "")
+                    Case "Rank"
+                        lv.Columns.Add(colName, "Rank", 60, HorizontalAlignment.Center, "")
+                    Case "PAtt"
+                        lv.Columns.Add(colName, "Pri Attr", 60, HorizontalAlignment.Center, "")
+                    Case "SAtt"
+                        lv.Columns.Add(colName, "Sec Attr", 60, HorizontalAlignment.Center, "")
+                    Case "SPHour"
+                        lv.Columns.Add(colName, "SP /hour", 60, HorizontalAlignment.Center, "")
+                    Case "SPDay"
+                        lv.Columns.Add(colName, "SP /day", 60, HorizontalAlignment.Center, "")
+                    Case "SPWeek"
+                        lv.Columns.Add(colName, "SP /week", 60, HorizontalAlignment.Center, "")
+                    Case "SPMonth"
+                        lv.Columns.Add(colName, "SP /mnth", 60, HorizontalAlignment.Center, "")
+                    Case "SPYear"
+                        lv.Columns.Add(colName, "SP /year", 60, HorizontalAlignment.Center, "")
+                    Case "SPAdded"
+                        lv.Columns.Add(colName, "SP Added", 100, HorizontalAlignment.Center, "")
+                    Case "SPTotal"
+                        lv.Columns.Add(colName, "SP @ End", 100, HorizontalAlignment.Center, "")
+                    Case "Notes"
+                        lv.Columns.Add(colName, "Notes", 200, HorizontalAlignment.Left, "")
+                    Case "Priority"
+                        lv.Columns.Add(colName, "Priority", 50, HorizontalAlignment.Center, "")
+                End Select
             End If
         Next
     End Sub
@@ -647,88 +654,9 @@ Public Class frmTraining
                         ' Do some additional calcs
                         totalSP += CLng(qItem.SPTrained)
                         totalTime += CLng(qItem.TrainTime)
-                        ' Add the first 6 standard items
                         newskill.Text = qItem.Name
                         newskill.Tag = qItem.ID
-                        Dim newSI As New ListViewItem.ListViewSubItem
-                        If (qItem.IsInjected) Then
-                            newSI.Name = qItem.CurLevel : newSI.Text = qItem.CurLevel : newskill.SubItems.Add(newSI)
-                        Else
-                            newSI.Name = "" : newSI.Text = "" : newskill.SubItems.Add(newSI)
-                        End If
-                        newSI = New ListViewItem.ListViewSubItem
-                        newSI.Name = qItem.FromLevel : newSI.Text = qItem.FromLevel : newskill.SubItems.Add(newSI)
-                        newSI = New ListViewItem.ListViewSubItem
-                        newSI.Name = qItem.ToLevel : newSI.Text = qItem.ToLevel : newskill.SubItems.Add(newSI)
-                        newSI = New ListViewItem.ListViewSubItem
-                        Dim skillPct As Double
-                        If displayPilot.PilotSkills.Contains(qItem.Name) Then
-                            Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(qItem.Name), Core.PilotSkill)
-                            Dim clevel As Integer = CInt(qItem.FromLevel)
-                            Dim nextLevelSp As Integer = myCurSkill.LevelUp(clevel + 1) - myCurSkill.LevelUp(clevel)
-
-                            If clevel <> myCurSkill.Level Then
-                                skillPct = 0
-                            Else
-                                If qItem.Name = displayPilot.TrainingSkillName Then
-                                    skillPct = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
-                                Else
-                                    skillPct = CInt(Int((myCurSkill.SP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
-                                End If
-                            End If
-
-                            If skillPct > 100 Then
-                                skillPct = 100
-                            End If
-                        Else
-                            skillPct = 0
-                        End If
-
-                        newSI.Name = CStr(skillPct) : newSI.Text = CStr(skillPct) : newskill.SubItems.Add(newSI)
-                        newSI = New ListViewItem.ListViewSubItem
-                        newSI.Name = qItem.TrainTime : newSI.Tag = qItem.TrainTime : newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime)) : newskill.SubItems.Add(newSI)
-                        ' Now add the others as required
-                        For a As Integer = 6 To 16
-                            If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
-                                newSI = New ListViewItem.ListViewSubItem
-                                Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
-                                    Case "Date"
-                                        newSI.Name = qItem.DateFinished.ToBinary.ToString
-                                        newSI.Text = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
-                                    Case "Rank"
-                                        newSI.Name = qItem.Rank
-                                        newSI.Text = qItem.Rank
-                                    Case "PAtt"
-                                        newSI.Name = qItem.PAtt
-                                        newSI.Text = qItem.PAtt
-                                    Case "SAtt"
-                                        newSI.Name = qItem.SAtt
-                                        newSI.Text = qItem.SAtt
-                                    Case "SPRH"
-                                        newSI.Name = qItem.SPRate
-                                        newSI.Text = FormatNumber(qItem.SPRate, 0, , , TriState.True)
-                                    Case "SPRD"
-                                        newSI.Name = CStr(CDbl(qItem.SPRate) * 24)
-                                        newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24, 0, , , TriState.True)
-                                    Case "SPRW"
-                                        newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 7)
-                                        newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 7, 0, , , TriState.True)
-                                    Case "SPRM"
-                                        newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 30)
-                                        newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 30, 0, , , TriState.True)
-                                    Case "SPRY"
-                                        newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 365)
-                                        newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 365, 0, , , TriState.True)
-                                    Case "SPAd"
-                                        newSI.Name = qItem.SPTrained
-                                        newSI.Text = FormatNumber(qItem.SPTrained, 0, , , TriState.True)
-                                    Case "SPTo"
-                                        newSI.Name = CStr(totalSP)
-                                        newSI.Text = FormatNumber(totalSP, 0, , , TriState.True)
-                                End Select
-                                newskill.SubItems.Add(newSI)
-                            End If
-                        Next
+                        Call Me.AddUserColumns(newskill, qItem, totalSP)
                         lvwQueue.Items.Add(newskill)
                     End If
                 Next
@@ -749,6 +677,101 @@ Public Class frmTraining
 
         End If
     End Sub
+    Private Sub AddUserColumns(ByVal newskill As ListViewItem, ByVal qitem As EveHQ.Core.SortedQueue, ByVal totalSP As Long)
+        ' Add subitems based on the user selected columns
+        Dim colName As String = ""
+        For Each col As String In EveHQ.Core.HQ.EveHQSettings.UserQueueColumns
+            If col.EndsWith("1") = True Then
+                colName = col.Substring(0, col.Length - 1)
+                Dim newSI As New ListViewItem.ListViewSubItem
+                Select Case colName
+                    Case "Current"
+                        If (qitem.IsInjected) Then
+                            newSI.Name = qitem.CurLevel
+                            newSI.Text = qitem.CurLevel
+                        Else
+                            newSI.Name = ""
+                            newSI.Text = ""
+                        End If
+                    Case "From"
+                        newSI.Name = qitem.FromLevel
+                        newSI.Text = qitem.FromLevel
+                    Case "To"
+                        newSI.Name = qitem.ToLevel
+                        newSI.Text = qitem.ToLevel
+                    Case "Percent"
+                        Dim skillPct As Double
+                        If displayPilot.PilotSkills.Contains(qitem.Name) Then
+                            Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(qitem.Name), Core.PilotSkill)
+                            Dim clevel As Integer = CInt(qitem.FromLevel)
+                            Dim nextLevelSp As Integer = myCurSkill.LevelUp(clevel + 1) - myCurSkill.LevelUp(clevel)
+
+                            If clevel <> myCurSkill.Level Then
+                                skillPct = 0
+                            Else
+                                If qitem.Name = displayPilot.TrainingSkillName Then
+                                    skillPct = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
+                                Else
+                                    skillPct = CInt(Int((myCurSkill.SP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
+                                End If
+                            End If
+
+                            If skillPct > 100 Then
+                                skillPct = 100
+                            End If
+                        Else
+                            skillPct = 0
+                        End If
+                        newSI.Name = "Percent"
+                        newSI.Text = CStr(skillPct)
+                    Case "TrainTime"
+                        newSI.Name = "TrainTime"
+                        newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qitem.TrainTime))
+                        newSI.Tag = qitem.TrainTime
+                    Case "DateEnded"
+                        newSI.Name = qitem.DateFinished.ToBinary.ToString
+                        newSI.Text = Format(qitem.DateFinished, "ddd") & " " & FormatDateTime(qitem.DateFinished, DateFormat.GeneralDate)
+                    Case "Rank"
+                        newSI.Name = qitem.Rank
+                        newSI.Text = qitem.Rank
+                    Case "PAtt"
+                        newSI.Name = qitem.PAtt
+                        newSI.Text = qitem.PAtt
+                    Case "SAtt"
+                        newSI.Name = qitem.SAtt
+                        newSI.Text = qitem.SAtt
+                    Case "SPHour"
+                        newSI.Name = qitem.SPRate
+                        newSI.Text = FormatNumber(qitem.SPRate, 0, , , TriState.True)
+                    Case "SPDay"
+                        newSI.Name = CStr(CDbl(qitem.SPRate) * 24)
+                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24, 0, , , TriState.True)
+                    Case "SPWeek"
+                        newSI.Name = CStr(CDbl(qitem.SPRate) * 24 * 7)
+                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24 * 7, 0, , , TriState.True)
+                    Case "SPMonth"
+                        newSI.Name = CStr(CDbl(qitem.SPRate) * 24 * 30)
+                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24 * 30, 0, , , TriState.True)
+                    Case "SPYear"
+                        newSI.Name = CStr(CDbl(qitem.SPRate) * 24 * 365)
+                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24 * 365, 0, , , TriState.True)
+                    Case "SPAdded"
+                        newSI.Name = qitem.SPTrained
+                        newSI.Text = FormatNumber(qitem.SPTrained, 0, , , TriState.True)
+                    Case "SPTotal"
+                        newSI.Name = CStr(totalSP)
+                        newSI.Text = FormatNumber(totalSP, 0, , , TriState.True)
+                    Case "Notes"
+                        newSI.Name = "Notes"
+                        newSI.Text = qitem.Notes
+                    Case "Priority"
+                        newSI.Name = "Priority"
+                        newSI.Text = FormatNumber(qitem.Priority, 0, , , TriState.True)
+                End Select
+                newskill.SubItems.Add(newSI)
+            End If
+        Next
+    End Sub
     Private Sub RedrawOptions()
         ' Determines what buttons and menus are available from the listview!
         btnImportExport.Enabled = True
@@ -759,7 +782,10 @@ Public Class frmTraining
             If activeLVW.SelectedItems.Count <> 0 Then
                 Select Case activeLVW.SelectedItems.Count
                     Case 1
-                        Dim skillName As String = ""
+                        Dim skillKey As String = activeLVW.SelectedItems(0).Name
+                        Dim skillName As String = CStr(skillKey.Substring(0, skillKey.Length - 2))
+                        Dim curFLevel As Integer = CInt(skillKey.Substring(skillKey.Length - 2, 1))
+                        Dim curTLevel As Integer = CInt(skillKey.Substring(skillKey.Length - 1, 1))
                         Dim skillID As String = ""
                         skillName = activeLVW.SelectedItems(0).Text
                         skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
@@ -767,9 +793,8 @@ Public Class frmTraining
                         mnuSkillName.Tag = skillID
                         ' Check if we can increase or decrease levels
 
-                        Dim curLevel, curFLevel, curTLevel As Integer
-                        curFLevel = CInt(activeLVW.SelectedItems(0).SubItems(2).Text)
-                        curTLevel = CInt(activeLVW.SelectedItems(0).SubItems(3).Text)
+                        Dim curLevel As Integer
+
                         Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                         If displayPilot.PilotSkills.Contains(skillName) = False Then
                             curLevel = 0
@@ -915,15 +940,21 @@ Public Class frmTraining
                                             Exit For
                                         End If
                                     Next
-                                    lvi.SubItems(4).Text = CStr(percent)
-                                    lvi.SubItems(5).Tag = cTime
-                                    lvi.SubItems(5).Text = strTime
+                                    If lvi.SubItems.ContainsKey("Percent") Then
+                                        lvi.SubItems("Percent").Text = CStr(percent)
+                                    End If
+                                    If lvi.SubItems.ContainsKey("TrainTime") Then
+                                        lvi.SubItems("TrainTime").Tag = cTime
+                                        lvi.SubItems("TrainTime").Text = CStr(strTime)
+                                    End If
 
                                     ' Calculate total time
                                     If cLVW.Items.Count > 0 Then
                                         Dim totalTime As Double = 0
                                         For count As Integer = 0 To cLVW.Items.Count - 1
-                                            totalTime += CLng(cLVW.Items(count).SubItems(5).Tag)
+                                            If lvi.SubItems.ContainsKey("TrainTime") Then
+                                                totalTime += CLng(cLVW.Items(count).SubItems("TrainTime").Tag)
+                                            End If
                                         Next
                                         cLabel.Tag = totalTime.ToString
                                         cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
@@ -1704,10 +1735,12 @@ Public Class frmTraining
     Private Sub DeleteFromQueueOption()
         ' Get the skill name and levels
         For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
+
+            Dim keyName As String = activeLVW.SelectedItems(selItem).Name
+            Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+            Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+            Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
+
             ' Remove it from the queue
             Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
             If activeQueue.Queue.Contains(keyName) = True Then
@@ -1733,11 +1766,10 @@ Public Class frmTraining
         ' Store the index being used
         Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
         ' Get the skill name
-        Dim skillName As String = activeLVW.SelectedItems(0).Text
-        Dim curLevel As String = activeLVW.SelectedItems(0).SubItems(1).Text
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
-        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
-        Dim keyName As String = skillName & fromLevel & toLevel
+        Dim keyName As String = activeLVW.SelectedItems(0).Name
+        Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+        Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+        Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
         Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
 
@@ -1766,6 +1798,10 @@ Public Class frmTraining
 
         ' Check if the skill has been trained and we wish to increase it to the next level
         If activeLVW.SelectedItems(0).Font.Strikeout = True Then
+            Dim curLevel As Integer = 0
+            If displayPilot.PilotSkills.Contains(myTSkill.Name) Then
+                curLevel = CType(displayPilot.PilotSkills(myTSkill.Name), EveHQ.Core.PilotSkill).Level
+            End If
             myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
         End If
 
@@ -1782,10 +1818,10 @@ Public Class frmTraining
         ' Store the index being used
         Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
         ' Get the skill name
-        Dim skillName As String = activeLVW.SelectedItems(0).Text
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
-        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
-        Dim keyName As String = skillName & fromLevel & toLevel
+        Dim keyName As String = activeLVW.SelectedItems(0).Name
+        Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+        Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+        Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
         Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
         ' Delete the existing item
@@ -1927,11 +1963,10 @@ Public Class frmTraining
         ' Store the index being used
         Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
         ' Get the skill name
-        Dim skillName As String = activeLVW.SelectedItems(0).Text
-        Dim curLevel As String = activeLVW.SelectedItems(0).SubItems(1).Text
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
-        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
-        Dim keyName As String = skillName & fromLevel & toLevel
+        Dim keyName As String = activeLVW.SelectedItems(0).Name
+        Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+        Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+        Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
         Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         If activeQueue.Queue.Contains(keyName) = True Then
             myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
@@ -1971,6 +2006,10 @@ Public Class frmTraining
 
                 ' Check if the skill has been trained and we wish to increase it to the next level
                 If activeLVW.SelectedItems(0).Font.Strikeout = True Then
+                    Dim curLevel As Integer = 0
+                    If displayPilot.PilotSkills.Contains(myTSkill.Name) Then
+                        curLevel = CType(displayPilot.PilotSkills(myTSkill.Name), EveHQ.Core.PilotSkill).Level
+                    End If
                     myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
                 End If
 
@@ -2575,7 +2614,9 @@ Public Class frmTraining
             Exit Sub
         End If
         ' Determine enabled menu items of adding to queue
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
+        Dim keyName As String = activeLVW.SelectedItems(0).Name
+        Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+        Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
         Dim skillName As String = mnuSkillName.Text
         Dim currentLevel As Integer = 0
         If displayPilot.PilotSkills.Contains(skillName) = True Then
@@ -2624,11 +2665,10 @@ Public Class frmTraining
     End Sub
     Private Sub mnuSeparateAllLevels_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateAllLevels.Click
         For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
-
+            Dim keyName As String = activeLVW.SelectedItems(selItem).Name
+            Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+            Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+            Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
             If activeQueue.Queue.Contains(keyName) = True Then
                 ' Remove it from the queue
                 Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
@@ -2647,10 +2687,10 @@ Public Class frmTraining
     End Sub
     Private Sub mnuSeparateTopLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateTopLevel.Click
         For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
+            Dim keyName As String = activeLVW.SelectedItems(selItem).Name
+            Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+            Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+            Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
 
             ' Remove it from the queue
             Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
@@ -2667,10 +2707,10 @@ Public Class frmTraining
     End Sub
     Private Sub mnuSeparateBottomLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateBottomLevel.Click
         For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
+            Dim keyName As String = activeLVW.SelectedItems(selItem).Name
+            Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+            Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+            Dim ToLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
 
             ' Remove it from the queue
             Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
@@ -2980,5 +3020,32 @@ Public Class frmTraining
 
 #End Region
 
-  
+    Private Sub mnuEditNote_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditNote.Click
+        ' Try to get the keys of the skill(s) we are changing
+        If activeLVW.SelectedItems.Count > 0 Then
+            Dim keys As New ArrayList
+            For Each selItem As ListViewItem In activeLVW.SelectedItems
+                keys.Add(selItem.Name)
+            Next
+            Dim NoteForm As New frmSkillNote
+            If keys.Count > 1 Then
+                NoteForm.lblDescription.Text = "Editing description for multiple queue entries..."
+                NoteForm.Text = "Skill Note - Multiple Skills"
+            Else
+                Dim curToLevel As String = CStr(keys(0)).Substring(CStr(keys(0)).Length - 1, 1)
+                Dim curFromLevel As String = CStr(keys(0)).Substring(CStr(keys(0)).Length - 2, 1)
+                Dim curSkillName As String = CStr(keys(0)).Substring(0, CStr(keys(0)).Length - 2)
+                NoteForm.lblDescription.Text = "Editing description for " & curSkillName & " (Lvl " & curToLevel & ")"
+                NoteForm.Text = "Skill Note - " & curSkillName & " (Lvl " & curToLevel & ")"
+            End If
+            NoteForm.txtNotes.Text = CType(activeQueue.Queue(keys(0)), EveHQ.Core.SkillQueueItem).Notes
+            NoteForm.txtNotes.SelectAll()
+            NoteForm.ShowDialog()
+            If NoteForm.DialogResult = Windows.Forms.DialogResult.OK Then
+                For Each key As String In keys
+                    CType(activeQueue.Queue(key), EveHQ.Core.SkillQueueItem).Notes = NoteForm.txtNotes.Text
+                Next
+            End If
+        End If
+    End Sub
 End Class

@@ -160,7 +160,6 @@ Partial Public Class frmSettings
         Me.lblIsPreReqColour = New System.Windows.Forms.Label
         Me.lblSkillQueueColours = New System.Windows.Forms.Label
         Me.lblQueueColumns = New System.Windows.Forms.Label
-        Me.clbColumns = New System.Windows.Forms.CheckedListBox
         Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox
         Me.gbAccess = New System.Windows.Forms.GroupBox
         Me.btnBrowseMDB2 = New System.Windows.Forms.Button
@@ -334,6 +333,10 @@ Partial Public Class frmSettings
         Me.lblWidgetMain2 = New System.Windows.Forms.Label
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
+        Me.btnMoveDown = New System.Windows.Forms.Button
+        Me.btnMoveUp = New System.Windows.Forms.Button
+        Me.lvwColumns = New System.Windows.Forms.ListView
+        Me.colQueueColumns = New System.Windows.Forms.ColumnHeader
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1489,6 +1492,9 @@ Partial Public Class frmSettings
         '
         'gbTrainingQueue
         '
+        Me.gbTrainingQueue.Controls.Add(Me.btnMoveDown)
+        Me.gbTrainingQueue.Controls.Add(Me.btnMoveUp)
+        Me.gbTrainingQueue.Controls.Add(Me.lvwColumns)
         Me.gbTrainingQueue.Controls.Add(Me.chkShowCompletedSkills)
         Me.gbTrainingQueue.Controls.Add(Me.pbPartiallyTrainedColour)
         Me.gbTrainingQueue.Controls.Add(Me.lblPartiallyTrainedColour)
@@ -1505,10 +1511,9 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.lblIsPreReqColour)
         Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
-        Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(686, 204)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 11)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(113, 48)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(693, 500)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
@@ -1517,7 +1522,7 @@ Partial Public Class frmSettings
         'chkShowCompletedSkills
         '
         Me.chkShowCompletedSkills.AutoSize = True
-        Me.chkShowCompletedSkills.Location = New System.Drawing.Point(9, 406)
+        Me.chkShowCompletedSkills.Location = New System.Drawing.Point(287, 312)
         Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
         Me.chkShowCompletedSkills.Size = New System.Drawing.Size(191, 17)
         Me.chkShowCompletedSkills.TabIndex = 33
@@ -1528,7 +1533,7 @@ Partial Public Class frmSettings
         '
         Me.pbPartiallyTrainedColour.BackColor = System.Drawing.Color.White
         Me.pbPartiallyTrainedColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPartiallyTrainedColour.Location = New System.Drawing.Point(350, 205)
+        Me.pbPartiallyTrainedColour.Location = New System.Drawing.Point(426, 205)
         Me.pbPartiallyTrainedColour.Name = "pbPartiallyTrainedColour"
         Me.pbPartiallyTrainedColour.Size = New System.Drawing.Size(24, 24)
         Me.pbPartiallyTrainedColour.TabIndex = 32
@@ -1537,7 +1542,7 @@ Partial Public Class frmSettings
         'lblPartiallyTrainedColour
         '
         Me.lblPartiallyTrainedColour.AutoSize = True
-        Me.lblPartiallyTrainedColour.Location = New System.Drawing.Point(223, 212)
+        Me.lblPartiallyTrainedColour.Location = New System.Drawing.Point(299, 212)
         Me.lblPartiallyTrainedColour.Name = "lblPartiallyTrainedColour"
         Me.lblPartiallyTrainedColour.Size = New System.Drawing.Size(84, 13)
         Me.lblPartiallyTrainedColour.TabIndex = 31
@@ -1546,7 +1551,7 @@ Partial Public Class frmSettings
         'chkDeleteCompletedSkills
         '
         Me.chkDeleteCompletedSkills.AutoSize = True
-        Me.chkDeleteCompletedSkills.Location = New System.Drawing.Point(9, 383)
+        Me.chkDeleteCompletedSkills.Location = New System.Drawing.Point(287, 289)
         Me.chkDeleteCompletedSkills.Name = "chkDeleteCompletedSkills"
         Me.chkDeleteCompletedSkills.Size = New System.Drawing.Size(262, 17)
         Me.chkDeleteCompletedSkills.TabIndex = 30
@@ -1557,7 +1562,7 @@ Partial Public Class frmSettings
         '
         Me.pbReadySkillColour.BackColor = System.Drawing.Color.White
         Me.pbReadySkillColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbReadySkillColour.Location = New System.Drawing.Point(350, 55)
+        Me.pbReadySkillColour.Location = New System.Drawing.Point(426, 55)
         Me.pbReadySkillColour.Name = "pbReadySkillColour"
         Me.pbReadySkillColour.Size = New System.Drawing.Size(24, 24)
         Me.pbReadySkillColour.TabIndex = 29
@@ -1566,7 +1571,7 @@ Partial Public Class frmSettings
         'lblReadySkillColour
         '
         Me.lblReadySkillColour.AutoSize = True
-        Me.lblReadySkillColour.Location = New System.Drawing.Point(223, 62)
+        Me.lblReadySkillColour.Location = New System.Drawing.Point(299, 62)
         Me.lblReadySkillColour.Name = "lblReadySkillColour"
         Me.lblReadySkillColour.Size = New System.Drawing.Size(89, 13)
         Me.lblReadySkillColour.TabIndex = 28
@@ -1576,7 +1581,7 @@ Partial Public Class frmSettings
         '
         Me.pbDowntimeClashColour.BackColor = System.Drawing.Color.Red
         Me.pbDowntimeClashColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbDowntimeClashColour.Location = New System.Drawing.Point(350, 175)
+        Me.pbDowntimeClashColour.Location = New System.Drawing.Point(426, 175)
         Me.pbDowntimeClashColour.Name = "pbDowntimeClashColour"
         Me.pbDowntimeClashColour.Size = New System.Drawing.Size(24, 24)
         Me.pbDowntimeClashColour.TabIndex = 27
@@ -1585,7 +1590,7 @@ Partial Public Class frmSettings
         'lblDowntimeClashColour
         '
         Me.lblDowntimeClashColour.AutoSize = True
-        Me.lblDowntimeClashColour.Location = New System.Drawing.Point(223, 182)
+        Me.lblDowntimeClashColour.Location = New System.Drawing.Point(299, 182)
         Me.lblDowntimeClashColour.Name = "lblDowntimeClashColour"
         Me.lblDowntimeClashColour.Size = New System.Drawing.Size(108, 13)
         Me.lblDowntimeClashColour.TabIndex = 26
@@ -1595,7 +1600,7 @@ Partial Public Class frmSettings
         '
         Me.pbBothPreReqColour.BackColor = System.Drawing.Color.Gold
         Me.pbBothPreReqColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbBothPreReqColour.Location = New System.Drawing.Point(350, 145)
+        Me.pbBothPreReqColour.Location = New System.Drawing.Point(426, 145)
         Me.pbBothPreReqColour.Name = "pbBothPreReqColour"
         Me.pbBothPreReqColour.Size = New System.Drawing.Size(24, 24)
         Me.pbBothPreReqColour.TabIndex = 25
@@ -1604,7 +1609,7 @@ Partial Public Class frmSettings
         'lblBothPreReqColour
         '
         Me.lblBothPreReqColour.AutoSize = True
-        Me.lblBothPreReqColour.Location = New System.Drawing.Point(223, 152)
+        Me.lblBothPreReqColour.Location = New System.Drawing.Point(299, 152)
         Me.lblBothPreReqColour.Name = "lblBothPreReqColour"
         Me.lblBothPreReqColour.Size = New System.Drawing.Size(61, 13)
         Me.lblBothPreReqColour.TabIndex = 24
@@ -1614,7 +1619,7 @@ Partial Public Class frmSettings
         '
         Me.pbHasPreReqColour.BackColor = System.Drawing.Color.Plum
         Me.pbHasPreReqColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbHasPreReqColour.Location = New System.Drawing.Point(350, 115)
+        Me.pbHasPreReqColour.Location = New System.Drawing.Point(426, 115)
         Me.pbHasPreReqColour.Name = "pbHasPreReqColour"
         Me.pbHasPreReqColour.Size = New System.Drawing.Size(24, 24)
         Me.pbHasPreReqColour.TabIndex = 23
@@ -1624,7 +1629,7 @@ Partial Public Class frmSettings
         '
         Me.pbIsPreReqColour.BackColor = System.Drawing.Color.LightSteelBlue
         Me.pbIsPreReqColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbIsPreReqColour.Location = New System.Drawing.Point(350, 85)
+        Me.pbIsPreReqColour.Location = New System.Drawing.Point(426, 85)
         Me.pbIsPreReqColour.Name = "pbIsPreReqColour"
         Me.pbIsPreReqColour.Size = New System.Drawing.Size(24, 24)
         Me.pbIsPreReqColour.TabIndex = 22
@@ -1633,7 +1638,7 @@ Partial Public Class frmSettings
         'lblHasPreReqColour
         '
         Me.lblHasPreReqColour.AutoSize = True
-        Me.lblHasPreReqColour.Location = New System.Drawing.Point(223, 122)
+        Me.lblHasPreReqColour.Location = New System.Drawing.Point(299, 122)
         Me.lblHasPreReqColour.Name = "lblHasPreReqColour"
         Me.lblHasPreReqColour.Size = New System.Drawing.Size(85, 13)
         Me.lblHasPreReqColour.TabIndex = 21
@@ -1642,7 +1647,7 @@ Partial Public Class frmSettings
         'lblIsPreReqColour
         '
         Me.lblIsPreReqColour.AutoSize = True
-        Me.lblIsPreReqColour.Location = New System.Drawing.Point(223, 92)
+        Me.lblIsPreReqColour.Location = New System.Drawing.Point(299, 92)
         Me.lblIsPreReqColour.Name = "lblIsPreReqColour"
         Me.lblIsPreReqColour.Size = New System.Drawing.Size(75, 13)
         Me.lblIsPreReqColour.TabIndex = 20
@@ -1651,7 +1656,7 @@ Partial Public Class frmSettings
         'lblSkillQueueColours
         '
         Me.lblSkillQueueColours.AutoSize = True
-        Me.lblSkillQueueColours.Location = New System.Drawing.Point(208, 25)
+        Me.lblSkillQueueColours.Location = New System.Drawing.Point(284, 25)
         Me.lblSkillQueueColours.Name = "lblSkillQueueColours"
         Me.lblSkillQueueColours.Size = New System.Drawing.Size(102, 13)
         Me.lblSkillQueueColours.TabIndex = 4
@@ -1666,16 +1671,6 @@ Partial Public Class frmSettings
         Me.lblQueueColumns.TabIndex = 1
         Me.lblQueueColumns.Text = "Queue Column Selection:"
         '
-        'clbColumns
-        '
-        Me.clbColumns.CheckOnClick = True
-        Me.clbColumns.FormattingEnabled = True
-        Me.clbColumns.Items.AddRange(New Object() {"Skill Name", "Current Level", "From Level", "To Level", "% Complete", "Training Time", "Date Completed", "Rank", "Primary Attribute", "Secondary Attribute", "SP Rate/Hour", "SP Rate/Day", "SP Rate/Week", "SP Rate/Month", "SP Rate/Year", "SP Earned", "SP Total"})
-        Me.clbColumns.Location = New System.Drawing.Point(9, 47)
-        Me.clbColumns.Name = "clbColumns"
-        Me.clbColumns.Size = New System.Drawing.Size(157, 244)
-        Me.clbColumns.TabIndex = 2
-        '
         'gbDatabaseFormat
         '
         Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
@@ -1685,9 +1680,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(196, 12)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(558, 243)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(685, 495)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(115, 31)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -3401,6 +3396,42 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
+        'btnMoveDown
+        '
+        Me.btnMoveDown.Location = New System.Drawing.Point(92, 429)
+        Me.btnMoveDown.Name = "btnMoveDown"
+        Me.btnMoveDown.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveDown.TabIndex = 36
+        Me.btnMoveDown.Text = "Move Down"
+        Me.btnMoveDown.UseVisualStyleBackColor = True
+        '
+        'btnMoveUp
+        '
+        Me.btnMoveUp.Location = New System.Drawing.Point(6, 429)
+        Me.btnMoveUp.Name = "btnMoveUp"
+        Me.btnMoveUp.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveUp.TabIndex = 35
+        Me.btnMoveUp.Text = "Move Up"
+        Me.btnMoveUp.UseVisualStyleBackColor = True
+        '
+        'lvwColumns
+        '
+        Me.lvwColumns.CheckBoxes = True
+        Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQueueColumns})
+        Me.lvwColumns.FullRowSelect = True
+        Me.lvwColumns.HideSelection = False
+        Me.lvwColumns.Location = New System.Drawing.Point(6, 41)
+        Me.lvwColumns.Name = "lvwColumns"
+        Me.lvwColumns.Size = New System.Drawing.Size(222, 382)
+        Me.lvwColumns.TabIndex = 34
+        Me.lvwColumns.UseCompatibleStateImageBehavior = False
+        Me.lvwColumns.View = System.Windows.Forms.View.Details
+        '
+        'colQueueColumns
+        '
+        Me.colQueueColumns.Text = "Queue Columns"
+        Me.colQueueColumns.Width = 200
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3411,8 +3442,8 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbTaskbarIcon)
@@ -3574,7 +3605,6 @@ Partial Public Class frmSettings
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents btnGetData As System.Windows.Forms.Button
     Friend WithEvents lblQueueColumns As System.Windows.Forms.Label
-    Friend WithEvents clbColumns As System.Windows.Forms.CheckedListBox
     Friend WithEvents gbDatabaseFormat As System.Windows.Forms.GroupBox
     Friend WithEvents gbMSSQL As System.Windows.Forms.GroupBox
     Friend WithEvents lblMSSQLSecurity As System.Windows.Forms.Label
@@ -3824,4 +3854,8 @@ Partial Public Class frmSettings
     Friend WithEvents cboTickerLocation As System.Windows.Forms.ComboBox
     Friend WithEvents lblTickerLocation As System.Windows.Forms.Label
     Friend WithEvents chkShowPriceTicker As System.Windows.Forms.CheckBox
+    Friend WithEvents btnMoveDown As System.Windows.Forms.Button
+    Friend WithEvents btnMoveUp As System.Windows.Forms.Button
+    Friend WithEvents lvwColumns As System.Windows.Forms.ListView
+    Friend WithEvents colQueueColumns As System.Windows.Forms.ColumnHeader
 End Class

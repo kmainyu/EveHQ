@@ -47,7 +47,7 @@ Public Class SkillQueueFunctions
         Dim totalSP As Long = qPilot.SkillPoints
 
         ' Prep a new font ready for completed training queues
-        Dim doneFont As Font = New Font("MS Sans Serif", 8, FontStyle.Strikeout)
+        Dim doneFont As Font = New Font("Tahoma", 8, FontStyle.Strikeout)
 
         ' Try Queue Building
         Try
@@ -222,6 +222,8 @@ Public Class SkillQueueFunctions
                 Dim toLvl As String = ""
                 Dim specSkillName As String = ""
                 Dim specSkillID As String = ""
+                Dim priority As Integer = 0
+                Dim notes As String = ""
                 Try
                     specSkillName = CStr(skillArray(tagArray(i), 0))
                     frLvl = specSkillName.Substring(specSkillName.Length - 2, 1)
@@ -232,6 +234,10 @@ Public Class SkillQueueFunctions
                     myskill = EveHQ.Core.HQ.SkillListName(myTSkill.Name)
                     fromLevel = myTSkill.FromLevel
                     toLevel = myTSkill.ToLevel
+                    If myTSkill.Notes <> "" Then
+                        notes = myTSkill.Notes
+                    End If
+                    priority = myTSkill.Priority
                     Dim myPos As Integer = myTSkill.Pos
                     If qPilot.Training = False Then     ' decrement if applicable
                         myPos -= 1
@@ -362,6 +368,8 @@ Public Class SkillQueueFunctions
                         qItem.Key = myskill.Name & fromLevel & toLevel
                         qItem.ID = myskill.ID
                         qItem.Name = myskill.Name
+                        qItem.Notes = notes
+                        qItem.Priority = priority
                         qItem.CurLevel = CStr(curLevel)
                         qItem.FromLevel = CStr(fromLevel)
                         qItem.ToLevel = CStr(toLevel)
@@ -564,6 +572,8 @@ Public Class SkillQueueFunctions
                         newskill.Name = curSkill.Name
                         newskill.FromLevel = curSkill.FromLevel
                         newskill.ToLevel = newskill.FromLevel + 1
+                        newskill.Notes = curSkill.Notes
+                        newskill.Priority = curSkill.Priority
                         Dim newKey As String = newskill.Name & newskill.FromLevel & newskill.ToLevel
                         ' Increase the from level of the existing skill
                         Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
@@ -630,6 +640,8 @@ Public Class SkillQueueFunctions
                         Dim replaceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
                         replaceSkill = curSkill
                         replaceSkill.FromLevel = pilotLevel
+                        replaceSkill.Notes = curSkill.Notes
+                        replaceSkill.Priority = curSkill.Priority
                         bQueue.Queue.Remove(startKeyName)
                         startKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
                         bQueue.Queue.Add(replaceSkill, startKeyName)
@@ -655,6 +667,8 @@ Public Class SkillQueueFunctions
                                     Dim replaceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
                                     replaceSkill = CType(bQueue.Queue(curKeyName), SkillQueueItem)
                                     replaceSkill.ToLevel = CInt(nextFromLevel)
+                                    replaceSkill.Notes = curSkill.Notes
+                                    replaceSkill.Priority = curSkill.Priority
                                     bQueue.Queue.Remove(curKeyName)
                                     newKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
                                     bQueue.Queue.Add(replaceSkill, newKeyName)
@@ -665,6 +679,8 @@ Public Class SkillQueueFunctions
                                     Dim replaceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
                                     replaceSkill = CType(bQueue.Queue(nextKeyName), SkillQueueItem)
                                     replaceSkill.FromLevel = CInt(curToLevel)
+                                    replaceSkill.Notes = curSkill.Notes
+                                    replaceSkill.Priority = curSkill.Priority
                                     bQueue.Queue.Remove(nextKeyName)
                                     newKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
                                     bQueue.Queue.Add(replaceSkill, newKeyName)
@@ -1131,6 +1147,8 @@ Public Class SkillQueueFunctions
                     newSkill.Name = qItem.Name
                     newSkill.Key = qItem.Key
                     newSkill.Pos = count
+                    newSkill.Priority = qItem.Priority
+                    newSkill.Notes = qItem.Notes
                     nQueue.Add(newSkill, newSkill.Key)
                     count += 1
                 End If
@@ -1365,11 +1383,8 @@ End Class
     Public FromLevel As Integer
     Public ToLevel As Integer
     Public Pos As Integer
-    Public PreReq1 As String
-    Public PreReq2 As String
-    Public PreReq3 As String
-    Public PreReq4 As String
-    Public PreReq5 As String
+    Public Priority As Integer
+    Public Notes As String
     Public Function Clone() As Object Implements System.ICloneable.Clone
         Dim R As SkillQueue = CType(Me.MemberwiseClone, SkillQueue)
         Return R
@@ -1398,6 +1413,8 @@ Public Class SortedQueue
     Public Prereq As String
     Public HasPrereq As Boolean
     Public Reqs As String
+    Public Priority As Integer
+    Public Notes As String
 End Class
 <Serializable()> Public Class SkillQueue
     Implements System.ICloneable
@@ -1419,6 +1436,8 @@ End Class
             nItem.Name = qItem.Name
             nItem.Key = nItem.Name & nItem.FromLevel & nItem.ToLevel
             nItem.Pos = qItem.Pos
+            nItem.Notes = qItem.Notes
+            nItem.Priority = qItem.Priority
             newQ.Add(nItem, nItem.Key)
         Next
         newQueue.Queue = newQ

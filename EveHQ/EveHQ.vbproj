@@ -289,6 +289,12 @@
     <Compile Include="Forms\frmSkillDetails.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmSkillNote.Designer.vb">
+      <DependentUpon>frmSkillNote.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSkillNote.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmToolTrayIconPopup.Designer.vb">
       <DependentUpon>frmToolTrayIconPopup.vb</DependentUpon>
     </Compile>
@@ -453,6 +459,9 @@
     <EmbeddedResource Include="Forms\frmSkillDetails.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSkillDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSkillNote.resx">
+      <DependentUpon>frmSkillNote.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmToolTrayIconPopup.resx">
       <DependentUpon>frmToolTrayIconPopup.vb</DependentUpon>

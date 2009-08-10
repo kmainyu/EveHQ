@@ -94,9 +94,9 @@ Partial Public Class frmHQFSettings
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.lblDefaultPilot)
-        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(451, 309)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(498, 500)
+        Me.gbGeneral.Size = New System.Drawing.Size(184, 51)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -272,9 +272,9 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Controls.Add(Me.pbHiSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblMidSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
-        Me.gbSlotFormat.Location = New System.Drawing.Point(465, 211)
+        Me.gbSlotFormat.Location = New System.Drawing.Point(194, 12)
         Me.gbSlotFormat.Name = "gbSlotFormat"
-        Me.gbSlotFormat.Size = New System.Drawing.Size(107, 35)
+        Me.gbSlotFormat.Size = New System.Drawing.Size(498, 501)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
         Me.gbSlotFormat.Text = "Slot Layout"
@@ -576,9 +576,9 @@ Partial Public Class frmHQFSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbCache)
-        Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)

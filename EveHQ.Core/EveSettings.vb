@@ -160,7 +160,31 @@ Imports System.Diagnostics
     Private cDashboardConfiguration As New ArrayList
     Private cDBTicker As Boolean = False
     Private cDBTickerLocation As String = "Bottom"
+    Private cStandardQueueColumns As New ArrayList
+    Private cUserQueueColumns As New ArrayList
 
+    Public Property UserQueueColumns() As ArrayList
+        Get
+            If cUserQueueColumns Is Nothing Then
+                cUserQueueColumns = New ArrayList
+            End If
+            Return cUserQueueColumns
+        End Get
+        Set(ByVal value As ArrayList)
+            cUserQueueColumns = value
+        End Set
+    End Property
+    Public Property StandardQueueColumns() As ArrayList
+        Get
+            If cStandardQueueColumns Is Nothing Then
+                cStandardQueueColumns = New ArrayList
+            End If
+            Return cStandardQueueColumns
+        End Get
+        Set(ByVal value As ArrayList)
+            cStandardQueueColumns = value
+        End Set
+    End Property
     Public Property DBTickerLocation() As String
         Get
             Return cDBTickerLocation
@@ -1666,6 +1690,7 @@ Public Class EveHQSettingsFunctions
                         XMLS &= Chr(9) & Chr(9) & "<fromLevel>" & mySkillQueue.FromLevel & "</fromLevel>" & vbCrLf
                         XMLS &= Chr(9) & Chr(9) & "<toLevel>" & mySkillQueue.ToLevel & "</toLevel>" & vbCrLf
                         XMLS &= Chr(9) & Chr(9) & "<position>" & mySkillQueue.Pos & "</position>" & vbCrLf
+                        XMLS &= Chr(9) & Chr(9) & "<notes>" & HttpUtility.HtmlEncode(mySkillQueue.Notes) & "</notes>" & vbCrLf
                         XMLS &= Chr(9) & "</skill>" & vbCrLf
                     Next
                     XMLS &= Chr(9) & "</queue>"
@@ -2107,9 +2132,14 @@ Public Class EveHQSettingsFunctions
                                                 myskill.Name = "Astrometric Triangulation"
                                             End If
                                         End If
-                                        myskill.FromLevel = CInt(trainingDetails.ChildNodes(1).InnerText)
-                                        myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
-                                        myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)
+                                        Try
+                                            myskill.FromLevel = CInt(trainingDetails.ChildNodes(1).InnerText)
+                                            myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
+                                            myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)
+                                            myskill.Notes = HttpUtility.HtmlDecode(trainingDetails.ChildNodes(4).InnerText)
+                                        Catch e As Exception
+                                            ' We don't have the required info
+                                        End Try
                                         Dim keyName As String = myskill.Name & myskill.FromLevel & myskill.ToLevel
                                         If newQ.Queue.Contains(keyName) = False Then
                                             If myskill.ToLevel > myskill.FromLevel Then
@@ -2243,6 +2273,8 @@ Public Class EveHQSettingsFunctions
     End Sub
 
     Public Shared Function LoadEveSettings2() As Boolean
+
+        
         If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin")) = True Then
             Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin"), FileMode.Open)
             Try
@@ -2317,7 +2349,9 @@ Public Class EveHQSettingsFunctions
             Exit Function
         End If
 
-        ' Check QColumns!
+        '  Setup queue columns etc
+        Call InitialiseQueueColumns()
+        Call InitialiseUserColumns()
         If EveHQ.Core.HQ.EveHQSettings.QColumns(0, 0) Is Nothing Then
             Call ResetColumns()
         End If
@@ -2335,6 +2369,125 @@ Public Class EveHQSettingsFunctions
         Return True
 
     End Function
+
+    Public Shared Sub InitialiseQueueColumns()
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Clear()
+        Dim newItem As New ListViewItem
+        'newItem = New ListViewItem
+        'newItem.Name = "Name"
+        'newItem.Text = "Skill Name"
+        'newItem.Checked = True
+        'EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "Current"
+        newItem.Text = "Cur Lvl"
+        newItem.Checked = True
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "From"
+        newItem.Text = "From Lvl"
+        newItem.Checked = True
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "To"
+        newItem.Text = "To Lvl"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "Percent"
+        newItem.Text = "%"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "TrainTime"
+        newItem.Text = "Training Time"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "DateEnded"
+        newItem.Text = "Date Completed"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "Rank"
+        newItem.Text = "Rank"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "PAtt"
+        newItem.Text = "Pri Att"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SAtt"
+        newItem.Text = "Sec Att"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SPHour"
+        newItem.Text = "SP /hour"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SPDay"
+        newItem.Text = "SP /day"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SPWeek"
+        newItem.Text = "SP /week"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SPMonth"
+        newItem.Text = "SP /month"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SPYear"
+        newItem.Text = "SP /year"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SPAdded"
+        newItem.Text = "SP Added"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "SPTotal"
+        newItem.Text = "SP Total"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "Notes"
+        newItem.Text = "Notes"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "Priority"
+        newItem.Text = "Priority"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+    End Sub
+    Public Shared Sub InitialiseUserColumns()
+        If EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Count = 0 Then
+            ' Add preset items
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("Current1")
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("From1")
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("To1")
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("Percent1")
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("TrainTime1")
+        End If
+        ' Check if the standard columns have changed and we need to add columns
+        If EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Count <> EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Count Then
+            For Each slotItem As ListViewItem In EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns
+                If EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Contains(slotItem.Name & "0") = False And EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Contains(slotItem.Name & "1") = False Then
+                    EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add(slotItem.Name & "0")
+                End If
+            Next
+        End If
+
+    End Sub
 End Class
 
 

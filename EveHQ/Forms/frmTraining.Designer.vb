@@ -209,6 +209,7 @@ Partial Class frmTraining
         Me.Standard = New System.Windows.Forms.ColumnHeader
         Me.Current = New System.Windows.Forms.ColumnHeader
         Me.Cumulative = New System.Windows.Forms.ColumnHeader
+        Me.mnuEditNote = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.tsQueueOptions.SuspendLayout()
@@ -395,9 +396,9 @@ Partial Class frmTraining
         'ctxQueue
         '
         Me.ctxQueue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuViewDetails, Me.ToolStripMenuItem2, Me.mnuForceTraining})
+        Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuViewDetails, Me.mnuEditNote, Me.ToolStripMenuItem2, Me.mnuForceTraining})
         Me.ctxQueue.Name = "ctxDepend"
-        Me.ctxQueue.Size = New System.Drawing.Size(207, 304)
+        Me.ctxQueue.Size = New System.Drawing.Size(207, 348)
         '
         'mnuSkillName
         '
@@ -1528,6 +1529,13 @@ Partial Class frmTraining
         Me.Cumulative.Text = "Cumulative From Now"
         Me.Cumulative.Width = 125
         '
+        'mnuEditNote
+        '
+        Me.mnuEditNote.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.mnuEditNote.Name = "mnuEditNote"
+        Me.mnuEditNote.Size = New System.Drawing.Size(206, 22)
+        Me.mnuEditNote.Text = "Edit Note"
+        '
         'frmTraining
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1732,4 +1740,5 @@ Partial Class frmTraining
     Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuExportEMP As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator21 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuEditNote As System.Windows.Forms.ToolStripMenuItem
 End Class

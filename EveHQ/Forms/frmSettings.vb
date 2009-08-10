@@ -844,7 +844,7 @@ Public Class frmSettings
 #End Region
 
 #Region "Training Queue Options"
-    Private Sub clbColumns_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles clbColumns.ItemCheck
+    Private Sub clbColumns_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs)
         If e.Index > 5 Then
             If e.CurrentValue = CheckState.Checked Then
                 EveHQ.Core.HQ.EveHQSettings.QColumns(e.Index, 1) = CStr(False)
@@ -869,53 +869,7 @@ Public Class frmSettings
 
     Private Sub UpdateTrainingQueueOptions()
         ' Add the Queue columns
-        If Me.clbColumns.Items.Count > 0 Then
-            Me.clbColumns.Items.Clear()
-            For a As Integer = 0 To 16
-                Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
-                    Case "Name"
-                        Me.clbColumns.Items.Add("Skill Name")
-                    Case "Curr"
-                        Me.clbColumns.Items.Add("Current Level")
-                    Case "From"
-                        Me.clbColumns.Items.Add("From Level")
-                    Case "Tole"
-                        Me.clbColumns.Items.Add("To Level")
-                    Case "Perc"
-                        Me.clbColumns.Items.Add("% Complete")
-                    Case "Trai"
-                        Me.clbColumns.Items.Add("Training Time")
-                    Case "Date"
-                        Me.clbColumns.Items.Add("Date Completed")
-                    Case "Rank"
-                        Me.clbColumns.Items.Add("Skill Rank")
-                    Case "PAtt"
-                        Me.clbColumns.Items.Add("Primary Attribute")
-                    Case "SAtt"
-                        Me.clbColumns.Items.Add("Secondary Atribute")
-                    Case "SPRH"
-                        Me.clbColumns.Items.Add("SP Rate/Hour")
-                    Case "SPRD"
-                        Me.clbColumns.Items.Add("SP Rate/Day")
-                    Case "SPRW"
-                        Me.clbColumns.Items.Add("SP Rate/Week")
-                    Case "SPRM"
-                        Me.clbColumns.Items.Add("SP Rate/Month")
-                    Case "SPRY"
-                        Me.clbColumns.Items.Add("SP Rate/Year")
-                    Case "SPAd"
-                        Me.clbColumns.Items.Add("SP Earned")
-                    Case "SPTo"
-                        Me.clbColumns.Items.Add("SP Total")
-                End Select
-                Dim validCol As Boolean = False
-                If Boolean.TryParse(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1), validCol) = True Then
-                    Me.clbColumns.SetItemChecked(a, validCol)
-                Else
-                    Me.clbColumns.SetItemChecked(a, False)
-                End If
-            Next
-        End If
+        Call Me.RedrawQueueColumnList()
         Me.chkDeleteCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.DeleteSkills
         Me.chkShowCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills
         Dim IColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
@@ -2367,6 +2321,98 @@ Public Class frmSettings
 
 #End Region
 
-    
-    
+    Private Sub RedrawQueueColumnList()
+        ' Setup the listview
+        Dim newCol As New ListViewItem
+        lvwColumns.BeginUpdate()
+        lvwColumns.Items.Clear()
+        For Each slot As String In EveHQ.Core.HQ.EveHQSettings.UserQueueColumns
+            For Each stdSlot As ListViewItem In EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns
+                If slot.Substring(0, Len(slot) - 1) = stdSlot.Name Then
+                    newCol = CType(stdSlot.Clone, ListViewItem)
+                    newCol.Name = stdSlot.Name
+                    If slot.EndsWith("0") = True Then
+                        newCol.Checked = False
+                    Else
+                        newCol.Checked = True
+                    End If
+                    lvwColumns.Items.Add(newCol)
+                End If
+            Next
+        Next
+        lvwColumns.EndUpdate()
+    End Sub
+
+    Private Sub btnMoveUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveUp.Click
+        ' Check we have something selected
+        If lvwColumns.SelectedItems.Count = 0 Then
+            MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        ' Save the selected item
+        ' Get the slot name of the item selected
+        Dim slotName As String = lvwColumns.SelectedItems(0).Name
+        Dim selName As String = slotName
+        ' Find the index in the user column list
+        Dim idx As Integer = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.IndexOf(slotName & "0")
+        If idx = -1 Then
+            idx = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.IndexOf(slotName & "1")
+        End If
+        ' Switch with the one above if the index is not zero
+        If idx <> 0 Then
+            slotName = CStr(EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx - 1))
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx - 1) = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx)
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx) = slotName
+            ' Redraw the list
+            redrawColumns = True
+            Call Me.RedrawQueueColumnList()
+            redrawColumns = False
+            lvwColumns.Items(selName).Selected = True
+            lvwColumns.Select()
+        End If
+    End Sub
+
+    Private Sub btnMoveDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveDown.Click
+        ' Check we have something selected
+        If lvwColumns.SelectedItems.Count = 0 Then
+            MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        ' Get the slot name of the item selected
+        Dim slotName As String = lvwColumns.SelectedItems(0).Name
+        Dim selName As String = slotName
+        ' Find the index in the user column list
+        Dim idx As Integer = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.IndexOf(slotName & "0")
+        If idx = -1 Then
+            idx = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.IndexOf(slotName & "1")
+        End If
+        ' Switch with the one above if the index is not the last
+        If idx <> EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Count - 1 Then
+            slotName = CStr(EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx + 1))
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx + 1) = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx)
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx) = slotName
+            ' Redraw the list
+            redrawColumns = True
+            Call Me.RedrawQueueColumnList()
+            redrawColumns = False
+            lvwColumns.Items(selName).Selected = True
+            lvwColumns.Select()
+        End If
+    End Sub
+    Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
+        If redrawColumns = False Then
+            ' Get the slot name of the ticked item
+            Dim slotName As String = e.Item.Name
+            ' Find the index in the user column list
+            Dim idx As Integer = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.IndexOf(slotName & "0")
+            If idx = -1 Then
+                idx = EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.IndexOf(slotName & "1")
+            End If
+            If e.Item.Checked = False Then
+                EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx) = slotName & "0"
+            Else
+                EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx) = slotName & "1"
+            End If
+        End If
+    End Sub
 End Class

@@ -68,7 +68,7 @@ Public Class DragAndDropListView
                 End If
 
                 If di < MyBase.Items.Count Then
-                    Dim din As String = MyBase.Items(di).Text & MyBase.Items(di).SubItems(2).Text & MyBase.Items(di).SubItems(3).Text
+                    Dim din As String = MyBase.Items(di).Name
                     Dim dIDX As Integer = 0
                     For Each moveSkill As EveHQ.Core.SkillQueueItem In displayPilot.ActiveQueue.Queue
                         dIDX += 1
@@ -93,8 +93,8 @@ Public Class DragAndDropListView
                         di -= 1
                     End If
 
-                    Dim din As String = MyBase.Items(di).Text & MyBase.Items(di).SubItems(2).Text & MyBase.Items(di).SubItems(3).Text
-                    Dim sin As String = MyBase.Items(si).Text & MyBase.Items(si).SubItems(2).Text & MyBase.Items(si).SubItems(3).Text
+                    Dim din As String = MyBase.Items(di).Name
+                    Dim sin As String = MyBase.Items(si).Name
 
                     'Dim msg As String = ""
                     'msg &= "Source: " & sin & " (" & si & ")" & ControlChars.CrLf
