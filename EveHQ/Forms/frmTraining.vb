@@ -3045,6 +3045,7 @@ Public Class frmTraining
                 For Each key As String In keys
                     CType(activeQueue.Queue(key), EveHQ.Core.SkillQueueItem).Notes = NoteForm.txtNotes.Text
                 Next
+                Call Me.RefreshTraining(activeQueueName)
             End If
         End If
     End Sub
