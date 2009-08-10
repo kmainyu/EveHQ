@@ -117,14 +117,14 @@ Public Class SkillQueueFunctions
                 If (totalSP + CDbl(qItem.SPTrained)) < trainingBonusLimit Then
                     currentBonus = trainingBonus
                 Else
-                    If totalSP > trainingBonusLimit Then
-                        currentBonus = 1
-                    Else
-                        ' Middle ground!
-                        Dim bonusSPs As Long = CLng(trainingBonusLimit) - totalSP
-                        Dim stdSPs As Long = totalSP + CLng(qItem.SPTrained) - CLng(trainingBonusLimit)
-                        currentBonus = 1 + (bonusSPs / CDbl(qItem.SPTrained) * (trainingBonus - 1))
-                    End If
+                    'If totalSP > trainingBonusLimit Then
+                    currentBonus = 1
+                    'Else
+                    '    ' Middle ground!
+                    '    Dim bonusSPs As Long = CLng(trainingBonusLimit) - totalSP
+                    '    Dim stdSPs As Long = totalSP + CLng(qItem.SPTrained) - CLng(trainingBonusLimit)
+                    '    currentBonus = 1 + (bonusSPs / CDbl(qItem.SPTrained) * (trainingBonus - 1))
+                    'End If
                 End If
 
                 qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, mySkill, , currentBonus))
@@ -249,19 +249,19 @@ Public Class SkillQueueFunctions
                     currentBonus = 1
                 End If
 
-                Dim SPTrained As Long = EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, fromLevel)
-                If (totalSP + SPTrained) < trainingBonusLimit Then
-                    currentBonus = trainingBonus
-                Else
-                    If totalSP > trainingBonusLimit Then
-                        currentBonus = 1
-                    Else
-                        ' Middle ground!
-                        Dim bonusSPs As Long = CLng(trainingBonusLimit) - totalSP
-                        Dim stdSPs As Long = totalSP + SPTrained - CLng(trainingBonusLimit)
-                        currentBonus = 1 + (bonusSPs / SPTrained * (trainingBonus - 1))
-                    End If
-                End If
+                'Dim SPTrained As Long = EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, fromLevel)
+                'If (totalSP + SPTrained) < trainingBonusLimit Then
+                '    currentBonus = trainingBonus
+                'Else
+                '    If totalSP > trainingBonusLimit Then
+                '        currentBonus = 1
+                '    Else
+                '        ' Middle ground!
+                '        Dim bonusSPs As Long = CLng(trainingBonusLimit) - totalSP
+                '        Dim stdSPs As Long = totalSP + SPTrained - CLng(trainingBonusLimit)
+                '        currentBonus = 1 + (bonusSPs / SPTrained * (trainingBonus - 1))
+                '    End If
+                'End If
 
                 ' Check if we already have the skill and therefore the percentage completed
                 Dim partiallyTrained As Boolean = False
@@ -390,14 +390,14 @@ Public Class SkillQueueFunctions
                         If (totalSP + CDbl(qItem.SPTrained)) < trainingBonusLimit Then
                             currentBonus = trainingBonus
                         Else
-                            If totalSP > trainingBonusLimit Then
-                                currentBonus = 1
-                            Else
-                                ' Middle ground!
-                                Dim bonusSPs As Long = CLng(trainingBonusLimit) - totalSP
-                                Dim stdSPs As Long = totalSP + CLng(qItem.SPTrained) - CLng(trainingBonusLimit)
-                                currentBonus = 1 + (bonusSPs / CDbl(qItem.SPTrained) * (trainingBonus - 1))
-                            End If
+                            'If totalSP > trainingBonusLimit Then
+                            currentBonus = 1
+                            'Else
+                            '    ' Middle ground!
+                            '    Dim bonusSPs As Long = CLng(trainingBonusLimit) - totalSP
+                            '    Dim stdSPs As Long = totalSP + CLng(qItem.SPTrained) - CLng(trainingBonusLimit)
+                            '    currentBonus = 1 + (bonusSPs / CDbl(qItem.SPTrained) * (trainingBonus - 1))
+                            'End If
                         End If
 
                         qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill, attModifiers, currentBonus))

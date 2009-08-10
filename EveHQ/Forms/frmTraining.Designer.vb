@@ -21,32 +21,32 @@ Partial Class frmTraining
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTraining))
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Containers", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Materials", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Accessories", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Ships", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Charges", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Blueprints", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Skills", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Commodities", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup31 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup32 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Certificates", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewItem21 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
-        Dim ListViewItem22 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
-        Dim ListViewItem23 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
-        Dim ListViewItem24 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Price", ""}, -1)
-        Dim ListViewItem25 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Primary Attribute", ""}, -1)
-        Dim ListViewItem26 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Secondary Attribute", ""}, -1)
-        Dim ListViewItem27 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current Level", ""}, -1)
-        Dim ListViewItem28 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current SP", ""}, -1)
-        Dim ListViewItem29 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Time to Next Level", ""}, -1)
-        Dim ListViewItem30 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Training Rate (SP/Hr)", ""}, -1)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Containers", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Materials", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Accessories", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Ships", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Charges", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Blueprints", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Skills", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Commodities", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Certificates", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
+        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
+        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
+        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Price", ""}, -1)
+        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Primary Attribute", ""}, -1)
+        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Secondary Attribute", ""}, -1)
+        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current Level", ""}, -1)
+        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current SP", ""}, -1)
+        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Time to Next Level", ""}, -1)
+        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Training Rate (SP/Hr)", ""}, -1)
         Me.tvwSkillList = New System.Windows.Forms.TreeView
         Me.ctxDetails = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuSkillName2 = New System.Windows.Forms.ToolStripMenuItem
@@ -98,6 +98,12 @@ Partial Class frmTraining
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuForceTraining = New System.Windows.Forms.ToolStripMenuItem
         Me.tsQueueOptions = New System.Windows.Forms.ToolStrip
+        Me.btnImportExport = New System.Windows.Forms.ToolStripSplitButton
+        Me.mnuEveMonImport = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuImportEMP = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuExportEMP = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator
         Me.btnICT = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbNeuralRemap = New System.Windows.Forms.ToolStripButton
@@ -148,29 +154,13 @@ Partial Class frmTraining
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.tabTimes = New System.Windows.Forms.TabPage
-        Me.lvwTimes = New EveHQ.ListViewNoFlicker
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
-        Me.Standard = New System.Windows.Forms.ColumnHeader
-        Me.Current = New System.Windows.Forms.ColumnHeader
-        Me.Cumulative = New System.Windows.Forms.ColumnHeader
         Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.tabQueues = New System.Windows.Forms.TabControl
         Me.tabSummary = New System.Windows.Forms.TabPage
-        Me.sbImportExport = New EveHQ.Core.SplitButton
-        Me.ctxImportExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuImportEMP = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuExportEMP = New System.Windows.Forms.ToolStripMenuItem
         Me.lblTotalQueueTime = New System.Windows.Forms.Label
         Me.btnCopyToPilot = New System.Windows.Forms.Button
         Me.btnSetPrimary = New System.Windows.Forms.Button
-        Me.btnImportEveMon = New System.Windows.Forms.Button
         Me.btnCopyQueue = New System.Windows.Forms.Button
-        Me.lvQueues = New EveHQ.ListViewNoFlicker
-        Me.colQName = New System.Windows.Forms.ColumnHeader
-        Me.colQSkills = New System.Windows.Forms.ColumnHeader
-        Me.colQTimeLeft = New System.Windows.Forms.ColumnHeader
-        Me.colQQueuedTime = New System.Windows.Forms.ColumnHeader
-        Me.colQEndDate = New System.Windows.Forms.ColumnHeader
         Me.btnEditQueue = New System.Windows.Forms.Button
         Me.btnDeleteQueue = New System.Windows.Forms.Button
         Me.btnMergeQueues = New System.Windows.Forms.Button
@@ -205,9 +195,20 @@ Partial Class frmTraining
         Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
+        Me.lvQueues = New EveHQ.ListViewNoFlicker
+        Me.colQName = New System.Windows.Forms.ColumnHeader
+        Me.colQSkills = New System.Windows.Forms.ColumnHeader
+        Me.colQTimeLeft = New System.Windows.Forms.ColumnHeader
+        Me.colQQueuedTime = New System.Windows.Forms.ColumnHeader
+        Me.colQEndDate = New System.Windows.Forms.ColumnHeader
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.lvwTimes = New EveHQ.ListViewNoFlicker
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.Standard = New System.Windows.Forms.ColumnHeader
+        Me.Current = New System.Windows.Forms.ColumnHeader
+        Me.Cumulative = New System.Windows.Forms.ColumnHeader
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.tsQueueOptions.SuspendLayout()
@@ -221,7 +222,6 @@ Partial Class frmTraining
         Me.tabTimes.SuspendLayout()
         Me.tabQueues.SuspendLayout()
         Me.tabSummary.SuspendLayout()
-        Me.ctxImportExport.SuspendLayout()
         Me.tabQueueMode.SuspendLayout()
         Me.tabSkillMode.SuspendLayout()
         Me.panelSkillPlanning.SuspendLayout()
@@ -565,12 +565,50 @@ Partial Class frmTraining
         'tsQueueOptions
         '
         Me.tsQueueOptions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tsQueueOptions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnICT, Me.ToolStripSeparator14, Me.tsbNeuralRemap, Me.ToolStripSeparator19, Me.tsbImplants, Me.ToolStripSeparator20, Me.btnShowDetails, Me.ToolStripSeparator7, Me.btnAddSkill, Me.ToolStripSeparator8, Me.btnDeleteSkill, Me.ToolStripSeparator9, Me.btnLevelUp, Me.ToolStripSeparator10, Me.btnLevelDown, Me.ToolStripSeparator11, Me.btnMoveUp, Me.ToolStripSeparator13, Me.btnMoveDown, Me.ToolStripSeparator12, Me.btnClearQueue})
+        Me.tsQueueOptions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnImportExport, Me.ToolStripSeparator21, Me.btnICT, Me.ToolStripSeparator14, Me.tsbNeuralRemap, Me.ToolStripSeparator19, Me.tsbImplants, Me.ToolStripSeparator20, Me.btnShowDetails, Me.ToolStripSeparator7, Me.btnAddSkill, Me.ToolStripSeparator8, Me.btnDeleteSkill, Me.ToolStripSeparator9, Me.btnLevelUp, Me.ToolStripSeparator10, Me.btnLevelDown, Me.ToolStripSeparator11, Me.btnMoveUp, Me.ToolStripSeparator13, Me.btnMoveDown, Me.ToolStripSeparator12, Me.btnClearQueue})
         Me.tsQueueOptions.Location = New System.Drawing.Point(0, 0)
         Me.tsQueueOptions.Name = "tsQueueOptions"
         Me.tsQueueOptions.Size = New System.Drawing.Size(1079, 39)
         Me.tsQueueOptions.TabIndex = 12
         Me.tsQueueOptions.Text = "ToolStrip1"
+        '
+        'btnImportExport
+        '
+        Me.btnImportExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.btnImportExport.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuEveMonImport, Me.mnuImportEMP, Me.ToolStripMenuItem5, Me.mnuExportEMP})
+        Me.btnImportExport.Image = CType(resources.GetObject("btnImportExport.Image"), System.Drawing.Image)
+        Me.btnImportExport.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnImportExport.Name = "btnImportExport"
+        Me.btnImportExport.Size = New System.Drawing.Size(91, 36)
+        Me.btnImportExport.Text = "Import/Export"
+        '
+        'mnuEveMonImport
+        '
+        Me.mnuEveMonImport.Name = "mnuEveMonImport"
+        Me.mnuEveMonImport.Size = New System.Drawing.Size(189, 22)
+        Me.mnuEveMonImport.Text = "EveMon Import (Full)"
+        '
+        'mnuImportEMP
+        '
+        Me.mnuImportEMP.Name = "mnuImportEMP"
+        Me.mnuImportEMP.Size = New System.Drawing.Size(189, 22)
+        Me.mnuImportEMP.Text = "Import EveMon Plan File"
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(186, 6)
+        '
+        'mnuExportEMP
+        '
+        Me.mnuExportEMP.Name = "mnuExportEMP"
+        Me.mnuExportEMP.Size = New System.Drawing.Size(189, 22)
+        Me.mnuExportEMP.Text = "Export EveMon Plan File"
+        '
+        'ToolStripSeparator21
+        '
+        Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
+        Me.ToolStripSeparator21.Size = New System.Drawing.Size(6, 39)
         '
         'btnICT
         '
@@ -858,35 +896,35 @@ Partial Class frmTraining
         Me.lvwDepend.ContextMenuStrip = Me.ctxDepend
         Me.lvwDepend.FullRowSelect = True
         Me.lvwDepend.GridLines = True
-        ListViewGroup3.Header = "Containers"
-        ListViewGroup3.Name = "Cat2"
-        ListViewGroup4.Header = "Materials"
-        ListViewGroup4.Name = "Cat4"
-        ListViewGroup5.Header = "Accessories"
-        ListViewGroup5.Name = "Cat5"
-        ListViewGroup6.Header = "Ships"
-        ListViewGroup6.Name = "Cat6"
-        ListViewGroup7.Header = "Modules"
-        ListViewGroup7.Name = "Cat7"
-        ListViewGroup8.Header = "Charges"
-        ListViewGroup8.Name = "Cat8"
-        ListViewGroup9.Header = "Blueprints"
-        ListViewGroup9.Name = "Cat9"
-        ListViewGroup10.Header = "Skills"
-        ListViewGroup10.Name = "Cat16"
-        ListViewGroup11.Header = "Commodities"
-        ListViewGroup11.Name = "Cat17"
-        ListViewGroup12.Header = "Drones"
-        ListViewGroup12.Name = "Cat18"
-        ListViewGroup13.Header = "Implants"
-        ListViewGroup13.Name = "Cat20"
-        ListViewGroup14.Header = "Mobile Disruptors"
-        ListViewGroup14.Name = "Cat22"
-        ListViewGroup31.Header = "POS Equipment"
-        ListViewGroup31.Name = "Cat23"
-        ListViewGroup32.Header = "Certificates"
-        ListViewGroup32.Name = "CatCerts"
-        Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12, ListViewGroup13, ListViewGroup14, ListViewGroup31, ListViewGroup32})
+        ListViewGroup1.Header = "Containers"
+        ListViewGroup1.Name = "Cat2"
+        ListViewGroup2.Header = "Materials"
+        ListViewGroup2.Name = "Cat4"
+        ListViewGroup3.Header = "Accessories"
+        ListViewGroup3.Name = "Cat5"
+        ListViewGroup4.Header = "Ships"
+        ListViewGroup4.Name = "Cat6"
+        ListViewGroup5.Header = "Modules"
+        ListViewGroup5.Name = "Cat7"
+        ListViewGroup6.Header = "Charges"
+        ListViewGroup6.Name = "Cat8"
+        ListViewGroup7.Header = "Blueprints"
+        ListViewGroup7.Name = "Cat9"
+        ListViewGroup8.Header = "Skills"
+        ListViewGroup8.Name = "Cat16"
+        ListViewGroup9.Header = "Commodities"
+        ListViewGroup9.Name = "Cat17"
+        ListViewGroup10.Header = "Drones"
+        ListViewGroup10.Name = "Cat18"
+        ListViewGroup11.Header = "Implants"
+        ListViewGroup11.Name = "Cat20"
+        ListViewGroup12.Header = "Mobile Disruptors"
+        ListViewGroup12.Name = "Cat22"
+        ListViewGroup13.Header = "POS Equipment"
+        ListViewGroup13.Name = "Cat23"
+        ListViewGroup14.Header = "Certificates"
+        ListViewGroup14.Name = "CatCerts"
+        Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12, ListViewGroup13, ListViewGroup14})
         Me.lvwDepend.Location = New System.Drawing.Point(3, 3)
         Me.lvwDepend.Name = "lvwDepend"
         Me.lvwDepend.ShowItemToolTips = True
@@ -998,37 +1036,6 @@ Partial Class frmTraining
         Me.tabTimes.Text = "Training Times"
         Me.tabTimes.UseVisualStyleBackColor = True
         '
-        'lvwTimes
-        '
-        Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
-        Me.lvwTimes.FullRowSelect = True
-        Me.lvwTimes.GridLines = True
-        Me.lvwTimes.Location = New System.Drawing.Point(3, 3)
-        Me.lvwTimes.Name = "lvwTimes"
-        Me.lvwTimes.Size = New System.Drawing.Size(456, 203)
-        Me.lvwTimes.TabIndex = 1
-        Me.lvwTimes.UseCompatibleStateImageBehavior = False
-        Me.lvwTimes.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "To Level"
-        '
-        'Standard
-        '
-        Me.Standard.Text = "Time to Level Up"
-        Me.Standard.Width = 125
-        '
-        'Current
-        '
-        Me.Current.Text = "Cumulative From 0 SP"
-        Me.Current.Width = 125
-        '
-        'Cumulative
-        '
-        Me.Cumulative.Text = "Cumulative From Now"
-        Me.Cumulative.Width = 125
-        '
         'tabQueues
         '
         Me.tabQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1045,11 +1052,9 @@ Partial Class frmTraining
         '
         'tabSummary
         '
-        Me.tabSummary.Controls.Add(Me.sbImportExport)
         Me.tabSummary.Controls.Add(Me.lblTotalQueueTime)
         Me.tabSummary.Controls.Add(Me.btnCopyToPilot)
         Me.tabSummary.Controls.Add(Me.btnSetPrimary)
-        Me.tabSummary.Controls.Add(Me.btnImportEveMon)
         Me.tabSummary.Controls.Add(Me.btnCopyQueue)
         Me.tabSummary.Controls.Add(Me.lvQueues)
         Me.tabSummary.Controls.Add(Me.btnEditQueue)
@@ -1063,36 +1068,6 @@ Partial Class frmTraining
         Me.tabSummary.TabIndex = 1
         Me.tabSummary.Text = "Queue Summary"
         Me.tabSummary.UseVisualStyleBackColor = True
-        '
-        'sbImportExport
-        '
-        Me.sbImportExport.AutoSize = True
-        Me.sbImportExport.ContextMenuStrip = Me.ctxImportExport
-        Me.sbImportExport.Location = New System.Drawing.Point(6, 238)
-        Me.sbImportExport.Name = "sbImportExport"
-        Me.sbImportExport.Size = New System.Drawing.Size(96, 23)
-        Me.sbImportExport.SplitMenu = Me.ctxImportExport
-        Me.sbImportExport.TabIndex = 10
-        Me.sbImportExport.Text = "Import/Export"
-        Me.sbImportExport.UseVisualStyleBackColor = True
-        '
-        'ctxImportExport
-        '
-        Me.ctxImportExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuImportEMP, Me.mnuExportEMP})
-        Me.ctxImportExport.Name = "ctxImportExport"
-        Me.ctxImportExport.Size = New System.Drawing.Size(183, 70)
-        '
-        'mnuImportEMP
-        '
-        Me.mnuImportEMP.Name = "mnuImportEMP"
-        Me.mnuImportEMP.Size = New System.Drawing.Size(182, 22)
-        Me.mnuImportEMP.Text = "Import EveMon Plan"
-        '
-        'mnuExportEMP
-        '
-        Me.mnuExportEMP.Name = "mnuExportEMP"
-        Me.mnuExportEMP.Size = New System.Drawing.Size(182, 22)
-        Me.mnuExportEMP.Text = "Export EveMon Plan"
         '
         'lblTotalQueueTime
         '
@@ -1124,15 +1099,6 @@ Partial Class frmTraining
         Me.btnSetPrimary.Text = "Set As Primary"
         Me.btnSetPrimary.UseVisualStyleBackColor = True
         '
-        'btnImportEveMon
-        '
-        Me.btnImportEveMon.Location = New System.Drawing.Point(6, 209)
-        Me.btnImportEveMon.Name = "btnImportEveMon"
-        Me.btnImportEveMon.Size = New System.Drawing.Size(96, 23)
-        Me.btnImportEveMon.TabIndex = 6
-        Me.btnImportEveMon.Text = "Evemon Import"
-        Me.btnImportEveMon.UseVisualStyleBackColor = True
-        '
         'btnCopyQueue
         '
         Me.btnCopyQueue.Enabled = False
@@ -1142,49 +1108,6 @@ Partial Class frmTraining
         Me.btnCopyQueue.TabIndex = 5
         Me.btnCopyQueue.Text = "Copy Queue"
         Me.btnCopyQueue.UseVisualStyleBackColor = True
-        '
-        'lvQueues
-        '
-        Me.lvQueues.AllowColumnReorder = True
-        Me.lvQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQName, Me.colQSkills, Me.colQTimeLeft, Me.colQQueuedTime, Me.colQEndDate})
-        Me.lvQueues.FullRowSelect = True
-        Me.lvQueues.GridLines = True
-        Me.lvQueues.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.lvQueues.HideSelection = False
-        Me.lvQueues.Location = New System.Drawing.Point(108, 6)
-        Me.lvQueues.Name = "lvQueues"
-        Me.lvQueues.Size = New System.Drawing.Size(659, 341)
-        Me.lvQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvQueues.TabIndex = 4
-        Me.lvQueues.UseCompatibleStateImageBehavior = False
-        Me.lvQueues.View = System.Windows.Forms.View.Details
-        '
-        'colQName
-        '
-        Me.colQName.Text = "Queue Name"
-        Me.colQName.Width = 200
-        '
-        'colQSkills
-        '
-        Me.colQSkills.Text = "Skills"
-        '
-        'colQTimeLeft
-        '
-        Me.colQTimeLeft.Text = "Total Time"
-        Me.colQTimeLeft.Width = 120
-        '
-        'colQQueuedTime
-        '
-        Me.colQQueuedTime.Text = "Queued Time"
-        Me.colQQueuedTime.Width = 120
-        '
-        'colQEndDate
-        '
-        Me.colQEndDate.Text = "End Date"
-        Me.colQEndDate.Width = 175
         '
         'btnEditQueue
         '
@@ -1491,29 +1414,72 @@ Partial Class frmTraining
         Me.lblPilot.TabIndex = 42
         Me.lblPilot.Text = "Pilot:"
         '
+        'lvQueues
+        '
+        Me.lvQueues.AllowColumnReorder = True
+        Me.lvQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQName, Me.colQSkills, Me.colQTimeLeft, Me.colQQueuedTime, Me.colQEndDate})
+        Me.lvQueues.FullRowSelect = True
+        Me.lvQueues.GridLines = True
+        Me.lvQueues.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.lvQueues.HideSelection = False
+        Me.lvQueues.Location = New System.Drawing.Point(108, 6)
+        Me.lvQueues.Name = "lvQueues"
+        Me.lvQueues.Size = New System.Drawing.Size(659, 341)
+        Me.lvQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvQueues.TabIndex = 4
+        Me.lvQueues.UseCompatibleStateImageBehavior = False
+        Me.lvQueues.View = System.Windows.Forms.View.Details
+        '
+        'colQName
+        '
+        Me.colQName.Text = "Queue Name"
+        Me.colQName.Width = 200
+        '
+        'colQSkills
+        '
+        Me.colQSkills.Text = "Skills"
+        '
+        'colQTimeLeft
+        '
+        Me.colQTimeLeft.Text = "Total Time"
+        Me.colQTimeLeft.Width = 120
+        '
+        'colQQueuedTime
+        '
+        Me.colQQueuedTime.Text = "Queued Time"
+        Me.colQQueuedTime.Width = 120
+        '
+        'colQEndDate
+        '
+        Me.colQEndDate.Text = "End Date"
+        Me.colQEndDate.Width = 175
+        '
         'lvwDetails
         '
         Me.lvwDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvwDetails.FullRowSelect = True
         Me.lvwDetails.GridLines = True
-        ListViewGroup17.Header = "General"
-        ListViewGroup17.Name = "General"
-        ListViewGroup18.Header = "Pilot Specific"
-        ListViewGroup18.Name = "Specific"
-        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
+        ListViewGroup15.Header = "General"
+        ListViewGroup15.Name = "General"
+        ListViewGroup16.Header = "Pilot Specific"
+        ListViewGroup16.Name = "Specific"
+        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem21.Group = ListViewGroup17
-        ListViewItem22.Group = ListViewGroup17
-        ListViewItem23.Group = ListViewGroup17
-        ListViewItem24.Group = ListViewGroup17
-        ListViewItem25.Group = ListViewGroup17
-        ListViewItem26.Group = ListViewGroup17
-        ListViewItem27.Group = ListViewGroup18
-        ListViewItem28.Group = ListViewGroup18
-        ListViewItem29.Group = ListViewGroup18
-        ListViewItem30.Group = ListViewGroup18
-        Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem21, ListViewItem22, ListViewItem23, ListViewItem24, ListViewItem25, ListViewItem26, ListViewItem27, ListViewItem28, ListViewItem29, ListViewItem30})
+        ListViewItem1.Group = ListViewGroup15
+        ListViewItem2.Group = ListViewGroup15
+        ListViewItem3.Group = ListViewGroup15
+        ListViewItem4.Group = ListViewGroup15
+        ListViewItem5.Group = ListViewGroup15
+        ListViewItem6.Group = ListViewGroup15
+        ListViewItem7.Group = ListViewGroup16
+        ListViewItem8.Group = ListViewGroup16
+        ListViewItem9.Group = ListViewGroup16
+        ListViewItem10.Group = ListViewGroup16
+        Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
         Me.lvwDetails.Location = New System.Drawing.Point(12, 443)
         Me.lvwDetails.MultiSelect = False
         Me.lvwDetails.Name = "lvwDetails"
@@ -1530,6 +1496,37 @@ Partial Class frmTraining
         'ColumnHeader2
         '
         Me.ColumnHeader2.Width = 200
+        '
+        'lvwTimes
+        '
+        Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
+        Me.lvwTimes.FullRowSelect = True
+        Me.lvwTimes.GridLines = True
+        Me.lvwTimes.Location = New System.Drawing.Point(3, 3)
+        Me.lvwTimes.Name = "lvwTimes"
+        Me.lvwTimes.Size = New System.Drawing.Size(456, 203)
+        Me.lvwTimes.TabIndex = 1
+        Me.lvwTimes.UseCompatibleStateImageBehavior = False
+        Me.lvwTimes.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "To Level"
+        '
+        'Standard
+        '
+        Me.Standard.Text = "Time to Level Up"
+        Me.Standard.Width = 125
+        '
+        'Current
+        '
+        Me.Current.Text = "Cumulative From 0 SP"
+        Me.Current.Width = 125
+        '
+        'Cumulative
+        '
+        Me.Cumulative.Text = "Cumulative From Now"
+        Me.Cumulative.Width = 125
         '
         'frmTraining
         '
@@ -1561,7 +1558,6 @@ Partial Class frmTraining
         Me.tabQueues.ResumeLayout(False)
         Me.tabSummary.ResumeLayout(False)
         Me.tabSummary.PerformLayout()
-        Me.ctxImportExport.ResumeLayout(False)
         Me.tabQueueMode.ResumeLayout(False)
         Me.tabSkillMode.ResumeLayout(False)
         Me.panelSkillPlanning.ResumeLayout(False)
@@ -1663,7 +1659,6 @@ Partial Class frmTraining
     Friend WithEvents colQEndDate As System.Windows.Forms.ColumnHeader
     Friend WithEvents colQTimeLeft As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnCopyQueue As System.Windows.Forms.Button
-    Friend WithEvents btnImportEveMon As System.Windows.Forms.Button
     Friend WithEvents colQQueuedTime As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnSetPrimary As System.Windows.Forms.Button
     Friend WithEvents btnCopyToPilot As System.Windows.Forms.Button
@@ -1731,8 +1726,10 @@ Partial Class frmTraining
     Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
     Friend WithEvents lblPilot As System.Windows.Forms.Label
     Friend WithEvents mnuViewItemDetailsInCertScreen As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents sbImportExport As EveHQ.Core.SplitButton
-    Friend WithEvents ctxImportExport As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents btnImportExport As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents mnuEveMonImport As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuImportEMP As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuExportEMP As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator21 As System.Windows.Forms.ToolStripSeparator
 End Class
