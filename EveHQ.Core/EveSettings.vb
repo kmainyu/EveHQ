@@ -2463,11 +2463,11 @@ Public Class EveHQSettingsFunctions
         newItem.Text = "Notes"
         newItem.Checked = False
         EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "Priority"
-        newItem.Text = "Priority"
-        newItem.Checked = False
-        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        'newItem = New ListViewItem
+        'newItem.Name = "Priority"
+        'newItem.Text = "Priority"
+        'newItem.Checked = False
+        'EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
     End Sub
     Public Shared Sub InitialiseUserColumns()
         If EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Count = 0 Then
