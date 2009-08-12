@@ -1084,6 +1084,7 @@
 11198,1,12092,54,2,52,0,1,0,5,15,Warp Disruptor Range
 11198,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Succubus,,,,,,,,,,,
+17924,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
 17924,1,3330,160,4,567;570,0,1,0,5,15,Small Energy Turret Tracking
 17924,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 # Taranis,,,,,,,,,,,
