@@ -1060,9 +1060,7 @@ Public Class frmTraining
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
     Private Sub activeLVW_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
-
         Me.RefreshTraining(activeQueueName)
-
     End Sub
     Private Sub activeLVW_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
         ' Make sure that the format is a treenode
@@ -1896,6 +1894,8 @@ Public Class frmTraining
     End Sub
     Private Sub MoveDownQueue()
         ' Store the keyname being used
+        Dim SkillsMoved As Integer = activeLVW.SelectedItems.Count
+        MessageBox.Show("Moving " & SkillsMoved.ToString & " skills!")
         Dim keyName As String = activeLVW.SelectedItems(0).Name
         Dim sourceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         sourceSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
