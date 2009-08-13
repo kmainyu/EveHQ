@@ -99,6 +99,8 @@ Partial Class ShipInfoControl
         Me.lblCapacitor = New System.Windows.Forms.Label
         Me.pbCapacitor = New System.Windows.Forms.PictureBox
         Me.gbTargeting = New System.Windows.Forms.GroupBox
+        Me.lblTargets = New System.Windows.Forms.Label
+        Me.pbTargets = New System.Windows.Forms.PictureBox
         Me.lblSigRadius = New System.Windows.Forms.Label
         Me.pbSigRadius = New System.Windows.Forms.PictureBox
         Me.lblSensorStrength = New System.Windows.Forms.Label
@@ -114,8 +116,8 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblTargets = New System.Windows.Forms.Label
-        Me.pbTargets = New System.Windows.Forms.PictureBox
+        Me.lblCPUReqd = New System.Windows.Forms.Label
+        Me.lblPGReqd = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -144,6 +146,7 @@ Partial Class ShipInfoControl
         CType(Me.pbCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbTargeting.SuspendLayout()
+        CType(Me.pbTargets, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbSigRadius, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbSensorStrength, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbScanResolution, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -151,7 +154,6 @@ Partial Class ShipInfoControl
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbTargets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -183,7 +185,8 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.lblCPU)
         Me.Panel1.Controls.Add(Me.pbPG)
         Me.Panel1.Controls.Add(Me.pbCPU)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Controls.Add(Me.lblPGReqd)
+        Me.Panel1.Controls.Add(Me.lblCPUReqd)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(270, 732)
@@ -588,7 +591,7 @@ Partial Class ShipInfoControl
         Me.progCalibration.GlowColor = System.Drawing.Color.LightGreen
         Me.progCalibration.Location = New System.Drawing.Point(36, 171)
         Me.progCalibration.Name = "progCalibration"
-        Me.progCalibration.Size = New System.Drawing.Size(134, 10)
+        Me.progCalibration.Size = New System.Drawing.Size(206, 10)
         Me.progCalibration.StartColor = System.Drawing.Color.LimeGreen
         Me.progCalibration.TabIndex = 32
         Me.progCalibration.Value = 50
@@ -600,7 +603,7 @@ Partial Class ShipInfoControl
         Me.progPG.GlowColor = System.Drawing.Color.LightGreen
         Me.progPG.Location = New System.Drawing.Point(36, 147)
         Me.progPG.Name = "progPG"
-        Me.progPG.Size = New System.Drawing.Size(134, 10)
+        Me.progPG.Size = New System.Drawing.Size(206, 10)
         Me.progPG.StartColor = System.Drawing.Color.LimeGreen
         Me.progPG.TabIndex = 31
         Me.progPG.Value = 50
@@ -612,7 +615,7 @@ Partial Class ShipInfoControl
         Me.progCPU.GlowColor = System.Drawing.Color.LightGreen
         Me.progCPU.Location = New System.Drawing.Point(36, 123)
         Me.progCPU.Name = "progCPU"
-        Me.progCPU.Size = New System.Drawing.Size(134, 10)
+        Me.progCPU.Size = New System.Drawing.Size(206, 10)
         Me.progCPU.StartColor = System.Drawing.Color.LimeGreen
         Me.progCPU.TabIndex = 30
         Me.progCPU.Value = 50
@@ -1033,6 +1036,27 @@ Partial Class ShipInfoControl
         Me.gbTargeting.Text = "Targeting"
         Me.ToolTip1.SetToolTip(Me.gbTargeting, "Targeting Information")
         '
+        'lblTargets
+        '
+        Me.lblTargets.AutoSize = True
+        Me.lblTargets.Location = New System.Drawing.Point(185, 22)
+        Me.lblTargets.Name = "lblTargets"
+        Me.lblTargets.Size = New System.Drawing.Size(30, 13)
+        Me.lblTargets.TabIndex = 20
+        Me.lblTargets.Text = "0 / 0"
+        Me.ToolTip1.SetToolTip(Me.lblTargets, "Sensor Strength")
+        '
+        'pbTargets
+        '
+        Me.pbTargets.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMaxTargets
+        Me.pbTargets.Location = New System.Drawing.Point(161, 19)
+        Me.pbTargets.Name = "pbTargets"
+        Me.pbTargets.Size = New System.Drawing.Size(24, 24)
+        Me.pbTargets.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbTargets.TabIndex = 19
+        Me.pbTargets.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbTargets, "Max Locked Targets")
+        '
         'lblSigRadius
         '
         Me.lblSigRadius.AutoSize = True
@@ -1191,26 +1215,25 @@ Partial Class ShipInfoControl
         Me.ToolTip1.ReshowDelay = 100
         Me.ToolTip1.ShowAlways = True
         '
-        'lblTargets
+        'lblCPUReqd
         '
-        Me.lblTargets.AutoSize = True
-        Me.lblTargets.Location = New System.Drawing.Point(185, 22)
-        Me.lblTargets.Name = "lblTargets"
-        Me.lblTargets.Size = New System.Drawing.Size(30, 13)
-        Me.lblTargets.TabIndex = 20
-        Me.lblTargets.Text = "0 / 0"
-        Me.ToolTip1.SetToolTip(Me.lblTargets, "Sensor Strength")
+        Me.lblCPUReqd.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblCPUReqd.Location = New System.Drawing.Point(167, 111)
+        Me.lblCPUReqd.Name = "lblCPUReqd"
+        Me.lblCPUReqd.Size = New System.Drawing.Size(79, 13)
+        Me.lblCPUReqd.TabIndex = 37
+        Me.lblCPUReqd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ToolTip1.SetToolTip(Me.lblCPUReqd, "CPU Required")
         '
-        'pbTargets
+        'lblPGReqd
         '
-        Me.pbTargets.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMaxTargets
-        Me.pbTargets.Location = New System.Drawing.Point(161, 19)
-        Me.pbTargets.Name = "pbTargets"
-        Me.pbTargets.Size = New System.Drawing.Size(24, 24)
-        Me.pbTargets.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbTargets.TabIndex = 19
-        Me.pbTargets.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbTargets, "Max Locked Targets")
+        Me.lblPGReqd.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblPGReqd.Location = New System.Drawing.Point(167, 135)
+        Me.lblPGReqd.Name = "lblPGReqd"
+        Me.lblPGReqd.Size = New System.Drawing.Size(79, 13)
+        Me.lblPGReqd.TabIndex = 38
+        Me.lblPGReqd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ToolTip1.SetToolTip(Me.lblPGReqd, "Powergrid Required")
         '
         'ShipInfoControl
         '
@@ -1255,6 +1278,7 @@ Partial Class ShipInfoControl
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTargeting.ResumeLayout(False)
         Me.gbTargeting.PerformLayout()
+        CType(Me.pbTargets, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbSigRadius, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbSensorStrength, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbScanResolution, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1262,7 +1286,6 @@ Partial Class ShipInfoControl
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbTargets, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1358,5 +1381,7 @@ Partial Class ShipInfoControl
     Friend WithEvents cboImplants As System.Windows.Forms.ComboBox
     Friend WithEvents lblTargets As System.Windows.Forms.Label
     Friend WithEvents pbTargets As System.Windows.Forms.PictureBox
+    Friend WithEvents lblPGReqd As System.Windows.Forms.Label
+    Friend WithEvents lblCPUReqd As System.Windows.Forms.Label
 
 End Class

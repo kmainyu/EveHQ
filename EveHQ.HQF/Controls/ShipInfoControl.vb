@@ -112,11 +112,14 @@ Public Class ShipInfoControl
             progCPU.EndColor = Drawing.Color.Red
             progCPU.HighlightColor = Drawing.Color.White
             progCPU.GlowColor = Drawing.Color.LightPink
+            lblCPUReqd.Text = FormatNumber((fittedShip.CPU_Used - fittedShip.CPU) / fittedShip.CPU * 100, 2) & "%"
+            lblCPUReqd.ForeColor = Drawing.Color.Red
         Else
             progCPU.StartColor = Drawing.Color.LimeGreen
             progCPU.EndColor = Drawing.Color.LimeGreen
             progCPU.HighlightColor = Drawing.Color.White
             progCPU.GlowColor = Drawing.Color.LightGreen
+            lblCPUReqd.Text = ""
         End If
         progCPU.Refresh()
         lblCPU.Text = FormatNumber(fittedShip.CPU_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -133,11 +136,14 @@ Public Class ShipInfoControl
             progPG.EndColor = Drawing.Color.Red
             progPG.HighlightColor = Drawing.Color.White
             progPG.GlowColor = Drawing.Color.LightPink
+            lblPGReqd.Text = FormatNumber((fittedShip.PG_Used - fittedShip.PG) / fittedShip.PG * 100, 2) & "%"
+            lblPGReqd.ForeColor = Drawing.Color.Red
         Else
             progPG.StartColor = Drawing.Color.LimeGreen
             progPG.EndColor = Drawing.Color.LimeGreen
             progPG.HighlightColor = Drawing.Color.White
             progPG.GlowColor = Drawing.Color.LightGreen
+            lblPGReqd.Text = ""
         End If
         progPG.Refresh()
         lblPG.Text = FormatNumber(fittedShip.PG_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)

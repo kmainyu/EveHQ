@@ -298,6 +298,7 @@ Public Class ShipSlotControl
             Dim colName As String = ""
             ' Add in the module name
             slotName.Text = shipMod.Name
+            slotName.ToolTipText = shipMod.Description
             ' Add the additional columns
             For Each col As String In Settings.HQFSettings.UserSlotColumns
                 If col.EndsWith("1") = True Then
@@ -425,6 +426,7 @@ Public Class ShipSlotControl
             Next
         Else
             slotName.Text = "<Empty>"
+            slotName.ToolTipText = ""
             For Each col As String In Settings.HQFSettings.UserSlotColumns
                 slotName.SubItems.Add("")
             Next
@@ -436,6 +438,7 @@ Public Class ShipSlotControl
         Dim idx As Integer = 1
         ' Add in the module name
         slotName.Text = shipMod.Name
+        slotName.ToolTipText = shipMod.Description
         ' Add the additional columns
         For Each col As String In Settings.HQFSettings.UserSlotColumns
             If col.EndsWith("1") = True Then
@@ -669,7 +672,6 @@ Public Class ShipSlotControl
             End If
         Next
     End Sub
-
     Private Sub UpdateFittingListFromShipData()
         currentFit.Clear()
         Dim state As Integer
@@ -746,7 +748,6 @@ Public Class ShipSlotControl
         Next
 
     End Sub
-
     Private Sub ReorderModules()
         Dim subs, mods As New ArrayList
         For Each cMod As String In currentFit
