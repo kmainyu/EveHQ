@@ -26,9 +26,18 @@ Public Class frmRequiredSkills
     Private reqSkills As New SortedList
     Private reqPilot As EveHQ.Core.Pilot
     Private reqHPilot As HQFPilot
+    Private SkillList As New SortedList(Of String, Integer)
 #End Region
 
 #Region "Properties"
+
+    Private WriteOnly Property ForceUpdate() As Boolean
+        Set(ByVal value As Boolean)
+            If value = True Then
+                HQFEvents.StartUpdateShipInfo = reqPilot.Name
+            End If
+        End Set
+    End Property
 
     Public Property Skills() As SortedList
         Get
@@ -47,6 +56,7 @@ Public Class frmRequiredSkills
         Set(ByVal value As EveHQ.Core.Pilot)
             reqPilot = value
             reqHPilot = CType(HQFPilotCollection.HQFPilots(reqPilot.Name), HQFPilot)
+            Me.Text = "Required Skills - " & reqPilot.Name
         End Set
     End Property
 
@@ -74,6 +84,13 @@ Public Class frmRequiredSkills
             clvSkills.Items.Add(newSkill)
             newSkill.Text = rSkill.Name
             newSkill.SubItems(1).Text = rSkill.ReqLevel.ToString
+            If SkillList.ContainsKey(rSkill.Name) = False Then
+                SkillList.Add(rSkill.Name, rSkill.ReqLevel)
+            Else
+                If SkillList(rSkill.Name) < rSkill.ReqLevel Then
+                    SkillList(rSkill.Name) = rSkill.ReqLevel
+                End If
+            End If
             If reqPilot.PilotSkills.Contains(rSkill.Name) = True Then
                 aSkill = CType(reqPilot.PilotSkills(rSkill.Name), Core.PilotSkill)
                 newSkill.SubItems(2).Text = aSkill.Level.ToString
@@ -109,6 +126,13 @@ Public Class frmRequiredSkills
                     newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(preReqSkill)
                     Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
                     newSkill.SubItems(1).Text = pSkill.PreReqSkills(preReqSkill).ToString
+                    If SkillList.ContainsKey(newSkill.Text) = False Then
+                        SkillList.Add(newSkill.Text, pSkill.PreReqSkills(preReqSkill))
+                    Else
+                        If SkillList(newSkill.Text) < pSkill.PreReqSkills(preReqSkill) Then
+                            SkillList(newSkill.Text) = pSkill.PreReqSkills(preReqSkill)
+                        End If
+                    End If
                     If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
                         aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.PilotSkill)
                         newSkill.SubItems(2).Text = aSkill.Level.ToString
@@ -164,12 +188,15 @@ Public Class frmRequiredSkills
 #End Region
 
 #Region "Button Routines"
+
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+
     Private Sub btnAddToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddToQueue.Click
         Call Me.AddNeededSkillsToQueue()
     End Sub
+
     Private Sub AddNeededSkillsToQueue()
         Dim selQ As New frmSelectQueue
         selQ.rPilot = reqPilot
@@ -177,6 +204,28 @@ Public Class frmRequiredSkills
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
     End Sub
+
+    Private Sub btnSetSkillsToRequirements_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetSkillsToRequirements.Click
+        For Each requiredSkill As String In SkillList.Keys
+            Dim MyHQFSkill As HQFSkill = CType(reqHPilot.SkillSet(requiredSkill), HQFSkill)
+            If MyHQFSkill.Level < SkillList(requiredSkill) Then
+                MyHQFSkill.Level = SkillList(requiredSkill)
+            End If
+        Next
+        ForceUpdate = True
+        Call Me.UpdateReqSkills()
+        Call Me.DrawSkillsTable()
+    End Sub
+
+    Private Sub UpdateReqSkills()
+        For Each rSkill As ReqSkill In reqSkills.Values
+            If SkillList.ContainsKey(rSkill.Name) = True Then
+                rSkill.CurLevel = SkillList(rSkill.Name)
+            End If
+        Next
+    End Sub
+
 #End Region
 
+    
 End Class

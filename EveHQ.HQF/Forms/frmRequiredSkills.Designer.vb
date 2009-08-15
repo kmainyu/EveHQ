@@ -31,6 +31,7 @@ Partial Class frmRequiredSkills
         Me.btnClose = New System.Windows.Forms.Button
         Me.btnAddToQueue = New System.Windows.Forms.Button
         Me.lblQueueTime = New System.Windows.Forms.Label
+        Me.btnSetSkillsToRequirements = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'clvSkills
@@ -114,11 +115,21 @@ Partial Class frmRequiredSkills
         Me.lblQueueTime.TabIndex = 3
         Me.lblQueueTime.Text = "Estimated Queue Time:"
         '
+        'btnSetSkillsToRequirements
+        '
+        Me.btnSetSkillsToRequirements.Location = New System.Drawing.Point(466, 535)
+        Me.btnSetSkillsToRequirements.Name = "btnSetSkillsToRequirements"
+        Me.btnSetSkillsToRequirements.Size = New System.Drawing.Size(100, 23)
+        Me.btnSetSkillsToRequirements.TabIndex = 4
+        Me.btnSetSkillsToRequirements.Text = "Set HQF Skills"
+        Me.btnSetSkillsToRequirements.UseVisualStyleBackColor = True
+        '
         'frmRequiredSkills
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(790, 564)
+        Me.Controls.Add(Me.btnSetSkillsToRequirements)
         Me.Controls.Add(Me.lblQueueTime)
         Me.Controls.Add(Me.btnAddToQueue)
         Me.Controls.Add(Me.btnClose)
@@ -143,4 +154,5 @@ Partial Class frmRequiredSkills
     Friend WithEvents colActLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colRequiredFor As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents lblQueueTime As System.Windows.Forms.Label
+    Friend WithEvents btnSetSkillsToRequirements As System.Windows.Forms.Button
 End Class
