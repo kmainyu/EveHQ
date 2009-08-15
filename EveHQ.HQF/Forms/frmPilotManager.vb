@@ -103,6 +103,7 @@ Public Class frmPilotManager
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         currentPilotName = cboPilots.SelectedItem.ToString
         currentPilot = CType(HQF.HQFPilotCollection.HQFPilots.Item(currentPilotName), HQFPilot)
+        Call Me.UpdateSkillQueues(currentPilotName)
         ' Display the pilot skills
         Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
         ' Check if we have an implant group selected
@@ -209,6 +210,15 @@ Public Class frmPilotManager
                 lblSkillsModified.Visible = False
             End If
         End If
+    End Sub
+    Private Sub UpdateSkillQueues(ByVal currentPilotName As String)
+        cboSkillQueue.BeginUpdate()
+        cboSkillQueue.Items.Clear()
+        For Each queueName As String In CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentPilotName), EveHQ.Core.Pilot).TrainingQueues.Keys
+            cboSkillQueue.Items.Add(queueName)
+        Next
+        cboSkillQueue.EndUpdate()
+        btnSetToSkillQueue.Enabled = False
     End Sub
 #End Region
 
@@ -350,6 +360,20 @@ Public Class frmPilotManager
         Call HQFPilotCollection.UpdateHQFSkillsToActual(currentPilot)
         Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
         forceUpdate = True
+    End Sub
+
+    Private Sub btnSetToSkillQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetToSkillQueue.Click
+        If cboSkillQueue.SelectedItem IsNot Nothing Then
+            Call HQFPilotCollection.SetSkillsToSkillQueue(currentPilot, cboSkillQueue.SelectedItem.ToString)
+            Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+            ForceUpdate = True
+        End If
+    End Sub
+
+    Private Sub cboSkillQueue_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkillQueue.SelectedIndexChanged
+        If cboSkillQueue.SelectedIndex <> -1 Then
+            btnSetToSkillQueue.Enabled = True
+        End If
     End Sub
 
 #End Region
@@ -703,4 +727,7 @@ Public Class frmPilotManager
         End If
     End Sub
 #End Region
+
+   
+   
 End Class

@@ -140,6 +140,22 @@ End Class
         End If
     End Sub
 
+    Public Shared Sub SetSkillsToSkillQueue(ByVal hPilot As HQFPilot, ByVal queueName As String)
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(hPilot.PilotName), Core.Pilot)
+            If cpilot.TrainingQueues.ContainsKey(queueName) = True Then
+                For Each sqi As EveHQ.Core.SkillQueueItem In CType(cpilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue).Queue
+                    If hPilot.SkillSet.Contains(sqi.Name) = True Then
+                        Dim MyHQFSkill As HQFSkill = CType(hPilot.SkillSet(sqi.Name), HQFSkill)
+                        If MyHQFSkill.Level < sqi.ToLevel Then
+                            MyHQFSkill.Level = sqi.ToLevel
+                        End If
+                    End If
+                Next
+            End If
+        End If
+    End Sub
+
     Public Shared Sub SaveHQFPilotData()
         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)
         Dim f As New BinaryFormatter

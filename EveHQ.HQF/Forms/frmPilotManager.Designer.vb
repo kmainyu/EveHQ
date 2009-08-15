@@ -69,6 +69,10 @@ Partial Class frmPilotManager
         Me.btnEditImplantGroup = New System.Windows.Forms.Button
         Me.btnAddImplantGroup = New System.Windows.Forms.Button
         Me.lstImplantGroups = New System.Windows.Forms.ListBox
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btnSetToSkillQueue = New System.Windows.Forms.Button
+        Me.cboSkillQueue = New System.Windows.Forms.ComboBox
+        Me.lblSkillQueue = New System.Windows.Forms.Label
         Me.ctxHQFLevel.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.tabSkills.SuspendLayout()
@@ -87,6 +91,7 @@ Partial Class frmPilotManager
         '
         'cboPilots
         '
+        Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboPilots.FormattingEnabled = True
         Me.cboPilots.Location = New System.Drawing.Point(54, 10)
         Me.cboPilots.Name = "cboPilots"
@@ -114,65 +119,65 @@ Partial Class frmPilotManager
         '
         Me.ctxHQFLevel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSetSkillName, Me.ToolStripMenuItem1, Me.mnuSetLevel0, Me.mnuSetLevel1, Me.mnuSetLevel2, Me.mnuSetLevel3, Me.mnuSetLevel4, Me.mnuSetLevel5, Me.ToolStripMenuItem2, Me.mnuSetDefault})
         Me.ctxHQFLevel.Name = "ctxHQFLevel"
-        Me.ctxHQFLevel.Size = New System.Drawing.Size(155, 192)
+        Me.ctxHQFLevel.Size = New System.Drawing.Size(149, 192)
         '
         'mnuSetSkillName
         '
         Me.mnuSetSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSetSkillName.Name = "mnuSetSkillName"
-        Me.mnuSetSkillName.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetSkillName.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetSkillName.Text = "Skill Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(151, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(145, 6)
         '
         'mnuSetLevel0
         '
         Me.mnuSetLevel0.Name = "mnuSetLevel0"
-        Me.mnuSetLevel0.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetLevel0.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetLevel0.Text = "Set To Level 0"
         '
         'mnuSetLevel1
         '
         Me.mnuSetLevel1.Name = "mnuSetLevel1"
-        Me.mnuSetLevel1.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetLevel1.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetLevel1.Text = "Set To Level 1"
         '
         'mnuSetLevel2
         '
         Me.mnuSetLevel2.Name = "mnuSetLevel2"
-        Me.mnuSetLevel2.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetLevel2.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetLevel2.Text = "Set To Level 2"
         '
         'mnuSetLevel3
         '
         Me.mnuSetLevel3.Name = "mnuSetLevel3"
-        Me.mnuSetLevel3.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetLevel3.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetLevel3.Text = "Set To Level 3"
         '
         'mnuSetLevel4
         '
         Me.mnuSetLevel4.Name = "mnuSetLevel4"
-        Me.mnuSetLevel4.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetLevel4.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetLevel4.Text = "Set To Level 4"
         '
         'mnuSetLevel5
         '
         Me.mnuSetLevel5.Name = "mnuSetLevel5"
-        Me.mnuSetLevel5.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetLevel5.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetLevel5.Text = "Set To Level 5"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(151, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
         '
         'mnuSetDefault
         '
         Me.mnuSetDefault.Name = "mnuSetDefault"
-        Me.mnuSetDefault.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSetDefault.Size = New System.Drawing.Size(148, 22)
         Me.mnuSetDefault.Text = "Set To Default"
         '
         'clvSkills
@@ -224,6 +229,7 @@ Partial Class frmPilotManager
         Me.btnResetAll.Size = New System.Drawing.Size(75, 36)
         Me.btnResetAll.TabIndex = 3
         Me.btnResetAll.Text = "Reset All To Actual"
+        Me.ToolTip1.SetToolTip(Me.btnResetAll, "Sets all the skills of the current pilot to the actual skills as per the API")
         Me.btnResetAll.UseVisualStyleBackColor = True
         '
         'btnSetAllToLevel5
@@ -234,6 +240,7 @@ Partial Class frmPilotManager
         Me.btnSetAllToLevel5.Size = New System.Drawing.Size(75, 36)
         Me.btnSetAllToLevel5.TabIndex = 4
         Me.btnSetAllToLevel5.Text = "Set All Skills To Level 5"
+        Me.ToolTip1.SetToolTip(Me.btnSetAllToLevel5, "Sets all the skill of the current pilot to level 5")
         Me.btnSetAllToLevel5.UseVisualStyleBackColor = True
         '
         'lblSkillsModified
@@ -271,6 +278,9 @@ Partial Class frmPilotManager
         '
         'tabSkills
         '
+        Me.tabSkills.Controls.Add(Me.lblSkillQueue)
+        Me.tabSkills.Controls.Add(Me.cboSkillQueue)
+        Me.tabSkills.Controls.Add(Me.btnSetToSkillQueue)
         Me.tabSkills.Controls.Add(Me.btnUpdateSkills)
         Me.tabSkills.Controls.Add(Me.chkShowModifiedSkills)
         Me.tabSkills.Controls.Add(Me.clvSkills)
@@ -292,6 +302,8 @@ Partial Class frmPilotManager
         Me.btnUpdateSkills.Size = New System.Drawing.Size(75, 36)
         Me.btnUpdateSkills.TabIndex = 7
         Me.btnUpdateSkills.Text = "Update HQF Skills"
+        Me.ToolTip1.SetToolTip(Me.btnUpdateSkills, "Updates all skills less than actual to actual but leaves skills manually set to h" & _
+                "igher skill levels")
         Me.btnUpdateSkills.UseVisualStyleBackColor = True
         '
         'tabImplants
@@ -512,6 +524,39 @@ Partial Class frmPilotManager
         Me.lstImplantGroups.Size = New System.Drawing.Size(192, 472)
         Me.lstImplantGroups.TabIndex = 9
         '
+        'btnSetToSkillQueue
+        '
+        Me.btnSetToSkillQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSetToSkillQueue.Enabled = False
+        Me.btnSetToSkillQueue.Location = New System.Drawing.Point(262, 500)
+        Me.btnSetToSkillQueue.Name = "btnSetToSkillQueue"
+        Me.btnSetToSkillQueue.Size = New System.Drawing.Size(75, 36)
+        Me.btnSetToSkillQueue.TabIndex = 8
+        Me.btnSetToSkillQueue.Text = "Set Skills to Skill Queue"
+        Me.ToolTip1.SetToolTip(Me.btnSetToSkillQueue, "Increases skills to levels based on the selected skill queue. Does not affect ski" & _
+                "lls not in the skill queue therefore you can apply multiple skill queues if requ" & _
+                "ired.")
+        Me.btnSetToSkillQueue.UseVisualStyleBackColor = True
+        '
+        'cboSkillQueue
+        '
+        Me.cboSkillQueue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSkillQueue.FormattingEnabled = True
+        Me.cboSkillQueue.Location = New System.Drawing.Point(82, 509)
+        Me.cboSkillQueue.Name = "cboSkillQueue"
+        Me.cboSkillQueue.Size = New System.Drawing.Size(174, 21)
+        Me.cboSkillQueue.Sorted = True
+        Me.cboSkillQueue.TabIndex = 9
+        '
+        'lblSkillQueue
+        '
+        Me.lblSkillQueue.AutoSize = True
+        Me.lblSkillQueue.Location = New System.Drawing.Point(13, 512)
+        Me.lblSkillQueue.Name = "lblSkillQueue"
+        Me.lblSkillQueue.Size = New System.Drawing.Size(63, 13)
+        Me.lblSkillQueue.TabIndex = 10
+        Me.lblSkillQueue.Text = "Skill Queue:"
+        '
         'frmPilotManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -584,4 +629,8 @@ Partial Class frmPilotManager
     Friend WithEvents btnAddImplantGroup As System.Windows.Forms.Button
     Friend WithEvents lstImplantGroups As System.Windows.Forms.ListBox
     Friend WithEvents lblCurrentGroup As System.Windows.Forms.Label
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents btnSetToSkillQueue As System.Windows.Forms.Button
+    Friend WithEvents lblSkillQueue As System.Windows.Forms.Label
+    Friend WithEvents cboSkillQueue As System.Windows.Forms.ComboBox
 End Class
