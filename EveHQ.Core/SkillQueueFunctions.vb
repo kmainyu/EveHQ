@@ -1141,16 +1141,18 @@ Public Class SkillQueueFunctions
         If qList IsNot Nothing Then
             For Each qItem As EveHQ.Core.SortedQueue In qList
                 If qItem.IsTraining = False Then
-                    Dim newSkill As New EveHQ.Core.SkillQueueItem
-                    newSkill.FromLevel = CInt(qItem.FromLevel)
-                    newSkill.ToLevel = CInt(qItem.ToLevel)
-                    newSkill.Name = qItem.Name
-                    newSkill.Key = qItem.Key
-                    newSkill.Pos = count
-                    newSkill.Priority = qItem.Priority
-                    newSkill.Notes = qItem.Notes
-                    nQueue.Add(newSkill, newSkill.Key)
-                    count += 1
+                    If qItem.Done = False Then
+                        Dim newSkill As New EveHQ.Core.SkillQueueItem
+                        newSkill.FromLevel = CInt(qItem.FromLevel)
+                        newSkill.ToLevel = CInt(qItem.ToLevel)
+                        newSkill.Name = qItem.Name
+                        newSkill.Key = qItem.Key
+                        newSkill.Pos = count
+                        newSkill.Priority = qItem.Priority
+                        newSkill.Notes = qItem.Notes
+                        nQueue.Add(newSkill, newSkill.Key)
+                        count += 1
+                    End If
                 End If
             Next
             aQueue.Queue = nQueue

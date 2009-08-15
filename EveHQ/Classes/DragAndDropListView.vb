@@ -96,7 +96,7 @@ Public Class DragAndDropListView
                         di -= 1
                     End If
 
-                    'MessageBox.Show("Moving " & SkillsMoved.ToString & " skills, from index " & firstIndex.ToString & " to " & lastIndex.ToString & ", to destination index " & di.ToString)
+                    MessageBox.Show("Moving " & SkillsMoved.ToString & " skills, from index " & firstIndex.ToString & " to " & lastIndex.ToString & ", to destination index " & di.ToString)
 
                     Dim din As String = MyBase.Items(di).Name
                     Dim sin As String = MyBase.Items(si).Name
@@ -107,8 +107,8 @@ Public Class DragAndDropListView
                     'MessageBox.Show(msg)
 
                     If displayPilot.Training = False Or m_includeCurrentTrining = False Then
-                        di += 1
-                        si += 1
+                        'di += 1
+                        'si += 1
                     Else
                         ' Exit if trying to overwrite the skill currently training
                         If di = 0 Then Exit Sub
@@ -119,11 +119,16 @@ Public Class DragAndDropListView
                     ' Move all the items up or down depending on position
                     If si > di Then
                         ' Move an item up the queue
-                        Dim rangeModifier As Integer = di - lastIndex
-                        For Each move As ListViewItem In data1.ListView.SelectedItems
-                            CType(displayPilot.ActiveQueue.Queue(move.Name), EveHQ.Core.SkillQueueItem).Pos += rangeModifier
+                        Dim moved As Integer = 0
+                        For move As Integer = firstIndex To lastIndex
+                            If data1.ListView.Items.Item(move).Selected = True Then
+                                CType(displayPilot.ActiveQueue.Queue(data1.ListView.Items.Item(move).Name), EveHQ.Core.SkillQueueItem).Pos -= move - di - moved
+                                moved += 1
+                            Else
+                                CType(displayPilot.ActiveQueue.Queue(data1.ListView.Items.Item(move).Name), EveHQ.Core.SkillQueueItem).Pos += moved
+                            End If
                         Next
-                        For move As Integer = di To lastIndex - 1
+                        For move As Integer = di To firstIndex - 1
                             CType(displayPilot.ActiveQueue.Queue(data1.ListView.Items.Item(move).Name), EveHQ.Core.SkillQueueItem).Pos += SkillsMoved
                         Next
                         'Dim moveSkill As EveHQ.Core.SkillQueueItem
@@ -139,11 +144,16 @@ Public Class DragAndDropListView
                         'CType(displayPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem).Pos = sIDX
                     Else
                         'Move an item down the queue
-                        Dim rangeModifier As Integer = firstIndex - di
-                        For Each move As ListViewItem In data1.ListView.SelectedItems
-                            CType(displayPilot.ActiveQueue.Queue(move.Name), EveHQ.Core.SkillQueueItem).Pos -= rangeModifier
+                        Dim moved As Integer = 0
+                        For move As Integer = firstIndex To lastIndex
+                            If data1.ListView.Items.Item(move).Selected = True Then
+                                CType(displayPilot.ActiveQueue.Queue(data1.ListView.Items.Item(move).Name), EveHQ.Core.SkillQueueItem).Pos += (di + 1) - SkillsMoved - move + moved
+                                moved += 1
+                            Else
+                                CType(displayPilot.ActiveQueue.Queue(data1.ListView.Items.Item(move).Name), EveHQ.Core.SkillQueueItem).Pos -= moved
+                            End If
                         Next
-                        For move As Integer = firstIndex + 1 To di
+                        For move As Integer = lastIndex + 1 To di
                             CType(displayPilot.ActiveQueue.Queue(data1.ListView.Items.Item(move).Name), EveHQ.Core.SkillQueueItem).Pos -= SkillsMoved
                         Next
                         'Dim moveSkill As EveHQ.Core.SkillQueueItem
