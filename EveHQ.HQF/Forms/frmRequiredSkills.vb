@@ -99,10 +99,17 @@ Public Class frmRequiredSkills
             End If
             newSkill.SubItems(3).Text = rSkill.CurLevel.ToString
             newSkill.SubItems(4).Text = rSkill.NeededFor
-            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
-                newSkill.ForeColor = Drawing.Color.Red
-            Else
+            Dim reqLevel As Integer = CInt(newSkill.SubItems(1).Text)
+            Dim actLevel As Integer = CInt(newSkill.SubItems(2).Text)
+            Dim hqfLevel As Integer = CInt(newSkill.SubItems(3).Text)
+            If actLevel >= reqLevel And hqfLevel > reqLevel Then
                 newSkill.ForeColor = Drawing.Color.LimeGreen
+            Else
+                If hqfLevel > reqLevel Then
+                    newSkill.ForeColor = Drawing.Color.Orange
+                Else
+                    newSkill.ForeColor = Drawing.Color.Red
+                End If
             End If
             ' Check for sub skills
             Call Me.DisplaySubSkills(newSkill, rSkill.ID)
@@ -140,10 +147,17 @@ Public Class frmRequiredSkills
                         newSkill.SubItems(2).Text = "0"
                     End If
                     newSkill.SubItems(3).Text = rSkill.Level.ToString
-                    If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
-                        newSkill.ForeColor = Drawing.Color.Red
-                    Else
+                    Dim reqLevel As Integer = CInt(newSkill.SubItems(1).Text)
+                    Dim actLevel As Integer = CInt(newSkill.SubItems(2).Text)
+                    Dim hqfLevel As Integer = CInt(newSkill.SubItems(3).Text)
+                    If actLevel >= reqLevel And hqfLevel > reqLevel Then
                         newSkill.ForeColor = Drawing.Color.LimeGreen
+                    Else
+                        If hqfLevel > reqLevel Then
+                            newSkill.ForeColor = Drawing.Color.Orange
+                        Else
+                            newSkill.ForeColor = Drawing.Color.Red
+                        End If
                     End If
                     Call Me.DisplaySubSkills(newSkill, preReqSkill)
                 End If
