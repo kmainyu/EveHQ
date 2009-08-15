@@ -82,7 +82,7 @@ Public Class frmEveExport
                     End If
                 End If
                 fitXML.Save(EveFile)
-                MessageBox.Show("Export of HQF Fittings to " & EveFile & " completed", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                'MessageBox.Show("Export of HQF Fittings to " & EveFile & " completed", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return True
             Catch e As Exception
                 MessageBox.Show("Unable to export HQF fittings to Eve folder: " & e.Message, "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

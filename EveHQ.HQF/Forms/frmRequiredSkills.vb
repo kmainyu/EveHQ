@@ -102,10 +102,10 @@ Public Class frmRequiredSkills
             Dim reqLevel As Integer = CInt(newSkill.SubItems(1).Text)
             Dim actLevel As Integer = CInt(newSkill.SubItems(2).Text)
             Dim hqfLevel As Integer = CInt(newSkill.SubItems(3).Text)
-            If actLevel >= reqLevel And hqfLevel > reqLevel Then
+            If actLevel >= reqLevel And hqfLevel >= reqLevel Then
                 newSkill.ForeColor = Drawing.Color.LimeGreen
             Else
-                If hqfLevel > reqLevel Then
+                If hqfLevel >= reqLevel Then
                     newSkill.ForeColor = Drawing.Color.Orange
                 Else
                     newSkill.ForeColor = Drawing.Color.Red
@@ -150,10 +150,10 @@ Public Class frmRequiredSkills
                     Dim reqLevel As Integer = CInt(newSkill.SubItems(1).Text)
                     Dim actLevel As Integer = CInt(newSkill.SubItems(2).Text)
                     Dim hqfLevel As Integer = CInt(newSkill.SubItems(3).Text)
-                    If actLevel >= reqLevel And hqfLevel > reqLevel Then
+                    If actLevel >= reqLevel And hqfLevel >= reqLevel Then
                         newSkill.ForeColor = Drawing.Color.LimeGreen
                     Else
-                        If hqfLevel > reqLevel Then
+                        If hqfLevel >= reqLevel Then
                             newSkill.ForeColor = Drawing.Color.Orange
                         Else
                             newSkill.ForeColor = Drawing.Color.Red
