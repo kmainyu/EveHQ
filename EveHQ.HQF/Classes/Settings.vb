@@ -307,6 +307,8 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<modSplitterWidth>" & HQFSettings.ModSplitterWidth & "</modSplitterWidth>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<missileRangeConst>" & HQFSettings.MissileRangeConstant & "</missileRangeConst>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<subSlotColour>" & HQFSettings.SubSlotColour & "</subSlotColour>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<includeAmmoTime>" & HQFSettings.IncludeAmmoReloadTime & "</includeAmmoTime>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<includeCapTime>" & HQFSettings.IncludeCapReloadTime & "</includeCapTime>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the slot layout
@@ -391,6 +393,8 @@ Public Class Settings
                         HQFSettings.ModSplitterWidth = CInt(settingSettings.ChildNodes(16).InnerText)
                         HQFSettings.MissileRangeConstant = CDbl(settingSettings.ChildNodes(17).InnerText)
                         HQFSettings.SubSlotColour = CLng(settingSettings.ChildNodes(18).InnerText)
+                        HQFSettings.IncludeAmmoReloadTime = CBool(settingSettings.ChildNodes(19).InnerText)
+                        HQFSettings.IncludeCapReloadTime = CBool(settingSettings.ChildNodes(20).InnerText)
                     End If
                 End If
             Catch

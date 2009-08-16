@@ -2183,8 +2183,13 @@ Public Class Engine
                                     cModule.Attributes("10030") = CInt(cModule.LoadedCharge.ID)
                                     cModule.Attributes("10017") = CDbl(cModule.LoadedCharge.Attributes("114")) + CDbl(cModule.LoadedCharge.Attributes("116")) + CDbl(cModule.LoadedCharge.Attributes("117")) + CDbl(cModule.LoadedCharge.Attributes("118"))
                                     If cModule.IsTurret = True Then
+                                        ' Adjust for reload time if required
+                                        Dim reloadEffect As Double = 0
+                                        If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
+                                            reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                        End If
                                         dgmMod = CDbl(cModule.Attributes("10014")) + CDbl(cModule.Attributes("10015")) + CDbl(cModule.Attributes("10016"))
-                                        ROF = CDbl(cModule.Attributes("10011")) + CDbl(cModule.Attributes("10012")) + CDbl(cModule.Attributes("10013"))
+                                        ROF = CDbl(cModule.Attributes("10011")) + CDbl(cModule.Attributes("10012")) + CDbl(cModule.Attributes("10013")) + reloadEffect
                                         cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
                                         cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
                                         newShip.Attributes("10020") = CDbl(newShip.Attributes("10020")) + CDbl(cModule.Attributes("10018"))
@@ -2192,8 +2197,13 @@ Public Class Engine
                                         newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
                                         newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
                                     Else
+                                        ' Adjust for reload time if required
+                                        Dim reloadEffect As Double = 0
+                                        If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
+                                            reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                        End If
                                         dgmMod = 1
-                                        ROF = CDbl(cModule.Attributes("51"))
+                                        ROF = CDbl(cModule.Attributes("51")) + reloadEffect
                                         cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
                                         cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
                                         newShip.Attributes("10021") = CDbl(newShip.Attributes("10021")) + CDbl(cModule.Attributes("10018"))
@@ -2234,6 +2244,11 @@ Public Class Engine
                                 ElseIf cModule.DatabaseGroup = "862" Then
                                     ' Do Bomb Launcher Code
                                     If cModule.LoadedCharge IsNot Nothing Then
+                                        ' Adjust for reload time if required
+                                        Dim reloadEffect As Double = 0
+                                        If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
+                                            reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                        End If
                                         dgmMod = 1
                                         ROF = CDbl(cModule.Attributes("51"))
                                         cModule.Attributes("10017") = CDbl(cModule.LoadedCharge.Attributes("114")) + CDbl(cModule.LoadedCharge.Attributes("116")) + CDbl(cModule.LoadedCharge.Attributes("117")) + CDbl(cModule.LoadedCharge.Attributes("118"))
