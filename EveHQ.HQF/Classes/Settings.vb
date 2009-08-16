@@ -58,7 +58,25 @@ Public Class Settings
     Private cShipSplitterWidth As Integer = 300
     Private cModSplitterWidth As Integer = 300
     Private cMissileRangeConstant As Double = 1.0
+    Private cIncludeCapReloadTime As Boolean = False
+    Private cIncludeAmmoReloadTime As Boolean = False
 
+    Public Property IncludeAmmoReloadTime() As Boolean
+        Get
+            Return cIncludeAmmoReloadTime
+        End Get
+        Set(ByVal value As Boolean)
+            cIncludeAmmoReloadTime = value
+        End Set
+    End Property
+    Public Property IncludeCapReloadTime() As Boolean
+        Get
+            Return cIncludeCapReloadTime
+        End Get
+        Set(ByVal value As Boolean)
+            cIncludeCapReloadTime = value
+        End Set
+    End Property
     Public Property MissileRangeConstant() As Double
         Get
             Return cMissileRangeConstant

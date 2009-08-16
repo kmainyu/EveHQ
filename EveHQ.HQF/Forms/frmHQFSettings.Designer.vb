@@ -21,7 +21,7 @@ Partial Public Class frmHQFSettings
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Calculation Constants")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Calculation Variables")
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data and Cache")
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
@@ -73,6 +73,8 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.chkCapBoosterReloadTime = New System.Windows.Forms.CheckBox
+        Me.chkAmmoLoadTime = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -171,7 +173,7 @@ Partial Public Class frmHQFSettings
         TreeNode1.Name = "nodeGeneral"
         TreeNode1.Text = "General"
         TreeNode2.Name = "nodeConstants"
-        TreeNode2.Text = "Calculation Constants"
+        TreeNode2.Text = "Calculation Variables"
         TreeNode3.Name = "nodeCache"
         TreeNode3.Text = "Data and Cache"
         TreeNode4.Name = "nodeSlotFormat"
@@ -272,9 +274,9 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Controls.Add(Me.pbHiSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblMidSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
-        Me.gbSlotFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbSlotFormat.Location = New System.Drawing.Point(451, 167)
         Me.gbSlotFormat.Name = "gbSlotFormat"
-        Me.gbSlotFormat.Size = New System.Drawing.Size(498, 501)
+        Me.gbSlotFormat.Size = New System.Drawing.Size(152, 60)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
         Me.gbSlotFormat.Text = "Slot Layout"
@@ -453,6 +455,8 @@ Partial Public Class frmHQFSettings
         '
         'gbConstants
         '
+        Me.gbConstants.Controls.Add(Me.chkAmmoLoadTime)
+        Me.gbConstants.Controls.Add(Me.chkCapBoosterReloadTime)
         Me.gbConstants.Controls.Add(Me.lblCapRechargeUnit)
         Me.gbConstants.Controls.Add(Me.lblShieldRechargeUnit)
         Me.gbConstants.Controls.Add(Me.lblMissileRangeUnit)
@@ -462,12 +466,12 @@ Partial Public Class frmHQFSettings
         Me.gbConstants.Controls.Add(Me.lblShieldRecharge)
         Me.gbConstants.Controls.Add(Me.nudCapRecharge)
         Me.gbConstants.Controls.Add(Me.lblCapRecharge)
-        Me.gbConstants.Location = New System.Drawing.Point(219, 316)
+        Me.gbConstants.Location = New System.Drawing.Point(194, 12)
         Me.gbConstants.Name = "gbConstants"
-        Me.gbConstants.Size = New System.Drawing.Size(159, 43)
+        Me.gbConstants.Size = New System.Drawing.Size(498, 490)
         Me.gbConstants.TabIndex = 30
         Me.gbConstants.TabStop = False
-        Me.gbConstants.Text = "Calculation Constants"
+        Me.gbConstants.Text = "Calculation Variables"
         Me.gbConstants.Visible = False
         '
         'lblCapRechargeUnit
@@ -571,15 +575,35 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
+        'chkCapBoosterReloadTime
+        '
+        Me.chkCapBoosterReloadTime.AutoSize = True
+        Me.chkCapBoosterReloadTime.Location = New System.Drawing.Point(18, 155)
+        Me.chkCapBoosterReloadTime.Name = "chkCapBoosterReloadTime"
+        Me.chkCapBoosterReloadTime.Size = New System.Drawing.Size(304, 17)
+        Me.chkCapBoosterReloadTime.TabIndex = 9
+        Me.chkCapBoosterReloadTime.Text = "Include Cap Booster Reload Time in Capacitor Calculations"
+        Me.chkCapBoosterReloadTime.UseVisualStyleBackColor = True
+        '
+        'chkAmmoLoadTime
+        '
+        Me.chkAmmoLoadTime.AutoSize = True
+        Me.chkAmmoLoadTime.Location = New System.Drawing.Point(18, 178)
+        Me.chkAmmoLoadTime.Name = "chkAmmoLoadTime"
+        Me.chkAmmoLoadTime.Size = New System.Drawing.Size(247, 17)
+        Me.chkAmmoLoadTime.TabIndex = 10
+        Me.chkAmmoLoadTime.Text = "Include Ammo Reload Time in DPS Calculations"
+        Me.chkAmmoLoadTime.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbCache)
-        Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -657,4 +681,6 @@ Partial Public Class frmHQFSettings
     Friend WithEvents lblSubSlotColour As System.Windows.Forms.Label
     Friend WithEvents pbSubSlotColour As System.Windows.Forms.PictureBox
     Friend WithEvents btnCheckMarket As System.Windows.Forms.Button
+    Friend WithEvents chkAmmoLoadTime As System.Windows.Forms.CheckBox
+    Friend WithEvents chkCapBoosterReloadTime As System.Windows.Forms.CheckBox
 End Class

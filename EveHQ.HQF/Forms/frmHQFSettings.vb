@@ -380,8 +380,9 @@ Public Class frmHQFSettings
         nudCapRecharge.Value = CDec(HQF.Settings.HQFSettings.CapRechargeConstant)
         nudShieldRecharge.Value = CDec(HQF.Settings.HQFSettings.ShieldRechargeConstant)
         nudMissileRange.Value = CDec(HQF.Settings.HQFSettings.MissileRangeConstant)
+        chkCapBoosterReloadTime.Checked = HQF.Settings.HQFSettings.IncludeCapReloadTime
+        chkAmmoLoadTime.Checked = HQF.Settings.HQFSettings.IncludeAmmoReloadTime
     End Sub
-
     Private Sub nudCapRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.HandleDestroyed
         HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
     End Sub
@@ -409,7 +410,14 @@ Public Class frmHQFSettings
             forceUpdate = True
         End If
     End Sub
-
+    Private Sub chkCapBoosterReloadTime_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCapBoosterReloadTime.CheckedChanged
+        HQF.Settings.HQFSettings.IncludeCapReloadTime = chkCapBoosterReloadTime.Checked
+        forceUpdate = True
+    End Sub
+    Private Sub chkAmmoLoadTime_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAmmoLoadTime.CheckedChanged
+        HQF.Settings.HQFSettings.IncludeAmmoReloadTime = chkAmmoLoadTime.Checked
+        forceUpdate = True
+    End Sub
 #End Region
 
 #Region "Data Checking Routines"
@@ -560,4 +568,6 @@ Public Class frmHQFSettings
             End If
         Next
     End Sub
+
+   
 End Class

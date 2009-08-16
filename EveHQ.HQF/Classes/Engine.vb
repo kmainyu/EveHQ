@@ -1035,6 +1035,14 @@ Public Class Engine
         For slot As Integer = 1 To newShip.MidSlots
             If newShip.MidSlot(slot) IsNot Nothing Then
                 newShip.SlotCollection.Add(newShip.MidSlot(slot))
+                ' Recalculate Cap Booster calcs if reload time is included
+                If HQF.Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = "76" Then
+                    Dim cModule As ShipModule = newShip.MidSlot(slot)
+                    If cModule.LoadedCharge IsNot Nothing Then
+                        Dim reloadEffect As Double = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                        cModule.Attributes("73") = (CDbl(cModule.Attributes("73")) + reloadEffect)
+                    End If
+                End If
             End If
         Next
         For slot As Integer = 1 To newShip.LowSlots
@@ -2300,6 +2308,8 @@ Public Class Engine
         newShip.Attributes("10060") = aT
         newShip.Attributes("10061") = hT
         newShip.Attributes("10062") = Math.Max(sT, Math.Max(aT, hT))
+
+
     End Sub
 
 #End Region
