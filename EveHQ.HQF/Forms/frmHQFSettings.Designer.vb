@@ -63,6 +63,8 @@ Partial Public Class frmHQFSettings
         Me.btnCheckData = New System.Windows.Forms.Button
         Me.btnDeleteCache = New System.Windows.Forms.Button
         Me.gbConstants = New System.Windows.Forms.GroupBox
+        Me.chkAmmoLoadTime = New System.Windows.Forms.CheckBox
+        Me.chkCapBoosterReloadTime = New System.Windows.Forms.CheckBox
         Me.lblCapRechargeUnit = New System.Windows.Forms.Label
         Me.lblShieldRechargeUnit = New System.Windows.Forms.Label
         Me.lblMissileRangeUnit = New System.Windows.Forms.Label
@@ -73,8 +75,7 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkCapBoosterReloadTime = New System.Windows.Forms.CheckBox
-        Me.chkAmmoLoadTime = New System.Windows.Forms.CheckBox
+        Me.chkUseLastPilot = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,14 +92,15 @@ Partial Public Class frmHQFSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.chkUseLastPilot)
         Me.gbGeneral.Controls.Add(Me.chkShowPerformance)
         Me.gbGeneral.Controls.Add(Me.chkAutoUpdateHQFSkills)
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.lblDefaultPilot)
-        Me.gbGeneral.Location = New System.Drawing.Point(451, 309)
+        Me.gbGeneral.Location = New System.Drawing.Point(196, 12)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(184, 51)
+        Me.gbGeneral.Size = New System.Drawing.Size(496, 488)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -107,7 +109,7 @@ Partial Public Class frmHQFSettings
         'chkShowPerformance
         '
         Me.chkShowPerformance.AutoSize = True
-        Me.chkShowPerformance.Location = New System.Drawing.Point(25, 187)
+        Me.chkShowPerformance.Location = New System.Drawing.Point(25, 376)
         Me.chkShowPerformance.Name = "chkShowPerformance"
         Me.chkShowPerformance.Size = New System.Drawing.Size(142, 17)
         Me.chkShowPerformance.TabIndex = 10
@@ -117,7 +119,7 @@ Partial Public Class frmHQFSettings
         'chkAutoUpdateHQFSkills
         '
         Me.chkAutoUpdateHQFSkills.AutoSize = True
-        Me.chkAutoUpdateHQFSkills.Location = New System.Drawing.Point(25, 119)
+        Me.chkAutoUpdateHQFSkills.Location = New System.Drawing.Point(25, 142)
         Me.chkAutoUpdateHQFSkills.Name = "chkAutoUpdateHQFSkills"
         Me.chkAutoUpdateHQFSkills.Size = New System.Drawing.Size(239, 17)
         Me.chkAutoUpdateHQFSkills.TabIndex = 9
@@ -129,16 +131,16 @@ Partial Public Class frmHQFSettings
         Me.chkRestoreLastSession.AutoSize = True
         Me.chkRestoreLastSession.Location = New System.Drawing.Point(25, 96)
         Me.chkRestoreLastSession.Name = "chkRestoreLastSession"
-        Me.chkRestoreLastSession.Size = New System.Drawing.Size(245, 17)
+        Me.chkRestoreLastSession.Size = New System.Drawing.Size(271, 17)
         Me.chkRestoreLastSession.TabIndex = 8
-        Me.chkRestoreLastSession.Text = "Restore Previous Session When Opening HQF"
+        Me.chkRestoreLastSession.Text = "Restore Previous Open Fittings When Starting HQF"
         Me.chkRestoreLastSession.UseVisualStyleBackColor = True
         '
         'cboStartupPilot
         '
         Me.cboStartupPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboStartupPilot.FormattingEnabled = True
-        Me.cboStartupPilot.Location = New System.Drawing.Point(146, 49)
+        Me.cboStartupPilot.Location = New System.Drawing.Point(152, 49)
         Me.cboStartupPilot.Name = "cboStartupPilot"
         Me.cboStartupPilot.Size = New System.Drawing.Size(168, 21)
         Me.cboStartupPilot.Sorted = True
@@ -466,13 +468,33 @@ Partial Public Class frmHQFSettings
         Me.gbConstants.Controls.Add(Me.lblShieldRecharge)
         Me.gbConstants.Controls.Add(Me.nudCapRecharge)
         Me.gbConstants.Controls.Add(Me.lblCapRecharge)
-        Me.gbConstants.Location = New System.Drawing.Point(194, 12)
+        Me.gbConstants.Location = New System.Drawing.Point(212, 351)
         Me.gbConstants.Name = "gbConstants"
-        Me.gbConstants.Size = New System.Drawing.Size(498, 490)
+        Me.gbConstants.Size = New System.Drawing.Size(181, 95)
         Me.gbConstants.TabIndex = 30
         Me.gbConstants.TabStop = False
         Me.gbConstants.Text = "Calculation Variables"
         Me.gbConstants.Visible = False
+        '
+        'chkAmmoLoadTime
+        '
+        Me.chkAmmoLoadTime.AutoSize = True
+        Me.chkAmmoLoadTime.Location = New System.Drawing.Point(18, 178)
+        Me.chkAmmoLoadTime.Name = "chkAmmoLoadTime"
+        Me.chkAmmoLoadTime.Size = New System.Drawing.Size(247, 17)
+        Me.chkAmmoLoadTime.TabIndex = 10
+        Me.chkAmmoLoadTime.Text = "Include Ammo Reload Time in DPS Calculations"
+        Me.chkAmmoLoadTime.UseVisualStyleBackColor = True
+        '
+        'chkCapBoosterReloadTime
+        '
+        Me.chkCapBoosterReloadTime.AutoSize = True
+        Me.chkCapBoosterReloadTime.Location = New System.Drawing.Point(18, 155)
+        Me.chkCapBoosterReloadTime.Name = "chkCapBoosterReloadTime"
+        Me.chkCapBoosterReloadTime.Size = New System.Drawing.Size(304, 17)
+        Me.chkCapBoosterReloadTime.TabIndex = 9
+        Me.chkCapBoosterReloadTime.Text = "Include Cap Booster Reload Time in Capacitor Calculations"
+        Me.chkCapBoosterReloadTime.UseVisualStyleBackColor = True
         '
         'lblCapRechargeUnit
         '
@@ -575,34 +597,24 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
-        'chkCapBoosterReloadTime
+        'chkUseLastPilot
         '
-        Me.chkCapBoosterReloadTime.AutoSize = True
-        Me.chkCapBoosterReloadTime.Location = New System.Drawing.Point(18, 155)
-        Me.chkCapBoosterReloadTime.Name = "chkCapBoosterReloadTime"
-        Me.chkCapBoosterReloadTime.Size = New System.Drawing.Size(304, 17)
-        Me.chkCapBoosterReloadTime.TabIndex = 9
-        Me.chkCapBoosterReloadTime.Text = "Include Cap Booster Reload Time in Capacitor Calculations"
-        Me.chkCapBoosterReloadTime.UseVisualStyleBackColor = True
-        '
-        'chkAmmoLoadTime
-        '
-        Me.chkAmmoLoadTime.AutoSize = True
-        Me.chkAmmoLoadTime.Location = New System.Drawing.Point(18, 178)
-        Me.chkAmmoLoadTime.Name = "chkAmmoLoadTime"
-        Me.chkAmmoLoadTime.Size = New System.Drawing.Size(247, 17)
-        Me.chkAmmoLoadTime.TabIndex = 10
-        Me.chkAmmoLoadTime.Text = "Include Ammo Reload Time in DPS Calculations"
-        Me.chkAmmoLoadTime.UseVisualStyleBackColor = True
+        Me.chkUseLastPilot.AutoSize = True
+        Me.chkUseLastPilot.Location = New System.Drawing.Point(25, 119)
+        Me.chkUseLastPilot.Name = "chkUseLastPilot"
+        Me.chkUseLastPilot.Size = New System.Drawing.Size(203, 17)
+        Me.chkUseLastPilot.TabIndex = 11
+        Me.chkUseLastPilot.Text = "Start With Last Used Pilot for Fittings"
+        Me.chkUseLastPilot.UseVisualStyleBackColor = True
         '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbSlotFormat)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
@@ -683,4 +695,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents btnCheckMarket As System.Windows.Forms.Button
     Friend WithEvents chkAmmoLoadTime As System.Windows.Forms.CheckBox
     Friend WithEvents chkCapBoosterReloadTime As System.Windows.Forms.CheckBox
+    Friend WithEvents chkUseLastPilot As System.Windows.Forms.CheckBox
 End Class

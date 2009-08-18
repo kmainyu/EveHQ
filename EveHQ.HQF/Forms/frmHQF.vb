@@ -1736,7 +1736,7 @@ Public Class frmHQF
         pSS.Controls.Add(shipSlot)
         shipSlot.pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(curShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
 
-        Dim shipInfo As New ShipInfoControl
+        Dim shipInfo As New ShipInfoControl(shipFit)
         shipInfo.Name = "shipInfo"
         shipInfo.Location = New Point(0, 0)
         shipInfo.Dock = DockStyle.Fill

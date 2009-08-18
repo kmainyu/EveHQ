@@ -597,7 +597,7 @@ Public Class ShipSlotControl
                         currentShip.BoosterSlotCollection.Add(sMod)
                     Else
                         If shipMod.StartsWith("#Pilot#") = True Then
-                            currentShip.PilotName = shipMod.TrimStart("#Pilot#".ToCharArray)
+                            ' Placeholder - will be handled later by the info control initialisation
                         Else
                             currentFit.Remove(shipMod)
                         End If

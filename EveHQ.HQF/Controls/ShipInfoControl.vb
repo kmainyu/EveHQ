@@ -336,7 +336,7 @@ Public Class ShipInfoControl
         DDCheck = Nothing
     End Sub
 
-    Public Sub New()
+    Public Sub New(ByVal ShipFit As String)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -350,12 +350,28 @@ Public Class ShipInfoControl
             End If
         Next
         cboPilots.EndUpdate()
-        ' Look at the settings for default pilot
+
+        ' Can we get the pilot from the fitting?
+        Dim fit As ArrayList = CType(Fittings.FittingList(ShipFit), ArrayList)
         If cboPilots.Items.Count > 0 Then
-            If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
-                cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+            If fit(0).ToString.StartsWith("#Pilot#") And Settings.HQFSettings.UseLastPilot = True Then
+                Dim selPilot As String = fit(0).ToString.TrimStart("#Pilot#".ToCharArray)
+                If cboPilots.Items.Contains(selPilot) = True Then
+                    cboPilots.SelectedItem = selPilot
+                Else
+                    If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
+                        cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+                    Else
+                        cboPilots.SelectedIndex = 0
+                    End If
+                End If
             Else
-                cboPilots.SelectedIndex = 0
+                ' Look at the settings for default pilot
+                If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
+                    cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+                Else
+                    cboPilots.SelectedIndex = 0
+                End If
             End If
         End If
 
@@ -390,6 +406,7 @@ Public Class ShipInfoControl
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         ' Build the Affections data for this pilot
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+        MessageBox.Show(currentSlot.ShipFit)
         ' Call the property modifier again which will trigger the fitting routines and update all slots for the new pilot
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = True
