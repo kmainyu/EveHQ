@@ -115,9 +115,9 @@ Partial Class ShipInfoControl
         Me.lblCPU = New System.Windows.Forms.Label
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblCPUReqd = New System.Windows.Forms.Label
         Me.lblPGReqd = New System.Windows.Forms.Label
+        Me.lblCPUReqd = New System.Windows.Forms.Label
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -187,6 +187,7 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.pbCPU)
         Me.Panel1.Controls.Add(Me.lblPGReqd)
         Me.Panel1.Controls.Add(Me.lblCPUReqd)
+        Me.Panel1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(270, 732)
@@ -197,7 +198,7 @@ Partial Class ShipInfoControl
         Me.lblImplants.AutoSize = True
         Me.lblImplants.Location = New System.Drawing.Point(6, 38)
         Me.lblImplants.Name = "lblImplants"
-        Me.lblImplants.Size = New System.Drawing.Size(32, 13)
+        Me.lblImplants.Size = New System.Drawing.Size(34, 13)
         Me.lblImplants.TabIndex = 36
         Me.lblImplants.Text = "Imps:"
         '
@@ -251,7 +252,7 @@ Partial Class ShipInfoControl
         Me.lblTankAbility.AutoSize = True
         Me.lblTankAbility.Location = New System.Drawing.Point(11, 146)
         Me.lblTankAbility.Name = "lblTankAbility"
-        Me.lblTankAbility.Size = New System.Drawing.Size(95, 13)
+        Me.lblTankAbility.Size = New System.Drawing.Size(97, 13)
         Me.lblTankAbility.TabIndex = 29
         Me.lblTankAbility.Text = "Tank Ability: 0,000"
         Me.ToolTip1.SetToolTip(Me.lblTankAbility, "Effective Hitpoints")
@@ -280,7 +281,7 @@ Partial Class ShipInfoControl
         Me.lblEffectiveHP.AutoSize = True
         Me.lblEffectiveHP.Location = New System.Drawing.Point(11, 133)
         Me.lblEffectiveHP.Name = "lblEffectiveHP"
-        Me.lblEffectiveHP.Size = New System.Drawing.Size(112, 13)
+        Me.lblEffectiveHP.Size = New System.Drawing.Size(113, 13)
         Me.lblEffectiveHP.TabIndex = 21
         Me.lblEffectiveHP.Text = "Effective HP: 000,000"
         Me.ToolTip1.SetToolTip(Me.lblEffectiveHP, "Effective Hitpoints")
@@ -291,7 +292,7 @@ Partial Class ShipInfoControl
         Me.lblStructureHP.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureHP.Location = New System.Drawing.Point(28, 112)
         Me.lblStructureHP.Name = "lblStructureHP"
-        Me.lblStructureHP.Size = New System.Drawing.Size(46, 13)
+        Me.lblStructureHP.Size = New System.Drawing.Size(47, 13)
         Me.lblStructureHP.TabIndex = 14
         Me.lblStructureHP.Text = "000,000"
         Me.ToolTip1.SetToolTip(Me.lblStructureHP, "Structure Hitpoints")
@@ -313,7 +314,7 @@ Partial Class ShipInfoControl
         Me.lblStructureThermal.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureThermal.Location = New System.Drawing.Point(185, 116)
         Me.lblStructureThermal.Name = "lblStructureThermal"
-        Me.lblStructureThermal.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureThermal.Size = New System.Drawing.Size(24, 13)
         Me.lblStructureThermal.TabIndex = 11
         Me.lblStructureThermal.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblStructureThermal, "Structure Thermal Resistance")
@@ -324,7 +325,7 @@ Partial Class ShipInfoControl
         Me.lblStructureExplosive.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureExplosive.Location = New System.Drawing.Point(107, 117)
         Me.lblStructureExplosive.Name = "lblStructureExplosive"
-        Me.lblStructureExplosive.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureExplosive.Size = New System.Drawing.Size(24, 13)
         Me.lblStructureExplosive.TabIndex = 8
         Me.lblStructureExplosive.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblStructureExplosive, "Structure Explosive Resistance")
@@ -335,7 +336,7 @@ Partial Class ShipInfoControl
         Me.lblArmorHP.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorHP.Location = New System.Drawing.Point(28, 82)
         Me.lblArmorHP.Name = "lblArmorHP"
-        Me.lblArmorHP.Size = New System.Drawing.Size(46, 13)
+        Me.lblArmorHP.Size = New System.Drawing.Size(47, 13)
         Me.lblArmorHP.TabIndex = 14
         Me.lblArmorHP.Text = "000,000"
         Me.ToolTip1.SetToolTip(Me.lblArmorHP, "Armor Hitpoints")
@@ -346,7 +347,7 @@ Partial Class ShipInfoControl
         Me.lblStructureKinetic.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureKinetic.Location = New System.Drawing.Point(185, 71)
         Me.lblStructureKinetic.Name = "lblStructureKinetic"
-        Me.lblStructureKinetic.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureKinetic.Size = New System.Drawing.Size(24, 13)
         Me.lblStructureKinetic.TabIndex = 5
         Me.lblStructureKinetic.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblStructureKinetic, "Structure Kinetic Resistance")
@@ -368,7 +369,7 @@ Partial Class ShipInfoControl
         Me.lblStructureEM.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureEM.Location = New System.Drawing.Point(107, 71)
         Me.lblStructureEM.Name = "lblStructureEM"
-        Me.lblStructureEM.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureEM.Size = New System.Drawing.Size(24, 13)
         Me.lblStructureEM.TabIndex = 2
         Me.lblStructureEM.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblStructureEM, "Structure EM Resistance")
@@ -379,7 +380,7 @@ Partial Class ShipInfoControl
         Me.lblArmorThermal.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorThermal.Location = New System.Drawing.Point(185, 103)
         Me.lblArmorThermal.Name = "lblArmorThermal"
-        Me.lblArmorThermal.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorThermal.Size = New System.Drawing.Size(24, 13)
         Me.lblArmorThermal.TabIndex = 11
         Me.lblArmorThermal.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblArmorThermal, "Armor Thermal Resistance")
@@ -390,7 +391,7 @@ Partial Class ShipInfoControl
         Me.lblShieldEM.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldEM.Location = New System.Drawing.Point(107, 45)
         Me.lblShieldEM.Name = "lblShieldEM"
-        Me.lblShieldEM.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldEM.Size = New System.Drawing.Size(24, 13)
         Me.lblShieldEM.TabIndex = 2
         Me.lblShieldEM.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblShieldEM, "Shield EM Resistance")
@@ -401,7 +402,7 @@ Partial Class ShipInfoControl
         Me.lblArmorExplosive.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorExplosive.Location = New System.Drawing.Point(107, 103)
         Me.lblArmorExplosive.Name = "lblArmorExplosive"
-        Me.lblArmorExplosive.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorExplosive.Size = New System.Drawing.Size(24, 13)
         Me.lblArmorExplosive.TabIndex = 8
         Me.lblArmorExplosive.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblArmorExplosive, "Armor Explosive Resistance")
@@ -412,7 +413,7 @@ Partial Class ShipInfoControl
         Me.lblArmorKinetic.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorKinetic.Location = New System.Drawing.Point(185, 58)
         Me.lblArmorKinetic.Name = "lblArmorKinetic"
-        Me.lblArmorKinetic.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorKinetic.Size = New System.Drawing.Size(24, 13)
         Me.lblArmorKinetic.TabIndex = 5
         Me.lblArmorKinetic.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblArmorKinetic, "Armor Kinetic Resistance")
@@ -423,7 +424,7 @@ Partial Class ShipInfoControl
         Me.lblShieldKinetic.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldKinetic.Location = New System.Drawing.Point(185, 44)
         Me.lblShieldKinetic.Name = "lblShieldKinetic"
-        Me.lblShieldKinetic.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldKinetic.Size = New System.Drawing.Size(24, 13)
         Me.lblShieldKinetic.TabIndex = 5
         Me.lblShieldKinetic.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblShieldKinetic, "Shield Kinetic Resistance")
@@ -434,7 +435,7 @@ Partial Class ShipInfoControl
         Me.lblArmorEM.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorEM.Location = New System.Drawing.Point(107, 58)
         Me.lblArmorEM.Name = "lblArmorEM"
-        Me.lblArmorEM.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorEM.Size = New System.Drawing.Size(24, 13)
         Me.lblArmorEM.TabIndex = 2
         Me.lblArmorEM.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblArmorEM, "Armor EM Resistance")
@@ -445,7 +446,7 @@ Partial Class ShipInfoControl
         Me.lblShieldExplosive.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldExplosive.Location = New System.Drawing.Point(107, 90)
         Me.lblShieldExplosive.Name = "lblShieldExplosive"
-        Me.lblShieldExplosive.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldExplosive.Size = New System.Drawing.Size(24, 13)
         Me.lblShieldExplosive.TabIndex = 8
         Me.lblShieldExplosive.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblShieldExplosive, "Shield Explosive Resistance")
@@ -456,7 +457,7 @@ Partial Class ShipInfoControl
         Me.lblShieldThermal.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldThermal.Location = New System.Drawing.Point(185, 90)
         Me.lblShieldThermal.Name = "lblShieldThermal"
-        Me.lblShieldThermal.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldThermal.Size = New System.Drawing.Size(24, 13)
         Me.lblShieldThermal.TabIndex = 11
         Me.lblShieldThermal.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.lblShieldThermal, "Shield Thermal Resistance")
@@ -467,7 +468,7 @@ Partial Class ShipInfoControl
         Me.lblShieldHP.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldHP.Location = New System.Drawing.Point(28, 51)
         Me.lblShieldHP.Name = "lblShieldHP"
-        Me.lblShieldHP.Size = New System.Drawing.Size(46, 13)
+        Me.lblShieldHP.Size = New System.Drawing.Size(47, 13)
         Me.lblShieldHP.TabIndex = 14
         Me.lblShieldHP.Text = "000,000"
         Me.ToolTip1.SetToolTip(Me.lblShieldHP, "Shield Hitpoints")
@@ -547,7 +548,7 @@ Partial Class ShipInfoControl
         Me.lblMining.AutoSize = True
         Me.lblMining.Location = New System.Drawing.Point(29, 47)
         Me.lblMining.Name = "lblMining"
-        Me.lblMining.Size = New System.Drawing.Size(54, 13)
+        Me.lblMining.Size = New System.Drawing.Size(53, 13)
         Me.lblMining.TabIndex = 12
         Me.lblMining.Text = "000 / 000"
         Me.ToolTip1.SetToolTip(Me.lblMining, "Mining (Cycle / Rate)")
@@ -568,7 +569,7 @@ Partial Class ShipInfoControl
         Me.lblDamage.AutoSize = True
         Me.lblDamage.Location = New System.Drawing.Point(29, 24)
         Me.lblDamage.Name = "lblDamage"
-        Me.lblDamage.Size = New System.Drawing.Size(54, 13)
+        Me.lblDamage.Size = New System.Drawing.Size(53, 13)
         Me.lblDamage.TabIndex = 10
         Me.lblDamage.Text = "000 / 000"
         Me.ToolTip1.SetToolTip(Me.lblDamage, "Damage (Volley / DPS)")
@@ -673,7 +674,7 @@ Partial Class ShipInfoControl
         Me.lblPilot.AutoSize = True
         Me.lblPilot.Location = New System.Drawing.Point(6, 11)
         Me.lblPilot.Name = "lblPilot"
-        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 23
         Me.lblPilot.Text = "Pilot:"
         '
@@ -719,7 +720,7 @@ Partial Class ShipInfoControl
         Me.lblDroneControl.AutoSize = True
         Me.lblDroneControl.Location = New System.Drawing.Point(138, 45)
         Me.lblDroneControl.Name = "lblDroneControl"
-        Me.lblDroneControl.Size = New System.Drawing.Size(30, 13)
+        Me.lblDroneControl.Size = New System.Drawing.Size(29, 13)
         Me.lblDroneControl.TabIndex = 12
         Me.lblDroneControl.Text = "0 / 0"
         Me.ToolTip1.SetToolTip(Me.lblDroneControl, "Drone Control")
@@ -740,7 +741,7 @@ Partial Class ShipInfoControl
         Me.lblDroneBandwidth.AutoSize = True
         Me.lblDroneBandwidth.Location = New System.Drawing.Point(36, 45)
         Me.lblDroneBandwidth.Name = "lblDroneBandwidth"
-        Me.lblDroneBandwidth.Size = New System.Drawing.Size(54, 13)
+        Me.lblDroneBandwidth.Size = New System.Drawing.Size(53, 13)
         Me.lblDroneBandwidth.TabIndex = 10
         Me.lblDroneBandwidth.Text = "000 / 000"
         Me.ToolTip1.SetToolTip(Me.lblDroneBandwidth, "Drone Bandwidth")
@@ -761,7 +762,7 @@ Partial Class ShipInfoControl
         Me.lblDroneBay.AutoSize = True
         Me.lblDroneBay.Location = New System.Drawing.Point(138, 22)
         Me.lblDroneBay.Name = "lblDroneBay"
-        Me.lblDroneBay.Size = New System.Drawing.Size(57, 13)
+        Me.lblDroneBay.Size = New System.Drawing.Size(58, 13)
         Me.lblDroneBay.TabIndex = 5
         Me.lblDroneBay.Text = "00,000 m3"
         Me.ToolTip1.SetToolTip(Me.lblDroneBay, "Drone Bay")
@@ -782,7 +783,7 @@ Partial Class ShipInfoControl
         Me.lblCargoBay.AutoSize = True
         Me.lblCargoBay.Location = New System.Drawing.Point(36, 22)
         Me.lblCargoBay.Name = "lblCargoBay"
-        Me.lblCargoBay.Size = New System.Drawing.Size(63, 13)
+        Me.lblCargoBay.Size = New System.Drawing.Size(64, 13)
         Me.lblCargoBay.TabIndex = 2
         Me.lblCargoBay.Text = "000,000 m3"
         Me.ToolTip1.SetToolTip(Me.lblCargoBay, "Cargo Bay")
@@ -822,7 +823,7 @@ Partial Class ShipInfoControl
         Me.lblAlignTime.AutoSize = True
         Me.lblAlignTime.Location = New System.Drawing.Point(124, 45)
         Me.lblAlignTime.Name = "lblAlignTime"
-        Me.lblAlignTime.Size = New System.Drawing.Size(42, 13)
+        Me.lblAlignTime.Size = New System.Drawing.Size(43, 13)
         Me.lblAlignTime.TabIndex = 11
         Me.lblAlignTime.Text = "00.00 s"
         Me.ToolTip1.SetToolTip(Me.lblAlignTime, "Warp Align Time")
@@ -843,7 +844,7 @@ Partial Class ShipInfoControl
         Me.lblInertia.AutoSize = True
         Me.lblInertia.Location = New System.Drawing.Point(28, 45)
         Me.lblInertia.Name = "lblInertia"
-        Me.lblInertia.Size = New System.Drawing.Size(40, 13)
+        Me.lblInertia.Size = New System.Drawing.Size(41, 13)
         Me.lblInertia.TabIndex = 8
         Me.lblInertia.Text = "0.0000"
         Me.ToolTip1.SetToolTip(Me.lblInertia, "Inertia")
@@ -926,7 +927,7 @@ Partial Class ShipInfoControl
         Me.lblCapBalN.AutoSize = True
         Me.lblCapBalN.Location = New System.Drawing.Point(29, 56)
         Me.lblCapBalN.Name = "lblCapBalN"
-        Me.lblCapBalN.Size = New System.Drawing.Size(16, 13)
+        Me.lblCapBalN.Size = New System.Drawing.Size(17, 13)
         Me.lblCapBalN.TabIndex = 14
         Me.lblCapBalN.Text = "-0"
         Me.ToolTip1.SetToolTip(Me.lblCapBalN, "Total Consumption Rate (F/s)")
@@ -936,7 +937,7 @@ Partial Class ShipInfoControl
         Me.lblCapBalP.AutoSize = True
         Me.lblCapBalP.Location = New System.Drawing.Point(29, 44)
         Me.lblCapBalP.Name = "lblCapBalP"
-        Me.lblCapBalP.Size = New System.Drawing.Size(19, 13)
+        Me.lblCapBalP.Size = New System.Drawing.Size(21, 13)
         Me.lblCapBalP.TabIndex = 13
         Me.lblCapBalP.Text = "+0"
         Me.ToolTip1.SetToolTip(Me.lblCapBalP, "Peak Injection Rate (F/s)")
@@ -957,7 +958,7 @@ Partial Class ShipInfoControl
         Me.lblCapPeak.AutoSize = True
         Me.lblCapPeak.Location = New System.Drawing.Point(124, 47)
         Me.lblCapPeak.Name = "lblCapPeak"
-        Me.lblCapPeak.Size = New System.Drawing.Size(40, 13)
+        Me.lblCapPeak.Size = New System.Drawing.Size(41, 13)
         Me.lblCapPeak.TabIndex = 11
         Me.lblCapPeak.Text = "000.00"
         Me.ToolTip1.SetToolTip(Me.lblCapPeak, "Peak Recharge Rate")
@@ -978,7 +979,7 @@ Partial Class ShipInfoControl
         Me.lblCapRecharge.AutoSize = True
         Me.lblCapRecharge.Location = New System.Drawing.Point(124, 22)
         Me.lblCapRecharge.Name = "lblCapRecharge"
-        Me.lblCapRecharge.Size = New System.Drawing.Size(42, 13)
+        Me.lblCapRecharge.Size = New System.Drawing.Size(43, 13)
         Me.lblCapRecharge.TabIndex = 8
         Me.lblCapRecharge.Text = "0,000 s"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Recharge Time")
@@ -999,7 +1000,7 @@ Partial Class ShipInfoControl
         Me.lblCapacitor.AutoSize = True
         Me.lblCapacitor.Location = New System.Drawing.Point(29, 22)
         Me.lblCapacitor.Name = "lblCapacitor"
-        Me.lblCapacitor.Size = New System.Drawing.Size(40, 13)
+        Me.lblCapacitor.Size = New System.Drawing.Size(41, 13)
         Me.lblCapacitor.TabIndex = 2
         Me.lblCapacitor.Text = "00,000"
         Me.ToolTip1.SetToolTip(Me.lblCapacitor, "Capacity")
@@ -1041,7 +1042,7 @@ Partial Class ShipInfoControl
         Me.lblTargets.AutoSize = True
         Me.lblTargets.Location = New System.Drawing.Point(185, 22)
         Me.lblTargets.Name = "lblTargets"
-        Me.lblTargets.Size = New System.Drawing.Size(30, 13)
+        Me.lblTargets.Size = New System.Drawing.Size(29, 13)
         Me.lblTargets.TabIndex = 20
         Me.lblTargets.Text = "0 / 0"
         Me.ToolTip1.SetToolTip(Me.lblTargets, "Sensor Strength")
@@ -1062,7 +1063,7 @@ Partial Class ShipInfoControl
         Me.lblSigRadius.AutoSize = True
         Me.lblSigRadius.Location = New System.Drawing.Point(130, 45)
         Me.lblSigRadius.Name = "lblSigRadius"
-        Me.lblSigRadius.Size = New System.Drawing.Size(45, 13)
+        Me.lblSigRadius.Size = New System.Drawing.Size(46, 13)
         Me.lblSigRadius.TabIndex = 18
         Me.lblSigRadius.Text = "0,000 m"
         Me.ToolTip1.SetToolTip(Me.lblSigRadius, "Signature Radius")
@@ -1125,7 +1126,7 @@ Partial Class ShipInfoControl
         Me.lblTargetRange.AutoSize = True
         Me.lblTargetRange.Location = New System.Drawing.Point(36, 22)
         Me.lblTargetRange.Name = "lblTargetRange"
-        Me.lblTargetRange.Size = New System.Drawing.Size(57, 13)
+        Me.lblTargetRange.Size = New System.Drawing.Size(58, 13)
         Me.lblTargetRange.TabIndex = 2
         Me.lblTargetRange.Text = "000,000 m"
         Me.ToolTip1.SetToolTip(Me.lblTargetRange, "Max Targeting Range")
@@ -1147,7 +1148,7 @@ Partial Class ShipInfoControl
         Me.lblCalibration.ForeColor = System.Drawing.SystemColors.ControlText
         Me.lblCalibration.Location = New System.Drawing.Point(36, 159)
         Me.lblCalibration.Name = "lblCalibration"
-        Me.lblCalibration.Size = New System.Drawing.Size(30, 13)
+        Me.lblCalibration.Size = New System.Drawing.Size(29, 13)
         Me.lblCalibration.TabIndex = 13
         Me.lblCalibration.Text = "0 / 0"
         Me.ToolTip1.SetToolTip(Me.lblCalibration, "Calibration")
@@ -1169,7 +1170,7 @@ Partial Class ShipInfoControl
         Me.lblPG.ForeColor = System.Drawing.SystemColors.ControlText
         Me.lblPG.Location = New System.Drawing.Point(36, 135)
         Me.lblPG.Name = "lblPG"
-        Me.lblPG.Size = New System.Drawing.Size(30, 13)
+        Me.lblPG.Size = New System.Drawing.Size(29, 13)
         Me.lblPG.TabIndex = 7
         Me.lblPG.Text = "0 / 0"
         Me.ToolTip1.SetToolTip(Me.lblPG, "Powergrid")
@@ -1180,7 +1181,7 @@ Partial Class ShipInfoControl
         Me.lblCPU.ForeColor = System.Drawing.SystemColors.ControlText
         Me.lblCPU.Location = New System.Drawing.Point(36, 111)
         Me.lblCPU.Name = "lblCPU"
-        Me.lblCPU.Size = New System.Drawing.Size(30, 13)
+        Me.lblCPU.Size = New System.Drawing.Size(29, 13)
         Me.lblCPU.TabIndex = 6
         Me.lblCPU.Text = "0 / 0"
         Me.ToolTip1.SetToolTip(Me.lblCPU, "CPU")
@@ -1207,13 +1208,15 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
-        'ToolTip1
+        'lblPGReqd
         '
-        Me.ToolTip1.AutoPopDelay = 20000
-        Me.ToolTip1.InitialDelay = 500
-        Me.ToolTip1.IsBalloon = True
-        Me.ToolTip1.ReshowDelay = 100
-        Me.ToolTip1.ShowAlways = True
+        Me.lblPGReqd.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblPGReqd.Location = New System.Drawing.Point(167, 135)
+        Me.lblPGReqd.Name = "lblPGReqd"
+        Me.lblPGReqd.Size = New System.Drawing.Size(79, 13)
+        Me.lblPGReqd.TabIndex = 38
+        Me.lblPGReqd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ToolTip1.SetToolTip(Me.lblPGReqd, "Powergrid Required")
         '
         'lblCPUReqd
         '
@@ -1225,15 +1228,13 @@ Partial Class ShipInfoControl
         Me.lblCPUReqd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ToolTip1.SetToolTip(Me.lblCPUReqd, "CPU Required")
         '
-        'lblPGReqd
+        'ToolTip1
         '
-        Me.lblPGReqd.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblPGReqd.Location = New System.Drawing.Point(167, 135)
-        Me.lblPGReqd.Name = "lblPGReqd"
-        Me.lblPGReqd.Size = New System.Drawing.Size(79, 13)
-        Me.lblPGReqd.TabIndex = 38
-        Me.lblPGReqd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ToolTip1.SetToolTip(Me.lblPGReqd, "Powergrid Required")
+        Me.ToolTip1.AutoPopDelay = 20000
+        Me.ToolTip1.InitialDelay = 500
+        Me.ToolTip1.IsBalloon = True
+        Me.ToolTip1.ReshowDelay = 100
+        Me.ToolTip1.ShowAlways = True
         '
         'ShipInfoControl
         '

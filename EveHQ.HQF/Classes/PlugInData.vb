@@ -57,6 +57,7 @@ Public Class PlugInData
             End If
 
             Engine.BuildPirateImplants()
+            Engine.BuildBoosterPenaltyList()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
             Engine.BuildSubSystemBonusMap()
@@ -96,6 +97,12 @@ Public Class PlugInData
                     Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin"), FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     Implants.implantList = CType(f.Deserialize(s), SortedList)
+                    s.Close()
+                End If
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin")) = True Then
+                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    Boosters.BoosterList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
                 If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin")) = True Then
@@ -1141,6 +1148,9 @@ Public Class PlugInData
                 If impMod.IsImplant = True Then
                     Implants.implantList.Add(impMod.Name, impMod)
                 End If
+                If impMod.IsBooster = True Then
+                    Boosters.BoosterList.Add(impMod.Name, impMod)
+                End If
             Next
             Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
             ' Extract the groups from the included resource file
@@ -1728,6 +1738,12 @@ Public Class PlugInData
         s = New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Implants.implantList)
+        s.Flush()
+        s.Close()
+        ' Save boosters
+        s = New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, Boosters.BoosterList)
         s.Flush()
         s.Close()
         ' Save skills

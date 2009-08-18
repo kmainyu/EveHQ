@@ -583,6 +583,7 @@ Public Class ShipSlotControl
     End Sub
     Private Sub UpdateShipDataFromFittingList()
         Call Me.ReorderModules()
+        Dim RigUpgrade As Boolean = False
         Dim currentFitList As ArrayList = CType(currentFit.Clone, ArrayList)
         For Each shipMod As String In currentFitList
             If shipMod IsNot Nothing Then
@@ -664,13 +665,45 @@ Public Class ShipSlotControl
                         End If
                         Call Me.AddShip(sShip, itemQuantity)
                     Else
-                        MessageBox.Show("The '" & modData(0) & "' is not a valid module or ship. This item will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        currentFit.Remove(modData(0))
+                        ' Check if this is a rig i.e. try putting large in front of it!
+                        Dim testRig As String = "Large " & modData(0)
+                        If ModuleLists.moduleListName.ContainsKey(testRig) = True Then
+                            Dim modID As String = ModuleLists.moduleListName(testRig).ToString
+                            Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                            If sMod.SlotType = 1 Then ' i.e. rig
+                                If CInt(sMod.Attributes("1547")) = CInt(currentShip.Attributes("1547")) Then
+                                    sMod.ModuleState = state
+                                    Call AddModule(sMod, 0, True, Nothing)
+                                    RigUpgrade = True
+                                Else
+                                    Select Case CInt(currentShip.Attributes("1547"))
+                                        Case 1
+                                            testRig = "Small " & modData(0)
+                                        Case 2
+                                            testRig = "Medium " & modData(0)
+                                        Case 3
+                                            testRig = "Large " & modData(0)
+                                        Case 4
+                                            testRig = "Capital " & modData(0)
+                                    End Select
+                                    modID = ModuleLists.moduleListName(testRig).ToString
+                                    sMod = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                                    sMod.ModuleState = state
+                                    Call AddModule(sMod, 0, True, Nothing)
+                                    RigUpgrade = True
+                                End If
+                            End If
+                        Else
+                            MessageBox.Show("The '" & modData(0) & "' is not a valid module or ship. This item will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            currentFit.Remove(modData(0))
+                        End If
                     End If
-
                 End If
             End If
         Next
+        If RigUpgrade = True Then
+            MessageBox.Show("HQF has upgraded all of your rigs for this fitting to the appropriate size for your class of ship.", "Rig Upgrade Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
     Private Sub UpdateFittingListFromShipData()
         currentFit.Clear()
@@ -998,6 +1031,27 @@ Public Class ShipSlotControl
                     End If
                 End If
             Next
+        End If
+
+        ' Check for Rig restrictions
+        If shipMod.SlotType = 1 Then
+            If shipMod.Attributes.ContainsKey("1547") Then
+                If CInt(shipMod.Attributes("1547")) <> CInt(currentShip.Attributes("1547")) Then
+                    Dim requiredSize As String = ""
+                    Select Case CInt(currentShip.Attributes("1547"))
+                        Case 1
+                            requiredSize = "Small"
+                        Case 2
+                            requiredSize = "Medium"
+                        Case 3
+                            requiredSize = "Large"
+                        Case 4
+                            requiredSize = "Capital"
+                    End Select
+                    MessageBox.Show("You cannot fit this size rig to your " & currentShip.Name & ". Try using the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Return False
+                End If
+            End If
         End If
 
         ' Check for ship group restrictions
@@ -2023,7 +2077,7 @@ Public Class ShipSlotControl
         End If
     End Sub
     Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles pbShipInfo.MouseHover
-        ToolTip1.SetToolTip(pbShipInfo, currentShip.Description)
+        ToolTip1.SetToolTip(pbShipInfo, SquishText(currentShip.Description))
     End Sub
     Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim mnuPilotLevel As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
@@ -2037,6 +2091,24 @@ Public Class ShipSlotControl
             Call Me.UpdateAllSlotLocations()
         End If
     End Sub
+    Private Function SquishText(ByVal text As String) As String
+        Dim MaxLength As Integer = 80
+        Dim words() As String = text.Split(" ".ToCharArray)
+        Dim newText As New StringBuilder
+        Dim charCount As Integer = 0
+        For c As Integer = 0 To words.Length - 1
+            If charCount + words(c).Length > MaxLength Then
+                newText.AppendLine("")
+                charCount = 0
+            End If
+            newText.Append(words(c) & " ")
+            charCount += words(c).Length
+            If words(c).Contains(ControlChars.CrLf) Then
+                charCount = 0
+            End If
+        Next
+        Return newText.ToString
+    End Function
 #End Region
 
 #Region "Set Module Status"
@@ -3578,10 +3650,6 @@ Public Class ShipSlotControl
 
 #End Region
 
-#Region "Wormhole Effects"
-
-#End Region
-
 #Region "Ship Skill Context Menu"
     Private Sub ctxShipSkills_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxShipSkills.Opening
         ' Check for Relevant Skills in Modules/Charges
@@ -3725,6 +3793,7 @@ Public Class ShipSlotControl
     End Sub
 #End Region
 
+#Region "Wormhole Effects"
     Private Sub cboWHEffect_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHEffect.SelectedIndexChanged
         ' Clear the current effect
         currentShip.EnviroSlotCollection.Clear()
@@ -3763,5 +3832,273 @@ Public Class ShipSlotControl
             Call Me.UpdateAllSlotLocations()
         End If
     End Sub
+#End Region
 
+#Region "Booster Effects"
+
+    Private Sub LoadBoosterInfo()
+        cboBoosterSlot1.BeginUpdate() : cboBoosterSlot1.Items.Clear()
+        cboBoosterSlot2.BeginUpdate() : cboBoosterSlot2.Items.Clear()
+        cboBoosterSlot3.BeginUpdate() : cboBoosterSlot3.Items.Clear()
+        For Each Booster As ShipModule In Boosters.BoosterList.Values
+            Select Case CInt(Booster.Attributes("1087"))
+                Case 1
+                    cboBoosterSlot1.Items.Add(Booster.Name)
+                Case 2
+                    cboBoosterSlot2.Items.Add(Booster.Name)
+                Case 3
+                    cboBoosterSlot3.Items.Add(Booster.Name)
+            End Select
+        Next
+        cboBoosterSlot1.EndUpdate()
+        cboBoosterSlot2.EndUpdate()
+        cboBoosterSlot3.EndUpdate()
+    End Sub
+
+#End Region
+
+    Private Sub cboBoosterSlots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBoosterSlot1.SelectedIndexChanged, cboBoosterSlot2.SelectedIndexChanged, cboBoosterSlot3.SelectedIndexChanged
+        Dim cb As ComboBox = CType(sender, ComboBox)
+        Dim idx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
+        Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & idx.ToString), Label)
+        ' Try to get the penalties
+        If cb.SelectedItem IsNot Nothing Then
+            currentShip.BoosterSlotCollection.Clear()
+            Dim boosterName As String = cb.SelectedItem.ToString
+            Dim boosterID As String = CStr(ModuleLists.moduleListName(boosterName))
+            Dim bModule As ShipModule = CType(ModuleLists.moduleList(boosterID), ShipModule).Clone
+            bModule.SlotType = 15
+            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID), SortedList(Of String, BoosterEffect))
+            Dim effectList As String = "Penalties: "
+            Dim count As Integer = 0
+            For Each bEffect As BoosterEffect In effects.Values
+                effectList &= bEffect.AttributeEffect & ", "
+            Next
+            cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
+            cblabel.Refresh()
+            cb.Tag = bModule
+            ToolTip1.SetToolTip(cb, SquishText(bModule.Description))
+            Call Me.ApplyBoosters()
+        End If
+    End Sub
+
+    Private Sub ApplyBoosters()
+        currentShip.BoosterSlotCollection.Clear()
+        For slot As Integer = 1 To 3
+            Dim cb As ComboBox = CType(panelBoosters.Controls("cboBoosterSlot" & slot.ToString), ComboBox)
+            If cb.Tag IsNot Nothing Then
+                currentShip.BoosterSlotCollection.Add(cb.Tag)
+            End If
+        Next
+        currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+        Call Me.UpdateAllSlotLocations()
+    End Sub
+
+    Private Sub mnuBoosterPenalty_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBoosterPenalty1.Click, mnuBoosterPenalty2.Click, mnuBoosterPenalty3.Click, mnuBoosterPenalty4.Click
+        Dim mnu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim idx As Integer = CInt(mnu.Name.Substring(mnu.Name.Length - 1, 1))
+        Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
+        Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
+        Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
+        Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
+        Dim currentFilter As Integer = bModule.SlotType
+        Dim filter As Integer = CInt(Math.Pow(2, idx - 1))
+        If CType(ctxBoosters.Items("mnuBoosterPenalty" & idx.ToString), ToolStripMenuItem).Checked = True Then
+            currentFilter += filter
+        Else
+            currentFilter -= filter
+        End If
+        ' Create a new module
+        Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
+        nModule.SlotType = currentFilter
+        ' Alter the attributes according to the penalties
+        Dim count As Integer = 0
+        Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
+        Dim effectList As String = "Penalties: "
+        For Each bEffect As BoosterEffect In effects.Values
+            CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
+            filter = CInt(Math.Pow(2, count))
+            If (nModule.SlotType Or filter) <> nModule.SlotType Then
+                ' Reset the attribute
+                nModule.Attributes(bEffect.AttributeID) = 0
+            Else
+                effectList &= bEffect.AttributeEffect & ", "
+            End If
+            count += 1
+        Next
+        If effectList.EndsWith(": ") = True Then
+            cblabel.Text = "Penalties: None"
+        Else
+            cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
+        End If
+        cblabel.Refresh()
+        cb.Tag = nModule
+        Call Me.ApplyBoosters()
+    End Sub
+
+    Private Sub ctxBoosters_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBoosters.Opening
+        Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
+        If cb.Tag IsNot Nothing Then
+            Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
+            Dim boosterName As String = cb.SelectedItem.ToString
+            Dim boosterID As String = CStr(ModuleLists.moduleListName(boosterName))
+            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID), SortedList(Of String, BoosterEffect))
+            Dim count As Integer = 0
+            For Each bEffect As BoosterEffect In effects.Values
+                CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
+                Dim filter As Integer = CInt(Math.Pow(2, count))
+                If (bModule.SlotType Or filter) = bModule.SlotType Then
+                    CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Checked = True
+                Else
+                    CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Checked = False
+                End If
+                count += 1
+            Next
+            ' Check for related skills
+            Dim RelModuleSkills As New ArrayList
+            Dim Affects(3) As String
+            For Each Affect As String In bModule.Affects
+                If Affect.Contains(";Skill;") = True Then
+                    Affects = Affect.Split((";").ToCharArray)
+                    If RelModuleSkills.Contains(Affects(0)) = False Then
+                        RelModuleSkills.Add(Affects(0))
+                    End If
+                End If
+                If Affect.Contains(";Ship Bonus;") = True Then
+                    Affects = Affect.Split((";").ToCharArray)
+                    If ShipCurrent.Name = Affects(0) Then
+                        If RelModuleSkills.Contains(Affects(3)) = False Then
+                            RelModuleSkills.Add(Affects(3))
+                        End If
+                    End If
+                End If
+                If Affect.Contains(";Subsystem;") = True Then
+                    Affects = Affect.Split((";").ToCharArray)
+                    If RelModuleSkills.Contains(Affects(3)) = False Then
+                        RelModuleSkills.Add(Affects(3))
+                    End If
+                End If
+            Next
+            RelModuleSkills.Sort()
+            If RelModuleSkills.Count > 0 Then
+                ' Add the Main menu item
+                mnuAlterBoosterSkills.Name = bModule.Name
+                mnuAlterBoosterSkills.Text = "Alter Relevant Skills"
+                mnuAlterBoosterSkills.DropDownItems.Clear()
+                For Each relSkill As String In RelModuleSkills
+                    Dim newRelSkill As New ToolStripMenuItem
+                    newRelSkill.Name = relSkill
+                    newRelSkill.Text = relSkill
+                    Dim pilotLevel As Integer = 0
+                    If CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet.Contains(relSkill) Then
+                        pilotLevel = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                    Else
+                        MessageBox.Show("There is a mis-match of roles for the " & currentShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                    For skillLevel As Integer = 0 To 5
+                        Dim newRelSkillLevel As New ToolStripMenuItem
+                        newRelSkillLevel.Name = relSkill & skillLevel.ToString
+                        newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                        If skillLevel = pilotLevel Then
+                            newRelSkillLevel.Checked = True
+                        End If
+                        AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                        newRelSkill.DropDownItems.Add(newRelSkillLevel)
+                    Next
+                    newRelSkill.DropDownItems.Add("-")
+                    Dim defaultLevel As Integer = 0
+                    If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                        defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.PilotSkill).Level
+                    Else
+                    End If
+                    Dim newRelSkillDefault As New ToolStripMenuItem
+                    newRelSkillDefault.Name = relSkill & defaultLevel.ToString
+                    newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                    AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                    newRelSkill.DropDownItems.Add(newRelSkillDefault)
+                    mnuAlterBoosterSkills.DropDownItems.Add(newRelSkill)
+                Next
+            End If
+        Else
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub mnuShowBoosterInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowBoosterInfo.Click
+        Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
+        Dim sModule As ShipModule = CType(cb.Tag, ShipModule)
+        For Each bModule As ShipModule In fittedShip.BoosterSlotCollection
+            If sModule.Name = bModule.Name Then
+                Dim showInfo As New frmShowInfo
+                Dim hPilot As EveHQ.Core.Pilot
+                If currentInfo IsNot Nothing Then
+                    hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
+                Else
+                    If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                        hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+                    Else
+                        hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+                    End If
+                End If
+                showInfo.ShowItemDetails(bModule, hPilot)
+            End If
+        Next
+    End Sub
+
+    Private Sub mnuRemoveBooster_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveBooster.Click
+        Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
+        cb.SelectedIndex = -1
+        cb.Tag = Nothing
+        ToolTip1.SetToolTip(cb, "")
+        Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
+        Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
+        cblabel.Text = "Penalties: "
+        cblabel.Refresh()
+        Call Me.ApplyBoosters()
+    End Sub
+
+    Private Sub mnuRandomSideEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRandomSideEffects.Click
+        Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
+        Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
+        Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
+        Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
+        Dim currentfilter As Integer = 0
+        Dim filter As Integer = 0
+        Dim r As New Random(Now.Millisecond * Now.Millisecond)
+        For se As Integer = 1 To 4
+            filter = CInt(Math.Pow(2, se - 1))
+            Dim chance As Double = r.NextDouble()
+            If chance <= CDbl(bModule.Attributes("1089")) Then
+                currentfilter += filter
+            End If
+        Next
+        ' Create a new module
+        Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
+        nModule.SlotType = currentFilter
+        ' Alter the attributes according to the penalties
+        Dim count As Integer = 0
+        Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
+        Dim effectList As String = "Penalties: "
+        For Each bEffect As BoosterEffect In effects.Values
+            CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
+            filter = CInt(Math.Pow(2, count))
+            If (nModule.SlotType Or filter) <> nModule.SlotType Then
+                ' Reset the attribute
+                nModule.Attributes(bEffect.AttributeID) = 0
+            Else
+                effectList &= bEffect.AttributeEffect & ", "
+            End If
+            count += 1
+        Next
+        If effectList.EndsWith(": ") = True Then
+            cblabel.Text = "Penalties: None"
+        Else
+            cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
+        End If
+        cblabel.Refresh()
+        cb.Tag = nModule
+        Call Me.ApplyBoosters()
+    End Sub
 End Class

@@ -71,6 +71,44 @@ Public Class Engine
             Next
         Next
     End Sub
+    Public Shared Sub BuildBoosterPenaltyList()
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.BoosterEffects.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+        ' Build the map
+        Boosters.BoosterEffects.Clear()
+        Dim EffectList As New SortedList(Of String, BoosterEffect)
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                If Boosters.BoosterEffects.ContainsKey(EffectData(0)) = True Then
+                    ' Get the current effects
+                    If CInt(EffectData(1)) = 1 Then
+                        EffectList = CType(Boosters.BoosterEffects(EffectData(0)), SortedList(Of String, EveHQ.HQF.BoosterEffect))
+                        ' Add the penalty to the list
+                        Dim newEffect As New BoosterEffect
+                        newEffect.AttributeID = EffectData(2)
+                        newEffect.AttributeEffect = EffectData(5)
+                        EffectList.Add(newEffect.AttributeID, newEffect)
+                    End If
+                Else
+                    ' Start a new set of effects
+                    If CInt(EffectData(1)) = 1 Then
+                        EffectList = New SortedList(Of String, BoosterEffect)
+                        ' Add the penalty to the list
+                        Dim newEffect As New BoosterEffect
+                        newEffect.AttributeID = EffectData(2)
+                        newEffect.AttributeEffect = EffectData(5)
+                        EffectList.Add(newEffect.AttributeID, newEffect)
+                        Boosters.BoosterEffects.Add(EffectData(0), EffectList)
+                    End If
+                End If
+            End If
+        Next
+    End Sub
     Public Shared Sub BuildEffectsMap()
         ' Fetch the Effects list
         Dim EffectFile As String = My.Resources.Effects.ToString
@@ -461,6 +499,7 @@ Public Class Engine
         newShip.FleetSlotCollection = CType(cShip.FleetSlotCollection.Clone, ArrayList)
         newShip.RemoteSlotCollection = CType(cShip.RemoteSlotCollection.Clone, ArrayList)
         newShip.EnviroSlotCollection = CType(cShip.EnviroSlotCollection.Clone, ArrayList)
+        newShip.BoosterSlotCollection = CType(cShip.BoosterSlotCollection.Clone, ArrayList)
         If cShip.DamageProfile IsNot Nothing Then
             newShip.DamageProfile = cShip.DamageProfile
         Else
@@ -1025,6 +1064,11 @@ Public Class Engine
         For Each EnviroObject As Object In newShip.EnviroSlotCollection
             If TypeOf EnviroObject Is ShipModule Then
                 newShip.SlotCollection.Add(EnviroObject)
+            End If
+        Next
+        For Each BoosterObject As Object In newShip.BoosterSlotCollection
+            If TypeOf BoosterObject Is ShipModule Then
+                newShip.SlotCollection.Add(BoosterObject)
             End If
         Next
         For slot As Integer = 1 To newShip.HiSlots

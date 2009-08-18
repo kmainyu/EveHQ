@@ -53,6 +53,7 @@ Imports System.Runtime.Serialization
     Private cRemoteSlotCollection As New ArrayList
     Private cFleetSlotCollection As New ArrayList
     Private cEnviroSlotCollection As New ArrayList
+    Private cBoosterSlotCollection As New ArrayList
 
     ' CPU, Power & Capacitor
     Private cCPU As Double
@@ -397,6 +398,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As ArrayList)
             cEnviroSlotCollection = value
+        End Set
+    End Property
+    Public Property BoosterSlotCollection() As ArrayList
+        Get
+            Return cBoosterSlotCollection
+        End Get
+        Set(ByVal value As ArrayList)
+            cBoosterSlotCollection = value
         End Set
     End Property
 

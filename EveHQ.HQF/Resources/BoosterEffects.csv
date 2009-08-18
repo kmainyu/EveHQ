@@ -1,0 +1,130 @@
+#HQF Booster Mapping Table,,,,,
+#Booster ID,IsPen,Effect ID,Group,Booster,Effect
+10155,0,548,Improved,Blue Pill,Shield Boost Bonus
+10155,1,1143,Improved,Blue Pill,Shield Capacity Penalty
+10155,1,1144,Improved,Blue Pill,Turret Optimal Range Penalty
+10155,1,1147,Improved,Blue Pill,Explosion Velocity Penalty
+10155,1,1150,Improved,Blue Pill,Capacitor Capacity Penalty
+10151,0,848,Improved,Crash,Explosion Velocity Bonus
+10151,1,616,Improved,Crash,Shield Booster Penalty
+10151,1,1141,Improved,Crash,Armor HP Penalty
+10151,1,1148,Improved,Crash,Missile Velocity Penalty
+10151,1,1151,Improved,Crash,Max Velocity Penalty
+15477,0,244,Improved,Drop,Tracking Speed Bonus
+15477,1,1142,Improved,Drop,Armor Repair Amount Penalty
+15477,1,1143,Improved,Drop,Shield Capacity Penalty
+15477,1,1146,Improved,Drop,Turret Falloff Penalty
+15477,1,1151,Improved,Drop,Max Velocity Penalty
+15480,0,895,Improved,Exile,Armor Repair Bonus
+15480,1,1141,Improved,Exile,Armor HP Penalty
+15480,1,1145,Improved,Exile,Turret Tracking Penalty
+15480,1,1149,Improved,Exile,Missile Explosion Radius Penalty
+15480,1,1150,Improved,Exile,Capacitor Capacity Penalty
+15461,0,294,Improved,Frentix,Turret Optimal Range Bonus
+15461,1,616,Improved,Frentix,Shield Booster Penalty
+15461,1,1141,Improved,Frentix,Armor HP Penalty
+15461,1,1145,Improved,Frentix,Turret Tracking Penalty
+15461,1,1151,Improved,Frentix,Max Velocity Penalty
+15464,0,1079,Improved,Mindflood,Capacitor Bonus
+15464,1,548,Improved,Mindflood,Shield Boost Penalty
+15464,1,1142,Improved,Mindflood,Armor Repair Amount Penalty
+15464,1,1144,Improved,Mindflood,Turret Optimal Range Penalty
+15464,1,1149,Improved,Mindflood,Missile Explosion Radius Penalty
+10165,0,349,Improved,Soothsayer,Turret Falloff Bonus
+10165,1,616,Improved,Soothsayer,Shield Booster Penalty
+10165,1,1142,Improved,Soothsayer,Armor Repair Amount Penalty
+10165,1,1144,Improved,Soothsayer,Turret Optimal Range Penalty
+10165,1,1151,Improved,Soothsayer,Max Velocity Penalty
+15458,0,554,Improved,Xinstict,Sig Radius Bonus
+15458,1,1141,Improved,Xinstict,Armor HP Penalty
+15458,1,1143,Improved,Xinstict,Shield Capacity Penalty
+15458,1,1146,Improved,Xinstict,Turret Falloff Penalty
+15458,1,1148,Improved,Xinstict,Missile Velocity Penalty
+9950,0,548,Standard,Blue Pill,Shield Boost Bonus
+9950,1,1143,Standard,Blue Pill,Shield Capacity Penalty
+9950,1,1144,Standard,Blue Pill,Turret Optimal Range Penalty
+9950,1,1147,Standard,Blue Pill,Explosion Velocity Penalty
+9950,1,1150,Standard,Blue Pill,Capacitor Capacity Penalty
+9947,0,848,Standard,Crash,Explosion Velocity Bonus
+9947,1,616,Standard,Crash,Shield Booster Penalty
+9947,1,1141,Standard,Crash,Armor HP Penalty
+9947,1,1148,Standard,Crash,Missile Velocity Penalty
+9947,1,1151,Standard,Crash,Max Velocity Penalty
+15466,0,244,Standard,Drop,Tracking Speed Bonus
+15466,1,1142,Standard,Drop,Armor Repair Amount Penalty
+15466,1,1143,Standard,Drop,Shield Capacity Penalty
+15466,1,1146,Standard,Drop,Turret Falloff Penalty
+15466,1,1151,Standard,Drop,Max Velocity Penalty
+15479,0,895,Standard,Exile,Armor Repair Bonus
+15479,1,1141,Standard,Exile,Armor HP Penalty
+15479,1,1145,Standard,Exile,Turret Tracking Penalty
+15479,1,1149,Standard,Exile,Missile Explosion Radius Penalty
+15479,1,1150,Standard,Exile,Capacitor Capacity Penalty
+15460,0,294,Standard,Frentix,Turret Optimal Range Bonus
+15460,1,616,Standard,Frentix,Shield Booster Penalty
+15460,1,1141,Standard,Frentix,Armor HP Penalty
+15460,1,1145,Standard,Frentix,Turret Tracking Penalty
+15460,1,1151,Standard,Frentix,Max Velocity Penalty
+15463,0,1079,Standard,Mindflood,Capacitor Bonus
+15463,1,548,Standard,Mindflood,Shield Boost Penalty
+15463,1,1142,Standard,Mindflood,Armor Repair Amount Penalty
+15463,1,1144,Standard,Mindflood,Turret Optimal Range Penalty
+15463,1,1149,Standard,Mindflood,Missile Explosion Radius Penalty
+10164,0,349,Standard,Soothsayer,Turret Falloff Bonus
+10164,1,616,Standard,Soothsayer,Shield Booster Penalty
+10164,1,1142,Standard,Soothsayer,Armor Repair Amount Penalty
+10164,1,1144,Standard,Soothsayer,Turret Optimal Range Penalty
+10164,1,1151,Standard,Soothsayer,Max Velocity Penalty
+15457,0,554,Standard,Xinstict,Sig Radius Bonus
+15457,1,1141,Standard,Xinstict,Armor HP Penalty
+15457,1,1143,Standard,Xinstict,Shield Capacity Penalty
+15457,1,1146,Standard,Xinstict,Turret Falloff Penalty
+15457,1,1148,Standard,Xinstict,Missile Velocity Penalty
+10156,0,548,Strong,Blue Pill,Shield Boost Bonus
+10156,1,1143,Strong,Blue Pill,Shield Capacity Penalty
+10156,1,1144,Strong,Blue Pill,Turret Optimal Range Penalty
+10156,1,1147,Strong,Blue Pill,Explosion Velocity Penalty
+10156,1,1150,Strong,Blue Pill,Capacitor Capacity Penalty
+10152,0,848,Strong,Crash,Explosion Velocity Bonus
+10152,1,616,Strong,Crash,Shield Booster Penalty
+10152,1,1141,Strong,Crash,Armor HP Penalty
+10152,1,1148,Strong,Crash,Missile Velocity Penalty
+10152,1,1151,Strong,Crash,Max Velocity Penalty
+15478,0,244,Strong,Drop,Tracking Speed Bonus
+15478,1,1142,Strong,Drop,Armor Repair Amount Penalty
+15478,1,1143,Strong,Drop,Shield Capacity Penalty
+15478,1,1146,Strong,Drop,Turret Falloff Penalty
+15478,1,1151,Strong,Drop,Max Velocity Penalty
+25349,0,895,Strong,Exile,Armor Repair Bonus
+25349,1,1141,Strong,Exile,Armor HP Penalty
+25349,1,1145,Strong,Exile,Turret Tracking Penalty
+25349,1,1149,Strong,Exile,Missile Explosion Radius Penalty
+25349,1,1150,Strong,Exile,Capacitor Capacity Penalty
+15462,0,294,Strong,Frentix,Turret Optimal Range Bonus
+15462,1,616,Strong,Frentix,Shield Booster Penalty
+15462,1,1141,Strong,Frentix,Armor HP Penalty
+15462,1,1145,Strong,Frentix,Turret Tracking Penalty
+15462,1,1151,Strong,Frentix,Max Velocity Penalty
+15465,0,1079,Strong,Mindflood,Capacitor Bonus
+15465,1,548,Strong,Mindflood,Shield Boost Penalty
+15465,1,1142,Strong,Mindflood,Armor Repair Amount Penalty
+15465,1,1144,Strong,Mindflood,Turret Optimal Range Penalty
+15465,1,1149,Strong,Mindflood,Missile Explosion Radius Penalty
+10166,0,349,Strong,Soothsayer,Turret Falloff Bonus
+10166,1,616,Strong,Soothsayer,Shield Booster Penalty
+10166,1,1142,Strong,Soothsayer,Armor Repair Amount Penalty
+10166,1,1144,Strong,Soothsayer,Turret Optimal Range Penalty
+10166,1,1151,Strong,Soothsayer,Max Velocity Penalty
+15459,0,554,Strong,Xinstict,Sig Radius Bonus
+15459,1,1141,Strong,Xinstict,Armor HP Penalty
+15459,1,1143,Strong,Xinstict,Shield Capacity Penalty
+15459,1,1146,Strong,Xinstict,Turret Falloff Penalty
+15459,1,1148,Strong,Xinstict,Missile Velocity Penalty
+28670,0,548,Synth,Blue Pill,Shield Boost Bonus
+28672,0,848,Synth,Crash,Explosion Velocity Bonus
+28674,0,244,Synth,Drop,Tracking Speed Bonus
+28676,0,895,Synth,Exile,Armor Repair Bonus
+28678,0,294,Synth,Frentix,Turret Optimal Range Bonus
+28680,0,1079,Synth,Mindflood,Capacitor Bonus
+28684,0,349,Synth,Soothsayer,Turret Falloff Bonus
+28682,0,554,Synth,Xinstict,Sig Radius Bonus

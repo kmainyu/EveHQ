@@ -77,15 +77,6 @@ Partial Class ShipSlotControl
         Me.lvwCargoBay = New System.Windows.Forms.ListView
         Me.colCargoBayType = New System.Windows.Forms.ColumnHeader
         Me.colCargoBayQty = New System.Windows.Forms.ColumnHeader
-        Me.tabShipBay = New System.Windows.Forms.TabPage
-        Me.panelShipBay = New System.Windows.Forms.Panel
-        Me.pbShipBay = New VistaStyleProgressBar.ProgressBar
-        Me.lblShipBay = New System.Windows.Forms.Label
-        Me.lvwShipBay = New System.Windows.Forms.ListView
-        Me.colShipBayShip = New System.Windows.Forms.ColumnHeader
-        Me.colShipBayQuantity = New System.Windows.Forms.ColumnHeader
-        Me.colShipBayVolume = New System.Windows.Forms.ColumnHeader
-        Me.colShipBayTotalVolume = New System.Windows.Forms.ColumnHeader
         Me.tabRemote = New System.Windows.Forms.TabPage
         Me.panelRemote = New System.Windows.Forms.Panel
         Me.cboFitting = New System.Windows.Forms.ComboBox
@@ -118,12 +109,44 @@ Partial Class ShipSlotControl
         Me.lblFleetStatusLabel = New System.Windows.Forms.Label
         Me.cboWCShip = New System.Windows.Forms.ComboBox
         Me.cboFCShip = New System.Windows.Forms.ComboBox
+        Me.tabBoosters = New System.Windows.Forms.TabPage
+        Me.panelBoosters = New System.Windows.Forms.Panel
+        Me.lblBoosterPenalties3 = New System.Windows.Forms.Label
+        Me.lblBoosterPenalties2 = New System.Windows.Forms.Label
+        Me.lblBoosterPenalties1 = New System.Windows.Forms.Label
+        Me.lblBoosterSlot3 = New System.Windows.Forms.Label
+        Me.cboBoosterSlot3 = New System.Windows.Forms.ComboBox
+        Me.ctxBoosters = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuShowBoosterInfo = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuBoosterPenalty1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuBoosterPenalty2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuBoosterPenalty3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuBoosterPenalty4 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuRemoveBooster = New System.Windows.Forms.ToolStripMenuItem
+        Me.lblBoosterSlot2 = New System.Windows.Forms.Label
+        Me.cboBoosterSlot2 = New System.Windows.Forms.ComboBox
+        Me.lblBoosterSlot1 = New System.Windows.Forms.Label
+        Me.cboBoosterSlot1 = New System.Windows.Forms.ComboBox
         Me.tabEnvironment = New System.Windows.Forms.TabPage
-        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.panelWH = New System.Windows.Forms.Panel
         Me.lblWHClass = New System.Windows.Forms.Label
         Me.cboWHClass = New System.Windows.Forms.ComboBox
         Me.lblWHEffect = New System.Windows.Forms.Label
         Me.cboWHEffect = New System.Windows.Forms.ComboBox
+        Me.tabShipBay = New System.Windows.Forms.TabPage
+        Me.panelShipBay = New System.Windows.Forms.Panel
+        Me.pbShipBay = New VistaStyleProgressBar.ProgressBar
+        Me.lblShipBay = New System.Windows.Forms.Label
+        Me.lvwShipBay = New System.Windows.Forms.ListView
+        Me.colShipBayShip = New System.Windows.Forms.ColumnHeader
+        Me.colShipBayQuantity = New System.Windows.Forms.ColumnHeader
+        Me.colShipBayVolume = New System.Windows.Forms.ColumnHeader
+        Me.colShipBayTotalVolume = New System.Windows.Forms.ColumnHeader
+        Me.mnuRandomSideEffects = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuAlterBoosterSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
@@ -141,99 +164,111 @@ Partial Class ShipSlotControl
         Me.panelDrone.SuspendLayout()
         Me.tabCargoBay.SuspendLayout()
         Me.panelCargo.SuspendLayout()
-        Me.tabShipBay.SuspendLayout()
-        Me.panelShipBay.SuspendLayout()
         Me.tabRemote.SuspendLayout()
         Me.panelRemote.SuspendLayout()
         Me.tabFleet.SuspendLayout()
         Me.panelFleet.SuspendLayout()
+        Me.tabBoosters.SuspendLayout()
+        Me.panelBoosters.SuspendLayout()
+        Me.ctxBoosters.SuspendLayout()
         Me.tabEnvironment.SuspendLayout()
-        Me.Panel1.SuspendLayout()
+        Me.panelWH.SuspendLayout()
+        Me.tabShipBay.SuspendLayout()
+        Me.panelShipBay.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblFittingMarketPrice
         '
         Me.lblFittingMarketPrice.AutoSize = True
+        Me.lblFittingMarketPrice.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFittingMarketPrice.Location = New System.Drawing.Point(117, 18)
         Me.lblFittingMarketPrice.Name = "lblFittingMarketPrice"
-        Me.lblFittingMarketPrice.Size = New System.Drawing.Size(208, 13)
+        Me.lblFittingMarketPrice.Size = New System.Drawing.Size(213, 13)
         Me.lblFittingMarketPrice.TabIndex = 10
         Me.lblFittingMarketPrice.Text = "Fitting Market Price: 0,000,000,000.00 ISK"
         '
         'lblShipMarketPrice
         '
         Me.lblShipMarketPrice.AutoSize = True
+        Me.lblShipMarketPrice.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblShipMarketPrice.Location = New System.Drawing.Point(331, 18)
         Me.lblShipMarketPrice.Name = "lblShipMarketPrice"
-        Me.lblShipMarketPrice.Size = New System.Drawing.Size(201, 13)
+        Me.lblShipMarketPrice.Size = New System.Drawing.Size(203, 13)
         Me.lblShipMarketPrice.TabIndex = 8
         Me.lblShipMarketPrice.Text = "Ship Market Price: 0,000,000,000.00 ISK"
         '
         'lblTurretSlots
         '
         Me.lblTurretSlots.AutoSize = True
+        Me.lblTurretSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTurretSlots.Location = New System.Drawing.Point(462, 5)
         Me.lblTurretSlots.Name = "lblTurretSlots"
-        Me.lblTurretSlots.Size = New System.Drawing.Size(63, 13)
+        Me.lblTurretSlots.Size = New System.Drawing.Size(65, 13)
         Me.lblTurretSlots.TabIndex = 6
         Me.lblTurretSlots.Text = "Turrets: 0/0"
         '
         'lblLauncherSlots
         '
         Me.lblLauncherSlots.AutoSize = True
+        Me.lblLauncherSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLauncherSlots.Location = New System.Drawing.Point(376, 5)
         Me.lblLauncherSlots.Name = "lblLauncherSlots"
-        Me.lblLauncherSlots.Size = New System.Drawing.Size(80, 13)
+        Me.lblLauncherSlots.Size = New System.Drawing.Size(79, 13)
         Me.lblLauncherSlots.TabIndex = 5
         Me.lblLauncherSlots.Text = "Launchers: 0/0"
         '
         'lblRigSlots
         '
         Me.lblRigSlots.AutoSize = True
+        Me.lblRigSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRigSlots.Location = New System.Drawing.Point(272, 5)
         Me.lblRigSlots.Name = "lblRigSlots"
-        Me.lblRigSlots.Size = New System.Drawing.Size(46, 13)
+        Me.lblRigSlots.Size = New System.Drawing.Size(45, 13)
         Me.lblRigSlots.TabIndex = 4
         Me.lblRigSlots.Text = "Rig: 0/0"
         '
         'lblLowSlots
         '
         Me.lblLowSlots.AutoSize = True
+        Me.lblLowSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLowSlots.Location = New System.Drawing.Point(216, 5)
         Me.lblLowSlots.Name = "lblLowSlots"
-        Me.lblLowSlots.Size = New System.Drawing.Size(50, 13)
+        Me.lblLowSlots.Size = New System.Drawing.Size(49, 13)
         Me.lblLowSlots.TabIndex = 3
         Me.lblLowSlots.Text = "Low: 0/0"
         '
         'lblMidSlots
         '
         Me.lblMidSlots.AutoSize = True
+        Me.lblMidSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMidSlots.Location = New System.Drawing.Point(163, 5)
         Me.lblMidSlots.Name = "lblMidSlots"
-        Me.lblMidSlots.Size = New System.Drawing.Size(47, 13)
+        Me.lblMidSlots.Size = New System.Drawing.Size(46, 13)
         Me.lblMidSlots.TabIndex = 2
         Me.lblMidSlots.Text = "Mid: 0/0"
         '
         'lblHighSlots
         '
         Me.lblHighSlots.AutoSize = True
+        Me.lblHighSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblHighSlots.Location = New System.Drawing.Point(117, 5)
         Me.lblHighSlots.Name = "lblHighSlots"
-        Me.lblHighSlots.Size = New System.Drawing.Size(40, 13)
+        Me.lblHighSlots.Size = New System.Drawing.Size(39, 13)
         Me.lblHighSlots.TabIndex = 1
         Me.lblHighSlots.Text = "Hi: 0/0"
         '
         'ctxSlots
         '
+        Me.ctxSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(124, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'imgState
@@ -249,68 +284,75 @@ Partial Class ShipSlotControl
         '
         'ctxBays
         '
+        Me.ctxBays.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(156, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(155, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(152, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(155, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(155, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(152, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(155, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'ctxRemoteFittings
         '
+        Me.ctxRemoteFittings.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
         Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
-        Me.ctxRemoteFittings.Size = New System.Drawing.Size(180, 26)
+        Me.ctxRemoteFittings.Size = New System.Drawing.Size(169, 26)
         '
         'RemoveFittingToolStripMenuItem
         '
         Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
         Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
         '
         'ctxRemoteModule
         '
+        Me.ctxRemoteModule.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
         Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(135, 26)
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(124, 26)
         '
         'mnuShowRemoteModInfo
         '
         Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(134, 22)
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(123, 22)
         Me.mnuShowRemoteModInfo.Text = "Show Info"
+        '
+        'ToolTip1
+        '
+        Me.ToolTip1.IsBalloon = True
         '
         'btnToggleStorage
         '
@@ -336,14 +378,15 @@ Partial Class ShipSlotControl
         '
         'ctxShipSkills
         '
+        Me.ctxShipSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxShipSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRelevantSkills})
         Me.ctxShipSkills.Name = "ctxShipSkills"
-        Me.ctxShipSkills.Size = New System.Drawing.Size(180, 26)
+        Me.ctxShipSkills.Size = New System.Drawing.Size(169, 26)
         '
         'mnuAlterRelevantSkills
         '
         Me.mnuAlterRelevantSkills.Name = "mnuAlterRelevantSkills"
-        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(179, 22)
+        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(168, 22)
         Me.mnuAlterRelevantSkills.Text = "Alter Relevant Skills"
         '
         'panelFunctions
@@ -371,9 +414,10 @@ Partial Class ShipSlotControl
         'lblSubSlots
         '
         Me.lblSubSlots.AutoSize = True
+        Me.lblSubSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSubSlots.Location = New System.Drawing.Point(324, 5)
         Me.lblSubSlots.Name = "lblSubSlots"
-        Me.lblSubSlots.Size = New System.Drawing.Size(46, 13)
+        Me.lblSubSlots.Size = New System.Drawing.Size(45, 13)
         Me.lblSubSlots.TabIndex = 12
         Me.lblSubSlots.Text = "Rig: 0/0"
         '
@@ -412,11 +456,13 @@ Partial Class ShipSlotControl
         '
         Me.tabStorage.Controls.Add(Me.tabDroneBay)
         Me.tabStorage.Controls.Add(Me.tabCargoBay)
-        Me.tabStorage.Controls.Add(Me.tabShipBay)
         Me.tabStorage.Controls.Add(Me.tabRemote)
         Me.tabStorage.Controls.Add(Me.tabFleet)
+        Me.tabStorage.Controls.Add(Me.tabBoosters)
         Me.tabStorage.Controls.Add(Me.tabEnvironment)
+        Me.tabStorage.Controls.Add(Me.tabShipBay)
         Me.tabStorage.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabStorage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tabStorage.Location = New System.Drawing.Point(0, 0)
         Me.tabStorage.Multiline = True
         Me.tabStorage.Name = "tabStorage"
@@ -466,7 +512,7 @@ Partial Class ShipSlotControl
         Me.lblDroneBay.AutoSize = True
         Me.lblDroneBay.Location = New System.Drawing.Point(3, 5)
         Me.lblDroneBay.Name = "lblDroneBay"
-        Me.lblDroneBay.Size = New System.Drawing.Size(86, 13)
+        Me.lblDroneBay.Size = New System.Drawing.Size(89, 13)
         Me.lblDroneBay.TabIndex = 0
         Me.lblDroneBay.Text = "0.00 / 000.00 m³"
         '
@@ -552,7 +598,7 @@ Partial Class ShipSlotControl
         Me.lblCargoBay.AutoSize = True
         Me.lblCargoBay.Location = New System.Drawing.Point(3, 5)
         Me.lblCargoBay.Name = "lblCargoBay"
-        Me.lblCargoBay.Size = New System.Drawing.Size(86, 13)
+        Me.lblCargoBay.Size = New System.Drawing.Size(89, 13)
         Me.lblCargoBay.TabIndex = 3
         Me.lblCargoBay.Text = "0.00 / 000.00 m³"
         '
@@ -594,92 +640,6 @@ Partial Class ShipSlotControl
         Me.colCargoBayQty.Text = "Qty"
         Me.colCargoBayQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.colCargoBayQty.Width = 50
-        '
-        'tabShipBay
-        '
-        Me.tabShipBay.Controls.Add(Me.panelShipBay)
-        Me.tabShipBay.Location = New System.Drawing.Point(4, 22)
-        Me.tabShipBay.Name = "tabShipBay"
-        Me.tabShipBay.Size = New System.Drawing.Size(668, 216)
-        Me.tabShipBay.TabIndex = 4
-        Me.tabShipBay.Text = "Ship Maintenance Bay"
-        Me.tabShipBay.UseVisualStyleBackColor = True
-        '
-        'panelShipBay
-        '
-        Me.panelShipBay.BackColor = System.Drawing.SystemColors.Control
-        Me.panelShipBay.Controls.Add(Me.pbShipBay)
-        Me.panelShipBay.Controls.Add(Me.lblShipBay)
-        Me.panelShipBay.Controls.Add(Me.lvwShipBay)
-        Me.panelShipBay.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelShipBay.Location = New System.Drawing.Point(0, 0)
-        Me.panelShipBay.Name = "panelShipBay"
-        Me.panelShipBay.Size = New System.Drawing.Size(668, 216)
-        Me.panelShipBay.TabIndex = 34
-        '
-        'pbShipBay
-        '
-        Me.pbShipBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbShipBay.BackColor = System.Drawing.Color.Transparent
-        Me.pbShipBay.EndColor = System.Drawing.Color.LimeGreen
-        Me.pbShipBay.GlowColor = System.Drawing.Color.LightGreen
-        Me.pbShipBay.Location = New System.Drawing.Point(3, 21)
-        Me.pbShipBay.Name = "pbShipBay"
-        Me.pbShipBay.Size = New System.Drawing.Size(635, 10)
-        Me.pbShipBay.StartColor = System.Drawing.Color.LimeGreen
-        Me.pbShipBay.TabIndex = 32
-        Me.pbShipBay.Value = 50
-        '
-        'lblShipBay
-        '
-        Me.lblShipBay.AutoSize = True
-        Me.lblShipBay.Location = New System.Drawing.Point(3, 5)
-        Me.lblShipBay.Name = "lblShipBay"
-        Me.lblShipBay.Size = New System.Drawing.Size(86, 13)
-        Me.lblShipBay.TabIndex = 3
-        Me.lblShipBay.Text = "0.00 / 000.00 m³"
-        '
-        'lvwShipBay
-        '
-        Me.lvwShipBay.AllowDrop = True
-        Me.lvwShipBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwShipBay.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colShipBayShip, Me.colShipBayQuantity, Me.colShipBayVolume, Me.colShipBayTotalVolume})
-        Me.lvwShipBay.ContextMenuStrip = Me.ctxBays
-        Me.lvwShipBay.FullRowSelect = True
-        Me.lvwShipBay.GridLines = True
-        Me.lvwShipBay.Location = New System.Drawing.Point(3, 35)
-        Me.lvwShipBay.Name = "lvwShipBay"
-        Me.lvwShipBay.Size = New System.Drawing.Size(662, 178)
-        Me.lvwShipBay.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwShipBay.TabIndex = 5
-        Me.lvwShipBay.UseCompatibleStateImageBehavior = False
-        Me.lvwShipBay.View = System.Windows.Forms.View.Details
-        '
-        'colShipBayShip
-        '
-        Me.colShipBayShip.Text = "Ship Type"
-        Me.colShipBayShip.Width = 225
-        '
-        'colShipBayQuantity
-        '
-        Me.colShipBayQuantity.Text = "Qty"
-        Me.colShipBayQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.colShipBayQuantity.Width = 50
-        '
-        'colShipBayVolume
-        '
-        Me.colShipBayVolume.Text = "Ship Volume (m³)"
-        Me.colShipBayVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colShipBayVolume.Width = 100
-        '
-        'colShipBayTotalVolume
-        '
-        Me.colShipBayTotalVolume.Text = "Total Volume (m³)"
-        Me.colShipBayTotalVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colShipBayTotalVolume.Width = 100
         '
         'tabRemote
         '
@@ -731,7 +691,7 @@ Partial Class ShipSlotControl
         Me.lblFitting.AutoSize = True
         Me.lblFitting.Location = New System.Drawing.Point(11, 12)
         Me.lblFitting.Name = "lblFitting"
-        Me.lblFitting.Size = New System.Drawing.Size(38, 13)
+        Me.lblFitting.Size = New System.Drawing.Size(41, 13)
         Me.lblFitting.TabIndex = 0
         Me.lblFitting.Text = "Fitting:"
         '
@@ -761,7 +721,7 @@ Partial Class ShipSlotControl
         Me.lblPilot.AutoSize = True
         Me.lblPilot.Location = New System.Drawing.Point(248, 12)
         Me.lblPilot.Name = "lblPilot"
-        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 2
         Me.lblPilot.Text = "Pilot:"
         '
@@ -850,7 +810,7 @@ Partial Class ShipSlotControl
         Me.chkFCActive.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkFCActive.Location = New System.Drawing.Point(480, 68)
         Me.chkFCActive.Name = "chkFCActive"
-        Me.chkFCActive.Size = New System.Drawing.Size(62, 17)
+        Me.chkFCActive.Size = New System.Drawing.Size(61, 17)
         Me.chkFCActive.TabIndex = 26
         Me.chkFCActive.Text = "Active?"
         Me.chkFCActive.UseVisualStyleBackColor = True
@@ -862,7 +822,7 @@ Partial Class ShipSlotControl
         Me.chkWCActive.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkWCActive.Location = New System.Drawing.Point(480, 41)
         Me.chkWCActive.Name = "chkWCActive"
-        Me.chkWCActive.Size = New System.Drawing.Size(62, 17)
+        Me.chkWCActive.Size = New System.Drawing.Size(61, 17)
         Me.chkWCActive.TabIndex = 25
         Me.chkWCActive.Text = "Active?"
         Me.chkWCActive.UseVisualStyleBackColor = True
@@ -874,7 +834,7 @@ Partial Class ShipSlotControl
         Me.chkSCActive.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSCActive.Location = New System.Drawing.Point(480, 14)
         Me.chkSCActive.Name = "chkSCActive"
-        Me.chkSCActive.Size = New System.Drawing.Size(62, 17)
+        Me.chkSCActive.Size = New System.Drawing.Size(61, 17)
         Me.chkSCActive.TabIndex = 24
         Me.chkSCActive.Text = "Active?"
         Me.chkSCActive.UseVisualStyleBackColor = True
@@ -921,7 +881,7 @@ Partial Class ShipSlotControl
         Me.lblWC.AutoSize = True
         Me.lblWC.Location = New System.Drawing.Point(10, 42)
         Me.lblWC.Name = "lblWC"
-        Me.lblWC.Size = New System.Drawing.Size(74, 13)
+        Me.lblWC.Size = New System.Drawing.Size(75, 13)
         Me.lblWC.TabIndex = 14
         Me.lblWC.Text = "Wing Booster:"
         '
@@ -940,7 +900,7 @@ Partial Class ShipSlotControl
         Me.lblFC.AutoSize = True
         Me.lblFC.Location = New System.Drawing.Point(10, 69)
         Me.lblFC.Name = "lblFC"
-        Me.lblFC.Size = New System.Drawing.Size(72, 13)
+        Me.lblFC.Size = New System.Drawing.Size(75, 13)
         Me.lblFC.TabIndex = 13
         Me.lblFC.Text = "Fleet Booster:"
         '
@@ -958,7 +918,7 @@ Partial Class ShipSlotControl
         Me.lblSC.AutoSize = True
         Me.lblSC.Location = New System.Drawing.Point(10, 15)
         Me.lblSC.Name = "lblSC"
-        Me.lblSC.Size = New System.Drawing.Size(80, 13)
+        Me.lblSC.Size = New System.Drawing.Size(81, 13)
         Me.lblSC.TabIndex = 12
         Me.lblSC.Text = "Squad Booster:"
         '
@@ -976,7 +936,7 @@ Partial Class ShipSlotControl
         Me.lblFleetStatus.AutoSize = True
         Me.lblFleetStatus.Location = New System.Drawing.Point(82, 98)
         Me.lblFleetStatus.Name = "lblFleetStatus"
-        Me.lblFleetStatus.Size = New System.Drawing.Size(45, 13)
+        Me.lblFleetStatus.Size = New System.Drawing.Size(46, 13)
         Me.lblFleetStatus.TabIndex = 22
         Me.lblFleetStatus.Text = "Inactive"
         '
@@ -994,7 +954,7 @@ Partial Class ShipSlotControl
         Me.lblFleetStatusLabel.AutoSize = True
         Me.lblFleetStatusLabel.Location = New System.Drawing.Point(10, 98)
         Me.lblFleetStatusLabel.Name = "lblFleetStatusLabel"
-        Me.lblFleetStatusLabel.Size = New System.Drawing.Size(66, 13)
+        Me.lblFleetStatusLabel.Size = New System.Drawing.Size(69, 13)
         Me.lblFleetStatusLabel.TabIndex = 21
         Me.lblFleetStatusLabel.Text = "Fleet Status:"
         '
@@ -1018,9 +978,181 @@ Partial Class ShipSlotControl
         Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
         Me.cboFCShip.TabIndex = 20
         '
+        'tabBoosters
+        '
+        Me.tabBoosters.Controls.Add(Me.panelBoosters)
+        Me.tabBoosters.Location = New System.Drawing.Point(4, 22)
+        Me.tabBoosters.Name = "tabBoosters"
+        Me.tabBoosters.Size = New System.Drawing.Size(668, 216)
+        Me.tabBoosters.TabIndex = 6
+        Me.tabBoosters.Text = "Boosters"
+        Me.tabBoosters.UseVisualStyleBackColor = True
+        '
+        'panelBoosters
+        '
+        Me.panelBoosters.BackColor = System.Drawing.SystemColors.Control
+        Me.panelBoosters.Controls.Add(Me.lblBoosterPenalties3)
+        Me.panelBoosters.Controls.Add(Me.lblBoosterPenalties2)
+        Me.panelBoosters.Controls.Add(Me.lblBoosterPenalties1)
+        Me.panelBoosters.Controls.Add(Me.lblBoosterSlot3)
+        Me.panelBoosters.Controls.Add(Me.cboBoosterSlot3)
+        Me.panelBoosters.Controls.Add(Me.lblBoosterSlot2)
+        Me.panelBoosters.Controls.Add(Me.cboBoosterSlot2)
+        Me.panelBoosters.Controls.Add(Me.lblBoosterSlot1)
+        Me.panelBoosters.Controls.Add(Me.cboBoosterSlot1)
+        Me.panelBoosters.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelBoosters.Location = New System.Drawing.Point(0, 0)
+        Me.panelBoosters.Name = "panelBoosters"
+        Me.panelBoosters.Size = New System.Drawing.Size(668, 216)
+        Me.panelBoosters.TabIndex = 27
+        '
+        'lblBoosterPenalties3
+        '
+        Me.lblBoosterPenalties3.AutoSize = True
+        Me.lblBoosterPenalties3.Location = New System.Drawing.Point(55, 136)
+        Me.lblBoosterPenalties3.Name = "lblBoosterPenalties3"
+        Me.lblBoosterPenalties3.Size = New System.Drawing.Size(54, 13)
+        Me.lblBoosterPenalties3.TabIndex = 8
+        Me.lblBoosterPenalties3.Text = "Penalties:"
+        '
+        'lblBoosterPenalties2
+        '
+        Me.lblBoosterPenalties2.AutoSize = True
+        Me.lblBoosterPenalties2.Location = New System.Drawing.Point(55, 87)
+        Me.lblBoosterPenalties2.Name = "lblBoosterPenalties2"
+        Me.lblBoosterPenalties2.Size = New System.Drawing.Size(54, 13)
+        Me.lblBoosterPenalties2.TabIndex = 7
+        Me.lblBoosterPenalties2.Text = "Penalties:"
+        '
+        'lblBoosterPenalties1
+        '
+        Me.lblBoosterPenalties1.AutoSize = True
+        Me.lblBoosterPenalties1.Location = New System.Drawing.Point(55, 38)
+        Me.lblBoosterPenalties1.Name = "lblBoosterPenalties1"
+        Me.lblBoosterPenalties1.Size = New System.Drawing.Size(54, 13)
+        Me.lblBoosterPenalties1.TabIndex = 6
+        Me.lblBoosterPenalties1.Text = "Penalties:"
+        '
+        'lblBoosterSlot3
+        '
+        Me.lblBoosterSlot3.AutoSize = True
+        Me.lblBoosterSlot3.Location = New System.Drawing.Point(14, 115)
+        Me.lblBoosterSlot3.Name = "lblBoosterSlot3"
+        Me.lblBoosterSlot3.Size = New System.Drawing.Size(38, 13)
+        Me.lblBoosterSlot3.TabIndex = 5
+        Me.lblBoosterSlot3.Text = "Slot 3:"
+        '
+        'cboBoosterSlot3
+        '
+        Me.cboBoosterSlot3.ContextMenuStrip = Me.ctxBoosters
+        Me.cboBoosterSlot3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot3.FormattingEnabled = True
+        Me.cboBoosterSlot3.Location = New System.Drawing.Point(58, 112)
+        Me.cboBoosterSlot3.Name = "cboBoosterSlot3"
+        Me.cboBoosterSlot3.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot3.Sorted = True
+        Me.cboBoosterSlot3.TabIndex = 4
+        '
+        'ctxBoosters
+        '
+        Me.ctxBoosters.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ctxBoosters.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowBoosterInfo, Me.ToolStripMenuItem3, Me.mnuBoosterPenalty1, Me.mnuBoosterPenalty2, Me.mnuBoosterPenalty3, Me.mnuBoosterPenalty4, Me.ToolStripMenuItem5, Me.mnuRandomSideEffects, Me.mnuAlterBoosterSkills, Me.ToolStripMenuItem4, Me.mnuRemoveBooster})
+        Me.ctxBoosters.Name = "ctx"
+        Me.ctxBoosters.Size = New System.Drawing.Size(174, 198)
+        '
+        'mnuShowBoosterInfo
+        '
+        Me.mnuShowBoosterInfo.Name = "mnuShowBoosterInfo"
+        Me.mnuShowBoosterInfo.Size = New System.Drawing.Size(173, 22)
+        Me.mnuShowBoosterInfo.Text = "Show Info"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(170, 6)
+        '
+        'mnuBoosterPenalty1
+        '
+        Me.mnuBoosterPenalty1.CheckOnClick = True
+        Me.mnuBoosterPenalty1.Name = "mnuBoosterPenalty1"
+        Me.mnuBoosterPenalty1.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty1.Text = "Penalty1"
+        '
+        'mnuBoosterPenalty2
+        '
+        Me.mnuBoosterPenalty2.CheckOnClick = True
+        Me.mnuBoosterPenalty2.Name = "mnuBoosterPenalty2"
+        Me.mnuBoosterPenalty2.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty2.Text = "Penalty2"
+        '
+        'mnuBoosterPenalty3
+        '
+        Me.mnuBoosterPenalty3.CheckOnClick = True
+        Me.mnuBoosterPenalty3.Name = "mnuBoosterPenalty3"
+        Me.mnuBoosterPenalty3.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty3.Text = "Penalty3"
+        '
+        'mnuBoosterPenalty4
+        '
+        Me.mnuBoosterPenalty4.CheckOnClick = True
+        Me.mnuBoosterPenalty4.Name = "mnuBoosterPenalty4"
+        Me.mnuBoosterPenalty4.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty4.Text = "Penalty4"
+        '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(170, 6)
+        '
+        'mnuRemoveBooster
+        '
+        Me.mnuRemoveBooster.Name = "mnuRemoveBooster"
+        Me.mnuRemoveBooster.Size = New System.Drawing.Size(173, 22)
+        Me.mnuRemoveBooster.Text = "Remove Booster"
+        '
+        'lblBoosterSlot2
+        '
+        Me.lblBoosterSlot2.AutoSize = True
+        Me.lblBoosterSlot2.Location = New System.Drawing.Point(15, 66)
+        Me.lblBoosterSlot2.Name = "lblBoosterSlot2"
+        Me.lblBoosterSlot2.Size = New System.Drawing.Size(38, 13)
+        Me.lblBoosterSlot2.TabIndex = 3
+        Me.lblBoosterSlot2.Text = "Slot 2:"
+        '
+        'cboBoosterSlot2
+        '
+        Me.cboBoosterSlot2.ContextMenuStrip = Me.ctxBoosters
+        Me.cboBoosterSlot2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot2.FormattingEnabled = True
+        Me.cboBoosterSlot2.Location = New System.Drawing.Point(58, 63)
+        Me.cboBoosterSlot2.Name = "cboBoosterSlot2"
+        Me.cboBoosterSlot2.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot2.Sorted = True
+        Me.cboBoosterSlot2.TabIndex = 2
+        '
+        'lblBoosterSlot1
+        '
+        Me.lblBoosterSlot1.AutoSize = True
+        Me.lblBoosterSlot1.Location = New System.Drawing.Point(15, 17)
+        Me.lblBoosterSlot1.Name = "lblBoosterSlot1"
+        Me.lblBoosterSlot1.Size = New System.Drawing.Size(38, 13)
+        Me.lblBoosterSlot1.TabIndex = 1
+        Me.lblBoosterSlot1.Text = "Slot 1:"
+        '
+        'cboBoosterSlot1
+        '
+        Me.cboBoosterSlot1.ContextMenuStrip = Me.ctxBoosters
+        Me.cboBoosterSlot1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot1.FormattingEnabled = True
+        Me.cboBoosterSlot1.Location = New System.Drawing.Point(58, 14)
+        Me.cboBoosterSlot1.Name = "cboBoosterSlot1"
+        Me.cboBoosterSlot1.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot1.Sorted = True
+        Me.cboBoosterSlot1.TabIndex = 0
+        '
         'tabEnvironment
         '
-        Me.tabEnvironment.Controls.Add(Me.Panel1)
+        Me.tabEnvironment.Controls.Add(Me.panelWH)
         Me.tabEnvironment.Location = New System.Drawing.Point(4, 22)
         Me.tabEnvironment.Name = "tabEnvironment"
         Me.tabEnvironment.Size = New System.Drawing.Size(668, 216)
@@ -1028,25 +1160,25 @@ Partial Class ShipSlotControl
         Me.tabEnvironment.Text = "WH Effects"
         Me.tabEnvironment.UseVisualStyleBackColor = True
         '
-        'Panel1
+        'panelWH
         '
-        Me.Panel1.BackColor = System.Drawing.SystemColors.Control
-        Me.Panel1.Controls.Add(Me.lblWHClass)
-        Me.Panel1.Controls.Add(Me.cboWHClass)
-        Me.Panel1.Controls.Add(Me.lblWHEffect)
-        Me.Panel1.Controls.Add(Me.cboWHEffect)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(668, 216)
-        Me.Panel1.TabIndex = 26
+        Me.panelWH.BackColor = System.Drawing.SystemColors.Control
+        Me.panelWH.Controls.Add(Me.lblWHClass)
+        Me.panelWH.Controls.Add(Me.cboWHClass)
+        Me.panelWH.Controls.Add(Me.lblWHEffect)
+        Me.panelWH.Controls.Add(Me.cboWHEffect)
+        Me.panelWH.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelWH.Location = New System.Drawing.Point(0, 0)
+        Me.panelWH.Name = "panelWH"
+        Me.panelWH.Size = New System.Drawing.Size(668, 216)
+        Me.panelWH.TabIndex = 26
         '
         'lblWHClass
         '
         Me.lblWHClass.AutoSize = True
         Me.lblWHClass.Location = New System.Drawing.Point(286, 15)
         Me.lblWHClass.Name = "lblWHClass"
-        Me.lblWHClass.Size = New System.Drawing.Size(86, 13)
+        Me.lblWHClass.Size = New System.Drawing.Size(87, 13)
         Me.lblWHClass.TabIndex = 14
         Me.lblWHClass.Text = "Wormhole Class:"
         '
@@ -1065,7 +1197,7 @@ Partial Class ShipSlotControl
         Me.lblWHEffect.AutoSize = True
         Me.lblWHEffect.Location = New System.Drawing.Point(10, 15)
         Me.lblWHEffect.Name = "lblWHEffect"
-        Me.lblWHEffect.Size = New System.Drawing.Size(89, 13)
+        Me.lblWHEffect.Size = New System.Drawing.Size(91, 13)
         Me.lblWHEffect.TabIndex = 12
         Me.lblWHEffect.Text = "Wormhole Effect:"
         '
@@ -1078,6 +1210,109 @@ Partial Class ShipSlotControl
         Me.cboWHEffect.Name = "cboWHEffect"
         Me.cboWHEffect.Size = New System.Drawing.Size(148, 21)
         Me.cboWHEffect.TabIndex = 10
+        '
+        'tabShipBay
+        '
+        Me.tabShipBay.Controls.Add(Me.panelShipBay)
+        Me.tabShipBay.Location = New System.Drawing.Point(4, 22)
+        Me.tabShipBay.Name = "tabShipBay"
+        Me.tabShipBay.Size = New System.Drawing.Size(668, 216)
+        Me.tabShipBay.TabIndex = 4
+        Me.tabShipBay.Text = "Ship Maintenance Bay"
+        Me.tabShipBay.UseVisualStyleBackColor = True
+        '
+        'panelShipBay
+        '
+        Me.panelShipBay.BackColor = System.Drawing.SystemColors.Control
+        Me.panelShipBay.Controls.Add(Me.pbShipBay)
+        Me.panelShipBay.Controls.Add(Me.lblShipBay)
+        Me.panelShipBay.Controls.Add(Me.lvwShipBay)
+        Me.panelShipBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelShipBay.Location = New System.Drawing.Point(0, 0)
+        Me.panelShipBay.Name = "panelShipBay"
+        Me.panelShipBay.Size = New System.Drawing.Size(668, 216)
+        Me.panelShipBay.TabIndex = 34
+        '
+        'pbShipBay
+        '
+        Me.pbShipBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbShipBay.BackColor = System.Drawing.Color.Transparent
+        Me.pbShipBay.EndColor = System.Drawing.Color.LimeGreen
+        Me.pbShipBay.GlowColor = System.Drawing.Color.LightGreen
+        Me.pbShipBay.Location = New System.Drawing.Point(3, 21)
+        Me.pbShipBay.Name = "pbShipBay"
+        Me.pbShipBay.Size = New System.Drawing.Size(635, 10)
+        Me.pbShipBay.StartColor = System.Drawing.Color.LimeGreen
+        Me.pbShipBay.TabIndex = 32
+        Me.pbShipBay.Value = 50
+        '
+        'lblShipBay
+        '
+        Me.lblShipBay.AutoSize = True
+        Me.lblShipBay.Location = New System.Drawing.Point(3, 5)
+        Me.lblShipBay.Name = "lblShipBay"
+        Me.lblShipBay.Size = New System.Drawing.Size(89, 13)
+        Me.lblShipBay.TabIndex = 3
+        Me.lblShipBay.Text = "0.00 / 000.00 m³"
+        '
+        'lvwShipBay
+        '
+        Me.lvwShipBay.AllowDrop = True
+        Me.lvwShipBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwShipBay.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colShipBayShip, Me.colShipBayQuantity, Me.colShipBayVolume, Me.colShipBayTotalVolume})
+        Me.lvwShipBay.ContextMenuStrip = Me.ctxBays
+        Me.lvwShipBay.FullRowSelect = True
+        Me.lvwShipBay.GridLines = True
+        Me.lvwShipBay.Location = New System.Drawing.Point(3, 35)
+        Me.lvwShipBay.Name = "lvwShipBay"
+        Me.lvwShipBay.Size = New System.Drawing.Size(662, 178)
+        Me.lvwShipBay.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwShipBay.TabIndex = 5
+        Me.lvwShipBay.UseCompatibleStateImageBehavior = False
+        Me.lvwShipBay.View = System.Windows.Forms.View.Details
+        '
+        'colShipBayShip
+        '
+        Me.colShipBayShip.Text = "Ship Type"
+        Me.colShipBayShip.Width = 225
+        '
+        'colShipBayQuantity
+        '
+        Me.colShipBayQuantity.Text = "Qty"
+        Me.colShipBayQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.colShipBayQuantity.Width = 50
+        '
+        'colShipBayVolume
+        '
+        Me.colShipBayVolume.Text = "Ship Volume (m³)"
+        Me.colShipBayVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colShipBayVolume.Width = 100
+        '
+        'colShipBayTotalVolume
+        '
+        Me.colShipBayTotalVolume.Text = "Total Volume (m³)"
+        Me.colShipBayTotalVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colShipBayTotalVolume.Width = 100
+        '
+        'mnuRandomSideEffects
+        '
+        Me.mnuRandomSideEffects.Name = "mnuRandomSideEffects"
+        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(173, 22)
+        Me.mnuRandomSideEffects.Text = "Random Side Effects"
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(170, 6)
+        '
+        'mnuAlterBoosterSkills
+        '
+        Me.mnuAlterBoosterSkills.Name = "mnuAlterBoosterSkills"
+        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(173, 22)
+        Me.mnuAlterBoosterSkills.Text = "Alter Relevant Skills"
         '
         'lvwSlots
         '
@@ -1133,18 +1368,22 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.ResumeLayout(False)
         Me.panelCargo.ResumeLayout(False)
         Me.panelCargo.PerformLayout()
-        Me.tabShipBay.ResumeLayout(False)
-        Me.panelShipBay.ResumeLayout(False)
-        Me.panelShipBay.PerformLayout()
         Me.tabRemote.ResumeLayout(False)
         Me.panelRemote.ResumeLayout(False)
         Me.panelRemote.PerformLayout()
         Me.tabFleet.ResumeLayout(False)
         Me.panelFleet.ResumeLayout(False)
         Me.panelFleet.PerformLayout()
+        Me.tabBoosters.ResumeLayout(False)
+        Me.panelBoosters.ResumeLayout(False)
+        Me.panelBoosters.PerformLayout()
+        Me.ctxBoosters.ResumeLayout(False)
         Me.tabEnvironment.ResumeLayout(False)
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
+        Me.panelWH.ResumeLayout(False)
+        Me.panelWH.PerformLayout()
+        Me.tabShipBay.ResumeLayout(False)
+        Me.panelShipBay.ResumeLayout(False)
+        Me.panelShipBay.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1225,6 +1464,10 @@ Partial Class ShipSlotControl
 
         ' Load the remote and fleet info
         Call LoadRemoteFleetInfo()
+
+        ' Load the Booster info
+        Call LoadBoosterInfo()
+
     End Sub
     Friend WithEvents imgState As System.Windows.Forms.ImageList
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
@@ -1288,9 +1531,32 @@ Partial Class ShipSlotControl
     Friend WithEvents colShipBayVolume As System.Windows.Forms.ColumnHeader
     Friend WithEvents colShipBayTotalVolume As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabEnvironment As System.Windows.Forms.TabPage
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents panelWH As System.Windows.Forms.Panel
     Friend WithEvents lblWHClass As System.Windows.Forms.Label
     Friend WithEvents cboWHClass As System.Windows.Forms.ComboBox
     Friend WithEvents lblWHEffect As System.Windows.Forms.Label
     Friend WithEvents cboWHEffect As System.Windows.Forms.ComboBox
+    Friend WithEvents tabBoosters As System.Windows.Forms.TabPage
+    Friend WithEvents panelBoosters As System.Windows.Forms.Panel
+    Friend WithEvents lblBoosterSlot3 As System.Windows.Forms.Label
+    Friend WithEvents cboBoosterSlot3 As System.Windows.Forms.ComboBox
+    Friend WithEvents lblBoosterSlot2 As System.Windows.Forms.Label
+    Friend WithEvents cboBoosterSlot2 As System.Windows.Forms.ComboBox
+    Friend WithEvents lblBoosterSlot1 As System.Windows.Forms.Label
+    Friend WithEvents cboBoosterSlot1 As System.Windows.Forms.ComboBox
+    Friend WithEvents lblBoosterPenalties1 As System.Windows.Forms.Label
+    Friend WithEvents ctxBoosters As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuBoosterPenalty1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuBoosterPenalty2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuBoosterPenalty3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuBoosterPenalty4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblBoosterPenalties3 As System.Windows.Forms.Label
+    Friend WithEvents lblBoosterPenalties2 As System.Windows.Forms.Label
+    Friend WithEvents mnuShowBoosterInfo As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuRemoveBooster As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuRandomSideEffects As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAlterBoosterSkills As System.Windows.Forms.ToolStripMenuItem
 End Class
