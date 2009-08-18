@@ -1,34 +1,67 @@
 EveHQ - Version History
 -----------------------
 
-1.12.1.770 (03/08/2009)
+1.13.0.798 (18/08/2009)
 ----------
 New Features:
 - EveHQ Dashboard: New screen within the core application giving relevant pilot information
-Fixed and Improvements:
+Improvements:
 - Core: Standardised font across all application and plug-ins
 - Core: Simplified internal data structures leading to slight performance increase all-round
 - Core: Skill Queue info now includes the day of the week
-- Core: Fixed crash when double-clicking on blank area in pilot skills
 - Core: Added training end date/time to G15 display
+- Core: Optimised routines relating to string generation
+- Core: Added "Queue Time Available" detail to the Training Bar
+- Core: Added "View in Cert Details" context menu item for the Skill Depends screen
+- Core: Added option to import and export skill queue info as an EveMon Plan(EMP) file
+- Core: Reorganised buttons for Import/Export in training form
+- Core: Added "Notes" fields to the skill queue (accessible via the context menu)
+- Core: Improved Skill Queue Column selection
+- Core: Replaced Training Queue Settings UI with new controls
+- Core: Multiple skills can now be dragged/dropped within the skill queue
+- Core: Updated database to Apoc 1.5
+- HQF: Added maximum ship and pilot targets into the calculations and ship info display
+- HQF: Tooltip for sensor strength now provides a sensor type breakdown
+- HQF: Hovering over a module in the slot control will now display the module description
+- HQF: Being over-budget on CPU or PG will now indicate the % over budget
+- HQF: Added tooltips to buttons in Pilot Manager to give explanations
+- HQF: Required Skills screen now shows the pilot name at the top
+- HQF: Added option in Required Skills to set HQF skills to those requirements
+- HQF: Added option in pilot manager for modifiying skills to match a skill queue
+- HQF: Skills in the required skills screen that the HQF level only is above required are now shown in orange
+- HQF: Removed confirmation of successful Eve fitting export - will only show errors
+- HQF: Added 2 new settings for include cap and ammo reload times into calculations
+- HQF: Implemented cap reload times into calculations
+- HQF: Implemented ammo reload times into the calculations
+- HQF: Settings for ammo and cap reload times now saved and loaded correctly
+- HQF: Added routine to upgrade rigs to the correct sizes on opening a fitting due to changes in Apoc 1.5
+- HQF: Added code to parse tooltip text and reduce to a more acceptable width
+- HQF: Boosters are now implemented via a new tab under the ship slot control
+- HQF: Added new setting for restoring last used pilot for each fitting in the last HQF session
+- Item Browser: Added insurance tab for ships
+- Prism: Extended CorpRep info in API Status tooltip
+- Prism: Added facility to remove Prism API data
+Fixes:
+- Core: Fixed crash when double-clicking on blank area in pilot skills
 - Core: Fixed error on Eve API request when returning an error message without a code attribute
 - Core: Training skills now assumes that the pilot has the skill level prior to it
 - Core: Percent of skill complete in the training form is now capped at 100%
 - Core: Training rate is now properly checked and calculated using the Training Bonus as CCP recently changed how it functioned
-- Core: Optimised routines relating to string generation
-- Core: Added "Queue Time Available" detail to the Training Bar
-- Core: Added "View in Cert Details" context menu item for the Skill Depends screen
-- Core: Training form no longer removes all training queue tabs during a refresh - now verifies that they all should be present
 - Core: Disabled the retrieve account info options while the data is being retrieved
 - Core: Fixed a reference in the skill queue report
-- HQF: Added maximum ship and pilot targets into the calcualations
-- HQF: Added mappings for Targeting and Multitasking skills
-- HQF: Added new info on ShipInfoControl for displaying maximum locked target info
-- HQF: Tooltip for sensor strength now provides a sensor type breakdown
+- Core: Using File > Exit should shutdown correctly
+- Core: Fixed display of <Unknown> skill group in skill details displays
+- Core: Skills within charactersheet reports (HTML & Text) now sorted by skill name
+- Core: Fixed error removing skills from skill queue
+- Core: Fixed error with drawing the reports menu when no pilots were initialised
+- Core: Added routine to check if a skill being added to the queue is being trained
+- Core: Fixed SP Rate and training time updates on the training form
+- Core: Training form no longer removes all training queue tabs during a refresh
+- Core: Removed errors caused by invalid subitem indices when highlighting a skill
+- Core: Fixed invalid subitem indices in various routines in the training form
 - HQF: Gas Cloud Harvesting skill now correctly increases the number of usable harvesters
 - HQF: Fixed crash in module filters when changing fittings
-- Prism: Extended CorpRep info in API Status tooltip
-- Prism: Added facility to remove Prism API data
+- HQF: Succubus now contains it's 100% role damage bonus
 
 
 1.12.1.740 (16/07/2009)
