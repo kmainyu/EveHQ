@@ -889,6 +889,24 @@ CREATE TABLE dbo.invTypeReactions
   quantity			integer			NOT NULL
 );
 
+CREATE TABLE dbo.trnTranslations
+(
+  tcID        integer        NOT NULL,
+  keyID       integer        NOT NULL,
+  languageID  text(2)        NOT NULL,
+  [text]      memo           NOT NULL
+);
+
+CREATE TABLE dbo.trnTranslationColumns
+(
+  tcGroupID      integer        NULL,
+  tcID           integer        NOT NULL,
+  tableName      text(255)      NOT NULL,
+  columnName     text(128)      NOT NULL,
+  masterID       text(128)      NULL,
+  CONSTRAINT translationColumns_PK PRIMARY KEY (tcID)
+);
+
 CREATE TABLE dbo.typeActivityMaterials
 (
   typeID  			integer			NOT NULL,

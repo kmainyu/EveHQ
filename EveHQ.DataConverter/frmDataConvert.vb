@@ -43,7 +43,7 @@ Public Class frmDataConvert
     Dim password As String
     Dim conversionSuccess As Boolean = False
     Dim fileList As New ArrayList
-    Dim DBVersion As String = "1.12.0.0"
+    Dim DBVersion As String = "1.13.0.0"
 
     Private Function ParseLine(ByVal oneLine As String) As String()
         ' Returns an array containing the values of the comma-separated fields.
@@ -646,7 +646,7 @@ Public Class frmDataConvert
                         Dim line As String = ""
                         Do
                             line &= sr.ReadLine & ControlChars.CrLf
-                        Loop Until line.EndsWith(";" & ControlChars.CrLf) Or sr.EndOfStream = True
+                        Loop Until line.EndsWith(");" & ControlChars.CrLf) Or sr.EndOfStream = True
                         lineCount += 1
                         ' Replace the dbo bits of the tables
                         line = line.Replace("dbo.", "")
@@ -669,7 +669,7 @@ Public Class frmDataConvert
                         End If
                         'End If
 
-                        If line.EndsWith(";" & ControlChars.CrLf) = True And line.StartsWith(ControlChars.CrLf & "INSERT") = True Then
+                        If line.EndsWith(");" & ControlChars.CrLf) = True And line.StartsWith(ControlChars.CrLf & "INSERT") = True Then
                             command = New OleDbCommand(line, connection)
                             If connection.State <> ConnectionState.Open Then
                                 connection.Open()
@@ -1233,65 +1233,67 @@ Public Class frmDataConvert
                 ' Get the whole table of information
                 Dim eveSQL As String = "SELECT * FROM " & DataTable
                 Dim EveData As DataSet = GetData(eveSQL, strConnection)
-                Dim sw As New StreamWriter(Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "SQL2TSQL"), DataTable & ".sql"))
-                sw.WriteLine("")
-                For Each eveRow As DataRow In EveData.Tables(0).Rows
-                    strData = New StringBuilder
-                    ' Write the first part
-                    strData.AppendLine("INSERT INTO " & DataTable)
-                    strData.Append("(")
-                    For Each datacol As String In dataCols
-                        If datacol <> dataCols(dataCols.Count - 1) Then
-                            strData.Append(datacol & ",")
-                        Else
-                            strData.AppendLine(datacol & ")")
-                        End If
-                    Next
-                    strData.Append("VALUES(")
-                    For Each datacol As String In dataCols
-                        If datacol <> dataCols(dataCols.Count - 1) Then
-                            If IsDBNull(eveRow.Item(datacol)) = True Then
-                                strData.Append("null,")
+                If EveData IsNot Nothing Then
+                    Dim sw As New StreamWriter(Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "SQL2TSQL"), DataTable & ".sql"))
+                    sw.WriteLine("")
+                    For Each eveRow As DataRow In EveData.Tables(0).Rows
+                        strData = New StringBuilder
+                        ' Write the first part
+                        strData.AppendLine("INSERT INTO " & DataTable)
+                        strData.Append("(")
+                        For Each datacol As String In dataCols
+                            If datacol <> dataCols(dataCols.Count - 1) Then
+                                strData.Append(datacol & ",")
                             Else
-                                If dataColTypes.Item(datacol).ToString.Contains("char") = False Then
-                                    'If IsNumeric(eveRow.Item(datacol)) = True Then
-                                    ' Is numeric
-                                    strData.Append(eveRow.Item(datacol) & ",")
+                                strData.AppendLine(datacol & ")")
+                            End If
+                        Next
+                        strData.Append("VALUES(")
+                        For Each datacol As String In dataCols
+                            If datacol <> dataCols(dataCols.Count - 1) Then
+                                If IsDBNull(eveRow.Item(datacol)) = True Then
+                                    strData.Append("null,")
                                 Else
-                                    ' Is alphabetic
-                                    strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
-                                    strItem = strItem.Replace(Chr(145).ToString, "''")
-                                    strItem = strItem.Replace(Chr(146).ToString, "''")
-                                    strItem = strItem.Replace("’", "''")
-                                    strData.Append("'" & strItem & "',")
+                                    If dataColTypes.Item(datacol).ToString.Contains("char") = False Then
+                                        'If IsNumeric(eveRow.Item(datacol)) = True Then
+                                        ' Is numeric
+                                        strData.Append(eveRow.Item(datacol) & ",")
+                                    Else
+                                        ' Is alphabetic
+                                        strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
+                                        strItem = strItem.Replace(Chr(145).ToString, "''")
+                                        strItem = strItem.Replace(Chr(146).ToString, "''")
+                                        strItem = strItem.Replace("’", "''")
+                                        strData.Append("'" & strItem & "',")
+                                    End If
+                                End If
+                            Else
+                                If IsDBNull(eveRow.Item(datacol)) = True Then
+                                    strData.AppendLine("null);")
+                                Else
+                                    If dataColTypes.Item(datacol).ToString.Contains("char") = False Then
+                                        'If IsNumeric(eveRow.Item(datacol)) = True Then
+                                        ' Is numeric
+                                        strData.AppendLine(eveRow.Item(datacol) & ");")
+                                    Else
+                                        ' Is alphabetic
+                                        strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
+                                        strItem = strItem.Replace(Chr(145).ToString, "''")
+                                        strItem = strItem.Replace(Chr(146).ToString, "''")
+                                        strItem = strItem.Replace("’", "''")
+                                        strData.AppendLine("'" & strItem & "');")
+                                    End If
                                 End If
                             End If
-                        Else
-                            If IsDBNull(eveRow.Item(datacol)) = True Then
-                                strData.AppendLine("null);")
-                            Else
-                                If dataColTypes.Item(datacol).ToString.Contains("char") = False Then
-                                    'If IsNumeric(eveRow.Item(datacol)) = True Then
-                                    ' Is numeric
-                                    strData.AppendLine(eveRow.Item(datacol) & ");")
-                                Else
-                                    ' Is alphabetic
-                                    strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
-                                    strItem = strItem.Replace(Chr(145).ToString, "''")
-                                    strItem = strItem.Replace(Chr(146).ToString, "''")
-                                    strItem = strItem.Replace("’", "''")
-                                    strData.AppendLine("'" & strItem & "');")
-                                End If
-                            End If
-                        End If
+                        Next
+                        strData.AppendLine("")
+                        sw.Write(strData.ToString)
                     Next
-                    strData.AppendLine("")
-                    sw.Write(strData.ToString)
-                Next
-                ' Process other messages
-                Application.DoEvents()
-                sw.Flush()
-                sw.Close()
+                    ' Process other messages
+                    Application.DoEvents()
+                    sw.Flush()
+                    sw.Close()
+                End If
             End If
         Next
 
@@ -1319,7 +1321,7 @@ Public Class frmDataConvert
             conn.Close()
             Return MyData
         Catch e As Exception
-            MessageBox.Show(e.Message, "An Error Occured Getting Data!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'MessageBox.Show(e.Message, "An Error Occured Getting Data!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return Nothing
         Finally
             If conn.State = ConnectionState.Open Then
