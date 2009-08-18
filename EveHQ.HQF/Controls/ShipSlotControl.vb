@@ -24,6 +24,7 @@ Imports System.Text
 Public Class ShipSlotControl
     Dim UpdateAll As Boolean = False
     Dim UpdateDrones As Boolean = False
+    Dim UpdateBoosters As Boolean = False
     Dim cancelDroneActivation As Boolean = False
     Dim rigGroups As New ArrayList
     Dim remoteGroups As New ArrayList
@@ -141,6 +142,7 @@ Public Class ShipSlotControl
             Me.RedrawDroneBay()
             Me.RedrawCargoBay()
             Me.RedrawShipBay()
+            Me.UpdateBoosterSlots()
         Else
             MessageBox.Show("The fitting for " & cShipFit & " failed to produce a calculated setup.", "Error Calculating Fitting", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -587,115 +589,130 @@ Public Class ShipSlotControl
         Dim currentFitList As ArrayList = CType(currentFit.Clone, ArrayList)
         For Each shipMod As String In currentFitList
             If shipMod IsNot Nothing Then
-                ' Check for installed charges
-                Dim modData() As String = shipMod.Split(",".ToCharArray)
-                Dim state As Integer = 4
-                Dim itemQuantity As Integer = 1
-                If modData(0).Length > 2 Then
-                    If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
-                        state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
-                        modData(0) = modData(0).TrimEnd(("_" & state.ToString).ToCharArray)
-                        state = CInt(Math.Pow(2, state))
-                    End If
-                End If
-                ' Check for item quantity (EFT method)
-                Dim qSep As Integer = InStrRev(modData(0), " ")
-                If qSep > 0 Then
-                    Dim qString As String = modData(0).Substring(qSep)
-                    If qString.StartsWith("x") Then
-                        qString = qString.TrimStart("x".ToCharArray)
-                        If IsNumeric(qString) = True Then
-                            itemQuantity = CInt(qString)
-                            modData(0) = modData(0).TrimEnd((" x" & itemQuantity.ToString).ToCharArray)
-                        End If
-                    End If
-                End If
-                ' Check if the module exists
-                If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
-                    Dim modID As String = ModuleLists.moduleListName(modData(0)).ToString
-                    Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
-                    If modData.GetUpperBound(0) > 0 Then
-                        ' Check if a charge (will be a valid item)
-                        If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
-                            Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
-                            sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule).Clone
-                        End If
-                    End If
-                    ' Check if module is nothing
-                    If sMod IsNot Nothing Then
-                        ' Check if module is a drone
-                        If sMod.IsDrone = True Then
-                            Dim active As Boolean = False
-                            If modData.GetUpperBound(0) > 0 Then
-                                If modData(1).EndsWith("a") = True Then
-                                    active = True
-                                    itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
-                                Else
-                                    If modData(1).EndsWith("i") = True Then
-                                        itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
-                                    Else
-                                        itemQuantity = CInt(modData(1))
-                                    End If
-                                End If
-                            End If
-                            Call Me.AddDrone(sMod, itemQuantity, active)
-                        Else
-                            ' Check if module is a charge
-                            If sMod.IsCharge = True Or sMod.IsContainer Then
-                                If modData.GetUpperBound(0) > 0 Then
-                                    itemQuantity = CInt(modData(1))
-                                End If
-                                Call Me.AddItem(sMod, itemQuantity)
-                            Else
-                                ' Must be a proper module then!
-                                sMod.ModuleState = state
-                                Call AddModule(sMod, 0, True, Nothing)
-                            End If
-                        End If
+                If shipMod.StartsWith("#") Then
+                    If shipMod.StartsWith("#Booster#") = True Then
+                        Dim Booster As String = shipMod.TrimStart("#Booster#".ToCharArray)
+                        Dim modID As String = ModuleLists.moduleListName(Booster).ToString
+                        Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                        currentShip.BoosterSlotCollection.Add(sMod)
                     Else
-                        ' Unrecognised module
-                        MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        If shipMod.StartsWith("#Pilot#") = True Then
+                            currentShip.PilotName = shipMod.TrimStart("#Pilot#".ToCharArray)
+                        Else
+                            currentFit.Remove(shipMod)
+                        End If
                     End If
                 Else
-                    ' Check if this is a ship from the maintenance bay
-                    If ShipLists.shipList.ContainsKey(modData(0)) Then
-                        Dim sShip As Ship = CType(ShipLists.shipList(modData(0)), Ship).Clone
-                        If modData.GetUpperBound(0) > 0 Then
-                            itemQuantity = CInt(modData(1))
+                    ' Check for installed charges
+                    Dim modData() As String = shipMod.Split(",".ToCharArray)
+                    Dim state As Integer = 4
+                    Dim itemQuantity As Integer = 1
+                    If modData(0).Length > 2 Then
+                        If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
+                            state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
+                            modData(0) = modData(0).TrimEnd(("_" & state.ToString).ToCharArray)
+                            state = CInt(Math.Pow(2, state))
                         End If
-                        Call Me.AddShip(sShip, itemQuantity)
-                    Else
-                        ' Check if this is a rig i.e. try putting large in front of it!
-                        Dim testRig As String = "Large " & modData(0)
-                        If ModuleLists.moduleListName.ContainsKey(testRig) = True Then
-                            Dim modID As String = ModuleLists.moduleListName(testRig).ToString
-                            Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
-                            If sMod.SlotType = 1 Then ' i.e. rig
-                                If CInt(sMod.Attributes("1547")) = CInt(currentShip.Attributes("1547")) Then
-                                    sMod.ModuleState = state
-                                    Call AddModule(sMod, 0, True, Nothing)
-                                    RigUpgrade = True
+                    End If
+                    ' Check for item quantity (EFT method)
+                    Dim qSep As Integer = InStrRev(modData(0), " ")
+                    If qSep > 0 Then
+                        Dim qString As String = modData(0).Substring(qSep)
+                        If qString.StartsWith("x") Then
+                            qString = qString.TrimStart("x".ToCharArray)
+                            If IsNumeric(qString) = True Then
+                                itemQuantity = CInt(qString)
+                                modData(0) = modData(0).TrimEnd((" x" & itemQuantity.ToString).ToCharArray)
+                            End If
+                        End If
+                    End If
+                    ' Check if the module exists
+                    If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
+                        Dim modID As String = ModuleLists.moduleListName(modData(0)).ToString
+                        Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                        If modData.GetUpperBound(0) > 0 Then
+                            ' Check if a charge (will be a valid item)
+                            If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
+                                Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
+                                sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule).Clone
+                            End If
+                        End If
+                        ' Check if module is nothing
+                        If sMod IsNot Nothing Then
+                            ' Check if module is a drone
+                            If sMod.IsDrone = True Then
+                                Dim active As Boolean = False
+                                If modData.GetUpperBound(0) > 0 Then
+                                    If modData(1).EndsWith("a") = True Then
+                                        active = True
+                                        itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
+                                    Else
+                                        If modData(1).EndsWith("i") = True Then
+                                            itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
+                                        Else
+                                            itemQuantity = CInt(modData(1))
+                                        End If
+                                    End If
+                                End If
+                                Call Me.AddDrone(sMod, itemQuantity, active)
+                            Else
+                                ' Check if module is a charge
+                                If sMod.IsCharge = True Or sMod.IsContainer Then
+                                    If modData.GetUpperBound(0) > 0 Then
+                                        itemQuantity = CInt(modData(1))
+                                    End If
+                                    Call Me.AddItem(sMod, itemQuantity)
                                 Else
-                                    Select Case CInt(currentShip.Attributes("1547"))
-                                        Case 1
-                                            testRig = "Small " & modData(0)
-                                        Case 2
-                                            testRig = "Medium " & modData(0)
-                                        Case 3
-                                            testRig = "Large " & modData(0)
-                                        Case 4
-                                            testRig = "Capital " & modData(0)
-                                    End Select
-                                    modID = ModuleLists.moduleListName(testRig).ToString
-                                    sMod = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                                    ' Must be a proper module then!
                                     sMod.ModuleState = state
                                     Call AddModule(sMod, 0, True, Nothing)
-                                    RigUpgrade = True
                                 End If
                             End If
                         Else
-                            MessageBox.Show("The '" & modData(0) & "' is not a valid module or ship. This item will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            currentFit.Remove(modData(0))
+                            ' Unrecognised module
+                            MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
+                    Else
+                        ' Check if this is a ship from the maintenance bay
+                        If ShipLists.shipList.ContainsKey(modData(0)) Then
+                            Dim sShip As Ship = CType(ShipLists.shipList(modData(0)), Ship).Clone
+                            If modData.GetUpperBound(0) > 0 Then
+                                itemQuantity = CInt(modData(1))
+                            End If
+                            Call Me.AddShip(sShip, itemQuantity)
+                        Else
+                            ' Check if this is a rig i.e. try putting large in front of it!
+                            Dim testRig As String = "Large " & modData(0)
+                            If ModuleLists.moduleListName.ContainsKey(testRig) = True Then
+                                Dim modID As String = ModuleLists.moduleListName(testRig).ToString
+                                Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                                If sMod.SlotType = 1 Then ' i.e. rig
+                                    If CInt(sMod.Attributes("1547")) = CInt(currentShip.Attributes("1547")) Then
+                                        sMod.ModuleState = state
+                                        Call AddModule(sMod, 0, True, Nothing)
+                                        RigUpgrade = True
+                                    Else
+                                        Select Case CInt(currentShip.Attributes("1547"))
+                                            Case 1
+                                                testRig = "Small " & modData(0)
+                                            Case 2
+                                                testRig = "Medium " & modData(0)
+                                            Case 3
+                                                testRig = "Large " & modData(0)
+                                            Case 4
+                                                testRig = "Capital " & modData(0)
+                                        End Select
+                                        modID = ModuleLists.moduleListName(testRig).ToString
+                                        sMod = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                                        sMod.ModuleState = state
+                                        Call AddModule(sMod, 0, True, Nothing)
+                                        RigUpgrade = True
+                                    End If
+                                End If
+                            Else
+                                MessageBox.Show("The '" & modData(0) & "' is not a valid module or ship. This item will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                currentFit.Remove(modData(0))
+                            End If
                         End If
                     End If
                 End If
@@ -708,6 +725,12 @@ Public Class ShipSlotControl
     Private Sub UpdateFittingListFromShipData()
         currentFit.Clear()
         Dim state As Integer
+
+        If currentInfo IsNot Nothing Then
+            If currentInfo.cboPilots.SelectedItem IsNot Nothing Then
+                currentFit.Add("#Pilot#" & currentInfo.cboPilots.SelectedItem.ToString)
+            End If
+        End If
 
         For slot As Integer = 1 To currentShip.SubSlots
             If currentShip.SubSlot(slot) IsNot Nothing Then
@@ -779,6 +802,14 @@ Public Class ShipSlotControl
         For Each sBI As ShipBayItem In currentShip.ShipBayItems.Values
             currentFit.Add(sBI.ShipType.Name & ", " & sBI.Quantity)
         Next
+
+        Dim boosterCount As Integer = 0
+        For Each Booster As ShipModule In currentShip.BoosterSlotCollection
+            boosterCount += 1
+            currentFit.Add("#Booster#" & Booster.Name)
+        Next
+
+        'MessageBox.Show(currentFit.ToString)
 
     End Sub
     Private Sub ReorderModules()
@@ -3855,7 +3886,17 @@ Public Class ShipSlotControl
         cboBoosterSlot3.EndUpdate()
     End Sub
 
-#End Region
+    Private Sub UpdateBoosterSlots()
+        UpdateBoosters = True
+        For Each Booster As ShipModule In currentShip.BoosterSlotCollection
+            Dim slot As Integer = CInt(Booster.Attributes("1087"))
+            Dim cb As ComboBox = CType(panelBoosters.Controls("cboBoosterSlot" & slot.ToString), ComboBox)
+            If cb.Items.Contains(Booster.Name) = True Then
+                cb.SelectedItem = Booster.Name
+            End If
+        Next
+        UpdateBoosters = False
+    End Sub
 
     Private Sub cboBoosterSlots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBoosterSlot1.SelectedIndexChanged, cboBoosterSlot2.SelectedIndexChanged, cboBoosterSlot3.SelectedIndexChanged
         Dim cb As ComboBox = CType(sender, ComboBox)
@@ -3863,11 +3904,11 @@ Public Class ShipSlotControl
         Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & idx.ToString), Label)
         ' Try to get the penalties
         If cb.SelectedItem IsNot Nothing Then
-            currentShip.BoosterSlotCollection.Clear()
             Dim boosterName As String = cb.SelectedItem.ToString
             Dim boosterID As String = CStr(ModuleLists.moduleListName(boosterName))
             Dim bModule As ShipModule = CType(ModuleLists.moduleList(boosterID), ShipModule).Clone
-            bModule.SlotType = 15
+            cb.Tag = bModule
+            ToolTip1.SetToolTip(cb, SquishText(bModule.Description))
             Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID), SortedList(Of String, BoosterEffect))
             Dim effectList As String = "Penalties: "
             Dim count As Integer = 0
@@ -3876,23 +3917,24 @@ Public Class ShipSlotControl
             Next
             cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
             cblabel.Refresh()
-            cb.Tag = bModule
-            ToolTip1.SetToolTip(cb, SquishText(bModule.Description))
+            bModule.SlotType = 15
             Call Me.ApplyBoosters()
         End If
     End Sub
 
     Private Sub ApplyBoosters()
-        currentShip.BoosterSlotCollection.Clear()
-        For slot As Integer = 1 To 3
-            Dim cb As ComboBox = CType(panelBoosters.Controls("cboBoosterSlot" & slot.ToString), ComboBox)
-            If cb.Tag IsNot Nothing Then
-                currentShip.BoosterSlotCollection.Add(cb.Tag)
-            End If
-        Next
-        currentInfo.ShipType = currentShip
-        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call Me.UpdateAllSlotLocations()
+        If UpdateBoosters = False Then
+            currentShip.BoosterSlotCollection.Clear()
+            For slot As Integer = 1 To 3
+                Dim cb As ComboBox = CType(panelBoosters.Controls("cboBoosterSlot" & slot.ToString), ComboBox)
+                If cb.Tag IsNot Nothing Then
+                    currentShip.BoosterSlotCollection.Add(cb.Tag)
+                End If
+            Next
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            Call Me.UpdateAllSlotLocations()
+        End If
     End Sub
 
     Private Sub mnuBoosterPenalty_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBoosterPenalty1.Click, mnuBoosterPenalty2.Click, mnuBoosterPenalty3.Click, mnuBoosterPenalty4.Click
@@ -4101,4 +4143,7 @@ Public Class ShipSlotControl
         cb.Tag = nModule
         Call Me.ApplyBoosters()
     End Sub
+
+#End Region
+
 End Class

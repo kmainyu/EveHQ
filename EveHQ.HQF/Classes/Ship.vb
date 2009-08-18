@@ -39,6 +39,7 @@ Imports System.Runtime.Serialization
     Private cIcon As String
     Private cFittingBasePrice As Double
     Private cFittingMarketPrice As Double
+    Private cPilotName As String
 
     ' Max Fitting Layout
     Private cHiSlots As Integer
@@ -300,6 +301,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As Double)
             cFittingMarketPrice = value
+        End Set
+    End Property
+    Public Property PilotName() As String
+        Get
+            Return cPilotName
+        End Get
+        Set(ByVal value As String)
+            cPilotName = value
         End Set
     End Property
 
