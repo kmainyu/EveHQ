@@ -406,7 +406,6 @@ Public Class ShipInfoControl
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         ' Build the Affections data for this pilot
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
-        MessageBox.Show(currentSlot.ShipFit)
         ' Call the property modifier again which will trigger the fitting routines and update all slots for the new pilot
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = True
