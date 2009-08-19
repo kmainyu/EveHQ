@@ -32,7 +32,7 @@ namespace EveHQ.PosManager
             DataSet sl;
 
             // Get System Listing
-            strSQL = "SELECT mapSolarSystems.solarSystemName,mapSolarSystems.solarSystemID FROM mapSolarSystems ORDER BY mapSolarSystems.solarSystemName;";
+            strSQL = "SELECT mapSolarSystems.solarSystemName,mapSolarSystems.solarSystemID,mapSolarSystems.security FROM mapSolarSystems ORDER BY mapSolarSystems.solarSystemName;";
             sl = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Go through the System Listing, 1 at a time, and Build the resultant system Listing
@@ -44,6 +44,7 @@ namespace EveHQ.PosManager
                     sDat = new Sov_Data();
                     sysName = dr[0].ToString();
                     sysID = Convert.ToDecimal(dr[1]);
+                    sDat.secLevel = Convert.ToDecimal(dr[2]);
                     sDat.systemID = sysID;
                     sDat.systemName = sysName;
 

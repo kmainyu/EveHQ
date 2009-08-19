@@ -18,15 +18,16 @@ namespace EveHQ.PosManager
     {
         public Tower PosTower;
         public ArrayList Modules;
-        public DateTime Fuel_TS, Stront_TS, API_TS;
+        public DateTime Fuel_TS, Stront_TS, API_TS, React_TS;
         public ArrayList Extra;
+        public ArrayList ReactionLinks;
 
         public string Name, System, CorpName, Moon;
         public int itemID, locID, SovLevel, corpID;
         public bool Monitored;
         public bool FillCheck;
         public bool UseChart;
-
+    
         public POS()
         {
             PosTower = new Tower();
@@ -43,9 +44,11 @@ namespace EveHQ.PosManager
             Fuel_TS = DateTime.Now;
             Stront_TS = DateTime.Now;
             API_TS = DateTime.Now;
+            React_TS = DateTime.Now;
             Extra = new ArrayList();
             FillCheck = false;
             UseChart = false;
+            ReactionLinks = new ArrayList();
         }
 
         public POS(string nm)
@@ -64,9 +67,11 @@ namespace EveHQ.PosManager
             Fuel_TS = DateTime.Now;
             Stront_TS = DateTime.Now;
             API_TS = DateTime.Now;
+            React_TS = DateTime.Now;
             Extra = new ArrayList();
             FillCheck = false;
             UseChart = false;
+            ReactionLinks = new ArrayList();
         }
 
         public POS(POS p)
@@ -85,9 +90,14 @@ namespace EveHQ.PosManager
             Fuel_TS = p.Fuel_TS;
             Stront_TS = p.Stront_TS;
             API_TS = p.API_TS;
+            React_TS = p.React_TS;
             Extra = new ArrayList(p.Extra);
             FillCheck = p.FillCheck;
             UseChart = p.UseChart;
+            if(p.ReactionLinks != null)
+                ReactionLinks = new ArrayList(p.ReactionLinks);
+            else
+                ReactionLinks = new ArrayList();
         }
 
         public POS(string nm, POS p)
@@ -106,9 +116,14 @@ namespace EveHQ.PosManager
             Fuel_TS = p.Fuel_TS;
             Stront_TS = p.Stront_TS;
             API_TS = p.API_TS;
+            React_TS = p.React_TS;
             Extra = new ArrayList(p.Extra);
             FillCheck = p.FillCheck;
             UseChart = p.UseChart;
+            if (p.ReactionLinks != null)
+                ReactionLinks = new ArrayList(p.ReactionLinks);
+            else
+                ReactionLinks = new ArrayList();
         }
 
         public void ClearAllPOSData()
@@ -127,35 +142,12 @@ namespace EveHQ.PosManager
             Fuel_TS = DateTime.Now;
             Stront_TS = DateTime.Now;
             API_TS = DateTime.Now;
+            React_TS = DateTime.Now;
             Extra.Clear();
             FillCheck = false;
             UseChart = false;
+            ReactionLinks.Clear();
         }
-
-        //public POS CopyPOSData()
-        //{
-        //    POS p = new POS();
-
-        //    p.PosTower = new Tower(PosTower);
-        //    p.Name = Name;
-        //    p.System = System;
-        //    p.CorpName = CorpName;
-        //    p.Moon = Moon;
-        //    p.itemID = itemID;
-        //    p.locID = locID;
-        //    p.corpID = corpID;
-        //    p.SovLevel = SovLevel;
-        //    p.Modules = new ArrayList(Modules);
-        //    p.Monitored = Monitored;
-        //    p.Fuel_TS = Fuel_TS;
-        //    p.Stront_TS = Stront_TS;
-        //    p.API_TS = API_TS;
-        //    p.Extra = new ArrayList(Extra);
-        //    p.FillCheck = FillCheck;
-        //    p.UseChart = UseChart;
-
-        //    return p;
-        //}
 
         public void CopyPOSData(POS p)
         {
@@ -173,13 +165,29 @@ namespace EveHQ.PosManager
             Fuel_TS = p.Fuel_TS;
             Stront_TS = p.Stront_TS;
             API_TS = p.API_TS;
+            React_TS = p.React_TS;
             Extra = new ArrayList(p.Extra);
             FillCheck = p.FillCheck;
             UseChart = p.UseChart;
+            if (p.ReactionLinks != null)
+                ReactionLinks = new ArrayList(p.ReactionLinks);
+            else
+                ReactionLinks = new ArrayList();
         }
 
         public void RemoveModuleFromPOS(int rowIndex)
         {
+            Module m;
+
+            m = (Module)Modules[rowIndex];
+            foreach (ReactionLink rl in ReactionLinks)
+            {
+                if (rl.InpID == m.ModuleID)
+                {
+                    ReactionLinks.Remove(rl);
+                    break;
+                }
+            }
             Modules.RemoveAt(rowIndex);
         }
 
@@ -195,46 +203,6 @@ namespace EveHQ.PosManager
             else
                 return 0;
         }
-
-        //public decimal GetModifierTime(decimal used, decimal cap)
-        //{
-        //    if (cap > 0)
-        //        return (used / cap);
-
-        //    return 1;
-        //}
-
-        //public decimal GetModifiedFuelIncrement(int typ, decimal sov, decimal bVal)
-        //{
-        //    decimal ret, pcMult;
-
-        //    switch (typ)
-        //    {
-        //        case 1:
-        //            // CPU
-        //            if (PosTower.CPU > 0)
-        //                pcMult = (PosTower.CPU_Used / PosTower.CPU);
-        //            else
-        //                pcMult = 1;
-
-        //            ret = Math.Floor((pcMult * sov * bVal) + 1);
-        //            break;
-        //        case 2:
-        //            // Power
-        //            if(PosTower.Power > 0)
-        //                pcMult = (PosTower.Power_Used / PosTower.Power);
-        //            else
-        //                pcMult=1;
-
-        //            ret = Math.Floor((pcMult * sov * bVal) + 1);
-        //            break;
-        //        default:
-        //            ret = bVal;
-        //            break;
-        //    }
-
-        //    return ret;
-        //}
 
         public decimal GetSovMultiple()
         {
@@ -384,28 +352,63 @@ namespace EveHQ.PosManager
             return (period -1);
         }
 
-        public void CalculatePOSDesignFuelValues(FuelBay fb)
+        public decimal ComputeMaxPosStrontTime()
         {
-            decimal period, s_period;
+            FuelBay fb = new FuelBay(PosTower.Fuel);
+            decimal str_cap = 0;
+            decimal period = 0;
             decimal sov_mult;
 
             sov_mult = GetSovMultiple();
+            str_cap = PosTower.D_Fuel.StrontCap;
 
-            period = ComputeMaxPosRunTimeForLoad();
+            while (fb.StrontUsed < str_cap)
+            {
+                period++;
+
+                // Modify POS Fuel Numbers on amount (multiplicative)
+                fb.SetStrontQtyForPeriod(period, sov_mult);
+
+                // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
+                fb.SetCurrentFuelVolumes();
+            }
+
+            return (period - 1);
+        }
+        
+        public void CalculatePOSDesignFuelValues(FuelBay fb)
+        {
+            decimal period, s_period, maxPer;
+            decimal sov_mult;
+
+            sov_mult = GetSovMultiple();
+            maxPer = ComputeMaxPosRunTimeForLoad();
             switch ((int)PosTower.Design_Interval)
             {
                 case 0: // Hours
+                    period = PosTower.Design_Int_Qty;
+                    if (period > maxPer)
+                        period = maxPer;
+                    // Adjust quantity if needed for max stability
                     PosTower.Design_Int_Qty = period;
                     break;
                 case 1: // Days
-                    PosTower.Design_Int_Qty = Math.Floor(period / 24);
                     period = PosTower.Design_Int_Qty * 24;
+                    if (period > maxPer)
+                        period = maxPer;
+                    // Adjust quantity if needed for max stability
+                    PosTower.Design_Int_Qty = Math.Floor(period/24);
                     break;
                 case 2: // Weeks
-                    PosTower.Design_Int_Qty = Math.Floor(period / (24 * 7));
-                    period = PosTower.Design_Int_Qty * (7 * 24);
+                    period = PosTower.Design_Int_Qty * 24 * 7;
+                    if (period > maxPer)
+                        period = maxPer;
+                    // Adjust quantity if needed for max stability
+                    PosTower.Design_Int_Qty = Math.Floor(period / (24*7));
                     break;
                 case 3: // Maximum Run
+                    period = maxPer;
+                    // Adjust quantity if needed for max stability
                     PosTower.Design_Int_Qty = period;
                     break;
                 default:
@@ -482,7 +485,7 @@ namespace EveHQ.PosManager
             return (period - 1);
         }
 
-        public void ComputePosFuelUsageForFillTracking(int period, decimal value, FuelBay fb)
+        public decimal ComputePosFuelUsageForFillTracking(int period, decimal value, FuelBay fb)
         {
             decimal run_time, run_perd;
             decimal sov_mult;
@@ -532,6 +535,321 @@ namespace EveHQ.PosManager
 
             // Set the Fuel Bay Costs
             PosTower.T_Fuel.SetCurrentFuelCosts(fb);
+
+            return run_time;
+        }
+
+        public decimal ComputePosFuelNeedForFillTracking(int period, decimal value, FuelBay fb)
+        {
+            decimal run_time, run_perd;
+            decimal sov_mult;
+
+            sov_mult = GetSovMultiple();
+
+            switch (period)
+            {
+                case 0:     // Hours
+                    run_perd = value;
+                    run_time = run_perd;
+                    break;
+                case 1:     // Days
+                    run_perd = 24 * value;
+                    run_time = run_perd;
+                    break;
+                case 2:     // Weeks
+                    run_perd = (24 * 7) * value;
+                    run_time = run_perd;
+                    break;
+                case 3:     // Months
+                    run_perd = (24 * 30) * value;
+                    run_time = run_perd;
+                    break;
+                case 4:     // Fill
+                    run_perd = 9999;
+                    run_time = ComputeMaxPosRunTimeForPeriod(run_perd);
+                    break;
+                default:
+                    run_perd = 9999;
+                    run_time = run_perd;
+                    break;
+            }
+
+            // 3. Compute fuel vols, etc for the period
+            if (PosTower.T_Fuel == null)
+                PosTower.T_Fuel = new FuelBay();
+
+            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
+            PosTower.T_Fuel.SetStrontQtyForPeriodOrMax(run_time, sov_mult);
+
+            // Modify numbers based upon current bay quantities
+            //PosTower.T_Fuel.SubtractFuelQty(PosTower.Fuel);
+
+            // Calculate Fuel Bay Volume 
+            PosTower.T_Fuel.SetCurrentFuelVolumes();
+
+            // Set the Fuel Bay Costs
+            PosTower.T_Fuel.SetCurrentFuelCosts(fb);
+
+            return run_time;
+        }
+
+        public void CalculateReactions()
+        {
+            DateTime C_TimeStamp;
+            TimeSpan D_TimeStamp;
+            int hours;
+            bool inpValid, outValid;
+
+            C_TimeStamp = DateTime.Now;
+            D_TimeStamp = C_TimeStamp.Subtract(React_TS);
+
+            if (D_TimeStamp.Hours > 0)
+            {
+                // It has been at least an hour since the last update - set quantity values appropriately
+                // Store hours expired
+                hours = D_TimeStamp.Hours;
+                // Set current React_TS to the correct new value
+                React_TS = DateTime.Now.Subtract(new TimeSpan(0, D_TimeStamp.Minutes, D_TimeStamp.Seconds));
+
+                // Check each module to see if it is a reaction or harvester module
+                for (int ct = 0; ct < hours; ct++)
+                {
+                    foreach (Module m in Modules)
+                    {
+                        switch (Convert.ToInt64(m.ModType))
+                        {
+                            case 1:
+                                // Moon Miner / Harvestor - Verify output link exists and has room
+                                if (m.State == "Online")
+                                {
+                                    // Search ReactionLinks for this module being the input ID (only 1 is valid)
+                                    foreach (ReactionLink rl in ReactionLinks)
+                                    {
+                                        if (rl.InpID == m.ModuleID)
+                                        {
+                                            // Found link, now validate output module has room
+                                            foreach (Module om in Modules)
+                                            {
+                                                if (om.ModuleID == rl.OutID)
+                                                {
+                                                    if ((om.MaxQty >= (om.CapQty + rl.XferQty)) && (om.State == "Online"))
+                                                    {
+                                                        // We have room - move it now!
+                                                        om.CapQty += (rl.XferQty);
+                                                        om.CapVol += (rl.XferVol);
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                                // Reaction Module
+                                if (m.State == "Online")
+                                {
+                                    // Verify Input Link(s) are Online, and Have Required Qty Amounts available
+                                    inpValid = false;
+                                    foreach (InOutData iod in m.selReact.inputs)
+                                    {
+                                        // For each reaction input
+                                        foreach (ReactionLink rl in ReactionLinks)
+                                        {
+                                            // Verify the input module for the Reaction Link
+                                            // Is Online, and has enough minerals to satisfy the reaction
+                                            if (m.ModuleID == rl.OutID)
+                                            {
+                                                foreach (Module im in Modules)
+                                                {
+                                                    if (im.ModuleID == rl.InpID)
+                                                    {
+                                                        if (im.State == "Online")
+                                                        {
+                                                            if (im.CapQty >= rl.XferQty)
+                                                                inpValid = true;
+                                                            else
+                                                                inpValid = false;
+                                                        }
+                                                        else
+                                                            inpValid = false;
+                                                        break;
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        if (!inpValid)
+                                            break;
+                                    }
+
+                                    if (!inpValid) // Not all inputs are available - get out
+                                        return;
+
+                                    outValid = false;
+
+                                    // Verify Output Link(s) are Online, and Have Required Qty Room available
+                                    foreach (InOutData iod in m.selReact.outputs)
+                                    {
+                                        foreach (ReactionLink rl in ReactionLinks)
+                                        {
+                                            if (m.ModuleID == rl.InpID)
+                                            {
+                                                foreach (Module om in Modules)
+                                                {
+                                                    if (om.ModuleID == rl.OutID)
+                                                    {
+                                                        if (om.State == "Online")
+                                                        {
+                                                            // I may need a special handler for Junction Modules here
+                                                            if ((om.CapQty + rl.XferQty) <= om.MaxQty)
+                                                                outValid = true;
+                                                            else
+                                                                outValid = false;
+
+                                                            if (!outValid)
+                                                            {
+                                                                // If Junction
+                                                                if (om.ModType == 10)
+                                                                {
+                                                                    foreach (ReactionLink rlo in ReactionLinks)
+                                                                    {
+                                                                        if (rlo.InpID == om.ModuleID)
+                                                                        {
+                                                                            foreach (Module jom in Modules)
+                                                                            {
+                                                                                if (jom.ModuleID == rlo.OutID)
+                                                                                {
+                                                                                    switch (Convert.ToInt64(jom.ModType))
+                                                                                    {
+                                                                                        case 2:
+                                                                                        case 8:
+                                                                                        case 9:
+                                                                                        case 11:
+                                                                                        case 12:
+                                                                                        case 13:
+                                                                                            if ((jom.CapQty + rl.XferQty) >= jom.MaxQty)
+                                                                                                outValid = true;
+                                                                                            break;
+                                                                                        default:
+                                                                                            outValid = false;
+                                                                                            break;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                            outValid = false;
+                                                        break;
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        if (!outValid)
+                                            break;
+                                    }
+
+                                    if (!outValid) // An output location cannot accept the Qty - leave here
+                                        return;
+
+                                    // Now repeat above while changing Qty/Vol values
+                                    foreach (InOutData iod in m.selReact.inputs)
+                                    {
+                                        foreach (ReactionLink rl in ReactionLinks)
+                                        {
+                                            if (m.ModuleID == rl.OutID)  // Reaction link input is this module
+                                            {
+                                                foreach (Module im in Modules)
+                                                {
+                                                    if (im.ModuleID == rl.InpID)
+                                                    {
+                                                        if (iod.typeID == im.selMineral.typeID)
+                                                        {
+                                                            im.CapQty -= rl.XferQty;
+                                                            im.CapVol -= rl.XferVol;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    foreach (InOutData iod in m.selReact.outputs)
+                                    {
+                                        foreach (ReactionLink rl in ReactionLinks)
+                                        {
+                                            if (m.ModuleID == rl.InpID)  // Reaction link output is this module
+                                            {
+                                                foreach (Module om in Modules)
+                                                {
+                                                    if (om.ModuleID == rl.OutID)
+                                                    {
+                                                        if (iod.typeID == om.selMineral.typeID)
+                                                        {
+                                                            om.CapQty += rl.XferQty;
+                                                            om.CapVol += rl.XferVol;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                                break;
+                            case 10:
+                                // We have a junction module - need to xfer from this module to it's output module
+                                // if the output is a Silo. (otherwise the above cases will handle it)
+                                if (m.State == "Online")
+                                {
+                                    // Search ReactionLinks for this module being the input ID (only 1 is valid)
+                                    foreach (ReactionLink rl in ReactionLinks)
+                                    {
+                                        if (rl.InpID == m.ModuleID)
+                                        {
+                                            // Found link, now validate output module has room
+                                            foreach (Module om in Modules)
+                                            {
+                                                if (om.ModuleID == rl.OutID)
+                                                {
+                                                    if ((om.MaxQty >= (om.CapQty + rl.XferQty)) && (om.State == "Online"))
+                                                    {
+                                                        // We have room - move it now!
+                                                        if (m.CapQty >= rl.XferQty)
+                                                        {
+                                                            m.CapQty -= rl.XferQty;
+                                                            om.CapQty += rl.XferQty;
+                                                            m.CapVol -= rl.XferVol;
+                                                            om.CapVol -= rl.XferVol;
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -56,12 +56,15 @@
     <Compile Include="Data Classes\Defense.cs" />
     <Compile Include="Data Classes\FuelBay.cs" />
     <Compile Include="Data Classes\FuelType.cs" />
+    <Compile Include="Data Classes\InOutData.cs" />
     <Compile Include="Data Classes\Module.cs" />
     <Compile Include="Data Classes\ModuleListing.cs" />
+    <Compile Include="Data Classes\MoonSiloReactMineral.cs" />
     <Compile Include="Data Classes\MT_Bonus.cs" />
     <Compile Include="Data Classes\POS.cs" />
     <Compile Include="Data Classes\POSDesigns.cs" />
     <Compile Include="Data Classes\DPListing.cs" />
+    <Compile Include="Data Classes\Reaction.cs" />
     <Compile Include="Data Classes\Sov_Data.cs" />
     <Compile Include="Data Classes\SystemList.cs" />
     <Compile Include="Forms\PoSManMainForm.cs">
@@ -111,6 +114,13 @@
       <DependentUpon>Tower_API_Linker.cs</DependentUpon>
     </Compile>
     <Compile Include="Data Classes\SystemSovList.cs" />
+    <Compile Include="Forms\TowerReactMod.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\TowerReactMod.Designer.cs">
+      <DependentUpon>TowerReactMod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data Classes\ReactionLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
@@ -150,6 +160,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Tower_API_Linker.resx">
       <DependentUpon>Tower_API_Linker.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TowerReactMod.resx">
+      <DependentUpon>TowerReactMod.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

@@ -32,6 +32,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -44,12 +50,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
             this.tb_PosManager = new System.Windows.Forms.TabControl();
             this.tp_POSMonitor = new System.Windows.Forms.TabPage();
             this.label61 = new System.Windows.Forms.Label();
@@ -144,30 +144,6 @@
             this.nud_HvyWtr = new System.Windows.Forms.NumericUpDown();
             this.nud_Isotope = new System.Windows.Forms.NumericUpDown();
             this.dg_MonitoredTowers = new System.Windows.Forms.DataGridView();
-            this.dg_POSName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_ReinfTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_TowerStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_Linked = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.APICache = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Power = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Oxyg = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.McP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cool = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Robt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Iso = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HvyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LiqO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Chrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Strn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IgnoreCharters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.HiddenFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenStront = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenCPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenPower = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenIso = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_POSDesign = new System.Windows.Forms.TabPage();
             this.cb_ItemType = new System.Windows.Forms.ComboBox();
             this.dg_PosMods = new System.Windows.Forms.DataGridView();
@@ -187,15 +163,15 @@
             this.Cap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tc_StatFuel = new System.Windows.Forms.TabControl();
             this.tp_stats = new System.Windows.Forms.TabPage();
+            this.l_shield_exp = new System.Windows.Forms.Label();
+            this.l_armor_exp = new System.Windows.Forms.Label();
+            this.l_shield_kin = new System.Windows.Forms.Label();
+            this.l_shield_therm = new System.Windows.Forms.Label();
+            this.l_shield_em = new System.Windows.Forms.Label();
             this.pictureBox28 = new System.Windows.Forms.PictureBox();
             this.l_armor_thm = new System.Windows.Forms.Label();
             this.l_armor_kin = new System.Windows.Forms.Label();
-            this.l_armor_exp = new System.Windows.Forms.Label();
             this.l_armor_emp = new System.Windows.Forms.Label();
-            this.l_shield_therm = new System.Windows.Forms.Label();
-            this.l_shield_kin = new System.Windows.Forms.Label();
-            this.l_shield_exp = new System.Windows.Forms.Label();
-            this.l_shield_em = new System.Windows.Forms.Label();
             this.pictureBox21 = new System.Windows.Forms.PictureBox();
             this.pictureBox22 = new System.Windows.Forms.PictureBox();
             this.pictureBox23 = new System.Windows.Forms.PictureBox();
@@ -212,11 +188,12 @@
             this.l_shield_hp = new System.Windows.Forms.Label();
             this.l_power = new System.Windows.Forms.Label();
             this.l_cpu = new System.Windows.Forms.Label();
-            this.pictureBox27 = new System.Windows.Forms.PictureBox();
             this.pictureBox26 = new System.Windows.Forms.PictureBox();
             this.pictureBox25 = new System.Windows.Forms.PictureBox();
             this.pictureBox24 = new System.Windows.Forms.PictureBox();
+            this.pictureBox27 = new System.Windows.Forms.PictureBox();
             this.tp_Fuel = new System.Windows.Forms.TabPage();
+            this.nud_DesFuelPeriod = new System.Windows.Forms.NumericUpDown();
             this.l_FuelStront_C = new System.Windows.Forms.Label();
             this.l_Fuel_C = new System.Windows.Forms.Label();
             this.l_IsotopeType = new System.Windows.Forms.Label();
@@ -229,11 +206,9 @@
             this.l_Chart_C = new System.Windows.Forms.Label();
             this.l_LiqO_C = new System.Windows.Forms.Label();
             this.l_HvyW_C = new System.Windows.Forms.Label();
-            this.pb_Stront = new VistaStyleProgressBar.ProgressBar();
             this.l_Iso_C = new System.Windows.Forms.Label();
             this.l_Robt_C = new System.Windows.Forms.Label();
             this.l_Cool_C = new System.Windows.Forms.Label();
-            this.pb_Fuel = new VistaStyleProgressBar.ProgressBar();
             this.l_McP_C = new System.Windows.Forms.Label();
             this.l_Oxygen_C = new System.Windows.Forms.Label();
             this.l_EnrUrn_C = new System.Windows.Forms.Label();
@@ -267,78 +242,84 @@
             this.pb_enrUran = new System.Windows.Forms.PictureBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.pb_StrontBay = new System.Windows.Forms.PictureBox();
+            this.pb_Stront = new VistaStyleProgressBar.ProgressBar();
+            this.pb_Fuel = new VistaStyleProgressBar.ProgressBar();
             this.tp_PosStats = new System.Windows.Forms.TabPage();
             this.pictureBox16 = new System.Windows.Forms.PictureBox();
             this.l_POS_C = new System.Windows.Forms.Label();
             this.l_PoS_DPS = new System.Windows.Forms.Label();
             this.l_PoS_Tank = new System.Windows.Forms.Label();
             this.l_PoS_EHP = new System.Windows.Forms.Label();
-            this.pictureBox15 = new System.Windows.Forms.PictureBox();
-            this.pictureBox14 = new System.Windows.Forms.PictureBox();
             this.b_SaveResProf = new System.Windows.Forms.Button();
             this.nud_ThmRes = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox13 = new System.Windows.Forms.PictureBox();
             this.nud_KinRes = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.nud_ExpRes = new System.Windows.Forms.NumericUpDown();
             this.nud_EMRes = new System.Windows.Forms.NumericUpDown();
             this.label88 = new System.Windows.Forms.Label();
             this.cb_DamageProfile = new System.Windows.Forms.ComboBox();
             this.l_Total_UnAnchor_T = new System.Windows.Forms.Label();
+            this.l_SetupTime = new System.Windows.Forms.Label();
+            this.l_OnlineTime = new System.Windows.Forms.Label();
+            this.l_AnchorTime = new System.Windows.Forms.Label();
+            this.pictureBox15 = new System.Windows.Forms.PictureBox();
+            this.pictureBox14 = new System.Windows.Forms.PictureBox();
+            this.pictureBox13 = new System.Windows.Forms.PictureBox();
+            this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.pictureBox47 = new System.Windows.Forms.PictureBox();
             this.pictureBox46 = new System.Windows.Forms.PictureBox();
-            this.l_SetupTime = new System.Windows.Forms.Label();
             this.pictureBox45 = new System.Windows.Forms.PictureBox();
             this.pictureBox29 = new System.Windows.Forms.PictureBox();
             this.pictureBox30 = new System.Windows.Forms.PictureBox();
             this.pictureBox31 = new System.Windows.Forms.PictureBox();
-            this.l_OnlineTime = new System.Windows.Forms.Label();
             this.pictureBox32 = new System.Windows.Forms.PictureBox();
-            this.l_AnchorTime = new System.Windows.Forms.Label();
             this.p_Select = new System.Windows.Forms.Panel();
             this.lv_ItemSelList = new System.Windows.Forms.ListView();
             this.il_SelCat = new System.Windows.Forms.ImageList(this.components);
             this.p_Top = new System.Windows.Forms.Panel();
-            this.cb_systemMoon = new System.Windows.Forms.ComboBox();
-            this.cb_CorpName = new System.Windows.Forms.ComboBox();
-            this.cb_SovLevel = new System.Windows.Forms.ComboBox();
-            this.cb_System = new System.Windows.Forms.ComboBox();
-            this.b_CopyPOS = new System.Windows.Forms.Button();
-            this.b_RenamePos = new System.Windows.Forms.Button();
-            this.b_ClearPoS = new System.Windows.Forms.Button();
-            this.b_NewPos = new System.Windows.Forms.Button();
-            this.b_DelPoS = new System.Windows.Forms.Button();
-            this.b_SavePoS = new System.Windows.Forms.Button();
-            this.l_TowerATRes = new System.Windows.Forms.Label();
-            this.l_TowerAKRes = new System.Windows.Forms.Label();
-            this.l_TowerSTRes = new System.Windows.Forms.Label();
-            this.l_TowerAExRes = new System.Windows.Forms.Label();
-            this.l_TowerAEmRes = new System.Windows.Forms.Label();
             this.l_TowerSKRes = new System.Windows.Forms.Label();
-            this.l_TowerArmor = new System.Windows.Forms.Label();
-            this.l_TowerShield = new System.Windows.Forms.Label();
-            this.l_TowerStTRes = new System.Windows.Forms.Label();
             this.l_TowerStKRes = new System.Windows.Forms.Label();
-            this.l_TowerSExRes = new System.Windows.Forms.Label();
-            this.l_TowerStExRes = new System.Windows.Forms.Label();
-            this.l_TowerStEmRes = new System.Windows.Forms.Label();
+            this.l_TowerSTRes = new System.Windows.Forms.Label();
+            this.l_TowerATRes = new System.Windows.Forms.Label();
+            this.l_TowerStTRes = new System.Windows.Forms.Label();
             this.l_TowerSEmRes = new System.Windows.Forms.Label();
-            this.l_TowerStruct = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.cb_PoSName = new System.Windows.Forms.ComboBox();
-            this.l_Power_Val = new System.Windows.Forms.Label();
-            this.l_CPU_Values = new System.Windows.Forms.Label();
-            this.pb_Power = new VistaStyleProgressBar.ProgressBar();
-            this.pb_CPU = new VistaStyleProgressBar.ProgressBar();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.l_TowerStEmRes = new System.Windows.Forms.Label();
+            this.l_TowerSExRes = new System.Windows.Forms.Label();
+            this.l_TowerAExRes = new System.Windows.Forms.Label();
+            this.l_TowerStExRes = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.cb_PoSName = new System.Windows.Forms.ComboBox();
+            this.ts_Designer = new System.Windows.Forms.ToolStrip();
+            this.tsb_NewPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_SavePOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_RenamePOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_CopyPOS = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_ClearPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_DelPOS = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_ExportPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ImportPOS = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.cb_systemMoon = new System.Windows.Forms.ComboBox();
+            this.l_TowerStruct = new System.Windows.Forms.Label();
+            this.l_TowerShield = new System.Windows.Forms.Label();
+            this.l_TowerArmor = new System.Windows.Forms.Label();
+            this.cb_CorpName = new System.Windows.Forms.ComboBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.cb_SovLevel = new System.Windows.Forms.ComboBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.cb_System = new System.Windows.Forms.ComboBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.pb_Power = new VistaStyleProgressBar.ProgressBar();
+            this.pb_CPU = new VistaStyleProgressBar.ProgressBar();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.l_TowerAKRes = new System.Windows.Forms.Label();
+            this.l_TowerAEmRes = new System.Windows.Forms.Label();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.p_Tower = new System.Windows.Forms.Panel();
             this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
             this.cms_PosItem = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -406,24 +387,27 @@
             this.poS_Item1 = new EveHQ.PosManager.PoS_Item();
             this.pi_Tower = new EveHQ.PosManager.PoS_Item();
             this.tp_POSMaintenance = new System.Windows.Forms.TabPage();
-            this.b_SetSelectedFull = new System.Windows.Forms.Button();
+            this.cb_ShowFuelNeed = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.b_CopySelected = new System.Windows.Forms.Button();
-            this.b_CopyAllPos = new System.Windows.Forms.Button();
             this.cb_FactChartTotal = new System.Windows.Forms.CheckBox();
             this.cb_UseStrontTotals = new System.Windows.Forms.CheckBox();
             this.gb_AllPos = new System.Windows.Forms.GroupBox();
+            this.cb_AllDataForCopy = new System.Windows.Forms.ComboBox();
             this.dg_TotalFuel = new System.Windows.Forms.DataGridView();
             this.FuelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.b_CopyAllPos = new System.Windows.Forms.Button();
             this.gb_SelPos = new System.Windows.Forms.GroupBox();
+            this.cb_SelectedDataForCopy = new System.Windows.Forms.ComboBox();
             this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
             this.SelFuelType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.b_SetSelectedFull = new System.Windows.Forms.Button();
+            this.b_CopySelected = new System.Windows.Forms.Button();
             this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
             this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -437,12 +421,21 @@
             this.LiqOz = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Charter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Stront = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.b_ApplyIntervalPeriod = new System.Windows.Forms.Button();
+            this.RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.nud_PeriodValue = new System.Windows.Forms.NumericUpDown();
             this.tscb_TimePeriod = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.b_ApplyIntervalPeriod = new System.Windows.Forms.Button();
+            this.tp_ReactManage = new System.Windows.Forms.TabPage();
+            this.p_ReactMenu = new System.Windows.Forms.Panel();
+            this.ts_ReactionMenu = new System.Windows.Forms.ToolStrip();
+            this.tsb_React_Save = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ReactClearLink = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.p_PosMods = new System.Windows.Forms.Panel();
+            this.tv_ReactManage = new System.Windows.Forms.TreeView();
             this.tb_PMConfig = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox41 = new System.Windows.Forms.PictureBox();
@@ -522,6 +515,30 @@
             this.il_FetchList = new System.Windows.Forms.ImageList(this.components);
             this.t_MonitorUpdate = new System.Windows.Forms.Timer(this.components);
             this.tt_InfoTips = new System.Windows.Forms.ToolTip(this.components);
+            this.dg_POSName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_ReinfTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_TowerStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_Linked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.APICache = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Power = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Oxyg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.McP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cool = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Robt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Iso = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HvyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LiqO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Chrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Strn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IgnoreCharters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.HiddenFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenStront = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenCPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenPower = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenIso = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tb_PosManager.SuspendLayout();
             this.tp_POSMonitor.SuspendLayout();
             this.ts_MonitorControl.SuspendLayout();
@@ -558,11 +575,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox23)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox26)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox24)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).BeginInit();
             this.tp_Fuel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_DesFuelPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_StrontInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).BeginInit();
@@ -580,14 +598,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_StrontBay)).BeginInit();
             this.tp_PosStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ThmRes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_KinRes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ExpRes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EMRes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox47)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox46)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox45)).BeginInit();
@@ -597,15 +615,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).BeginInit();
             this.p_Select.SuspendLayout();
             this.p_Top.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.ts_Designer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.p_Tower.SuspendLayout();
             this.cms_PosItem.SuspendLayout();
             this.tp_POSMaintenance.SuspendLayout();
@@ -615,6 +634,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
+            this.tp_ReactManage.SuspendLayout();
+            this.p_ReactMenu.SuspendLayout();
+            this.ts_ReactionMenu.SuspendLayout();
             this.tb_PMConfig.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).BeginInit();
@@ -649,18 +671,17 @@
             // 
             // tb_PosManager
             // 
-            this.tb_PosManager.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_PosManager.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tb_PosManager.Controls.Add(this.tp_POSMonitor);
             this.tb_PosManager.Controls.Add(this.tp_POSDesign);
             this.tb_PosManager.Controls.Add(this.tp_POSMaintenance);
+            this.tb_PosManager.Controls.Add(this.tp_ReactManage);
             this.tb_PosManager.Controls.Add(this.tb_PMConfig);
+            this.tb_PosManager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tb_PosManager.Location = new System.Drawing.Point(0, 0);
             this.tb_PosManager.Name = "tb_PosManager";
             this.tb_PosManager.SelectedIndex = 0;
-            this.tb_PosManager.Size = new System.Drawing.Size(1009, 732);
+            this.tb_PosManager.Size = new System.Drawing.Size(1008, 730);
             this.tb_PosManager.TabIndex = 0;
             this.tb_PosManager.SelectedIndexChanged += new System.EventHandler(this.tb_PosManager_SelectedIndexChanged);
             // 
@@ -676,7 +697,7 @@
             this.tp_POSMonitor.Location = new System.Drawing.Point(4, 25);
             this.tp_POSMonitor.Name = "tp_POSMonitor";
             this.tp_POSMonitor.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_POSMonitor.Size = new System.Drawing.Size(1001, 703);
+            this.tp_POSMonitor.Size = new System.Drawing.Size(1000, 701);
             this.tp_POSMonitor.TabIndex = 0;
             this.tp_POSMonitor.Text = "PoS Monitor";
             this.tp_POSMonitor.UseVisualStyleBackColor = true;
@@ -689,9 +710,9 @@
             this.label61.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label61.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label61.ForeColor = System.Drawing.Color.Blue;
-            this.label61.Location = new System.Drawing.Point(562, 393);
+            this.label61.Location = new System.Drawing.Point(562, 391);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(439, 20);
+            this.label61.Size = new System.Drawing.Size(438, 20);
             this.label61.TabIndex = 143;
             this.label61.Text = "Tower Module List";
             this.label61.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -703,9 +724,9 @@
             this.lb_PoSModuleList.BackColor = System.Drawing.SystemColors.Control;
             this.lb_PoSModuleList.FormattingEnabled = true;
             this.lb_PoSModuleList.IntegralHeight = false;
-            this.lb_PoSModuleList.Location = new System.Drawing.Point(562, 414);
+            this.lb_PoSModuleList.Location = new System.Drawing.Point(562, 412);
             this.lb_PoSModuleList.Name = "lb_PoSModuleList";
-            this.lb_PoSModuleList.Size = new System.Drawing.Size(439, 287);
+            this.lb_PoSModuleList.Size = new System.Drawing.Size(438, 287);
             this.lb_PoSModuleList.TabIndex = 88;
             // 
             // ts_MonitorControl
@@ -736,7 +757,7 @@
             this.ts_MonitorControl.Name = "ts_MonitorControl";
             this.ts_MonitorControl.Padding = new System.Windows.Forms.Padding(0);
             this.ts_MonitorControl.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ts_MonitorControl.Size = new System.Drawing.Size(995, 35);
+            this.ts_MonitorControl.Size = new System.Drawing.Size(994, 35);
             this.ts_MonitorControl.Stretch = true;
             this.ts_MonitorControl.TabIndex = 87;
             // 
@@ -898,7 +919,7 @@
             this.p_towerLayout.Controls.Add(this.label33);
             this.p_towerLayout.Controls.Add(this.groupBox1);
             this.p_towerLayout.ForeColor = System.Drawing.Color.Black;
-            this.p_towerLayout.Location = new System.Drawing.Point(0, 393);
+            this.p_towerLayout.Location = new System.Drawing.Point(0, 391);
             this.p_towerLayout.Name = "p_towerLayout";
             this.p_towerLayout.Size = new System.Drawing.Size(561, 308);
             this.p_towerLayout.TabIndex = 79;
@@ -932,6 +953,8 @@
             this.pb_FuelBayFill.Size = new System.Drawing.Size(384, 18);
             this.pb_FuelBayFill.StartColor = System.Drawing.Color.Lime;
             this.pb_FuelBayFill.TabIndex = 8;
+            this.pb_FuelBayFill.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.pb_FuelBayFill.TextOverlay = "";
             // 
             // pb_StrontBayFill
             // 
@@ -944,6 +967,8 @@
             this.pb_StrontBayFill.Size = new System.Drawing.Size(384, 18);
             this.pb_StrontBayFill.StartColor = System.Drawing.Color.Lime;
             this.pb_StrontBayFill.TabIndex = 9;
+            this.pb_StrontBayFill.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.pb_StrontBayFill.TextOverlay = "";
             // 
             // label26
             // 
@@ -2069,222 +2094,11 @@
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dg_MonitoredTowers.RowTemplate.ReadOnly = true;
-            this.dg_MonitoredTowers.Size = new System.Drawing.Size(997, 354);
+            this.dg_MonitoredTowers.Size = new System.Drawing.Size(996, 352);
             this.dg_MonitoredTowers.TabIndex = 78;
             this.dg_MonitoredTowers.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_MonitoredTowers_ColumnHeaderMouseClick);
             this.dg_MonitoredTowers.SelectionChanged += new System.EventHandler(this.dg_MonitoredTowers_SelectionChanged);
             this.dg_MonitoredTowers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_MonitoredTowers_CellContentClick);
-            // 
-            // dg_POSName
-            // 
-            this.dg_POSName.HeaderText = "POS Name";
-            this.dg_POSName.Name = "dg_POSName";
-            this.dg_POSName.ReadOnly = true;
-            this.dg_POSName.Width = 82;
-            // 
-            // dg_RunTime
-            // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dg_RunTime.HeaderText = "Fuel Run Time";
-            this.dg_RunTime.Name = "dg_RunTime";
-            this.dg_RunTime.ReadOnly = true;
-            this.dg_RunTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.dg_RunTime.Width = 99;
-            // 
-            // dg_ReinfTime
-            // 
-            this.dg_ReinfTime.HeaderText = "Reinforce Time";
-            this.dg_ReinfTime.Name = "dg_ReinfTime";
-            this.dg_ReinfTime.ReadOnly = true;
-            this.dg_ReinfTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.dg_ReinfTime.Width = 103;
-            // 
-            // dg_TowerStatus
-            // 
-            this.dg_TowerStatus.HeaderText = "Tower Status";
-            this.dg_TowerStatus.Name = "dg_TowerStatus";
-            this.dg_TowerStatus.ReadOnly = true;
-            this.dg_TowerStatus.Width = 96;
-            // 
-            // dg_Linked
-            // 
-            this.dg_Linked.HeaderText = "Tower API Link";
-            this.dg_Linked.Name = "dg_Linked";
-            this.dg_Linked.ReadOnly = true;
-            this.dg_Linked.Width = 103;
-            // 
-            // APICache
-            // 
-            this.APICache.HeaderText = "API Cache Time";
-            this.APICache.Name = "APICache";
-            this.APICache.ReadOnly = true;
-            this.APICache.Width = 107;
-            // 
-            // CPU
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CPU.DefaultCellStyle = dataGridViewCellStyle2;
-            this.CPU.HeaderText = "CPU Usage";
-            this.CPU.Name = "CPU";
-            this.CPU.ReadOnly = true;
-            this.CPU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.CPU.Width = 85;
-            // 
-            // Power
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Power.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Power.HeaderText = "Power Usage";
-            this.Power.Name = "Power";
-            this.Power.ReadOnly = true;
-            this.Power.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Power.Width = 95;
-            // 
-            // EnUr
-            // 
-            dataGridViewCellStyle4.Format = "N0";
-            dataGridViewCellStyle4.NullValue = null;
-            this.EnUr.DefaultCellStyle = dataGridViewCellStyle4;
-            this.EnUr.HeaderText = "Enr Uranium";
-            this.EnUr.Name = "EnUr";
-            this.EnUr.ReadOnly = true;
-            this.EnUr.Width = 90;
-            // 
-            // Oxyg
-            // 
-            dataGridViewCellStyle5.Format = "N0";
-            dataGridViewCellStyle5.NullValue = null;
-            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Oxyg.HeaderText = "Oxygen";
-            this.Oxyg.Name = "Oxyg";
-            this.Oxyg.ReadOnly = true;
-            this.Oxyg.Width = 70;
-            // 
-            // McP
-            // 
-            dataGridViewCellStyle6.Format = "N0";
-            dataGridViewCellStyle6.NullValue = null;
-            this.McP.DefaultCellStyle = dataGridViewCellStyle6;
-            this.McP.HeaderText = "Mech Parts";
-            this.McP.Name = "McP";
-            this.McP.ReadOnly = true;
-            this.McP.Width = 85;
-            // 
-            // Cool
-            // 
-            this.Cool.HeaderText = "Coolant";
-            this.Cool.Name = "Cool";
-            this.Cool.ReadOnly = true;
-            this.Cool.Width = 69;
-            // 
-            // Robt
-            // 
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.NullValue = null;
-            this.Robt.DefaultCellStyle = dataGridViewCellStyle7;
-            this.Robt.HeaderText = "Robotics";
-            this.Robt.Name = "Robt";
-            this.Robt.ReadOnly = true;
-            this.Robt.Width = 73;
-            // 
-            // Iso
-            // 
-            dataGridViewCellStyle8.Format = "N0";
-            dataGridViewCellStyle8.NullValue = null;
-            this.Iso.DefaultCellStyle = dataGridViewCellStyle8;
-            this.Iso.HeaderText = "Isotopes";
-            this.Iso.Name = "Iso";
-            this.Iso.ReadOnly = true;
-            this.Iso.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Iso.Width = 74;
-            // 
-            // HvyW
-            // 
-            dataGridViewCellStyle9.Format = "N0";
-            dataGridViewCellStyle9.NullValue = null;
-            this.HvyW.DefaultCellStyle = dataGridViewCellStyle9;
-            this.HvyW.HeaderText = "Hvy Water";
-            this.HvyW.Name = "HvyW";
-            this.HvyW.ReadOnly = true;
-            this.HvyW.Width = 84;
-            // 
-            // LiqO
-            // 
-            dataGridViewCellStyle10.Format = "N0";
-            dataGridViewCellStyle10.NullValue = null;
-            this.LiqO.DefaultCellStyle = dataGridViewCellStyle10;
-            this.LiqO.HeaderText = "Liq Ozone";
-            this.LiqO.Name = "LiqO";
-            this.LiqO.ReadOnly = true;
-            this.LiqO.Width = 79;
-            // 
-            // Chrt
-            // 
-            dataGridViewCellStyle11.Format = "N0";
-            dataGridViewCellStyle11.NullValue = null;
-            this.Chrt.DefaultCellStyle = dataGridViewCellStyle11;
-            this.Chrt.HeaderText = "Charters";
-            this.Chrt.Name = "Chrt";
-            this.Chrt.ReadOnly = true;
-            this.Chrt.Width = 74;
-            // 
-            // Strn
-            // 
-            dataGridViewCellStyle12.Format = "N0";
-            dataGridViewCellStyle12.NullValue = null;
-            this.Strn.DefaultCellStyle = dataGridViewCellStyle12;
-            this.Strn.HeaderText = "Strontium";
-            this.Strn.Name = "Strn";
-            this.Strn.ReadOnly = true;
-            this.Strn.Width = 78;
-            // 
-            // IgnoreCharters
-            // 
-            this.IgnoreCharters.HeaderText = "Use Charters";
-            this.IgnoreCharters.Name = "IgnoreCharters";
-            this.IgnoreCharters.Width = 76;
-            // 
-            // HiddenFuel
-            // 
-            this.HiddenFuel.HeaderText = "HiddenFuel";
-            this.HiddenFuel.Name = "HiddenFuel";
-            this.HiddenFuel.ReadOnly = true;
-            this.HiddenFuel.Visible = false;
-            this.HiddenFuel.Width = 86;
-            // 
-            // HiddenStront
-            // 
-            this.HiddenStront.HeaderText = "HiddenStront";
-            this.HiddenStront.Name = "HiddenStront";
-            this.HiddenStront.ReadOnly = true;
-            this.HiddenStront.Visible = false;
-            this.HiddenStront.Width = 94;
-            // 
-            // HiddenCPU
-            // 
-            this.HiddenCPU.HeaderText = "HiddenCPU";
-            this.HiddenCPU.Name = "HiddenCPU";
-            this.HiddenCPU.ReadOnly = true;
-            this.HiddenCPU.Visible = false;
-            this.HiddenCPU.Width = 88;
-            // 
-            // HiddenPower
-            // 
-            this.HiddenPower.HeaderText = "HiddenPower";
-            this.HiddenPower.Name = "HiddenPower";
-            this.HiddenPower.ReadOnly = true;
-            this.HiddenPower.Visible = false;
-            this.HiddenPower.Width = 96;
-            // 
-            // HiddenIso
-            // 
-            this.HiddenIso.HeaderText = "HiddenIso";
-            this.HiddenIso.Name = "HiddenIso";
-            this.HiddenIso.ReadOnly = true;
-            this.HiddenIso.Visible = false;
-            this.HiddenIso.Width = 80;
             // 
             // tp_POSDesign
             // 
@@ -2299,7 +2113,7 @@
             this.tp_POSDesign.Location = new System.Drawing.Point(4, 25);
             this.tp_POSDesign.Name = "tp_POSDesign";
             this.tp_POSDesign.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_POSDesign.Size = new System.Drawing.Size(1001, 703);
+            this.tp_POSDesign.Size = new System.Drawing.Size(1000, 701);
             this.tp_POSDesign.TabIndex = 1;
             this.tp_POSDesign.Text = "PoS Designer";
             this.tp_POSDesign.UseVisualStyleBackColor = true;
@@ -2318,10 +2132,10 @@
             "Mobile Laboratory",
             "Silo",
             "Assembly Array"});
-            this.cb_ItemType.Location = new System.Drawing.Point(849, 100);
+            this.cb_ItemType.Location = new System.Drawing.Point(807, 118);
             this.cb_ItemType.MaxDropDownItems = 25;
             this.cb_ItemType.Name = "cb_ItemType";
-            this.cb_ItemType.Size = new System.Drawing.Size(149, 23);
+            this.cb_ItemType.Size = new System.Drawing.Size(193, 23);
             this.cb_ItemType.TabIndex = 0;
             this.cb_ItemType.Text = "Towers";
             this.cb_ItemType.SelectedIndexChanged += new System.EventHandler(this.cb_ItemType_SelectedIndexChanged);
@@ -2366,7 +2180,7 @@
             this.dg_PosMods.ReadOnly = true;
             this.dg_PosMods.RowHeadersVisible = false;
             this.dg_PosMods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_PosMods.Size = new System.Drawing.Size(690, 144);
+            this.dg_PosMods.Size = new System.Drawing.Size(689, 158);
             this.dg_PosMods.TabIndex = 49;
             // 
             // Module
@@ -2473,25 +2287,25 @@
             this.tc_StatFuel.Controls.Add(this.tp_stats);
             this.tc_StatFuel.Controls.Add(this.tp_Fuel);
             this.tc_StatFuel.Controls.Add(this.tp_PosStats);
-            this.tc_StatFuel.Location = new System.Drawing.Point(-2, 100);
+            this.tc_StatFuel.Location = new System.Drawing.Point(-2, 120);
             this.tc_StatFuel.Name = "tc_StatFuel";
             this.tc_StatFuel.Padding = new System.Drawing.Point(5, 2);
             this.tc_StatFuel.SelectedIndex = 0;
-            this.tc_StatFuel.Size = new System.Drawing.Size(313, 600);
+            this.tc_StatFuel.Size = new System.Drawing.Size(313, 578);
             this.tc_StatFuel.TabIndex = 48;
             // 
             // tp_stats
             // 
             this.tp_stats.BackColor = System.Drawing.SystemColors.Control;
+            this.tp_stats.Controls.Add(this.l_shield_exp);
+            this.tp_stats.Controls.Add(this.l_armor_exp);
+            this.tp_stats.Controls.Add(this.l_shield_kin);
+            this.tp_stats.Controls.Add(this.l_shield_therm);
+            this.tp_stats.Controls.Add(this.l_shield_em);
             this.tp_stats.Controls.Add(this.pictureBox28);
             this.tp_stats.Controls.Add(this.l_armor_thm);
             this.tp_stats.Controls.Add(this.l_armor_kin);
-            this.tp_stats.Controls.Add(this.l_armor_exp);
             this.tp_stats.Controls.Add(this.l_armor_emp);
-            this.tp_stats.Controls.Add(this.l_shield_therm);
-            this.tp_stats.Controls.Add(this.l_shield_kin);
-            this.tp_stats.Controls.Add(this.l_shield_exp);
-            this.tp_stats.Controls.Add(this.l_shield_em);
             this.tp_stats.Controls.Add(this.pictureBox21);
             this.tp_stats.Controls.Add(this.pictureBox22);
             this.tp_stats.Controls.Add(this.pictureBox23);
@@ -2508,17 +2322,81 @@
             this.tp_stats.Controls.Add(this.l_shield_hp);
             this.tp_stats.Controls.Add(this.l_power);
             this.tp_stats.Controls.Add(this.l_cpu);
-            this.tp_stats.Controls.Add(this.pictureBox27);
             this.tp_stats.Controls.Add(this.pictureBox26);
             this.tp_stats.Controls.Add(this.pictureBox25);
             this.tp_stats.Controls.Add(this.pictureBox24);
+            this.tp_stats.Controls.Add(this.pictureBox27);
             this.tp_stats.Location = new System.Drawing.Point(4, 23);
             this.tp_stats.Name = "tp_stats";
             this.tp_stats.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_stats.Size = new System.Drawing.Size(305, 573);
+            this.tp_stats.Size = new System.Drawing.Size(305, 551);
             this.tp_stats.TabIndex = 0;
             this.tp_stats.Text = "Selected Item";
             this.tp_stats.UseVisualStyleBackColor = true;
+            // 
+            // l_shield_exp
+            // 
+            this.l_shield_exp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_shield_exp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_exp.ForeColor = System.Drawing.Color.Indigo;
+            this.l_shield_exp.Location = new System.Drawing.Point(172, 143);
+            this.l_shield_exp.Name = "l_shield_exp";
+            this.l_shield_exp.Size = new System.Drawing.Size(50, 14);
+            this.l_shield_exp.TabIndex = 55;
+            this.l_shield_exp.Text = "0%";
+            this.l_shield_exp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tt_InfoTips.SetToolTip(this.l_shield_exp, "Shield Resistance");
+            // 
+            // l_armor_exp
+            // 
+            this.l_armor_exp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_armor_exp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_armor_exp.ForeColor = System.Drawing.Color.Indigo;
+            this.l_armor_exp.Location = new System.Drawing.Point(172, 153);
+            this.l_armor_exp.Name = "l_armor_exp";
+            this.l_armor_exp.Size = new System.Drawing.Size(50, 13);
+            this.l_armor_exp.TabIndex = 133;
+            this.l_armor_exp.Text = "0%";
+            this.tt_InfoTips.SetToolTip(this.l_armor_exp, "Armor Resistance");
+            // 
+            // l_shield_kin
+            // 
+            this.l_shield_kin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_shield_kin.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_kin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.l_shield_kin.Location = new System.Drawing.Point(249, 105);
+            this.l_shield_kin.Name = "l_shield_kin";
+            this.l_shield_kin.Size = new System.Drawing.Size(50, 14);
+            this.l_shield_kin.TabIndex = 57;
+            this.l_shield_kin.Text = "0%";
+            this.l_shield_kin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tt_InfoTips.SetToolTip(this.l_shield_kin, "Shield Resistance");
+            // 
+            // l_shield_therm
+            // 
+            this.l_shield_therm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_shield_therm.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_therm.ForeColor = System.Drawing.Color.Red;
+            this.l_shield_therm.Location = new System.Drawing.Point(249, 143);
+            this.l_shield_therm.Name = "l_shield_therm";
+            this.l_shield_therm.Size = new System.Drawing.Size(50, 14);
+            this.l_shield_therm.TabIndex = 59;
+            this.l_shield_therm.Text = "0%";
+            this.l_shield_therm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tt_InfoTips.SetToolTip(this.l_shield_therm, "Shield Resistance");
+            // 
+            // l_shield_em
+            // 
+            this.l_shield_em.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_shield_em.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_em.ForeColor = System.Drawing.Color.Teal;
+            this.l_shield_em.Location = new System.Drawing.Point(172, 105);
+            this.l_shield_em.Name = "l_shield_em";
+            this.l_shield_em.Size = new System.Drawing.Size(50, 14);
+            this.l_shield_em.TabIndex = 53;
+            this.l_shield_em.Text = "0%";
+            this.l_shield_em.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tt_InfoTips.SetToolTip(this.l_shield_em, "Shield Resistance");
             // 
             // pictureBox28
             // 
@@ -2537,9 +2415,9 @@
             this.l_armor_thm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_armor_thm.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_thm.ForeColor = System.Drawing.Color.Red;
-            this.l_armor_thm.Location = new System.Drawing.Point(251, 149);
+            this.l_armor_thm.Location = new System.Drawing.Point(249, 153);
             this.l_armor_thm.Name = "l_armor_thm";
-            this.l_armor_thm.Size = new System.Drawing.Size(50, 16);
+            this.l_armor_thm.Size = new System.Drawing.Size(50, 13);
             this.l_armor_thm.TabIndex = 135;
             this.l_armor_thm.Text = "0%";
             this.l_armor_thm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2550,91 +2428,25 @@
             this.l_armor_kin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_armor_kin.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_kin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_armor_kin.Location = new System.Drawing.Point(251, 105);
+            this.l_armor_kin.Location = new System.Drawing.Point(249, 115);
             this.l_armor_kin.Name = "l_armor_kin";
-            this.l_armor_kin.Size = new System.Drawing.Size(50, 16);
+            this.l_armor_kin.Size = new System.Drawing.Size(50, 14);
             this.l_armor_kin.TabIndex = 134;
             this.l_armor_kin.Text = "0%";
             this.l_armor_kin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_armor_kin, "Armor Resistance");
-            // 
-            // l_armor_exp
-            // 
-            this.l_armor_exp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_armor_exp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_armor_exp.ForeColor = System.Drawing.Color.Indigo;
-            this.l_armor_exp.Location = new System.Drawing.Point(172, 149);
-            this.l_armor_exp.Name = "l_armor_exp";
-            this.l_armor_exp.Size = new System.Drawing.Size(50, 16);
-            this.l_armor_exp.TabIndex = 133;
-            this.l_armor_exp.Text = "0%";
-            this.l_armor_exp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_armor_exp, "Armor Resistance");
             // 
             // l_armor_emp
             // 
             this.l_armor_emp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_armor_emp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_emp.ForeColor = System.Drawing.Color.Teal;
-            this.l_armor_emp.Location = new System.Drawing.Point(172, 105);
+            this.l_armor_emp.Location = new System.Drawing.Point(172, 115);
             this.l_armor_emp.Name = "l_armor_emp";
-            this.l_armor_emp.Size = new System.Drawing.Size(50, 16);
+            this.l_armor_emp.Size = new System.Drawing.Size(50, 14);
             this.l_armor_emp.TabIndex = 132;
             this.l_armor_emp.Text = "0%";
-            this.l_armor_emp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_armor_emp, "Armor Resistance");
-            // 
-            // l_shield_therm
-            // 
-            this.l_shield_therm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_therm.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_shield_therm.ForeColor = System.Drawing.Color.Red;
-            this.l_shield_therm.Location = new System.Drawing.Point(251, 136);
-            this.l_shield_therm.Name = "l_shield_therm";
-            this.l_shield_therm.Size = new System.Drawing.Size(50, 16);
-            this.l_shield_therm.TabIndex = 59;
-            this.l_shield_therm.Text = "0%";
-            this.l_shield_therm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_shield_therm, "Shield Resistance");
-            // 
-            // l_shield_kin
-            // 
-            this.l_shield_kin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_kin.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_shield_kin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_shield_kin.Location = new System.Drawing.Point(251, 91);
-            this.l_shield_kin.Name = "l_shield_kin";
-            this.l_shield_kin.Size = new System.Drawing.Size(50, 16);
-            this.l_shield_kin.TabIndex = 57;
-            this.l_shield_kin.Text = "0%";
-            this.l_shield_kin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_shield_kin, "Shield Resistance");
-            // 
-            // l_shield_exp
-            // 
-            this.l_shield_exp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_exp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_shield_exp.ForeColor = System.Drawing.Color.Indigo;
-            this.l_shield_exp.Location = new System.Drawing.Point(172, 136);
-            this.l_shield_exp.Name = "l_shield_exp";
-            this.l_shield_exp.Size = new System.Drawing.Size(50, 16);
-            this.l_shield_exp.TabIndex = 55;
-            this.l_shield_exp.Text = "0%";
-            this.l_shield_exp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_shield_exp, "Shield Resistance");
-            // 
-            // l_shield_em
-            // 
-            this.l_shield_em.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_em.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_shield_em.ForeColor = System.Drawing.Color.Teal;
-            this.l_shield_em.Location = new System.Drawing.Point(172, 91);
-            this.l_shield_em.Name = "l_shield_em";
-            this.l_shield_em.Size = new System.Drawing.Size(50, 16);
-            this.l_shield_em.TabIndex = 53;
-            this.l_shield_em.Text = "0%";
-            this.l_shield_em.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_shield_em, "Shield Resistance");
             // 
             // pictureBox21
             // 
@@ -2728,7 +2540,7 @@
             this.rtb_Other.Name = "rtb_Other";
             this.rtb_Other.ReadOnly = true;
             this.rtb_Other.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtb_Other.Size = new System.Drawing.Size(300, 392);
+            this.rtb_Other.Size = new System.Drawing.Size(300, 370);
             this.rtb_Other.TabIndex = 80;
             this.rtb_Other.Text = "";
             // 
@@ -2737,9 +2549,9 @@
             this.l_struct_therm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_struct_therm.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_therm.ForeColor = System.Drawing.Color.Red;
-            this.l_struct_therm.Location = new System.Drawing.Point(251, 163);
+            this.l_struct_therm.Location = new System.Drawing.Point(249, 163);
             this.l_struct_therm.Name = "l_struct_therm";
-            this.l_struct_therm.Size = new System.Drawing.Size(50, 16);
+            this.l_struct_therm.Size = new System.Drawing.Size(50, 13);
             this.l_struct_therm.TabIndex = 79;
             this.l_struct_therm.Text = "0%";
             this.l_struct_therm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2750,9 +2562,9 @@
             this.l_struct_kin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_struct_kin.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_kin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_struct_kin.Location = new System.Drawing.Point(251, 118);
+            this.l_struct_kin.Location = new System.Drawing.Point(249, 125);
             this.l_struct_kin.Name = "l_struct_kin";
-            this.l_struct_kin.Size = new System.Drawing.Size(50, 16);
+            this.l_struct_kin.Size = new System.Drawing.Size(50, 14);
             this.l_struct_kin.TabIndex = 77;
             this.l_struct_kin.Text = "0%";
             this.l_struct_kin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2765,10 +2577,9 @@
             this.l_struct_exp.ForeColor = System.Drawing.Color.Indigo;
             this.l_struct_exp.Location = new System.Drawing.Point(172, 163);
             this.l_struct_exp.Name = "l_struct_exp";
-            this.l_struct_exp.Size = new System.Drawing.Size(50, 16);
+            this.l_struct_exp.Size = new System.Drawing.Size(50, 13);
             this.l_struct_exp.TabIndex = 75;
             this.l_struct_exp.Text = "0%";
-            this.l_struct_exp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_struct_exp, "Structure Resistance");
             // 
             // l_struct_emp
@@ -2776,12 +2587,11 @@
             this.l_struct_emp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_struct_emp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_emp.ForeColor = System.Drawing.Color.Teal;
-            this.l_struct_emp.Location = new System.Drawing.Point(172, 118);
+            this.l_struct_emp.Location = new System.Drawing.Point(172, 125);
             this.l_struct_emp.Name = "l_struct_emp";
-            this.l_struct_emp.Size = new System.Drawing.Size(50, 16);
+            this.l_struct_emp.Size = new System.Drawing.Size(50, 14);
             this.l_struct_emp.TabIndex = 73;
             this.l_struct_emp.Text = "0%";
-            this.l_struct_emp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_struct_emp, "Structure Resistance");
             // 
             // l_struct_hp
@@ -2832,26 +2642,14 @@
             this.l_cpu.Text = "0";
             this.l_cpu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pictureBox27
-            // 
-            this.pictureBox27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox27.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
-            this.pictureBox27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox27.Location = new System.Drawing.Point(146, 91);
-            this.pictureBox27.Name = "pictureBox27";
-            this.pictureBox27.Size = new System.Drawing.Size(35, 43);
-            this.pictureBox27.TabIndex = 128;
-            this.pictureBox27.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox27, "EM Resists");
-            // 
             // pictureBox26
             // 
             this.pictureBox26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox26.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
             this.pictureBox26.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox26.Location = new System.Drawing.Point(146, 136);
+            this.pictureBox26.Location = new System.Drawing.Point(146, 143);
             this.pictureBox26.Name = "pictureBox26";
-            this.pictureBox26.Size = new System.Drawing.Size(35, 43);
+            this.pictureBox26.Size = new System.Drawing.Size(35, 35);
             this.pictureBox26.TabIndex = 129;
             this.pictureBox26.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox26, "Explosive Resists");
@@ -2861,9 +2659,9 @@
             this.pictureBox25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox25.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
             this.pictureBox25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox25.Location = new System.Drawing.Point(224, 91);
+            this.pictureBox25.Location = new System.Drawing.Point(222, 106);
             this.pictureBox25.Name = "pictureBox25";
-            this.pictureBox25.Size = new System.Drawing.Size(35, 43);
+            this.pictureBox25.Size = new System.Drawing.Size(35, 35);
             this.pictureBox25.TabIndex = 130;
             this.pictureBox25.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox25, "Kinetic Resists");
@@ -2873,16 +2671,29 @@
             this.pictureBox24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox24.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
             this.pictureBox24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox24.Location = new System.Drawing.Point(224, 136);
+            this.pictureBox24.Location = new System.Drawing.Point(222, 143);
             this.pictureBox24.Name = "pictureBox24";
-            this.pictureBox24.Size = new System.Drawing.Size(35, 43);
+            this.pictureBox24.Size = new System.Drawing.Size(35, 35);
             this.pictureBox24.TabIndex = 131;
             this.pictureBox24.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox24, "Thermal Resists");
             // 
+            // pictureBox27
+            // 
+            this.pictureBox27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox27.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
+            this.pictureBox27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox27.Location = new System.Drawing.Point(146, 106);
+            this.pictureBox27.Name = "pictureBox27";
+            this.pictureBox27.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox27.TabIndex = 128;
+            this.pictureBox27.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox27, "EM Resists");
+            // 
             // tp_Fuel
             // 
             this.tp_Fuel.BackColor = System.Drawing.SystemColors.Control;
+            this.tp_Fuel.Controls.Add(this.nud_DesFuelPeriod);
             this.tp_Fuel.Controls.Add(this.l_FuelStront_C);
             this.tp_Fuel.Controls.Add(this.l_Fuel_C);
             this.tp_Fuel.Controls.Add(this.l_IsotopeType);
@@ -2895,11 +2706,9 @@
             this.tp_Fuel.Controls.Add(this.l_Chart_C);
             this.tp_Fuel.Controls.Add(this.l_LiqO_C);
             this.tp_Fuel.Controls.Add(this.l_HvyW_C);
-            this.tp_Fuel.Controls.Add(this.pb_Stront);
             this.tp_Fuel.Controls.Add(this.l_Iso_C);
             this.tp_Fuel.Controls.Add(this.l_Robt_C);
             this.tp_Fuel.Controls.Add(this.l_Cool_C);
-            this.tp_Fuel.Controls.Add(this.pb_Fuel);
             this.tp_Fuel.Controls.Add(this.l_McP_C);
             this.tp_Fuel.Controls.Add(this.l_Oxygen_C);
             this.tp_Fuel.Controls.Add(this.l_EnrUrn_C);
@@ -2933,14 +2742,40 @@
             this.tp_Fuel.Controls.Add(this.pb_enrUran);
             this.tp_Fuel.Controls.Add(this.pictureBox10);
             this.tp_Fuel.Controls.Add(this.pb_StrontBay);
+            this.tp_Fuel.Controls.Add(this.pb_Stront);
+            this.tp_Fuel.Controls.Add(this.pb_Fuel);
             this.tp_Fuel.ForeColor = System.Drawing.Color.Black;
             this.tp_Fuel.Location = new System.Drawing.Point(4, 23);
             this.tp_Fuel.Name = "tp_Fuel";
             this.tp_Fuel.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Fuel.Size = new System.Drawing.Size(305, 573);
+            this.tp_Fuel.Size = new System.Drawing.Size(305, 551);
             this.tp_Fuel.TabIndex = 1;
             this.tp_Fuel.Text = "Fuel";
             this.tp_Fuel.UseVisualStyleBackColor = true;
+            // 
+            // nud_DesFuelPeriod
+            // 
+            this.nud_DesFuelPeriod.Location = new System.Drawing.Point(217, 81);
+            this.nud_DesFuelPeriod.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+            this.nud_DesFuelPeriod.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_DesFuelPeriod.Name = "nud_DesFuelPeriod";
+            this.nud_DesFuelPeriod.Size = new System.Drawing.Size(68, 21);
+            this.nud_DesFuelPeriod.TabIndex = 171;
+            this.nud_DesFuelPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_DesFuelPeriod.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_DesFuelPeriod.ValueChanged += new System.EventHandler(this.nud_DesFuelPeriod_ValueChanged);
             // 
             // l_FuelStront_C
             // 
@@ -3086,19 +2921,6 @@
             this.l_HvyW_C.TabIndex = 61;
             this.l_HvyW_C.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // pb_Stront
-            // 
-            this.pb_Stront.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_Stront.Animate = false;
-            this.pb_Stront.BackColor = System.Drawing.Color.Transparent;
-            this.pb_Stront.EndColor = System.Drawing.Color.DarkRed;
-            this.pb_Stront.Location = new System.Drawing.Point(38, 37);
-            this.pb_Stront.Name = "pb_Stront";
-            this.pb_Stront.Size = new System.Drawing.Size(261, 17);
-            this.pb_Stront.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.pb_Stront.TabIndex = 3;
-            // 
             // l_Iso_C
             // 
             this.l_Iso_C.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -3134,19 +2956,6 @@
             this.l_Cool_C.Size = new System.Drawing.Size(99, 18);
             this.l_Cool_C.TabIndex = 58;
             this.l_Cool_C.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pb_Fuel
-            // 
-            this.pb_Fuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_Fuel.Animate = false;
-            this.pb_Fuel.BackColor = System.Drawing.Color.Transparent;
-            this.pb_Fuel.EndColor = System.Drawing.Color.DarkRed;
-            this.pb_Fuel.Location = new System.Drawing.Point(38, 3);
-            this.pb_Fuel.Name = "pb_Fuel";
-            this.pb_Fuel.Size = new System.Drawing.Size(261, 17);
-            this.pb_Fuel.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.pb_Fuel.TabIndex = 2;
             // 
             // l_McP_C
             // 
@@ -3234,7 +3043,7 @@
             this.label15.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(56, 81);
+            this.label15.Location = new System.Drawing.Point(19, 81);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(77, 18);
             this.label15.TabIndex = 33;
@@ -3278,7 +3087,7 @@
             "Days",
             "Weeks",
             "Max Run"});
-            this.cb_Interval.Location = new System.Drawing.Point(135, 80);
+            this.cb_Interval.Location = new System.Drawing.Point(98, 80);
             this.cb_Interval.Name = "cb_Interval";
             this.cb_Interval.Size = new System.Drawing.Size(116, 21);
             this.cb_Interval.TabIndex = 47;
@@ -3368,7 +3177,7 @@
             this.label16.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label16.ForeColor = System.Drawing.Color.Black;
-            this.label16.Location = new System.Drawing.Point(56, 102);
+            this.label16.Location = new System.Drawing.Point(19, 102);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(77, 18);
             this.label16.TabIndex = 34;
@@ -3394,12 +3203,12 @@
             this.l_AmountForMax.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_AmountForMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_AmountForMax.ForeColor = System.Drawing.Color.Black;
-            this.l_AmountForMax.Location = new System.Drawing.Point(135, 102);
+            this.l_AmountForMax.Location = new System.Drawing.Point(98, 102);
             this.l_AmountForMax.Name = "l_AmountForMax";
-            this.l_AmountForMax.Size = new System.Drawing.Size(116, 18);
+            this.l_AmountForMax.Size = new System.Drawing.Size(187, 18);
             this.l_AmountForMax.TabIndex = 53;
             this.l_AmountForMax.Text = "0";
-            this.l_AmountForMax.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.l_AmountForMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox17
             // 
@@ -3555,6 +3364,36 @@
             this.pb_StrontBay.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pb_StrontBay, "Strontium Bay");
             // 
+            // pb_Stront
+            // 
+            this.pb_Stront.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Stront.Animate = false;
+            this.pb_Stront.BackColor = System.Drawing.Color.Transparent;
+            this.pb_Stront.EndColor = System.Drawing.Color.DarkRed;
+            this.pb_Stront.Location = new System.Drawing.Point(38, 37);
+            this.pb_Stront.Name = "pb_Stront";
+            this.pb_Stront.Size = new System.Drawing.Size(261, 17);
+            this.pb_Stront.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.pb_Stront.TabIndex = 3;
+            this.pb_Stront.TextColor = System.Drawing.Color.Black;
+            this.pb_Stront.TextOverlay = "";
+            // 
+            // pb_Fuel
+            // 
+            this.pb_Fuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Fuel.Animate = false;
+            this.pb_Fuel.BackColor = System.Drawing.Color.Transparent;
+            this.pb_Fuel.EndColor = System.Drawing.Color.DarkRed;
+            this.pb_Fuel.Location = new System.Drawing.Point(38, 3);
+            this.pb_Fuel.Name = "pb_Fuel";
+            this.pb_Fuel.Size = new System.Drawing.Size(261, 17);
+            this.pb_Fuel.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.pb_Fuel.TabIndex = 2;
+            this.pb_Fuel.TextColor = System.Drawing.Color.Black;
+            this.pb_Fuel.TextOverlay = "";
+            // 
             // tp_PosStats
             // 
             this.tp_PosStats.Controls.Add(this.pictureBox16);
@@ -3562,31 +3401,31 @@
             this.tp_PosStats.Controls.Add(this.l_PoS_DPS);
             this.tp_PosStats.Controls.Add(this.l_PoS_Tank);
             this.tp_PosStats.Controls.Add(this.l_PoS_EHP);
-            this.tp_PosStats.Controls.Add(this.pictureBox15);
-            this.tp_PosStats.Controls.Add(this.pictureBox14);
             this.tp_PosStats.Controls.Add(this.b_SaveResProf);
             this.tp_PosStats.Controls.Add(this.nud_ThmRes);
-            this.tp_PosStats.Controls.Add(this.pictureBox13);
             this.tp_PosStats.Controls.Add(this.nud_KinRes);
-            this.tp_PosStats.Controls.Add(this.pictureBox12);
             this.tp_PosStats.Controls.Add(this.nud_ExpRes);
             this.tp_PosStats.Controls.Add(this.nud_EMRes);
             this.tp_PosStats.Controls.Add(this.label88);
             this.tp_PosStats.Controls.Add(this.cb_DamageProfile);
             this.tp_PosStats.Controls.Add(this.l_Total_UnAnchor_T);
+            this.tp_PosStats.Controls.Add(this.l_SetupTime);
+            this.tp_PosStats.Controls.Add(this.l_OnlineTime);
+            this.tp_PosStats.Controls.Add(this.l_AnchorTime);
+            this.tp_PosStats.Controls.Add(this.pictureBox15);
+            this.tp_PosStats.Controls.Add(this.pictureBox14);
+            this.tp_PosStats.Controls.Add(this.pictureBox13);
+            this.tp_PosStats.Controls.Add(this.pictureBox12);
             this.tp_PosStats.Controls.Add(this.pictureBox47);
             this.tp_PosStats.Controls.Add(this.pictureBox46);
-            this.tp_PosStats.Controls.Add(this.l_SetupTime);
             this.tp_PosStats.Controls.Add(this.pictureBox45);
             this.tp_PosStats.Controls.Add(this.pictureBox29);
             this.tp_PosStats.Controls.Add(this.pictureBox30);
             this.tp_PosStats.Controls.Add(this.pictureBox31);
-            this.tp_PosStats.Controls.Add(this.l_OnlineTime);
             this.tp_PosStats.Controls.Add(this.pictureBox32);
-            this.tp_PosStats.Controls.Add(this.l_AnchorTime);
             this.tp_PosStats.Location = new System.Drawing.Point(4, 23);
             this.tp_PosStats.Name = "tp_PosStats";
-            this.tp_PosStats.Size = new System.Drawing.Size(305, 573);
+            this.tp_PosStats.Size = new System.Drawing.Size(305, 551);
             this.tp_PosStats.TabIndex = 3;
             this.tp_PosStats.Text = "PoS Stats";
             this.tp_PosStats.UseVisualStyleBackColor = true;
@@ -3595,9 +3434,9 @@
             // 
             this.pictureBox16.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon07_12;
             this.pictureBox16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox16.Location = new System.Drawing.Point(6, 218);
+            this.pictureBox16.Location = new System.Drawing.Point(3, 256);
             this.pictureBox16.Name = "pictureBox16";
-            this.pictureBox16.Size = new System.Drawing.Size(45, 45);
+            this.pictureBox16.Size = new System.Drawing.Size(35, 35);
             this.pictureBox16.TabIndex = 135;
             this.pictureBox16.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox16, "POS Cost (Tower & Modules)");
@@ -3608,7 +3447,7 @@
             this.l_POS_C.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_POS_C.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_POS_C.ForeColor = System.Drawing.Color.Black;
-            this.l_POS_C.Location = new System.Drawing.Point(52, 231);
+            this.l_POS_C.Location = new System.Drawing.Point(39, 265);
             this.l_POS_C.Name = "l_POS_C";
             this.l_POS_C.Size = new System.Drawing.Size(127, 16);
             this.l_POS_C.TabIndex = 132;
@@ -3645,28 +3484,6 @@
             this.l_PoS_EHP.TabIndex = 125;
             this.l_PoS_EHP.Text = "EHP";
             // 
-            // pictureBox15
-            // 
-            this.pictureBox15.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.un_anchor1;
-            this.pictureBox15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox15.Location = new System.Drawing.Point(16, 374);
-            this.pictureBox15.Name = "pictureBox15";
-            this.pictureBox15.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox15.TabIndex = 126;
-            this.pictureBox15.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox15, "UnAnchor Time");
-            // 
-            // pictureBox14
-            // 
-            this.pictureBox14.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online_anchor;
-            this.pictureBox14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox14.Location = new System.Drawing.Point(16, 339);
-            this.pictureBox14.Name = "pictureBox14";
-            this.pictureBox14.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox14.TabIndex = 125;
-            this.pictureBox14.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox14, "Anchor & Onlline Time");
-            // 
             // b_SaveResProf
             // 
             this.b_SaveResProf.ForeColor = System.Drawing.Color.Blue;
@@ -3697,17 +3514,6 @@
             0});
             this.nud_ThmRes.ValueChanged += new System.EventHandler(this.nud_ThmRes_ValueChanged);
             // 
-            // pictureBox13
-            // 
-            this.pictureBox13.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online1;
-            this.pictureBox13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox13.Location = new System.Drawing.Point(16, 304);
-            this.pictureBox13.Name = "pictureBox13";
-            this.pictureBox13.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox13.TabIndex = 124;
-            this.pictureBox13.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox13, "Onlline Time");
-            // 
             // nud_KinRes
             // 
             this.nud_KinRes.BackColor = System.Drawing.SystemColors.Control;
@@ -3726,17 +3532,6 @@
             0,
             0});
             this.nud_KinRes.ValueChanged += new System.EventHandler(this.nud_KinRes_ValueChanged);
-            // 
-            // pictureBox12
-            // 
-            this.pictureBox12.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.anchor1;
-            this.pictureBox12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox12.Location = new System.Drawing.Point(16, 269);
-            this.pictureBox12.Name = "pictureBox12";
-            this.pictureBox12.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox12.TabIndex = 123;
-            this.pictureBox12.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox12, "Anchor Time");
             // 
             // nud_ExpRes
             // 
@@ -3807,12 +3602,95 @@
             this.l_Total_UnAnchor_T.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_Total_UnAnchor_T.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_Total_UnAnchor_T.ForeColor = System.Drawing.Color.Black;
-            this.l_Total_UnAnchor_T.Location = new System.Drawing.Point(52, 382);
+            this.l_Total_UnAnchor_T.Location = new System.Drawing.Point(39, 410);
             this.l_Total_UnAnchor_T.Name = "l_Total_UnAnchor_T";
             this.l_Total_UnAnchor_T.Size = new System.Drawing.Size(105, 16);
             this.l_Total_UnAnchor_T.TabIndex = 78;
             this.l_Total_UnAnchor_T.Text = "Un-Anchor Time";
             this.l_Total_UnAnchor_T.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // l_SetupTime
+            // 
+            this.l_SetupTime.AutoSize = true;
+            this.l_SetupTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_SetupTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_SetupTime.ForeColor = System.Drawing.Color.Black;
+            this.l_SetupTime.Location = new System.Drawing.Point(39, 375);
+            this.l_SetupTime.Name = "l_SetupTime";
+            this.l_SetupTime.Size = new System.Drawing.Size(77, 16);
+            this.l_SetupTime.TabIndex = 76;
+            this.l_SetupTime.Text = "Setup Time";
+            this.l_SetupTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // l_OnlineTime
+            // 
+            this.l_OnlineTime.AutoSize = true;
+            this.l_OnlineTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_OnlineTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_OnlineTime.ForeColor = System.Drawing.Color.Black;
+            this.l_OnlineTime.Location = new System.Drawing.Point(39, 340);
+            this.l_OnlineTime.Name = "l_OnlineTime";
+            this.l_OnlineTime.Size = new System.Drawing.Size(80, 16);
+            this.l_OnlineTime.TabIndex = 74;
+            this.l_OnlineTime.Text = "Online Time";
+            this.l_OnlineTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // l_AnchorTime
+            // 
+            this.l_AnchorTime.AutoSize = true;
+            this.l_AnchorTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_AnchorTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_AnchorTime.ForeColor = System.Drawing.Color.Black;
+            this.l_AnchorTime.Location = new System.Drawing.Point(39, 305);
+            this.l_AnchorTime.Name = "l_AnchorTime";
+            this.l_AnchorTime.Size = new System.Drawing.Size(84, 16);
+            this.l_AnchorTime.TabIndex = 72;
+            this.l_AnchorTime.Text = "Anchor Time";
+            this.l_AnchorTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox15
+            // 
+            this.pictureBox15.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.un_anchor1;
+            this.pictureBox15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox15.Location = new System.Drawing.Point(3, 402);
+            this.pictureBox15.Name = "pictureBox15";
+            this.pictureBox15.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox15.TabIndex = 126;
+            this.pictureBox15.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox15, "UnAnchor Time");
+            // 
+            // pictureBox14
+            // 
+            this.pictureBox14.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online_anchor;
+            this.pictureBox14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox14.Location = new System.Drawing.Point(3, 367);
+            this.pictureBox14.Name = "pictureBox14";
+            this.pictureBox14.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox14.TabIndex = 125;
+            this.pictureBox14.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox14, "Anchor & Onlline Time");
+            // 
+            // pictureBox13
+            // 
+            this.pictureBox13.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online1;
+            this.pictureBox13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox13.Location = new System.Drawing.Point(3, 332);
+            this.pictureBox13.Name = "pictureBox13";
+            this.pictureBox13.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox13.TabIndex = 124;
+            this.pictureBox13.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox13, "Onlline Time");
+            // 
+            // pictureBox12
+            // 
+            this.pictureBox12.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.anchor1;
+            this.pictureBox12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox12.Location = new System.Drawing.Point(3, 297);
+            this.pictureBox12.Name = "pictureBox12";
+            this.pictureBox12.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox12.TabIndex = 123;
+            this.pictureBox12.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox12, "Anchor Time");
             // 
             // pictureBox47
             // 
@@ -3835,19 +3713,6 @@
             this.pictureBox46.TabIndex = 123;
             this.pictureBox46.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox46, "POS Tank / Shield Regen");
-            // 
-            // l_SetupTime
-            // 
-            this.l_SetupTime.AutoSize = true;
-            this.l_SetupTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_SetupTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_SetupTime.ForeColor = System.Drawing.Color.Black;
-            this.l_SetupTime.Location = new System.Drawing.Point(52, 347);
-            this.l_SetupTime.Name = "l_SetupTime";
-            this.l_SetupTime.Size = new System.Drawing.Size(77, 16);
-            this.l_SetupTime.TabIndex = 76;
-            this.l_SetupTime.Text = "Setup Time";
-            this.l_SetupTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox45
             // 
@@ -3896,19 +3761,6 @@
             this.pictureBox31.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox31, "Explosive Resists");
             // 
-            // l_OnlineTime
-            // 
-            this.l_OnlineTime.AutoSize = true;
-            this.l_OnlineTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_OnlineTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_OnlineTime.ForeColor = System.Drawing.Color.Black;
-            this.l_OnlineTime.Location = new System.Drawing.Point(52, 312);
-            this.l_OnlineTime.Name = "l_OnlineTime";
-            this.l_OnlineTime.Size = new System.Drawing.Size(80, 16);
-            this.l_OnlineTime.TabIndex = 74;
-            this.l_OnlineTime.Text = "Online Time";
-            this.l_OnlineTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // pictureBox32
             // 
             this.pictureBox32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -3921,19 +3773,6 @@
             this.pictureBox32.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox32, "EM Resists");
             // 
-            // l_AnchorTime
-            // 
-            this.l_AnchorTime.AutoSize = true;
-            this.l_AnchorTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_AnchorTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_AnchorTime.ForeColor = System.Drawing.Color.Black;
-            this.l_AnchorTime.Location = new System.Drawing.Point(52, 277);
-            this.l_AnchorTime.Name = "l_AnchorTime";
-            this.l_AnchorTime.Size = new System.Drawing.Size(84, 16);
-            this.l_AnchorTime.TabIndex = 72;
-            this.l_AnchorTime.Text = "Anchor Time";
-            this.l_AnchorTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // p_Select
             // 
             this.p_Select.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -3944,9 +3783,9 @@
             this.p_Select.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.p_Select.Controls.Add(this.lv_ItemSelList);
             this.p_Select.ForeColor = System.Drawing.Color.Black;
-            this.p_Select.Location = new System.Drawing.Point(849, 123);
+            this.p_Select.Location = new System.Drawing.Point(807, 140);
             this.p_Select.Name = "p_Select";
-            this.p_Select.Size = new System.Drawing.Size(150, 435);
+            this.p_Select.Size = new System.Drawing.Size(193, 400);
             this.p_Select.TabIndex = 1;
             // 
             // lv_ItemSelList
@@ -3959,7 +3798,7 @@
             this.lv_ItemSelList.MultiSelect = false;
             this.lv_ItemSelList.Name = "lv_ItemSelList";
             this.lv_ItemSelList.ShowItemToolTips = true;
-            this.lv_ItemSelList.Size = new System.Drawing.Size(146, 431);
+            this.lv_ItemSelList.Size = new System.Drawing.Size(189, 396);
             this.lv_ItemSelList.TabIndex = 1;
             this.lv_ItemSelList.UseCompatibleStateImageBehavior = false;
             this.lv_ItemSelList.SelectedIndexChanged += new System.EventHandler(this.lv_ItemSelList_SelectedIndexChanged);
@@ -3973,290 +3812,47 @@
             // 
             // p_Top
             // 
-            this.p_Top.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.p_Top.BackColor = System.Drawing.SystemColors.Control;
             this.p_Top.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.p_Top.Controls.Add(this.cb_systemMoon);
-            this.p_Top.Controls.Add(this.cb_CorpName);
-            this.p_Top.Controls.Add(this.cb_SovLevel);
-            this.p_Top.Controls.Add(this.cb_System);
-            this.p_Top.Controls.Add(this.b_CopyPOS);
-            this.p_Top.Controls.Add(this.b_RenamePos);
-            this.p_Top.Controls.Add(this.b_ClearPoS);
-            this.p_Top.Controls.Add(this.b_NewPos);
-            this.p_Top.Controls.Add(this.b_DelPoS);
-            this.p_Top.Controls.Add(this.b_SavePoS);
-            this.p_Top.Controls.Add(this.l_TowerATRes);
-            this.p_Top.Controls.Add(this.l_TowerAKRes);
-            this.p_Top.Controls.Add(this.l_TowerSTRes);
-            this.p_Top.Controls.Add(this.l_TowerAExRes);
-            this.p_Top.Controls.Add(this.l_TowerAEmRes);
             this.p_Top.Controls.Add(this.l_TowerSKRes);
-            this.p_Top.Controls.Add(this.l_TowerArmor);
-            this.p_Top.Controls.Add(this.l_TowerShield);
-            this.p_Top.Controls.Add(this.l_TowerStTRes);
             this.p_Top.Controls.Add(this.l_TowerStKRes);
-            this.p_Top.Controls.Add(this.l_TowerSExRes);
-            this.p_Top.Controls.Add(this.l_TowerStExRes);
-            this.p_Top.Controls.Add(this.l_TowerStEmRes);
+            this.p_Top.Controls.Add(this.l_TowerSTRes);
+            this.p_Top.Controls.Add(this.l_TowerATRes);
+            this.p_Top.Controls.Add(this.l_TowerStTRes);
             this.p_Top.Controls.Add(this.l_TowerSEmRes);
-            this.p_Top.Controls.Add(this.l_TowerStruct);
-            this.p_Top.Controls.Add(this.label21);
-            this.p_Top.Controls.Add(this.cb_PoSName);
-            this.p_Top.Controls.Add(this.l_Power_Val);
-            this.p_Top.Controls.Add(this.l_CPU_Values);
-            this.p_Top.Controls.Add(this.pb_Power);
-            this.p_Top.Controls.Add(this.pb_CPU);
-            this.p_Top.Controls.Add(this.pictureBox3);
-            this.p_Top.Controls.Add(this.pictureBox4);
+            this.p_Top.Controls.Add(this.l_TowerStEmRes);
+            this.p_Top.Controls.Add(this.l_TowerSExRes);
+            this.p_Top.Controls.Add(this.l_TowerAExRes);
+            this.p_Top.Controls.Add(this.l_TowerStExRes);
             this.p_Top.Controls.Add(this.pictureBox2);
             this.p_Top.Controls.Add(this.pictureBox1);
-            this.p_Top.Controls.Add(this.pictureBox7);
-            this.p_Top.Controls.Add(this.pictureBox6);
+            this.p_Top.Controls.Add(this.pictureBox4);
+            this.p_Top.Controls.Add(this.cb_PoSName);
+            this.p_Top.Controls.Add(this.ts_Designer);
+            this.p_Top.Controls.Add(this.cb_systemMoon);
+            this.p_Top.Controls.Add(this.l_TowerStruct);
+            this.p_Top.Controls.Add(this.l_TowerShield);
+            this.p_Top.Controls.Add(this.l_TowerArmor);
+            this.p_Top.Controls.Add(this.cb_CorpName);
             this.p_Top.Controls.Add(this.pictureBox5);
+            this.p_Top.Controls.Add(this.cb_SovLevel);
+            this.p_Top.Controls.Add(this.pictureBox6);
+            this.p_Top.Controls.Add(this.cb_System);
+            this.p_Top.Controls.Add(this.pictureBox7);
+            this.p_Top.Controls.Add(this.label21);
+            this.p_Top.Controls.Add(this.pb_Power);
+            this.p_Top.Controls.Add(this.pb_CPU);
             this.p_Top.Controls.Add(this.pictureBox8);
+            this.p_Top.Controls.Add(this.l_TowerAKRes);
+            this.p_Top.Controls.Add(this.l_TowerAEmRes);
             this.p_Top.Controls.Add(this.pictureBox9);
+            this.p_Top.Controls.Add(this.pictureBox3);
+            this.p_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.p_Top.ForeColor = System.Drawing.Color.Black;
-            this.p_Top.Location = new System.Drawing.Point(0, -1);
+            this.p_Top.Location = new System.Drawing.Point(3, 3);
             this.p_Top.Name = "p_Top";
-            this.p_Top.Size = new System.Drawing.Size(1002, 99);
+            this.p_Top.Size = new System.Drawing.Size(994, 116);
             this.p_Top.TabIndex = 0;
-            // 
-            // cb_systemMoon
-            // 
-            this.cb_systemMoon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_systemMoon.FormattingEnabled = true;
-            this.cb_systemMoon.Location = new System.Drawing.Point(420, 25);
-            this.cb_systemMoon.Name = "cb_systemMoon";
-            this.cb_systemMoon.Size = new System.Drawing.Size(134, 21);
-            this.cb_systemMoon.TabIndex = 133;
-            this.cb_systemMoon.Text = "Select Tower Moon";
-            this.tt_InfoTips.SetToolTip(this.cb_systemMoon, "Select System Moon that the Tower is In");
-            this.cb_systemMoon.SelectedIndexChanged += new System.EventHandler(this.cb_systemMoon_SelectedIndexChanged);
-            // 
-            // cb_CorpName
-            // 
-            this.cb_CorpName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_CorpName.FormattingEnabled = true;
-            this.cb_CorpName.Items.AddRange(new object[] {
-            "No Sov",
-            "Sov Level 1",
-            "Sov Level 2",
-            "Sov Level 3",
-            "Sov Level 4",
-            "Constellation Sov"});
-            this.cb_CorpName.Location = new System.Drawing.Point(420, 73);
-            this.cb_CorpName.Name = "cb_CorpName";
-            this.cb_CorpName.Size = new System.Drawing.Size(134, 21);
-            this.cb_CorpName.TabIndex = 132;
-            this.cb_CorpName.Text = "Select Corporation";
-            this.tt_InfoTips.SetToolTip(this.cb_CorpName, "Select Sov Level for Tower System");
-            this.cb_CorpName.SelectedIndexChanged += new System.EventHandler(this.cb_CorpName_SelectedIndexChanged);
-            // 
-            // cb_SovLevel
-            // 
-            this.cb_SovLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_SovLevel.FormattingEnabled = true;
-            this.cb_SovLevel.Items.AddRange(new object[] {
-            "No Sov",
-            "Sov Level 1",
-            "Sov Level 2",
-            "Sov Level 3",
-            "Sov Level 4",
-            "Constellation Sov"});
-            this.cb_SovLevel.Location = new System.Drawing.Point(420, 49);
-            this.cb_SovLevel.Name = "cb_SovLevel";
-            this.cb_SovLevel.Size = new System.Drawing.Size(134, 21);
-            this.cb_SovLevel.TabIndex = 131;
-            this.cb_SovLevel.Text = "Select Sovereignty";
-            this.tt_InfoTips.SetToolTip(this.cb_SovLevel, "Select Sov Level for Tower System");
-            this.cb_SovLevel.SelectedIndexChanged += new System.EventHandler(this.cb_SovLevel_SelectedIndexChanged);
-            // 
-            // cb_System
-            // 
-            this.cb_System.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_System.FormattingEnabled = true;
-            this.cb_System.Location = new System.Drawing.Point(420, 1);
-            this.cb_System.Name = "cb_System";
-            this.cb_System.Size = new System.Drawing.Size(134, 21);
-            this.cb_System.TabIndex = 130;
-            this.cb_System.Text = "Select Tower System";
-            this.tt_InfoTips.SetToolTip(this.cb_System, "Select System that the Tower is In");
-            this.cb_System.SelectedIndexChanged += new System.EventHandler(this.cb_System_SelectedIndexChanged);
-            // 
-            // b_CopyPOS
-            // 
-            this.b_CopyPOS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_CopyPOS.BackColor = System.Drawing.Color.Transparent;
-            this.b_CopyPOS.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.CloneBay;
-            this.b_CopyPOS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_CopyPOS.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopyPOS.Location = new System.Drawing.Point(651, 48);
-            this.b_CopyPOS.Name = "b_CopyPOS";
-            this.b_CopyPOS.Size = new System.Drawing.Size(46, 46);
-            this.b_CopyPOS.TabIndex = 129;
-            this.b_CopyPOS.Text = "Copy";
-            this.b_CopyPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopyPOS, "Change the Name of This POS");
-            this.b_CopyPOS.UseVisualStyleBackColor = false;
-            this.b_CopyPOS.Click += new System.EventHandler(this.b_CopyPOS_Click);
-            // 
-            // b_RenamePos
-            // 
-            this.b_RenamePos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_RenamePos.BackColor = System.Drawing.Color.Transparent;
-            this.b_RenamePos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Bounty;
-            this.b_RenamePos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_RenamePos.ForeColor = System.Drawing.Color.Cyan;
-            this.b_RenamePos.Location = new System.Drawing.Point(651, 2);
-            this.b_RenamePos.Name = "b_RenamePos";
-            this.b_RenamePos.Size = new System.Drawing.Size(46, 46);
-            this.b_RenamePos.TabIndex = 128;
-            this.b_RenamePos.Text = "ReNm";
-            this.b_RenamePos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_RenamePos, "Change the Name of This POS");
-            this.b_RenamePos.UseVisualStyleBackColor = false;
-            this.b_RenamePos.Click += new System.EventHandler(this.b_RenamePos_Click);
-            // 
-            // b_ClearPoS
-            // 
-            this.b_ClearPoS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_ClearPoS.BackColor = System.Drawing.Color.Transparent;
-            this.b_ClearPoS.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_ClearPoS.ForeColor = System.Drawing.Color.Cyan;
-            this.b_ClearPoS.Location = new System.Drawing.Point(604, 48);
-            this.b_ClearPoS.Name = "b_ClearPoS";
-            this.b_ClearPoS.Size = new System.Drawing.Size(46, 46);
-            this.b_ClearPoS.TabIndex = 112;
-            this.b_ClearPoS.Text = "Clear";
-            this.b_ClearPoS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_ClearPoS, "Clear Everything From this POS Design");
-            this.b_ClearPoS.UseVisualStyleBackColor = false;
-            this.b_ClearPoS.Click += new System.EventHandler(this.b_ClearPoS_Click);
-            // 
-            // b_NewPos
-            // 
-            this.b_NewPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_NewPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.b_NewPos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_NewPos.ForeColor = System.Drawing.Color.Cyan;
-            this.b_NewPos.Location = new System.Drawing.Point(557, 2);
-            this.b_NewPos.Name = "b_NewPos";
-            this.b_NewPos.Size = new System.Drawing.Size(46, 46);
-            this.b_NewPos.TabIndex = 127;
-            this.b_NewPos.Text = "New";
-            this.b_NewPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_NewPos, "Create a New POS");
-            this.b_NewPos.UseVisualStyleBackColor = true;
-            this.b_NewPos.Click += new System.EventHandler(this.b_NewPos_Click);
-            // 
-            // b_DelPoS
-            // 
-            this.b_DelPoS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_DelPoS.BackColor = System.Drawing.Color.Transparent;
-            this.b_DelPoS.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
-            this.b_DelPoS.ForeColor = System.Drawing.Color.Cyan;
-            this.b_DelPoS.Location = new System.Drawing.Point(557, 48);
-            this.b_DelPoS.Name = "b_DelPoS";
-            this.b_DelPoS.Size = new System.Drawing.Size(46, 46);
-            this.b_DelPoS.TabIndex = 111;
-            this.b_DelPoS.Text = "Delete";
-            this.b_DelPoS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_DelPoS, "Delete This POS");
-            this.b_DelPoS.UseVisualStyleBackColor = false;
-            this.b_DelPoS.Click += new System.EventHandler(this.b_DelPoS_Click);
-            // 
-            // b_SavePoS
-            // 
-            this.b_SavePoS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_SavePoS.BackColor = System.Drawing.Color.Transparent;
-            this.b_SavePoS.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Insure;
-            this.b_SavePoS.ForeColor = System.Drawing.Color.Cyan;
-            this.b_SavePoS.Location = new System.Drawing.Point(604, 2);
-            this.b_SavePoS.Name = "b_SavePoS";
-            this.b_SavePoS.Size = new System.Drawing.Size(46, 46);
-            this.b_SavePoS.TabIndex = 110;
-            this.b_SavePoS.Text = "Save";
-            this.b_SavePoS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_SavePoS, "Save Changes to this POS");
-            this.b_SavePoS.UseVisualStyleBackColor = false;
-            this.b_SavePoS.Click += new System.EventHandler(this.b_SavePoS_Click);
-            // 
-            // l_TowerATRes
-            // 
-            this.l_TowerATRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerATRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerATRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerATRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerATRes.ForeColor = System.Drawing.Color.Red;
-            this.l_TowerATRes.Location = new System.Drawing.Point(945, 64);
-            this.l_TowerATRes.Name = "l_TowerATRes";
-            this.l_TowerATRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerATRes.TabIndex = 109;
-            this.l_TowerATRes.Text = "0%";
-            this.l_TowerATRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerATRes, "Armor Resistance");
-            // 
-            // l_TowerAKRes
-            // 
-            this.l_TowerAKRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerAKRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerAKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerAKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerAKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_TowerAKRes.Location = new System.Drawing.Point(945, 17);
-            this.l_TowerAKRes.Name = "l_TowerAKRes";
-            this.l_TowerAKRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerAKRes.TabIndex = 107;
-            this.l_TowerAKRes.Text = "0%";
-            this.l_TowerAKRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerAKRes, "Armor Resistance");
-            // 
-            // l_TowerSTRes
-            // 
-            this.l_TowerSTRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerSTRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerSTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerSTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerSTRes.ForeColor = System.Drawing.Color.Red;
-            this.l_TowerSTRes.Location = new System.Drawing.Point(945, 51);
-            this.l_TowerSTRes.Name = "l_TowerSTRes";
-            this.l_TowerSTRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerSTRes.TabIndex = 99;
-            this.l_TowerSTRes.Text = "0%";
-            this.l_TowerSTRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerSTRes, "Shield Resistance");
-            // 
-            // l_TowerAExRes
-            // 
-            this.l_TowerAExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerAExRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerAExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerAExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerAExRes.ForeColor = System.Drawing.Color.Indigo;
-            this.l_TowerAExRes.Location = new System.Drawing.Point(865, 64);
-            this.l_TowerAExRes.Name = "l_TowerAExRes";
-            this.l_TowerAExRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerAExRes.TabIndex = 105;
-            this.l_TowerAExRes.Text = "0%";
-            this.l_TowerAExRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerAExRes, "Armor Resistance");
-            // 
-            // l_TowerAEmRes
-            // 
-            this.l_TowerAEmRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerAEmRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerAEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerAEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerAEmRes.ForeColor = System.Drawing.Color.Teal;
-            this.l_TowerAEmRes.Location = new System.Drawing.Point(865, 17);
-            this.l_TowerAEmRes.Name = "l_TowerAEmRes";
-            this.l_TowerAEmRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerAEmRes.TabIndex = 103;
-            this.l_TowerAEmRes.Text = "0%";
-            this.l_TowerAEmRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerAEmRes, "Armor Resistance");
             // 
             // l_TowerSKRes
             // 
@@ -4265,56 +3861,13 @@
             this.l_TowerSKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerSKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_TowerSKRes.Location = new System.Drawing.Point(945, 3);
+            this.l_TowerSKRes.Location = new System.Drawing.Point(935, 38);
             this.l_TowerSKRes.Name = "l_TowerSKRes";
             this.l_TowerSKRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerSKRes.TabIndex = 97;
             this.l_TowerSKRes.Text = "0%";
             this.l_TowerSKRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_TowerSKRes, "Shield Resistance");
-            // 
-            // l_TowerArmor
-            // 
-            this.l_TowerArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerArmor.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerArmor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerArmor.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerArmor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.l_TowerArmor.Location = new System.Drawing.Point(725, 41);
-            this.l_TowerArmor.Name = "l_TowerArmor";
-            this.l_TowerArmor.Size = new System.Drawing.Size(111, 16);
-            this.l_TowerArmor.TabIndex = 101;
-            this.l_TowerArmor.Text = "0";
-            this.l_TowerArmor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // l_TowerShield
-            // 
-            this.l_TowerShield.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerShield.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerShield.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerShield.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerShield.ForeColor = System.Drawing.Color.Blue;
-            this.l_TowerShield.Location = new System.Drawing.Point(725, 10);
-            this.l_TowerShield.Name = "l_TowerShield";
-            this.l_TowerShield.Size = new System.Drawing.Size(111, 16);
-            this.l_TowerShield.TabIndex = 91;
-            this.l_TowerShield.Text = "0";
-            this.l_TowerShield.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // l_TowerStTRes
-            // 
-            this.l_TowerStTRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerStTRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerStTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerStTRes.ForeColor = System.Drawing.Color.Red;
-            this.l_TowerStTRes.Location = new System.Drawing.Point(945, 78);
-            this.l_TowerStTRes.Name = "l_TowerStTRes";
-            this.l_TowerStTRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerStTRes.TabIndex = 89;
-            this.l_TowerStTRes.Text = "0%";
-            this.l_TowerStTRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerStTRes, "Structure Resistance");
             // 
             // l_TowerStKRes
             // 
@@ -4323,7 +3876,7 @@
             this.l_TowerStKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerStKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_TowerStKRes.Location = new System.Drawing.Point(945, 31);
+            this.l_TowerStKRes.Location = new System.Drawing.Point(935, 48);
             this.l_TowerStKRes.Name = "l_TowerStKRes";
             this.l_TowerStKRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerStKRes.TabIndex = 87;
@@ -4331,50 +3884,48 @@
             this.l_TowerStKRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_TowerStKRes, "Structure Resistance");
             // 
-            // l_TowerSExRes
+            // l_TowerSTRes
             // 
-            this.l_TowerSExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerSExRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerSExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerSExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerSExRes.ForeColor = System.Drawing.Color.Indigo;
-            this.l_TowerSExRes.Location = new System.Drawing.Point(865, 51);
-            this.l_TowerSExRes.Name = "l_TowerSExRes";
-            this.l_TowerSExRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerSExRes.TabIndex = 95;
-            this.l_TowerSExRes.Text = "0%";
-            this.l_TowerSExRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerSExRes, "Shield Resistance");
+            this.l_TowerSTRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerSTRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerSTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerSTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerSTRes.ForeColor = System.Drawing.Color.Red;
+            this.l_TowerSTRes.Location = new System.Drawing.Point(935, 76);
+            this.l_TowerSTRes.Name = "l_TowerSTRes";
+            this.l_TowerSTRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerSTRes.TabIndex = 99;
+            this.l_TowerSTRes.Text = "0%";
+            this.l_TowerSTRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tt_InfoTips.SetToolTip(this.l_TowerSTRes, "Shield Resistance");
             // 
-            // l_TowerStExRes
+            // l_TowerATRes
             // 
-            this.l_TowerStExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerStExRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerStExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerStExRes.ForeColor = System.Drawing.Color.Indigo;
-            this.l_TowerStExRes.Location = new System.Drawing.Point(865, 78);
-            this.l_TowerStExRes.Name = "l_TowerStExRes";
-            this.l_TowerStExRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerStExRes.TabIndex = 85;
-            this.l_TowerStExRes.Text = "0%";
-            this.l_TowerStExRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerStExRes, "Structure Resistance");
+            this.l_TowerATRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerATRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerATRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerATRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerATRes.ForeColor = System.Drawing.Color.Red;
+            this.l_TowerATRes.Location = new System.Drawing.Point(935, 86);
+            this.l_TowerATRes.Name = "l_TowerATRes";
+            this.l_TowerATRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerATRes.TabIndex = 109;
+            this.l_TowerATRes.Text = "0%";
+            this.tt_InfoTips.SetToolTip(this.l_TowerATRes, "Armor Resistance");
             // 
-            // l_TowerStEmRes
+            // l_TowerStTRes
             // 
-            this.l_TowerStEmRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_TowerStEmRes.BackColor = System.Drawing.Color.Transparent;
-            this.l_TowerStEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_TowerStEmRes.ForeColor = System.Drawing.Color.Teal;
-            this.l_TowerStEmRes.Location = new System.Drawing.Point(865, 31);
-            this.l_TowerStEmRes.Name = "l_TowerStEmRes";
-            this.l_TowerStEmRes.Size = new System.Drawing.Size(50, 14);
-            this.l_TowerStEmRes.TabIndex = 83;
-            this.l_TowerStEmRes.Text = "0%";
-            this.l_TowerStEmRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tt_InfoTips.SetToolTip(this.l_TowerStEmRes, "Structure Resistance");
+            this.l_TowerStTRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerStTRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerStTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerStTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStTRes.ForeColor = System.Drawing.Color.Red;
+            this.l_TowerStTRes.Location = new System.Drawing.Point(935, 96);
+            this.l_TowerStTRes.Name = "l_TowerStTRes";
+            this.l_TowerStTRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerStTRes.TabIndex = 89;
+            this.l_TowerStTRes.Text = "0%";
+            this.tt_InfoTips.SetToolTip(this.l_TowerStTRes, "Structure Resistance");
             // 
             // l_TowerSEmRes
             // 
@@ -4383,13 +3934,267 @@
             this.l_TowerSEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerSEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSEmRes.ForeColor = System.Drawing.Color.Teal;
-            this.l_TowerSEmRes.Location = new System.Drawing.Point(865, 3);
+            this.l_TowerSEmRes.Location = new System.Drawing.Point(856, 38);
             this.l_TowerSEmRes.Name = "l_TowerSEmRes";
             this.l_TowerSEmRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerSEmRes.TabIndex = 93;
             this.l_TowerSEmRes.Text = "0%";
             this.l_TowerSEmRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_TowerSEmRes, "Shield Resistance");
+            // 
+            // l_TowerStEmRes
+            // 
+            this.l_TowerStEmRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerStEmRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerStEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerStEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStEmRes.ForeColor = System.Drawing.Color.Teal;
+            this.l_TowerStEmRes.Location = new System.Drawing.Point(856, 48);
+            this.l_TowerStEmRes.Name = "l_TowerStEmRes";
+            this.l_TowerStEmRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerStEmRes.TabIndex = 83;
+            this.l_TowerStEmRes.Text = "0%";
+            this.l_TowerStEmRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tt_InfoTips.SetToolTip(this.l_TowerStEmRes, "Structure Resistance");
+            // 
+            // l_TowerSExRes
+            // 
+            this.l_TowerSExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerSExRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerSExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerSExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerSExRes.ForeColor = System.Drawing.Color.Indigo;
+            this.l_TowerSExRes.Location = new System.Drawing.Point(856, 76);
+            this.l_TowerSExRes.Name = "l_TowerSExRes";
+            this.l_TowerSExRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerSExRes.TabIndex = 95;
+            this.l_TowerSExRes.Text = "0%";
+            this.l_TowerSExRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tt_InfoTips.SetToolTip(this.l_TowerSExRes, "Shield Resistance");
+            // 
+            // l_TowerAExRes
+            // 
+            this.l_TowerAExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerAExRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerAExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerAExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerAExRes.ForeColor = System.Drawing.Color.Indigo;
+            this.l_TowerAExRes.Location = new System.Drawing.Point(856, 86);
+            this.l_TowerAExRes.Name = "l_TowerAExRes";
+            this.l_TowerAExRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerAExRes.TabIndex = 105;
+            this.l_TowerAExRes.Text = "0%";
+            this.tt_InfoTips.SetToolTip(this.l_TowerAExRes, "Armor Resistance");
+            // 
+            // l_TowerStExRes
+            // 
+            this.l_TowerStExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerStExRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerStExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerStExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStExRes.ForeColor = System.Drawing.Color.Indigo;
+            this.l_TowerStExRes.Location = new System.Drawing.Point(856, 96);
+            this.l_TowerStExRes.Name = "l_TowerStExRes";
+            this.l_TowerStExRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerStExRes.TabIndex = 85;
+            this.l_TowerStExRes.Text = "0%";
+            this.tt_InfoTips.SetToolTip(this.l_TowerStExRes, "Structure Resistance");
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.Location = new System.Drawing.Point(828, 76);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox2.TabIndex = 138;
+            this.pictureBox2.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox2, "Explosive Resists");
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon12_07;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(391, 43);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox1.TabIndex = 137;
+            this.pictureBox1.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox1, "CPU");
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox4.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox4.Location = new System.Drawing.Point(906, 76);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox4.TabIndex = 140;
+            this.pictureBox4.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox4, "Thermal Resists");
+            // 
+            // cb_PoSName
+            // 
+            this.cb_PoSName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_PoSName.FormattingEnabled = true;
+            this.cb_PoSName.Location = new System.Drawing.Point(49, 42);
+            this.cb_PoSName.MaxDropDownItems = 16;
+            this.cb_PoSName.Name = "cb_PoSName";
+            this.cb_PoSName.Size = new System.Drawing.Size(337, 21);
+            this.cb_PoSName.TabIndex = 12;
+            this.cb_PoSName.SelectedIndexChanged += new System.EventHandler(this.cb_PoSName_SelectedIndexChanged);
+            // 
+            // ts_Designer
+            // 
+            this.ts_Designer.ImageScalingSize = new System.Drawing.Size(30, 30);
+            this.ts_Designer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsb_NewPOS,
+            this.tsb_SavePOS,
+            this.tsb_RenamePOS,
+            this.tsb_CopyPOS,
+            this.toolStripSeparator8,
+            this.tsb_ClearPOS,
+            this.tsb_DelPOS,
+            this.toolStripSeparator9,
+            this.tsb_ExportPOS,
+            this.tsb_ImportPOS,
+            this.toolStripSeparator10});
+            this.ts_Designer.Location = new System.Drawing.Point(0, 0);
+            this.ts_Designer.Name = "ts_Designer";
+            this.ts_Designer.Size = new System.Drawing.Size(990, 37);
+            this.ts_Designer.TabIndex = 134;
+            // 
+            // tsb_NewPOS
+            // 
+            this.tsb_NewPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_NewPOS.Image = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.tsb_NewPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_NewPOS.Name = "tsb_NewPOS";
+            this.tsb_NewPOS.Size = new System.Drawing.Size(34, 34);
+            this.tsb_NewPOS.Text = "New";
+            this.tsb_NewPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_NewPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_NewPOS.ToolTipText = "Create a New POS Design";
+            this.tsb_NewPOS.Click += new System.EventHandler(this.b_NewPos_Click);
+            // 
+            // tsb_SavePOS
+            // 
+            this.tsb_SavePOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_SavePOS.Image = global::EveHQ.PosManager.Properties.Resources.Insure;
+            this.tsb_SavePOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_SavePOS.Name = "tsb_SavePOS";
+            this.tsb_SavePOS.Size = new System.Drawing.Size(35, 34);
+            this.tsb_SavePOS.Text = "Save";
+            this.tsb_SavePOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_SavePOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_SavePOS.ToolTipText = "Save POS Design";
+            this.tsb_SavePOS.Click += new System.EventHandler(this.b_SavePoS_Click);
+            // 
+            // tsb_RenamePOS
+            // 
+            this.tsb_RenamePOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_RenamePOS.Image = global::EveHQ.PosManager.Properties.Resources.Bounty;
+            this.tsb_RenamePOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_RenamePOS.Name = "tsb_RenamePOS";
+            this.tsb_RenamePOS.Size = new System.Drawing.Size(38, 34);
+            this.tsb_RenamePOS.Text = "Renm";
+            this.tsb_RenamePOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_RenamePOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_RenamePOS.ToolTipText = "Rename POS Design";
+            this.tsb_RenamePOS.Click += new System.EventHandler(this.b_RenamePos_Click);
+            // 
+            // tsb_CopyPOS
+            // 
+            this.tsb_CopyPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_CopyPOS.Image = global::EveHQ.PosManager.Properties.Resources.CloneBay;
+            this.tsb_CopyPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_CopyPOS.Name = "tsb_CopyPOS";
+            this.tsb_CopyPOS.Size = new System.Drawing.Size(36, 34);
+            this.tsb_CopyPOS.Text = "Copy";
+            this.tsb_CopyPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_CopyPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_CopyPOS.ToolTipText = "Copy POS Design";
+            this.tsb_CopyPOS.Click += new System.EventHandler(this.b_CopyPOS_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 37);
+            // 
+            // tsb_ClearPOS
+            // 
+            this.tsb_ClearPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ClearPOS.Image = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.tsb_ClearPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ClearPOS.Name = "tsb_ClearPOS";
+            this.tsb_ClearPOS.Size = new System.Drawing.Size(36, 34);
+            this.tsb_ClearPOS.Text = "Clear";
+            this.tsb_ClearPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ClearPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ClearPOS.ToolTipText = "Clear Design Layout";
+            this.tsb_ClearPOS.Click += new System.EventHandler(this.b_ClearPoS_Click);
+            // 
+            // tsb_DelPOS
+            // 
+            this.tsb_DelPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_DelPOS.Image = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.tsb_DelPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_DelPOS.Name = "tsb_DelPOS";
+            this.tsb_DelPOS.Size = new System.Drawing.Size(42, 34);
+            this.tsb_DelPOS.Text = "Delete";
+            this.tsb_DelPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_DelPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_DelPOS.ToolTipText = "Delet POS Design";
+            this.tsb_DelPOS.Click += new System.EventHandler(this.b_DelPoS_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 37);
+            // 
+            // tsb_ExportPOS
+            // 
+            this.tsb_ExportPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ExportPOS.Image = global::EveHQ.PosManager.Properties.Resources.APIUpdate;
+            this.tsb_ExportPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ExportPOS.Name = "tsb_ExportPOS";
+            this.tsb_ExportPOS.Size = new System.Drawing.Size(43, 34);
+            this.tsb_ExportPOS.Text = "Export";
+            this.tsb_ExportPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ExportPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ExportPOS.ToolTipText = "Export POS Design";
+            this.tsb_ExportPOS.Click += new System.EventHandler(this.tsb_ExportPOS_Click);
+            // 
+            // tsb_ImportPOS
+            // 
+            this.tsb_ImportPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ImportPOS.Image = ((System.Drawing.Image)(resources.GetObject("tsb_ImportPOS.Image")));
+            this.tsb_ImportPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ImportPOS.Name = "tsb_ImportPOS";
+            this.tsb_ImportPOS.Size = new System.Drawing.Size(43, 34);
+            this.tsb_ImportPOS.Text = "Import";
+            this.tsb_ImportPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ImportPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ImportPOS.ToolTipText = "Import POS Design";
+            this.tsb_ImportPOS.Visible = false;
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 37);
+            // 
+            // cb_systemMoon
+            // 
+            this.cb_systemMoon.FormattingEnabled = true;
+            this.cb_systemMoon.Location = new System.Drawing.Point(248, 66);
+            this.cb_systemMoon.Name = "cb_systemMoon";
+            this.cb_systemMoon.Size = new System.Drawing.Size(138, 21);
+            this.cb_systemMoon.TabIndex = 133;
+            this.cb_systemMoon.Text = "Select Tower Moon";
+            this.tt_InfoTips.SetToolTip(this.cb_systemMoon, "Select System Moon that the Tower is In");
+            this.cb_systemMoon.SelectedIndexChanged += new System.EventHandler(this.cb_systemMoon_SelectedIndexChanged);
             // 
             // l_TowerStruct
             // 
@@ -4398,64 +4203,135 @@
             this.l_TowerStruct.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerStruct.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStruct.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.l_TowerStruct.Location = new System.Drawing.Point(725, 72);
+            this.l_TowerStruct.Location = new System.Drawing.Point(714, 90);
             this.l_TowerStruct.Name = "l_TowerStruct";
             this.l_TowerStruct.Size = new System.Drawing.Size(111, 16);
             this.l_TowerStruct.TabIndex = 81;
             this.l_TowerStruct.Text = "0";
             this.l_TowerStruct.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // l_TowerShield
+            // 
+            this.l_TowerShield.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerShield.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerShield.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerShield.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerShield.ForeColor = System.Drawing.Color.Blue;
+            this.l_TowerShield.Location = new System.Drawing.Point(714, 42);
+            this.l_TowerShield.Name = "l_TowerShield";
+            this.l_TowerShield.Size = new System.Drawing.Size(111, 16);
+            this.l_TowerShield.TabIndex = 91;
+            this.l_TowerShield.Text = "0";
+            this.l_TowerShield.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // l_TowerArmor
+            // 
+            this.l_TowerArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerArmor.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerArmor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerArmor.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerArmor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.l_TowerArmor.Location = new System.Drawing.Point(714, 66);
+            this.l_TowerArmor.Name = "l_TowerArmor";
+            this.l_TowerArmor.Size = new System.Drawing.Size(111, 16);
+            this.l_TowerArmor.TabIndex = 101;
+            this.l_TowerArmor.Text = "0";
+            this.l_TowerArmor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cb_CorpName
+            // 
+            this.cb_CorpName.FormattingEnabled = true;
+            this.cb_CorpName.Items.AddRange(new object[] {
+            "No Sov",
+            "Sov Level 1",
+            "Sov Level 2",
+            "Sov Level 3",
+            "Sov Level 4",
+            "Constellation Sov"});
+            this.cb_CorpName.Location = new System.Drawing.Point(248, 88);
+            this.cb_CorpName.Name = "cb_CorpName";
+            this.cb_CorpName.Size = new System.Drawing.Size(138, 21);
+            this.cb_CorpName.TabIndex = 132;
+            this.cb_CorpName.Text = "Select Corporation";
+            this.tt_InfoTips.SetToolTip(this.cb_CorpName, "Select Sov Level for Tower System");
+            this.cb_CorpName.SelectedIndexChanged += new System.EventHandler(this.cb_CorpName_SelectedIndexChanged);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox5.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Shield;
+            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox5.Location = new System.Drawing.Point(689, 38);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox5.TabIndex = 118;
+            this.pictureBox5.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox5, "Shield HP");
+            // 
+            // cb_SovLevel
+            // 
+            this.cb_SovLevel.FormattingEnabled = true;
+            this.cb_SovLevel.Items.AddRange(new object[] {
+            "No Sov",
+            "Sov Level 1",
+            "Sov Level 2",
+            "Sov Level 3",
+            "Sov Level 4",
+            "Constellation Sov"});
+            this.cb_SovLevel.Location = new System.Drawing.Point(48, 88);
+            this.cb_SovLevel.Name = "cb_SovLevel";
+            this.cb_SovLevel.Size = new System.Drawing.Size(138, 21);
+            this.cb_SovLevel.TabIndex = 131;
+            this.cb_SovLevel.Text = "Select Sovereignty";
+            this.tt_InfoTips.SetToolTip(this.cb_SovLevel, "Select Sov Level for Tower System");
+            this.cb_SovLevel.SelectedIndexChanged += new System.EventHandler(this.cb_SovLevel_SelectedIndexChanged);
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox6.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_06;
+            this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox6.Location = new System.Drawing.Point(689, 62);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox6.TabIndex = 119;
+            this.pictureBox6.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox6, "Armor HP");
+            // 
+            // cb_System
+            // 
+            this.cb_System.FormattingEnabled = true;
+            this.cb_System.Location = new System.Drawing.Point(48, 66);
+            this.cb_System.Name = "cb_System";
+            this.cb_System.Size = new System.Drawing.Size(138, 21);
+            this.cb_System.TabIndex = 130;
+            this.cb_System.Text = "Select Tower System";
+            this.tt_InfoTips.SetToolTip(this.cb_System, "Select System that the Tower is In");
+            this.cb_System.SelectedIndexChanged += new System.EventHandler(this.cb_System_SelectedIndexChanged);
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox7.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_12;
+            this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox7.Location = new System.Drawing.Point(689, 86);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox7.TabIndex = 120;
+            this.pictureBox7.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox7, "Structure HP");
+            // 
             // label21
             // 
             this.label21.BackColor = System.Drawing.SystemColors.Control;
             this.label21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.Black;
-            this.label21.Location = new System.Drawing.Point(-1, 0);
+            this.label21.Location = new System.Drawing.Point(-1, 41);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(44, 23);
             this.label21.TabIndex = 13;
             this.label21.Text = "Name";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cb_PoSName
-            // 
-            this.cb_PoSName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_PoSName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_PoSName.FormattingEnabled = true;
-            this.cb_PoSName.Location = new System.Drawing.Point(49, 1);
-            this.cb_PoSName.MaxDropDownItems = 16;
-            this.cb_PoSName.Name = "cb_PoSName";
-            this.cb_PoSName.Size = new System.Drawing.Size(367, 21);
-            this.cb_PoSName.TabIndex = 12;
-            this.cb_PoSName.SelectedIndexChanged += new System.EventHandler(this.cb_PoSName_SelectedIndexChanged);
-            // 
-            // l_Power_Val
-            // 
-            this.l_Power_Val.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_Power_Val.BackColor = System.Drawing.Color.Transparent;
-            this.l_Power_Val.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_Power_Val.Location = new System.Drawing.Point(49, 77);
-            this.l_Power_Val.Name = "l_Power_Val";
-            this.l_Power_Val.Size = new System.Drawing.Size(367, 16);
-            this.l_Power_Val.TabIndex = 9;
-            this.l_Power_Val.Text = "#### / ####";
-            this.l_Power_Val.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // l_CPU_Values
-            // 
-            this.l_CPU_Values.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.l_CPU_Values.BackColor = System.Drawing.Color.Transparent;
-            this.l_CPU_Values.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_CPU_Values.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_CPU_Values.Location = new System.Drawing.Point(49, 42);
-            this.l_CPU_Values.Name = "l_CPU_Values";
-            this.l_CPU_Values.Size = new System.Drawing.Size(367, 16);
-            this.l_CPU_Values.TabIndex = 8;
-            this.l_CPU_Values.Text = "#### / ####";
-            this.l_CPU_Values.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pb_Power
             // 
@@ -4464,11 +4340,13 @@
             this.pb_Power.Animate = false;
             this.pb_Power.BackColor = System.Drawing.Color.Transparent;
             this.pb_Power.EndColor = System.Drawing.Color.DarkRed;
-            this.pb_Power.Location = new System.Drawing.Point(49, 60);
+            this.pb_Power.Location = new System.Drawing.Point(421, 79);
             this.pb_Power.Name = "pb_Power";
-            this.pb_Power.Size = new System.Drawing.Size(367, 17);
+            this.pb_Power.Size = new System.Drawing.Size(265, 17);
             this.pb_Power.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.pb_Power.TabIndex = 1;
+            this.pb_Power.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.pb_Power.TextOverlay = "";
             // 
             // pb_CPU
             // 
@@ -4477,117 +4355,76 @@
             this.pb_CPU.Animate = false;
             this.pb_CPU.BackColor = System.Drawing.Color.Transparent;
             this.pb_CPU.EndColor = System.Drawing.Color.DarkRed;
-            this.pb_CPU.Location = new System.Drawing.Point(49, 25);
+            this.pb_CPU.Location = new System.Drawing.Point(421, 50);
             this.pb_CPU.Name = "pb_CPU";
-            this.pb_CPU.Size = new System.Drawing.Size(367, 17);
+            this.pb_CPU.Size = new System.Drawing.Size(265, 17);
             this.pb_CPU.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.pb_CPU.TabIndex = 0;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox3.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
-            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(918, 51);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(35, 43);
-            this.pictureBox3.TabIndex = 117;
-            this.pictureBox3.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox3, "Thermal Resists");
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox4.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox4.Location = new System.Drawing.Point(918, 3);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(35, 43);
-            this.pictureBox4.TabIndex = 116;
-            this.pictureBox4.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox4, "Kinetic Resists");
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(839, 51);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(35, 43);
-            this.pictureBox2.TabIndex = 115;
-            this.pictureBox2.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox2, "Explosive Resists");
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(839, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(35, 43);
-            this.pictureBox1.TabIndex = 114;
-            this.pictureBox1.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox1, "EM Resists");
-            // 
-            // pictureBox7
-            // 
-            this.pictureBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox7.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_12;
-            this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox7.Location = new System.Drawing.Point(700, 65);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox7.TabIndex = 120;
-            this.pictureBox7.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox7, "Structure HP");
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox6.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_06;
-            this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox6.Location = new System.Drawing.Point(700, 34);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox6.TabIndex = 119;
-            this.pictureBox6.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox6, "Armor HP");
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox5.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Shield;
-            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox5.Location = new System.Drawing.Point(700, 3);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox5.TabIndex = 118;
-            this.pictureBox5.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox5, "Shield HP");
+            this.pb_CPU.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.pb_CPU.TextOverlay = "";
             // 
             // pictureBox8
             // 
             this.pictureBox8.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_07;
             this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox8.Location = new System.Drawing.Point(13, 60);
+            this.pictureBox8.Location = new System.Drawing.Point(391, 72);
             this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox8.Size = new System.Drawing.Size(30, 30);
             this.pictureBox8.TabIndex = 122;
             this.pictureBox8.TabStop = false;
             this.tt_InfoTips.SetToolTip(this.pictureBox8, "Power");
             // 
+            // l_TowerAKRes
+            // 
+            this.l_TowerAKRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerAKRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerAKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerAKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerAKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.l_TowerAKRes.Location = new System.Drawing.Point(935, 58);
+            this.l_TowerAKRes.Name = "l_TowerAKRes";
+            this.l_TowerAKRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerAKRes.TabIndex = 107;
+            this.l_TowerAKRes.Text = "0%";
+            this.tt_InfoTips.SetToolTip(this.l_TowerAKRes, "Armor Resistance");
+            // 
+            // l_TowerAEmRes
+            // 
+            this.l_TowerAEmRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.l_TowerAEmRes.BackColor = System.Drawing.Color.Transparent;
+            this.l_TowerAEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.l_TowerAEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerAEmRes.ForeColor = System.Drawing.Color.Teal;
+            this.l_TowerAEmRes.Location = new System.Drawing.Point(856, 58);
+            this.l_TowerAEmRes.Name = "l_TowerAEmRes";
+            this.l_TowerAEmRes.Size = new System.Drawing.Size(50, 14);
+            this.l_TowerAEmRes.TabIndex = 103;
+            this.l_TowerAEmRes.Text = "0%";
+            this.tt_InfoTips.SetToolTip(this.l_TowerAEmRes, "Armor Resistance");
+            // 
             // pictureBox9
             // 
-            this.pictureBox9.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon12_07;
+            this.pictureBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox9.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
             this.pictureBox9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox9.Location = new System.Drawing.Point(13, 25);
+            this.pictureBox9.Location = new System.Drawing.Point(828, 38);
             this.pictureBox9.Name = "pictureBox9";
             this.pictureBox9.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox9.TabIndex = 121;
+            this.pictureBox9.TabIndex = 137;
             this.pictureBox9.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox9, "CPU");
+            this.tt_InfoTips.SetToolTip(this.pictureBox9, "EM Resists");
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox3.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox3.Location = new System.Drawing.Point(906, 38);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox3.TabIndex = 139;
+            this.pictureBox3.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox3, "Kinetic Resists");
             // 
             // p_Tower
             // 
@@ -4645,9 +4482,9 @@
             this.p_Tower.Controls.Add(this.poS_Item1);
             this.p_Tower.Controls.Add(this.pi_Tower);
             this.p_Tower.ForeColor = System.Drawing.Color.Black;
-            this.p_Tower.Location = new System.Drawing.Point(307, 100);
+            this.p_Tower.Location = new System.Drawing.Point(307, 120);
             this.p_Tower.Name = "p_Tower";
-            this.p_Tower.Size = new System.Drawing.Size(542, 460);
+            this.p_Tower.Size = new System.Drawing.Size(500, 420);
             this.p_Tower.TabIndex = 3;
             // 
             // poS_Item51
@@ -4660,7 +4497,7 @@
             this.poS_Item51.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item51.ItemNumber = 0;
             this.poS_Item51.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item51.Location = new System.Drawing.Point(493, 231);
+            this.poS_Item51.Location = new System.Drawing.Point(451, 211);
             this.poS_Item51.Name = "poS_Item51";
             this.poS_Item51.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item51.OnlineColor = System.Drawing.Color.Lime;
@@ -4679,27 +4516,27 @@
             this.quantityToolStripMenuItem,
             this.tsm_SetModuleCharge});
             this.cms_PosItem.Name = "cms_PosItem";
-            this.cms_PosItem.Size = new System.Drawing.Size(142, 114);
+            this.cms_PosItem.Size = new System.Drawing.Size(146, 114);
             this.cms_PosItem.Opening += new System.ComponentModel.CancelEventHandler(this.cms_PosItem_Opening);
             // 
             // tsm_Online
             // 
             this.tsm_Online.Name = "tsm_Online";
-            this.tsm_Online.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Online.Size = new System.Drawing.Size(145, 22);
             this.tsm_Online.Text = "Place Online";
             this.tsm_Online.Click += new System.EventHandler(this.tsm_Online_Click);
             // 
             // tsm_Offline
             // 
             this.tsm_Offline.Name = "tsm_Offline";
-            this.tsm_Offline.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Offline.Size = new System.Drawing.Size(145, 22);
             this.tsm_Offline.Text = "Place Offline";
             this.tsm_Offline.Click += new System.EventHandler(this.tsm_Offline_Click);
             // 
             // tsm_Remove
             // 
             this.tsm_Remove.Name = "tsm_Remove";
-            this.tsm_Remove.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Remove.Size = new System.Drawing.Size(145, 22);
             this.tsm_Remove.Text = "Remove";
             this.tsm_Remove.Click += new System.EventHandler(this.tsm_Remove_Click);
             // 
@@ -4717,83 +4554,83 @@
             this.tsm_Qty_9,
             this.tsm_Qty_10});
             this.quantityToolStripMenuItem.Name = "quantityToolStripMenuItem";
-            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.quantityToolStripMenuItem.Text = "Quantity";
             // 
             // tsm_Qty_1
             // 
             this.tsm_Qty_1.Name = "tsm_Qty_1";
-            this.tsm_Qty_1.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_1.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_1.Text = "1";
             this.tsm_Qty_1.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_2
             // 
             this.tsm_Qty_2.Name = "tsm_Qty_2";
-            this.tsm_Qty_2.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_2.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_2.Text = "2";
             this.tsm_Qty_2.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_3
             // 
             this.tsm_Qty_3.Name = "tsm_Qty_3";
-            this.tsm_Qty_3.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_3.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_3.Text = "3";
             this.tsm_Qty_3.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_4
             // 
             this.tsm_Qty_4.Name = "tsm_Qty_4";
-            this.tsm_Qty_4.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_4.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_4.Text = "4";
             this.tsm_Qty_4.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_5
             // 
             this.tsm_Qty_5.Name = "tsm_Qty_5";
-            this.tsm_Qty_5.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_5.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_5.Text = "5";
             this.tsm_Qty_5.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_6
             // 
             this.tsm_Qty_6.Name = "tsm_Qty_6";
-            this.tsm_Qty_6.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_6.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_6.Text = "6";
             this.tsm_Qty_6.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_7
             // 
             this.tsm_Qty_7.Name = "tsm_Qty_7";
-            this.tsm_Qty_7.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_7.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_7.Text = "7";
             this.tsm_Qty_7.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_8
             // 
             this.tsm_Qty_8.Name = "tsm_Qty_8";
-            this.tsm_Qty_8.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_8.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_8.Text = "8";
             this.tsm_Qty_8.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_9
             // 
             this.tsm_Qty_9.Name = "tsm_Qty_9";
-            this.tsm_Qty_9.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_9.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_9.Text = "9";
             this.tsm_Qty_9.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_10
             // 
             this.tsm_Qty_10.Name = "tsm_Qty_10";
-            this.tsm_Qty_10.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_10.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_10.Text = "10";
             this.tsm_Qty_10.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_SetModuleCharge
             // 
             this.tsm_SetModuleCharge.Name = "tsm_SetModuleCharge";
-            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(141, 22);
+            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(145, 22);
             this.tsm_SetModuleCharge.Text = "Set Charge";
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
@@ -4808,7 +4645,7 @@
             this.poS_Item52.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item52.ItemNumber = 0;
             this.poS_Item52.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item52.Location = new System.Drawing.Point(493, 185);
+            this.poS_Item52.Location = new System.Drawing.Point(451, 165);
             this.poS_Item52.Name = "poS_Item52";
             this.poS_Item52.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item52.OnlineColor = System.Drawing.Color.Lime;
@@ -4829,7 +4666,7 @@
             this.poS_Item49.ForeColor = System.Drawing.Color.Black;
             this.poS_Item49.ItemNumber = 0;
             this.poS_Item49.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item49.Location = new System.Drawing.Point(5, 231);
+            this.poS_Item49.Location = new System.Drawing.Point(5, 211);
             this.poS_Item49.Name = "poS_Item49";
             this.poS_Item49.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item49.OnlineColor = System.Drawing.Color.Lime;
@@ -4850,7 +4687,7 @@
             this.poS_Item50.ForeColor = System.Drawing.Color.Black;
             this.poS_Item50.ItemNumber = 0;
             this.poS_Item50.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item50.Location = new System.Drawing.Point(5, 185);
+            this.poS_Item50.Location = new System.Drawing.Point(5, 165);
             this.poS_Item50.Name = "poS_Item50";
             this.poS_Item50.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item50.OnlineColor = System.Drawing.Color.Lime;
@@ -4870,7 +4707,7 @@
             this.poS_Item43.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item43.ItemNumber = 0;
             this.poS_Item43.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item43.Location = new System.Drawing.Point(493, 320);
+            this.poS_Item43.Location = new System.Drawing.Point(451, 280);
             this.poS_Item43.Name = "poS_Item43";
             this.poS_Item43.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item43.OnlineColor = System.Drawing.Color.Lime;
@@ -4890,7 +4727,7 @@
             this.poS_Item44.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item44.ItemNumber = 0;
             this.poS_Item44.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item44.Location = new System.Drawing.Point(403, 412);
+            this.poS_Item44.Location = new System.Drawing.Point(361, 372);
             this.poS_Item44.Name = "poS_Item44";
             this.poS_Item44.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item44.OnlineColor = System.Drawing.Color.Lime;
@@ -4910,7 +4747,7 @@
             this.poS_Item45.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item45.ItemNumber = 0;
             this.poS_Item45.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item45.Location = new System.Drawing.Point(448, 412);
+            this.poS_Item45.Location = new System.Drawing.Point(406, 372);
             this.poS_Item45.Name = "poS_Item45";
             this.poS_Item45.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item45.OnlineColor = System.Drawing.Color.Lime;
@@ -4930,7 +4767,7 @@
             this.poS_Item47.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item47.ItemNumber = 0;
             this.poS_Item47.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item47.Location = new System.Drawing.Point(493, 412);
+            this.poS_Item47.Location = new System.Drawing.Point(451, 372);
             this.poS_Item47.Name = "poS_Item47";
             this.poS_Item47.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item47.OnlineColor = System.Drawing.Color.Lime;
@@ -4950,7 +4787,7 @@
             this.poS_Item48.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item48.ItemNumber = 0;
             this.poS_Item48.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item48.Location = new System.Drawing.Point(493, 366);
+            this.poS_Item48.Location = new System.Drawing.Point(451, 326);
             this.poS_Item48.Name = "poS_Item48";
             this.poS_Item48.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item48.OnlineColor = System.Drawing.Color.Lime;
@@ -4970,7 +4807,7 @@
             this.poS_Item37.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item37.ItemNumber = 0;
             this.poS_Item37.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item37.Location = new System.Drawing.Point(403, 5);
+            this.poS_Item37.Location = new System.Drawing.Point(361, 5);
             this.poS_Item37.Name = "poS_Item37";
             this.poS_Item37.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item37.OnlineColor = System.Drawing.Color.Lime;
@@ -4990,7 +4827,7 @@
             this.poS_Item38.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item38.ItemNumber = 0;
             this.poS_Item38.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item38.Location = new System.Drawing.Point(493, 97);
+            this.poS_Item38.Location = new System.Drawing.Point(451, 97);
             this.poS_Item38.Name = "poS_Item38";
             this.poS_Item38.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item38.OnlineColor = System.Drawing.Color.Lime;
@@ -5010,7 +4847,7 @@
             this.poS_Item39.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item39.ItemNumber = 0;
             this.poS_Item39.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item39.Location = new System.Drawing.Point(448, 5);
+            this.poS_Item39.Location = new System.Drawing.Point(406, 5);
             this.poS_Item39.Name = "poS_Item39";
             this.poS_Item39.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item39.OnlineColor = System.Drawing.Color.Lime;
@@ -5030,7 +4867,7 @@
             this.poS_Item41.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item41.ItemNumber = 0;
             this.poS_Item41.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item41.Location = new System.Drawing.Point(493, 5);
+            this.poS_Item41.Location = new System.Drawing.Point(451, 5);
             this.poS_Item41.Name = "poS_Item41";
             this.poS_Item41.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item41.OnlineColor = System.Drawing.Color.Lime;
@@ -5050,7 +4887,7 @@
             this.poS_Item42.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item42.ItemNumber = 0;
             this.poS_Item42.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item42.Location = new System.Drawing.Point(493, 51);
+            this.poS_Item42.Location = new System.Drawing.Point(451, 51);
             this.poS_Item42.Name = "poS_Item42";
             this.poS_Item42.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item42.OnlineColor = System.Drawing.Color.Lime;
@@ -5071,7 +4908,7 @@
             this.poS_Item31.ForeColor = System.Drawing.Color.Black;
             this.poS_Item31.ItemNumber = 0;
             this.poS_Item31.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item31.Location = new System.Drawing.Point(97, 412);
+            this.poS_Item31.Location = new System.Drawing.Point(97, 372);
             this.poS_Item31.Name = "poS_Item31";
             this.poS_Item31.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item31.OnlineColor = System.Drawing.Color.Lime;
@@ -5092,7 +4929,7 @@
             this.poS_Item32.ForeColor = System.Drawing.Color.Black;
             this.poS_Item32.ItemNumber = 0;
             this.poS_Item32.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item32.Location = new System.Drawing.Point(5, 320);
+            this.poS_Item32.Location = new System.Drawing.Point(5, 280);
             this.poS_Item32.Name = "poS_Item32";
             this.poS_Item32.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item32.OnlineColor = System.Drawing.Color.Lime;
@@ -5113,7 +4950,7 @@
             this.poS_Item33.ForeColor = System.Drawing.Color.Black;
             this.poS_Item33.ItemNumber = 0;
             this.poS_Item33.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item33.Location = new System.Drawing.Point(51, 412);
+            this.poS_Item33.Location = new System.Drawing.Point(51, 372);
             this.poS_Item33.Name = "poS_Item33";
             this.poS_Item33.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item33.OnlineColor = System.Drawing.Color.Lime;
@@ -5134,7 +4971,7 @@
             this.poS_Item35.ForeColor = System.Drawing.Color.Black;
             this.poS_Item35.ItemNumber = 0;
             this.poS_Item35.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item35.Location = new System.Drawing.Point(5, 412);
+            this.poS_Item35.Location = new System.Drawing.Point(5, 372);
             this.poS_Item35.Name = "poS_Item35";
             this.poS_Item35.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item35.OnlineColor = System.Drawing.Color.Lime;
@@ -5155,7 +4992,7 @@
             this.poS_Item36.ForeColor = System.Drawing.Color.Black;
             this.poS_Item36.ItemNumber = 0;
             this.poS_Item36.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item36.Location = new System.Drawing.Point(5, 366);
+            this.poS_Item36.Location = new System.Drawing.Point(5, 326);
             this.poS_Item36.Name = "poS_Item36";
             this.poS_Item36.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item36.OnlineColor = System.Drawing.Color.Lime;
@@ -5275,7 +5112,7 @@
             this.poS_Item20.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item20.ItemNumber = 0;
             this.poS_Item20.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item20.Location = new System.Drawing.Point(392, 208);
+            this.poS_Item20.Location = new System.Drawing.Point(371, 188);
             this.poS_Item20.Name = "poS_Item20";
             this.poS_Item20.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item20.OnlineColor = System.Drawing.Color.Lime;
@@ -5295,7 +5132,7 @@
             this.poS_Item21.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item21.ItemNumber = 0;
             this.poS_Item21.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item21.Location = new System.Drawing.Point(249, 65);
+            this.poS_Item21.Location = new System.Drawing.Point(228, 45);
             this.poS_Item21.Name = "poS_Item21";
             this.poS_Item21.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item21.OnlineColor = System.Drawing.Color.Lime;
@@ -5315,7 +5152,7 @@
             this.poS_Item22.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item22.ItemNumber = 0;
             this.poS_Item22.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item22.Location = new System.Drawing.Point(249, 111);
+            this.poS_Item22.Location = new System.Drawing.Point(228, 91);
             this.poS_Item22.Name = "poS_Item22";
             this.poS_Item22.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item22.OnlineColor = System.Drawing.Color.Lime;
@@ -5335,7 +5172,7 @@
             this.poS_Item23.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item23.ItemNumber = 0;
             this.poS_Item23.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item23.Location = new System.Drawing.Point(300, 111);
+            this.poS_Item23.Location = new System.Drawing.Point(279, 91);
             this.poS_Item23.Name = "poS_Item23";
             this.poS_Item23.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item23.OnlineColor = System.Drawing.Color.Lime;
@@ -5355,7 +5192,7 @@
             this.poS_Item24.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item24.ItemNumber = 0;
             this.poS_Item24.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item24.Location = new System.Drawing.Point(198, 111);
+            this.poS_Item24.Location = new System.Drawing.Point(177, 91);
             this.poS_Item24.Name = "poS_Item24";
             this.poS_Item24.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item24.OnlineColor = System.Drawing.Color.Lime;
@@ -5375,7 +5212,7 @@
             this.poS_Item15.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item15.ItemNumber = 0;
             this.poS_Item15.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item15.Location = new System.Drawing.Point(249, 351);
+            this.poS_Item15.Location = new System.Drawing.Point(228, 331);
             this.poS_Item15.Name = "poS_Item15";
             this.poS_Item15.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item15.OnlineColor = System.Drawing.Color.Lime;
@@ -5395,7 +5232,7 @@
             this.poS_Item16.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item16.ItemNumber = 0;
             this.poS_Item16.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item16.Location = new System.Drawing.Point(106, 208);
+            this.poS_Item16.Location = new System.Drawing.Point(85, 188);
             this.poS_Item16.Name = "poS_Item16";
             this.poS_Item16.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item16.OnlineColor = System.Drawing.Color.Lime;
@@ -5415,7 +5252,7 @@
             this.poS_Item17.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item17.ItemNumber = 0;
             this.poS_Item17.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item17.Location = new System.Drawing.Point(249, 305);
+            this.poS_Item17.Location = new System.Drawing.Point(228, 285);
             this.poS_Item17.Name = "poS_Item17";
             this.poS_Item17.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item17.OnlineColor = System.Drawing.Color.Lime;
@@ -5435,7 +5272,7 @@
             this.poS_Item18.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item18.ItemNumber = 0;
             this.poS_Item18.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item18.Location = new System.Drawing.Point(300, 305);
+            this.poS_Item18.Location = new System.Drawing.Point(279, 285);
             this.poS_Item18.Name = "poS_Item18";
             this.poS_Item18.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item18.OnlineColor = System.Drawing.Color.Lime;
@@ -5455,7 +5292,7 @@
             this.poS_Item19.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item19.ItemNumber = 0;
             this.poS_Item19.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item19.Location = new System.Drawing.Point(198, 305);
+            this.poS_Item19.Location = new System.Drawing.Point(177, 285);
             this.poS_Item19.Name = "poS_Item19";
             this.poS_Item19.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item19.OnlineColor = System.Drawing.Color.Lime;
@@ -5475,7 +5312,7 @@
             this.poS_Item8.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item8.ItemNumber = 0;
             this.poS_Item8.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item8.Location = new System.Drawing.Point(346, 208);
+            this.poS_Item8.Location = new System.Drawing.Point(325, 188);
             this.poS_Item8.Name = "poS_Item8";
             this.poS_Item8.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item8.OnlineColor = System.Drawing.Color.Lime;
@@ -5495,7 +5332,7 @@
             this.poS_Item13.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item13.ItemNumber = 0;
             this.poS_Item13.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item13.Location = new System.Drawing.Point(346, 259);
+            this.poS_Item13.Location = new System.Drawing.Point(325, 239);
             this.poS_Item13.Name = "poS_Item13";
             this.poS_Item13.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item13.OnlineColor = System.Drawing.Color.Lime;
@@ -5515,7 +5352,7 @@
             this.poS_Item14.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item14.ItemNumber = 0;
             this.poS_Item14.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item14.Location = new System.Drawing.Point(346, 157);
+            this.poS_Item14.Location = new System.Drawing.Point(325, 137);
             this.poS_Item14.Name = "poS_Item14";
             this.poS_Item14.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item14.OnlineColor = System.Drawing.Color.Lime;
@@ -5535,7 +5372,7 @@
             this.poS_Item5.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item5.ItemNumber = 0;
             this.poS_Item5.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item5.Location = new System.Drawing.Point(152, 208);
+            this.poS_Item5.Location = new System.Drawing.Point(131, 188);
             this.poS_Item5.Name = "poS_Item5";
             this.poS_Item5.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item5.OnlineColor = System.Drawing.Color.Lime;
@@ -5555,7 +5392,7 @@
             this.poS_Item6.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item6.ItemNumber = 0;
             this.poS_Item6.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item6.Location = new System.Drawing.Point(152, 259);
+            this.poS_Item6.Location = new System.Drawing.Point(131, 239);
             this.poS_Item6.Name = "poS_Item6";
             this.poS_Item6.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item6.OnlineColor = System.Drawing.Color.Lime;
@@ -5575,7 +5412,7 @@
             this.poS_Item7.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item7.ItemNumber = 0;
             this.poS_Item7.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item7.Location = new System.Drawing.Point(152, 157);
+            this.poS_Item7.Location = new System.Drawing.Point(131, 137);
             this.poS_Item7.Name = "poS_Item7";
             this.poS_Item7.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item7.OnlineColor = System.Drawing.Color.Lime;
@@ -5595,7 +5432,7 @@
             this.poS_Item11.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item11.ItemNumber = 0;
             this.poS_Item11.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item11.Location = new System.Drawing.Point(249, 259);
+            this.poS_Item11.Location = new System.Drawing.Point(228, 239);
             this.poS_Item11.Name = "poS_Item11";
             this.poS_Item11.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item11.OnlineColor = System.Drawing.Color.Lime;
@@ -5615,7 +5452,7 @@
             this.poS_Item12.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item12.ItemNumber = 0;
             this.poS_Item12.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item12.Location = new System.Drawing.Point(249, 157);
+            this.poS_Item12.Location = new System.Drawing.Point(228, 137);
             this.poS_Item12.Name = "poS_Item12";
             this.poS_Item12.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item12.OnlineColor = System.Drawing.Color.Lime;
@@ -5635,7 +5472,7 @@
             this.poS_Item9.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item9.ItemNumber = 0;
             this.poS_Item9.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item9.Location = new System.Drawing.Point(300, 208);
+            this.poS_Item9.Location = new System.Drawing.Point(279, 188);
             this.poS_Item9.Name = "poS_Item9";
             this.poS_Item9.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item9.OnlineColor = System.Drawing.Color.Lime;
@@ -5655,7 +5492,7 @@
             this.poS_Item10.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item10.ItemNumber = 0;
             this.poS_Item10.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item10.Location = new System.Drawing.Point(198, 208);
+            this.poS_Item10.Location = new System.Drawing.Point(177, 188);
             this.poS_Item10.Name = "poS_Item10";
             this.poS_Item10.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item10.OnlineColor = System.Drawing.Color.Lime;
@@ -5675,7 +5512,7 @@
             this.poS_Item3.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item3.ItemNumber = 0;
             this.poS_Item3.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item3.Location = new System.Drawing.Point(300, 259);
+            this.poS_Item3.Location = new System.Drawing.Point(279, 239);
             this.poS_Item3.Name = "poS_Item3";
             this.poS_Item3.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item3.OnlineColor = System.Drawing.Color.Lime;
@@ -5695,7 +5532,7 @@
             this.poS_Item4.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item4.ItemNumber = 0;
             this.poS_Item4.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item4.Location = new System.Drawing.Point(198, 259);
+            this.poS_Item4.Location = new System.Drawing.Point(177, 239);
             this.poS_Item4.Name = "poS_Item4";
             this.poS_Item4.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item4.OnlineColor = System.Drawing.Color.Lime;
@@ -5715,7 +5552,7 @@
             this.poS_Item2.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item2.ItemNumber = 0;
             this.poS_Item2.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item2.Location = new System.Drawing.Point(300, 157);
+            this.poS_Item2.Location = new System.Drawing.Point(279, 137);
             this.poS_Item2.Name = "poS_Item2";
             this.poS_Item2.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item2.OnlineColor = System.Drawing.Color.Lime;
@@ -5735,7 +5572,7 @@
             this.poS_Item1.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.poS_Item1.ItemNumber = 0;
             this.poS_Item1.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item1.Location = new System.Drawing.Point(198, 157);
+            this.poS_Item1.Location = new System.Drawing.Point(177, 137);
             this.poS_Item1.Name = "poS_Item1";
             this.poS_Item1.OfflineColor = System.Drawing.Color.Red;
             this.poS_Item1.OnlineColor = System.Drawing.Color.Lime;
@@ -5755,7 +5592,7 @@
             this.pi_Tower.DfltBackgroundColor = System.Drawing.Color.Transparent;
             this.pi_Tower.ItemNumber = 0;
             this.pi_Tower.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Tower;
-            this.pi_Tower.Location = new System.Drawing.Point(244, 203);
+            this.pi_Tower.Location = new System.Drawing.Point(223, 183);
             this.pi_Tower.Name = "pi_Tower";
             this.pi_Tower.OfflineColor = System.Drawing.Color.Red;
             this.pi_Tower.OnlineColor = System.Drawing.Color.Lime;
@@ -5767,42 +5604,38 @@
             // 
             // tp_POSMaintenance
             // 
-            this.tp_POSMaintenance.Controls.Add(this.b_SetSelectedFull);
+            this.tp_POSMaintenance.Controls.Add(this.cb_ShowFuelNeed);
             this.tp_POSMaintenance.Controls.Add(this.label5);
-            this.tp_POSMaintenance.Controls.Add(this.b_CopySelected);
-            this.tp_POSMaintenance.Controls.Add(this.b_CopyAllPos);
             this.tp_POSMaintenance.Controls.Add(this.cb_FactChartTotal);
             this.tp_POSMaintenance.Controls.Add(this.cb_UseStrontTotals);
             this.tp_POSMaintenance.Controls.Add(this.gb_AllPos);
             this.tp_POSMaintenance.Controls.Add(this.gb_SelPos);
             this.tp_POSMaintenance.Controls.Add(this.dg_TowerFuelList);
-            this.tp_POSMaintenance.Controls.Add(this.b_ApplyIntervalPeriod);
             this.tp_POSMaintenance.Controls.Add(this.label7);
             this.tp_POSMaintenance.Controls.Add(this.label6);
             this.tp_POSMaintenance.Controls.Add(this.nud_PeriodValue);
             this.tp_POSMaintenance.Controls.Add(this.tscb_TimePeriod);
             this.tp_POSMaintenance.Controls.Add(this.label2);
+            this.tp_POSMaintenance.Controls.Add(this.b_ApplyIntervalPeriod);
             this.tp_POSMaintenance.Location = new System.Drawing.Point(4, 25);
             this.tp_POSMaintenance.Name = "tp_POSMaintenance";
-            this.tp_POSMaintenance.Size = new System.Drawing.Size(1001, 703);
+            this.tp_POSMaintenance.Size = new System.Drawing.Size(1000, 701);
             this.tp_POSMaintenance.TabIndex = 2;
             this.tp_POSMaintenance.Text = "POS Maintenance";
             this.tp_POSMaintenance.UseVisualStyleBackColor = true;
             // 
-            // b_SetSelectedFull
+            // cb_ShowFuelNeed
             // 
-            this.b_SetSelectedFull.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_SetSelectedFull.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_SetSelectedFull.ForeColor = System.Drawing.Color.Cyan;
-            this.b_SetSelectedFull.Location = new System.Drawing.Point(190, 2);
-            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
-            this.b_SetSelectedFull.Size = new System.Drawing.Size(60, 35);
-            this.b_SetSelectedFull.TabIndex = 182;
-            this.b_SetSelectedFull.Text = "Mark Full";
-            this.b_SetSelectedFull.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_SetSelectedFull, "Set The Selected Tower To Full By Calculated Values");
-            this.b_SetSelectedFull.UseVisualStyleBackColor = true;
-            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
+            this.cb_ShowFuelNeed.AutoSize = true;
+            this.cb_ShowFuelNeed.Location = new System.Drawing.Point(798, 36);
+            this.cb_ShowFuelNeed.Name = "cb_ShowFuelNeed";
+            this.cb_ShowFuelNeed.Size = new System.Drawing.Size(187, 17);
+            this.cb_ShowFuelNeed.TabIndex = 182;
+            this.cb_ShowFuelNeed.Text = "Ignore Current Tower Fuel Levels";
+            this.tt_InfoTips.SetToolTip(this.cb_ShowFuelNeed, "Show fuel needed by tower for time period. Do Not account for fuel already at tow" +
+                    "er.");
+            this.cb_ShowFuelNeed.UseVisualStyleBackColor = true;
+            this.cb_ShowFuelNeed.CheckedChanged += new System.EventHandler(this.cb_ShowFuelNeed_CheckedChanged);
             // 
             // label5
             // 
@@ -5815,42 +5648,12 @@
             this.label5.Text = "The \'Fill\' interval will CAP each POS to the maximum fuel it can hold. The other " +
                 "intervals will not do this.";
             // 
-            // b_CopySelected
-            // 
-            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopySelected.Location = new System.Drawing.Point(8, 2);
-            this.b_CopySelected.Name = "b_CopySelected";
-            this.b_CopySelected.Size = new System.Drawing.Size(60, 35);
-            this.b_CopySelected.TabIndex = 180;
-            this.b_CopySelected.Text = "Copy Selected";
-            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data to the Clipboard");
-            this.b_CopySelected.UseVisualStyleBackColor = true;
-            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
-            // 
-            // b_CopyAllPos
-            // 
-            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
-            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
-            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopyAllPos.Location = new System.Drawing.Point(99, 2);
-            this.b_CopyAllPos.Name = "b_CopyAllPos";
-            this.b_CopyAllPos.Size = new System.Drawing.Size(60, 35);
-            this.b_CopyAllPos.TabIndex = 179;
-            this.b_CopyAllPos.Text = "Copy All";
-            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data to the Clipboard");
-            this.b_CopyAllPos.UseVisualStyleBackColor = false;
-            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
-            // 
             // cb_FactChartTotal
             // 
             this.cb_FactChartTotal.AutoSize = true;
             this.cb_FactChartTotal.Checked = true;
             this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 26);
+            this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 20);
             this.cb_FactChartTotal.Name = "cb_FactChartTotal";
             this.cb_FactChartTotal.Size = new System.Drawing.Size(149, 17);
             this.cb_FactChartTotal.TabIndex = 178;
@@ -5863,7 +5666,7 @@
             this.cb_UseStrontTotals.AutoSize = true;
             this.cb_UseStrontTotals.Checked = true;
             this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 10);
+            this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 4);
             this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
             this.cb_UseStrontTotals.Size = new System.Drawing.Size(137, 17);
             this.cb_UseStrontTotals.TabIndex = 177;
@@ -5875,20 +5678,38 @@
             // 
             this.gb_AllPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
+            this.gb_AllPos.Controls.Add(this.cb_AllDataForCopy);
             this.gb_AllPos.Controls.Add(this.dg_TotalFuel);
+            this.gb_AllPos.Controls.Add(this.b_CopyAllPos);
             this.gb_AllPos.ForeColor = System.Drawing.Color.Blue;
-            this.gb_AllPos.Location = new System.Drawing.Point(501, 451);
+            this.gb_AllPos.Location = new System.Drawing.Point(501, 425);
             this.gb_AllPos.Name = "gb_AllPos";
-            this.gb_AllPos.Size = new System.Drawing.Size(497, 250);
+            this.gb_AllPos.Size = new System.Drawing.Size(497, 276);
             this.gb_AllPos.TabIndex = 176;
             this.gb_AllPos.TabStop = false;
             this.gb_AllPos.Text = "All POS";
+            // 
+            // cb_AllDataForCopy
+            // 
+            this.cb_AllDataForCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_AllDataForCopy.FormattingEnabled = true;
+            this.cb_AllDataForCopy.Items.AddRange(new object[] {
+            "Fuel Only (Total m3)",
+            "Fuel & Volume (Total m3)",
+            "Fuel, Volume & Cost (Total m3 & Cost)"});
+            this.cb_AllDataForCopy.Location = new System.Drawing.Point(179, 11);
+            this.cb_AllDataForCopy.Name = "cb_AllDataForCopy";
+            this.cb_AllDataForCopy.Size = new System.Drawing.Size(220, 24);
+            this.cb_AllDataForCopy.TabIndex = 184;
+            this.cb_AllDataForCopy.Text = "Fuel Only (Total m3)";
             // 
             // dg_TotalFuel
             // 
             this.dg_TotalFuel.AllowUserToAddRows = false;
             this.dg_TotalFuel.AllowUserToDeleteRows = false;
             this.dg_TotalFuel.AllowUserToResizeRows = false;
+            this.dg_TotalFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.dg_TotalFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_TotalFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -5897,8 +5718,7 @@
             this.FuelAmount,
             this.FuelVolume,
             this.FuelCost});
-            this.dg_TotalFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 17);
+            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 38);
             this.dg_TotalFuel.MultiSelect = false;
             this.dg_TotalFuel.Name = "dg_TotalFuel";
             this.dg_TotalFuel.RowHeadersVisible = false;
@@ -5909,7 +5729,7 @@
             dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 230);
+            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 234);
             this.dg_TotalFuel.TabIndex = 0;
             // 
             // FuelName
@@ -5938,24 +5758,58 @@
             this.FuelCost.ReadOnly = true;
             this.FuelCost.Width = 125;
             // 
+            // b_CopyAllPos
+            // 
+            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
+            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopyAllPos.Location = new System.Drawing.Point(405, 8);
+            this.b_CopyAllPos.Name = "b_CopyAllPos";
+            this.b_CopyAllPos.Size = new System.Drawing.Size(89, 30);
+            this.b_CopyAllPos.TabIndex = 179;
+            this.b_CopyAllPos.Text = "Copy All";
+            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data to the Clipboard");
+            this.b_CopyAllPos.UseVisualStyleBackColor = false;
+            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
+            // 
             // gb_SelPos
             // 
             this.gb_SelPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
+            this.gb_SelPos.Controls.Add(this.cb_SelectedDataForCopy);
             this.gb_SelPos.Controls.Add(this.dg_SelectedFuel);
+            this.gb_SelPos.Controls.Add(this.b_SetSelectedFull);
+            this.gb_SelPos.Controls.Add(this.b_CopySelected);
             this.gb_SelPos.ForeColor = System.Drawing.Color.Blue;
-            this.gb_SelPos.Location = new System.Drawing.Point(0, 451);
+            this.gb_SelPos.Location = new System.Drawing.Point(0, 425);
             this.gb_SelPos.Name = "gb_SelPos";
-            this.gb_SelPos.Size = new System.Drawing.Size(497, 250);
+            this.gb_SelPos.Size = new System.Drawing.Size(497, 276);
             this.gb_SelPos.TabIndex = 175;
             this.gb_SelPos.TabStop = false;
             this.gb_SelPos.Text = "Selected POS";
+            // 
+            // cb_SelectedDataForCopy
+            // 
+            this.cb_SelectedDataForCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_SelectedDataForCopy.FormattingEnabled = true;
+            this.cb_SelectedDataForCopy.Items.AddRange(new object[] {
+            "Fuel Only (Total m3)",
+            "Fuel & Volume (Total m3)",
+            "Fuel, Volume & Cost (Total m3 & Cost)"});
+            this.cb_SelectedDataForCopy.Location = new System.Drawing.Point(179, 11);
+            this.cb_SelectedDataForCopy.Name = "cb_SelectedDataForCopy";
+            this.cb_SelectedDataForCopy.Size = new System.Drawing.Size(220, 24);
+            this.cb_SelectedDataForCopy.TabIndex = 183;
+            this.cb_SelectedDataForCopy.Text = "Fuel Only (Total m3)";
             // 
             // dg_SelectedFuel
             // 
             this.dg_SelectedFuel.AllowUserToAddRows = false;
             this.dg_SelectedFuel.AllowUserToDeleteRows = false;
             this.dg_SelectedFuel.AllowUserToResizeRows = false;
+            this.dg_SelectedFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.dg_SelectedFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_SelectedFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -5964,8 +5818,7 @@
             this.SelFuelAmount,
             this.SelFuelVol,
             this.SelFuelCost});
-            this.dg_SelectedFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 17);
+            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 38);
             this.dg_SelectedFuel.MultiSelect = false;
             this.dg_SelectedFuel.Name = "dg_SelectedFuel";
             this.dg_SelectedFuel.RowHeadersVisible = false;
@@ -5976,7 +5829,7 @@
             dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 230);
+            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 234);
             this.dg_SelectedFuel.TabIndex = 1;
             // 
             // SelFuelType
@@ -6004,6 +5857,36 @@
             this.SelFuelCost.Name = "SelFuelCost";
             this.SelFuelCost.ReadOnly = true;
             this.SelFuelCost.Width = 125;
+            // 
+            // b_SetSelectedFull
+            // 
+            this.b_SetSelectedFull.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.b_SetSelectedFull.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_SetSelectedFull.ForeColor = System.Drawing.Color.Cyan;
+            this.b_SetSelectedFull.Location = new System.Drawing.Point(84, 8);
+            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
+            this.b_SetSelectedFull.Size = new System.Drawing.Size(89, 30);
+            this.b_SetSelectedFull.TabIndex = 182;
+            this.b_SetSelectedFull.Text = "Mark Full";
+            this.b_SetSelectedFull.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_SetSelectedFull, "Set The Selected Tower To Full By Calculated Values");
+            this.b_SetSelectedFull.UseVisualStyleBackColor = true;
+            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
+            // 
+            // b_CopySelected
+            // 
+            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopySelected.Location = new System.Drawing.Point(405, 8);
+            this.b_CopySelected.Name = "b_CopySelected";
+            this.b_CopySelected.Size = new System.Drawing.Size(89, 30);
+            this.b_CopySelected.TabIndex = 180;
+            this.b_CopySelected.Text = "Copy Selected";
+            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data to the Clipboard");
+            this.b_CopySelected.UseVisualStyleBackColor = true;
+            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
             // 
             // dg_TowerFuelList
             // 
@@ -6036,9 +5919,9 @@
             this.HvyWater,
             this.LiqOz,
             this.Charter,
-            this.Stront});
+            this.Stront,
+            this.RunTime});
             this.dg_TowerFuelList.Location = new System.Drawing.Point(3, 54);
-            this.dg_TowerFuelList.MultiSelect = false;
             this.dg_TowerFuelList.Name = "dg_TowerFuelList";
             this.dg_TowerFuelList.ReadOnly = true;
             this.dg_TowerFuelList.RowHeadersVisible = false;
@@ -6049,7 +5932,7 @@
             dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TowerFuelList.Size = new System.Drawing.Size(996, 397);
+            this.dg_TowerFuelList.Size = new System.Drawing.Size(995, 370);
             this.dg_TowerFuelList.TabIndex = 174;
             this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
             // 
@@ -6137,19 +6020,12 @@
             this.Stront.ReadOnly = true;
             this.Stront.Width = 78;
             // 
-            // b_ApplyIntervalPeriod
+            // RunTime
             // 
-            this.b_ApplyIntervalPeriod.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_ApplyIntervalPeriod.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_ApplyIntervalPeriod.ForeColor = System.Drawing.Color.Cyan;
-            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(733, 5);
-            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
-            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 45);
-            this.b_ApplyIntervalPeriod.TabIndex = 173;
-            this.b_ApplyIntervalPeriod.Text = "Apply";
-            this.b_ApplyIntervalPeriod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.b_ApplyIntervalPeriod.UseVisualStyleBackColor = true;
-            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.ApplyFillData);
+            this.RunTime.HeaderText = "Run Time";
+            this.RunTime.Name = "RunTime";
+            this.RunTime.ReadOnly = true;
+            this.RunTime.Width = 76;
             // 
             // label7
             // 
@@ -6207,6 +6083,117 @@
             this.label2.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // b_ApplyIntervalPeriod
+            // 
+            this.b_ApplyIntervalPeriod.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.b_ApplyIntervalPeriod.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_ApplyIntervalPeriod.ForeColor = System.Drawing.Color.Cyan;
+            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(733, 5);
+            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
+            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 45);
+            this.b_ApplyIntervalPeriod.TabIndex = 173;
+            this.b_ApplyIntervalPeriod.Text = "Apply";
+            this.b_ApplyIntervalPeriod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.b_ApplyIntervalPeriod.UseVisualStyleBackColor = true;
+            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.ApplyFillData);
+            // 
+            // tp_ReactManage
+            // 
+            this.tp_ReactManage.Controls.Add(this.p_ReactMenu);
+            this.tp_ReactManage.Controls.Add(this.p_PosMods);
+            this.tp_ReactManage.Controls.Add(this.tv_ReactManage);
+            this.tp_ReactManage.Location = new System.Drawing.Point(4, 25);
+            this.tp_ReactManage.Name = "tp_ReactManage";
+            this.tp_ReactManage.Size = new System.Drawing.Size(1000, 701);
+            this.tp_ReactManage.TabIndex = 4;
+            this.tp_ReactManage.Text = "Reaction Manager";
+            this.tp_ReactManage.UseVisualStyleBackColor = true;
+            // 
+            // p_ReactMenu
+            // 
+            this.p_ReactMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.p_ReactMenu.Controls.Add(this.ts_ReactionMenu);
+            this.p_ReactMenu.Location = new System.Drawing.Point(471, 1);
+            this.p_ReactMenu.Name = "p_ReactMenu";
+            this.p_ReactMenu.Size = new System.Drawing.Size(44, 700);
+            this.p_ReactMenu.TabIndex = 2;
+            // 
+            // ts_ReactionMenu
+            // 
+            this.ts_ReactionMenu.AllowMerge = false;
+            this.ts_ReactionMenu.AutoSize = false;
+            this.ts_ReactionMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ts_ReactionMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ts_ReactionMenu.ImageScalingSize = new System.Drawing.Size(35, 35);
+            this.ts_ReactionMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsb_React_Save,
+            this.tsb_ReactClearLink,
+            this.toolStripButton3});
+            this.ts_ReactionMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.ts_ReactionMenu.Location = new System.Drawing.Point(0, 0);
+            this.ts_ReactionMenu.Name = "ts_ReactionMenu";
+            this.ts_ReactionMenu.Size = new System.Drawing.Size(44, 700);
+            this.ts_ReactionMenu.TabIndex = 2;
+            // 
+            // tsb_React_Save
+            // 
+            this.tsb_React_Save.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_React_Save.Image = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.tsb_React_Save.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_React_Save.Name = "tsb_React_Save";
+            this.tsb_React_Save.Size = new System.Drawing.Size(42, 39);
+            this.tsb_React_Save.Text = "Save";
+            this.tsb_React_Save.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_React_Save.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_React_Save.Click += new System.EventHandler(this.tsb_React_Save_Click);
+            // 
+            // tsb_ReactClearLink
+            // 
+            this.tsb_ReactClearLink.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ReactClearLink.Image = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.tsb_ReactClearLink.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ReactClearLink.Name = "tsb_ReactClearLink";
+            this.tsb_ReactClearLink.Size = new System.Drawing.Size(42, 39);
+            this.tsb_ReactClearLink.Text = "Clear";
+            this.tsb_ReactClearLink.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ReactClearLink.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ReactClearLink.ToolTipText = "Clear Links";
+            this.tsb_ReactClearLink.Click += new System.EventHandler(this.tsb_ReactClearLink_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(42, 39);
+            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Visible = false;
+            // 
+            // p_PosMods
+            // 
+            this.p_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.p_PosMods.AutoScroll = true;
+            this.p_PosMods.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.p_PosMods.Location = new System.Drawing.Point(515, 0);
+            this.p_PosMods.Name = "p_PosMods";
+            this.p_PosMods.Size = new System.Drawing.Size(485, 701);
+            this.p_PosMods.TabIndex = 1;
+            // 
+            // tv_ReactManage
+            // 
+            this.tv_ReactManage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tv_ReactManage.FullRowSelect = true;
+            this.tv_ReactManage.Location = new System.Drawing.Point(0, 0);
+            this.tv_ReactManage.Name = "tv_ReactManage";
+            this.tv_ReactManage.Size = new System.Drawing.Size(471, 701);
+            this.tv_ReactManage.TabIndex = 0;
+            this.tv_ReactManage.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tv_ReactManage_AfterSelect);
+            // 
             // tb_PMConfig
             // 
             this.tb_PMConfig.Controls.Add(this.groupBox2);
@@ -6214,7 +6201,7 @@
             this.tb_PMConfig.Controls.Add(this.gb_MonPosCol);
             this.tb_PMConfig.Location = new System.Drawing.Point(4, 25);
             this.tb_PMConfig.Name = "tb_PMConfig";
-            this.tb_PMConfig.Size = new System.Drawing.Size(1001, 703);
+            this.tb_PMConfig.Size = new System.Drawing.Size(1000, 701);
             this.tb_PMConfig.TabIndex = 3;
             this.tb_PMConfig.Text = "Configuration";
             this.tb_PMConfig.UseVisualStyleBackColor = true;
@@ -6251,7 +6238,7 @@
             this.groupBox2.ForeColor = System.Drawing.Color.Blue;
             this.groupBox2.Location = new System.Drawing.Point(0, 222);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(354, 481);
+            this.groupBox2.Size = new System.Drawing.Size(354, 267);
             this.groupBox2.TabIndex = 178;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Set Fuel Costs";
@@ -6269,9 +6256,10 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(220, 15);
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1.Location = new System.Drawing.Point(161, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(128, 44);
+            this.label1.Size = new System.Drawing.Size(187, 32);
             this.label1.TabIndex = 177;
             this.label1.Text = "** A value of \'0\' means the default standard fuel cost will be used.";
             // 
@@ -6291,7 +6279,7 @@
             this.nud_O2_FC.BackColor = System.Drawing.SystemColors.Control;
             this.nud_O2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_O2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_O2_FC.Location = new System.Drawing.Point(45, 302);
+            this.nud_O2_FC.Location = new System.Drawing.Point(220, 92);
             this.nud_O2_FC.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -6320,7 +6308,7 @@
             this.nud_H2_FC.BackColor = System.Drawing.SystemColors.Control;
             this.nud_H2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_H2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_H2_FC.Location = new System.Drawing.Point(45, 267);
+            this.nud_H2_FC.Location = new System.Drawing.Point(220, 57);
             this.nud_H2_FC.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -6377,7 +6365,7 @@
             // 
             this.pictureBox35.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
             this.pictureBox35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox35.Location = new System.Drawing.Point(8, 330);
+            this.pictureBox35.Location = new System.Drawing.Point(183, 120);
             this.pictureBox35.Name = "pictureBox35";
             this.pictureBox35.Size = new System.Drawing.Size(35, 35);
             this.pictureBox35.TabIndex = 169;
@@ -6389,7 +6377,7 @@
             this.nud_ST_FC.BackColor = System.Drawing.SystemColors.Control;
             this.nud_ST_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_ST_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_ST_FC.Location = new System.Drawing.Point(45, 442);
+            this.nud_ST_FC.Location = new System.Drawing.Point(220, 232);
             this.nud_ST_FC.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -6406,7 +6394,7 @@
             // 
             this.pictureBox34.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
             this.pictureBox34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox34.Location = new System.Drawing.Point(8, 365);
+            this.pictureBox34.Location = new System.Drawing.Point(183, 155);
             this.pictureBox34.Name = "pictureBox34";
             this.pictureBox34.Size = new System.Drawing.Size(35, 35);
             this.pictureBox34.TabIndex = 170;
@@ -6418,7 +6406,7 @@
             this.nud_CH_FC.BackColor = System.Drawing.SystemColors.Control;
             this.nud_CH_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_CH_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_CH_FC.Location = new System.Drawing.Point(45, 407);
+            this.nud_CH_FC.Location = new System.Drawing.Point(220, 197);
             this.nud_CH_FC.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -6435,7 +6423,7 @@
             // 
             this.pictureBox33.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
             this.pictureBox33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox33.Location = new System.Drawing.Point(8, 400);
+            this.pictureBox33.Location = new System.Drawing.Point(183, 190);
             this.pictureBox33.Name = "pictureBox33";
             this.pictureBox33.Size = new System.Drawing.Size(35, 35);
             this.pictureBox33.TabIndex = 171;
@@ -6447,7 +6435,7 @@
             this.nud_LO_FC.BackColor = System.Drawing.SystemColors.Control;
             this.nud_LO_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_LO_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_LO_FC.Location = new System.Drawing.Point(45, 372);
+            this.nud_LO_FC.Location = new System.Drawing.Point(220, 162);
             this.nud_LO_FC.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -6464,7 +6452,7 @@
             // 
             this.pictureBox11.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
             this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox11.Location = new System.Drawing.Point(8, 435);
+            this.pictureBox11.Location = new System.Drawing.Point(183, 225);
             this.pictureBox11.Name = "pictureBox11";
             this.pictureBox11.Size = new System.Drawing.Size(35, 35);
             this.pictureBox11.TabIndex = 172;
@@ -6476,7 +6464,7 @@
             this.nud_HW_FC.BackColor = System.Drawing.SystemColors.Control;
             this.nud_HW_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_HW_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_HW_FC.Location = new System.Drawing.Point(45, 337);
+            this.nud_HW_FC.Location = new System.Drawing.Point(220, 127);
             this.nud_HW_FC.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -6551,7 +6539,7 @@
             // 
             this.pictureBox42.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.H2Iso;
             this.pictureBox42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox42.Location = new System.Drawing.Point(8, 260);
+            this.pictureBox42.Location = new System.Drawing.Point(183, 50);
             this.pictureBox42.Name = "pictureBox42";
             this.pictureBox42.Size = new System.Drawing.Size(35, 35);
             this.pictureBox42.TabIndex = 175;
@@ -6580,7 +6568,7 @@
             // 
             this.pictureBox36.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.OxIso;
             this.pictureBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox36.Location = new System.Drawing.Point(8, 295);
+            this.pictureBox36.Location = new System.Drawing.Point(183, 85);
             this.pictureBox36.Name = "pictureBox36";
             this.pictureBox36.Size = new System.Drawing.Size(35, 35);
             this.pictureBox36.TabIndex = 176;
@@ -7221,6 +7209,218 @@
             // 
             this.tt_InfoTips.IsBalloon = true;
             // 
+            // dg_POSName
+            // 
+            this.dg_POSName.HeaderText = "POS Name";
+            this.dg_POSName.Name = "dg_POSName";
+            this.dg_POSName.ReadOnly = true;
+            this.dg_POSName.Width = 82;
+            // 
+            // dg_RunTime
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dg_RunTime.HeaderText = "Fuel Run Time";
+            this.dg_RunTime.Name = "dg_RunTime";
+            this.dg_RunTime.ReadOnly = true;
+            this.dg_RunTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.dg_RunTime.Width = 99;
+            // 
+            // dg_ReinfTime
+            // 
+            this.dg_ReinfTime.HeaderText = "Reinforce Time";
+            this.dg_ReinfTime.Name = "dg_ReinfTime";
+            this.dg_ReinfTime.ReadOnly = true;
+            this.dg_ReinfTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.dg_ReinfTime.Width = 103;
+            // 
+            // dg_TowerStatus
+            // 
+            this.dg_TowerStatus.HeaderText = "Tower Status";
+            this.dg_TowerStatus.Name = "dg_TowerStatus";
+            this.dg_TowerStatus.ReadOnly = true;
+            this.dg_TowerStatus.Width = 96;
+            // 
+            // dg_Linked
+            // 
+            this.dg_Linked.HeaderText = "Tower API Link";
+            this.dg_Linked.Name = "dg_Linked";
+            this.dg_Linked.ReadOnly = true;
+            this.dg_Linked.Width = 103;
+            // 
+            // APICache
+            // 
+            this.APICache.HeaderText = "API Cache Time";
+            this.APICache.Name = "APICache";
+            this.APICache.ReadOnly = true;
+            this.APICache.Width = 107;
+            // 
+            // CPU
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CPU.DefaultCellStyle = dataGridViewCellStyle2;
+            this.CPU.HeaderText = "CPU Usage";
+            this.CPU.Name = "CPU";
+            this.CPU.ReadOnly = true;
+            this.CPU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.CPU.Width = 85;
+            // 
+            // Power
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Power.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Power.HeaderText = "Power Usage";
+            this.Power.Name = "Power";
+            this.Power.ReadOnly = true;
+            this.Power.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.Power.Width = 95;
+            // 
+            // EnUr
+            // 
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            this.EnUr.DefaultCellStyle = dataGridViewCellStyle4;
+            this.EnUr.HeaderText = "Enr Uranium";
+            this.EnUr.Name = "EnUr";
+            this.EnUr.ReadOnly = true;
+            this.EnUr.Width = 90;
+            // 
+            // Oxyg
+            // 
+            dataGridViewCellStyle5.Format = "N0";
+            dataGridViewCellStyle5.NullValue = null;
+            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Oxyg.HeaderText = "Oxygen";
+            this.Oxyg.Name = "Oxyg";
+            this.Oxyg.ReadOnly = true;
+            this.Oxyg.Width = 70;
+            // 
+            // McP
+            // 
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = null;
+            this.McP.DefaultCellStyle = dataGridViewCellStyle6;
+            this.McP.HeaderText = "Mech Parts";
+            this.McP.Name = "McP";
+            this.McP.ReadOnly = true;
+            this.McP.Width = 85;
+            // 
+            // Cool
+            // 
+            this.Cool.HeaderText = "Coolant";
+            this.Cool.Name = "Cool";
+            this.Cool.ReadOnly = true;
+            this.Cool.Width = 69;
+            // 
+            // Robt
+            // 
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.Robt.DefaultCellStyle = dataGridViewCellStyle7;
+            this.Robt.HeaderText = "Robotics";
+            this.Robt.Name = "Robt";
+            this.Robt.ReadOnly = true;
+            this.Robt.Width = 73;
+            // 
+            // Iso
+            // 
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = null;
+            this.Iso.DefaultCellStyle = dataGridViewCellStyle8;
+            this.Iso.HeaderText = "Isotopes";
+            this.Iso.Name = "Iso";
+            this.Iso.ReadOnly = true;
+            this.Iso.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.Iso.Width = 74;
+            // 
+            // HvyW
+            // 
+            dataGridViewCellStyle9.Format = "N0";
+            dataGridViewCellStyle9.NullValue = null;
+            this.HvyW.DefaultCellStyle = dataGridViewCellStyle9;
+            this.HvyW.HeaderText = "Hvy Water";
+            this.HvyW.Name = "HvyW";
+            this.HvyW.ReadOnly = true;
+            this.HvyW.Width = 84;
+            // 
+            // LiqO
+            // 
+            dataGridViewCellStyle10.Format = "N0";
+            dataGridViewCellStyle10.NullValue = null;
+            this.LiqO.DefaultCellStyle = dataGridViewCellStyle10;
+            this.LiqO.HeaderText = "Liq Ozone";
+            this.LiqO.Name = "LiqO";
+            this.LiqO.ReadOnly = true;
+            this.LiqO.Width = 79;
+            // 
+            // Chrt
+            // 
+            dataGridViewCellStyle11.Format = "N0";
+            dataGridViewCellStyle11.NullValue = null;
+            this.Chrt.DefaultCellStyle = dataGridViewCellStyle11;
+            this.Chrt.HeaderText = "Charters";
+            this.Chrt.Name = "Chrt";
+            this.Chrt.ReadOnly = true;
+            this.Chrt.Width = 74;
+            // 
+            // Strn
+            // 
+            dataGridViewCellStyle12.Format = "N0";
+            dataGridViewCellStyle12.NullValue = null;
+            this.Strn.DefaultCellStyle = dataGridViewCellStyle12;
+            this.Strn.HeaderText = "Strontium";
+            this.Strn.Name = "Strn";
+            this.Strn.ReadOnly = true;
+            this.Strn.Width = 78;
+            // 
+            // IgnoreCharters
+            // 
+            this.IgnoreCharters.HeaderText = "Use Charters";
+            this.IgnoreCharters.Name = "IgnoreCharters";
+            this.IgnoreCharters.ReadOnly = true;
+            this.IgnoreCharters.Width = 76;
+            // 
+            // HiddenFuel
+            // 
+            this.HiddenFuel.HeaderText = "HiddenFuel";
+            this.HiddenFuel.Name = "HiddenFuel";
+            this.HiddenFuel.ReadOnly = true;
+            this.HiddenFuel.Visible = false;
+            this.HiddenFuel.Width = 85;
+            // 
+            // HiddenStront
+            // 
+            this.HiddenStront.HeaderText = "HiddenStront";
+            this.HiddenStront.Name = "HiddenStront";
+            this.HiddenStront.ReadOnly = true;
+            this.HiddenStront.Visible = false;
+            this.HiddenStront.Width = 95;
+            // 
+            // HiddenCPU
+            // 
+            this.HiddenCPU.HeaderText = "HiddenCPU";
+            this.HiddenCPU.Name = "HiddenCPU";
+            this.HiddenCPU.ReadOnly = true;
+            this.HiddenCPU.Visible = false;
+            this.HiddenCPU.Width = 85;
+            // 
+            // HiddenPower
+            // 
+            this.HiddenPower.HeaderText = "HiddenPower";
+            this.HiddenPower.Name = "HiddenPower";
+            this.HiddenPower.ReadOnly = true;
+            this.HiddenPower.Visible = false;
+            this.HiddenPower.Width = 95;
+            // 
+            // HiddenIso
+            // 
+            this.HiddenIso.HeaderText = "HiddenIso";
+            this.HiddenIso.Name = "HiddenIso";
+            this.HiddenIso.ReadOnly = true;
+            this.HiddenIso.Visible = false;
+            this.HiddenIso.Width = 80;
+            // 
             // PoSManMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -7274,12 +7474,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox23)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox26)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox24)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).EndInit();
             this.tp_Fuel.ResumeLayout(false);
             this.tp_Fuel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_DesFuelPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_StrontInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).EndInit();
@@ -7298,14 +7499,14 @@
             this.tp_PosStats.ResumeLayout(false);
             this.tp_PosStats.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ThmRes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_KinRes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ExpRes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EMRes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox47)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox46)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox45)).EndInit();
@@ -7315,15 +7516,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).EndInit();
             this.p_Select.ResumeLayout(false);
             this.p_Top.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.p_Top.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.ts_Designer.ResumeLayout(false);
+            this.ts_Designer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.p_Tower.ResumeLayout(false);
             this.cms_PosItem.ResumeLayout(false);
             this.tp_POSMaintenance.ResumeLayout(false);
@@ -7334,6 +7538,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).EndInit();
+            this.tp_ReactManage.ResumeLayout(false);
+            this.p_ReactMenu.ResumeLayout(false);
+            this.ts_ReactionMenu.ResumeLayout(false);
+            this.ts_ReactionMenu.PerformLayout();
             this.tb_PMConfig.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).EndInit();
@@ -7384,8 +7592,6 @@
         private VistaStyleProgressBar.ProgressBar pb_Stront;
         private VistaStyleProgressBar.ProgressBar pb_Fuel;
         private VistaStyleProgressBar.ProgressBar pb_Power;
-        private System.Windows.Forms.Label l_CPU_Values;
-        private System.Windows.Forms.Label l_Power_Val;
         private System.Windows.Forms.Label l_Stront_Val;
         private System.Windows.Forms.Label l_Fuel_Val;
         private PoS_Item pi_Tower;
@@ -7492,9 +7698,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsm_Online;
         private System.Windows.Forms.ToolStripMenuItem tsm_Offline;
         private System.Windows.Forms.ToolStripMenuItem tsm_Remove;
-        private System.Windows.Forms.Button b_SavePoS;
-        private System.Windows.Forms.Button b_ClearPoS;
-        private System.Windows.Forms.Button b_DelPoS;
         private System.Windows.Forms.ToolStripMenuItem quantityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsm_Qty_1;
         private System.Windows.Forms.ToolStripMenuItem tsm_Qty_2;
@@ -7557,15 +7760,10 @@
         private System.Windows.Forms.NumericUpDown nud_ExpRes;
         private System.Windows.Forms.NumericUpDown nud_EMRes;
         private System.Windows.Forms.Button b_SaveResProf;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pictureBox8;
-        private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.PictureBox pb_StrontBay;
         private System.Windows.Forms.PictureBox pictureBox12;
@@ -7607,8 +7805,6 @@
         private System.Windows.Forms.Label l_PoS_DPS;
         private System.Windows.Forms.Label l_PoS_Tank;
         private System.Windows.Forms.Label l_PoS_EHP;
-        private System.Windows.Forms.Button b_NewPos;
-        private System.Windows.Forms.Button b_RenamePos;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox pictureBox48;
         private System.Windows.Forms.PictureBox pictureBox49;
@@ -7681,7 +7877,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.PictureBox pictureBox16;
         private System.Windows.Forms.Label l_POS_C;
-        private System.Windows.Forms.Button b_CopyPOS;
         private System.Windows.Forms.Label l_FuelStront_C;
         private System.Windows.Forms.Label l_Fuel_C;
         private System.Windows.Forms.PictureBox pictureBox17;
@@ -7719,30 +7914,6 @@
         private System.Windows.Forms.ComboBox cb_CorpName;
         private System.Windows.Forms.ComboBox cb_systemMoon;
         private System.Windows.Forms.Button b_SetSelectedFull;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dg_POSName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dg_RunTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dg_ReinfTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dg_TowerStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dg_Linked;
-        private System.Windows.Forms.DataGridViewTextBoxColumn APICache;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CPU;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Power;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EnUr;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Oxyg;
-        private System.Windows.Forms.DataGridViewTextBoxColumn McP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cool;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Robt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Iso;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HvyW;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LiqO;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Chrt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Strn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn IgnoreCharters;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenFuel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenStront;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenCPU;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenPower;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenIso;
         private System.Windows.Forms.TabPage tb_PMConfig;
         private System.Windows.Forms.GroupBox gb_PosDesignShow;
         private System.Windows.Forms.GroupBox gb_MonPosCol;
@@ -7832,6 +8003,34 @@
         private System.Windows.Forms.PictureBox pictureBox40;
         private System.Windows.Forms.PictureBox pictureBox41;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TabPage tp_ReactManage;
+        private System.Windows.Forms.TreeView tv_ReactManage;
+        private System.Windows.Forms.Panel p_PosMods;
+        private System.Windows.Forms.ComboBox cb_AllDataForCopy;
+        private System.Windows.Forms.ComboBox cb_SelectedDataForCopy;
+        private System.Windows.Forms.ToolStrip ts_Designer;
+        private System.Windows.Forms.ToolStripButton tsb_NewPOS;
+        private System.Windows.Forms.ToolStripButton tsb_SavePOS;
+        private System.Windows.Forms.ToolStripButton tsb_RenamePOS;
+        private System.Windows.Forms.ToolStripButton tsb_CopyPOS;
+        private System.Windows.Forms.ToolStripButton tsb_ClearPOS;
+        private System.Windows.Forms.ToolStripButton tsb_DelPOS;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripButton tsb_ExportPOS;
+        private System.Windows.Forms.ToolStripButton tsb_ImportPOS;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.NumericUpDown nud_DesFuelPeriod;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pictureBox9;
+        private System.Windows.Forms.ToolStrip ts_ReactionMenu;
+        private System.Windows.Forms.ToolStripButton tsb_React_Save;
+        private System.Windows.Forms.ToolStripButton tsb_ReactClearLink;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.CheckBox cb_ShowFuelNeed;
         private System.Windows.Forms.DataGridViewTextBoxColumn FName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FLocation;
         private System.Windows.Forms.DataGridViewTextBoxColumn EnrUr;
@@ -7844,5 +8043,31 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn LiqOz;
         private System.Windows.Forms.DataGridViewTextBoxColumn Charter;
         private System.Windows.Forms.DataGridViewTextBoxColumn Stront;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RunTime;
+        private System.Windows.Forms.Panel p_ReactMenu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dg_POSName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dg_RunTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dg_ReinfTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dg_TowerStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dg_Linked;
+        private System.Windows.Forms.DataGridViewTextBoxColumn APICache;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CPU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Power;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EnUr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Oxyg;
+        private System.Windows.Forms.DataGridViewTextBoxColumn McP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cool;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Robt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Iso;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HvyW;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LiqO;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Chrt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Strn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IgnoreCharters;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenFuel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenStront;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenCPU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenPower;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenIso;
     }
 }

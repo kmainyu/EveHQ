@@ -166,7 +166,7 @@ namespace EveHQ.PosManager
         {
             TreeNode mtn, tn, ltn, ctn;
             int towerNum = 1;
-            string loc, cName, strSQL;
+            string loc, cName, strSQL, twrName;
             DataSet locData;
 
             tv_APIList.Nodes.Clear();
@@ -203,7 +203,20 @@ namespace EveHQ.PosManager
                     ltn.Name = loc;
                 }
 
-                mtn = ltn.Nodes.Add(apid.towerName);
+                // Scan Current POS List to see if this tower is already linked, if so - indicate
+                // Tower name and link
+                twrName = apid.towerName;
+
+                foreach (POS pl in myData.POSList.Designs)
+                {
+                    if (pl.itemID == apid.itemID)
+                    {
+                        // Found existing tower with ID
+                        twrName += "< Linked: " + pl.Name + " >";
+                    }
+                }
+
+                mtn = ltn.Nodes.Add(twrName);
                 mtn.Tag = apid.itemID;
                 mtn.Name = "Tower"+towerNum;
                 towerNum++;

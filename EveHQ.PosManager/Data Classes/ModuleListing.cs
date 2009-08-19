@@ -18,9 +18,12 @@ namespace EveHQ.PosManager
     public class ModuleListing
     {
         public ArrayList Modules;
-        public DataSet modAttribData, chargeAttribData;
+        public DataSet modAttribData, chargeAttribData, moonMinData, simpReactData, compReactData;
+        public DataSet reactSimple, reactComplex, reactBioSimp, reactBioComp, reactHybrid;
         enum modA { grpID, grpName, typID, typDesc, typName, vol, cap, price, attID, valI, valF, attNm, dspNm, unID, unNm, unDNm };
         enum chgA { grpID, grpName, typID, typDesc, typName, mass, vol, cap, prtSz, price, attID, valI, valF, attNm, dspNm, unID, unNm, unDNm };
+        enum minA { grpID, grpName, typID, typName, typDesc, grphID, mass, vol, pSize, bPrice, attID, vInt, vFlt, icon };
+        enum recA { reacID, inpt, inTypID, qty, grpID, catID, grpName, grpDesc, grGID, UBP, allMan, allRec, anch, cAnc, fNS, gPub, tTID, tGID, tName, tDesc, tGrID, tRad, tMass, tVol, tCap, tPrtSz, tRID, tBPrc, tPub, tMktG, tCoD, egID, egUrl, urlWeb, egDesc, egPub, egObs, icon };
 
         public ModuleListing()
         {
@@ -63,24 +66,386 @@ namespace EveHQ.PosManager
             return retVal;
         }
 
-        public void PermormModuleAndChargeSQLQueries()
+        public void PerformModuleAndChargeSQLQueries()
         {
             string strSQL;
             
-            //Module Attribute Data
+            // Module Attribute Data
             strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.volume, invTypes.capacity, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName, dgmAttributeTypes.unitID, eveUnits.unitName, eveUnits.displayName";
             strSQL += " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (eveUnits INNER JOIN (dgmAttributeTypes INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID) ON eveUnits.unitID = dgmAttributeTypes.unitID) ON invTypes.typeID = dgmTypeAttributes.typeID) ON invCategories.categoryID = invGroups.categoryID";
             strSQL += " WHERE (invCategories.categoryID=23) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;";
             modAttribData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-            //Charge Attribute Data
+            // Charge Attribute Data
             strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName, dgmAttributeTypes.unitID, eveUnits.unitName, eveUnits.displayName";
             strSQL += " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (eveUnits INNER JOIN (dgmAttributeTypes INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID) ON eveUnits.unitID = dgmAttributeTypes.unitID) ON invTypes.typeID = dgmTypeAttributes.typeID) ON invCategories.categoryID = invGroups.categoryID";
             strSQL += " WHERE (invCategories.categoryID=8) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;";
             chargeAttribData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
+            // Mineral Attribute Data
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=427) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            moonMinData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=428) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            simpReactData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=429) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            compReactData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            // Reaction Data
+            strSQL = "SELECT *";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " WHERE (invGroups.groupID=436) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            reactSimple = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT *";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " WHERE (invGroups.groupID=484) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            reactComplex = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT *";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " WHERE (invGroups.groupID=661) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            reactBioSimp = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT *";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " WHERE (invGroups.groupID=662) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            reactBioComp = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT *";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " WHERE (invGroups.groupID=977) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            reactHybrid = EveHQ.Core.DataFunctions.GetData(strSQL);
+        }
+
+        public void GetMineralAndReactIcons()
+        {
+            foreach (DataRow row in moonMinData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+            foreach (DataRow row in simpReactData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+            foreach (DataRow row in compReactData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+            foreach (DataRow row in reactSimple.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+            foreach (DataRow row in reactComplex.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+            foreach (DataRow row in reactBioSimp.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+            foreach (DataRow row in reactBioComp.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+            foreach (DataRow row in reactHybrid.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+        }
+
+        public void PopulateModuleMineralData(Module nt)
+        {
+            MoonSiloReactMineral msr;
+
+            switch (nt.groupID)
+            {
+                case 404:
+                    // Silo class module
+                    foreach (DataRow row in moonMinData.Tables[0].Rows)
+                    {
+                        msr = new MoonSiloReactMineral();
+
+                        msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                        msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                        msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                        msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                        msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                        msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                        msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                        msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                        msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                        msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                        msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                        nt.MSRList.Add(msr);
+                        nt.InputList.Add(msr);
+                        nt.OutputList.Add(msr);
+                    }
+                    foreach (DataRow row in simpReactData.Tables[0].Rows)
+                    {
+                        msr = new MoonSiloReactMineral();
+
+                        msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                        msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                        msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                        msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                        msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                        msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                        msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                        msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                        msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                        msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                        msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                        nt.MSRList.Add(msr);
+                        nt.InputList.Add(msr);
+                        nt.OutputList.Add(msr);
+                    }
+                    foreach (DataRow row in compReactData.Tables[0].Rows)
+                    {
+                        msr = new MoonSiloReactMineral();
+
+                        msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                        msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                        msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                        msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                        msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                        msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                        msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                        msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                        msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                        msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                        msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                        nt.MSRList.Add(msr);
+                        nt.InputList.Add(msr);
+                        nt.OutputList.Add(msr);
+                    }
+                    break;
+                case 416:
+                    // Moon Harvestor Module
+                    foreach (DataRow row in moonMinData.Tables[0].Rows)
+                    {
+                        msr = new MoonSiloReactMineral();
+
+                        msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                        msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                        msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                        msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                        msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                        msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                        msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                        msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                        msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                        msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                        msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                        nt.MSRList.Add(msr);
+                        nt.InputList.Add(msr);
+                        nt.OutputList.Add(msr);
+                    }
+                    break;
+                default:
+                    // Should never be possible to get here, but meh.
+                    break;
+            }
+
+            Modules.Add(nt);
+        }
+
+        public void PopulateModuleReactionData(Module nt)
+        {
+            decimal curTypeID = 0;
+            MoonSiloReactMineral msr;
+            Reaction nr = null;
+            InOutData iod;
+
+            if (nt.Name.Contains("Simple"))
+            {
+                // Do inputs and outputs as well
+                foreach (DataRow row in moonMinData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                    msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                    msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.InputList.Add(msr);
+                }
+                foreach (DataRow row in simpReactData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                    msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                    msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.OutputList.Add(msr);
+                }
+                foreach (DataRow row in reactSimple.Tables[0].Rows)
+                {
+                    if (curTypeID != Convert.ToDecimal(row.ItemArray[(int)recA.tTID]))
+                    {
+                        // New Reaction Found - Get common data
+                        if (nr != null)
+                            nt.ReactList.Add(nr);
+
+                        nr = new Reaction();
+
+                        nr.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.tTID]);
+                        curTypeID = nr.typeID;
+                        nr.icon = (row.ItemArray[(int)recA.icon]).ToString();
+                        nr.groupID = Convert.ToDecimal(row.ItemArray[(int)recA.grpID]);
+                        nr.reactGroupName = (row.ItemArray[(int)recA.grpName]).ToString();
+                        nr.reactName = (row.ItemArray[(int)recA.tName]).ToString();
+                        nr.desc = (row.ItemArray[(int)recA.tDesc]).ToString();
+
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                    else
+                    {
+                        // Current Reaction Found - add other data
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                }
+                nt.ReactList.Add(nr);
+            }
+            else if (nt.Name.Contains("Complex"))
+            {
+                // do inputs and outputs
+                foreach (DataRow row in simpReactData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                    msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                    msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.InputList.Add(msr);
+                }
+                foreach (DataRow row in compReactData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                    msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                    msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.OutputList.Add(msr);
+                }
+                foreach (DataRow row in reactComplex.Tables[0].Rows)
+                {
+                    if (curTypeID != Convert.ToDecimal(row.ItemArray[(int)recA.tTID]))
+                    {
+                        // New Reaction Found - Get common data
+                        if (nr != null)
+                            nt.ReactList.Add(nr);
+
+                        nr = new Reaction();
+
+                        nr.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.tTID]);
+                        curTypeID = nr.typeID;
+                        nr.icon = (row.ItemArray[(int)recA.icon]).ToString();
+                        nr.groupID = Convert.ToDecimal(row.ItemArray[(int)recA.grpID]);
+                        nr.reactGroupName = (row.ItemArray[(int)recA.grpName]).ToString();
+                        nr.reactName = (row.ItemArray[(int)recA.tName]).ToString();
+                        nr.desc = (row.ItemArray[(int)recA.tDesc]).ToString();
+
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                    else
+                    {
+                        // Current Reaction Found - add other data
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                }
+                nt.ReactList.Add(nr);
+            }
+
+            Modules.Add(nt);
         }
 
         public void PopulateModuleChargeData(Module nt)
@@ -90,117 +455,111 @@ namespace EveHQ.PosManager
             bool first = true;
             Charge ch;
 
-            // Start a thread to retrieve the Module Image for Selection ListView
-            // No real rush, but might speed things up just a little bit
-            ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
-
-            if ((nt.MaxTarget > 0) && (nt.ChargeGroup > 0))
+            ch = new Charge();
+            foreach (DataRow row in chargeAttribData.Tables[0].Rows)
             {
-                ch = new Charge();
-                foreach (DataRow row in chargeAttribData.Tables[0].Rows)
+                if (nt.ChargeGroup != Convert.ToInt32(row.ItemArray[(int)chgA.grpID]))
+                    continue;
+
+                typeID = Convert.ToInt32(row.ItemArray[(int)chgA.typID]);
+
+                if ((skpID != 0) && (typeID == skpID))
+                    continue;
+
+                if (typeID != curTID)
                 {
-                    if (nt.ChargeGroup != Convert.ToInt32(row.ItemArray[(int)chgA.grpID]))
-                        continue;
-
-                    typeID = Convert.ToInt32(row.ItemArray[(int)chgA.typID]);
-
-                    if ((skpID != 0) && (typeID == skpID))
-                        continue;
-
-                    if (typeID != curTID)
+                    if ((!first) && (skpID == 0))
                     {
-                        if ((!first) && (skpID == 0))
-                        {
-                            // This will pick up every module except for the last one.
-                            nt.Charges.Add(ch);
-                            nt.ChargeList.Add(ch.Name);
-                            ch = new Charge();
-                        }
-                        else if (skpID != 0)
-                        {
-                            ch = new Charge();
-                            skpID = 0;
-                        }
-                        ch.typeID = Convert.ToInt32(row.ItemArray[(int)chgA.typID]);
-                        curTID = ch.typeID;
-                        ch.Name = row.ItemArray[(int)chgA.typName].ToString();
-                        first = false;
+                        // This will pick up every module except for the last one.
+                        nt.Charges.Add(ch);
+                        nt.ChargeList.Add(ch.Name);
+                        ch = new Charge();
                     }
-
-                    switch (Convert.ToInt32(row.ItemArray[(int)chgA.attID]))
+                    else if (skpID != 0)
                     {
-                        case 37:             // Max Velocity
-                            ch.Velocity = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 64:             // Damage Multiple
-                            ch.DmgMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 70:             // Agility
-                            ch.Agility = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 107:            // Explosion Range
-                            ch.ExpRange = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 108:            // Detonation Range
-                            ch.DetRange = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 114:            // EM Damage
-                            ch.EM_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 116:             // Exp Damage
-                            ch.Exp_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 117:             // Kinetic Damage
-                            ch.Kin_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 118:             // Thermal Damage
-                            ch.Thm_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 120:             // Range Mult
-                            ch.RangeMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 128:             // Charge Size
-                            ch.ChargeSize = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            if (nt.ChargeSize > 0)
-                                if (nt.ChargeSize != ch.ChargeSize)
-                                {
-                                    skpID = curTID;
-                                }
-                            break;
-                        case 204:             // Speed Mult
-                            ch.SpdMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 244:             // Track Speed Mult
-                            ch.Tracking = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 281:             // Flight Time
-                            ch.FlightTime = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 612:             // Base Shield Dmg
-                            ch.Base_Shield = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 613:             // Base Armor Dmg
-                            ch.Base_Armor = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        case 779:             // Fly Range Mult
-                            ch.FlyRangeMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
-                            break;
-                        default:
-                            oVal = row.ItemArray[(int)chgA.dspNm].ToString();
-                            if (oVal.Length > 0)
+                        ch = new Charge();
+                        skpID = 0;
+                    }
+                    ch.typeID = Convert.ToInt32(row.ItemArray[(int)chgA.typID]);
+                    curTID = ch.typeID;
+                    ch.Name = row.ItemArray[(int)chgA.typName].ToString();
+                    first = false;
+                }
+
+                switch (Convert.ToInt32(row.ItemArray[(int)chgA.attID]))
+                {
+                    case 37:             // Max Velocity
+                        ch.Velocity = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 64:             // Damage Multiple
+                        ch.DmgMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 70:             // Agility
+                        ch.Agility = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 107:            // Explosion Range
+                        ch.ExpRange = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 108:            // Detonation Range
+                        ch.DetRange = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 114:            // EM Damage
+                        ch.EM_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 116:             // Exp Damage
+                        ch.Exp_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 117:             // Kinetic Damage
+                        ch.Kin_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 118:             // Thermal Damage
+                        ch.Thm_Dmg = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 120:             // Range Mult
+                        ch.RangeMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 128:             // Charge Size
+                        ch.ChargeSize = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        if (nt.ChargeSize > 0)
+                            if (nt.ChargeSize != ch.ChargeSize)
                             {
-                                oVal += " [" + GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF) + "] <" + Convert.ToInt32(row.ItemArray[(int)chgA.attID]) + ">";
-                                ch.Extra.Add(oVal);
+                                skpID = curTID;
                             }
-                            break;
-                    }
+                        break;
+                    case 204:             // Speed Mult
+                        ch.SpdMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 244:             // Track Speed Mult
+                        ch.Tracking = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 281:             // Flight Time
+                        ch.FlightTime = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 612:             // Base Shield Dmg
+                        ch.Base_Shield = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 613:             // Base Armor Dmg
+                        ch.Base_Armor = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    case 779:             // Fly Range Mult
+                        ch.FlyRangeMult = GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF);
+                        break;
+                    default:
+                        oVal = row.ItemArray[(int)chgA.dspNm].ToString();
+                        if (oVal.Length > 0)
+                        {
+                            oVal += " [" + GetDecimalFromVariableIA(row, (int)chgA.valI, (int)chgA.valF) + "] <" + Convert.ToInt32(row.ItemArray[(int)chgA.attID]) + ">";
+                            ch.Extra.Add(oVal);
+                        }
+                        break;
                 }
-                if (skpID == 0)
-                {
-                    nt.Charges.Add(ch);
-                    nt.ChargeList.Add(ch.Name);
-                }
-            }                
+            }
+            if (skpID == 0)
+            {
+                nt.Charges.Add(ch);
+                nt.ChargeList.Add(ch.Name);
+            }
+
             Modules.Add(nt);
         }
 
@@ -223,7 +582,30 @@ namespace EveHQ.PosManager
                     if (!first)
                     {
                         // This will pick up every module except for the last one.
-                        PopulateModuleChargeData(nt);
+                        if ((nt.MaxTarget > 0) && (nt.ChargeGroup > 0))
+                        {
+                            //Pick up the Charge Data if Applicable
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                            PopulateModuleChargeData(nt);
+                        }
+                        else if ((nt.groupID == 404) || (nt.groupID == 416))
+                        {
+                            // Pick up the Mineral Data if Applicable
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                            PopulateModuleMineralData(nt);
+                        }
+                        else if (nt.groupID == 438)
+                        {
+                            // Pick up the Reaction Data if Applicable
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                            PopulateModuleReactionData(nt);
+                        }
+                        else
+                        {
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                            Modules.Add(nt);
+                        }
+
                         nt = new Module();
                     }
                     curTID = typeID;
@@ -538,14 +920,37 @@ namespace EveHQ.PosManager
                         nt.OtherInfo += extT + " <" + extV + " " + row.ItemArray[(int)modA.unDNm].ToString() + ">\n";
                         break;
                 }
+
             }
-            // Pick up the last module
-            PopulateModuleChargeData(nt);
+            if ((nt.MaxTarget > 0) && (nt.ChargeGroup > 0))
+            {
+                //Pick up the Charge Data if Applicable
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                PopulateModuleChargeData(nt);
+            }
+            else if ((nt.groupID == 404) || (nt.groupID == 416))
+            {
+                // Pick up the Mineral Data if Applicable
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                PopulateModuleMineralData(nt);
+            }
+            else if (nt.groupID == 438)
+            {
+                // Pick up the Reaction Data if Applicable
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                PopulateModuleReactionData(nt);
+            }
+            else
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
+                Modules.Add(nt);
+            }
         }
 
         public void PopulateModuleListing(Object o)
         {
-            PermormModuleAndChargeSQLQueries();
+            PerformModuleAndChargeSQLQueries();
+            GetMineralAndReactIcons();
             PopulateModuleData();
             SaveModuleListing();
             PlugInData.resetEvents[1].Set();
@@ -556,9 +961,28 @@ namespace EveHQ.PosManager
             Bitmap bmp;
             string imgLoc, imgId;
 
-            imgId = Convert.ToString((int)o);
+            imgId = o.ToString();
 
             imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(imgId, Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Types));
+
+            try
+            {
+                bmp = new Bitmap(Image.FromFile(imgLoc));
+            }
+            catch
+            {
+            }
+
+        }
+
+        public void GetIcon(Object o)
+        {
+            Bitmap bmp;
+            string imgLoc, imgId;
+
+            imgId = o.ToString();
+
+            imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(imgId, Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Icons));
 
             try
             {

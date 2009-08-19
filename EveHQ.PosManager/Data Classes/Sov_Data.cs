@@ -16,7 +16,7 @@ namespace EveHQ.PosManager
     [Serializable]
     public class Sov_Data
     {
-        public decimal  systemID, allianceID, constSov, sovLevel;
+        public decimal  systemID, allianceID, constSov, sovLevel, secLevel;
         public string   systemName;
         public string   cacheDate, cacheUntil;
         public ArrayList Moons;
@@ -27,6 +27,7 @@ namespace EveHQ.PosManager
             allianceID = 0;
             constSov = 0;
             sovLevel = 0;
+            secLevel = 0;
             systemName = "";
             cacheDate = "";
             cacheUntil = "";
@@ -42,6 +43,7 @@ namespace EveHQ.PosManager
             systemName = sd.systemName;
             cacheUntil = sd.cacheUntil;
             cacheDate = sd.cacheDate;
+            secLevel = sd.secLevel;
             Moons = new ArrayList(sd.Moons);
         }
 
@@ -54,6 +56,7 @@ namespace EveHQ.PosManager
             systemName = sd.systemName;
             cacheUntil = sd.cacheUntil;
             cacheDate = sd.cacheDate;
+            secLevel = sd.secLevel;
             Moons = new ArrayList(sd.Moons);
         }
     }

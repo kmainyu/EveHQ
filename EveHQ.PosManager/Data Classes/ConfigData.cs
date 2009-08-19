@@ -22,7 +22,7 @@ namespace EveHQ.PosManager
         public SortOrder MonSortOrder;
         public ArrayList Extra;
         public string SelPos;
-        public bool maintChart, maintStront;
+        public bool maintChart, maintStront, noNegs;
         public ArrayList dgMonBool, dgDesBool;
         public decimal maintTP, maintPV;
 
@@ -38,6 +38,7 @@ namespace EveHQ.PosManager
             MonSortOrder = SortOrder.Ascending;
             maintChart = true;
             maintStront = true;
+            noNegs = false;
             maintTP = 0;
             maintPV = 1;
         }

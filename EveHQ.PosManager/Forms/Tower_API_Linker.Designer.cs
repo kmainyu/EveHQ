@@ -42,9 +42,9 @@
             // 
             this.tv_PoSList.FullRowSelect = true;
             this.tv_PoSList.HideSelection = false;
-            this.tv_PoSList.Location = new System.Drawing.Point(12, 33);
+            this.tv_PoSList.Location = new System.Drawing.Point(7, 33);
             this.tv_PoSList.Name = "tv_PoSList";
-            this.tv_PoSList.Size = new System.Drawing.Size(262, 276);
+            this.tv_PoSList.Size = new System.Drawing.Size(267, 341);
             this.tv_PoSList.TabIndex = 0;
             // 
             // tv_APIList
@@ -53,12 +53,12 @@
             this.tv_APIList.HideSelection = false;
             this.tv_APIList.Location = new System.Drawing.Point(366, 33);
             this.tv_APIList.Name = "tv_APIList";
-            this.tv_APIList.Size = new System.Drawing.Size(262, 276);
+            this.tv_APIList.Size = new System.Drawing.Size(447, 341);
             this.tv_APIList.TabIndex = 1;
             // 
             // b_LinkEm
             // 
-            this.b_LinkEm.Location = new System.Drawing.Point(283, 65);
+            this.b_LinkEm.Location = new System.Drawing.Point(283, 94);
             this.b_LinkEm.Name = "b_LinkEm";
             this.b_LinkEm.Size = new System.Drawing.Size(75, 36);
             this.b_LinkEm.TabIndex = 2;
@@ -68,7 +68,7 @@
             // 
             // b_UnLink
             // 
-            this.b_UnLink.Location = new System.Drawing.Point(283, 142);
+            this.b_UnLink.Location = new System.Drawing.Point(283, 171);
             this.b_UnLink.Name = "b_UnLink";
             this.b_UnLink.Size = new System.Drawing.Size(75, 36);
             this.b_UnLink.TabIndex = 3;
@@ -78,7 +78,7 @@
             // 
             // b_Done
             // 
-            this.b_Done.Location = new System.Drawing.Point(283, 219);
+            this.b_Done.Location = new System.Drawing.Point(283, 248);
             this.b_Done.Name = "b_Done";
             this.b_Done.Size = new System.Drawing.Size(75, 36);
             this.b_Done.TabIndex = 4;
@@ -90,7 +90,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 17);
+            this.label1.Location = new System.Drawing.Point(7, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 16);
             this.label1.TabIndex = 5;
@@ -110,7 +110,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 321);
+            this.ClientSize = new System.Drawing.Size(820, 379);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.b_Done);

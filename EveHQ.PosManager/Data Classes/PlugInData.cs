@@ -25,7 +25,7 @@ namespace EveHQ.PosManager
         public string PoSBase_Path;
         public string PoSCache_Path;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.12.0.705";
+        public string LastCacheRefresh = "1.12.0.709";
         public static ManualResetEvent[] resetEvents;
         SystemSovList SL = new SystemSovList();
         AllianceList AL = new AllianceList();
@@ -83,6 +83,8 @@ namespace EveHQ.PosManager
                 resetEvents[1] = new ManualResetEvent(false);
                 resetEvents[2] = new ManualResetEvent(false);
                 resetEvents[5] = new ManualResetEvent(false);
+                resetEvents[3] = new ManualResetEvent(true);
+                resetEvents[4] = new ManualResetEvent(true);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(TL.PopulateTowerListing), LastCacheRefresh);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ML.PopulateModuleListing));
                 ThreadPool.QueueUserWorkItem(new WaitCallback(CL.PopulateCategoryList));
@@ -93,10 +95,14 @@ namespace EveHQ.PosManager
                 resetEvents[0] = new ManualResetEvent(true);
                 resetEvents[1] = new ManualResetEvent(true);
                 resetEvents[2] = new ManualResetEvent(true);
+                resetEvents[3] = new ManualResetEvent(true);
+                resetEvents[4] = new ManualResetEvent(true);
                 resetEvents[5] = new ManualResetEvent(true);
             }
 
             // Load any API data - it could be updated or time for an update, so check
+            WaitHandle.WaitAll(resetEvents);
+
             resetEvents[3] = new ManualResetEvent(false);
             resetEvents[4] = new ManualResetEvent(false);
             ThreadPool.QueueUserWorkItem(new WaitCallback(SL.LoadSovListFromAPI));

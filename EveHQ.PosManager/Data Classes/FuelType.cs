@@ -60,6 +60,16 @@ namespace EveHQ.PosManager
             Qty = GetFuelQtyForPeriod(sov, cap, used) * period;
         }
 
+        public void SetFuelQtyForPeriodFromCurrent(decimal sov, decimal cap, decimal used, decimal period, decimal cVal)
+        {
+            decimal newVal = GetFuelQtyForPeriod(sov, cap, used) * period;
+
+            if (newVal > cVal)
+                Qty = (newVal - cVal);
+            else
+                Qty = 0;
+        }
+
         public void DecrementFuelQtyForPeriod(decimal period, decimal sov, decimal cap, decimal used)
         {
             Qty = Math.Max((Qty - (GetFuelQtyForPeriod(sov, cap, used) * period)), 0);

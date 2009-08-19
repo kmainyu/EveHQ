@@ -37,8 +37,41 @@ namespace EveHQ.PosManager
         public MT_Bonus Bonuses;
         public ArrayList Extra;
 
+        // Variables for Reactions, Mining, Etc..
+        public ArrayList MSRList;       // Possible Minerals
+        public ArrayList ReactList;     // Possible Reactions
+        public ArrayList InputList;     // Inputs - Module IDs, etc for each input
+        public ArrayList OutputList;    // Outputs - Module IDs, etc for each input
+
+        public Reaction selReact;       // Selected Reaction
+        public MoonSiloReactMineral selMineral; // Selected Mineral
+
+        public decimal ModuleID;        // Unique Module ID
+
+        // 0 = undefined
+        // 1 = Harvest, 2 = Std Silo, 3 = Std React, 4 = Complex React, 5 = Std Bio React
+        // 6 = Complx Bio React, 7 = Hybrid React, 8 = Bio Silo, ...
+        public decimal ModType;         // Module Type
+
+        // 0 = undefined
+        // 1 = Full, 2 = Empty
+        public decimal WarnOn;          // When to warn about module fill amount / cap used
+        public decimal FillEmptyTime;   // Time until module if full or Empty
+        public decimal CapVol;         // How full the module might be
+        public decimal CapQty;         // How full the module might be
+        public decimal MaxQty;         // How much the module can hold
+
         public Module()
         {
+            selReact = new Reaction();
+            selMineral = new MoonSiloReactMineral();
+            ModuleID = 0;
+            ModType = 0;
+            CapVol = 0;
+            CapQty = 0;
+            MaxQty = 0;
+            FillEmptyTime = 0;
+            WarnOn = 0;
             Armor = new Defense(0, 0, 0, 0, 0);
             Shield = new Defense(0, 0, 0, 0, 0);
             Struct = new Defense(0, 0, 0, 0, 0);
@@ -105,11 +138,24 @@ namespace EveHQ.PosManager
             MissileRange = 0;
             Charges = new ArrayList();
             ChargeList = new ArrayList();
+            MSRList = new ArrayList();
+            ReactList = new ArrayList();
+            InputList = new ArrayList();
+            OutputList = new ArrayList();
             Extra = new ArrayList();
         }
 
         public Module(Module m)
         {
+            selReact = new Reaction(m.selReact);
+            selMineral = new MoonSiloReactMineral(m.selMineral);
+            ModuleID = m.ModuleID;
+            ModType = m.ModType;
+            CapVol = m.CapVol;
+            CapQty = m.CapQty;
+            MaxQty = m.MaxQty;
+            FillEmptyTime = m.FillEmptyTime;
+            WarnOn = m.WarnOn;
             Armor = new Defense(m.Armor);
             Shield = new Defense(m.Shield);
             Struct = new Defense(m.Struct);
@@ -176,6 +222,10 @@ namespace EveHQ.PosManager
             MissileRange = m.MissileRange;
             Charges = new ArrayList(m.Charges);
             ChargeList = new ArrayList(m.ChargeList);
+            MSRList = new ArrayList(m.MSRList);
+            ReactList = new ArrayList(m.ReactList);
+            InputList = new ArrayList(m.InputList);
+            OutputList = new ArrayList(m.OutputList);
             Extra = new ArrayList(m.Extra);
         }
 

@@ -254,6 +254,24 @@ namespace EveHQ.PosManager
             O2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
         }
 
+        public void SetFuelQtyForPeriodFromCurrent(decimal period, decimal sov_mult, decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u)
+        {
+            EnrUran.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            Oxygen.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            MechPart.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            Coolant.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            Robotics.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+
+            HvyWater.SetFuelQtyForPeriod(sov_mult, cpu_b, cpu_u, period);
+            LiqOzone.SetFuelQtyForPeriod(sov_mult, pow_b, pow_u, period);
+
+            Charters.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            N2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            HeIso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            H2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            O2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+        }
+
         public void SetStrontQtyForPeriod(decimal period, decimal sov_mult)
         {
             Strontium.Qty = Math.Ceiling(Strontium.PeriodQty * sov_mult) * period;
