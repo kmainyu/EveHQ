@@ -354,11 +354,20 @@ Public Class ShipInfoControl
         ' Can we get the pilot from the fitting?
         Dim fit As ArrayList = CType(Fittings.FittingList(ShipFit), ArrayList)
         If cboPilots.Items.Count > 0 Then
-            If fit(0).ToString.StartsWith("#Pilot#") And Settings.HQFSettings.UseLastPilot = True Then
-                Dim selPilot As String = fit(0).ToString.TrimStart("#Pilot#".ToCharArray)
-                If cboPilots.Items.Contains(selPilot) = True Then
-                    cboPilots.SelectedItem = selPilot
+            If fit.Count > 0 Then
+                If fit(0).ToString.StartsWith("#Pilot#") And Settings.HQFSettings.UseLastPilot = True Then
+                    Dim selPilot As String = fit(0).ToString.TrimStart("#Pilot#".ToCharArray)
+                    If cboPilots.Items.Contains(selPilot) = True Then
+                        cboPilots.SelectedItem = selPilot
+                    Else
+                        If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
+                            cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+                        Else
+                            cboPilots.SelectedIndex = 0
+                        End If
+                    End If
                 Else
+                    ' Look at the settings for default pilot
                     If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
                         cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
                     Else
