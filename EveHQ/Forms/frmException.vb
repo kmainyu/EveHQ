@@ -75,10 +75,6 @@ Public Class frmException
 
     Private Sub frmException_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         btnSend.Enabled = EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled
-        Try
-            My.Computer.Audio.Play(My.Resources.doh3, AudioPlayMode.Background)
-        Catch ex As Exception
-        End Try
     End Sub
 
     Private Sub btnContinue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContinue.Click

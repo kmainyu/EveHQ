@@ -1,7 +1,7 @@
 EveHQ - Version History
 -----------------------
 
-1.13.0.798 (18/08/2009)
+1.13.0.805 (20/08/2009)
 ----------
 New Features:
 - EveHQ Dashboard: New screen within the core application giving relevant pilot information
@@ -39,6 +39,21 @@ Improvements:
 - HQF: Boosters are now implemented via a new tab under the ship slot control
 - HQF: Added new setting for restoring last used pilot for each fitting in the last HQF session
 - Item Browser: Added insurance tab for ships
+- POS: Negative Values removed from Totals display – only displays what you need to take.
+- POS: Added the ability to change the level of information displayed in the copy of data from Selected and ALL POS displays, streamlined data to allow for greater amount to be pasted into eve-mail. Note: This is limited to 2-4 towers, just based on text limits in Eve:
+- POS: Added the ability to multi-select towers in the Monitored list on this screen. The Selected POS List will be a total of the selected towers. (CTRL+Click and SHIFT+Click for multi-selection).
+- POS: Added a new checkbox – Ignore Current Fuel, when checked (default is always Un-checked) this will not account for current fuel in towers. This when checked can be used to determine how much fuel a given set (or list, or all) of the towers will need for a given amount of time.
+- POS: Added a new Data-Grid column that will show the amount of time a tower will run on the selected fuel amount. Most relevant for the ‘Fill’ option.
+- POS: Moved some buttons around on the screen for better usability.
+- POS: The calculations for POS DPS were not correct, these have now been updated to correctly account for stacked (Qty > 1) modules
+- POS: Added Reaction Manager
+- POS: Monitor: Use Charters Checkbox is no longer changeable by clicking - it will automatically get set based upon the Tower System location and security level
+- POS: Monitor: API link dialog updated to also display on the API side the given tower name and LINKED text if a tower is already linked
+- POS: Designer: Data display format has been re-organized to allow for the action buttons to be placed into the toolbar along the top for greater flexibility
+- POS: Designer: A Tower Export Button has been added – click the button, then you can paste the tower design (Copy/Paste)
+- POS: Designer: Module display – text information has been updated to now include module Volume (transport) and module storage capacity
+- POS: Designer: You can now select the fuel interval desired, this will let you create and design a tower for setup with a specific target amount of fuel (Up to maximum fuel bay capacity)
+- POS: Desinger: Now allows for selecting tower location: System, Moon, Corp, and Sov levels. If the tower is linked, SOV will be updated whenever the API gets updated
 - Prism: Extended CorpRep info in API Status tooltip
 - Prism: Added facility to remove Prism API data
 Fixes:
@@ -62,6 +77,10 @@ Fixes:
 - HQF: Gas Cloud Harvesting skill now correctly increases the number of usable harvesters
 - HQF: Fixed crash in module filters when changing fittings
 - HQF: Succubus now contains it's 100% role damage bonus
+- POS: Load time bug causing a possible drop of EveHQ while the PoS Manager module is loading à Caused by a file access conflict.
+- POS: Various file access conflicts have been resolved to the best of my ability. If you find a new one, please let me know.
+- POS: Damage Calculation Errors
+- POS: Heavy Water and Liquid Ozone fuel usage errors.
 
 
 1.12.1.740 (16/07/2009)
