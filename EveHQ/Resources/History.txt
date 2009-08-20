@@ -77,10 +77,10 @@ Fixes:
 - HQF: Gas Cloud Harvesting skill now correctly increases the number of usable harvesters
 - HQF: Fixed crash in module filters when changing fittings
 - HQF: Succubus now contains it's 100% role damage bonus
-- POS: Load time bug causing a possible drop of EveHQ while the PoS Manager module is loading à Caused by a file access conflict.
-- POS: Various file access conflicts have been resolved to the best of my ability. If you find a new one, please let me know.
+- POS: Load time bug causing a possible drop of EveHQ while the PoS Manager module is loading à Caused by a file access conflict
+- POS: Various file access conflicts have been resolved to the best of my ability. If you find a new one, please let me know
 - POS: Damage Calculation Errors
-- POS: Heavy Water and Liquid Ozone fuel usage errors.
+- POS: Heavy Water and Liquid Ozone fuel usage errors
 
 
 1.12.1.740 (16/07/2009)

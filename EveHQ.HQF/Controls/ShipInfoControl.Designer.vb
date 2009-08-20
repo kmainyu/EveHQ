@@ -187,6 +187,7 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.pbCPU)
         Me.Panel1.Controls.Add(Me.lblPGReqd)
         Me.Panel1.Controls.Add(Me.lblCPUReqd)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
@@ -595,6 +596,8 @@ Partial Class ShipInfoControl
         Me.progCalibration.Size = New System.Drawing.Size(206, 10)
         Me.progCalibration.StartColor = System.Drawing.Color.LimeGreen
         Me.progCalibration.TabIndex = 32
+        Me.progCalibration.TextColor = System.Drawing.Color.Black
+        Me.progCalibration.TextOverlay = ""
         Me.progCalibration.Value = 50
         '
         'progPG
@@ -607,6 +610,8 @@ Partial Class ShipInfoControl
         Me.progPG.Size = New System.Drawing.Size(206, 10)
         Me.progPG.StartColor = System.Drawing.Color.LimeGreen
         Me.progPG.TabIndex = 31
+        Me.progPG.TextColor = System.Drawing.Color.Black
+        Me.progPG.TextOverlay = ""
         Me.progPG.Value = 50
         '
         'progCPU
@@ -619,6 +624,8 @@ Partial Class ShipInfoControl
         Me.progCPU.Size = New System.Drawing.Size(206, 10)
         Me.progCPU.StartColor = System.Drawing.Color.LimeGreen
         Me.progCPU.TabIndex = 30
+        Me.progCPU.TextColor = System.Drawing.Color.Black
+        Me.progCPU.TextOverlay = ""
         Me.progCPU.Value = 50
         '
         'line2
