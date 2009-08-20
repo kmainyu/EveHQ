@@ -67,12 +67,28 @@ namespace VistaStyleProgressBar
 				/// </summary>
 				private void InitializeComponent()
 				{
-					// 
-					// ProgressBar
-					// 
-					this.Name = "ProgressBar";
-					this.Size = new System.Drawing.Size(264, 32);
-					this.Paint +=new PaintEventHandler(ProgressBar_Paint);
+                    this.l_TextDisplay = new System.Windows.Forms.Label();
+                    this.SuspendLayout();
+                    // 
+                    // l_TextDisplay
+                    // 
+                    this.l_TextDisplay.BackColor = System.Drawing.Color.Transparent;
+                    this.l_TextDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+                    this.l_TextDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    this.l_TextDisplay.Location = new System.Drawing.Point(0, 0);
+                    this.l_TextDisplay.Name = "l_TextDisplay";
+                    this.l_TextDisplay.Size = new System.Drawing.Size(264, 32);
+                    this.l_TextDisplay.TabIndex = 0;
+                    this.l_TextDisplay.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+                    // 
+                    // ProgressBar
+                    // 
+                    this.Controls.Add(this.l_TextDisplay);
+                    this.Name = "ProgressBar";
+                    this.Size = new System.Drawing.Size(264, 32);
+                    this.Paint += new System.Windows.Forms.PaintEventHandler(this.ProgressBar_Paint);
+                    this.ResumeLayout(false);
+
 				}
 
 			#endregion
@@ -84,31 +100,68 @@ namespace VistaStyleProgressBar
 			private int mGlowPosition = -325;
 			private Timer mGlowAnimation = new Timer();
 
-			#region -  Value  -
+            #region -  Text Overlay -
 
-				private int mValue = 0;
-				/// <summary>
-				/// The value that is displayed on the progress bar.
-				/// </summary>
-				[Category("Value"), 
-				DefaultValue(0),
-				Description("The value that is displayed on the progress bar.")]
-				public int Value
-				{
-					get { return mValue; }
-					set 
-					{ 
-						if (value > MaxValue || value < MinValue){ return; }
-						mValue = value;
-						if (value < MaxValue) {mGlowAnimation.Start();}
-						if (value == MaxValue) {mGlowAnimation.Stop();}
-						ValueChangedHandler vc = ValueChanged;
-						if (vc != null){vc(this, new System.EventArgs());}
-						this.Invalidate(); 
-					}
-				}
-								
-				private int mMaxValue = 100;
+                private string mTextOverlay = "";
+                /// <summary>
+                /// The Text that is displayed on the progress bar.
+                /// </summary>
+                [Category("Bar"),
+                DefaultValue(0),
+                Description("The text that is displayed on the progress bar.")]
+                public string TextOverlay
+                {
+                    get { return mTextOverlay; }
+                    set
+                    {
+                        mTextOverlay = value;
+                    }
+                }
+
+                private Color mTextColor = Color.Black;
+                /// <summary>
+                /// The Text Color.
+                /// </summary>
+                [Category("Bar"),
+                DefaultValue(0),
+                Description("The text Color displayed on the progress bar.")]
+                public Color TextColor
+                {
+                    get { return mTextColor; }
+                    set
+                    {
+                        mTextColor = value;
+                    }
+                }
+
+               
+            #endregion
+
+            #region -  Value  -
+
+                private int mValue = 0;
+                /// <summary>
+                /// The value that is displayed on the progress bar.
+                /// </summary>
+                [Category("Value"),
+                DefaultValue(0),
+                Description("The value that is displayed on the progress bar.")]
+                public int Value
+                {
+                    get { return mValue; }
+                    set
+                    {
+                        if (value > MaxValue || value < MinValue) { return; }
+                        mValue = value;
+                        if (value < MaxValue) { mGlowAnimation.Start(); }
+                        if (value == MaxValue) { mGlowAnimation.Stop(); }
+                        ValueChangedHandler vc = ValueChanged;
+                        if (vc != null) { vc(this, new System.EventArgs()); }
+                        this.Invalidate();
+                    }
+                }
+
+                private int mMaxValue = 100;
 				/// <summary>
 				/// The maximum value for the Value property.
 				/// </summary>
@@ -226,6 +279,7 @@ namespace VistaStyleProgressBar
 				}
 
 				private bool mAnimate = true;
+                private Label l_TextDisplay;
 				/// <summary>
 				/// Whether the glow is animated.
 				/// </summary>
@@ -437,6 +491,8 @@ namespace VistaStyleProgressBar
 				DrawInnerStroke(e.Graphics);
 				DrawGlow(e.Graphics);
 				DrawOuterStroke(e.Graphics);
+                l_TextDisplay.ForeColor = mTextColor;
+                l_TextDisplay.Text = mTextOverlay;
 			}
 
 			private void mGlowAnimation_Tick(object sender, EventArgs e)
