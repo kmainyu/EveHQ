@@ -74,26 +74,26 @@ Public Class PlugInData
                 Return False
             End If
         End If
-        careerData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareers")
-        If careerData Is Nothing Then
-            MessageBox.Show("chrCareers table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            If careerData.Tables(0).Rows.Count = 0 Then
-                MessageBox.Show("chrCareers table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
-        specData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialities")
-        If specData Is Nothing Then
-            MessageBox.Show("chrCareerSpec table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            If specData.Tables(0).Rows.Count = 0 Then
-                MessageBox.Show("chrCareerSpec table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
+        'careerData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareers")
+        'If careerData Is Nothing Then
+        '    MessageBox.Show("chrCareers table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    Return False
+        'Else
+        '    If careerData.Tables(0).Rows.Count = 0 Then
+        '        MessageBox.Show("chrCareers table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Return False
+        '    End If
+        'End If
+        'specData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialities")
+        'If specData Is Nothing Then
+        '    MessageBox.Show("chrCareerSpec table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    Return False
+        'Else
+        '    If specData.Tables(0).Rows.Count = 0 Then
+        '        MessageBox.Show("chrCareerSpec table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Return False
+        '    End If
+        'End If
         raceSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaceSkills")
         If raceSkillData Is Nothing Then
             MessageBox.Show("chrRaceSkills table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

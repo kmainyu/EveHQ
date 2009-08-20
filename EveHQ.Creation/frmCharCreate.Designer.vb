@@ -52,8 +52,6 @@ Partial Class frmCharCreate
         Me.colRace = New System.Windows.Forms.ColumnHeader
         Me.colBlood = New System.Windows.Forms.ColumnHeader
         Me.colAncestry = New System.Windows.Forms.ColumnHeader
-        Me.colCareer = New System.Windows.Forms.ColumnHeader
-        Me.colSpec = New System.Windows.Forms.ColumnHeader
         Me.colC = New System.Windows.Forms.ColumnHeader
         Me.colI = New System.Windows.Forms.ColumnHeader
         Me.colM = New System.Windows.Forms.ColumnHeader
@@ -409,7 +407,7 @@ Partial Class frmCharCreate
         '
         'lvwChars
         '
-        Me.lvwChars.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNo, Me.colRace, Me.colBlood, Me.colAncestry, Me.colCareer, Me.colSpec, Me.colC, Me.colI, Me.colM, Me.colP, Me.colW, Me.colSkillpoints})
+        Me.lvwChars.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNo, Me.colRace, Me.colBlood, Me.colAncestry, Me.colC, Me.colI, Me.colM, Me.colP, Me.colW, Me.colSkillpoints})
         Me.lvwChars.ContextMenuStrip = Me.ctxChars
         Me.lvwChars.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwChars.FullRowSelect = True
@@ -438,15 +436,6 @@ Partial Class frmCharCreate
         '
         Me.colAncestry.Text = "Ancestry"
         Me.colAncestry.Width = 120
-        '
-        'colCareer
-        '
-        Me.colCareer.Text = "Career"
-        '
-        'colSpec
-        '
-        Me.colSpec.Text = "Speciality"
-        Me.colSpec.Width = 120
         '
         'colC
         '
@@ -1007,8 +996,6 @@ Partial Class frmCharCreate
     Friend WithEvents colRace As System.Windows.Forms.ColumnHeader
     Friend WithEvents colBlood As System.Windows.Forms.ColumnHeader
     Friend WithEvents colAncestry As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCareer As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colSpec As System.Windows.Forms.ColumnHeader
     Friend WithEvents colC As System.Windows.Forms.ColumnHeader
     Friend WithEvents colI As System.Windows.Forms.ColumnHeader
     Friend WithEvents colM As System.Windows.Forms.ColumnHeader
