@@ -1,5 +1,19 @@
 EveHQ - Version History
 -----------------------
+1.13.1.812 (22/08/2009)
+----------
+Fixes & Improvements:
+- Core: Removed message dialog when moving queued skills
+- Core: Changed font of Ticker control to Tahoma
+- Core: Fixed Implant and Neural Remap buttons not activating when selecting a skill queue
+- HQF: Fixed scrolling issue with HQF ShipInfoPanel
+- HQF: Ammo reload times no longer apply to Energy weapons
+- Item Browser: Fixed error where an item in the Wanted List could not be identified
+- POS: Fixed several run time crash issues
+- POS: Fixed the POS Tower Copy ability - it was not working near correctly causing heavy data corruption
+- POS: Got times and a summary display for Silo capacity Tracking
+- POS: Beginnings for a notification capability have been added
+- POS: Improved tower location detection for API Input
 
 1.13.0.805 (20/08/2009)
 ----------
