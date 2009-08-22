@@ -2230,7 +2230,9 @@ Public Class Engine
                                         ' Adjust for reload time if required
                                         Dim reloadEffect As Double = 0
                                         If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
-                                            reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                            If cModule.DatabaseGroup <> "53" Then
+                                                reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                            End If
                                         End If
                                         dgmMod = CDbl(cModule.Attributes("10014")) + CDbl(cModule.Attributes("10015")) + CDbl(cModule.Attributes("10016"))
                                         ROF = CDbl(cModule.Attributes("10011")) + CDbl(cModule.Attributes("10012")) + CDbl(cModule.Attributes("10013")) + reloadEffect
