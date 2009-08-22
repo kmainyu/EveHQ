@@ -2077,13 +2077,24 @@ Public Class frmItemBrowser
     Private Sub DrawWantedList()
         lvwWanted.BeginUpdate()
         lvwWanted.Items.Clear()
+        Dim UnknownItems As New ArrayList
         For Each item As String In EveHQ.Core.HQ.EveHQSettings.WantedList.Keys
-            Dim newItem As New ListViewItem
-            newItem.Name = item
-            newItem.Text = item
-            newItem.SubItems.Add(FormatNumber(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(item)), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            lvwWanted.Items.Add(newItem)
+            If EveHQ.Core.HQ.itemList.ContainsKey(item) = True Then
+                Dim newItem As New ListViewItem
+                newItem.Name = item
+                newItem.Text = item
+                newItem.SubItems.Add(FormatNumber(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(item)), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lvwWanted.Items.Add(newItem)
+            Else
+                MessageBox.Show(item & " does not appear to be a valid item and will be removed from the Wanted List.", "Unknown Item", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                UnknownItems.Add(item)
+            End If
         Next
+        If UnknownItems.Count > 0 Then
+            For Each unknownItem As String In UnknownItems
+                EveHQ.Core.HQ.EveHQSettings.WantedList.Remove(unknownItem)
+            Next
+        End If
         lvwWanted.EndUpdate()
     End Sub
     Private Sub lvwWanted_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwWanted.Click
