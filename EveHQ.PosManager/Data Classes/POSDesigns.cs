@@ -174,20 +174,25 @@ namespace EveHQ.PosManager
             SaveDesignListing();
         }
 
-        public void CalculatePOSReactions()
+        public bool CalculatePOSReactions()
         {
+            bool changed = false, anyChange = false;
             // This function will calculate the fuel run times for the current
             // monitored POS list if the PoS has a timestamp for monitoring set.
             foreach (POS pl in Designs)
             {
                 if (pl.Monitored)
                 {
-                    pl.CalculateReactions();
+                    changed = pl.CalculateReactions();
+                    if (changed)
+                        anyChange = true;
                 }
             }
             // To be added at some point will be input from a Corp API download for
             // current PoS status, values, etc...
             SaveDesignListing();
+
+            return anyChange;
         }
 
 

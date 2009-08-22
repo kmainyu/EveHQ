@@ -19,8 +19,9 @@ namespace EveHQ.PosManager
 
         private void PopulateTowersFromAPI_Load(object sender, EventArgs e)
         {
-            string pos_name;
+            string pos_name, strSQL, loc;
             bool present = false;
+            DataSet locData;
 
             rb_Offline.Checked = true;
             cbx_Monitored.Checked = true;
@@ -40,6 +41,17 @@ namespace EveHQ.PosManager
 
                 if (!present)
                 {
+                    // Get Table With Tower or Tower Item Information
+                    if (apid.locName == "Unknown")
+                    {
+                        strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.towerLocation + ";";
+                        locData = EveHQ.Core.DataFunctions.GetData(strSQL);
+                        loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                        apid.locName = loc;
+                        myData.API_D.UpdateListAPI(apid);
+                        myData.API_D.SaveAPIListing();
+                    }
+
                     pos_name = apid.corpName + " --> " + apid.locName + ", " + apid.towerName + " [" + apid.itemID + "]";
                     clb_TowerListing.Items.Add(pos_name);
                 }

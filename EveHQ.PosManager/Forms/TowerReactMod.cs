@@ -52,6 +52,7 @@ namespace EveHQ.PosManager
 
             // Build the R-Click Menu list here
             l_ExtraInfo.Text = "";
+            l_RunTime.Text = "";
             if (ReactMod.Category == "Silo")
             {
                 if ((ReactMod.Name == "Silo") || (ReactMod.Name == "Coupling Array"))
@@ -87,27 +88,14 @@ namespace EveHQ.PosManager
                     }
                 }
 
-                if (ReactMod.Name == "Silo")
-                {
-                    gb_WarnOn.Show();
-                    pb_FillLevel.Show();
-                    b_SetEmpty.Show();
-                    b_SetFill.Show();
-                    b_SetFull.Show();
-                    ShowHideInOut();
+                pb_FillLevel.Show();
+                b_SetEmpty.Show();
+                b_SetFill.Show();
+                b_SetFull.Show();
+                ShowHideInOut();
 
-                    // Need to set proper values for the various components to display
-                    ComputeAndShowFillLevels();
-                }
-                else
-                {
-                    gb_WarnOn.Hide();
-                    pb_FillLevel.Hide();
-                    b_SetEmpty.Hide();
-                    b_SetFill.Hide();
-                    b_SetFull.Hide();
-                    ShowHideInOut();
-                }
+                // Need to set proper values for the various components to display
+                ComputeAndShowFillLevels();
             }
             else if (ReactMod.Category == "Moon Mining")
             {
@@ -117,7 +105,6 @@ namespace EveHQ.PosManager
                 {
                     CM_MinReactSel.Items.Add(msr.name);
                 }
-                gb_WarnOn.Hide();
                 pb_FillLevel.Hide();
                 b_SetEmpty.Hide();
                 b_SetFill.Hide();
@@ -131,7 +118,6 @@ namespace EveHQ.PosManager
                 {
                     CM_MinReactSel.Items.Add(r.reactName);
                 }
-                gb_WarnOn.Hide();
                 pb_FillLevel.Hide();
                 b_SetEmpty.Hide();
                 b_SetFill.Hide();
@@ -158,8 +144,7 @@ namespace EveHQ.PosManager
             pb_FillLevel.TextOverlay = CapText;
 
             // In/Out Warn Setting
-
-
+            l_RunTime.Text = myData.ConvertReactionHoursToTextDisplay(ReactMod.FillEmptyTime);
         }
 
         private void ShowHideInOut()
@@ -307,7 +292,6 @@ namespace EveHQ.PosManager
         {
             MoonSiloReactMineral ir, or;
             int ioCnt = 0;
-            int selTyp = 0;
 
             l_ExtraInfo.Text = react;
             if (isMin)
@@ -320,11 +304,6 @@ namespace EveHQ.PosManager
                 output1.Show();
                 output1.BackgroundImage = myData.GetIcon(ReactMod.selMineral.icon);
                 toolTip1.SetToolTip(output1, ReactMod.selMineral.name);
-
-                if(overWrt)
-                    selTyp = 11;
-                else
-                    selTyp = 1;
             }
             else
             {
@@ -400,12 +379,7 @@ namespace EveHQ.PosManager
                             break;
                     }
                 }
-                if (overWrt)
-                    selTyp = 12;
-                else
-                    selTyp = 2;
             }
-            myData.TowerReactModuleUpdated(ReactMod, selTyp, 0, "");
         }
 
         private void CM_MinReactSel_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -434,6 +408,10 @@ namespace EveHQ.PosManager
 
                 SetItemSelectedIcon(react, true, overWrite);
                 ComputeAndShowFillLevels();
+                if(overWrite)
+                    myData.TowerReactModuleUpdated(ReactMod, 11, 0, "");
+                else
+                    myData.TowerReactModuleUpdated(ReactMod, 1, 0, "");
             }
             else
             {
@@ -442,6 +420,10 @@ namespace EveHQ.PosManager
 
                 ReactMod.selReact = new Reaction(nr);
                 SetItemSelectedIcon(react, false, overWrite);
+                if (overWrite)
+                    myData.TowerReactModuleUpdated(ReactMod, 12, 0, "");
+                else
+                    myData.TowerReactModuleUpdated(ReactMod, 2, 0, "");
             }
         }
 

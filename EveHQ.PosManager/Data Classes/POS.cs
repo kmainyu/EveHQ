@@ -85,17 +85,28 @@ namespace EveHQ.PosManager
             locID = p.locID;
             corpID = p.corpID;
             SovLevel = p.SovLevel;
-            Modules = new ArrayList(p.Modules);
+
+            Modules = new ArrayList();
+            foreach(Module m in p.Modules)
+                Modules.Add(new Module(m));
+
             Monitored = p.Monitored;
             Fuel_TS = p.Fuel_TS;
             Stront_TS = p.Stront_TS;
             API_TS = p.API_TS;
             React_TS = p.React_TS;
-            Extra = new ArrayList(p.Extra);
+            Extra = new ArrayList();
+            foreach (Object o in p.Extra)
+                Extra.Add(o);
+
             FillCheck = p.FillCheck;
             UseChart = p.UseChart;
-            if(p.ReactionLinks != null)
-                ReactionLinks = new ArrayList(p.ReactionLinks);
+            if (p.ReactionLinks != null)
+            {
+                ReactionLinks = new ArrayList();
+                foreach (ReactionLink rl in p.ReactionLinks)
+                    ReactionLinks.Add(new ReactionLink(rl));
+            }
             else
                 ReactionLinks = new ArrayList();
         }
@@ -111,17 +122,28 @@ namespace EveHQ.PosManager
             locID = p.locID;
             corpID = p.corpID;
             SovLevel = p.SovLevel;
-            Modules = new ArrayList(p.Modules);
+
+            Modules = new ArrayList();
+            foreach (Module m in p.Modules)
+                Modules.Add(new Module(m));
+
             Monitored = p.Monitored;
             Fuel_TS = p.Fuel_TS;
             Stront_TS = p.Stront_TS;
             API_TS = p.API_TS;
             React_TS = p.React_TS;
-            Extra = new ArrayList(p.Extra);
+            Extra = new ArrayList();
+            foreach (Object o in p.Extra)
+                Extra.Add(o);
+
             FillCheck = p.FillCheck;
             UseChart = p.UseChart;
             if (p.ReactionLinks != null)
-                ReactionLinks = new ArrayList(p.ReactionLinks);
+            {
+                ReactionLinks = new ArrayList();
+                foreach (ReactionLink rl in p.ReactionLinks)
+                    ReactionLinks.Add(new ReactionLink(rl));
+            }
             else
                 ReactionLinks = new ArrayList();
         }
@@ -160,17 +182,28 @@ namespace EveHQ.PosManager
             locID = p.locID;
             corpID = p.corpID;
             SovLevel = p.SovLevel;
-            Modules = new ArrayList(p.Modules);
+
+            Modules = new ArrayList();
+            foreach (Module m in p.Modules)
+                Modules.Add(new Module(m));
+
             Monitored = p.Monitored;
             Fuel_TS = p.Fuel_TS;
             Stront_TS = p.Stront_TS;
             API_TS = p.API_TS;
             React_TS = p.React_TS;
-            Extra = new ArrayList(p.Extra);
+            Extra = new ArrayList();
+            foreach (Object o in p.Extra)
+                Extra.Add(o);
+
             FillCheck = p.FillCheck;
             UseChart = p.UseChart;
             if (p.ReactionLinks != null)
-                ReactionLinks = new ArrayList(p.ReactionLinks);
+            {
+                ReactionLinks = new ArrayList();
+                foreach (ReactionLink rl in p.ReactionLinks)
+                    ReactionLinks.Add(new ReactionLink(rl));
+            }
             else
                 ReactionLinks = new ArrayList();
         }
@@ -593,18 +626,19 @@ namespace EveHQ.PosManager
             return run_time;
         }
 
-        public void CalculateReactions()
+        public bool CalculateReactions()
         {
             DateTime C_TimeStamp;
             TimeSpan D_TimeStamp;
             int hours;
-            bool inpValid, outValid;
+            bool inpValid, outValid, changed = false;
 
             C_TimeStamp = DateTime.Now;
             D_TimeStamp = C_TimeStamp.Subtract(React_TS);
 
             if (D_TimeStamp.Hours > 0)
             {
+                changed = true;
                 // It has been at least an hour since the last update - set quantity values appropriately
                 // Store hours expired
                 hours = D_TimeStamp.Hours;
@@ -689,7 +723,7 @@ namespace EveHQ.PosManager
                                     }
 
                                     if (!inpValid) // Not all inputs are available - get out
-                                        return;
+                                        return false;
 
                                     outValid = false;
 
@@ -760,7 +794,7 @@ namespace EveHQ.PosManager
                                     }
 
                                     if (!outValid) // An output location cannot accept the Qty - leave here
-                                        return;
+                                        return false;
 
                                     // Now repeat above while changing Qty/Vol values
                                     foreach (InOutData iod in m.selReact.inputs)
@@ -832,7 +866,7 @@ namespace EveHQ.PosManager
                                                             m.CapQty -= rl.XferQty;
                                                             om.CapQty += rl.XferQty;
                                                             m.CapVol -= rl.XferVol;
-                                                            om.CapVol -= rl.XferVol;
+                                                            om.CapVol += rl.XferVol;
                                                         }
                                                     }
                                                     break;
@@ -850,6 +884,7 @@ namespace EveHQ.PosManager
                     }
                 }
             }
+            return changed;
         }
     }
 }

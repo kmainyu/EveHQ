@@ -42,6 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\AddPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddPlayer.Designer.cs">
+      <DependentUpon>AddPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data Classes\AllianceList.cs" />
     <Compile Include="Data Classes\Alliance_Data.cs" />
     <Compile Include="Data Classes\DamageProfile.cs" />
@@ -99,6 +105,16 @@
     <Compile Include="Forms\PopulateTowersFromAPI.Designer.cs">
       <DependentUpon>PopulateTowersFromAPI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Notification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Notification.Designer.cs">
+      <DependentUpon>Notification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data Classes\NotificationList.cs" />
+    <Compile Include="Data Classes\Player.cs" />
+    <Compile Include="Data Classes\PlayerList.cs" />
+    <Compile Include="Data Classes\PosNotify.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -133,6 +149,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\AddPlayer.resx">
+      <DependentUpon>AddPlayer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Notification.resx">
+      <DependentUpon>Notification.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PoSManMainForm.resx">
       <DependentUpon>PoSManMainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

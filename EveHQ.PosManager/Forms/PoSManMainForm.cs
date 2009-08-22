@@ -33,6 +33,8 @@ namespace EveHQ.PosManager
         public DPListing DPLst = new DPListing();       // Damage Profile Listing
         public AllianceList AL = new AllianceList();
         public SystemList SL = new SystemList();
+        public PlayerList PL = new PlayerList();
+        public NotificationList NL = new NotificationList();
         Configuration Config = new Configuration();
         public static BackgroundWorker apiWorker;
         PoS_Item api;
@@ -47,7 +49,7 @@ namespace EveHQ.PosManager
         private string Mon_dg_Pos = "";
         private string selName, AllPosFillText, SelPosFillText, SelReactPos;
         public string CurrentName = "", NewName = "";
-        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, fHrs, sHrs, hCPU, hPow, hIso };
+        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, React, fHrs, sHrs, hCPU, hPow, hIso };
         enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost, Cap };
         enum fillDG { Name, Loc, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, RunT };
         enum fuelDG { type, amount, vol, cost };      
@@ -85,9 +87,13 @@ namespace EveHQ.PosManager
             DPLst.LoadDPListing();          // Load Damage Profile List
             SL.LoadSystemListFromDisk();
             AL.LoadAllianceListFromDisk();
+            PL.LoadPlayerList();
+            NL.LoadNotificationList();
 
             PopulateDPList("Omni-Type");
             PopulateSystemList();
+
+            tp_Notifications.Hide();
 
             // Build corp selection listing
             cb_CorpName.Items.Clear();
@@ -142,13 +148,20 @@ namespace EveHQ.PosManager
             tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
             nud_PeriodValue.Value = Config.data.maintPV;
 
-            if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 19))
+            if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 20))
             {
-                Config.data.dgMonBool = new ArrayList();
+                if (Config.data.dgMonBool == null)
+                {
+                    Config.data.dgMonBool = new ArrayList();
 
-                for (int x = 0; x < 19; x++)
-                    Config.data.dgMonBool.Add(true);
-
+                    for (int x = 0; x < 19; x++)
+                        Config.data.dgMonBool.Add(true);
+                }
+                else
+                {
+                    for (int x = Config.data.dgMonBool.Count; x<20; x++)
+                        Config.data.dgMonBool.Add(true);
+                }
                 Config.SaveConfiguration();
             }
             else
@@ -254,14 +267,14 @@ namespace EveHQ.PosManager
                 }
                 SaveConfiguration();
             }
-            else if (tb_PosManager.SelectedIndex == 4) // Configuration
+            else if (tb_PosManager.SelectedIndex == 5) // Configuration
             {
                 // Config Page - Fill in Checkbox States vs. Datagrid states
                 foreach (CheckBox cb in gb_MonPosCol.Controls)
                 {
                     cName = cb.Name;
                     colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
-                    if (colCt < 20)
+                    if (colCt < 21)
                     {
                         dgvc = dg_MonitoredTowers.Columns[colCt - 1];
                         colSt = dgvc.Visible;
@@ -287,6 +300,11 @@ namespace EveHQ.PosManager
             else if (tb_PosManager.SelectedIndex == 3)  // Reaction Manager
             {
                 PopulateTowerModuleDisplay();
+            }
+            else if (tb_PosManager.SelectedIndex == 4)  // Notifications
+            {
+                PopulatePlayerList();
+                PopulateNotificationList();
             }
         }
 
@@ -470,6 +488,44 @@ namespace EveHQ.PosManager
             }
             return retVal;
         }
+
+        public string ConvertReactionHoursToTextDisplay(decimal hours)
+        {
+            string retVal = "";
+            int days;
+
+            hours = Math.Floor(hours);
+
+            if (hours >= 999999)
+            {
+                retVal = "";
+            }
+            else if (hours == 0)
+            {
+                retVal = "Unknown";
+            }
+            else
+            {
+                days = Convert.ToInt32(Math.Truncate(hours / 24));
+
+                if (days > 0)
+                {
+                    retVal = String.Format("{0:0}", days) + " Days";
+                    hours = hours - (days * 24);
+                }
+
+                if ((days > 0) && (hours > 0))
+                    retVal += ", ";
+
+                if (hours > 0)
+                    retVal += String.Format("{0:0}", hours) + " Hrs";
+
+                if ((days <= 0) && (hours <= 0))
+                    retVal = "Zero - Shutdown";
+            }
+            return retVal;
+        }
+
 
 #endregion
 
@@ -2050,7 +2106,10 @@ namespace EveHQ.PosManager
             if (Design.PosTower.typeID != 0)
             {
                 cb_Interval.SelectedIndex = (int)Design.PosTower.Design_Interval;
-                nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
+                if (Design.PosTower.Design_Int_Qty > 0)
+                    nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
+                else
+                    nud_DesFuelPeriod.Value = 1;
                 nud_StrontInterval.Value = Design.PosTower.Design_Stront_Qty;
             }
             else
@@ -2239,11 +2298,14 @@ namespace EveHQ.PosManager
             }
 
             // Update Tower Charter Requirements
-            sd = (Sov_Data)SL.Systems[p.System];
-            if (Decimal.Compare(sd.secLevel, Convert.ToDecimal(0.45)) > 0)
-                p.UseChart = true;
-            else
-                p.UseChart = false;
+            if(SL.Systems.Contains(p.System))
+            {
+                sd = (Sov_Data)SL.Systems[p.System];
+                if (Decimal.Compare(sd.secLevel, Convert.ToDecimal(0.45)) > 0)
+                    p.UseChart = true;
+                else
+                    p.UseChart = false;
+            }
         }
 
         public POS GetPoSListingForPoS(string name)
@@ -2262,13 +2324,53 @@ namespace EveHQ.PosManager
             foreach (POS pl in POSList.Designs)
                 MonSel_L.Add(pl.Name);
         }
-        
+
+        private ArrayList GetLongestSiloRunTime(POS p)
+        {
+            decimal runT = 9999999999999999;
+            string rText, rName = "";
+            ArrayList retVal = new ArrayList();
+
+            foreach (Module m in p.Modules)
+            {
+                switch (Convert.ToInt64(m.ModType))
+                {
+                    case 2:
+                    case 8:
+                    case 9:
+                    case 11:
+                    case 12:
+                    case 13:
+                        if ((m.FillEmptyTime < runT) && (m.State == "Online"))
+                        {
+                            rName = m.selMineral.name;
+                            runT = m.FillEmptyTime;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            rText = ConvertReactionHoursToTextDisplay(runT);
+            if (rText.Length > 0)
+                rText += " <" + rName + ">";
+
+            retVal.Add(runT);
+            retVal.Add(rText);
+
+            return retVal;
+        }
+
         private void PopulateMonitoredPoSDisplay()
         {
             API_Data apid;
             int dg_ind, ind_ct;
-            string line, cache;
+            string line, cache, strSQL, loc;
             DateTime now, cTim;
+            decimal ReactTime = 0;
+            DataSet locData;
+            ArrayList ReactRet;
 
             // dg_MonitoredTowers.Rows.Clear();
 
@@ -2311,6 +2413,17 @@ namespace EveHQ.PosManager
                     if (p.itemID != 0)
                     {
                         apid = API_D.GetAPIDataMemberForTowerID(p.itemID);
+                        // Get Table With Tower or Tower Item Information
+                        if (apid.locName == "Unknown")
+                        {
+                            strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.towerLocation + ";";
+                            locData = EveHQ.Core.DataFunctions.GetData(strSQL);
+                            loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                            apid.locName = loc;
+                            API_D.UpdateListAPI(apid);
+                            API_D.SaveAPIListing();
+                        }
+
                         line = "<" + apid.locName + "> ";
                         line += apid.towerName;
 
@@ -2481,6 +2594,16 @@ namespace EveHQ.PosManager
                     }
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.useC].Value = p.UseChart;
+
+                    ReactRet = GetLongestSiloRunTime(p);
+                    ReactTime = (decimal)ReactRet[0];
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Value = (string)ReactRet[1];
+                    if(ReactTime < 6)
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Style.BackColor = Color.Red;
+                    else if (ReactTime < 24)
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Style.BackColor = Color.Gold;
+                    else
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Style.BackColor = Color.Gainsboro;
 
                 }
             }
@@ -2976,8 +3099,10 @@ namespace EveHQ.PosManager
             timeCheck = true; 
             
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-            POSList.CalculatePOSReactions();
-            SetReactionValuesAndUpdateDisplay();
+            
+            if(POSList.CalculatePOSReactions())
+                SetReactionValuesAndUpdateDisplay();
+    
             PopulateMonitoredPoSDisplay();
             if (Mon_dg_indx >= 0)
             {
@@ -3409,6 +3534,7 @@ namespace EveHQ.PosManager
 
         private void b_CopyPOS_Click(object sender, EventArgs e)
         {
+            POS newCopy;
             POS_Name CpyPos = new POS_Name();
             CpyPos.myData = this;
             CpyPos.NewPOS = false;
@@ -3420,15 +3546,19 @@ namespace EveHQ.PosManager
             if (NewName.Length <= 0)
                 return;
 
-            Design.Name = NewName;
-            CurrentName = NewName;
-            Design.itemID = 0;
-            Design.locID = 0;
+            newCopy = new POS(NewName, Design);
+            newCopy.itemID = 0;
+            newCopy.locID = 0;
+            newCopy.ReactionLinks.Clear();
+            foreach (Module m in newCopy.Modules)
+                CopyMissingReactData(m);
 
+            POSList.AddDesignToList(newCopy);
+            CurrentName = NewName;
             NewName = "";
             this.Focus();
-            POSList.AddDesignToList(Design);
             POSList.SaveDesignListing();
+
             BuildPOSListForMonitoring();
             cb_PoSName.Items.Clear();
             foreach (POS pl in POSList.Designs)
@@ -4430,7 +4560,7 @@ namespace EveHQ.PosManager
             cName = cb.Name;
             colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
 
-            if (colCt < 20)
+            if (colCt < 21)
             {
                 dgvc = dg_MonitoredTowers.Columns[colCt - 1];
                 dgvc.Visible = cb.Checked;
@@ -4517,6 +4647,88 @@ namespace EveHQ.PosManager
 
 #region Reaction Monitor
 
+        public void SetModuleWarnOnValueAndTime()
+        {
+            bool fInp, fOutp;
+            decimal xfIn, xfOut;
+
+            foreach (POS p in POSList.Designs)
+            {
+                foreach (Module m in p.Modules)
+                {
+                    switch (Convert.ToInt64(m.ModType))
+                    {
+                        case 2:
+                        case 8:
+                        case 9:
+                        case 10:
+                        case 11:
+                        case 12:
+                        case 13:
+                            // Silo type module here
+                            fInp = false;
+                            fOutp = false;
+                            xfIn = 0;
+                            xfOut = 0;
+                            foreach (ReactionLink rl in p.ReactionLinks)
+                            {
+                                if (rl.InpID == m.ModuleID)
+                                {
+                                    fInp = true;
+                                    xfIn = rl.XferQty;
+                                }
+
+                                if (rl.OutID == m.ModuleID)
+                                {
+                                    fOutp = true;
+                                    xfOut = rl.XferQty;
+                                }
+                            }
+
+                            if ((fInp) && (!fOutp))
+                            {
+                                // Silo is an input to another module only - WarnOn Empty (2)
+                                m.WarnOn = 2;
+                                m.FillEmptyTime = Math.Floor(m.CapQty / xfIn);
+                            }
+                            else if ((!fInp) && (fOutp))
+                            {
+                                // Silo is an output from another module only - WarnOn Full (1)
+                                m.WarnOn = 1;
+                                m.FillEmptyTime = Math.Floor((m.MaxQty - m.CapQty) / xfOut);
+                            }
+                            else if (fInp && fOutp)
+                            {
+                                if (xfIn >= xfOut)
+                                {
+                                    // Silo is both an input and an output - WarnOn Full (1)
+                                    m.WarnOn = 1;
+                                    if (xfIn > xfOut)
+                                        m.FillEmptyTime = Math.Floor((m.MaxQty - m.CapQty) / (xfIn - xfOut));
+                                    else
+                                        m.FillEmptyTime = 9999999999999;
+                                }
+                                else if (xfOut > xfIn)
+                                {
+                                    // Silo is both an input and an output - WarnOn Empty (2)
+                                    m.WarnOn = 2;
+                                    m.FillEmptyTime = Math.Floor(m.CapQty / (xfOut - xfIn));
+                                }
+                            }
+                            else
+                            {
+                                // Silo is not connected to anything - disable
+                                m.WarnOn = 0;
+                                m.FillEmptyTime = 0;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
         public void SetReactionValuesAndUpdateDisplay()
         {
             // OK, new fill numbers, etc have been set for towers. Now I need to update the display
@@ -4524,6 +4736,8 @@ namespace EveHQ.PosManager
             TowerReactMod tr;
             TreeNode pos;
             decimal sMult;
+
+            SetModuleWarnOnValueAndTime();
 
             pos = tv_ReactManage.SelectedNode;
             if (pos == null)
@@ -4562,7 +4776,8 @@ namespace EveHQ.PosManager
             // Need to populate the tree view with Monitored Towers and Thier applicable modules
             // IE: Silos, Juntions, Reactors, Harvesters
             TreeNode mtn, tn;
-            string posName;
+            string posName, line;
+            bool hasMods = false;
             int towerNum = 1;
 
             tv_ReactManage.Nodes.Clear();
@@ -4577,15 +4792,25 @@ namespace EveHQ.PosManager
                 mtn = tv_ReactManage.Nodes.Add(posName);
                 mtn.Name = "Tower" + towerNum;
                 towerNum++;
+                hasMods = false;
 
                 foreach (Module m in pl.Modules)
                 {
                     if ((m.Category == "Mobile Reactor") || (m.Category == "Moon Mining") ||
                         (m.Category == "Silo"))
                     {
-                        tn = mtn.Nodes.Add(m.Name);
+                        if (m.Category == "Silo")
+                            line = m.Name + " < " + m.CapQty + " / " + m.MaxQty + ">";
+                        else
+                            line = m.Name;
+
+                        tn = mtn.Nodes.Add(line);
+                        hasMods = true;
                     }
                 }
+
+                if (!hasMods)
+                    tv_ReactManage.Nodes.Remove(mtn);
             }
 
         }
@@ -4607,6 +4832,7 @@ namespace EveHQ.PosManager
             // Clear current module display
             p_PosMods.Controls.Clear();
             p_PosMods.Refresh();
+            SetModuleWarnOnValueAndTime();
 
             pos = tv_ReactManage.SelectedNode;
 
@@ -4626,7 +4852,7 @@ namespace EveHQ.PosManager
                         if (((m.Category == "Mobile Reactor") || (m.Category == "Moon Mining") ||
                             (m.Category == "Silo")) && (m.State == "Online"))
                         {
-                            trm = new TowerReactMod(m.Name + " <" + m.ModuleID + ">");
+                            trm = new TowerReactMod(m.Name);
                             trm.myData = this;
                             trm.Location = new Point(0, (num * 86));
                             p_PosMods.Controls.Add(trm);
@@ -4690,7 +4916,7 @@ namespace EveHQ.PosManager
         public void SetReactionModuleID(POS p)
         {
             decimal cnt = 0;
-            SortedList SL = new SortedList();
+            SortedList SLs = new SortedList();
             // Need to give each and every tower module a different unique ID number as it comes in.
             //      Note: ID only needs to be Unique per the tower, not overall
             // BUT - only want to do this if the module does not already have such an ID - do not want
@@ -4705,7 +4931,7 @@ namespace EveHQ.PosManager
                     // I only care about Reaction Modules with IDs
                     if (m.ModuleID != 0)
                     {
-                        SL.Add(m.ModuleID, m.Name);
+                        SLs.Add(m.ModuleID, m.Name);
                     }
 
                     if (m.Category == "Mobile Reactor")
@@ -4758,11 +4984,11 @@ namespace EveHQ.PosManager
                     {
                         cnt++;
                         // Find an unused Key value
-                        while (SL.ContainsKey(cnt))
+                        while (SLs.ContainsKey(cnt))
                             cnt++;
 
                         m.ModuleID = cnt;
-                        SL.Add(cnt, m.Name);
+                        SLs.Add(cnt, m.Name);
                     }
                 }
             }
@@ -5169,6 +5395,8 @@ namespace EveHQ.PosManager
         private void tsb_React_Save_Click(object sender, EventArgs e)
         {
             POSList.SaveDesignListing();
+            SetReactionValuesAndUpdateDisplay();
+            PopulateTowerModuleDisplay();
         }
 
         private void tsb_ReactClearLink_Click(object sender, EventArgs e)
@@ -5264,7 +5492,375 @@ namespace EveHQ.PosManager
 #endregion
 
 
-    
+#region Tower Notifications
+
+        private TreeNode FindTreeNode(TreeNodeCollection tnc, string node)
+        {
+            foreach (TreeNode tn in tnc)
+            {
+                if (tn.Text == node)
+                    return tn;
+            }
+
+            return null;
+        }
+
+        private void PopulatePlayerList()
+        {
+            TreeNode mtn, tn;
+
+            tv_Players.Nodes.Clear();
+
+            foreach (Player p in PL.Players)
+            {
+                mtn = tv_Players.Nodes.Add(p.Name);
+                mtn.Name = p.Name;
+                if(p.Email1 != "")
+                    tn = mtn.Nodes.Add(p.Email1);
+                if (p.Email2 != "")
+                    tn = mtn.Nodes.Add(p.Email2);
+                if (p.Email3 != "")
+                    tn = mtn.Nodes.Add(p.Email3);
+            }
+        }
+
+        private void PopulateNotificationList()
+        {
+            TreeNode mtn, tn, pn;
+            string line;
+
+            tv_Notifications.Nodes.Clear();
+
+            foreach (PosNotify p in NL.NotifyList)
+            {
+                mtn = FindTreeNode(tv_Notifications.Nodes, p.Tower);
+                if (mtn == null)
+                {
+                    mtn = tv_Notifications.Nodes.Add(p.Tower);
+                    mtn.Name = p.Tower;
+                }
+                line = p.Type + " [ Start at " + p.InitQty + " " + p.Initial + " | Every " + p.FreqQty + " " + p.Frequency + " after.]";
+                tn = mtn.Nodes.Add(line);
+
+                foreach (Player pl in p.PList.Players)
+                {
+                    pn = tn.Nodes.Add(pl.Name);
+                }
+            }
+        }
+
+        private void tsb_NewPlayer_Click(object sender, EventArgs e)
+        {
+            AddPlayer apf = new AddPlayer();
+            apf.myData = this;
+            apf.SetupData("Add a New Player", "");
+
+            apf.ShowDialog();
+            PopulatePlayerList();
+        }
+
+        private void tsb_NewNotification_Click(object sender, EventArgs e)
+        {
+            Notification not = new Notification();
+            not.myData = this;
+            not.SetupData("Add a New Notification", "", "");
+
+            not.ShowDialog();
+            PopulateNotificationList();
+        }
+
+        private void tsb_Test_Click(object sender, EventArgs e)
+        {
+            TreeNode sel;
+            string root, rule, line;
+
+            sel = tv_Notifications.SelectedNode;
+            if (sel == null)
+                return;
+
+            if (sel.Parent == null)
+            {
+                if (sel.Nodes.Count > 1)
+                {
+                    DialogResult dr = MessageBox.Show("You Must Select the Rule you wish to Test, Not the Tower.", "Test Notification", MessageBoxButtons.OK);
+                    return; // Request they select a rule for the tower
+                }
+
+                root = sel.Text;
+                rule = sel.FirstNode.Text;
+            }
+            else
+            {
+                if (sel.Parent.Parent != null)
+                    sel = sel.Parent;
+
+                rule = sel.Text;
+                root = sel.Parent.Text;
+            }
+
+            foreach (PosNotify pn in NL.NotifyList)
+            {
+                line = pn.Type + " [ Start at " + pn.InitQty + " " + pn.Initial + " | Every " + pn.FreqQty + " " + pn.Frequency + " after.]";
+                if ((pn.Tower == root) && (rule == line))
+                {
+                    foreach (POS p in POSList.Designs)
+                    {
+                        if (p.Name == root)
+                        {
+                            SendNotification(pn, p);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void SendNotification(PosNotify pn, POS p)
+        {
+            string eServe, eAddy, eUser, ePass, paddStr = "", mailMsg = "";
+            bool useSMTP;
+            int ePort;
+            decimal timeP;
+            decimal totVol=0, totCost=0;
+            decimal[,] tval = new decimal[13, 3];
+            string[,] fVal;
+            System.Net.Mail.SmtpClient Notify = new System.Net.Mail.SmtpClient();
+            //System.Net.Mail.MailMessage NtfMsg;
+
+            for (int x = 0; x < 13; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                    tval[x, y] = 0;
+            }
+
+            eServe = EveHQ.Core.HQ.EveHQSettings.EMailServer;
+            ePort = EveHQ.Core.HQ.EveHQSettings.EMailPort;
+            eAddy = EveHQ.Core.HQ.EveHQSettings.EMailAddress;
+            useSMTP = EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth;
+            eUser = EveHQ.Core.HQ.EveHQSettings.EMailUsername;
+            ePass = EveHQ.Core.HQ.EveHQSettings.EMailPassword;
+
+            Notify.Port = ePort;
+            Notify.Host = eServe;
+
+            if (useSMTP)
+            {
+                System.Net.NetworkCredential netCred = new System.Net.NetworkCredential();
+                netCred.Password = ePass;
+                netCred.UserName = eUser;
+                Notify.Credentials = netCred;
+            }
+
+            if (pn.Type == "Fuel Level")
+            {
+                timeP = p.ComputePosFuelUsageForFillTracking(4, 0, Config.data.FuelCosts);
+                p.PosTower.T_Fuel.SetCurrentFuelVolumes();
+                p.PosTower.T_Fuel.SetCurrentFuelCosts(Config.data.FuelCosts);
+                fVal = p.PosTower.T_Fuel.GetFuelBayTotals();
+
+                mailMsg += "Tower   : " + p.Name + "\n";
+                mailMsg += "Location: " + p.Moon + "\n";
+                mailMsg += "Fuel Run Time Is:" + ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "\n";
+                mailMsg += "\nThe Tower Needs the Following Fuel for MAX Run Time:\n";
+                mailMsg += "----------------------------------------------------\n\n";
+
+                for (int x = 0; x < 13; x++)
+                {
+                    if ((!p.UseChart) && (x == 11))
+                        continue;
+
+                    if (Convert.ToDecimal(fVal[x, 1]) > 0)
+                    {
+                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3";
+                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk ]\n";
+                        totVol += Convert.ToDecimal(fVal[x, 2]);
+                        totCost += Convert.ToDecimal(fVal[x, 3]);
+                        tval[x, 0] += Convert.ToDecimal(fVal[x, 1]);
+                        tval[x, 1] += Convert.ToDecimal(fVal[x, 2]);
+                        tval[x, 2] += Convert.ToDecimal(fVal[x, 3]);
+                        mailMsg += paddStr;
+                    }
+                }
+                mailMsg += "Tport Vol  [ " + String.Format("{0:#,0.#}", totVol) + "m3 ]\n";
+                mailMsg += "Fuel Cost  [ " + String.Format("{0:#,0.#}", totCost) + "isk ]\n";
+                Clipboard.SetText(mailMsg);
+
+            }
+            else if (pn.Type == "Silo Level")
+            {
+            }
+            else
+                return;  // Unknown Type
+
+            //foreach (Player pl in pn.PList.Players)
+            //{
+            //    if (pl.Email1 != "")
+            //    {
+            //        NtfMsg = new System.Net.Mail.MailMessage(eAddy, pl.Email1, "EVE HQ Pos Manager: " + pn.Type + "Notification for " + p.Name, mailMsg);
+            //        Notify.Send(NtfMsg);
+            //    }
+            //    if (pl.Email2 != "")
+            //    {
+            //        NtfMsg = new System.Net.Mail.MailMessage(eAddy, pl.Email2, "EVE HQ Pos Manager: " + pn.Type + "Notification for " + p.Name, mailMsg);
+            //        Notify.Send(NtfMsg);
+            //    }
+            //    if (pl.Email3 != "")
+            //    {
+            //        NtfMsg = new System.Net.Mail.MailMessage(eAddy, pl.Email3, "EVE HQ Pos Manager: " + pn.Type + "Notification for " + p.Name, mailMsg);
+            //        Notify.Send(NtfMsg);
+            //    }
+            //}
+        }
+
+        private void tsm_EditNotify_Click(object sender, EventArgs e)
+        {
+            TreeNode sel;
+            string root, rule;
+
+            sel = tv_Notifications.SelectedNode;
+            if (sel == null)
+                return;
+
+            if (sel.Parent == null)
+            {
+                if (sel.Nodes.Count > 1)
+                {
+                    DialogResult dr = MessageBox.Show("You Must Select the Rule you wish to Edit, Not the Tower.", "Edit Notification", MessageBoxButtons.OK);
+                    return; // Request they select a rule for the tower
+                }
+
+                root = sel.Text;
+                rule = sel.FirstNode.Text;
+            }
+            else
+            {
+                if (sel.Parent.Parent != null)
+                    sel = sel.Parent;
+
+                rule = sel.Text;
+                root = sel.Parent.Text;
+            }
+
+            Notification not = new Notification();
+            not.myData = this;
+            not.SetupData("Edit a Notification", root, rule);
+
+            not.ShowDialog();
+            PopulateNotificationList();
+        }
+
+        private void tsm_RemoveNotify_Click(object sender, EventArgs e)
+        {
+            TreeNode sel;
+            ArrayList tLst = new ArrayList();
+            string root, rule, line;
+
+            sel = tv_Notifications.SelectedNode;
+            if (sel == null)
+                return;
+
+            if (sel.Parent == null)
+            {
+                // Query user to save any changes
+                DialogResult dr = MessageBox.Show("Are you sure you want to Delete All Tower Rules for :" + sel.Text, "Delete All Rules", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                {
+                    root = sel.Text;
+                    foreach (PosNotify pn in NL.NotifyList)
+                    {
+                        if (pn.Tower != root)
+                            tLst.Add(pn);
+                    }
+                    NL.NotifyList = new ArrayList(tLst);
+                }
+                else
+                    return;
+            }
+            else
+            {
+                if (sel.Parent.Parent != null)
+                    sel = sel.Parent;
+
+                rule = sel.Text;
+                root = sel.Parent.Text;
+
+                foreach (PosNotify pn in NL.NotifyList)
+                {
+                    line = pn.Type + " [ Start at " + pn.InitQty + " " + pn.Initial + " | Every " + pn.FreqQty + " " + pn.Frequency + " after.]";
+                    if ((pn.Tower == root) && (line == rule))
+                    {
+                        DialogResult dr = MessageBox.Show("Are you sure you want to Delete the Rule for :" + root + "\n Rule: " + rule, "Delete Rule", MessageBoxButtons.YesNo);
+                        if (dr == DialogResult.Yes)
+                        {
+                            NL.NotifyList.Remove(pn);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            NL.SaveNotificationList();
+            PopulateNotificationList();
+        }
+
+        private void tsm_EditPlayer_Click(object sender, EventArgs e)
+        {
+            TreeNode plyr;
+            AddPlayer apf = new AddPlayer();
+            apf.myData = this;
+
+            plyr = tv_Players.SelectedNode;
+            if (plyr != null)
+            {
+                if (plyr.Parent != null)
+                    plyr = plyr.Parent;
+
+                apf.SetupData("Edit Player", plyr.Text);
+
+                apf.ShowDialog();
+                PopulatePlayerList();
+            }
+        }
+
+        private void tsm_RemovePlayer_Click(object sender, EventArgs e)
+        {
+            TreeNode plyr;
+            bool delYes = false;
+
+            foreach (Player p in PL.Players)
+            {
+                plyr = tv_Players.SelectedNode;
+                if (plyr != null)
+                {
+                    if (plyr.Parent != null)
+                        plyr = plyr.Parent;
+
+                    if (p.Name == plyr.Text)
+                    {
+                        // Query user to save any changes
+                        DialogResult dr = MessageBox.Show("Are you sure you want to Delete :" + p.Name, "Delete Player", MessageBoxButtons.YesNo);
+
+                        if (dr == DialogResult.Yes)
+                        {
+                            PL.Players.Remove(p);
+                            delYes = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (delYes)
+            {
+                PL.SavePlayerList();
+                PopulatePlayerList();
+            }
+        }
+
+#endregion
+
+
     }
 
 

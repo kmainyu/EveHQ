@@ -32,12 +32,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -50,42 +44,30 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
             this.tb_PosManager = new System.Windows.Forms.TabControl();
             this.tp_POSMonitor = new System.Windows.Forms.TabPage();
             this.label61 = new System.Windows.Forms.Label();
             this.lb_PoSModuleList = new System.Windows.Forms.ListBox();
             this.ts_MonitorControl = new System.Windows.Forms.ToolStrip();
-            this.tsb_ModifyMonList = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_Online = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_Offline = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_Reinforce = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_SetAPI = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_UpdateAPI = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_PopTowerFromAPI = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.p_towerLayout = new System.Windows.Forms.Panel();
-            this.b_FuelUpdate = new System.Windows.Forms.Button();
             this.pb_FuelBayFill = new VistaStyleProgressBar.ProgressBar();
             this.pb_StrontBayFill = new VistaStyleProgressBar.ProgressBar();
             this.label26 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pictureBox48 = new System.Windows.Forms.PictureBox();
-            this.pictureBox49 = new System.Windows.Forms.PictureBox();
-            this.pictureBox50 = new System.Windows.Forms.PictureBox();
-            this.pictureBox51 = new System.Windows.Forms.PictureBox();
-            this.pictureBox52 = new System.Windows.Forms.PictureBox();
-            this.pictureBox53 = new System.Windows.Forms.PictureBox();
-            this.pictureBox54 = new System.Windows.Forms.PictureBox();
-            this.pictureBox55 = new System.Windows.Forms.PictureBox();
-            this.pictureBox56 = new System.Windows.Forms.PictureBox();
-            this.pictureBox57 = new System.Windows.Forms.PictureBox();
             this.l_QH_Strn = new System.Windows.Forms.Label();
             this.l_QH_Chrt = new System.Windows.Forms.Label();
             this.l_QH_LiqO = new System.Windows.Forms.Label();
@@ -144,6 +126,31 @@
             this.nud_HvyWtr = new System.Windows.Forms.NumericUpDown();
             this.nud_Isotope = new System.Windows.Forms.NumericUpDown();
             this.dg_MonitoredTowers = new System.Windows.Forms.DataGridView();
+            this.dg_POSName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_ReinfTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_TowerStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_Linked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.APICache = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Power = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Oxyg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.McP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cool = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Robt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Iso = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HvyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LiqO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Chrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Strn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IgnoreCharters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ReactionRunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenStront = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenCPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenPower = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenIso = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_POSDesign = new System.Windows.Forms.TabPage();
             this.cb_ItemType = new System.Windows.Forms.ComboBox();
             this.dg_PosMods = new System.Windows.Forms.DataGridView();
@@ -168,15 +175,9 @@
             this.l_shield_kin = new System.Windows.Forms.Label();
             this.l_shield_therm = new System.Windows.Forms.Label();
             this.l_shield_em = new System.Windows.Forms.Label();
-            this.pictureBox28 = new System.Windows.Forms.PictureBox();
             this.l_armor_thm = new System.Windows.Forms.Label();
             this.l_armor_kin = new System.Windows.Forms.Label();
             this.l_armor_emp = new System.Windows.Forms.Label();
-            this.pictureBox21 = new System.Windows.Forms.PictureBox();
-            this.pictureBox22 = new System.Windows.Forms.PictureBox();
-            this.pictureBox23 = new System.Windows.Forms.PictureBox();
-            this.pictureBox19 = new System.Windows.Forms.PictureBox();
-            this.pictureBox20 = new System.Windows.Forms.PictureBox();
             this.l_SI_Cost = new System.Windows.Forms.Label();
             this.l_armor_hp = new System.Windows.Forms.Label();
             this.rtb_Other = new System.Windows.Forms.RichTextBox();
@@ -188,10 +189,6 @@
             this.l_shield_hp = new System.Windows.Forms.Label();
             this.l_power = new System.Windows.Forms.Label();
             this.l_cpu = new System.Windows.Forms.Label();
-            this.pictureBox26 = new System.Windows.Forms.PictureBox();
-            this.pictureBox25 = new System.Windows.Forms.PictureBox();
-            this.pictureBox24 = new System.Windows.Forms.PictureBox();
-            this.pictureBox27 = new System.Windows.Forms.PictureBox();
             this.tp_Fuel = new System.Windows.Forms.TabPage();
             this.nud_DesFuelPeriod = new System.Windows.Forms.NumericUpDown();
             this.l_FuelStront_C = new System.Windows.Forms.Label();
@@ -228,24 +225,9 @@
             this.label16 = new System.Windows.Forms.Label();
             this.l_Robotics = new System.Windows.Forms.Label();
             this.l_AmountForMax = new System.Windows.Forms.Label();
-            this.pictureBox17 = new System.Windows.Forms.PictureBox();
-            this.pictureBox18 = new System.Windows.Forms.PictureBox();
-            this.pb_Strontium = new System.Windows.Forms.PictureBox();
-            this.pb_Charter = new System.Windows.Forms.PictureBox();
-            this.pb_LiqOzone = new System.Windows.Forms.PictureBox();
-            this.pb_HvyWater = new System.Windows.Forms.PictureBox();
-            this.pb_Isotopes = new System.Windows.Forms.PictureBox();
-            this.pb_Robotics = new System.Windows.Forms.PictureBox();
-            this.pb_Coolant = new System.Windows.Forms.PictureBox();
-            this.pb_MechParts = new System.Windows.Forms.PictureBox();
-            this.pb_oxy = new System.Windows.Forms.PictureBox();
-            this.pb_enrUran = new System.Windows.Forms.PictureBox();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
-            this.pb_StrontBay = new System.Windows.Forms.PictureBox();
             this.pb_Stront = new VistaStyleProgressBar.ProgressBar();
             this.pb_Fuel = new VistaStyleProgressBar.ProgressBar();
             this.tp_PosStats = new System.Windows.Forms.TabPage();
-            this.pictureBox16 = new System.Windows.Forms.PictureBox();
             this.l_POS_C = new System.Windows.Forms.Label();
             this.l_PoS_DPS = new System.Windows.Forms.Label();
             this.l_PoS_Tank = new System.Windows.Forms.Label();
@@ -261,17 +243,6 @@
             this.l_SetupTime = new System.Windows.Forms.Label();
             this.l_OnlineTime = new System.Windows.Forms.Label();
             this.l_AnchorTime = new System.Windows.Forms.Label();
-            this.pictureBox15 = new System.Windows.Forms.PictureBox();
-            this.pictureBox14 = new System.Windows.Forms.PictureBox();
-            this.pictureBox13 = new System.Windows.Forms.PictureBox();
-            this.pictureBox12 = new System.Windows.Forms.PictureBox();
-            this.pictureBox47 = new System.Windows.Forms.PictureBox();
-            this.pictureBox46 = new System.Windows.Forms.PictureBox();
-            this.pictureBox45 = new System.Windows.Forms.PictureBox();
-            this.pictureBox29 = new System.Windows.Forms.PictureBox();
-            this.pictureBox30 = new System.Windows.Forms.PictureBox();
-            this.pictureBox31 = new System.Windows.Forms.PictureBox();
-            this.pictureBox32 = new System.Windows.Forms.PictureBox();
             this.p_Select = new System.Windows.Forms.Panel();
             this.lv_ItemSelList = new System.Windows.Forms.ListView();
             this.il_SelCat = new System.Windows.Forms.ImageList(this.components);
@@ -286,42 +257,23 @@
             this.l_TowerSExRes = new System.Windows.Forms.Label();
             this.l_TowerAExRes = new System.Windows.Forms.Label();
             this.l_TowerStExRes = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.cb_PoSName = new System.Windows.Forms.ComboBox();
             this.ts_Designer = new System.Windows.Forms.ToolStrip();
-            this.tsb_NewPOS = new System.Windows.Forms.ToolStripButton();
-            this.tsb_SavePOS = new System.Windows.Forms.ToolStripButton();
-            this.tsb_RenamePOS = new System.Windows.Forms.ToolStripButton();
-            this.tsb_CopyPOS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_ClearPOS = new System.Windows.Forms.ToolStripButton();
-            this.tsb_DelPOS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_ExportPOS = new System.Windows.Forms.ToolStripButton();
-            this.tsb_ImportPOS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.cb_systemMoon = new System.Windows.Forms.ComboBox();
             this.l_TowerStruct = new System.Windows.Forms.Label();
             this.l_TowerShield = new System.Windows.Forms.Label();
             this.l_TowerArmor = new System.Windows.Forms.Label();
             this.cb_CorpName = new System.Windows.Forms.ComboBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.cb_SovLevel = new System.Windows.Forms.ComboBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.cb_System = new System.Windows.Forms.ComboBox();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.label21 = new System.Windows.Forms.Label();
             this.pb_Power = new VistaStyleProgressBar.ProgressBar();
             this.pb_CPU = new VistaStyleProgressBar.ProgressBar();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.l_TowerAKRes = new System.Windows.Forms.Label();
             this.l_TowerAEmRes = new System.Windows.Forms.Label();
-            this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.p_Tower = new System.Windows.Forms.Panel();
-            this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
             this.cms_PosItem = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsm_Online = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Offline = new System.Windows.Forms.ToolStripMenuItem();
@@ -338,54 +290,6 @@
             this.tsm_Qty_9 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Qty_10 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_SetModuleCharge = new System.Windows.Forms.ToolStripMenuItem();
-            this.poS_Item52 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item49 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item50 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item43 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item44 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item45 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item47 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item48 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item37 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item38 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item39 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item41 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item42 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item31 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item32 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item33 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item35 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item36 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item25 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item26 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item27 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item29 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item30 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item20 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item21 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item22 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item23 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item24 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item15 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item16 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item17 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item18 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item19 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item8 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item13 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item14 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item5 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item6 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item7 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item11 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item12 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item9 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item10 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item3 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item4 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item2 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item1 = new EveHQ.PosManager.PoS_Item();
-            this.pi_Tower = new EveHQ.PosManager.PoS_Item();
             this.tp_POSMaintenance = new System.Windows.Forms.TabPage();
             this.cb_ShowFuelNeed = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -398,7 +302,6 @@
             this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.b_CopyAllPos = new System.Windows.Forms.Button();
             this.gb_SelPos = new System.Windows.Forms.GroupBox();
             this.cb_SelectedDataForCopy = new System.Windows.Forms.ComboBox();
             this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
@@ -406,8 +309,6 @@
             this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.b_SetSelectedFull = new System.Windows.Forms.Button();
-            this.b_CopySelected = new System.Windows.Forms.Button();
             this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
             this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -427,41 +328,24 @@
             this.nud_PeriodValue = new System.Windows.Forms.NumericUpDown();
             this.tscb_TimePeriod = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.b_ApplyIntervalPeriod = new System.Windows.Forms.Button();
             this.tp_ReactManage = new System.Windows.Forms.TabPage();
             this.p_ReactMenu = new System.Windows.Forms.Panel();
             this.ts_ReactionMenu = new System.Windows.Forms.ToolStrip();
-            this.tsb_React_Save = new System.Windows.Forms.ToolStripButton();
-            this.tsb_ReactClearLink = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.p_PosMods = new System.Windows.Forms.Panel();
             this.tv_ReactManage = new System.Windows.Forms.TreeView();
             this.tb_PMConfig = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.pictureBox41 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox40 = new System.Windows.Forms.PictureBox();
             this.nud_O2_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox39 = new System.Windows.Forms.PictureBox();
             this.nud_H2_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox38 = new System.Windows.Forms.PictureBox();
             this.nud_N2_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox37 = new System.Windows.Forms.PictureBox();
-            this.pictureBox35 = new System.Windows.Forms.PictureBox();
             this.nud_ST_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox34 = new System.Windows.Forms.PictureBox();
             this.nud_CH_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox33 = new System.Windows.Forms.PictureBox();
             this.nud_LO_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox11 = new System.Windows.Forms.PictureBox();
             this.nud_HW_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox44 = new System.Windows.Forms.PictureBox();
             this.nud_HE_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox43 = new System.Windows.Forms.PictureBox();
             this.nud_RB_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox42 = new System.Windows.Forms.PictureBox();
             this.nud_CL_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox36 = new System.Windows.Forms.PictureBox();
             this.nud_MP_FC = new System.Windows.Forms.NumericUpDown();
             this.nud_ER_FC = new System.Windows.Forms.NumericUpDown();
             this.nud_OX_FC = new System.Windows.Forms.NumericUpDown();
@@ -515,45 +399,170 @@
             this.il_FetchList = new System.Windows.Forms.ImageList(this.components);
             this.t_MonitorUpdate = new System.Windows.Forms.Timer(this.components);
             this.tt_InfoTips = new System.Windows.Forms.ToolTip(this.components);
-            this.dg_POSName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_ReinfTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_TowerStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_Linked = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.APICache = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Power = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Oxyg = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.McP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cool = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Robt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Iso = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HvyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LiqO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Chrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Strn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IgnoreCharters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.HiddenFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenStront = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenCPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenPower = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HiddenIso = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tp_Notifications = new System.Windows.Forms.TabPage();
+            this.p_Notifications = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tv_Notifications = new System.Windows.Forms.TreeView();
+            this.tv_Players = new System.Windows.Forms.TreeView();
+            this.ts_Notify = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tsb_ModifyMonList = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Online = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Offline = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Reinforce = new System.Windows.Forms.ToolStripButton();
+            this.tsb_SetAPI = new System.Windows.Forms.ToolStripButton();
+            this.tsb_UpdateAPI = new System.Windows.Forms.ToolStripButton();
+            this.tsb_PopTowerFromAPI = new System.Windows.Forms.ToolStripButton();
+            this.b_FuelUpdate = new System.Windows.Forms.Button();
+            this.pictureBox48 = new System.Windows.Forms.PictureBox();
+            this.pictureBox49 = new System.Windows.Forms.PictureBox();
+            this.pictureBox50 = new System.Windows.Forms.PictureBox();
+            this.pictureBox51 = new System.Windows.Forms.PictureBox();
+            this.pictureBox52 = new System.Windows.Forms.PictureBox();
+            this.pictureBox53 = new System.Windows.Forms.PictureBox();
+            this.pictureBox54 = new System.Windows.Forms.PictureBox();
+            this.pictureBox55 = new System.Windows.Forms.PictureBox();
+            this.pictureBox56 = new System.Windows.Forms.PictureBox();
+            this.pictureBox57 = new System.Windows.Forms.PictureBox();
+            this.pictureBox28 = new System.Windows.Forms.PictureBox();
+            this.pictureBox21 = new System.Windows.Forms.PictureBox();
+            this.pictureBox22 = new System.Windows.Forms.PictureBox();
+            this.pictureBox23 = new System.Windows.Forms.PictureBox();
+            this.pictureBox19 = new System.Windows.Forms.PictureBox();
+            this.pictureBox20 = new System.Windows.Forms.PictureBox();
+            this.pictureBox26 = new System.Windows.Forms.PictureBox();
+            this.pictureBox25 = new System.Windows.Forms.PictureBox();
+            this.pictureBox24 = new System.Windows.Forms.PictureBox();
+            this.pictureBox27 = new System.Windows.Forms.PictureBox();
+            this.pictureBox17 = new System.Windows.Forms.PictureBox();
+            this.pictureBox18 = new System.Windows.Forms.PictureBox();
+            this.pb_Strontium = new System.Windows.Forms.PictureBox();
+            this.pb_Charter = new System.Windows.Forms.PictureBox();
+            this.pb_LiqOzone = new System.Windows.Forms.PictureBox();
+            this.pb_HvyWater = new System.Windows.Forms.PictureBox();
+            this.pb_Isotopes = new System.Windows.Forms.PictureBox();
+            this.pb_Robotics = new System.Windows.Forms.PictureBox();
+            this.pb_Coolant = new System.Windows.Forms.PictureBox();
+            this.pb_MechParts = new System.Windows.Forms.PictureBox();
+            this.pb_oxy = new System.Windows.Forms.PictureBox();
+            this.pb_enrUran = new System.Windows.Forms.PictureBox();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.pb_StrontBay = new System.Windows.Forms.PictureBox();
+            this.pictureBox16 = new System.Windows.Forms.PictureBox();
+            this.pictureBox15 = new System.Windows.Forms.PictureBox();
+            this.pictureBox14 = new System.Windows.Forms.PictureBox();
+            this.pictureBox13 = new System.Windows.Forms.PictureBox();
+            this.pictureBox12 = new System.Windows.Forms.PictureBox();
+            this.pictureBox47 = new System.Windows.Forms.PictureBox();
+            this.pictureBox46 = new System.Windows.Forms.PictureBox();
+            this.pictureBox45 = new System.Windows.Forms.PictureBox();
+            this.pictureBox29 = new System.Windows.Forms.PictureBox();
+            this.pictureBox30 = new System.Windows.Forms.PictureBox();
+            this.pictureBox31 = new System.Windows.Forms.PictureBox();
+            this.pictureBox32 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.tsb_NewPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_SavePOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_RenamePOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_CopyPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ClearPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_DelPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ExportPOS = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ImportPOS = new System.Windows.Forms.ToolStripButton();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.p_Tower = new System.Windows.Forms.Panel();
+            this.b_CopyAllPos = new System.Windows.Forms.Button();
+            this.b_SetSelectedFull = new System.Windows.Forms.Button();
+            this.b_CopySelected = new System.Windows.Forms.Button();
+            this.b_ApplyIntervalPeriod = new System.Windows.Forms.Button();
+            this.tsb_React_Save = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ReactClearLink = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.tsb_NewNotification = new System.Windows.Forms.ToolStripButton();
+            this.tsb_NewPlayer = new System.Windows.Forms.ToolStripButton();
+            this.pictureBox41 = new System.Windows.Forms.PictureBox();
+            this.pictureBox40 = new System.Windows.Forms.PictureBox();
+            this.pictureBox39 = new System.Windows.Forms.PictureBox();
+            this.pictureBox38 = new System.Windows.Forms.PictureBox();
+            this.pictureBox37 = new System.Windows.Forms.PictureBox();
+            this.pictureBox35 = new System.Windows.Forms.PictureBox();
+            this.pictureBox34 = new System.Windows.Forms.PictureBox();
+            this.pictureBox33 = new System.Windows.Forms.PictureBox();
+            this.pictureBox11 = new System.Windows.Forms.PictureBox();
+            this.pictureBox44 = new System.Windows.Forms.PictureBox();
+            this.pictureBox43 = new System.Windows.Forms.PictureBox();
+            this.pictureBox42 = new System.Windows.Forms.PictureBox();
+            this.pictureBox36 = new System.Windows.Forms.PictureBox();
+            this.cms_Notification = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsm_EditNotify = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_RemoveNotify = new System.Windows.Forms.ToolStripMenuItem();
+            this.cms_Player = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsm_EditPlayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_RemovePlayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_Test = new System.Windows.Forms.ToolStripButton();
+            this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item52 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item49 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item50 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item43 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item44 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item45 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item47 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item48 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item37 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item38 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item39 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item41 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item42 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item31 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item32 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item33 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item35 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item36 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item25 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item26 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item27 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item29 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item30 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item20 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item21 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item22 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item23 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item24 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item15 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item16 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item17 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item18 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item19 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item8 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item13 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item14 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item5 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item6 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item7 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item11 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item12 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item9 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item10 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item3 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item4 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item2 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item1 = new EveHQ.PosManager.PoS_Item();
+            this.pi_Tower = new EveHQ.PosManager.PoS_Item();
             this.tb_PosManager.SuspendLayout();
             this.tp_POSMonitor.SuspendLayout();
             this.ts_MonitorControl.SuspendLayout();
             this.p_towerLayout.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox48)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox49)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox50)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox51)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox52)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox53)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox54)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox55)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox56)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox57)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MechPart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Stront)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Oxy)).BeginInit();
@@ -569,6 +578,58 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_PosMods)).BeginInit();
             this.tc_StatFuel.SuspendLayout();
             this.tp_stats.SuspendLayout();
+            this.tp_Fuel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_DesFuelPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_StrontInterval)).BeginInit();
+            this.tp_PosStats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ThmRes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_KinRes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ExpRes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_EMRes)).BeginInit();
+            this.p_Select.SuspendLayout();
+            this.p_Top.SuspendLayout();
+            this.ts_Designer.SuspendLayout();
+            this.cms_PosItem.SuspendLayout();
+            this.tp_POSMaintenance.SuspendLayout();
+            this.gb_AllPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
+            this.gb_SelPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
+            this.tp_ReactManage.SuspendLayout();
+            this.p_ReactMenu.SuspendLayout();
+            this.ts_ReactionMenu.SuspendLayout();
+            this.tb_PMConfig.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ST_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CH_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LO_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HW_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HE_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_RB_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CL_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_MP_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ER_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_OX_FC)).BeginInit();
+            this.gb_PosDesignShow.SuspendLayout();
+            this.gb_MonPosCol.SuspendLayout();
+            this.tp_Notifications.SuspendLayout();
+            this.p_Notifications.SuspendLayout();
+            this.ts_Notify.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox48)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox49)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox50)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox51)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox52)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox53)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox54)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox55)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox56)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox57)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox28)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox22)).BeginInit();
@@ -579,9 +640,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox24)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).BeginInit();
-            this.tp_Fuel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_DesFuelPeriod)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_StrontInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Strontium)).BeginInit();
@@ -596,12 +654,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_enrUran)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_StrontBay)).BeginInit();
-            this.tp_PosStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ThmRes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_KinRes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ExpRes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_EMRes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
@@ -613,12 +666,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox31)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).BeginInit();
-            this.p_Select.SuspendLayout();
-            this.p_Top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            this.ts_Designer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
@@ -626,47 +676,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.p_Tower.SuspendLayout();
-            this.cms_PosItem.SuspendLayout();
-            this.tp_POSMaintenance.SuspendLayout();
-            this.gb_AllPos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
-            this.gb_SelPos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
-            this.tp_ReactManage.SuspendLayout();
-            this.p_ReactMenu.SuspendLayout();
-            this.ts_ReactionMenu.SuspendLayout();
-            this.tb_PMConfig.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox38)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox37)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ST_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CH_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_LO_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HW_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox44)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HE_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox43)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_RB_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox42)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CL_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_MP_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ER_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_OX_FC)).BeginInit();
-            this.gb_PosDesignShow.SuspendLayout();
-            this.gb_MonPosCol.SuspendLayout();
+            this.cms_Notification.SuspendLayout();
+            this.cms_Player.SuspendLayout();
             this.SuspendLayout();
             // 
             // tb_PosManager
@@ -676,6 +700,7 @@
             this.tb_PosManager.Controls.Add(this.tp_POSDesign);
             this.tb_PosManager.Controls.Add(this.tp_POSMaintenance);
             this.tb_PosManager.Controls.Add(this.tp_ReactManage);
+            this.tb_PosManager.Controls.Add(this.tp_Notifications);
             this.tb_PosManager.Controls.Add(this.tb_PMConfig);
             this.tb_PosManager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tb_PosManager.Location = new System.Drawing.Point(0, 0);
@@ -687,6 +712,7 @@
             // 
             // tp_POSMonitor
             // 
+            this.tp_POSMonitor.AutoScroll = true;
             this.tp_POSMonitor.BackColor = System.Drawing.SystemColors.Control;
             this.tp_POSMonitor.Controls.Add(this.label61);
             this.tp_POSMonitor.Controls.Add(this.lb_PoSModuleList);
@@ -761,145 +787,35 @@
             this.ts_MonitorControl.Stretch = true;
             this.ts_MonitorControl.TabIndex = 87;
             // 
-            // tsb_ModifyMonList
-            // 
-            this.tsb_ModifyMonList.AutoSize = false;
-            this.tsb_ModifyMonList.BackColor = System.Drawing.Color.Transparent;
-            this.tsb_ModifyMonList.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.tsb_ModifyMonList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tsb_ModifyMonList.Checked = true;
-            this.tsb_ModifyMonList.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.tsb_ModifyMonList.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_ModifyMonList.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.tsb_ModifyMonList.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.tsb_ModifyMonList.Name = "tsb_ModifyMonList";
-            this.tsb_ModifyMonList.Size = new System.Drawing.Size(80, 35);
-            this.tsb_ModifyMonList.Text = " Monitor List";
-            this.tsb_ModifyMonList.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_ModifyMonList.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_ModifyMonList.ToolTipText = "Modify Monitor List - Add or Remove a PoS Tower from this List";
-            this.tsb_ModifyMonList.Click += new System.EventHandler(this.b_ModifyList_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 35);
-            // 
-            // tsb_Online
-            // 
-            this.tsb_Online.AutoSize = false;
-            this.tsb_Online.BackColor = System.Drawing.Color.Transparent;
-            this.tsb_Online.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online_btn;
-            this.tsb_Online.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tsb_Online.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_Online.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_Online.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.tsb_Online.Name = "tsb_Online";
-            this.tsb_Online.Size = new System.Drawing.Size(35, 35);
-            this.tsb_Online.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_Online.ToolTipText = "Place Tower Online";
-            this.tsb_Online.Click += new System.EventHandler(this.b_online_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 35);
             // 
-            // tsb_Offline
-            // 
-            this.tsb_Offline.AutoSize = false;
-            this.tsb_Offline.BackColor = System.Drawing.Color.Transparent;
-            this.tsb_Offline.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Offline_btn;
-            this.tsb_Offline.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tsb_Offline.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_Offline.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_Offline.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.tsb_Offline.Name = "tsb_Offline";
-            this.tsb_Offline.Size = new System.Drawing.Size(35, 35);
-            this.tsb_Offline.ToolTipText = "Place Tower Offline";
-            this.tsb_Offline.Click += new System.EventHandler(this.b_offline_Click);
-            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 35);
-            // 
-            // tsb_Reinforce
-            // 
-            this.tsb_Reinforce.AutoSize = false;
-            this.tsb_Reinforce.BackColor = System.Drawing.Color.Transparent;
-            this.tsb_Reinforce.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Reinforce_btn;
-            this.tsb_Reinforce.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tsb_Reinforce.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_Reinforce.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_Reinforce.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.tsb_Reinforce.Name = "tsb_Reinforce";
-            this.tsb_Reinforce.Size = new System.Drawing.Size(35, 35);
-            this.tsb_Reinforce.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_Reinforce.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_Reinforce.ToolTipText = "Place Tower Into Reinforced Mode";
-            this.tsb_Reinforce.Click += new System.EventHandler(this.b_EnterReinf_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 35);
             // 
-            // tsb_SetAPI
-            // 
-            this.tsb_SetAPI.AutoSize = false;
-            this.tsb_SetAPI.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
-            this.tsb_SetAPI.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.tsb_SetAPI.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_SetAPI.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_SetAPI.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_SetAPI.Name = "tsb_SetAPI";
-            this.tsb_SetAPI.Size = new System.Drawing.Size(55, 35);
-            this.tsb_SetAPI.Text = "API Link";
-            this.tsb_SetAPI.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_SetAPI.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_SetAPI.ToolTipText = "Link Design to API Data for a Tower";
-            this.tsb_SetAPI.Click += new System.EventHandler(this.b_TowerAPILink_Click);
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 35);
             // 
-            // tsb_UpdateAPI
-            // 
-            this.tsb_UpdateAPI.AutoSize = false;
-            this.tsb_UpdateAPI.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.APIUpdate;
-            this.tsb_UpdateAPI.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.tsb_UpdateAPI.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_UpdateAPI.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_UpdateAPI.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.tsb_UpdateAPI.Name = "tsb_UpdateAPI";
-            this.tsb_UpdateAPI.Size = new System.Drawing.Size(55, 35);
-            this.tsb_UpdateAPI.Text = "Update";
-            this.tsb_UpdateAPI.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_UpdateAPI.ToolTipText = "Download & Update API Data";
-            this.tsb_UpdateAPI.Click += new System.EventHandler(this.b_UpdateAPIData_Click);
-            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 35);
-            // 
-            // tsb_PopTowerFromAPI
-            // 
-            this.tsb_PopTowerFromAPI.AutoSize = false;
-            this.tsb_PopTowerFromAPI.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Caldari_3232;
-            this.tsb_PopTowerFromAPI.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tsb_PopTowerFromAPI.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_PopTowerFromAPI.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_PopTowerFromAPI.Name = "tsb_PopTowerFromAPI";
-            this.tsb_PopTowerFromAPI.Size = new System.Drawing.Size(55, 35);
-            this.tsb_PopTowerFromAPI.Text = "Populate";
-            this.tsb_PopTowerFromAPI.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_PopTowerFromAPI.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_PopTowerFromAPI.ToolTipText = "Populate PoS Design Towers from API Listing";
-            this.tsb_PopTowerFromAPI.Click += new System.EventHandler(this.tsb_PopTowerFromAPI_Click);
             // 
             // toolStripSeparator7
             // 
@@ -923,22 +839,6 @@
             this.p_towerLayout.Name = "p_towerLayout";
             this.p_towerLayout.Size = new System.Drawing.Size(561, 308);
             this.p_towerLayout.TabIndex = 79;
-            // 
-            // b_FuelUpdate
-            // 
-            this.b_FuelUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.b_FuelUpdate.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_FuelUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_FuelUpdate.ForeColor = System.Drawing.Color.Cyan;
-            this.b_FuelUpdate.Location = new System.Drawing.Point(484, 3);
-            this.b_FuelUpdate.Name = "b_FuelUpdate";
-            this.b_FuelUpdate.Size = new System.Drawing.Size(73, 43);
-            this.b_FuelUpdate.TabIndex = 81;
-            this.b_FuelUpdate.Text = "Set Fuel Qty";
-            this.b_FuelUpdate.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_FuelUpdate, "Set Tower Fuel to Adjusted Quantities");
-            this.b_FuelUpdate.UseVisualStyleBackColor = true;
-            this.b_FuelUpdate.Click += new System.EventHandler(this.b_FuelUpdate_Click);
             // 
             // pb_FuelBayFill
             // 
@@ -1072,116 +972,6 @@
             this.groupBox1.Size = new System.Drawing.Size(556, 263);
             this.groupBox1.TabIndex = 153;
             this.groupBox1.TabStop = false;
-            // 
-            // pictureBox48
-            // 
-            this.pictureBox48.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
-            this.pictureBox48.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox48.Location = new System.Drawing.Point(26, 234);
-            this.pictureBox48.Name = "pictureBox48";
-            this.pictureBox48.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox48.TabIndex = 230;
-            this.pictureBox48.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox48, "Strontium Clathrates");
-            // 
-            // pictureBox49
-            // 
-            this.pictureBox49.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
-            this.pictureBox49.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox49.Location = new System.Drawing.Point(26, 211);
-            this.pictureBox49.Name = "pictureBox49";
-            this.pictureBox49.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox49.TabIndex = 229;
-            this.pictureBox49.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox49, "Faction Charters");
-            // 
-            // pictureBox50
-            // 
-            this.pictureBox50.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
-            this.pictureBox50.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox50.Location = new System.Drawing.Point(26, 188);
-            this.pictureBox50.Name = "pictureBox50";
-            this.pictureBox50.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox50.TabIndex = 228;
-            this.pictureBox50.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox50, "Liquid Ozone");
-            // 
-            // pictureBox51
-            // 
-            this.pictureBox51.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
-            this.pictureBox51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox51.Location = new System.Drawing.Point(26, 165);
-            this.pictureBox51.Name = "pictureBox51";
-            this.pictureBox51.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox51.TabIndex = 227;
-            this.pictureBox51.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox51, "Heavy Water");
-            // 
-            // pictureBox52
-            // 
-            this.pictureBox52.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Isotope;
-            this.pictureBox52.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox52.Location = new System.Drawing.Point(26, 142);
-            this.pictureBox52.Name = "pictureBox52";
-            this.pictureBox52.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox52.TabIndex = 226;
-            this.pictureBox52.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox52, "Isotopes");
-            // 
-            // pictureBox53
-            // 
-            this.pictureBox53.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
-            this.pictureBox53.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox53.Location = new System.Drawing.Point(26, 119);
-            this.pictureBox53.Name = "pictureBox53";
-            this.pictureBox53.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox53.TabIndex = 225;
-            this.pictureBox53.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox53, "Robotics");
-            // 
-            // pictureBox54
-            // 
-            this.pictureBox54.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
-            this.pictureBox54.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox54.Location = new System.Drawing.Point(26, 96);
-            this.pictureBox54.Name = "pictureBox54";
-            this.pictureBox54.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox54.TabIndex = 224;
-            this.pictureBox54.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox54, "Coolant");
-            // 
-            // pictureBox55
-            // 
-            this.pictureBox55.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
-            this.pictureBox55.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox55.Location = new System.Drawing.Point(26, 73);
-            this.pictureBox55.Name = "pictureBox55";
-            this.pictureBox55.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox55.TabIndex = 223;
-            this.pictureBox55.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox55, "Mechanical Parts");
-            // 
-            // pictureBox56
-            // 
-            this.pictureBox56.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
-            this.pictureBox56.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox56.Location = new System.Drawing.Point(26, 50);
-            this.pictureBox56.Name = "pictureBox56";
-            this.pictureBox56.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox56.TabIndex = 222;
-            this.pictureBox56.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox56, "Oxygen");
-            // 
-            // pictureBox57
-            // 
-            this.pictureBox57.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
-            this.pictureBox57.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox57.Location = new System.Drawing.Point(26, 27);
-            this.pictureBox57.Name = "pictureBox57";
-            this.pictureBox57.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox57.TabIndex = 221;
-            this.pictureBox57.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox57, "Enriched Uranium");
             // 
             // l_QH_Strn
             // 
@@ -2057,6 +1847,7 @@
             this.Chrt,
             this.Strn,
             this.IgnoreCharters,
+            this.ReactionRunTime,
             this.HiddenFuel,
             this.HiddenStront,
             this.HiddenCPU,
@@ -2099,6 +1890,224 @@
             this.dg_MonitoredTowers.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_MonitoredTowers_ColumnHeaderMouseClick);
             this.dg_MonitoredTowers.SelectionChanged += new System.EventHandler(this.dg_MonitoredTowers_SelectionChanged);
             this.dg_MonitoredTowers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_MonitoredTowers_CellContentClick);
+            // 
+            // dg_POSName
+            // 
+            this.dg_POSName.HeaderText = "POS Name";
+            this.dg_POSName.Name = "dg_POSName";
+            this.dg_POSName.ReadOnly = true;
+            this.dg_POSName.Width = 82;
+            // 
+            // dg_RunTime
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dg_RunTime.HeaderText = "Fuel Run Time";
+            this.dg_RunTime.Name = "dg_RunTime";
+            this.dg_RunTime.ReadOnly = true;
+            this.dg_RunTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.dg_RunTime.Width = 99;
+            // 
+            // dg_ReinfTime
+            // 
+            this.dg_ReinfTime.HeaderText = "Reinforce Time";
+            this.dg_ReinfTime.Name = "dg_ReinfTime";
+            this.dg_ReinfTime.ReadOnly = true;
+            this.dg_ReinfTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.dg_ReinfTime.Width = 103;
+            // 
+            // dg_TowerStatus
+            // 
+            this.dg_TowerStatus.HeaderText = "Status";
+            this.dg_TowerStatus.Name = "dg_TowerStatus";
+            this.dg_TowerStatus.ReadOnly = true;
+            this.dg_TowerStatus.Width = 63;
+            // 
+            // dg_Linked
+            // 
+            this.dg_Linked.HeaderText = "Tower API Link";
+            this.dg_Linked.Name = "dg_Linked";
+            this.dg_Linked.ReadOnly = true;
+            this.dg_Linked.Width = 103;
+            // 
+            // APICache
+            // 
+            this.APICache.HeaderText = "API Cache Time";
+            this.APICache.Name = "APICache";
+            this.APICache.ReadOnly = true;
+            this.APICache.Width = 107;
+            // 
+            // CPU
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CPU.DefaultCellStyle = dataGridViewCellStyle2;
+            this.CPU.HeaderText = "CPU Usage";
+            this.CPU.Name = "CPU";
+            this.CPU.ReadOnly = true;
+            this.CPU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.CPU.Width = 85;
+            // 
+            // Power
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Power.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Power.HeaderText = "Power Usage";
+            this.Power.Name = "Power";
+            this.Power.ReadOnly = true;
+            this.Power.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.Power.Width = 95;
+            // 
+            // EnUr
+            // 
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            this.EnUr.DefaultCellStyle = dataGridViewCellStyle4;
+            this.EnUr.HeaderText = "Enr Uranium";
+            this.EnUr.Name = "EnUr";
+            this.EnUr.ReadOnly = true;
+            this.EnUr.Width = 90;
+            // 
+            // Oxyg
+            // 
+            dataGridViewCellStyle5.Format = "N0";
+            dataGridViewCellStyle5.NullValue = null;
+            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Oxyg.HeaderText = "Oxygen";
+            this.Oxyg.Name = "Oxyg";
+            this.Oxyg.ReadOnly = true;
+            this.Oxyg.Width = 70;
+            // 
+            // McP
+            // 
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = null;
+            this.McP.DefaultCellStyle = dataGridViewCellStyle6;
+            this.McP.HeaderText = "Mech Parts";
+            this.McP.Name = "McP";
+            this.McP.ReadOnly = true;
+            this.McP.Width = 85;
+            // 
+            // Cool
+            // 
+            this.Cool.HeaderText = "Coolant";
+            this.Cool.Name = "Cool";
+            this.Cool.ReadOnly = true;
+            this.Cool.Width = 69;
+            // 
+            // Robt
+            // 
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.Robt.DefaultCellStyle = dataGridViewCellStyle7;
+            this.Robt.HeaderText = "Robotics";
+            this.Robt.Name = "Robt";
+            this.Robt.ReadOnly = true;
+            this.Robt.Width = 73;
+            // 
+            // Iso
+            // 
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = null;
+            this.Iso.DefaultCellStyle = dataGridViewCellStyle8;
+            this.Iso.HeaderText = "Isotopes";
+            this.Iso.Name = "Iso";
+            this.Iso.ReadOnly = true;
+            this.Iso.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.Iso.Width = 74;
+            // 
+            // HvyW
+            // 
+            dataGridViewCellStyle9.Format = "N0";
+            dataGridViewCellStyle9.NullValue = null;
+            this.HvyW.DefaultCellStyle = dataGridViewCellStyle9;
+            this.HvyW.HeaderText = "Hvy Water";
+            this.HvyW.Name = "HvyW";
+            this.HvyW.ReadOnly = true;
+            this.HvyW.Width = 84;
+            // 
+            // LiqO
+            // 
+            dataGridViewCellStyle10.Format = "N0";
+            dataGridViewCellStyle10.NullValue = null;
+            this.LiqO.DefaultCellStyle = dataGridViewCellStyle10;
+            this.LiqO.HeaderText = "Liq Ozone";
+            this.LiqO.Name = "LiqO";
+            this.LiqO.ReadOnly = true;
+            this.LiqO.Width = 79;
+            // 
+            // Chrt
+            // 
+            dataGridViewCellStyle11.Format = "N0";
+            dataGridViewCellStyle11.NullValue = null;
+            this.Chrt.DefaultCellStyle = dataGridViewCellStyle11;
+            this.Chrt.HeaderText = "Charters";
+            this.Chrt.Name = "Chrt";
+            this.Chrt.ReadOnly = true;
+            this.Chrt.Width = 74;
+            // 
+            // Strn
+            // 
+            dataGridViewCellStyle12.Format = "N0";
+            dataGridViewCellStyle12.NullValue = null;
+            this.Strn.DefaultCellStyle = dataGridViewCellStyle12;
+            this.Strn.HeaderText = "Strontium";
+            this.Strn.Name = "Strn";
+            this.Strn.ReadOnly = true;
+            this.Strn.Width = 78;
+            // 
+            // IgnoreCharters
+            // 
+            this.IgnoreCharters.HeaderText = "Use Charters";
+            this.IgnoreCharters.Name = "IgnoreCharters";
+            this.IgnoreCharters.ReadOnly = true;
+            this.IgnoreCharters.Width = 76;
+            // 
+            // ReactionRunTime
+            // 
+            this.ReactionRunTime.HeaderText = "Reaction Run Time";
+            this.ReactionRunTime.Name = "ReactionRunTime";
+            this.ReactionRunTime.Width = 121;
+            // 
+            // HiddenFuel
+            // 
+            this.HiddenFuel.HeaderText = "HiddenFuel";
+            this.HiddenFuel.Name = "HiddenFuel";
+            this.HiddenFuel.ReadOnly = true;
+            this.HiddenFuel.Visible = false;
+            this.HiddenFuel.Width = 86;
+            // 
+            // HiddenStront
+            // 
+            this.HiddenStront.HeaderText = "HiddenStront";
+            this.HiddenStront.Name = "HiddenStront";
+            this.HiddenStront.ReadOnly = true;
+            this.HiddenStront.Visible = false;
+            this.HiddenStront.Width = 94;
+            // 
+            // HiddenCPU
+            // 
+            this.HiddenCPU.HeaderText = "HiddenCPU";
+            this.HiddenCPU.Name = "HiddenCPU";
+            this.HiddenCPU.ReadOnly = true;
+            this.HiddenCPU.Visible = false;
+            this.HiddenCPU.Width = 88;
+            // 
+            // HiddenPower
+            // 
+            this.HiddenPower.HeaderText = "HiddenPower";
+            this.HiddenPower.Name = "HiddenPower";
+            this.HiddenPower.ReadOnly = true;
+            this.HiddenPower.Visible = false;
+            this.HiddenPower.Width = 96;
+            // 
+            // HiddenIso
+            // 
+            this.HiddenIso.HeaderText = "HiddenIso";
+            this.HiddenIso.Name = "HiddenIso";
+            this.HiddenIso.ReadOnly = true;
+            this.HiddenIso.Visible = false;
+            this.HiddenIso.Width = 80;
             // 
             // tp_POSDesign
             // 
@@ -2398,18 +2407,6 @@
             this.l_shield_em.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tt_InfoTips.SetToolTip(this.l_shield_em, "Shield Resistance");
             // 
-            // pictureBox28
-            // 
-            this.pictureBox28.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox28.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon07_12;
-            this.pictureBox28.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox28.Location = new System.Drawing.Point(3, 60);
-            this.pictureBox28.Name = "pictureBox28";
-            this.pictureBox28.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox28.TabIndex = 136;
-            this.pictureBox28.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox28, "Item Cost");
-            // 
             // l_armor_thm
             // 
             this.l_armor_thm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -2447,64 +2444,6 @@
             this.l_armor_emp.TabIndex = 132;
             this.l_armor_emp.Text = "0%";
             this.tt_InfoTips.SetToolTip(this.l_armor_emp, "Armor Resistance");
-            // 
-            // pictureBox21
-            // 
-            this.pictureBox21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox21.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_12;
-            this.pictureBox21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox21.Location = new System.Drawing.Point(3, 149);
-            this.pictureBox21.Name = "pictureBox21";
-            this.pictureBox21.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox21.TabIndex = 127;
-            this.pictureBox21.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox21, "Structure HP");
-            // 
-            // pictureBox22
-            // 
-            this.pictureBox22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox22.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_06;
-            this.pictureBox22.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox22.Location = new System.Drawing.Point(3, 120);
-            this.pictureBox22.Name = "pictureBox22";
-            this.pictureBox22.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox22.TabIndex = 126;
-            this.pictureBox22.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox22, "Armor HP");
-            // 
-            // pictureBox23
-            // 
-            this.pictureBox23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox23.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Shield;
-            this.pictureBox23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox23.Location = new System.Drawing.Point(3, 91);
-            this.pictureBox23.Name = "pictureBox23";
-            this.pictureBox23.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox23.TabIndex = 125;
-            this.pictureBox23.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox23, "Shield HP");
-            // 
-            // pictureBox19
-            // 
-            this.pictureBox19.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_07;
-            this.pictureBox19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox19.Location = new System.Drawing.Point(3, 31);
-            this.pictureBox19.Name = "pictureBox19";
-            this.pictureBox19.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox19.TabIndex = 124;
-            this.pictureBox19.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox19, "Power");
-            // 
-            // pictureBox20
-            // 
-            this.pictureBox20.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon12_07;
-            this.pictureBox20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox20.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox20.Name = "pictureBox20";
-            this.pictureBox20.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox20.TabIndex = 123;
-            this.pictureBox20.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox20, "CPU");
             // 
             // l_SI_Cost
             // 
@@ -2642,54 +2581,6 @@
             this.l_cpu.Text = "0";
             this.l_cpu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pictureBox26
-            // 
-            this.pictureBox26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox26.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
-            this.pictureBox26.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox26.Location = new System.Drawing.Point(146, 143);
-            this.pictureBox26.Name = "pictureBox26";
-            this.pictureBox26.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox26.TabIndex = 129;
-            this.pictureBox26.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox26, "Explosive Resists");
-            // 
-            // pictureBox25
-            // 
-            this.pictureBox25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox25.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
-            this.pictureBox25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox25.Location = new System.Drawing.Point(222, 106);
-            this.pictureBox25.Name = "pictureBox25";
-            this.pictureBox25.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox25.TabIndex = 130;
-            this.pictureBox25.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox25, "Kinetic Resists");
-            // 
-            // pictureBox24
-            // 
-            this.pictureBox24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox24.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
-            this.pictureBox24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox24.Location = new System.Drawing.Point(222, 143);
-            this.pictureBox24.Name = "pictureBox24";
-            this.pictureBox24.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox24.TabIndex = 131;
-            this.pictureBox24.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox24, "Thermal Resists");
-            // 
-            // pictureBox27
-            // 
-            this.pictureBox27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox27.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
-            this.pictureBox27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox27.Location = new System.Drawing.Point(146, 106);
-            this.pictureBox27.Name = "pictureBox27";
-            this.pictureBox27.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox27.TabIndex = 128;
-            this.pictureBox27.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox27, "EM Resists");
-            // 
             // tp_Fuel
             // 
             this.tp_Fuel.BackColor = System.Drawing.SystemColors.Control;
@@ -2728,6 +2619,8 @@
             this.tp_Fuel.Controls.Add(this.label16);
             this.tp_Fuel.Controls.Add(this.l_Robotics);
             this.tp_Fuel.Controls.Add(this.l_AmountForMax);
+            this.tp_Fuel.Controls.Add(this.pb_Stront);
+            this.tp_Fuel.Controls.Add(this.pb_Fuel);
             this.tp_Fuel.Controls.Add(this.pictureBox17);
             this.tp_Fuel.Controls.Add(this.pictureBox18);
             this.tp_Fuel.Controls.Add(this.pb_Strontium);
@@ -2742,8 +2635,6 @@
             this.tp_Fuel.Controls.Add(this.pb_enrUran);
             this.tp_Fuel.Controls.Add(this.pictureBox10);
             this.tp_Fuel.Controls.Add(this.pb_StrontBay);
-            this.tp_Fuel.Controls.Add(this.pb_Stront);
-            this.tp_Fuel.Controls.Add(this.pb_Fuel);
             this.tp_Fuel.ForeColor = System.Drawing.Color.Black;
             this.tp_Fuel.Location = new System.Drawing.Point(4, 23);
             this.tp_Fuel.Name = "tp_Fuel";
@@ -3210,160 +3101,6 @@
             this.l_AmountForMax.Text = "0";
             this.l_AmountForMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox17
-            // 
-            this.pictureBox17.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.FuelStrontium;
-            this.pictureBox17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox17.Location = new System.Drawing.Point(11, 425);
-            this.pictureBox17.Name = "pictureBox17";
-            this.pictureBox17.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox17.TabIndex = 139;
-            this.pictureBox17.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox17, "Fuel + Strontium Cost");
-            // 
-            // pictureBox18
-            // 
-            this.pictureBox18.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.fuel_cost;
-            this.pictureBox18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox18.Location = new System.Drawing.Point(11, 383);
-            this.pictureBox18.Name = "pictureBox18";
-            this.pictureBox18.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox18.TabIndex = 138;
-            this.pictureBox18.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox18, "Total Fuel Cost");
-            // 
-            // pb_Strontium
-            // 
-            this.pb_Strontium.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
-            this.pb_Strontium.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_Strontium.Location = new System.Drawing.Point(21, 351);
-            this.pb_Strontium.Name = "pb_Strontium";
-            this.pb_Strontium.Size = new System.Drawing.Size(25, 25);
-            this.pb_Strontium.TabIndex = 134;
-            this.pb_Strontium.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_Strontium, "Strontium Clathrates");
-            // 
-            // pb_Charter
-            // 
-            this.pb_Charter.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
-            this.pb_Charter.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_Charter.Location = new System.Drawing.Point(21, 328);
-            this.pb_Charter.Name = "pb_Charter";
-            this.pb_Charter.Size = new System.Drawing.Size(25, 25);
-            this.pb_Charter.TabIndex = 133;
-            this.pb_Charter.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_Charter, "Faction Charters");
-            // 
-            // pb_LiqOzone
-            // 
-            this.pb_LiqOzone.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
-            this.pb_LiqOzone.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_LiqOzone.Location = new System.Drawing.Point(21, 305);
-            this.pb_LiqOzone.Name = "pb_LiqOzone";
-            this.pb_LiqOzone.Size = new System.Drawing.Size(25, 25);
-            this.pb_LiqOzone.TabIndex = 132;
-            this.pb_LiqOzone.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_LiqOzone, "Liquid Ozone");
-            // 
-            // pb_HvyWater
-            // 
-            this.pb_HvyWater.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
-            this.pb_HvyWater.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_HvyWater.Location = new System.Drawing.Point(21, 282);
-            this.pb_HvyWater.Name = "pb_HvyWater";
-            this.pb_HvyWater.Size = new System.Drawing.Size(25, 25);
-            this.pb_HvyWater.TabIndex = 131;
-            this.pb_HvyWater.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_HvyWater, "Heavy Water");
-            // 
-            // pb_Isotopes
-            // 
-            this.pb_Isotopes.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Isotope;
-            this.pb_Isotopes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_Isotopes.Location = new System.Drawing.Point(21, 259);
-            this.pb_Isotopes.Name = "pb_Isotopes";
-            this.pb_Isotopes.Size = new System.Drawing.Size(25, 25);
-            this.pb_Isotopes.TabIndex = 130;
-            this.pb_Isotopes.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_Isotopes, "Isotopes");
-            // 
-            // pb_Robotics
-            // 
-            this.pb_Robotics.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
-            this.pb_Robotics.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_Robotics.Location = new System.Drawing.Point(21, 236);
-            this.pb_Robotics.Name = "pb_Robotics";
-            this.pb_Robotics.Size = new System.Drawing.Size(25, 25);
-            this.pb_Robotics.TabIndex = 129;
-            this.pb_Robotics.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_Robotics, "Robotics");
-            // 
-            // pb_Coolant
-            // 
-            this.pb_Coolant.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
-            this.pb_Coolant.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_Coolant.Location = new System.Drawing.Point(21, 213);
-            this.pb_Coolant.Name = "pb_Coolant";
-            this.pb_Coolant.Size = new System.Drawing.Size(25, 25);
-            this.pb_Coolant.TabIndex = 128;
-            this.pb_Coolant.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_Coolant, "Coolant");
-            // 
-            // pb_MechParts
-            // 
-            this.pb_MechParts.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
-            this.pb_MechParts.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_MechParts.Location = new System.Drawing.Point(21, 190);
-            this.pb_MechParts.Name = "pb_MechParts";
-            this.pb_MechParts.Size = new System.Drawing.Size(25, 25);
-            this.pb_MechParts.TabIndex = 127;
-            this.pb_MechParts.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_MechParts, "Mechanical Parts");
-            // 
-            // pb_oxy
-            // 
-            this.pb_oxy.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
-            this.pb_oxy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_oxy.Location = new System.Drawing.Point(21, 167);
-            this.pb_oxy.Name = "pb_oxy";
-            this.pb_oxy.Size = new System.Drawing.Size(25, 25);
-            this.pb_oxy.TabIndex = 126;
-            this.pb_oxy.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_oxy, "Oxygen");
-            // 
-            // pb_enrUran
-            // 
-            this.pb_enrUran.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
-            this.pb_enrUran.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_enrUran.Location = new System.Drawing.Point(21, 144);
-            this.pb_enrUran.Name = "pb_enrUran";
-            this.pb_enrUran.Size = new System.Drawing.Size(25, 25);
-            this.pb_enrUran.TabIndex = 125;
-            this.pb_enrUran.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_enrUran, "Enriched Uranium");
-            // 
-            // pictureBox10
-            // 
-            this.pictureBox10.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon10_10;
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox10.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox10.TabIndex = 124;
-            this.pictureBox10.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox10, "Fuel Bay");
-            // 
-            // pb_StrontBay
-            // 
-            this.pb_StrontBay.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
-            this.pb_StrontBay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_StrontBay.Location = new System.Drawing.Point(3, 37);
-            this.pb_StrontBay.Name = "pb_StrontBay";
-            this.pb_StrontBay.Size = new System.Drawing.Size(35, 35);
-            this.pb_StrontBay.TabIndex = 123;
-            this.pb_StrontBay.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pb_StrontBay, "Strontium Bay");
-            // 
             // pb_Stront
             // 
             this.pb_Stront.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -3429,17 +3166,6 @@
             this.tp_PosStats.TabIndex = 3;
             this.tp_PosStats.Text = "PoS Stats";
             this.tp_PosStats.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox16
-            // 
-            this.pictureBox16.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon07_12;
-            this.pictureBox16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox16.Location = new System.Drawing.Point(3, 256);
-            this.pictureBox16.Name = "pictureBox16";
-            this.pictureBox16.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox16.TabIndex = 135;
-            this.pictureBox16.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox16, "POS Cost (Tower & Modules)");
             // 
             // l_POS_C
             // 
@@ -3647,131 +3373,6 @@
             this.l_AnchorTime.TabIndex = 72;
             this.l_AnchorTime.Text = "Anchor Time";
             this.l_AnchorTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // pictureBox15
-            // 
-            this.pictureBox15.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.un_anchor1;
-            this.pictureBox15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox15.Location = new System.Drawing.Point(3, 402);
-            this.pictureBox15.Name = "pictureBox15";
-            this.pictureBox15.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox15.TabIndex = 126;
-            this.pictureBox15.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox15, "UnAnchor Time");
-            // 
-            // pictureBox14
-            // 
-            this.pictureBox14.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online_anchor;
-            this.pictureBox14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox14.Location = new System.Drawing.Point(3, 367);
-            this.pictureBox14.Name = "pictureBox14";
-            this.pictureBox14.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox14.TabIndex = 125;
-            this.pictureBox14.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox14, "Anchor & Onlline Time");
-            // 
-            // pictureBox13
-            // 
-            this.pictureBox13.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online1;
-            this.pictureBox13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox13.Location = new System.Drawing.Point(3, 332);
-            this.pictureBox13.Name = "pictureBox13";
-            this.pictureBox13.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox13.TabIndex = 124;
-            this.pictureBox13.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox13, "Onlline Time");
-            // 
-            // pictureBox12
-            // 
-            this.pictureBox12.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.anchor1;
-            this.pictureBox12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox12.Location = new System.Drawing.Point(3, 297);
-            this.pictureBox12.Name = "pictureBox12";
-            this.pictureBox12.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox12.TabIndex = 123;
-            this.pictureBox12.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox12, "Anchor Time");
-            // 
-            // pictureBox47
-            // 
-            this.pictureBox47.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.DPS;
-            this.pictureBox47.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox47.Location = new System.Drawing.Point(6, 164);
-            this.pictureBox47.Name = "pictureBox47";
-            this.pictureBox47.Size = new System.Drawing.Size(45, 45);
-            this.pictureBox47.TabIndex = 124;
-            this.pictureBox47.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox47, "POS DPS");
-            // 
-            // pictureBox46
-            // 
-            this.pictureBox46.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.ShieldCharge;
-            this.pictureBox46.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox46.Location = new System.Drawing.Point(6, 110);
-            this.pictureBox46.Name = "pictureBox46";
-            this.pictureBox46.Size = new System.Drawing.Size(45, 45);
-            this.pictureBox46.TabIndex = 123;
-            this.pictureBox46.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox46, "POS Tank / Shield Regen");
-            // 
-            // pictureBox45
-            // 
-            this.pictureBox45.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.EHP;
-            this.pictureBox45.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox45.Location = new System.Drawing.Point(6, 56);
-            this.pictureBox45.Name = "pictureBox45";
-            this.pictureBox45.Size = new System.Drawing.Size(45, 45);
-            this.pictureBox45.TabIndex = 122;
-            this.pictureBox45.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox45, "Estimated POS Hitpoints");
-            // 
-            // pictureBox29
-            // 
-            this.pictureBox29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox29.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
-            this.pictureBox29.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox29.Location = new System.Drawing.Point(231, 30);
-            this.pictureBox29.Name = "pictureBox29";
-            this.pictureBox29.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox29.TabIndex = 121;
-            this.pictureBox29.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox29, "Thermal Resists");
-            // 
-            // pictureBox30
-            // 
-            this.pictureBox30.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox30.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
-            this.pictureBox30.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox30.Location = new System.Drawing.Point(156, 30);
-            this.pictureBox30.Name = "pictureBox30";
-            this.pictureBox30.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox30.TabIndex = 120;
-            this.pictureBox30.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox30, "Kinetic Resists");
-            // 
-            // pictureBox31
-            // 
-            this.pictureBox31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox31.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
-            this.pictureBox31.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox31.Location = new System.Drawing.Point(81, 30);
-            this.pictureBox31.Name = "pictureBox31";
-            this.pictureBox31.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox31.TabIndex = 119;
-            this.pictureBox31.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox31, "Explosive Resists");
-            // 
-            // pictureBox32
-            // 
-            this.pictureBox32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox32.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
-            this.pictureBox32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox32.Location = new System.Drawing.Point(6, 30);
-            this.pictureBox32.Name = "pictureBox32";
-            this.pictureBox32.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox32.TabIndex = 118;
-            this.pictureBox32.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox32, "EM Resists");
             // 
             // p_Select
             // 
@@ -4000,41 +3601,6 @@
             this.l_TowerStExRes.Text = "0%";
             this.tt_InfoTips.SetToolTip(this.l_TowerStExRes, "Structure Resistance");
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(828, 76);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox2.TabIndex = 138;
-            this.pictureBox2.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox2, "Explosive Resists");
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon12_07;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(391, 43);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox1.TabIndex = 137;
-            this.pictureBox1.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox1, "CPU");
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox4.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox4.Location = new System.Drawing.Point(906, 76);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox4.TabIndex = 140;
-            this.pictureBox4.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox4, "Thermal Resists");
-            // 
             // cb_PoSName
             // 
             this.cb_PoSName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -4066,119 +3632,15 @@
             this.ts_Designer.Size = new System.Drawing.Size(990, 37);
             this.ts_Designer.TabIndex = 134;
             // 
-            // tsb_NewPOS
-            // 
-            this.tsb_NewPOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_NewPOS.Image = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.tsb_NewPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_NewPOS.Name = "tsb_NewPOS";
-            this.tsb_NewPOS.Size = new System.Drawing.Size(34, 34);
-            this.tsb_NewPOS.Text = "New";
-            this.tsb_NewPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_NewPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_NewPOS.ToolTipText = "Create a New POS Design";
-            this.tsb_NewPOS.Click += new System.EventHandler(this.b_NewPos_Click);
-            // 
-            // tsb_SavePOS
-            // 
-            this.tsb_SavePOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_SavePOS.Image = global::EveHQ.PosManager.Properties.Resources.Insure;
-            this.tsb_SavePOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_SavePOS.Name = "tsb_SavePOS";
-            this.tsb_SavePOS.Size = new System.Drawing.Size(35, 34);
-            this.tsb_SavePOS.Text = "Save";
-            this.tsb_SavePOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_SavePOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_SavePOS.ToolTipText = "Save POS Design";
-            this.tsb_SavePOS.Click += new System.EventHandler(this.b_SavePoS_Click);
-            // 
-            // tsb_RenamePOS
-            // 
-            this.tsb_RenamePOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_RenamePOS.Image = global::EveHQ.PosManager.Properties.Resources.Bounty;
-            this.tsb_RenamePOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_RenamePOS.Name = "tsb_RenamePOS";
-            this.tsb_RenamePOS.Size = new System.Drawing.Size(38, 34);
-            this.tsb_RenamePOS.Text = "Renm";
-            this.tsb_RenamePOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_RenamePOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_RenamePOS.ToolTipText = "Rename POS Design";
-            this.tsb_RenamePOS.Click += new System.EventHandler(this.b_RenamePos_Click);
-            // 
-            // tsb_CopyPOS
-            // 
-            this.tsb_CopyPOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_CopyPOS.Image = global::EveHQ.PosManager.Properties.Resources.CloneBay;
-            this.tsb_CopyPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_CopyPOS.Name = "tsb_CopyPOS";
-            this.tsb_CopyPOS.Size = new System.Drawing.Size(36, 34);
-            this.tsb_CopyPOS.Text = "Copy";
-            this.tsb_CopyPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_CopyPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_CopyPOS.ToolTipText = "Copy POS Design";
-            this.tsb_CopyPOS.Click += new System.EventHandler(this.b_CopyPOS_Click);
-            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(6, 37);
             // 
-            // tsb_ClearPOS
-            // 
-            this.tsb_ClearPOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_ClearPOS.Image = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.tsb_ClearPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_ClearPOS.Name = "tsb_ClearPOS";
-            this.tsb_ClearPOS.Size = new System.Drawing.Size(36, 34);
-            this.tsb_ClearPOS.Text = "Clear";
-            this.tsb_ClearPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_ClearPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_ClearPOS.ToolTipText = "Clear Design Layout";
-            this.tsb_ClearPOS.Click += new System.EventHandler(this.b_ClearPoS_Click);
-            // 
-            // tsb_DelPOS
-            // 
-            this.tsb_DelPOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_DelPOS.Image = global::EveHQ.PosManager.Properties.Resources.Delete;
-            this.tsb_DelPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_DelPOS.Name = "tsb_DelPOS";
-            this.tsb_DelPOS.Size = new System.Drawing.Size(42, 34);
-            this.tsb_DelPOS.Text = "Delete";
-            this.tsb_DelPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_DelPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_DelPOS.ToolTipText = "Delet POS Design";
-            this.tsb_DelPOS.Click += new System.EventHandler(this.b_DelPoS_Click);
-            // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(6, 37);
-            // 
-            // tsb_ExportPOS
-            // 
-            this.tsb_ExportPOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_ExportPOS.Image = global::EveHQ.PosManager.Properties.Resources.APIUpdate;
-            this.tsb_ExportPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_ExportPOS.Name = "tsb_ExportPOS";
-            this.tsb_ExportPOS.Size = new System.Drawing.Size(43, 34);
-            this.tsb_ExportPOS.Text = "Export";
-            this.tsb_ExportPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_ExportPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_ExportPOS.ToolTipText = "Export POS Design";
-            this.tsb_ExportPOS.Click += new System.EventHandler(this.tsb_ExportPOS_Click);
-            // 
-            // tsb_ImportPOS
-            // 
-            this.tsb_ImportPOS.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_ImportPOS.Image = ((System.Drawing.Image)(resources.GetObject("tsb_ImportPOS.Image")));
-            this.tsb_ImportPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_ImportPOS.Name = "tsb_ImportPOS";
-            this.tsb_ImportPOS.Size = new System.Drawing.Size(43, 34);
-            this.tsb_ImportPOS.Text = "Import";
-            this.tsb_ImportPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_ImportPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_ImportPOS.ToolTipText = "Import POS Design";
-            this.tsb_ImportPOS.Visible = false;
             // 
             // toolStripSeparator10
             // 
@@ -4256,18 +3718,6 @@
             this.tt_InfoTips.SetToolTip(this.cb_CorpName, "Select Sov Level for Tower System");
             this.cb_CorpName.SelectedIndexChanged += new System.EventHandler(this.cb_CorpName_SelectedIndexChanged);
             // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox5.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Shield;
-            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox5.Location = new System.Drawing.Point(689, 38);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox5.TabIndex = 118;
-            this.pictureBox5.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox5, "Shield HP");
-            // 
             // cb_SovLevel
             // 
             this.cb_SovLevel.FormattingEnabled = true;
@@ -4286,18 +3736,6 @@
             this.tt_InfoTips.SetToolTip(this.cb_SovLevel, "Select Sov Level for Tower System");
             this.cb_SovLevel.SelectedIndexChanged += new System.EventHandler(this.cb_SovLevel_SelectedIndexChanged);
             // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox6.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_06;
-            this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox6.Location = new System.Drawing.Point(689, 62);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox6.TabIndex = 119;
-            this.pictureBox6.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox6, "Armor HP");
-            // 
             // cb_System
             // 
             this.cb_System.FormattingEnabled = true;
@@ -4308,18 +3746,6 @@
             this.cb_System.Text = "Select Tower System";
             this.tt_InfoTips.SetToolTip(this.cb_System, "Select System that the Tower is In");
             this.cb_System.SelectedIndexChanged += new System.EventHandler(this.cb_System_SelectedIndexChanged);
-            // 
-            // pictureBox7
-            // 
-            this.pictureBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox7.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_12;
-            this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox7.Location = new System.Drawing.Point(689, 86);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox7.TabIndex = 120;
-            this.pictureBox7.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox7, "Structure HP");
             // 
             // label21
             // 
@@ -4363,17 +3789,6 @@
             this.pb_CPU.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.pb_CPU.TextOverlay = "";
             // 
-            // pictureBox8
-            // 
-            this.pictureBox8.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_07;
-            this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox8.Location = new System.Drawing.Point(391, 72);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox8.TabIndex = 122;
-            this.pictureBox8.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox8, "Power");
-            // 
             // l_TowerAKRes
             // 
             this.l_TowerAKRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -4401,111 +3816,6 @@
             this.l_TowerAEmRes.TabIndex = 103;
             this.l_TowerAEmRes.Text = "0%";
             this.tt_InfoTips.SetToolTip(this.l_TowerAEmRes, "Armor Resistance");
-            // 
-            // pictureBox9
-            // 
-            this.pictureBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox9.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
-            this.pictureBox9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox9.Location = new System.Drawing.Point(828, 38);
-            this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox9.TabIndex = 137;
-            this.pictureBox9.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox9, "EM Resists");
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox3.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
-            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(906, 38);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox3.TabIndex = 139;
-            this.pictureBox3.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox3, "Kinetic Resists");
-            // 
-            // p_Tower
-            // 
-            this.p_Tower.BackColor = System.Drawing.SystemColors.Control;
-            this.p_Tower.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.PosShield;
-            this.p_Tower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.p_Tower.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.p_Tower.Controls.Add(this.poS_Item51);
-            this.p_Tower.Controls.Add(this.poS_Item52);
-            this.p_Tower.Controls.Add(this.poS_Item49);
-            this.p_Tower.Controls.Add(this.poS_Item50);
-            this.p_Tower.Controls.Add(this.poS_Item43);
-            this.p_Tower.Controls.Add(this.poS_Item44);
-            this.p_Tower.Controls.Add(this.poS_Item45);
-            this.p_Tower.Controls.Add(this.poS_Item47);
-            this.p_Tower.Controls.Add(this.poS_Item48);
-            this.p_Tower.Controls.Add(this.poS_Item37);
-            this.p_Tower.Controls.Add(this.poS_Item38);
-            this.p_Tower.Controls.Add(this.poS_Item39);
-            this.p_Tower.Controls.Add(this.poS_Item41);
-            this.p_Tower.Controls.Add(this.poS_Item42);
-            this.p_Tower.Controls.Add(this.poS_Item31);
-            this.p_Tower.Controls.Add(this.poS_Item32);
-            this.p_Tower.Controls.Add(this.poS_Item33);
-            this.p_Tower.Controls.Add(this.poS_Item35);
-            this.p_Tower.Controls.Add(this.poS_Item36);
-            this.p_Tower.Controls.Add(this.poS_Item25);
-            this.p_Tower.Controls.Add(this.poS_Item26);
-            this.p_Tower.Controls.Add(this.poS_Item27);
-            this.p_Tower.Controls.Add(this.poS_Item29);
-            this.p_Tower.Controls.Add(this.poS_Item30);
-            this.p_Tower.Controls.Add(this.poS_Item20);
-            this.p_Tower.Controls.Add(this.poS_Item21);
-            this.p_Tower.Controls.Add(this.poS_Item22);
-            this.p_Tower.Controls.Add(this.poS_Item23);
-            this.p_Tower.Controls.Add(this.poS_Item24);
-            this.p_Tower.Controls.Add(this.poS_Item15);
-            this.p_Tower.Controls.Add(this.poS_Item16);
-            this.p_Tower.Controls.Add(this.poS_Item17);
-            this.p_Tower.Controls.Add(this.poS_Item18);
-            this.p_Tower.Controls.Add(this.poS_Item19);
-            this.p_Tower.Controls.Add(this.poS_Item8);
-            this.p_Tower.Controls.Add(this.poS_Item13);
-            this.p_Tower.Controls.Add(this.poS_Item14);
-            this.p_Tower.Controls.Add(this.poS_Item5);
-            this.p_Tower.Controls.Add(this.poS_Item6);
-            this.p_Tower.Controls.Add(this.poS_Item7);
-            this.p_Tower.Controls.Add(this.poS_Item11);
-            this.p_Tower.Controls.Add(this.poS_Item12);
-            this.p_Tower.Controls.Add(this.poS_Item9);
-            this.p_Tower.Controls.Add(this.poS_Item10);
-            this.p_Tower.Controls.Add(this.poS_Item3);
-            this.p_Tower.Controls.Add(this.poS_Item4);
-            this.p_Tower.Controls.Add(this.poS_Item2);
-            this.p_Tower.Controls.Add(this.poS_Item1);
-            this.p_Tower.Controls.Add(this.pi_Tower);
-            this.p_Tower.ForeColor = System.Drawing.Color.Black;
-            this.p_Tower.Location = new System.Drawing.Point(307, 120);
-            this.p_Tower.Name = "p_Tower";
-            this.p_Tower.Size = new System.Drawing.Size(500, 420);
-            this.p_Tower.TabIndex = 3;
-            // 
-            // poS_Item51
-            // 
-            this.poS_Item51.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.poS_Item51.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item51.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item51.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item51.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item51.ItemNumber = 0;
-            this.poS_Item51.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item51.Location = new System.Drawing.Point(451, 211);
-            this.poS_Item51.Name = "poS_Item51";
-            this.poS_Item51.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item51.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item51.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item51.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item51.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item51.TabIndex = 60;
-            this.poS_Item51.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
             // 
             // cms_PosItem
             // 
@@ -4634,6 +3944,2728 @@
             this.tsm_SetModuleCharge.Text = "Set Charge";
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
+            // 
+            // tp_POSMaintenance
+            // 
+            this.tp_POSMaintenance.Controls.Add(this.cb_ShowFuelNeed);
+            this.tp_POSMaintenance.Controls.Add(this.label5);
+            this.tp_POSMaintenance.Controls.Add(this.cb_FactChartTotal);
+            this.tp_POSMaintenance.Controls.Add(this.cb_UseStrontTotals);
+            this.tp_POSMaintenance.Controls.Add(this.gb_AllPos);
+            this.tp_POSMaintenance.Controls.Add(this.gb_SelPos);
+            this.tp_POSMaintenance.Controls.Add(this.dg_TowerFuelList);
+            this.tp_POSMaintenance.Controls.Add(this.label7);
+            this.tp_POSMaintenance.Controls.Add(this.label6);
+            this.tp_POSMaintenance.Controls.Add(this.nud_PeriodValue);
+            this.tp_POSMaintenance.Controls.Add(this.tscb_TimePeriod);
+            this.tp_POSMaintenance.Controls.Add(this.label2);
+            this.tp_POSMaintenance.Controls.Add(this.b_ApplyIntervalPeriod);
+            this.tp_POSMaintenance.Location = new System.Drawing.Point(4, 25);
+            this.tp_POSMaintenance.Name = "tp_POSMaintenance";
+            this.tp_POSMaintenance.Size = new System.Drawing.Size(1000, 701);
+            this.tp_POSMaintenance.TabIndex = 2;
+            this.tp_POSMaintenance.Text = "POS Maintenance";
+            this.tp_POSMaintenance.UseVisualStyleBackColor = true;
+            // 
+            // cb_ShowFuelNeed
+            // 
+            this.cb_ShowFuelNeed.AutoSize = true;
+            this.cb_ShowFuelNeed.Location = new System.Drawing.Point(798, 36);
+            this.cb_ShowFuelNeed.Name = "cb_ShowFuelNeed";
+            this.cb_ShowFuelNeed.Size = new System.Drawing.Size(187, 17);
+            this.cb_ShowFuelNeed.TabIndex = 182;
+            this.cb_ShowFuelNeed.Text = "Ignore Current Tower Fuel Levels";
+            this.tt_InfoTips.SetToolTip(this.cb_ShowFuelNeed, "Show fuel needed by tower for time period. Do Not account for fuel already at tow" +
+                    "er.");
+            this.cb_ShowFuelNeed.UseVisualStyleBackColor = true;
+            this.cb_ShowFuelNeed.CheckedChanged += new System.EventHandler(this.cb_ShowFuelNeed_CheckedChanged);
+            // 
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.ForeColor = System.Drawing.Color.Blue;
+            this.label5.Location = new System.Drawing.Point(358, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(180, 42);
+            this.label5.TabIndex = 181;
+            this.label5.Text = "The \'Fill\' interval will CAP each POS to the maximum fuel it can hold. The other " +
+                "intervals will not do this.";
+            // 
+            // cb_FactChartTotal
+            // 
+            this.cb_FactChartTotal.AutoSize = true;
+            this.cb_FactChartTotal.Checked = true;
+            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 20);
+            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
+            this.cb_FactChartTotal.Size = new System.Drawing.Size(149, 17);
+            this.cb_FactChartTotal.TabIndex = 178;
+            this.cb_FactChartTotal.Text = "Include Charters in Totals";
+            this.cb_FactChartTotal.UseVisualStyleBackColor = true;
+            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
+            // 
+            // cb_UseStrontTotals
+            // 
+            this.cb_UseStrontTotals.AutoSize = true;
+            this.cb_UseStrontTotals.Checked = true;
+            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 4);
+            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
+            this.cb_UseStrontTotals.Size = new System.Drawing.Size(137, 17);
+            this.cb_UseStrontTotals.TabIndex = 177;
+            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
+            this.cb_UseStrontTotals.UseVisualStyleBackColor = true;
+            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
+            // 
+            // gb_AllPos
+            // 
+            this.gb_AllPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gb_AllPos.Controls.Add(this.cb_AllDataForCopy);
+            this.gb_AllPos.Controls.Add(this.dg_TotalFuel);
+            this.gb_AllPos.Controls.Add(this.b_CopyAllPos);
+            this.gb_AllPos.ForeColor = System.Drawing.Color.Blue;
+            this.gb_AllPos.Location = new System.Drawing.Point(501, 425);
+            this.gb_AllPos.Name = "gb_AllPos";
+            this.gb_AllPos.Size = new System.Drawing.Size(497, 276);
+            this.gb_AllPos.TabIndex = 176;
+            this.gb_AllPos.TabStop = false;
+            this.gb_AllPos.Text = "All POS";
+            // 
+            // cb_AllDataForCopy
+            // 
+            this.cb_AllDataForCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_AllDataForCopy.FormattingEnabled = true;
+            this.cb_AllDataForCopy.Items.AddRange(new object[] {
+            "Fuel Only (Total m3)",
+            "Fuel & Volume (Total m3)",
+            "Fuel, Volume & Cost (Total m3 & Cost)"});
+            this.cb_AllDataForCopy.Location = new System.Drawing.Point(179, 11);
+            this.cb_AllDataForCopy.Name = "cb_AllDataForCopy";
+            this.cb_AllDataForCopy.Size = new System.Drawing.Size(220, 24);
+            this.cb_AllDataForCopy.TabIndex = 184;
+            this.cb_AllDataForCopy.Text = "Fuel Only (Total m3)";
+            // 
+            // dg_TotalFuel
+            // 
+            this.dg_TotalFuel.AllowUserToAddRows = false;
+            this.dg_TotalFuel.AllowUserToDeleteRows = false;
+            this.dg_TotalFuel.AllowUserToResizeRows = false;
+            this.dg_TotalFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.dg_TotalFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_TotalFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
+            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FuelName,
+            this.FuelAmount,
+            this.FuelVolume,
+            this.FuelCost});
+            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 38);
+            this.dg_TotalFuel.MultiSelect = false;
+            this.dg_TotalFuel.Name = "dg_TotalFuel";
+            this.dg_TotalFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle17;
+            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 234);
+            this.dg_TotalFuel.TabIndex = 0;
+            // 
+            // FuelName
+            // 
+            this.FuelName.HeaderText = "Fuel";
+            this.FuelName.Name = "FuelName";
+            this.FuelName.ReadOnly = true;
+            this.FuelName.Width = 145;
+            // 
+            // FuelAmount
+            // 
+            this.FuelAmount.HeaderText = "Amount";
+            this.FuelAmount.Name = "FuelAmount";
+            this.FuelAmount.ReadOnly = true;
+            // 
+            // FuelVolume
+            // 
+            this.FuelVolume.HeaderText = "Volume";
+            this.FuelVolume.Name = "FuelVolume";
+            this.FuelVolume.ReadOnly = true;
+            // 
+            // FuelCost
+            // 
+            this.FuelCost.HeaderText = "Cost";
+            this.FuelCost.Name = "FuelCost";
+            this.FuelCost.ReadOnly = true;
+            this.FuelCost.Width = 125;
+            // 
+            // gb_SelPos
+            // 
+            this.gb_SelPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gb_SelPos.Controls.Add(this.cb_SelectedDataForCopy);
+            this.gb_SelPos.Controls.Add(this.dg_SelectedFuel);
+            this.gb_SelPos.Controls.Add(this.b_SetSelectedFull);
+            this.gb_SelPos.Controls.Add(this.b_CopySelected);
+            this.gb_SelPos.ForeColor = System.Drawing.Color.Blue;
+            this.gb_SelPos.Location = new System.Drawing.Point(0, 425);
+            this.gb_SelPos.Name = "gb_SelPos";
+            this.gb_SelPos.Size = new System.Drawing.Size(497, 276);
+            this.gb_SelPos.TabIndex = 175;
+            this.gb_SelPos.TabStop = false;
+            this.gb_SelPos.Text = "Selected POS";
+            // 
+            // cb_SelectedDataForCopy
+            // 
+            this.cb_SelectedDataForCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_SelectedDataForCopy.FormattingEnabled = true;
+            this.cb_SelectedDataForCopy.Items.AddRange(new object[] {
+            "Fuel Only (Total m3)",
+            "Fuel & Volume (Total m3)",
+            "Fuel, Volume & Cost (Total m3 & Cost)"});
+            this.cb_SelectedDataForCopy.Location = new System.Drawing.Point(179, 11);
+            this.cb_SelectedDataForCopy.Name = "cb_SelectedDataForCopy";
+            this.cb_SelectedDataForCopy.Size = new System.Drawing.Size(220, 24);
+            this.cb_SelectedDataForCopy.TabIndex = 183;
+            this.cb_SelectedDataForCopy.Text = "Fuel Only (Total m3)";
+            // 
+            // dg_SelectedFuel
+            // 
+            this.dg_SelectedFuel.AllowUserToAddRows = false;
+            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
+            this.dg_SelectedFuel.AllowUserToResizeRows = false;
+            this.dg_SelectedFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.dg_SelectedFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_SelectedFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
+            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelFuelType,
+            this.SelFuelAmount,
+            this.SelFuelVol,
+            this.SelFuelCost});
+            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 38);
+            this.dg_SelectedFuel.MultiSelect = false;
+            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
+            this.dg_SelectedFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 234);
+            this.dg_SelectedFuel.TabIndex = 1;
+            // 
+            // SelFuelType
+            // 
+            this.SelFuelType.HeaderText = "Type";
+            this.SelFuelType.Name = "SelFuelType";
+            this.SelFuelType.ReadOnly = true;
+            this.SelFuelType.Width = 145;
+            // 
+            // SelFuelAmount
+            // 
+            this.SelFuelAmount.HeaderText = "Amount";
+            this.SelFuelAmount.Name = "SelFuelAmount";
+            this.SelFuelAmount.ReadOnly = true;
+            // 
+            // SelFuelVol
+            // 
+            this.SelFuelVol.HeaderText = "Volume";
+            this.SelFuelVol.Name = "SelFuelVol";
+            this.SelFuelVol.ReadOnly = true;
+            // 
+            // SelFuelCost
+            // 
+            this.SelFuelCost.HeaderText = "Cost";
+            this.SelFuelCost.Name = "SelFuelCost";
+            this.SelFuelCost.ReadOnly = true;
+            this.SelFuelCost.Width = 125;
+            // 
+            // dg_TowerFuelList
+            // 
+            this.dg_TowerFuelList.AllowUserToAddRows = false;
+            this.dg_TowerFuelList.AllowUserToDeleteRows = false;
+            this.dg_TowerFuelList.AllowUserToResizeRows = false;
+            this.dg_TowerFuelList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dg_TowerFuelList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_TowerFuelList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            this.dg_TowerFuelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_TowerFuelList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FName,
+            this.FLocation,
+            this.EnrUr,
+            this.Oxygen,
+            this.MechP,
+            this.Coolant,
+            this.Robot,
+            this.Isotope,
+            this.HvyWater,
+            this.LiqOz,
+            this.Charter,
+            this.Stront,
+            this.RunTime});
+            this.dg_TowerFuelList.Location = new System.Drawing.Point(3, 54);
+            this.dg_TowerFuelList.Name = "dg_TowerFuelList";
+            this.dg_TowerFuelList.ReadOnly = true;
+            this.dg_TowerFuelList.RowHeadersVisible = false;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_TowerFuelList.Size = new System.Drawing.Size(995, 370);
+            this.dg_TowerFuelList.TabIndex = 174;
+            this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
+            // 
+            // FName
+            // 
+            this.FName.HeaderText = "Name";
+            this.FName.Name = "FName";
+            this.FName.ReadOnly = true;
+            this.FName.Width = 59;
+            // 
+            // FLocation
+            // 
+            this.FLocation.HeaderText = "Location";
+            this.FLocation.Name = "FLocation";
+            this.FLocation.ReadOnly = true;
+            this.FLocation.Width = 72;
+            // 
+            // EnrUr
+            // 
+            this.EnrUr.HeaderText = "Enr. Ur.";
+            this.EnrUr.Name = "EnrUr";
+            this.EnrUr.ReadOnly = true;
+            this.EnrUr.Width = 70;
+            // 
+            // Oxygen
+            // 
+            this.Oxygen.HeaderText = "Oxygen";
+            this.Oxygen.Name = "Oxygen";
+            this.Oxygen.ReadOnly = true;
+            this.Oxygen.Width = 70;
+            // 
+            // MechP
+            // 
+            this.MechP.HeaderText = "Mech Pts";
+            this.MechP.Name = "MechP";
+            this.MechP.ReadOnly = true;
+            this.MechP.Width = 75;
+            // 
+            // Coolant
+            // 
+            this.Coolant.HeaderText = "Coolant";
+            this.Coolant.Name = "Coolant";
+            this.Coolant.ReadOnly = true;
+            this.Coolant.Width = 69;
+            // 
+            // Robot
+            // 
+            this.Robot.HeaderText = "Robotics";
+            this.Robot.Name = "Robot";
+            this.Robot.ReadOnly = true;
+            this.Robot.Width = 73;
+            // 
+            // Isotope
+            // 
+            this.Isotope.HeaderText = "Isotopes";
+            this.Isotope.Name = "Isotope";
+            this.Isotope.ReadOnly = true;
+            this.Isotope.Width = 74;
+            // 
+            // HvyWater
+            // 
+            this.HvyWater.HeaderText = "Hvy. Water";
+            this.HvyWater.Name = "HvyWater";
+            this.HvyWater.ReadOnly = true;
+            this.HvyWater.Width = 88;
+            // 
+            // LiqOz
+            // 
+            this.LiqOz.HeaderText = "Liq Ozone";
+            this.LiqOz.Name = "LiqOz";
+            this.LiqOz.ReadOnly = true;
+            this.LiqOz.Width = 79;
+            // 
+            // Charter
+            // 
+            this.Charter.HeaderText = "Charters";
+            this.Charter.Name = "Charter";
+            this.Charter.ReadOnly = true;
+            this.Charter.Width = 74;
+            // 
+            // Stront
+            // 
+            this.Stront.HeaderText = "Strontium";
+            this.Stront.Name = "Stront";
+            this.Stront.ReadOnly = true;
+            this.Stront.Width = 78;
+            // 
+            // RunTime
+            // 
+            this.RunTime.HeaderText = "Run Time";
+            this.RunTime.Name = "RunTime";
+            this.RunTime.ReadOnly = true;
+            this.RunTime.Width = 76;
+            // 
+            // label7
+            // 
+            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(546, 30);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(61, 18);
+            this.label7.TabIndex = 172;
+            this.label7.Text = "Period";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Location = new System.Drawing.Point(546, 7);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(61, 18);
+            this.label6.TabIndex = 171;
+            this.label6.Text = "Interval";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nud_PeriodValue
+            // 
+            this.nud_PeriodValue.Location = new System.Drawing.Point(609, 29);
+            this.nud_PeriodValue.Name = "nud_PeriodValue";
+            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 21);
+            this.nud_PeriodValue.TabIndex = 170;
+            // 
+            // tscb_TimePeriod
+            // 
+            this.tscb_TimePeriod.FormattingEnabled = true;
+            this.tscb_TimePeriod.Items.AddRange(new object[] {
+            "Hours",
+            "Days",
+            "Weeks",
+            "Months",
+            "Fill"});
+            this.tscb_TimePeriod.Location = new System.Drawing.Point(609, 6);
+            this.tscb_TimePeriod.Name = "tscb_TimePeriod";
+            this.tscb_TimePeriod.Size = new System.Drawing.Size(121, 21);
+            this.tscb_TimePeriod.TabIndex = 169;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(328, 16);
+            this.label2.TabIndex = 164;
+            this.label2.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // tp_ReactManage
+            // 
+            this.tp_ReactManage.Controls.Add(this.p_ReactMenu);
+            this.tp_ReactManage.Controls.Add(this.p_PosMods);
+            this.tp_ReactManage.Controls.Add(this.tv_ReactManage);
+            this.tp_ReactManage.Location = new System.Drawing.Point(4, 25);
+            this.tp_ReactManage.Name = "tp_ReactManage";
+            this.tp_ReactManage.Size = new System.Drawing.Size(1000, 701);
+            this.tp_ReactManage.TabIndex = 4;
+            this.tp_ReactManage.Text = "Reaction Manager";
+            this.tp_ReactManage.UseVisualStyleBackColor = true;
+            // 
+            // p_ReactMenu
+            // 
+            this.p_ReactMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.p_ReactMenu.Controls.Add(this.ts_ReactionMenu);
+            this.p_ReactMenu.Location = new System.Drawing.Point(372, 1);
+            this.p_ReactMenu.Name = "p_ReactMenu";
+            this.p_ReactMenu.Size = new System.Drawing.Size(44, 700);
+            this.p_ReactMenu.TabIndex = 2;
+            // 
+            // ts_ReactionMenu
+            // 
+            this.ts_ReactionMenu.AllowMerge = false;
+            this.ts_ReactionMenu.AutoSize = false;
+            this.ts_ReactionMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ts_ReactionMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ts_ReactionMenu.ImageScalingSize = new System.Drawing.Size(35, 35);
+            this.ts_ReactionMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsb_React_Save,
+            this.tsb_ReactClearLink,
+            this.toolStripButton3});
+            this.ts_ReactionMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.ts_ReactionMenu.Location = new System.Drawing.Point(0, 0);
+            this.ts_ReactionMenu.Name = "ts_ReactionMenu";
+            this.ts_ReactionMenu.Size = new System.Drawing.Size(44, 700);
+            this.ts_ReactionMenu.TabIndex = 2;
+            // 
+            // p_PosMods
+            // 
+            this.p_PosMods.AutoScroll = true;
+            this.p_PosMods.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.p_PosMods.Dock = System.Windows.Forms.DockStyle.Right;
+            this.p_PosMods.Location = new System.Drawing.Point(419, 0);
+            this.p_PosMods.Name = "p_PosMods";
+            this.p_PosMods.Size = new System.Drawing.Size(581, 701);
+            this.p_PosMods.TabIndex = 1;
+            // 
+            // tv_ReactManage
+            // 
+            this.tv_ReactManage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tv_ReactManage.FullRowSelect = true;
+            this.tv_ReactManage.Location = new System.Drawing.Point(0, 0);
+            this.tv_ReactManage.Name = "tv_ReactManage";
+            this.tv_ReactManage.Size = new System.Drawing.Size(371, 701);
+            this.tv_ReactManage.TabIndex = 0;
+            this.tv_ReactManage.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tv_ReactManage_AfterSelect);
+            // 
+            // tb_PMConfig
+            // 
+            this.tb_PMConfig.Controls.Add(this.groupBox2);
+            this.tb_PMConfig.Controls.Add(this.gb_PosDesignShow);
+            this.tb_PMConfig.Controls.Add(this.gb_MonPosCol);
+            this.tb_PMConfig.Location = new System.Drawing.Point(4, 25);
+            this.tb_PMConfig.Name = "tb_PMConfig";
+            this.tb_PMConfig.Size = new System.Drawing.Size(1000, 701);
+            this.tb_PMConfig.TabIndex = 3;
+            this.tb_PMConfig.Text = "Configuration";
+            this.tb_PMConfig.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pictureBox41);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.pictureBox40);
+            this.groupBox2.Controls.Add(this.nud_O2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox39);
+            this.groupBox2.Controls.Add(this.nud_H2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox38);
+            this.groupBox2.Controls.Add(this.nud_N2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox37);
+            this.groupBox2.Controls.Add(this.pictureBox35);
+            this.groupBox2.Controls.Add(this.nud_ST_FC);
+            this.groupBox2.Controls.Add(this.pictureBox34);
+            this.groupBox2.Controls.Add(this.nud_CH_FC);
+            this.groupBox2.Controls.Add(this.pictureBox33);
+            this.groupBox2.Controls.Add(this.nud_LO_FC);
+            this.groupBox2.Controls.Add(this.pictureBox11);
+            this.groupBox2.Controls.Add(this.nud_HW_FC);
+            this.groupBox2.Controls.Add(this.pictureBox44);
+            this.groupBox2.Controls.Add(this.nud_HE_FC);
+            this.groupBox2.Controls.Add(this.pictureBox43);
+            this.groupBox2.Controls.Add(this.nud_RB_FC);
+            this.groupBox2.Controls.Add(this.pictureBox42);
+            this.groupBox2.Controls.Add(this.nud_CL_FC);
+            this.groupBox2.Controls.Add(this.pictureBox36);
+            this.groupBox2.Controls.Add(this.nud_MP_FC);
+            this.groupBox2.Controls.Add(this.nud_ER_FC);
+            this.groupBox2.Controls.Add(this.nud_OX_FC);
+            this.groupBox2.ForeColor = System.Drawing.Color.Blue;
+            this.groupBox2.Location = new System.Drawing.Point(0, 228);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(354, 267);
+            this.groupBox2.TabIndex = 178;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Set Fuel Costs";
+            // 
+            // label1
+            // 
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1.Location = new System.Drawing.Point(161, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(187, 32);
+            this.label1.TabIndex = 177;
+            this.label1.Text = "** A value of \'0\' means the default standard fuel cost will be used.";
+            // 
+            // nud_O2_FC
+            // 
+            this.nud_O2_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_O2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_O2_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_O2_FC.Location = new System.Drawing.Point(220, 92);
+            this.nud_O2_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_O2_FC.Name = "nud_O2_FC";
+            this.nud_O2_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_O2_FC.TabIndex = 163;
+            this.nud_O2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_O2_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_O2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_H2_FC
+            // 
+            this.nud_H2_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_H2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_H2_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_H2_FC.Location = new System.Drawing.Point(220, 57);
+            this.nud_H2_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_H2_FC.Name = "nud_H2_FC";
+            this.nud_H2_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_H2_FC.TabIndex = 162;
+            this.nud_H2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_H2_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_H2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_N2_FC
+            // 
+            this.nud_N2_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_N2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_N2_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_N2_FC.Location = new System.Drawing.Point(45, 197);
+            this.nud_N2_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_N2_FC.Name = "nud_N2_FC";
+            this.nud_N2_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_N2_FC.TabIndex = 161;
+            this.nud_N2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_N2_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_N2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_ST_FC
+            // 
+            this.nud_ST_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_ST_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_ST_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_ST_FC.Location = new System.Drawing.Point(220, 232);
+            this.nud_ST_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_ST_FC.Name = "nud_ST_FC";
+            this.nud_ST_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_ST_FC.TabIndex = 159;
+            this.nud_ST_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_ST_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_ST_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_CH_FC
+            // 
+            this.nud_CH_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_CH_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_CH_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_CH_FC.Location = new System.Drawing.Point(220, 197);
+            this.nud_CH_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_CH_FC.Name = "nud_CH_FC";
+            this.nud_CH_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_CH_FC.TabIndex = 158;
+            this.nud_CH_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_CH_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_CH_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_LO_FC
+            // 
+            this.nud_LO_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_LO_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_LO_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_LO_FC.Location = new System.Drawing.Point(220, 162);
+            this.nud_LO_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_LO_FC.Name = "nud_LO_FC";
+            this.nud_LO_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_LO_FC.TabIndex = 157;
+            this.nud_LO_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_LO_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_LO_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_HW_FC
+            // 
+            this.nud_HW_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_HW_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_HW_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_HW_FC.Location = new System.Drawing.Point(220, 127);
+            this.nud_HW_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_HW_FC.Name = "nud_HW_FC";
+            this.nud_HW_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_HW_FC.TabIndex = 156;
+            this.nud_HW_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_HW_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_HW_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_HE_FC
+            // 
+            this.nud_HE_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_HE_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_HE_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_HE_FC.Location = new System.Drawing.Point(45, 232);
+            this.nud_HE_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_HE_FC.Name = "nud_HE_FC";
+            this.nud_HE_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_HE_FC.TabIndex = 155;
+            this.nud_HE_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_HE_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_HE_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_RB_FC
+            // 
+            this.nud_RB_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_RB_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_RB_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_RB_FC.Location = new System.Drawing.Point(45, 162);
+            this.nud_RB_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_RB_FC.Name = "nud_RB_FC";
+            this.nud_RB_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_RB_FC.TabIndex = 154;
+            this.nud_RB_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_RB_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_RB_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_CL_FC
+            // 
+            this.nud_CL_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_CL_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_CL_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_CL_FC.Location = new System.Drawing.Point(45, 127);
+            this.nud_CL_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_CL_FC.Name = "nud_CL_FC";
+            this.nud_CL_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_CL_FC.TabIndex = 153;
+            this.nud_CL_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_CL_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_CL_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_MP_FC
+            // 
+            this.nud_MP_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_MP_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_MP_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_MP_FC.Location = new System.Drawing.Point(45, 92);
+            this.nud_MP_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_MP_FC.Name = "nud_MP_FC";
+            this.nud_MP_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_MP_FC.TabIndex = 152;
+            this.nud_MP_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_MP_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_MP_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_ER_FC
+            // 
+            this.nud_ER_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_ER_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_ER_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_ER_FC.Location = new System.Drawing.Point(45, 22);
+            this.nud_ER_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_ER_FC.Name = "nud_ER_FC";
+            this.nud_ER_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_ER_FC.TabIndex = 150;
+            this.nud_ER_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_ER_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_ER_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_OX_FC
+            // 
+            this.nud_OX_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_OX_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_OX_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_OX_FC.Location = new System.Drawing.Point(45, 57);
+            this.nud_OX_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_OX_FC.Name = "nud_OX_FC";
+            this.nud_OX_FC.Size = new System.Drawing.Size(110, 21);
+            this.nud_OX_FC.TabIndex = 151;
+            this.nud_OX_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_OX_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_OX_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // gb_PosDesignShow
+            // 
+            this.gb_PosDesignShow.Controls.Add(this.checkBox44);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox43);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox42);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox41);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox40);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox39);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox38);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox37);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox36);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox35);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox34);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox33);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox32);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox31);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox30);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox29);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox28);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox27);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox26);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox25);
+            this.gb_PosDesignShow.ForeColor = System.Drawing.Color.Blue;
+            this.gb_PosDesignShow.Location = new System.Drawing.Point(363, 3);
+            this.gb_PosDesignShow.Name = "gb_PosDesignShow";
+            this.gb_PosDesignShow.Size = new System.Drawing.Size(354, 219);
+            this.gb_PosDesignShow.TabIndex = 1;
+            this.gb_PosDesignShow.TabStop = false;
+            this.gb_PosDesignShow.Text = "Design POS - Columns to Show";
+            // 
+            // checkBox44
+            // 
+            this.checkBox44.AutoSize = true;
+            this.checkBox44.Location = new System.Drawing.Point(168, 163);
+            this.checkBox44.Name = "checkBox44";
+            this.checkBox44.Size = new System.Drawing.Size(83, 17);
+            this.checkBox44.TabIndex = 32;
+            this.checkBox44.Text = "checkBox44";
+            this.checkBox44.UseVisualStyleBackColor = true;
+            this.checkBox44.Visible = false;
+            this.checkBox44.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox43
+            // 
+            this.checkBox43.AutoSize = true;
+            this.checkBox43.Location = new System.Drawing.Point(168, 147);
+            this.checkBox43.Name = "checkBox43";
+            this.checkBox43.Size = new System.Drawing.Size(83, 17);
+            this.checkBox43.TabIndex = 31;
+            this.checkBox43.Text = "checkBox43";
+            this.checkBox43.UseVisualStyleBackColor = true;
+            this.checkBox43.Visible = false;
+            this.checkBox43.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox42
+            // 
+            this.checkBox42.AutoSize = true;
+            this.checkBox42.Location = new System.Drawing.Point(168, 131);
+            this.checkBox42.Name = "checkBox42";
+            this.checkBox42.Size = new System.Drawing.Size(83, 17);
+            this.checkBox42.TabIndex = 30;
+            this.checkBox42.Text = "checkBox42";
+            this.checkBox42.UseVisualStyleBackColor = true;
+            this.checkBox42.Visible = false;
+            this.checkBox42.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox41
+            // 
+            this.checkBox41.AutoSize = true;
+            this.checkBox41.Location = new System.Drawing.Point(168, 115);
+            this.checkBox41.Name = "checkBox41";
+            this.checkBox41.Size = new System.Drawing.Size(83, 17);
+            this.checkBox41.TabIndex = 29;
+            this.checkBox41.Text = "checkBox41";
+            this.checkBox41.UseVisualStyleBackColor = true;
+            this.checkBox41.Visible = false;
+            this.checkBox41.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox40
+            // 
+            this.checkBox40.AutoSize = true;
+            this.checkBox40.Location = new System.Drawing.Point(168, 99);
+            this.checkBox40.Name = "checkBox40";
+            this.checkBox40.Size = new System.Drawing.Size(83, 17);
+            this.checkBox40.TabIndex = 28;
+            this.checkBox40.Text = "checkBox40";
+            this.checkBox40.UseVisualStyleBackColor = true;
+            this.checkBox40.Visible = false;
+            this.checkBox40.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox39
+            // 
+            this.checkBox39.AutoSize = true;
+            this.checkBox39.Location = new System.Drawing.Point(168, 83);
+            this.checkBox39.Name = "checkBox39";
+            this.checkBox39.Size = new System.Drawing.Size(83, 17);
+            this.checkBox39.TabIndex = 27;
+            this.checkBox39.Text = "checkBox39";
+            this.checkBox39.UseVisualStyleBackColor = true;
+            this.checkBox39.Visible = false;
+            this.checkBox39.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox38
+            // 
+            this.checkBox38.AutoSize = true;
+            this.checkBox38.Location = new System.Drawing.Point(168, 67);
+            this.checkBox38.Name = "checkBox38";
+            this.checkBox38.Size = new System.Drawing.Size(68, 17);
+            this.checkBox38.TabIndex = 26;
+            this.checkBox38.Text = "Capacity";
+            this.checkBox38.UseVisualStyleBackColor = true;
+            this.checkBox38.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox37
+            // 
+            this.checkBox37.AutoSize = true;
+            this.checkBox37.Location = new System.Drawing.Point(168, 51);
+            this.checkBox37.Name = "checkBox37";
+            this.checkBox37.Size = new System.Drawing.Size(48, 17);
+            this.checkBox37.TabIndex = 25;
+            this.checkBox37.Text = "Cost";
+            this.checkBox37.UseVisualStyleBackColor = true;
+            this.checkBox37.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox36
+            // 
+            this.checkBox36.AutoSize = true;
+            this.checkBox36.Location = new System.Drawing.Point(168, 35);
+            this.checkBox36.Name = "checkBox36";
+            this.checkBox36.Size = new System.Drawing.Size(61, 17);
+            this.checkBox36.TabIndex = 24;
+            this.checkBox36.Text = "Charge";
+            this.checkBox36.UseVisualStyleBackColor = true;
+            this.checkBox36.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox35
+            // 
+            this.checkBox35.AutoSize = true;
+            this.checkBox35.Location = new System.Drawing.Point(168, 19);
+            this.checkBox35.Name = "checkBox35";
+            this.checkBox35.Size = new System.Drawing.Size(99, 17);
+            this.checkBox35.TabIndex = 23;
+            this.checkBox35.Text = "Selection Delay";
+            this.checkBox35.UseVisualStyleBackColor = true;
+            this.checkBox35.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox34
+            // 
+            this.checkBox34.AutoSize = true;
+            this.checkBox34.Location = new System.Drawing.Point(6, 163);
+            this.checkBox34.Name = "checkBox34";
+            this.checkBox34.Size = new System.Drawing.Size(104, 17);
+            this.checkBox34.TabIndex = 22;
+            this.checkBox34.Text = "Proximity Range";
+            this.checkBox34.UseVisualStyleBackColor = true;
+            this.checkBox34.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox33
+            // 
+            this.checkBox33.AutoSize = true;
+            this.checkBox33.Location = new System.Drawing.Point(6, 147);
+            this.checkBox33.Name = "checkBox33";
+            this.checkBox33.Size = new System.Drawing.Size(66, 17);
+            this.checkBox33.TabIndex = 21;
+            this.checkBox33.Text = "Tracking";
+            this.checkBox33.UseVisualStyleBackColor = true;
+            this.checkBox33.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox32
+            // 
+            this.checkBox32.AutoSize = true;
+            this.checkBox32.Location = new System.Drawing.Point(6, 131);
+            this.checkBox32.Name = "checkBox32";
+            this.checkBox32.Size = new System.Drawing.Size(45, 17);
+            this.checkBox32.TabIndex = 20;
+            this.checkBox32.Text = "DPS";
+            this.checkBox32.UseVisualStyleBackColor = true;
+            this.checkBox32.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox31
+            // 
+            this.checkBox31.AutoSize = true;
+            this.checkBox31.Location = new System.Drawing.Point(6, 115);
+            this.checkBox31.Name = "checkBox31";
+            this.checkBox31.Size = new System.Drawing.Size(83, 17);
+            this.checkBox31.TabIndex = 19;
+            this.checkBox31.Text = "Rate of Fire";
+            this.checkBox31.UseVisualStyleBackColor = true;
+            this.checkBox31.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox30
+            // 
+            this.checkBox30.AutoSize = true;
+            this.checkBox30.Location = new System.Drawing.Point(6, 99);
+            this.checkBox30.Name = "checkBox30";
+            this.checkBox30.Size = new System.Drawing.Size(65, 17);
+            this.checkBox30.TabIndex = 18;
+            this.checkBox30.Text = "Damage";
+            this.checkBox30.UseVisualStyleBackColor = true;
+            this.checkBox30.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox29
+            // 
+            this.checkBox29.AutoSize = true;
+            this.checkBox29.Location = new System.Drawing.Point(6, 83);
+            this.checkBox29.Name = "checkBox29";
+            this.checkBox29.Size = new System.Drawing.Size(62, 17);
+            this.checkBox29.TabIndex = 17;
+            this.checkBox29.Text = "Fall-Off";
+            this.checkBox29.UseVisualStyleBackColor = true;
+            this.checkBox29.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox28
+            // 
+            this.checkBox28.AutoSize = true;
+            this.checkBox28.Location = new System.Drawing.Point(6, 67);
+            this.checkBox28.Name = "checkBox28";
+            this.checkBox28.Size = new System.Drawing.Size(62, 17);
+            this.checkBox28.TabIndex = 16;
+            this.checkBox28.Text = "Optimal";
+            this.checkBox28.UseVisualStyleBackColor = true;
+            this.checkBox28.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox27
+            // 
+            this.checkBox27.AutoSize = true;
+            this.checkBox27.Location = new System.Drawing.Point(6, 51);
+            this.checkBox27.Name = "checkBox27";
+            this.checkBox27.Size = new System.Drawing.Size(52, 17);
+            this.checkBox27.TabIndex = 15;
+            this.checkBox27.Text = "State";
+            this.checkBox27.UseVisualStyleBackColor = true;
+            this.checkBox27.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox26
+            // 
+            this.checkBox26.AutoSize = true;
+            this.checkBox26.Location = new System.Drawing.Point(6, 35);
+            this.checkBox26.Name = "checkBox26";
+            this.checkBox26.Size = new System.Drawing.Size(68, 17);
+            this.checkBox26.TabIndex = 14;
+            this.checkBox26.Text = "Quantity";
+            this.checkBox26.UseVisualStyleBackColor = true;
+            this.checkBox26.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox25
+            // 
+            this.checkBox25.AutoSize = true;
+            this.checkBox25.Location = new System.Drawing.Point(6, 19);
+            this.checkBox25.Name = "checkBox25";
+            this.checkBox25.Size = new System.Drawing.Size(90, 17);
+            this.checkBox25.TabIndex = 13;
+            this.checkBox25.Text = "Module Name";
+            this.checkBox25.UseVisualStyleBackColor = true;
+            this.checkBox25.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // gb_MonPosCol
+            // 
+            this.gb_MonPosCol.Controls.Add(this.checkBox13);
+            this.gb_MonPosCol.Controls.Add(this.checkBox14);
+            this.gb_MonPosCol.Controls.Add(this.checkBox15);
+            this.gb_MonPosCol.Controls.Add(this.checkBox16);
+            this.gb_MonPosCol.Controls.Add(this.checkBox17);
+            this.gb_MonPosCol.Controls.Add(this.checkBox18);
+            this.gb_MonPosCol.Controls.Add(this.checkBox19);
+            this.gb_MonPosCol.Controls.Add(this.checkBox20);
+            this.gb_MonPosCol.Controls.Add(this.checkBox21);
+            this.gb_MonPosCol.Controls.Add(this.checkBox22);
+            this.gb_MonPosCol.Controls.Add(this.checkBox23);
+            this.gb_MonPosCol.Controls.Add(this.checkBox24);
+            this.gb_MonPosCol.Controls.Add(this.checkBox12);
+            this.gb_MonPosCol.Controls.Add(this.checkBox11);
+            this.gb_MonPosCol.Controls.Add(this.checkBox10);
+            this.gb_MonPosCol.Controls.Add(this.checkBox9);
+            this.gb_MonPosCol.Controls.Add(this.checkBox8);
+            this.gb_MonPosCol.Controls.Add(this.checkBox7);
+            this.gb_MonPosCol.Controls.Add(this.checkBox6);
+            this.gb_MonPosCol.Controls.Add(this.checkBox5);
+            this.gb_MonPosCol.Controls.Add(this.checkBox4);
+            this.gb_MonPosCol.Controls.Add(this.checkBox3);
+            this.gb_MonPosCol.Controls.Add(this.checkBox2);
+            this.gb_MonPosCol.Controls.Add(this.checkBox1);
+            this.gb_MonPosCol.ForeColor = System.Drawing.Color.Blue;
+            this.gb_MonPosCol.Location = new System.Drawing.Point(0, 3);
+            this.gb_MonPosCol.Name = "gb_MonPosCol";
+            this.gb_MonPosCol.Size = new System.Drawing.Size(354, 219);
+            this.gb_MonPosCol.TabIndex = 0;
+            this.gb_MonPosCol.TabStop = false;
+            this.gb_MonPosCol.Text = "Monitored POS - Columns to Show";
+            // 
+            // checkBox13
+            // 
+            this.checkBox13.AutoSize = true;
+            this.checkBox13.Location = new System.Drawing.Point(183, 19);
+            this.checkBox13.Name = "checkBox13";
+            this.checkBox13.Size = new System.Drawing.Size(67, 17);
+            this.checkBox13.TabIndex = 23;
+            this.checkBox13.Text = "Robotics";
+            this.checkBox13.UseVisualStyleBackColor = true;
+            this.checkBox13.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox14
+            // 
+            this.checkBox14.AutoSize = true;
+            this.checkBox14.Location = new System.Drawing.Point(183, 35);
+            this.checkBox14.Name = "checkBox14";
+            this.checkBox14.Size = new System.Drawing.Size(68, 17);
+            this.checkBox14.TabIndex = 22;
+            this.checkBox14.Text = "Isotopes";
+            this.checkBox14.UseVisualStyleBackColor = true;
+            this.checkBox14.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox15
+            // 
+            this.checkBox15.AutoSize = true;
+            this.checkBox15.Location = new System.Drawing.Point(183, 51);
+            this.checkBox15.Name = "checkBox15";
+            this.checkBox15.Size = new System.Drawing.Size(90, 17);
+            this.checkBox15.TabIndex = 21;
+            this.checkBox15.Text = "Heavy Water";
+            this.checkBox15.UseVisualStyleBackColor = true;
+            this.checkBox15.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox16
+            // 
+            this.checkBox16.AutoSize = true;
+            this.checkBox16.Location = new System.Drawing.Point(183, 67);
+            this.checkBox16.Name = "checkBox16";
+            this.checkBox16.Size = new System.Drawing.Size(87, 17);
+            this.checkBox16.TabIndex = 20;
+            this.checkBox16.Text = "Liquid Ozone";
+            this.checkBox16.UseVisualStyleBackColor = true;
+            this.checkBox16.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox17
+            // 
+            this.checkBox17.AutoSize = true;
+            this.checkBox17.Location = new System.Drawing.Point(183, 83);
+            this.checkBox17.Name = "checkBox17";
+            this.checkBox17.Size = new System.Drawing.Size(68, 17);
+            this.checkBox17.TabIndex = 19;
+            this.checkBox17.Text = "Charters";
+            this.checkBox17.UseVisualStyleBackColor = true;
+            this.checkBox17.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox18
+            // 
+            this.checkBox18.AutoSize = true;
+            this.checkBox18.Location = new System.Drawing.Point(183, 99);
+            this.checkBox18.Name = "checkBox18";
+            this.checkBox18.Size = new System.Drawing.Size(72, 17);
+            this.checkBox18.TabIndex = 18;
+            this.checkBox18.Text = "Strontium";
+            this.checkBox18.UseVisualStyleBackColor = true;
+            this.checkBox18.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox19
+            // 
+            this.checkBox19.AutoSize = true;
+            this.checkBox19.Location = new System.Drawing.Point(183, 115);
+            this.checkBox19.Name = "checkBox19";
+            this.checkBox19.Size = new System.Drawing.Size(135, 17);
+            this.checkBox19.TabIndex = 17;
+            this.checkBox19.Text = "Use Charters Selection";
+            this.checkBox19.UseVisualStyleBackColor = true;
+            this.checkBox19.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox20
+            // 
+            this.checkBox20.AutoSize = true;
+            this.checkBox20.Location = new System.Drawing.Point(183, 131);
+            this.checkBox20.Name = "checkBox20";
+            this.checkBox20.Size = new System.Drawing.Size(115, 17);
+            this.checkBox20.TabIndex = 16;
+            this.checkBox20.Text = "Reaction Run Time";
+            this.checkBox20.UseVisualStyleBackColor = true;
+            this.checkBox20.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox21
+            // 
+            this.checkBox21.AutoSize = true;
+            this.checkBox21.Location = new System.Drawing.Point(183, 147);
+            this.checkBox21.Name = "checkBox21";
+            this.checkBox21.Size = new System.Drawing.Size(83, 17);
+            this.checkBox21.TabIndex = 15;
+            this.checkBox21.Text = "checkBox21";
+            this.checkBox21.UseVisualStyleBackColor = true;
+            this.checkBox21.Visible = false;
+            this.checkBox21.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox22
+            // 
+            this.checkBox22.AutoSize = true;
+            this.checkBox22.Location = new System.Drawing.Point(183, 163);
+            this.checkBox22.Name = "checkBox22";
+            this.checkBox22.Size = new System.Drawing.Size(83, 17);
+            this.checkBox22.TabIndex = 14;
+            this.checkBox22.Text = "checkBox22";
+            this.checkBox22.UseVisualStyleBackColor = true;
+            this.checkBox22.Visible = false;
+            this.checkBox22.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox23
+            // 
+            this.checkBox23.AutoSize = true;
+            this.checkBox23.Location = new System.Drawing.Point(183, 179);
+            this.checkBox23.Name = "checkBox23";
+            this.checkBox23.Size = new System.Drawing.Size(83, 17);
+            this.checkBox23.TabIndex = 13;
+            this.checkBox23.Text = "checkBox23";
+            this.checkBox23.UseVisualStyleBackColor = true;
+            this.checkBox23.Visible = false;
+            this.checkBox23.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox24
+            // 
+            this.checkBox24.AutoSize = true;
+            this.checkBox24.Location = new System.Drawing.Point(183, 195);
+            this.checkBox24.Name = "checkBox24";
+            this.checkBox24.Size = new System.Drawing.Size(83, 17);
+            this.checkBox24.TabIndex = 12;
+            this.checkBox24.Text = "checkBox24";
+            this.checkBox24.UseVisualStyleBackColor = true;
+            this.checkBox24.Visible = false;
+            this.checkBox24.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(6, 195);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(63, 17);
+            this.checkBox12.TabIndex = 11;
+            this.checkBox12.Text = "Coolant";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            this.checkBox12.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Location = new System.Drawing.Point(6, 179);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(106, 17);
+            this.checkBox11.TabIndex = 10;
+            this.checkBox11.Text = "Mechanical Parts";
+            this.checkBox11.UseVisualStyleBackColor = true;
+            this.checkBox11.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(6, 163);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(64, 17);
+            this.checkBox10.TabIndex = 9;
+            this.checkBox10.Text = "Oxygen";
+            this.checkBox10.UseVisualStyleBackColor = true;
+            this.checkBox10.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(6, 147);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(109, 17);
+            this.checkBox9.TabIndex = 8;
+            this.checkBox9.Text = "Enriched Uranium";
+            this.checkBox9.UseVisualStyleBackColor = true;
+            this.checkBox9.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(6, 131);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(89, 17);
+            this.checkBox8.TabIndex = 7;
+            this.checkBox8.Text = "Power Usage";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox8.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Location = new System.Drawing.Point(6, 115);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(79, 17);
+            this.checkBox7.TabIndex = 6;
+            this.checkBox7.Text = "CPU Usage";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(6, 99);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(101, 17);
+            this.checkBox6.TabIndex = 5;
+            this.checkBox6.Text = "API Cache Time";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(6, 83);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(97, 17);
+            this.checkBox5.TabIndex = 4;
+            this.checkBox5.Text = "Tower API Link";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(6, 67);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(90, 17);
+            this.checkBox4.TabIndex = 3;
+            this.checkBox4.Text = "Tower Status";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(6, 51);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(97, 17);
+            this.checkBox3.TabIndex = 2;
+            this.checkBox3.Text = "Reinforce Time";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(6, 35);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(93, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Fuel Run Time";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 19);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(76, 17);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "POS Name";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // il_system
+            // 
+            this.il_system.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il_system.ImageStream")));
+            this.il_system.TransparentColor = System.Drawing.Color.Transparent;
+            this.il_system.Images.SetKeyName(0, "noitem.jpg");
+            // 
+            // il_FetchList
+            // 
+            this.il_FetchList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.il_FetchList.ImageSize = new System.Drawing.Size(50, 50);
+            this.il_FetchList.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // t_MonitorUpdate
+            // 
+            this.t_MonitorUpdate.Interval = 60000;
+            this.t_MonitorUpdate.Tick += new System.EventHandler(this.UdateMonitorInformation);
+            // 
+            // tt_InfoTips
+            // 
+            this.tt_InfoTips.IsBalloon = true;
+            // 
+            // tp_Notifications
+            // 
+            this.tp_Notifications.Controls.Add(this.p_Notifications);
+            this.tp_Notifications.Location = new System.Drawing.Point(4, 25);
+            this.tp_Notifications.Name = "tp_Notifications";
+            this.tp_Notifications.Size = new System.Drawing.Size(1000, 701);
+            this.tp_Notifications.TabIndex = 5;
+            this.tp_Notifications.Text = "Notifications";
+            this.tp_Notifications.UseVisualStyleBackColor = true;
+            // 
+            // p_Notifications
+            // 
+            this.p_Notifications.AutoScroll = true;
+            this.p_Notifications.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.p_Notifications.Controls.Add(this.ts_Notify);
+            this.p_Notifications.Controls.Add(this.label9);
+            this.p_Notifications.Controls.Add(this.tv_Players);
+            this.p_Notifications.Controls.Add(this.label8);
+            this.p_Notifications.Controls.Add(this.tv_Notifications);
+            this.p_Notifications.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.p_Notifications.Location = new System.Drawing.Point(0, 0);
+            this.p_Notifications.Name = "p_Notifications";
+            this.p_Notifications.Size = new System.Drawing.Size(1000, 701);
+            this.p_Notifications.TabIndex = 9;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(8, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(171, 16);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Listing of Notification Actions";
+            // 
+            // tv_Notifications
+            // 
+            this.tv_Notifications.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.tv_Notifications.ContextMenuStrip = this.cms_Notification;
+            this.tv_Notifications.Location = new System.Drawing.Point(8, 68);
+            this.tv_Notifications.Name = "tv_Notifications";
+            this.tv_Notifications.Size = new System.Drawing.Size(332, 630);
+            this.tv_Notifications.TabIndex = 15;
+            // 
+            // tv_Players
+            // 
+            this.tv_Players.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.tv_Players.ContextMenuStrip = this.cms_Player;
+            this.tv_Players.Location = new System.Drawing.Point(346, 68);
+            this.tv_Players.Name = "tv_Players";
+            this.tv_Players.Size = new System.Drawing.Size(332, 630);
+            this.tv_Players.TabIndex = 17;
+            // 
+            // ts_Notify
+            // 
+            this.ts_Notify.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ts_Notify.ImageScalingSize = new System.Drawing.Size(45, 45);
+            this.ts_Notify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsb_NewNotification,
+            this.toolStripSeparator11,
+            this.tsb_NewPlayer,
+            this.toolStripSeparator12,
+            this.tsb_Test});
+            this.ts_Notify.Location = new System.Drawing.Point(0, 0);
+            this.ts_Notify.Name = "ts_Notify";
+            this.ts_Notify.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.ts_Notify.Size = new System.Drawing.Size(1000, 48);
+            this.ts_Notify.TabIndex = 18;
+            this.ts_Notify.Text = "toolStrip1";
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 48);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(346, 50);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(104, 16);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "Listing of Players";
+            // 
+            // tsb_ModifyMonList
+            // 
+            this.tsb_ModifyMonList.AutoSize = false;
+            this.tsb_ModifyMonList.BackColor = System.Drawing.Color.Transparent;
+            this.tsb_ModifyMonList.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.tsb_ModifyMonList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_ModifyMonList.Checked = true;
+            this.tsb_ModifyMonList.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.tsb_ModifyMonList.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ModifyMonList.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsb_ModifyMonList.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.tsb_ModifyMonList.Name = "tsb_ModifyMonList";
+            this.tsb_ModifyMonList.Size = new System.Drawing.Size(80, 35);
+            this.tsb_ModifyMonList.Text = " Monitor List";
+            this.tsb_ModifyMonList.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ModifyMonList.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ModifyMonList.ToolTipText = "Modify Monitor List - Add or Remove a PoS Tower from this List";
+            this.tsb_ModifyMonList.Click += new System.EventHandler(this.b_ModifyList_Click);
+            // 
+            // tsb_Online
+            // 
+            this.tsb_Online.AutoSize = false;
+            this.tsb_Online.BackColor = System.Drawing.Color.Transparent;
+            this.tsb_Online.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online_btn;
+            this.tsb_Online.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_Online.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_Online.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_Online.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.tsb_Online.Name = "tsb_Online";
+            this.tsb_Online.Size = new System.Drawing.Size(35, 35);
+            this.tsb_Online.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_Online.ToolTipText = "Place Tower Online";
+            this.tsb_Online.Click += new System.EventHandler(this.b_online_Click);
+            // 
+            // tsb_Offline
+            // 
+            this.tsb_Offline.AutoSize = false;
+            this.tsb_Offline.BackColor = System.Drawing.Color.Transparent;
+            this.tsb_Offline.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Offline_btn;
+            this.tsb_Offline.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_Offline.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_Offline.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_Offline.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.tsb_Offline.Name = "tsb_Offline";
+            this.tsb_Offline.Size = new System.Drawing.Size(35, 35);
+            this.tsb_Offline.ToolTipText = "Place Tower Offline";
+            this.tsb_Offline.Click += new System.EventHandler(this.b_offline_Click);
+            // 
+            // tsb_Reinforce
+            // 
+            this.tsb_Reinforce.AutoSize = false;
+            this.tsb_Reinforce.BackColor = System.Drawing.Color.Transparent;
+            this.tsb_Reinforce.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Reinforce_btn;
+            this.tsb_Reinforce.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_Reinforce.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_Reinforce.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_Reinforce.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.tsb_Reinforce.Name = "tsb_Reinforce";
+            this.tsb_Reinforce.Size = new System.Drawing.Size(35, 35);
+            this.tsb_Reinforce.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_Reinforce.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_Reinforce.ToolTipText = "Place Tower Into Reinforced Mode";
+            this.tsb_Reinforce.Click += new System.EventHandler(this.b_EnterReinf_Click);
+            // 
+            // tsb_SetAPI
+            // 
+            this.tsb_SetAPI.AutoSize = false;
+            this.tsb_SetAPI.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.tsb_SetAPI.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tsb_SetAPI.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_SetAPI.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_SetAPI.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_SetAPI.Name = "tsb_SetAPI";
+            this.tsb_SetAPI.Size = new System.Drawing.Size(55, 35);
+            this.tsb_SetAPI.Text = "API Link";
+            this.tsb_SetAPI.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_SetAPI.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_SetAPI.ToolTipText = "Link Design to API Data for a Tower";
+            this.tsb_SetAPI.Click += new System.EventHandler(this.b_TowerAPILink_Click);
+            // 
+            // tsb_UpdateAPI
+            // 
+            this.tsb_UpdateAPI.AutoSize = false;
+            this.tsb_UpdateAPI.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.APIUpdate;
+            this.tsb_UpdateAPI.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tsb_UpdateAPI.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_UpdateAPI.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_UpdateAPI.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.tsb_UpdateAPI.Name = "tsb_UpdateAPI";
+            this.tsb_UpdateAPI.Size = new System.Drawing.Size(55, 35);
+            this.tsb_UpdateAPI.Text = "Update";
+            this.tsb_UpdateAPI.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_UpdateAPI.ToolTipText = "Download & Update API Data";
+            this.tsb_UpdateAPI.Click += new System.EventHandler(this.b_UpdateAPIData_Click);
+            // 
+            // tsb_PopTowerFromAPI
+            // 
+            this.tsb_PopTowerFromAPI.AutoSize = false;
+            this.tsb_PopTowerFromAPI.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Caldari_3232;
+            this.tsb_PopTowerFromAPI.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_PopTowerFromAPI.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_PopTowerFromAPI.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_PopTowerFromAPI.Name = "tsb_PopTowerFromAPI";
+            this.tsb_PopTowerFromAPI.Size = new System.Drawing.Size(55, 35);
+            this.tsb_PopTowerFromAPI.Text = "Populate";
+            this.tsb_PopTowerFromAPI.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_PopTowerFromAPI.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_PopTowerFromAPI.ToolTipText = "Populate PoS Design Towers from API Listing";
+            this.tsb_PopTowerFromAPI.Click += new System.EventHandler(this.tsb_PopTowerFromAPI_Click);
+            // 
+            // b_FuelUpdate
+            // 
+            this.b_FuelUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.b_FuelUpdate.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.b_FuelUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_FuelUpdate.ForeColor = System.Drawing.Color.Cyan;
+            this.b_FuelUpdate.Location = new System.Drawing.Point(484, 3);
+            this.b_FuelUpdate.Name = "b_FuelUpdate";
+            this.b_FuelUpdate.Size = new System.Drawing.Size(73, 43);
+            this.b_FuelUpdate.TabIndex = 81;
+            this.b_FuelUpdate.Text = "Set Fuel Qty";
+            this.b_FuelUpdate.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_FuelUpdate, "Set Tower Fuel to Adjusted Quantities");
+            this.b_FuelUpdate.UseVisualStyleBackColor = true;
+            this.b_FuelUpdate.Click += new System.EventHandler(this.b_FuelUpdate_Click);
+            // 
+            // pictureBox48
+            // 
+            this.pictureBox48.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
+            this.pictureBox48.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox48.Location = new System.Drawing.Point(26, 234);
+            this.pictureBox48.Name = "pictureBox48";
+            this.pictureBox48.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox48.TabIndex = 230;
+            this.pictureBox48.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox48, "Strontium Clathrates");
+            // 
+            // pictureBox49
+            // 
+            this.pictureBox49.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
+            this.pictureBox49.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox49.Location = new System.Drawing.Point(26, 211);
+            this.pictureBox49.Name = "pictureBox49";
+            this.pictureBox49.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox49.TabIndex = 229;
+            this.pictureBox49.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox49, "Faction Charters");
+            // 
+            // pictureBox50
+            // 
+            this.pictureBox50.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
+            this.pictureBox50.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox50.Location = new System.Drawing.Point(26, 188);
+            this.pictureBox50.Name = "pictureBox50";
+            this.pictureBox50.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox50.TabIndex = 228;
+            this.pictureBox50.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox50, "Liquid Ozone");
+            // 
+            // pictureBox51
+            // 
+            this.pictureBox51.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
+            this.pictureBox51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox51.Location = new System.Drawing.Point(26, 165);
+            this.pictureBox51.Name = "pictureBox51";
+            this.pictureBox51.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox51.TabIndex = 227;
+            this.pictureBox51.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox51, "Heavy Water");
+            // 
+            // pictureBox52
+            // 
+            this.pictureBox52.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Isotope;
+            this.pictureBox52.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox52.Location = new System.Drawing.Point(26, 142);
+            this.pictureBox52.Name = "pictureBox52";
+            this.pictureBox52.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox52.TabIndex = 226;
+            this.pictureBox52.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox52, "Isotopes");
+            // 
+            // pictureBox53
+            // 
+            this.pictureBox53.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
+            this.pictureBox53.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox53.Location = new System.Drawing.Point(26, 119);
+            this.pictureBox53.Name = "pictureBox53";
+            this.pictureBox53.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox53.TabIndex = 225;
+            this.pictureBox53.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox53, "Robotics");
+            // 
+            // pictureBox54
+            // 
+            this.pictureBox54.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
+            this.pictureBox54.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox54.Location = new System.Drawing.Point(26, 96);
+            this.pictureBox54.Name = "pictureBox54";
+            this.pictureBox54.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox54.TabIndex = 224;
+            this.pictureBox54.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox54, "Coolant");
+            // 
+            // pictureBox55
+            // 
+            this.pictureBox55.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
+            this.pictureBox55.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox55.Location = new System.Drawing.Point(26, 73);
+            this.pictureBox55.Name = "pictureBox55";
+            this.pictureBox55.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox55.TabIndex = 223;
+            this.pictureBox55.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox55, "Mechanical Parts");
+            // 
+            // pictureBox56
+            // 
+            this.pictureBox56.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
+            this.pictureBox56.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox56.Location = new System.Drawing.Point(26, 50);
+            this.pictureBox56.Name = "pictureBox56";
+            this.pictureBox56.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox56.TabIndex = 222;
+            this.pictureBox56.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox56, "Oxygen");
+            // 
+            // pictureBox57
+            // 
+            this.pictureBox57.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
+            this.pictureBox57.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox57.Location = new System.Drawing.Point(26, 27);
+            this.pictureBox57.Name = "pictureBox57";
+            this.pictureBox57.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox57.TabIndex = 221;
+            this.pictureBox57.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox57, "Enriched Uranium");
+            // 
+            // pictureBox28
+            // 
+            this.pictureBox28.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox28.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon07_12;
+            this.pictureBox28.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox28.Location = new System.Drawing.Point(3, 60);
+            this.pictureBox28.Name = "pictureBox28";
+            this.pictureBox28.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox28.TabIndex = 136;
+            this.pictureBox28.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox28, "Item Cost");
+            // 
+            // pictureBox21
+            // 
+            this.pictureBox21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox21.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_12;
+            this.pictureBox21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox21.Location = new System.Drawing.Point(3, 149);
+            this.pictureBox21.Name = "pictureBox21";
+            this.pictureBox21.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox21.TabIndex = 127;
+            this.pictureBox21.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox21, "Structure HP");
+            // 
+            // pictureBox22
+            // 
+            this.pictureBox22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox22.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_06;
+            this.pictureBox22.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox22.Location = new System.Drawing.Point(3, 120);
+            this.pictureBox22.Name = "pictureBox22";
+            this.pictureBox22.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox22.TabIndex = 126;
+            this.pictureBox22.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox22, "Armor HP");
+            // 
+            // pictureBox23
+            // 
+            this.pictureBox23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox23.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Shield;
+            this.pictureBox23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox23.Location = new System.Drawing.Point(3, 91);
+            this.pictureBox23.Name = "pictureBox23";
+            this.pictureBox23.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox23.TabIndex = 125;
+            this.pictureBox23.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox23, "Shield HP");
+            // 
+            // pictureBox19
+            // 
+            this.pictureBox19.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_07;
+            this.pictureBox19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox19.Location = new System.Drawing.Point(3, 31);
+            this.pictureBox19.Name = "pictureBox19";
+            this.pictureBox19.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox19.TabIndex = 124;
+            this.pictureBox19.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox19, "Power");
+            // 
+            // pictureBox20
+            // 
+            this.pictureBox20.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon12_07;
+            this.pictureBox20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox20.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox20.Name = "pictureBox20";
+            this.pictureBox20.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox20.TabIndex = 123;
+            this.pictureBox20.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox20, "CPU");
+            // 
+            // pictureBox26
+            // 
+            this.pictureBox26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox26.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
+            this.pictureBox26.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox26.Location = new System.Drawing.Point(146, 143);
+            this.pictureBox26.Name = "pictureBox26";
+            this.pictureBox26.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox26.TabIndex = 129;
+            this.pictureBox26.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox26, "Explosive Resists");
+            // 
+            // pictureBox25
+            // 
+            this.pictureBox25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox25.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
+            this.pictureBox25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox25.Location = new System.Drawing.Point(222, 106);
+            this.pictureBox25.Name = "pictureBox25";
+            this.pictureBox25.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox25.TabIndex = 130;
+            this.pictureBox25.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox25, "Kinetic Resists");
+            // 
+            // pictureBox24
+            // 
+            this.pictureBox24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox24.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
+            this.pictureBox24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox24.Location = new System.Drawing.Point(222, 143);
+            this.pictureBox24.Name = "pictureBox24";
+            this.pictureBox24.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox24.TabIndex = 131;
+            this.pictureBox24.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox24, "Thermal Resists");
+            // 
+            // pictureBox27
+            // 
+            this.pictureBox27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox27.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
+            this.pictureBox27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox27.Location = new System.Drawing.Point(146, 106);
+            this.pictureBox27.Name = "pictureBox27";
+            this.pictureBox27.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox27.TabIndex = 128;
+            this.pictureBox27.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox27, "EM Resists");
+            // 
+            // pictureBox17
+            // 
+            this.pictureBox17.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.FuelStrontium;
+            this.pictureBox17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox17.Location = new System.Drawing.Point(11, 425);
+            this.pictureBox17.Name = "pictureBox17";
+            this.pictureBox17.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox17.TabIndex = 139;
+            this.pictureBox17.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox17, "Fuel + Strontium Cost");
+            // 
+            // pictureBox18
+            // 
+            this.pictureBox18.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.fuel_cost;
+            this.pictureBox18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox18.Location = new System.Drawing.Point(11, 383);
+            this.pictureBox18.Name = "pictureBox18";
+            this.pictureBox18.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox18.TabIndex = 138;
+            this.pictureBox18.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox18, "Total Fuel Cost");
+            // 
+            // pb_Strontium
+            // 
+            this.pb_Strontium.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
+            this.pb_Strontium.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_Strontium.Location = new System.Drawing.Point(21, 351);
+            this.pb_Strontium.Name = "pb_Strontium";
+            this.pb_Strontium.Size = new System.Drawing.Size(25, 25);
+            this.pb_Strontium.TabIndex = 134;
+            this.pb_Strontium.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_Strontium, "Strontium Clathrates");
+            // 
+            // pb_Charter
+            // 
+            this.pb_Charter.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
+            this.pb_Charter.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_Charter.Location = new System.Drawing.Point(21, 328);
+            this.pb_Charter.Name = "pb_Charter";
+            this.pb_Charter.Size = new System.Drawing.Size(25, 25);
+            this.pb_Charter.TabIndex = 133;
+            this.pb_Charter.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_Charter, "Faction Charters");
+            // 
+            // pb_LiqOzone
+            // 
+            this.pb_LiqOzone.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
+            this.pb_LiqOzone.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_LiqOzone.Location = new System.Drawing.Point(21, 305);
+            this.pb_LiqOzone.Name = "pb_LiqOzone";
+            this.pb_LiqOzone.Size = new System.Drawing.Size(25, 25);
+            this.pb_LiqOzone.TabIndex = 132;
+            this.pb_LiqOzone.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_LiqOzone, "Liquid Ozone");
+            // 
+            // pb_HvyWater
+            // 
+            this.pb_HvyWater.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
+            this.pb_HvyWater.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_HvyWater.Location = new System.Drawing.Point(21, 282);
+            this.pb_HvyWater.Name = "pb_HvyWater";
+            this.pb_HvyWater.Size = new System.Drawing.Size(25, 25);
+            this.pb_HvyWater.TabIndex = 131;
+            this.pb_HvyWater.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_HvyWater, "Heavy Water");
+            // 
+            // pb_Isotopes
+            // 
+            this.pb_Isotopes.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Isotope;
+            this.pb_Isotopes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_Isotopes.Location = new System.Drawing.Point(21, 259);
+            this.pb_Isotopes.Name = "pb_Isotopes";
+            this.pb_Isotopes.Size = new System.Drawing.Size(25, 25);
+            this.pb_Isotopes.TabIndex = 130;
+            this.pb_Isotopes.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_Isotopes, "Isotopes");
+            // 
+            // pb_Robotics
+            // 
+            this.pb_Robotics.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
+            this.pb_Robotics.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_Robotics.Location = new System.Drawing.Point(21, 236);
+            this.pb_Robotics.Name = "pb_Robotics";
+            this.pb_Robotics.Size = new System.Drawing.Size(25, 25);
+            this.pb_Robotics.TabIndex = 129;
+            this.pb_Robotics.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_Robotics, "Robotics");
+            // 
+            // pb_Coolant
+            // 
+            this.pb_Coolant.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
+            this.pb_Coolant.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_Coolant.Location = new System.Drawing.Point(21, 213);
+            this.pb_Coolant.Name = "pb_Coolant";
+            this.pb_Coolant.Size = new System.Drawing.Size(25, 25);
+            this.pb_Coolant.TabIndex = 128;
+            this.pb_Coolant.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_Coolant, "Coolant");
+            // 
+            // pb_MechParts
+            // 
+            this.pb_MechParts.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
+            this.pb_MechParts.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_MechParts.Location = new System.Drawing.Point(21, 190);
+            this.pb_MechParts.Name = "pb_MechParts";
+            this.pb_MechParts.Size = new System.Drawing.Size(25, 25);
+            this.pb_MechParts.TabIndex = 127;
+            this.pb_MechParts.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_MechParts, "Mechanical Parts");
+            // 
+            // pb_oxy
+            // 
+            this.pb_oxy.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
+            this.pb_oxy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_oxy.Location = new System.Drawing.Point(21, 167);
+            this.pb_oxy.Name = "pb_oxy";
+            this.pb_oxy.Size = new System.Drawing.Size(25, 25);
+            this.pb_oxy.TabIndex = 126;
+            this.pb_oxy.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_oxy, "Oxygen");
+            // 
+            // pb_enrUran
+            // 
+            this.pb_enrUran.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
+            this.pb_enrUran.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_enrUran.Location = new System.Drawing.Point(21, 144);
+            this.pb_enrUran.Name = "pb_enrUran";
+            this.pb_enrUran.Size = new System.Drawing.Size(25, 25);
+            this.pb_enrUran.TabIndex = 125;
+            this.pb_enrUran.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_enrUran, "Enriched Uranium");
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon10_10;
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox10.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox10.TabIndex = 124;
+            this.pictureBox10.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox10, "Fuel Bay");
+            // 
+            // pb_StrontBay
+            // 
+            this.pb_StrontBay.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
+            this.pb_StrontBay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_StrontBay.Location = new System.Drawing.Point(3, 37);
+            this.pb_StrontBay.Name = "pb_StrontBay";
+            this.pb_StrontBay.Size = new System.Drawing.Size(35, 35);
+            this.pb_StrontBay.TabIndex = 123;
+            this.pb_StrontBay.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pb_StrontBay, "Strontium Bay");
+            // 
+            // pictureBox16
+            // 
+            this.pictureBox16.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon07_12;
+            this.pictureBox16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox16.Location = new System.Drawing.Point(3, 256);
+            this.pictureBox16.Name = "pictureBox16";
+            this.pictureBox16.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox16.TabIndex = 135;
+            this.pictureBox16.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox16, "POS Cost (Tower & Modules)");
+            // 
+            // pictureBox15
+            // 
+            this.pictureBox15.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.un_anchor1;
+            this.pictureBox15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox15.Location = new System.Drawing.Point(3, 402);
+            this.pictureBox15.Name = "pictureBox15";
+            this.pictureBox15.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox15.TabIndex = 126;
+            this.pictureBox15.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox15, "UnAnchor Time");
+            // 
+            // pictureBox14
+            // 
+            this.pictureBox14.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online_anchor;
+            this.pictureBox14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox14.Location = new System.Drawing.Point(3, 367);
+            this.pictureBox14.Name = "pictureBox14";
+            this.pictureBox14.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox14.TabIndex = 125;
+            this.pictureBox14.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox14, "Anchor & Onlline Time");
+            // 
+            // pictureBox13
+            // 
+            this.pictureBox13.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.online1;
+            this.pictureBox13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox13.Location = new System.Drawing.Point(3, 332);
+            this.pictureBox13.Name = "pictureBox13";
+            this.pictureBox13.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox13.TabIndex = 124;
+            this.pictureBox13.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox13, "Onlline Time");
+            // 
+            // pictureBox12
+            // 
+            this.pictureBox12.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.anchor1;
+            this.pictureBox12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox12.Location = new System.Drawing.Point(3, 297);
+            this.pictureBox12.Name = "pictureBox12";
+            this.pictureBox12.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox12.TabIndex = 123;
+            this.pictureBox12.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox12, "Anchor Time");
+            // 
+            // pictureBox47
+            // 
+            this.pictureBox47.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.DPS;
+            this.pictureBox47.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox47.Location = new System.Drawing.Point(6, 164);
+            this.pictureBox47.Name = "pictureBox47";
+            this.pictureBox47.Size = new System.Drawing.Size(45, 45);
+            this.pictureBox47.TabIndex = 124;
+            this.pictureBox47.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox47, "POS DPS");
+            // 
+            // pictureBox46
+            // 
+            this.pictureBox46.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.ShieldCharge;
+            this.pictureBox46.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox46.Location = new System.Drawing.Point(6, 110);
+            this.pictureBox46.Name = "pictureBox46";
+            this.pictureBox46.Size = new System.Drawing.Size(45, 45);
+            this.pictureBox46.TabIndex = 123;
+            this.pictureBox46.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox46, "POS Tank / Shield Regen");
+            // 
+            // pictureBox45
+            // 
+            this.pictureBox45.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.EHP;
+            this.pictureBox45.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox45.Location = new System.Drawing.Point(6, 56);
+            this.pictureBox45.Name = "pictureBox45";
+            this.pictureBox45.Size = new System.Drawing.Size(45, 45);
+            this.pictureBox45.TabIndex = 122;
+            this.pictureBox45.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox45, "Estimated POS Hitpoints");
+            // 
+            // pictureBox29
+            // 
+            this.pictureBox29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox29.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
+            this.pictureBox29.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox29.Location = new System.Drawing.Point(231, 30);
+            this.pictureBox29.Name = "pictureBox29";
+            this.pictureBox29.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox29.TabIndex = 121;
+            this.pictureBox29.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox29, "Thermal Resists");
+            // 
+            // pictureBox30
+            // 
+            this.pictureBox30.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox30.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
+            this.pictureBox30.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox30.Location = new System.Drawing.Point(156, 30);
+            this.pictureBox30.Name = "pictureBox30";
+            this.pictureBox30.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox30.TabIndex = 120;
+            this.pictureBox30.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox30, "Kinetic Resists");
+            // 
+            // pictureBox31
+            // 
+            this.pictureBox31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox31.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
+            this.pictureBox31.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox31.Location = new System.Drawing.Point(81, 30);
+            this.pictureBox31.Name = "pictureBox31";
+            this.pictureBox31.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox31.TabIndex = 119;
+            this.pictureBox31.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox31, "Explosive Resists");
+            // 
+            // pictureBox32
+            // 
+            this.pictureBox32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox32.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
+            this.pictureBox32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox32.Location = new System.Drawing.Point(6, 30);
+            this.pictureBox32.Name = "pictureBox32";
+            this.pictureBox32.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox32.TabIndex = 118;
+            this.pictureBox32.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox32, "EM Resists");
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.Location = new System.Drawing.Point(828, 76);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox2.TabIndex = 138;
+            this.pictureBox2.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox2, "Explosive Resists");
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon12_07;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(391, 43);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox1.TabIndex = 137;
+            this.pictureBox1.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox1, "CPU");
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox4.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox4.Location = new System.Drawing.Point(906, 76);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox4.TabIndex = 140;
+            this.pictureBox4.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox4, "Thermal Resists");
+            // 
+            // tsb_NewPOS
+            // 
+            this.tsb_NewPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_NewPOS.Image = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.tsb_NewPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_NewPOS.Name = "tsb_NewPOS";
+            this.tsb_NewPOS.Size = new System.Drawing.Size(34, 34);
+            this.tsb_NewPOS.Text = "New";
+            this.tsb_NewPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_NewPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_NewPOS.ToolTipText = "Create a New POS Design";
+            this.tsb_NewPOS.Click += new System.EventHandler(this.b_NewPos_Click);
+            // 
+            // tsb_SavePOS
+            // 
+            this.tsb_SavePOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_SavePOS.Image = global::EveHQ.PosManager.Properties.Resources.Insure;
+            this.tsb_SavePOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_SavePOS.Name = "tsb_SavePOS";
+            this.tsb_SavePOS.Size = new System.Drawing.Size(35, 34);
+            this.tsb_SavePOS.Text = "Save";
+            this.tsb_SavePOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_SavePOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_SavePOS.ToolTipText = "Save POS Design";
+            this.tsb_SavePOS.Click += new System.EventHandler(this.b_SavePoS_Click);
+            // 
+            // tsb_RenamePOS
+            // 
+            this.tsb_RenamePOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_RenamePOS.Image = global::EveHQ.PosManager.Properties.Resources.Bounty;
+            this.tsb_RenamePOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_RenamePOS.Name = "tsb_RenamePOS";
+            this.tsb_RenamePOS.Size = new System.Drawing.Size(38, 34);
+            this.tsb_RenamePOS.Text = "Renm";
+            this.tsb_RenamePOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_RenamePOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_RenamePOS.ToolTipText = "Rename POS Design";
+            this.tsb_RenamePOS.Click += new System.EventHandler(this.b_RenamePos_Click);
+            // 
+            // tsb_CopyPOS
+            // 
+            this.tsb_CopyPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_CopyPOS.Image = global::EveHQ.PosManager.Properties.Resources.CloneBay;
+            this.tsb_CopyPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_CopyPOS.Name = "tsb_CopyPOS";
+            this.tsb_CopyPOS.Size = new System.Drawing.Size(36, 34);
+            this.tsb_CopyPOS.Text = "Copy";
+            this.tsb_CopyPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_CopyPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_CopyPOS.ToolTipText = "Copy POS Design";
+            this.tsb_CopyPOS.Click += new System.EventHandler(this.b_CopyPOS_Click);
+            // 
+            // tsb_ClearPOS
+            // 
+            this.tsb_ClearPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ClearPOS.Image = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.tsb_ClearPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ClearPOS.Name = "tsb_ClearPOS";
+            this.tsb_ClearPOS.Size = new System.Drawing.Size(36, 34);
+            this.tsb_ClearPOS.Text = "Clear";
+            this.tsb_ClearPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ClearPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ClearPOS.ToolTipText = "Clear Design Layout";
+            this.tsb_ClearPOS.Click += new System.EventHandler(this.b_ClearPoS_Click);
+            // 
+            // tsb_DelPOS
+            // 
+            this.tsb_DelPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_DelPOS.Image = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.tsb_DelPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_DelPOS.Name = "tsb_DelPOS";
+            this.tsb_DelPOS.Size = new System.Drawing.Size(42, 34);
+            this.tsb_DelPOS.Text = "Delete";
+            this.tsb_DelPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_DelPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_DelPOS.ToolTipText = "Delet POS Design";
+            this.tsb_DelPOS.Click += new System.EventHandler(this.b_DelPoS_Click);
+            // 
+            // tsb_ExportPOS
+            // 
+            this.tsb_ExportPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ExportPOS.Image = global::EveHQ.PosManager.Properties.Resources.APIUpdate;
+            this.tsb_ExportPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ExportPOS.Name = "tsb_ExportPOS";
+            this.tsb_ExportPOS.Size = new System.Drawing.Size(43, 34);
+            this.tsb_ExportPOS.Text = "Export";
+            this.tsb_ExportPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ExportPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ExportPOS.ToolTipText = "Export POS Design";
+            this.tsb_ExportPOS.Click += new System.EventHandler(this.tsb_ExportPOS_Click);
+            // 
+            // tsb_ImportPOS
+            // 
+            this.tsb_ImportPOS.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ImportPOS.Image = ((System.Drawing.Image)(resources.GetObject("tsb_ImportPOS.Image")));
+            this.tsb_ImportPOS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ImportPOS.Name = "tsb_ImportPOS";
+            this.tsb_ImportPOS.Size = new System.Drawing.Size(43, 34);
+            this.tsb_ImportPOS.Text = "Import";
+            this.tsb_ImportPOS.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ImportPOS.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ImportPOS.ToolTipText = "Import POS Design";
+            this.tsb_ImportPOS.Visible = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox5.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Shield;
+            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox5.Location = new System.Drawing.Point(689, 38);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox5.TabIndex = 118;
+            this.pictureBox5.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox5, "Shield HP");
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox6.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_06;
+            this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox6.Location = new System.Drawing.Point(689, 62);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox6.TabIndex = 119;
+            this.pictureBox6.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox6, "Armor HP");
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox7.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_12;
+            this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox7.Location = new System.Drawing.Point(689, 86);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox7.TabIndex = 120;
+            this.pictureBox7.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox7, "Structure HP");
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_07;
+            this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox8.Location = new System.Drawing.Point(391, 72);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox8.TabIndex = 122;
+            this.pictureBox8.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox8, "Power");
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox9.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
+            this.pictureBox9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox9.Location = new System.Drawing.Point(828, 38);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox9.TabIndex = 137;
+            this.pictureBox9.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox9, "EM Resists");
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox3.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox3.Location = new System.Drawing.Point(906, 38);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox3.TabIndex = 139;
+            this.pictureBox3.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox3, "Kinetic Resists");
+            // 
+            // p_Tower
+            // 
+            this.p_Tower.BackColor = System.Drawing.SystemColors.Control;
+            this.p_Tower.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.PosShield;
+            this.p_Tower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.p_Tower.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.p_Tower.Controls.Add(this.poS_Item51);
+            this.p_Tower.Controls.Add(this.poS_Item52);
+            this.p_Tower.Controls.Add(this.poS_Item49);
+            this.p_Tower.Controls.Add(this.poS_Item50);
+            this.p_Tower.Controls.Add(this.poS_Item43);
+            this.p_Tower.Controls.Add(this.poS_Item44);
+            this.p_Tower.Controls.Add(this.poS_Item45);
+            this.p_Tower.Controls.Add(this.poS_Item47);
+            this.p_Tower.Controls.Add(this.poS_Item48);
+            this.p_Tower.Controls.Add(this.poS_Item37);
+            this.p_Tower.Controls.Add(this.poS_Item38);
+            this.p_Tower.Controls.Add(this.poS_Item39);
+            this.p_Tower.Controls.Add(this.poS_Item41);
+            this.p_Tower.Controls.Add(this.poS_Item42);
+            this.p_Tower.Controls.Add(this.poS_Item31);
+            this.p_Tower.Controls.Add(this.poS_Item32);
+            this.p_Tower.Controls.Add(this.poS_Item33);
+            this.p_Tower.Controls.Add(this.poS_Item35);
+            this.p_Tower.Controls.Add(this.poS_Item36);
+            this.p_Tower.Controls.Add(this.poS_Item25);
+            this.p_Tower.Controls.Add(this.poS_Item26);
+            this.p_Tower.Controls.Add(this.poS_Item27);
+            this.p_Tower.Controls.Add(this.poS_Item29);
+            this.p_Tower.Controls.Add(this.poS_Item30);
+            this.p_Tower.Controls.Add(this.poS_Item20);
+            this.p_Tower.Controls.Add(this.poS_Item21);
+            this.p_Tower.Controls.Add(this.poS_Item22);
+            this.p_Tower.Controls.Add(this.poS_Item23);
+            this.p_Tower.Controls.Add(this.poS_Item24);
+            this.p_Tower.Controls.Add(this.poS_Item15);
+            this.p_Tower.Controls.Add(this.poS_Item16);
+            this.p_Tower.Controls.Add(this.poS_Item17);
+            this.p_Tower.Controls.Add(this.poS_Item18);
+            this.p_Tower.Controls.Add(this.poS_Item19);
+            this.p_Tower.Controls.Add(this.poS_Item8);
+            this.p_Tower.Controls.Add(this.poS_Item13);
+            this.p_Tower.Controls.Add(this.poS_Item14);
+            this.p_Tower.Controls.Add(this.poS_Item5);
+            this.p_Tower.Controls.Add(this.poS_Item6);
+            this.p_Tower.Controls.Add(this.poS_Item7);
+            this.p_Tower.Controls.Add(this.poS_Item11);
+            this.p_Tower.Controls.Add(this.poS_Item12);
+            this.p_Tower.Controls.Add(this.poS_Item9);
+            this.p_Tower.Controls.Add(this.poS_Item10);
+            this.p_Tower.Controls.Add(this.poS_Item3);
+            this.p_Tower.Controls.Add(this.poS_Item4);
+            this.p_Tower.Controls.Add(this.poS_Item2);
+            this.p_Tower.Controls.Add(this.poS_Item1);
+            this.p_Tower.Controls.Add(this.pi_Tower);
+            this.p_Tower.ForeColor = System.Drawing.Color.Black;
+            this.p_Tower.Location = new System.Drawing.Point(307, 120);
+            this.p_Tower.Name = "p_Tower";
+            this.p_Tower.Size = new System.Drawing.Size(500, 420);
+            this.p_Tower.TabIndex = 3;
+            // 
+            // b_CopyAllPos
+            // 
+            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
+            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopyAllPos.Location = new System.Drawing.Point(405, 8);
+            this.b_CopyAllPos.Name = "b_CopyAllPos";
+            this.b_CopyAllPos.Size = new System.Drawing.Size(89, 30);
+            this.b_CopyAllPos.TabIndex = 179;
+            this.b_CopyAllPos.Text = "Copy All";
+            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data to the Clipboard");
+            this.b_CopyAllPos.UseVisualStyleBackColor = false;
+            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
+            // 
+            // b_SetSelectedFull
+            // 
+            this.b_SetSelectedFull.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.b_SetSelectedFull.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_SetSelectedFull.ForeColor = System.Drawing.Color.Cyan;
+            this.b_SetSelectedFull.Location = new System.Drawing.Point(84, 8);
+            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
+            this.b_SetSelectedFull.Size = new System.Drawing.Size(89, 30);
+            this.b_SetSelectedFull.TabIndex = 182;
+            this.b_SetSelectedFull.Text = "Mark Full";
+            this.b_SetSelectedFull.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_SetSelectedFull, "Set The Selected Tower To Full By Calculated Values");
+            this.b_SetSelectedFull.UseVisualStyleBackColor = true;
+            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
+            // 
+            // b_CopySelected
+            // 
+            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopySelected.Location = new System.Drawing.Point(405, 8);
+            this.b_CopySelected.Name = "b_CopySelected";
+            this.b_CopySelected.Size = new System.Drawing.Size(89, 30);
+            this.b_CopySelected.TabIndex = 180;
+            this.b_CopySelected.Text = "Copy Selected";
+            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data to the Clipboard");
+            this.b_CopySelected.UseVisualStyleBackColor = true;
+            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
+            // 
+            // b_ApplyIntervalPeriod
+            // 
+            this.b_ApplyIntervalPeriod.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.b_ApplyIntervalPeriod.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_ApplyIntervalPeriod.ForeColor = System.Drawing.Color.Cyan;
+            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(733, 5);
+            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
+            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 45);
+            this.b_ApplyIntervalPeriod.TabIndex = 173;
+            this.b_ApplyIntervalPeriod.Text = "Apply";
+            this.b_ApplyIntervalPeriod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.b_ApplyIntervalPeriod.UseVisualStyleBackColor = true;
+            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.ApplyFillData);
+            // 
+            // tsb_React_Save
+            // 
+            this.tsb_React_Save.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_React_Save.Image = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.tsb_React_Save.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_React_Save.Name = "tsb_React_Save";
+            this.tsb_React_Save.Size = new System.Drawing.Size(42, 39);
+            this.tsb_React_Save.Text = "Save";
+            this.tsb_React_Save.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_React_Save.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_React_Save.Click += new System.EventHandler(this.tsb_React_Save_Click);
+            // 
+            // tsb_ReactClearLink
+            // 
+            this.tsb_ReactClearLink.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_ReactClearLink.Image = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.tsb_ReactClearLink.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ReactClearLink.Name = "tsb_ReactClearLink";
+            this.tsb_ReactClearLink.Size = new System.Drawing.Size(42, 39);
+            this.tsb_ReactClearLink.Text = "Clear";
+            this.tsb_ReactClearLink.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_ReactClearLink.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_ReactClearLink.ToolTipText = "Clear Links";
+            this.tsb_ReactClearLink.Click += new System.EventHandler(this.tsb_ReactClearLink_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(42, 39);
+            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Visible = false;
+            // 
+            // tsb_NewNotification
+            // 
+            this.tsb_NewNotification.AutoSize = false;
+            this.tsb_NewNotification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_NewNotification.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_NewNotification.Image = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.tsb_NewNotification.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_NewNotification.Name = "tsb_NewNotification";
+            this.tsb_NewNotification.Size = new System.Drawing.Size(45, 45);
+            this.tsb_NewNotification.Text = "Notify";
+            this.tsb_NewNotification.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_NewNotification.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_NewNotification.ToolTipText = "Add a new Nofitication Action";
+            this.tsb_NewNotification.Click += new System.EventHandler(this.tsb_NewNotification_Click);
+            // 
+            // tsb_NewPlayer
+            // 
+            this.tsb_NewPlayer.AutoSize = false;
+            this.tsb_NewPlayer.BackColor = System.Drawing.Color.Transparent;
+            this.tsb_NewPlayer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_NewPlayer.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_NewPlayer.Image = global::EveHQ.PosManager.Properties.Resources.Bounty;
+            this.tsb_NewPlayer.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.tsb_NewPlayer.Name = "tsb_NewPlayer";
+            this.tsb_NewPlayer.Size = new System.Drawing.Size(45, 45);
+            this.tsb_NewPlayer.Text = "Player";
+            this.tsb_NewPlayer.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_NewPlayer.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_NewPlayer.ToolTipText = "Add a New Player";
+            this.tsb_NewPlayer.Click += new System.EventHandler(this.tsb_NewPlayer_Click);
+            // 
+            // pictureBox41
+            // 
+            this.pictureBox41.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
+            this.pictureBox41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox41.Location = new System.Drawing.Point(8, 15);
+            this.pictureBox41.Name = "pictureBox41";
+            this.pictureBox41.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox41.TabIndex = 164;
+            this.pictureBox41.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox41, "Enriched Uranium");
+            // 
+            // pictureBox40
+            // 
+            this.pictureBox40.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
+            this.pictureBox40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox40.Location = new System.Drawing.Point(8, 50);
+            this.pictureBox40.Name = "pictureBox40";
+            this.pictureBox40.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox40.TabIndex = 165;
+            this.pictureBox40.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox40, "Oxygen");
+            // 
+            // pictureBox39
+            // 
+            this.pictureBox39.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
+            this.pictureBox39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox39.Location = new System.Drawing.Point(8, 85);
+            this.pictureBox39.Name = "pictureBox39";
+            this.pictureBox39.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox39.TabIndex = 166;
+            this.pictureBox39.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox39, "Mechanical Parts");
+            // 
+            // pictureBox38
+            // 
+            this.pictureBox38.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
+            this.pictureBox38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox38.Location = new System.Drawing.Point(8, 120);
+            this.pictureBox38.Name = "pictureBox38";
+            this.pictureBox38.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox38.TabIndex = 167;
+            this.pictureBox38.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox38, "Coolant");
+            // 
+            // pictureBox37
+            // 
+            this.pictureBox37.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
+            this.pictureBox37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox37.Location = new System.Drawing.Point(8, 155);
+            this.pictureBox37.Name = "pictureBox37";
+            this.pictureBox37.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox37.TabIndex = 168;
+            this.pictureBox37.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox37, "Robotics");
+            // 
+            // pictureBox35
+            // 
+            this.pictureBox35.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
+            this.pictureBox35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox35.Location = new System.Drawing.Point(183, 120);
+            this.pictureBox35.Name = "pictureBox35";
+            this.pictureBox35.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox35.TabIndex = 169;
+            this.pictureBox35.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox35, "Heavy Water");
+            // 
+            // pictureBox34
+            // 
+            this.pictureBox34.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
+            this.pictureBox34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox34.Location = new System.Drawing.Point(183, 155);
+            this.pictureBox34.Name = "pictureBox34";
+            this.pictureBox34.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox34.TabIndex = 170;
+            this.pictureBox34.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox34, "Liquid Ozone");
+            // 
+            // pictureBox33
+            // 
+            this.pictureBox33.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
+            this.pictureBox33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox33.Location = new System.Drawing.Point(183, 190);
+            this.pictureBox33.Name = "pictureBox33";
+            this.pictureBox33.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox33.TabIndex = 171;
+            this.pictureBox33.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox33, "Faction Charters");
+            // 
+            // pictureBox11
+            // 
+            this.pictureBox11.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
+            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox11.Location = new System.Drawing.Point(183, 225);
+            this.pictureBox11.Name = "pictureBox11";
+            this.pictureBox11.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox11.TabIndex = 172;
+            this.pictureBox11.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox11, "Strontium Clathrates");
+            // 
+            // pictureBox44
+            // 
+            this.pictureBox44.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.NitgIso;
+            this.pictureBox44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox44.Location = new System.Drawing.Point(8, 190);
+            this.pictureBox44.Name = "pictureBox44";
+            this.pictureBox44.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox44.TabIndex = 173;
+            this.pictureBox44.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox44, "Nitrogen Isotopes");
+            // 
+            // pictureBox43
+            // 
+            this.pictureBox43.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HeIso;
+            this.pictureBox43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox43.Location = new System.Drawing.Point(8, 225);
+            this.pictureBox43.Name = "pictureBox43";
+            this.pictureBox43.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox43.TabIndex = 174;
+            this.pictureBox43.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox43, "Helium Isotopes");
+            // 
+            // pictureBox42
+            // 
+            this.pictureBox42.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.H2Iso;
+            this.pictureBox42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox42.Location = new System.Drawing.Point(183, 50);
+            this.pictureBox42.Name = "pictureBox42";
+            this.pictureBox42.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox42.TabIndex = 175;
+            this.pictureBox42.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox42, "Hydrogen Isotopes");
+            // 
+            // pictureBox36
+            // 
+            this.pictureBox36.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.OxIso;
+            this.pictureBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox36.Location = new System.Drawing.Point(183, 85);
+            this.pictureBox36.Name = "pictureBox36";
+            this.pictureBox36.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox36.TabIndex = 176;
+            this.pictureBox36.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox36, "Oxygen Isotopes");
+            // 
+            // cms_Notification
+            // 
+            this.cms_Notification.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsm_EditNotify,
+            this.tsm_RemoveNotify});
+            this.cms_Notification.Name = "cms_Notification";
+            this.cms_Notification.Size = new System.Drawing.Size(182, 48);
+            // 
+            // tsm_EditNotify
+            // 
+            this.tsm_EditNotify.Name = "tsm_EditNotify";
+            this.tsm_EditNotify.Size = new System.Drawing.Size(181, 22);
+            this.tsm_EditNotify.Text = "Edit Notification";
+            this.tsm_EditNotify.Click += new System.EventHandler(this.tsm_EditNotify_Click);
+            // 
+            // tsm_RemoveNotify
+            // 
+            this.tsm_RemoveNotify.Name = "tsm_RemoveNotify";
+            this.tsm_RemoveNotify.Size = new System.Drawing.Size(181, 22);
+            this.tsm_RemoveNotify.Text = "Remove Notification";
+            this.tsm_RemoveNotify.Click += new System.EventHandler(this.tsm_RemoveNotify_Click);
+            // 
+            // cms_Player
+            // 
+            this.cms_Player.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsm_EditPlayer,
+            this.tsm_RemovePlayer});
+            this.cms_Player.Name = "cms_Player";
+            this.cms_Player.Size = new System.Drawing.Size(158, 48);
+            // 
+            // tsm_EditPlayer
+            // 
+            this.tsm_EditPlayer.Name = "tsm_EditPlayer";
+            this.tsm_EditPlayer.Size = new System.Drawing.Size(157, 22);
+            this.tsm_EditPlayer.Text = "Edit Player";
+            this.tsm_EditPlayer.Click += new System.EventHandler(this.tsm_EditPlayer_Click);
+            // 
+            // tsm_RemovePlayer
+            // 
+            this.tsm_RemovePlayer.Name = "tsm_RemovePlayer";
+            this.tsm_RemovePlayer.Size = new System.Drawing.Size(157, 22);
+            this.tsm_RemovePlayer.Text = "Remove Player";
+            this.tsm_RemovePlayer.Click += new System.EventHandler(this.tsm_RemovePlayer_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 48);
+            // 
+            // tsb_Test
+            // 
+            this.tsb_Test.AutoSize = false;
+            this.tsb_Test.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsb_Test.ForeColor = System.Drawing.Color.Cyan;
+            this.tsb_Test.Image = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.tsb_Test.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Test.Name = "tsb_Test";
+            this.tsb_Test.Size = new System.Drawing.Size(45, 45);
+            this.tsb_Test.Text = "Test Mail";
+            this.tsb_Test.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tsb_Test.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.tsb_Test.ToolTipText = "Send a Test Mail to a Notification Action List";
+            this.tsb_Test.Click += new System.EventHandler(this.tsb_Test_Click);
+            // 
+            // poS_Item51
+            // 
+            this.poS_Item51.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.poS_Item51.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item51.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item51.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item51.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item51.ItemNumber = 0;
+            this.poS_Item51.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item51.Location = new System.Drawing.Point(451, 211);
+            this.poS_Item51.Name = "poS_Item51";
+            this.poS_Item51.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item51.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item51.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item51.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item51.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item51.TabIndex = 60;
+            this.poS_Item51.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
             // 
             // poS_Item52
             // 
@@ -5602,1825 +7634,6 @@
             this.pi_Tower.TabIndex = 0;
             this.pi_Tower.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
             // 
-            // tp_POSMaintenance
-            // 
-            this.tp_POSMaintenance.Controls.Add(this.cb_ShowFuelNeed);
-            this.tp_POSMaintenance.Controls.Add(this.label5);
-            this.tp_POSMaintenance.Controls.Add(this.cb_FactChartTotal);
-            this.tp_POSMaintenance.Controls.Add(this.cb_UseStrontTotals);
-            this.tp_POSMaintenance.Controls.Add(this.gb_AllPos);
-            this.tp_POSMaintenance.Controls.Add(this.gb_SelPos);
-            this.tp_POSMaintenance.Controls.Add(this.dg_TowerFuelList);
-            this.tp_POSMaintenance.Controls.Add(this.label7);
-            this.tp_POSMaintenance.Controls.Add(this.label6);
-            this.tp_POSMaintenance.Controls.Add(this.nud_PeriodValue);
-            this.tp_POSMaintenance.Controls.Add(this.tscb_TimePeriod);
-            this.tp_POSMaintenance.Controls.Add(this.label2);
-            this.tp_POSMaintenance.Controls.Add(this.b_ApplyIntervalPeriod);
-            this.tp_POSMaintenance.Location = new System.Drawing.Point(4, 25);
-            this.tp_POSMaintenance.Name = "tp_POSMaintenance";
-            this.tp_POSMaintenance.Size = new System.Drawing.Size(1000, 701);
-            this.tp_POSMaintenance.TabIndex = 2;
-            this.tp_POSMaintenance.Text = "POS Maintenance";
-            this.tp_POSMaintenance.UseVisualStyleBackColor = true;
-            // 
-            // cb_ShowFuelNeed
-            // 
-            this.cb_ShowFuelNeed.AutoSize = true;
-            this.cb_ShowFuelNeed.Location = new System.Drawing.Point(798, 36);
-            this.cb_ShowFuelNeed.Name = "cb_ShowFuelNeed";
-            this.cb_ShowFuelNeed.Size = new System.Drawing.Size(187, 17);
-            this.cb_ShowFuelNeed.TabIndex = 182;
-            this.cb_ShowFuelNeed.Text = "Ignore Current Tower Fuel Levels";
-            this.tt_InfoTips.SetToolTip(this.cb_ShowFuelNeed, "Show fuel needed by tower for time period. Do Not account for fuel already at tow" +
-                    "er.");
-            this.cb_ShowFuelNeed.UseVisualStyleBackColor = true;
-            this.cb_ShowFuelNeed.CheckedChanged += new System.EventHandler(this.cb_ShowFuelNeed_CheckedChanged);
-            // 
-            // label5
-            // 
-            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.ForeColor = System.Drawing.Color.Blue;
-            this.label5.Location = new System.Drawing.Point(358, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(180, 42);
-            this.label5.TabIndex = 181;
-            this.label5.Text = "The \'Fill\' interval will CAP each POS to the maximum fuel it can hold. The other " +
-                "intervals will not do this.";
-            // 
-            // cb_FactChartTotal
-            // 
-            this.cb_FactChartTotal.AutoSize = true;
-            this.cb_FactChartTotal.Checked = true;
-            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 20);
-            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
-            this.cb_FactChartTotal.Size = new System.Drawing.Size(149, 17);
-            this.cb_FactChartTotal.TabIndex = 178;
-            this.cb_FactChartTotal.Text = "Include Charters in Totals";
-            this.cb_FactChartTotal.UseVisualStyleBackColor = true;
-            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
-            // 
-            // cb_UseStrontTotals
-            // 
-            this.cb_UseStrontTotals.AutoSize = true;
-            this.cb_UseStrontTotals.Checked = true;
-            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 4);
-            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
-            this.cb_UseStrontTotals.Size = new System.Drawing.Size(137, 17);
-            this.cb_UseStrontTotals.TabIndex = 177;
-            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
-            this.cb_UseStrontTotals.UseVisualStyleBackColor = true;
-            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
-            // 
-            // gb_AllPos
-            // 
-            this.gb_AllPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.gb_AllPos.Controls.Add(this.cb_AllDataForCopy);
-            this.gb_AllPos.Controls.Add(this.dg_TotalFuel);
-            this.gb_AllPos.Controls.Add(this.b_CopyAllPos);
-            this.gb_AllPos.ForeColor = System.Drawing.Color.Blue;
-            this.gb_AllPos.Location = new System.Drawing.Point(501, 425);
-            this.gb_AllPos.Name = "gb_AllPos";
-            this.gb_AllPos.Size = new System.Drawing.Size(497, 276);
-            this.gb_AllPos.TabIndex = 176;
-            this.gb_AllPos.TabStop = false;
-            this.gb_AllPos.Text = "All POS";
-            // 
-            // cb_AllDataForCopy
-            // 
-            this.cb_AllDataForCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_AllDataForCopy.FormattingEnabled = true;
-            this.cb_AllDataForCopy.Items.AddRange(new object[] {
-            "Fuel Only (Total m3)",
-            "Fuel & Volume (Total m3)",
-            "Fuel, Volume & Cost (Total m3 & Cost)"});
-            this.cb_AllDataForCopy.Location = new System.Drawing.Point(179, 11);
-            this.cb_AllDataForCopy.Name = "cb_AllDataForCopy";
-            this.cb_AllDataForCopy.Size = new System.Drawing.Size(220, 24);
-            this.cb_AllDataForCopy.TabIndex = 184;
-            this.cb_AllDataForCopy.Text = "Fuel Only (Total m3)";
-            // 
-            // dg_TotalFuel
-            // 
-            this.dg_TotalFuel.AllowUserToAddRows = false;
-            this.dg_TotalFuel.AllowUserToDeleteRows = false;
-            this.dg_TotalFuel.AllowUserToResizeRows = false;
-            this.dg_TotalFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.dg_TotalFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dg_TotalFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FuelName,
-            this.FuelAmount,
-            this.FuelVolume,
-            this.FuelCost});
-            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 38);
-            this.dg_TotalFuel.MultiSelect = false;
-            this.dg_TotalFuel.Name = "dg_TotalFuel";
-            this.dg_TotalFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle17;
-            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 234);
-            this.dg_TotalFuel.TabIndex = 0;
-            // 
-            // FuelName
-            // 
-            this.FuelName.HeaderText = "Fuel";
-            this.FuelName.Name = "FuelName";
-            this.FuelName.ReadOnly = true;
-            this.FuelName.Width = 145;
-            // 
-            // FuelAmount
-            // 
-            this.FuelAmount.HeaderText = "Amount";
-            this.FuelAmount.Name = "FuelAmount";
-            this.FuelAmount.ReadOnly = true;
-            // 
-            // FuelVolume
-            // 
-            this.FuelVolume.HeaderText = "Volume";
-            this.FuelVolume.Name = "FuelVolume";
-            this.FuelVolume.ReadOnly = true;
-            // 
-            // FuelCost
-            // 
-            this.FuelCost.HeaderText = "Cost";
-            this.FuelCost.Name = "FuelCost";
-            this.FuelCost.ReadOnly = true;
-            this.FuelCost.Width = 125;
-            // 
-            // b_CopyAllPos
-            // 
-            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
-            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
-            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopyAllPos.Location = new System.Drawing.Point(405, 8);
-            this.b_CopyAllPos.Name = "b_CopyAllPos";
-            this.b_CopyAllPos.Size = new System.Drawing.Size(89, 30);
-            this.b_CopyAllPos.TabIndex = 179;
-            this.b_CopyAllPos.Text = "Copy All";
-            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data to the Clipboard");
-            this.b_CopyAllPos.UseVisualStyleBackColor = false;
-            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
-            // 
-            // gb_SelPos
-            // 
-            this.gb_SelPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.gb_SelPos.Controls.Add(this.cb_SelectedDataForCopy);
-            this.gb_SelPos.Controls.Add(this.dg_SelectedFuel);
-            this.gb_SelPos.Controls.Add(this.b_SetSelectedFull);
-            this.gb_SelPos.Controls.Add(this.b_CopySelected);
-            this.gb_SelPos.ForeColor = System.Drawing.Color.Blue;
-            this.gb_SelPos.Location = new System.Drawing.Point(0, 425);
-            this.gb_SelPos.Name = "gb_SelPos";
-            this.gb_SelPos.Size = new System.Drawing.Size(497, 276);
-            this.gb_SelPos.TabIndex = 175;
-            this.gb_SelPos.TabStop = false;
-            this.gb_SelPos.Text = "Selected POS";
-            // 
-            // cb_SelectedDataForCopy
-            // 
-            this.cb_SelectedDataForCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_SelectedDataForCopy.FormattingEnabled = true;
-            this.cb_SelectedDataForCopy.Items.AddRange(new object[] {
-            "Fuel Only (Total m3)",
-            "Fuel & Volume (Total m3)",
-            "Fuel, Volume & Cost (Total m3 & Cost)"});
-            this.cb_SelectedDataForCopy.Location = new System.Drawing.Point(179, 11);
-            this.cb_SelectedDataForCopy.Name = "cb_SelectedDataForCopy";
-            this.cb_SelectedDataForCopy.Size = new System.Drawing.Size(220, 24);
-            this.cb_SelectedDataForCopy.TabIndex = 183;
-            this.cb_SelectedDataForCopy.Text = "Fuel Only (Total m3)";
-            // 
-            // dg_SelectedFuel
-            // 
-            this.dg_SelectedFuel.AllowUserToAddRows = false;
-            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
-            this.dg_SelectedFuel.AllowUserToResizeRows = false;
-            this.dg_SelectedFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.dg_SelectedFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dg_SelectedFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SelFuelType,
-            this.SelFuelAmount,
-            this.SelFuelVol,
-            this.SelFuelCost});
-            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 38);
-            this.dg_SelectedFuel.MultiSelect = false;
-            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
-            this.dg_SelectedFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle18;
-            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 234);
-            this.dg_SelectedFuel.TabIndex = 1;
-            // 
-            // SelFuelType
-            // 
-            this.SelFuelType.HeaderText = "Type";
-            this.SelFuelType.Name = "SelFuelType";
-            this.SelFuelType.ReadOnly = true;
-            this.SelFuelType.Width = 145;
-            // 
-            // SelFuelAmount
-            // 
-            this.SelFuelAmount.HeaderText = "Amount";
-            this.SelFuelAmount.Name = "SelFuelAmount";
-            this.SelFuelAmount.ReadOnly = true;
-            // 
-            // SelFuelVol
-            // 
-            this.SelFuelVol.HeaderText = "Volume";
-            this.SelFuelVol.Name = "SelFuelVol";
-            this.SelFuelVol.ReadOnly = true;
-            // 
-            // SelFuelCost
-            // 
-            this.SelFuelCost.HeaderText = "Cost";
-            this.SelFuelCost.Name = "SelFuelCost";
-            this.SelFuelCost.ReadOnly = true;
-            this.SelFuelCost.Width = 125;
-            // 
-            // b_SetSelectedFull
-            // 
-            this.b_SetSelectedFull.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_SetSelectedFull.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_SetSelectedFull.ForeColor = System.Drawing.Color.Cyan;
-            this.b_SetSelectedFull.Location = new System.Drawing.Point(84, 8);
-            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
-            this.b_SetSelectedFull.Size = new System.Drawing.Size(89, 30);
-            this.b_SetSelectedFull.TabIndex = 182;
-            this.b_SetSelectedFull.Text = "Mark Full";
-            this.b_SetSelectedFull.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_SetSelectedFull, "Set The Selected Tower To Full By Calculated Values");
-            this.b_SetSelectedFull.UseVisualStyleBackColor = true;
-            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
-            // 
-            // b_CopySelected
-            // 
-            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopySelected.Location = new System.Drawing.Point(405, 8);
-            this.b_CopySelected.Name = "b_CopySelected";
-            this.b_CopySelected.Size = new System.Drawing.Size(89, 30);
-            this.b_CopySelected.TabIndex = 180;
-            this.b_CopySelected.Text = "Copy Selected";
-            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data to the Clipboard");
-            this.b_CopySelected.UseVisualStyleBackColor = true;
-            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
-            // 
-            // dg_TowerFuelList
-            // 
-            this.dg_TowerFuelList.AllowUserToAddRows = false;
-            this.dg_TowerFuelList.AllowUserToDeleteRows = false;
-            this.dg_TowerFuelList.AllowUserToResizeRows = false;
-            this.dg_TowerFuelList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dg_TowerFuelList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dg_TowerFuelList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
-            this.dg_TowerFuelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_TowerFuelList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FName,
-            this.FLocation,
-            this.EnrUr,
-            this.Oxygen,
-            this.MechP,
-            this.Coolant,
-            this.Robot,
-            this.Isotope,
-            this.HvyWater,
-            this.LiqOz,
-            this.Charter,
-            this.Stront,
-            this.RunTime});
-            this.dg_TowerFuelList.Location = new System.Drawing.Point(3, 54);
-            this.dg_TowerFuelList.Name = "dg_TowerFuelList";
-            this.dg_TowerFuelList.ReadOnly = true;
-            this.dg_TowerFuelList.RowHeadersVisible = false;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle20;
-            this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TowerFuelList.Size = new System.Drawing.Size(995, 370);
-            this.dg_TowerFuelList.TabIndex = 174;
-            this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
-            // 
-            // FName
-            // 
-            this.FName.HeaderText = "Name";
-            this.FName.Name = "FName";
-            this.FName.ReadOnly = true;
-            this.FName.Width = 59;
-            // 
-            // FLocation
-            // 
-            this.FLocation.HeaderText = "Location";
-            this.FLocation.Name = "FLocation";
-            this.FLocation.ReadOnly = true;
-            this.FLocation.Width = 72;
-            // 
-            // EnrUr
-            // 
-            this.EnrUr.HeaderText = "Enr. Ur.";
-            this.EnrUr.Name = "EnrUr";
-            this.EnrUr.ReadOnly = true;
-            this.EnrUr.Width = 70;
-            // 
-            // Oxygen
-            // 
-            this.Oxygen.HeaderText = "Oxygen";
-            this.Oxygen.Name = "Oxygen";
-            this.Oxygen.ReadOnly = true;
-            this.Oxygen.Width = 70;
-            // 
-            // MechP
-            // 
-            this.MechP.HeaderText = "Mech Pts";
-            this.MechP.Name = "MechP";
-            this.MechP.ReadOnly = true;
-            this.MechP.Width = 75;
-            // 
-            // Coolant
-            // 
-            this.Coolant.HeaderText = "Coolant";
-            this.Coolant.Name = "Coolant";
-            this.Coolant.ReadOnly = true;
-            this.Coolant.Width = 69;
-            // 
-            // Robot
-            // 
-            this.Robot.HeaderText = "Robotics";
-            this.Robot.Name = "Robot";
-            this.Robot.ReadOnly = true;
-            this.Robot.Width = 73;
-            // 
-            // Isotope
-            // 
-            this.Isotope.HeaderText = "Isotopes";
-            this.Isotope.Name = "Isotope";
-            this.Isotope.ReadOnly = true;
-            this.Isotope.Width = 74;
-            // 
-            // HvyWater
-            // 
-            this.HvyWater.HeaderText = "Hvy. Water";
-            this.HvyWater.Name = "HvyWater";
-            this.HvyWater.ReadOnly = true;
-            this.HvyWater.Width = 88;
-            // 
-            // LiqOz
-            // 
-            this.LiqOz.HeaderText = "Liq Ozone";
-            this.LiqOz.Name = "LiqOz";
-            this.LiqOz.ReadOnly = true;
-            this.LiqOz.Width = 79;
-            // 
-            // Charter
-            // 
-            this.Charter.HeaderText = "Charters";
-            this.Charter.Name = "Charter";
-            this.Charter.ReadOnly = true;
-            this.Charter.Width = 74;
-            // 
-            // Stront
-            // 
-            this.Stront.HeaderText = "Strontium";
-            this.Stront.Name = "Stront";
-            this.Stront.ReadOnly = true;
-            this.Stront.Width = 78;
-            // 
-            // RunTime
-            // 
-            this.RunTime.HeaderText = "Run Time";
-            this.RunTime.Name = "RunTime";
-            this.RunTime.ReadOnly = true;
-            this.RunTime.Width = 76;
-            // 
-            // label7
-            // 
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(546, 30);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 18);
-            this.label7.TabIndex = 172;
-            this.label7.Text = "Period";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label6
-            // 
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(546, 7);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(61, 18);
-            this.label6.TabIndex = 171;
-            this.label6.Text = "Interval";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // nud_PeriodValue
-            // 
-            this.nud_PeriodValue.Location = new System.Drawing.Point(609, 29);
-            this.nud_PeriodValue.Name = "nud_PeriodValue";
-            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 21);
-            this.nud_PeriodValue.TabIndex = 170;
-            // 
-            // tscb_TimePeriod
-            // 
-            this.tscb_TimePeriod.FormattingEnabled = true;
-            this.tscb_TimePeriod.Items.AddRange(new object[] {
-            "Hours",
-            "Days",
-            "Weeks",
-            "Months",
-            "Fill"});
-            this.tscb_TimePeriod.Location = new System.Drawing.Point(609, 6);
-            this.tscb_TimePeriod.Name = "tscb_TimePeriod";
-            this.tscb_TimePeriod.Size = new System.Drawing.Size(121, 21);
-            this.tscb_TimePeriod.TabIndex = 169;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(328, 16);
-            this.label2.TabIndex = 164;
-            this.label2.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // b_ApplyIntervalPeriod
-            // 
-            this.b_ApplyIntervalPeriod.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_ApplyIntervalPeriod.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_ApplyIntervalPeriod.ForeColor = System.Drawing.Color.Cyan;
-            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(733, 5);
-            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
-            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 45);
-            this.b_ApplyIntervalPeriod.TabIndex = 173;
-            this.b_ApplyIntervalPeriod.Text = "Apply";
-            this.b_ApplyIntervalPeriod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.b_ApplyIntervalPeriod.UseVisualStyleBackColor = true;
-            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.ApplyFillData);
-            // 
-            // tp_ReactManage
-            // 
-            this.tp_ReactManage.Controls.Add(this.p_ReactMenu);
-            this.tp_ReactManage.Controls.Add(this.p_PosMods);
-            this.tp_ReactManage.Controls.Add(this.tv_ReactManage);
-            this.tp_ReactManage.Location = new System.Drawing.Point(4, 25);
-            this.tp_ReactManage.Name = "tp_ReactManage";
-            this.tp_ReactManage.Size = new System.Drawing.Size(1000, 701);
-            this.tp_ReactManage.TabIndex = 4;
-            this.tp_ReactManage.Text = "Reaction Manager";
-            this.tp_ReactManage.UseVisualStyleBackColor = true;
-            // 
-            // p_ReactMenu
-            // 
-            this.p_ReactMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.p_ReactMenu.Controls.Add(this.ts_ReactionMenu);
-            this.p_ReactMenu.Location = new System.Drawing.Point(471, 1);
-            this.p_ReactMenu.Name = "p_ReactMenu";
-            this.p_ReactMenu.Size = new System.Drawing.Size(44, 700);
-            this.p_ReactMenu.TabIndex = 2;
-            // 
-            // ts_ReactionMenu
-            // 
-            this.ts_ReactionMenu.AllowMerge = false;
-            this.ts_ReactionMenu.AutoSize = false;
-            this.ts_ReactionMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ts_ReactionMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ts_ReactionMenu.ImageScalingSize = new System.Drawing.Size(35, 35);
-            this.ts_ReactionMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsb_React_Save,
-            this.tsb_ReactClearLink,
-            this.toolStripButton3});
-            this.ts_ReactionMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ts_ReactionMenu.Location = new System.Drawing.Point(0, 0);
-            this.ts_ReactionMenu.Name = "ts_ReactionMenu";
-            this.ts_ReactionMenu.Size = new System.Drawing.Size(44, 700);
-            this.ts_ReactionMenu.TabIndex = 2;
-            // 
-            // tsb_React_Save
-            // 
-            this.tsb_React_Save.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_React_Save.Image = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.tsb_React_Save.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_React_Save.Name = "tsb_React_Save";
-            this.tsb_React_Save.Size = new System.Drawing.Size(42, 39);
-            this.tsb_React_Save.Text = "Save";
-            this.tsb_React_Save.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_React_Save.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_React_Save.Click += new System.EventHandler(this.tsb_React_Save_Click);
-            // 
-            // tsb_ReactClearLink
-            // 
-            this.tsb_ReactClearLink.ForeColor = System.Drawing.Color.Cyan;
-            this.tsb_ReactClearLink.Image = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.tsb_ReactClearLink.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_ReactClearLink.Name = "tsb_ReactClearLink";
-            this.tsb_ReactClearLink.Size = new System.Drawing.Size(42, 39);
-            this.tsb_ReactClearLink.Text = "Clear";
-            this.tsb_ReactClearLink.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tsb_ReactClearLink.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.tsb_ReactClearLink.ToolTipText = "Clear Links";
-            this.tsb_ReactClearLink.Click += new System.EventHandler(this.tsb_ReactClearLink_Click);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(42, 39);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.Visible = false;
-            // 
-            // p_PosMods
-            // 
-            this.p_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.p_PosMods.AutoScroll = true;
-            this.p_PosMods.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.p_PosMods.Location = new System.Drawing.Point(515, 0);
-            this.p_PosMods.Name = "p_PosMods";
-            this.p_PosMods.Size = new System.Drawing.Size(485, 701);
-            this.p_PosMods.TabIndex = 1;
-            // 
-            // tv_ReactManage
-            // 
-            this.tv_ReactManage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tv_ReactManage.FullRowSelect = true;
-            this.tv_ReactManage.Location = new System.Drawing.Point(0, 0);
-            this.tv_ReactManage.Name = "tv_ReactManage";
-            this.tv_ReactManage.Size = new System.Drawing.Size(471, 701);
-            this.tv_ReactManage.TabIndex = 0;
-            this.tv_ReactManage.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tv_ReactManage_AfterSelect);
-            // 
-            // tb_PMConfig
-            // 
-            this.tb_PMConfig.Controls.Add(this.groupBox2);
-            this.tb_PMConfig.Controls.Add(this.gb_PosDesignShow);
-            this.tb_PMConfig.Controls.Add(this.gb_MonPosCol);
-            this.tb_PMConfig.Location = new System.Drawing.Point(4, 25);
-            this.tb_PMConfig.Name = "tb_PMConfig";
-            this.tb_PMConfig.Size = new System.Drawing.Size(1000, 701);
-            this.tb_PMConfig.TabIndex = 3;
-            this.tb_PMConfig.Text = "Configuration";
-            this.tb_PMConfig.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.pictureBox41);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.pictureBox40);
-            this.groupBox2.Controls.Add(this.nud_O2_FC);
-            this.groupBox2.Controls.Add(this.pictureBox39);
-            this.groupBox2.Controls.Add(this.nud_H2_FC);
-            this.groupBox2.Controls.Add(this.pictureBox38);
-            this.groupBox2.Controls.Add(this.nud_N2_FC);
-            this.groupBox2.Controls.Add(this.pictureBox37);
-            this.groupBox2.Controls.Add(this.pictureBox35);
-            this.groupBox2.Controls.Add(this.nud_ST_FC);
-            this.groupBox2.Controls.Add(this.pictureBox34);
-            this.groupBox2.Controls.Add(this.nud_CH_FC);
-            this.groupBox2.Controls.Add(this.pictureBox33);
-            this.groupBox2.Controls.Add(this.nud_LO_FC);
-            this.groupBox2.Controls.Add(this.pictureBox11);
-            this.groupBox2.Controls.Add(this.nud_HW_FC);
-            this.groupBox2.Controls.Add(this.pictureBox44);
-            this.groupBox2.Controls.Add(this.nud_HE_FC);
-            this.groupBox2.Controls.Add(this.pictureBox43);
-            this.groupBox2.Controls.Add(this.nud_RB_FC);
-            this.groupBox2.Controls.Add(this.pictureBox42);
-            this.groupBox2.Controls.Add(this.nud_CL_FC);
-            this.groupBox2.Controls.Add(this.pictureBox36);
-            this.groupBox2.Controls.Add(this.nud_MP_FC);
-            this.groupBox2.Controls.Add(this.nud_ER_FC);
-            this.groupBox2.Controls.Add(this.nud_OX_FC);
-            this.groupBox2.ForeColor = System.Drawing.Color.Blue;
-            this.groupBox2.Location = new System.Drawing.Point(0, 222);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(354, 267);
-            this.groupBox2.TabIndex = 178;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Set Fuel Costs";
-            // 
-            // pictureBox41
-            // 
-            this.pictureBox41.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
-            this.pictureBox41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox41.Location = new System.Drawing.Point(8, 15);
-            this.pictureBox41.Name = "pictureBox41";
-            this.pictureBox41.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox41.TabIndex = 164;
-            this.pictureBox41.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox41, "Enriched Uranium");
-            // 
-            // label1
-            // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Location = new System.Drawing.Point(161, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(187, 32);
-            this.label1.TabIndex = 177;
-            this.label1.Text = "** A value of \'0\' means the default standard fuel cost will be used.";
-            // 
-            // pictureBox40
-            // 
-            this.pictureBox40.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
-            this.pictureBox40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox40.Location = new System.Drawing.Point(8, 50);
-            this.pictureBox40.Name = "pictureBox40";
-            this.pictureBox40.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox40.TabIndex = 165;
-            this.pictureBox40.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox40, "Oxygen");
-            // 
-            // nud_O2_FC
-            // 
-            this.nud_O2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_O2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_O2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_O2_FC.Location = new System.Drawing.Point(220, 92);
-            this.nud_O2_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_O2_FC.Name = "nud_O2_FC";
-            this.nud_O2_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_O2_FC.TabIndex = 163;
-            this.nud_O2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_O2_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_O2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox39
-            // 
-            this.pictureBox39.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
-            this.pictureBox39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox39.Location = new System.Drawing.Point(8, 85);
-            this.pictureBox39.Name = "pictureBox39";
-            this.pictureBox39.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox39.TabIndex = 166;
-            this.pictureBox39.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox39, "Mechanical Parts");
-            // 
-            // nud_H2_FC
-            // 
-            this.nud_H2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_H2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_H2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_H2_FC.Location = new System.Drawing.Point(220, 57);
-            this.nud_H2_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_H2_FC.Name = "nud_H2_FC";
-            this.nud_H2_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_H2_FC.TabIndex = 162;
-            this.nud_H2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_H2_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_H2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox38
-            // 
-            this.pictureBox38.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
-            this.pictureBox38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox38.Location = new System.Drawing.Point(8, 120);
-            this.pictureBox38.Name = "pictureBox38";
-            this.pictureBox38.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox38.TabIndex = 167;
-            this.pictureBox38.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox38, "Coolant");
-            // 
-            // nud_N2_FC
-            // 
-            this.nud_N2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_N2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_N2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_N2_FC.Location = new System.Drawing.Point(45, 197);
-            this.nud_N2_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_N2_FC.Name = "nud_N2_FC";
-            this.nud_N2_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_N2_FC.TabIndex = 161;
-            this.nud_N2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_N2_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_N2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox37
-            // 
-            this.pictureBox37.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
-            this.pictureBox37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox37.Location = new System.Drawing.Point(8, 155);
-            this.pictureBox37.Name = "pictureBox37";
-            this.pictureBox37.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox37.TabIndex = 168;
-            this.pictureBox37.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox37, "Robotics");
-            // 
-            // pictureBox35
-            // 
-            this.pictureBox35.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
-            this.pictureBox35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox35.Location = new System.Drawing.Point(183, 120);
-            this.pictureBox35.Name = "pictureBox35";
-            this.pictureBox35.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox35.TabIndex = 169;
-            this.pictureBox35.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox35, "Heavy Water");
-            // 
-            // nud_ST_FC
-            // 
-            this.nud_ST_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_ST_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_ST_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_ST_FC.Location = new System.Drawing.Point(220, 232);
-            this.nud_ST_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_ST_FC.Name = "nud_ST_FC";
-            this.nud_ST_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_ST_FC.TabIndex = 159;
-            this.nud_ST_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_ST_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_ST_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox34
-            // 
-            this.pictureBox34.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
-            this.pictureBox34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox34.Location = new System.Drawing.Point(183, 155);
-            this.pictureBox34.Name = "pictureBox34";
-            this.pictureBox34.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox34.TabIndex = 170;
-            this.pictureBox34.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox34, "Liquid Ozone");
-            // 
-            // nud_CH_FC
-            // 
-            this.nud_CH_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_CH_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_CH_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_CH_FC.Location = new System.Drawing.Point(220, 197);
-            this.nud_CH_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_CH_FC.Name = "nud_CH_FC";
-            this.nud_CH_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_CH_FC.TabIndex = 158;
-            this.nud_CH_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_CH_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_CH_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox33
-            // 
-            this.pictureBox33.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
-            this.pictureBox33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox33.Location = new System.Drawing.Point(183, 190);
-            this.pictureBox33.Name = "pictureBox33";
-            this.pictureBox33.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox33.TabIndex = 171;
-            this.pictureBox33.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox33, "Faction Charters");
-            // 
-            // nud_LO_FC
-            // 
-            this.nud_LO_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_LO_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_LO_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_LO_FC.Location = new System.Drawing.Point(220, 162);
-            this.nud_LO_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_LO_FC.Name = "nud_LO_FC";
-            this.nud_LO_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_LO_FC.TabIndex = 157;
-            this.nud_LO_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_LO_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_LO_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox11
-            // 
-            this.pictureBox11.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
-            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox11.Location = new System.Drawing.Point(183, 225);
-            this.pictureBox11.Name = "pictureBox11";
-            this.pictureBox11.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox11.TabIndex = 172;
-            this.pictureBox11.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox11, "Strontium Clathrates");
-            // 
-            // nud_HW_FC
-            // 
-            this.nud_HW_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_HW_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_HW_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_HW_FC.Location = new System.Drawing.Point(220, 127);
-            this.nud_HW_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_HW_FC.Name = "nud_HW_FC";
-            this.nud_HW_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_HW_FC.TabIndex = 156;
-            this.nud_HW_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_HW_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_HW_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox44
-            // 
-            this.pictureBox44.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.NitgIso;
-            this.pictureBox44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox44.Location = new System.Drawing.Point(8, 190);
-            this.pictureBox44.Name = "pictureBox44";
-            this.pictureBox44.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox44.TabIndex = 173;
-            this.pictureBox44.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox44, "Nitrogen Isotopes");
-            // 
-            // nud_HE_FC
-            // 
-            this.nud_HE_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_HE_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_HE_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_HE_FC.Location = new System.Drawing.Point(45, 232);
-            this.nud_HE_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_HE_FC.Name = "nud_HE_FC";
-            this.nud_HE_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_HE_FC.TabIndex = 155;
-            this.nud_HE_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_HE_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_HE_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox43
-            // 
-            this.pictureBox43.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HeIso;
-            this.pictureBox43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox43.Location = new System.Drawing.Point(8, 225);
-            this.pictureBox43.Name = "pictureBox43";
-            this.pictureBox43.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox43.TabIndex = 174;
-            this.pictureBox43.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox43, "Helium Isotopes");
-            // 
-            // nud_RB_FC
-            // 
-            this.nud_RB_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_RB_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_RB_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_RB_FC.Location = new System.Drawing.Point(45, 162);
-            this.nud_RB_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_RB_FC.Name = "nud_RB_FC";
-            this.nud_RB_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_RB_FC.TabIndex = 154;
-            this.nud_RB_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_RB_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_RB_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox42
-            // 
-            this.pictureBox42.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.H2Iso;
-            this.pictureBox42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox42.Location = new System.Drawing.Point(183, 50);
-            this.pictureBox42.Name = "pictureBox42";
-            this.pictureBox42.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox42.TabIndex = 175;
-            this.pictureBox42.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox42, "Hydrogen Isotopes");
-            // 
-            // nud_CL_FC
-            // 
-            this.nud_CL_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_CL_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_CL_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_CL_FC.Location = new System.Drawing.Point(45, 127);
-            this.nud_CL_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_CL_FC.Name = "nud_CL_FC";
-            this.nud_CL_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_CL_FC.TabIndex = 153;
-            this.nud_CL_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_CL_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_CL_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox36
-            // 
-            this.pictureBox36.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.OxIso;
-            this.pictureBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox36.Location = new System.Drawing.Point(183, 85);
-            this.pictureBox36.Name = "pictureBox36";
-            this.pictureBox36.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox36.TabIndex = 176;
-            this.pictureBox36.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox36, "Oxygen Isotopes");
-            // 
-            // nud_MP_FC
-            // 
-            this.nud_MP_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_MP_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_MP_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_MP_FC.Location = new System.Drawing.Point(45, 92);
-            this.nud_MP_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_MP_FC.Name = "nud_MP_FC";
-            this.nud_MP_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_MP_FC.TabIndex = 152;
-            this.nud_MP_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_MP_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_MP_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_ER_FC
-            // 
-            this.nud_ER_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_ER_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_ER_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_ER_FC.Location = new System.Drawing.Point(45, 22);
-            this.nud_ER_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_ER_FC.Name = "nud_ER_FC";
-            this.nud_ER_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_ER_FC.TabIndex = 150;
-            this.nud_ER_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_ER_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_ER_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_OX_FC
-            // 
-            this.nud_OX_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_OX_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_OX_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_OX_FC.Location = new System.Drawing.Point(45, 57);
-            this.nud_OX_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_OX_FC.Name = "nud_OX_FC";
-            this.nud_OX_FC.Size = new System.Drawing.Size(110, 21);
-            this.nud_OX_FC.TabIndex = 151;
-            this.nud_OX_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_OX_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_OX_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // gb_PosDesignShow
-            // 
-            this.gb_PosDesignShow.Controls.Add(this.checkBox44);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox43);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox42);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox41);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox40);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox39);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox38);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox37);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox36);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox35);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox34);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox33);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox32);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox31);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox30);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox29);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox28);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox27);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox26);
-            this.gb_PosDesignShow.Controls.Add(this.checkBox25);
-            this.gb_PosDesignShow.ForeColor = System.Drawing.Color.Blue;
-            this.gb_PosDesignShow.Location = new System.Drawing.Point(363, 3);
-            this.gb_PosDesignShow.Name = "gb_PosDesignShow";
-            this.gb_PosDesignShow.Size = new System.Drawing.Size(354, 219);
-            this.gb_PosDesignShow.TabIndex = 1;
-            this.gb_PosDesignShow.TabStop = false;
-            this.gb_PosDesignShow.Text = "Design POS - Columns to Show";
-            // 
-            // checkBox44
-            // 
-            this.checkBox44.AutoSize = true;
-            this.checkBox44.Location = new System.Drawing.Point(168, 163);
-            this.checkBox44.Name = "checkBox44";
-            this.checkBox44.Size = new System.Drawing.Size(83, 17);
-            this.checkBox44.TabIndex = 32;
-            this.checkBox44.Text = "checkBox44";
-            this.checkBox44.UseVisualStyleBackColor = true;
-            this.checkBox44.Visible = false;
-            this.checkBox44.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox43
-            // 
-            this.checkBox43.AutoSize = true;
-            this.checkBox43.Location = new System.Drawing.Point(168, 147);
-            this.checkBox43.Name = "checkBox43";
-            this.checkBox43.Size = new System.Drawing.Size(83, 17);
-            this.checkBox43.TabIndex = 31;
-            this.checkBox43.Text = "checkBox43";
-            this.checkBox43.UseVisualStyleBackColor = true;
-            this.checkBox43.Visible = false;
-            this.checkBox43.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox42
-            // 
-            this.checkBox42.AutoSize = true;
-            this.checkBox42.Location = new System.Drawing.Point(168, 131);
-            this.checkBox42.Name = "checkBox42";
-            this.checkBox42.Size = new System.Drawing.Size(83, 17);
-            this.checkBox42.TabIndex = 30;
-            this.checkBox42.Text = "checkBox42";
-            this.checkBox42.UseVisualStyleBackColor = true;
-            this.checkBox42.Visible = false;
-            this.checkBox42.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox41
-            // 
-            this.checkBox41.AutoSize = true;
-            this.checkBox41.Location = new System.Drawing.Point(168, 115);
-            this.checkBox41.Name = "checkBox41";
-            this.checkBox41.Size = new System.Drawing.Size(83, 17);
-            this.checkBox41.TabIndex = 29;
-            this.checkBox41.Text = "checkBox41";
-            this.checkBox41.UseVisualStyleBackColor = true;
-            this.checkBox41.Visible = false;
-            this.checkBox41.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox40
-            // 
-            this.checkBox40.AutoSize = true;
-            this.checkBox40.Location = new System.Drawing.Point(168, 99);
-            this.checkBox40.Name = "checkBox40";
-            this.checkBox40.Size = new System.Drawing.Size(83, 17);
-            this.checkBox40.TabIndex = 28;
-            this.checkBox40.Text = "checkBox40";
-            this.checkBox40.UseVisualStyleBackColor = true;
-            this.checkBox40.Visible = false;
-            this.checkBox40.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox39
-            // 
-            this.checkBox39.AutoSize = true;
-            this.checkBox39.Location = new System.Drawing.Point(168, 83);
-            this.checkBox39.Name = "checkBox39";
-            this.checkBox39.Size = new System.Drawing.Size(83, 17);
-            this.checkBox39.TabIndex = 27;
-            this.checkBox39.Text = "checkBox39";
-            this.checkBox39.UseVisualStyleBackColor = true;
-            this.checkBox39.Visible = false;
-            this.checkBox39.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox38
-            // 
-            this.checkBox38.AutoSize = true;
-            this.checkBox38.Location = new System.Drawing.Point(168, 67);
-            this.checkBox38.Name = "checkBox38";
-            this.checkBox38.Size = new System.Drawing.Size(68, 17);
-            this.checkBox38.TabIndex = 26;
-            this.checkBox38.Text = "Capacity";
-            this.checkBox38.UseVisualStyleBackColor = true;
-            this.checkBox38.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox37
-            // 
-            this.checkBox37.AutoSize = true;
-            this.checkBox37.Location = new System.Drawing.Point(168, 51);
-            this.checkBox37.Name = "checkBox37";
-            this.checkBox37.Size = new System.Drawing.Size(48, 17);
-            this.checkBox37.TabIndex = 25;
-            this.checkBox37.Text = "Cost";
-            this.checkBox37.UseVisualStyleBackColor = true;
-            this.checkBox37.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox36
-            // 
-            this.checkBox36.AutoSize = true;
-            this.checkBox36.Location = new System.Drawing.Point(168, 35);
-            this.checkBox36.Name = "checkBox36";
-            this.checkBox36.Size = new System.Drawing.Size(61, 17);
-            this.checkBox36.TabIndex = 24;
-            this.checkBox36.Text = "Charge";
-            this.checkBox36.UseVisualStyleBackColor = true;
-            this.checkBox36.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox35
-            // 
-            this.checkBox35.AutoSize = true;
-            this.checkBox35.Location = new System.Drawing.Point(168, 19);
-            this.checkBox35.Name = "checkBox35";
-            this.checkBox35.Size = new System.Drawing.Size(99, 17);
-            this.checkBox35.TabIndex = 23;
-            this.checkBox35.Text = "Selection Delay";
-            this.checkBox35.UseVisualStyleBackColor = true;
-            this.checkBox35.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox34
-            // 
-            this.checkBox34.AutoSize = true;
-            this.checkBox34.Location = new System.Drawing.Point(6, 163);
-            this.checkBox34.Name = "checkBox34";
-            this.checkBox34.Size = new System.Drawing.Size(104, 17);
-            this.checkBox34.TabIndex = 22;
-            this.checkBox34.Text = "Proximity Range";
-            this.checkBox34.UseVisualStyleBackColor = true;
-            this.checkBox34.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox33
-            // 
-            this.checkBox33.AutoSize = true;
-            this.checkBox33.Location = new System.Drawing.Point(6, 147);
-            this.checkBox33.Name = "checkBox33";
-            this.checkBox33.Size = new System.Drawing.Size(66, 17);
-            this.checkBox33.TabIndex = 21;
-            this.checkBox33.Text = "Tracking";
-            this.checkBox33.UseVisualStyleBackColor = true;
-            this.checkBox33.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox32
-            // 
-            this.checkBox32.AutoSize = true;
-            this.checkBox32.Location = new System.Drawing.Point(6, 131);
-            this.checkBox32.Name = "checkBox32";
-            this.checkBox32.Size = new System.Drawing.Size(45, 17);
-            this.checkBox32.TabIndex = 20;
-            this.checkBox32.Text = "DPS";
-            this.checkBox32.UseVisualStyleBackColor = true;
-            this.checkBox32.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox31
-            // 
-            this.checkBox31.AutoSize = true;
-            this.checkBox31.Location = new System.Drawing.Point(6, 115);
-            this.checkBox31.Name = "checkBox31";
-            this.checkBox31.Size = new System.Drawing.Size(83, 17);
-            this.checkBox31.TabIndex = 19;
-            this.checkBox31.Text = "Rate of Fire";
-            this.checkBox31.UseVisualStyleBackColor = true;
-            this.checkBox31.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox30
-            // 
-            this.checkBox30.AutoSize = true;
-            this.checkBox30.Location = new System.Drawing.Point(6, 99);
-            this.checkBox30.Name = "checkBox30";
-            this.checkBox30.Size = new System.Drawing.Size(65, 17);
-            this.checkBox30.TabIndex = 18;
-            this.checkBox30.Text = "Damage";
-            this.checkBox30.UseVisualStyleBackColor = true;
-            this.checkBox30.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox29
-            // 
-            this.checkBox29.AutoSize = true;
-            this.checkBox29.Location = new System.Drawing.Point(6, 83);
-            this.checkBox29.Name = "checkBox29";
-            this.checkBox29.Size = new System.Drawing.Size(62, 17);
-            this.checkBox29.TabIndex = 17;
-            this.checkBox29.Text = "Fall-Off";
-            this.checkBox29.UseVisualStyleBackColor = true;
-            this.checkBox29.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox28
-            // 
-            this.checkBox28.AutoSize = true;
-            this.checkBox28.Location = new System.Drawing.Point(6, 67);
-            this.checkBox28.Name = "checkBox28";
-            this.checkBox28.Size = new System.Drawing.Size(62, 17);
-            this.checkBox28.TabIndex = 16;
-            this.checkBox28.Text = "Optimal";
-            this.checkBox28.UseVisualStyleBackColor = true;
-            this.checkBox28.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox27
-            // 
-            this.checkBox27.AutoSize = true;
-            this.checkBox27.Location = new System.Drawing.Point(6, 51);
-            this.checkBox27.Name = "checkBox27";
-            this.checkBox27.Size = new System.Drawing.Size(52, 17);
-            this.checkBox27.TabIndex = 15;
-            this.checkBox27.Text = "State";
-            this.checkBox27.UseVisualStyleBackColor = true;
-            this.checkBox27.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox26
-            // 
-            this.checkBox26.AutoSize = true;
-            this.checkBox26.Location = new System.Drawing.Point(6, 35);
-            this.checkBox26.Name = "checkBox26";
-            this.checkBox26.Size = new System.Drawing.Size(68, 17);
-            this.checkBox26.TabIndex = 14;
-            this.checkBox26.Text = "Quantity";
-            this.checkBox26.UseVisualStyleBackColor = true;
-            this.checkBox26.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox25
-            // 
-            this.checkBox25.AutoSize = true;
-            this.checkBox25.Location = new System.Drawing.Point(6, 19);
-            this.checkBox25.Name = "checkBox25";
-            this.checkBox25.Size = new System.Drawing.Size(90, 17);
-            this.checkBox25.TabIndex = 13;
-            this.checkBox25.Text = "Module Name";
-            this.checkBox25.UseVisualStyleBackColor = true;
-            this.checkBox25.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // gb_MonPosCol
-            // 
-            this.gb_MonPosCol.Controls.Add(this.checkBox13);
-            this.gb_MonPosCol.Controls.Add(this.checkBox14);
-            this.gb_MonPosCol.Controls.Add(this.checkBox15);
-            this.gb_MonPosCol.Controls.Add(this.checkBox16);
-            this.gb_MonPosCol.Controls.Add(this.checkBox17);
-            this.gb_MonPosCol.Controls.Add(this.checkBox18);
-            this.gb_MonPosCol.Controls.Add(this.checkBox19);
-            this.gb_MonPosCol.Controls.Add(this.checkBox20);
-            this.gb_MonPosCol.Controls.Add(this.checkBox21);
-            this.gb_MonPosCol.Controls.Add(this.checkBox22);
-            this.gb_MonPosCol.Controls.Add(this.checkBox23);
-            this.gb_MonPosCol.Controls.Add(this.checkBox24);
-            this.gb_MonPosCol.Controls.Add(this.checkBox12);
-            this.gb_MonPosCol.Controls.Add(this.checkBox11);
-            this.gb_MonPosCol.Controls.Add(this.checkBox10);
-            this.gb_MonPosCol.Controls.Add(this.checkBox9);
-            this.gb_MonPosCol.Controls.Add(this.checkBox8);
-            this.gb_MonPosCol.Controls.Add(this.checkBox7);
-            this.gb_MonPosCol.Controls.Add(this.checkBox6);
-            this.gb_MonPosCol.Controls.Add(this.checkBox5);
-            this.gb_MonPosCol.Controls.Add(this.checkBox4);
-            this.gb_MonPosCol.Controls.Add(this.checkBox3);
-            this.gb_MonPosCol.Controls.Add(this.checkBox2);
-            this.gb_MonPosCol.Controls.Add(this.checkBox1);
-            this.gb_MonPosCol.ForeColor = System.Drawing.Color.Blue;
-            this.gb_MonPosCol.Location = new System.Drawing.Point(0, 3);
-            this.gb_MonPosCol.Name = "gb_MonPosCol";
-            this.gb_MonPosCol.Size = new System.Drawing.Size(354, 219);
-            this.gb_MonPosCol.TabIndex = 0;
-            this.gb_MonPosCol.TabStop = false;
-            this.gb_MonPosCol.Text = "Monitored POS - Columns to Show";
-            // 
-            // checkBox13
-            // 
-            this.checkBox13.AutoSize = true;
-            this.checkBox13.Location = new System.Drawing.Point(183, 19);
-            this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(67, 17);
-            this.checkBox13.TabIndex = 23;
-            this.checkBox13.Text = "Robotics";
-            this.checkBox13.UseVisualStyleBackColor = true;
-            this.checkBox13.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox14
-            // 
-            this.checkBox14.AutoSize = true;
-            this.checkBox14.Location = new System.Drawing.Point(183, 35);
-            this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(68, 17);
-            this.checkBox14.TabIndex = 22;
-            this.checkBox14.Text = "Isotopes";
-            this.checkBox14.UseVisualStyleBackColor = true;
-            this.checkBox14.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox15
-            // 
-            this.checkBox15.AutoSize = true;
-            this.checkBox15.Location = new System.Drawing.Point(183, 51);
-            this.checkBox15.Name = "checkBox15";
-            this.checkBox15.Size = new System.Drawing.Size(90, 17);
-            this.checkBox15.TabIndex = 21;
-            this.checkBox15.Text = "Heavy Water";
-            this.checkBox15.UseVisualStyleBackColor = true;
-            this.checkBox15.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox16
-            // 
-            this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(183, 67);
-            this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(87, 17);
-            this.checkBox16.TabIndex = 20;
-            this.checkBox16.Text = "Liquid Ozone";
-            this.checkBox16.UseVisualStyleBackColor = true;
-            this.checkBox16.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox17
-            // 
-            this.checkBox17.AutoSize = true;
-            this.checkBox17.Location = new System.Drawing.Point(183, 83);
-            this.checkBox17.Name = "checkBox17";
-            this.checkBox17.Size = new System.Drawing.Size(68, 17);
-            this.checkBox17.TabIndex = 19;
-            this.checkBox17.Text = "Charters";
-            this.checkBox17.UseVisualStyleBackColor = true;
-            this.checkBox17.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox18
-            // 
-            this.checkBox18.AutoSize = true;
-            this.checkBox18.Location = new System.Drawing.Point(183, 99);
-            this.checkBox18.Name = "checkBox18";
-            this.checkBox18.Size = new System.Drawing.Size(72, 17);
-            this.checkBox18.TabIndex = 18;
-            this.checkBox18.Text = "Strontium";
-            this.checkBox18.UseVisualStyleBackColor = true;
-            this.checkBox18.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox19
-            // 
-            this.checkBox19.AutoSize = true;
-            this.checkBox19.Location = new System.Drawing.Point(183, 115);
-            this.checkBox19.Name = "checkBox19";
-            this.checkBox19.Size = new System.Drawing.Size(135, 17);
-            this.checkBox19.TabIndex = 17;
-            this.checkBox19.Text = "Use Charters Selection";
-            this.checkBox19.UseVisualStyleBackColor = true;
-            this.checkBox19.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox20
-            // 
-            this.checkBox20.AutoSize = true;
-            this.checkBox20.Location = new System.Drawing.Point(183, 131);
-            this.checkBox20.Name = "checkBox20";
-            this.checkBox20.Size = new System.Drawing.Size(83, 17);
-            this.checkBox20.TabIndex = 16;
-            this.checkBox20.Text = "checkBox20";
-            this.checkBox20.UseVisualStyleBackColor = true;
-            this.checkBox20.Visible = false;
-            this.checkBox20.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox21
-            // 
-            this.checkBox21.AutoSize = true;
-            this.checkBox21.Location = new System.Drawing.Point(183, 147);
-            this.checkBox21.Name = "checkBox21";
-            this.checkBox21.Size = new System.Drawing.Size(83, 17);
-            this.checkBox21.TabIndex = 15;
-            this.checkBox21.Text = "checkBox21";
-            this.checkBox21.UseVisualStyleBackColor = true;
-            this.checkBox21.Visible = false;
-            this.checkBox21.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox22
-            // 
-            this.checkBox22.AutoSize = true;
-            this.checkBox22.Location = new System.Drawing.Point(183, 163);
-            this.checkBox22.Name = "checkBox22";
-            this.checkBox22.Size = new System.Drawing.Size(83, 17);
-            this.checkBox22.TabIndex = 14;
-            this.checkBox22.Text = "checkBox22";
-            this.checkBox22.UseVisualStyleBackColor = true;
-            this.checkBox22.Visible = false;
-            this.checkBox22.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox23
-            // 
-            this.checkBox23.AutoSize = true;
-            this.checkBox23.Location = new System.Drawing.Point(183, 179);
-            this.checkBox23.Name = "checkBox23";
-            this.checkBox23.Size = new System.Drawing.Size(83, 17);
-            this.checkBox23.TabIndex = 13;
-            this.checkBox23.Text = "checkBox23";
-            this.checkBox23.UseVisualStyleBackColor = true;
-            this.checkBox23.Visible = false;
-            this.checkBox23.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox24
-            // 
-            this.checkBox24.AutoSize = true;
-            this.checkBox24.Location = new System.Drawing.Point(183, 195);
-            this.checkBox24.Name = "checkBox24";
-            this.checkBox24.Size = new System.Drawing.Size(83, 17);
-            this.checkBox24.TabIndex = 12;
-            this.checkBox24.Text = "checkBox24";
-            this.checkBox24.UseVisualStyleBackColor = true;
-            this.checkBox24.Visible = false;
-            this.checkBox24.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox12
-            // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(6, 195);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(63, 17);
-            this.checkBox12.TabIndex = 11;
-            this.checkBox12.Text = "Coolant";
-            this.checkBox12.UseVisualStyleBackColor = true;
-            this.checkBox12.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox11
-            // 
-            this.checkBox11.AutoSize = true;
-            this.checkBox11.Location = new System.Drawing.Point(6, 179);
-            this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(106, 17);
-            this.checkBox11.TabIndex = 10;
-            this.checkBox11.Text = "Mechanical Parts";
-            this.checkBox11.UseVisualStyleBackColor = true;
-            this.checkBox11.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox10
-            // 
-            this.checkBox10.AutoSize = true;
-            this.checkBox10.Location = new System.Drawing.Point(6, 163);
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(64, 17);
-            this.checkBox10.TabIndex = 9;
-            this.checkBox10.Text = "Oxygen";
-            this.checkBox10.UseVisualStyleBackColor = true;
-            this.checkBox10.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox9
-            // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Location = new System.Drawing.Point(6, 147);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(109, 17);
-            this.checkBox9.TabIndex = 8;
-            this.checkBox9.Text = "Enriched Uranium";
-            this.checkBox9.UseVisualStyleBackColor = true;
-            this.checkBox9.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(6, 131);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(89, 17);
-            this.checkBox8.TabIndex = 7;
-            this.checkBox8.Text = "Power Usage";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            this.checkBox8.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox7
-            // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(6, 115);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(79, 17);
-            this.checkBox7.TabIndex = 6;
-            this.checkBox7.Text = "CPU Usage";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox6
-            // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 99);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(101, 17);
-            this.checkBox6.TabIndex = 5;
-            this.checkBox6.Text = "API Cache Time";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            this.checkBox6.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(6, 83);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(97, 17);
-            this.checkBox5.TabIndex = 4;
-            this.checkBox5.Text = "Tower API Link";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(6, 67);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(90, 17);
-            this.checkBox4.TabIndex = 3;
-            this.checkBox4.Text = "Tower Status";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(6, 51);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(97, 17);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "Reinforce Time";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 35);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(93, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Fuel Run Time";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(76, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "POS Name";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Click += new System.EventHandler(this.DGColumnCBStateChange);
-            // 
-            // il_system
-            // 
-            this.il_system.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il_system.ImageStream")));
-            this.il_system.TransparentColor = System.Drawing.Color.Transparent;
-            this.il_system.Images.SetKeyName(0, "noitem.jpg");
-            // 
-            // il_FetchList
-            // 
-            this.il_FetchList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.il_FetchList.ImageSize = new System.Drawing.Size(50, 50);
-            this.il_FetchList.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // t_MonitorUpdate
-            // 
-            this.t_MonitorUpdate.Interval = 60000;
-            this.t_MonitorUpdate.Tick += new System.EventHandler(this.UdateMonitorInformation);
-            // 
-            // tt_InfoTips
-            // 
-            this.tt_InfoTips.IsBalloon = true;
-            // 
-            // dg_POSName
-            // 
-            this.dg_POSName.HeaderText = "POS Name";
-            this.dg_POSName.Name = "dg_POSName";
-            this.dg_POSName.ReadOnly = true;
-            this.dg_POSName.Width = 82;
-            // 
-            // dg_RunTime
-            // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dg_RunTime.HeaderText = "Fuel Run Time";
-            this.dg_RunTime.Name = "dg_RunTime";
-            this.dg_RunTime.ReadOnly = true;
-            this.dg_RunTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.dg_RunTime.Width = 99;
-            // 
-            // dg_ReinfTime
-            // 
-            this.dg_ReinfTime.HeaderText = "Reinforce Time";
-            this.dg_ReinfTime.Name = "dg_ReinfTime";
-            this.dg_ReinfTime.ReadOnly = true;
-            this.dg_ReinfTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.dg_ReinfTime.Width = 103;
-            // 
-            // dg_TowerStatus
-            // 
-            this.dg_TowerStatus.HeaderText = "Tower Status";
-            this.dg_TowerStatus.Name = "dg_TowerStatus";
-            this.dg_TowerStatus.ReadOnly = true;
-            this.dg_TowerStatus.Width = 96;
-            // 
-            // dg_Linked
-            // 
-            this.dg_Linked.HeaderText = "Tower API Link";
-            this.dg_Linked.Name = "dg_Linked";
-            this.dg_Linked.ReadOnly = true;
-            this.dg_Linked.Width = 103;
-            // 
-            // APICache
-            // 
-            this.APICache.HeaderText = "API Cache Time";
-            this.APICache.Name = "APICache";
-            this.APICache.ReadOnly = true;
-            this.APICache.Width = 107;
-            // 
-            // CPU
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CPU.DefaultCellStyle = dataGridViewCellStyle2;
-            this.CPU.HeaderText = "CPU Usage";
-            this.CPU.Name = "CPU";
-            this.CPU.ReadOnly = true;
-            this.CPU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.CPU.Width = 85;
-            // 
-            // Power
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Power.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Power.HeaderText = "Power Usage";
-            this.Power.Name = "Power";
-            this.Power.ReadOnly = true;
-            this.Power.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Power.Width = 95;
-            // 
-            // EnUr
-            // 
-            dataGridViewCellStyle4.Format = "N0";
-            dataGridViewCellStyle4.NullValue = null;
-            this.EnUr.DefaultCellStyle = dataGridViewCellStyle4;
-            this.EnUr.HeaderText = "Enr Uranium";
-            this.EnUr.Name = "EnUr";
-            this.EnUr.ReadOnly = true;
-            this.EnUr.Width = 90;
-            // 
-            // Oxyg
-            // 
-            dataGridViewCellStyle5.Format = "N0";
-            dataGridViewCellStyle5.NullValue = null;
-            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Oxyg.HeaderText = "Oxygen";
-            this.Oxyg.Name = "Oxyg";
-            this.Oxyg.ReadOnly = true;
-            this.Oxyg.Width = 70;
-            // 
-            // McP
-            // 
-            dataGridViewCellStyle6.Format = "N0";
-            dataGridViewCellStyle6.NullValue = null;
-            this.McP.DefaultCellStyle = dataGridViewCellStyle6;
-            this.McP.HeaderText = "Mech Parts";
-            this.McP.Name = "McP";
-            this.McP.ReadOnly = true;
-            this.McP.Width = 85;
-            // 
-            // Cool
-            // 
-            this.Cool.HeaderText = "Coolant";
-            this.Cool.Name = "Cool";
-            this.Cool.ReadOnly = true;
-            this.Cool.Width = 69;
-            // 
-            // Robt
-            // 
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.NullValue = null;
-            this.Robt.DefaultCellStyle = dataGridViewCellStyle7;
-            this.Robt.HeaderText = "Robotics";
-            this.Robt.Name = "Robt";
-            this.Robt.ReadOnly = true;
-            this.Robt.Width = 73;
-            // 
-            // Iso
-            // 
-            dataGridViewCellStyle8.Format = "N0";
-            dataGridViewCellStyle8.NullValue = null;
-            this.Iso.DefaultCellStyle = dataGridViewCellStyle8;
-            this.Iso.HeaderText = "Isotopes";
-            this.Iso.Name = "Iso";
-            this.Iso.ReadOnly = true;
-            this.Iso.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Iso.Width = 74;
-            // 
-            // HvyW
-            // 
-            dataGridViewCellStyle9.Format = "N0";
-            dataGridViewCellStyle9.NullValue = null;
-            this.HvyW.DefaultCellStyle = dataGridViewCellStyle9;
-            this.HvyW.HeaderText = "Hvy Water";
-            this.HvyW.Name = "HvyW";
-            this.HvyW.ReadOnly = true;
-            this.HvyW.Width = 84;
-            // 
-            // LiqO
-            // 
-            dataGridViewCellStyle10.Format = "N0";
-            dataGridViewCellStyle10.NullValue = null;
-            this.LiqO.DefaultCellStyle = dataGridViewCellStyle10;
-            this.LiqO.HeaderText = "Liq Ozone";
-            this.LiqO.Name = "LiqO";
-            this.LiqO.ReadOnly = true;
-            this.LiqO.Width = 79;
-            // 
-            // Chrt
-            // 
-            dataGridViewCellStyle11.Format = "N0";
-            dataGridViewCellStyle11.NullValue = null;
-            this.Chrt.DefaultCellStyle = dataGridViewCellStyle11;
-            this.Chrt.HeaderText = "Charters";
-            this.Chrt.Name = "Chrt";
-            this.Chrt.ReadOnly = true;
-            this.Chrt.Width = 74;
-            // 
-            // Strn
-            // 
-            dataGridViewCellStyle12.Format = "N0";
-            dataGridViewCellStyle12.NullValue = null;
-            this.Strn.DefaultCellStyle = dataGridViewCellStyle12;
-            this.Strn.HeaderText = "Strontium";
-            this.Strn.Name = "Strn";
-            this.Strn.ReadOnly = true;
-            this.Strn.Width = 78;
-            // 
-            // IgnoreCharters
-            // 
-            this.IgnoreCharters.HeaderText = "Use Charters";
-            this.IgnoreCharters.Name = "IgnoreCharters";
-            this.IgnoreCharters.ReadOnly = true;
-            this.IgnoreCharters.Width = 76;
-            // 
-            // HiddenFuel
-            // 
-            this.HiddenFuel.HeaderText = "HiddenFuel";
-            this.HiddenFuel.Name = "HiddenFuel";
-            this.HiddenFuel.ReadOnly = true;
-            this.HiddenFuel.Visible = false;
-            this.HiddenFuel.Width = 85;
-            // 
-            // HiddenStront
-            // 
-            this.HiddenStront.HeaderText = "HiddenStront";
-            this.HiddenStront.Name = "HiddenStront";
-            this.HiddenStront.ReadOnly = true;
-            this.HiddenStront.Visible = false;
-            this.HiddenStront.Width = 95;
-            // 
-            // HiddenCPU
-            // 
-            this.HiddenCPU.HeaderText = "HiddenCPU";
-            this.HiddenCPU.Name = "HiddenCPU";
-            this.HiddenCPU.ReadOnly = true;
-            this.HiddenCPU.Visible = false;
-            this.HiddenCPU.Width = 85;
-            // 
-            // HiddenPower
-            // 
-            this.HiddenPower.HeaderText = "HiddenPower";
-            this.HiddenPower.Name = "HiddenPower";
-            this.HiddenPower.ReadOnly = true;
-            this.HiddenPower.Visible = false;
-            this.HiddenPower.Width = 95;
-            // 
-            // HiddenIso
-            // 
-            this.HiddenIso.HeaderText = "HiddenIso";
-            this.HiddenIso.Name = "HiddenIso";
-            this.HiddenIso.ReadOnly = true;
-            this.HiddenIso.Visible = false;
-            this.HiddenIso.Width = 80;
-            // 
             // PoSManMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -7443,16 +7656,6 @@
             this.p_towerLayout.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox48)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox49)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox50)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox51)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox52)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox53)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox54)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox55)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox56)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox57)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MechPart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Stront)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Oxy)).EndInit();
@@ -7468,67 +7671,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_PosMods)).EndInit();
             this.tc_StatFuel.ResumeLayout(false);
             this.tp_stats.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox28)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox22)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox23)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox26)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox24)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).EndInit();
             this.tp_Fuel.ResumeLayout(false);
             this.tp_Fuel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_DesFuelPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_StrontInterval)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_Strontium)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_Charter)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_LiqOzone)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_HvyWater)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_Isotopes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_Robotics)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_Coolant)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_MechParts)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_oxy)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_enrUran)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_StrontBay)).EndInit();
             this.tp_PosStats.ResumeLayout(false);
             this.tp_PosStats.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ThmRes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_KinRes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ExpRes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EMRes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox47)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox46)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox45)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox29)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox30)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox31)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).EndInit();
             this.p_Select.ResumeLayout(false);
             this.p_Top.ResumeLayout(false);
             this.p_Top.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ts_Designer.ResumeLayout(false);
             this.ts_Designer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            this.p_Tower.ResumeLayout(false);
             this.cms_PosItem.ResumeLayout(false);
             this.tp_POSMaintenance.ResumeLayout(false);
             this.tp_POSMaintenance.PerformLayout();
@@ -7544,29 +7701,16 @@
             this.ts_ReactionMenu.PerformLayout();
             this.tb_PMConfig.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox38)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox37)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ST_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CH_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LO_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_HW_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox44)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_HE_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox43)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RB_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox42)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CL_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MP_FC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ER_FC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_OX_FC)).EndInit();
@@ -7574,6 +7718,82 @@
             this.gb_PosDesignShow.PerformLayout();
             this.gb_MonPosCol.ResumeLayout(false);
             this.gb_MonPosCol.PerformLayout();
+            this.tp_Notifications.ResumeLayout(false);
+            this.p_Notifications.ResumeLayout(false);
+            this.p_Notifications.PerformLayout();
+            this.ts_Notify.ResumeLayout(false);
+            this.ts_Notify.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox48)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox49)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox50)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox51)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox52)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox53)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox54)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox55)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox56)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox57)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox28)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox22)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox23)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox26)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox24)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Strontium)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Charter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_LiqOzone)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_HvyWater)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Isotopes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Robotics)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Coolant)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_MechParts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_oxy)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_enrUran)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_StrontBay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox47)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox46)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox45)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox29)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox30)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox31)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.p_Tower.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox38)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox37)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox44)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox43)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox42)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).EndInit();
+            this.cms_Notification.ResumeLayout(false);
+            this.cms_Player.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -8064,10 +8284,29 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Chrt;
         private System.Windows.Forms.DataGridViewTextBoxColumn Strn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IgnoreCharters;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReactionRunTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn HiddenFuel;
         private System.Windows.Forms.DataGridViewTextBoxColumn HiddenStront;
         private System.Windows.Forms.DataGridViewTextBoxColumn HiddenCPU;
         private System.Windows.Forms.DataGridViewTextBoxColumn HiddenPower;
         private System.Windows.Forms.DataGridViewTextBoxColumn HiddenIso;
+        private System.Windows.Forms.TabPage tp_Notifications;
+        private System.Windows.Forms.Panel p_Notifications;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TreeView tv_Notifications;
+        private System.Windows.Forms.TreeView tv_Players;
+        private System.Windows.Forms.ToolStrip ts_Notify;
+        private System.Windows.Forms.ToolStripButton tsb_NewNotification;
+        private System.Windows.Forms.ToolStripButton tsb_NewPlayer;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ContextMenuStrip cms_Notification;
+        private System.Windows.Forms.ToolStripMenuItem tsm_EditNotify;
+        private System.Windows.Forms.ToolStripMenuItem tsm_RemoveNotify;
+        private System.Windows.Forms.ContextMenuStrip cms_Player;
+        private System.Windows.Forms.ToolStripMenuItem tsm_EditPlayer;
+        private System.Windows.Forms.ToolStripMenuItem tsm_RemovePlayer;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripButton tsb_Test;
     }
 }

@@ -101,7 +101,11 @@ namespace EveHQ.PosManager
             Design_Stront_Qty = t.Design_Stront_Qty;
             Location = t.Location;
             Category = t.Category;
-            Extra = new ArrayList(t.Extra);
+
+            Extra = new ArrayList();
+            foreach (object o in t.Extra)
+                Extra.Add(o);
+
             F_RunTime = t.F_RunTime;
             S_RunTime = t.S_RunTime;
             Low_Fuel = t.Low_Fuel;

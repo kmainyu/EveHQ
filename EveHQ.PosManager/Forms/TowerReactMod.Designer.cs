@@ -32,6 +32,8 @@
             this.ReactionMineral = new System.Windows.Forms.PictureBox();
             this.CM_MinReactSel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.input1 = new System.Windows.Forms.PictureBox();
+            this.cm_ClearLink = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsm_ClearLink = new System.Windows.Forms.ToolStripMenuItem();
             this.input2 = new System.Windows.Forms.PictureBox();
             this.input4 = new System.Windows.Forms.PictureBox();
             this.input3 = new System.Windows.Forms.PictureBox();
@@ -41,18 +43,15 @@
             this.output2 = new System.Windows.Forms.PictureBox();
             this.l_ModuleName = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.gb_WarnOn = new System.Windows.Forms.GroupBox();
-            this.rb_Empty = new System.Windows.Forms.RadioButton();
-            this.rb_Full = new System.Windows.Forms.RadioButton();
             this.b_SetFull = new System.Windows.Forms.Button();
             this.b_SetEmpty = new System.Windows.Forms.Button();
             this.b_SetFill = new System.Windows.Forms.Button();
             this.pb_FillLevel = new VistaStyleProgressBar.ProgressBar();
             this.l_ExtraInfo = new System.Windows.Forms.Label();
-            this.cm_ClearLink = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsm_ClearLink = new System.Windows.Forms.ToolStripMenuItem();
+            this.l_RunTime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ReactionMineral)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.input1)).BeginInit();
+            this.cm_ClearLink.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.input2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.input4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.input3)).BeginInit();
@@ -60,8 +59,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.input5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.output1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.output2)).BeginInit();
-            this.gb_WarnOn.SuspendLayout();
-            this.cm_ClearLink.SuspendLayout();
             this.SuspendLayout();
             // 
             // ReactionMineral
@@ -94,6 +91,21 @@
             this.input1.TabIndex = 10;
             this.input1.TabStop = false;
             this.input1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.input_MouseClick);
+            // 
+            // cm_ClearLink
+            // 
+            this.cm_ClearLink.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsm_ClearLink});
+            this.cm_ClearLink.Name = "cm_ClearLink";
+            this.cm_ClearLink.Size = new System.Drawing.Size(132, 26);
+            this.cm_ClearLink.Opening += new System.ComponentModel.CancelEventHandler(this.cm_ClearLink_Opening);
+            // 
+            // tsm_ClearLink
+            // 
+            this.tsm_ClearLink.Name = "tsm_ClearLink";
+            this.tsm_ClearLink.Size = new System.Drawing.Size(131, 22);
+            this.tsm_ClearLink.Text = "Clear Link";
+            this.tsm_ClearLink.Click += new System.EventHandler(this.tsm_ClearLink_Click);
             // 
             // input2
             // 
@@ -161,7 +173,7 @@
             this.output1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.output1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.output1.ContextMenuStrip = this.cm_ClearLink;
-            this.output1.Location = new System.Drawing.Point(413, 43);
+            this.output1.Location = new System.Drawing.Point(512, 1);
             this.output1.Name = "output1";
             this.output1.Size = new System.Drawing.Size(40, 40);
             this.output1.TabIndex = 17;
@@ -174,7 +186,7 @@
             this.output2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.output2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.output2.ContextMenuStrip = this.cm_ClearLink;
-            this.output2.Location = new System.Drawing.Point(413, 1);
+            this.output2.Location = new System.Drawing.Point(512, 43);
             this.output2.Name = "output2";
             this.output2.Size = new System.Drawing.Size(40, 40);
             this.output2.TabIndex = 16;
@@ -184,52 +196,16 @@
             // l_ModuleName
             // 
             this.l_ModuleName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_ModuleName.Location = new System.Drawing.Point(129, 57);
+            this.l_ModuleName.Location = new System.Drawing.Point(129, 58);
             this.l_ModuleName.Name = "l_ModuleName";
-            this.l_ModuleName.Size = new System.Drawing.Size(92, 26);
+            this.l_ModuleName.Size = new System.Drawing.Size(189, 26);
             this.l_ModuleName.TabIndex = 18;
             this.l_ModuleName.Text = "Module Name Module Name Module Name";
-            // 
-            // gb_WarnOn
-            // 
-            this.gb_WarnOn.Controls.Add(this.rb_Empty);
-            this.gb_WarnOn.Controls.Add(this.rb_Full);
-            this.gb_WarnOn.Location = new System.Drawing.Point(306, 0);
-            this.gb_WarnOn.Name = "gb_WarnOn";
-            this.gb_WarnOn.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.gb_WarnOn.Size = new System.Drawing.Size(105, 38);
-            this.gb_WarnOn.TabIndex = 19;
-            this.gb_WarnOn.TabStop = false;
-            this.gb_WarnOn.Text = "Warn On:";
-            // 
-            // rb_Empty
-            // 
-            this.rb_Empty.AutoSize = true;
-            this.rb_Empty.Location = new System.Drawing.Point(49, 14);
-            this.rb_Empty.Name = "rb_Empty";
-            this.rb_Empty.Size = new System.Drawing.Size(54, 17);
-            this.rb_Empty.TabIndex = 1;
-            this.rb_Empty.TabStop = true;
-            this.rb_Empty.Text = "Empty";
-            this.rb_Empty.UseVisualStyleBackColor = true;
-            this.rb_Empty.CheckedChanged += new System.EventHandler(this.rb_Empty_CheckedChanged);
-            // 
-            // rb_Full
-            // 
-            this.rb_Full.AutoSize = true;
-            this.rb_Full.Location = new System.Drawing.Point(4, 14);
-            this.rb_Full.Name = "rb_Full";
-            this.rb_Full.Size = new System.Drawing.Size(41, 17);
-            this.rb_Full.TabIndex = 0;
-            this.rb_Full.TabStop = true;
-            this.rb_Full.Text = "Full";
-            this.rb_Full.UseVisualStyleBackColor = true;
-            this.rb_Full.CheckedChanged += new System.EventHandler(this.rb_Full_CheckedChanged);
             // 
             // b_SetFull
             // 
             this.b_SetFull.Cursor = System.Windows.Forms.Cursors.Default;
-            this.b_SetFull.Location = new System.Drawing.Point(223, 60);
+            this.b_SetFull.Location = new System.Drawing.Point(322, 60);
             this.b_SetFull.Name = "b_SetFull";
             this.b_SetFull.Size = new System.Drawing.Size(56, 21);
             this.b_SetFull.TabIndex = 20;
@@ -239,7 +215,7 @@
             // 
             // b_SetEmpty
             // 
-            this.b_SetEmpty.Location = new System.Drawing.Point(288, 60);
+            this.b_SetEmpty.Location = new System.Drawing.Point(387, 60);
             this.b_SetEmpty.Name = "b_SetEmpty";
             this.b_SetEmpty.Size = new System.Drawing.Size(56, 21);
             this.b_SetEmpty.TabIndex = 21;
@@ -249,7 +225,7 @@
             // 
             // b_SetFill
             // 
-            this.b_SetFill.Location = new System.Drawing.Point(353, 60);
+            this.b_SetFill.Location = new System.Drawing.Point(452, 60);
             this.b_SetFill.Name = "b_SetFill";
             this.b_SetFill.Size = new System.Drawing.Size(56, 21);
             this.b_SetFill.TabIndex = 24;
@@ -263,9 +239,9 @@
             this.pb_FillLevel.BackColor = System.Drawing.Color.Transparent;
             this.pb_FillLevel.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.pb_FillLevel.HighlightColor = System.Drawing.Color.Transparent;
-            this.pb_FillLevel.Location = new System.Drawing.Point(189, 39);
+            this.pb_FillLevel.Location = new System.Drawing.Point(190, 39);
             this.pb_FillLevel.Name = "pb_FillLevel";
-            this.pb_FillLevel.Size = new System.Drawing.Size(223, 18);
+            this.pb_FillLevel.Size = new System.Drawing.Size(318, 18);
             this.pb_FillLevel.StartColor = System.Drawing.Color.Lime;
             this.pb_FillLevel.TabIndex = 25;
             this.pb_FillLevel.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
@@ -274,53 +250,48 @@
             // l_ExtraInfo
             // 
             this.l_ExtraInfo.ForeColor = System.Drawing.Color.Blue;
-            this.l_ExtraInfo.Location = new System.Drawing.Point(188, 2);
+            this.l_ExtraInfo.Location = new System.Drawing.Point(190, 2);
             this.l_ExtraInfo.Name = "l_ExtraInfo";
-            this.l_ExtraInfo.Size = new System.Drawing.Size(117, 34);
+            this.l_ExtraInfo.Size = new System.Drawing.Size(105, 34);
             this.l_ExtraInfo.TabIndex = 26;
             this.l_ExtraInfo.Text = "ExtraInfo";
             // 
-            // cm_ClearLink
+            // l_RunTime
             // 
-            this.cm_ClearLink.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsm_ClearLink});
-            this.cm_ClearLink.Name = "cm_ClearLink";
-            this.cm_ClearLink.Size = new System.Drawing.Size(153, 48);
-            this.cm_ClearLink.Opening += new System.ComponentModel.CancelEventHandler(this.cm_ClearLink_Opening);
-            // 
-            // tsm_ClearLink
-            // 
-            this.tsm_ClearLink.Name = "tsm_ClearLink";
-            this.tsm_ClearLink.Size = new System.Drawing.Size(131, 22);
-            this.tsm_ClearLink.Text = "Clear Link";
-            this.tsm_ClearLink.Click += new System.EventHandler(this.tsm_ClearLink_Click);
+            this.l_RunTime.ForeColor = System.Drawing.Color.Green;
+            this.l_RunTime.Location = new System.Drawing.Point(401, 2);
+            this.l_RunTime.Name = "l_RunTime";
+            this.l_RunTime.Size = new System.Drawing.Size(105, 34);
+            this.l_RunTime.TabIndex = 27;
+            this.l_RunTime.Text = "ExtraInfo2";
             // 
             // TowerReactMod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.l_RunTime);
             this.Controls.Add(this.l_ExtraInfo);
             this.Controls.Add(this.pb_FillLevel);
             this.Controls.Add(this.b_SetFill);
             this.Controls.Add(this.b_SetEmpty);
             this.Controls.Add(this.b_SetFull);
-            this.Controls.Add(this.gb_WarnOn);
             this.Controls.Add(this.l_ModuleName);
             this.Controls.Add(this.ReactionMineral);
-            this.Controls.Add(this.output1);
             this.Controls.Add(this.output2);
             this.Controls.Add(this.input6);
+            this.Controls.Add(this.output1);
             this.Controls.Add(this.input5);
             this.Controls.Add(this.input4);
             this.Controls.Add(this.input3);
             this.Controls.Add(this.input2);
             this.Controls.Add(this.input1);
             this.Name = "TowerReactMod";
-            this.Size = new System.Drawing.Size(455, 85);
+            this.Size = new System.Drawing.Size(555, 85);
             this.Load += new System.EventHandler(this.TowerReactMod_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReactionMineral)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.input1)).EndInit();
+            this.cm_ClearLink.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.input2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.input4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.input3)).EndInit();
@@ -328,9 +299,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.input5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.output1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.output2)).EndInit();
-            this.gb_WarnOn.ResumeLayout(false);
-            this.gb_WarnOn.PerformLayout();
-            this.cm_ClearLink.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -348,9 +316,6 @@
         private System.Windows.Forms.PictureBox output2;
         private System.Windows.Forms.Label l_ModuleName;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.GroupBox gb_WarnOn;
-        private System.Windows.Forms.RadioButton rb_Empty;
-        private System.Windows.Forms.RadioButton rb_Full;
         private System.Windows.Forms.Button b_SetFull;
         private System.Windows.Forms.Button b_SetEmpty;
         private System.Windows.Forms.Button b_SetFill;
@@ -359,5 +324,6 @@
         private System.Windows.Forms.ContextMenuStrip CM_MinReactSel;
         private System.Windows.Forms.ContextMenuStrip cm_ClearLink;
         private System.Windows.Forms.ToolStripMenuItem tsm_ClearLink;
+        private System.Windows.Forms.Label l_RunTime;
     }
 }
