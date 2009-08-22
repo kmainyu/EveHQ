@@ -778,6 +778,8 @@ Public Class frmTraining
         If activeLVW IsNot Nothing Then
             ' Check the queue status
             btnICT.Checked = activeLVW.IncludeCurrentTraining
+            tsbImplants.Enabled = True
+            tsbNeuralRemap.Enabled = True
             btnICT.Enabled = True
             If activeLVW.SelectedItems.Count <> 0 Then
                 Select Case activeLVW.SelectedItems.Count

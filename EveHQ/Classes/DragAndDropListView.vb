@@ -96,7 +96,7 @@ Public Class DragAndDropListView
                         di -= 1
                     End If
 
-                    MessageBox.Show("Moving " & SkillsMoved.ToString & " skills, from index " & firstIndex.ToString & " to " & lastIndex.ToString & ", to destination index " & di.ToString)
+                    'MessageBox.Show("Moving " & SkillsMoved.ToString & " skills, from index " & firstIndex.ToString & " to " & lastIndex.ToString & ", to destination index " & di.ToString)
 
                     Dim din As String = MyBase.Items(di).Name
                     Dim sin As String = MyBase.Items(si).Name

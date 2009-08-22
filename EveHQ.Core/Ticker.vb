@@ -83,8 +83,8 @@ Public Class Ticker
     End Sub
 
     Private Sub SetupImage()
-        Dim MainFont As New Font("Arial Narrow", 10, FontStyle.Regular)
-        Dim SmallFont As New Font("Arial Narrow", 7, FontStyle.Regular)
+        Dim MainFont As New Font("Tahoma", 10, FontStyle.Regular)
+        Dim SmallFont As New Font("Tahoma", 7, FontStyle.Regular)
         Dim itemID As String = ""
         Dim itemName As String = ""
         Dim imgText As String = ""
