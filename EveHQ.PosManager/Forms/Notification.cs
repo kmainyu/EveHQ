@@ -22,14 +22,22 @@ namespace EveHQ.PosManager
         {
             string line;
             bool inList = false;
-            int ind = 0;
+            int ind = 0, sTwr;
             EditIndex = -1;
 
             this.Text = tp;
 
             // Populate Tower Pull Down
             foreach (POS p in myData.POSList.Designs)
-                cb_Tower.Items.Add(p.Name);
+            {
+                if (p.Monitored)
+                {
+                    sTwr = clb_TowersToNotify.Items.Add(p.Name);
+
+                    if ((twr != "") && (p.Name == twr))
+                        clb_TowersToNotify.SetItemChecked(sTwr, true);
+                }
+            }
 
             if ((twr != "") && (nt != ""))
             {
@@ -44,9 +52,9 @@ namespace EveHQ.PosManager
                         cb_Type.Text = pn.Type;
                         cb_Initial.Text = pn.Initial;
                         cb_Frequency.Text = pn.Frequency;
-                        cb_Tower.Text = twr;
                         nud_Initial.Value = pn.InitQty;
                         nud_Frequency.Value = pn.FreqQty;
+                        clb_TowersToNotify.Enabled = false;
 
                         foreach (Player p in myData.PL.Players)
                         {
@@ -72,10 +80,9 @@ namespace EveHQ.PosManager
                 if (EditIndex < 0)
                 {
                     // We are doing an Add/New
-                    cb_Type.SelectedIndex = 1;
-                    cb_Initial.SelectedIndex = 1;
-                    cb_Frequency.SelectedIndex = 1;
-                    cb_Tower.Text = "Select Desired Tower";
+                    cb_Type.SelectedIndex = 0;
+                    cb_Initial.SelectedIndex = 0;
+                    cb_Frequency.SelectedIndex = 0;
                     nud_Initial.Value = 1;
                     nud_Frequency.Value = 1;
                     foreach (Player p in myData.PL.Players)
@@ -88,10 +95,9 @@ namespace EveHQ.PosManager
             {
                 EditIndex = -1;
                 // We are doing an Add/New
-                cb_Type.SelectedIndex = 1;
-                cb_Initial.SelectedIndex = 1;
-                cb_Frequency.SelectedIndex = 1;
-                cb_Tower.Text = "Select Desired Tower";
+                cb_Type.SelectedIndex = 0;
+                cb_Initial.SelectedIndex = 0;
+                cb_Frequency.SelectedIndex = 0;
                 nud_Initial.Value = 1;
                 nud_Frequency.Value = 1;
                 foreach (Player p in myData.PL.Players)
@@ -108,28 +114,45 @@ namespace EveHQ.PosManager
 
         private void b_Done_Click(object sender, EventArgs e)
         {
-            PosNotify newPN = new PosNotify();
+            PosNotify newPN;
+            bool gotPlayer = false;
 
-            newPN.Tower = cb_Tower.Text;
-            newPN.Initial = cb_Initial.Text;
-            newPN.Frequency = cb_Frequency.Text;
-            newPN.Type = cb_Type.Text;
-            newPN.InitQty = nud_Initial.Value;
-            newPN.FreqQty = nud_Frequency.Value;
-
-            foreach (Player p in myData.PL.Players)
+            for(int x=0; x < clb_TowersToNotify.Items.Count; x++)
             {
-                if (clb_PlayersToNotify.GetItemCheckState(clb_PlayersToNotify.Items.IndexOf(p.Name)) == CheckState.Checked)
-                    newPN.PList.Players.Add(p);
-            }
+                if (clb_TowersToNotify.GetItemChecked(x))
+                {
+                    newPN = new PosNotify();
+                    newPN.Tower = clb_TowersToNotify.Items[x].ToString();
+                    newPN.Initial = cb_Initial.Text;
+                    newPN.Frequency = cb_Frequency.Text;
+                    newPN.Type = cb_Type.Text;
+                    newPN.InitQty = nud_Initial.Value;
+                    newPN.FreqQty = nud_Frequency.Value;
 
-            if (EditIndex < 0)
-                myData.NL.NotifyList.Add(newPN);
-            else
-            {
-                myData.NL.NotifyList[EditIndex] = new PosNotify(newPN);
-            }
+                    foreach (Player p in myData.PL.Players)
+                    {
+                        if (clb_PlayersToNotify.GetItemCheckState(clb_PlayersToNotify.Items.IndexOf(p.Name)) == CheckState.Checked)
+                        {
+                            newPN.PList.Players.Add(p);
+                            gotPlayer = true;
+                        }
+                    }
 
+                    if (!gotPlayer)
+                    {
+                        MessageBox.Show("You need to select a Player for the Rule to apply to!", "No Player Selected!", MessageBoxButtons.OK);
+                        return;
+                    }
+
+                    if (EditIndex < 0)
+                        myData.NL.NotifyList.Add(newPN);
+                    else
+                    {
+                        myData.NL.NotifyList[EditIndex] = new PosNotify(newPN);
+                        break;
+                    }
+                }
+            }
             myData.NL.SaveNotificationList();
 
             this.Dispose();

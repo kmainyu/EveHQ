@@ -118,8 +118,11 @@ namespace EveHQ.PosManager
             UpdateAllTowerSovLevels();
 
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            POSList.CalculatePOSReactions();
 
             GetTowerItemListData();
+            SetReactionValuesAndUpdateDisplay();
+            
             PopulateMonitoredPoSDisplay();
             cb_ItemType.SelectedIndex = 1;
             cb_Interval.SelectedIndex = 0;
@@ -228,7 +231,7 @@ namespace EveHQ.PosManager
                 }
             }
 
-            POSList.CalculatePOSReactions();
+            bgw_SendNotify.RunWorkerAsync();
 
             load = false;
         }
@@ -3112,6 +3115,8 @@ namespace EveHQ.PosManager
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
 
+            bgw_SendNotify.RunWorkerAsync();
+
             timeCheck = false;
         }
 
@@ -3163,6 +3168,113 @@ namespace EveHQ.PosManager
             //}
         }
 
+        private void CheckAndSendNotificationIfActive()
+        {
+            decimal ntfyHours, freqHrs;
+            decimal ReactTime = 0;
+            ArrayList ReactRet;
+            DateTime cts;
+            TimeSpan diff;
+
+            cts = DateTime.Now;
+
+            foreach (POS p in POSList.Designs)
+            {
+                foreach (PosNotify pn in NL.NotifyList)
+                {
+                    if (p.Name == pn.Tower)
+                    {
+                        if (pn.Frequency == "Days")
+                        {
+                            freqHrs = pn.FreqQty * 24;
+                        }
+                        else
+                        {
+                            freqHrs = pn.FreqQty;
+                        }
+                        if (pn.Initial == "Days")
+                        {
+                            ntfyHours = pn.InitQty * 24;
+                        }
+                        else
+                        {
+                            ntfyHours = pn.InitQty;
+                        }
+
+                        if (pn.Type == "Fuel Level")
+                        {
+                            if (pn.Notify_Active)
+                            {
+                                if (ntfyHours > p.PosTower.F_RunTime)
+                                {
+                                    diff = cts.Subtract(pn.Notify_Sent);
+                                    if (diff.Hours >= freqHrs)
+                                    {
+                                        pn.Notify_Sent = DateTime.Now;
+                                        SendNotification(pn, p);
+                                    }
+                                }
+                                else
+                                {
+                                    pn.Notify_Active = false;
+                                }
+                            }
+                            else
+                            {
+                                // Check to see if tower fuel run time is less than notification time
+                                if (ntfyHours >= p.PosTower.F_RunTime)
+                                {
+                                    pn.Notify_Sent = DateTime.Now;
+                                    pn.Notify_Active = true;
+                                    SendNotification(pn, p);
+                                }
+                                else
+                                {
+                                    pn.Notify_Active = false;
+                                }
+                            }
+                        }
+                        else if (pn.Type == "Silo Level")
+                        {
+                            ReactRet = GetLongestSiloRunTime(p);
+                            ReactTime = (decimal)ReactRet[0];
+
+                            if (pn.Notify_Active)
+                            {
+                                if (ntfyHours > ReactTime)
+                                {
+                                    diff = cts.Subtract(pn.Notify_Sent);
+                                    if (diff.Hours >= freqHrs)
+                                    {
+                                        pn.Notify_Sent = DateTime.Now;
+                                        pn.Notify_Active = true;
+                                        SendNotification(pn, p);
+                                    }
+                                }
+                                else
+                                {
+                                    pn.Notify_Active = false;
+                                }
+                            }
+                            else
+                            {
+                                // Check to see if tower fuel run time is less than notification time
+                                if (ntfyHours >= ReactTime)
+                                {
+                                    pn.Notify_Sent = DateTime.Now;
+                                    pn.Notify_Active = true;
+                                    SendNotification(pn, p);
+                                }
+                                else
+                                {
+                                    pn.Notify_Active = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 #endregion
 
@@ -4421,9 +4533,13 @@ namespace EveHQ.PosManager
 
         private void b_UpdateAPIData_Click(object sender, EventArgs e)
         {
+            bgw_APIUpdate.RunWorkerAsync();
+        }
+
+        private void bgw_APIUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
             SystemSovList SSL = new SystemSovList();
 
-            DownloadAndUpdateAPI();
             SSL.LoadSovListFromAPI(1);
             SL.LoadSystemListFromDisk();
             AL.LoadAllianceListFromAPI(1);
@@ -4436,30 +4552,15 @@ namespace EveHQ.PosManager
             PopulateMonitoredPoSDisplay();
         }
 
-        private void DownloadAndUpdateAPI()
+        private void bgw_APIUpdate_DoWork(object sender, DoWorkEventArgs e)
         {
-            apiWorker = new BackgroundWorker();
-
-            this.Cursor = Cursors.WaitCursor;
-            apiWorker.WorkerReportsProgress = true;
-            apiWorker.DoWork += GetCorpAssets;
-            apiWorker.DoWork += GetCorpSheet;
-            apiWorker.DoWork += GetAllySovLists;
-            apiWorker.RunWorkerCompleted += apiWorker_WorkComplete;
-
-            apiWorker.RunWorkerAsync();
+            GetCorpAssets();
+            GetCorpSheet();
+            GetAllySovLists();
         }
 
-        private void apiWorker_WorkComplete(object sender, RunWorkerCompletedEventArgs e)
-        {
-            this.Cursor = Cursors.Default;
-        }
 
-        private void apiWorker_ProgChange(object sender, RunWorkerCompletedEventArgs e)
-        {
-        }
-
-        private void GetAllySovLists(object sender, DoWorkEventArgs e)
+        private void GetAllySovLists()
         {
             XmlDocument apiXML;
             SystemSovList SSL = new SystemSovList();
@@ -4471,10 +4572,9 @@ namespace EveHQ.PosManager
             AL.LoadAllianceListFromAPI(1);
             SSL.LoadSovListFromAPI(1);
 
-            e.Result = 123;
         }
 
-        private void GetCorpAssets(object sender, DoWorkEventArgs e)
+        private void GetCorpAssets()
         {
             string acctName;
             int sel;
@@ -4498,10 +4598,9 @@ namespace EveHQ.PosManager
                     }
                 }
             }
-            e.Result = 123;
         }
 
-        private void GetCorpSheet(object sender, DoWorkEventArgs e)
+        private void GetCorpSheet()
         {
             string acctName;
             int sel;
@@ -4525,7 +4624,6 @@ namespace EveHQ.PosManager
                     }
                 }
             }
-            e.Result = 123;
         }
 
         private bool CheckXML(XmlDocument apiXML)
@@ -5571,62 +5669,23 @@ namespace EveHQ.PosManager
 
         private void tsb_Test_Click(object sender, EventArgs e)
         {
-            TreeNode sel;
-            string root, rule, line;
-
-            sel = tv_Notifications.SelectedNode;
-            if (sel == null)
-                return;
-
-            if (sel.Parent == null)
-            {
-                if (sel.Nodes.Count > 1)
-                {
-                    DialogResult dr = MessageBox.Show("You Must Select the Rule you wish to Test, Not the Tower.", "Test Notification", MessageBoxButtons.OK);
-                    return; // Request they select a rule for the tower
-                }
-
-                root = sel.Text;
-                rule = sel.FirstNode.Text;
-            }
-            else
-            {
-                if (sel.Parent.Parent != null)
-                    sel = sel.Parent;
-
-                rule = sel.Text;
-                root = sel.Parent.Text;
-            }
-
-            foreach (PosNotify pn in NL.NotifyList)
-            {
-                line = pn.Type + " [ Start at " + pn.InitQty + " " + pn.Initial + " | Every " + pn.FreqQty + " " + pn.Frequency + " after.]";
-                if ((pn.Tower == root) && (rule == line))
-                {
-                    foreach (POS p in POSList.Designs)
-                    {
-                        if (p.Name == root)
-                        {
-                            SendNotification(pn, p);
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
+            bgw_ManualSend.RunWorkerAsync();
         }
 
         private void SendNotification(PosNotify pn, POS p)
         {
-            string eServe, eAddy, eUser, ePass, paddStr = "", mailMsg = "";
+            string eServe, eAddy, eUser, ePass, paddStr = "", mailMsg = "", subject;
+            string paddLine = "";
             bool useSMTP;
             int ePort;
             decimal timeP;
             decimal totVol=0, totCost=0;
             decimal[,] tval = new decimal[13, 3];
             string[,] fVal;
+            decimal ReactTime = 0;
+            ArrayList ReactRet;
             System.Net.Mail.SmtpClient Notify = new System.Net.Mail.SmtpClient();
-            //System.Net.Mail.MailMessage NtfMsg;
+            System.Net.Mail.MailMessage NtfMsg;
 
             for (int x = 0; x < 13; x++)
             {
@@ -5661,7 +5720,7 @@ namespace EveHQ.PosManager
 
                 mailMsg += "Tower   : " + p.Name + "\n";
                 mailMsg += "Location: " + p.Moon + "\n";
-                mailMsg += "Fuel Run Time Is:" + ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "\n";
+                mailMsg += "Fuel Run Time Is: " + ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "\n";
                 mailMsg += "\nThe Tower Needs the Following Fuel for MAX Run Time:\n";
                 mailMsg += "----------------------------------------------------\n\n";
 
@@ -5672,9 +5731,13 @@ namespace EveHQ.PosManager
 
                     if (Convert.ToDecimal(fVal[x, 1]) > 0)
                     {
-                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
-                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3";
-                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk ]\n";
+                        paddStr = fVal[x, 0].PadRight(17, ' ');
+                        paddLine = " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])).PadLeft(7) + " ]";
+                        paddStr += paddLine;
+                        paddLine = "[ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])).PadLeft(7) + "m3 ]";
+                        paddStr += paddLine;
+                        paddLine = "[ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])).PadLeft(11) + "isk ]\n";
+                        paddStr += paddLine;
                         totVol += Convert.ToDecimal(fVal[x, 2]);
                         totCost += Convert.ToDecimal(fVal[x, 3]);
                         tval[x, 0] += Convert.ToDecimal(fVal[x, 1]);
@@ -5683,35 +5746,69 @@ namespace EveHQ.PosManager
                         mailMsg += paddStr;
                     }
                 }
-                mailMsg += "Tport Vol  [ " + String.Format("{0:#,0.#}", totVol) + "m3 ]\n";
-                mailMsg += "Fuel Cost  [ " + String.Format("{0:#,0.#}", totCost) + "isk ]\n";
-                Clipboard.SetText(mailMsg);
-
+                mailMsg += "Transport Volume  [ " + String.Format("{0:#,0.#}", totVol).PadLeft(12) + "m3 ]\n";
+                mailMsg += "Total Fuel Cost   [ " + String.Format("{0:#,0.#}", totCost).PadLeft(11) + "isk ]\n";
+                //Clipboard.SetText(mailMsg);
             }
             else if (pn.Type == "Silo Level")
             {
+                ReactRet = GetLongestSiloRunTime(p);
+                ReactTime = (decimal)ReactRet[0];
+
+                mailMsg += "Tower   : " + p.Name + "\n";
+                mailMsg += "Location: " + p.Moon + "\n";
+                mailMsg += "\nThe Tower Needs the Silo's Dealt With!\n";
+                mailMsg += "----------------------------------------------------\n\n";
+
+                foreach (Module m in p.Modules)
+                {
+                    paddLine = "";
+                    switch (Convert.ToInt64(m.ModType))
+                    {
+                        case 2:
+                        case 8:
+                        case 9:
+                        case 11:
+                        case 12:
+                        case 13:
+                            paddLine = m.selMineral.name + " Silo Needs attention in [ " + ConvertHoursToTextDisplay(m.FillEmptyTime) + " ]\n\n";
+                            break;
+                        default:
+                            break;
+                    }
+                    mailMsg += paddLine;
+                }
             }
             else
                 return;  // Unknown Type
 
-            //foreach (Player pl in pn.PList.Players)
-            //{
-            //    if (pl.Email1 != "")
-            //    {
-            //        NtfMsg = new System.Net.Mail.MailMessage(eAddy, pl.Email1, "EVE HQ Pos Manager: " + pn.Type + "Notification for " + p.Name, mailMsg);
-            //        Notify.Send(NtfMsg);
-            //    }
-            //    if (pl.Email2 != "")
-            //    {
-            //        NtfMsg = new System.Net.Mail.MailMessage(eAddy, pl.Email2, "EVE HQ Pos Manager: " + pn.Type + "Notification for " + p.Name, mailMsg);
-            //        Notify.Send(NtfMsg);
-            //    }
-            //    if (pl.Email3 != "")
-            //    {
-            //        NtfMsg = new System.Net.Mail.MailMessage(eAddy, pl.Email3, "EVE HQ Pos Manager: " + pn.Type + "Notification for " + p.Name, mailMsg);
-            //        Notify.Send(NtfMsg);
-            //    }
-            //}
+            NtfMsg = new System.Net.Mail.MailMessage();
+            NtfMsg.From = new System.Net.Mail.MailAddress(eAddy);
+            foreach (Player pl in pn.PList.Players)
+            {
+                foreach (Player ply in PL.Players)
+                {
+                    if (pl.Name == ply.Name)
+                    {
+                        if (ply.Email1 != "")
+                        {
+                            NtfMsg.To.Add(ply.Email1);
+                        }
+                        if (ply.Email2 != "")
+                        {
+                            NtfMsg.To.Add(ply.Email2);
+                        }
+                        if (ply.Email3 != "")
+                        {
+                            NtfMsg.To.Add(ply.Email3);
+                        }
+                    }
+                }
+            }
+            subject = "EveHQ PoSManager: " + pn.Type + " for '" + p.Name + "'";
+            NtfMsg.Subject = subject;
+            NtfMsg.Body = mailMsg;
+            Notify.Send(NtfMsg);
         }
 
         private void tsm_EditNotify_Click(object sender, EventArgs e)
@@ -5857,6 +5954,60 @@ namespace EveHQ.PosManager
                 PopulatePlayerList();
             }
         }
+
+        private void bgw_SendNotify_DoWork(object sender, DoWorkEventArgs e)
+        {
+            CheckAndSendNotificationIfActive();
+        }
+
+        private void bgw_ManualSend_DoWork(object sender, DoWorkEventArgs e)
+        {
+            TreeNode sel;
+            string root, rule, line;
+
+            sel = tv_Notifications.SelectedNode;
+            if (sel == null)
+                return;
+
+            if (sel.Parent == null)
+            {
+                if (sel.Nodes.Count > 1)
+                {
+                    DialogResult dr = MessageBox.Show("You Must Select the Rule you wish to Test, Not the Tower.", "Send Notification", MessageBoxButtons.OK);
+                    return; // Request they select a rule for the tower
+                }
+
+                root = sel.Text;
+                rule = sel.FirstNode.Text;
+            }
+            else
+            {
+                if (sel.Parent.Parent != null)
+                    sel = sel.Parent;
+
+                rule = sel.Text;
+                root = sel.Parent.Text;
+            }
+
+            foreach (PosNotify pn in NL.NotifyList)
+            {
+                line = pn.Type + " [ Start at " + pn.InitQty + " " + pn.Initial + " | Every " + pn.FreqQty + " " + pn.Frequency + " after.]";
+                if ((pn.Tower == root) && (rule == line))
+                {
+                    foreach (POS p in POSList.Designs)
+                    {
+                        if (p.Name == root)
+                        {
+                            SendNotification(pn, p);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+
 
 #endregion
 
