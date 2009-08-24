@@ -3599,18 +3599,20 @@ Public Class frmPrism
         For Each rigRow As DataRow In rigData.Tables(0).Rows
             BPID = rigRow.Item("invTypes_typeID").ToString
             BPName = EveHQ.Core.HQ.itemData(BPID).Name.TrimEnd(" Blueprint".ToCharArray)
-            ' Add it to the BPList if not already in
-            If RigBPData.Contains(BPName) = False Then
-                RigBPData.Add(BPName, New SortedList)
-            End If
-            ' Read the required type and see if it is salvage (read groupID = 754)
-            SalvageID = rigRow.Item("requiredTypeID").ToString
-            groupID = EveHQ.Core.HQ.itemData(SalvageID).Group.ToString
-            If groupID = "754" Then
-                SalvageName = EveHQ.Core.HQ.itemData(SalvageID).Name
-                SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0)
-                RigBuildData = CType(RigBPData.Item(BPName), Collections.SortedList)
-                RigBuildData.Add(SalvageName, SalvageQ)
+            If EveHQ.Core.HQ.itemList.ContainsKey(BPName) = True Then
+                ' Add it to the BPList if not already in
+                If RigBPData.Contains(BPName) = False Then
+                    RigBPData.Add(BPName, New SortedList)
+                End If
+                ' Read the required type and see if it is salvage (read groupID = 754)
+                SalvageID = rigRow.Item("requiredTypeID").ToString
+                groupID = EveHQ.Core.HQ.itemData(SalvageID).Group.ToString
+                If groupID = "754" Then
+                    SalvageName = EveHQ.Core.HQ.itemData(SalvageID).Name
+                    SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0)
+                    RigBuildData = CType(RigBPData.Item(BPName), Collections.SortedList)
+                    RigBuildData.Add(SalvageName, SalvageQ)
+                End If
             End If
         Next
 
@@ -3624,47 +3626,49 @@ Public Class frmPrism
         lvwRigs.BeginUpdate()
         lvwRigs.Items.Clear()
         For Each BP As String In RigBPData.Keys
-            buildableBP = True
-            minQuantity = 1.0E+99
-            buildCost = 0
-            ' Fetch the build requirements
-            RigBuildData = CType(RigBPData(BP), Collections.SortedList)
-            ' Go through the requirements and see if have sufficient materials
-            For Each material In RigBuildData.Keys
-                If SalvageList.Contains(material) = True Then
-                    ' Check quantity
-                    If CDbl(SalvageList(material)) > CDbl(RigBuildData(material)) Then
-                        ' We have enough so let's calculate the quantity we can use
-                        minQuantity = Math.Min(minQuantity, (CDbl(SalvageList(material)) / CDbl(RigBuildData(material))))
+            If EveHQ.Core.HQ.itemList.ContainsKey(BP) = True Then
+                buildableBP = True
+                minQuantity = 1.0E+99
+                buildCost = 0
+                ' Fetch the build requirements
+                RigBuildData = CType(RigBPData(BP), Collections.SortedList)
+                ' Go through the requirements and see if have sufficient materials
+                For Each material In RigBuildData.Keys
+                    If SalvageList.Contains(material) = True Then
+                        ' Check quantity
+                        If CDbl(SalvageList(material)) > CDbl(RigBuildData(material)) Then
+                            ' We have enough so let's calculate the quantity we can use
+                            minQuantity = Math.Min(minQuantity, (CDbl(SalvageList(material)) / CDbl(RigBuildData(material))))
+                        Else
+                            ' We are lacking
+                            buildableBP = False
+                            Exit For
+                        End If
                     Else
-                        ' We are lacking
                         buildableBP = False
                         Exit For
                     End If
-                Else
-                    buildableBP = False
-                    Exit For
-                End If
-            Next
-            ' Find the results
-            If buildableBP = True Then
-                ' Caluclate the build cost
-                For Each material In RigBuildData.Keys
-                    ' Get price
-                    buildCost += CInt(RigBuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(material))
                 Next
-                rigCost = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(BP))
-                Dim lviBP2 As New ContainerListViewItem
-                lviBP2.Text = BP
-                lvwRigs.Items.Add(lviBP2)
-                lviBP2.SubItems(1).Text = (FormatNumber((Int(minQuantity)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(2).Text = (FormatNumber(rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(3).Text = (FormatNumber(buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(4).Text = (FormatNumber(rigCost - buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(5).Text = (FormatNumber(Int(minQuantity) * rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(6).Text = (FormatNumber(Int(minQuantity) * buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(7).Text = (FormatNumber(Int(minQuantity) * (rigCost - buildCost), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(8).Text = (FormatNumber((Int(minQuantity) * (rigCost - buildCost)) / (Int(minQuantity) * rigCost) * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                ' Find the results
+                If buildableBP = True Then
+                    ' Caluclate the build cost
+                    For Each material In RigBuildData.Keys
+                        ' Get price
+                        buildCost += CInt(RigBuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(material))
+                    Next
+                    rigCost = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(BP))
+                    Dim lviBP2 As New ContainerListViewItem
+                    lviBP2.Text = BP
+                    lvwRigs.Items.Add(lviBP2)
+                    lviBP2.SubItems(1).Text = (FormatNumber((Int(minQuantity)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lviBP2.SubItems(2).Text = (FormatNumber(rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lviBP2.SubItems(3).Text = (FormatNumber(buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lviBP2.SubItems(4).Text = (FormatNumber(rigCost - buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lviBP2.SubItems(5).Text = (FormatNumber(Int(minQuantity) * rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lviBP2.SubItems(6).Text = (FormatNumber(Int(minQuantity) * buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lviBP2.SubItems(7).Text = (FormatNumber(Int(minQuantity) * (rigCost - buildCost), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lviBP2.SubItems(8).Text = (FormatNumber((Int(minQuantity) * (rigCost - buildCost)) / (Int(minQuantity) * rigCost) * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                End If
             End If
         Next
         lvwRigs.Sort(False)
