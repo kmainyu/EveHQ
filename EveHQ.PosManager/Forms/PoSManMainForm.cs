@@ -44,6 +44,7 @@ namespace EveHQ.PosManager
         bool timeCheck = false;
         bool PosChanged = false;
         bool UpdateTower = true;
+        bool mailSendErr = false;
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
@@ -94,6 +95,9 @@ namespace EveHQ.PosManager
             PopulateSystemList();
 
             tp_Notifications.Hide();
+
+            nud_DesFuelPeriod.Minimum = 0;
+            nud_StrontInterval.Minimum = 0;
 
             // Build corp selection listing
             cb_CorpName.Items.Clear();
@@ -2119,7 +2123,7 @@ namespace EveHQ.PosManager
             {
                 cb_Interval.SelectedIndex = 1;
                 nud_StrontInterval.Value = 0;
-                nud_DesFuelPeriod.Value = 1;
+                nud_DesFuelPeriod.Value = 0;
             }
 
             cb_SovLevel.SelectedIndex = Design.SovLevel;
@@ -3176,6 +3180,9 @@ namespace EveHQ.PosManager
             DateTime cts;
             TimeSpan diff;
 
+            if (mailSendErr)
+                return;
+
             cts = DateTime.Now;
 
             foreach (POS p in POSList.Designs)
@@ -3210,8 +3217,8 @@ namespace EveHQ.PosManager
                                     diff = cts.Subtract(pn.Notify_Sent);
                                     if (diff.Hours >= freqHrs)
                                     {
-                                        pn.Notify_Sent = DateTime.Now;
-                                        SendNotification(pn, p);
+                                        if(SendNotification(pn, p))
+                                            pn.Notify_Sent = DateTime.Now;
                                     }
                                 }
                                 else
@@ -3224,9 +3231,9 @@ namespace EveHQ.PosManager
                                 // Check to see if tower fuel run time is less than notification time
                                 if (ntfyHours >= p.PosTower.F_RunTime)
                                 {
-                                    pn.Notify_Sent = DateTime.Now;
                                     pn.Notify_Active = true;
-                                    SendNotification(pn, p);
+                                    if (SendNotification(pn, p))
+                                        pn.Notify_Sent = DateTime.Now;
                                 }
                                 else
                                 {
@@ -3246,9 +3253,8 @@ namespace EveHQ.PosManager
                                     diff = cts.Subtract(pn.Notify_Sent);
                                     if (diff.Hours >= freqHrs)
                                     {
-                                        pn.Notify_Sent = DateTime.Now;
-                                        pn.Notify_Active = true;
-                                        SendNotification(pn, p);
+                                        if (SendNotification(pn, p))
+                                            pn.Notify_Sent = DateTime.Now;
                                     }
                                 }
                                 else
@@ -3261,9 +3267,9 @@ namespace EveHQ.PosManager
                                 // Check to see if tower fuel run time is less than notification time
                                 if (ntfyHours >= ReactTime)
                                 {
-                                    pn.Notify_Sent = DateTime.Now;
                                     pn.Notify_Active = true;
-                                    SendNotification(pn, p);
+                                    if (SendNotification(pn, p))
+                                        pn.Notify_Sent = DateTime.Now;
                                 }
                                 else
                                 {
@@ -5669,10 +5675,11 @@ namespace EveHQ.PosManager
 
         private void tsb_Test_Click(object sender, EventArgs e)
         {
+            mailSendErr = false;
             bgw_ManualSend.RunWorkerAsync();
         }
 
-        private void SendNotification(PosNotify pn, POS p)
+        private bool SendNotification(PosNotify pn, POS p)
         {
             string eServe, eAddy, eUser, ePass, paddStr = "", mailMsg = "", subject;
             string paddLine = "";
@@ -5780,7 +5787,7 @@ namespace EveHQ.PosManager
                 }
             }
             else
-                return;  // Unknown Type
+                return false;  // Unknown Type
 
             NtfMsg = new System.Net.Mail.MailMessage();
             NtfMsg.From = new System.Net.Mail.MailAddress(eAddy);
@@ -5808,7 +5815,18 @@ namespace EveHQ.PosManager
             subject = "EveHQ PoSManager: " + pn.Type + " for '" + p.Name + "'";
             NtfMsg.Subject = subject;
             NtfMsg.Body = mailMsg;
-            Notify.Send(NtfMsg);
+            try 
+            {
+                mailSendErr = false;
+                Notify.Send(NtfMsg);
+            }
+            catch
+            {
+                MessageBox.Show("Error during attempt to Send Mail\nCheck to make sure the Mail configuration for EveHQ\nis correct and that you have a good connection.\n\nYou will need to do a Manual Send (button)\nOr restart manager to re-enable Notification Mails.", "Mail Send Error");
+                mailSendErr = true;
+                return false;
+            }
+            return true;
         }
 
         private void tsm_EditNotify_Click(object sender, EventArgs e)
