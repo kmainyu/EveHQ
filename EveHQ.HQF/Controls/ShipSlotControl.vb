@@ -3912,9 +3912,11 @@ Public Class ShipSlotControl
             Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID), SortedList(Of String, BoosterEffect))
             Dim effectList As String = "Penalties: "
             Dim count As Integer = 0
-            For Each bEffect As BoosterEffect In effects.Values
-                effectList &= bEffect.AttributeEffect & ", "
-            Next
+            If effects IsNot Nothing Then
+                For Each bEffect As BoosterEffect In effects.Values
+                    effectList &= bEffect.AttributeEffect & ", "
+                Next
+            End If
             cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
             cblabel.Refresh()
             bModule.SlotType = 15
@@ -3986,17 +3988,28 @@ Public Class ShipSlotControl
             Dim boosterName As String = cb.SelectedItem.ToString
             Dim boosterID As String = CStr(ModuleLists.moduleListName(boosterName))
             Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID), SortedList(Of String, BoosterEffect))
-            Dim count As Integer = 0
-            For Each bEffect As BoosterEffect In effects.Values
-                CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
-                Dim filter As Integer = CInt(Math.Pow(2, count))
-                If (bModule.SlotType Or filter) = bModule.SlotType Then
-                    CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Checked = True
-                Else
-                    CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Checked = False
-                End If
-                count += 1
-            Next
+            If effects IsNot Nothing Then
+                mnuSepPenalties.Visible = True
+                mnuRandomSideEffects.Visible = True
+                Dim count As Integer = 0
+                For Each bEffect As BoosterEffect In effects.Values
+                    CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
+                    Dim filter As Integer = CInt(Math.Pow(2, count))
+                    CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Visible = True
+                    If (bModule.SlotType Or filter) = bModule.SlotType Then
+                        CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Checked = True
+                    Else
+                        CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Checked = False
+                    End If
+                    count += 1
+                Next
+            Else
+                For count As Integer = 0 To 3
+                    CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Visible = False
+                Next
+                mnuSepPenalties.Visible = False
+                mnuRandomSideEffects.Visible = False
+            End If
             ' Check for related skills
             Dim RelModuleSkills As New ArrayList
             Dim Affects(3) As String

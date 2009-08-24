@@ -123,6 +123,9 @@ Partial Class ShipSlotControl
         Me.mnuBoosterPenalty2 = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuBoosterPenalty3 = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuBoosterPenalty4 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuSepPenalties = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuRandomSideEffects = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAlterBoosterSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuRemoveBooster = New System.Windows.Forms.ToolStripMenuItem
         Me.lblBoosterSlot2 = New System.Windows.Forms.Label
@@ -144,9 +147,6 @@ Partial Class ShipSlotControl
         Me.colShipBayQuantity = New System.Windows.Forms.ColumnHeader
         Me.colShipBayVolume = New System.Windows.Forms.ColumnHeader
         Me.colShipBayTotalVolume = New System.Windows.Forms.ColumnHeader
-        Me.mnuRandomSideEffects = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuAlterBoosterSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
@@ -505,6 +505,8 @@ Partial Class ShipSlotControl
         Me.pbDroneBay.Size = New System.Drawing.Size(566, 10)
         Me.pbDroneBay.StartColor = System.Drawing.Color.LimeGreen
         Me.pbDroneBay.TabIndex = 31
+        Me.pbDroneBay.TextColor = System.Drawing.Color.Black
+        Me.pbDroneBay.TextOverlay = ""
         Me.pbDroneBay.Value = 50
         '
         'lblDroneBay
@@ -591,6 +593,8 @@ Partial Class ShipSlotControl
         Me.pbCargoBay.Size = New System.Drawing.Size(566, 10)
         Me.pbCargoBay.StartColor = System.Drawing.Color.LimeGreen
         Me.pbCargoBay.TabIndex = 32
+        Me.pbCargoBay.TextColor = System.Drawing.Color.Black
+        Me.pbCargoBay.TextOverlay = ""
         Me.pbCargoBay.Value = 50
         '
         'lblCargoBay
@@ -1056,9 +1060,9 @@ Partial Class ShipSlotControl
         'ctxBoosters
         '
         Me.ctxBoosters.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ctxBoosters.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowBoosterInfo, Me.ToolStripMenuItem3, Me.mnuBoosterPenalty1, Me.mnuBoosterPenalty2, Me.mnuBoosterPenalty3, Me.mnuBoosterPenalty4, Me.ToolStripMenuItem5, Me.mnuRandomSideEffects, Me.mnuAlterBoosterSkills, Me.ToolStripMenuItem4, Me.mnuRemoveBooster})
+        Me.ctxBoosters.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowBoosterInfo, Me.ToolStripMenuItem3, Me.mnuBoosterPenalty1, Me.mnuBoosterPenalty2, Me.mnuBoosterPenalty3, Me.mnuBoosterPenalty4, Me.mnuSepPenalties, Me.mnuRandomSideEffects, Me.mnuAlterBoosterSkills, Me.ToolStripMenuItem4, Me.mnuRemoveBooster})
         Me.ctxBoosters.Name = "ctx"
-        Me.ctxBoosters.Size = New System.Drawing.Size(174, 198)
+        Me.ctxBoosters.Size = New System.Drawing.Size(174, 220)
         '
         'mnuShowBoosterInfo
         '
@@ -1098,6 +1102,23 @@ Partial Class ShipSlotControl
         Me.mnuBoosterPenalty4.Name = "mnuBoosterPenalty4"
         Me.mnuBoosterPenalty4.Size = New System.Drawing.Size(173, 22)
         Me.mnuBoosterPenalty4.Text = "Penalty4"
+        '
+        'mnuSepPenalties
+        '
+        Me.mnuSepPenalties.Name = "mnuSepPenalties"
+        Me.mnuSepPenalties.Size = New System.Drawing.Size(170, 6)
+        '
+        'mnuRandomSideEffects
+        '
+        Me.mnuRandomSideEffects.Name = "mnuRandomSideEffects"
+        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(173, 22)
+        Me.mnuRandomSideEffects.Text = "Random Side Effects"
+        '
+        'mnuAlterBoosterSkills
+        '
+        Me.mnuAlterBoosterSkills.Name = "mnuAlterBoosterSkills"
+        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(173, 22)
+        Me.mnuAlterBoosterSkills.Text = "Alter Relevant Skills"
         '
         'ToolStripMenuItem4
         '
@@ -1245,6 +1266,8 @@ Partial Class ShipSlotControl
         Me.pbShipBay.Size = New System.Drawing.Size(635, 10)
         Me.pbShipBay.StartColor = System.Drawing.Color.LimeGreen
         Me.pbShipBay.TabIndex = 32
+        Me.pbShipBay.TextColor = System.Drawing.Color.Black
+        Me.pbShipBay.TextOverlay = ""
         Me.pbShipBay.Value = 50
         '
         'lblShipBay
@@ -1296,23 +1319,6 @@ Partial Class ShipSlotControl
         Me.colShipBayTotalVolume.Text = "Total Volume (m³)"
         Me.colShipBayTotalVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colShipBayTotalVolume.Width = 100
-        '
-        'mnuRandomSideEffects
-        '
-        Me.mnuRandomSideEffects.Name = "mnuRandomSideEffects"
-        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(173, 22)
-        Me.mnuRandomSideEffects.Text = "Random Side Effects"
-        '
-        'ToolStripMenuItem5
-        '
-        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(170, 6)
-        '
-        'mnuAlterBoosterSkills
-        '
-        Me.mnuAlterBoosterSkills.Name = "mnuAlterBoosterSkills"
-        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(173, 22)
-        Me.mnuAlterBoosterSkills.Text = "Alter Relevant Skills"
         '
         'lvwSlots
         '
@@ -1556,7 +1562,7 @@ Partial Class ShipSlotControl
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuRemoveBooster As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuSepPenalties As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuRandomSideEffects As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuAlterBoosterSkills As System.Windows.Forms.ToolStripMenuItem
 End Class
