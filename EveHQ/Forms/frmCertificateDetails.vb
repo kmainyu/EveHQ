@@ -187,48 +187,50 @@ Public Class frmCertificateDetails
     Private Sub PrepareDepends(ByVal certID As String)
         ' Add the certificate unlocks
         lvwDepend.BeginUpdate()
-		lvwDepend.Items.Clear()
-        Dim certUnlocks As ArrayList = EveHQ.Core.HQ.CertUnlockCerts(certID)
-		If certUnlocks IsNot Nothing Then
-			For Each item As String In certUnlocks
-				Dim itemGrade As String = ""
-				Dim newItem As New ListViewItem
-				Dim toolTipText As New StringBuilder
-				newItem.Group = lvwDepend.Groups("CatCerts")
-				Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
-				Dim certName As String = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
-				Dim certGrade As String = CertGrades(cert.Grade)
-				For Each reqCertID As String In cert.RequiredCerts.Keys
-					Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
-					If reqCert.ID.ToString <> certID Then
-						toolTipText.Append(CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name)
-						toolTipText.Append(" (")
-						toolTipText.Append(CertGrades(reqCert.Grade))
-						toolTipText.Append("), ")
-					End If
-				Next
-				If toolTipText.Length > 0 Then
-					toolTipText.Insert(0, "Also Requires: ")
+        lvwDepend.Items.Clear()
+        If EveHQ.Core.HQ.CertUnlockCerts.ContainsKey(certID) = True Then
+            Dim certUnlocks As ArrayList = EveHQ.Core.HQ.CertUnlockCerts(certID)
+            If certUnlocks IsNot Nothing Then
+                For Each item As String In certUnlocks
+                    Dim itemGrade As String = ""
+                    Dim newItem As New ListViewItem
+                    Dim toolTipText As New StringBuilder
+                    newItem.Group = lvwDepend.Groups("CatCerts")
+                    Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
+                    Dim certName As String = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                    Dim certGrade As String = CertGrades(cert.Grade)
+                    For Each reqCertID As String In cert.RequiredCerts.Keys
+                        Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
+                        If reqCert.ID.ToString <> certID Then
+                            toolTipText.Append(CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name)
+                            toolTipText.Append(" (")
+                            toolTipText.Append(CertGrades(reqCert.Grade))
+                            toolTipText.Append("), ")
+                        End If
+                    Next
+                    If toolTipText.Length > 0 Then
+                        toolTipText.Insert(0, "Also Requires: ")
 
-					If (toolTipText.ToString().EndsWith(", ")) Then
-						toolTipText.Remove(toolTipText.Length - 2, 2)
-					End If
-				End If
+                        If (toolTipText.ToString().EndsWith(", ")) Then
+                            toolTipText.Remove(toolTipText.Length - 2, 2)
+                        End If
+                    End If
 
-				If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
-					newItem.ForeColor = Color.Green
-				Else
-					newItem.ForeColor = Color.Red
-				End If
+                    If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
+                        newItem.ForeColor = Color.Green
+                    Else
+                        newItem.ForeColor = Color.Red
+                    End If
 
-				newItem.ToolTipText = toolTipText.ToString()
-				newItem.Text = certName
-				newItem.Name = cert.ID.ToString
-				newItem.SubItems.Add(certGrade)
-				newItem.Name = item
-				lvwDepend.Items.Add(newItem)
-			Next
-		End If
+                    newItem.ToolTipText = toolTipText.ToString()
+                    newItem.Text = certName
+                    newItem.Name = cert.ID.ToString
+                    newItem.SubItems.Add(certGrade)
+                    newItem.Name = item
+                    lvwDepend.Items.Add(newItem)
+                Next
+            End If
+        End If
         lvwDepend.EndUpdate()
     End Sub
 
