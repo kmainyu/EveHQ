@@ -2450,7 +2450,9 @@ Public Class frmTraining
                 skillName = curNode.Text
             End If
         Else
-            skillName = activeLVW.SelectedItems(0).Text
+            If activeLVW.SelectedItems.Count > 0 Then
+                skillName = activeLVW.SelectedItems(0).Text
+            End If
         End If
         If skillName <> "" Then
             skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
