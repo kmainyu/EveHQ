@@ -766,20 +766,22 @@ Public Class frmItemBrowser
             strSQL &= " FROM invBlueprintTypes"
             strSQL &= " WHERE blueprintTypeID=" & typeID & ";"
             eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
-                attNo += 1
-                attributes(attNo, 1) = "Z" & col - 2
-                attributes(attNo, 2) = eveData.Tables(0).Columns(col).Caption
-                attributes(attNo, 3) = Math.Round(eveData.Tables(0).Rows(0).Item(col))
-                attributes(attNo, 4) = ""
-                attributes(attNo, 5) = "15"
-                ' Check for BPWF
-                If attributes(attNo, 2) = "wasteFactor" Then
-                    BPWF = (attributes(attNo, 3))
-                    BPWFM = ((1 / BPWF) / (1 + nudMELevel.Value))
-                    BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
-                End If
-            Next
+            If eveData.Tables(0).Rows.Count > 0 Then
+                For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
+                    attNo += 1
+                    attributes(attNo, 1) = "Z" & col - 2
+                    attributes(attNo, 2) = eveData.Tables(0).Columns(col).Caption
+                    attributes(attNo, 3) = Math.Round(eveData.Tables(0).Rows(0).Item(col))
+                    attributes(attNo, 4) = ""
+                    attributes(attNo, 5) = "15"
+                    ' Check for BPWF
+                    If attributes(attNo, 2) = "wasteFactor" Then
+                        BPWF = (attributes(attNo, 3))
+                        BPWFM = ((1 / BPWF) / (1 + nudMELevel.Value))
+                        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                    End If
+                Next
+            End If
             attributes(14, 3) = EveHQ.Core.SkillFunctions.TimeToString(attributes(14, 3))
             attributes(16, 3) = EveHQ.Core.SkillFunctions.TimeToString(attributes(16, 3))
             attributes(17, 3) = EveHQ.Core.SkillFunctions.TimeToString(attributes(17, 3))

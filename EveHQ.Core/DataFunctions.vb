@@ -529,14 +529,16 @@ Public Class DataFunctions
         strSQL &= " FROM invBlueprintTypes"
         strSQL &= " WHERE blueprintTypeID=" & typeID & ";"
         Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
-            ' Check for BPWF
-            If eveData.Tables(0).Columns(col).Caption = "wasteFactor" Then
-                BPWF = Math.Round(CDbl(eveData.Tables(0).Rows(0).Item(col).ToString))
-                Exit For
-            End If
-        Next
         If eveData IsNot Nothing Then
+            If eveData.Tables(0).Rows.Count > 0 Then
+                For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
+                    ' Check for BPWF
+                    If eveData.Tables(0).Columns(col).Caption = "wasteFactor" Then
+                        BPWF = Math.Round(CDbl(eveData.Tables(0).Rows(0).Item(col).ToString))
+                        Exit For
+                    End If
+                Next
+            End If
             eveData.Dispose()
         End If
         Return BPWF
