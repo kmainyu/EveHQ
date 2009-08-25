@@ -534,11 +534,11 @@ Public Class frmCharCreate
         Dim C, I, M, P, W As Integer
         Dim sC As NewCharacter = CType(NewCharacters(CInt(lvwchar.SelectedItems(0).Text)), NewCharacter)
         With confirmAtts
-            C = CInt(lvwchar.SelectedItems(0).SubItems(6).Text)
-            I = CInt(lvwchar.SelectedItems(0).SubItems(7).Text)
-            M = CInt(lvwchar.SelectedItems(0).SubItems(8).Text)
-            P = CInt(lvwchar.SelectedItems(0).SubItems(9).Text)
-            W = CInt(lvwchar.SelectedItems(0).SubItems(10).Text)
+            C = CInt(lvwchar.SelectedItems(0).SubItems(4).Text)
+            I = CInt(lvwchar.SelectedItems(0).SubItems(5).Text)
+            M = CInt(lvwchar.SelectedItems(0).SubItems(6).Text)
+            P = CInt(lvwchar.SelectedItems(0).SubItems(7).Text)
+            W = CInt(lvwchar.SelectedItems(0).SubItems(8).Text)
             .nudC.Value = C
             .nudI.Value = I
             .nudM.Value = M

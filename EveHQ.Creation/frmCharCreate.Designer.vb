@@ -69,8 +69,6 @@ Partial Class frmCharCreate
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
@@ -102,8 +100,6 @@ Partial Class frmCharCreate
         Me.colCharRace = New System.Windows.Forms.ColumnHeader
         Me.colCharBlood = New System.Windows.Forms.ColumnHeader
         Me.colCharAncestry = New System.Windows.Forms.ColumnHeader
-        Me.colCharCareer = New System.Windows.Forms.ColumnHeader
-        Me.colCharSpec = New System.Windows.Forms.ColumnHeader
         Me.colCharC = New System.Windows.Forms.ColumnHeader
         Me.colCharI = New System.Windows.Forms.ColumnHeader
         Me.colCharM = New System.Windows.Forms.ColumnHeader
@@ -471,7 +467,7 @@ Partial Class frmCharCreate
         '
         Me.ctxChars.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddCharacter, Me.ToolStripMenuItem3, Me.mnuExportToCSV})
         Me.ctxChars.Name = "ctxChars"
-        Me.ctxChars.Size = New System.Drawing.Size(236, 54)
+        Me.ctxChars.Size = New System.Drawing.Size(236, 76)
         '
         'mnuAddCharacter
         '
@@ -516,7 +512,7 @@ Partial Class frmCharCreate
         Me.lvwChars2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwChars2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader12})
+        Me.lvwChars2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader12})
         Me.lvwChars2.ContextMenuStrip = Me.ctxChars
         Me.lvwChars2.FullRowSelect = True
         Me.lvwChars2.Location = New System.Drawing.Point(9, 274)
@@ -544,15 +540,6 @@ Partial Class frmCharCreate
         '
         Me.ColumnHeader4.Text = "Ancestry"
         Me.ColumnHeader4.Width = 120
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "Career"
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "Speciality"
-        Me.ColumnHeader6.Width = 120
         '
         'ColumnHeader7
         '
@@ -761,7 +748,7 @@ Partial Class frmCharCreate
         Me.lstChars.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lstChars.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colCharacterNo, Me.colCharRace, Me.colCharBlood, Me.colCharAncestry, Me.colCharCareer, Me.colCharSpec, Me.colCharC, Me.colCharI, Me.colCharM, Me.colCharP, Me.colCharW, Me.colOTime, Me.colNTime})
+        Me.lstChars.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colCharacterNo, Me.colCharRace, Me.colCharBlood, Me.colCharAncestry, Me.colCharC, Me.colCharI, Me.colCharM, Me.colCharP, Me.colCharW, Me.colOTime, Me.colNTime})
         Me.lstChars.ContextMenuStrip = Me.ctxChars
         Me.lstChars.FullRowSelect = True
         Me.lstChars.GridLines = True
@@ -790,16 +777,6 @@ Partial Class frmCharCreate
         '
         Me.colCharAncestry.Text = "Ancestry"
         Me.colCharAncestry.Width = 100
-        '
-        'colCharCareer
-        '
-        Me.colCharCareer.Text = "Career"
-        Me.colCharCareer.Width = 100
-        '
-        'colCharSpec
-        '
-        Me.colCharSpec.Text = "Specialization"
-        Me.colCharSpec.Width = 100
         '
         'colCharC
         '
@@ -1009,8 +986,6 @@ Partial Class frmCharCreate
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
@@ -1032,8 +1007,6 @@ Partial Class frmCharCreate
     Friend WithEvents colCharRace As System.Windows.Forms.ColumnHeader
     Friend WithEvents colCharBlood As System.Windows.Forms.ColumnHeader
     Friend WithEvents colCharAncestry As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCharCareer As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCharSpec As System.Windows.Forms.ColumnHeader
     Friend WithEvents colNTime As System.Windows.Forms.ColumnHeader
     Friend WithEvents colCharC As System.Windows.Forms.ColumnHeader
     Friend WithEvents colCharI As System.Windows.Forms.ColumnHeader
