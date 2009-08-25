@@ -96,8 +96,8 @@ namespace EveHQ.PosManager
 
             tp_Notifications.Hide();
 
-            nud_DesFuelPeriod.Minimum = 0;
-            nud_StrontInterval.Minimum = 0;
+            //nud_DesFuelPeriod.Minimum = 0;
+            //nud_StrontInterval.Minimum = 0;
 
             // Build corp selection listing
             cb_CorpName.Items.Clear();
@@ -1632,6 +1632,7 @@ namespace EveHQ.PosManager
                             Design.PosTower.Design_Interval = cb_Interval.SelectedIndex;
 
                             nud_StrontInterval.Maximum = Design.ComputeMaxPosStrontTime();
+                            nud_DesFuelPeriod.Maximum = Design.ComputeMaxPosRunTimeForLoad();
                             
                             Design.PosTower.Design_Stront_Qty = 0;
                             if (!load)
@@ -2122,8 +2123,12 @@ namespace EveHQ.PosManager
             else
             {
                 cb_Interval.SelectedIndex = 1;
-                nud_StrontInterval.Value = 0;
+                nud_DesFuelPeriod.Minimum = 0;
+                nud_DesFuelPeriod.Maximum = 1;
                 nud_DesFuelPeriod.Value = 0;
+                nud_StrontInterval.Minimum = 0;
+                nud_StrontInterval.Maximum = 1;
+                nud_StrontInterval.Value = 0;
             }
 
             cb_SovLevel.SelectedIndex = Design.SovLevel;
@@ -4470,6 +4475,9 @@ namespace EveHQ.PosManager
             if (load)
                 return;
 
+            if (Design.PosTower.typeID == 0)
+                return;
+
             Design.PosTower.Design_Int_Qty = nud_DesFuelPeriod.Value;
             CalculateAndDisplayDesignFuelData();
             nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
@@ -4481,6 +4489,9 @@ namespace EveHQ.PosManager
             if (load)
                 return;
 
+            if (Design.PosTower.typeID == 0)
+                return;
+
             Design.PosTower.Design_Interval = cb_Interval.SelectedIndex;
             CalculateAndDisplayDesignFuelData();
             nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
@@ -4490,6 +4501,9 @@ namespace EveHQ.PosManager
         {
             // If loading a POS and updating fields, do not pay attention.
             if (load)
+                return;
+
+            if (Design.PosTower.typeID == 0)
                 return;
 
             Design.PosTower.Design_Stront_Qty = nud_StrontInterval.Value;
@@ -5414,7 +5428,7 @@ namespace EveHQ.PosManager
 
         private decimal[] GetQtyVolForLink()
         {
-            decimal mult, qty, vol, bPrice;
+            decimal mult, qty, vol, bPrice, rQty;
             decimal[] retV = new decimal[2];
             retV[0] = 0;
             retV[1] = 100;
@@ -5467,8 +5481,9 @@ namespace EveHQ.PosManager
                         mult = DstMod.selMineral.portionSize;
                         vol = DstMod.selMineral.volume;
                         bPrice = DstMod.selMineral.basePrice;
+                        rQty = DstMod.selMineral.reactQty;
 
-                        retV[0] = qty * 100;
+                        retV[0] = qty * rQty;
                         retV[1] = retV[0] * vol * mult;
                     }
                 }

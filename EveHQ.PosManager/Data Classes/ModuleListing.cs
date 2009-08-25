@@ -444,7 +444,66 @@ namespace EveHQ.PosManager
                 }
                 nt.ReactList.Add(nr);
             }
+            else if (nt.Name.Contains("Medium"))
+            {
+                foreach (DataRow row in reactBioSimp.Tables[0].Rows)
+                {
+                    if (curTypeID != Convert.ToDecimal(row.ItemArray[(int)recA.tTID]))
+                    {
+                        // New Reaction Found - Get common data
+                        if (nr != null)
+                            nt.ReactList.Add(nr);
 
+                        nr = new Reaction();
+
+                        nr.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.tTID]);
+                        curTypeID = nr.typeID;
+                        nr.icon = (row.ItemArray[(int)recA.icon]).ToString();
+                        nr.groupID = Convert.ToDecimal(row.ItemArray[(int)recA.grpID]);
+                        nr.reactGroupName = (row.ItemArray[(int)recA.grpName]).ToString();
+                        nr.reactName = (row.ItemArray[(int)recA.tName]).ToString();
+                        nr.desc = (row.ItemArray[(int)recA.tDesc]).ToString();
+
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                    else
+                    {
+                        // Current Reaction Found - add other data
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                }
+                nt.ReactList.Add(nr);
+            }
+            else if (nt.Name.Contains("Biochemical"))
+            {
+            }
+            else if (nt.Name.Contains("Polymer"))
+            {
+            }
             Modules.Add(nt);
         }
 
