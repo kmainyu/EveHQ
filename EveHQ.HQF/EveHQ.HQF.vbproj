@@ -69,6 +69,12 @@
     <Compile Include="Classes\PlugInData.vb" />
     <Compile Include="Classes\Settings.vb" />
     <Compile Include="Classes\Fittings.vb" />
+    <Compile Include="Controls\EveSpace.Designer.vb">
+      <DependentUpon>EveSpace.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EveSpace.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\frmEveImport.Designer.vb">
       <DependentUpon>frmEveImport.vb</DependentUpon>
     </Compile>
@@ -236,6 +242,9 @@
     <Compile Include="Classes\Skills.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\EveSpace.resx">
+      <DependentUpon>EveSpace.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEveImport.resx">
       <DependentUpon>frmEveImport.vb</DependentUpon>
     </EmbeddedResource>
