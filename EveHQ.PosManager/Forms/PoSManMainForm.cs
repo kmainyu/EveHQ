@@ -232,6 +232,21 @@ namespace EveHQ.PosManager
                 {
                     if (m.ReactList == null)
                         CopyMissingReactData(m);
+                    else
+                    {
+                        // Copy the Cache load data for Reactions, etc... Just in case it changed
+                        // or was updated.
+                        foreach (Module bm in ML.Modules)
+                        {
+                            if (bm.typeID == m.typeID)
+                            {
+                                m.ReactList = new ArrayList(bm.ReactList);
+                                m.MSRList = new ArrayList(bm.MSRList);
+                                m.InputList = new ArrayList(bm.InputList);
+                                m.OutputList = new ArrayList(bm.OutputList);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -3194,6 +3209,9 @@ namespace EveHQ.PosManager
             {
                 foreach (PosNotify pn in NL.NotifyList)
                 {
+                    if (mailSendErr)
+                        return;
+
                     if (p.Name == pn.Tower)
                     {
                         if (pn.Frequency == "Days")
@@ -4907,6 +4925,8 @@ namespace EveHQ.PosManager
 
                 posName = pl.Name;
 
+                posName += "  < " + pl.Moon + " >";
+
                 mtn = tv_ReactManage.Nodes.Add(posName);
                 mtn.Name = "Tower" + towerNum;
                 towerNum++;
@@ -4936,34 +4956,39 @@ namespace EveHQ.PosManager
         private void tv_ReactManage_AfterSelect(object sender, TreeViewEventArgs e)
         {
             // Populate Module list on RH side with correct controls, etc... for this POS
-            POSList.SaveDesignListing();
-            DisplayReactionModules();
-        }
-
-        private void DisplayReactionModules()
-        {
             TreeNode pos;
-            TowerReactMod trm;
-            int num = 0;
-            decimal sMult;
-
-            // Clear current module display
-            p_PosMods.Controls.Clear();
-            p_PosMods.Refresh();
-            SetModuleWarnOnValueAndTime();
 
             pos = tv_ReactManage.SelectedNode;
 
             if (pos.Parent != null)
                 pos = pos.Parent;
 
+            SelReactPos = pos.Text;
+
+            POSList.SaveDesignListing();
+            DisplayReactionModules();
+        }
+
+        private void DisplayReactionModules()
+        {
+            TowerReactMod trm;
+            int num = 0;
+            decimal sMult;
+            string posName;
+
+            // Clear current module display
+            p_PosMods.Controls.Clear();
+            p_PosMods.Refresh();
+            SetModuleWarnOnValueAndTime();
+
             // Now - Get / find this POS in the list of towers
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Name == pos.Text)
+                posName = pl.Name + "  < " + pl.Moon + " >";
+
+                if (SelReactPos == posName)
                 {
                     SetReactionModuleID(pl);
-                    SelReactPos = pos.Text;
 
                     foreach (Module m in pl.Modules)
                     {
@@ -5832,7 +5857,6 @@ namespace EveHQ.PosManager
             NtfMsg.Body = mailMsg;
             try 
             {
-                mailSendErr = false;
                 Notify.Send(NtfMsg);
             }
             catch

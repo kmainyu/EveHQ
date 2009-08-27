@@ -252,7 +252,7 @@
             this.l_ExtraInfo.ForeColor = System.Drawing.Color.Blue;
             this.l_ExtraInfo.Location = new System.Drawing.Point(190, 2);
             this.l_ExtraInfo.Name = "l_ExtraInfo";
-            this.l_ExtraInfo.Size = new System.Drawing.Size(105, 34);
+            this.l_ExtraInfo.Size = new System.Drawing.Size(205, 34);
             this.l_ExtraInfo.TabIndex = 26;
             this.l_ExtraInfo.Text = "ExtraInfo";
             // 
@@ -261,7 +261,7 @@
             this.l_RunTime.ForeColor = System.Drawing.Color.Green;
             this.l_RunTime.Location = new System.Drawing.Point(401, 2);
             this.l_RunTime.Name = "l_RunTime";
-            this.l_RunTime.Size = new System.Drawing.Size(105, 34);
+            this.l_RunTime.Size = new System.Drawing.Size(110, 34);
             this.l_RunTime.TabIndex = 27;
             this.l_RunTime.Text = "ExtraInfo2";
             // 

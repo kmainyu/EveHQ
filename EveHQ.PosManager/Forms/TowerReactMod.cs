@@ -64,6 +64,16 @@ namespace EveHQ.PosManager
                     CM_MinReactSel.Items.Add("Moon Minerals");
                     CM_MinReactSel.Items.Add("Simple Reaction");
                     CM_MinReactSel.Items.Add("Complex Reaction");
+                    CM_MinReactSel.Items.Add("Refined Minerals");
+
+                    if (ReactMod.Name == "Coupling Array")
+                    {
+                        CM_MinReactSel.Items.Add("Biochemicals");
+                        CM_MinReactSel.Items.Add("Catalysts");
+                        CM_MinReactSel.Items.Add("General Goods");
+                        CM_MinReactSel.Items.Add("Hazardous Materials");
+                        CM_MinReactSel.Items.Add("Hybrid Polymers");
+                    }
 
                     foreach (MoonSiloReactMineral msr in ReactMod.MSRList)
                     {
@@ -85,6 +95,50 @@ namespace EveHQ.PosManager
                             tsmi.DropDownItems.Add(msr.name);
                             tsmi.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(CM_MinReactSel_DropDownItemClicked);
                         }
+                        else if (msr.groupID == 18)
+                        {
+                            tsmi = (ToolStripMenuItem)CM_MinReactSel.Items[3];
+                            tsmi.DropDownItems.Add(msr.name);
+                            tsmi.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(CM_MinReactSel_DropDownItemClicked);
+                        }
+                        else if ((msr.groupID == 711) && (ReactMod.Name == "Coupling Array"))
+                        {
+                            tsmi = (ToolStripMenuItem)CM_MinReactSel.Items[3];
+                            tsmi.DropDownItems.Add(msr.name);
+                            tsmi.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(CM_MinReactSel_DropDownItemClicked);
+                        }
+                        else if ((msr.groupID == 284) && (ReactMod.Name == "Coupling Array"))
+                        {
+                            tsmi = (ToolStripMenuItem)CM_MinReactSel.Items[3];
+                            tsmi.DropDownItems.Add(msr.name);
+                            tsmi.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(CM_MinReactSel_DropDownItemClicked);
+                        }
+                        else if ((msr.groupID == 280) && (ReactMod.Name == "Coupling Array"))
+                        {
+                            tsmi = (ToolStripMenuItem)CM_MinReactSel.Items[3];
+                            tsmi.DropDownItems.Add(msr.name);
+                            tsmi.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(CM_MinReactSel_DropDownItemClicked);
+                        }
+                        else if ((msr.groupID == 712) && (ReactMod.Name == "Coupling Array"))
+                        {
+                            tsmi = (ToolStripMenuItem)CM_MinReactSel.Items[3];
+                            tsmi.DropDownItems.Add(msr.name);
+                            tsmi.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(CM_MinReactSel_DropDownItemClicked);
+                        }
+                        else if ((msr.groupID == 974) && (ReactMod.Name == "Coupling Array"))
+                        {
+                            tsmi = (ToolStripMenuItem)CM_MinReactSel.Items[3];
+                            tsmi.DropDownItems.Add(msr.name);
+                            tsmi.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(CM_MinReactSel_DropDownItemClicked);
+                        }
+                    }
+                }
+                else
+                {
+                    CM_MinReactSel.Items.Clear();
+                    foreach (MoonSiloReactMineral msr in ReactMod.MSRList)
+                    {
+                        CM_MinReactSel.Items.Add(msr.name);
                     }
                 }
 
@@ -150,6 +204,7 @@ namespace EveHQ.PosManager
         private void ShowHideInOut()
         {
             int num;
+            string tTip;
 
             input1.Hide();
             input2.Hide();
@@ -183,6 +238,22 @@ namespace EveHQ.PosManager
                     output2.Show();
 
                 SetItemSelectedIcon(ReactMod.selReact.reactName, false, false);
+                tTip = "";
+                foreach (InOutData iod in ReactMod.selReact.inputs)
+                {
+                    if (tTip.Length > 0)
+                        tTip += "\n";
+
+                    tTip += GetInputAndModuleForIO(iod, true);
+                }
+                foreach (InOutData iod in ReactMod.selReact.outputs)
+                {
+                    if (tTip.Length > 0)
+                        tTip += "\n";
+
+                    tTip += GetInputAndModuleForIO(iod, false);
+                }
+                toolTip1.SetToolTip(l_ExtraInfo, tTip);
             }
             else if (ReactMod.selMineral.name != "")
             {
@@ -386,11 +457,13 @@ namespace EveHQ.PosManager
         {
             Reaction nr;
             MoonSiloReactMineral msr;
-            string react;
+            string react, tTip;
             bool overWrite = false;
 
             react = e.ClickedItem.Text;
-            if (react.Contains("Moon Mineral") || react.Contains("Simple Reaction") || react.Contains("Complex Reaction"))
+            if (react.Contains("Moon Mineral") || react.Contains("Simple Reaction") || react.Contains("Complex Reaction") ||
+                react.Contains("Refined Minerals") || react.Contains("Biochemicals") || react.Contains("Catalysts") ||
+                react.Contains("General Goods") || react.Contains("Hazardous Materials") || react.Contains("Hybrid Polymers"))
                 return;
 
             nr = GetReactionForName(react);
@@ -424,7 +497,107 @@ namespace EveHQ.PosManager
                     myData.TowerReactModuleUpdated(ReactMod, 12, 0, "");
                 else
                     myData.TowerReactModuleUpdated(ReactMod, 2, 0, "");
+
+                tTip = "";
+                foreach (InOutData iod in ReactMod.selReact.inputs)
+                {
+                    if (tTip.Length > 0)
+                        tTip += "\n";
+
+                    tTip += GetInputAndModuleForIO(iod, true);
+                }
+                foreach (InOutData iod in ReactMod.selReact.outputs)
+                {
+                    if (tTip.Length > 0)
+                        tTip += "\n";
+
+                    tTip += GetInputAndModuleForIO(iod, false);
+                }
+                toolTip1.SetToolTip(l_ExtraInfo, tTip);
+                // Reaction - if possible it would be nice to set the module tooltip to
+                // indicate the needed input and output module types that are needed
             }
+        }
+
+        private string GetInputAndModuleForIO(InOutData iod, bool inP)
+        {
+            string retStr = "";
+            if (inP)
+            {
+                foreach (MoonSiloReactMineral msr in ReactMod.InputList)
+                {
+                    if (msr.typeID == iod.typeID)
+                    {
+                        retStr = "Inp: " + msr.name;
+                        retStr += GetInputModuleForMSR(msr.groupID, inP);
+                    }
+                }
+            }
+            else
+            {
+                foreach (MoonSiloReactMineral msr in ReactMod.OutputList)
+                {
+                    if (msr.typeID == iod.typeID)
+                    {
+                        retStr = "Out: " + msr.name;
+                        retStr += GetInputModuleForMSR(msr.groupID, inP);
+                    }
+                }
+            }
+            return retStr;
+        }
+
+        private string GetInputModuleForMSR(decimal mGroup, bool inP)
+        {
+            string retStr = "";
+
+            if (mGroup == 427) // Moon mineral, Silo|Coupling Array|Harvester
+            {
+                if(inP)
+                    retStr = " < Silo, Coupling Array, Harvester >";
+                else
+                    retStr = " < Silo, Coupling Array, Basic Reaction >";
+            }
+            else if (mGroup == 428)
+            {
+                if (inP)
+                    retStr = " < Silo, Coupling Array, Basic Reaction >";
+                else
+                    retStr = " < Silo, Coupling Array, Complex Reaction >";
+            }
+            else if (mGroup == 429)
+            {
+                retStr = " < Silo, Coupling Array >";
+            }
+            else if (mGroup == 18)
+            {
+                retStr = " < Silo, Coupling Array >";
+            }
+            else if (mGroup == 711)
+            {
+                retStr = " < Biochemical Silo, Coupling Array >";
+            }
+            else if (mGroup == 284)
+            {
+                retStr = " < Catalyst Silo, Coupling Array >";
+            }
+            else if (mGroup == 280)
+            {
+                retStr = " < General Storage Silo, Coupling Array >";
+            }
+            else if (mGroup == 712)
+            {
+                if (inP)
+                    retStr = " < Hazardous Chemical Silo, Coupling Array, Med Biochemical Reaction >";
+                else
+                    retStr = " < Hazardous Chemical Silo, Coupling Array, Complex Reaction, Biochemical Reaction >";
+            }
+            else if (mGroup == 974)
+            {
+                retStr = " < Hybrid Polymer Silo, Coupling Array >";
+            }
+
+            return retStr;
         }
 
         private MoonSiloReactMineral GetInputForType(decimal id)

@@ -20,10 +20,12 @@ namespace EveHQ.PosManager
         public ArrayList Modules;
         public DataSet modAttribData, chargeAttribData, moonMinData, simpReactData, compReactData;
         public DataSet reactSimple, reactComplex, reactBioSimp, reactBioComp, reactHybrid;
+        public DataSet biochemData, catalystData, generalData, hazChemData, hybPolyData, refMinData;
         enum modA { grpID, grpName, typID, typDesc, typName, vol, cap, price, attID, valI, valF, attNm, dspNm, unID, unNm, unDNm };
         enum chgA { grpID, grpName, typID, typDesc, typName, mass, vol, cap, prtSz, price, attID, valI, valF, attNm, dspNm, unID, unNm, unDNm };
         enum minA { grpID, grpName, typID, typName, typDesc, grphID, mass, vol, pSize, bPrice, attID, vInt, vFlt, icon };
         enum recA { reacID, inpt, inTypID, qty, grpID, catID, grpName, grpDesc, grGID, UBP, allMan, allRec, anch, cAnc, fNS, gPub, tTID, tGID, tName, tDesc, tGrID, tRad, tMass, tVol, tCap, tPrtSz, tRID, tBPrc, tPub, tMktG, tCoD, egID, egUrl, urlWeb, egDesc, egPub, egObs, icon };
+        enum silA { grpID, grpName, typID, typName, typDesc, grphID, mass, vol, pSize, bPrice, icon };
 
         public ModuleListing()
         {
@@ -91,6 +93,13 @@ namespace EveHQ.PosManager
             strSQL += " ORDER BY invTypes.typeName;";
             moonMinData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
+            // Refined Mineral Attribute Data
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=18) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            refMinData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
             strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
             strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=428) AND (invTypes.published=1)";
@@ -102,6 +111,37 @@ namespace EveHQ.PosManager
             strSQL += " WHERE (invGroups.groupID=429) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             compReactData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            // Other Silo Data
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=711) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            biochemData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=284) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            catalystData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=280) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            generalData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=712) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            hazChemData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL += " WHERE (invGroups.groupID=974) AND (invTypes.published=1)";
+            strSQL += " ORDER BY invTypes.typeName;";
+            hybPolyData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Reaction Data
             strSQL = "SELECT *";
@@ -153,6 +193,18 @@ namespace EveHQ.PosManager
                 ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
             foreach (DataRow row in reactHybrid.Tables[0].Rows)
                 ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+            foreach (DataRow row in hazChemData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+            foreach (DataRow row in biochemData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+            foreach (DataRow row in catalystData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+            foreach (DataRow row in generalData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+            foreach (DataRow row in hybPolyData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+            foreach (DataRow row in refMinData.Tables[0].Rows)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
         }
 
         public void PopulateModuleMineralData(Module nt)
@@ -163,65 +215,306 @@ namespace EveHQ.PosManager
             {
                 case 404:
                     // Silo class module
-                    foreach (DataRow row in moonMinData.Tables[0].Rows)
+                    if ((nt.Name == "Silo") || (nt.Name == "Coupling Array"))
                     {
-                        msr = new MoonSiloReactMineral();
+                        foreach (DataRow row in refMinData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
 
-                        msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
-                        msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
-                        msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
-                        msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
-                        msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
-                        msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
-                        msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
-                        msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
-                        msr.name = (row.ItemArray[(int)minA.typName]).ToString();
-                        msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
-                        msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                            msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                            msr.reactQty = msr.portionSize;
 
-                        nt.MSRList.Add(msr);
-                        nt.InputList.Add(msr);
-                        nt.OutputList.Add(msr);
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
+                        foreach (DataRow row in moonMinData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
+
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                            msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                            msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
+                        foreach (DataRow row in simpReactData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
+
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                            msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                            msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
+                        foreach (DataRow row in compReactData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
+
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                            msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                            msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
+                        if (nt.Name == "Coupling Array")
+                        {
+                            foreach (DataRow row in biochemData.Tables[0].Rows)
+                            {
+                                msr = new MoonSiloReactMineral();
+
+                                msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                                msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                                msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                                msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                                msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                                msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                                msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                                msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                                msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                                msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                                msr.reactQty = msr.portionSize; // GetDecimalFromVariableIA(row, 11, 12);
+
+                                nt.MSRList.Add(msr);
+                                nt.InputList.Add(msr);
+                                nt.OutputList.Add(msr);
+                            }
+                            foreach (DataRow row in generalData.Tables[0].Rows)
+                            {
+                                msr = new MoonSiloReactMineral();
+
+                                msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                                msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                                msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                                msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                                msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                                msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                                msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                                msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                                msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                                msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                                msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                                nt.MSRList.Add(msr);
+                                nt.InputList.Add(msr);
+                                nt.OutputList.Add(msr);
+                            }
+                            foreach (DataRow row in catalystData.Tables[0].Rows)
+                            {
+                                msr = new MoonSiloReactMineral();
+
+                                msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                                msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                                msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                                msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                                msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                                msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                                msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                                msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                                msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                                msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                                msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                                nt.MSRList.Add(msr);
+                                nt.InputList.Add(msr);
+                                nt.OutputList.Add(msr);
+                            }
+                            foreach (DataRow row in hazChemData.Tables[0].Rows)
+                            {
+                                msr = new MoonSiloReactMineral();
+
+                                msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                                msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                                msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                                msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                                msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                                msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                                msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                                msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                                msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                                msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                                msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                                nt.MSRList.Add(msr);
+                                nt.InputList.Add(msr);
+                                nt.OutputList.Add(msr);
+                            }
+                            foreach (DataRow row in hybPolyData.Tables[0].Rows)
+                            {
+                                msr = new MoonSiloReactMineral();
+
+                                msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                                msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                                msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                                msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                                msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                                msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                                msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                                msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                                msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                                msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                                msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                                nt.MSRList.Add(msr);
+                                nt.InputList.Add(msr);
+                                nt.OutputList.Add(msr);
+                            }
+                        }
                     }
-                    foreach (DataRow row in simpReactData.Tables[0].Rows)
+                    else if (nt.Name.Contains("Biochemical"))
                     {
-                        msr = new MoonSiloReactMineral();
+                        foreach (DataRow row in biochemData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
 
-                        msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
-                        msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
-                        msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
-                        msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
-                        msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
-                        msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
-                        msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
-                        msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
-                        msr.name = (row.ItemArray[(int)minA.typName]).ToString();
-                        msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
-                        msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                            msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                            msr.reactQty = msr.portionSize; // GetDecimalFromVariableIA(row, 11, 12);
 
-                        nt.MSRList.Add(msr);
-                        nt.InputList.Add(msr);
-                        nt.OutputList.Add(msr);
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
                     }
-                    foreach (DataRow row in compReactData.Tables[0].Rows)
+                    else if (nt.Name.Contains("Catalyst"))
                     {
-                        msr = new MoonSiloReactMineral();
+                        foreach (DataRow row in catalystData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
 
-                        msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
-                        msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
-                        msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
-                        msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
-                        msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
-                        msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
-                        msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
-                        msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
-                        msr.name = (row.ItemArray[(int)minA.typName]).ToString();
-                        msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
-                        msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                            msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                            msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
 
-                        nt.MSRList.Add(msr);
-                        nt.InputList.Add(msr);
-                        nt.OutputList.Add(msr);
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
+                    }
+                    else if (nt.Name.Contains("General"))
+                    {
+                        foreach (DataRow row in generalData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
+
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                            msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                            msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
+                    }
+                    else if (nt.Name.Contains("Hazardous"))
+                    {
+                        foreach (DataRow row in hazChemData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
+
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                            msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                            msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
+                    }
+                    else if (nt.Name.Contains("Hybrid Polymer"))
+                    {
+                        foreach (DataRow row in hybPolyData.Tables[0].Rows)
+                        {
+                            msr = new MoonSiloReactMineral();
+
+                            msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                            msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                            msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                            msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                            msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                            msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                            msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                            msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                            msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                            msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                            msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                            nt.MSRList.Add(msr);
+                            nt.InputList.Add(msr);
+                            nt.OutputList.Add(msr);
+                        }
                     }
                     break;
                 case 416:
@@ -446,6 +739,67 @@ namespace EveHQ.PosManager
             }
             else if (nt.Name.Contains("Medium"))
             {
+                // I need my inputs and outputs here as well. Bio / drug reactions typically
+                // have 2 inputs and 2 outputs - the hard part is figuring out WTF they are
+                //
+                // I will probably have to determine the recipe / input / output crap all in
+                // game and write it down to get the information.
+                foreach (DataRow row in biochemData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                    msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                    msr.reactQty = msr.portionSize; 
+
+                    nt.InputList.Add(msr);
+                }
+                foreach (DataRow row in generalData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                    msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                    msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.InputList.Add(msr);
+                    nt.OutputList.Add(msr);
+                }
+                foreach (DataRow row in hazChemData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                    msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                    msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.OutputList.Add(msr);
+                }
+
                 foreach (DataRow row in reactBioSimp.Tables[0].Rows)
                 {
                     if (curTypeID != Convert.ToDecimal(row.ItemArray[(int)recA.tTID]))
@@ -500,9 +854,235 @@ namespace EveHQ.PosManager
             }
             else if (nt.Name.Contains("Biochemical"))
             {
+                // I need my inputs and outputs here as well. Bio / drug reactions typically
+                // have 2 inputs and 2 outputs - the hard part is figuring out WTF they are
+                //
+                // I will probably have to determine the recipe / input / output crap all in
+                // game and write it down to get the information.
+                foreach (DataRow row in catalystData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                    msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                    msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.InputList.Add(msr);
+                    nt.OutputList.Add(msr);
+                }
+                foreach (DataRow row in generalData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                    msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                    msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.InputList.Add(msr);
+                    nt.OutputList.Add(msr);
+                }
+                foreach (DataRow row in hazChemData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)minA.typID]);
+                    msr.icon = (row.ItemArray[(int)minA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)minA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)minA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)minA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)minA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)minA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)minA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)minA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)minA.typDesc]).ToString();
+                    msr.reactQty = GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.InputList.Add(msr);
+                    nt.OutputList.Add(msr);
+                }
+                foreach (DataRow row in reactBioComp.Tables[0].Rows)
+                {
+                    if (curTypeID != Convert.ToDecimal(row.ItemArray[(int)recA.tTID]))
+                    {
+                        // New Reaction Found - Get common data
+                        if (nr != null)
+                            nt.ReactList.Add(nr);
+
+                        nr = new Reaction();
+
+                        nr.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.tTID]);
+                        curTypeID = nr.typeID;
+                        nr.icon = (row.ItemArray[(int)recA.icon]).ToString();
+                        nr.groupID = Convert.ToDecimal(row.ItemArray[(int)recA.grpID]);
+                        nr.reactGroupName = (row.ItemArray[(int)recA.grpName]).ToString();
+                        nr.reactName = (row.ItemArray[(int)recA.tName]).ToString();
+                        nr.desc = (row.ItemArray[(int)recA.tDesc]).ToString();
+
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                    else
+                    {
+                        // Current Reaction Found - add other data
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                }
+                nt.ReactList.Add(nr);
             }
             else if (nt.Name.Contains("Polymer"))
             {
+                // I need my inputs and outputs here as well. Bio / drug reactions typically
+                // have 2 inputs and 2 outputs - the hard part is figuring out WTF they are
+                //
+                // I will probably have to determine the recipe / input / output crap all in
+                // game and write it down to get the information.
+
+                // Inputs : refMinData, 711
+                // Outputs: 974
+                foreach (DataRow row in refMinData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                    msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                    msr.reactQty = msr.portionSize;
+
+                    nt.InputList.Add(msr);
+                }
+                foreach (DataRow row in biochemData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                    msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                    msr.reactQty = msr.portionSize; // GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.InputList.Add(msr);
+                }
+                foreach (DataRow row in hybPolyData.Tables[0].Rows)
+                {
+                    msr = new MoonSiloReactMineral();
+
+                    msr.typeID = Convert.ToDecimal(row.ItemArray[(int)silA.typID]);
+                    msr.icon = (row.ItemArray[(int)silA.icon]).ToString();
+                    msr.groupID = Convert.ToDecimal(row.ItemArray[(int)silA.grpID]);
+                    msr.mass = Convert.ToDecimal(row.ItemArray[(int)silA.mass]);
+                    msr.volume = Convert.ToDecimal(row.ItemArray[(int)silA.vol]);
+                    msr.portionSize = Convert.ToDecimal(row.ItemArray[(int)silA.pSize]);
+                    msr.basePrice = Convert.ToDecimal(row.ItemArray[(int)silA.bPrice]);
+                    msr.groupName = (row.ItemArray[(int)silA.grpName]).ToString();
+                    msr.name = (row.ItemArray[(int)silA.typName]).ToString();
+                    msr.description = (row.ItemArray[(int)silA.typDesc]).ToString();
+                    msr.reactQty = msr.portionSize;// GetDecimalFromVariableIA(row, 11, 12);
+
+                    nt.OutputList.Add(msr);
+                }
+                foreach (DataRow row in reactHybrid.Tables[0].Rows)
+                {
+                    if (curTypeID != Convert.ToDecimal(row.ItemArray[(int)recA.tTID]))
+                    {
+                        // New Reaction Found - Get common data
+                        if (nr != null)
+                            nt.ReactList.Add(nr);
+
+                        nr = new Reaction();
+
+                        nr.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.tTID]);
+                        curTypeID = nr.typeID;
+                        nr.icon = (row.ItemArray[(int)recA.icon]).ToString();
+                        nr.groupID = Convert.ToDecimal(row.ItemArray[(int)recA.grpID]);
+                        nr.reactGroupName = (row.ItemArray[(int)recA.grpName]).ToString();
+                        nr.reactName = (row.ItemArray[(int)recA.tName]).ToString();
+                        nr.desc = (row.ItemArray[(int)recA.tDesc]).ToString();
+
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                    else
+                    {
+                        // Current Reaction Found - add other data
+                        iod = new InOutData();
+                        iod.typeID = Convert.ToDecimal(row.ItemArray[(int)recA.inTypID]);
+                        iod.qty = Convert.ToDecimal(row.ItemArray[(int)recA.qty]);
+                        if (Convert.ToDecimal(row.ItemArray[(int)recA.inpt]) > 0)
+                        {
+                            // input
+                            nr.inputs.Add(iod);
+                        }
+                        else
+                        {
+                            // output
+                            nr.outputs.Add(iod);
+                        }
+                    }
+                }
+                nt.ReactList.Add(nr);
             }
             Modules.Add(nt);
         }
