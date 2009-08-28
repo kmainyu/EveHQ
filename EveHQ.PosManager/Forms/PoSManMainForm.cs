@@ -4872,6 +4872,7 @@ namespace EveHQ.PosManager
             TowerReactMod tr;
             TreeNode pos;
             decimal sMult;
+            string posName;
 
             SetModuleWarnOnValueAndTime();
 
@@ -4885,7 +4886,8 @@ namespace EveHQ.PosManager
             // Now - Get / find this POS in the list of towers
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Name == pos.Text)
+                posName = pl.Name + "  < " + pl.Moon + " >";
+                if (posName == pos.Text)
                 {
                     // Found Selected Tower - Update all Modules
                     sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
@@ -5139,10 +5141,14 @@ namespace EveHQ.PosManager
 
         public void TowerReactModuleUpdated(Module m, int cTyp, int linkID, string pbNm)
         {
+            string posName;
+
             // Get corret POS Object
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Name == SelReactPos)
+                posName = pl.Name + "  < " + pl.Moon + " >"; 
+                
+                if (posName == SelReactPos)
                 {
                     // A module reaction, or Link has been set
                     switch(cTyp)
@@ -5241,6 +5247,7 @@ namespace EveHQ.PosManager
             int numFound = 0;
             int srcNum = 0, dstNum = 0;
             InOutData dio, sio;
+            string posName;
 
             if (srcNm.Length > 0)
             {
@@ -5255,7 +5262,9 @@ namespace EveHQ.PosManager
             // Reaction has been set
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Name == SelReactPos)
+                posName = pl.Name + "  < " + pl.Moon + " >"; 
+
+                if (posName == SelReactPos)
                 {
                     if (pl.ReactionLinks.Count >= MaxLink)
                     {
@@ -5459,10 +5468,12 @@ namespace EveHQ.PosManager
             retV[1] = 100;
             Module SrcMod = new Module();
             Module DstMod = new Module();
+            string posName;
 
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Name == SelReactPos)
+                posName = pl.Name + "  < " + pl.Moon + " >"; 
+                if (posName == SelReactPos)
                 {
                     foreach (Module m in pl.Modules)
                     {
@@ -5545,10 +5556,13 @@ namespace EveHQ.PosManager
 
         private void tsb_ReactClearLink_Click(object sender, EventArgs e)
         {
+            string posName;
+
             // Get corret POS Object
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Name == SelReactPos)
+                posName = pl.Name + "  < " + pl.Moon + " >";
+                if (posName == SelReactPos)
                 {
                     pl.ReactionLinks.Clear();
                     DisplayReactionModules();
@@ -5559,10 +5573,12 @@ namespace EveHQ.PosManager
         private void ClearReactionLink(Module m)
         {
             ArrayList tmpLst;
+            string posName;
 
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Name == SelReactPos)
+                posName = pl.Name + "  < " + pl.Moon + " >";
+                if (posName == SelReactPos)
                 {
                     tmpLst = new ArrayList();
                     foreach (ReactionLink rl in pl.ReactionLinks)

@@ -281,6 +281,9 @@ namespace EveHQ.PosManager
                 // LINKED POS
 
                 apid = APIL.GetAPIDataMemberForTowerID(itemID);
+                if ((apid == null) || (apid.cacheUntil == null))
+                    return;
+
                 A_In_TimeStamp = Convert.ToDateTime(apid.cacheUntil);
 
                 // Now, while this is accurate, need to remove 24 hours from the time
