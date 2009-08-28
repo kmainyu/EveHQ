@@ -191,6 +191,11 @@ Public Class frmEveHQ
         tmrEve.Interval = 60000
         Call GetServerStatus()
     End Sub
+    Private Sub UpdateEveTime()
+        Dim now As DateTime = DateTime.Now.ToUniversalTime()
+        Dim fi As Globalization.DateTimeFormatInfo = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat
+        tsEveTime.Text = "EVE Time: " & now.ToString(fi.ShortDatePattern + " HH:mm")
+    End Sub
     Private Sub eveTQWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles eveTQWorker.DoWork
         ' Defines what work the thread has to do
         Call EveHQ.Core.HQ.myTQServer.GetServerStatus()
@@ -620,6 +625,8 @@ Public Class frmEveHQ
         Next
     End Sub
     Private Sub SkillWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles SkillWorker.RunWorkerCompleted
+
+        Call UpdateEveTime()
 
         Call CheckNotifications()
 

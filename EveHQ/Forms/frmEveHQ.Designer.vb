@@ -135,6 +135,7 @@ Partial Public Class frmEveHQ
         Me.tsSisiStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsAPIStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsAPITime = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tsEveTime = New System.Windows.Forms.ToolStripStatusLabel
         Me.tmrSkillUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.tmrBackup = New System.Windows.Forms.Timer(Me.components)
         Me.tmrModules = New System.Windows.Forms.Timer(Me.components)
@@ -868,7 +869,7 @@ Partial Public Class frmEveHQ
         'EveHQStatusStrip
         '
         Me.EveHQStatusStrip.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsSisiStatus, Me.tsAPIStatus, Me.tsAPITime})
+        Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsSisiStatus, Me.tsAPIStatus, Me.tsAPITime, Me.tsEveTime})
         Me.EveHQStatusStrip.Location = New System.Drawing.Point(0, 631)
         Me.EveHQStatusStrip.Name = "EveHQStatusStrip"
         Me.EveHQStatusStrip.Size = New System.Drawing.Size(1033, 25)
@@ -911,7 +912,7 @@ Partial Public Class frmEveHQ
         Me.tsAPIStatus.DoubleClickEnabled = True
         Me.tsAPIStatus.Name = "tsAPIStatus"
         Me.tsAPIStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.tsAPIStatus.Size = New System.Drawing.Size(468, 20)
+        Me.tsAPIStatus.Size = New System.Drawing.Size(402, 20)
         Me.tsAPIStatus.Spring = True
         Me.tsAPIStatus.Text = "API Status:"
         Me.tsAPIStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -926,6 +927,17 @@ Partial Public Class frmEveHQ
         Me.tsAPITime.Name = "tsAPITime"
         Me.tsAPITime.Size = New System.Drawing.Size(50, 20)
         Me.tsAPITime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'tsEveTime
+        '
+        Me.tsEveTime.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.tsEveTime.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
+        Me.tsEveTime.Name = "tsEveTime"
+        Me.tsEveTime.Size = New System.Drawing.Size(58, 20)
+        Me.tsEveTime.Text = "Eve Time:"
+        Me.tsEveTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'tmrSkillUpdate
         '
@@ -1155,5 +1167,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents panelTrainingStatus As System.Windows.Forms.Panel
     Friend WithEvents DashboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuUpdateNow As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tsEveTime As System.Windows.Forms.ToolStripStatusLabel
 
 End Class
