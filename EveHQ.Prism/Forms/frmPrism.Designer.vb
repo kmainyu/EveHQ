@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
@@ -64,6 +64,8 @@ Partial Class frmPrism
         Me.colOrdersAPI = New System.Windows.Forms.ColumnHeader
         Me.colTransAPI = New System.Windows.Forms.ColumnHeader
         Me.colCorpSheetAPI = New System.Windows.Forms.ColumnHeader
+        Me.ctxAPIStatus = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuClearXMLCache = New System.Windows.Forms.ToolStripMenuItem
         Me.tabAssets = New System.Windows.Forms.TabPage
         Me.chkExcludeOrders = New System.Windows.Forms.CheckBox
         Me.btnFilters = New System.Windows.Forms.Button
@@ -209,6 +211,7 @@ Partial Class frmPrism
         Me.lblEscrowLbl = New System.Windows.Forms.Label
         Me.lblOrdersLbl = New System.Windows.Forms.Label
         Me.tabTransactions = New System.Windows.Forms.TabPage
+        Me.cmbWalletTransType = New System.Windows.Forms.ComboBox
         Me.btnExportTransactions = New System.Windows.Forms.Button
         Me.cboWalletTransDivision = New System.Windows.Forms.ComboBox
         Me.lblWalletTransDivision = New System.Windows.Forms.Label
@@ -402,14 +405,14 @@ Partial Class frmPrism
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ctxAPIStatus = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuClearXMLCache = New System.Windows.Forms.ToolStripMenuItem
+        Me.lblType = New System.Windows.Forms.Label
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
         Me.tabPrism.SuspendLayout()
         Me.ctxTabPrism.SuspendLayout()
         Me.tabAPIStatus.SuspendLayout()
+        Me.ctxAPIStatus.SuspendLayout()
         Me.tabAssets.SuspendLayout()
         Me.tabAssetFilters.SuspendLayout()
         Me.tabInvestments.SuspendLayout()
@@ -447,7 +450,6 @@ Partial Class frmPrism
         Me.ctxBPManager.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ctxAPIStatus.SuspendLayout()
         Me.SuspendLayout()
         '
         'ctxAssets
@@ -733,6 +735,18 @@ Partial Class frmPrism
         Me.colCorpSheetAPI.Text = "Corp Sheet API"
         Me.colCorpSheetAPI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.colCorpSheetAPI.Width = 120
+        '
+        'ctxAPIStatus
+        '
+        Me.ctxAPIStatus.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClearXMLCache})
+        Me.ctxAPIStatus.Name = "ctxAPIStatus"
+        Me.ctxAPIStatus.Size = New System.Drawing.Size(194, 26)
+        '
+        'mnuClearXMLCache
+        '
+        Me.mnuClearXMLCache.Name = "mnuClearXMLCache"
+        Me.mnuClearXMLCache.Size = New System.Drawing.Size(193, 22)
+        Me.mnuClearXMLCache.Text = "Clear Prism XML Cache"
         '
         'tabAssets
         '
@@ -1062,11 +1076,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup5.Header = "Corporation"
-        ListViewGroup5.Name = "grpCorporation"
-        ListViewGroup6.Header = "Personal"
-        ListViewGroup6.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -2243,6 +2257,8 @@ Partial Class frmPrism
         '
         'tabTransactions
         '
+        Me.tabTransactions.Controls.Add(Me.lblType)
+        Me.tabTransactions.Controls.Add(Me.cmbWalletTransType)
         Me.tabTransactions.Controls.Add(Me.btnExportTransactions)
         Me.tabTransactions.Controls.Add(Me.cboWalletTransDivision)
         Me.tabTransactions.Controls.Add(Me.lblWalletTransDivision)
@@ -2254,13 +2270,23 @@ Partial Class frmPrism
         Me.tabTransactions.Text = "Transactions"
         Me.tabTransactions.UseVisualStyleBackColor = True
         '
+        'cmbWalletTransType
+        '
+        Me.cmbWalletTransType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbWalletTransType.FormattingEnabled = True
+        Me.cmbWalletTransType.Items.AddRange(New Object() {"Show All", "Buy", "Sell"})
+        Me.cmbWalletTransType.Location = New System.Drawing.Point(301, 6)
+        Me.cmbWalletTransType.Name = "cmbWalletTransType"
+        Me.cmbWalletTransType.Size = New System.Drawing.Size(121, 21)
+        Me.cmbWalletTransType.TabIndex = 3
+        '
         'btnExportTransactions
         '
         Me.btnExportTransactions.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnExportTransactions.Location = New System.Drawing.Point(1053, 5)
         Me.btnExportTransactions.Name = "btnExportTransactions"
         Me.btnExportTransactions.Size = New System.Drawing.Size(75, 23)
-        Me.btnExportTransactions.TabIndex = 3
+        Me.btnExportTransactions.TabIndex = 4
         Me.btnExportTransactions.Text = "Export"
         Me.btnExportTransactions.UseVisualStyleBackColor = True
         '
@@ -2269,7 +2295,7 @@ Partial Class frmPrism
         Me.cboWalletTransDivision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboWalletTransDivision.FormattingEnabled = True
         Me.cboWalletTransDivision.Items.AddRange(New Object() {"1000", "1001", "1002", "1003", "1004", "1005", "1006"})
-        Me.cboWalletTransDivision.Location = New System.Drawing.Point(94, 7)
+        Me.cboWalletTransDivision.Location = New System.Drawing.Point(94, 6)
         Me.cboWalletTransDivision.Name = "cboWalletTransDivision"
         Me.cboWalletTransDivision.Size = New System.Drawing.Size(150, 21)
         Me.cboWalletTransDivision.TabIndex = 2
@@ -4003,17 +4029,14 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
-        'ctxAPIStatus
+        'lblType
         '
-        Me.ctxAPIStatus.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClearXMLCache})
-        Me.ctxAPIStatus.Name = "ctxAPIStatus"
-        Me.ctxAPIStatus.Size = New System.Drawing.Size(194, 48)
-        '
-        'mnuClearXMLCache
-        '
-        Me.mnuClearXMLCache.Name = "mnuClearXMLCache"
-        Me.mnuClearXMLCache.Size = New System.Drawing.Size(193, 22)
-        Me.mnuClearXMLCache.Text = "Clear Prism XML Cache"
+        Me.lblType.AutoSize = True
+        Me.lblType.Location = New System.Drawing.Point(254, 10)
+        Me.lblType.Name = "lblType"
+        Me.lblType.Size = New System.Drawing.Size(35, 13)
+        Me.lblType.TabIndex = 5
+        Me.lblType.Text = "Type:"
         '
         'frmPrism
         '
@@ -4034,6 +4057,7 @@ Partial Class frmPrism
         Me.ctxTabPrism.ResumeLayout(False)
         Me.tabAPIStatus.ResumeLayout(False)
         Me.tabAPIStatus.PerformLayout()
+        Me.ctxAPIStatus.ResumeLayout(False)
         Me.tabAssets.ResumeLayout(False)
         Me.tabAssets.PerformLayout()
         Me.tabAssetFilters.ResumeLayout(False)
@@ -4087,7 +4111,6 @@ Partial Class frmPrism
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.ctxAPIStatus.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -4470,4 +4493,6 @@ Partial Class frmPrism
     Friend WithEvents colNotes As System.Windows.Forms.ColumnHeader
     Friend WithEvents ctxAPIStatus As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuClearXMLCache As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents cmbWalletTransType As System.Windows.Forms.ComboBox
+    Friend WithEvents lblType As System.Windows.Forms.Label
 End Class

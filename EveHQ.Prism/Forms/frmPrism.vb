@@ -4171,6 +4171,9 @@ Public Class frmPrism
         Else
             cboWalletTransDivision.Enabled = False
         End If
+
+        If cmbWalletTransType.SelectedIndex = -1 Then cmbWalletTransType.SelectedIndex = 0
+
         If owner <> "" Then
             Dim transXML As New XmlDocument
             Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
@@ -4189,6 +4192,13 @@ Public Class frmPrism
                 clvTransactions.BeginUpdate()
                 clvTransactions.Items.Clear()
                 For Each Tran As XmlNode In Trans
+
+                    If Not cmbWalletTransType.SelectedIndex <= 0 Then
+                        If CBool(String.Compare(Tran.Attributes.GetNamedItem("transactionType").Value, cmbWalletTransType.SelectedItem.ToString, True)) Then
+                            Continue For
+                        End If
+                    End If
+
                     transItem = New ContainerListViewItem
                     If IsCorp = False And Tran.Attributes.GetNamedItem("transactionFor").Value = "corporation" Then
                         transItem.ForeColor = Drawing.Color.SlateBlue
@@ -4528,6 +4538,10 @@ Public Class frmPrism
 
     Private Sub cboWalletJournalDivision_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWalletJournalDivision.SelectedIndexChanged
         Call ParseWalletJournal()
+    End Sub
+
+    Private Sub cmbWalletTransType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmbWalletTransType.SelectedIndexChanged
+        Call Me.ParseWalletTransactions()
     End Sub
 
     Private Sub UpdateWalletDivisions()
