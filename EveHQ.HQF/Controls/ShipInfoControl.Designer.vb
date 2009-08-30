@@ -118,6 +118,7 @@ Partial Class ShipInfoControl
         Me.lblPGReqd = New System.Windows.Forms.Label
         Me.lblCPUReqd = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btnDamageAnalysis = New System.Windows.Forms.Button
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -160,6 +161,7 @@ Partial Class ShipInfoControl
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.Panel1.Controls.Add(Me.btnDamageAnalysis)
         Me.Panel1.Controls.Add(Me.lblImplants)
         Me.Panel1.Controls.Add(Me.cboImplants)
         Me.Panel1.Controls.Add(Me.gbDefence)
@@ -1243,6 +1245,16 @@ Partial Class ShipInfoControl
         Me.ToolTip1.ReshowDelay = 100
         Me.ToolTip1.ShowAlways = True
         '
+        'btnDamageAnalysis
+        '
+        Me.btnDamageAnalysis.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTurretSlots
+        Me.btnDamageAnalysis.Location = New System.Drawing.Point(124, 69)
+        Me.btnDamageAnalysis.Name = "btnDamageAnalysis"
+        Me.btnDamageAnalysis.Size = New System.Drawing.Size(32, 32)
+        Me.btnDamageAnalysis.TabIndex = 39
+        Me.ToolTip1.SetToolTip(Me.btnDamageAnalysis, "Damage Analysis")
+        Me.btnDamageAnalysis.UseVisualStyleBackColor = True
+        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1391,5 +1403,6 @@ Partial Class ShipInfoControl
     Friend WithEvents pbTargets As System.Windows.Forms.PictureBox
     Friend WithEvents lblPGReqd As System.Windows.Forms.Label
     Friend WithEvents lblCPUReqd As System.Windows.Forms.Label
+    Friend WithEvents btnDamageAnalysis As System.Windows.Forms.Button
 
 End Class

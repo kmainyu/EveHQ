@@ -1062,7 +1062,7 @@ Partial Class ShipSlotControl
         Me.ctxBoosters.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxBoosters.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowBoosterInfo, Me.ToolStripMenuItem3, Me.mnuBoosterPenalty1, Me.mnuBoosterPenalty2, Me.mnuBoosterPenalty3, Me.mnuBoosterPenalty4, Me.mnuSepPenalties, Me.mnuRandomSideEffects, Me.mnuAlterBoosterSkills, Me.ToolStripMenuItem4, Me.mnuRemoveBooster})
         Me.ctxBoosters.Name = "ctx"
-        Me.ctxBoosters.Size = New System.Drawing.Size(174, 220)
+        Me.ctxBoosters.Size = New System.Drawing.Size(174, 198)
         '
         'mnuShowBoosterInfo
         '

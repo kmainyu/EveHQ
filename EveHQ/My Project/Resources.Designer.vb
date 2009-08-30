@@ -184,17 +184,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to EveHQ - Version History
         '''-----------------------
-        '''
-        '''1.13.0.805 (20/08/2009)
+        '''1.13.1.812 (22/08/2009)
         '''----------
-        '''New Features:
-        '''- EveHQ Dashboard: New screen within the core application giving relevant pilot information
-        '''Improvements:
-        '''- Core: Standardised font across all application and plug-ins
-        '''- Core: Simplified internal data structures leading to slight performance increase all-round
-        '''- Core: Skill Queue info now includes the day of the week
-        '''- Core: Added training end date/time to G15 display
-        '''- Core: Optimised routines rela [rest of string was truncated]&quot;;.
+        '''Fixes &amp; Improvements:
+        '''- Core: Removed message dialog when moving queued skills
+        '''- Core: Changed font of Ticker control to Tahoma
+        '''- Core: Fixed Implant and Neural Remap buttons not activating when selecting a skill queue
+        '''- HQF: Fixed scrolling issue with HQF ShipInfoPanel
+        '''- HQF: Ammo reload times no longer apply to Energy weapons
+        '''- Item Browser: Fixed error where an item in the Wanted List could not be identified
+        '''- P [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property History() As String
             Get

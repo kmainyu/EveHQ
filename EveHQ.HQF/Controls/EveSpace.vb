@@ -11,6 +11,7 @@ Public Class EveSpace
 
 #Region "Public Events"
     Public Event CalculationsChanged()
+    Public Event GraphUpdateRequired()
 
 #End Region
 
@@ -39,7 +40,7 @@ Public Class EveSpace
         End Get
         Set(ByVal value As Double)
             cVelocityScale = value
-            CalculateData()
+            CalculateData(Nothing)
             Invalidate(False)
         End Set
     End Property
@@ -50,7 +51,7 @@ Public Class EveSpace
         End Get
         Set(ByVal value As Double)
             cRangeScale = value
-            CalculateData()
+            CalculateData(Nothing)
             Invalidate(False)
         End Set
     End Property
@@ -67,13 +68,22 @@ Public Class EveSpace
             cSourceShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                DIs.Add("SourceShip", New DraggableImage("SourceShip", My.Resources.imgShield, value.Location))
-                DI1 = DIs("SourceShip")
-                DI1.Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
-                DIs.Add("SourceHeading", New DraggableImage("SourceHeading", My.Resources.imgSigRadius, value.Heading))
-                DI1 = DIs("SourceHeading")
-                DI1.Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
-                CalculateData()
+                Dim img As New Bitmap(EveHQ.Core.ImageHandler.GetImage(SourceShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types), 32, 32)
+                If DIs.ContainsKey("SourceShip") = False Then
+                    DIs.Add("SourceShip", New DraggableImage("SourceShip", img, value.Location))
+                    DI1 = DIs("SourceShip")
+                    DIs("SourceShip").Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
+                Else
+                    DIs("SourceShip").img = img
+                End If
+                If DIs.ContainsKey("SourceHeading") = False Then
+                    DIs.Add("SourceHeading", New DraggableImage("SourceHeading", My.Resources.imgSigRadius, value.Heading))
+                    DI1 = DIs("SourceHeading")
+                    DIs("SourceHeading").Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
+                Else
+                    DIs("SourceHeading").img = My.Resources.imgSigRadius
+                End If
+                CalculateData(Nothing)
                 Invalidate(False)
             End If
         End Set
@@ -88,13 +98,22 @@ Public Class EveSpace
             cTargetShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                DIs.Add("TargetShip", New DraggableImage("TargetShip", My.Resources.imgShield, value.Location))
-                DI1 = DIs("TargetShip")
-                DI1.Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
-                DIs.Add("TargetHeading", New DraggableImage("TargetHeading", My.Resources.imgSigRadius, value.Heading))
-                DI1 = DIs("TargetHeading")
-                DI1.Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
-                CalculateData()
+                Dim img As New Bitmap(EveHQ.Core.ImageHandler.GetImage(TargetShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types), 32, 32)
+                If DIs.ContainsKey("TargetShip") = False Then
+                    DIs.Add("TargetShip", New DraggableImage("TargetShip", img, value.Location))
+                    DI1 = DIs("TargetShip")
+                    DIs("TargetShip").Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
+                Else
+                    DIs("TargetShip").img = img
+                End If
+                If DIs.ContainsKey("TargetHeading") = False Then
+                    DIs.Add("TargetHeading", New DraggableImage("TargetHeading", My.Resources.imgSigRadius, value.Heading))
+                    DI1 = DIs("TargetHeading")
+                    DIs("TargetHeading").Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
+                Else
+                    DIs("TargetHeading").img = My.Resources.imgSigRadius
+                End If
+                CalculateData(Nothing)
                 Invalidate(False)
             End If
         End Set
@@ -110,7 +129,7 @@ Public Class EveSpace
             If (e.X > cdi.Location.X And e.X < cdi.Location.X + cdi.Width And e.Y > cdi.Location.Y And e.Y < cdi.Location.Y + cdi.Height) Then
                 di = cdi
                 cl = New Point(e.X - di.Location.X, e.Y - di.Location.Y)
-                Invalidate(False)
+                'Invalidate(False)
             End If
         Next
     End Sub
@@ -133,13 +152,14 @@ Public Class EveSpace
                 Case "TargetHeading"
                     cTargetShip.Heading = di.Centre
             End Select
-            Me.CalculateData()
             Invalidate(False)
+            Me.CalculateData(Nothing)
         End If
     End Sub
 
     Private Sub MyMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseUp
         di = Nothing
+        RaiseEvent GraphUpdateRequired()
     End Sub
 
 #End Region
@@ -147,58 +167,61 @@ Public Class EveSpace
 #Region "Control Paint Routines"
 
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
-        MyBase.OnPaint(e)
+        'MyBase.OnPaint(e)
         If DIs.Count > 0 Then
 
-            ' Get images
-            Dim diS1 As DraggableImage = DIs("SourceShip")
-            Dim diS2 As DraggableImage = DIs("TargetShip")
-            Dim diH1 As DraggableImage = DIs("SourceHeading")
-            Dim diH2 As DraggableImage = DIs("TargetHeading")
+            If DIs.ContainsKey("SourceShip") And DIs.ContainsKey("TargetShip") Then
+                ' Define vector pens
+                Dim V1Pen As New Pen(Color.Green, 5)
+                V1Pen.EndCap = Drawing2D.LineCap.ArrowAnchor
+                Dim V2Pen As New Pen(Color.Blue, 5)
+                V2Pen.EndCap = Drawing2D.LineCap.ArrowAnchor
 
-            ' Set the graphics modes
-            e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+                ' Define boundary checking pens
+                Dim BPen As New Pen(Color.FromArgb(255, 32, 32, 32), 1) : BPen.DashStyle = Drawing2D.DashStyle.Dash
+                Dim RPen As New Pen(Color.FromArgb(255, 64, 64, 64), 1) : RPen.DashStyle = Drawing2D.DashStyle.Dash
 
-            ' Define vector pens
-            Dim V1Pen As New Pen(Color.Green, 5)
-            V1Pen.EndCap = Drawing2D.LineCap.ArrowAnchor
-            Dim V2Pen As New Pen(Color.Blue, 5)
-            V2Pen.EndCap = Drawing2D.LineCap.ArrowAnchor
+                ' Set the graphics modes
+                e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
-            ' Define boundary checking pens
-            Dim BPen As New Pen(Color.FromArgb(255, 32, 32, 32), 1) : BPen.DashStyle = Drawing2D.DashStyle.Dash
-            Dim RPen As New Pen(Color.FromArgb(255, 64, 64, 64), 1) : RPen.DashStyle = Drawing2D.DashStyle.Dash
+                ' Get images
+                Dim diS1 As DraggableImage = DIs("SourceShip")
+                Dim diH1 As DraggableImage = DIs("SourceHeading")
+                Dim diS2 As DraggableImage = DIs("TargetShip")
+                Dim diH2 As DraggableImage = DIs("TargetHeading")
 
-            ' Draw the horizontal and vertical vector lines
-            e.Graphics.DrawLine(BPen, 0, diS1.Centre.Y, Me.Width, diS1.Centre.Y)
-            e.Graphics.DrawLine(BPen, 0, diS2.Centre.Y, Me.Width, diS2.Centre.Y)
-            e.Graphics.DrawLine(BPen, diS1.Centre.X, 0, diS1.Centre.X, Me.Height)
-            e.Graphics.DrawLine(BPen, diS2.Centre.X, 0, diS2.Centre.X, Me.Height)
+                ' Draw the horizontal and vertical vector lines
+                e.Graphics.DrawLine(BPen, 0, diS1.Centre.Y, Me.Width, diS1.Centre.Y)
+                e.Graphics.DrawLine(BPen, diS1.Centre.X, 0, diS1.Centre.X, Me.Height)
+                e.Graphics.DrawLine(BPen, 0, diS2.Centre.Y, Me.Width, diS2.Centre.Y)
+                e.Graphics.DrawLine(BPen, diS2.Centre.X, 0, diS2.Centre.X, Me.Height)
 
-            ' Draw some range circles
-            Dim transFont As New Font("Tahoma", 10, FontStyle.Regular, GraphicsUnit.Pixel)
-            For dist As Integer = CInt(Me.Width / 5) To CInt(Me.Width * 6 / 5) Step CInt(Me.Width / 5)
-                Dim strDist As String = (dist * cRangeScale).ToString & "km"
-                e.Graphics.DrawEllipse(RPen, diS1.Centre.X - dist, diS1.Centre.Y - dist, 2 * dist, 2 * dist)
-                Dim strWidth As SizeF = e.Graphics.MeasureString(strDist, transFont, 100)
-                e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X - strWidth.Width / 2, diS1.Centre.Y + dist)
-                e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X - strWidth.Width / 2, diS1.Centre.Y - dist)
-                e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X - dist, diS1.Centre.Y)
-                e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X + dist, diS1.Centre.Y)
-            Next
+                ' Draw some range circles
+                Dim transFont As New Font("Tahoma", 10, FontStyle.Regular, GraphicsUnit.Pixel)
+                For dist As Integer = CInt(Me.Width / 5) To CInt(Me.Width * 6 / 5) Step CInt(Me.Width / 5)
+                    Dim strDist As String = (dist * cRangeScale).ToString & "km"
+                    e.Graphics.DrawEllipse(RPen, diS1.Centre.X - dist, diS1.Centre.Y - dist, 2 * dist, 2 * dist)
+                    Dim strWidth As SizeF = e.Graphics.MeasureString(strDist, transFont, 100)
+                    e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X - strWidth.Width / 2, diS1.Centre.Y + dist)
+                    e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X - strWidth.Width / 2, diS1.Centre.Y - dist)
+                    e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X - dist, diS1.Centre.Y)
+                    e.Graphics.DrawString(strDist, transFont, Brushes.DarkGray, diS1.Centre.X + dist, diS1.Centre.Y)
+                Next
 
-            ' Draw the vector lines
-            e.Graphics.DrawLine(V1Pen, New Point(diS1.Centre.X, diS1.Centre.Y), New Point(diH1.Centre.X, diH1.Centre.Y))
-            e.Graphics.DrawLine(V2Pen, New Point(diS2.Centre.X, diS2.Centre.Y), New Point(diH2.Centre.X, diH2.Centre.Y))
+                ' Draw Vector Lines
+                e.Graphics.DrawLine(V1Pen, New Point(diS1.Centre.X, diS1.Centre.Y), New Point(diH1.Centre.X, diH1.Centre.Y))
+                e.Graphics.DrawLine(V2Pen, New Point(diS2.Centre.X, diS2.Centre.Y), New Point(diH2.Centre.X, diH2.Centre.Y))
 
-            ' Draw the large intersection line
-            e.Graphics.DrawLine(New Pen(Color.Red), cLAxisIntersect, cRAxisIntersect)
+                ' Draw the large intersection line
+                e.Graphics.DrawLine(New Pen(Color.Red), cLAxisIntersect, cRAxisIntersect)
 
-            ' Draw the points
-            e.Graphics.DrawImage(diS1.img, diS1.Location)
-            e.Graphics.DrawImage(diS2.img, diS2.Location)
-            e.Graphics.DrawImage(diH1.img, diH1.Location)
-            e.Graphics.DrawImage(diH2.img, diH2.Location)
+                ' Draw the points
+                e.Graphics.DrawImage(diS1.img, diS1.Location)
+                e.Graphics.DrawImage(diH1.img, diH1.Location)
+                e.Graphics.DrawImage(diS2.img, diS2.Location)
+                e.Graphics.DrawImage(diH2.img, diH2.Location)
+
+            End If
         End If
     End Sub
 
@@ -215,18 +238,13 @@ Public Class EveSpace
         Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
         Me.SetStyle(ControlStyles.UserPaint, True)
 
-        'DIs.Add("SourceShip", New DraggableImage("SourceShip", My.Resources.Kessie, New Point(100, 100)))
-        'DIs.Add("TargetShip", New DraggableImage("TargetShip", My.Resources.Kessie, New Point(300, 150)))
-        'DIs.Add("SourceHeading", New DraggableImage("SourceHeading", My.Resources.target, New Point(400, 400)))
-        'DIs.Add("TargetHeading", New DraggableImage("TargetHeading", My.Resources.target, New Point(100, 400)))
-
     End Sub
 
 #End Region
 
 #Region "Calculation Routines"
 
-    Private Sub CalculateData()
+    Private Sub CalculateData(ByVal state As Object)
         If cSourceShip IsNot Nothing And cTargetShip IsNot Nothing Then
             Dim xDist, yDist As Double
             Dim x1Dist, y1Dist, x2Dist, y2Dist As Double
@@ -259,14 +277,14 @@ Public Class EveSpace
             If Math.Abs(cHorizontalAngle / (2 * Math.PI) * 360) = 45 Then
                 Debug.Print(cHorizontalAngle.ToString)
             End If
-            Try
+            If y1Dist < 1.0E+15 And y1Dist > -1.0E+15 Then
                 cLAxisIntersect = New Point(0, CInt(y1Dist + maxShip.Location.Y))
                 cRAxisIntersect = New Point(Me.Width, CInt(y2Dist + minShip.Location.Y))
-            Catch e As Exception
+            Else
                 ' Catch overflow error where we never hit the x-axis i.e. is vertical
                 cLAxisIntersect = New Point(minShip.Location.X, 0)
                 cRAxisIntersect = New Point(maxShip.Location.X, Me.Height)
-            End Try
+            End If
 
             ' Calculate velocities based on headings
             xSHDist = (cSourceShip.Location.X - cSourceShip.Heading.X) * cVelocityScale
@@ -338,8 +356,6 @@ Public Class EveSpace
 
 #End Region
 
-
-
 End Class
 
 Class DraggableImage
@@ -359,7 +375,6 @@ Class DraggableImage
         Set(ByVal value As Point)
             cLocation = value
             Me.Centre = New Point(cLocation.X + CentreOffset.X, cLocation.Y + CentreOffset.Y)
-
         End Set
     End Property
 
@@ -376,12 +391,14 @@ End Class
 
 Public Class ShipStatus
     Public Name As String
+    Public Ship As HQF.Ship
     Public Location As New Point
     Public Heading As New Point
     Public Velocity As Double
 
-    Public Sub New(ByVal StatusName As String, ByVal StartLocation As Point, ByVal StartHeading As Point)
+    Public Sub New(ByVal StatusName As String, ByVal FittedShip As Ship, ByVal StartLocation As Point, ByVal StartHeading As Point)
         Me.Name = StatusName
+        Me.Ship = FittedShip
         Me.Location = StartLocation
         Me.Heading = StartHeading
     End Sub

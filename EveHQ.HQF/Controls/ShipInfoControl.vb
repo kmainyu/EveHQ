@@ -817,5 +817,14 @@ Public Class ShipInfoControl
 
 #End Region
 
+#Region "Damage Analysis Routines"
+    Private Sub btnDamageAnalysis_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDamageAnalysis.Click
+        Dim myDA As New frmDamageAnalysis
+        myDA.ShowDialog()
+        myDA.Dispose()
+    End Sub
+#End Region
+
+   
    
 End Class
