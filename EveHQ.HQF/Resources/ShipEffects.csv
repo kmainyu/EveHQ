@@ -328,11 +328,11 @@
 22474,0,0,10063,1,22474,0,0,1,2,15,Warfare Link Use
 # Daredevil,,,,,,,,,,,
 17928,0,0,10015,4,561;564,0,0,0,25,15,Small Hybrid Damage
-17928,1,3329,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+17928,1,3329,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
 17928,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed
 # Deimos,,,,,,,,,,,
 12023,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-12023,1,3332,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+12023,1,3332,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
 12023,1,16591,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff
 12023,1,16591,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 # Devoter,,,,,,,,,,,
@@ -530,7 +530,7 @@
 24702,1,12099,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
 24702,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 # Hyena,,,,,,,,,,,
-11387,1,3329,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+11387,1,3329,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
 11387,1,3329,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
 11387,1,28615,552,1,11387,0,1,0,-3,15,Signature Radius
 11387,1,28615,54,2,65,0,1,0,20,15,Stasis Web Range
@@ -982,14 +982,14 @@
 11959,1,22761,240,2,201,0,1,0,30,15,ECM Jam Strength
 11959,1,22761,241,2,201,0,1,0,30,15,ECM Jam Strength
 11959,1,22761,117,2,384;653;385;655,0,1,0,5,15,"Light, Heavy Missile Kinetic Damage"
-# Rorqual,,,,,,,,,,,,,
-28352,1,28374,87,4,600,0,1,0,50,15,Capital Shield Transfer Range,,
-28352,1,28374,263,3,18,0,1,0,20,15,Drone Shield HP,,
-28352,1,28374,265,3,18,0,1,0,20,15,Drone Armor HP,,
-28352,1,28374,9,3,18,0,1,0,20,15,Drone Hull HP,,
-28352,1,28374,64,3,18,0,1,0,20,15,Drone Damage,,
-28352,1,28374,714,1,28583,0,1,0,-5,15,Industrial Core Fuel Need,,
-28352,0,0,197,2,49,0,0,0,900,15,Survey Scanner Range,,
+# Rorqual,,,,,,,,,,,
+28352,1,28374,87,4,600,0,1,0,50,15,Capital Shield Transfer Range
+28352,1,28374,263,3,18,0,1,0,20,15,Drone Shield HP
+28352,1,28374,265,3,18,0,1,0,20,15,Drone Armor HP
+28352,1,28374,9,3,18,0,1,0,20,15,Drone Hull HP
+28352,1,28374,64,3,18,0,1,0,20,15,Drone Damage
+28352,1,28374,714,1,28583,0,1,0,-5,15,Industrial Core Fuel Need
+28352,0,0,197,2,49,0,0,0,900,15,Survey Scanner Range
 28352,0,0,126,2,47,0,0,0,200,15,Cargo Scanner Range,,
 28352,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use,,
 28352,0,0,10063,1,28352,0,0,1,2,15,Warfare Link Use,,
@@ -998,14 +998,14 @@
 629,1,3333,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage,,
 # Sabre,,,,,,,,,,,,,
 22456,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage,,
-22456,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
-22456,1,12098,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
-22456,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
-# Sacrilege,,,,,,,,,,,
-12019,1,3335,114,2,772;654,0,1,0,5,15,EM Assault Missile Damage
-12019,1,3335,116,2,772;654,0,1,0,5,15,Explosive Assault Missile Damage
-12019,1,3335,117,2,772;654,0,1,0,5,15,Kinetic Assault Missile Damage
-12019,1,3335,118,2,772;654,0,1,0,5,15,Thermal Assault Missile Damage
+22456,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking,,
+22456,1,12098,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff,,
+22456,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF,,
+# Sacrilege,,,,,,,,,,,,,
+12019,1,3335,114,2,772;654,0,1,0,5,15,EM Assault Missile Damage,,
+12019,1,3335,116,2,772;654,0,1,0,5,15,Explosive Assault Missile Damage,,
+12019,1,3335,117,2,772;654,0,1,0,5,15,Kinetic Assault Missile Damage,,
+12019,1,3335,118,2,772;654,0,1,0,5,15,Thermal Assault Missile Damage,,
 12019,1,3335,267,1,12019,0,1,2,5,15,Armor EM Resistance
 12019,1,3335,268,1,12019,0,1,2,5,15,Armor Explosive Resistance
 12019,1,3335,269,1,12019,0,1,2,5,15,Armor Kinetic Resistance
@@ -1113,7 +1113,7 @@
 23911,0,0,50,1,24283,0,0,0,-99,15,Drone Control Unit CPU
 # Thorax,,,,,,,,,,,
 627,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-627,1,3332,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+627,1,3332,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
 # Thrasher,,,,,,,,,,,
 16242,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
 16242,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
@@ -1180,11 +1180,11 @@
 # Vigilant,,,,,,,,,,,
 17722,0,0,10015,4,562;565,0,0,0,25,15,Medium Hybrid Turret Damage
 17722,1,3332,160,4,562;565,0,1,0,7.5,15,Medium Hybrid Turret Tracking
-17722,1,3333,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+17722,1,3333,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
 # Vindicator,,,,,,,,,,,
 17740,0,0,10015,4,563;566,0,0,0,25,15,Large Hybrid Turret Damage
 17740,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
-17740,1,3337,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+17740,1,3337,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
 # Vulture,,,,,,,,,,,
 22446,1,12099,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Range
 22446,1,12099,271,1,22446,0,1,2,5,15,Shield EM Resistance
