@@ -54,7 +54,6 @@ Public Class frmItemBrowser
     Dim compMetas As New SortedList
     Dim CompMatrix(,,) As String
     Dim bEveCentralDataFound As Boolean = False
-    Dim nonPublishedFlag As Boolean = True
     Dim displayPilot As EveHQ.Core.Pilot
     Dim startup As Boolean = False
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
@@ -469,7 +468,8 @@ Public Class frmItemBrowser
         Me.lblUsableTime.Text = ""
 
         ' Load the browser
-        Call Me.LoadBrowserGroups()
+        chkBrowseNonPublished.Checked = EveHQ.Core.HQ.EveHQSettings.IBShowAllItems
+        If tvwBrowse.Nodes.Count = 0 Then Call Me.LoadBrowserGroups()
 
         ' Load the Pilots
         Call Me.UpdatePilots()
@@ -1737,7 +1737,7 @@ Public Class frmItemBrowser
                         newNode.Name = EveHQ.Core.HQ.itemList(item) ' ID
                         If e.Name = EveHQ.Core.HQ.itemData(newNode.Name).Group.ToString Then
                             ' Check published flag
-                            If Me.nonPublishedFlag = True Then
+                            If EveHQ.Core.HQ.EveHQSettings.IBShowAllItems = True Then
                                 e.Nodes.Add(newNode)
                             Else
                                 If EveHQ.Core.HQ.itemData(newNode.Name).Published = True Then
@@ -2041,11 +2041,7 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub chkBrowseNonPublished_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkBrowseNonPublished.CheckedChanged
-        If chkBrowseNonPublished.Checked = True Then
-            Me.nonPublishedFlag = True
-        Else
-            Me.nonPublishedFlag = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.IBShowAllItems = chkBrowseNonPublished.Checked
         Call Me.LoadBrowserGroups()
     End Sub
 

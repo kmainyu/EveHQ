@@ -168,6 +168,7 @@ Partial Class frmItemBrowser
         Me.Type = New System.Windows.Forms.ColumnHeader
         Me.Fee = New System.Windows.Forms.ColumnHeader
         Me.Payout = New System.Windows.Forms.ColumnHeader
+        Me.MarketPrice = New System.Windows.Forms.ColumnHeader
         Me.PayoutProfit = New System.Windows.Forms.ColumnHeader
         Me.picItem = New System.Windows.Forms.PictureBox
         Me.lblItem = New System.Windows.Forms.Label
@@ -242,7 +243,6 @@ Partial Class frmItemBrowser
         Me.btnWantedAdd = New System.Windows.Forms.Button
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
-        Me.MarketPrice = New System.Windows.Forms.ColumnHeader
         Me.sbtnBack = New EveHQ.ItemBrowser.SplitButton
         Me.sbtnForward = New EveHQ.ItemBrowser.SplitButton
         Me.ctxSkills.SuspendLayout()
@@ -1535,6 +1535,12 @@ Partial Class frmItemBrowser
         Me.Payout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Payout.Width = 100
         '
+        'MarketPrice
+        '
+        Me.MarketPrice.Text = "Market Price"
+        Me.MarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.MarketPrice.Width = 100
+        '
         'PayoutProfit
         '
         Me.PayoutProfit.Text = "Payout Profit"
@@ -1600,8 +1606,6 @@ Partial Class frmItemBrowser
         '
         Me.chkBrowseNonPublished.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkBrowseNonPublished.AutoSize = True
-        Me.chkBrowseNonPublished.Checked = True
-        Me.chkBrowseNonPublished.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkBrowseNonPublished.Location = New System.Drawing.Point(4, 466)
         Me.chkBrowseNonPublished.Name = "chkBrowseNonPublished"
         Me.chkBrowseNonPublished.Size = New System.Drawing.Size(162, 17)
@@ -2234,12 +2238,6 @@ Partial Class frmItemBrowser
         Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 42
         Me.lblPilot.Text = "Pilot:"
-        '
-        'MarketPrice
-        '
-        Me.MarketPrice.Text = "Market Price"
-        Me.MarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.MarketPrice.Width = 100
         '
         'sbtnBack
         '

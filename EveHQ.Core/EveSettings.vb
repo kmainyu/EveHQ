@@ -163,7 +163,16 @@ Imports System.Diagnostics
     Private cStandardQueueColumns As New ArrayList
     Private cUserQueueColumns As New ArrayList
     Private cEmailSenderAddress As String = "notifications@evehq.net"
+    Private cIBShowAllItems As Boolean = False
 
+    Public Property IBShowAllItems() As Boolean
+        Get
+            Return cIBShowAllItems
+        End Get
+        Set(ByVal value As Boolean)
+            cIBShowAllItems = value
+        End Set
+    End Property
     Public Property EmailSenderAddress() As String
         Get
             If cEmailSenderAddress Is Nothing Then
