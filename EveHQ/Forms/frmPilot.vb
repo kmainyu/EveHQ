@@ -615,6 +615,7 @@ Public Class frmPilot
                 newitem.SubItems(3).Text = Format(enddate, "ddd") & " " & enddate
             Next
         End If
+        clvQueue.AutoSizeColumnWidths(True)
         clvQueue.EndUpdate()
     End Sub
 

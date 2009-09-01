@@ -495,12 +495,10 @@ Partial Public Class frmPilot
         '
         'clvQueue
         '
-        Me.clvQueue.AllowColumnResize = False
         Me.clvQueue.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colSkillName, Me.colToLevel, Me.colStartTime, Me.colEndTime})
         Me.clvQueue.DefaultItemHeight = 18
         Me.clvQueue.Dock = System.Windows.Forms.DockStyle.Fill
         Me.clvQueue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvQueue.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.clvQueue.ItemContextMenu = Me.ctxCerts
         Me.clvQueue.Location = New System.Drawing.Point(0, 0)
         Me.clvQueue.Name = "clvQueue"
@@ -511,7 +509,6 @@ Partial Public Class frmPilot
         '
         Me.colSkillName.CustomSortTag = Nothing
         Me.colSkillName.MinimumWidth = 50
-        Me.colSkillName.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colSkillName.Tag = Nothing
         Me.colSkillName.Text = "Skill Name"
         Me.colSkillName.Width = 300
@@ -522,7 +519,6 @@ Partial Public Class frmPilot
         Me.colToLevel.CustomSortTag = Nothing
         Me.colToLevel.DisplayIndex = 1
         Me.colToLevel.MinimumWidth = 50
-        Me.colToLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
         Me.colToLevel.Tag = Nothing
         Me.colToLevel.Text = "Level"
         Me.colToLevel.Width = 60
@@ -533,10 +529,10 @@ Partial Public Class frmPilot
         Me.colStartTime.CustomSortTag = Nothing
         Me.colStartTime.DisplayIndex = 2
         Me.colStartTime.MinimumWidth = 50
-        Me.colStartTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
         Me.colStartTime.Tag = Nothing
         Me.colStartTime.Text = "Start Time"
         Me.colStartTime.Width = 150
+        Me.colStartTime.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
         '
         'colEndTime
         '
@@ -546,6 +542,7 @@ Partial Public Class frmPilot
         Me.colEndTime.Tag = Nothing
         Me.colEndTime.Text = "End Time"
         Me.colEndTime.Width = 150
+        Me.colEndTime.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
         '
         'lblPilot
         '
