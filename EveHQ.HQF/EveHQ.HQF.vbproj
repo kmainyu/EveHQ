@@ -452,6 +452,7 @@
     <None Include="Resources\Level5.jpg" />
     <None Include="Resources\BC.ico" />
     <None Include="Resources\Eve.ico" />
+    <None Include="Resources\icon44_17.png" />
     <Content Include="_Changelog.txt" />
   </ItemGroup>
   <ItemGroup>

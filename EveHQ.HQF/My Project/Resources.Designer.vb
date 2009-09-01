@@ -90,7 +90,7 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to #HQF Booster Mapping Table,,,,,
-        '''Booster ID,IsPen?,Effect ID,Group,Booster,Effect
+        '''#Booster ID,IsPen,Effect ID,Group,Booster,Effect
         '''10155,0,548,Improved,Blue Pill,Shield Boost Bonus
         '''10155,1,1143,Improved,Blue Pill,Shield Capacity Penalty
         '''10155,1,1144,Improved,Blue Pill,Turret Optimal Range Penalty
@@ -134,6 +134,13 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("Eve", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property EveSpaceTarget() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("EveSpaceTarget", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         

@@ -77,11 +77,11 @@ Public Class EveSpace
                     DIs("SourceShip").img = img
                 End If
                 If DIs.ContainsKey("SourceHeading") = False Then
-                    DIs.Add("SourceHeading", New DraggableImage("SourceHeading", My.Resources.imgSigRadius, value.Heading))
+                    DIs.Add("SourceHeading", New DraggableImage("SourceHeading", My.Resources.EveSpaceTarget, value.Heading))
                     DI1 = DIs("SourceHeading")
                     DIs("SourceHeading").Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
                 Else
-                    DIs("SourceHeading").img = My.Resources.imgSigRadius
+                    DIs("SourceHeading").img = My.Resources.EveSpaceTarget
                 End If
                 CalculateData(Nothing)
                 Invalidate(False)
@@ -107,11 +107,11 @@ Public Class EveSpace
                     DIs("TargetShip").img = img
                 End If
                 If DIs.ContainsKey("TargetHeading") = False Then
-                    DIs.Add("TargetHeading", New DraggableImage("TargetHeading", My.Resources.imgSigRadius, value.Heading))
+                    DIs.Add("TargetHeading", New DraggableImage("TargetHeading", My.Resources.EveSpaceTarget, value.Heading))
                     DI1 = DIs("TargetHeading")
                     DIs("TargetHeading").Location = New Point(CInt(DI1.Location.X - DI1.img.Width / 2), CInt(DI1.Location.Y - DI1.img.Height / 2))
                 Else
-                    DIs("TargetHeading").img = My.Resources.imgSigRadius
+                    DIs("TargetHeading").img = My.Resources.EveSpaceTarget
                 End If
                 CalculateData(Nothing)
                 Invalidate(False)
