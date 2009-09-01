@@ -471,6 +471,10 @@ Public Class PlugInData
                                 newShip.Attributes.Add("10062", 0)
                                 newShip.Attributes.Add("10063", 1)
                                 newShip.Attributes.Add("10064", 2)
+                                newShip.Attributes.Add("10065", 0)
+                                newShip.Attributes.Add("10066", 0)
+                                newShip.Attributes.Add("10067", 0)
+                                newShip.Attributes.Add("10068", 0)
                                 ' Check for slot attributes (missing for T3)
                                 If newShip.Attributes.ContainsKey("12") = False Then
                                     newShip.Attributes.Add("12", 0)
@@ -607,6 +611,10 @@ Public Class PlugInData
                     newShip.Attributes.Add("10062", 0)
                     newShip.Attributes.Add("10063", 1)
                     newShip.Attributes.Add("10064", 2)
+                    newShip.Attributes.Add("10065", 0)
+                    newShip.Attributes.Add("10066", 0)
+                    newShip.Attributes.Add("10067", 0)
+                    newShip.Attributes.Add("10068", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Check for slot attributes (missing for T3)

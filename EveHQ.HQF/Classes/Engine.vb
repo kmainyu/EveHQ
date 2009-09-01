@@ -2369,7 +2369,10 @@ Public Class Engine
         newShip.Attributes("10060") = aT
         newShip.Attributes("10061") = hT
         newShip.Attributes("10062") = Math.Max(sT, Math.Max(aT, hT))
-
+        newShip.Attributes("10065") = sR
+        newShip.Attributes("10066") = aR
+        newShip.Attributes("10067") = hR
+        newShip.Attributes("10068") = sR + aR + hR
 
     End Sub
 

@@ -72,3 +72,9 @@
 10063,MaxGanglinks,Maximum Gang Modules,0,,0
 # Max Character Locked Targets
 10064,MaxPilotTargets,Maximum Pilot Targets,0,,0
+# HP Recharge Values
+10065,TotalShieldRecharge,Total Shield Recharge,0,HP/s,0
+10066,TotalArmorRecharge,Total Armor Recharge,0,HP/s,0
+10067,TotalHullRecharge,Total Hull Recharge,0,HP/s,0
+10068,TotalRecharge,Total Recharge,0,HP/s,0
+

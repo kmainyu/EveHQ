@@ -29,7 +29,9 @@ Public Class frmDamageAnalysis
     Dim esdEM, esdEx, esdKi, esdTh, esdT As Double
     Dim eadEM, eadEx, eadKi, eadTh, eadT As Double
     Dim ehdEM, ehdEx, ehdKi, ehdTh, ehdT As Double
-    Dim est, eat, eht As Double
+    Dim tsrr, tarr, thrr As Double
+    Dim estNR, eatNR, ehtNR As Double
+    Dim estR, eatR, ehtR As Double
     Dim CTH As Double = 0
     Dim EDR As Double = 0
     Dim GraphForm As New frmChartViewer
@@ -221,13 +223,44 @@ Public Class frmDamageAnalysis
         ' Calculate expected damage ratio
         EDR = 0.01 * 3 + ((CTH / 100) - 0.01) * ((CTH / 100) + 0.99) / 2
 
-        ' Calculate Expected Damage
+        ' Calculate Expected Damage (DPS)
         esdEM = sdEM * EDR : esdEx = sdEx * EDR : esdKi = sdKi * EDR : esdTh = sdTh * EDR : esdT = sdT * EDR
         eadEM = adEM * EDR : eadEx = adEx * EDR : eadKi = adKi * EDR : eadTh = adTh * EDR : eadT = adT * EDR
         ehdEM = hdEM * EDR : ehdEx = hdEx * EDR : ehdKi = hdKi * EDR : ehdTh = hdTh * EDR : ehdT = hdT * EDR
 
+        ' Calculate target recharge rates
+        tsrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10065"))
+        tarr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10066"))
+        thrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10067"))
+
         ' Calculate Expected Times (no target ship HP recharge)
-        est = sHP / (esdT * tc) * trof : eat = aHP / (eadT * tc) * trof : eht = hHP / (ehdT * tc) * trof
+        estNR = sHP / (esdT * tc) * trof : eatNR = aHP / (eadT * tc) * trof : ehtNR = hHP / (ehdT * tc) * trof
+
+        ' Calculate Expected Times (with target ship HP recharge)
+        If (esdT - tsrr) > 0 Then
+            estR = sHP / ((esdT - tsrr) * tc) * trof
+            If estR > 86400 Then
+                estR = -1
+            End If
+        Else
+            estR = -1
+        End If
+        If (eadT - tarr) > 0 Then
+            eatR = aHP / ((eadT - tarr) * tc) * trof
+            If eatR > 86400 Then
+                eatR = -1
+            End If
+        Else
+            eatR = -1
+        End If
+        If (ehdT - thrr) > 0 Then
+            ehtR = hHP / ((ehdT - thrr) * tc) * trof
+            If ehtR > 86400 Then
+                ehtR = -1
+            End If
+        Else
+            ehtR = -1
+        End If
 
         ' Write stats
         Dim stats As New StringBuilder
@@ -262,7 +295,10 @@ Public Class frmDamageAnalysis
         stats.AppendLine("Theoretical Total DPS (S/A/H): " & (sdT / trof * tc).ToString("N2") & " / " & (adT / trof * tc).ToString("N2") & " / " & (hdT / trof * tc).ToString("N2"))
         stats.AppendLine("Expected Total Damage (S/A/H): " & (esdT * tc).ToString("N2") & " / " & (eadT * tc).ToString("N2") & " / " & (ehdT * tc).ToString("N2"))
         stats.AppendLine("Expected Total DPS (S/A/H): " & (esdT / trof * tc).ToString("N2") & " / " & (eadT / trof * tc).ToString("N2") & " / " & (ehdT / trof * tc).ToString("N2"))
-        stats.AppendLine("Depletion Times (S/A/H): " & est.ToString("N2") & " / " & eat.ToString("N2") & " / " & eht.ToString("N2"))
+        stats.AppendLine("Target HP Recharge Rates (S/A/H): " & tsrr.ToString("N2") & " / " & tarr.ToString("N2") & " / " & thrr.ToString("N2"))
+        stats.AppendLine("Depletion Times NR (S/A/H): " & EveHQ.Core.SkillFunctions.TimeToString(estNR) & " / " & EveHQ.Core.SkillFunctions.TimeToString(eatNR) & " / " & EveHQ.Core.SkillFunctions.TimeToString(ehtNR))
+        stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(estR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estR))) & " / " & CStr(IIf(eatR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatR))) & " / " & CStr(IIf(ehtR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtR))))
+
         lblStats.Text = stats.ToString
         lblStats.Refresh()
     End Sub
