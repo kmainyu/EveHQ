@@ -2442,15 +2442,17 @@ Public Class frmTraining
         ' Find out which control it relates to!
         Dim skillName As String = ""
         Dim skillID As String = ""
-        If activeLVW.Focused = False Then
-            Dim curNode As TreeNode = New TreeNode
-            curNode = tvwSkillList.SelectedNode
-            If curNode IsNot Nothing Then
-                skillName = curNode.Text
-            End If
-        Else
-            If activeLVW.SelectedItems.Count > 0 Then
-                skillName = activeLVW.SelectedItems(0).Text
+        If activeLVW IsNot Nothing Then
+            If activeLVW.Focused = False Then
+                Dim curNode As TreeNode = New TreeNode
+                curNode = tvwSkillList.SelectedNode
+                If curNode IsNot Nothing Then
+                    skillName = curNode.Text
+                End If
+            Else
+                If activeLVW.SelectedItems.Count > 0 Then
+                    skillName = activeLVW.SelectedItems(0).Text
+                End If
             End If
         End If
         If skillName <> "" Then
