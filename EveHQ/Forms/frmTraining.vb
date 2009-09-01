@@ -210,9 +210,8 @@ Public Class frmTraining
 
                 AddHandler tq.newSuggestionPB.Click, AddressOf Me.SuggestionIconClick
                 tabQueues.TabPages.Insert(i, newQTab)
+                i = i + 1
             End If
-
-            i = i + 1
         Next
 
         tabQueues_SelectedIndexChanged(Me, EventArgs.Empty)
