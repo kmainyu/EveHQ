@@ -36,6 +36,27 @@ Public Class frmDamageAnalysis
     Dim EDR As Double = 0
     Dim GraphForm As New frmChartViewer
 
+#Region "Public Properties"
+    Dim cFittingName As String = ""
+    Dim cPilotName As String = ""
+    Public Property FittingName() As String
+        Get
+            Return cFittingName
+        End Get
+        Set(ByVal value As String)
+            cFittingName = value
+        End Set
+    End Property
+    Public Property PilotName() As String
+        Get
+            Return cPilotName
+        End Get
+        Set(ByVal value As String)
+            cPilotName = value
+        End Set
+    End Property
+#End Region
+
 #Region "Form Loading Routines"
 
     Private Sub frmDamageAnalysis_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -55,11 +76,19 @@ Public Class frmDamageAnalysis
             cboAttackerFitting.Items.Add(fitting)
             cboTargetFitting.Items.Add(fitting)
         Next
+        ' Select a fitting if appropriate
+        If cFittingName <> "" Then
+            cboAttackerFitting.SelectedItem = cFittingName
+        End If
         ' Add the pilots
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             cboAttackerPilot.Items.Add(cPilot.Name)
             cboTargetPilot.Items.Add(cPilot.Name)
         Next
+        ' Select a pilot
+        If cPilotName <> "" Then
+            cboAttackerPilot.SelectedItem = cPilotName
+        End If
         cboAttackerFitting.EndUpdate() : cboTargetFitting.EndUpdate()
         cboAttackerPilot.EndUpdate() : cboTargetPilot.EndUpdate()
     End Sub
