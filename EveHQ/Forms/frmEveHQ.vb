@@ -818,7 +818,7 @@ Public Class frmEveHQ
                 newCredentials.Password = EveHQ.Core.HQ.EveHQSettings.EMailPassword
                 eveHQMail.Credentials = newCredentials
             End If
-            Dim eveHQMsg As New System.Net.Mail.MailMessage("notifications@evehq.net", EveHQ.Core.HQ.EveHQSettings.EMailAddress)
+            Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress, EveHQ.Core.HQ.EveHQSettings.EMailAddress)
             eveHQMsg.Subject = "Eve Training Notification: " & cpilot.Name & " (" & cpilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(cpilot.TrainingSkillLevel) & ")"
             eveHQMsg.Body = mailText
             eveHQMail.Send(eveHQMsg)

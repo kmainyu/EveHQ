@@ -144,6 +144,10 @@ Partial Public Class frmSettings
         Me.btnEveDir1 = New System.Windows.Forms.Button
         Me.btnClear1 = New System.Windows.Forms.Button
         Me.gbTrainingQueue = New System.Windows.Forms.GroupBox
+        Me.btnMoveDown = New System.Windows.Forms.Button
+        Me.btnMoveUp = New System.Windows.Forms.Button
+        Me.lvwColumns = New System.Windows.Forms.ListView
+        Me.colQueueColumns = New System.Windows.Forms.ColumnHeader
         Me.chkShowCompletedSkills = New System.Windows.Forms.CheckBox
         Me.pbPartiallyTrainedColour = New System.Windows.Forms.PictureBox
         Me.lblPartiallyTrainedColour = New System.Windows.Forms.Label
@@ -333,10 +337,8 @@ Partial Public Class frmSettings
         Me.lblWidgetMain2 = New System.Windows.Forms.Label
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
-        Me.btnMoveDown = New System.Windows.Forms.Button
-        Me.btnMoveUp = New System.Windows.Forms.Button
-        Me.lvwColumns = New System.Windows.Forms.ListView
-        Me.colQueueColumns = New System.Windows.Forms.ColumnHeader
+        Me.lblSenderAddress = New System.Windows.Forms.Label
+        Me.txtSenderAddress = New System.Windows.Forms.TextBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1511,13 +1513,49 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.lblIsPreReqColour)
         Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 11)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(695, 208)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(693, 500)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(113, 57)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
         Me.gbTrainingQueue.Visible = False
+        '
+        'btnMoveDown
+        '
+        Me.btnMoveDown.Location = New System.Drawing.Point(92, 429)
+        Me.btnMoveDown.Name = "btnMoveDown"
+        Me.btnMoveDown.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveDown.TabIndex = 36
+        Me.btnMoveDown.Text = "Move Down"
+        Me.btnMoveDown.UseVisualStyleBackColor = True
+        '
+        'btnMoveUp
+        '
+        Me.btnMoveUp.Location = New System.Drawing.Point(6, 429)
+        Me.btnMoveUp.Name = "btnMoveUp"
+        Me.btnMoveUp.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveUp.TabIndex = 35
+        Me.btnMoveUp.Text = "Move Up"
+        Me.btnMoveUp.UseVisualStyleBackColor = True
+        '
+        'lvwColumns
+        '
+        Me.lvwColumns.CheckBoxes = True
+        Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQueueColumns})
+        Me.lvwColumns.FullRowSelect = True
+        Me.lvwColumns.HideSelection = False
+        Me.lvwColumns.Location = New System.Drawing.Point(6, 41)
+        Me.lvwColumns.Name = "lvwColumns"
+        Me.lvwColumns.Size = New System.Drawing.Size(222, 382)
+        Me.lvwColumns.TabIndex = 34
+        Me.lvwColumns.UseCompatibleStateImageBehavior = False
+        Me.lvwColumns.View = System.Windows.Forms.View.Details
+        '
+        'colQueueColumns
+        '
+        Me.colQueueColumns.Text = "Queue Columns"
+        Me.colQueueColumns.Width = 200
         '
         'chkShowCompletedSkills
         '
@@ -2389,9 +2427,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(641, 310)
+        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(110, 28)
+        Me.gbNotifications.Size = New System.Drawing.Size(693, 500)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2486,6 +2524,8 @@ Partial Public Class frmSettings
         '
         'gbEmailOptions
         '
+        Me.gbEmailOptions.Controls.Add(Me.lblSenderAddress)
+        Me.gbEmailOptions.Controls.Add(Me.txtSenderAddress)
         Me.gbEmailOptions.Controls.Add(Me.txtSMTPPort)
         Me.gbEmailOptions.Controls.Add(Me.lblSMTPPort)
         Me.gbEmailOptions.Controls.Add(Me.btnTestEmail)
@@ -2498,9 +2538,9 @@ Partial Public Class frmSettings
         Me.gbEmailOptions.Controls.Add(Me.txtEmailAddress)
         Me.gbEmailOptions.Controls.Add(Me.txtSMTPServer)
         Me.gbEmailOptions.Controls.Add(Me.lblSMTPServer)
-        Me.gbEmailOptions.Location = New System.Drawing.Point(21, 283)
+        Me.gbEmailOptions.Location = New System.Drawing.Point(21, 255)
         Me.gbEmailOptions.Name = "gbEmailOptions"
-        Me.gbEmailOptions.Size = New System.Drawing.Size(463, 182)
+        Me.gbEmailOptions.Size = New System.Drawing.Size(463, 225)
         Me.gbEmailOptions.TabIndex = 6
         Me.gbEmailOptions.TabStop = False
         Me.gbEmailOptions.Text = "E-Mail Options"
@@ -2524,7 +2564,7 @@ Partial Public Class frmSettings
         '
         'btnTestEmail
         '
-        Me.btnTestEmail.Location = New System.Drawing.Point(371, 144)
+        Me.btnTestEmail.Location = New System.Drawing.Point(371, 176)
         Me.btnTestEmail.Name = "btnTestEmail"
         Me.btnTestEmail.Size = New System.Drawing.Size(75, 23)
         Me.btnTestEmail.TabIndex = 9
@@ -2535,7 +2575,7 @@ Partial Public Class frmSettings
         '
         Me.lblEmailPassword.AutoSize = True
         Me.lblEmailPassword.Enabled = False
-        Me.lblEmailPassword.Location = New System.Drawing.Point(7, 150)
+        Me.lblEmailPassword.Location = New System.Drawing.Point(7, 182)
         Me.lblEmailPassword.Name = "lblEmailPassword"
         Me.lblEmailPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblEmailPassword.TabIndex = 8
@@ -2544,7 +2584,7 @@ Partial Public Class frmSettings
         'txtEmailPassword
         '
         Me.txtEmailPassword.Enabled = False
-        Me.txtEmailPassword.Location = New System.Drawing.Point(106, 147)
+        Me.txtEmailPassword.Location = New System.Drawing.Point(106, 179)
         Me.txtEmailPassword.Name = "txtEmailPassword"
         Me.txtEmailPassword.Size = New System.Drawing.Size(250, 21)
         Me.txtEmailPassword.TabIndex = 7
@@ -2552,7 +2592,7 @@ Partial Public Class frmSettings
         'txtEmailUsername
         '
         Me.txtEmailUsername.Enabled = False
-        Me.txtEmailUsername.Location = New System.Drawing.Point(106, 121)
+        Me.txtEmailUsername.Location = New System.Drawing.Point(106, 153)
         Me.txtEmailUsername.Name = "txtEmailUsername"
         Me.txtEmailUsername.Size = New System.Drawing.Size(250, 21)
         Me.txtEmailUsername.TabIndex = 6
@@ -2561,7 +2601,7 @@ Partial Public Class frmSettings
         '
         Me.lblEmailUsername.AutoSize = True
         Me.lblEmailUsername.Enabled = False
-        Me.lblEmailUsername.Location = New System.Drawing.Point(7, 124)
+        Me.lblEmailUsername.Location = New System.Drawing.Point(7, 156)
         Me.lblEmailUsername.Name = "lblEmailUsername"
         Me.lblEmailUsername.Size = New System.Drawing.Size(59, 13)
         Me.lblEmailUsername.TabIndex = 5
@@ -2570,7 +2610,7 @@ Partial Public Class frmSettings
         'chkSMTPAuthentication
         '
         Me.chkSMTPAuthentication.AutoSize = True
-        Me.chkSMTPAuthentication.Location = New System.Drawing.Point(10, 98)
+        Me.chkSMTPAuthentication.Location = New System.Drawing.Point(10, 130)
         Me.chkSMTPAuthentication.Name = "chkSMTPAuthentication"
         Me.chkSMTPAuthentication.Size = New System.Drawing.Size(146, 17)
         Me.chkSMTPAuthentication.TabIndex = 4
@@ -3396,51 +3436,31 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
-        'btnMoveDown
+        'lblSenderAddress
         '
-        Me.btnMoveDown.Location = New System.Drawing.Point(92, 429)
-        Me.btnMoveDown.Name = "btnMoveDown"
-        Me.btnMoveDown.Size = New System.Drawing.Size(80, 23)
-        Me.btnMoveDown.TabIndex = 36
-        Me.btnMoveDown.Text = "Move Down"
-        Me.btnMoveDown.UseVisualStyleBackColor = True
+        Me.lblSenderAddress.AutoSize = True
+        Me.lblSenderAddress.Location = New System.Drawing.Point(7, 102)
+        Me.lblSenderAddress.Name = "lblSenderAddress"
+        Me.lblSenderAddress.Size = New System.Drawing.Size(87, 13)
+        Me.lblSenderAddress.TabIndex = 13
+        Me.lblSenderAddress.Text = "Sender Address:"
         '
-        'btnMoveUp
+        'txtSenderAddress
         '
-        Me.btnMoveUp.Location = New System.Drawing.Point(6, 429)
-        Me.btnMoveUp.Name = "btnMoveUp"
-        Me.btnMoveUp.Size = New System.Drawing.Size(80, 23)
-        Me.btnMoveUp.TabIndex = 35
-        Me.btnMoveUp.Text = "Move Up"
-        Me.btnMoveUp.UseVisualStyleBackColor = True
-        '
-        'lvwColumns
-        '
-        Me.lvwColumns.CheckBoxes = True
-        Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQueueColumns})
-        Me.lvwColumns.FullRowSelect = True
-        Me.lvwColumns.HideSelection = False
-        Me.lvwColumns.Location = New System.Drawing.Point(6, 41)
-        Me.lvwColumns.Name = "lvwColumns"
-        Me.lvwColumns.Size = New System.Drawing.Size(222, 382)
-        Me.lvwColumns.TabIndex = 34
-        Me.lvwColumns.UseCompatibleStateImageBehavior = False
-        Me.lvwColumns.View = System.Windows.Forms.View.Details
-        '
-        'colQueueColumns
-        '
-        Me.colQueueColumns.Text = "Queue Columns"
-        Me.colQueueColumns.Width = 200
+        Me.txtSenderAddress.Location = New System.Drawing.Point(106, 99)
+        Me.txtSenderAddress.Name = "txtSenderAddress"
+        Me.txtSenderAddress.Size = New System.Drawing.Size(331, 21)
+        Me.txtSenderAddress.TabIndex = 12
         '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbTrainingQueue)
-        Me.Controls.Add(Me.gbDashboard)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbDashboard)
+        Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbDatabaseFormat)
@@ -3858,4 +3878,6 @@ Partial Public Class frmSettings
     Friend WithEvents btnMoveUp As System.Windows.Forms.Button
     Friend WithEvents lvwColumns As System.Windows.Forms.ListView
     Friend WithEvents colQueueColumns As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lblSenderAddress As System.Windows.Forms.Label
+    Friend WithEvents txtSenderAddress As System.Windows.Forms.TextBox
 End Class

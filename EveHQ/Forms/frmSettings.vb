@@ -1412,6 +1412,7 @@ Public Class frmSettings
         Me.txtEmailAddress.Text = EveHQ.Core.HQ.EveHQSettings.EMailAddress
         Me.txtEmailUsername.Text = EveHQ.Core.HQ.EveHQSettings.EMailUsername
         Me.txtEmailPassword.Text = EveHQ.Core.HQ.EveHQSettings.EMailPassword
+        Me.txtSenderAddress.Text = EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress
         Me.trackNotifyOffset.Value = EveHQ.Core.HQ.EveHQSettings.NotifyOffset
         Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(trackNotifyOffset.Value)
         lblNotifyOffset.Text = "Early Notification Offset: " & offset
@@ -1526,6 +1527,10 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.EMailPassword = txtEmailPassword.Text
     End Sub
 
+    Private Sub txtSenderAddress_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSenderAddress.TextChanged
+        EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress = txtSenderAddress.Text
+    End Sub
+
     Private Sub btnTestEmail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestEmail.Click
 
         ' Only do this if at least one notification is enabled
@@ -1590,7 +1595,7 @@ Public Class frmSettings
                             newCredentials.Password = EveHQ.Core.HQ.EveHQSettings.EMailPassword
                             eveHQMail.Credentials = newCredentials
                         End If
-                        Dim eveHQMsg As New System.Net.Mail.MailMessage("notifications@evehq.net", EveHQ.Core.HQ.EveHQSettings.EMailAddress)
+                        Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress, EveHQ.Core.HQ.EveHQSettings.EMailAddress)
                         eveHQMsg.Subject = "Eve Training Notification: " & cPilot.Name & " (" & cPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ")"
                         eveHQMsg.Body = notifyText
                         eveHQMail.Send(eveHQMsg)
@@ -2415,4 +2420,6 @@ Public Class frmSettings
             End If
         End If
     End Sub
+
+   
 End Class

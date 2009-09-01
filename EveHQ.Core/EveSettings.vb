@@ -162,7 +162,21 @@ Imports System.Diagnostics
     Private cDBTickerLocation As String = "Bottom"
     Private cStandardQueueColumns As New ArrayList
     Private cUserQueueColumns As New ArrayList
+    Private cEmailSenderAddress As String = "notifications@evehq.net"
 
+    Public Property EmailSenderAddress() As String
+        Get
+            If cEmailSenderAddress Is Nothing Then
+                cEmailSenderAddress = "notifications@evehq.net"
+            End If
+            Return cEmailSenderAddress
+        End Get
+        Set(ByVal value As String)
+            If value IsNot Nothing Then
+                cEmailSenderAddress = value
+            End If
+        End Set
+    End Property
     Public Property UserQueueColumns() As ArrayList
         Get
             If cUserQueueColumns Is Nothing Then
