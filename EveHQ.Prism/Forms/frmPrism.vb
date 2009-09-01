@@ -4894,42 +4894,42 @@ Public Class frmPrism
             If itemInfo.Category = 25 Then
                 Select Case itemInfo.Group
                     Case 465 ' Ice
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc)))) + BaseYield
                     Case 450 ' Arkonor
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc)))) + BaseYield
                     Case 451 ' Bistot
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc)))) + BaseYield
                     Case 452 ' Crokite
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc)))) + BaseYield
                     Case 453 ' Dark Ochre
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc)))) + BaseYield
                     Case 467 ' Gneiss
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc)))) + BaseYield
                     Case 454 ' Hedbergite
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc)))) + BaseYield
                     Case 455 ' Hemorphite
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc)))) + BaseYield
                     Case 456 ' Jaspet
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc)))) + BaseYield
                     Case 457 ' Kernite
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc)))) + BaseYield
                     Case 468 ' Mercoxit
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc)))) + BaseYield
                     Case 469 ' Omber
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc)))) + BaseYield
                     Case 458 ' Plagioclase
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc)))) + BaseYield
                     Case 459 ' Pyroxeres
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc)))) + BaseYield
                     Case 460 ' Scordite
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc)))) + BaseYield
                     Case 461 ' Spodumain
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc)))) + BaseYield
                     Case 462 ' Veldspar
-                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc))))
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc)))) + BaseYield
                 End Select
             Else
-                tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc))))
+                tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc)))) + BaseYield
             End If
             tempNetYield = Math.Min(tempNetYield, 1)
             matList = CType(itemList(asset), Collections.SortedList)
@@ -5053,7 +5053,8 @@ Public Class frmPrism
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
-            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            'NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            NetYield = (BaseYield) + (0.375 * (1 + (4 * 0.02)) * (1 + (0 * 0.04)))
         End If
         lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
