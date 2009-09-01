@@ -56,7 +56,7 @@ Partial Class frmUpdater
         Me.clvUpdates.DefaultItemHeight = 20
         Me.clvUpdates.Location = New System.Drawing.Point(12, 30)
         Me.clvUpdates.Name = "clvUpdates"
-        Me.clvUpdates.Size = New System.Drawing.Size(771, 537)
+        Me.clvUpdates.Size = New System.Drawing.Size(770, 554)
         Me.clvUpdates.TabIndex = 4
         '
         'colComponent
@@ -111,7 +111,7 @@ Partial Class frmUpdater
         '
         Me.btnStartUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnStartUpdate.Enabled = False
-        Me.btnStartUpdate.Location = New System.Drawing.Point(683, 573)
+        Me.btnStartUpdate.Location = New System.Drawing.Point(682, 590)
         Me.btnStartUpdate.Name = "btnStartUpdate"
         Me.btnStartUpdate.Size = New System.Drawing.Size(100, 22)
         Me.btnStartUpdate.TabIndex = 5
@@ -125,7 +125,7 @@ Partial Class frmUpdater
         '
         Me.btnRecheckUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnRecheckUpdates.Enabled = False
-        Me.btnRecheckUpdates.Location = New System.Drawing.Point(577, 573)
+        Me.btnRecheckUpdates.Location = New System.Drawing.Point(576, 590)
         Me.btnRecheckUpdates.Name = "btnRecheckUpdates"
         Me.btnRecheckUpdates.Size = New System.Drawing.Size(100, 22)
         Me.btnRecheckUpdates.TabIndex = 6
@@ -136,7 +136,7 @@ Partial Class frmUpdater
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(795, 607)
+        Me.ClientSize = New System.Drawing.Size(794, 624)
         Me.Controls.Add(Me.btnRecheckUpdates)
         Me.Controls.Add(Me.btnStartUpdate)
         Me.Controls.Add(Me.clvUpdates)
