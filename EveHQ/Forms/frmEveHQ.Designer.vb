@@ -912,7 +912,7 @@ Partial Public Class frmEveHQ
         Me.tsAPIStatus.DoubleClickEnabled = True
         Me.tsAPIStatus.Name = "tsAPIStatus"
         Me.tsAPIStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.tsAPIStatus.Size = New System.Drawing.Size(402, 20)
+        Me.tsAPIStatus.Size = New System.Drawing.Size(410, 20)
         Me.tsAPIStatus.Spring = True
         Me.tsAPIStatus.Text = "API Status:"
         Me.tsAPIStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft

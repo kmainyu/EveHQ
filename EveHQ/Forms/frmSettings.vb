@@ -46,6 +46,11 @@ Public Class frmSettings
         ' Set the startup flag
         startup = True
 
+        ' Reset the autosize of the training bar items to avoid repositioning issues
+        For Each ss As ToolStripStatusLabel In frmEveHQ.ssTraining.Items
+            ss.AutoSize = True
+        Next
+
         Call Me.UpdateGeneralSettings()
         Call Me.UpdateColourOptions()
         Call Me.UpdateEveServerSettings()

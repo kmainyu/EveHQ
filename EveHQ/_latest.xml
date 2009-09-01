@@ -5,7 +5,7 @@
     <file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-      <version>1.13.1.823</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
 			<description>EveHQ Executable</description>
@@ -13,7 +13,7 @@
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-      <version>1.13.1.823</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
@@ -21,7 +21,7 @@
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-      <version>1.13.1.823</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
@@ -53,7 +53,7 @@
 		<file>
 			<name>EveHQ.Creation.dll</name>
 			<type>Plug-in</type>
-      <version>1.13.1.823</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Character Creation Plug-in</description>
@@ -69,7 +69,7 @@
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-      <version>1.13.1.823</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Item Browser Plug-in</description>
@@ -93,7 +93,7 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-      <version>1.13.1.819</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
@@ -101,7 +101,7 @@
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.13.1.819</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Science and Industry Plug-in</description>
@@ -109,7 +109,7 @@
     <file>
       <name>EveHQ.PosManager.dll</name>
       <type>Plug-in</type>
-      <version>1.13.1.830</version>
+      <version>1.13.1.842</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>POS Design and Management Plug-in</description>

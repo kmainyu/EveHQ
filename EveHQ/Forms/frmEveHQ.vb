@@ -1009,7 +1009,7 @@ Public Class frmEveHQ
                     newSSLabel.LinkColor = Color.Black
                     newSSLabel.LinkBehavior = LinkBehavior.HoverUnderline
                     AddHandler newSSLabel.Click, AddressOf Me.TrainingStatusLabelClick
-                    Dim ssPadding As New Padding(16, 2, 16, 2)
+                    Dim ssPadding As New Padding(8, 2, 8, 2)
                     newSSLabel.Padding = ssPadding
                     pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
                     pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
@@ -1031,7 +1031,7 @@ Public Class frmEveHQ
                 newSSLabel.IsLink = True
                 newSSLabel.LinkColor = Color.Red
                 newSSLabel.LinkBehavior = LinkBehavior.HoverUnderline
-                Dim ssPadding As New Padding(16, 2, 16, 2)
+                Dim ssPadding As New Padding(8, 2, 8, 2)
                 newSSLabel.Padding = ssPadding
                 pilotCount += 1
                 ssTraining.Items.Add(newSSLabel)
@@ -1042,11 +1042,26 @@ Public Class frmEveHQ
         pilotCount = 0
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
             Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-            newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & _
-             "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & _
-             CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime))) & _
-             CStr(IIf(cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60), " (Queue Time Available)", ""))
             newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
+            Dim strSS As New StringBuilder
+            strSS.AppendLine(cPilot.Name & " - " & cPilot.TrainingSkillName)
+            strSS.Append("Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime))
+            If cPilot.QueuedSkillTime > 0 Then
+                strSS.Append(ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime))
+                If cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60) Then
+                    strSS.Append(" (" & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime) & ")")
+                    newSSLabel.ToolTipText &= ControlChars.CrLf & "Queue Time of " & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime) & " is available"
+                End If
+            Else
+                If cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60) Then
+                    strSS.Append(ControlChars.CrLf & "Queue Time Available: " & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime))
+                    newSSLabel.ToolTipText &= ControlChars.CrLf & "Queue Time of " & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime) & " is available"
+                End If
+            End If
+            newSSLabel.Text = strSS.ToString
+            newSSLabel.Tag = cPilot.Name
+            Dim g As Graphics = Me.CreateGraphics
+            newSSLabel.Width = Math.Max(CInt(g.MeasureString(newSSLabel.Text, ssTraining.Font).Width + newSSLabel.Padding.Left + newSSLabel.Padding.Right), newSSLabel.Width)
             newSSLabel.Tag = cPilot.Name
             pilotCount += 1
         Next
@@ -1061,43 +1076,60 @@ Public Class frmEveHQ
         Dim pilotTimes As New SortedList
         Dim pilotTime As Long = 0
 
-        ' Get a list of the training pilots and record training times
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If cPilot.Training = True Then
-                If cPilot.Active = True Then
-                    pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-                    pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
+        If frmSettings.IsHandleCreated = False Then
+            ' Get a list of the training pilots and record training times
+            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                If cPilot.Training = True Then
+                    If cPilot.Active = True Then
+                        pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
+                        pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
+                    End If
+                    accounts.Add(cPilot.Account)
                 End If
-                accounts.Add(cPilot.Account)
-            End If
-        Next
+            Next
 
-        ' Put the details into the training panels
-        Dim pilotCount As Integer = 0
-        For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
-            If pilotCount < ssTraining.Items.Count Then
-                Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-                newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & _
-                 "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & _
-                 CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime))) & _
-                 CStr(IIf(cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60), " (Queue Time Available)", ""))
-                newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
-                newSSLabel.Tag = cPilot.Name
-                pilotCount += 1
-            End If
-        Next
-
-        ' Check each account to see if something is training. 
-        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-            If pilotCount < ssTraining.Items.Count Then
-                If accounts.Contains(cAccount.userID) = False Then
-                    ' Build a status panel
+            ' Put the details into the training panels
+            Dim pilotCount As Integer = 0
+            For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
+                If pilotCount < ssTraining.Items.Count Then
                     Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-                    newSSLabel.Text = "Account: " & cAccount.FriendlyName & ControlChars.CrLf & "NOT CURRENTLY TRAINING!"
+                    newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
+                    Dim strSS As New StringBuilder
+                    strSS.AppendLine(cPilot.Name & " - " & cPilot.TrainingSkillName)
+                    strSS.Append("Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime))
+                    If cPilot.QueuedSkillTime > 0 Then
+                        strSS.Append(ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime))
+                        If cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60) Then
+                            strSS.Append(" (" & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime) & ")")
+                            newSSLabel.ToolTipText &= ControlChars.CrLf & "Queue Time of " & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime) & " is available"
+                        End If
+                    Else
+                        If cPilot.QueuedSkillTime + cPilot.TrainingCurrentTime < (24 * 60 * 60) Then
+                            strSS.Append(ControlChars.CrLf & "Queue Time Available: " & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime))
+                            newSSLabel.ToolTipText &= ControlChars.CrLf & "Queue Time of " & EveHQ.Core.SkillFunctions.TimeToString(86400 - cPilot.QueuedSkillTime - cPilot.TrainingCurrentTime) & " is available"
+                        End If
+                    End If
+                    newSSLabel.Text = strSS.ToString
+                    newSSLabel.Tag = cPilot.Name
+                    newSSLabel.AutoSize = False
+                    Dim g As Graphics = Me.CreateGraphics
+                    newSSLabel.Width = Math.Max(CInt(g.MeasureString(newSSLabel.Text, ssTraining.Font).Width + newSSLabel.Padding.Left + newSSLabel.Padding.Right), newSSLabel.Width)
                     pilotCount += 1
                 End If
-            End If
-        Next
+            Next
+
+            ' Check each account to see if something is training. 
+            For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                If pilotCount < ssTraining.Items.Count Then
+                    If accounts.Contains(cAccount.userID) = False Then
+                        ' Build a status panel
+                        Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
+                        newSSLabel.Text = "Account: " & cAccount.FriendlyName & ControlChars.CrLf & "NOT CURRENTLY TRAINING!"
+                        pilotCount += 1
+                    End If
+                End If
+            Next
+        End If
     End Sub
 
     Private Sub TrainingStatusLabelClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -2582,8 +2614,6 @@ Public Class frmEveHQ
 
     End Function
 #End Region
-
-
 
 End Class
 
