@@ -242,14 +242,14 @@
 30098,1,30553,6,2,46,0,1,0,-15,15,AB & MWD Capacitor Use
 # Proteus Propulsion - Gravitational Capacitor,,,,,,,,,,,
 30100,1,30553,153,1,29988,0,1,0,-15,15,Warp Capacitor Need
-30100,1,30553,600,1,29988,0,1,0,15,15,Warp Speed
+30100,1,30553,1281,1,29988,0,1,0,15,15,Warp Speed
 # Proteus Propulsion - Interdiction Nullifier,,,,,,,,,,,
 30102,1,30553,70,1,29988,0,1,0,-5,15,Agility
 # Tengu Propulsion - Intercalated Nanofibers,,,,,,,,,,,
 30086,1,30552,70,1,29984,0,1,0,-5,15,Agility
 # Tengu Propulsion - Gravitational Capacitor,,,,,,,,,,,
 30088,1,30552,153,1,29984,0,1,0,-15,15,Warp Capacitor Need
-30088,1,30552,600,1,29984,0,1,0,15,15,Warp Speed
+30088,1,30552,1281,1,29984,0,1,0,15,15,Warp Speed
 # Tengu Propulsion - Fuel Catalyst,,,,,,,,,,,
 30090,1,30552,20,4,542,0,1,0,10,15,Afterburner Velocity
 # Tengu Propulsion - Interdiction Nullifier,,,,,,,,,,,

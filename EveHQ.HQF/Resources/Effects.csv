@@ -1032,7 +1032,7 @@
 614,2,782,10004,3,6,0,0,0,15,Cargohold Optimization
 317,2,782,6,2,46,0,0,0,15,Dynamic Fuel Valve
 66,2,782,73,2,46,0,0,0,15,Engine Thermal Shielding
-624,2,782,600,3,6,0,0,0,15,Hyperspatial Velocity Optimizer
+624,2,782,1281,3,6,0,0,0,15,Hyperspatial Velocity Optimizer
 151,2,782,70,3,6,1,0,0,15,Low Friction Nozzle Joints
 1076,2,782,37,3,6,1,0,0,15,Polycarbon Engine Housing - Velocity
 169,2,782,70,3,6,1,0,0,15,Polycarbon Engine Housing - Inertia
@@ -1065,7 +1065,7 @@
 294,2,786,54,2,201;208;291;379,1,0,0,15,Particle Dispersion Projector
 308,2,786,73,2,47;48;49,0,0,0,15,Signal Focusing Kit
 565,2,786,564,3,6,1,0,0,15,Targeting System Subcontroller
-619,2,786,669,2,330,0,0,0,15,Targeting Systems Stabiizer
+619,2,786,560,2,330,0,0,0,15,Targeting Systems Stabiizer
 828,2,786,351,2,291,0,0,0,15,Tracking Diagnostic Subroutines
 828,2,786,767,2,291,0,0,0,15,Tracking Diagnostic Subroutines
 # RIGS - ENERGY GRID,,,,,,,,,,

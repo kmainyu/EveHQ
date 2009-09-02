@@ -155,6 +155,7 @@ Partial Class frmDamageAnalysis
         Me.nudVel.ReadOnly = True
         Me.nudVel.Size = New System.Drawing.Size(54, 21)
         Me.nudVel.TabIndex = 19
+        Me.nudVel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.nudVel.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label1
@@ -176,6 +177,7 @@ Partial Class frmDamageAnalysis
         Me.nudRange.Name = "nudRange"
         Me.nudRange.Size = New System.Drawing.Size(75, 21)
         Me.nudRange.TabIndex = 17
+        Me.nudRange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.nudRange.Value = New Decimal(New Integer() {5, 0, 0, 65536})
         '
         'lblRange
