@@ -1896,7 +1896,6 @@ Public Class frmTraining
     Private Sub MoveDownQueue()
         ' Store the keyname being used
         Dim SkillsMoved As Integer = activeLVW.SelectedItems.Count
-        MessageBox.Show("Moving " & SkillsMoved.ToString & " skills!")
         Dim keyName As String = activeLVW.SelectedItems(0).Name
         Dim sourceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         sourceSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
