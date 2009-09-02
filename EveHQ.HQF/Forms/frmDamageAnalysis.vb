@@ -479,4 +479,10 @@ Public Class frmDamageAnalysis
 
 
     End Sub
+
+    Private Sub btnOptimalRange_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimalRange.Click
+        Dim r As Double = Math.Round(CDbl(aMod.Attributes("54")) / 80000, 5)
+        nudRange.Value = CDec(r)
+
+    End Sub
 End Class

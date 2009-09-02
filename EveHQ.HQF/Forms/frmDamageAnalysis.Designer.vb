@@ -39,6 +39,7 @@ Partial Class frmDamageAnalysis
         Me.nudRange = New System.Windows.Forms.NumericUpDown
         Me.lblRange = New System.Windows.Forms.Label
         Me.btnRangeVSHitChance = New System.Windows.Forms.Button
+        Me.btnOptimalRange = New System.Windows.Forms.Button
         Me.EveSpace1 = New EveHQ.HQF.EveSpace
         CType(Me.nudVel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudRange, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -147,7 +148,7 @@ Partial Class frmDamageAnalysis
         '
         Me.nudVel.DecimalPlaces = 2
         Me.nudVel.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.nudVel.Location = New System.Drawing.Point(266, 482)
+        Me.nudVel.Location = New System.Drawing.Point(358, 482)
         Me.nudVel.Maximum = New Decimal(New Integer() {25, 0, 0, 0})
         Me.nudVel.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.nudVel.Name = "nudVel"
@@ -159,7 +160,7 @@ Partial Class frmDamageAnalysis
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(190, 484)
+        Me.Label1.Location = New System.Drawing.Point(299, 484)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(53, 13)
         Me.Label1.TabIndex = 18
@@ -167,14 +168,13 @@ Partial Class frmDamageAnalysis
         '
         'nudRange
         '
-        Me.nudRange.DecimalPlaces = 2
+        Me.nudRange.DecimalPlaces = 5
         Me.nudRange.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
         Me.nudRange.Location = New System.Drawing.Point(89, 482)
         Me.nudRange.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudRange.Minimum = New Decimal(New Integer() {1, 0, 0, 131072})
         Me.nudRange.Name = "nudRange"
-        Me.nudRange.ReadOnly = True
-        Me.nudRange.Size = New System.Drawing.Size(54, 21)
+        Me.nudRange.Size = New System.Drawing.Size(75, 21)
         Me.nudRange.TabIndex = 17
         Me.nudRange.Value = New Decimal(New Integer() {5, 0, 0, 65536})
         '
@@ -189,12 +189,21 @@ Partial Class frmDamageAnalysis
         '
         'btnRangeVSHitChance
         '
-        Me.btnRangeVSHitChance.Location = New System.Drawing.Point(12, 509)
+        Me.btnRangeVSHitChance.Location = New System.Drawing.Point(12, 524)
         Me.btnRangeVSHitChance.Name = "btnRangeVSHitChance"
         Me.btnRangeVSHitChance.Size = New System.Drawing.Size(167, 23)
         Me.btnRangeVSHitChance.TabIndex = 20
         Me.btnRangeVSHitChance.Text = "Range vs Hit Chance"
         Me.btnRangeVSHitChance.UseVisualStyleBackColor = True
+        '
+        'btnOptimalRange
+        '
+        Me.btnOptimalRange.Location = New System.Drawing.Point(170, 482)
+        Me.btnOptimalRange.Name = "btnOptimalRange"
+        Me.btnOptimalRange.Size = New System.Drawing.Size(60, 21)
+        Me.btnOptimalRange.TabIndex = 21
+        Me.btnOptimalRange.Text = "Optimal"
+        Me.btnOptimalRange.UseVisualStyleBackColor = True
         '
         'EveSpace1
         '
@@ -213,7 +222,8 @@ Partial Class frmDamageAnalysis
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(908, 595)
+        Me.ClientSize = New System.Drawing.Size(908, 553)
+        Me.Controls.Add(Me.btnOptimalRange)
         Me.Controls.Add(Me.btnRangeVSHitChance)
         Me.Controls.Add(Me.nudVel)
         Me.Controls.Add(Me.Label1)
@@ -262,4 +272,5 @@ Partial Class frmDamageAnalysis
     Friend WithEvents nudRange As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblRange As System.Windows.Forms.Label
     Friend WithEvents btnRangeVSHitChance As System.Windows.Forms.Button
+    Friend WithEvents btnOptimalRange As System.Windows.Forms.Button
 End Class
