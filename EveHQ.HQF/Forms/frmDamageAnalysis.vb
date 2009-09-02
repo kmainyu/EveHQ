@@ -267,6 +267,15 @@ Public Class frmDamageAnalysis
 
         ' Calculate Expected Times (no target ship HP recharge)
         estNR = sHP / (esdT * tc) * trof : eatNR = aHP / (eadT * tc) * trof : ehtNR = hHP / (ehdT * tc) * trof
+        If estNR > 86400 Then
+            estNR = -1
+        End If
+        If eatNR > 86400 Then
+            eatNR = -1
+        End If
+        If ehtNR > 86400 Then
+            ehtNR = -1
+        End If
 
         ' Calculate Expected Times (with target ship HP recharge)
         If (esdT - tsrr) > 0 Then
@@ -336,7 +345,7 @@ Public Class frmDamageAnalysis
         stats.AppendLine("Expected Total Damage (S/A/H): " & (esdT * tc).ToString("N2") & " / " & (eadT * tc).ToString("N2") & " / " & (ehdT * tc).ToString("N2"))
         stats.AppendLine("Expected Total DPS (S/A/H): " & (esdT / trof * tc).ToString("N2") & " / " & (eadT / trof * tc).ToString("N2") & " / " & (ehdT / trof * tc).ToString("N2"))
         stats.AppendLine("Target HP Recharge Rates (S/A/H): " & tsrr.ToString("N2") & " / " & tarr.ToString("N2") & " / " & thrr.ToString("N2"))
-        stats.AppendLine("Depletion Times NR (S/A/H): " & EveHQ.Core.SkillFunctions.TimeToString(estNR) & " / " & EveHQ.Core.SkillFunctions.TimeToString(eatNR) & " / " & EveHQ.Core.SkillFunctions.TimeToString(ehtNR))
+        stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(estNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estNR))) & " / " & CStr(IIf(eatNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatNR))) & " / " & CStr(IIf(ehtNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtNR))))
         stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(estR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estR))) & " / " & CStr(IIf(eatR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatR))) & " / " & CStr(IIf(ehtR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtR))))
         stats.AppendLine("Average Turret Shot (S/A/H/T): " & ash.ToString("N2") & " / " & aah.ToString("N2") & " / " & ahh.ToString("N2") & " / " & atth.ToString("N2"))
         stats.AppendLine("Average Turret DPS (S/A/H/T): " & srrd.ToString("N2") & " / " & arrd.ToString("N2") & " / " & hrrd.ToString("N2") & " / " & trrd.ToString("N2"))
