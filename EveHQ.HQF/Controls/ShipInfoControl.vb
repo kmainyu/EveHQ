@@ -828,6 +828,8 @@ Public Class ShipInfoControl
         End If
         myDA.ShowDialog()
         myDA.Dispose()
+        ' Update the mapping effects back to the current pilot
+        Me.BuildMethod = BuildType.BuildEffectsMaps
     End Sub
 #End Region
 
