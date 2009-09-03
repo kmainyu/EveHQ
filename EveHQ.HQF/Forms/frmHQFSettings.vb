@@ -551,7 +551,7 @@ Public Class frmHQFSettings
     Private Sub btnExportShipBonuses_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportShipBonuses.Click
         Try
             Dim sw As New StreamWriter(Settings.HQFFolder & "/HQFShipEffects.csv")
-            sw.Write(My.Resources.ShipEffects.ToString)
+            sw.Write(My.Resources.ShipBonuses.ToString)
             sw.Flush()
             sw.Close()
             MessageBox.Show("HQF Ship Effects file successfully written to disk", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)

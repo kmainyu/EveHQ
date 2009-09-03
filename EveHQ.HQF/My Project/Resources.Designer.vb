@@ -584,6 +584,18 @@ Namespace My.Resources
         '''24692,1,3339,269,1,24692,0,1,2,5,15,Armor Kinetic Resistance
         '''24692,1,3339,270,1,24692,0,1,2,5,15,Armor Thermal Resistan [rest of string was truncated]&quot;;.
         '''</summary>
+        Friend ReadOnly Property ShipBonuses() As String
+            Get
+                Return ResourceManager.GetString("ShipBonuses", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to #HQF Ship Attribute Mapping Table,,,,,,,,,,
+        '''#Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,State,Description
+        '''# SHIPS,,,,,,,,,,
+        '''1034,3,6,669,2,330,0,0,4,15,Cloak Reactivation Delay.
+        '''</summary>
         Friend ReadOnly Property ShipEffects() As String
             Get
                 Return ResourceManager.GetString("ShipEffects", resourceCulture)

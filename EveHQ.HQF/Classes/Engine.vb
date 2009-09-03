@@ -26,6 +26,7 @@ Public Class Engine
 
     Public Shared EffectsMap As New SortedList
     Public Shared ShipEffectsMap As New SortedList
+    Public Shared ShipBonusesMap As New SortedList
     Public Shared SubSystemEffectsMap As New SortedList
     Public Shared FleetEffectsMap As New SortedList
     Public Shared ImplantEffectsMap As New SortedList
@@ -161,6 +162,49 @@ Public Class Engine
         Dim EffectData() As String
         ' Build the map
         ShipEffectsMap.Clear()
+        Dim EffectClassList As New ArrayList
+        Dim newEffect As New Effect
+        Dim IDs() As String
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                newEffect = New Effect
+                If ShipEffectsMap.Contains((EffectData(0))) = True Then
+                    EffectClassList = CType(ShipEffectsMap(EffectData(0)), ArrayList)
+                Else
+                    EffectClassList = New ArrayList
+                    ShipEffectsMap.Add(EffectData(0), EffectClassList)
+                End If
+                newEffect.AffectingAtt = CInt(EffectData(0))
+                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingID = CInt(EffectData(2))
+                newEffect.AffectedAtt = CInt(EffectData(3))
+                newEffect.AffectedType = CInt(EffectData(4))
+                If EffectData(5).Contains(";") = True Then
+                    IDs = EffectData(5).Split(";".ToCharArray)
+                    For Each ID As String In IDs
+                        newEffect.AffectedID.Add(ID)
+                    Next
+                Else
+                    newEffect.AffectedID.Add(EffectData(5))
+                End If
+                newEffect.StackNerf = CInt(EffectData(6))
+                newEffect.IsPerLevel = CBool(EffectData(7))
+                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.Status = CInt(EffectData(9))
+                EffectClassList.Add(newEffect)
+            End If
+        Next
+    End Sub
+    Public Shared Sub BuildShipBonusesMap()
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.ShipBonuses.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+        ' Build the map
+        ShipBonusesMap.Clear()
         Dim shipEffectClassList As New ArrayList
         Dim newEffect As New ShipEffect
         Dim IDs() As String
@@ -168,11 +212,11 @@ Public Class Engine
             If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
                 EffectData = EffectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
-                If ShipEffectsMap.Contains((EffectData(0))) = True Then
-                    shipEffectClassList = CType(ShipEffectsMap(EffectData(0)), ArrayList)
+                If ShipBonusesMap.Contains((EffectData(0))) = True Then
+                    shipEffectClassList = CType(ShipBonusesMap(EffectData(0)), ArrayList)
                 Else
                     shipEffectClassList = New ArrayList
-                    ShipEffectsMap.Add(EffectData(0), shipEffectClassList)
+                    ShipBonusesMap.Add(EffectData(0), shipEffectClassList)
                 End If
                 newEffect.ShipID = CInt(EffectData(0))
                 newEffect.AffectingType = CInt(EffectData(1))
@@ -644,7 +688,7 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
     End Sub
-    Public Shared Sub BuildShipEffects(ByVal hPilot As HQFPilot, ByVal hShip As Ship)
+    Public Shared Sub BuildShipBonuses(ByVal hPilot As HQFPilot, ByVal hShip As Ship)
         If hShip IsNot Nothing Then
             Dim sTime, eTime As Date
             sTime = Now
@@ -653,7 +697,7 @@ Public Class Engine
             Dim hSkill As New HQFSkill
             Dim fEffect As New FinalEffect
             Dim fEffectList As New ArrayList
-            shipRoles = CType(ShipEffectsMap(hShip.ID), ArrayList)
+            shipRoles = CType(ShipBonusesMap(hShip.ID), ArrayList)
             If shipRoles IsNot Nothing Then
                 For Each chkEffect As ShipEffect In shipRoles
                     If chkEffect.Status <> 16 Then
@@ -686,6 +730,62 @@ Public Class Engine
                     End If
                 Next
             End If
+            ' Get the ship effects
+            Dim processData As Boolean = False
+            For Each att As String In hShip.Attributes.Keys
+                If ShipEffectsMap.Contains(att) = True Then
+                    For Each chkEffect As Effect In CType(ShipEffectsMap(att), ArrayList)
+                        processData = False
+                        Select Case chkEffect.AffectingType
+                            Case EffectType.All
+                                processData = True
+                            Case EffectType.Item
+                                If chkEffect.AffectingID.ToString = hShip.ID Then
+                                    processData = True
+                                End If
+                            Case EffectType.Group
+                                If chkEffect.AffectingID.ToString = hShip.DatabaseGroup Then
+                                    processData = True
+                                End If
+                            Case EffectType.Category
+                                If chkEffect.AffectingID.ToString = hShip.DatabaseCategory Then
+                                    processData = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If chkEffect.AffectingID.ToString = hShip.MarketGroup Then
+                                    processData = True
+                                End If
+                            Case EffectType.Skill
+                                If hShip.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                    processData = True
+                                End If
+                            Case EffectType.Slot
+                                processData = True
+                            Case EffectType.Attribute
+                                If hShip.Attributes.Contains(chkEffect.AffectingID.ToString) Then
+                                    processData = True
+                                End If
+                        End Select
+                        If processData = True Then
+                            fEffect = New FinalEffect
+                            fEffect.AffectedAtt = chkEffect.AffectedAtt
+                            fEffect.AffectedType = chkEffect.AffectedType
+                            fEffect.AffectedID = chkEffect.AffectedID
+                            fEffect.AffectedValue = CDbl(hShip.Attributes(att))
+                            fEffect.StackNerf = chkEffect.StackNerf
+                            fEffect.Cause = hShip.Name
+                            fEffect.CalcType = chkEffect.CalcType
+                            If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                fEffectList = New ArrayList
+                                SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                            Else
+                                fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                            End If
+                            fEffectList.Add(fEffect)
+                        End If
+                    Next
+                End If
+            Next
             ' Get the bonuses from the subsystems
             If hShip.SubSlots_Used > 0 Then
                 For slot As Integer = 1 To hShip.SubSlots
@@ -913,7 +1013,7 @@ Public Class Engine
                 pStageTime(1) = Now
                 Engine.BuildImplantEffects(shipPilot)
                 pStageTime(2) = Now
-                Engine.BuildShipEffects(shipPilot, baseShip)
+                Engine.BuildShipBonuses(shipPilot, baseShip)
                 pStageTime(3) = Now
                 newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
                 Engine.ApplySkillEffectsToShip(newShip)
@@ -953,7 +1053,7 @@ Public Class Engine
                 pStageTime(1) = Now
                 Engine.BuildImplantEffects(shipPilot)
                 pStageTime(2) = Now
-                Engine.BuildShipEffects(shipPilot, baseShip)
+                Engine.BuildShipBonuses(shipPilot, baseShip)
                 pStageTime(3) = Now
                 'newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
                 'Engine.ApplySkillEffectsToShip(newShip)

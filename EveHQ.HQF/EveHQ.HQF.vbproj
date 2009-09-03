@@ -389,9 +389,10 @@
   <ItemGroup>
     <None Include="Resources\Attributes.csv" />
     <None Include="Resources\BoosterEffects.csv" />
+    <None Include="Resources\ShipEffects.csv" />
     <None Include="Resources\Subsystems.csv" />
     <None Include="Resources\ImplantEffects.csv" />
-    <None Include="Resources\ShipEffects.csv" />
+    <None Include="Resources\ShipBonuses.csv" />
     <None Include="Resources\Effects.csv" />
     <None Include="Resources\icon02_07.png" />
     <None Include="Resources\icon08_09.png" />

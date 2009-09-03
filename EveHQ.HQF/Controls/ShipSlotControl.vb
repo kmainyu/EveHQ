@@ -3648,7 +3648,7 @@ Public Class ShipSlotControl
             Dim hSkill As New HQFSkill
             'Dim fEffect As New FinalEffect
             'Dim fEffectList As New ArrayList
-            shipRoles = CType(Engine.ShipEffectsMap(hShip.ID), ArrayList)
+            shipRoles = CType(Engine.ShipBonusesMap(hShip.ID), ArrayList)
             If shipRoles IsNot Nothing Then
                 For Each chkEffect As ShipEffect In shipRoles
                     If chkEffect.Status = 16 Then

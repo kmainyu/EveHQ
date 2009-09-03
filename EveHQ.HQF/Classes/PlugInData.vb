@@ -60,6 +60,7 @@ Public Class PlugInData
             Engine.BuildBoosterPenaltyList()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
+            Engine.BuildShipBonusesMap()
             Engine.BuildSubSystemBonusMap()
             ' Check for the existence of the binary data
             If PlugInData.UseSerializableData = True Then
@@ -481,6 +482,10 @@ Public Class PlugInData
                                     newShip.Attributes.Add("13", 0)
                                     newShip.Attributes.Add("14", 0)
                                 End If
+                                ' Check for cloak reactivation attribute
+                                If newShip.Attributes.ContainsKey("1034") = False Then
+                                    newShip.Attributes.Add("1034", 30)
+                                End If
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -517,7 +522,7 @@ Public Class PlugInData
 
                         ' Do attribute (unit) modifiers
                         Select Case CInt(shipRow.Item("attributeID"))
-                            Case 55, 479
+                            Case 55, 1034, 479
                                 attValue = attValue / 1000
                             Case 113, 111, 109, 110, 267, 268, 269, 270, 271, 272, 273, 274
                                 attValue = (1 - attValue) * 100
@@ -622,6 +627,10 @@ Public Class PlugInData
                         newShip.Attributes.Add("12", 0)
                         newShip.Attributes.Add("13", 0)
                         newShip.Attributes.Add("14", 0)
+                    End If
+                    ' Check for cloak reactivation attribute
+                    If newShip.Attributes.ContainsKey("1034") = False Then
+                        newShip.Attributes.Add("1034", 30)
                     End If
                     ' Perform the last addition for the last ship type
                     ShipLists.shipList.Add(newShip.Name, newShip)
@@ -1422,7 +1431,7 @@ Public Class PlugInData
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
         ' Fetch the Effects list
-        Dim EffectFile As String = My.Resources.ShipEffects.ToString
+        Dim EffectFile As String = My.Resources.ShipBonuses.ToString
         ' Break the Effects down into separate lines
         Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
         ' Go through lines and break each one down
