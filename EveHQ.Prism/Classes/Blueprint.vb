@@ -217,19 +217,19 @@ Public Class BlueprintSelection
                     perfectExtra = Me.Resources(resource.TypeID.ToString & "_6").Quantity
                     If perfectExtra >= perfectRaw Then
                         ' Material is raw
-                        waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0))
+                        waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
                     Else
                         ' Material is extra
-                        waste = CInt(Math.Round(BPWF * perfectExtra * MatMod, 0))
+                        waste = CInt(Math.Round(BPWF * perfectExtra * MatMod, 0, MidpointRounding.AwayFromZero))
                     End If
                 Else
                     ' Material is extra and therfore not subject to waste?
                     Select Case Me.GroupID
-                        Case 371, 447, 914, 915
+                        Case 371, 447, 914, 915, 356
                             Select Case resource.TypeGroup
-                                Case 18, 429
+                                Case 18, 429, 530
                                     ' Material is raw
-                                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0))
+                                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
                                 Case Else
                                     waste = 0
                             End Select
@@ -237,7 +237,7 @@ Public Class BlueprintSelection
                             Select Case resource.TypeGroup
                                 Case 536
                                     ' Material is raw
-                                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0))
+                                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
                                 Case Else
                                     waste = 0
                             End Select
