@@ -387,6 +387,15 @@ namespace EveHQ.PosManager
                 if (!cb_CorpName.Items.Contains(atd.corpName))
                     cb_CorpName.Items.Add(atd.corpName);
             }
+            // Add any other Corps the Player happens to have or belong too
+            foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
+            {
+                if (selPilot.Active)
+                {
+                    if (!cb_CorpName.Items.Contains(selPilot.Corp))
+                        cb_CorpName.Items.Add(selPilot.Corp);
+                }
+            }
         }
 
 #endregion

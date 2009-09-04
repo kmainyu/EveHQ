@@ -24,28 +24,24 @@ namespace EveHQ.PosManager
         private void MonitorListSelect_Load(object sender, EventArgs e)
         {
             clb_PosList.Items.Clear();
-            string nm;
+            string nam, nm;
+            int indx = 0;
 
             // Scroll through the list of POSes
-            foreach (string mn in myData.MonSel_L)
+            foreach (POS pl in myData.POSList.Designs)
             {
-                clb_PosList.Items.Add(mn);
+                if (pl.Moon == "")
+                    nam = pl.Name + " < " + pl.Moon + " >[ " + pl.CorpName + " ]";
+                else
+                    nam = pl.Name + " < " + pl.System + " >[ " + pl.CorpName + " ]";
+
+                clb_PosList.Items.Add(nam);
+                if (pl.Monitored)
+                    clb_PosList.SetItemChecked(indx, true);
+
+                indx++;
             }
 
-            // Add Each POS to my Checked List
-            foreach (POS pml in myData.POSList.Designs)
-            {
-                // List of Monitored POSes
-                for(int indx=0; indx < clb_PosList.Items.Count; indx++)
-                {
-                    nm = clb_PosList.Items[indx].ToString();
-
-                    if ((nm == pml.Name) && (pml.Monitored))
-                    {
-                        clb_PosList.SetItemChecked(indx, true);
-                    }
-                }
-            }
             clb_PosList.Show();
             this.Focus();
             clb_PosList.Focus();
@@ -64,7 +60,7 @@ namespace EveHQ.PosManager
                 nm = clb_PosList.Items[indx].ToString();
                 foreach (POS pl in myData.POSList.Designs)
                 {
-                    if (nm == pl.Name)
+                    if (nm.Contains(pl.Name))
                     {
                         if(chkd)
                             pl.Monitored = true;
