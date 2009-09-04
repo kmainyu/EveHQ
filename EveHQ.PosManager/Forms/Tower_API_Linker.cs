@@ -62,7 +62,7 @@ namespace EveHQ.PosManager
             TreeNode pos, api;
             POS pli;
             int itemID;
-            API_Data apid;
+            APITowerData apid;
 
             pos = tv_PoSList.SelectedNode;
             api = tv_APIList.SelectedNode;
@@ -101,7 +101,7 @@ namespace EveHQ.PosManager
                 itemID = Convert.ToInt32(api.Tag.ToString());
                 apid = myData.API_D.GetAPIDataMemberForTowerID(itemID);
                 pli.itemID = itemID;
-                pli.locID = apid.towerLocation;
+                pli.locID = apid.locID;
                 pli.CorpName = apid.corpName;
                 pli.System = apid.locName;
                 PopulatePOSListView();
@@ -125,7 +125,7 @@ namespace EveHQ.PosManager
         private void PopulatePOSListView()
         {
             TreeNode mtn, tn;
-            API_Data apid;
+            APITowerData apid;
             string posName;
             int itemID;
             int towerNum = 1;
@@ -145,8 +145,11 @@ namespace EveHQ.PosManager
                 if (itemID != 0)
                 {
                     apid = myData.API_D.GetAPIDataMemberForTowerID(itemID);
-                    tn = mtn.Nodes.Add("--> [" + apid.towerName + "] <" + apid.locName + ">");
-                    tn.Name = itemID.ToString();
+                    if (apid != null)
+                    {
+                        tn = mtn.Nodes.Add("--> [" + apid.towerName + "] <" + apid.locName + ">");
+                        tn.Name = itemID.ToString();
+                    }
                 }
             }
         }
@@ -168,11 +171,14 @@ namespace EveHQ.PosManager
             int towerNum = 1;
             string loc, cName, strSQL, twrName;
             DataSet locData;
+            APITowerData apid;
 
             tv_APIList.Nodes.Clear();
 
-            foreach (API_Data apid in myData.API_D.apid)
+            for (int x = 0; x < myData.API_D.apiTower.Count; x++)
             {
+                apid = (APITowerData)myData.API_D.apiTower.GetByIndex(x);
+
                 cName = apid.corpName;
                 ctn = FindTreeNode(tv_APIList.Nodes, cName);
                 if (ctn == null)
@@ -185,11 +191,10 @@ namespace EveHQ.PosManager
                 // Get Table With Tower or Tower Item Information
                 if (apid.locName == "Unknown")
                 {
-                    strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.towerLocation + ";";
+                    strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
                     locData = EveHQ.Core.DataFunctions.GetData(strSQL);
                     loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
                     apid.locName = loc;
-                    myData.API_D.UpdateListAPI(apid);
                     myData.API_D.SaveAPIListing();
                 }
                 else

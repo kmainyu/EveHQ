@@ -22,13 +22,15 @@ namespace EveHQ.PosManager
             string pos_name, strSQL, loc;
             bool present = false;
             DataSet locData;
+            APITowerData apid;
 
             rb_Offline.Checked = true;
             cbx_Monitored.Checked = true;
 
             clb_TowerListing.Items.Clear();
-            foreach (API_Data apid in myData.API_D.apid)
+            for(int x=0; x < myData.API_D.apiTower.Count; x++)
             {
+                apid = (APITowerData)myData.API_D.apiTower.GetByIndex(x);
                 present = false;
                 foreach (POS p in myData.POSList.Designs)
                 {
@@ -44,11 +46,10 @@ namespace EveHQ.PosManager
                     // Get Table With Tower or Tower Item Information
                     if (apid.locName == "Unknown")
                     {
-                        strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.towerLocation + ";";
+                        strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
                         locData = EveHQ.Core.DataFunctions.GetData(strSQL);
                         loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
                         apid.locName = loc;
-                        myData.API_D.UpdateListAPI(apid);
                         myData.API_D.SaveAPIListing();
                     }
 
@@ -70,6 +71,7 @@ namespace EveHQ.PosManager
             bool mon;
             string st, tName;
             POS APITower;
+            APITowerData apid;
 
             if (rb_Reinforced.Checked)
                 st = "Reinforced";
@@ -89,9 +91,10 @@ namespace EveHQ.PosManager
                 {
                     tName = clb_TowerListing.Items[indx].ToString();
                     // Need to add this POS Tower to my listings
-                    foreach (API_Data apid in myData.API_D.apid)
+                    for (int x = 0; x < myData.API_D.apiTower.Count; x++)
                     {
-                        if(tName.Contains(apid.itemID.ToString()))
+                        apid = (APITowerData)myData.API_D.apiTower.GetByIndex(x);
+                        if (tName.Contains(apid.itemID.ToString()))
                         {
                             // Found the correct one, now add it
                             tName = apid.corpName + "-->" + apid.towerName;
@@ -112,7 +115,7 @@ namespace EveHQ.PosManager
 
                             // Need to set tower as Linked to the API by default
                             APITower.itemID = apid.itemID;
-                            APITower.locID = apid.towerLocation;
+                            APITower.locID = apid.locID;
                             APITower.PosTower.State = st;
                             APITower.PosTower.CPU_Used = APITower.PosTower.CPU;
                             APITower.PosTower.Power_Used = APITower.PosTower.Power;

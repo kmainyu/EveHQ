@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="enrUran" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enrUran.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="noitem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\noitem.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -151,23 +154,11 @@
   <data name="icon02_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon02_12.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PosShield" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PosShield.JPG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ShieldCharge" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShieldCharge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Reinforce_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Reinforce_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Coolant" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Coolant.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="HeIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HeIso.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon09_09" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon09_09.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DPS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DPS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,17 +169,23 @@
   <data name="plugin_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Caldari_3232.JPG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Repair" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Repair.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Offline_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Offline_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FuelStrontium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FuelStrontium.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon22_06" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon22_06.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Oxygen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Oxygen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="APIUpdate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\APIUpdate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="anchor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\anchor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="OxIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OxIso.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -205,20 +202,20 @@
   <data name="icon10_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon10_10.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="HvyWater" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HvyWater.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="anchor1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\anchor1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EHP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EHP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MechParts" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MechParts.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Repair" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Repair.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FuelStrontium" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FuelStrontium.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Strontium" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Strontium.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icon09_09" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon09_09.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="H2Iso" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\H2Iso.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -229,14 +226,17 @@
   <data name="CloneBay" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CloneBay.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Isotope" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Isotope.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Insure" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Insure.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="un_anchor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\un_anchor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="APIUpdate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\APIUpdate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ShieldCharge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShieldCharge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon17_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon17_04.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -250,17 +250,20 @@
   <data name="icon04_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon04_12.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Charter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Charter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="un_anchor1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\un_anchor1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="enrUran" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\enrUran.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Isotope" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Isotope.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Coolant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coolant.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="online_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\online_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Caldari_3232" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Caldari_3232.JPG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon03_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon03_13.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -271,17 +274,17 @@
   <data name="icon12_07" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon12_07.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="anchor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\anchor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Offline_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Offline_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Charter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Charter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MechParts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MechParts.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PosShield" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PosShield.JPG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HvyWater" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HvyWater.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Strontium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Strontium.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon22_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon22_17.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -289,7 +292,25 @@
   <data name="Robotics" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Robotics.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Caldari_3232" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Caldari_3232.JPG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Reinforce_35x35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Reinforce_35x35.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="APIUpdate_65x35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\APIUpdate_65x35.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clone_65x35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Clone_65x35.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Delete_65x35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete_65x35.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fitting_65x35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fitting_65x35.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Offline_35x35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Offline_35x35.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Online_35x35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Online_35x35.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

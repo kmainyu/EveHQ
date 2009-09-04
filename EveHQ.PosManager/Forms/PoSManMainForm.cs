@@ -48,9 +48,9 @@ namespace EveHQ.PosManager
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
-        private string selName, AllPosFillText, SelPosFillText, SelReactPos;
+        public string selName, AllPosFillText, SelPosFillText, SelReactPos;
         public string CurrentName = "", NewName = "";
-        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, React, fHrs, sHrs, hCPU, hPow, hIso };
+        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, React, Owner, FTech, fHrs, sHrs, hCPU, hPow, hIso };
         enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost, Cap };
         enum fillDG { Name, Loc, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, RunT };
         enum fuelDG { type, amount, vol, cost };      
@@ -84,7 +84,7 @@ namespace EveHQ.PosManager
             TL.LoadTowerListing();          // Load Tower Listing from Disk
             ML.LoadModuleListing();         // Load Tower Modules Listing from Disk
             POSList.LoadDesignListing();    // Loads Desgined POS's from Disk
-            API_D.LoadAPIListing(TL);       // Load Tower API Data from Disk
+            API_D.LoadAPIListing();       // Load Tower API Data from Disk
             DPLst.LoadDPListing();          // Load Damage Profile List
             SL.LoadSystemListFromDisk();
             AL.LoadAllianceListFromDisk();
@@ -93,17 +93,7 @@ namespace EveHQ.PosManager
 
             PopulateDPList("Omni-Type");
             PopulateSystemList();
-
-            tp_Notifications.Hide();
-
-            //nud_DesFuelPeriod.Minimum = 0;
-            //nud_StrontInterval.Minimum = 0;
-
-            // Build corp selection listing
-            cb_CorpName.Items.Clear();
-            cb_CorpName.Items.Add("Undefined");
-            foreach (API_Data cd in API_D.apic)
-                cb_CorpName.Items.Add(cd.corpName);
+            PopulateCorpList();
 
             // Add PoS designes into the Designer Combo-Box pull down list for Selection
             cb_PoSName.Items.Clear();
@@ -111,13 +101,58 @@ namespace EveHQ.PosManager
             {
                 cb_PoSName.Text = "No Towers Created";
             }
-            else
+
+            // Fill in default values for New Tower Data
+            foreach (POS pl in POSList.Designs)
             {
-                foreach (POS p in POSList.Designs)
+                cb_PoSName.Items.Add(pl.Name);
+
+                if (pl.ReactionLinks == null)
                 {
-                    cb_PoSName.Items.Add(p.Name);
+                    pl.ReactionLinks = new ArrayList();
+                    pl.React_TS = DateTime.Now;
+                }
+
+                if (pl.Owner == null)
+                {
+                    pl.Owner = "";
+                    pl.FuelTech = "";
+                    pl.ownerID = 0;
+                    pl.fuelTechID = 0;
+                }
+
+                if (pl.Owner == "")
+                    pl.Owner = pl.CorpName;
+
+                // Actual testing reveals that the DB values are NOT correct for 
+                // structure resistances, they are in reality ZERO
+                pl.PosTower.Struct.EMP = 0;
+                pl.PosTower.Struct.Explosive = 0;
+                pl.PosTower.Struct.Kinetic = 0;
+                pl.PosTower.Struct.Thermal = 0;
+
+                foreach (Module m in pl.Modules)
+                {
+                    if (m.ReactList == null)
+                        CopyMissingReactData(m);
+                    else
+                    {
+                        // Copy the Cache load data for Reactions, etc... Just in case it changed
+                        // or was updated.
+                        foreach (Module bm in ML.Modules)
+                        {
+                            if (bm.typeID == m.typeID)
+                            {
+                                m.ReactList = new ArrayList(bm.ReactList);
+                                m.MSRList = new ArrayList(bm.MSRList);
+                                m.InputList = new ArrayList(bm.InputList);
+                                m.OutputList = new ArrayList(bm.OutputList);
+                            }
+                        }
+                    }
                 }
             }
+
             BuildPOSListForMonitoring();
             UpdateAllTowerSovLevels();
 
@@ -155,18 +190,18 @@ namespace EveHQ.PosManager
             tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
             nud_PeriodValue.Value = Config.data.maintPV;
 
-            if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 20))
+            if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 22))
             {
                 if (Config.data.dgMonBool == null)
                 {
                     Config.data.dgMonBool = new ArrayList();
 
-                    for (int x = 0; x < 19; x++)
+                    for (int x = 0; x < 22; x++)
                         Config.data.dgMonBool.Add(true);
                 }
                 else
                 {
-                    for (int x = Config.data.dgMonBool.Count; x<20; x++)
+                    for (int x = Config.data.dgMonBool.Count; x<22; x++)
                         Config.data.dgMonBool.Add(true);
                 }
                 Config.SaveConfiguration();
@@ -219,40 +254,10 @@ namespace EveHQ.PosManager
                 load = true;
             }
 
-            // Fill in default values for New Tower Data
-            foreach (POS pl in POSList.Designs)
-            {
-                if (pl.ReactionLinks == null)
-                {
-                    pl.ReactionLinks = new ArrayList();
-                    pl.React_TS = DateTime.Now;
-                }
-
-                foreach (Module m in pl.Modules)
-                {
-                    if (m.ReactList == null)
-                        CopyMissingReactData(m);
-                    else
-                    {
-                        // Copy the Cache load data for Reactions, etc... Just in case it changed
-                        // or was updated.
-                        foreach (Module bm in ML.Modules)
-                        {
-                            if (bm.typeID == m.typeID)
-                            {
-                                m.ReactList = new ArrayList(bm.ReactList);
-                                m.MSRList = new ArrayList(bm.MSRList);
-                                m.InputList = new ArrayList(bm.InputList);
-                                m.OutputList = new ArrayList(bm.OutputList);
-                            }
-                        }
-                    }
-                }
-            }
-
-            bgw_SendNotify.RunWorkerAsync();
-
             load = false;
+
+            tsl_APIState.Text = "Updating API Data and Fuel Calculations";
+            bgw_APIUpdate.RunWorkerAsync();
         }
 
         private void tb_PosManager_SelectedIndexChanged(object sender, EventArgs e)
@@ -368,6 +373,20 @@ namespace EveHQ.PosManager
             cb_System.Items.AddRange(syst.ToArray());
 
             cb_System.SelectedIndex = 0;
+        }
+
+        private void PopulateCorpList()
+        {
+            APITowerData atd;
+            // Build corp selection listing
+            cb_CorpName.Items.Clear();
+            cb_CorpName.Items.Add("Undefined");
+            for (int x = 0; x < API_D.apiTower.Count; x++ )
+            {
+                atd = (APITowerData)API_D.apiTower.GetByIndex(x);
+                if (!cb_CorpName.Items.Contains(atd.corpName))
+                    cb_CorpName.Items.Add(atd.corpName);
+            }
         }
 
 #endregion
@@ -2260,21 +2279,31 @@ namespace EveHQ.PosManager
 
         private void cb_CorpName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            APITowerData apid;
+
+            if (Design.itemID != 0)
+            {
+                cb_CorpName.Text = Design.CorpName;
+                return;
+            }
             if (Design.CorpName != cb_CorpName.Text)
             {
                 Design.CorpName = cb_CorpName.Text;
 
-                foreach (API_Data cn in API_D.apic)
-                    if (cn.corpName == Design.CorpName)
+                for (int x = 0; x < API_D.apiTower.Count; x++)
+                {
+                    apid = (APITowerData)API_D.apiTower.GetByIndex(x);
+                    if (apid.corpName == Design.CorpName)
                     {
-                        if (Design.corpID != cn.corpID)
+                        if (Design.corpID != apid.corpID)
                         {
                             // Update the corpID for the POS and Save to Disk
-                            Design.corpID = cn.corpID;
+                            Design.corpID = apid.corpID;
                             POSList.SaveDesignListing();
                         }
                         break;
                     }
+                }
             }
 
             UpdateLinkedTowerSovLevel(Design);
@@ -2297,17 +2326,22 @@ namespace EveHQ.PosManager
             {
                 UpdateLinkedTowerSovLevel(p);
             }
+
+            POSList.SaveDesignListing();
         }
 
         private void UpdateLinkedTowerSovLevel(POS p)
         {
             decimal corpID;
+            string strSQL;
             Sov_Data sd;
             Alliance_Data ad;
+            APITowerData td;
+            DataSet ml;
 
             if (p.corpID != 0)
             {
-                // This POS is Linked
+                // This POS is Linked to a Corp
                 corpID = p.corpID;
 
                 ad = (Alliance_Data)AL.alliances[corpID];
@@ -2316,11 +2350,53 @@ namespace EveHQ.PosManager
                     // Corp is in an alliance
                     // Find system in system list, update SOV level accordingly
                     sd = (Sov_Data)SL.Systems[p.System];
-                    if (sd.allianceID == ad.allianceID)
+                    if (sd != null)
                     {
-                        // Found the correct system and alliance ID
-                        p.SovLevel = (int)sd.sovLevel;
+                        if (sd.allianceID == ad.allianceID)
+                        {
+                            // Found the correct system and alliance ID
+                            p.SovLevel = (int)sd.sovLevel;
+                        }
                     }
+                }
+            }
+
+            if (p.itemID != 0)
+            {
+                // Tower is linked to CORP Data
+                td = API_D.GetAPIDataMemberForTowerID(p.itemID);
+
+                if (td != null)
+                {
+                    // Update Tower Moon from API Data
+                    strSQL = "SELECT mapDenormalize.itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + td.moonID + ";";
+                    ml = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+                    p.Moon = ml.Tables[0].Rows[0].ItemArray[0].ToString();
+
+                    switch (td.stateV)
+                    {
+                        case 0:
+                            p.PosTower.State = "Unanchored";
+                            break;
+                        case 1:
+                            p.PosTower.State = "Offline";
+                            break;
+                        case 2:
+                            p.PosTower.State = "Onlining";
+                            break;
+                        case 3:
+                            p.PosTower.State = "Reinforced";
+                            break;
+                        case 4:
+                            p.PosTower.State = "Online";
+                            break;
+                    }
+                }
+                else
+                {
+                    // Tower Item ID no longer exists in API Data, so clear it as link is no longer valid
+                    p.itemID = 0;
                 }
             }
 
@@ -2391,15 +2467,14 @@ namespace EveHQ.PosManager
 
         private void PopulateMonitoredPoSDisplay()
         {
-            API_Data apid;
+            APITowerData apid;
             int dg_ind, ind_ct;
             string line, cache, strSQL, loc;
-            DateTime now, cTim;
+            DateTime now, cTim, ref_TM;
+            TimeSpan diffT;
             decimal ReactTime = 0;
             DataSet locData;
             ArrayList ReactRet;
-
-            // dg_MonitoredTowers.Rows.Clear();
 
             foreach (POS p in POSList.Designs)
             {
@@ -2424,7 +2499,11 @@ namespace EveHQ.PosManager
                         dg_ind = dg_MonitoredTowers.Rows.Add();
                     }
 
-                    line = p.Name + " < " + p.System + " >[" + p.SovLevel + "]{" + p.Moon + "}";
+                    if(p.Moon != "")
+                        line = p.Name + " < " + p.Moon + " >[Sov" + p.SovLevel + "]";
+                    else
+                        line = p.Name + " < " + p.System + " >[Sov" + p.SovLevel + "]";
+
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = line;
                     line = ConvertHoursToTextDisplay(p.PosTower.F_RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Value = line;
@@ -2437,17 +2516,17 @@ namespace EveHQ.PosManager
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = p.PosTower.State;
 
+                    ref_TM = DateTime.Now;
                     if (p.itemID != 0)
                     {
                         apid = API_D.GetAPIDataMemberForTowerID(p.itemID);
                         // Get Table With Tower or Tower Item Information
                         if (apid.locName == "Unknown")
                         {
-                            strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.towerLocation + ";";
+                            strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
                             locData = EveHQ.Core.DataFunctions.GetData(strSQL);
                             loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
                             apid.locName = loc;
-                            API_D.UpdateListAPI(apid);
                             API_D.SaveAPIListing();
                         }
 
@@ -2460,10 +2539,31 @@ namespace EveHQ.PosManager
                         cTim = Convert.ToDateTime(cache);
                         cTim = TimeZone.CurrentTimeZone.ToLocalTime(cTim);
                         now = DateTime.Now;
+                        diffT = now.Subtract(cTim);
 
-                        if(cTim.CompareTo(now) <= 0)
+                        switch (apid.stateV)
                         {
-                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cache;
+                            case 0:
+                                p.PosTower.State = "Unanchored";
+                                break;
+                            case 1:
+                                p.PosTower.State = "Offline";
+                                break;
+                            case 2:
+                                p.PosTower.State = "Onlining";
+                                break;
+                            case 3:
+                                p.PosTower.State = "Reinforced";
+                                ref_TM = Convert.ToDateTime(apid.stateTS);
+                                break;
+                            case 4:
+                                p.PosTower.State = "Online";
+                                break;
+                        }
+
+                        if(diffT.Hours > 1)
+                        {
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cTim.ToString();
                             // Cache can be updated, highlight red
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Style.ForeColor = Color.Red;
                         }
@@ -2481,7 +2581,6 @@ namespace EveHQ.PosManager
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Link].Value = line;
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cache;
                     }
-
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.CPU].Value = String.Format("{0:#,0.#}", p.PosTower.CPU_Used) + " / " + String.Format("{0:#,0.#}", p.PosTower.CPU);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hCPU].ValueType = typeof(decimal);
@@ -2615,6 +2714,8 @@ namespace EveHQ.PosManager
                     }
                     else
                     {
+                        // Tower is Reinforced !
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = ref_TM.ToString();
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Style.BackColor = Color.LightCoral;
                         if (p.PosTower.S_RunTime < 4)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Style.BackColor = Color.Red;
@@ -2632,6 +2733,8 @@ namespace EveHQ.PosManager
                     else
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Style.BackColor = Color.Gainsboro;
 
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Owner].Value = p.Owner;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FTech].Value = p.FuelTech;
                 }
             }
 
@@ -2747,7 +2850,8 @@ namespace EveHQ.PosManager
         private void dg_MonitoredTowers_SelectionChanged(object sender, EventArgs e)
         {
             decimal qty;
-            string posItm, posName;
+            string posItm, posName, line;
+            APITowerData td;
 
             if (dg_MonitoredTowers.CurrentRow == null)
                 return;
@@ -2773,18 +2877,19 @@ namespace EveHQ.PosManager
                         // 2. Calculate and Display Bay usage (percentage on bars)
                         // 3. Display PoS module listing in listbox
                         // 4. Display PoS modules on picture screen section
-
-                        lb_PoSModuleList.Items.Clear();
+                        rtb_POSMods.Clear();
                         UpdateTower = false;
 
+                        rtb_POSMods.AppendText("Modules at POS\n");
+                        rtb_POSMods.AppendText("---------------------------------\n");
                         foreach (Module m in pl.Modules)
                         {
                             qty = m.Qty;
                             posItm = m.Name;
                             if (qty > 1)
                                 posItm += "[" + qty + "]";
-                            posItm += " <" + m.State + ">";
-                            lb_PoSModuleList.Items.Add(posItm);
+                            posItm += " <" + m.State + ">\n";
+                            rtb_POSMods.AppendText(posItm);
                         }
                         // Set up Default NUD Fuel Values to make calculations work correctly
                         nud_EnrUran.Value = pl.PosTower.Fuel.EnrUran.Qty;
@@ -2804,6 +2909,59 @@ namespace EveHQ.PosManager
                             nud_Isotope.Value = pl.PosTower.Fuel.O2Iso.Qty;
                         if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
                             nud_Isotope.Value = pl.PosTower.Fuel.N2Iso.Qty;
+
+                        // Tower is linked to CORP Data
+                        td = API_D.GetAPIDataMemberForTowerID(pl.itemID);
+                        if (td != null)
+                        {
+                            rtb_POSMods.AppendText("\n---------------------------------\n");
+                            rtb_POSMods.AppendText("General Tower Settings:\n");
+                            rtb_POSMods.AppendText("---------------------------------\n");
+                            rtb_POSMods.AppendText("Usage Flags : " + td.useFlag + "\n");
+                            rtb_POSMods.AppendText("Deploy Flags : " + td.depFlag + "\n");
+                            line = "Allow Corp Members : ";
+                            if (td.allowCorp)
+                                line += "[X]\n";
+                            else
+                                line += "[ ]\n";
+                            rtb_POSMods.AppendText(line);
+                            line = "Allow Alliance Members : ";
+                            if (td.allowAlliance)
+                                line += "[X]\n";
+                            else
+                                line += "[ ]\n";
+                            rtb_POSMods.AppendText(line);
+                            line = "Claim Sovereignty : ";
+                            if (td.claimSov)
+                                line += "[X]\n";
+                            else
+                                line += "[ ]\n";
+                            rtb_POSMods.AppendText(line);
+
+                            rtb_POSMods.AppendText("\n---------------------------------\n");
+                            rtb_POSMods.AppendText("Tower Combat Settings (Attack):\n");
+                            rtb_POSMods.AppendText("---------------------------------\n");
+                            line = "On Standing Drop : < " + td.standDrop + " >\n";
+                            rtb_POSMods.AppendText(line);
+                            line = "On Status Drop : ";
+                            if (td.onStatusDrop)
+                                line += "[X] < " + td.statusDrop + " >\n";
+                            else
+                                line += "[ ] < " + td.statusDrop + " >\n";
+                            rtb_POSMods.AppendText(line);
+                            line = "On Agression : ";
+                            if (td.onAgression)
+                                line += "[X]\n";
+                            else
+                                line += "[ ]\n";
+                            rtb_POSMods.AppendText(line);
+                            line = "On War Declared : ";
+                            if (td.onWar)
+                                line += "[X]\n";
+                            else
+                                line += "[ ]\n";
+                            rtb_POSMods.AppendText(line);
+                        }
 
                         UpdateTower = true;
                         UpdateTowerMonitorDisplay();
@@ -2948,11 +3106,19 @@ namespace EveHQ.PosManager
                         increment = pl.PosTower.Fuel.Charters.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_Charter.Increment = Convert.ToDecimal(increment);
                         l_QH_Chrt.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Charters.RunTime);
-                        if (pl.PosTower.A_Fuel.Charters.RunTime < pl.PosTower.Fuel.Charters.RunTime)
-                            l_AR_Chrt.ForeColor = Color.Red;
+                        if (!pl.UseChart)
+                        {
+                            l_AR_Chrt.ForeColor = Color.Blue;
+                            l_AR_Chrt.Text = "NA";
+                        }
                         else
-                            l_AR_Chrt.ForeColor = Color.Green;
+                        {
+                            l_AR_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Charters.RunTime);
+                            if (pl.PosTower.A_Fuel.Charters.RunTime < pl.PosTower.Fuel.Charters.RunTime)
+                                l_AR_Chrt.ForeColor = Color.Red;
+                            else
+                                l_AR_Chrt.ForeColor = Color.Green;
+                        }
                         if (nud_Charter.Value > pl.PosTower.Fuel.Charters.Qty)
                             nud_Charter.ForeColor = Color.Green;
                         if (nud_Charter.Value < pl.PosTower.Fuel.Charters.Qty)
@@ -3123,13 +3289,19 @@ namespace EveHQ.PosManager
 
         private void UdateMonitorInformation(object sender, EventArgs e)
         {
-            timeCheck = true; 
-            
+            tsl_APIState.Text = "Updating API Data and Fuel Calculations";
+            bgw_APIUpdate.RunWorkerAsync();
+        }
+
+        private void RunCalculationsWithUpdatedInformation()
+        {
+            timeCheck = true;
+
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-            
-            if(POSList.CalculatePOSReactions())
+
+            if (POSList.CalculatePOSReactions())
                 SetReactionValuesAndUpdateDisplay();
-    
+
             PopulateMonitoredPoSDisplay();
             if (Mon_dg_indx >= 0)
             {
@@ -3419,6 +3591,9 @@ namespace EveHQ.PosManager
         private void b_SavePoS_Click(object sender, EventArgs e)
         {
             POS pli;
+            DateTime cur;
+
+            tsl_Status.Text = "Saving POS Listing";
 
             if ((cb_PoSName.Text == "") && (NewName == ""))
             {
@@ -3469,6 +3644,9 @@ namespace EveHQ.PosManager
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
             cb_PoSName.Text = pli.Name;
+
+            cur = DateTime.Now;
+            tsl_Status.Text = "POS Listing Saved (" + cur.ToString() + ")";
         }
 
         private void tsm_Online_Click(object sender, EventArgs e)
@@ -3898,6 +4076,22 @@ namespace EveHQ.PosManager
             UpdateMonitoredTowerState("Online");
             BuildPOSListForMonitoring();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PopulateMonitoredPoSDisplay();
+        }
+
+        private void tsb_SetOwner_Click(object sender, EventArgs e)
+        {
+            // Setting of the Tower Owner and Fuel Tech
+            // Need to have Entry / Selection for:
+            //  Owner (corp / personal) type
+            //  Owner Name (corp name or person)
+            //  Fuel Tech Name
+            //  Player ID's for players if known, Corp ID's if corp
+            OwnerFuelTech ownFT;
+
+            ownFT = new OwnerFuelTech(this);
+            ownFT.ShowDialog();
+            POSList.SaveDesignListing();
             PopulateMonitoredPoSDisplay();
         }
 
@@ -4554,8 +4748,7 @@ namespace EveHQ.PosManager
             POSList.SaveDesignListing();
             PosChanged = false;
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-            PopulateMonitoredPoSDisplay();
+            RunCalculationsWithUpdatedInformation();
         }
 
         private void b_TowerAPILink_Click(object sender, EventArgs e)
@@ -4565,12 +4758,12 @@ namespace EveHQ.PosManager
             TowerLink.ShowDialog();
             API_D.SaveAPIListing();
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-            PopulateMonitoredPoSDisplay();
+            RunCalculationsWithUpdatedInformation();
         }
 
         private void b_UpdateAPIData_Click(object sender, EventArgs e)
         {
+            tsl_APIState.Text = "Updating API Data and Fuel Calculations";
             bgw_APIUpdate.RunWorkerAsync();
         }
 
@@ -4581,13 +4774,13 @@ namespace EveHQ.PosManager
             SSL.LoadSovListFromAPI(1);
             SL.LoadSystemListFromDisk();
             AL.LoadAllianceListFromAPI(1);
-            API_D.LoadAPIListing(TL);
-            POSList.SaveDesignListing();
+            API_D.LoadAPIListing();
             BuildPOSListForMonitoring();
             UpdateAllTowerSovLevels();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             GetTowerItemListData();
-            PopulateMonitoredPoSDisplay();
+            RunCalculationsWithUpdatedInformation();
+            POSList.SaveDesignListing();
+            tsl_APIState.Text = "";
         }
 
         private void bgw_APIUpdate_DoWork(object sender, DoWorkEventArgs e)
@@ -4595,8 +4788,11 @@ namespace EveHQ.PosManager
             GetCorpAssets();
             GetCorpSheet();
             GetAllySovLists();
+            API_D.LoadPOSDataFromAPI(TL);
+            //API_D.LoadCorpTowerDataFromAPI(TL);
+            API_D.SaveAPIListing();
+            PopulateCorpList();
         }
-
 
         private void GetAllySovLists()
         {
@@ -4696,7 +4892,7 @@ namespace EveHQ.PosManager
             cName = cb.Name;
             colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
 
-            if (colCt < 21)
+            if (colCt < 23)
             {
                 dgvc = dg_MonitoredTowers.Columns[colCt - 1];
                 dgvc.Visible = cb.Checked;
@@ -5146,8 +5342,7 @@ namespace EveHQ.PosManager
             // Get corret POS Object
             foreach (POS pl in POSList.Designs)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >"; 
-                
+                posName = pl.Name + "  < " + pl.Moon + " >";
                 if (posName == SelReactPos)
                 {
                     // A module reaction, or Link has been set
@@ -5262,8 +5457,7 @@ namespace EveHQ.PosManager
             // Reaction has been set
             foreach (POS pl in POSList.Designs)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >"; 
-
+                posName = pl.Name + "  < " + pl.Moon + " >";
                 if (posName == SelReactPos)
                 {
                     if (pl.ReactionLinks.Count >= MaxLink)
@@ -5472,7 +5666,7 @@ namespace EveHQ.PosManager
 
             foreach (POS pl in POSList.Designs)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >"; 
+                posName = pl.Name + "  < " + pl.Moon + " >";
                 if (posName == SelReactPos)
                 {
                     foreach (Module m in pl.Modules)

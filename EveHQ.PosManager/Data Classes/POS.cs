@@ -27,6 +27,8 @@ namespace EveHQ.PosManager
         public bool Monitored;
         public bool FillCheck;
         public bool UseChart;
+        public string Owner, FuelTech;
+        public decimal ownerID, fuelTechID;
     
         public POS()
         {
@@ -39,6 +41,10 @@ namespace EveHQ.PosManager
             locID = 0;
             corpID = 0;
             SovLevel = 0;
+            Owner = "";
+            FuelTech = "";
+            ownerID = 0;
+            fuelTechID = 0;
             Modules = new ArrayList();
             Monitored = false;
             Fuel_TS = DateTime.Now;
@@ -62,6 +68,10 @@ namespace EveHQ.PosManager
             locID = 0;
             SovLevel = 0;
             corpID = 0;
+            Owner = "";
+            FuelTech = "";
+            ownerID = 0;
+            fuelTechID = 0;
             Modules = new ArrayList();
             Monitored = false;
             Fuel_TS = DateTime.Now;
@@ -84,6 +94,10 @@ namespace EveHQ.PosManager
             itemID = p.itemID;
             locID = p.locID;
             corpID = p.corpID;
+            Owner = p.Owner;
+            FuelTech = p.FuelTech;
+            ownerID = p.ownerID;
+            fuelTechID = p.fuelTechID;
             SovLevel = p.SovLevel;
 
             Modules = new ArrayList();
@@ -122,6 +136,10 @@ namespace EveHQ.PosManager
             locID = p.locID;
             corpID = p.corpID;
             SovLevel = p.SovLevel;
+            Owner = p.Owner;
+            FuelTech = p.FuelTech;
+            ownerID = p.ownerID;
+            fuelTechID = p.fuelTechID;
 
             Modules = new ArrayList();
             foreach (Module m in p.Modules)
@@ -159,6 +177,10 @@ namespace EveHQ.PosManager
             locID = 0;
             SovLevel = 0;
             corpID = 0;
+            Owner = "";
+            FuelTech = "";
+            ownerID = 0;
+            fuelTechID = 0;
             Modules.Clear();
             Monitored = false;
             Fuel_TS = DateTime.Now;
@@ -182,6 +204,10 @@ namespace EveHQ.PosManager
             locID = p.locID;
             corpID = p.corpID;
             SovLevel = p.SovLevel;
+            Owner = p.Owner;
+            FuelTech = p.FuelTech;
+            ownerID = p.ownerID;
+            fuelTechID = p.fuelTechID;
 
             Modules = new ArrayList();
             foreach (Module m in p.Modules)
@@ -257,7 +283,7 @@ namespace EveHQ.PosManager
             DateTime F_TimeStamp, S_TimeStamp, C_TimeStamp, A_TimeStamp;
             DateTime A_In_TimeStamp = DateTime.Now;
             TimeSpan D_TimeStamp;
-            API_Data apid = new API_Data();
+            APITowerData apid = new APITowerData();
             FuelBay fb = new FuelBay(PosTower.Fuel);
             ArrayList shortRun;
             int F_HourDiff = 0, S_HourDiff = 0;
@@ -279,21 +305,16 @@ namespace EveHQ.PosManager
             if (itemID != 0)
             {
                 // LINKED POS
-
                 apid = APIL.GetAPIDataMemberForTowerID(itemID);
-                if ((apid == null) || (apid.cacheUntil == null))
+                if ((apid == null) || (apid.curTime == null))
                     return;
 
-                A_In_TimeStamp = Convert.ToDateTime(apid.cacheUntil);
-
-                // Now, while this is accurate, need to remove 24 hours from the time
-                // to make it work correctly
-                A_In_TimeStamp = A_In_TimeStamp.Subtract(TimeSpan.FromHours(24));
+                A_In_TimeStamp = Convert.ToDateTime(apid.curTime);
                 A_In_TimeStamp = TimeZone.CurrentTimeZone.ToLocalTime(A_In_TimeStamp);
 
                 if (!A_TimeStamp.Equals(A_In_TimeStamp))
                 {
-                    // POS is linked, API is NOT Current, use API Data
+                    // POS is linked, API in tower is NOT Current, use new API Data
                     F_TimeStamp = A_In_TimeStamp;
                     S_TimeStamp = A_In_TimeStamp;
 
@@ -379,7 +400,7 @@ namespace EveHQ.PosManager
                 period++;
 
                 // Modify POS Fuel Numbers on amount (multiplicative)
-                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
+                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
 
                 // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
                 fb.SetCurrentFuelVolumes();
@@ -455,7 +476,7 @@ namespace EveHQ.PosManager
             s_period = PosTower.Design_Stront_Qty;
 
             // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-            PosTower.D_Fuel.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
+            PosTower.D_Fuel.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
             PosTower.D_Fuel.SetStrontQtyForPeriod(s_period, sov_mult);
           
             // Set Fuel Run Times
@@ -511,7 +532,7 @@ namespace EveHQ.PosManager
             {
                 period++;
 
-                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
+                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
                 fb.SetCurrentFuelVolumes();
 
                 // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
@@ -560,7 +581,7 @@ namespace EveHQ.PosManager
             if (PosTower.T_Fuel == null)
                 PosTower.T_Fuel = new FuelBay();
 
-            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
+            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
             PosTower.T_Fuel.SetStrontQtyForPeriodOrMax(run_time, sov_mult);
 
             // Modify numbers based upon current bay quantities
@@ -614,7 +635,7 @@ namespace EveHQ.PosManager
             if (PosTower.T_Fuel == null)
                 PosTower.T_Fuel = new FuelBay();
 
-            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
+            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
             PosTower.T_Fuel.SetStrontQtyForPeriodOrMax(run_time, sov_mult);
 
             // Modify numbers based upon current bay quantities

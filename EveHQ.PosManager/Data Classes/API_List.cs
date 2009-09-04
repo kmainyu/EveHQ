@@ -17,13 +17,15 @@ namespace EveHQ.PosManager
     [Serializable]
     public class API_List
     {
-        public ArrayList apid;
-        public ArrayList apic;
+        //public ArrayList apid;
+        //public ArrayList apic;
+        public SortedList apiTower;
 
         public API_List()
         {
-            apid = new ArrayList();
-            apic = new ArrayList();
+            //apid = new ArrayList();
+            //apic = new ArrayList();
+            apiTower = new SortedList();
         }
 
         public void SaveAPIListing()
@@ -47,24 +49,16 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = Path.Combine(PoSCache_Path, "API_Towers.bin");
+            fname = Path.Combine(PoSCache_Path, "API_POSDetails.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
             BinaryFormatter pBF = new BinaryFormatter();
-            pBF.Serialize(pStream, apid);
-            pStream.Close();
-
-            fname = Path.Combine(PoSCache_Path, "API_Corps.bin");
-
-            // Save the Serialized data to Disk
-            pStream = File.Create(fname);
-            pBF = new BinaryFormatter();
-            pBF.Serialize(pStream, apic);
+            pBF.Serialize(pStream, apiTower);
             pStream.Close();
         }
 
-        public void LoadAPIListing(TowerListing TL)
+        public void LoadAPIListing()
         {
             string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
             Stream cStr;
@@ -87,7 +81,7 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = Path.Combine(PoSCache_Path, "API_Towers.bin");
+            fname = Path.Combine(PoSCache_Path, "API_POSDetails.bin");
 
             // Load the Data from Disk
             if (File.Exists(fname))
@@ -98,7 +92,7 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    apid = (ArrayList)myBf.Deserialize(cStr);
+                    apiTower = (SortedList)myBf.Deserialize(cStr);
                     cStr.Close();
                 }
                 catch
@@ -106,138 +100,14 @@ namespace EveHQ.PosManager
                     cStr.Close();
                 }
             }
-
-            fname = Path.Combine(PoSCache_Path, "API_Corps.bin");
-
-            // Load the Data from Disk
-            if (File.Exists(fname))
-            {
-                // We have a configuration data file
-                cStr = File.OpenRead(fname);
-                myBf = new BinaryFormatter();
-
-                try
-                {
-                    apic = (ArrayList)myBf.Deserialize(cStr);
-                    cStr.Close();
-                }
-                catch
-                {
-                    cStr.Close();
-                }
-            }
-
-            LoadCorpTowerDataFromAPI(TL);
-            SaveAPIListing();
         }
 
-        public void AddAPIToList(API_Data ap)
+        public APITowerData GetAPIDataMemberForTowerID(int itemID)
         {
-            apid.Add(ap);
-        }
-
-        public void RemoveAPIFromList(API_Data ap)
-        {
-            int ind = 0;
-
-            foreach (API_Data p in apid)
-            {
-                if (p.itemID == ap.itemID)
-                {
-                    apid.RemoveAt(ind);
-                    break;
-                }
-                ind++;
-            }
-        }
-
-        public void UpdateListAPI(API_Data ap)
-        {
-            int ind = 0;
-
-            foreach (API_Data p in apid)
-            {
-                if (p.itemID == ap.itemID)
-                {
-                    p.CopyData(ap);
-                    break;
-                }
-                ind++;
-            }
-        }
-
-        public void AddCorpAPIToList(API_Data ap)
-        {
-            apic.Add(ap);
-        }
-
-        public void RemoveCorpAPIFromList(API_Data ap)
-        {
-            int ind = 0;
-
-            foreach (API_Data p in apic)
-            {
-                if (p.itemID == ap.itemID)
-                {
-                    apic.RemoveAt(ind);
-                    break;
-                }
-                ind++;
-            }
-        }
-
-        public void UpdateCorpListAPI(API_Data ap)
-        {
-            int ind = 0;
-
-            foreach (API_Data p in apic)
-            {
-                if (p.itemID == ap.itemID)
-                {
-                    p.CopyData(ap);
-                    break;
-                }
-                ind++;
-            }
-        }
-
-        public API_Data GetAPIDataMemberForTowerID(int itemID)
-        {
-            foreach (API_Data ap in apid)
-            {
-                if (ap.itemID == itemID)
-                {
-                    return ap;
-                }
-            }
-
-            return null;
-        }
-
-        private bool IsAPIDataTimestampCurrent(string cacheUntil, int itemID)
-        {
-            string curDate;
-            DateTime cd, nd;
-            TimeSpan dd;
-            double secDif;
-            API_Data ap;
-
-            ap = GetAPIDataMemberForTowerID(itemID);
-
-            if (ap == null)
-                return false;
-
-            curDate = ap.cacheUntil;
-
-            cd = Convert.ToDateTime(curDate);
-            nd = Convert.ToDateTime(cacheUntil);
-            dd = cd.Subtract(nd);
-            secDif = dd.TotalSeconds;
-
-            if (secDif >= 0)
-                return true;
+            if (apiTower.ContainsKey(itemID))
+                return (APITowerData)apiTower.GetByIndex(apiTower.IndexOfKey(itemID));
             else
-                return false;
+                return null;
         }
 
         private bool IsTypeIDATowerType(int typeID, TowerListing TL)
@@ -274,200 +144,216 @@ namespace EveHQ.PosManager
             return true;
         }
 
-        public API_Data GetCorpAPIDataMemberForCorpID(int corpID)
+        private bool IsPOS_APIDataNewer(APITowerData oldD, APITowerData newD)
         {
-            foreach (API_Data ap in apic)
-            {
-                if (ap.corpID == corpID)
-                {
-                    return ap;
-                }
-            }
+            DateTime cd, nd;
+            TimeSpan dd;
+            double secDif;
 
-            return null;
+            cd = Convert.ToDateTime(oldD.curTime);
+            nd = Convert.ToDateTime(newD.curTime);
+            dd = nd.Subtract(cd);
+            secDif = dd.TotalSeconds;
+
+            if (secDif > 0)
+                return true;
+            else
+                return false;
         }
 
-        private void LoadCorpTowerDataFromAPI(TowerListing TL)
+        public void LoadPOSDataFromAPI(TowerListing TL)
         {
-            XmlDocument apiCorpSheet, apiCorpAssets;
-            XmlNodeList corpSheet, corpAssets, subList;
-            API_Data ap, ac;
-            string PoSBase_Path, API_File_Path, fname;
+            XmlDocument apiPOSList, apiPOSDetails;
+            XmlNodeList posList, rsltList;
+            APITowerData aptd;
+            DataSet locData;
+            string acctName, strSQL;
+            int     sel, typeID;
             decimal qty;
-            string ceoName, corpName, cacheDate, cacheUntil;
-            int corpID, itemID, typeID, locID;
-            int towerCount = 0;
-            bool newTower = false;
+            EveHQ.Core.EveAccount pilotAccount;
 
-            apiCorpSheet = new XmlDocument();
-            apiCorpAssets = new XmlDocument();
+            apiTower.Clear();
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
+            // Get API Files from disk as needed
+            foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
             {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-                API_File_Path = EveHQ.Core.HQ.cacheFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-                API_File_Path = Path.Combine(PoSBase_Path , "Cache");
-            }
-
-            if (!Directory.Exists(API_File_Path))
-                return;
-
-            // When a tower gets linked to the API and vice versa, the towerItemID will be
-            // stored in the POS data itself. This will allow for easy import of the fuel data.
-            string[] fileList = Directory.GetFiles(API_File_Path);
-
-            foreach (string s in fileList)
-            {
-                if (s.Contains("CorpSheet"))
+                if (selPilot.Active)
                 {
-                    // Have a CorpSheet, need to parse out Char/etc... ID numbers
-                    fname = s.Replace("CorpSheet", "AssetsCorp");
-
-                    apiCorpSheet.Load(s);
-                    if (!CheckXML(apiCorpSheet))
-                        continue;
-
-                    corpSheet = apiCorpSheet.SelectNodes("/eveapi");
-
-                    corpSheet = apiCorpSheet.SelectNodes("/eveapi/result");
-                    corpName = corpSheet[0].ChildNodes[1].InnerText;
-                    corpID = Convert.ToInt32(corpSheet[0].ChildNodes[0].InnerText);
-                    ceoName = corpSheet[0].ChildNodes[4].InnerText;
-
-                    ac = GetCorpAPIDataMemberForCorpID(corpID);
-                    if (ac == null)
+                    acctName = selPilot.Account;
+                    if (EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(acctName))
                     {
-                        ac = new API_Data();
-                        ac.corpID = corpID;
-                        ac.corpName = corpName;
-                        ac.ceoName = ceoName;
-                        AddCorpAPIToList(ac);
-                    }
+                        pilotAccount = (Core.EveAccount)EveHQ.Core.HQ.EveHQSettings.Accounts[acctName];
 
-                    if (File.Exists(fname))
-                    {
-                        // Found a CorpSheet_AssetsCorp File Pair
-                        apiCorpAssets.Load(fname);
-                        if (!CheckXML(apiCorpAssets))
+                        // Get overall POS List associated with the given Pilot ID
+                        sel = (int)EveHQ.Core.EveAPI.APIRequest.POSList;
+                        apiPOSList = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
+                        if (!CheckXML(apiPOSList))
+                        {
+                            // Corrupted list, try again
+                            apiPOSList = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
+                            if (!CheckXML(apiPOSList))
+                            {
+                                // Corrupted list, good bye
+                                return;
+                            }
+                        }
+                        if (apiPOSList == null)
                             continue;
 
-                        corpAssets = apiCorpAssets.SelectNodes("/eveapi");
-                        cacheDate = corpAssets[0].ChildNodes[0].InnerText;
-                        cacheUntil = corpAssets[0].ChildNodes[2].InnerText;
-
-                        corpAssets = apiCorpAssets.SelectNodes("/eveapi/result/rowset/row");
-
-                        foreach (XmlNode cs_node in corpAssets)
+                        posList = apiPOSList.SelectNodes("/eveapi/result/rowset/row");
+                        foreach (XmlNode psN in posList)
                         {
-                            itemID = Convert.ToInt32(cs_node.Attributes.GetNamedItem("itemID").Value.ToString());
-                            typeID = Convert.ToInt32(cs_node.Attributes.GetNamedItem("typeID").Value.ToString());
-                            locID = Convert.ToInt32(cs_node.Attributes.GetNamedItem("locationID").Value.ToString());
+                            aptd = new APITowerData();
+                            aptd.itemID = Convert.ToInt32(psN.Attributes.GetNamedItem("itemID").Value.ToString());
+                            aptd.towerID = Convert.ToInt32(psN.Attributes.GetNamedItem("typeID").Value.ToString());
+                            aptd.locID  = Convert.ToInt32(psN.Attributes.GetNamedItem("locationID").Value.ToString());
+                            aptd.moonID = Convert.ToInt32(psN.Attributes.GetNamedItem("moonID").Value.ToString());
+                            aptd.corpID = Convert.ToInt32(selPilot.CorpID);
+                            aptd.corpName = selPilot.Corp;
+                            aptd.towerName = GetTowerNameForTowerTypeID(aptd.towerID, TL);
 
-                            if (IsTypeIDATowerType(Convert.ToInt32(typeID), TL))
+                            if (aptd.locID != 0)
                             {
-                                ap = GetAPIDataMemberForTowerID(itemID);
-
-                                if (ap == null)
-                                {
-                                    // Do not have any data for this Tower Item ID yet
-                                    towerCount++;
-                                    ap = new API_Data();
-                                    newTower = true;
-                                }
-                                else if (IsAPIDataTimestampCurrent(cacheUntil, itemID))
-                                {
-                                    // Have data, data is current with timestamp given
-                                    newTower = false;
-                                    continue;
-                                }
-                                else
-                                {
-                                    // Have new data to apply
-                                    newTower = false;
-                                }
-
-                                // A) I have the Data, or B) New Tower
-                                // either way, read in my data and apply it now
-                                ap.cacheDate = cacheDate;
-                                ap.cacheUntil = cacheUntil;
-                                ap.ceoName = ceoName;
-                                ap.corpID = corpID;
-                                ap.corpName = corpName;
-                                ap.itemID = itemID;
-                                ap.towerID = typeID;
-                                ap.towerLocation = locID;
-                                ap.towerName = GetTowerNameForTowerTypeID(typeID, TL);
-
-                                // Get Table With Tower or Tower Item Information
-                                ap.locName = "Unknown";
-
-                                if (cs_node.HasChildNodes)
-                                {
-                                    subList = cs_node.ChildNodes[0].ChildNodes;
-                                    foreach (XmlNode sl_node in subList)
-                                    {
-                                        typeID = Convert.ToInt32(sl_node.Attributes.GetNamedItem("typeID").Value.ToString());
-                                        qty = Convert.ToDecimal(sl_node.Attributes.GetNamedItem("quantity").Value.ToString());
-
-                                        switch (typeID)
-                                        {
-                                            case 44:    // Enr Uranium
-                                                ap.EnrUr = qty;
-                                                break;
-                                            case 3683:  // Oxygen
-                                                ap.Oxygn = qty;
-                                                break;
-                                            case 3689:  // Mech Parts
-                                                ap.MechP = qty;
-                                                break;
-                                            case 9832:  // Coolant
-                                                ap.Coolt = qty;
-                                                break;
-                                            case 9848:  // Robotics
-                                                ap.Robot = qty;
-                                                break;
-                                            case 16272: // Heavy Water
-                                                ap.HvyWt = qty;
-                                                break;
-                                            case 16273: // Liquid Ozone
-                                                ap.LiqOz = qty;
-                                                break;
-                                            case 24592: // Charter
-                                            case 24593: // Charter
-                                            case 24594: // Charter
-                                            case 24595: // Charter
-                                            case 24596: // Charter
-                                            case 24597: // Charter
-                                                ap.Charters = qty;
-                                                break;
-                                            case 17888: // Nitrogen Isotopes
-                                                ap.N2Iso = qty;
-                                                break;
-                                            case 16274: // Helium Isotopes
-                                                ap.HeIso = qty;
-                                                break;
-                                            case 17889: // Hydrogen Isotopes
-                                                ap.H2Iso = qty;
-                                                break;
-                                            case 17887: // Oxygen Isotopes
-                                                ap.O2Iso = qty;
-                                                break;
-                                            case 16275: // Strontium
-                                                ap.Stront = qty;
-                                                break;
-                                        }
-                                    }
-                                }
-
-                                if (newTower)
-                                    AddAPIToList(ap);
-                                else
-                                    UpdateListAPI(ap);
+                                strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + aptd.locID + ";";
+                                locData = EveHQ.Core.DataFunctions.GetData(strSQL);
+                                aptd.locName = locData.Tables[0].Rows[0].ItemArray[0].ToString();
                             }
+                            else
+                            {
+                                aptd.locName = "Unknown";
+                            }
+
+                            // We have a tower, now get details for this tower
+                            apiPOSDetails = EveHQ.Core.EveAPI.GetAPIXML(((int)EveHQ.Core.EveAPI.APIRequest.POSDetails), pilotAccount, selPilot.ID, aptd.itemID, 0);
+                            if (!CheckXML(apiPOSDetails))
+                            {
+                                // Corrupted list, try again
+                                apiPOSDetails = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
+                                if (!CheckXML(apiPOSDetails))
+                                {
+                                    // Corrupted list, good bye
+                                    return;
+                                }
+                            }
+                            if (apiPOSDetails == null)
+                                continue;
+
+                            // Have details, process them
+                            // Since this file is a faster update frequency (1 every hour), use this timestamp
+                            rsltList = apiPOSDetails.SelectNodes("/eveapi");
+                            aptd.curTime = rsltList[0].ChildNodes[0].InnerText;
+                            aptd.cacheUntil = rsltList[0].ChildNodes[2].InnerText;
+
+                            rsltList = apiPOSDetails.SelectNodes("/eveapi/result");
+                            // 0 = state
+                            // 1 = state timestamp
+                            // 2 = online timestamp
+                            // 3 = general settings list
+                            // 4 = combat settings list
+                            // 5 = rowset - fuel listing
+                            aptd.stateV = Convert.ToInt32(rsltList[0].ChildNodes[0].InnerText);
+                            aptd.stateTS = rsltList[0].ChildNodes[1].InnerText;
+                            aptd.onlineTS = rsltList[0].ChildNodes[2].InnerText;
+
+                            rsltList = apiPOSDetails.SelectNodes("/eveapi/result/generalSettings");
+                            // 0 = usage flags
+                            // 1 = deploy flags
+                            // 2 = allow corp members
+                            // 3 = allow alliance members
+                            // 4 = claim Sov
+                            aptd.useFlag = rsltList[0].ChildNodes[0].InnerText;
+                            aptd.depFlag = rsltList[0].ChildNodes[1].InnerText;
+                            if (Convert.ToInt32(rsltList[0].ChildNodes[2].InnerText) > 0)
+                                aptd.allowCorp = true;
+                            else
+                                aptd.allowCorp = false;
+                            if (Convert.ToInt32(rsltList[0].ChildNodes[3].InnerText) > 0)
+                                aptd.allowAlliance = true;
+                            else
+                                aptd.allowAlliance = false;
+                            if (Convert.ToInt32(rsltList[0].ChildNodes[4].InnerText) > 0)
+                                aptd.claimSov = true;
+                            else
+                                aptd.claimSov = false;
+
+                            rsltList = apiPOSDetails.SelectNodes("/eveapi/result/combatSettings");
+                            // 0 = Standing Drop
+                            // 1 = Status Drop
+                            // 2 = Agression
+                            // 3 = War
+                            aptd.standDrop = Convert.ToDecimal(rsltList[0].ChildNodes[0].Attributes.GetNamedItem("standing").Value.ToString());
+                            if (Convert.ToInt32(rsltList[0].ChildNodes[1].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
+                                aptd.onStatusDrop = true;
+                            else
+                                aptd.onStatusDrop = false;
+                            aptd.statusDrop = Convert.ToDecimal(rsltList[0].ChildNodes[1].Attributes.GetNamedItem("standing").Value.ToString());
+                            if (Convert.ToInt32(rsltList[0].ChildNodes[2].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
+                                aptd.onAgression = true;
+                            else
+                                aptd.onAgression = false;
+                            if (Convert.ToInt32(rsltList[0].ChildNodes[3].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
+                                aptd.onWar = true;
+                            else
+                                aptd.onWar = false;
+
+                            rsltList = apiPOSDetails.SelectNodes("/eveapi/result/rowset/row");
+                            foreach (XmlNode fuelN in rsltList)
+                            {
+                                typeID = Convert.ToInt32(fuelN.Attributes.GetNamedItem("typeID").Value.ToString());
+                                qty = Convert.ToDecimal(fuelN.Attributes.GetNamedItem("quantity").Value.ToString());
+
+                                switch (typeID)
+                                {
+                                    case 44:    // Enr Uranium
+                                        aptd.EnrUr = qty;
+                                        break;
+                                    case 3683:  // Oxygen
+                                        aptd.Oxygn = qty;
+                                        break;
+                                    case 3689:  // Mech Parts
+                                        aptd.MechP = qty;
+                                        break;
+                                    case 9832:  // Coolant
+                                        aptd.Coolt = qty;
+                                        break;
+                                    case 9848:  // Robotics
+                                        aptd.Robot = qty;
+                                        break;
+                                    case 16272: // Heavy Water
+                                        aptd.HvyWt = qty;
+                                        break;
+                                    case 16273: // Liquid Ozone
+                                        aptd.LiqOz = qty;
+                                        break;
+                                    case 24592: // Charter
+                                    case 24593: // Charter
+                                    case 24594: // Charter
+                                    case 24595: // Charter
+                                    case 24596: // Charter
+                                    case 24597: // Charter
+                                        aptd.Charters = qty;
+                                        break;
+                                    case 17888: // Nitrogen Isotopes
+                                        aptd.N2Iso = qty;
+                                        break;
+                                    case 16274: // Helium Isotopes
+                                        aptd.HeIso = qty;
+                                        break;
+                                    case 17889: // Hydrogen Isotopes
+                                        aptd.H2Iso = qty;
+                                        break;
+                                    case 17887: // Oxygen Isotopes
+                                        aptd.O2Iso = qty;
+                                        break;
+                                    case 16275: // Strontium
+                                        aptd.Stront = qty;
+                                        break;
+                                }
+                            }
+
+                            // See if already in list - if so, then compare times
+                            // If new time is more recent than old, overwrite the information
+                            apiTower.Add(aptd.itemID, aptd);
                         }
                     }
                 }

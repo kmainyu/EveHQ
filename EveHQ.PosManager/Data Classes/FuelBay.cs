@@ -196,9 +196,33 @@ namespace EveHQ.PosManager
             LiqOzone.Qty += fb.LiqOzone.Qty;
             Charters.Qty += fb.Charters.Qty;
             N2Iso.Qty += fb.N2Iso.Qty;
+            if (N2Iso.BaseVol == 0)
+                N2Iso.BaseVol = fb.N2Iso.BaseVol;
+            if (N2Iso.QtyVol == 0)
+                N2Iso.QtyVol = fb.N2Iso.QtyVol;
+            if (N2Iso.Cost == 0)
+                N2Iso.Cost = fb.N2Iso.Cost;
             HeIso.Qty += fb.HeIso.Qty;
+            if (HeIso.BaseVol == 0)
+                HeIso.BaseVol = fb.HeIso.BaseVol;
+            if (HeIso.QtyVol == 0)
+                HeIso.QtyVol = fb.HeIso.QtyVol;
+            if (HeIso.Cost == 0)
+                HeIso.Cost = fb.HeIso.Cost;
             H2Iso.Qty += fb.H2Iso.Qty;
+            if (H2Iso.BaseVol == 0)
+                H2Iso.BaseVol = fb.H2Iso.BaseVol;
+            if (H2Iso.QtyVol == 0)
+                H2Iso.QtyVol = fb.H2Iso.QtyVol;
+            if (H2Iso.Cost == 0)
+                H2Iso.Cost = fb.H2Iso.Cost;
             O2Iso.Qty += fb.O2Iso.Qty;
+            if (O2Iso.BaseVol == 0)
+                O2Iso.BaseVol = fb.O2Iso.BaseVol;
+            if (O2Iso.QtyVol == 0)
+                O2Iso.QtyVol = fb.O2Iso.QtyVol;
+            if (O2Iso.Cost == 0)
+                O2Iso.Cost = fb.O2Iso.Cost;
             Strontium.Qty += fb.Strontium.Qty;
         }
 
@@ -236,7 +260,7 @@ namespace EveHQ.PosManager
             Strontium.Qty -= fb.Strontium.Qty;
         }
 
-        public void SetFuelQtyForPeriod(decimal period, decimal sov_mult, decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u)
+        public void SetFuelQtyForPeriod(decimal period, decimal sov_mult, decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u, bool useChart)
         {
             EnrUran.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
             Oxygen.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
@@ -247,7 +271,11 @@ namespace EveHQ.PosManager
             HvyWater.SetFuelQtyForPeriod(sov_mult, cpu_b, cpu_u, period);
             LiqOzone.SetFuelQtyForPeriod(sov_mult, pow_b, pow_u, period);
 
-            Charters.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            if (useChart)
+                Charters.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            else
+                Charters.Qty = 0;
+
             N2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
             HeIso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
             H2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);

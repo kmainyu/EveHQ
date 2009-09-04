@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data Classes\APITowerData.cs" />
     <Compile Include="Forms\AddPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +116,12 @@
     <Compile Include="Data Classes\Player.cs" />
     <Compile Include="Data Classes\PlayerList.cs" />
     <Compile Include="Data Classes\PosNotify.cs" />
+    <Compile Include="Forms\OwnerFuelTech.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OwnerFuelTech.Designer.cs">
+      <DependentUpon>OwnerFuelTech.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -175,6 +182,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PopulateTowersFromAPI.resx">
       <DependentUpon>PopulateTowersFromAPI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OwnerFuelTech.resx">
+      <DependentUpon>OwnerFuelTech.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -240,8 +251,15 @@
     <None Include="Resources\Bounty.png" />
     <None Include="Resources\APIUpdate.png" />
     <None Include="Resources\CloneBay.PNG" />
+    <None Include="Resources\APIUpdate_65x35.png" />
+    <None Include="Resources\Clone_65x35.PNG" />
+    <None Include="Resources\Delete_65x35.png" />
     <Content Include="Resources\EveHQ.ICO" />
+    <None Include="Resources\Fitting_65x35.PNG" />
     <Content Include="Resources\noitem.jpg" />
+    <None Include="Resources\Online_35x35.png" />
+    <None Include="Resources\Offline_35x35.png" />
+    <None Include="Resources\Reinforce_35x35.png" />
     <None Include="Resources\Offline_btn.png" />
     <None Include="Resources\Reinforce_btn.png" />
     <None Include="Resources\online_btn.png" />

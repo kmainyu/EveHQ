@@ -365,16 +365,24 @@ namespace EveHQ.PosManager
                         nt.Bonuses.MslVel = GetDoubleFromVariableIA(row, 2, 3);
                         break;
                     case 974:   // Hull EM Res - float
-                        nt.Struct.EMP = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        // Actual testing reveals this to be ZERO
+                        //nt.Struct.EMP = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        nt.Struct.EMP = 0;
                         break;
                     case 975:   // Hull Exp Res - float
-                        nt.Struct.Explosive = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        // Actual testing reveals this to be ZERO
+                        //nt.Struct.Explosive = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        nt.Struct.EMP = 0;
                         break;
                     case 976:   // Hull Kin Res - float
-                        nt.Struct.Kinetic = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        // Actual testing reveals this to be ZERO
+                        //nt.Struct.Kinetic = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        nt.Struct.EMP = 0;
                         break;
                     case 977:   // Hull Thermal Res - float
-                        nt.Struct.Thermal = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        // Actual testing reveals this to be ZERO
+                        //nt.Struct.Thermal = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
+                        nt.Struct.EMP = 0;
                         break;
                     case 1233:  // Strontium Bay
                         nt.Fuel.StrontCap = GetDecimalFromVariableIA(row, 2, 3);
