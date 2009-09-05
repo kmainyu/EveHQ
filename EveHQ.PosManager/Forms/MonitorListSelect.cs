@@ -50,7 +50,7 @@ namespace EveHQ.PosManager
         private void b_done_Click(object sender, EventArgs e)
         {
             bool chkd;
-            string nm;
+            string nm, nam;
 
             // Store the selected - to monitor - data
             for (int indx = 0; indx < clb_PosList.Items.Count; indx++)
@@ -60,7 +60,12 @@ namespace EveHQ.PosManager
                 nm = clb_PosList.Items[indx].ToString();
                 foreach (POS pl in myData.POSList.Designs)
                 {
-                    if (nm.Contains(pl.Name))
+                    if (pl.Moon == "")
+                        nam = pl.Name + " < " + pl.Moon + " >[ " + pl.CorpName + " ]";
+                    else
+                        nam = pl.Name + " < " + pl.System + " >[ " + pl.CorpName + " ]";
+                    
+                    if (nm == nam)
                     {
                         if(chkd)
                             pl.Monitored = true;
