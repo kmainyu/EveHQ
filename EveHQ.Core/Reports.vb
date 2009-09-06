@@ -1256,8 +1256,7 @@ Public Class Reports
             If trainable = True Then
                 strHTML &= "<tr height=20px>"
                 strHTML &= "<td>" & skill.Name & "</td>"
-                Dim sg As EveHQ.Core.SkillGroup = EveHQ.Core.HQ.SkillGroups(skill.Name)
-                strHTML &= "<td>" & sg.Name & "</td>"
+                strHTML &= "<td>" & EveHQ.Core.HQ.itemGroups(skill.GroupID) & "</td>"
                 strHTML &= "<td>" & skill.Rank & "</td>"
                 strHTML &= "</tr>"
             End If
@@ -2900,8 +2899,7 @@ Public Class Reports
             End If
 
             If trainable = True Then
-                Dim sg As EveHQ.Core.SkillGroup = EveHQ.Core.HQ.SkillGroups(skill.Name)
-                strText.AppendLine(String.Format("{0,-45} {1,-29} {2,-5}", skill.Name, sg.Name, skill.Rank))
+                strText.AppendLine(String.Format("{0,-45} {1,-29} {2,-5}", skill.Name, EveHQ.Core.HQ.itemGroups(skill.GroupID), skill.Rank))
             End If
         Next
 
