@@ -194,7 +194,7 @@ namespace EveHQ.PosManager
                             if (!CheckXML(apiPOSList))
                             {
                                 // Corrupted list, good bye
-                                return;
+                                continue;
                             }
                         }
                         if (apiPOSList == null)
@@ -232,7 +232,7 @@ namespace EveHQ.PosManager
                                 if (!CheckXML(apiPOSDetails))
                                 {
                                     // Corrupted list, good bye
-                                    return;
+                                    continue;
                                 }
                             }
                             if (apiPOSDetails == null)
