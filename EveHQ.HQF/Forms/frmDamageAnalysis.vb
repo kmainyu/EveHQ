@@ -124,23 +124,18 @@ Public Class frmDamageAnalysis
             aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
             aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
             attackingShip = Engine.ApplyFitting(aShip, aPilot)
-            If EveSpace1.SourceShip Is Nothing Then
-                EveSpace1.SourceShip = New ShipStatus("SourceShip", attackingShip, New Point(100, 100), New Point(300, 300))
-            Else
-                EveSpace1.SourceShip = New ShipStatus("SourceShip", attackingShip, EveSpace1.SourceShip.Location, EveSpace1.SourceShip.Heading)
-            End If
             ' Check hislots of attacker to find turret data
             Dim sMod As New ShipModule
             aMod = New ShipModule
             Dim MixedTurrets As Boolean = False
             Dim MixedAmmo As Boolean = False
             tc = 0
-            For slot As Integer = 1 To EveSpace1.SourceShip.Ship.HiSlots
-                If EveSpace1.SourceShip.Ship.HiSlot(slot) IsNot Nothing Then
-                    sMod = EveSpace1.SourceShip.Ship.HiSlot(slot)
+            For slot As Integer = 1 To attackingShip.HiSlots
+                If attackingShip.HiSlot(slot) IsNot Nothing Then
+                    sMod = attackingShip.HiSlot(slot)
                     If sMod.IsTurret Then
-                        If aMod.Name = "" Then
-                            If sMod.LoadedCharge.Name <> "" Then
+                        If aMod.Name <> "" Or aMod.Name Is Nothing Then
+                            If sMod.LoadedCharge IsNot Nothing Then
                                 aMod = sMod
                                 tc += 1
                             End If
@@ -159,6 +154,11 @@ Public Class frmDamageAnalysis
                     End If
                 End If
             Next
+            If EveSpace1.SourceShip Is Nothing Then
+                EveSpace1.SourceShip = New ShipStatus("SourceShip", attackingShip, New Point(100, 100), New Point(300, 300))
+            Else
+                EveSpace1.SourceShip = New ShipStatus("SourceShip", attackingShip, EveSpace1.SourceShip.Location, EveSpace1.SourceShip.Heading)
+            End If
             ' Check for mixed turrets and ammo
             If MixedTurrets = True Then
                 Dim msg As String = "HQF has detected that you are using a setup with multiple turret types. As such, only the first turret (and identical instances thereof) will be used for the calculations."
@@ -227,7 +227,7 @@ Public Class frmDamageAnalysis
         hKi = EveSpace1.TargetShip.Ship.StructureKiResist
         hTh = EveSpace1.TargetShip.Ship.StructureThResist
 
-        If aMod.Name <> "" Then
+        If aMod.Name <> "" And aMod.Name IsNot Nothing Then
             tsr = CDbl(aMod.Attributes("620"))
             tt = CDbl(aMod.Attributes("160"))
             tor = CDbl(aMod.Attributes("54"))
@@ -239,119 +239,122 @@ Public Class frmDamageAnalysis
             wEx = CDbl(aMod.Attributes("10052"))
             wKi = CDbl(aMod.Attributes("10053"))
             wTh = CDbl(aMod.Attributes("10054"))
-        End If
 
-        ' Calculate weapon damage split
-        sdEM = wEM * (1 - sEM / 100) : sdEx = wEx * (1 - sEx / 100) : sdKi = wKi * (1 - sKi / 100) : sdTh = wTh * (1 - sTh / 100) : sdT = sdEM + sdEx + sdKi + sdTh
-        adEM = wEM * (1 - aEM / 100) : adEx = wEx * (1 - aEx / 100) : adKi = wKi * (1 - aKi / 100) : adTh = wTh * (1 - aTh / 100) : adT = adEM + adEx + adKi + adTh
-        hdEM = wEM * (1 - hEM / 100) : hdEx = wEx * (1 - hEx / 100) : hdKi = wKi * (1 - hKi / 100) : hdTh = wTh * (1 - hTh / 100) : hdT = hdEM + hdEx + hdKi + hdTh
+            ' Calculate weapon damage split
+            sdEM = wEM * (1 - sEM / 100) : sdEx = wEx * (1 - sEx / 100) : sdKi = wKi * (1 - sKi / 100) : sdTh = wTh * (1 - sTh / 100) : sdT = sdEM + sdEx + sdKi + sdTh
+            adEM = wEM * (1 - aEM / 100) : adEx = wEx * (1 - aEx / 100) : adKi = wKi * (1 - aKi / 100) : adTh = wTh * (1 - aTh / 100) : adT = adEM + adEx + adKi + adTh
+            hdEM = wEM * (1 - hEM / 100) : hdEx = wEx * (1 - hEx / 100) : hdKi = wKi * (1 - hKi / 100) : hdTh = wTh * (1 - hTh / 100) : hdT = hdEM + hdEx + hdKi + hdTh
 
-        'ChanceToHit = 0.5 ^ ((((Transversal speed/(Range to target * Turret Tracking))*(Turret Signature Resolution / Target Signature Radius))^2) + ((max(0, Range to target - Turret Optimal Range))/Turret Falloff)^2) 
-        CTH = (0.5 ^ ((((tv / (d * tt)) * (tsr / sr)) ^ 2) + ((Math.Max(0, d - tor)) / tf) ^ 2)) * 100
+            'ChanceToHit = 0.5 ^ ((((Transversal speed/(Range to target * Turret Tracking))*(Turret Signature Resolution / Target Signature Radius))^2) + ((max(0, Range to target - Turret Optimal Range))/Turret Falloff)^2) 
+            CTH = (0.5 ^ ((((tv / (d * tt)) * (tsr / sr)) ^ 2) + ((Math.Max(0, d - tor)) / tf) ^ 2)) * 100
 
-        ' Calculate expected damage ratio
-        EDR = 0.01 * 3 + ((CTH / 100) - 0.01) * ((CTH / 100) + 0.99) / 2
+            ' Calculate expected damage ratio
+            EDR = 0.01 * 3 + ((CTH / 100) - 0.01) * ((CTH / 100) + 0.99) / 2
 
-        ' Calculate Expected Damage (DPS)
-        esdEM = sdEM * EDR : esdEx = sdEx * EDR : esdKi = sdKi * EDR : esdTh = sdTh * EDR : esdT = sdT * EDR
-        eadEM = adEM * EDR : eadEx = adEx * EDR : eadKi = adKi * EDR : eadTh = adTh * EDR : eadT = adT * EDR
-        ehdEM = hdEM * EDR : ehdEx = hdEx * EDR : ehdKi = hdKi * EDR : ehdTh = hdTh * EDR : ehdT = hdT * EDR
+            ' Calculate Expected Damage (DPS)
+            esdEM = sdEM * EDR : esdEx = sdEx * EDR : esdKi = sdKi * EDR : esdTh = sdTh * EDR : esdT = sdT * EDR
+            eadEM = adEM * EDR : eadEx = adEx * EDR : eadKi = adKi * EDR : eadTh = adTh * EDR : eadT = adT * EDR
+            ehdEM = hdEM * EDR : ehdEx = hdEx * EDR : ehdKi = hdKi * EDR : ehdTh = hdTh * EDR : ehdT = hdT * EDR
 
-        ' Calculate target recharge rates
-        tsrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10065"))
-        tarr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10066"))
-        thrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10067"))
+            ' Calculate target recharge rates
+            tsrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10065"))
+            tarr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10066"))
+            thrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10067"))
 
-        ' Calculate passive recharge rate
-        Dim prr As Double = (EveSpace1.TargetShip.Ship.ShieldCapacity / EveSpace1.TargetShip.Ship.ShieldRecharge) / 5
+            ' Calculate passive recharge rate
+            Dim prr As Double = (EveSpace1.TargetShip.Ship.ShieldCapacity / EveSpace1.TargetShip.Ship.ShieldRecharge) / 5
 
-        ' Calculate Expected Times (no target ship HP recharge)
-        estNR = sHP / (esdT * tc) * trof : eatNR = aHP / (eadT * tc) * trof : ehtNR = hHP / (ehdT * tc) * trof
-        If estNR > 86400 Then
-            estNR = -1
-        End If
-        If eatNR > 86400 Then
-            eatNR = -1
-        End If
-        If ehtNR > 86400 Then
-            ehtNR = -1
-        End If
+            ' Calculate Expected Times (no target ship HP recharge)
+            estNR = sHP / (esdT * tc) * trof : eatNR = aHP / (eadT * tc) * trof : ehtNR = hHP / (ehdT * tc) * trof
+            If estNR > 86400 Then
+                estNR = -1
+            End If
+            If eatNR > 86400 Then
+                eatNR = -1
+            End If
+            If ehtNR > 86400 Then
+                ehtNR = -1
+            End If
 
-        ' Calculate Expected Times (with target ship HP recharge)
-        If (esdT - tsrr) > 0 Then
-            estR = sHP / ((esdT - tsrr) * tc) * trof
-            If estR > 86400 Then
+            ' Calculate Expected Times (with target ship HP recharge)
+            If (esdT - tsrr) > 0 Then
+                estR = sHP / ((esdT - tsrr) * tc) * trof
+                If estR > 86400 Then
+                    estR = -1
+                End If
+            Else
                 estR = -1
             End If
-        Else
-            estR = -1
-        End If
-        If (eadT - tarr - prr) > 0 Then
-            eatR = aHP / ((eadT - tarr - prr) * tc) * trof
-            If eatR > 86400 Then
+            If (eadT - tarr - prr) > 0 Then
+                eatR = aHP / ((eadT - tarr - prr) * tc) * trof
+                If eatR > 86400 Then
+                    eatR = -1
+                End If
+            Else
                 eatR = -1
             End If
-        Else
-            eatR = -1
-        End If
-        If (ehdT - thrr - prr) > 0 Then
-            ehtR = hHP / ((ehdT - thrr - prr) * tc) * trof
-            If ehtR > 86400 Then
+            If (ehdT - thrr - prr) > 0 Then
+                ehtR = hHP / ((ehdT - thrr - prr) * tc) * trof
+                If ehtR > 86400 Then
+                    ehtR = -1
+                End If
+            Else
                 ehtR = -1
             End If
+
+            ' Calculate recharge based DPS and damage
+            Dim srrd, arrd, hrrd, trrd As Double
+            srrd = sHP / estR : arrd = aHP / eatR : hrrd = hHP / ehtR : trrd = (sHP + aHP + hHP) / (estR + eatR + ehtR)
+            Dim sh, ah, hh, th As Double
+            sh = Math.Round(estR * tc / trof, 0) : ah = Math.Round(eatR * tc / trof, 0) : hh = Math.Round(ehtR * tc / trof, 0) : th = sh + ah + hh
+            Dim ash, aah, ahh, atth As Double
+            ash = sHP / sh : aah = aHP / ah : ahh = hHP / hh : atth = (sHP + aHP + hHP) / th
+
+            ' Write stats
+            Dim stats As New StringBuilder
+            stats.AppendLine("Stats:")
+            stats.AppendLine("Range: " & EveSpace1.Range.ToString("N2") & " km")
+            stats.AppendLine("Attacker Velocity: " & EveSpace1.SourceShip.Velocity.ToString("N2") & " m/s")
+            stats.AppendLine("Target Velocity: " & EveSpace1.TargetShip.Velocity.ToString("N2") & " m/s")
+            stats.AppendLine("Trans: " & EveSpace1.Transversal.ToString("N2") & " m/s")
+            stats.AppendLine("Target Sig Radius: " & EveSpace1.TargetShip.Ship.SigRadius.ToString("N2") & " m")
+            stats.AppendLine("Turret Count: " & tc.ToString("N0"))
+            stats.AppendLine("Turret Sig Res: " & tsr.ToString("N2") & " m")
+            stats.AppendLine("Turret Tracking: " & tt.ToString("N8") & " rad/s")
+            stats.AppendLine("Turret Optimal: " & tor.ToString("N0") & " m")
+            stats.AppendLine("Turret Falloff: " & tf.ToString("N0") & " m")
+            stats.AppendLine("Turret ROF: " & trof.ToString("N2") & " s")
+            stats.AppendLine("Turret Volley: " & tvd.ToString("N2") & " HP")
+            stats.AppendLine("Turret DPS: " & tdps.ToString("N2") & " HP/s")
+            stats.AppendLine("Turret Damage: " & wEM.ToString("N2") & " / " & wEx.ToString("N2") & " / " & wKi.ToString("N2") & " / " & wTh.ToString("N2"))
+            stats.AppendLine("Target HP: " & sHP.ToString("N2") & " / " & aHP.ToString("N2") & " / " & hHP.ToString("N2"))
+            stats.AppendLine("Target Shield Res: " & sEM.ToString("N2") & " / " & sEx.ToString("N2") & " / " & sKi.ToString("N2") & " / " & sTh.ToString("N2"))
+            stats.AppendLine("Target Armor Res: " & aEM.ToString("N2") & " / " & aEx.ToString("N2") & " / " & aKi.ToString("N2") & " / " & aTh.ToString("N2"))
+            stats.AppendLine("Target Hull Res: " & hEM.ToString("N2") & " / " & hEx.ToString("N2") & " / " & hKi.ToString("N2") & " / " & hTh.ToString("N2"))
+            stats.AppendLine("")
+            stats.AppendLine("Chance to Hit: " & CTH.ToString("N8") & "%")
+            stats.AppendLine("Expected Damage Ratio: " & EDR.ToString("N8"))
+            stats.AppendLine("")
+            stats.AppendLine("Theoretical Per Turret Damage (S/A/H): " & sdT.ToString("N2") & " / " & adT.ToString("N2") & " / " & hdT.ToString("N2"))
+            stats.AppendLine("Theoretical Per Turret DPS (S/A/H): " & (sdT / trof).ToString("N2") & " / " & (adT / trof).ToString("N2") & " / " & (hdT / trof).ToString("N2"))
+            stats.AppendLine("Expected Per Turret Damage (S/A/H): " & esdT.ToString("N2") & " / " & eadT.ToString("N2") & " / " & ehdT.ToString("N2"))
+            stats.AppendLine("Expected Per Turret DPS (S/A/H): " & (esdT / trof).ToString("N2") & " / " & (eadT / trof).ToString("N2") & " / " & (ehdT / trof).ToString("N2"))
+            stats.AppendLine("Theoretical Total Damage (S/A/H): " & (sdT * tc).ToString("N2") & " / " & (adT * tc).ToString("N2") & " / " & (hdT * tc).ToString("N2"))
+            stats.AppendLine("Theoretical Total DPS (S/A/H): " & (sdT / trof * tc).ToString("N2") & " / " & (adT / trof * tc).ToString("N2") & " / " & (hdT / trof * tc).ToString("N2"))
+            stats.AppendLine("Expected Total Damage (S/A/H): " & (esdT * tc).ToString("N2") & " / " & (eadT * tc).ToString("N2") & " / " & (ehdT * tc).ToString("N2"))
+            stats.AppendLine("Expected Total DPS (S/A/H): " & (esdT / trof * tc).ToString("N2") & " / " & (eadT / trof * tc).ToString("N2") & " / " & (ehdT / trof * tc).ToString("N2"))
+            stats.AppendLine("Target HP Recharge Rates (S/A/H): " & tsrr.ToString("N2") & " / " & tarr.ToString("N2") & " / " & thrr.ToString("N2"))
+            stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(estNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estNR))) & " / " & CStr(IIf(eatNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatNR))) & " / " & CStr(IIf(ehtNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtNR))))
+            stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(estR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estR))) & " / " & CStr(IIf(eatR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatR))) & " / " & CStr(IIf(ehtR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtR))))
+            stats.AppendLine("Average Turret Shot (S/A/H/T): " & ash.ToString("N2") & " / " & aah.ToString("N2") & " / " & ahh.ToString("N2") & " / " & atth.ToString("N2"))
+            stats.AppendLine("Average Turret DPS (S/A/H/T): " & srrd.ToString("N2") & " / " & arrd.ToString("N2") & " / " & hrrd.ToString("N2") & " / " & trrd.ToString("N2"))
+
+            lblStats.Text = stats.ToString
+            lblStats.Refresh()
         Else
-            ehtR = -1
+            lblStats.Text = "No valid turret modules found on attacking ship!"
+            lblStats.Refresh()
         End If
-
-        ' Calculate recharge based DPS and damage
-        Dim srrd, arrd, hrrd, trrd As Double
-        srrd = sHP / estR : arrd = aHP / eatR : hrrd = hHP / ehtR : trrd = (sHP + aHP + hHP) / (estR + eatR + ehtR)
-        Dim sh, ah, hh, th As Double
-        sh = Math.Round(estR * tc / trof, 0) : ah = Math.Round(eatR * tc / trof, 0) : hh = Math.Round(ehtR * tc / trof, 0) : th = sh + ah + hh
-        Dim ash, aah, ahh, atth As Double
-        ash = sHP / sh : aah = aHP / ah : ahh = hHP / hh : atth = (sHP + aHP + hHP) / th
-
-        ' Write stats
-        Dim stats As New StringBuilder
-        stats.AppendLine("Stats:")
-        stats.AppendLine("Range: " & EveSpace1.Range.ToString("N2") & " km")
-        stats.AppendLine("Attacker Velocity: " & EveSpace1.SourceShip.Velocity.ToString("N2") & " m/s")
-        stats.AppendLine("Target Velocity: " & EveSpace1.TargetShip.Velocity.ToString("N2") & " m/s")
-        stats.AppendLine("Trans: " & EveSpace1.Transversal.ToString("N2") & " m/s")
-        stats.AppendLine("Target Sig Radius: " & EveSpace1.TargetShip.Ship.SigRadius.ToString("N2") & " m")
-        stats.AppendLine("Turret Count: " & tc.ToString("N0"))
-        stats.AppendLine("Turret Sig Res: " & tsr.ToString("N2") & " m")
-        stats.AppendLine("Turret Tracking: " & tt.ToString("N8") & " rad/s")
-        stats.AppendLine("Turret Optimal: " & tor.ToString("N0") & " m")
-        stats.AppendLine("Turret Falloff: " & tf.ToString("N0") & " m")
-        stats.AppendLine("Turret ROF: " & trof.ToString("N2") & " s")
-        stats.AppendLine("Turret Volley: " & tvd.ToString("N2") & " HP")
-        stats.AppendLine("Turret DPS: " & tdps.ToString("N2") & " HP/s")
-        stats.AppendLine("Turret Damage: " & wEM.ToString("N2") & " / " & wEx.ToString("N2") & " / " & wKi.ToString("N2") & " / " & wTh.ToString("N2"))
-        stats.AppendLine("Target HP: " & sHP.ToString("N2") & " / " & aHP.ToString("N2") & " / " & hHP.ToString("N2"))
-        stats.AppendLine("Target Shield Res: " & sEM.ToString("N2") & " / " & sEx.ToString("N2") & " / " & sKi.ToString("N2") & " / " & sTh.ToString("N2"))
-        stats.AppendLine("Target Armor Res: " & aEM.ToString("N2") & " / " & aEx.ToString("N2") & " / " & aKi.ToString("N2") & " / " & aTh.ToString("N2"))
-        stats.AppendLine("Target Hull Res: " & hEM.ToString("N2") & " / " & hEx.ToString("N2") & " / " & hKi.ToString("N2") & " / " & hTh.ToString("N2"))
-        stats.AppendLine("")
-        stats.AppendLine("Chance to Hit: " & CTH.ToString("N8") & "%")
-        stats.AppendLine("Expected Damage Ratio: " & EDR.ToString("N8"))
-        stats.AppendLine("")
-        stats.AppendLine("Theoretical Per Turret Damage (S/A/H): " & sdT.ToString("N2") & " / " & adT.ToString("N2") & " / " & hdT.ToString("N2"))
-        stats.AppendLine("Theoretical Per Turret DPS (S/A/H): " & (sdT / trof).ToString("N2") & " / " & (adT / trof).ToString("N2") & " / " & (hdT / trof).ToString("N2"))
-        stats.AppendLine("Expected Per Turret Damage (S/A/H): " & esdT.ToString("N2") & " / " & eadT.ToString("N2") & " / " & ehdT.ToString("N2"))
-        stats.AppendLine("Expected Per Turret DPS (S/A/H): " & (esdT / trof).ToString("N2") & " / " & (eadT / trof).ToString("N2") & " / " & (ehdT / trof).ToString("N2"))
-        stats.AppendLine("Theoretical Total Damage (S/A/H): " & (sdT * tc).ToString("N2") & " / " & (adT * tc).ToString("N2") & " / " & (hdT * tc).ToString("N2"))
-        stats.AppendLine("Theoretical Total DPS (S/A/H): " & (sdT / trof * tc).ToString("N2") & " / " & (adT / trof * tc).ToString("N2") & " / " & (hdT / trof * tc).ToString("N2"))
-        stats.AppendLine("Expected Total Damage (S/A/H): " & (esdT * tc).ToString("N2") & " / " & (eadT * tc).ToString("N2") & " / " & (ehdT * tc).ToString("N2"))
-        stats.AppendLine("Expected Total DPS (S/A/H): " & (esdT / trof * tc).ToString("N2") & " / " & (eadT / trof * tc).ToString("N2") & " / " & (ehdT / trof * tc).ToString("N2"))
-        stats.AppendLine("Target HP Recharge Rates (S/A/H): " & tsrr.ToString("N2") & " / " & tarr.ToString("N2") & " / " & thrr.ToString("N2"))
-        stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(estNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estNR))) & " / " & CStr(IIf(eatNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatNR))) & " / " & CStr(IIf(ehtNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtNR))))
-        stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(estR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estR))) & " / " & CStr(IIf(eatR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatR))) & " / " & CStr(IIf(ehtR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtR))))
-        stats.AppendLine("Average Turret Shot (S/A/H/T): " & ash.ToString("N2") & " / " & aah.ToString("N2") & " / " & ahh.ToString("N2") & " / " & atth.ToString("N2"))
-        stats.AppendLine("Average Turret DPS (S/A/H/T): " & srrd.ToString("N2") & " / " & arrd.ToString("N2") & " / " & hrrd.ToString("N2") & " / " & trrd.ToString("N2"))
-
-        lblStats.Text = stats.ToString
-        lblStats.Refresh()
     End Sub
 
     Private Sub nudRange_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudRange.ValueChanged
@@ -481,8 +484,9 @@ Public Class frmDamageAnalysis
     End Sub
 
     Private Sub btnOptimalRange_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimalRange.Click
-        Dim r As Double = Math.Round(CDbl(aMod.Attributes("54")) / 80000, 5)
-        nudRange.Value = CDec(r)
-
+        If aMod.Name <> "" Then
+            Dim r As Double = Math.Round(CDbl(aMod.Attributes("54")) / 80000, 5)
+            nudRange.Value = CDec(r)
+        End If
     End Sub
 End Class
