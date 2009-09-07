@@ -26,9 +26,13 @@ namespace EveHQ.PosManager
         private void b_OK_Click(object sender, EventArgs e)
         {
             APITowerData atd;
+            string twrName;
+
+            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
+
             foreach (POS pl in myData.POSList.Designs)
             {
-                if (myData.selName == pl.Name)
+                if (twrName == pl.Name)
                 {
                     pl.Owner = cb_OwnerName.Text;
                     pl.FuelTech = cb_FuelTechName.Text;
@@ -72,9 +76,12 @@ namespace EveHQ.PosManager
 
         private void OwnerFuelTech_Load(object sender, EventArgs e)
         {
+            string twrName;
+
+            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
             foreach (POS pl in myData.POSList.Designs)
             {
-                if (myData.selName == pl.Name)
+                if (twrName == pl.Name)
                 {
                     if (pl.Owner == pl.CorpName)
                         rb_Corp.Checked = true;
@@ -89,10 +96,13 @@ namespace EveHQ.PosManager
         private void PopulateOwnerNameList()
         {
             string ownName = "";
+            string twrName;
+
+            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
 
             foreach (POS pl in myData.POSList.Designs)
             {
-                if (myData.selName == pl.Name)
+                if (twrName == pl.Name)
                 {
                     if (rb_Corp.Checked)
                         ownName = pl.CorpName;
@@ -122,6 +132,9 @@ namespace EveHQ.PosManager
 
         private void PopulateFuelTechNameList()
         {
+            string twrName;
+
+            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
             cb_FuelTechName.Items.Clear();
             foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
             {
@@ -130,7 +143,7 @@ namespace EveHQ.PosManager
 
             foreach (POS pl in myData.POSList.Designs)
             {
-                if (myData.selName == pl.Name)
+                if (twrName == pl.Name)
                 {
                     cb_FuelTechName.Text = pl.FuelTech;
                     break;

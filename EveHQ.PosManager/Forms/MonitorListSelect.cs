@@ -24,7 +24,7 @@ namespace EveHQ.PosManager
         private void MonitorListSelect_Load(object sender, EventArgs e)
         {
             clb_PosList.Items.Clear();
-            string nam, nm;
+            string nam;
             int indx = 0;
 
             // Scroll through the list of POSes
