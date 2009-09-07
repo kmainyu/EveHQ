@@ -2763,17 +2763,20 @@ Public Class frmTraining
 
 #Region "Skill Info Context Menu Functions"
     Private Sub ctxReqs_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxReqs.Opening
-        Dim curNode As TreeNode = New TreeNode
-        curNode = tvwReqs.SelectedNode
-        Dim skillName As String = ""
-        Dim skillID As String = ""
-        skillName = curNode.Text
-        If InStr(skillName, "(Level") <> 0 Then
-            skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
+        Dim curNode As TreeNode = tvwReqs.SelectedNode
+        If curNode IsNot Nothing Then
+            Dim skillName As String = ""
+            Dim skillID As String = ""
+            skillName = curNode.Text
+            If InStr(skillName, "(Level") <> 0 Then
+                skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
+            End If
+            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+            mnuReqsSkillName.Text = skillName
+            mnuReqsSkillName.Tag = skillID
+        Else
+            e.Cancel = True
         End If
-        skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
-        mnuReqsSkillName.Text = skillName
-        mnuReqsSkillName.Tag = skillID
     End Sub
     Private Sub mnuViewItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetails.Click
         Dim skillID As String = mnuItemName.Tag.ToString
