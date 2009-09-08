@@ -2431,8 +2431,8 @@ Public Class frmEveHQ
     End Sub
     Private Sub ShowUpdateForm()
         Dim myUpdater As New frmUpdater
-        If Screen.PrimaryScreen.Bounds.Height < 600 Then
-            myUpdater.Height = 500
+        If Screen.PrimaryScreen.Bounds.Height <= 650 Then
+            myUpdater.Height = Screen.PrimaryScreen.Bounds.Height - 100
         End If
         myUpdater.Show()
     End Sub

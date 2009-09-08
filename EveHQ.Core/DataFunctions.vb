@@ -403,7 +403,17 @@ Public Class DataFunctions
                     conn.Close()
                     Return EveHQData
                 Catch e As Exception
-                    EveHQ.Core.HQ.dataError = e.Message
+                    Dim msg As New StringBuilder
+                    msg.AppendLine("Database1: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                    msg.AppendLine("Database2: " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
+                    msg.AppendLine("Using App: " & EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB.ToString)
+                    msg.AppendLine("Connection String: " & conn.ConnectionString)
+                    msg.AppendLine("SQL: " & strSQL)
+                    msg.AppendLine("Message: " & e.Message)
+                    If e.InnerException IsNot Nothing Then
+                        msg.AppendLine("Inner Ex: " & e.InnerException.Message)
+                    End If
+                    EveHQ.Core.HQ.dataError = msg.ToString
                     Return Nothing
                 Finally
                     If conn.State = ConnectionState.Open Then
