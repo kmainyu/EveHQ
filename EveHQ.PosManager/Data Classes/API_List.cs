@@ -232,7 +232,7 @@ namespace EveHQ.PosManager
                                 if (!CheckXML(apiPOSDetails))
                                 {
                                     // Corrupted list, good bye
-                                    continue;
+                                    break;
                                 }
                             }
                             if (apiPOSDetails == null)
@@ -353,7 +353,8 @@ namespace EveHQ.PosManager
 
                             // See if already in list - if so, then compare times
                             // If new time is more recent than old, overwrite the information
-                            apiTower.Add(aptd.itemID, aptd);
+                            if(!apiTower.ContainsKey(aptd.itemID))
+                                apiTower.Add(aptd.itemID, aptd);
                         }
                     }
                 }
