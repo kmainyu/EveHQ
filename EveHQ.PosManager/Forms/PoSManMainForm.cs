@@ -48,7 +48,7 @@ namespace EveHQ.PosManager
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
-        public string selName, twrName = "", AllPosFillText, SelPosFillText, SelReactPos;
+        public string selName, AllPosFillText, SelPosFillText, SelReactPos;
         public string CurrentName = "", NewName = "";
         enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, React, Owner, FTech, fHrs, sHrs, hCPU, hPow, hIso };
         enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost, Cap };
@@ -105,10 +105,7 @@ namespace EveHQ.PosManager
             // Fill in default values for New Tower Data
             foreach (POS pl in POSList.Designs)
             {
-                if(pl.Moon!="")
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.System + " >");
+                cb_PoSName.Items.Add(pl.Name);
 
                 if (pl.ReactionLinks == null)
                 {
@@ -273,7 +270,6 @@ namespace EveHQ.PosManager
             if (selName == null)
             {
                 selName = "New POS";
-                twrName = "New POS";
             }
 
             if (tb_PosManager.SelectedIndex == 1) // POS Designer
@@ -1850,7 +1846,6 @@ namespace EveHQ.PosManager
             decimal cap;
 
             tName = cb_PoSName.Text;
-            tName = tName.Substring(0, tName.IndexOf(" <"));
 
             foreach (POS p in POSList.Designs)
             {
@@ -2095,7 +2090,8 @@ namespace EveHQ.PosManager
             load = true;
 
             CurrentName = cb_PoSName.Text;
-            CurrentName = CurrentName.Substring(0, CurrentName.IndexOf(" <"));
+            if(CurrentName.Contains(" <"))
+                CurrentName = CurrentName.Substring(0, CurrentName.IndexOf(" <"));
 
             // 1. Get new PoS Data from List
             foreach (POS pl in POSList.Designs)
@@ -2246,19 +2242,6 @@ namespace EveHQ.PosManager
 
             if (!load)
                 PosChanged = true;
-
-            cb_PoSName.Items.Clear();
-            foreach (POS pl in POSList.Designs)
-            {
-                if (pl.Moon != "")
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.System + " >");
-            }
-            if (Design.Moon != "")
-                cb_PoSName.Text = Design.Name + " < " + Design.Moon + " >";
-            else
-                cb_PoSName.Text = Design.Name + " < " + Design.System + " >";
         }
 
         private void cb_System_SelectedIndexChanged(object sender, EventArgs e)
@@ -2280,19 +2263,6 @@ namespace EveHQ.PosManager
                 Design.UseChart = true;
             else
                 Design.UseChart = false;
-
-            cb_PoSName.Items.Clear();
-            foreach (POS pl in POSList.Designs)
-            {
-                if (pl.Moon != "")
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.System + " >");
-            }
-            if (Design.Moon != "")
-                cb_PoSName.Text = Design.Name + " < " + Design.Moon + " >";
-            else
-                cb_PoSName.Text = Design.Name + " < " + Design.System + " >";
 
             CalculatePOSData();
         }
@@ -2902,8 +2872,7 @@ namespace EveHQ.PosManager
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
                 selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
-                posName = selName.Substring(0, selName.IndexOf("[S"));
-                twrName = selName.Substring(0, selName.IndexOf(" <"));
+                posName = selName.Substring(0, selName.IndexOf(" <"));
                 selName = posName;
                 Mon_dg_Pos = posName;
                 
@@ -2914,7 +2883,7 @@ namespace EveHQ.PosManager
                
                 foreach (POS pl in POSList.Designs)
                 {
-                    if (twrName == pl.Name)
+                    if (selName == pl.Name)
                     {
                         // OK, this is the PoS that was just selected. Need to work the display.
                         // 1. Display current fuel levels for the POS & Run times for each type of fuel
@@ -3033,7 +3002,7 @@ namespace EveHQ.PosManager
             {
                 foreach (POS pl in POSList.Designs)
                 {
-                    if (twrName == pl.Name)
+                    if (selName == pl.Name)
                     {
                         nud_fuel = new FuelBay(pl.PosTower.Fuel);
                         nud_fuel.EnrUran.Qty = nud_EnrUran.Value;
@@ -3368,7 +3337,7 @@ namespace EveHQ.PosManager
             {
                 foreach (POS pl in POSList.Designs)
                 {
-                    if (twrName == pl.Name)
+                    if (selName == pl.Name)
                     {
                         pl.PosTower.State = state;
 
@@ -3674,26 +3643,13 @@ namespace EveHQ.PosManager
             pli.Name = CurrentName;
 
             POSList.UpdateListDesign(pli);
-
-            cb_PoSName.Items.Clear();
-            foreach (POS pl in POSList.Designs)
-            {
-                if (pl.Moon != "")
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.System + " >");
-            }
-
             POSList.SaveDesignListing();
             PosChanged = false;
 
             BuildPOSListForMonitoring();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
-            if (pli.Moon != "")
-                cb_PoSName.Text = pli.Name + " < " + pli.Moon + " >";
-            else
-                cb_PoSName.Text = pli.Name + " < " + pli.System + " >";
+            cb_PoSName.Text = pli.Name;
             cur = DateTime.Now;
             tsl_Status.Text = "POS Listing Saved (" + cur.ToString() + ")";
         }
@@ -3876,7 +3832,6 @@ namespace EveHQ.PosManager
             RenPos.myData = this;
             RenPos.NewPOS = false;
             RenPos.ShowDialog();
-            string slName = "";
 
             if (CurrentName.Equals(NewName))
                 return;
@@ -3892,17 +3847,10 @@ namespace EveHQ.PosManager
             cb_PoSName.Items.Clear();
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Moon != "")
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.System + " >");
+                cb_PoSName.Items.Add(pl.Name);
             }
 
-            if (Design.Moon != "")
-                slName = Design.Name + " < " + Design.Moon + " >";
-            else
-                slName = Design.Name + " < " + Design.System + " >";
-            cb_PoSName.SelectedItem = slName;
+            cb_PoSName.SelectedItem = CurrentName;
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
@@ -3913,7 +3861,7 @@ namespace EveHQ.PosManager
         {
             POS newCopy;
             POS_Name CpyPos = new POS_Name();
-            string slName;
+
             CpyPos.myData = this;
             CpyPos.NewPOS = false;
             CpyPos.CopyPOS = true;
@@ -3941,17 +3889,10 @@ namespace EveHQ.PosManager
             cb_PoSName.Items.Clear();
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Moon != "")
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.System + " >");
+                cb_PoSName.Items.Add(pl.Name);
             }
-            if (newCopy.Moon != "")
-                slName = newCopy.Name + " < " + newCopy.Moon + " >";
-            else
-                slName = newCopy.Name + " < " + newCopy.System + " >";
 
-            cb_PoSName.SelectedItem = slName;
+            cb_PoSName.SelectedItem = NewName;
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
@@ -4018,10 +3959,7 @@ namespace EveHQ.PosManager
             cb_PoSName.Items.Clear();
             foreach (POS p in POSList.Designs)
             {
-                if (p.Moon != "")
-                    cb_PoSName.Items.Add(p.Name + " < " + p.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(p.Name + " < " + p.System + " >");
+                cb_PoSName.Items.Add(p.Name);
             } 
             if (cb_PoSName.Items.Count > 0)
                 cb_PoSName.SelectedIndex = 0;
@@ -4062,7 +4000,7 @@ namespace EveHQ.PosManager
             {
                 foreach (POS pl in POSList.Designs)
                 {
-                    if (twrName == pl.Name)
+                    if (selName == pl.Name)
                     {
                         // Enr Uranium
                         pl.PosTower.Fuel.EnrUran.Qty = pl.PosTower.A_Fuel.EnrUran.Qty;
@@ -4810,10 +4748,7 @@ namespace EveHQ.PosManager
             cb_PoSName.Items.Clear();
             foreach (POS pl in POSList.Designs)
             {
-                if (pl.Moon != "")
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.Moon + " >");
-                else
-                    cb_PoSName.Items.Add(pl.Name + " < " + pl.System + " >");
+                cb_PoSName.Items.Add(pl.Name);
             }
 
             POSList.SaveDesignListing();
