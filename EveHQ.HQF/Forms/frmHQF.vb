@@ -32,6 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
+    Dim myFleetManager As New frmFleetManager
     Dim myPilotManager As New frmPilotManager
     Dim myBCBrowser As New frmBCBrowser
     Dim myEveImport As New frmEveImport
@@ -2546,6 +2547,21 @@ Public Class frmHQF
         Next
     End Sub
 
+    Private Sub clvFittings_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles clvFittings.KeyDown
+        If e.KeyCode = Keys.F And e.Control = True Then
+            If myFleetManager.IsHandleCreated = False Then
+                myFleetManager = New frmFleetManager
+                myFleetManager.Show()
+            Else
+                If myFleetManager.WindowState = FormWindowState.Minimized Then
+                    myFleetManager.WindowState = FormWindowState.Normal
+                End If
+                myFleetManager.BringToFront()
+                myFleetManager.Show()
+            End If
+        End If
+    End Sub
+
     Private Sub clvFittings_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvFittings.MouseDoubleClick
         If clvFittings.SelectedItems.Count > 0 Then
             If clvFittings.SelectedItems(0).Items.Count = 0 Then
@@ -2670,5 +2686,18 @@ Public Class frmHQF
 
     Private Sub btnCopy_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopy.ButtonClick
         btnCopy.ShowDropDown()
+    End Sub
+
+    Private Sub tsbFleetManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbFleetManager.Click
+        If myFleetManager.IsHandleCreated = False Then
+            myFleetManager = New frmFleetManager
+            myFleetManager.Show()
+        Else
+            If myFleetManager.WindowState = FormWindowState.Minimized Then
+                myFleetManager.WindowState = FormWindowState.Normal
+            End If
+            myFleetManager.BringToFront()
+            myFleetManager.Show()
+        End If
     End Sub
 End Class

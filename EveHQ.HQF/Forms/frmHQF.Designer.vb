@@ -33,6 +33,8 @@ Partial Class frmHQF
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
         Me.btnPilotManager = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsbFleetManager = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.btnCopy = New System.Windows.Forms.ToolStripSplitButton
         Me.mnuCopyForHQF = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuCopyForEFT = New System.Windows.Forms.ToolStripMenuItem
@@ -250,7 +252,7 @@ Partial Class frmHQF
         'ToolStrip1
         '
         Me.ToolStrip1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.ToolStripSeparator5, Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.btnPilotManager, Me.ToolStripSeparator1, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.ToolStripSeparator5, Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.btnPilotManager, Me.ToolStripSeparator1, Me.tsbFleetManager, Me.ToolStripSeparator8, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1099, 25)
@@ -323,6 +325,20 @@ Partial Class frmHQF
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbFleetManager
+        '
+        Me.tsbFleetManager.Image = CType(resources.GetObject("tsbFleetManager.Image"), System.Drawing.Image)
+        Me.tsbFleetManager.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbFleetManager.Name = "tsbFleetManager"
+        Me.tsbFleetManager.Size = New System.Drawing.Size(96, 22)
+        Me.tsbFleetManager.Text = "Fleet Manager"
+        Me.tsbFleetManager.Visible = False
+        '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
         '
         'btnCopy
         '
@@ -486,7 +502,7 @@ Partial Class frmHQF
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.mnuExportToEve})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(180, 270)
+        Me.ctxFittings.Size = New System.Drawing.Size(180, 248)
         '
         'mnuFittingsFittingName
         '
@@ -2110,4 +2126,6 @@ Partial Class frmHQF
     Friend WithEvents cboFlyable As System.Windows.Forms.ComboBox
     Friend WithEvents chkFilter8192 As System.Windows.Forms.CheckBox
     Friend WithEvents mnuAddToShipBay As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tsbFleetManager As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
 End Class
