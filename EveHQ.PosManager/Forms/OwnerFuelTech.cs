@@ -28,7 +28,7 @@ namespace EveHQ.PosManager
             APITowerData atd;
             string twrName;
 
-            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
+            twrName = myData.selName;
 
             foreach (POS pl in myData.POSList.Designs)
             {
@@ -78,7 +78,7 @@ namespace EveHQ.PosManager
         {
             string twrName;
 
-            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
+            twrName = myData.selName;
             foreach (POS pl in myData.POSList.Designs)
             {
                 if (twrName == pl.Name)
@@ -98,7 +98,7 @@ namespace EveHQ.PosManager
             string ownName = "";
             string twrName;
 
-            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
+            twrName = myData.selName;
 
             foreach (POS pl in myData.POSList.Designs)
             {
@@ -134,7 +134,7 @@ namespace EveHQ.PosManager
         {
             string twrName;
 
-            twrName = myData.selName.Substring(0, myData.selName.IndexOf(" <"));
+            twrName = myData.selName;
             cb_FuelTechName.Items.Clear();
             foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
             {
