@@ -5,6 +5,7 @@
         Public Name As String
         Public Commander As String
         Public Wings As New SortedList(Of String, Wing)
+        Public FleetSetups As New SortedList(Of String, String)
     End Class
 
     <Serializable()> Public Class Wing
