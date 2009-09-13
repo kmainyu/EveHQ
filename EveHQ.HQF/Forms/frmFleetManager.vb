@@ -1,6 +1,8 @@
 ﻿Imports DotNetLib.Windows.Forms
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.IO
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmFleetManager
     Dim maxWings As Integer = 5
@@ -109,63 +111,66 @@ Public Class frmFleetManager
         clvFleetStructure.Items.Clear()
         activeFleetMembers.Clear()
 
-        ' Initialise the Fleet Node
-        Dim newFleet As New ContainerListViewItem
-        newFleet.Text = activeFleet.Name
-        newFleet.Tag = activeFleet.Name
+        If activeFleet IsNot Nothing Then
 
-        If activeFleet.Commander <> "" Then
-            newFleet.Text &= " (" & activeFleet.Commander & ")"
-            activeFleetMembers.Add(activeFleet.Commander, activeFleet.Name & ";" & "FC")
-        Else
-            newFleet.Text &= " (No Commander)"
-        End If
-        clvFleetStructure.Items.Add(newFleet)
-        If OpenFleet.Contains(activeFleet.Name) = True Or ExpandAll = True Then
-            newFleet.Expand()
-        End If
-        For Each myWing As FleetManager.Wing In activeFleet.Wings.Values
-            Dim newWing As New ContainerListViewItem
-            newWing.Text = myWing.Name
-            newWing.Tag = myWing.Name
-            If myWing.Commander <> "" Then
-                newWing.Text &= " (" & myWing.Commander & ")"
-                activeFleetMembers.Add(myWing.Commander, activeFleet.Name & ";" & myWing.Name & ";" & "WC")
+            ' Initialise the Fleet Node
+            Dim newFleet As New ContainerListViewItem
+            newFleet.Text = activeFleet.Name
+            newFleet.Tag = activeFleet.Name
+
+            If activeFleet.Commander <> "" Then
+                newFleet.Text &= " (" & activeFleet.Commander & ")"
+                activeFleetMembers.Add(activeFleet.Commander, activeFleet.Name & ";" & "FC")
             Else
-                newWing.Text &= " (No Commander)"
+                newFleet.Text &= " (No Commander)"
             End If
-            newFleet.Items.Add(newWing)
-            If OpenWings.Contains(myWing.Name) = True Or ExpandAll = True Then
-                newWing.Expand()
+            clvFleetStructure.Items.Add(newFleet)
+            If OpenFleet.Contains(activeFleet.Name) = True Or ExpandAll = True Then
+                newFleet.Expand()
             End If
-            For Each mySquad As FleetManager.Squad In myWing.Squads.Values
-                Dim newSquad As New ContainerListViewItem
-                newSquad.Text = mySquad.Name
-                newSquad.Tag = mySquad.Name
-                If mySquad.Commander <> "" Then
-                    newSquad.Text &= " (" & mySquad.Commander & ")"
-                    activeFleetMembers.Add(mySquad.Commander, activeFleet.Name & ";" & myWing.Name & ";" & mySquad.Name & ";" & "SC")
+            For Each myWing As FleetManager.Wing In activeFleet.Wings.Values
+                Dim newWing As New ContainerListViewItem
+                newWing.Text = myWing.Name
+                newWing.Tag = myWing.Name
+                If myWing.Commander <> "" Then
+                    newWing.Text &= " (" & myWing.Commander & ")"
+                    activeFleetMembers.Add(myWing.Commander, activeFleet.Name & ";" & myWing.Name & ";" & "WC")
                 Else
-                    newSquad.Text &= " (No Commander)"
+                    newWing.Text &= " (No Commander)"
                 End If
-                newWing.Items.Add(newSquad)
-                If OpenSquads.Contains(mySquad.Name) = True Or ExpandAll = True Then
-                    newSquad.Expand()
+                newFleet.Items.Add(newWing)
+                If OpenWings.Contains(myWing.Name) = True Or ExpandAll = True Then
+                    newWing.Expand()
                 End If
-                For Each myMember As String In mySquad.Members.Values
-                    Dim newMember As New ContainerListViewItem
-                    newMember.Text = myMember
-                    newMember.Tag = myMember
-                    newSquad.Items.Add(newMember)
-                    activeFleetMembers.Add(myMember, activeFleet.Name & ";" & myWing.Name & ";" & mySquad.Name)
+                For Each mySquad As FleetManager.Squad In myWing.Squads.Values
+                    Dim newSquad As New ContainerListViewItem
+                    newSquad.Text = mySquad.Name
+                    newSquad.Tag = mySquad.Name
+                    If mySquad.Commander <> "" Then
+                        newSquad.Text &= " (" & mySquad.Commander & ")"
+                        activeFleetMembers.Add(mySquad.Commander, activeFleet.Name & ";" & myWing.Name & ";" & mySquad.Name & ";" & "SC")
+                    Else
+                        newSquad.Text &= " (No Commander)"
+                    End If
+                    newWing.Items.Add(newSquad)
+                    If OpenSquads.Contains(mySquad.Name) = True Or ExpandAll = True Then
+                        newSquad.Expand()
+                    End If
+                    For Each myMember As String In mySquad.Members.Values
+                        Dim newMember As New ContainerListViewItem
+                        newMember.Text = myMember
+                        newMember.Tag = myMember
+                        newSquad.Items.Add(newMember)
+                        activeFleetMembers.Add(myMember, activeFleet.Name & ";" & myWing.Name & ";" & mySquad.Name)
+                    Next
                 Next
             Next
-        Next
+            lblViewingFleet.Text = "Viewing Fleet: " & activeFleet.Name
+        End If
 
         ' End the update of the structure
-        ExpandAll = False
         clvFleetStructure.EndUpdate()
-        lblViewingFleet.Text = "Viewing Fleet: " & activeFleet.Name
+        ExpandAll = False
 
     End Sub
 
@@ -399,7 +404,7 @@ Public Class frmFleetManager
         End If
     End Sub
 
-   
+
 
 #End Region
 
@@ -596,7 +601,7 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub FSDelete(ByVal sender As Object, ByVal e As System.EventArgs)
-       
+
     End Sub
 
     Private Sub FSRename(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -668,6 +673,28 @@ Public Class frmFleetManager
 
 #End Region
 
+    Private Sub btnSaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveFleet.Click
+        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, FleetManager.FleetCollection)
+        s.Flush()
+        s.Close()
+    End Sub
 
-  
+    Private Sub btnClearFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearFleet.Click
+        FleetManager.FleetCollection.Clear()
+        Call Me.RedrawFleetList()
+        activeFleet = Nothing
+        Call Me.RedrawFleetStructure()
+    End Sub
+
+    Private Sub btnLoadFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadFleet.Click
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            FleetManager.FleetCollection = CType(f.Deserialize(s), SortedList(Of String, FleetManager.Fleet))
+            s.Close()
+        End If
+        Call Me.RedrawFleetList()
+    End Sub
 End Class

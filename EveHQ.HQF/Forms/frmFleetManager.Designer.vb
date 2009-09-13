@@ -26,13 +26,16 @@ Partial Class frmFleetManager
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFleetManager))
         Me.clvFleetStructure = New DotNetLib.Windows.Forms.ContainerListView
         Me.colFleetStructure = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ctxFleetStructure = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.clvFleetList = New DotNetLib.Windows.Forms.ContainerListView
         Me.colFleetList = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.btnNewFleet = New System.Windows.Forms.Button
         Me.lblViewingFleet = New System.Windows.Forms.Label
         Me.clvPilotList = New DotNetLib.Windows.Forms.ContainerListView
         Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ctxFleetStructure = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.btnSaveFleet = New System.Windows.Forms.Button
+        Me.btnClearFleet = New System.Windows.Forms.Button
+        Me.btnLoadFleet = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'clvFleetStructure
@@ -47,7 +50,7 @@ Partial Class frmFleetManager
         Me.clvFleetStructure.ShowPlusMinus = True
         Me.clvFleetStructure.ShowRootTreeLines = True
         Me.clvFleetStructure.ShowTreeLines = True
-        Me.clvFleetStructure.Size = New System.Drawing.Size(247, 432)
+        Me.clvFleetStructure.Size = New System.Drawing.Size(334, 432)
         Me.clvFleetStructure.TabIndex = 0
         '
         'colFleetStructure
@@ -58,13 +61,18 @@ Partial Class frmFleetManager
         Me.colFleetStructure.Width = 225
         Me.colFleetStructure.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
         '
+        'ctxFleetStructure
+        '
+        Me.ctxFleetStructure.Name = "ctxFleetStructure"
+        Me.ctxFleetStructure.Size = New System.Drawing.Size(61, 4)
+        '
         'clvFleetList
         '
         Me.clvFleetList.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colFleetList})
         Me.clvFleetList.DefaultItemHeight = 20
         Me.clvFleetList.Location = New System.Drawing.Point(12, 12)
         Me.clvFleetList.Name = "clvFleetList"
-        Me.clvFleetList.Size = New System.Drawing.Size(247, 123)
+        Me.clvFleetList.Size = New System.Drawing.Size(334, 123)
         Me.clvFleetList.TabIndex = 1
         '
         'colFleetList
@@ -97,7 +105,7 @@ Partial Class frmFleetManager
         Me.clvPilotList.AllowDrop = True
         Me.clvPilotList.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
         Me.clvPilotList.DefaultItemHeight = 20
-        Me.clvPilotList.Location = New System.Drawing.Point(265, 12)
+        Me.clvPilotList.Location = New System.Drawing.Point(352, 12)
         Me.clvPilotList.Name = "clvPilotList"
         Me.clvPilotList.Size = New System.Drawing.Size(329, 613)
         Me.clvPilotList.TabIndex = 4
@@ -109,16 +117,41 @@ Partial Class frmFleetManager
         Me.ContainerListViewColumnHeader1.Text = "Pilot Name"
         Me.ContainerListViewColumnHeader1.Width = 300
         '
-        'ctxFleetStructure
+        'btnSaveFleet
         '
-        Me.ctxFleetStructure.Name = "ctxFleetStructure"
-        Me.ctxFleetStructure.Size = New System.Drawing.Size(61, 4)
+        Me.btnSaveFleet.Location = New System.Drawing.Point(93, 141)
+        Me.btnSaveFleet.Name = "btnSaveFleet"
+        Me.btnSaveFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnSaveFleet.TabIndex = 5
+        Me.btnSaveFleet.Text = "Save Fleet"
+        Me.btnSaveFleet.UseVisualStyleBackColor = True
+        '
+        'btnClearFleet
+        '
+        Me.btnClearFleet.Location = New System.Drawing.Point(255, 141)
+        Me.btnClearFleet.Name = "btnClearFleet"
+        Me.btnClearFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnClearFleet.TabIndex = 6
+        Me.btnClearFleet.Text = "Clear Fleet"
+        Me.btnClearFleet.UseVisualStyleBackColor = True
+        '
+        'btnLoadFleet
+        '
+        Me.btnLoadFleet.Location = New System.Drawing.Point(174, 141)
+        Me.btnLoadFleet.Name = "btnLoadFleet"
+        Me.btnLoadFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnLoadFleet.TabIndex = 7
+        Me.btnLoadFleet.Text = "Load Fleet"
+        Me.btnLoadFleet.UseVisualStyleBackColor = True
         '
         'frmFleetManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1059, 637)
+        Me.Controls.Add(Me.btnLoadFleet)
+        Me.Controls.Add(Me.btnClearFleet)
+        Me.Controls.Add(Me.btnSaveFleet)
         Me.Controls.Add(Me.clvPilotList)
         Me.Controls.Add(Me.lblViewingFleet)
         Me.Controls.Add(Me.btnNewFleet)
@@ -141,4 +174,7 @@ Partial Class frmFleetManager
     Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colFleetList As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ctxFleetStructure As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents btnSaveFleet As System.Windows.Forms.Button
+    Friend WithEvents btnClearFleet As System.Windows.Forms.Button
+    Friend WithEvents btnLoadFleet As System.Windows.Forms.Button
 End Class
