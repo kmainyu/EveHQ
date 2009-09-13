@@ -149,6 +149,19 @@ Public Class frmMap
         Next
         Me.cboAgentFaction.EndUpdate()
         Me.cboAgentFaction.Text = Me.cboAgentFaction.Items.Item(0).ToString
+        ' Load Agent's System stuff
+        Me.cboSystemFaction.Items.Clear()
+        cboSystemFaction.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cboSystemFaction.AutoCompleteSource = AutoCompleteSource.CustomSource
+        cboSystemFaction.BeginUpdate()
+        cboSystemFaction.AutoCompleteCustomSource.Add("All")
+        Me.cboSystemFaction.Items.Add("All")
+        For Each cFaction As Faction In PlugInData.FactionList.Values
+            cboSystemFaction.AutoCompleteCustomSource.Add(cFaction.factionName)
+            Me.cboSystemFaction.Items.Add(cFaction.factionName)
+        Next
+        Me.cboSystemFaction.EndUpdate()
+        Me.cboSystemFaction.Text = Me.cboSystemFaction.Items.Item(0).ToString
 
     End Sub
 
@@ -2364,11 +2377,13 @@ Public Class frmMap
         Dim agsysnam As String = agsys.Name
         Dim agreg As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Region
         Dim agcon As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Constellation
+        Dim sysfac As String = agsys.SovereigntyName
         Dim checsec As Boolean = False
         Dim checqual As Boolean = False
         Dim checlvl As Boolean = False
         Dim checloc As Boolean = False
         Dim checfac As Boolean = False
+        Dim checsysfac As Boolean = False
         Dim checdiv As Boolean = False
         Dim checcorp As Boolean = False
         Dim checassaoc As Boolean = False
@@ -2422,11 +2437,13 @@ Public Class frmMap
 
         'checking faction
         If cboAgentFaction.SelectedItem.ToString = agfacnam Or cboAgentFaction.SelectedItem.ToString = "All" Then checfac = True
+        'checking systemfaction
+        If cboSystemFaction.SelectedItem.ToString = sysfac Or cboSystemFaction.SelectedItem.ToString = "All" Then checsysfac = True
         'checking corp
         If cboAgentCorp.SelectedItem.ToString = agcorp.CorpName Or cboAgentCorp.SelectedItem.ToString = "All" Then checcorp = True
         'checking div
         If cboAgentDivision.SelectedItem.ToString = CType(PlugInData.NPCDivID(xAgent.divisionID), NPCDiv).divisionName Or cboAgentDivision.SelectedItem.ToString = "All" Then checdiv = True
-        If checfac = True And checcorp = True And checdiv = True Then checassaoc = True
+        If checfac = True And checsysfac = True And checcorp = True And checdiv = True Then checassaoc = True
 
         If checsec = True And checlvl = True And checqual = True And checloc = True And checassaoc = True Then checkag = True
 
