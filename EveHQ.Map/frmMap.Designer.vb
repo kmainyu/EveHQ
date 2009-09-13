@@ -150,6 +150,8 @@ Partial Class frmMap
         Me.cbstsconst = New System.Windows.Forms.CheckBox
         Me.cbstssys = New System.Windows.Forms.CheckBox
         Me.tabAgentSearch = New System.Windows.Forms.TabPage
+        Me.cboSystemFaction = New System.Windows.Forms.ComboBox
+        Me.lblsysfaction = New System.Windows.Forms.Label
         Me.btnSearchAgents = New System.Windows.Forms.Button
         Me.chkLevel3Agent = New System.Windows.Forms.CheckBox
         Me.chkLevel4Agent = New System.Windows.Forms.CheckBox
@@ -205,8 +207,6 @@ Partial Class frmMap
         Me.tsMap = New System.Windows.Forms.ToolStrip
         Me.tsUpdateData = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.lblsysfaction = New System.Windows.Forms.Label
-        Me.cboSystemFaction = New System.Windows.Forms.ComboBox
         Me.btnExclude = New EveHQ.Map.SplitButton
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
@@ -994,12 +994,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(163, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(162, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1471,9 +1471,26 @@ Partial Class frmMap
         Me.tabAgentSearch.Text = "Agent Search"
         Me.tabAgentSearch.UseVisualStyleBackColor = True
         '
+        'cboSystemFaction
+        '
+        Me.cboSystemFaction.FormattingEnabled = True
+        Me.cboSystemFaction.Location = New System.Drawing.Point(369, 10)
+        Me.cboSystemFaction.Name = "cboSystemFaction"
+        Me.cboSystemFaction.Size = New System.Drawing.Size(170, 21)
+        Me.cboSystemFaction.TabIndex = 147
+        '
+        'lblsysfaction
+        '
+        Me.lblsysfaction.AutoSize = True
+        Me.lblsysfaction.Location = New System.Drawing.Point(282, 14)
+        Me.lblsysfaction.Name = "lblsysfaction"
+        Me.lblsysfaction.Size = New System.Drawing.Size(84, 13)
+        Me.lblsysfaction.TabIndex = 146
+        Me.lblsysfaction.Text = "System Faction:"
+        '
         'btnSearchAgents
         '
-        Me.btnSearchAgents.Location = New System.Drawing.Point(482, 35)
+        Me.btnSearchAgents.Location = New System.Drawing.Point(480, 45)
         Me.btnSearchAgents.Name = "btnSearchAgents"
         Me.btnSearchAgents.Size = New System.Drawing.Size(59, 23)
         Me.btnSearchAgents.TabIndex = 145
@@ -1580,7 +1597,7 @@ Partial Class frmMap
         Me.cboAgentFaction.FormattingEnabled = True
         Me.cboAgentFaction.Location = New System.Drawing.Point(106, 11)
         Me.cboAgentFaction.Name = "cboAgentFaction"
-        Me.cboAgentFaction.Size = New System.Drawing.Size(135, 21)
+        Me.cboAgentFaction.Size = New System.Drawing.Size(170, 21)
         Me.cboAgentFaction.Sorted = True
         Me.cboAgentFaction.TabIndex = 134
         '
@@ -1778,24 +1795,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(137, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(136, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(136, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(136, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
@@ -1929,23 +1946,6 @@ Partial Class frmMap
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'lblsysfaction
-        '
-        Me.lblsysfaction.AutoSize = True
-        Me.lblsysfaction.Location = New System.Drawing.Point(247, 14)
-        Me.lblsysfaction.Name = "lblsysfaction"
-        Me.lblsysfaction.Size = New System.Drawing.Size(84, 13)
-        Me.lblsysfaction.TabIndex = 146
-        Me.lblsysfaction.Text = "System Faction:"
-        '
-        'cboSystemFaction
-        '
-        Me.cboSystemFaction.FormattingEnabled = True
-        Me.cboSystemFaction.Location = New System.Drawing.Point(336, 11)
-        Me.cboSystemFaction.Name = "cboSystemFaction"
-        Me.cboSystemFaction.Size = New System.Drawing.Size(135, 21)
-        Me.cboSystemFaction.TabIndex = 147
         '
         'btnExclude
         '
