@@ -2516,7 +2516,7 @@ Public Class frmHQF
                 If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
                     myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot).Name
                 Else
-                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot).Name
+                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot).Name
                 End If
             End If
             myPilotManager.Show()
