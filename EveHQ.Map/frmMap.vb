@@ -2356,6 +2356,12 @@ Public Class frmMap
                     Case 8
                         ' EventMissionAgent
                         newAgent.SubItems.Add("Event Agent")
+                    Case 9
+                        ' EventMissionAgent
+                        newAgent.SubItems.Add("FW Agent")
+                    Case 10
+                        ' EventMissionAgent
+                        newAgent.SubItems.Add("Epic Arc Agent")
                 End Select
                 lvwAgents.Items.Add(newAgent)
             End If
