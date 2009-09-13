@@ -505,7 +505,8 @@
 1125,1,25530,1093,2,303,0,1,0,0,Neurotoxin Recovery
 1229,1,28164,1211,7,1211,0,1,0,0,Thermodynamics
 # SPACESHIP COMMAND,,,,,,,,,,
-151,1,20342,70,2,547,0,1,0,0,Advanced Spaceship Command
+151,1,20342,70,5,20342,0,1,0,0,Advanced Spaceship Command
+151,1,20342,70,5,20533,0,1,0,0,Advanced Spaceship Command
 #,1,3339,0,0,0,0,1,0,0,Amarr Battleship
 #,1,24311,0,0,0,0,1,0,0,Amarr Carrier
 #,1,3335,0,0,0,0,1,0,0,Amarr Cruiser
