@@ -351,7 +351,11 @@ Public Class PlugInData
                             cSystem.y = CDbl(systemData.Tables(0).Rows(solar).Item("y"))
                             cSystem.z = CDbl(systemData.Tables(0).Rows(solar).Item("z"))
                             cSystem.Security = CDbl(systemData.Tables(0).Rows(solar).Item("security"))
-                            cSystem.EveSec = Math.Max(Int((cSystem.Security * 10) + 0.5) / 10, 0)
+                            If cSystem.Security > 0 And cSystem.Security < 0.05 Then
+                                cSystem.EveSec = 0.1
+                            Else
+                                cSystem.EveSec = Math.Max(Int((cSystem.Security * 10) + 0.5) / 10, 0)
+                            End If
                             If IsDBNull(systemData.Tables(0).Rows(solar).Item("securityClass")) = False Then
                                 cSystem.SecClass = CStr(systemData.Tables(0).Rows(solar).Item("securityClass"))
                             Else
