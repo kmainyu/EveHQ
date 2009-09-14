@@ -13,8 +13,14 @@ Public Class frmFleetManager
     Dim OpenSquads As New ArrayList
     Dim ExpandAll As Boolean = False
     Dim activeFleet As New FleetManager.Fleet
-    Dim activeFleetMembers As New SortedList(Of String, String)
+    Dim activeFleetMembers As New SortedList(Of String, FleetManager.FleetMember)
+    Dim BaseFleetShips As New SortedList(Of String, Ship)
+    Dim FinalFleetShips As New SortedList(Of String, Ship)
     Dim internalReorder As Boolean = False
+    Dim remoteGroups As New ArrayList
+    Dim fleetGroups As New ArrayList
+    Dim fleetSkills As New ArrayList
+    Dim SBModules, WBModules, FBModules As New ArrayList
 
 #Region "Form Initialisation, Loading and Closing"
 
@@ -24,20 +30,32 @@ Public Class frmFleetManager
         InitializeComponent()
 
         ' Setup the default fleet structure objects
-        Call AddTestPilots()
+        remoteGroups.Add(41)
+        remoteGroups.Add(325)
+        remoteGroups.Add(585)
+        remoteGroups.Add(67)
+        remoteGroups.Add(65)
+        remoteGroups.Add(68)
+        remoteGroups.Add(71)
+        remoteGroups.Add(291)
+        remoteGroups.Add(209)
+        remoteGroups.Add(289)
+        remoteGroups.Add(290)
+        remoteGroups.Add(208)
+        remoteGroups.Add(379)
+        remoteGroups.Add(544)
+        remoteGroups.Add(641)
+        remoteGroups.Add(640)
+        remoteGroups.Add(639)
+        fleetGroups.Add(316)
+        fleetSkills.Add("Armored Warfare")
+        fleetSkills.Add("Information Warfare")
+        fleetSkills.Add("Leadership")
+        fleetSkills.Add("Mining Foreman")
+        fleetSkills.Add("Siege Warfare")
+        fleetSkills.Add("Skirmish Warfare")
         Call RedrawFleetList()
 
-    End Sub
-
-    Private Sub AddTestPilots()
-        clvPilotList.BeginUpdate()
-        clvPilotList.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim newPilot As New ContainerListViewItem
-            newPilot.Text = cPilot.Name
-            clvPilotList.Items.Add(newPilot)
-        Next
-        clvPilotList.EndUpdate()
     End Sub
 
 #End Region
@@ -94,10 +112,37 @@ Public Class frmFleetManager
             Me.OpenFleet.Clear()
             Me.OpenSquads.Clear()
             Me.OpenWings.Clear()
+            ' Redraw the pilot list
+            Call Me.RedrawPilotList()
             ' Redraw the fleet structure
             Call Me.RedrawFleetStructure()
         End If
 
+    End Sub
+
+    Private Sub btnSaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveFleet.Click
+        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, FleetManager.FleetCollection)
+        s.Flush()
+        s.Close()
+    End Sub
+
+    Private Sub btnClearFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearFleet.Click
+        FleetManager.FleetCollection.Clear()
+        Call Me.RedrawFleetList()
+        activeFleet = Nothing
+        Call Me.RedrawFleetStructure()
+    End Sub
+
+    Private Sub btnLoadFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadFleet.Click
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            FleetManager.FleetCollection = CType(f.Deserialize(s), SortedList(Of String, FleetManager.Fleet))
+            s.Close()
+        End If
+        Call Me.RedrawFleetList()
     End Sub
 
 #End Region
@@ -120,11 +165,15 @@ Public Class frmFleetManager
 
             If activeFleet.Commander <> "" Then
                 newFleet.Text &= " (" & activeFleet.Commander & ")"
-                activeFleetMembers.Add(activeFleet.Commander, activeFleet.Name & ";" & "FC")
+                Dim newFM As New FleetManager.FleetMember
+                newFM.Name = activeFleet.Commander
+                newFM.IsFC = True
+                activeFleetMembers.Add(activeFleet.Commander, newFM)
             Else
                 newFleet.Text &= " (No Commander)"
             End If
             clvFleetStructure.Items.Add(newFleet)
+            newFleet.SubItems(1).Text = CheckForBooster(activeFleet.Commander)
             If OpenFleet.Contains(activeFleet.Name) = True Or ExpandAll = True Then
                 newFleet.Expand()
             End If
@@ -134,11 +183,16 @@ Public Class frmFleetManager
                 newWing.Tag = myWing.Name
                 If myWing.Commander <> "" Then
                     newWing.Text &= " (" & myWing.Commander & ")"
-                    activeFleetMembers.Add(myWing.Commander, activeFleet.Name & ";" & myWing.Name & ";" & "WC")
+                    Dim newFM As New FleetManager.FleetMember
+                    newFM.Name = myWing.Commander
+                    newFM.IsWC = True
+                    newFM.WingName = myWing.Name
+                    activeFleetMembers.Add(newFM.Name, newFM)
                 Else
                     newWing.Text &= " (No Commander)"
                 End If
                 newFleet.Items.Add(newWing)
+                newWing.SubItems(1).Text = CheckForBooster(myWing.Commander)
                 If OpenWings.Contains(myWing.Name) = True Or ExpandAll = True Then
                     newWing.Expand()
                 End If
@@ -148,11 +202,17 @@ Public Class frmFleetManager
                     newSquad.Tag = mySquad.Name
                     If mySquad.Commander <> "" Then
                         newSquad.Text &= " (" & mySquad.Commander & ")"
-                        activeFleetMembers.Add(mySquad.Commander, activeFleet.Name & ";" & myWing.Name & ";" & mySquad.Name & ";" & "SC")
+                        Dim newFM As New FleetManager.FleetMember
+                        newFM.Name = mySquad.Commander
+                        newFM.IsSC = True
+                        newFM.WingName = myWing.Name
+                        newFM.SquadName = mySquad.Name
+                        activeFleetMembers.Add(newFM.Name, newFM)
                     Else
                         newSquad.Text &= " (No Commander)"
                     End If
                     newWing.Items.Add(newSquad)
+                    newSquad.SubItems(1).Text = CheckForBooster(mySquad.Commander)
                     If OpenSquads.Contains(mySquad.Name) = True Or ExpandAll = True Then
                         newSquad.Expand()
                     End If
@@ -161,7 +221,12 @@ Public Class frmFleetManager
                         newMember.Text = myMember
                         newMember.Tag = myMember
                         newSquad.Items.Add(newMember)
-                        activeFleetMembers.Add(myMember, activeFleet.Name & ";" & myWing.Name & ";" & mySquad.Name)
+                        Dim newFM As New FleetManager.FleetMember
+                        newFM.Name = myMember
+                        newFM.WingName = myWing.Name
+                        newFM.SquadName = mySquad.Name
+                        activeFleetMembers.Add(newFM.Name, newFM)
+                        newMember.SubItems(1).Text = CheckForBooster(myMember)
                     Next
                 Next
             Next
@@ -173,6 +238,55 @@ Public Class frmFleetManager
         ExpandAll = False
 
     End Sub
+
+    Private Function GetPilotNameFromCLVI(ByVal selItem As ContainerListViewItem) As String
+        Select Case selItem.Depth
+            Case 1 ' FC
+                Return activeFleet.Commander
+            Case 2 ' WC
+                Dim WingName As String = selItem.Tag.ToString
+                Return activeFleet.Wings(WingName).Commander
+            Case 3 ' SC
+                Dim SquadName As String = selItem.Tag.ToString
+                Dim WingName As String = selItem.ParentItem.Tag.ToString
+                Return activeFleet.Wings(WingName).Squads(SquadName).Commander
+            Case 4 ' SM
+                Dim SquadName As String = selItem.ParentItem.Tag.ToString
+                Dim WingName As String = selItem.ParentItem.ParentItem.Tag.ToString
+                Return selItem.Tag.ToString
+            Case Else
+                Return ""
+        End Select
+    End Function
+
+    Private Function CheckForBooster(ByVal PilotName As String) As String
+        Dim Boosters As String = ""
+        If PilotName <> "" Then
+            If activeFleet.Booster = PilotName Then
+                Boosters &= "F "
+                activeFleetMembers(PilotName).IsFB = True
+            End If
+            For Each w As FleetManager.Wing In activeFleet.Wings.Values
+                If w.Booster = PilotName Then
+                    Boosters &= "W "
+                    activeFleetMembers(PilotName).IsWB = True
+                End If
+                For Each s As FleetManager.Squad In w.Squads.Values
+                    If s.Booster = PilotName Then
+                        Boosters &= "S"
+                        activeFleetMembers(PilotName).IsSB = True
+                    End If
+                Next
+            Next
+        End If
+        Return Boosters
+    End Function
+
+    Private Function CheckForExistingBooster(ByVal PilotName As String) As Boolean
+        ' Check if the pilot is already a booster
+        Dim FM As FleetManager.FleetMember = activeFleetMembers(PilotName)
+        Return (FM.IsFB Or FM.IsWB Or FM.IsSB)
+    End Function
 
     Private Sub clvFleetStructure_ItemCollapsed(ByVal sender As Object, ByVal e As DotNetLib.Windows.Forms.ContainerListViewEventArgs) Handles clvFleetStructure.ItemCollapsed
         Dim selItem As ContainerListViewItem = e.Item
@@ -213,6 +327,68 @@ Public Class frmFleetManager
 
 #End Region
 
+#Region "Pilot List Routines"
+
+    Private Sub RedrawPilotList()
+        clvPilotList.BeginUpdate()
+        clvPilotList.Items.Clear()
+        If activeFleet IsNot Nothing Then
+            For Each pilotName As String In activeFleet.FleetSetups.Keys
+                Dim newPilot As New ContainerListViewItem
+                newPilot.Text = pilotName
+                clvPilotList.Items.Add(newPilot)
+                newPilot.SubItems(1).Text = activeFleet.FleetSetups(pilotName)
+            Next
+        End If
+        clvPilotList.EndUpdate()
+    End Sub
+
+    Private Sub btnAddPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddPilot.Click
+        Dim newPilotForm As New frmFleetPilot
+        newPilotForm.FleetName = activeFleet.Name
+        newPilotForm.ShowDialog()
+        If newPilotForm.DialogResult = Windows.Forms.DialogResult.OK Then
+            Call Me.RedrawPilotList()
+        End If
+        newPilotForm.Dispose()
+    End Sub
+
+    Private Sub btnEditPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditPilot.Click
+        If clvPilotList.SelectedItems.Count > 0 Then
+            Dim pilots As New ArrayList
+            For Each pilot As ContainerListViewItem In clvPilotList.SelectedItems
+                pilots.Add(pilot.Text)
+            Next
+            Dim newPilotForm As New frmFleetPilot
+            newPilotForm.FleetName = activeFleet.Name
+            newPilotForm.PilotNames = pilots
+            newPilotForm.ShowDialog()
+            If newPilotForm.DialogResult = Windows.Forms.DialogResult.OK Then
+                Call Me.RedrawPilotList()
+            End If
+            newPilotForm.Dispose()
+        End If
+
+    End Sub
+
+    Private Sub btnDeletePilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeletePilot.Click
+        If clvPilotList.SelectedItems.Count > 0 Then
+            Dim pilots As New ArrayList
+            For Each pilot As ContainerListViewItem In clvPilotList.SelectedItems
+                pilots.Add(pilot.Text)
+            Next
+            Dim reply As Integer = MessageBox.Show("Are you sure you want to delete the selected pilots?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.Yes Then
+                For Each pilotName As String In pilots
+                    FleetManager.FleetCollection(activeFleet.Name).FleetSetups.Remove(pilotName)
+                Next
+                Call Me.RedrawPilotList()
+            End If
+        End If
+    End Sub
+
+#End Region
+
 #Region "Drag and Drop Routines"
 
     Private Sub clvFleetStructure_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvFleetStructure.DragDrop
@@ -236,7 +412,7 @@ Public Class frmFleetManager
                         fleetItem = item1
                         ' Check if the pilot is already in the fleet
                         If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
-                            MessageBox.Show(DropName & " is already part of the fleet and can be found in the role '" & activeFleetMembers(DropName) & "'.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
                             ' Check if we already have an FC
                             If activeFleet.Commander <> "" Then
@@ -269,7 +445,7 @@ Public Class frmFleetManager
                         fleetItem = wingItem.ParentItem
                         ' Check if the pilot is already in the fleet
                         If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
-                            MessageBox.Show(DropName & " is already part of the fleet and can be found in the role '" & activeFleetMembers(DropName) & "'.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
                             ' Check if we already have an WC
                             If activeFleet.Wings(wingItem.Tag.ToString).Commander <> "" Then
@@ -309,7 +485,7 @@ Public Class frmFleetManager
 
                         ' Check if the pilot is already in the fleet
                         If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
-                            MessageBox.Show(DropName & " is already part of the fleet and can be found in the role '" & activeFleetMembers(DropName) & "'.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
                             ' Check the squad limitations
                             If activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Members.Count < 10 Then
@@ -510,6 +686,15 @@ Public Class frmFleetManager
                         mnuMoveMember.Visible = False
                         mnuSep1.Visible = False
                         mnuSep2.Visible = False
+                    Else
+                        ' Get details
+                        Dim pilotName As String = activeFleet.Commander
+                        Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+                        If FM.IsFB Or FM.IsWB Or FM.IsSB Then
+                            mnuSetFleetBooster.Visible = False
+                        Else
+                            mnuRevokeBooster.Visible = False
+                        End If
                     End If
                 Case 2 ' Wing
                     mnuCreate.Text = "Create Squad"
@@ -523,6 +708,16 @@ Public Class frmFleetManager
                         mnuMoveMember.Visible = False
                         mnuSep1.Visible = False
                         mnuSep2.Visible = False
+                    Else
+                        ' Get details
+                        Dim pilotName As String = activeFleet.Wings(selItem.Tag.ToString).Commander
+                        Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+                        If FM.IsFB Or FM.IsWB Or FM.IsSB Then
+                            mnuSetFleetBooster.Visible = False
+                            mnuSetWingBooster.Visible = False
+                        Else
+                            mnuRevokeBooster.Visible = False
+                        End If
                     End If
                 Case 3 ' Squad
                     mnuCreate.Visible = False
@@ -537,6 +732,31 @@ Public Class frmFleetManager
                         mnuMoveMember.Visible = False
                         mnuSep1.Visible = False
                         mnuSep2.Visible = False
+                    Else
+                        ' Get details
+                        Dim pilotName As String = activeFleet.Wings(selItem.ParentItem.Tag.ToString).Squads(selItem.Tag.ToString).Commander
+                        Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+                        If FM.IsFB Or FM.IsWB Or FM.IsSB Then
+                            mnuSetFleetBooster.Visible = False
+                            mnuSetWingBooster.Visible = False
+                            mnuSetSquadBooster.Visible = False
+                        Else
+                            mnuRevokeBooster.Visible = False
+                        End If
+                    End If
+                Case 4 ' Squad Member
+                    mnuCreate.Visible = False
+                    mnuDelete.Visible = False
+                    mnuRename.Visible = False
+                    mnuSep1.Visible = False
+                    Dim pilotName As String = selItem.Tag.ToString
+                    Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+                    If FM.IsFB Or FM.IsWB Or FM.IsSB Then
+                        mnuSetFleetBooster.Visible = False
+                        mnuSetWingBooster.Visible = False
+                        mnuSetSquadBooster.Visible = False
+                    Else
+                        mnuRevokeBooster.Visible = False
                     End If
             End Select
         Else
@@ -613,15 +833,35 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub FSSetFleetBooster(ByVal sender As Object, ByVal e As System.EventArgs)
-
+        Dim selItem As ContainerListViewItem = clvFleetStructure.SelectedItems(0)
+        Dim pilotName As String = GetPilotNameFromCLVI(selItem)
+        If CheckForExistingBooster(pilotName) = False Then
+            activeFleet.Booster = pilotName
+            ' Redraw the structure
+            Call Me.RedrawFleetStructure()
+        End If
     End Sub
 
     Private Sub FSSetWingBooster(ByVal sender As Object, ByVal e As System.EventArgs)
-
+        Dim selItem As ContainerListViewItem = clvFleetStructure.SelectedItems(0)
+        Dim pilotName As String = GetPilotNameFromCLVI(selItem)
+        If CheckForExistingBooster(pilotName) = False Then
+            Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+            activeFleet.Wings(FM.WingName).Booster = pilotName
+            ' Redraw the structure
+            Call Me.RedrawFleetStructure()
+        End If
     End Sub
 
     Private Sub FSSetSquadBooster(ByVal sender As Object, ByVal e As System.EventArgs)
-
+        Dim selItem As ContainerListViewItem = clvFleetStructure.SelectedItems(0)
+        Dim pilotName As String = GetPilotNameFromCLVI(selItem)
+        If CheckForExistingBooster(pilotName) = False Then
+            Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+            activeFleet.Wings(FM.WingName).Squads(FM.SquadName).Booster = pilotName
+            ' Redraw the structure
+            Call Me.RedrawFleetStructure()
+        End If
     End Sub
 
     Private Sub FSLeaveFleet(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -673,28 +913,385 @@ Public Class frmFleetManager
 
 #End Region
 
-    Private Sub btnSaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveFleet.Click
-        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, FleetManager.FleetCollection)
-        s.Flush()
-        s.Close()
+#Region "Fleet Update Routines"
+
+    Private Sub btnUpdateFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateFleet.Click
+        ' Change the cursor...it could be a long calculation!
+        Me.Cursor = Cursors.WaitCursor
+        For Each pilotName As String In activeFleet.FleetSetups.Keys
+            Dim shipFit As String = activeFleet.FleetSetups(pilotName)
+            Dim fittingSep As Integer = shipFit.IndexOf(", ")
+            Dim shipName As String = shipFit.Substring(0, fittingSep)
+            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+            Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+            Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
+            aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+            ' Add the WH Environmental Affects to each ship
+            Call Me.AddWHEffects(aShip)
+            ' Apply the final fitting
+            BaseFleetShips(pilotName) = Engine.ApplyFitting(aShip, aPilot)
+        Next
+        ' Establish fleet, wing and squad boosters for this pilot
+        For Each pilotName As String In activeFleet.FleetSetups.Keys
+            Dim shipFit As String = activeFleet.FleetSetups(pilotName)
+            Dim fittingSep As Integer = shipFit.IndexOf(", ")
+            Dim shipName As String = shipFit.Substring(0, fittingSep)
+            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+            Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+            Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
+            aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+            ' Add the WH Environmental Affects to each ship
+            Call Me.AddWHEffects(aShip)
+            FinalFleetShips(pilotName) = aShip
+            Me.CalculateBoosters(FinalFleetShips(pilotName), pilotName)
+        Next
+        ' Reset the cursor
+        Me.Cursor = Cursors.Default
     End Sub
 
-    Private Sub btnClearFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearFleet.Click
-        FleetManager.FleetCollection.Clear()
-        Call Me.RedrawFleetList()
-        activeFleet = Nothing
-        Call Me.RedrawFleetStructure()
-    End Sub
-
-    Private Sub btnLoadFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadFleet.Click
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            FleetManager.FleetCollection = CType(f.Deserialize(s), SortedList(Of String, FleetManager.Fleet))
-            s.Close()
+    Private Sub AddWHEffects(ByRef cShip As Ship)
+        ' Clear the current effect
+        cShip.EnviroSlotCollection.Clear()
+        ' Set the WH Class combo if it's not activated
+        If cboWHEffect.SelectedIndex > 0 Then
+            If cboWHClass.SelectedIndex = -1 Then
+                cboWHClass.SelectedIndex = 0
+                Exit Sub
+            Else
+                Dim modName As String = ""
+                If cboWHEffect.SelectedItem.ToString = "Red Giant" Then
+                    modName = cboWHEffect.SelectedItem.ToString & " Beacon Class " & cboWHClass.SelectedItem.ToString
+                Else
+                    modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+                End If
+                Dim modID As String = CStr(ModuleLists.moduleListName(modName))
+                Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                cShip.EnviroSlotCollection.Add(eMod)
+            End If
         End If
-        Call Me.RedrawFleetList()
+    End Sub
+
+    Private Sub CalculateBoosters(ByRef cShip As Ship, ByVal pilotName As String)
+        Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+        Dim FB As String = activeFleet.Booster
+        Dim WB As String = ""
+        Dim SB As String = ""
+        If FM.WingName <> "" Then
+            WB = activeFleet.Wings(FM.WingName).Booster
+        End If
+        If FM.SquadName <> "" Then
+            SB = activeFleet.Wings(FM.WingName).Squads(FM.SquadName).Booster
+        End If
+
+        Call Me.UpdateShipEffects(cShip, FB, WB, SB)
+        Call Me.CalculateFleetEffects(cShip, FB, WB, SB)
+        Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+        cShip = Engine.ApplyFitting(cShip, aPilot)
+
+    End Sub
+
+    Private Sub CalculateFleetEffects(ByRef cShip As Ship, ByVal FB As String, ByVal WB As String, ByVal SB As String)
+        cShip.FleetSlotCollection.Clear()
+        Call Me.CalculateFleetSkillEffects(cShip, FB, WB, SB)
+        Call Me.CalculateFleetModuleEffects(cShip)
+    End Sub
+
+    Private Sub UpdateShipEffects(ByRef cShip As Ship, ByVal FB As String, ByVal WB As String, ByVal SB As String)
+        ' Get the SB Modules
+        If SB <> "" Then
+            ' Let's try and get a fitting and get some module info
+            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(SB), HQFPilot)
+            Dim remoteShip As Ship = BaseFleetShips(SB)
+            SBModules.Clear()
+            ' Check the ship bonuses for further effects (Titans use this!)
+            SBModules = GetShipGangBonusModules(remoteShip, pPilot)
+            ' Check the modules for fleet effects
+            For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                    FleetModule.ModuleState = 16
+                    FleetModule.SlotNo = 0
+                    SBModules.Add(FleetModule)
+                End If
+            Next
+        End If
+
+        ' Get the WB Modules
+        If WB <> "" Then
+            ' Let's try and get a fitting and get some module info
+            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(WB), HQFPilot)
+            Dim remoteShip As Ship = BaseFleetShips(WB)
+            WBModules.Clear()
+            ' Check the ship bonuses for further effects (Titans use this!)
+            WBModules = GetShipGangBonusModules(remoteShip, pPilot)
+            ' Check the modules for fleet effects
+            For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                    FleetModule.ModuleState = 16
+                    FleetModule.SlotNo = 0
+                    WBModules.Add(FleetModule)
+                End If
+            Next
+        End If
+
+        ' Get the FB Modules
+        If FB <> "" Then
+            ' Let's try and get a fitting and get some module info
+            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(FB), HQFPilot)
+            Dim remoteShip As Ship = BaseFleetShips(FB)
+            FBModules.Clear()
+            ' Check the ship bonuses for further effects (Titans use this!)
+            FBModules = GetShipGangBonusModules(remoteShip, pPilot)
+            ' Check the modules for fleet effects
+            For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                    FleetModule.ModuleState = 16
+                    FleetModule.SlotNo = 0
+                    FBModules.Add(FleetModule)
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub CalculateFleetSkillEffects(ByRef cShip As Ship, ByVal FB As String, ByVal WB As String, ByVal SB As String)
+
+        ' Add in the commander details
+        Dim Commanders As New ArrayList
+        If FB <> "" Then
+            Commanders.Add(FB)
+        End If
+        If WB <> "" Then
+            Commanders.Add(WB)
+        End If
+        If SB <> "" Then
+            Commanders.Add(SB)
+        End If
+
+        If Commanders.Count > 0 Then
+
+            ' Go through each commander and parse the skills
+            Dim FleetSkill(Commanders.Count + 1, fleetSkills.Count - 1) As String
+            Dim hPilot As New HQFPilot
+            For Commander As Integer = 0 To Commanders.Count - 1
+                hPilot = CType(HQFPilotCollection.HQFPilots(Commanders(Commander)), HQFPilot)
+                For Skill As Integer = 0 To fleetSkills.Count - 1
+                    If hPilot.ImplantName(10) = fleetSkills(Skill).ToString & " Mindlink" Then
+                        FleetSkill(Commander + 1, Skill) = "6"
+                        FleetSkill(0, Skill) = FleetSkill(Commander + 1, Skill)
+                        FleetSkill(Commanders.Count + 1, Skill) = hPilot.PilotName
+                    Else
+                        If hPilot.SkillSet.Contains(fleetSkills(Skill).ToString) Then
+                            FleetSkill(Commander + 1, Skill) = CType(hPilot.SkillSet(fleetSkills(Skill).ToString), HQFSkill).Level.ToString
+                            If FleetSkill(Commander + 1, Skill) >= FleetSkill(0, Skill) Then
+                                FleetSkill(0, Skill) = FleetSkill(Commander + 1, Skill)
+                                FleetSkill(Commanders.Count + 1, Skill) = hPilot.PilotName
+                            End If
+                        End If
+                    End If
+                Next
+            Next
+
+            ' Display the fleet skills data
+            For skill As Integer = 0 To fleetSkills.Count - 1
+                If CInt(FleetSkill(0, skill)) > 0 Then
+                    Dim fleetModule As New ShipModule
+                    fleetModule.Name = fleetSkills(skill).ToString & " (" & FleetSkill(Commanders.Count + 1, skill) & " - Level " & FleetSkill(0, skill) & ")"
+                    fleetModule.ID = "-" & EveHQ.Core.SkillFunctions.SkillNameToID(fleetSkills(skill).ToString)
+                    fleetModule.ModuleState = 32
+                    Select Case fleetSkills(skill).ToString
+                        Case "Armored Warfare"
+                            If CInt(FleetSkill(0, skill)) = 6 Then
+                                fleetModule.Name = "Armored Warfare Mindlink (" & FleetSkill(Commanders.Count + 1, skill) & ")"
+                                fleetModule.Attributes.Add("335", 15)
+                            Else
+                                fleetModule.Attributes.Add("335", 2 * CInt(FleetSkill(0, skill)))
+                            End If
+                        Case "Information Warfare"
+                            If CInt(FleetSkill(0, skill)) = 6 Then
+                                fleetModule.Name = "Information Warfare Mindlink (" & FleetSkill(Commanders.Count + 1, skill) & ")"
+                                fleetModule.Attributes.Add("309", 15)
+                            Else
+                                fleetModule.Attributes.Add("309", 2 * CInt(FleetSkill(0, skill)))
+                            End If
+                        Case "Leadership"
+                            fleetModule.Attributes.Add("566", 2 * CInt(FleetSkill(0, skill)))
+                        Case "Mining Foreman"
+                            If CInt(FleetSkill(0, skill)) = 6 Then
+                                fleetModule.Name = "Mining Foreman Mindlink (" & FleetSkill(Commanders.Count + 1, skill) & ")"
+                                fleetModule.Attributes.Add("434", 15)
+                            Else
+                                fleetModule.Attributes.Add("434", 2 * CInt(FleetSkill(0, skill)))
+                            End If
+                        Case "Siege Warfare"
+                            If CInt(FleetSkill(0, skill)) = 6 Then
+                                fleetModule.Name = "Siege Warfare Mindlink (" & FleetSkill(Commanders.Count + 1, skill) & ")"
+                                fleetModule.Attributes.Add("337", 15)
+                            Else
+                                fleetModule.Attributes.Add("337", 2 * CInt(FleetSkill(0, skill)))
+                            End If
+                        Case "Skirmish Warfare"
+                            If CInt(FleetSkill(0, skill)) = 6 Then
+                                fleetModule.Name = "Skirmish Warfare Mindlink (" & FleetSkill(Commanders.Count + 1, skill) & ")"
+                                fleetModule.Attributes.Add("151", -15)
+                            Else
+                                fleetModule.Attributes.Add("151", -2 * CInt(FleetSkill(0, skill)))
+                            End If
+                    End Select
+                    cShip.FleetSlotCollection.Add(fleetModule)
+                End If
+            Next
+        Else
+            cShip.FleetSlotCollection.Clear()
+        End If
+
+    End Sub
+
+    Private Sub CalculateFleetModuleEffects(ByRef cShip As Ship)
+
+        Dim FleetCollection As New SortedList
+
+        For Each fleetModule As ShipModule In SBModules
+            If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+                ' Add it to the Fleet Collection
+                FleetCollection.Add(fleetModule.Name, fleetModule)
+            Else
+                ' See if this module improves the fleet capabilities
+                Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                If compareModule.Attributes.ContainsKey("833") = True Then
+                    ' Contains the Command Bonus attribute
+                    If Math.Abs(CDbl(fleetModule.Attributes("833"))) >= Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                        FleetCollection(fleetModule.Name) = fleetModule
+                    End If
+                Else
+                    ' Contains the ECM Command Bonus attribute
+                    If compareModule.Attributes.ContainsKey("1320") = True Then
+                        ' Contains the Command Bonus attribute
+                        If Math.Abs(CDbl(fleetModule.Attributes("1320"))) >= Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                            FleetCollection(fleetModule.Name) = fleetModule
+                        End If
+                    End If
+                End If
+            End If
+
+        Next
+
+        For Each fleetModule As ShipModule In WBModules
+            If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+                ' Add it to the Fleet Collection
+                FleetCollection.Add(fleetModule.Name, fleetModule)
+            Else
+                ' See if this module improves the fleet capabilities
+                Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                If compareModule.Attributes.ContainsKey("833") = True Then
+                    ' Contains the Command Bonus attribute
+                    If Math.Abs(CDbl(fleetModule.Attributes("833"))) >= Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                        FleetCollection(fleetModule.Name) = fleetModule
+                    End If
+                Else
+                    ' Contains the ECM Command Bonus attribute
+                    If compareModule.Attributes.ContainsKey("1320") = True Then
+                        ' Contains the Command Bonus attribute
+                        If Math.Abs(CDbl(fleetModule.Attributes("1320"))) >= Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                            FleetCollection(fleetModule.Name) = fleetModule
+                        End If
+                    End If
+                End If
+            End If
+        Next
+
+        For Each fleetModule As ShipModule In FBModules
+            If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+                ' Add it to the Fleet Collection
+                FleetCollection.Add(fleetModule.Name, fleetModule)
+            Else
+                ' See if this module improves the fleet capabilities
+                Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                If compareModule.Attributes.ContainsKey("833") = True Then
+                    ' Contains the Command Bonus attribute
+                    If Math.Abs(CDbl(fleetModule.Attributes("833"))) >= Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                        FleetCollection(fleetModule.Name) = fleetModule
+                    End If
+                Else
+                    ' Contains the ECM Command Bonus attribute
+                    If compareModule.Attributes.ContainsKey("1320") = True Then
+                        ' Contains the Command Bonus attribute
+                        If Math.Abs(CDbl(fleetModule.Attributes("1320"))) >= Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                            FleetCollection(fleetModule.Name) = fleetModule
+                        End If
+                    End If
+                End If
+            End If
+        Next
+
+        For Each FleetModule As ShipModule In FleetCollection.Values
+            cShip.FleetSlotCollection.Add(FleetModule)
+        Next
+
+    End Sub
+
+    Private Function GetShipGangBonusModules(ByVal hShip As Ship, ByVal hPilot As HQFPilot) As ArrayList
+        Dim FleetModules As New ArrayList
+        If hShip IsNot Nothing Then
+            Dim shipRoles As New ArrayList
+            Dim hSkill As New HQFSkill
+            'Dim fEffect As New FinalEffect
+            'Dim fEffectList As New ArrayList
+            shipRoles = CType(Engine.ShipBonusesMap(hShip.ID), ArrayList)
+            If shipRoles IsNot Nothing Then
+                For Each chkEffect As ShipEffect In shipRoles
+                    If chkEffect.Status = 16 Then
+                        ' We have a gang bonus effect so create a dummy module for handling this
+                        Dim gangModule As New ShipModule
+                        gangModule.Name = hShip.Name & " Gang Bonus"
+                        gangModule.ID = "-1"
+                        gangModule.SlotNo = 0
+                        gangModule.ModuleState = 16
+                        If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
+                            hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
+                            If chkEffect.IsPerLevel = True Then
+                                gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value * hSkill.Level)
+                            Else
+                                gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
+                            End If
+                        Else
+                            gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
+                        End If
+                        FleetModules.Add(gangModule)
+
+                    End If
+                Next
+            End If
+        End If
+        Return FleetModules
+
+    End Function
+
+
+#End Region
+
+    Private Sub btnShipAudit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipAudit.Click
+        If clvPilotList.SelectedItems.Count = 1 Then
+            Dim pilotName As String = clvPilotList.SelectedItems(0).Text
+            Dim fittedShip As Ship = FinalFleetShips(pilotName)
+            Dim myAuditLog As New frmShipAudit
+            Dim logData() As String
+            Dim newLog As New ListViewItem
+            myAuditLog.lvwAudit.BeginUpdate()
+            For Each log As String In fittedShip.AuditLog
+                logData = log.Split("#".ToCharArray)
+                'If logData(2).Trim <> logData(3).Trim Then
+                newLog = New ListViewItem
+                newLog.Text = logData(0).Trim
+                newLog.SubItems.Add(logData(1).Trim)
+                newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                myAuditLog.lvwAudit.Items.Add(newLog)
+                'End If
+            Next
+            myAuditLog.lvwAudit.EndUpdate()
+            myAuditLog.ShowDialog()
+            myAuditLog = Nothing
+        End If
     End Sub
 End Class
