@@ -30,12 +30,16 @@ Namespace My
     Class MyApplication
 
         Private Sub MyApplication_NetworkAvailabilityChanged(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.Devices.NetworkAvailableEventArgs) Handles Me.NetworkAvailabilityChanged
-            If e.IsNetworkAvailable = False Then
-                frmEveHQ.EveStatusIcon.BalloonTipIcon = ToolTipIcon.Info
-                frmEveHQ.EveStatusIcon.BalloonTipTitle = "Network Status Notification"
-                frmEveHQ.EveStatusIcon.BalloonTipText = "EveHQ has detected that the connection to the network has been lost. This will affect the responses from the Eve Servers."
-                frmEveHQ.EveStatusIcon.ShowBalloonTip(3000)
-            End If
+            Try
+                If e.IsNetworkAvailable = False Then
+                    frmEveHQ.EveStatusIcon.BalloonTipIcon = ToolTipIcon.Info
+                    frmEveHQ.EveStatusIcon.BalloonTipTitle = "Network Status Notification"
+                    frmEveHQ.EveStatusIcon.BalloonTipText = "EveHQ has detected that the connection to the network has been lost. This will affect the responses from the Eve Servers."
+                    frmEveHQ.EveStatusIcon.ShowBalloonTip(3000)
+                End If
+            Catch ex As Exception
+                ' Some form of error here so move on and see if things still work ok?
+            End Try
         End Sub
 
         Private Sub MyApplication_Shutdown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shutdown
