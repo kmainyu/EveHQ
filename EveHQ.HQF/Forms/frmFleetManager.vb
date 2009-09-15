@@ -122,7 +122,7 @@ Public Class frmFleetManager
             Me.BaseFleetShips.Clear()
             Me.FinalFleetShips.Clear()
             ' Redraw remote modules
-            Call Me.GetRemoteModules()
+            clvModuleList.Items.Clear()
             ' Redraw the pilot list
             Call Me.RedrawPilotList()
             ' Redraw the fleet structure
@@ -1019,9 +1019,9 @@ Public Class frmFleetManager
             ' Apply the final fitting
             BaseFleetShips(pilotName) = Engine.ApplyFitting(aShip, aPilot)
         Next
-        ' Display List of remote modules available for using
-        Call Me.GetRemoteModules()
         ' Establish fleet, wing and squad boosters for this pilot
+        clvModuleList.BeginUpdate()
+        clvModuleList.Items.Clear()
         For Each pilotName As String In activeFleet.FleetSetups.Keys
             Dim shipFit As String = activeFleet.FleetSetups(pilotName)
             Dim fittingSep As Integer = shipFit.IndexOf(", ")
@@ -1033,9 +1033,13 @@ Public Class frmFleetManager
             aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
             ' Add the WH Environmental Affects to each ship
             Call Me.AddWHEffects(aShip)
-            FinalFleetShips(pilotName) = aShip
-            Me.CalculateBoosters(FinalFleetShips(pilotName), pilotName)
+            ' Display and allocate list of remote modules available for using
+            Call Me.GetRemoteModules(aShip, pilotName)
+            ' Calcalate the boosters
+            Call Me.CalculateBoosters(aShip, pilotName)
+            FinalFleetShips(pilotName) = Engine.ApplyFitting(aShip, aPilot)
         Next
+        clvModuleList.EndUpdate()
         Call Me.RedrawFleetStructure()
         ' Reset the cursor
         Me.Cursor = Cursors.Default
@@ -1077,9 +1081,6 @@ Public Class frmFleetManager
 
         Call Me.UpdateShipEffects(cShip, FB, WB, SB)
         Call Me.CalculateFleetEffects(cShip, FB, WB, SB)
-        Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
-        cShip = Engine.ApplyFitting(cShip, aPilot)
-
     End Sub
 
     Private Sub CalculateFleetEffects(ByRef cShip As Ship, ByVal FB As String, ByVal WB As String, ByVal SB As String)
@@ -1357,51 +1358,26 @@ Public Class frmFleetManager
 
     End Function
 
-    Private Sub GetRemoteModules()
-        clvModuleList.BeginUpdate()
-        clvModuleList.Items.Clear()
+    Private Sub GetRemoteModules(ByVal fleetShip As Ship, ByVal shipPilot As String)
+
         For Each pilotName As String In BaseFleetShips.Keys
-            ' Let's try and generate a fitting and get some module info
-            Dim remoteShip As Ship = BaseFleetShips(pilotName)
-            For Each remoteModule As ShipModule In remoteShip.SlotCollection
-                If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
-                    remoteModule.ModuleState = 16
-                    remoteModule.SlotNo = 0
-                    Dim newRemoteItem As New ContainerListViewItem
-                    newRemoteItem.Tag = remoteModule
-                    newRemoteItem.Text = pilotName
-                    clvModuleList.Items.Add(newRemoteItem)
-                    newRemoteItem.SubItems(1).Text = EveHQ.Core.HQ.itemGroups(remoteModule.DatabaseGroup)
-                    If remoteModule.LoadedCharge IsNot Nothing Then
-                        newRemoteItem.SubItems(2).Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
-                    Else
-                        newRemoteItem.SubItems(2).Text = remoteModule.Name
-                    End If
-                    ' Check for assignments
-                    If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
-                        Dim RG As ArrayList = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
-                        'For Each RA As FleetManager.RemoteAssignment In RG
-                        Dim RA As FleetManager.RemoteAssignment
-                        For i As Integer = RG.Count - 1 To 0 Step -1
-                            RA = CType(RG(i), FleetManager.RemoteAssignment)
-                            If RA.RemoteModule = remoteModule.Name Then
-                                newRemoteItem.SubItems(3).Text = RA.FleetPilot
-                                RG.RemoveAt(i)
-                            End If
-                        Next
-                    End If
-                End If
-            Next
-            For Each remoteDrone As DroneBayItem In remoteShip.DroneBayItems.Values
-                If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
-                    If remoteDrone.IsActive = True Then
-                        remoteDrone.DroneType.ModuleState = 16
+            If pilotName <> shipPilot Then
+                ' Let's try and generate a fitting and get some module info
+                Dim remoteShip As Ship = BaseFleetShips(pilotName)
+                For Each remoteModule As ShipModule In remoteShip.SlotCollection
+                    If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
+                        remoteModule.ModuleState = 16
+                        remoteModule.SlotNo = 0
                         Dim newRemoteItem As New ContainerListViewItem
-                        newRemoteItem.Tag = remoteDrone
+                        newRemoteItem.Tag = remoteModule
                         newRemoteItem.Text = pilotName
                         clvModuleList.Items.Add(newRemoteItem)
-                        newRemoteItem.SubItems(1).Text = EveHQ.Core.HQ.itemGroups(remoteDrone.DroneType.DatabaseGroup)
-                        newRemoteItem.SubItems(2).Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                        newRemoteItem.SubItems(1).Text = EveHQ.Core.HQ.itemGroups(remoteModule.DatabaseGroup)
+                        If remoteModule.LoadedCharge IsNot Nothing Then
+                            newRemoteItem.SubItems(2).Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
+                        Else
+                            newRemoteItem.SubItems(2).Text = remoteModule.Name
+                        End If
                         ' Check for assignments
                         If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
                             Dim RG As ArrayList = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
@@ -1409,19 +1385,46 @@ Public Class frmFleetManager
                             Dim RA As FleetManager.RemoteAssignment
                             For i As Integer = RG.Count - 1 To 0 Step -1
                                 RA = CType(RG(i), FleetManager.RemoteAssignment)
-                                If RA.RemoteModule = remoteDrone.DroneType.Name Then
+                                If RA.RemoteModule = remoteModule.Name Then
                                     newRemoteItem.SubItems(3).Text = RA.FleetPilot
                                     RG.RemoveAt(i)
+                                    fleetShip.RemoteSlotCollection.Add(remoteModule)
                                 End If
                             Next
                         End If
                     End If
-                End If
-            Next
+                Next
+                For Each remoteDrone As DroneBayItem In remoteShip.DroneBayItems.Values
+                    If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
+                        If remoteDrone.IsActive = True Then
+                            remoteDrone.DroneType.ModuleState = 16
+                            Dim newRemoteItem As New ContainerListViewItem
+                            newRemoteItem.Tag = remoteDrone
+                            newRemoteItem.Text = pilotName
+                            clvModuleList.Items.Add(newRemoteItem)
+                            newRemoteItem.SubItems(1).Text = EveHQ.Core.HQ.itemGroups(remoteDrone.DroneType.DatabaseGroup)
+                            newRemoteItem.SubItems(2).Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                            ' Check for assignments
+                            If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
+                                Dim RG As ArrayList = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
+                                'For Each RA As FleetManager.RemoteAssignment In RG
+                                Dim RA As FleetManager.RemoteAssignment
+                                For i As Integer = RG.Count - 1 To 0 Step -1
+                                    RA = CType(RG(i), FleetManager.RemoteAssignment)
+                                    If RA.RemoteModule = remoteDrone.DroneType.Name Then
+                                        newRemoteItem.SubItems(3).Text = RA.FleetPilot
+                                        RG.RemoveAt(i)
+                                        fleetShip.RemoteSlotCollection.Add(remoteDrone)
+                                    End If
+                                Next
+                            End If
+                        End If
+                    End If
+                Next
+            End If
         Next
-        clvModuleList.EndUpdate()
-    End Sub
 
+    End Sub
 
 #End Region
 

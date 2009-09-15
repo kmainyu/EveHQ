@@ -41,6 +41,7 @@
         Public FleetPilot As String
         Public RemotePilot As String
         Public RemoteModule As String
+
     End Class
 End Class
 
