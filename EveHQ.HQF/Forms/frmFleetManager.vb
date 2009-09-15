@@ -11,6 +11,7 @@ Public Class frmFleetManager
     Dim OpenFleet As New ArrayList
     Dim OpenWings As New ArrayList
     Dim OpenSquads As New ArrayList
+    Dim OpenPilots As New ArrayList
     Dim ExpandAll As Boolean = False
     Dim activeFleet As New FleetManager.Fleet
     Dim activeFleetMembers As New SortedList(Of String, FleetManager.FleetMember)
@@ -169,6 +170,29 @@ Public Class frmFleetManager
                 FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHClass = cboWHClass.SelectedItem.ToString
             End If
         End If
+    End Sub
+
+    Private Sub cboFleet_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFleet.SelectedIndexChanged
+        activeFleet = FleetManager.FleetCollection(cboFleet.SelectedItem.ToString)
+        If activeFleet.RemoteReceiving Is Nothing Then
+            activeFleet.RemoteReceiving = New SortedList(Of String, ArrayList)
+        End If
+        If activeFleet.RemoteGiving Is Nothing Then
+            activeFleet.RemoteGiving = New SortedList(Of String, ArrayList)
+        End If
+        ' Reset the open items
+        Me.OpenFleet.Clear()
+        Me.OpenSquads.Clear()
+        Me.OpenWings.Clear()
+        ' Reset Ships
+        Me.BaseFleetShips.Clear()
+        Me.FinalFleetShips.Clear()
+        ' Redraw remote modules
+        clvPilots.Items.Clear()
+        ' Redraw the pilot list
+        Call Me.RedrawPilotList()
+        ' Redraw the fleet structure
+        Call Me.RedrawFleetStructure()
     End Sub
 
 #End Region
@@ -387,6 +411,9 @@ Public Class frmFleetManager
                 Dim newPilot As New ContainerListViewItem
                 newPilot.Text = pilotName
                 clvPilots.Items.Add(newPilot)
+                If OpenPilots.Contains(pilotName) = True Then
+                    newPilot.Expand()
+                End If
                 newPilot.SubItems(1).Text = activeFleet.FleetSetups(pilotName)
                 Call Me.DisplayRemoteModules(newPilot)
                 If activeFleet.RemoteReceiving.ContainsKey(pilotName) = True Then
@@ -394,7 +421,7 @@ Public Class frmFleetManager
                         Dim newRA As New ContainerListViewItem
                         newRA.Text = RA.RemotePilot
                         newPilot.Items.Add(newRA)
-                        newRA.SubItems(1).Text = RA.RemoteModule
+                        newRA.SubItems(1).Text = RA.RemoteModule 
                     Next
                 End If
             Next
@@ -413,9 +440,9 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub btnEditPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditPilot.Click
-        If clvPilotList.SelectedItems.Count > 0 Then
+        If clvPilots.SelectedItems.Count > 0 Then
             Dim pilots As New ArrayList
-            For Each pilot As ContainerListViewItem In clvPilotList.SelectedItems
+            For Each pilot As ContainerListViewItem In clvPilots.SelectedItems
                 pilots.Add(pilot.Text)
             Next
             Dim newPilotForm As New frmFleetPilot
@@ -431,9 +458,9 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub btnDeletePilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeletePilot.Click
-        If clvPilotList.SelectedItems.Count > 0 Then
+        If clvPilots.SelectedItems.Count > 0 Then
             Dim pilots As New ArrayList
-            For Each pilot As ContainerListViewItem In clvPilotList.SelectedItems
+            For Each pilot As ContainerListViewItem In clvPilots.SelectedItems
                 pilots.Add(pilot.Text)
             Next
             Dim reply As Integer = MessageBox.Show("Are you sure you want to delete the selected pilots?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -447,8 +474,8 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub btnShipAudit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipAudit.Click
-        If clvPilotList.SelectedItems.Count = 1 Then
-            Dim pilotName As String = clvPilotList.SelectedItems(0).Text
+        If clvPilots.SelectedItems.Count = 1 Then
+            Dim pilotName As String = clvPilots.SelectedItems(0).Text
             Dim fittedShip As Ship = FinalFleetShips(pilotName)
             Dim myAuditLog As New frmShipAudit
             Dim logData() As String
@@ -538,6 +565,20 @@ Public Class frmFleetManager
             End If
         Next
 
+    End Sub
+
+    Private Sub clvPilots_ItemCollapsed(ByVal sender As Object, ByVal e As DotNetLib.Windows.Forms.ContainerListViewEventArgs) Handles clvPilots.ItemCollapsed
+        Dim selItem As ContainerListViewItem = e.Item
+        If OpenPilots.Contains(selItem.Text) = True Then
+            OpenPilots.Remove(selItem.Text)
+        End If
+    End Sub
+
+    Private Sub clvPilots_ItemExpanded(ByVal sender As Object, ByVal e As DotNetLib.Windows.Forms.ContainerListViewEventArgs) Handles clvPilots.ItemExpanded
+        Dim selItem As ContainerListViewItem = e.Item
+        If OpenPilots.Contains(selItem.Text) = False Then
+            OpenPilots.Add(selItem.Text)
+        End If
     End Sub
 
 #End Region
@@ -695,13 +736,7 @@ Public Class frmFleetManager
             myName = myName.TrimStart(" (".ToCharArray).TrimEnd(")".ToCharArray)
             clvFleetStructure.Tag = myName
         End If
-        clvPilotList.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
-    End Sub
-
-    Private Sub clvPilotList_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles clvPilotList.ItemDrag
-        Dim myItem As ContainerListViewItem = clvPilotList.SelectedItems(0)
-        ' Create a DataObject containg the ContainerListViewItem
-        clvPilotList.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
+        clvFleetStructure.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
     End Sub
 
     Private Sub clvFleetStructure_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvFleetStructure.DragOver
@@ -737,105 +772,13 @@ Public Class frmFleetManager
         End If
     End Sub
 
-    Private Sub clvPilotList_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvPilotList.DragDrop
-        ' Check for the ContainerListViewitem object.
-        If e.Data.GetDataPresent("System.Windows.Forms.ContainerListViewItem") Then
-
-            Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
-            Dim point1 As Point = clvPilotList.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvPilotList.GetItemAt(point1.Y - clvPilotList.HeaderHeight)
-
-            If item1 IsNot Nothing Then
-                If TypeOf droppedItem.Tag Is ShipModule Then
-                    If item1.Depth = 1 Then
-                        If item1.Text <> droppedItem.Text Then
-                            ' Check for being already assigned
-                            If droppedItem.SubItems(3).Text <> item1.Text Then
-                                If activeFleet.RemoteReceiving.ContainsKey(item1.Text) = False Then
-                                    activeFleet.RemoteReceiving.Add(item1.Text, New ArrayList)
-                                End If
-                                If activeFleet.RemoteGiving.ContainsKey(droppedItem.Text) = False Then
-                                    activeFleet.RemoteGiving.Add(droppedItem.Text, New ArrayList)
-                                End If
-                                ' Set the receiving modules
-                                Dim newRR As New FleetManager.RemoteAssignment
-                                newRR.FleetPilot = item1.Text
-                                newRR.RemotePilot = droppedItem.Text
-                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
-                                activeFleet.RemoteReceiving(item1.Text).Add(newRR)
-                                ' Set the giving modules
-                                Dim newRG As New FleetManager.RemoteAssignment
-                                newRR.FleetPilot = item1.Text
-                                newRR.RemotePilot = droppedItem.Text
-                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
-                                activeFleet.RemoteGiving(droppedItem.Text).Add(newRR)
-                                droppedItem.SubItems(3).Text = item1.Text
-                                ' Redraw the pilot list
-                                Call Me.RedrawPilotList()
-                            End If
-                        End If
-                    End If
-                End If
-            End If
-        Else
-            e.Effect = DragDropEffects.None
-        End If
-    End Sub
-
-    Private Sub clvPilotList_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvPilotList.DragOver
-        ' Check for the ContainerListViewitem object.
-        If e.Data.GetDataPresent("System.Windows.Forms.ContainerListViewItem") Then
-
-            Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
-            Dim point1 As Point = clvPilotList.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvPilotList.GetItemAt(point1.Y - clvPilotList.HeaderHeight)
-
-            If item1 IsNot Nothing Then
-                If TypeOf droppedItem.Tag Is ShipModule Then
-                    If item1.Depth = 1 Then
-                        If item1.Text <> droppedItem.Text Then  ' Can't drop module onto the same person!
-                            If droppedItem.SubItems(3).Text <> item1.Text Then ' Can't drop module if already assigned!
-                                clvPilotList.SelectedItems.Clear()
-                                item1.Selected = True
-                                clvPilotList.Invalidate()
-                                e.Effect = DragDropEffects.Move
-                            Else
-                                clvPilotList.SelectedItems.Clear()
-                                clvPilotList.Invalidate()
-                                e.Effect = DragDropEffects.None
-                            End If
-                        Else
-                            clvPilotList.SelectedItems.Clear()
-                            clvPilotList.Invalidate()
-                            e.Effect = DragDropEffects.None
-                        End If
-                    Else
-                        clvPilotList.SelectedItems.Clear()
-                        clvPilotList.Invalidate()
-                        e.Effect = DragDropEffects.None
-                    End If
-                Else
-                    clvPilotList.SelectedItems.Clear()
-                    clvPilotList.Invalidate()
-                    e.Effect = DragDropEffects.None
-                End If
-            Else
-                clvPilotList.SelectedItems.Clear()
-                clvPilotList.Invalidate()
-                e.Effect = DragDropEffects.None
-            End If
-        Else
-            e.Effect = DragDropEffects.None
-        End If
-    End Sub
-
     Private Sub clvPilots_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvPilots.DragDrop
         ' Check for the ContainerListViewitem object.
         If e.Data.GetDataPresent("System.Windows.Forms.ContainerListViewItem") Then
 
             Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
             Dim point1 As Point = clvPilots.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilotList.HeaderHeight)
+            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight)
 
             If item1 IsNot Nothing Then
                 If TypeOf droppedItem.Tag Is ShipModule Then
@@ -880,40 +823,40 @@ Public Class frmFleetManager
 
             Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
             Dim point1 As Point = clvPilots.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilotList.HeaderHeight)
+            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight)
 
             If item1 IsNot Nothing Then
                 If TypeOf droppedItem.Tag Is ShipModule Then
                     If item1.Depth = 1 Then
                         If item1.Text <> droppedItem.Text Then  ' Can't drop module onto the same person!
                             If droppedItem.SubItems(4).Text <> item1.Text Then ' Can't drop module if already assigned!
-                                clvPilotList.SelectedItems.Clear()
+                                clvPilots.SelectedItems.Clear()
                                 item1.Selected = True
-                                clvPilotList.Invalidate()
+                                clvPilots.Invalidate()
                                 e.Effect = DragDropEffects.Move
                             Else
-                                clvPilotList.SelectedItems.Clear()
-                                clvPilotList.Invalidate()
+                                clvPilots.SelectedItems.Clear()
+                                clvPilots.Invalidate()
                                 e.Effect = DragDropEffects.None
                             End If
                         Else
-                            clvPilotList.SelectedItems.Clear()
-                            clvPilotList.Invalidate()
+                            clvPilots.SelectedItems.Clear()
+                            clvPilots.Invalidate()
                             e.Effect = DragDropEffects.None
                         End If
                     Else
-                        clvPilotList.SelectedItems.Clear()
-                        clvPilotList.Invalidate()
+                        clvPilots.SelectedItems.Clear()
+                        clvPilots.Invalidate()
                         e.Effect = DragDropEffects.None
                     End If
                 Else
-                    clvPilotList.SelectedItems.Clear()
-                    clvPilotList.Invalidate()
+                    clvPilots.SelectedItems.Clear()
+                    clvPilots.Invalidate()
                     e.Effect = DragDropEffects.None
                 End If
             Else
-                clvPilotList.SelectedItems.Clear()
-                clvPilotList.Invalidate()
+                clvPilots.SelectedItems.Clear()
+                clvPilots.Invalidate()
                 e.Effect = DragDropEffects.None
             End If
         Else
@@ -1681,40 +1624,16 @@ Public Class frmFleetManager
 
 #End Region
 
-#Region "Fleet Modules Routines"
-
-#End Region
-
     Private Sub btnClearAssignments_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearAssignments.Click
         activeFleet.RemoteGiving.Clear()
         activeFleet.RemoteReceiving.Clear()
         Call Me.RedrawPilotList()
     End Sub
 
-    Private Sub cboFleet_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFleet.SelectedIndexChanged
-        activeFleet = FleetManager.FleetCollection(cboFleet.SelectedItem.ToString)
-        If activeFleet.RemoteReceiving Is Nothing Then
-            activeFleet.RemoteReceiving = New SortedList(Of String, ArrayList)
-        End If
-        If activeFleet.RemoteGiving Is Nothing Then
-            activeFleet.RemoteGiving = New SortedList(Of String, ArrayList)
-        End If
-        ' Reset the open items
-        Me.OpenFleet.Clear()
-        Me.OpenSquads.Clear()
-        Me.OpenWings.Clear()
-        ' Reset Ships
-        Me.BaseFleetShips.Clear()
-        Me.FinalFleetShips.Clear()
-        ' Redraw remote modules
-        clvPilots.Items.Clear()
-        ' Redraw the pilot list
-        Call Me.RedrawPilotList()
-        ' Redraw the fleet structure
-        Call Me.RedrawFleetStructure()
-    End Sub
+   
 
 
  
     
+   
 End Class
