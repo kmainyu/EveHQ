@@ -252,7 +252,7 @@ Partial Class frmHQF
         'ToolStrip1
         '
         Me.ToolStrip1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.ToolStripSeparator5, Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.btnPilotManager, Me.ToolStripSeparator1, Me.tsbFleetManager, Me.ToolStripSeparator8, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.ToolStripSeparator5, Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.tsbFleetManager, Me.ToolStripSeparator1, Me.btnPilotManager, Me.ToolStripSeparator8, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1099, 25)
@@ -333,7 +333,6 @@ Partial Class frmHQF
         Me.tsbFleetManager.Name = "tsbFleetManager"
         Me.tsbFleetManager.Size = New System.Drawing.Size(96, 22)
         Me.tsbFleetManager.Text = "Fleet Manager"
-        Me.tsbFleetManager.Visible = False
         '
         'ToolStripSeparator8
         '

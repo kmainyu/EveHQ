@@ -2547,21 +2547,6 @@ Public Class frmHQF
         Next
     End Sub
 
-    Private Sub clvFittings_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles clvFittings.KeyDown
-        If e.KeyCode = Keys.F And e.Control = True Then
-            If myFleetManager.IsHandleCreated = False Then
-                myFleetManager = New frmFleetManager
-                myFleetManager.Show()
-            Else
-                If myFleetManager.WindowState = FormWindowState.Minimized Then
-                    myFleetManager.WindowState = FormWindowState.Normal
-                End If
-                myFleetManager.BringToFront()
-                myFleetManager.Show()
-            End If
-        End If
-    End Sub
-
     Private Sub clvFittings_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvFittings.MouseDoubleClick
         If clvFittings.SelectedItems.Count > 0 Then
             If clvFittings.SelectedItems(0).Items.Count = 0 Then
