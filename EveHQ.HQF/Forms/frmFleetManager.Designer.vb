@@ -108,60 +108,75 @@ Partial Class frmFleetManager
         '
         'colFleetBooster
         '
+        Me.colFleetBooster.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.colFleetBooster.CustomSortTag = Nothing
         Me.colFleetBooster.DisplayIndex = 1
         Me.colFleetBooster.Tag = Nothing
-        Me.colFleetBooster.Text = "Booster"
-        Me.colFleetBooster.Width = 60
+        Me.colFleetBooster.Text = "Boost"
+        Me.colFleetBooster.Width = 50
         '
         'colFleetEHP
         '
+        Me.colFleetEHP.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colFleetEHP.CustomSortTag = Nothing
         Me.colFleetEHP.DisplayIndex = 2
         Me.colFleetEHP.Tag = Nothing
         Me.colFleetEHP.Text = "EHP"
+        Me.colFleetEHP.Width = 75
         '
         'colDPS
         '
+        Me.colDPS.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colDPS.CustomSortTag = Nothing
         Me.colDPS.DisplayIndex = 3
         Me.colDPS.Tag = Nothing
         Me.colDPS.Text = "DPS"
+        Me.colDPS.Width = 75
         '
         'colTank
         '
+        Me.colTank.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colTank.CustomSortTag = Nothing
         Me.colTank.DisplayIndex = 4
         Me.colTank.Tag = Nothing
         Me.colTank.Text = "Tank"
+        Me.colTank.Width = 75
         '
         'colShieldHP
         '
+        Me.colShieldHP.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colShieldHP.CustomSortTag = Nothing
         Me.colShieldHP.DisplayIndex = 5
         Me.colShieldHP.Tag = Nothing
         Me.colShieldHP.Text = "Shield"
+        Me.colShieldHP.Width = 75
         '
         'colArmorHP
         '
+        Me.colArmorHP.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colArmorHP.CustomSortTag = Nothing
         Me.colArmorHP.DisplayIndex = 6
         Me.colArmorHP.Tag = Nothing
         Me.colArmorHP.Text = "Armor"
+        Me.colArmorHP.Width = 75
         '
         'colVelocity
         '
+        Me.colVelocity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colVelocity.CustomSortTag = Nothing
         Me.colVelocity.DisplayIndex = 7
         Me.colVelocity.Tag = Nothing
         Me.colVelocity.Text = "Max Vel"
+        Me.colVelocity.Width = 75
         '
         'colCap
         '
+        Me.colCap.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colCap.CustomSortTag = Nothing
         Me.colCap.DisplayIndex = 8
         Me.colCap.Tag = Nothing
         Me.colCap.Text = "Cap Stability"
+        Me.colCap.Width = 110
         '
         'ctxFleetStructure
         '
@@ -215,7 +230,6 @@ Partial Class frmFleetManager
         '
         Me.colFitting.ContentAlign = System.Drawing.ContentAlignment.TopLeft
         Me.colFitting.CustomSortTag = Nothing
-        Me.colFitting.DisplayIndex = 1
         Me.colFitting.Tag = Nothing
         Me.colFitting.Text = "Fitting"
         Me.colFitting.Width = 250
