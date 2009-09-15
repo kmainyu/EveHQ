@@ -7,6 +7,8 @@
         Public Booster As String
         Public Wings As New SortedList(Of String, Wing)
         Public FleetSetups As New SortedList(Of String, String)
+        Public RemoteReceiving As New SortedList(Of String, ArrayList) ' Key is receiving pilot
+        Public RemoteGiving As New SortedList(Of String, ArrayList) ' Key is giving pilot
     End Class
 
     <Serializable()> Public Class Wing
@@ -33,6 +35,12 @@
         Public IsFB As Boolean
         Public IsWB As Boolean
         Public IsSB As Boolean
+    End Class
+
+    <Serializable()> Public Class RemoteAssignment
+        Public FleetPilot As String
+        Public RemotePilot As String
+        Public RemoteModule As String
     End Class
 End Class
 
