@@ -64,21 +64,38 @@ Partial Class frmFleetManager
         Me.colRemoteMod = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colRemoteAssign = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.btnClearAssignments = New System.Windows.Forms.Button
+        Me.tabFM = New System.Windows.Forms.TabControl
+        Me.tabFleetSettings = New System.Windows.Forms.TabPage
+        Me.tabFleetStructure = New System.Windows.Forms.TabPage
+        Me.panelFleetSettings = New System.Windows.Forms.Panel
+        Me.panelFleetStructure = New System.Windows.Forms.Panel
+        Me.lblFleet = New System.Windows.Forms.Label
+        Me.cboFleet = New System.Windows.Forms.ComboBox
+        Me.gbFleetSettings = New System.Windows.Forms.GroupBox
+        Me.tabFM.SuspendLayout()
+        Me.tabFleetSettings.SuspendLayout()
+        Me.tabFleetStructure.SuspendLayout()
+        Me.panelFleetSettings.SuspendLayout()
+        Me.panelFleetStructure.SuspendLayout()
+        Me.gbFleetSettings.SuspendLayout()
         Me.SuspendLayout()
         '
         'clvFleetStructure
         '
         Me.clvFleetStructure.AllowDrop = True
+        Me.clvFleetStructure.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvFleetStructure.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colFleetStructure, Me.colFleetBooster, Me.colFleetEHP, Me.colDPS, Me.colTank, Me.colShieldHP, Me.colArmorHP, Me.colVelocity, Me.colCap})
         Me.clvFleetStructure.DefaultItemHeight = 20
         Me.clvFleetStructure.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.clvFleetStructure.ItemContextMenu = Me.ctxFleetStructure
-        Me.clvFleetStructure.Location = New System.Drawing.Point(12, 357)
+        Me.clvFleetStructure.Location = New System.Drawing.Point(8, 269)
         Me.clvFleetStructure.Name = "clvFleetStructure"
         Me.clvFleetStructure.ShowPlusMinus = True
         Me.clvFleetStructure.ShowRootTreeLines = True
         Me.clvFleetStructure.ShowTreeLines = True
-        Me.clvFleetStructure.Size = New System.Drawing.Size(1008, 268)
+        Me.clvFleetStructure.Size = New System.Drawing.Size(1066, 354)
         Me.clvFleetStructure.TabIndex = 0
         '
         'colFleetStructure
@@ -153,11 +170,13 @@ Partial Class frmFleetManager
         '
         'clvFleetList
         '
+        Me.clvFleetList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.clvFleetList.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colFleetList})
         Me.clvFleetList.DefaultItemHeight = 20
-        Me.clvFleetList.Location = New System.Drawing.Point(12, 12)
+        Me.clvFleetList.Location = New System.Drawing.Point(3, 3)
         Me.clvFleetList.Name = "clvFleetList"
-        Me.clvFleetList.Size = New System.Drawing.Size(318, 123)
+        Me.clvFleetList.Size = New System.Drawing.Size(233, 620)
         Me.clvFleetList.TabIndex = 1
         '
         'colFleetList
@@ -169,7 +188,7 @@ Partial Class frmFleetManager
         '
         'btnNewFleet
         '
-        Me.btnNewFleet.Location = New System.Drawing.Point(12, 141)
+        Me.btnNewFleet.Location = New System.Drawing.Point(242, 32)
         Me.btnNewFleet.Name = "btnNewFleet"
         Me.btnNewFleet.Size = New System.Drawing.Size(75, 23)
         Me.btnNewFleet.TabIndex = 2
@@ -179,7 +198,7 @@ Partial Class frmFleetManager
         'lblViewingFleet
         '
         Me.lblViewingFleet.AutoSize = True
-        Me.lblViewingFleet.Location = New System.Drawing.Point(10, 341)
+        Me.lblViewingFleet.Location = New System.Drawing.Point(5, 253)
         Me.lblViewingFleet.Name = "lblViewingFleet"
         Me.lblViewingFleet.Size = New System.Drawing.Size(102, 13)
         Me.lblViewingFleet.TabIndex = 3
@@ -191,11 +210,11 @@ Partial Class frmFleetManager
         Me.clvPilotList.AllowMultiSelect = True
         Me.clvPilotList.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colPilot, Me.colFitting})
         Me.clvPilotList.DefaultItemHeight = 20
-        Me.clvPilotList.Location = New System.Drawing.Point(336, 12)
+        Me.clvPilotList.Location = New System.Drawing.Point(3, 35)
         Me.clvPilotList.Name = "clvPilotList"
         Me.clvPilotList.ShowPlusMinus = True
         Me.clvPilotList.ShowTreeLines = True
-        Me.clvPilotList.Size = New System.Drawing.Size(428, 206)
+        Me.clvPilotList.Size = New System.Drawing.Size(429, 174)
         Me.clvPilotList.TabIndex = 4
         '
         'colPilot
@@ -216,7 +235,7 @@ Partial Class frmFleetManager
         '
         'btnSaveFleet
         '
-        Me.btnSaveFleet.Location = New System.Drawing.Point(93, 141)
+        Me.btnSaveFleet.Location = New System.Drawing.Point(242, 61)
         Me.btnSaveFleet.Name = "btnSaveFleet"
         Me.btnSaveFleet.Size = New System.Drawing.Size(75, 23)
         Me.btnSaveFleet.TabIndex = 5
@@ -225,7 +244,8 @@ Partial Class frmFleetManager
         '
         'btnClearFleet
         '
-        Me.btnClearFleet.Location = New System.Drawing.Point(255, 141)
+        Me.btnClearFleet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnClearFleet.Location = New System.Drawing.Point(242, 600)
         Me.btnClearFleet.Name = "btnClearFleet"
         Me.btnClearFleet.Size = New System.Drawing.Size(75, 23)
         Me.btnClearFleet.TabIndex = 6
@@ -234,7 +254,7 @@ Partial Class frmFleetManager
         '
         'btnLoadFleet
         '
-        Me.btnLoadFleet.Location = New System.Drawing.Point(174, 141)
+        Me.btnLoadFleet.Location = New System.Drawing.Point(242, 90)
         Me.btnLoadFleet.Name = "btnLoadFleet"
         Me.btnLoadFleet.Size = New System.Drawing.Size(75, 23)
         Me.btnLoadFleet.TabIndex = 7
@@ -243,7 +263,7 @@ Partial Class frmFleetManager
         '
         'btnAddPilot
         '
-        Me.btnAddPilot.Location = New System.Drawing.Point(770, 12)
+        Me.btnAddPilot.Location = New System.Drawing.Point(5, 215)
         Me.btnAddPilot.Name = "btnAddPilot"
         Me.btnAddPilot.Size = New System.Drawing.Size(75, 23)
         Me.btnAddPilot.TabIndex = 8
@@ -252,7 +272,7 @@ Partial Class frmFleetManager
         '
         'btnEditPilot
         '
-        Me.btnEditPilot.Location = New System.Drawing.Point(851, 12)
+        Me.btnEditPilot.Location = New System.Drawing.Point(86, 215)
         Me.btnEditPilot.Name = "btnEditPilot"
         Me.btnEditPilot.Size = New System.Drawing.Size(75, 23)
         Me.btnEditPilot.TabIndex = 9
@@ -261,7 +281,7 @@ Partial Class frmFleetManager
         '
         'btnDeletePilot
         '
-        Me.btnDeletePilot.Location = New System.Drawing.Point(932, 12)
+        Me.btnDeletePilot.Location = New System.Drawing.Point(167, 215)
         Me.btnDeletePilot.Name = "btnDeletePilot"
         Me.btnDeletePilot.Size = New System.Drawing.Size(75, 23)
         Me.btnDeletePilot.TabIndex = 10
@@ -270,7 +290,7 @@ Partial Class frmFleetManager
         '
         'btnUpdateFleet
         '
-        Me.btnUpdateFleet.Location = New System.Drawing.Point(770, 98)
+        Me.btnUpdateFleet.Location = New System.Drawing.Point(552, 215)
         Me.btnUpdateFleet.Name = "btnUpdateFleet"
         Me.btnUpdateFleet.Size = New System.Drawing.Size(156, 23)
         Me.btnUpdateFleet.TabIndex = 11
@@ -280,7 +300,7 @@ Partial Class frmFleetManager
         'lblWHClass
         '
         Me.lblWHClass.AutoSize = True
-        Me.lblWHClass.Location = New System.Drawing.Point(17, 200)
+        Me.lblWHClass.Location = New System.Drawing.Point(17, 58)
         Me.lblWHClass.Name = "lblWHClass"
         Me.lblWHClass.Size = New System.Drawing.Size(87, 13)
         Me.lblWHClass.TabIndex = 18
@@ -291,7 +311,7 @@ Partial Class frmFleetManager
         Me.cboWHClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboWHClass.FormattingEnabled = True
         Me.cboWHClass.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6"})
-        Me.cboWHClass.Location = New System.Drawing.Point(114, 197)
+        Me.cboWHClass.Location = New System.Drawing.Point(114, 55)
         Me.cboWHClass.Name = "cboWHClass"
         Me.cboWHClass.Size = New System.Drawing.Size(59, 21)
         Me.cboWHClass.TabIndex = 17
@@ -299,7 +319,7 @@ Partial Class frmFleetManager
         'lblWHEffect
         '
         Me.lblWHEffect.AutoSize = True
-        Me.lblWHEffect.Location = New System.Drawing.Point(13, 173)
+        Me.lblWHEffect.Location = New System.Drawing.Point(17, 29)
         Me.lblWHEffect.Name = "lblWHEffect"
         Me.lblWHEffect.Size = New System.Drawing.Size(91, 13)
         Me.lblWHEffect.TabIndex = 16
@@ -310,7 +330,7 @@ Partial Class frmFleetManager
         Me.cboWHEffect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboWHEffect.FormattingEnabled = True
         Me.cboWHEffect.Items.AddRange(New Object() {"<None>", "Black Hole", "Cataclysmic Variable", "Magnetar", "Pulsar", "Red Giant", "Wolf Rayet"})
-        Me.cboWHEffect.Location = New System.Drawing.Point(114, 170)
+        Me.cboWHEffect.Location = New System.Drawing.Point(114, 26)
         Me.cboWHEffect.Name = "cboWHEffect"
         Me.cboWHEffect.Size = New System.Drawing.Size(148, 21)
         Me.cboWHEffect.TabIndex = 15
@@ -343,7 +363,7 @@ Partial Class frmFleetManager
         '
         'btnShipAudit
         '
-        Me.btnShipAudit.Location = New System.Drawing.Point(770, 41)
+        Me.btnShipAudit.Location = New System.Drawing.Point(248, 215)
         Me.btnShipAudit.Name = "btnShipAudit"
         Me.btnShipAudit.Size = New System.Drawing.Size(75, 23)
         Me.btnShipAudit.TabIndex = 20
@@ -352,11 +372,13 @@ Partial Class frmFleetManager
         '
         'clvModuleList
         '
+        Me.clvModuleList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvModuleList.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRemotePilot, Me.colRemoteModGroup, Me.colRemoteMod, Me.colRemoteAssign})
         Me.clvModuleList.DefaultItemHeight = 20
-        Me.clvModuleList.Location = New System.Drawing.Point(336, 224)
+        Me.clvModuleList.Location = New System.Drawing.Point(438, 35)
         Me.clvModuleList.Name = "clvModuleList"
-        Me.clvModuleList.Size = New System.Drawing.Size(684, 127)
+        Me.clvModuleList.Size = New System.Drawing.Size(636, 174)
         Me.clvModuleList.TabIndex = 21
         '
         'colRemotePilot
@@ -396,43 +418,132 @@ Partial Class frmFleetManager
         '
         'btnClearAssignments
         '
-        Me.btnClearAssignments.Location = New System.Drawing.Point(899, 41)
+        Me.btnClearAssignments.Location = New System.Drawing.Point(438, 215)
         Me.btnClearAssignments.Name = "btnClearAssignments"
         Me.btnClearAssignments.Size = New System.Drawing.Size(108, 23)
         Me.btnClearAssignments.TabIndex = 22
         Me.btnClearAssignments.Text = "Clear Remotes"
         Me.btnClearAssignments.UseVisualStyleBackColor = True
         '
+        'tabFM
+        '
+        Me.tabFM.Controls.Add(Me.tabFleetSettings)
+        Me.tabFM.Controls.Add(Me.tabFleetStructure)
+        Me.tabFM.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabFM.Location = New System.Drawing.Point(0, 0)
+        Me.tabFM.Name = "tabFM"
+        Me.tabFM.SelectedIndex = 0
+        Me.tabFM.Size = New System.Drawing.Size(1093, 660)
+        Me.tabFM.TabIndex = 23
+        '
+        'tabFleetSettings
+        '
+        Me.tabFleetSettings.BackColor = System.Drawing.SystemColors.Control
+        Me.tabFleetSettings.Controls.Add(Me.panelFleetSettings)
+        Me.tabFleetSettings.Location = New System.Drawing.Point(4, 22)
+        Me.tabFleetSettings.Name = "tabFleetSettings"
+        Me.tabFleetSettings.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabFleetSettings.Size = New System.Drawing.Size(1085, 634)
+        Me.tabFleetSettings.TabIndex = 0
+        Me.tabFleetSettings.Text = "Fleet Settings"
+        '
+        'tabFleetStructure
+        '
+        Me.tabFleetStructure.BackColor = System.Drawing.SystemColors.Control
+        Me.tabFleetStructure.Controls.Add(Me.panelFleetStructure)
+        Me.tabFleetStructure.Location = New System.Drawing.Point(4, 22)
+        Me.tabFleetStructure.Name = "tabFleetStructure"
+        Me.tabFleetStructure.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabFleetStructure.Size = New System.Drawing.Size(1085, 634)
+        Me.tabFleetStructure.TabIndex = 1
+        Me.tabFleetStructure.Text = "Fleet Structure"
+        '
+        'panelFleetSettings
+        '
+        Me.panelFleetSettings.Controls.Add(Me.gbFleetSettings)
+        Me.panelFleetSettings.Controls.Add(Me.clvFleetList)
+        Me.panelFleetSettings.Controls.Add(Me.btnNewFleet)
+        Me.panelFleetSettings.Controls.Add(Me.btnSaveFleet)
+        Me.panelFleetSettings.Controls.Add(Me.btnClearFleet)
+        Me.panelFleetSettings.Controls.Add(Me.btnLoadFleet)
+        Me.panelFleetSettings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelFleetSettings.Location = New System.Drawing.Point(3, 3)
+        Me.panelFleetSettings.Name = "panelFleetSettings"
+        Me.panelFleetSettings.Size = New System.Drawing.Size(1079, 628)
+        Me.panelFleetSettings.TabIndex = 0
+        '
+        'panelFleetStructure
+        '
+        Me.panelFleetStructure.Controls.Add(Me.cboFleet)
+        Me.panelFleetStructure.Controls.Add(Me.lblFleet)
+        Me.panelFleetStructure.Controls.Add(Me.clvPilotList)
+        Me.panelFleetStructure.Controls.Add(Me.clvModuleList)
+        Me.panelFleetStructure.Controls.Add(Me.lblViewingFleet)
+        Me.panelFleetStructure.Controls.Add(Me.btnDeletePilot)
+        Me.panelFleetStructure.Controls.Add(Me.clvFleetStructure)
+        Me.panelFleetStructure.Controls.Add(Me.btnUpdateFleet)
+        Me.panelFleetStructure.Controls.Add(Me.btnAddPilot)
+        Me.panelFleetStructure.Controls.Add(Me.btnClearAssignments)
+        Me.panelFleetStructure.Controls.Add(Me.btnEditPilot)
+        Me.panelFleetStructure.Controls.Add(Me.btnShipAudit)
+        Me.panelFleetStructure.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelFleetStructure.Location = New System.Drawing.Point(3, 3)
+        Me.panelFleetStructure.Name = "panelFleetStructure"
+        Me.panelFleetStructure.Size = New System.Drawing.Size(1079, 628)
+        Me.panelFleetStructure.TabIndex = 0
+        '
+        'lblFleet
+        '
+        Me.lblFleet.AutoSize = True
+        Me.lblFleet.Location = New System.Drawing.Point(5, 9)
+        Me.lblFleet.Name = "lblFleet"
+        Me.lblFleet.Size = New System.Drawing.Size(35, 13)
+        Me.lblFleet.TabIndex = 23
+        Me.lblFleet.Text = "Fleet:"
+        '
+        'cboFleet
+        '
+        Me.cboFleet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFleet.FormattingEnabled = True
+        Me.cboFleet.Location = New System.Drawing.Point(46, 6)
+        Me.cboFleet.Name = "cboFleet"
+        Me.cboFleet.Size = New System.Drawing.Size(193, 21)
+        Me.cboFleet.Sorted = True
+        Me.cboFleet.TabIndex = 24
+        '
+        'gbFleetSettings
+        '
+        Me.gbFleetSettings.Controls.Add(Me.lblWHEffect)
+        Me.gbFleetSettings.Controls.Add(Me.cboWHEffect)
+        Me.gbFleetSettings.Controls.Add(Me.lblWHClass)
+        Me.gbFleetSettings.Controls.Add(Me.cboWHClass)
+        Me.gbFleetSettings.Enabled = False
+        Me.gbFleetSettings.Location = New System.Drawing.Point(348, 32)
+        Me.gbFleetSettings.Name = "gbFleetSettings"
+        Me.gbFleetSettings.Size = New System.Drawing.Size(283, 169)
+        Me.gbFleetSettings.TabIndex = 19
+        Me.gbFleetSettings.TabStop = False
+        Me.gbFleetSettings.Text = "Fleet Settings"
+        '
         'frmFleetManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1032, 637)
-        Me.Controls.Add(Me.clvModuleList)
-        Me.Controls.Add(Me.lblWHClass)
-        Me.Controls.Add(Me.btnClearAssignments)
-        Me.Controls.Add(Me.cboWHClass)
-        Me.Controls.Add(Me.lblWHEffect)
-        Me.Controls.Add(Me.btnShipAudit)
-        Me.Controls.Add(Me.cboWHEffect)
-        Me.Controls.Add(Me.btnLoadFleet)
-        Me.Controls.Add(Me.btnClearFleet)
-        Me.Controls.Add(Me.btnSaveFleet)
-        Me.Controls.Add(Me.btnDeletePilot)
-        Me.Controls.Add(Me.btnEditPilot)
-        Me.Controls.Add(Me.btnAddPilot)
-        Me.Controls.Add(Me.lblViewingFleet)
-        Me.Controls.Add(Me.btnNewFleet)
-        Me.Controls.Add(Me.clvFleetList)
-        Me.Controls.Add(Me.btnUpdateFleet)
-        Me.Controls.Add(Me.clvPilotList)
-        Me.Controls.Add(Me.clvFleetStructure)
+        Me.ClientSize = New System.Drawing.Size(1093, 660)
+        Me.Controls.Add(Me.tabFM)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmFleetManager"
         Me.Text = "HQF Fleet Manager"
+        Me.tabFM.ResumeLayout(False)
+        Me.tabFleetSettings.ResumeLayout(False)
+        Me.tabFleetStructure.ResumeLayout(False)
+        Me.panelFleetSettings.ResumeLayout(False)
+        Me.panelFleetStructure.ResumeLayout(False)
+        Me.panelFleetStructure.PerformLayout()
+        Me.gbFleetSettings.ResumeLayout(False)
+        Me.gbFleetSettings.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents clvFleetStructure As DotNetLib.Windows.Forms.ContainerListView
@@ -475,4 +586,12 @@ Partial Class frmFleetManager
     Friend WithEvents colArmorHP As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colVelocity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colCap As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents tabFM As System.Windows.Forms.TabControl
+    Friend WithEvents tabFleetSettings As System.Windows.Forms.TabPage
+    Friend WithEvents panelFleetSettings As System.Windows.Forms.Panel
+    Friend WithEvents tabFleetStructure As System.Windows.Forms.TabPage
+    Friend WithEvents panelFleetStructure As System.Windows.Forms.Panel
+    Friend WithEvents cboFleet As System.Windows.Forms.ComboBox
+    Friend WithEvents lblFleet As System.Windows.Forms.Label
+    Friend WithEvents gbFleetSettings As System.Windows.Forms.GroupBox
 End Class

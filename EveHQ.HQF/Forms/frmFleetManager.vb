@@ -84,7 +84,6 @@ Public Class frmFleetManager
             FleetManager.FleetCollection.Add(newFleet.Name, newFleet)
             activeFleet = FleetManager.FleetCollection(newFleet.Name)
             Call Me.RedrawFleetList()
-            Call Me.RedrawFleetStructure()
         End If
 
         ' Dispose of the form
@@ -96,39 +95,39 @@ Public Class frmFleetManager
         ' Redraw the list of fleets
         clvFleetList.BeginUpdate()
         clvFleetList.Items.Clear()
+        cboFleet.BeginUpdate()
+        cboFleet.Items.Clear()
         For Each fleetName As String In FleetManager.FleetCollection.Keys
             Dim newFleet As New ContainerListViewItem
             newFleet.Text = fleetName
             clvFleetList.Items.Add(newFleet)
+            cboFleet.Items.Add(fleetName)
         Next
         clvFleetList.EndUpdate()
+        cboFleet.EndUpdate()
     End Sub
 
     Private Sub clvFleetList_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFleetList.SelectedItemsChanged
         If clvFleetList.SelectedItems.Count > 0 Then
             Dim selFleet As ContainerListViewItem = clvFleetList.SelectedItems(0)
-            activeFleet = FleetManager.FleetCollection(selFleet.Text)
-            If activeFleet.RemoteReceiving Is Nothing Then
-                activeFleet.RemoteReceiving = New SortedList(Of String, ArrayList)
+            gbFleetSettings.Text = "Fleet Settings - " & selFleet.Text
+            gbFleetSettings.Tag = selFleet.Text
+            gbFleetSettings.Enabled = True
+            If FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHEffect = "" Then
+                cboWHEffect.SelectedIndex = -1
+            Else
+                If cboWHEffect.Items.Contains(FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHEffect) Then
+                    cboWHEffect.SelectedItem = FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHEffect
+                End If
             End If
-            If activeFleet.RemoteGiving Is Nothing Then
-                activeFleet.RemoteGiving = New SortedList(Of String, ArrayList)
+            If FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHClass = "" Then
+                cboWHClass.SelectedIndex = -1
+            Else
+                If cboWHClass.Items.Contains(FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHClass) Then
+                    cboWHClass.SelectedItem = FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHClass
+                End If
             End If
-            ' Reset the open items
-            Me.OpenFleet.Clear()
-            Me.OpenSquads.Clear()
-            Me.OpenWings.Clear()
-            ' Reset Ships
-            Me.BaseFleetShips.Clear()
-            Me.FinalFleetShips.Clear()
-            ' Redraw remote modules
-            clvModuleList.Items.Clear()
-            ' Redraw the pilot list
-            Call Me.RedrawPilotList()
-            ' Redraw the fleet structure
-            Call Me.RedrawFleetStructure()
         End If
-
     End Sub
 
     Private Sub btnSaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveFleet.Click
@@ -154,6 +153,18 @@ Public Class frmFleetManager
             s.Close()
         End If
         Call Me.RedrawFleetList()
+    End Sub
+
+    Private Sub cboWHEffect_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHEffect.SelectedIndexChanged
+        If gbFleetSettings.Tag IsNot Nothing Then
+            FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHEffect = cboWHEffect.SelectedItem.ToString
+        End If
+    End Sub
+
+    Private Sub cboWHClass_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHClass.SelectedIndexChanged
+        If gbFleetSettings.Tag IsNot Nothing Then
+            FleetManager.FleetCollection(gbFleetSettings.Tag.ToString).WHClass = cboWHClass.SelectedItem.ToString
+        End If
     End Sub
 
 #End Region
@@ -1049,16 +1060,15 @@ Public Class frmFleetManager
         ' Clear the current effect
         cShip.EnviroSlotCollection.Clear()
         ' Set the WH Class combo if it's not activated
-        If cboWHEffect.SelectedIndex > 0 Then
-            If cboWHClass.SelectedIndex = -1 Then
-                cboWHClass.SelectedIndex = 0
+        If activeFleet.WHEffect <> "" And activeFleet.WHEffect <> "<None>" Then
+            If activeFleet.WHClass = "" Then
                 Exit Sub
             Else
                 Dim modName As String = ""
-                If cboWHEffect.SelectedItem.ToString = "Red Giant" Then
-                    modName = cboWHEffect.SelectedItem.ToString & " Beacon Class " & cboWHClass.SelectedItem.ToString
+                If activeFleet.WHEffect = "Red Giant" Then
+                    modName = activeFleet.WHEffect & " Beacon Class " & activeFleet.WHClass
                 Else
-                    modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+                    modName = activeFleet.WHEffect & " Effect Beacon Class " & activeFleet.WHClass
                 End If
                 Dim modID As String = CStr(ModuleLists.moduleListName(modName))
                 Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
@@ -1535,4 +1545,30 @@ Public Class frmFleetManager
         activeFleet.RemoteReceiving.Clear()
         Call Me.RedrawPilotList()
     End Sub
+
+    Private Sub cboFleet_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFleet.SelectedIndexChanged
+        activeFleet = FleetManager.FleetCollection(cboFleet.SelectedItem.ToString)
+        If activeFleet.RemoteReceiving Is Nothing Then
+            activeFleet.RemoteReceiving = New SortedList(Of String, ArrayList)
+        End If
+        If activeFleet.RemoteGiving Is Nothing Then
+            activeFleet.RemoteGiving = New SortedList(Of String, ArrayList)
+        End If
+        ' Reset the open items
+        Me.OpenFleet.Clear()
+        Me.OpenSquads.Clear()
+        Me.OpenWings.Clear()
+        ' Reset Ships
+        Me.BaseFleetShips.Clear()
+        Me.FinalFleetShips.Clear()
+        ' Redraw remote modules
+        clvModuleList.Items.Clear()
+        ' Redraw the pilot list
+        Call Me.RedrawPilotList()
+        ' Redraw the fleet structure
+        Call Me.RedrawFleetStructure()
+    End Sub
+
+ 
+    
 End Class

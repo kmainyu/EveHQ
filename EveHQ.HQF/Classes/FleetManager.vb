@@ -9,6 +9,9 @@
         Public FleetSetups As New SortedList(Of String, String)
         Public RemoteReceiving As New SortedList(Of String, ArrayList) ' Key is receiving pilot
         Public RemoteGiving As New SortedList(Of String, ArrayList) ' Key is giving pilot
+        Public WHEffect As String
+        Public WHClass As String
+        Public DamageProfile As String
     End Class
 
     <Serializable()> Public Class Wing
