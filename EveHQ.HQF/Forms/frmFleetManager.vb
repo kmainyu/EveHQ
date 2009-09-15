@@ -1624,26 +1624,19 @@ Public Class frmFleetManager
 
     Private Sub GetRemoteModules(ByVal fleetShip As Ship, ByVal shipPilot As String)
 
-        For Each pilotName As String In BaseFleetShips.Keys
-            If pilotName <> shipPilot Then
-                ' Let's try and generate a fitting and get some module info
-                Dim remoteShip As Ship = BaseFleetShips(pilotName)
+        If activeFleet.RemoteReceiving.ContainsKey(shipPilot) = True Then
+            Dim RR As ArrayList = CType(activeFleet.RemoteReceiving(shipPilot).Clone, ArrayList)
+            Dim RA As FleetManager.RemoteAssignment
+            For i As Integer = RR.Count - 1 To 0 Step -1
+                RA = CType(RR(i), FleetManager.RemoteAssignment)
+                Dim remoteShip As Ship = BaseFleetShips(RA.RemotePilot)
                 For Each remoteModule As ShipModule In remoteShip.SlotCollection
                     If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
                         remoteModule.ModuleState = 16
                         remoteModule.SlotNo = 0
-                        ' Check for assignments
-                        If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
-                            Dim RG As ArrayList = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
-                            'For Each RA As FleetManager.RemoteAssignment In RG
-                            Dim RA As FleetManager.RemoteAssignment
-                            For i As Integer = RG.Count - 1 To 0 Step -1
-                                RA = CType(RG(i), FleetManager.RemoteAssignment)
-                                If RA.RemoteModule = remoteModule.Name Then
-                                    RG.RemoveAt(i)
-                                    fleetShip.RemoteSlotCollection.Add(remoteModule)
-                                End If
-                            Next
+                        If RA.RemoteModule = remoteModule.Name Then
+                            RR.RemoveAt(i)
+                            fleetShip.RemoteSlotCollection.Add(remoteModule)
                         End If
                     End If
                 Next
@@ -1651,25 +1644,15 @@ Public Class frmFleetManager
                     If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
                         If remoteDrone.IsActive = True Then
                             remoteDrone.DroneType.ModuleState = 16
-                            ' Check for assignments
-                            If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
-                                Dim RG As ArrayList = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
-                                'For Each RA As FleetManager.RemoteAssignment In RG
-                                Dim RA As FleetManager.RemoteAssignment
-                                For i As Integer = RG.Count - 1 To 0 Step -1
-                                    RA = CType(RG(i), FleetManager.RemoteAssignment)
-                                    If RA.RemoteModule = remoteDrone.DroneType.Name Then
-                                        RG.RemoveAt(i)
-                                        fleetShip.RemoteSlotCollection.Add(remoteDrone)
-                                    End If
-                                Next
+                            If RA.RemoteModule = remoteDrone.DroneType.Name Then
+                                RR.RemoveAt(i)
+                                fleetShip.RemoteSlotCollection.Add(remoteDrone)
                             End If
                         End If
                     End If
                 Next
-            End If
-        Next
-
+            Next
+        End If
     End Sub
 
 #End Region

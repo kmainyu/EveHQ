@@ -72,12 +72,15 @@ Partial Class frmFleetManager
         Me.panelFleetStructure = New System.Windows.Forms.Panel
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
+        Me.ctxPilotList = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RemoveAssignmnetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
         Me.panelFleetSettings.SuspendLayout()
         Me.gbFleetSettings.SuspendLayout()
         Me.tabFleetStructure.SuspendLayout()
         Me.panelFleetStructure.SuspendLayout()
+        Me.ctxPilotList.SuspendLayout()
         Me.SuspendLayout()
         '
         'clvFleetStructure
@@ -537,6 +540,18 @@ Partial Class frmFleetManager
         Me.lblFleet.TabIndex = 23
         Me.lblFleet.Text = "Fleet:"
         '
+        'ctxPilotList
+        '
+        Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveAssignmnetToolStripMenuItem})
+        Me.ctxPilotList.Name = "ctxPilotList"
+        Me.ctxPilotList.Size = New System.Drawing.Size(184, 48)
+        '
+        'RemoveAssignmnetToolStripMenuItem
+        '
+        Me.RemoveAssignmnetToolStripMenuItem.Name = "RemoveAssignmnetToolStripMenuItem"
+        Me.RemoveAssignmnetToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.RemoveAssignmnetToolStripMenuItem.Text = "Remove Assignment"
+        '
         'frmFleetManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -555,6 +570,7 @@ Partial Class frmFleetManager
         Me.tabFleetStructure.ResumeLayout(False)
         Me.panelFleetStructure.ResumeLayout(False)
         Me.panelFleetStructure.PerformLayout()
+        Me.ctxPilotList.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -606,4 +622,6 @@ Partial Class frmFleetManager
     Friend WithEvents lblFleet As System.Windows.Forms.Label
     Friend WithEvents gbFleetSettings As System.Windows.Forms.GroupBox
     Friend WithEvents colPilotFitting As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ctxPilotList As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents RemoveAssignmnetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
