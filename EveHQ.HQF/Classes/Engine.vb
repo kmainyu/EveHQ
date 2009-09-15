@@ -1144,7 +1144,7 @@ Public Class Engine
         Return newShip
     End Function
 
-    Private Shared Function CollectModules(ByVal newShip As Ship) As Ship
+    Public Shared Function CollectModules(ByVal newShip As Ship) As Ship
         newShip.SlotCollection.Clear()
         For Each RemoteObject As Object In newShip.RemoteSlotCollection
             If TypeOf RemoteObject Is ShipModule Then
