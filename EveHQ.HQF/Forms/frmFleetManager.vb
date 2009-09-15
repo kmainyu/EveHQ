@@ -421,7 +421,7 @@ Public Class frmFleetManager
                         Dim newRA As New ContainerListViewItem
                         newRA.Text = RA.RemotePilot
                         newPilot.Items.Add(newRA)
-                        newRA.SubItems(1).Text = RA.RemoteModule 
+                        newRA.SubItems(3).Text = RA.RemoteModule
                     Next
                 End If
             Next
@@ -1666,8 +1666,10 @@ Public Class frmFleetManager
     Private Sub ctxPilotList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPilotList.Opening
         If clvPilots.SelectedItems.Count = 1 Then
             Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
-            If Not (selItem.Depth = 2 And selItem.Text <> selItem.ParentItem.Text) Then
-                e.Cancel = True
+            If selItem.Depth = 2 Then
+                If selItem.Text = selItem.ParentItem.Text And selItem.SubItems(4).Text = "" Then
+                    e.Cancel = True
+                End If
             End If
         Else
             e.Cancel = True
@@ -1676,11 +1678,19 @@ Public Class frmFleetManager
 
     Private Sub mnuRemoveRemoteModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveRemoteModule.Click
         If clvPilots.SelectedItems.Count > 0 Then
-            ' Get the remote module information
+            ' Determine which deletion method we are using
             Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
-            Dim remotePilot As String = selItem.Text
-            Dim fleetPilot As String = selItem.ParentItem.Text
-            Dim remoteModule As String = selItem.SubItems(1).Text
+            Dim remotePilot As String = ""
+            Dim fleetPilot As String = ""
+            If selItem.Text = selItem.ParentItem.Text Then
+                remotePilot = selItem.Text
+                fleetPilot = selItem.SubItems(4).Text
+            Else
+                remotePilot = selItem.Text
+                fleetPilot = selItem.ParentItem.Text
+            End If
+            ' Get the remote module information
+            Dim remoteModule As String = selItem.SubItems(3).Text
             Dim RA As FleetManager.RemoteAssignment
             ' First, remove it from the receiving pilot
             Dim RR As ArrayList = activeFleet.RemoteReceiving(fleetPilot)
