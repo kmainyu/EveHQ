@@ -600,19 +600,30 @@ Public Class frmFleetManager
             End If
 
             If item1 IsNot Nothing Then
-                Select Case item1.Depth
-                    Case 1 ' FC
-                        Dim fleetItem As ContainerListViewItem
-                        fleetItem = item1
-                        ' Check if the pilot is already in the fleet
-                        If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
-                            MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            ' Check if we already have an FC
-                            If activeFleet.Commander <> "" Then
-                                Dim msg As String = "The Fleet already has an active Fleet Commander. Would you like to replace " & activeFleet.Commander & " with " & DropName & "?"
-                                Dim reply As Integer = MessageBox.Show(msg, "Confirm FC Replacement", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                                If reply = DialogResult.Yes Then
+                If Not (TypeOf droppedItem.Tag Is ShipModule) Then
+                    Select Case item1.Depth
+                        Case 1 ' FC
+                            Dim fleetItem As ContainerListViewItem
+                            fleetItem = item1
+                            ' Check if the pilot is already in the fleet
+                            If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
+                                MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Else
+                                ' Check if we already have an FC
+                                If activeFleet.Commander <> "" Then
+                                    Dim msg As String = "The Fleet already has an active Fleet Commander. Would you like to replace " & activeFleet.Commander & " with " & DropName & "?"
+                                    Dim reply As Integer = MessageBox.Show(msg, "Confirm FC Replacement", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                    If reply = DialogResult.Yes Then
+                                        If internalReorder = True Then
+                                            ' Need to check where the pilot came from and remove him
+                                            Call RemoveMember(droppedItem)
+                                        End If
+                                        ' Install the new FC
+                                        activeFleet.Commander = DropName
+                                        ' Redraw the structure
+                                        Call Me.RedrawFleetStructure()
+                                    End If
+                                Else
                                     If internalReorder = True Then
                                         ' Need to check where the pilot came from and remove him
                                         Call RemoveMember(droppedItem)
@@ -622,30 +633,30 @@ Public Class frmFleetManager
                                     ' Redraw the structure
                                     Call Me.RedrawFleetStructure()
                                 End If
-                            Else
-                                If internalReorder = True Then
-                                    ' Need to check where the pilot came from and remove him
-                                    Call RemoveMember(droppedItem)
-                                End If
-                                ' Install the new FC
-                                activeFleet.Commander = DropName
-                                ' Redraw the structure
-                                Call Me.RedrawFleetStructure()
                             End If
-                        End If
-                    Case 2 ' WC
-                        Dim wingItem, fleetItem As ContainerListViewItem
-                        wingItem = item1
-                        fleetItem = wingItem.ParentItem
-                        ' Check if the pilot is already in the fleet
-                        If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
-                            MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            ' Check if we already have an WC
-                            If activeFleet.Wings(wingItem.Tag.ToString).Commander <> "" Then
-                                Dim msg As String = "This Wing already has an active Wing Commander. Would you like to replace " & activeFleet.Wings(wingItem.Tag.ToString).Commander & " with " & DropName & "?"
-                                Dim reply As Integer = MessageBox.Show(msg, "Confirm WC Replacement", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                                If reply = DialogResult.Yes Then
+                        Case 2 ' WC
+                            Dim wingItem, fleetItem As ContainerListViewItem
+                            wingItem = item1
+                            fleetItem = wingItem.ParentItem
+                            ' Check if the pilot is already in the fleet
+                            If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
+                                MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Else
+                                ' Check if we already have an WC
+                                If activeFleet.Wings(wingItem.Tag.ToString).Commander <> "" Then
+                                    Dim msg As String = "This Wing already has an active Wing Commander. Would you like to replace " & activeFleet.Wings(wingItem.Tag.ToString).Commander & " with " & DropName & "?"
+                                    Dim reply As Integer = MessageBox.Show(msg, "Confirm WC Replacement", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                    If reply = DialogResult.Yes Then
+                                        If internalReorder = True Then
+                                            ' Need to check where the pilot came from and remove him
+                                            Call RemoveMember(droppedItem)
+                                        End If
+                                        ' Install the new WC
+                                        activeFleet.Wings(wingItem.Tag.ToString).Commander = DropName
+                                        ' Redraw the structure
+                                        Call Me.RedrawFleetStructure()
+                                    End If
+                                Else
                                     If internalReorder = True Then
                                         ' Need to check where the pilot came from and remove him
                                         Call RemoveMember(droppedItem)
@@ -655,74 +666,86 @@ Public Class frmFleetManager
                                     ' Redraw the structure
                                     Call Me.RedrawFleetStructure()
                                 End If
-                            Else
-                                If internalReorder = True Then
-                                    ' Need to check where the pilot came from and remove him
-                                    Call RemoveMember(droppedItem)
-                                End If
-                                ' Install the new WC
-                                activeFleet.Wings(wingItem.Tag.ToString).Commander = DropName
-                                ' Redraw the structure
-                                Call Me.RedrawFleetStructure()
                             End If
-                        End If
-                    Case 3, 4 ' SC or SM
-                        ' Check if this is squad header or a member
-                        Dim squadItem, wingItem, fleetItem As ContainerListViewItem
-                        If item1.Depth = 4 Then
-                            squadItem = item1.ParentItem
-                        Else
-                            squadItem = item1
-                        End If
-                        wingItem = squadItem.ParentItem
-                        fleetItem = wingItem.ParentItem
+                        Case 3, 4 ' SC or SM
+                            ' Check if this is squad header or a member
+                            Dim squadItem, wingItem, fleetItem As ContainerListViewItem
+                            If item1.Depth = 4 Then
+                                squadItem = item1.ParentItem
+                            Else
+                                squadItem = item1
+                            End If
+                            wingItem = squadItem.ParentItem
+                            fleetItem = wingItem.ParentItem
 
-                        ' Check if the pilot is already in the fleet
-                        If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
-                            MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            ' Check the squad limitations
-                            If activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Members.Count < 10 Then
-                                ' Check if we have a squad commander - if not, install as SC, otherwise install as SM
-                                If activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Commander = "" Then
-                                    ' Install as SC
-                                    If internalReorder = True Then
-                                        ' Need to check where the pilot came from and remove him
-                                        Call RemoveMember(droppedItem)
-                                    End If
-                                    activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Commander = DropName
-                                    ' Redraw the structure
-                                    Call Me.RedrawFleetStructure()
-                                Else
-                                    ' Install as SM
-                                    If internalReorder = True Then
-                                        ' Need to check where the pilot came from and remove him
-                                        Call RemoveMember(droppedItem)
-                                    End If
-                                    activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Members.Add(DropName, DropName)
-                                    ' Redraw the structure
-                                    Call Me.RedrawFleetStructure()
-                                End If
+                            ' Check if the pilot is already in the fleet
+                            If activeFleetMembers.ContainsKey(DropName) = True And internalReorder = False Then
+                                MessageBox.Show(DropName & " is already part of the fleet.", "Already in Fleet", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Else
-                                MessageBox.Show("You cannot exceed a squad size of 10", "Squad Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                ' Check the squad limitations
+                                If activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Members.Count < 10 Then
+                                    ' Check if we have a squad commander - if not, install as SC, otherwise install as SM
+                                    If activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Commander = "" Then
+                                        ' Install as SC
+                                        If internalReorder = True Then
+                                            ' Need to check where the pilot came from and remove him
+                                            Call RemoveMember(droppedItem)
+                                        End If
+                                        activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Commander = DropName
+                                        ' Redraw the structure
+                                        Call Me.RedrawFleetStructure()
+                                    Else
+                                        ' Install as SM
+                                        If internalReorder = True Then
+                                            ' Need to check where the pilot came from and remove him
+                                            Call RemoveMember(droppedItem)
+                                        End If
+                                        activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Members.Add(DropName, DropName)
+                                        ' Redraw the structure
+                                        Call Me.RedrawFleetStructure()
+                                    End If
+                                Else
+                                    MessageBox.Show("You cannot exceed a squad size of 10", "Squad Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                End If
+                            End If
+                    End Select
+                Else
+                    ' This is if we drop a module
+                    Dim targetPilot As String = Me.GetPilotNameFromCLVI(item1)
+                    If item1.Depth >= 1 Then
+                        If targetPilot <> droppedItem.Text And targetPilot <> "" Then
+                            ' Check for being already assigned
+                            If droppedItem.SubItems(4).Text <> targetPilot Then
+                                If activeFleet.RemoteReceiving.ContainsKey(targetPilot) = False Then
+                                    activeFleet.RemoteReceiving.Add(targetPilot, New ArrayList)
+                                End If
+                                If activeFleet.RemoteGiving.ContainsKey(droppedItem.Text) = False Then
+                                    activeFleet.RemoteGiving.Add(droppedItem.Text, New ArrayList)
+                                End If
+                                ' Set the receiving modules
+                                Dim newRR As New FleetManager.RemoteAssignment
+                                newRR.FleetPilot = targetPilot
+                                newRR.RemotePilot = droppedItem.Text
+                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                activeFleet.RemoteReceiving(targetPilot).Add(newRR)
+                                ' Set the giving modules
+                                Dim newRG As New FleetManager.RemoteAssignment
+                                newRR.FleetPilot = targetPilot
+                                newRR.RemotePilot = droppedItem.Text
+                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                activeFleet.RemoteGiving(droppedItem.Text).Add(newRR)
+                                droppedItem.SubItems(4).Text = targetPilot
+                                ' Redraw the pilot list
+                                Call Me.RedrawPilotList()
                             End If
                         End If
-                End Select
+                    End If
+                End If
             End If
         End If
 
         ' Reset the internalReorder flag ready for the next drag/drop operation
         internalReorder = False
-
-    End Sub
-
-    Private Sub clvFleetStructure_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvFleetStructure.DragEnter
-        '' Check for the custom DataFormat ContainerListViewItem
-        'If e.Data.GetDataPresent("System.Windows.Forms.ContainerListViewItem()") Then
-        '    e.Effect = DragDropEffects.Move
-        'Else
-        '    e.Effect = DragDropEffects.None
-        'End If
 
     End Sub
 
@@ -758,9 +781,30 @@ Public Class frmFleetManager
                         e.Effect = DragDropEffects.None
                     End If
                 Else
-                    clvFleetStructure.SelectedItems.Clear()
-                    clvFleetStructure.Invalidate()
-                    e.Effect = DragDropEffects.None
+                    ' Assume we want to assign a ship module to a target person
+                    Dim targetPilot As String = Me.GetPilotNameFromCLVI(item1)
+                    If item1.Depth >= 1 Then
+                        If targetPilot <> droppedItem.Text And targetPilot <> "" Then  ' Can't drop module onto the same person!
+                            If droppedItem.SubItems(4).Text <> targetPilot Then ' Can't drop module if already assigned!
+                                clvFleetStructure.SelectedItems.Clear()
+                                item1.Selected = True
+                                clvFleetStructure.Invalidate()
+                                e.Effect = DragDropEffects.Move
+                            Else
+                                clvFleetStructure.SelectedItems.Clear()
+                                clvFleetStructure.Invalidate()
+                                e.Effect = DragDropEffects.None
+                            End If
+                        Else
+                            clvFleetStructure.SelectedItems.Clear()
+                            clvFleetStructure.Invalidate()
+                            e.Effect = DragDropEffects.None
+                        End If
+                    Else
+                        clvFleetStructure.SelectedItems.Clear()
+                        clvFleetStructure.Invalidate()
+                        e.Effect = DragDropEffects.None
+                    End If
                 End If
             Else
                 clvFleetStructure.SelectedItems.Clear()
@@ -804,7 +848,7 @@ Public Class frmFleetManager
                                 newRR.RemotePilot = droppedItem.Text
                                 newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
                                 activeFleet.RemoteGiving(droppedItem.Text).Add(newRR)
-                                droppedItem.SubItems(3).Text = item1.Text
+                                droppedItem.SubItems(4).Text = item1.Text
                                 ' Redraw the pilot list
                                 Call Me.RedrawPilotList()
                             End If
@@ -867,7 +911,13 @@ Public Class frmFleetManager
     Private Sub clvPilots_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles clvPilots.ItemDrag
         Dim myItem As ContainerListViewItem = clvPilots.SelectedItems(0)
         ' Create a DataObject containg the ContainerListViewItem
-        clvPilots.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
+        If myItem.Depth > 1 Then
+            If myItem.Text = myItem.ParentItem.Text Then
+                clvPilots.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
+            End If
+        Else
+            clvPilots.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
+        End If
     End Sub
 
    
@@ -1630,10 +1680,4 @@ Public Class frmFleetManager
         Call Me.RedrawPilotList()
     End Sub
 
-   
-
-
- 
-    
-   
 End Class
