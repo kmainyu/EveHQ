@@ -1663,4 +1663,42 @@ Public Class frmFleetManager
         Call Me.RedrawPilotList()
     End Sub
 
+    Private Sub ctxPilotList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPilotList.Opening
+        If clvPilots.SelectedItems.Count = 1 Then
+            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
+            If Not (selItem.Depth = 2 And selItem.Text <> selItem.ParentItem.Text) Then
+                e.Cancel = True
+            End If
+        Else
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub mnuRemoveRemoteModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveRemoteModule.Click
+        If clvPilots.SelectedItems.Count > 0 Then
+            ' Get the remote module information
+            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
+            Dim remotePilot As String = selItem.Text
+            Dim fleetPilot As String = selItem.ParentItem.Text
+            Dim remoteModule As String = selItem.SubItems(1).Text
+            Dim RA As FleetManager.RemoteAssignment
+            ' First, remove it from the receiving pilot
+            Dim RR As ArrayList = activeFleet.RemoteReceiving(fleetPilot)
+            For i As Integer = RR.Count - 1 To 0 Step -1
+                RA = CType(RR(i), FleetManager.RemoteAssignment)
+                If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
+                    RR.RemoveAt(i)
+                End If
+            Next
+            ' Next, remove it from the giving pilot
+            Dim RG As ArrayList = activeFleet.RemoteGiving(remotePilot)
+            For i As Integer = RG.Count - 1 To 0 Step -1
+                RA = CType(RG(i), FleetManager.RemoteAssignment)
+                If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
+                    RG.RemoveAt(i)
+                End If
+            Next
+            Call Me.RedrawPilotList()
+        End If
+    End Sub
 End Class

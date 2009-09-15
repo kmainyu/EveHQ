@@ -73,7 +73,7 @@ Partial Class frmFleetManager
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
         Me.ctxPilotList = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.RemoveAssignmnetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRemoveRemoteModule = New System.Windows.Forms.ToolStripMenuItem
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
         Me.panelFleetSettings.SuspendLayout()
@@ -381,6 +381,7 @@ Partial Class frmFleetManager
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvPilots.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRemotePilot, Me.colPilotFitting, Me.colRemoteModGroup, Me.colRemoteMod, Me.colRemoteAssign})
         Me.clvPilots.DefaultItemHeight = 20
+        Me.clvPilots.ItemContextMenu = Me.ctxPilotList
         Me.clvPilots.Location = New System.Drawing.Point(3, 33)
         Me.clvPilots.Name = "clvPilots"
         Me.clvPilots.ShowPlusMinus = True
@@ -542,15 +543,15 @@ Partial Class frmFleetManager
         '
         'ctxPilotList
         '
-        Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveAssignmnetToolStripMenuItem})
+        Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule})
         Me.ctxPilotList.Name = "ctxPilotList"
-        Me.ctxPilotList.Size = New System.Drawing.Size(184, 48)
+        Me.ctxPilotList.Size = New System.Drawing.Size(162, 48)
         '
-        'RemoveAssignmnetToolStripMenuItem
+        'mnuRemoveRemoteModule
         '
-        Me.RemoveAssignmnetToolStripMenuItem.Name = "RemoveAssignmnetToolStripMenuItem"
-        Me.RemoveAssignmnetToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
-        Me.RemoveAssignmnetToolStripMenuItem.Text = "Remove Assignment"
+        Me.mnuRemoveRemoteModule.Name = "mnuRemoveRemoteModule"
+        Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(161, 22)
+        Me.mnuRemoveRemoteModule.Text = "Remove Module"
         '
         'frmFleetManager
         '
@@ -623,5 +624,5 @@ Partial Class frmFleetManager
     Friend WithEvents gbFleetSettings As System.Windows.Forms.GroupBox
     Friend WithEvents colPilotFitting As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ctxPilotList As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents RemoveAssignmnetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuRemoveRemoteModule As System.Windows.Forms.ToolStripMenuItem
 End Class
