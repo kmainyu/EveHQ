@@ -2287,6 +2287,7 @@ Public Class frmHQF
         Dim cModule As New ShipModule
         Dim state As Integer
         Dim fitting As New System.Text.StringBuilder
+        fitting.AppendLine("[" & tp.Text & "]")
 
         slots = New Dictionary(Of String, Integer)
         For slot As Integer = 1 To currentship.SubSlots

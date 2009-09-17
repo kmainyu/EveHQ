@@ -31,9 +31,9 @@ Partial Class frmHQF
         Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton
         Me.tsbOptions = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.btnPilotManager = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbFleetManager = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.btnPilotManager = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.btnCopy = New System.Windows.Forms.ToolStripSplitButton
         Me.mnuCopyForHQF = New System.Windows.Forms.ToolStripMenuItem
@@ -312,6 +312,19 @@ Partial Class frmHQF
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
         '
+        'tsbFleetManager
+        '
+        Me.tsbFleetManager.Image = CType(resources.GetObject("tsbFleetManager.Image"), System.Drawing.Image)
+        Me.tsbFleetManager.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbFleetManager.Name = "tsbFleetManager"
+        Me.tsbFleetManager.Size = New System.Drawing.Size(96, 22)
+        Me.tsbFleetManager.Text = "Fleet Manager"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
         'btnPilotManager
         '
         Me.btnPilotManager.Enabled = False
@@ -320,19 +333,6 @@ Partial Class frmHQF
         Me.btnPilotManager.Name = "btnPilotManager"
         Me.btnPilotManager.Size = New System.Drawing.Size(92, 22)
         Me.btnPilotManager.Text = "Pilot Manager"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbFleetManager
-        '
-        Me.tsbFleetManager.Image = CType(resources.GetObject("tsbFleetManager.Image"), System.Drawing.Image)
-        Me.tsbFleetManager.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbFleetManager.Name = "tsbFleetManager"
-        Me.tsbFleetManager.Size = New System.Drawing.Size(96, 22)
-        Me.tsbFleetManager.Text = "Fleet Manager"
         '
         'ToolStripSeparator8
         '
