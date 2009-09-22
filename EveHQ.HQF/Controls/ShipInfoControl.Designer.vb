@@ -25,6 +25,7 @@ Partial Class ShipInfoControl
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.btnDamageAnalysis = New System.Windows.Forms.Button
         Me.lblImplants = New System.Windows.Forms.Label
         Me.cboImplants = New System.Windows.Forms.ComboBox
         Me.gbDefence = New System.Windows.Forms.GroupBox
@@ -118,7 +119,6 @@ Partial Class ShipInfoControl
         Me.lblPGReqd = New System.Windows.Forms.Label
         Me.lblCPUReqd = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnDamageAnalysis = New System.Windows.Forms.Button
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -195,6 +195,17 @@ Partial Class ShipInfoControl
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(270, 732)
         Me.Panel1.TabIndex = 0
+        '
+        'btnDamageAnalysis
+        '
+        Me.btnDamageAnalysis.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTurretSlots
+        Me.btnDamageAnalysis.Location = New System.Drawing.Point(124, 69)
+        Me.btnDamageAnalysis.Name = "btnDamageAnalysis"
+        Me.btnDamageAnalysis.Size = New System.Drawing.Size(32, 32)
+        Me.btnDamageAnalysis.TabIndex = 39
+        Me.ToolTip1.SetToolTip(Me.btnDamageAnalysis, "Damage Analysis")
+        Me.btnDamageAnalysis.UseVisualStyleBackColor = True
+        Me.btnDamageAnalysis.Visible = False
         '
         'lblImplants
         '
@@ -1244,16 +1255,6 @@ Partial Class ShipInfoControl
         Me.ToolTip1.IsBalloon = True
         Me.ToolTip1.ReshowDelay = 100
         Me.ToolTip1.ShowAlways = True
-        '
-        'btnDamageAnalysis
-        '
-        Me.btnDamageAnalysis.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTurretSlots
-        Me.btnDamageAnalysis.Location = New System.Drawing.Point(124, 69)
-        Me.btnDamageAnalysis.Name = "btnDamageAnalysis"
-        Me.btnDamageAnalysis.Size = New System.Drawing.Size(32, 32)
-        Me.btnDamageAnalysis.TabIndex = 39
-        Me.ToolTip1.SetToolTip(Me.btnDamageAnalysis, "Damage Analysis")
-        Me.btnDamageAnalysis.UseVisualStyleBackColor = True
         '
         'ShipInfoControl
         '

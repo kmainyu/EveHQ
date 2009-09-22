@@ -99,6 +99,8 @@ Public Class ShipInfoControl
         ' Update the display with the information about the (fitted) ship
         Dim ttt As String = "" ' Fot tool tip text!
         Dim ccc As Double = 0 ' For capacitor sustainability
+        Dim turretShip As Boolean = False
+        Dim missileShip As Boolean = False
 
         ' CPU
         If fittedShip.CPU > 0 Then
@@ -280,10 +282,12 @@ Public Class ShipInfoControl
             If fittedShip.TurretVolley > 0 Then
                 ttt &= "Turret Volley: " & FormatNumber(fittedShip.TurretVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 ttt &= " (DPS: " & FormatNumber(fittedShip.TurretDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                turretShip = True
             End If
             If fittedShip.MissileVolley > 0 Then
                 ttt &= "Missile Volley: " & FormatNumber(fittedShip.MissileVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 ttt &= " (DPS: " & FormatNumber(fittedShip.MissileDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                missileShip = True
             End If
             If fittedShip.SBVolley > 0 Then
                 ttt &= "Smartbomb Volley: " & FormatNumber(fittedShip.SBVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -326,6 +330,9 @@ Public Class ShipInfoControl
         Else
             btnSkills.Image = My.Resources.Skills0
         End If
+
+        ' Set buttons
+        btnDamageAnalysis.Enabled = turretShip
 
     End Sub
 

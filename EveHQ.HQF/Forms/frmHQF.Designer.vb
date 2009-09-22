@@ -319,11 +319,13 @@ Partial Class frmHQF
         Me.tsbFleetManager.Name = "tsbFleetManager"
         Me.tsbFleetManager.Size = New System.Drawing.Size(96, 22)
         Me.tsbFleetManager.Text = "Fleet Manager"
+        Me.tsbFleetManager.Visible = False
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator1.Visible = False
         '
         'btnPilotManager
         '
