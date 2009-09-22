@@ -205,7 +205,6 @@ Partial Class ShipInfoControl
         Me.btnDamageAnalysis.TabIndex = 39
         Me.ToolTip1.SetToolTip(Me.btnDamageAnalysis, "Damage Analysis")
         Me.btnDamageAnalysis.UseVisualStyleBackColor = True
-        Me.btnDamageAnalysis.Visible = False
         '
         'lblImplants
         '
