@@ -705,6 +705,8 @@
 # MINING CRYSTALS,,,,,,,,,,
 782,2,482,77,6,483,0,0,5,15,Mining Crystal - Mining Amount
 317,2,482,6,6,483,0,0,0,15,Mining Crystal - Capacitor Penalty
+782,2,663,77,6,483,0,0,5,15,Mercoxit Mining Crystal - Mining Amount
+317,2,663,6,6,483,0,0,0,15,Mercoxit Mining Crystal - Capacitor Penalty
 # DRONES,,,,,,,,,,
 # DRONE UPGRADES,,,,,,,,,,
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
