@@ -31,7 +31,7 @@ Public Class Reports
 
     Shared eveData As DataSet
 
-    Public Shared Function HTMLCharacterDetails(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function HTMLCharacterDetails(ByVal rpilot As EveHQ.Core.Pilot) As String
 
         Dim strHTML As String = ""
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -42,20 +42,11 @@ Public Class Reports
             currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rpilot))
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rpilot))
         End If
-
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center border=0>"
-        Else
-            strHTML &= "<table width=800px border=0>"
-        End If
+        strHTML &= "<table width=800px align=center border=0>"
         strHTML &= "<tr><td width=150px align=center valign=middle><img src='http://img.eve.is/serv.asp?s=256&c=" & rpilot.ID & "' height=128 width=128 alt='" & rpilot.Name & "'></td>"
         strHTML &= "<td width=5px></td>"
         strHTML &= "<td width=350px>"
-        If forIGB = False Then
-            strHTML &= "<table width=100%><tr><td class=thead align=center valign=middle colspan=2><b>Character Info</b></td></tr>"
-        Else
-            strHTML &= "<table width=100%><tr><td bgcolor=#44444488 align=center valign=middle colspan=2><b>Character Info</b></td></tr>"
-        End If
+        strHTML &= "<table width=100%><tr><td class=thead align=center valign=middle colspan=2><b>Character Info</b></td></tr>"
         strHTML &= "<tr><td>Character Name</td><td>" & rpilot.Name & "</td></tr>"
         strHTML &= "<tr><td>Corporation</td><td>" & rpilot.Corp & "</td></tr>"
         strHTML &= "<tr><td>Total Cash</td><td>" & Format(CDbl(rpilot.Isk), "Standard") & "</td></tr>"
@@ -71,11 +62,7 @@ Public Class Reports
         strHTML &= "</table></td>"
         strHTML &= "<td width=5px></td>"
         strHTML &= "<td width=200px>"
-        If forIGB = False Then
-            strHTML &= "<table width=100%><tr><td class=thead align=center valign=middle colspan=2><b>Attributes</b></td></tr>"
-        Else
-            strHTML &= "<table width=100%><tr><td bgcolor=#44444488 align=center valign=middle colspan=2><b>Attributes</b></td></tr>"
-        End If
+        strHTML &= "<table width=100%><tr><td class=thead align=center valign=middle colspan=2><b>Attributes</b></td></tr>"
         strHTML &= "<tr><td>Charisma</td><td>" & Format(CDbl(rpilot.CAttT), "##.00") & "</td></tr>"
         strHTML &= "<tr><td>Intelligence</td><td>" & Format(CDbl(rpilot.IAttT), "##.00") & "</td></tr>"
         strHTML &= "<tr><td>Memory</td><td>" & Format(CDbl(rpilot.MAttT), "##.00") & "</td></tr>"
@@ -90,48 +77,31 @@ Public Class Reports
 
     End Function
 
-    Public Shared Function HTMLHeader(ByVal browserHeader As String, ByVal forIGB As Boolean) As String
-
+    Public Shared Function HTMLHeader(ByVal browserHeader As String) As String
         Dim strHTML As String = "<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd"">"
         strHTML &= "<html lang=""" & System.Globalization.CultureInfo.CurrentCulture.ToString & """>"
-        If forIGB = False Then
-            strHTML &= "<head>"
-            strHTML &= "<META http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">"
-            strHTML &= "<title>" & browserHeader & "</title>" & CharacterCSS() & "</head>"
-        Else
-            strHTML &= "<head><title>" & browserHeader & "</title></head>"
-        End If
+        strHTML &= "<head>"
+        strHTML &= "<META http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">"
+        strHTML &= "<title>" & browserHeader & "</title>" & CharacterCSS() & "</head>"
         strHTML &= "<body>"
         Return strHTML
-
     End Function
 
-    Public Shared Function HTMLTitle(ByVal Title As String, ByVal forIGB As Boolean) As String
+    Public Shared Function HTMLTitle(ByVal Title As String) As String
         Dim strHTML As String = ""
-
-        If forIGB = False Then
-            strHTML &= "<table width=800px border=0 align=center>"
-            strHTML &= "<tr height=30px><td><p class=title>" & Title & "</p></td></tr>"
-            strHTML &= "</table>"
-        Else
-            strHTML &= "<h1>" & Title & "</h1>"
-        End If
+        strHTML &= "<table width=800px border=0 align=center>"
+        strHTML &= "<tr height=30px><td><p class=title>" & Title & "</p></td></tr>"
+        strHTML &= "</table>"
         strHTML &= "<p></p>"
         Return strHTML
     End Function
 
-    Public Shared Function HTMLFooter(ByVal forIGB As Boolean) As String
+    Public Shared Function HTMLFooter() As String
         Dim strHTML As String = ""
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center border=0><hr>"
-        Else
-            strHTML &= "<table width=800px border=0><hr>"
-        End If
-
+        strHTML &= "<table width=800px align=center border=0><hr>"
         strHTML &= "<tr><td><p align=center class=footer>Generated on " & Format(Now, "dd/MM/yyyy HH:mm:ss") & " by <a href='" & www & "'>" & My.Application.Info.ProductName & "</a> v" & My.Application.Info.Version.ToString & "</p></td></tr>"
         strHTML &= "</table>"
         strHTML &= "</body></html>"
-
         Return strHTML
     End Function
 
@@ -255,11 +225,11 @@ Public Class Reports
     Public Shared Sub GenerateCharSheet(ByVal rpilot As EveHQ.Core.Pilot)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Character Sheet - " & rpilot.Name, False)
-        strHTML &= HTMLTitle("Character Sheet - " & rpilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rpilot, False)
-        strHTML &= CharacterSheet(rpilot, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Character Sheet - " & rpilot.Name)
+        strHTML &= HTMLTitle("Character Sheet - " & rpilot.Name)
+        strHTML &= HTMLCharacterDetails(rpilot)
+        strHTML &= CharacterSheet(rpilot)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharSheet (" & rpilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -271,7 +241,7 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function CharacterSheet(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function CharacterSheet(ByVal rpilot As EveHQ.Core.Pilot) As String
         Dim strHTML As String = ""
 
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -323,18 +293,10 @@ Public Class Reports
         Next
 
         Dim imgLevel As String = ""
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         For group As Integer = 1 To EveHQ.Core.HQ.SkillGroups.Count
             If CDbl(repGroup(group, 2)) > 0 Then
-                If forIGB = False Then
-                    strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 1) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
-                Else
-                    strHTML &= "<tr bgcolor=#44444488><td width=50px></td><td colspan=2 align=left valign=middle>" & repGroup(group, 1) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td width=50px></td></tr>"
-                End If
+                strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 1) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                 strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                 For skill As Integer = 1 To CInt(repGroup(group, 2))
                     strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
@@ -371,11 +333,11 @@ Public Class Reports
     Public Shared Sub GenerateSkillLevels(ByVal rPilot As EveHQ.Core.Pilot)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Skill Levels - " & rPilot.Name, False)
-        strHTML &= HTMLTitle("Skill Levels - " & rPilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rPilot, False)
-        strHTML &= SkillLevels(rPilot, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Skill Levels - " & rPilot.Name)
+        strHTML &= HTMLTitle("Skill Levels - " & rPilot.Name)
+        strHTML &= HTMLCharacterDetails(rPilot)
+        strHTML &= SkillLevels(rPilot)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -387,7 +349,7 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function SkillLevels(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function SkillLevels(ByVal rpilot As EveHQ.Core.Pilot) As String
         Dim strHTML As String = ""
 
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -470,18 +432,10 @@ Public Class Reports
         Next
 
         Dim imgLevel As String = ""
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         For group As Integer = 1 To nog
             If CDbl(repGroup(group, 2)) > 0 Then
-                If forIGB = False Then
-                    strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
-                Else
-                    strHTML &= "<tr bgcolor=#44444488><td width=50px></td><td colspan=2 align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td width=50px></td></tr>"
-                End If
+                strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                 strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                 For skill As Integer = 1 To CInt(repGroup(group, 2))
                     strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
@@ -520,11 +474,11 @@ Public Class Reports
     Public Shared Sub GenerateTrainingTime(ByVal rPilot As EveHQ.Core.Pilot)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Training Times - " & rPilot.Name, False)
-        strHTML &= HTMLTitle("Training Times - " & rPilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rPilot, False)
-        strHTML &= TrainingTime(rPilot, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Training Times - " & rPilot.Name)
+        strHTML &= HTMLTitle("Training Times - " & rPilot.Name)
+        strHTML &= HTMLCharacterDetails(rPilot)
+        strHTML &= TrainingTime(rPilot)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainTime (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -536,7 +490,7 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TrainingTime(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function TrainingTime(ByVal rpilot As EveHQ.Core.Pilot) As String
         Dim strHTML As String = ""
 
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -637,21 +591,13 @@ Public Class Reports
         Next
 
         Dim imgLevel As String = ""
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         Dim group As Integer = 1
         Do
             group = group + 1
             If group = nog + 1 Then group = 1
             If CDbl(repGroup(group, 2)) > 0 Then
-                If forIGB = False Then
-                    strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
-                Else
-                    strHTML &= "<tr bgcolor=#44444488><td width=50px></td><td colspan=2 align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td width=50px></td></tr>"
-                End If
+                strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                 strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                 For skill As Integer = 1 To CInt(repGroup(group, 2))
                     strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
@@ -691,11 +637,11 @@ Public Class Reports
     Public Shared Sub GenerateSkillsNotTrained(ByVal rPilot As EveHQ.Core.Pilot)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Skills Not Trained - " & rPilot.Name, False)
-        strHTML &= HTMLTitle("Skills Not Trained - " & rPilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rPilot, False)
-        strHTML &= SkillsNotTrained(rPilot, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Skills Not Trained - " & rPilot.Name)
+        strHTML &= HTMLTitle("Skills Not Trained - " & rPilot.Name)
+        strHTML &= HTMLCharacterDetails(rPilot)
+        strHTML &= SkillsNotTrained(rPilot)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -705,7 +651,7 @@ Public Class Reports
         GC.Collect()
     End Sub
 
-    Public Shared Function SkillsNotTrained(ByVal rPilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function SkillsNotTrained(ByVal rPilot As EveHQ.Core.Pilot) As String
         Dim strHTML As String = ""
 
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -793,21 +739,13 @@ Public Class Reports
         Next
 
         Dim imgLevel As String = ""
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         Dim group As Integer = 0
         Do
             group = group + 1
             'If group = nog + 1 Then group = 1
             If CDbl(repGroup(group, 2)) > 0 Then
-                If forIGB = False Then
-                    strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
-                Else
-                    strHTML &= "<tr bgcolor=#44444488><td width=50px></td><td colspan=2 align=left valign=middle>" & repGroup(group, 0) & " (" & repGroup(group, 2) & " Skills)</td><td width=50px></td></tr>"
-                End If
+                strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                 strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                 For skill As Integer = 1 To CInt(repGroup(group, 2))
                     strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
@@ -847,11 +785,11 @@ Public Class Reports
     Public Shared Sub GenerateTimeToLevel5(ByVal rPilot As EveHQ.Core.Pilot)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Time To Level 5 - " & rPilot.Name, False)
-        strHTML &= HTMLTitle("Time To Level 5 - " & rPilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rPilot, False)
-        strHTML &= TimeToLevel5(rPilot, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Time To Level 5 - " & rPilot.Name)
+        strHTML &= HTMLTitle("Time To Level 5 - " & rPilot.Name)
+        strHTML &= HTMLCharacterDetails(rPilot)
+        strHTML &= TimeToLevel5(rPilot)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -863,7 +801,7 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TimeToLevel5(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function TimeToLevel5(ByVal rpilot As EveHQ.Core.Pilot) As String
         Dim strHTML As String = ""
 
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -953,21 +891,13 @@ Public Class Reports
         Next
 
         Dim imgLevel As String = ""
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         Dim group As Integer = 1
         Do
             group = group + 1
             If group = nog + 1 Then group = 1
             If CDbl(repGroup(group, 2)) > 0 Then
-                If forIGB = False Then
-                    strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
-                Else
-                    strHTML &= "<tr bgcolor=#44444488><td width=50px></td><td colspan=2 align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td width=50px></td></tr>"
-                End If
+                strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                 strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                 For skill As Integer = 1 To CInt(repGroup(group, 2))
                     strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
@@ -1023,11 +953,11 @@ Public Class Reports
     Public Shared Sub GenerateTrainQueue(ByVal rPilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")", False)
-        strHTML &= HTMLTitle("Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")", False)
-        strHTML &= HTMLCharacterDetails(rPilot, False)
-        strHTML &= TrainQueue(rPilot, rQueue, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
+        strHTML &= HTMLTitle("Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
+        strHTML &= HTMLCharacterDetails(rPilot)
+        strHTML &= TrainQueue(rPilot, rQueue)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -1039,7 +969,7 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TrainQueue(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue, ByVal forIGB As Boolean) As String
+    Public Shared Function TrainQueue(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
         Dim strHTML As String = ""
         Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue)
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -1051,29 +981,16 @@ Public Class Reports
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-            strHTML &= "<tr>"
-            strHTML &= "<td class=thead width=250px>Skill Name</td>"
-            strHTML &= "<td class=thead width=60px align=center>Current Level</td>"
-            strHTML &= "<td class=thead width=60px align=center>From Level</td>"
-            strHTML &= "<td class=thead width=60px align=center>To Level</td>"
-            strHTML &= "<td class=thead width=70px align=center>Percent Complete</td>"
-            strHTML &= "<td class=thead width=150px>Time Remaining</td>"
-            strHTML &= "<td class=thead width=150px>Date Ended</td>"
-            strHTML &= "</tr>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-            strHTML &= "<tr>"
-            strHTML &= "<td bgcolor=#44444488 width=250px>Skill Name</td>"
-            strHTML &= "<td bgcolor=#44444488 width=60px align=center>Current Level</td>"
-            strHTML &= "<td bgcolor=#44444488 width=60px align=center>From Level</td>"
-            strHTML &= "<td bgcolor=#44444488 width=60px align=center>To Level</td>"
-            strHTML &= "<td bgcolor=#44444488 width=70px align=center>Percent Complete</td>"
-            strHTML &= "<td bgcolor=#44444488 width=150px>Time Remaining</td>"
-            strHTML &= "<td bgcolor=#44444488 width=150px>Date Ended</td>"
-            strHTML &= "</tr>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
+        strHTML &= "<tr>"
+        strHTML &= "<td class=thead width=250px>Skill Name</td>"
+        strHTML &= "<td class=thead width=60px align=center>Current Level</td>"
+        strHTML &= "<td class=thead width=60px align=center>From Level</td>"
+        strHTML &= "<td class=thead width=60px align=center>To Level</td>"
+        strHTML &= "<td class=thead width=70px align=center>Percent Complete</td>"
+        strHTML &= "<td class=thead width=150px>Time Remaining</td>"
+        strHTML &= "<td class=thead width=150px>Date Ended</td>"
+        strHTML &= "</tr>"
 
         For skill As Integer = 0 To arrQueue.Count - 1
             Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), EveHQ.Core.SortedQueue)
@@ -1107,11 +1024,11 @@ Public Class Reports
     Public Shared Sub GenerateShoppingList(ByVal rPilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")", False)
-        strHTML &= HTMLTitle("Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")", False)
-        strHTML &= HTMLCharacterDetails(rPilot, False)
-        strHTML &= ShoppingList(rPilot, rQueue, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
+        strHTML &= HTMLTitle("Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
+        strHTML &= HTMLCharacterDetails(rPilot)
+        strHTML &= ShoppingList(rPilot, rQueue)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -1123,7 +1040,7 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function ShoppingList(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue, ByVal forIGB As Boolean) As String
+    Public Shared Function ShoppingList(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
         Dim strHTML As String = ""
         Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue)
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -1135,19 +1052,11 @@ Public Class Reports
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-            strHTML &= "<tr>"
-            strHTML &= "<td class=thead width=350px>Skill Name</td>"
-            strHTML &= "<td class=thead align=left>Market Price (est)</td>"
-            strHTML &= "</tr>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-            strHTML &= "<tr>"
-            strHTML &= "<td bgcolor=#44444488 width=350px>Skill Name</td>"
-            strHTML &= "<td bgcolor=#44444488 align=left>Market Price (est)</td>"
-            strHTML &= "</tr>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
+        strHTML &= "<tr>"
+        strHTML &= "<td class=thead width=350px>Skill Name</td>"
+        strHTML &= "<td class=thead align=left>Market Price (est)</td>"
+        strHTML &= "</tr>"
 
         Dim skillPriceList As New ArrayList
         For skill As Integer = 0 To arrQueue.Count - 1
@@ -1171,11 +1080,6 @@ Public Class Reports
         Next
 
         strHTML &= "<tr height=20px><td>&nbsp;</td><td></td></tr>"
-        If forIGB = True Then
-            strHTML &= "<tr height=20px><td>&nbsp;</td><td></td></tr>"
-            strHTML &= "<tr height=20px><td>&nbsp;</td><td></td></tr>"
-            strHTML &= "<tr height=20px><td>&nbsp;</td><td></td></tr>"
-        End If
         strHTML &= "<tr height=20px><td width=350px>Total Queue Shopping List Cost:</td><td>" & FormatNumber(totalCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td></tr>"
         strHTML &= "</table><p></p>"
 
@@ -1188,11 +1092,11 @@ Public Class Reports
     Public Shared Sub GenerateSkillsAvailable(ByVal rPilot As EveHQ.Core.Pilot)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Skills Available To Train - " & rPilot.Name, False)
-        strHTML &= HTMLTitle("Skills Available To Train - " & rPilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rPilot, False)
-        strHTML &= SkillsAvailable(rPilot, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Skills Available To Train - " & rPilot.Name)
+        strHTML &= HTMLTitle("Skills Available To Train - " & rPilot.Name)
+        strHTML &= HTMLCharacterDetails(rPilot)
+        strHTML &= SkillsAvailable(rPilot)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -1204,7 +1108,7 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function SkillsAvailable(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function SkillsAvailable(ByVal rpilot As EveHQ.Core.Pilot) As String
         Dim strHTML As String = ""
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
         Dim currentSP As String = ""
@@ -1215,21 +1119,12 @@ Public Class Reports
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
-        If forIGB = False Then
-            strHTML &= "<table width=600px align=center cellspacing=0 cellpadding=0>"
-            strHTML &= "<tr>"
-            strHTML &= "<td class=thead width=250px>Skill Name</td>"
-            strHTML &= "<td class=thead width=250px>Skill Group</td>"
-            strHTML &= "<td class=thead width=100px>Skill Rank</td>"
-            strHTML &= "</tr>"
-        Else
-            strHTML &= "<table width=600px cellspacing=0 cellpadding=0>"
-            strHTML &= "<tr>"
-            strHTML &= "<td bgcolor=#44444488 width=250px>Skill Name</td>"
-            strHTML &= "<td bgcolor=#44444488 width=250px>Skill Group</td>"
-            strHTML &= "<td bgcolor=#44444488 width=100px>Skill Rank</td>"
-            strHTML &= "</tr>"
-        End If
+        strHTML &= "<table width=600px align=center cellspacing=0 cellpadding=0>"
+        strHTML &= "<tr>"
+        strHTML &= "<td class=thead width=250px>Skill Name</td>"
+        strHTML &= "<td class=thead width=250px>Skill Group</td>"
+        strHTML &= "<td class=thead width=100px>Skill Rank</td>"
+        strHTML &= "</tr>"
 
         Dim trainable As Boolean = False
         For Each skill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListName.Values
@@ -1343,7 +1238,7 @@ Public Class Reports
 
         strHTML &= NonCharHTMLHeader("Alloy Composition Report", "")
         strHTML &= AlloyReport(False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLFooter()
 
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AlloyReport.html"))
         sw.Write(strHTML)
@@ -1425,86 +1320,50 @@ Public Class Reports
             End Select
         Next
 
-        If forIGB = False Then
-
-            strHTML &= "<table width=800px align=center>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            For min As Integer = 1 To 8
+        strHTML &= "<table width=800px align=center>"
+        strHTML &= "<tr>"
+        strHTML &= "<td width=35px></td>"
+        strHTML &= "<td width=165px></td>"
+        For min As Integer = 1 To 8
+            If forIGB = False Then
                 strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
-            Next
-            strHTML &= "</tr>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            strHTML &= "<td width=75px align=center>Tritanium</td>"
-            strHTML &= "<td width=75px align=center>Pyerite</td>"
-            strHTML &= "<td width=75px align=center>Mexallon</td>"
-            strHTML &= "<td width=75px align=center>Isogen</td>"
-            strHTML &= "<td width=75px align=center>Nocxium</td>"
-            strHTML &= "<td width=75px align=center>Zydrine</td>"
-            strHTML &= "<td width=75px align=center>Megacyte</td>"
-            strHTML &= "<td width=75px align=center>Morphite</td>"
-            strHTML &= "</tr>"
+            Else
+                strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+            End If
+        Next
+        strHTML &= "</tr>"
+        strHTML &= "<tr>"
+        strHTML &= "<td width=35px></td>"
+        strHTML &= "<td width=165px></td>"
+        strHTML &= "<td width=75px align=center>Tritanium</td>"
+        strHTML &= "<td width=75px align=center>Pyerite</td>"
+        strHTML &= "<td width=75px align=center>Mexallon</td>"
+        strHTML &= "<td width=75px align=center>Isogen</td>"
+        strHTML &= "<td width=75px align=center>Nocxium</td>"
+        strHTML &= "<td width=75px align=center>Zydrine</td>"
+        strHTML &= "<td width=75px align=center>Megacyte</td>"
+        strHTML &= "<td width=75px align=center>Morphite</td>"
+        strHTML &= "</tr>"
 
-            For groupType As Integer = 1 To 1
-                strHTML &= "<tr><td colspan=10 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-                For oreType As Integer = 1 To 12
-                    strHTML &= "<tr>"
-                    strHTML &= "<td width=35px>"
+        For groupType As Integer = 1 To 1
+            strHTML &= "<tr><td colspan=10 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
+            For oreType As Integer = 1 To 12
+                strHTML &= "<tr>"
+                strHTML &= "<td width=35px>"
+                If forIGB = False Then
                     strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
-                    strHTML &= "</td>"
-                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
-                    For minType As Integer = 1 To 8
-                        strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
-                    Next
-                    strHTML &= "</tr>"
+                Else
+                    strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
+                End If
+                strHTML &= "</td>"
+                strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
+                For minType As Integer = 1 To 8
+                    strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
                 Next
+                strHTML &= "</tr>"
             Next
-            strHTML &= "</table><br>"
-
-        Else
-
-            strHTML &= "<TABLE WIDTH=800px>"
-            strHTML &= "<TR>"
-            strHTML &= "<TD WIDTH=35px></TD>"
-            strHTML &= "<TD WIDTH=165px></TD>"
-            For min As Integer = 1 To 8
-                strHTML &= "<TD WIDTH=75px ALIGN=CENTER>"
-                strHTML &= "<IMG SRC=""TYPEICON:" & minID(min) & """ WIDTH=64 HEIGHT=64>"
-                strHTML &= "</TD>"
-            Next
-            strHTML &= "</TR>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            strHTML &= "<td width=75px align=center>Tritanium</td>"
-            strHTML &= "<td width=75px align=center>Pyerite</td>"
-            strHTML &= "<td width=75px align=center>Mexallon</td>"
-            strHTML &= "<td width=75px align=center>Isogen</td>"
-            strHTML &= "<td width=75px align=center>Nocxium</td>"
-            strHTML &= "<td width=75px align=center>Zydrine</td>"
-            strHTML &= "<td width=75px align=center>Megacyte</td>"
-            strHTML &= "<td width=75px align=center>Morphite</td>"
-            strHTML &= "</tr>"
-
-            For groupType As Integer = 1 To 1
-                strHTML &= "<tr><td colspan=10 bgcolor=#444444>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-                For oreType As Integer = 1 To 12
-                    strHTML &= "<tr>"
-                    strHTML &= "<td width=35px>"
-                    strHTML &= "<img src='typeicon:" & oreID(groupType, oreType) & "' width=32 height=32>"
-                    strHTML &= "</td>"
-                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
-                    For minType As Integer = 1 To 8
-                        strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
-                    Next
-                    strHTML &= "</tr>"
-                Next
-            Next
-            strHTML &= "</TABLE><BR>"
-        End If
+        Next
+        strHTML &= "</table><br>"
 
         Return strHTML
 
@@ -1518,7 +1377,7 @@ Public Class Reports
 
         strHTML &= NonCharHTMLHeader("Ore Composition Report", "")
         strHTML &= RockReport(False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLFooter()
 
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "OreReport.html"))
         sw.Write(strHTML)
@@ -1600,86 +1459,52 @@ Public Class Reports
             End Select
         Next
 
-        If forIGB = False Then
-
-            strHTML &= "<table width=800px align=center>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            For min As Integer = 1 To 8
+        strHTML &= "<table width=800px align=center>"
+        strHTML &= "<tr>"
+        strHTML &= "<td width=35px></td>"
+        strHTML &= "<td width=165px></td>"
+        For min As Integer = 1 To 8
+            If forIGB = False Then
                 strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
-            Next
-            strHTML &= "</tr>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            strHTML &= "<td width=75px align=center>Tritanium</td>"
-            strHTML &= "<td width=75px align=center>Pyerite</td>"
-            strHTML &= "<td width=75px align=center>Mexallon</td>"
-            strHTML &= "<td width=75px align=center>Isogen</td>"
-            strHTML &= "<td width=75px align=center>Nocxium</td>"
-            strHTML &= "<td width=75px align=center>Zydrine</td>"
-            strHTML &= "<td width=75px align=center>Megacyte</td>"
-            strHTML &= "<td width=75px align=center>Morphite</td>"
-            strHTML &= "</tr>"
+            Else
+                strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+            End If
+        Next
+        strHTML &= "</tr>"
+        strHTML &= "<tr>"
+        strHTML &= "<td width=35px></td>"
+        strHTML &= "<td width=165px></td>"
+        strHTML &= "<td width=75px align=center>Tritanium</td>"
+        strHTML &= "<td width=75px align=center>Pyerite</td>"
+        strHTML &= "<td width=75px align=center>Mexallon</td>"
+        strHTML &= "<td width=75px align=center>Isogen</td>"
+        strHTML &= "<td width=75px align=center>Nocxium</td>"
+        strHTML &= "<td width=75px align=center>Zydrine</td>"
+        strHTML &= "<td width=75px align=center>Megacyte</td>"
+        strHTML &= "<td width=75px align=center>Morphite</td>"
+        strHTML &= "</tr>"
 
-            For groupType As Integer = 1 To 16
-                strHTML &= "<tr><td colspan=10 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-                For oreType As Integer = 1 To 3
-                    strHTML &= "<tr>"
-                    strHTML &= "<td width=35px>"
+        For groupType As Integer = 1 To 16
+            strHTML &= "<tr><td colspan=10 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
+            For oreType As Integer = 1 To 3
+                strHTML &= "<tr>"
+                strHTML &= "<td width=35px>"
+                If forIGB = False Then
                     strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
-                    strHTML &= "</td>"
-                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
-                    For minType As Integer = 1 To 8
-                        strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
-                    Next
-                    strHTML &= "</tr>"
+                Else
+                    strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
+                End If
+                strHTML &= "</td>"
+                strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
+                For minType As Integer = 1 To 8
+                    strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
                 Next
+                strHTML &= "</tr>"
             Next
-            strHTML &= "</table><br>"
+        Next
+        strHTML &= "</table><br>"
 
-        Else
 
-            strHTML &= "<TABLE WIDTH=800px>"
-            strHTML &= "<TR>"
-            strHTML &= "<TD WIDTH=35px></TD>"
-            strHTML &= "<TD WIDTH=165px></TD>"
-            For min As Integer = 1 To 8
-                strHTML &= "<TD WIDTH=75px ALIGN=CENTER>"
-                strHTML &= "<IMG SRC=""TYPEICON:" & minID(min) & """ WIDTH=64 HEIGHT=64>"
-                strHTML &= "</TD>"
-            Next
-            strHTML &= "</TR>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            strHTML &= "<td width=75px align=center>Tritanium</td>"
-            strHTML &= "<td width=75px align=center>Pyerite</td>"
-            strHTML &= "<td width=75px align=center>Mexallon</td>"
-            strHTML &= "<td width=75px align=center>Isogen</td>"
-            strHTML &= "<td width=75px align=center>Nocxium</td>"
-            strHTML &= "<td width=75px align=center>Zydrine</td>"
-            strHTML &= "<td width=75px align=center>Megacyte</td>"
-            strHTML &= "<td width=75px align=center>Morphite</td>"
-            strHTML &= "</tr>"
-
-            For groupType As Integer = 1 To 16
-                strHTML &= "<tr><td colspan=10 bgcolor=#444444>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-                For oreType As Integer = 1 To 3
-                    strHTML &= "<tr>"
-                    strHTML &= "<td width=35px>"
-                    strHTML &= "<img src='typeicon:" & oreID(groupType, oreType) & "' width=32 height=32>"
-                    strHTML &= "</td>"
-                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
-                    For minType As Integer = 1 To 8
-                        strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
-                    Next
-                    strHTML &= "</tr>"
-                Next
-            Next
-            strHTML &= "</TABLE><BR>"
-        End If
 
         Return strHTML
 
@@ -1689,7 +1514,7 @@ Public Class Reports
 
         strHTML &= NonCharHTMLHeader("Ice Composition Report", "")
         strHTML &= IceReport(False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLFooter()
 
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "IceReport.html"))
         sw.Write(strHTML)
@@ -1767,80 +1592,46 @@ Public Class Reports
             End Select
         Next
 
-        If forIGB = False Then
-
-            strHTML &= "<table width=800px align=center>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            For min As Integer = 1 To 7
+        strHTML &= "<table width=800px align=center>"
+        strHTML &= "<tr>"
+        strHTML &= "<td width=35px></td>"
+        strHTML &= "<td width=165px></td>"
+        For min As Integer = 1 To 7
+            If forIGB = False Then
                 strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
-            Next
-            strHTML &= "</tr>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=205px></td>"
-            strHTML &= "<td width=80px align=center>Heavy Water</td>"
-            strHTML &= "<td width=80px align=center>Liquid Ozone</td>"
-            strHTML &= "<td width=80px align=center>Strontium Clathrates</td>"
-            strHTML &= "<td width=80px align=center>Helium Isotopes</td>"
-            strHTML &= "<td width=80px align=center>Hydrogen Isotopes</td>"
-            strHTML &= "<td width=80px align=center>Nitrogen Isotopes</td>"
-            strHTML &= "<td width=80px align=center>Oxygen Isotopes</td>"
-            strHTML &= "</tr>"
+            Else
+                strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+            End If
+        Next
+        strHTML &= "</tr>"
+        strHTML &= "<tr>"
+        strHTML &= "<td width=35px></td>"
+        strHTML &= "<td width=205px></td>"
+        strHTML &= "<td width=80px align=center>Heavy Water</td>"
+        strHTML &= "<td width=80px align=center>Liquid Ozone</td>"
+        strHTML &= "<td width=80px align=center>Strontium Clathrates</td>"
+        strHTML &= "<td width=80px align=center>Helium Isotopes</td>"
+        strHTML &= "<td width=80px align=center>Hydrogen Isotopes</td>"
+        strHTML &= "<td width=80px align=center>Nitrogen Isotopes</td>"
+        strHTML &= "<td width=80px align=center>Oxygen Isotopes</td>"
+        strHTML &= "</tr>"
 
-            For groupType As Integer = 1 To 1
-                strHTML &= "<tr><td colspan=9 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-                For oreType As Integer = 1 To 12
+        For groupType As Integer = 1 To 1
+            strHTML &= "<tr><td colspan=9 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
+            For oreType As Integer = 1 To 12
+                If forIGB = False Then
                     strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
-                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
-                    For minType As Integer = 1 To 7
-                        strHTML &= "<td width=80px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
-                    Next
-                    strHTML &= "</tr>"
+                Else
+                    strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                End If
+                strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
+                For minType As Integer = 1 To 7
+                    strHTML &= "<td width=80px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
                 Next
+                strHTML &= "</tr>"
             Next
-            strHTML &= "</TABLE><BR>"
-
-        Else
-            strHTML &= "<table width=800px>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=165px></td>"
-            For min As Integer = 1 To 7
-                strHTML &= "<TD WIDTH=80px ALIGN=CENTER>"
-                strHTML &= "<IMG SRC=""TYPEICON:" & minID(min) & """ WIDTH=64 HEIGHT=64>"
-                strHTML &= "</TD>"
-            Next
-            strHTML &= "</tr>"
-            strHTML &= "<tr>"
-            strHTML &= "<td width=35px></td>"
-            strHTML &= "<td width=205px></td>"
-            strHTML &= "<td width=80px align=center>Heavy Water</td>"
-            strHTML &= "<td width=80px align=center>Liquid Ozone</td>"
-            strHTML &= "<td width=80px align=center>Strontium Clathrates</td>"
-            strHTML &= "<td width=80px align=center>Helium Isotopes</td>"
-            strHTML &= "<td width=80px align=center>Hydrogen Isotopes</td>"
-            strHTML &= "<td width=80px align=center>Nitrogen Isotopes</td>"
-            strHTML &= "<td width=80px align=center>Oxygen Isotopes</td>"
-            strHTML &= "</tr>"
-
-            For groupType As Integer = 1 To 1
-                strHTML &= "<tr><td colspan=9 bgcolor=#444444>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-                For oreType As Integer = 1 To 12
-                    strHTML &= "<tr>"
-                    strHTML &= "<td width=35px>"
-                    strHTML &= "<img src='typeicon:" & oreID(groupType, oreType) & "' width=32 height=32>"
-                    strHTML &= "</td>"
-                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
-                    For minType As Integer = 1 To 7
-                        strHTML &= "<td width=80px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
-                    Next
-                    strHTML &= "</tr>"
-                Next
-            Next
-            strHTML &= "</TABLE><BR>"
-        End If
+        Next
+        strHTML &= "</TABLE><BR>"
 
         Return strHTML
 
@@ -1852,10 +1643,10 @@ Public Class Reports
     Public Shared Sub GenerateCharSummary()
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Pilot Summary", False)
-        strHTML &= HTMLTitle("Pilot Summary", False)
-        strHTML &= CharSummary(False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Pilot Summary")
+        strHTML &= HTMLTitle("Pilot Summary")
+        strHTML &= CharSummary()
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "PilotSummary.html"))
 
         sw.Write(strHTML)
@@ -1867,7 +1658,7 @@ Public Class Reports
         GC.Collect()
 
     End Sub
-    Public Shared Function CharSummary(ByVal forIGB As Boolean) As String
+    Public Shared Function CharSummary() As String
         Dim strHTML As String = ""
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
         Dim currentSP As String = "0"
@@ -1875,30 +1666,15 @@ Public Class Reports
         Dim totalIsk As Double = 0
 
         Dim rPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-        End If
-        If forIGB = False Then
-            strHTML &= "</tr>"
-            strHTML &= "<td class=thead width=70px></td>"
-            strHTML &= "<td class=thead width=165px>Pilot Name</td>"
-            strHTML &= "<td class=thead width=165px>Corporation</td>"
-            strHTML &= "<td class=thead width=125px align=right>Wealth</td>"
-            strHTML &= "<td class=thead width=125px align=right>Skillpoints</td>"
-            strHTML &= "<td class=thead width=150px align=right>Current Training</td>"
-            strHTML &= "<tr>"
-        Else
-            strHTML &= "<tr bgcolor=#44444488>"
-            strHTML &= "<td width=70px></td>"
-            strHTML &= "<td width=165px>Pilot Name</td>"
-            strHTML &= "<td width=165px>Corporation</td>"
-            strHTML &= "<td width=125px align=right>Wealth</td>"
-            strHTML &= "<td width=125px align=right>Skillpoints</td>"
-            strHTML &= "<td width=200px align=right>Current Training</td>"
-            strHTML &= "</tr>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
+        strHTML &= "</tr>"
+        strHTML &= "<td class=thead width=70px></td>"
+        strHTML &= "<td class=thead width=165px>Pilot Name</td>"
+        strHTML &= "<td class=thead width=165px>Corporation</td>"
+        strHTML &= "<td class=thead width=125px align=right>Wealth</td>"
+        strHTML &= "<td class=thead width=125px align=right>Skillpoints</td>"
+        strHTML &= "<td class=thead width=150px align=right>Current Training</td>"
+        strHTML &= "<tr>"
         Dim sortedPilots As New SortedList
         For Each rPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If rPilot.Active = True Then
@@ -1939,8 +1715,8 @@ Public Class Reports
     Public Shared Sub GenerateSPSummary()
         Dim strHTML As String = ""
         strHTML &= NonCharHTMLHeader("Skill Level Table", "")
-        strHTML &= SPSummary(False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= SPSummary()
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SPSummary.html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -1950,29 +1726,19 @@ Public Class Reports
         ' Tidy up report variables
         GC.Collect()
     End Sub
-    Public Shared Function SPSummary(ByVal forIGB As Boolean) As String
+    Public Shared Function SPSummary() As String
         Dim strHTML As String = ""
 
-        If forIGB = False Then
-            strHTML &= "<table border=1 width=800px align=center cellspacing=0 cellpadding=0>"
-            strHTML &= "<tr><td width=175px>&nbsp;</td><td colspan=5 align=center class=thead><b>Skill Level</b></td></tr><tr>"
-            strHTML &= "<td>&nbsp;</td>"
-        Else
-            strHTML &= "<table border=1 width=800px>"
-            strHTML &= "<tr><td width=175px></td><td colspan=5 align=center bgcolor=#444444><b>Skill Level</b></td></tr><tr>"
-            strHTML &= "<td></td>"
-        End If
+        strHTML &= "<table border=1 width=800px align=center cellspacing=0 cellpadding=0>"
+        strHTML &= "<tr><td width=175px>&nbsp;</td><td colspan=5 align=center class=thead><b>Skill Level</b></td></tr><tr>"
+        strHTML &= "<td>&nbsp;</td>"
 
         For level As Integer = 1 To 5
             strHTML &= "<td width=125px align=center>" & level & "</td>"
         Next
         strHTML &= "</tr>"
         For rank As Integer = 1 To 20
-            If forIGB = False Then
-                strHTML &= "<tr><td colspan=6 class=thead>Skill Rank " & rank & "</td></tr>"
-            Else
-                strHTML &= "<tr><td colspan=6 bgcolor=#444444>Skill Rank " & rank & "</td></tr>"
-            End If
+            strHTML &= "<tr><td colspan=6 class=thead>Skill Rank " & rank & "</td></tr>"
             strHTML &= "<tr><td>&nbsp;</td>"
             For level As Integer = 1 To 5
                 strHTML &= "<td align=center>" & FormatNumber(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(rank, level)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>"
@@ -3169,11 +2935,11 @@ Public Class Reports
 #Region "Partial Skills Report"
     Public Shared Sub GeneratePartialSkills(ByVal rpilot As EveHQ.Core.Pilot)
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Partially Trained Skills - " & rpilot.Name, False)
-        strHTML &= HTMLTitle("Partially Trained Skills - " & rpilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rpilot, False)
-        strHTML &= PartialSkills(rpilot, False)
-        strHTML &= HTMLFooter(False)
+        strHTML &= HTMLHeader("Partially Trained Skills - " & rpilot.Name)
+        strHTML &= HTMLTitle("Partially Trained Skills - " & rpilot.Name)
+        strHTML &= HTMLCharacterDetails(rpilot)
+        strHTML &= PartialSkills(rpilot)
+        strHTML &= HTMLFooter()
         Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "PartialSkills (" & rpilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
@@ -3184,7 +2950,7 @@ Public Class Reports
         GC.Collect()
     End Sub
 
-    Public Shared Function PartialSkills(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+    Public Shared Function PartialSkills(ByVal rpilot As EveHQ.Core.Pilot) As String
         Dim strHTML As String = ""
 
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -3294,21 +3060,13 @@ Public Class Reports
         Next
 
         Dim imgLevel As String = ""
-        If forIGB = False Then
-            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-        Else
-            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
-        End If
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         Dim group As Integer = 1
         Do
             group = group + 1
             If group = nog + 1 Then group = 1
             If CDbl(repGroup(group, 2)) > 0 Then
-                If forIGB = False Then
-                    strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
-                Else
-                    strHTML &= "<tr bgcolor=#44444488><td width=50px></td><td colspan=2 align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td width=50px></td></tr>"
-                End If
+                strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                 strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                 For skill As Integer = 1 To CInt(repGroup(group, 2))
                     strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"

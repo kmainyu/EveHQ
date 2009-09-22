@@ -4,6 +4,21 @@ Imports System.IO
 
 Public Class ImageHandler
 
+    Public Shared Function GetRawImageLocation(ByVal imageName As String, ByVal imageType As Integer) As String
+        Dim remoteURL As String = ""
+        Select Case imageType
+            Case ImageHandler.ImageType.Blueprints
+                remoteURL = "http://www.evehq.net/eve/images/blueprints/64_64/" & imageName & ".png"
+            Case ImageHandler.ImageType.Icons
+                remoteURL = "http://www.evehq.net/eve/images/icons/64_64/icon" & imageName & ".png"
+            Case ImageHandler.ImageType.Types
+                remoteURL = "http://www.evehq.net/eve/images/types/128_128/" & imageName & ".png"
+        End Select
+        ' Return the image location
+        Return remoteURL
+
+    End Function
+
     Public Shared Function GetImageLocation(ByVal imageName As String, ByVal imageType As Integer) As String
         ' Check EveHQ image cache folder for the image
         If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, imageName & ".png")) = True Then

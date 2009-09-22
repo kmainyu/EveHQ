@@ -91,7 +91,6 @@ Public Class IGB
                         ' Start the page generation timer
                         timeStart = Now
 
-                        'If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
                         Select Case context.Request.Url.AbsolutePath.ToUpper
                             Case "", "/"
                                 responseString &= RedirectHome()
@@ -177,18 +176,15 @@ Public Class IGB
                                     responseString &= IGBHTMLFooter(context)
                                 End If
                         End Select
-                        'Else
-                        '    'responseString &= IGBHTMLHeader(context, "EveHQ IGB Site")
-                        '    responseString &= "Sorry, this site is only for use within Eve-Online!<br><br>"
-                        '    responseString &= "To find out more information about Eve-Online, please visit "
-                        '    responseString &= "<a href=""http://www.eve-online.com"">www.eve-online.com</a>."
-                        '    responseString &= IGBHTMLFooter(context)
-                        'End If
 
                         Dim buffer() As Byte = System.Text.Encoding.Default.GetBytes(responseString)
                         response.ContentLength64 = buffer.Length
+                        response.ContentType = "text/html;q=0.9;*/*;q=0.5"
                         Dim output As System.IO.Stream = response.OutputStream
                         output.Write(buffer, 0, buffer.Length)
+                        output.Flush()
+                        output.Close()
+                        output.Dispose()
                     End If
                 Catch ex As HttpListenerException
                     Console.WriteLine(ex.Message)
@@ -260,11 +256,11 @@ Public Class IGB
     Public Shared Function IGBHTMLHeader(ByVal context As Net.HttpListenerContext, Optional ByVal strTitle As String = "") As String
         Dim strHTML As String = ""
         ' Check if site is trusted and requested trusted if not
-        If context.Request.Headers("Eve.trusted") = "no" Then
+        If context.Request.Headers("EVE_TRUSTED") Is Nothing Then
             Dim msgTrust As String = "By allowing this site to be trusted, you will be able to integrate your "
             msgTrust &= "in-game browser (IGB) with EveHQ. This will allow you to get Eve item data"
             msgTrust &= "in your IGB."
-            context.Response.Headers.Add("eve.trustme", "http://" & context.Request.Headers("Host") & "/::" & msgTrust)
+            context.Response.Headers.Add("EVE_TRUSTME", "http://" & context.Request.Headers("Host") & "/::" & msgTrust)
         End If
         ' Check for PDA Header!
         If context.Request.UserAgent.Contains("Windows CE") = True Then
@@ -274,38 +270,33 @@ Public Class IGB
         End If
         strHTML &= "<HTML>"
         strHTML &= "<HEAD><TITLE>" & strTitle & "</TITLE>"
-        If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
-            strHTML &= "<STYLE>-->"
-            strHTML &= "BODY { bgcolor: #00000000; background: #00000000; }"
-            strHTML &= "--></STYLE>"
+        strHTML &= "<STYLE><!--"
+        strHTML &= "BODY { font-family: Arial, Tahoma; font-size: 10px; bgcolor: #000000; background: #000000; color: #ffffff; }"
+        strHTML &= "TD, P, FORM { font-family: Arial, Tahoma; font-size: 10px; color: #ffffff; }"
+        strHTML &= ".attbody { font-family: Arial, Tahoma; font-size: 10px; color: #ffffff; }"
+        strHTML &= ".atthead { font-family: Tahoma, Arial; font-size: 8px; color: #ffffff; font-variant: small-caps; }"
+        strHTML &= ".thead { font-family: Tahoma, Arial; font-size: 12px; color: #ffffff; font-variant: small-caps; background-color: #444444; }"
+        strHTML &= ".footer { font-family: Tahoma, Arial; font-size: 9px; color: #ffffff; font-variant: small-caps; }"
+        strHTML &= ".title { font-family: Tahoma, Arial; font-size: 20px; color: #ffffff; font-variant: small-caps; }"
+        If pdaStyle = False Then
+            strHTML &= ".tbl { width: 800px; color: #ffffff; }"
         Else
-            strHTML &= "<STYLE><!--"
-            strHTML &= "BODY { font-family: Arial, Tahoma; font-size: 10px; bgcolor: #000000; background: #000000; color: #ffffff; }"
-            strHTML &= "TD, P, FORM { font-family: Arial, Tahoma; font-size: 10px; color: #ffffff; }"
-            strHTML &= ".attbody { font-family: Arial, Tahoma; font-size: 10px; color: #ffffff; }"
-            strHTML &= ".atthead { font-family: Tahoma, Arial; font-size: 8px; color: #ffffff; font-variant: small-caps; }"
-            strHTML &= ".thead { font-family: Tahoma, Arial; font-size: 12px; color: #ffffff; font-variant: small-caps; background-color: #444444; }"
-            strHTML &= ".footer { font-family: Tahoma, Arial; font-size: 9px; color: #ffffff; font-variant: small-caps; }"
-            strHTML &= ".title { font-family: Tahoma, Arial; font-size: 20px; color: #ffffff; font-variant: small-caps; }"
-            If pdaStyle = False Then
-                strHTML &= ".tbl { width: 800px; color: #ffffff; }"
-            Else
-                strHTML &= ".tbl { width: 240px; color: #ffffff; }"
-            End If
-            strHTML &= "--></STYLE>"
+            strHTML &= ".tbl { width: 240px; color: #ffffff; }"
         End If
+        strHTML &= "--></STYLE>"
         strHTML &= "</HEAD>"
         strHTML &= "<BODY link=#ff8888 alink=#ff8888 vlink=#ff8888>"
         If pdaStyle = False Then
-            If context.Request.Headers("Eve.charname") <> "" Then
-                strHTML &= "<img src='portrait:" & context.Request.Headers("Eve.charID") & "' size='64' alt='Mini Mugshot' />"
+            If context.Request.Headers("EVE_CHARNAME") <> "" Then
+                'strHTML &= "<img src='portrait:" & context.Request.Headers("EVE_CHARID") & "' size='64' alt='Mini Mugshot' />"
+                strHTML &= "<img src='http://img.eve.is/serv.asp?s=64&c=" & context.Request.Headers("EVE_CHARID") & "' size=96 alt='Mini Mugshot' />"
             End If
             strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />  IGB Server<br>"
             strHTML &= "<p>"
-            If context.Request.Headers("Eve.charname") = "" Then
+            If context.Request.Headers("EVE_CHARNAME") = "" Then
                 strHTML &= "Greetings Pilot!<br>"
             Else
-                strHTML &= "Greetings " & context.Request.Headers("Eve.charname") & "!<br>"
+                strHTML &= "Greetings " & context.Request.Headers("EVE_CHARNAME") & "!<br>"
             End If
             strHTML &= "There are " & EveHQ.Core.HQ.myTQServer.Players & " pilots on-line (" & EveHQ.Core.HQ.mySiSiServer.Players & " on test server)<br>"
             strHTML &= "<hr><a href=/>Home</a>  |  <a href=/itemDB>Item Database</a>  |  <a href=/reports>Reports</a>  |  <a href=/headers>IGB Headers</a>"
@@ -367,7 +358,7 @@ Public Class IGB
         strHTML &= IGBHTMLHeader(context, "EveHQ IGB Home")
         strHTML &= "<p>Welcome to the EveHQ In-Game Browser (IGB) Server!</p>"
         strHTML &= "<p>This server will give you access to the wealth of information that is the Eve Online database and present it in tabular form for easy reading.</p>"
-        If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
+        If context.Request.UserAgent.StartsWith("EVE-IGB") Then
             strHTML &= "<p>If you have any questions or suggestions, please contact <a href='evemail:Vessper' SUBJECT='EveHQ IGB'>Vessper</a> via Eve-mail.</p>"
         Else
             strHTML &= "<p>If you have any questions or suggestions, please contact <a href='mailto:vessper@evehq.net'>Vessper</a> via E-mail.</p>"
@@ -388,11 +379,11 @@ Public Class IGB
     Private Function CreateHeaders() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "EveHQ IGB Header Info")
-        If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
+        If context.Request.UserAgent.StartsWith("EVE-IGB") Then
             context.Response.Headers.Add("refresh:sessionchange;URL=/HEADERS")
         End If
         strHTML &= "<p>If viewed through the Eve IGB, this page will show a list of the Eve specific browser headers which can be used to identify certain Pilot information. If a site is trusted by "
-        strHTML &= "the Eve IGB (shown by the Eve.trusted header), this information is made available to the web server (the remote site).</p><p>"
+        strHTML &= "the Eve IGB (shown by the EVE_TRUSTED header), this information is made available to the web server (the remote site).</p><p>"
         For a As Integer = 0 To context.Request.Headers.Count - 1
             strHTML &= context.Request.Headers.Keys(a) & " : " & context.Request.Headers.Item(a) & "<br>"
         Next
@@ -417,41 +408,41 @@ Public Class IGB
     Private Function CreateOreReport() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Ore Composition Report")
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Ore Composition Report", True)
+        strHTML &= EveHQ.Core.Reports.HTMLTitle("Ore Composition Report")
         strHTML &= EveHQ.Core.Reports.RockReport(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+        strHTML &= EveHQ.Core.Reports.HTMLFooter
         Return strHTML
     End Function
     Private Function CreateIceReport() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Ice Composition Report")
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Ice Composition Report", True)
+        strHTML &= EveHQ.Core.Reports.HTMLTitle("Ice Composition Report")
         strHTML &= EveHQ.Core.Reports.IceReport(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+        strHTML &= EveHQ.Core.Reports.HTMLFooter
         Return strHTML
     End Function
     Private Function CreateAlloyReport() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Alloy Composition Report")
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Alloy Composition Report", True)
+        strHTML &= EveHQ.Core.Reports.HTMLTitle("Alloy Composition Report")
         strHTML &= EveHQ.Core.Reports.AlloyReport(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+        strHTML &= EveHQ.Core.Reports.HTMLFooter
         Return strHTML
     End Function
     Private Function CreateSPReport() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Skill Level Table")
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Skill Level Table", True)
-        strHTML &= EveHQ.Core.Reports.SPSummary(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+        strHTML &= EveHQ.Core.Reports.HTMLTitle("Skill Level Table")
+        strHTML &= EveHQ.Core.Reports.SPSummary
+        strHTML &= EveHQ.Core.Reports.HTMLFooter
         Return strHTML
     End Function
     Private Function ShowCharSummary() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Pilot Summary")
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Pilot Summary", True)
-        strHTML &= EveHQ.Core.Reports.CharSummary(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+        strHTML &= EveHQ.Core.Reports.HTMLTitle("Pilot Summary")
+        strHTML &= EveHQ.Core.Reports.CharSummary()
+        strHTML &= EveHQ.Core.Reports.HTMLFooter
         Return strHTML
     End Function
     Private Function ShowCharReports() As String
@@ -568,17 +559,17 @@ Public Class IGB
                             strHTML &= "  |  "
                         End If
                     End If
-                    If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
-                        strHTML &= "<a href=showinfo:" & typeID & ">INGAME INFO</a></p>"
-                    Else
-                        strHTML &= "[n/a]</p>"
-                    End If
+                    'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+                    '    strHTML &= "<a href=showinfo:" & typeID & ">INGAME INFO</a></p>"
+                    'Else
+                    strHTML &= "[n/a]</p>"
+                    'End If
                     strHTML &= "<table width=800px class=tbl border=1 cellpadding=0><tr width=100%>"
-                    If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
-                        strHTML &= "<td width=64px><img src=""typeicon:" & typeID & """ width=64 height=64></td>"
-                    Else
-                        strHTML &= "<td width=64px><img src='" & Me.GetExternalIcon(pInfo(0), pInfo(4)) & "'></td>"
-                    End If
+                    'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+                    '    strHTML &= "<td width=64px><img src=""typeicon:" & typeID & """ width=64 height=64></td>"
+                    'Else
+                    strHTML &= "<td width=64px><img src='" & Me.GetExternalIcon(pInfo(0), pInfo(4)) & "'></td>"
+                    'End If
                     strHTML &= "<td style='font-size:x-large;'>"
                     strHTML &= "<b>" & pInfo(1) & "</b>"
                     strHTML &= "</td></tr></table><br>"
@@ -892,13 +883,12 @@ Public Class IGB
                                     For item As Integer = itemloop To itemcount
                                         If materials(item, 9) = act And materials(item, 5) = matCatID And materials(item, 7) = matGroupID Then
                                             strHTML &= "<tr align=top width=600px>"
-                                            If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
-                                                strHTML &= "<td width=32px><img src=typeicon:" & materials(item, 1) & " width=32 height=32></td>"
-                                            Else
-                                                Dim iInfo() As String = EveHQ.Core.DataFunctions.GetTypeParentInfo(materials(item, 1))
-                                                strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo(0), iInfo(4)) & "' width=32px height=32px></td>"
-
-                                            End If
+                                            'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+                                            '    strHTML &= "<td width=32px><img src=typeicon:" & materials(item, 1) & " width=32 height=32></td>"
+                                            'Else
+                                            Dim iInfo() As String = EveHQ.Core.DataFunctions.GetTypeParentInfo(materials(item, 1))
+                                            strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo(0), iInfo(4)) & "' width=32px height=32px></td>"
+                                            'End If
                                             strHTML &= "<td width=300px><a href=/itemDB/?view=t&id=" & materials(item, 1) & ">" & materials(item, 2) & "</a>"
                                             strHTML &= "</td><td>"
                                             strHTML &= materials(item, 3)
@@ -937,12 +927,12 @@ Public Class IGB
                             strHTML &= "<table width=600px border=1 cellpadding=0><tr bgcolor=#661111><td width=400px colspan=2>Item Name</td><td width=200px>Meta Type</td></tr>"
                             For item As Integer = 0 To metaItemCount
                                 strHTML &= "<tr>"
-                                If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
-                                    strHTML &= "<td width=32px><img src=typeicon:" & itemVariations(0, item) & " width=32 height=32></td>"
-                                Else
-                                    Dim iInfo() As String = EveHQ.Core.DataFunctions.GetTypeParentInfo(typeID)
-                                    strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo(0), iInfo(4)) & "' width=32px height=32px></td>"
-                                End If
+                                'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+                                '    strHTML &= "<td width=32px><img src=typeicon:" & itemVariations(0, item) & " width=32 height=32></td>"
+                                'Else
+                                Dim iInfo() As String = EveHQ.Core.DataFunctions.GetTypeParentInfo(typeID)
+                                strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo(0), iInfo(4)) & "' width=32px height=32px></td>"
+                                'End If
                                 strHTML &= "<td width=368px><a href=/itemDB/?view=t&id=" & itemVariations(0, item) & ">" & itemVariations(1, item) & "</a></td><td>" & itemVariations(2, item) & "</td></tr>"
                             Next
                             strHTML &= "</table><br>"
@@ -960,13 +950,13 @@ Public Class IGB
 
     Private Function GetExternalIcon(ByVal typeID As String, ByVal catID As String) As String
         Select Case CInt(catID)
-            Case 6
-                Return "http://www.eve-online.com/bitmaps/icons/itemdb/shiptypes/128_128/" & typeID & ".png"
+            Case 6, 18, 23
+                Return EveHQ.Core.ImageHandler.GetRawImageLocation(typeID, ImageHandler.ImageType.Types)
             Case 9
-                Return "http://www.eve-online.com/bitmaps/icons/itemdb/blueprinttypes/64_64/" & typeID & ".png"
+                Return EveHQ.Core.ImageHandler.GetRawImageLocation(typeID, ImageHandler.ImageType.Blueprints)
             Case Else
                 Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveGraphics.icon FROM eveGraphics INNER JOIN invTypes ON eveGraphics.graphicID = invTypes.graphicID WHERE typeID=" & typeID & ";")
-                Return "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon" & iconData.Tables(0).Rows(0).Item("icon").ToString & ".png"
+                Return EveHQ.Core.ImageHandler.GetRawImageLocation(iconData.Tables(0).Rows(0).Item("icon").ToString, ImageHandler.ImageType.Icons)
         End Select
     End Function
 
@@ -990,16 +980,16 @@ Public Class IGB
         End If
         If pilotNames.Count > 0 Then
             strHTML &= "<form method=""GET"" action=""/reports/charreport"">"
-            strHTML &= "<table><tr><td width=100px>Pilot:</td><td width=250px><select name='Pilot' style='width: 200px'>"
+            strHTML &= "<table><tr><td width=100px>Pilot:</td><td width=250px><select name='Pilot' style='width: 200px;'>"
             Dim pilotName As String = ""
             For Each pilotName In pilotNames
                 strHTML &= "<option "
-                If context.Request.UserAgent.StartsWith("EVE-minibrowser") Then
-                    If context.Request.Headers("Eve.charname") = pilotName Then
+                If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+                    If context.Request.Headers("EVE_CHARNAME") = pilotName Then
                         strHTML &= "selected='selected'"
                     End If
                 Else
-                    If pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), EveHQ.Core.Pilot).Name Then
+                    If pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), EveHQ.Core.Pilot).Name Then
                         strHTML &= "selected='selected'"
                     End If
                 End If
@@ -1037,37 +1027,37 @@ Public Class IGB
             Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Character Sheet"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Character Sheet - " & repPilot.Name, True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.CharacterSheet(repPilot, True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Character Sheet - " & repPilot.Name)
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.CharacterSheet(repPilot)
                 Case "Skill Levels"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skill Levels Sheet - " & repPilot.Name, True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.SkillLevels(repPilot, True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skill Levels Sheet - " & repPilot.Name)
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.SkillLevels(repPilot)
                 Case "Training Queues"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queues - " & repPilot.Name, True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queues - " & repPilot.Name)
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
                     strHTML &= CreateQueueLists(repPilot)
                 Case "Training Times"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Times - " & repPilot.Name, True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.TrainingTime(repPilot, True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Times - " & repPilot.Name)
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.TrainingTime(repPilot)
                 Case "Time To Level 5"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Time To Level 5 - " & repPilot.Name, True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.TimeToLevel5(repPilot, True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Time To Level 5 - " & repPilot.Name)
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.TimeToLevel5(repPilot)
                 Case "Skills Available To Train"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skills Available To Train - " & repPilot.Name, True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.SkillsAvailable(repPilot, True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skills Available To Train - " & repPilot.Name)
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.SkillsAvailable(repPilot)
                 Case "Skills Not Trained"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skills Not Trained - " & repPilot.Name, True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.SkillsNotTrained(repPilot, True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skills Not Trained - " & repPilot.Name)
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.SkillsNotTrained(repPilot)
                 Case Else
                     strHTML &= "<p>There was an error generating your character report</p>"
             End Select
-            strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+            strHTML &= EveHQ.Core.Reports.HTMLFooter
         End If
         Return strHTML
     End Function
@@ -1104,17 +1094,17 @@ Public Class IGB
             Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Training Queue"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queue - " & repPilot.Name & " (" & queueString & ")", True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.TrainQueue(repPilot, CType(repPilot.TrainingQueues(queueString), SkillQueue), True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queue - " & repPilot.Name & " (" & queueString & ")")
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.TrainQueue(repPilot, CType(repPilot.TrainingQueues(queueString), SkillQueue))
                 Case "Shopping List"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Shopping List - " & repPilot.Name & " (" & queueString & ")", True)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot, True)
-                    strHTML &= EveHQ.Core.Reports.ShoppingList(repPilot, CType(repPilot.TrainingQueues(queueString), SkillQueue), True)
+                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Shopping List - " & repPilot.Name & " (" & queueString & ")")
+                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= EveHQ.Core.Reports.ShoppingList(repPilot, CType(repPilot.TrainingQueues(queueString), SkillQueue))
                 Case Else
                     strHTML &= "<p>There was an error generating your character report</p>"
             End Select
-            strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+            strHTML &= EveHQ.Core.Reports.HTMLFooter
         End If
         Return strHTML
     End Function
