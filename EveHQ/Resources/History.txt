@@ -1,5 +1,77 @@
 EveHQ - Version History
 -----------------------
+
+1.13.2.895
+----------
+Fixes & Improvements:
+- Core: Fixed crash in training form when attempting to view a skill that isn't selected
+- Core: Fixed an error caused by a lack of dependant certificates in the certification viewer
+- Core: Fixed a crash relating to invalid blueprint data caused by test rig blueprints
+- Core: Added status bar item for the current Eve time
+- Core: Fixed queue building error with invalid index
+- Core: Added sender email address field to settings
+- Core: Implemented sender email address in notifications
+- Core: Added auto-resize columns to the skill queue in the pilot form
+- Core: Fixed crash when selecting the Show Details button in the training form
+- Core: Added setting for Item Browser published checkbox
+- Core: Fixed training bar from shrinking during text changes
+- Core: Reduced training bar text width when skill queue time is available
+- Core: Removed debug message from moving down queue button
+- Core: Fixed crash when generating HTML Skills Available report
+- Core: Fixed crash when generating Text Skills Available report
+- Core: Fixed crash in Training Form when opening context menu for pre-requisites
+- Core: Added better error reporting for database errors
+- Core: Modified updater form resizing routine to work below resolution height of 650
+- Core: Fixed duplication of API results where the same character could potentially be listed twice
+- Core: Put an error handler across the network availability test to check for errors
+- Creation: Removed Career and Spec columns from the goal seek list
+- Creation: Removed Career and Spec columns from the starting skills list
+- Creation: Fixed error caused by using the "Add Character..." option with the missing columns
+- IB: Fixed a crash relating to invalid blueprint data caused by test rig blueprints
+- IB: Used setting from EveHQ Core to determine starting state of published checkbox
+- HQF: Fixed crash with boosters that don't contain penalties
+- HQF: Fixed MWD cap bonus on Daredevil, Deimos, Hyena, Thorax, Vigilant and Vindicator
+- HQF: Capacitor units now refer to GJ instead of F
+- HQF: Added new recharge attributes to each ship
+- HQF: Tengu/Proteus Propulsion Gravitional Capacitor subsystems now correctly affect warp speed
+- HQF: Hyperspatial Velocity rigs now correctly affect warp speed
+- HQF: Targeting System Stabilizer ribs now affect recalibration delay instead of reactivation delay
+- HQF: Covert Reconfiguration subsystems now give the correct Cloak Reactivation Delay attribute to ships
+- HQF: Cloak Reactivation Delay from ships now correctly passed on to cloaking devices
+- HQF: Fixed crash in implant manager when changing implants that are not in the current implant group
+- HQF: Fixed Advanced Spaceship Command skill affecting agility
+- HQF: Fixed error opening Pilot Manager with no startup pilot set in the EveHQ general settings
+- HQF: "Export For Forum" menu now includes the ship name and fitting
+- Map: Added Saulvin's patch to look for Agents living in different faction system
+- Map: Resized controls to fit factions in properly
+- Map: Added FW and Epic Arc agents to the Agent Type column
+- Map: Corrected how EveSec is calculated for empire systems with true sec > 0 and < 0.5
+- POS: Fixed updates on the Silo Levels when POS Manager is first opened
+- POS: Notifications are now fully functional for Tower Fuel and Silo Fill levels
+- POS: Improved the manual Update for API Data - not perfect yet, but getting better
+- POS: Fixed mail notification issue
+- POS: Fixed Crash when setting reaction / mineral types for a lot of modules
+- POS: Reaction Manager Tab now supports 5 reaction types
+- POS: Hovering over the reaction name text will bring up a pop-up display showing each input and output with one of the possible module types that support said input or output
+- POS: Tower display now includes the Tower location as well as the tower name
+- POS: Fixed error in Reaction Manager
+- POS: Bug fixes - some issues with calculations on maintenance screen
+- POS: Changed API method, can now get tower fuel data 1x per hour instead of 24hrs
+- POS: New linked tower data shown in tower details screen on Monitor tab for selected POS
+- POS: Adding the ability to set a tower owner and a fuel technician for the tower.
+- POS: Add information for the Monitor Select screen (Location and Corp Name).
+- POS: Fix a bug in corps listed for towers
+- POS: Fix a bug in the Monitored POS Selection
+- POS: Fixed a couple of owner / fuel tech assignment bugs
+- POS: Fixed populating of API tower info aborting where one API was invalid
+- POS: Fixed name check issue
+- Prism: Fixed errors caused by test rig blueprints (which were published!) not having a corresponding item
+- Prism: Added Transaction Type (All/Buy/Sell) into the Transaction viewer
+- Prism: Fixed calculations of ore-specific skills in the recycler
+- Prism: Added Tool Blueprints/Compounds to list of materials that give waste
+- Prism: Adjusted rounding method on required resources calculations
+
+
 1.13.1.812 (22/08/2009)
 ----------
 Fixes & Improvements:
