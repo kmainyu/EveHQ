@@ -249,7 +249,11 @@ Public Class frmDamageAnalysis
             CTH = (0.5 ^ ((((tv / (d * tt)) * (tsr / sr)) ^ 2) + ((Math.Max(0, d - tor)) / tf) ^ 2)) * 100
 
             ' Calculate expected damage ratio
-            EDR = 0.01 * 3 + ((CTH / 100) - 0.01) * ((CTH / 100) + 0.99) / 2
+            If Math.Round(CTH, 8) = 0 Then
+                EDR = 0
+            Else
+                EDR = 0.01 * 3 + ((CTH / 100) - 0.01) * ((CTH / 100) + 0.99) / 2
+            End If
 
             ' Calculate Expected Damage (DPS)
             esdEM = sdEM * EDR : esdEx = sdEx * EDR : esdKi = sdKi * EDR : esdTh = sdTh * EDR : esdT = sdT * EDR
