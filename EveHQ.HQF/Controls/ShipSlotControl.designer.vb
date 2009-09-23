@@ -60,6 +60,7 @@ Partial Class ShipSlotControl
         Me.lblSubSlots = New System.Windows.Forms.Label
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
         Me.panelDrone = New System.Windows.Forms.Panel
@@ -147,7 +148,6 @@ Partial Class ShipSlotControl
         Me.colShipBayQuantity = New System.Windows.Forms.ColumnHeader
         Me.colShipBayVolume = New System.Windows.Forms.ColumnHeader
         Me.colShipBayTotalVolume = New System.Windows.Forms.ColumnHeader
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
@@ -451,6 +451,33 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.Size = New System.Drawing.Size(676, 521)
         Me.SplitContainer1.SplitterDistance = 275
         Me.SplitContainer1.TabIndex = 1
+        '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        ListViewGroup5.Header = "Subsystem Slots"
+        ListViewGroup5.Name = "lvwgSubSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.ShowItemToolTips = True
+        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'tabStorage
         '
@@ -1319,33 +1346,6 @@ Partial Class ShipSlotControl
         Me.colShipBayTotalVolume.Text = "Total Volume (m³)"
         Me.colShipBayTotalVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colShipBayTotalVolume.Width = 100
-        '
-        'lvwSlots
-        '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        ListViewGroup5.Header = "Subsystem Slots"
-        ListViewGroup5.Name = "lvwgSubSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.ShowItemToolTips = True
-        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'ShipSlotControl
         '

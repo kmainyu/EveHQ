@@ -1472,6 +1472,34 @@ Public Class ShipSlotControl
                                     End If
                                 End If
                             End If
+                            ' Check for activation of siege mode with remote effects
+                            If fittedMod.ID = "20280" Then
+                                If fittedShip.RemoteSlotCollection.Count > 0 Then
+                                    Dim msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
+                                    Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Siege Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                    If reply = DialogResult.No Then
+                                        fittedMod.ModuleState = oldState
+                                        Exit Sub
+                                    Else
+                                        currentShip.RemoteSlotCollection.Clear()
+                                        Call Me.ResetRemoteEffects()
+                                    End If
+                                End If
+                            End If
+                            ' Check for activation of triage mode with remote effects
+                            If fittedMod.ID = "27951" Then
+                                If fittedShip.RemoteSlotCollection.Count > 0 Then
+                                    Dim msg As String = "You have active remote modules and activating Traige Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                                    Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                    If reply = DialogResult.No Then
+                                        fittedMod.ModuleState = oldState
+                                        Exit Sub
+                                    Else
+                                        currentShip.RemoteSlotCollection.Clear()
+                                        Call Me.ResetRemoteEffects()
+                                    End If
+                                End If
+                            End If
                             currentInfo.ShipType = currentShip
                             currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                             Call Me.UpdateAllSlotLocations()
@@ -2202,9 +2230,37 @@ Public Class ShipSlotControl
                 End If
             End If
         End If
-            currentInfo.ShipType = currentShip
-            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-            Call Me.UpdateAllSlotLocations()
+        ' Check for activation of siege mode with remote effects
+        If sModule.ID = "20280" Then
+            If fittedShip.RemoteSlotCollection.Count > 0 Then
+                Dim msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
+                Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Siege Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = DialogResult.No Then
+                    sModule.ModuleState = oldState
+                    Exit Sub
+                Else
+                    currentShip.RemoteSlotCollection.Clear()
+                    Call Me.ResetRemoteEffects()
+                End If
+            End If
+        End If
+        ' Check for activation of triage mode with remote effects
+        If sModule.ID = "27951" Then
+            If fittedShip.RemoteSlotCollection.Count > 0 Then
+                Dim msg As String = "You have active remote modules and activating Traige Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = DialogResult.No Then
+                    sModule.ModuleState = oldState
+                    Exit Sub
+                Else
+                    currentShip.RemoteSlotCollection.Clear()
+                    Call Me.ResetRemoteEffects()
+                End If
+            End If
+        End If
+        currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+        Call Me.UpdateAllSlotLocations()
     End Sub
     Private Sub SetModuleOverload(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
@@ -3157,7 +3213,31 @@ Public Class ShipSlotControl
         End If
     End Sub
 
+    Private Sub ResetRemoteEffects()
+        lvwRemoteEffects.BeginUpdate()
+        lvwRemoteEffects.Tag = "Refresh"
+        For Each li As ListViewItem In lvwRemoteEffects.Items
+            li.Checked = False
+        Next
+        lvwRemoteEffects.Tag = ""
+        lvwRemoteEffects.EndUpdate()
+    End Sub
+
     Private Sub lvwRemoteEffects_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwRemoteEffects.ItemChecked
+        ' Check for an active siege module in the current ship
+        If e.Item.Checked = True Then
+            For Each cMod As ShipModule In fittedShip.SlotCollection
+                If cMod.ID = "20280" And cMod.ModuleState = ModuleStates.Active Then
+                    MessageBox.Show("You cannot apply remote effects while the " & currentShip.Name & " is in Siege Mode!", "Remote Effect Not Permitted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    e.Item.Checked = False
+                    Exit Sub
+                ElseIf cMod.ID = "27951" And cMod.ModuleState = ModuleStates.Active Then
+                    MessageBox.Show("You cannot apply remote effects while the " & currentShip.Name & " is in Triage Mode!", "Remote Effect Not Permitted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    e.Item.Checked = False
+                    Exit Sub
+                End If
+            Next
+        End If
         If lvwRemoteEffects.Tag.ToString <> "Refresh" Then
             currentShip.RemoteSlotCollection.Clear()
             For Each item As ListViewItem In lvwRemoteEffects.CheckedItems
@@ -4131,7 +4211,7 @@ Public Class ShipSlotControl
         Next
         ' Create a new module
         Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
-        nModule.SlotType = currentFilter
+        nModule.SlotType = currentfilter
         ' Alter the attributes according to the penalties
         Dim count As Integer = 0
         Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))

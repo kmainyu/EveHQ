@@ -217,7 +217,7 @@ Public Class ShipInfoControl
         ' Tank Ability
         lblTankAbility.Text = "Tank Ability: " & CDbl(fittedShip.Attributes("10062")).ToString("N2") & " DPS"
         ttt = "Passive Tank: " & CDbl(fittedShip.Attributes("10069")).ToString("N2") & " DPS" & ControlChars.CrLf
-        ttt = "Shield Tank: " & CDbl(fittedShip.Attributes("10059")).ToString("N2") & " DPS" & ControlChars.CrLf
+        ttt &= "Shield Tank: " & CDbl(fittedShip.Attributes("10059")).ToString("N2") & " DPS" & ControlChars.CrLf
         ttt &= "Armor Tank: " & CDbl(fittedShip.Attributes("10060")).ToString("N2") & " DPS" & ControlChars.CrLf
         ttt &= "Structure Tank: " & CDbl(fittedShip.Attributes("10061")).ToString("N2") & " DPS" & ControlChars.CrLf
         ttt &= ControlChars.CrLf
