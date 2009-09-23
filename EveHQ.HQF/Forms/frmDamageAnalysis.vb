@@ -271,48 +271,39 @@ Public Class frmDamageAnalysis
             ' Calculate Expected Times (no target ship HP recharge)
             estNR = sHP / (esdT * tc) * trof : eatNR = aHP / (eadT * tc) * trof : ehtNR = hHP / (ehdT * tc) * trof
             If estNR > 86400 Then
-                estNR = -1
+                estNR = 86400
             End If
             If eatNR > 86400 Then
-                eatNR = -1
+                eatNR = 86400
             End If
             If ehtNR > 86400 Then
-                ehtNR = -1
+                ehtNR = 86400
             End If
 
             ' Calculate Expected Times (with target ship HP recharge)
             If (esdT - tsrr) > 0 Then
                 estR = sHP / ((esdT - tsrr) * tc) * trof
-                If estR > 86400 Then
-                    estR = -1
-                End If
             Else
-                estR = -1
+                estR = 86400
             End If
             If (eadT - tarr - prr) > 0 Then
                 eatR = aHP / ((eadT - tarr - prr) * tc) * trof
-                If eatR > 86400 Then
-                    eatR = -1
-                End If
             Else
-                eatR = -1
+                eatR = 86400
             End If
             If (ehdT - thrr - prr) > 0 Then
                 ehtR = hHP / ((ehdT - thrr - prr) * tc) * trof
-                If ehtR > 86400 Then
-                    ehtR = -1
-                End If
             Else
-                ehtR = -1
+                ehtR = 86400
             End If
 
             ' Calculate recharge based DPS and damage
-            Dim srrd, arrd, hrrd, trrd As Double
-            srrd = sHP / estR : arrd = aHP / eatR : hrrd = hHP / ehtR : trrd = (sHP + aHP + hHP) / (estR + eatR + ehtR)
-            Dim sh, ah, hh, th As Double
-            sh = Math.Round(estR * tc / trof, 0) : ah = Math.Round(eatR * tc / trof, 0) : hh = Math.Round(ehtR * tc / trof, 0) : th = sh + ah + hh
-            Dim ash, aah, ahh, atth As Double
-            ash = sHP / sh : aah = aHP / ah : ahh = hHP / hh : atth = (sHP + aHP + hHP) / th
+            'Dim srrd, arrd, hrrd, trrd As Double
+            'srrd = sHP / estR : arrd = aHP / eatR : hrrd = hHP / ehtR : trrd = (sHP + aHP + hHP) / (estR + eatR + ehtR)
+            'Dim sh, ah, hh, th As Double
+            'sh = Math.Round(estR * tc / trof, 0) : ah = Math.Round(eatR * tc / trof, 0) : hh = Math.Round(ehtR * tc / trof, 0) : th = sh + ah + hh
+            'Dim ash, aah, ahh, atth As Double
+            'ash = sHP / sh : aah = aHP / ah : ahh = hHP / hh : atth = (sHP + aHP + hHP) / th
 
             ' Write stats
             Dim stats As New StringBuilder
@@ -330,11 +321,11 @@ Public Class frmDamageAnalysis
             stats.AppendLine("Turret ROF: " & trof.ToString("N2") & " s")
             stats.AppendLine("Turret Volley: " & tvd.ToString("N2") & " HP")
             stats.AppendLine("Turret DPS: " & tdps.ToString("N2") & " HP/s")
-            stats.AppendLine("Turret Damage: " & wEM.ToString("N2") & " / " & wEx.ToString("N2") & " / " & wKi.ToString("N2") & " / " & wTh.ToString("N2"))
-            stats.AppendLine("Target HP: " & sHP.ToString("N2") & " / " & aHP.ToString("N2") & " / " & hHP.ToString("N2"))
-            stats.AppendLine("Target Shield Res: " & sEM.ToString("N2") & " / " & sEx.ToString("N2") & " / " & sKi.ToString("N2") & " / " & sTh.ToString("N2"))
-            stats.AppendLine("Target Armor Res: " & aEM.ToString("N2") & " / " & aEx.ToString("N2") & " / " & aKi.ToString("N2") & " / " & aTh.ToString("N2"))
-            stats.AppendLine("Target Hull Res: " & hEM.ToString("N2") & " / " & hEx.ToString("N2") & " / " & hKi.ToString("N2") & " / " & hTh.ToString("N2"))
+            stats.AppendLine("Turret Damage (EM/Ex/Ki/Th): " & wEM.ToString("N2") & " / " & wEx.ToString("N2") & " / " & wKi.ToString("N2") & " / " & wTh.ToString("N2"))
+            stats.AppendLine("Target HP (S/A/H): " & sHP.ToString("N2") & " / " & aHP.ToString("N2") & " / " & hHP.ToString("N2"))
+            stats.AppendLine("Target Shield Res (EM/Ex/Ki/Th): " & sEM.ToString("N2") & " / " & sEx.ToString("N2") & " / " & sKi.ToString("N2") & " / " & sTh.ToString("N2"))
+            stats.AppendLine("Target Armor Res (EM/Ex/Ki/Th): " & aEM.ToString("N2") & " / " & aEx.ToString("N2") & " / " & aKi.ToString("N2") & " / " & aTh.ToString("N2"))
+            stats.AppendLine("Target Hull Res (EM/Ex/Ki/Th): " & hEM.ToString("N2") & " / " & hEx.ToString("N2") & " / " & hKi.ToString("N2") & " / " & hTh.ToString("N2"))
             stats.AppendLine("")
             stats.AppendLine("Chance to Hit: " & CTH.ToString("N8") & "%")
             stats.AppendLine("Expected Damage Ratio: " & EDR.ToString("N8"))
@@ -348,10 +339,10 @@ Public Class frmDamageAnalysis
             stats.AppendLine("Expected Total Damage (S/A/H): " & (esdT * tc).ToString("N2") & " / " & (eadT * tc).ToString("N2") & " / " & (ehdT * tc).ToString("N2"))
             stats.AppendLine("Expected Total DPS (S/A/H): " & (esdT / trof * tc).ToString("N2") & " / " & (eadT / trof * tc).ToString("N2") & " / " & (ehdT / trof * tc).ToString("N2"))
             stats.AppendLine("Target HP Recharge Rates (S/A/H): " & tsrr.ToString("N2") & " / " & tarr.ToString("N2") & " / " & thrr.ToString("N2"))
-            stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(estNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estNR))) & " / " & CStr(IIf(eatNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatNR))) & " / " & CStr(IIf(ehtNR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtNR))))
-            stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(estR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estR))) & " / " & CStr(IIf(eatR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatR))) & " / " & CStr(IIf(ehtR = -1, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtR))))
-            stats.AppendLine("Average Turret Shot (S/A/H/T): " & ash.ToString("N2") & " / " & aah.ToString("N2") & " / " & ahh.ToString("N2") & " / " & atth.ToString("N2"))
-            stats.AppendLine("Average Turret DPS (S/A/H/T): " & srrd.ToString("N2") & " / " & arrd.ToString("N2") & " / " & hrrd.ToString("N2") & " / " & trrd.ToString("N2"))
+            stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(estNR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estNR))) & " / " & CStr(IIf(eatNR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatNR))) & " / " & CStr(IIf(ehtNR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtNR))))
+            stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(estR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estR))) & " / " & CStr(IIf(eatR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatR))) & " / " & CStr(IIf(ehtR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtR))))
+            'stats.AppendLine("Average Turret Shot (S/A/H/T): " & ash.ToString("N2") & " / " & aah.ToString("N2") & " / " & ahh.ToString("N2") & " / " & atth.ToString("N2"))
+            'stats.AppendLine("Average Turret DPS (S/A/H/T): " & srrd.ToString("N2") & " / " & arrd.ToString("N2") & " / " & hrrd.ToString("N2") & " / " & trrd.ToString("N2"))
 
             lblStats.Text = stats.ToString
             lblStats.Refresh()
