@@ -215,10 +215,11 @@ Public Class ShipInfoControl
         lblEffectiveHP.Text = "Effective HP: " & FormatNumber(fittedShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Tank Ability
-        lblTankAbility.Text = "Tank Ability: " & FormatNumber(fittedShip.Attributes("10062"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
-        ttt = "Shield Tank: " & FormatNumber(fittedShip.Attributes("10059"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
-        ttt &= "Armor Tank: " & FormatNumber(fittedShip.Attributes("10060"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
-        ttt &= "Structure Tank: " & FormatNumber(fittedShip.Attributes("10061"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
+        lblTankAbility.Text = "Tank Ability: " & CDbl(fittedShip.Attributes("10062")).ToString("N2") & " DPS"
+        ttt = "Passive Tank: " & CDbl(fittedShip.Attributes("10069")).ToString("N2") & " DPS" & ControlChars.CrLf
+        ttt = "Shield Tank: " & CDbl(fittedShip.Attributes("10059")).ToString("N2") & " DPS" & ControlChars.CrLf
+        ttt &= "Armor Tank: " & CDbl(fittedShip.Attributes("10060")).ToString("N2") & " DPS" & ControlChars.CrLf
+        ttt &= "Structure Tank: " & CDbl(fittedShip.Attributes("10061")).ToString("N2") & " DPS" & ControlChars.CrLf
         ttt &= ControlChars.CrLf
         ttt &= "Damage Profile DPS: " & FormatNumber(fittedShip.DamageProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
         If CDbl(fittedShip.Attributes("10062")) >= fittedShip.DamageProfile.DPS Then

@@ -2425,19 +2425,19 @@ Public Class Engine
     End Sub
 
     Private Shared Sub CalculateDefenceStatistics(ByRef newShip As Ship)
-        Dim sR, aR, hR As Double
+        Dim sRP, sRA, aR, hR As Double
         For Each cModule As ShipModule In newShip.SlotCollection
             ' Calculate shield boosting
             If cModule.DatabaseGroup = "40" And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
+                sRA = sRA + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate remote shield boosting
             If cModule.DatabaseGroup = "41" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
+                sRA = sRA + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate shield maintenance drones
             If cModule.DatabaseGroup = "640" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
+                sRA = sRA + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate armor repairing
             If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
@@ -2460,20 +2460,21 @@ Public Class Engine
                 hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
             End If
         Next
-        sR = sR + (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
+        sRP = (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
         ' Calculate the actual tanking ability
-        Dim sT As Double = sR / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ShieldThResist / 100)))
+        Dim sTA As Double = sRA / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ShieldThResist / 100)))
+        Dim sTP As Double = sRP / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ShieldThResist / 100)))
         Dim aT As Double = aR / ((newShip.DamageProfileEM * (1 - newShip.ArmorEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ArmorExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ArmorKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ArmorThResist / 100)))
         Dim hT As Double = hR / ((newShip.DamageProfileEM * (1 - newShip.StructureEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.StructureExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.StructureKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.StructureThResist / 100)))
-        newShip.Attributes("10059") = sT
+        newShip.Attributes("10059") = sTA
         newShip.Attributes("10060") = aT
         newShip.Attributes("10061") = hT
-        newShip.Attributes("10062") = Math.Max(sT, Math.Max(aT, hT))
-        newShip.Attributes("10065") = sR
+        newShip.Attributes("10062") = Math.Max(sTA + sTP, sTA + aT + hT)
+        newShip.Attributes("10069") = sTP
+        newShip.Attributes("10065") = sRA + sRP
         newShip.Attributes("10066") = aR
         newShip.Attributes("10067") = hR
-        newShip.Attributes("10068") = sR + aR + hR
-
+        newShip.Attributes("10068") = sRA + sRP + aR + hR
     End Sub
 
 #End Region
