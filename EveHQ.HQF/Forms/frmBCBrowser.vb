@@ -260,7 +260,7 @@ Public Class frmBCBrowser
             lblLoadoutDate.Text = LoadoutDate : lblLoadoutDate.Visible = True : lblLoadoutDateLbl.Visible = True
             lblLoadoutTopic.Text = "BattleClinic Topic" : lblLoadoutTopic.Visible = True : LblLoadoutTopicLbl.Visible = True
             lblLoadoutTopic.Tag = LoadoutTopic
-            lblBCStatus.Text = "Download of loadout completed!" : StatusStrip1.Refresh()
+            lblBCStatus.Text = "Download of loadout (ID: " & LoadoutID & ") completed!" : StatusStrip1.Refresh()
             btnImport.Enabled = True
             ' Save the XML into the cache
             If UseCacheFile = False Then
