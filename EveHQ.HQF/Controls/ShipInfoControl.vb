@@ -333,7 +333,7 @@ Public Class ShipInfoControl
         End If
 
         ' Set buttons
-        btnDamageAnalysis.Enabled = turretShip
+        btnDamageAnalysis.Enabled = (turretShip Or missileShip)
 
     End Sub
 

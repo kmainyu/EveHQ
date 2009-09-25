@@ -55,6 +55,39 @@ Public Class EveSpace
             Invalidate(False)
         End Set
     End Property
+    Dim cUseIntegratedVelocity As Boolean = True
+    Public Property UseIntegratedVelocity() As Boolean
+        Get
+            Return cUseIntegratedVelocity
+        End Get
+        Set(ByVal value As Boolean)
+            cUseIntegratedVelocity = value
+            Me.Invalidate()
+            Call Me.CalculateData(Nothing)
+        End Set
+    End Property
+    Public Property AttackerVelocity() As Double
+        Get
+            Return cSourceShip.Velocity
+        End Get
+        Set(ByVal value As Double)
+            cSourceShip.Velocity = value
+            If cUseIntegratedVelocity = False Then
+                Call Me.CalculateData(Nothing)
+            End If
+        End Set
+    End Property
+    Public Property TargetVelocity() As Double
+        Get
+            Return cTargetShip.Velocity
+        End Get
+        Set(ByVal value As Double)
+            cTargetShip.Velocity = value
+            If cUseIntegratedVelocity = False Then
+                Call Me.CalculateData(Nothing)
+            End If
+        End Set
+    End Property
 #End Region
 
 #Region "Control Properties"
@@ -126,10 +159,12 @@ Public Class EveSpace
 
     Private Sub MyMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
         For Each cdi As DraggableImage In DIs.Values
-            If (e.X > cdi.Location.X And e.X < cdi.Location.X + cdi.Width And e.Y > cdi.Location.Y And e.Y < cdi.Location.Y + cdi.Height) Then
-                di = cdi
-                cl = New Point(e.X - di.Location.X, e.Y - di.Location.Y)
-                'Invalidate(False)
+            If UseIntegratedVelocity = True Or (UseIntegratedVelocity = False And (cdi.Name = "SourceShip" Or cdi.Name = "TargetShip")) Then
+                If (e.X > cdi.Location.X And e.X < cdi.Location.X + cdi.Width And e.Y > cdi.Location.Y And e.Y < cdi.Location.Y + cdi.Height) Then
+                    di = cdi
+                    cl = New Point(e.X - di.Location.X, e.Y - di.Location.Y)
+                    'Invalidate(False)
+                End If
             End If
         Next
     End Sub
@@ -209,17 +244,21 @@ Public Class EveSpace
                 Next
 
                 ' Draw Vector Lines
-                e.Graphics.DrawLine(V1Pen, New Point(diS1.Centre.X, diS1.Centre.Y), New Point(diH1.Centre.X, diH1.Centre.Y))
-                e.Graphics.DrawLine(V2Pen, New Point(diS2.Centre.X, diS2.Centre.Y), New Point(diH2.Centre.X, diH2.Centre.Y))
+                If cUseIntegratedVelocity = True Then
+                    e.Graphics.DrawLine(V1Pen, New Point(diS1.Centre.X, diS1.Centre.Y), New Point(diH1.Centre.X, diH1.Centre.Y))
+                    e.Graphics.DrawLine(V2Pen, New Point(diS2.Centre.X, diS2.Centre.Y), New Point(diH2.Centre.X, diH2.Centre.Y))
+                End If
 
                 ' Draw the large intersection line
                 e.Graphics.DrawLine(New Pen(Color.Red), cLAxisIntersect, cRAxisIntersect)
 
                 ' Draw the points
                 e.Graphics.DrawImage(diS1.img, diS1.Location)
-                e.Graphics.DrawImage(diH1.img, diH1.Location)
                 e.Graphics.DrawImage(diS2.img, diS2.Location)
-                e.Graphics.DrawImage(diH2.img, diH2.Location)
+                If cUseIntegratedVelocity = True Then
+                    e.Graphics.DrawImage(diH1.img, diH1.Location)
+                    e.Graphics.DrawImage(diH2.img, diH2.Location)
+                End If
 
             End If
         End If
@@ -259,6 +298,7 @@ Public Class EveSpace
             Else
                 cRange = xDist / Math.Cos(cHorizontalAngle)
             End If
+            cRange = Math.Abs(cRange)
 
             Dim minShip, maxShip As ShipStatus
 
@@ -287,70 +327,55 @@ Public Class EveSpace
             End If
 
             ' Calculate velocities based on headings
-            xSHDist = (cSourceShip.Location.X - cSourceShip.Heading.X) * cVelocityScale
-            ySHDist = (cSourceShip.Location.Y - cSourceShip.Heading.Y) * cVelocityScale
-            cSourceShip.Velocity = Math.Sqrt(Math.Pow(xSHDist, 2) + Math.Pow(ySHDist, 2))
-            xTHDist = (cTargetShip.Location.X - cTargetShip.Heading.X) * cVelocityScale
-            yTHDist = (cTargetShip.Location.Y - cTargetShip.Heading.Y) * cVelocityScale
-            cTargetShip.Velocity = Math.Sqrt(Math.Pow(xTHDist, 2) + Math.Pow(yTHDist, 2))
+            If cUseIntegratedVelocity = True Then
+                xSHDist = (cSourceShip.Location.X - cSourceShip.Heading.X) * cVelocityScale
+                ySHDist = (cSourceShip.Location.Y - cSourceShip.Heading.Y) * cVelocityScale
+                cSourceShip.Velocity = Math.Sqrt(Math.Pow(xSHDist, 2) + Math.Pow(ySHDist, 2))
+                xTHDist = (cTargetShip.Location.X - cTargetShip.Heading.X) * cVelocityScale
+                yTHDist = (cTargetShip.Location.Y - cTargetShip.Heading.Y) * cVelocityScale
+                cTargetShip.Velocity = Math.Sqrt(Math.Pow(xTHDist, 2) + Math.Pow(yTHDist, 2))
 
-            ' Calculate formula of line of sight
-            Dim a, b, c, ms, ns, pds, mt, nt, pdt As Double
-            Dim graphEquation As String = ""
-            If cRAxisIntersect.X = cLAxisIntersect.X Then
-                a = 0
-                b = 0
-                c = -cSourceShip.Location.X
-                pds = xSHDist
-                pdt = xTHDist
-                graphEquation = "x = " & (-c).ToString
-            Else
-                a = -(cRAxisIntersect.Y - cLAxisIntersect.Y) / (cRAxisIntersect.X - cLAxisIntersect.X)
-                b = 1
-                c = -cLAxisIntersect.Y
-                ms = cSourceShip.Heading.X
-                ns = cSourceShip.Heading.Y
-                pds = ((a * ms) + (b * ns) + c) / Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2)) * cVelocityScale
-                mt = cTargetShip.Heading.X
-                nt = cTargetShip.Heading.Y
-                pdt = ((a * mt) + (b * nt) + c) / Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2)) * cVelocityScale
-                graphEquation = "y = "
-                If -a <> 0 Then
-                    graphEquation &= (-a).ToString & "x "
-                    If -c < 0 Then
-                        graphEquation &= "- " & (c).ToString
-                    Else
-                        graphEquation &= "+ " & (-c).ToString
-                    End If
+                ' Calculate formula of line of sight
+                Dim a, b, c, ms, ns, pds, mt, nt, pdt As Double
+                Dim graphEquation As String = ""
+                If cRAxisIntersect.X = cLAxisIntersect.X Then
+                    a = 0
+                    b = 0
+                    c = -cSourceShip.Location.X
+                    pds = xSHDist
+                    pdt = xTHDist
+                    graphEquation = "x = " & (-c).ToString
                 Else
-                    graphEquation &= (-c).ToString
+                    a = -(cRAxisIntersect.Y - cLAxisIntersect.Y) / (cRAxisIntersect.X - cLAxisIntersect.X)
+                    b = 1
+                    c = -cLAxisIntersect.Y
+                    ms = cSourceShip.Heading.X
+                    ns = cSourceShip.Heading.Y
+                    pds = ((a * ms) + (b * ns) + c) / Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2)) * cVelocityScale
+                    mt = cTargetShip.Heading.X
+                    nt = cTargetShip.Heading.Y
+                    pdt = ((a * mt) + (b * nt) + c) / Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2)) * cVelocityScale
+                    graphEquation = "y = "
+                    If -a <> 0 Then
+                        graphEquation &= (-a).ToString & "x "
+                        If -c < 0 Then
+                            graphEquation &= "- " & (c).ToString
+                        Else
+                            graphEquation &= "+ " & (-c).ToString
+                        End If
+                    Else
+                        graphEquation &= (-c).ToString
+                    End If
                 End If
 
-
+                ' Now calculate the transversal velocity and range
+                cTransversal = Math.Abs(pds - pdt)
+            Else
+                cTransversal = cSourceShip.Velocity + cTargetShip.Velocity
             End If
 
-            ' Now calculate the transversal velocity
-            cTransversal = Math.Abs(pds - pdt)
-
-            ' Write Stats
-            cRange = Math.Abs(cRange)
-            'Dim stats As New StringBuilder
-            'stats.AppendLine("Stats:")
-            'stats.AppendLine("Source: " & cSourceShip.Location.X & "," & cSourceShip.Location.Y)
-            'stats.AppendLine("Target: " & cTargetShip.Location.X & "," & cTargetShip.Location.Y)
-            'stats.AppendLine("Distance: " & Math.Abs(cRange))
-            'stats.AppendLine("Source Vel: " & cSourceShip.Velocity)
-            'stats.AppendLine("Target Vel: " & cTargetShip.Velocity)
-            'stats.AppendLine("H-Angle:" & cHorizontalAngle / (2 * Math.PI) * 360)
-            'stats.AppendLine("V-Angle:" & cVerticalAngle / (2 * Math.PI) * 360)
-            'stats.AppendLine("LAxisI: " & cLAxisIntersect.X & "," & cLAxisIntersect.Y)
-            'stats.AppendLine("RAxisI: " & cRAxisIntersect.X & "," & cRAxisIntersect.Y)
-            'stats.AppendLine("Graph: " & graphEquation)
-            'stats.AppendLine("Source PD: " & pds.ToString)
-            'stats.AppendLine("Target PD: " & pdt.ToString)
-            'stats.AppendLine("Transversal: " & cTransversal.ToString)
-
             RaiseEvent CalculationsChanged()
+
         End If
     End Sub
 
