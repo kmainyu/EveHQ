@@ -34,6 +34,7 @@
     <NonSerialized()> Public Available As Boolean
     <NonSerialized()> Public Status As Integer
     <NonSerialized()> Public Instance As IEveHQPlugIn
+    <NonSerialized()> Public PostStartupData As Object
 
     Public Enum PlugInStatus
         Uninitialised = 0

@@ -52,6 +52,30 @@ Namespace My
 
         Private Sub MyApplication_StartupNextInstance(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.StartupNextInstanceEventArgs) Handles Me.StartupNextInstance
             'MessageBox.Show("You can only run one copy of EveHQ at a time!", "EveHQ Already Running", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ' Can we get /params?
+            For Each param As String In e.CommandLine
+                ' Check for the fitting protocol
+                If param.StartsWith(EveHQ.Core.HQ.FittingProtocol) Then
+                    ' Now see if HQF is available
+                    Dim PluginName As String = "EveHQ Fitter"
+                    Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+                    myPlugIn.PostStartupData = param
+                    If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
+                        Dim mainTab As TabControl = CType(EveHQ.Core.HQ.MainForm.Controls("tabMDI"), TabControl)
+                        If mainTab.TabPages.ContainsKey(PluginName) = True Then
+                            mainTab.SelectTab(PluginName)
+                        Else
+                            Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
+                            plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
+                            plugInForm.Show()
+                        End If
+                        myPlugIn.Instance.GetPlugInData(myPlugIn.PostStartupData, 0)
+                    Else
+                        ' Try to load an open the plug-in here
+                        Threading.ThreadPool.QueueUserWorkItem(AddressOf frmEveHQ.LoadAndOpenPlugIn, myPlugIn)
+                    End If
+                End If
+            Next
             If frmEveHQ.WindowState = FormWindowState.Minimized Then
                 frmEveHQ.WindowState = FormWindowState.Maximized
                 frmEveHQ.Show()

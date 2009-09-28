@@ -24,6 +24,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 Imports System.Xml
 Imports DotNetLib.Windows.Forms
+Imports Microsoft.Win32
 
 Public Class frmHQF
 
@@ -152,6 +153,17 @@ Public Class frmHQF
         SplitContainerMod.SplitterDistance = Settings.HQFSettings.ModSplitterWidth
 
         HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
+
+        ' Check for protocol
+        If IsProtocolInstalled(EveHQ.Core.HQ.FittingProtocol) = False Then
+            ' Ask if we want to install the protocol
+            Dim msg As String = "Would you like to associate the '" & EveHQ.Core.HQ.FittingProtocol & "://' protocol with EveHQ?"
+            Dim reply As Integer = MessageBox.Show(msg, "Install Protocol", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.Yes Then
+                Call Me.InstallProtocol(EveHQ.Core.HQ.FittingProtocol)
+            End If
+        End If
+
 
     End Sub
     Private Sub LoadFittings()
@@ -721,6 +733,14 @@ Public Class frmHQF
             Return False
         End If
     End Function
+    Private Sub mnuAddToShipBay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToShipBay.Click
+        If currentShipSlot IsNot Nothing Then
+            Dim shipName As String = mnuShipBrowserShipName.Text
+            ' Add the ship to the maintenance bay
+            Dim shipType As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            currentShipSlot.AddShip(shipType, 1)
+        End If
+    End Sub
 
 #End Region
 
@@ -1253,7 +1273,7 @@ Public Class frmHQF
                     Call currentShipSlot.AddDrone(shipMod, 1, False)
                 Else
                     ' Check if module is a charge
-                    If shipMod.IsCharge = True or shipMod.IsContainer Then
+                    If shipMod.IsCharge = True Or shipMod.IsContainer Then
                         currentShipSlot.AddItem(shipMod, 1)
                     Else
                         ' Must be a proper module then!
@@ -1291,10 +1311,6 @@ Public Class frmHQF
         End If
     End Sub
 #End Region
-
-    Private Sub tsbOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOptions.Click
-        Call Me.OpenSettingsForm()
-    End Sub
 
     Public Sub UpdateFittings()
         Me.Cursor = Cursors.WaitCursor
@@ -1993,6 +2009,65 @@ Public Class frmHQF
     Private Sub mnuExportToEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToEve.Click
         Call Me.ExportFittingsToEve()
     End Sub
+    Private Sub clvFittings_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvFittings.MouseDoubleClick
+        If clvFittings.SelectedItems.Count > 0 Then
+            If clvFittings.SelectedItems(0).Items.Count = 0 Then
+                Call Me.ShowFitting(clvFittings.SelectedItems(0))
+            End If
+        End If
+    End Sub
+
+    Private Sub clvFittings_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvFittings.Resize
+        clvFittings.Columns(0).Width = clvFittings.Width - 30
+    End Sub
+
+    Private Sub clvFittings_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFittings.SelectedItemsChanged
+        If clvFittings.SelectedItems.Count > 1 Then
+            mnuCompareFittings.Enabled = True
+        Else
+            If clvFittings.SelectedItems.Count = 1 Then
+                If clvFittings.SelectedItems(0).Items.Count > 1 Then
+                    mnuCompareFittings.Enabled = True
+                Else
+                    mnuCompareFittings.Enabled = False
+                End If
+            Else
+                mnuCompareFittings.Enabled = False
+            End If
+        End If
+    End Sub
+
+    Private Sub mnuCompareShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Call Me.CompareShips()
+    End Sub
+
+    Private Sub mnuCompareFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCompareFittings.Click
+        Call Me.CompareShips()
+    End Sub
+
+    Private Sub CompareShips()
+        ' Establish which fittings we will be comparing
+        Dim Fittings As New SortedList
+        For Each fitting As ContainerListViewItem In clvFittings.SelectedItems
+            If fitting.Items.Count = 0 Then
+                ' If we have highlighted an item
+                If Fittings.Contains(fitting.ParentItem.Text & ", " & fitting.Text) = False Then
+                    Fittings.Add(fitting.ParentItem.Text & ", " & fitting.Text, "")
+                End If
+            Else
+                ' If we have highlighted a group
+                For Each subFit As ContainerListViewItem In fitting.Items
+                    If Fittings.Contains(subFit.ParentItem.Text & ", " & subFit.Text) = False Then
+                        Fittings.Add(subFit.ParentItem.Text & ", " & subFit.Text, "")
+                    End If
+                Next
+            End If
+        Next
+        Dim CompareShips As New frmShipComparison
+        CompareShips.ShipList = Fittings
+        CompareShips.ShowDialog()
+        CompareShips.Dispose()
+    End Sub
 #End Region
 
 #Region "Fittings Combo Routines"
@@ -2007,34 +2082,6 @@ Public Class frmHQF
         currentShipSlot.UpdateEverything()
     End Sub
 #End Region
-
-    Private Sub btnShipPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipPanel.Click
-        If btnShipPanel.Checked = True Then
-            ' If the panel is open
-            'btnShipPanel.Image = My.Resources.panel_close
-            SplitContainerShip.Visible = True
-            cboFittings.Visible = False
-        Else
-            ' If the panel is closed
-            'btnShipPanel.Image = My.Resources.panel_open
-            SplitContainerShip.Visible = False
-            cboFittings.Visible = True
-        End If
-    End Sub
-
-    Private Sub btnItemPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnItemPanel.Click
-        If btnItemPanel.Checked = True Then
-            ' If the panel is open
-            'btnShipPanel.Image = My.Resources.panel_close
-            SplitContainerMod.Visible = True
-        Else
-            ' If the panel is closed
-            'btnShipPanel.Image = My.Resources.panel_open
-            SplitContainerMod.Visible = False
-        End If
-    End Sub
-
-
 
 #Region "Module List Context Menu Routines"
 
@@ -2506,7 +2553,31 @@ Public Class frmHQF
         End Try
     End Sub
 
-#End Region
+    Private Sub btnShipPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipPanel.Click
+        If btnShipPanel.Checked = True Then
+            ' If the panel is open
+            'btnShipPanel.Image = My.Resources.panel_close
+            SplitContainerShip.Visible = True
+            cboFittings.Visible = False
+        Else
+            ' If the panel is closed
+            'btnShipPanel.Image = My.Resources.panel_open
+            SplitContainerShip.Visible = False
+            cboFittings.Visible = True
+        End If
+    End Sub
+
+    Private Sub btnItemPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnItemPanel.Click
+        If btnItemPanel.Checked = True Then
+            ' If the panel is open
+            'btnShipPanel.Image = My.Resources.panel_close
+            SplitContainerMod.Visible = True
+        Else
+            ' If the panel is closed
+            'btnShipPanel.Image = My.Resources.panel_open
+            SplitContainerMod.Visible = False
+        End If
+    End Sub
 
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
         If myPilotManager.IsHandleCreated = False Then
@@ -2530,6 +2601,43 @@ Public Class frmHQF
         End If
     End Sub
 
+    Private Sub tsbFleetManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbFleetManager.Click
+        If myFleetManager.IsHandleCreated = False Then
+            myFleetManager = New frmFleetManager
+            myFleetManager.Show()
+        Else
+            If myFleetManager.WindowState = FormWindowState.Minimized Then
+                myFleetManager.WindowState = FormWindowState.Normal
+            End If
+            myFleetManager.BringToFront()
+            myFleetManager.Show()
+        End If
+    End Sub
+
+    Private Sub btnImportFittings_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportFittings.ButtonClick
+        btnImportFittings.ShowDropDown()
+    End Sub
+
+    Private Sub mnuImportEveFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEveFittings.Click
+        If myEveImport.IsHandleCreated = True Then
+            myEveImport.BringToFront()
+        Else
+            myEveImport = New frmEveImport
+            myEveImport.Show()
+        End If
+    End Sub
+
+    Private Sub mnuImportEFTFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEFTFittings.Click
+        Dim myEFTImport As New frmEFTImport
+        myEFTImport.ShowDialog()
+        myEFTImport = Nothing
+        Call Me.UpdateFittingsTree(False)
+    End Sub
+
+    Private Sub tsbOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOptions.Click
+        Call Me.OpenSettingsForm()
+    End Sub
+
     Private Sub OpenSettingsForm()
         ' Open options form
         Dim mySettings As New frmHQFSettings
@@ -2538,6 +2646,7 @@ Public Class frmHQF
         Call Me.UpdateFittingsTree(False)
         Call Me.CheckOpenTabs()
     End Sub
+
     Private Sub CheckOpenTabs()
         ' Checks whether the open tabs are still valid fittings
         For Each tp As TabPage In tabHQF.TabPages
@@ -2548,65 +2657,11 @@ Public Class frmHQF
         Next
     End Sub
 
-    Private Sub clvFittings_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvFittings.MouseDoubleClick
-        If clvFittings.SelectedItems.Count > 0 Then
-            If clvFittings.SelectedItems(0).Items.Count = 0 Then
-                Call Me.ShowFitting(clvFittings.SelectedItems(0))
-            End If
-        End If
+    Private Sub btnCopy_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopy.ButtonClick
+        btnCopy.ShowDropDown()
     End Sub
 
-    Private Sub clvFittings_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvFittings.Resize
-        clvFittings.Columns(0).Width = clvFittings.Width - 30
-    End Sub
-
-    Private Sub clvFittings_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFittings.SelectedItemsChanged
-        If clvFittings.SelectedItems.Count > 1 Then
-            mnuCompareFittings.Enabled = True
-        Else
-            If clvFittings.SelectedItems.Count = 1 Then
-                If clvFittings.SelectedItems(0).Items.Count > 1 Then
-                    mnuCompareFittings.Enabled = True
-                Else
-                    mnuCompareFittings.Enabled = False
-                End If
-            Else
-                mnuCompareFittings.Enabled = False
-            End If
-        End If
-    End Sub
-
-    Private Sub mnuCompareShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Call Me.CompareShips()
-    End Sub
-
-    Private Sub mnuCompareFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCompareFittings.Click
-        Call Me.CompareShips()
-    End Sub
-
-    Private Sub CompareShips()
-        ' Establish which fittings we will be comparing
-        Dim Fittings As New SortedList
-        For Each fitting As ContainerListViewItem In clvFittings.SelectedItems
-            If fitting.Items.Count = 0 Then
-                ' If we have highlighted an item
-                If Fittings.Contains(fitting.ParentItem.Text & ", " & fitting.Text) = False Then
-                    Fittings.Add(fitting.ParentItem.Text & ", " & fitting.Text, "")
-                End If
-            Else
-                ' If we have highlighted a group
-                For Each subFit As ContainerListViewItem In fitting.Items
-                    If Fittings.Contains(subFit.ParentItem.Text & ", " & subFit.Text) = False Then
-                        Fittings.Add(subFit.ParentItem.Text & ", " & subFit.Text, "")
-                    End If
-                Next
-            End If
-        Next
-        Dim CompareShips As New frmShipComparison
-        CompareShips.ShipList = Fittings
-        CompareShips.ShowDialog()
-        CompareShips.Dispose()
-    End Sub
+#End Region
 
 #Region "Export to Eve Routines"
 
@@ -2641,49 +2696,42 @@ Public Class frmHQF
 
 #End Region
 
-    Private Sub mnuImportEveFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEveFittings.Click
-        If myEveImport.IsHandleCreated = True Then
-            myEveImport.BringToFront()
+#Region "Protocol Check Routines"
+
+    Private Function IsProtocolInstalled(ByVal protocol As String) As Boolean
+        Dim rk As RegistryKey = Registry.ClassesRoot.OpenSubKey(protocol)
+        If rk IsNot Nothing Then
+            Return True
         Else
-            myEveImport = New frmEveImport
-            myEveImport.Show()
+            Return False
         End If
-    End Sub
+    End Function
 
-    Private Sub mnuImportEFTFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEFTFittings.Click
-        Dim myEFTImport As New frmEFTImport
-        myEFTImport.ShowDialog()
-        myEFTImport = Nothing
-        Call Me.UpdateFittingsTree(False)
-    End Sub
-
-    Private Sub mnuAddToShipBay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToShipBay.Click
-        If currentShipSlot IsNot Nothing Then
-            Dim shipName As String = mnuShipBrowserShipName.Text
-            ' Add the ship to the maintenance bay
-            Dim shipType As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            currentShipSlot.AddShip(shipType, 1)
-        End If
-    End Sub
-
-    Private Sub btnImportFittings_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportFittings.ButtonClick
-        btnImportFittings.ShowDropDown()
-    End Sub
-
-    Private Sub btnCopy_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopy.ButtonClick
-        btnCopy.ShowDropDown()
-    End Sub
-
-    Private Sub tsbFleetManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbFleetManager.Click
-        If myFleetManager.IsHandleCreated = False Then
-            myFleetManager = New frmFleetManager
-            myFleetManager.Show()
-        Else
-            If myFleetManager.WindowState = FormWindowState.Minimized Then
-                myFleetManager.WindowState = FormWindowState.Normal
+    Private Sub InstallProtocol(ByVal protocol As String)
+        Dim rKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(protocol, True)
+        Try
+            If rKey Is Nothing Then
+                rKey = Registry.ClassesRoot.CreateSubKey(protocol)
+                rKey.SetValue("", "URL: Eve Fitting Protocol")
+                rKey.SetValue("URL Protocol", "")
+                rKey = rKey.CreateSubKey("shell\open\command")
+                Dim keyValue As String = ControlChars.Quote & Application.ExecutablePath & ControlChars.Quote & " " & ControlChars.Quote & "%1" & ControlChars.Quote
+                rKey.SetValue("", keyValue)
+            Else
+                rKey.Close()
             End If
-            myFleetManager.BringToFront()
-            myFleetManager.Show()
-        End If
+        Catch ex As System.UnauthorizedAccessException
+            MessageBox.Show("You do not have the required permissions to access the registry. To install the protocol, EveHQ will need to be run in administrator mode.", "Elevated Permissions Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
+
+#End Region
+
+
+
+
+
+
+
+
 End Class

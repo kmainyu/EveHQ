@@ -1494,6 +1494,15 @@ Public Class frmEveHQ
                 If PlugInInfo.RunAtStartup = True Then
                     ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
                 End If
+            ElseIf PlugInInfo.Available = True And PlugInInfo.Disabled = True Then
+                ' Check for initialisation from a parameter
+                If PlugInInfo.PostStartupData IsNot Nothing Then
+                    Dim msg As String = PlugInInfo.Name & " is not configured to run at startup but EveHQ was started with data specifcally for that Plug-In." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Would you like to initialise the Plug-in so the data can be viewed?"
+                    If MessageBox.Show(msg, "Confirm Load Plug-In", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                        ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
+                    End If
+                End If
             End If
         Next
         ' Check for existing pilots and accounts
@@ -1512,7 +1521,7 @@ Public Class frmEveHQ
             End If
         End If
     End Sub
-    Private Sub RunModuleStartUps(ByVal State As Object)
+    Public Sub RunModuleStartUps(ByVal State As Object)
         Dim plugInInfo As EveHQ.Core.PlugIn = CType(State, EveHQ.Core.PlugIn)
         Dim myAssembly As Assembly = Assembly.LoadFrom(plugInInfo.FileName)
         Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
@@ -1542,6 +1551,12 @@ Public Class frmEveHQ
             End If
             ' Clean up after loading the plugin
             Call EveHQ.Core.HQ.ReduceMemory()
+            ' Check if we should open the plug-in by reference to any PostLoadData
+            If plugInInfo.PostStartupData IsNot Nothing Then
+                ' Open the Plug-in
+                Dim myDelegate As New OpenPlugInDelegate(AddressOf OpenPlugIn)
+                Me.Invoke(myDelegate, New Object() {plugInInfo.Name})
+            End If
         Catch ex As Exception
             MessageBox.Show("Unable to load plugin: " & plugInInfo.Name & ControlChars.CrLf & ex.Message, "Plugin error")
             modMenu.DropDownItems(0).Enabled = True
@@ -1653,6 +1668,64 @@ Public Class frmEveHQ
             plugInForm.Show()
         End If
     End Sub
+    Public Sub LoadAndOpenPlugIn(ByVal State As Object)
+        ' Called usually from an instance
+        Dim plugInInfo As EveHQ.Core.PlugIn = CType(State, EveHQ.Core.PlugIn)
+        Dim myAssembly As Assembly = Assembly.LoadFrom(plugInInfo.FileName)
+        Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
+        plugInInfo.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
+        Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = plugInInfo.Instance
+        Dim modMenu As ToolStripMenuItem = CType(mnuModules.DropDownItems(plugInInfo.Name), ToolStripMenuItem)
+        Dim tsbMenu As ToolStripButton = CType(EveHQToolStrip.Items(plugInInfo.Name), ToolStripButton)
+        modMenu.DropDownItems(0).Enabled = False
+        modMenu.DropDownItems(1).Enabled = False
+        tsbMenu.BackColor = Color.FromArgb(255, 255, 255, 110)
+        plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Loading
+        Try
+            Dim PlugInResponse As String = ""
+            PlugInResponse = runPlugIn.EveHQStartUp().ToString
+            If CBool(PlugInResponse) = False Then
+                modMenu.DropDownItems(0).Enabled = True
+                modMenu.DropDownItems(1).Enabled = False
+                plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Failed
+            Else
+                If EveHQToolStrip.Items.ContainsKey(plugInInfo.Name) = True Then
+                    tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
+                    tsbMenu.Enabled = True
+                End If
+                plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active
+                modMenu.DropDownItems(0).Enabled = False
+                modMenu.DropDownItems(1).Enabled = True
+            End If
+            ' Clean up after loading the plugin
+            Call EveHQ.Core.HQ.ReduceMemory()
+            ' Open the Plug-in
+            Dim myDelegate As New OpenPlugInDelegate(AddressOf OpenPlugIn)
+            Me.Invoke(myDelegate, New Object() {plugInInfo.Name})
+        Catch ex As Exception
+            MessageBox.Show("Unable to load plugin: " & plugInInfo.Name & ControlChars.CrLf & ex.Message, "Plugin error")
+            modMenu.DropDownItems(0).Enabled = True
+            modMenu.DropDownItems(1).Enabled = False
+        End Try
+    End Sub
+
+    Delegate Sub OpenPlugInDelegate(ByVal PlugInName As String)
+    Private Sub OpenPlugIn(ByVal PlugInName As String)
+        Dim PlugInInfo As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PlugInName), Core.PlugIn)
+        If PlugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
+            Dim mainTab As TabControl = CType(EveHQ.Core.HQ.MainForm.Controls("tabMDI"), TabControl)
+            If mainTab.TabPages.ContainsKey(PlugInInfo.Name) = True Then
+                mainTab.SelectTab(PlugInInfo.Name)
+            Else
+                Dim plugInForm As Form = PlugInInfo.Instance.RunEveHQPlugIn
+                plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
+                plugInForm.Show()
+            End If
+            PlugInInfo.Instance.GetPlugInData(PlugInInfo.PostStartupData, 0)
+        End If
+    End Sub
+
+
 
 #End Region
 
@@ -1976,7 +2049,7 @@ Public Class frmEveHQ
 
             Case 1 ' Enhanced (form)
                 EveStatusIcon.Text = ""
-                 Try
+                Try
                     If frmToolTrayIconPopup.IsHandleCreated = False Then
                         frmToolTrayIconPopup.ConfigureForm()
                         Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
@@ -2397,7 +2470,7 @@ Public Class frmEveHQ
                     CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
                 End If
             End If
-            
+
             ' Try parsing the update file 
             Try
                 Dim updateDetails As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/lastUpdated")

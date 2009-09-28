@@ -73,6 +73,7 @@ Public Class HQ
     Public Shared CertificateCategories As New SortedList
     Public Shared CertificateClasses As New SortedList
     Public Shared Certificates As New SortedList
+    Public Shared FittingProtocol As String = "fitting"
     Public Shared Event ShutDownEveHQ()
 
     Shared Property StartShutdownEveHQ() As Boolean
@@ -95,9 +96,13 @@ Public Class HQ
     Public Shared Sub ReduceMemory()
         GC.Collect()
         GC.WaitForPendingFinalizers()
-        If (Environment.OSVersion.Platform = PlatformID.Win32NT) Then
-            SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1)
-        End If
+        Try
+            If (Environment.OSVersion.Platform = PlatformID.Win32NT) Then
+                SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1)
+            End If
+        Catch ex As Exception
+            ' Catch potential errors from remote loading routines
+        End Try
     End Sub
 
 End Class

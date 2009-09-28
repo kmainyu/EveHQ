@@ -17,6 +17,8 @@ Public Class PlugInData
 #Region "Plug-in Interface Properties and Functions"
 
     Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        ' Check for fitting protocol
+        MessageBox.Show(CStr(Data))
         Return Nothing
     End Function
 

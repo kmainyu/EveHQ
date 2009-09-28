@@ -27,6 +27,7 @@ Public Class frmSplash
     Dim isLocal As Boolean = False
     Dim showSplash As Boolean = True
     Dim showSettings As Boolean = False
+    Dim PlugInLoading As New SortedList(Of String, String)
 
     Private Sub frmSplash_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -42,6 +43,7 @@ Public Class frmSplash
 
         ' Check for any commandline parameters that we need to account for
         For Each param As String In System.Environment.GetCommandLineArgs
+            'MessageBox.Show(param)
             If param = "/wait" Then
                 Threading.Thread.Sleep(2000)
             End If
@@ -55,6 +57,9 @@ Public Class frmSplash
             End If
             If param = "/settings" Then
                 showSettings = True
+            End If
+            If param.StartsWith(EveHQ.Core.HQ.FittingProtocol) Then
+                PlugInLoading.Add("EveHQ Fitter", param)
             End If
         Next
 
@@ -373,6 +378,10 @@ Public Class frmSplash
                                 ' If not listed, it must be new
                                 EveHQPlugIn.Disabled = False
                                 EveHQPlugIn.Available = True
+                            End If
+                            ' Check for opening parameters
+                            If PlugInLoading.ContainsKey(EveHQPlugIn.Name) = True Then
+                                EveHQPlugIn.PostStartupData = PlugInLoading(EveHQPlugIn.Name)
                             End If
                             EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
                             EveHQ.Core.HQ.EveHQSettings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
