@@ -18,7 +18,10 @@ Public Class PlugInData
 
     Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         ' Check for fitting protocol
-        MessageBox.Show(CStr(Data))
+        Dim bcb As New frmBCBrowser
+        bcb.DNAFit = Me.ParseFittingLink(CStr(Data))
+        bcb.TopMost = True
+        bcb.Show()
         Return Nothing
     End Function
 
@@ -1959,6 +1962,60 @@ Public Class PlugInData
             End If
         Next
     End Sub
+#End Region
+
+#Region "Fitting Link Parser"
+    'fitting://evehq/28710:2032*1:2420*4:15681*4:15905*1:17498*2:19191*1:19814*2:24348*3:26416*1:26418*1
+    '?sourceURL=http://eve.battleclinic.com/loadout/21813-Golem-that-actually-has-TP-039-s.html
+
+    Private Function ParseFittingLink(ByVal DNA As String) As DNAFitting
+        Dim ShipDNA As New DNAFitting
+        DNA = DNA.TrimStart("fitting://".ToCharArray).Trim("/".ToCharArray)
+        ' Remove the application name
+        Dim appSep As Integer = DNA.IndexOf("/")
+        Dim app As String = DNA.Substring(0, appSep)
+        DNA = DNA.Remove(0, appSep + 1)
+
+        ' Remove any query string to analyse later
+        Dim parts() As String = DNA.Split("?".ToCharArray)
+        Dim mods() As String = parts(0).Split(":".ToCharArray)
+       
+        ShipDNA.ShipID = mods(0)
+        For modNo As Integer = 1 To mods.Length - 1
+            Dim modData() As String = mods(modNo).Split("*".ToCharArray)
+            If modData.Length > 1 Then
+                For modCount As Integer = 1 To CInt(modData(1))
+                    If ModuleLists.moduleList.ContainsKey(modData(0)) = True Then
+                        Dim fModule As ShipModule = CType(ModuleLists.moduleList(modData(0)), ShipModule)
+                        If fModule.IsCharge Then
+                            ShipDNA.Charges.Add(fModule.ID)
+                        Else
+                            ShipDNA.Modules.Add(fModule.ID)
+                        End If
+                    End If
+                Next
+            Else
+                If ModuleLists.moduleList.ContainsKey(modData(0)) = True Then
+                    Dim fModule As ShipModule = CType(ModuleLists.moduleList(modData(0)), ShipModule)
+                    If fModule.IsCharge Then
+                        ShipDNA.Charges.Add(fModule.ID)
+                    Else
+                        ShipDNA.Modules.Add(fModule.ID)
+                    End If
+                End If
+            End If
+        Next
+
+        If parts.Length > 1 Then
+            Dim args() As String = parts(1).Split("&".ToCharArray)
+            For Each arg As String In args
+                Dim argData() As String = arg.Split("=".ToCharArray)
+                ShipDNA.Arguments.Add(argData(0), argData(1))
+            Next
+        End If
+
+        Return ShipDNA
+    End Function
 #End Region
 
 End Class

@@ -11,6 +11,8 @@ Public Class frmBCBrowser
     Dim currentShip As Ship
     Dim currentFit As New ArrayList
     Dim BCLoadoutCache As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "BCLoadoutCache")
+    Dim cDNAFit As DNAFitting
+    Dim SourceURL As String = ""
 
     Public Sub New()
 
@@ -64,6 +66,19 @@ Public Class frmBCBrowser
             currentShip = value
             pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
             Call GetBCShipLoadouts()
+        End Set
+    End Property
+
+    Public Property DNAFit() As DNAFitting
+        Get
+            Return cDNAFit
+        End Get
+        Set(ByVal value As DNAFitting)
+            cDNAFit = value
+            currentShip = CType(ShipLists.shipList(ShipLists.shipListKeyID(value.ShipID)), Ship).Clone
+            lblShipType.Text = currentShip.Name
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+            Call Me.UseDNAFitting()
         End Set
     End Property
 
@@ -261,6 +276,7 @@ Public Class frmBCBrowser
             lblLoadoutTopic.Text = "BattleClinic Topic" : lblLoadoutTopic.Visible = True : LblLoadoutTopicLbl.Visible = True
             lblLoadoutTopic.Tag = LoadoutTopic
             lblBCStatus.Text = "Download of loadout (ID: " & LoadoutID & ") completed!" : StatusStrip1.Refresh()
+            SourceURL = "http://forum.battleclinic.com/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html"
             btnImport.Enabled = True
             ' Save the XML into the cache
             If UseCacheFile = False Then
@@ -507,14 +523,14 @@ Public Class frmBCBrowser
     End Sub
     Private Sub lblLoadoutTopic_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblLoadoutTopic.LinkClicked
         Try
-            Process.Start("http://forum.battleclinic.com/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html")
+            Process.Start(SourceURL)
         Catch ex As Exception
             MessageBox.Show("Unable to start default web browser. Please check your browser settings.", "Error Starting Web Browser", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
     End Sub
 
     Private Sub lblLoadoutTopic_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseEnter
-        lblTopicAddress.Text = "http://forum.battleclinic.com/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html"
+        lblTopicAddress.Text = SourceURL
     End Sub
 
     Private Sub lblLoadoutTopic_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseLeave
@@ -524,7 +540,7 @@ Public Class frmBCBrowser
     Private Sub mnuCopyURL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyURL.Click
         Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
         Try
-            Clipboard.SetText("http://forum.battleclinic.com/index.php/topic," & cLoadout.SubItems(1).Tag.ToString & ".0.html")
+            Clipboard.SetText(SourceURL)
         Catch ex As Exception
             MessageBox.Show("There was an error copying data to the cliboard: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf & "Please try again.", "Copy to Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
@@ -539,4 +555,54 @@ Public Class frmBCBrowser
 
 #End Region
 
+#Region "DNA Fitting Routines"
+    Private Sub UseDNAFitting()
+        Dim BaseFit As String = ""
+        Dim RevisedFit As String = ""
+        currentFit.Clear()
+        For Each fittedMod As String In cDNAFit.Modules
+            Dim fModule As ShipModule = CType(ModuleLists.moduleList(fittedMod), ShipModule)
+            If fModule IsNot Nothing Then
+                BaseFit = fModule.Name : RevisedFit = BaseFit
+                If fModule.Charges.Count <> 0 Then
+                    For Each ammo As String In cDNAFit.Charges
+                        If ModuleLists.moduleList.ContainsKey(ammo) = True Then
+                            If fModule.Charges.Contains(CType(ModuleLists.moduleList(ammo), ShipModule).DatabaseGroup) Then
+                                RevisedFit = BaseFit & "," & CType(ModuleLists.moduleList(ammo), ShipModule).Name
+                            End If
+                        End If
+                    Next
+                    currentFit.Add(RevisedFit)
+                Else
+                    currentFit.Add(fModule.Name)
+                End If
+            End If
+        Next
+        Call Me.ReorderModules()
+        lblLoadoutName.Visible = False : lblLoadoutNameLbl.Visible = False
+        lblLoadoutAuthor.Visible = False : lblLoadoutAuthorLbl.Visible = False
+        lblLoadoutScore.Visible = False : lblLoadoutScoreLbl.Visible = False
+        lblLoadoutDate.Visible = False : lblLoadoutDateLbl.Visible = False
+        lblLoadoutTopic.Text = "Source Link" : lblLoadoutTopic.Visible = True : LblLoadoutTopicLbl.Visible = True
+        'lblBCStatus.Text = "Download of loadout (ID: " & LoadoutID & ") completed!" : StatusStrip1.Refresh()
+        btnImport.Enabled = True
+        ' Save the XML into the cache
+        'If UseCacheFile = False Then
+        'loadoutXML.Save(Path.Combine(BCLoadoutCache, currentShip.ID.ToString & "-" & LoadoutID & ".xml"))
+        'End If
+        currentShip = Engine.UpdateShipDataFromFittingList(currentShip, currentFit)
+        ' Generate fitting data
+        Call Me.GenerateFittingData()
+        gbStatistics.Visible = True
+        Call UpdateSlotColumns()
+        Call UpdateSlotLayout()
+        ' Get SourceURL if available
+        If cDNAFit.Arguments.ContainsKey("sourceURL") = True Then
+            SourceURL = cDNAFit.Arguments("sourceURL")
+        End If
+    End Sub
+
+#End Region
+
 End Class
+
