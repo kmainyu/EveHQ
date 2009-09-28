@@ -1597,7 +1597,7 @@ Imports System.Runtime.Serialization
                 Case 153
                     newShip.WarpCapNeed = attValue
                 Case 1281
-                    newShip.WarpSpeed = attValue
+                    newShip.WarpSpeed = attValue * CDbl(newShip.Attributes("600"))
                 Case 283
                     newShip.DroneBay = attValue
                 Case 908
