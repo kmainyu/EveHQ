@@ -18,10 +18,10 @@ Public Class PlugInData
 
     Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         ' Check for fitting protocol
-        Dim bcb As New frmBCBrowser
-        bcb.DNAFit = Me.ParseFittingLink(CStr(Data))
-        bcb.TopMost = True
-        bcb.Show()
+        Dim fb As New frmFittingBrowser
+        fb.DNAFit = Me.ParseFittingLink(CStr(Data))
+        fb.TopMost = True
+        fb.Show()
         Return Nothing
     End Function
 

@@ -2619,7 +2619,32 @@ Public Class Engine
                                 Call Engine.AddItem(currentship, sMod, CInt(modData(1)))
                             Else
                                 ' Must be a proper module then!
-                                Call Engine.AddModule(currentship, sMod)
+                                If sMod.SlotType = 1 Then ' i.e. rig
+                                    If CInt(sMod.Attributes("1547")) = CInt(currentship.Attributes("1547")) Then
+                                        Call Engine.AddModule(currentship, sMod)
+                                    Else
+                                        ' Extract rig info
+                                        Dim rigSize As String = sMod.Name.Substring(0, sMod.Name.IndexOf(" ".ToCharArray))
+                                        Dim rigName As String = sMod.Name.TrimStart(rigSize.ToCharArray).Trim
+                                        Dim actRig As String = ""
+                                        Select Case CInt(currentship.Attributes("1547"))
+                                            Case 1
+                                                actRig = "Small " & rigName
+                                            Case 2
+                                                actRig = "Medium " & rigName
+                                            Case 3
+                                                actRig = "Large " & rigName
+                                            Case 4
+                                                actRig = "Capital " & rigName
+                                        End Select
+                                        modID = ModuleLists.moduleListName(actRig).ToString
+                                        sMod = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                                        Call Engine.AddModule(currentship, sMod)
+                                    End If
+                                Else
+                                    ' Must be a proper module then!
+                                    Call Engine.AddModule(currentship, sMod)
+                                End If
                             End If
                         End If
                     Else

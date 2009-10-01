@@ -76,6 +76,12 @@
     <Compile Include="Controls\EveSpace.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\frmFittingBrowser.Designer.vb">
+      <DependentUpon>frmFittingBrowser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmFittingBrowser.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmFleetPilot.Designer.vb">
       <DependentUpon>frmFleetPilot.vb</DependentUpon>
     </Compile>
@@ -275,6 +281,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\EveSpace.resx">
       <DependentUpon>EveSpace.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmFittingBrowser.resx">
+      <DependentUpon>frmFittingBrowser.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmFleetPilot.resx">
       <DependentUpon>frmFleetPilot.vb</DependentUpon>
