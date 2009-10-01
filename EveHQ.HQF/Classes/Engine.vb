@@ -2640,6 +2640,8 @@ Public Class Engine
                                         modID = ModuleLists.moduleListName(actRig).ToString
                                         sMod = CType(ModuleLists.moduleList(modID), ShipModule).Clone
                                         Call Engine.AddModule(currentship, sMod)
+                                        currentFit.Remove(shipMod)
+                                        currentFit.Add(sMod.Name)
                                     End If
                                 Else
                                     ' Must be a proper module then!
