@@ -65,9 +65,12 @@ Public Class frmFleetPilot
     Private Sub LoadFittingData()
         ' Load up fitting information
         cboFitting.BeginUpdate()
+        cboFitting.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cboFitting.AutoCompleteSource = AutoCompleteSource.CustomSource
         cboFitting.Items.Clear()
         For Each fitting As String In Fittings.FittingList.Keys
             cboFitting.Items.Add(fitting)
+            cboFitting.AutoCompleteCustomSource.Add(fitting)
         Next
         cboFitting.EndUpdate()
     End Sub
@@ -75,9 +78,14 @@ Public Class frmFleetPilot
     Private Sub LoadPilotData()
         ' Load up pilot information
         cboPilot.BeginUpdate()
+        cboPilot.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cboPilot.AutoCompleteSource = AutoCompleteSource.CustomSource
         cboPilot.Items.Clear()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            cboPilot.Items.Add(cPilot.Name)
+            If cPilot.Active = True Then
+                cboPilot.Items.Add(cPilot.Name)
+                cboPilot.AutoCompleteCustomSource.Add(cPilot.Name)
+            End If
         Next
         cboPilot.EndUpdate()
     End Sub

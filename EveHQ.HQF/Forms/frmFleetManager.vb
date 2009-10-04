@@ -108,6 +108,16 @@ Public Class frmFleetManager
         cboFleet.EndUpdate()
     End Sub
 
+    Private Sub clvFleetList_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvFleetList.DoubleClick
+        If clvFleetList.SelectedItems.Count > 0 Then
+            Dim selFleet As ContainerListViewItem = clvFleetList.SelectedItems(0)
+            If cboFleet.Items.Contains(selFleet.Text) = True Then
+                cboFleet.SelectedItem = selFleet.Text
+                tabFM.SelectedTab = tabFleetStructure
+            End If
+        End If
+    End Sub
+
     Private Sub clvFleetList_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFleetList.SelectedItemsChanged
         If clvFleetList.SelectedItems.Count > 0 Then
             Dim selFleet As ContainerListViewItem = clvFleetList.SelectedItems(0)
@@ -620,6 +630,8 @@ Public Class frmFleetManager
                                         End If
                                         ' Install the new FC
                                         activeFleet.Commander = DropName
+                                        ' Check boosters
+                                        Call Me.CheckForExistingBoostersInFleet(DropName)
                                         ' Redraw the structure
                                         Call Me.RedrawFleetStructure()
                                     End If
@@ -630,6 +642,8 @@ Public Class frmFleetManager
                                     End If
                                     ' Install the new FC
                                     activeFleet.Commander = DropName
+                                    ' Check boosters
+                                    Call Me.CheckForExistingBoostersInFleet(DropName)
                                     ' Redraw the structure
                                     Call Me.RedrawFleetStructure()
                                 End If
@@ -653,6 +667,8 @@ Public Class frmFleetManager
                                         End If
                                         ' Install the new WC
                                         activeFleet.Wings(wingItem.Tag.ToString).Commander = DropName
+                                        ' Check boosters
+                                        Call Me.CheckForExistingBoostersInWing(DropName, activeFleet.Wings(wingItem.Tag.ToString))
                                         ' Redraw the structure
                                         Call Me.RedrawFleetStructure()
                                     End If
@@ -663,6 +679,8 @@ Public Class frmFleetManager
                                     End If
                                     ' Install the new WC
                                     activeFleet.Wings(wingItem.Tag.ToString).Commander = DropName
+                                    ' Check boosters
+                                    Call Me.CheckForExistingBoostersInWing(DropName, activeFleet.Wings(wingItem.Tag.ToString))
                                     ' Redraw the structure
                                     Call Me.RedrawFleetStructure()
                                 End If
@@ -692,6 +710,10 @@ Public Class frmFleetManager
                                             Call RemoveMember(droppedItem)
                                         End If
                                         activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Commander = DropName
+                                        ' Check for duplicated boosters
+                                        If CheckForExistingBooster(DropName) = True Then
+                                            Call Me.CheckForExistingBoostersInSquad(DropName, activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString))
+                                        End If
                                         ' Redraw the structure
                                         Call Me.RedrawFleetStructure()
                                     Else
@@ -701,6 +723,10 @@ Public Class frmFleetManager
                                             Call RemoveMember(droppedItem)
                                         End If
                                         activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString).Members.Add(DropName, DropName)
+                                        ' Check for duplicated boosters
+                                        If CheckForExistingBooster(DropName) = True Then
+                                            Call Me.CheckForExistingBoostersInSquad(DropName, activeFleet.Wings(wingItem.Tag.ToString).Squads(squadItem.Tag.ToString))
+                                        End If
                                         ' Redraw the structure
                                         Call Me.RedrawFleetStructure()
                                     End If
@@ -749,17 +775,91 @@ Public Class frmFleetManager
 
     End Sub
 
+    Private Sub CheckForExistingBoostersInFleet(ByVal PilotName As String)
+        Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+        If activeFleet.Commander = PilotName Then
+            If Pilot.IsSB Then
+                Pilot.IsSB = False
+                activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                Exit Sub
+            End If
+            If Pilot.IsWB Then
+                Pilot.IsWB = False
+                activeFleet.Wings(Pilot.WingName).Booster = ""
+                Exit Sub
+            End If
+        End If
+    End Sub
+
+    Private Sub CheckForExistingBoostersInWing(ByVal PilotName As String, ByVal CheckWing As FleetManager.Wing)
+        Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+        If CheckWing.Commander = PilotName Then
+            If Pilot.IsSB Then
+                Pilot.IsSB = False
+                activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                Exit Sub
+            End If
+        End If
+    End Sub
+
+    Private Sub CheckForExistingBoostersInSquad(ByVal PilotName As String, ByVal CheckSquad As FleetManager.Squad)
+        Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+        If CheckSquad.Commander <> "" Then
+            Dim Comm As FleetManager.FleetMember = activeFleetMembers(CheckSquad.Commander)
+            If Pilot.Name <> Comm.Name Then
+                If Pilot.IsFB And Comm.IsFB Then
+                    Pilot.IsFB = False
+                    Exit Sub
+                End If
+                If Pilot.IsWB And Comm.IsWB Then
+                    Pilot.IsWB = False
+                    activeFleet.Wings(Pilot.WingName).Booster = ""
+                    Exit Sub
+                End If
+                If Pilot.IsSB And Comm.IsSB Then
+                    Pilot.IsSB = False
+                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                    Exit Sub
+                End If
+            End If
+        End If
+        For Each checkPilot As String In CheckSquad.Members.Keys
+            If checkPilot <> PilotName Then
+                If Pilot.IsFB And activeFleetMembers(checkPilot).IsFB Then
+                    Pilot.IsFB = False
+                    Exit Sub
+                End If
+                If Pilot.IsWB And activeFleetMembers(checkPilot).IsWB Then
+                    Pilot.IsWB = False
+                    activeFleet.Wings(Pilot.WingName).Booster = ""
+                    Exit Sub
+                End If
+                If Pilot.IsSB And activeFleetMembers(checkPilot).IsSB Then
+                    Pilot.IsSB = False
+                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                    Exit Sub
+                End If
+            End If
+        Next
+    End Sub
+
     Private Sub clvFleetStructure_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles clvFleetStructure.ItemDrag
         Dim myItem As ContainerListViewItem = clvFleetStructure.SelectedItems(0)
-        ' Create a DataObject containg the ContainerListViewItem
-        internalReorder = True
         ' restate the text as the pilot name
         If myItem.Tag.ToString <> myItem.Text Then
             Dim myName As String = myItem.Text.TrimStart(myItem.Tag.ToString.ToCharArray)
             myName = myName.TrimStart(" (".ToCharArray).TrimEnd(")".ToCharArray)
+            If myName <> "No Commander" Then
+                clvFleetStructure.Tag = myName
+                internalReorder = True
+                clvFleetStructure.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
+            End If
+        Else
+            Dim myName As String = myItem.Tag.ToString
             clvFleetStructure.Tag = myName
+            internalReorder = True
+            clvFleetStructure.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
         End If
-        clvFleetStructure.DoDragDrop(New DataObject("System.Windows.Forms.ContainerListViewItem", myItem), DragDropEffects.Move)
     End Sub
 
     Private Sub clvFleetStructure_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvFleetStructure.DragOver
@@ -773,8 +873,18 @@ Public Class frmFleetManager
             If item1 IsNot Nothing Then
                 If Not (TypeOf droppedItem.Tag Is ShipModule) Then
                     If item1.Depth >= 1 Then
-                        item1.Selected = True
-                        e.Effect = DragDropEffects.Move
+                        Dim targetPilot As String = Me.GetPilotNameFromCLVI(item1)
+                        Dim droppedPilot As String = Me.GetPilotNameFromCLVI(droppedItem)
+                        If droppedPilot <> targetPilot Then ' Can't drop if same person
+                            clvFleetStructure.SelectedItems.Clear()
+                            item1.Selected = True
+                            clvFleetStructure.Invalidate()
+                            e.Effect = DragDropEffects.Move
+                        Else
+                            clvFleetStructure.SelectedItems.Clear()
+                            clvFleetStructure.Invalidate()
+                            e.Effect = DragDropEffects.None
+                        End If
                     Else
                         clvFleetStructure.SelectedItems.Clear()
                         clvFleetStructure.Invalidate()
@@ -1262,7 +1372,7 @@ Public Class frmFleetManager
                 Dim SquadName As String = selItem.ParentItem.Tag.ToString
                 Dim WingName As String = selItem.ParentItem.ParentItem.Tag.ToString
                 activeFleet.Wings(WingName).Squads(SquadName).Members.Remove(selItem.Tag.ToString)
-                activeFleetMembers.Remove(selItem.Tag.ToString)
+                'activeFleetMembers.Remove(selItem.Tag.ToString)
         End Select
     End Sub
 
@@ -1274,36 +1384,40 @@ Public Class frmFleetManager
         ' Change the cursor...it could be a long calculation!
         Me.Cursor = Cursors.WaitCursor
         For Each pilotName As String In activeFleet.FleetSetups.Keys
-            Dim shipFit As String = activeFleet.FleetSetups(pilotName)
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
-            Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
-            ' Add the WH Environmental Affects to each ship
-            Call Me.AddWHEffects(aShip)
-            ' Apply the final fitting
-            BaseFleetShips(pilotName) = Engine.ApplyFitting(aShip, aPilot)
+            If activeFleetMembers.ContainsKey(pilotName) = True Then
+                Dim shipFit As String = activeFleet.FleetSetups(pilotName)
+                Dim fittingSep As Integer = shipFit.IndexOf(", ")
+                Dim shipName As String = shipFit.Substring(0, fittingSep)
+                Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+                Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+                Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+                aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
+                aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+                ' Add the WH Environmental Affects to each ship
+                Call Me.AddWHEffects(aShip)
+                ' Apply the final fitting
+                BaseFleetShips(pilotName) = Engine.ApplyFitting(aShip, aPilot)
+            End If
         Next
         ' Establish fleet, wing and squad boosters for this pilot
         For Each pilotName As String In activeFleet.FleetSetups.Keys
-            Dim shipFit As String = activeFleet.FleetSetups(pilotName)
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
-            Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
-            ' Add the WH Environmental Affects to each ship
-            Call Me.AddWHEffects(aShip)
-            ' Display and allocate list of remote modules available for using
-            Call Me.GetRemoteModules(aShip, pilotName)
-            ' Calcalate the boosters
-            Call Me.CalculateBoosters(aShip, pilotName)
-            FinalFleetShips(pilotName) = Engine.ApplyFitting(aShip, aPilot)
+            If activeFleetMembers.ContainsKey(pilotName) = True Then
+                Dim shipFit As String = activeFleet.FleetSetups(pilotName)
+                Dim fittingSep As Integer = shipFit.IndexOf(", ")
+                Dim shipName As String = shipFit.Substring(0, fittingSep)
+                Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+                Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+                Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+                aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
+                aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+                ' Add the WH Environmental Affects to each ship
+                Call Me.AddWHEffects(aShip)
+                ' Display and allocate list of remote modules available for using
+                Call Me.GetRemoteModules(aShip, pilotName)
+                ' Calcalate the boosters
+                Call Me.CalculateBoosters(aShip, pilotName)
+                FinalFleetShips(pilotName) = Engine.ApplyFitting(aShip, aPilot)
+            End If
         Next
         Call Me.RedrawFleetStructure()
         ' Reset the cursor

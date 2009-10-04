@@ -37,7 +37,7 @@ Partial Class frmFleetPilot
         Me.btnCancel.Location = New System.Drawing.Point(245, 123)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.TabIndex = 12
+        Me.btnCancel.TabIndex = 3
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -46,7 +46,7 @@ Partial Class frmFleetPilot
         Me.btnAccept.Location = New System.Drawing.Point(164, 123)
         Me.btnAccept.Name = "btnAccept"
         Me.btnAccept.Size = New System.Drawing.Size(75, 23)
-        Me.btnAccept.TabIndex = 11
+        Me.btnAccept.TabIndex = 2
         Me.btnAccept.Text = "Create"
         Me.btnAccept.UseVisualStyleBackColor = True
         '
@@ -84,7 +84,7 @@ Partial Class frmFleetPilot
         Me.cboFitting.Name = "cboFitting"
         Me.cboFitting.Size = New System.Drawing.Size(258, 21)
         Me.cboFitting.Sorted = True
-        Me.cboFitting.TabIndex = 16
+        Me.cboFitting.TabIndex = 1
         '
         'cboPilot
         '
@@ -93,7 +93,7 @@ Partial Class frmFleetPilot
         Me.cboPilot.Name = "cboPilot"
         Me.cboPilot.Size = New System.Drawing.Size(258, 21)
         Me.cboPilot.Sorted = True
-        Me.cboPilot.TabIndex = 17
+        Me.cboPilot.TabIndex = 0
         '
         'frmFleetPilot
         '
