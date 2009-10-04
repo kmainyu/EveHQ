@@ -666,6 +666,8 @@ namespace EveHQ.PosManager
                 // It has been at least an hour since the last update - set quantity values appropriately
                 // Store hours expired
                 hours = D_TimeStamp.Hours;
+                hours += (D_TimeStamp.Days * 24);
+
                 // Set current React_TS to the correct new value
                 React_TS = DateTime.Now.Subtract(new TimeSpan(0, D_TimeStamp.Minutes, D_TimeStamp.Seconds));
 
@@ -791,7 +793,7 @@ namespace EveHQ.PosManager
                                                                                         case 11:
                                                                                         case 12:
                                                                                         case 13:
-                                                                                            if ((jom.CapQty + rl.XferQty) >= jom.MaxQty)
+                                                                                            if ((jom.CapQty + rl.XferQty) <= jom.MaxQty)
                                                                                                 outValid = true;
                                                                                             break;
                                                                                         default:

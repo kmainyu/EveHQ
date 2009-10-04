@@ -3303,7 +3303,14 @@ namespace EveHQ.PosManager
         private void UdateMonitorInformation(object sender, EventArgs e)
         {
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            bgw_APIUpdate.RunWorkerAsync();
+            try
+            {
+                bgw_APIUpdate.RunWorkerAsync();
+            }
+            catch
+            {
+                // just try again later
+            }
         }
 
         private void RunCalculationsWithUpdatedInformation()
