@@ -776,6 +776,15 @@ namespace DotNetLib.Windows.Forms
 			}
 		}
 
+        [Browsable(false)]
+        public int VerticalScrollOffset
+        {
+            get
+            {
+                return _vScrollBar.Value;
+            }
+        }
+
 		[Browsable(false)]
 		public ContainerListViewItem TopItem
 		{
