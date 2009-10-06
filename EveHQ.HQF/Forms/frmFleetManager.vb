@@ -48,6 +48,14 @@ Public Class frmFleetManager
         remoteGroups.Add(641)
         remoteGroups.Add(640)
         remoteGroups.Add(639)
+        ' Add remote group Info to combobox
+        cboRemoteGroup.BeginUpdate()
+        cboRemoteGroup.Items.Clear()
+        cboRemoteGroup.Items.Add("<All>")
+        For Each group As Integer In remoteGroups
+            cboRemoteGroup.Items.Add(EveHQ.Core.HQ.itemGroups(CStr(group)))
+        Next
+        cboRemoteGroup.EndUpdate()
         fleetGroups.Add(316)
         fleetSkills.Add("Armored Warfare")
         fleetSkills.Add("Information Warfare")
@@ -168,13 +176,16 @@ Public Class frmFleetManager
         clvPilots.Items.Clear()
         clvFleetStructure.Items.Clear()
         lblViewingFleet.Text = "Viewing Fleet: None"
-        ' DeActivate the buttons
+        ' Deactivate the buttons
         btnAddPilot.Enabled = False
         btnEditPilot.Enabled = False
         btnDeletePilot.Enabled = False
         btnShipAudit.Enabled = False
         btnClearAssignments.Enabled = False
         btnUpdateFleet.Enabled = False
+        ' Deactivate the remote module list
+        cboRemoteGroup.SelectedIndex = -1
+        cboRemoteGroup.Enabled = False
     End Sub
 
     Private Sub cboWHEffect_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHEffect.SelectedIndexChanged
@@ -210,10 +221,6 @@ Public Class frmFleetManager
         Me.FinalFleetShips.Clear()
         ' Redraw remote modules
         clvPilots.Items.Clear()
-        ' Redraw the pilot list
-        Call Me.RedrawPilotList()
-        ' Redraw the fleet structure
-        Call Me.RedrawFleetStructure()
         ' Activate the buttons
         btnAddPilot.Enabled = True
         btnEditPilot.Enabled = True
@@ -221,6 +228,11 @@ Public Class frmFleetManager
         btnShipAudit.Enabled = True
         btnClearAssignments.Enabled = True
         btnUpdateFleet.Enabled = True
+        ' Activate the remote module list
+        cboRemoteGroup.SelectedIndex = 0
+        cboRemoteGroup.Enabled = True
+        ' Redraw the fleet structure
+        Call Me.RedrawFleetStructure()
     End Sub
 
 #End Region
@@ -455,10 +467,13 @@ Public Class frmFleetManager
                 Call Me.DisplayRemoteModules(newPilot)
                 If activeFleet.RemoteReceiving.ContainsKey(pilotName) = True Then
                     For Each RA As FleetManager.RemoteAssignment In activeFleet.RemoteReceiving(pilotName)
-                        Dim newRA As New ContainerListViewItem
-                        newRA.Text = RA.RemotePilot
-                        newPilot.Items.Add(newRA)
-                        newRA.SubItems(3).Text = RA.RemoteModule
+                        Dim modRA As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(RA.RemoteModule)), ShipModule).Clone
+                        If cboRemoteGroup.SelectedIndex = 0 Or (cboRemoteGroup.SelectedIndex <> 0 And (EveHQ.Core.HQ.itemGroups(modRA.DatabaseGroup) = cboRemoteGroup.SelectedItem.ToString)) Then
+                            Dim newRA As New ContainerListViewItem
+                            newRA.Text = RA.RemotePilot
+                            newPilot.Items.Add(newRA)
+                            newRA.SubItems(3).Text = RA.RemoteModule
+                        End If
                     Next
                 End If
             Next
@@ -535,6 +550,12 @@ Public Class frmFleetManager
         End If
     End Sub
 
+    Private Sub btnClearAssignments_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearAssignments.Click
+        activeFleet.RemoteGiving.Clear()
+        activeFleet.RemoteReceiving.Clear()
+        Call Me.RedrawPilotList()
+    End Sub
+
     Private Sub DisplayRemoteModules(ByVal selItem As ContainerListViewItem)
         Dim pilotName As String = selItem.Text
         Dim shipFit As String = activeFleet.FleetSetups(pilotName).FittingName
@@ -573,6 +594,9 @@ Public Class frmFleetManager
                         End If
                     Next
                 End If
+                If cboRemoteGroup.SelectedIndex <> 0 And (EveHQ.Core.HQ.itemGroups(remoteModule.DatabaseGroup) <> cboRemoteGroup.SelectedItem.ToString) Then
+                    selItem.Items.Remove(newRemoteItem)
+                End If
             End If
         Next
         For Each remoteDrone As DroneBayItem In aShip.DroneBayItems.Values
@@ -597,6 +621,9 @@ Public Class frmFleetManager
                                 RG.RemoveAt(i)
                             End If
                         Next
+                    End If
+                    If cboRemoteGroup.SelectedIndex <> 0 And (EveHQ.Core.HQ.itemGroups(remoteDrone.DroneType.DatabaseGroup) <> cboRemoteGroup.SelectedItem.ToString) Then
+                        selItem.Items.Remove(newRemoteItem)
                     End If
                 End If
             End If
@@ -1417,6 +1444,78 @@ Public Class frmFleetManager
 
 #End Region
 
+#Region "Pilot List Context Menu Item Routines"
+    Private Sub ctxPilotList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPilotList.Opening
+        If clvPilots.SelectedItems.Count = 1 Then
+            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
+            If selItem.Depth = 2 Then
+                If selItem.Text = selItem.ParentItem.Text And selItem.SubItems(4).Text = "" Then
+                    e.Cancel = True
+                Else
+                    mnuRemoveRemoteModule.Enabled = True
+                    mnuFMShowMissingSkills.Enabled = False
+                End If
+            ElseIf selItem.Depth = 1 Then
+                mnuRemoveRemoteModule.Enabled = False
+                mnuFMShowMissingSkills.Enabled = True
+            End If
+        Else
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub mnuRemoveRemoteModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveRemoteModule.Click
+        If clvPilots.SelectedItems.Count > 0 Then
+            ' Determine which deletion method we are using
+            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
+            Dim remotePilot As String = ""
+            Dim fleetPilot As String = ""
+            If selItem.Text = selItem.ParentItem.Text Then
+                remotePilot = selItem.Text
+                fleetPilot = selItem.SubItems(4).Text
+            Else
+                remotePilot = selItem.Text
+                fleetPilot = selItem.ParentItem.Text
+            End If
+            ' Get the remote module information
+            Dim remoteModule As String = selItem.SubItems(3).Text
+            Dim RA As FleetManager.RemoteAssignment
+            ' First, remove it from the receiving pilot
+            Dim RR As ArrayList = activeFleet.RemoteReceiving(fleetPilot)
+            For i As Integer = RR.Count - 1 To 0 Step -1
+                RA = CType(RR(i), FleetManager.RemoteAssignment)
+                If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
+                    RR.RemoveAt(i)
+                End If
+            Next
+            ' Next, remove it from the giving pilot
+            Dim RG As ArrayList = activeFleet.RemoteGiving(remotePilot)
+            For i As Integer = RG.Count - 1 To 0 Step -1
+                RA = CType(RG(i), FleetManager.RemoteAssignment)
+                If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
+                    RG.RemoveAt(i)
+                End If
+            Next
+            Call Me.RedrawPilotList()
+        End If
+    End Sub
+
+    Private Sub mnuFMShowMissingSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFMShowMissingSkills.Click
+        If clvPilots.SelectedItems.Count > 0 Then
+            ' Determine which deletion method we are using
+            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
+            Dim fleetPilot As String = selItem.Text
+            Dim cSetup As FleetManager.FleetSetup = activeFleet.FleetSetups(fleetPilot)
+            If cSetup.RequiredSkills.Count > 0 Then
+                Dim myRequiredSkills As New frmRequiredSkills
+                myRequiredSkills.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(fleetPilot), EveHQ.Core.Pilot)
+                myRequiredSkills.Skills = cSetup.RequiredSkills
+                myRequiredSkills.ShowDialog()
+            End If
+        End If
+    End Sub
+#End Region
+
 #Region "Fleet Update Routines"
 
     Private Sub btnUpdateFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateFleet.Click
@@ -1810,79 +1909,10 @@ Public Class frmFleetManager
 
 #End Region
 
-    Private Sub btnClearAssignments_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearAssignments.Click
-        activeFleet.RemoteGiving.Clear()
-        activeFleet.RemoteReceiving.Clear()
-        Call Me.RedrawPilotList()
-    End Sub
-
-    Private Sub ctxPilotList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPilotList.Opening
-        If clvPilots.SelectedItems.Count = 1 Then
-            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
-            If selItem.Depth = 2 Then
-                If selItem.Text = selItem.ParentItem.Text And selItem.SubItems(4).Text = "" Then
-                    e.Cancel = True
-                Else
-                    mnuRemoveRemoteModule.Enabled = True
-                    mnuFMShowMissingSkills.Enabled = False
-                End If
-            ElseIf selItem.Depth = 1 Then
-                mnuRemoveRemoteModule.Enabled = False
-                mnuFMShowMissingSkills.Enabled = True
-            End If
-        Else
-            e.Cancel = True
-        End If
-    End Sub
-
-    Private Sub mnuRemoveRemoteModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveRemoteModule.Click
-        If clvPilots.SelectedItems.Count > 0 Then
-            ' Determine which deletion method we are using
-            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
-            Dim remotePilot As String = ""
-            Dim fleetPilot As String = ""
-            If selItem.Text = selItem.ParentItem.Text Then
-                remotePilot = selItem.Text
-                fleetPilot = selItem.SubItems(4).Text
-            Else
-                remotePilot = selItem.Text
-                fleetPilot = selItem.ParentItem.Text
-            End If
-            ' Get the remote module information
-            Dim remoteModule As String = selItem.SubItems(3).Text
-            Dim RA As FleetManager.RemoteAssignment
-            ' First, remove it from the receiving pilot
-            Dim RR As ArrayList = activeFleet.RemoteReceiving(fleetPilot)
-            For i As Integer = RR.Count - 1 To 0 Step -1
-                RA = CType(RR(i), FleetManager.RemoteAssignment)
-                If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
-                    RR.RemoveAt(i)
-                End If
-            Next
-            ' Next, remove it from the giving pilot
-            Dim RG As ArrayList = activeFleet.RemoteGiving(remotePilot)
-            For i As Integer = RG.Count - 1 To 0 Step -1
-                RA = CType(RG(i), FleetManager.RemoteAssignment)
-                If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
-                    RG.RemoveAt(i)
-                End If
-            Next
+    Private Sub cboRemoteGroup_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboRemoteGroup.SelectedIndexChanged
+        If cboRemoteGroup.SelectedIndex <> -1 Then
+            ' Redraw the pilot list
             Call Me.RedrawPilotList()
-        End If
-    End Sub
-
-    Private Sub mnuFMShowMissingSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFMShowMissingSkills.Click
-        If clvPilots.SelectedItems.Count > 0 Then
-            ' Determine which deletion method we are using
-            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
-            Dim fleetPilot As String = selItem.Text
-            Dim cSetup As FleetManager.FleetSetup = activeFleet.FleetSetups(fleetPilot)
-            If cSetup.RequiredSkills.Count > 0 Then
-                Dim myRequiredSkills As New frmRequiredSkills
-                myRequiredSkills.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(fleetPilot), EveHQ.Core.Pilot)
-                myRequiredSkills.Skills = cSetup.RequiredSkills
-                myRequiredSkills.ShowDialog()
-            End If
         End If
     End Sub
 End Class

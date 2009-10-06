@@ -74,9 +74,11 @@ Partial Class frmFleetManager
         Me.gbFleetSettings = New System.Windows.Forms.GroupBox
         Me.tabFleetStructure = New System.Windows.Forms.TabPage
         Me.panelFleetStructure = New System.Windows.Forms.Panel
+        Me.lblRemoteGroup = New System.Windows.Forms.Label
+        Me.scFleet = New System.Windows.Forms.SplitContainer
+        Me.cboRemoteGroup = New System.Windows.Forms.ComboBox
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
-        Me.scFleet = New System.Windows.Forms.SplitContainer
         Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
@@ -308,9 +310,9 @@ Partial Class frmFleetManager
         '
         Me.btnUpdateFleet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdateFleet.Enabled = False
-        Me.btnUpdateFleet.Location = New System.Drawing.Point(444, 193)
+        Me.btnUpdateFleet.Location = New System.Drawing.Point(436, 193)
         Me.btnUpdateFleet.Name = "btnUpdateFleet"
-        Me.btnUpdateFleet.Size = New System.Drawing.Size(156, 23)
+        Me.btnUpdateFleet.Size = New System.Drawing.Size(100, 23)
         Me.btnUpdateFleet.TabIndex = 11
         Me.btnUpdateFleet.Text = "Update Fleet"
         Me.btnUpdateFleet.UseVisualStyleBackColor = True
@@ -479,7 +481,7 @@ Partial Class frmFleetManager
         Me.btnClearAssignments.Enabled = False
         Me.btnClearAssignments.Location = New System.Drawing.Point(330, 193)
         Me.btnClearAssignments.Name = "btnClearAssignments"
-        Me.btnClearAssignments.Size = New System.Drawing.Size(108, 23)
+        Me.btnClearAssignments.Size = New System.Drawing.Size(100, 23)
         Me.btnClearAssignments.TabIndex = 22
         Me.btnClearAssignments.Text = "Clear Remotes"
         Me.btnClearAssignments.UseVisualStyleBackColor = True
@@ -547,7 +549,9 @@ Partial Class frmFleetManager
         '
         'panelFleetStructure
         '
+        Me.panelFleetStructure.Controls.Add(Me.lblRemoteGroup)
         Me.panelFleetStructure.Controls.Add(Me.scFleet)
+        Me.panelFleetStructure.Controls.Add(Me.cboRemoteGroup)
         Me.panelFleetStructure.Controls.Add(Me.cboFleet)
         Me.panelFleetStructure.Controls.Add(Me.lblFleet)
         Me.panelFleetStructure.Dock = System.Windows.Forms.DockStyle.Fill
@@ -556,24 +560,14 @@ Partial Class frmFleetManager
         Me.panelFleetStructure.Size = New System.Drawing.Size(1079, 628)
         Me.panelFleetStructure.TabIndex = 0
         '
-        'cboFleet
+        'lblRemoteGroup
         '
-        Me.cboFleet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFleet.FormattingEnabled = True
-        Me.cboFleet.Location = New System.Drawing.Point(46, 6)
-        Me.cboFleet.Name = "cboFleet"
-        Me.cboFleet.Size = New System.Drawing.Size(193, 21)
-        Me.cboFleet.Sorted = True
-        Me.cboFleet.TabIndex = 24
-        '
-        'lblFleet
-        '
-        Me.lblFleet.AutoSize = True
-        Me.lblFleet.Location = New System.Drawing.Point(5, 9)
-        Me.lblFleet.Name = "lblFleet"
-        Me.lblFleet.Size = New System.Drawing.Size(35, 13)
-        Me.lblFleet.TabIndex = 23
-        Me.lblFleet.Text = "Fleet:"
+        Me.lblRemoteGroup.AutoSize = True
+        Me.lblRemoteGroup.Location = New System.Drawing.Point(294, 9)
+        Me.lblRemoteGroup.Name = "lblRemoteGroup"
+        Me.lblRemoteGroup.Size = New System.Drawing.Size(107, 13)
+        Me.lblRemoteGroup.TabIndex = 24
+        Me.lblRemoteGroup.Text = "Filter Remote Group:"
         '
         'scFleet
         '
@@ -602,6 +596,36 @@ Partial Class frmFleetManager
         Me.scFleet.Size = New System.Drawing.Size(1073, 590)
         Me.scFleet.SplitterDistance = 223
         Me.scFleet.TabIndex = 25
+        '
+        'cboRemoteGroup
+        '
+        Me.cboRemoteGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboRemoteGroup.Enabled = False
+        Me.cboRemoteGroup.FormattingEnabled = True
+        Me.cboRemoteGroup.Location = New System.Drawing.Point(407, 6)
+        Me.cboRemoteGroup.Name = "cboRemoteGroup"
+        Me.cboRemoteGroup.Size = New System.Drawing.Size(153, 21)
+        Me.cboRemoteGroup.Sorted = True
+        Me.cboRemoteGroup.TabIndex = 23
+        '
+        'cboFleet
+        '
+        Me.cboFleet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFleet.FormattingEnabled = True
+        Me.cboFleet.Location = New System.Drawing.Point(46, 6)
+        Me.cboFleet.Name = "cboFleet"
+        Me.cboFleet.Size = New System.Drawing.Size(193, 21)
+        Me.cboFleet.Sorted = True
+        Me.cboFleet.TabIndex = 24
+        '
+        'lblFleet
+        '
+        Me.lblFleet.AutoSize = True
+        Me.lblFleet.Location = New System.Drawing.Point(5, 9)
+        Me.lblFleet.Name = "lblFleet"
+        Me.lblFleet.Size = New System.Drawing.Size(35, 13)
+        Me.lblFleet.TabIndex = 23
+        Me.lblFleet.Text = "Fleet:"
         '
         'frmFleetManager
         '
@@ -683,4 +707,6 @@ Partial Class frmFleetManager
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuFMShowMissingSkills As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents scFleet As System.Windows.Forms.SplitContainer
+    Friend WithEvents lblRemoteGroup As System.Windows.Forms.Label
+    Friend WithEvents cboRemoteGroup As System.Windows.Forms.ComboBox
 End Class
