@@ -894,7 +894,7 @@ Public Class frmFleetManager
         If e.Data.GetDataPresent("System.Windows.Forms.ContainerListViewItem") Then
 
             Dim point1 As Point = clvFleetStructure.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvFleetStructure.GetItemAt(point1.Y - clvFleetStructure.HeaderHeight)
+            Dim item1 As ContainerListViewItem = clvFleetStructure.GetItemAt(point1.Y - clvFleetStructure.HeaderHeight + clvFleetStructure.VerticalScrollOffset)
             Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
 
             If item1 IsNot Nothing Then
@@ -1008,8 +1008,9 @@ Public Class frmFleetManager
         If e.Data.GetDataPresent("System.Windows.Forms.ContainerListViewItem") Then
 
             Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
+            Dim scrolloffset As Integer = clvPilots.AutoScrollOffset.Y
             Dim point1 As Point = clvPilots.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight)
+            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight + clvPilots.VerticalScrollOffset)
 
             If item1 IsNot Nothing Then
                 If TypeOf droppedItem.Tag Is ShipModule Then
