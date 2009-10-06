@@ -42,7 +42,6 @@ Public Class frmTraining
     Dim certListNodes As New SortedList
     Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
     Dim displayPilot As New EveHQ.Core.Pilot
-    Dim cDisplayPilotName As String = ""
     Dim startup As Boolean = False
 
     Delegate Sub UpdateSuggestionUIDelegate(ByVal ActQueueName As String)
@@ -55,7 +54,6 @@ Public Class frmTraining
             Return displayPilot.Name
         End Get
         Set(ByVal value As String)
-            cDisplayPilotName = value
             If cboPilots.Items.Contains(value) Then
                 cboPilots.SelectedItem = value
             End If
@@ -106,9 +104,9 @@ Public Class frmTraining
         cboPilots.EndUpdate()
 
         ' Select a pilot
-        If cDisplayPilotName <> "" Then
-            If cboPilots.Items.Contains(cDisplayPilotName) = True Then
-                cboPilots.SelectedItem = cDisplayPilotName
+        If displayPilot.Name <> "" Then
+            If cboPilots.Items.Contains(displayPilot.Name) = True Then
+                cboPilots.SelectedItem = displayPilot.Name
             Else
                 cboPilots.SelectedIndex = 0
             End If
@@ -2948,7 +2946,7 @@ Public Class frmTraining
                     Next
                     ' Get a dialog for the new skills
                     Dim selectQueue As New frmSelectQueue
-                    selectQueue.DisplayPilotName = cDisplayPilotName
+                    selectQueue.DisplayPilotName = displayPilot.Name
                     selectQueue.skillsNeeded = planSkills
                     selectQueue.ShowDialog()
                     Call Me.RefreshAllTraining()
@@ -2958,70 +2956,74 @@ Public Class frmTraining
     End Sub
 
     Private Sub mnuExportEMP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportEMP.Click
-        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, activeQueue)
-        Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
-        If arrQueue IsNot Nothing Then
-            ' Create XML Document
-            Dim EMPXML As New XmlDocument
-            ' Create XML Declaration
-            Dim dec As XmlDeclaration = EMPXML.CreateXmlDeclaration("1.0", Nothing, Nothing)
-            EMPXML.AppendChild(dec)
-            ' Create plan root
-            Dim EMPRoot As XmlElement = EMPXML.CreateElement("plan")
-            EMPXML.AppendChild(EMPRoot)
-            ' Create Entries child
-            Dim EMPEntries As XmlElement = EMPXML.CreateElement("Entries")
-            EMPRoot.AppendChild(EMPEntries)
-            ' Create individual entries
-            Dim EMPElement As XmlElement
-            For Each qItem In arrQueue
-                Dim EMPEntry As XmlNode = EMPXML.CreateElement("entry")
+        If activeQueue IsNot Nothing Then
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, activeQueue)
+            Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
+            If arrQueue IsNot Nothing Then
+                ' Create XML Document
+                Dim EMPXML As New XmlDocument
+                ' Create XML Declaration
+                Dim dec As XmlDeclaration = EMPXML.CreateXmlDeclaration("1.0", Nothing, Nothing)
+                EMPXML.AppendChild(dec)
+                ' Create plan root
+                Dim EMPRoot As XmlElement = EMPXML.CreateElement("plan")
+                EMPXML.AppendChild(EMPRoot)
+                ' Create Entries child
+                Dim EMPEntries As XmlElement = EMPXML.CreateElement("Entries")
+                EMPRoot.AppendChild(EMPEntries)
+                ' Create individual entries
+                Dim EMPElement As XmlElement
+                For Each qItem In arrQueue
+                    Dim EMPEntry As XmlNode = EMPXML.CreateElement("entry")
 
-                EMPElement = EMPXML.CreateElement("SkillName")
-                EMPElement.InnerText = qItem.Name
-                EMPEntry.AppendChild(EMPElement)
+                    EMPElement = EMPXML.CreateElement("SkillName")
+                    EMPElement.InnerText = qItem.Name
+                    EMPEntry.AppendChild(EMPElement)
 
-                EMPElement = EMPXML.CreateElement("Level")
-                EMPElement.InnerText = qItem.ToLevel
-                EMPEntry.AppendChild(EMPElement)
+                    EMPElement = EMPXML.CreateElement("Level")
+                    EMPElement.InnerText = qItem.ToLevel
+                    EMPEntry.AppendChild(EMPElement)
 
-                EMPElement = EMPXML.CreateElement("EntryType")
-                If qItem.IsPrereq Then
-                    EMPElement.InnerText = "Prerequisite"
-                Else
-                    EMPElement.InnerText = "Planned"
-                End If
-                EMPEntry.AppendChild(EMPElement)
-
-                EMPEntries.AppendChild(EMPEntry)
-            Next
-
-            ' Form a string of the XML
-            Dim strXML As String = EMPXML.InnerXml
-
-            ' Get a file name
-            Dim sfd1 As New SaveFileDialog
-            With sfd1
-                .Title = "Save as EveMon Plan File..."
-                .FileName = ""
-                .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-                .Filter = "EveMon Plan Files (*.emp)|*.emp|All Files (*.*)|*.*"
-                .FilterIndex = 1
-                .RestoreDirectory = True
-                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
-                    If .FileName <> "" Then
-                        ' Output the file as GZip
-                        Dim buffer() As Byte
-                        Dim enc As New System.Text.ASCIIEncoding
-                        buffer = enc.GetBytes(strXML)
-                        Dim outfile As System.IO.FileStream = File.Create(.FileName)
-                        Dim gzipStream As New Compression.GZipStream(outfile, Compression.CompressionMode.Compress)
-                        gzipStream.Write(buffer, 0, buffer.Length)
-                        gzipStream.Flush()
-                        gzipStream.Close()
+                    EMPElement = EMPXML.CreateElement("EntryType")
+                    If qItem.IsPrereq Then
+                        EMPElement.InnerText = "Prerequisite"
+                    Else
+                        EMPElement.InnerText = "Planned"
                     End If
-                End If
-            End With
+                    EMPEntry.AppendChild(EMPElement)
+
+                    EMPEntries.AppendChild(EMPEntry)
+                Next
+
+                ' Form a string of the XML
+                Dim strXML As String = EMPXML.InnerXml
+
+                ' Get a file name
+                Dim sfd1 As New SaveFileDialog
+                With sfd1
+                    .Title = "Save as EveMon Plan File..."
+                    .FileName = ""
+                    .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+                    .Filter = "EveMon Plan Files (*.emp)|*.emp|All Files (*.*)|*.*"
+                    .FilterIndex = 1
+                    .RestoreDirectory = True
+                    If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                        If .FileName <> "" Then
+                            ' Output the file as GZip
+                            Dim buffer() As Byte
+                            Dim enc As New System.Text.ASCIIEncoding
+                            buffer = enc.GetBytes(strXML)
+                            Dim outfile As System.IO.FileStream = File.Create(.FileName)
+                            Dim gzipStream As New Compression.GZipStream(outfile, Compression.CompressionMode.Compress)
+                            gzipStream.Write(buffer, 0, buffer.Length)
+                            gzipStream.Flush()
+                            gzipStream.Close()
+                        End If
+                    End If
+                End With
+            End If
+        Else
+            MessageBox.Show("Please select a skill queue tab before exporting the data.", "Skill Queue Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -3055,5 +3057,9 @@ Public Class frmTraining
                 Call Me.RefreshTraining(activeQueueName)
             End If
         End If
+    End Sub
+
+    Private Sub btnImportExport_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportExport.ButtonClick
+        btnImportExport.ShowDropDown()
     End Sub
 End Class
