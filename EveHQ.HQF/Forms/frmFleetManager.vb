@@ -164,6 +164,16 @@ Public Class frmFleetManager
             s.Close()
         End If
         Call Me.RedrawFleetList()
+        clvPilots.Items.Clear()
+        clvFleetStructure.Items.Clear()
+        lblViewingFleet.Text = "Viewing Fleet: None"
+        ' DeActivate the buttons
+        btnAddPilot.Enabled = False
+        btnEditPilot.Enabled = False
+        btnDeletePilot.Enabled = False
+        btnShipAudit.Enabled = False
+        btnClearAssignments.Enabled = False
+        btnUpdateFleet.Enabled = False
     End Sub
 
     Private Sub cboWHEffect_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHEffect.SelectedIndexChanged
@@ -203,6 +213,13 @@ Public Class frmFleetManager
         Call Me.RedrawPilotList()
         ' Redraw the fleet structure
         Call Me.RedrawFleetStructure()
+        ' Activate the buttons
+        btnAddPilot.Enabled = True
+        btnEditPilot.Enabled = True
+        btnDeletePilot.Enabled = True
+        btnShipAudit.Enabled = True
+        btnClearAssignments.Enabled = True
+        btnUpdateFleet.Enabled = True
     End Sub
 
 #End Region

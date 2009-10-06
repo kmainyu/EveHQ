@@ -63,6 +63,8 @@ Partial Class frmFleetManager
         Me.colRemoteModGroup = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colRemoteMod = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colRemoteAssign = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ctxPilotList = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuRemoveRemoteModule = New System.Windows.Forms.ToolStripMenuItem
         Me.btnClearAssignments = New System.Windows.Forms.Button
         Me.tabFM = New System.Windows.Forms.TabControl
         Me.tabFleetSettings = New System.Windows.Forms.TabPage
@@ -72,15 +74,13 @@ Partial Class frmFleetManager
         Me.panelFleetStructure = New System.Windows.Forms.Panel
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
-        Me.ctxPilotList = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuRemoveRemoteModule = New System.Windows.Forms.ToolStripMenuItem
+        Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
         Me.panelFleetSettings.SuspendLayout()
         Me.gbFleetSettings.SuspendLayout()
         Me.tabFleetStructure.SuspendLayout()
         Me.panelFleetStructure.SuspendLayout()
-        Me.ctxPilotList.SuspendLayout()
         Me.SuspendLayout()
         '
         'clvFleetStructure
@@ -267,6 +267,7 @@ Partial Class frmFleetManager
         '
         'btnAddPilot
         '
+        Me.btnAddPilot.Enabled = False
         Me.btnAddPilot.Location = New System.Drawing.Point(5, 337)
         Me.btnAddPilot.Name = "btnAddPilot"
         Me.btnAddPilot.Size = New System.Drawing.Size(75, 23)
@@ -276,6 +277,7 @@ Partial Class frmFleetManager
         '
         'btnEditPilot
         '
+        Me.btnEditPilot.Enabled = False
         Me.btnEditPilot.Location = New System.Drawing.Point(86, 337)
         Me.btnEditPilot.Name = "btnEditPilot"
         Me.btnEditPilot.Size = New System.Drawing.Size(75, 23)
@@ -285,6 +287,7 @@ Partial Class frmFleetManager
         '
         'btnDeletePilot
         '
+        Me.btnDeletePilot.Enabled = False
         Me.btnDeletePilot.Location = New System.Drawing.Point(167, 337)
         Me.btnDeletePilot.Name = "btnDeletePilot"
         Me.btnDeletePilot.Size = New System.Drawing.Size(75, 23)
@@ -294,6 +297,7 @@ Partial Class frmFleetManager
         '
         'btnUpdateFleet
         '
+        Me.btnUpdateFleet.Enabled = False
         Me.btnUpdateFleet.Location = New System.Drawing.Point(443, 337)
         Me.btnUpdateFleet.Name = "btnUpdateFleet"
         Me.btnUpdateFleet.Size = New System.Drawing.Size(156, 23)
@@ -367,6 +371,7 @@ Partial Class frmFleetManager
         '
         'btnShipAudit
         '
+        Me.btnShipAudit.Enabled = False
         Me.btnShipAudit.Location = New System.Drawing.Point(248, 337)
         Me.btnShipAudit.Name = "btnShipAudit"
         Me.btnShipAudit.Size = New System.Drawing.Size(75, 23)
@@ -433,8 +438,21 @@ Partial Class frmFleetManager
         Me.colRemoteAssign.Text = "Assigned To"
         Me.colRemoteAssign.Width = 150
         '
+        'ctxPilotList
+        '
+        Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule})
+        Me.ctxPilotList.Name = "ctxPilotList"
+        Me.ctxPilotList.Size = New System.Drawing.Size(162, 26)
+        '
+        'mnuRemoveRemoteModule
+        '
+        Me.mnuRemoveRemoteModule.Name = "mnuRemoveRemoteModule"
+        Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(161, 22)
+        Me.mnuRemoveRemoteModule.Text = "Remove Module"
+        '
         'btnClearAssignments
         '
+        Me.btnClearAssignments.Enabled = False
         Me.btnClearAssignments.Location = New System.Drawing.Point(329, 337)
         Me.btnClearAssignments.Name = "btnClearAssignments"
         Me.btnClearAssignments.Size = New System.Drawing.Size(108, 23)
@@ -541,18 +559,6 @@ Partial Class frmFleetManager
         Me.lblFleet.TabIndex = 23
         Me.lblFleet.Text = "Fleet:"
         '
-        'ctxPilotList
-        '
-        Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule})
-        Me.ctxPilotList.Name = "ctxPilotList"
-        Me.ctxPilotList.Size = New System.Drawing.Size(162, 48)
-        '
-        'mnuRemoveRemoteModule
-        '
-        Me.mnuRemoveRemoteModule.Name = "mnuRemoveRemoteModule"
-        Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(161, 22)
-        Me.mnuRemoveRemoteModule.Text = "Remove Module"
-        '
         'frmFleetManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -563,6 +569,7 @@ Partial Class frmFleetManager
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmFleetManager"
         Me.Text = "HQF Fleet Manager"
+        Me.ctxPilotList.ResumeLayout(False)
         Me.tabFM.ResumeLayout(False)
         Me.tabFleetSettings.ResumeLayout(False)
         Me.panelFleetSettings.ResumeLayout(False)
@@ -571,7 +578,6 @@ Partial Class frmFleetManager
         Me.tabFleetStructure.ResumeLayout(False)
         Me.panelFleetStructure.ResumeLayout(False)
         Me.panelFleetStructure.PerformLayout()
-        Me.ctxPilotList.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
