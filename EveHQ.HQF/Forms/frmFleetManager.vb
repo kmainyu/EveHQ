@@ -1426,19 +1426,22 @@ Public Class frmFleetManager
     Private Sub RemoveMember(ByVal selItem As ContainerListViewItem)
         Select Case selItem.Depth
             Case 1 ' FC
+                BaseFleetShips.Remove(activeFleet.Commander)
                 activeFleet.Commander = ""
             Case 2 ' WC
                 Dim WingName As String = selItem.Tag.ToString
+                BaseFleetShips.Remove(activeFleet.Wings(WingName).Commander)
                 activeFleet.Wings(WingName).Commander = ""
             Case 3 ' SC
                 Dim SquadName As String = selItem.Tag.ToString
                 Dim WingName As String = selItem.ParentItem.Tag.ToString
+                BaseFleetShips.Remove(activeFleet.Wings(WingName).Squads(SquadName).Commander)
                 activeFleet.Wings(WingName).Squads(SquadName).Commander = ""
             Case 4 ' SM
                 Dim SquadName As String = selItem.ParentItem.Tag.ToString
                 Dim WingName As String = selItem.ParentItem.ParentItem.Tag.ToString
+                BaseFleetShips.Remove(selItem.Tag.ToString)
                 activeFleet.Wings(WingName).Squads(SquadName).Members.Remove(selItem.Tag.ToString)
-                'activeFleetMembers.Remove(selItem.Tag.ToString)
         End Select
     End Sub
 
