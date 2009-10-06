@@ -803,71 +803,77 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub CheckForExistingBoostersInFleet(ByVal PilotName As String)
-        Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
-        If activeFleet.Commander = PilotName Then
-            If Pilot.IsSB Then
-                Pilot.IsSB = False
-                activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                Exit Sub
-            End If
-            If Pilot.IsWB Then
-                Pilot.IsWB = False
-                activeFleet.Wings(Pilot.WingName).Booster = ""
-                Exit Sub
+        If activeFleetMembers.ContainsKey(PilotName) = True Then
+            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+            If activeFleet.Commander = PilotName Then
+                If Pilot.IsSB Then
+                    Pilot.IsSB = False
+                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                    Exit Sub
+                End If
+                If Pilot.IsWB Then
+                    Pilot.IsWB = False
+                    activeFleet.Wings(Pilot.WingName).Booster = ""
+                    Exit Sub
+                End If
             End If
         End If
     End Sub
 
     Private Sub CheckForExistingBoostersInWing(ByVal PilotName As String, ByVal CheckWing As FleetManager.Wing)
-        Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
-        If CheckWing.Commander = PilotName Then
-            If Pilot.IsSB Then
-                Pilot.IsSB = False
-                activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                Exit Sub
+        If activeFleetMembers.ContainsKey(PilotName) = True Then
+            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+            If CheckWing.Commander = PilotName Then
+                If Pilot.IsSB Then
+                    Pilot.IsSB = False
+                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                    Exit Sub
+                End If
             End If
         End If
     End Sub
 
     Private Sub CheckForExistingBoostersInSquad(ByVal PilotName As String, ByVal CheckSquad As FleetManager.Squad)
-        Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
-        If CheckSquad.Commander <> "" Then
-            Dim Comm As FleetManager.FleetMember = activeFleetMembers(CheckSquad.Commander)
-            If Pilot.Name <> Comm.Name Then
-                If Pilot.IsFB And Comm.IsFB Then
-                    Pilot.IsFB = False
-                    Exit Sub
-                End If
-                If Pilot.IsWB And Comm.IsWB Then
-                    Pilot.IsWB = False
-                    activeFleet.Wings(Pilot.WingName).Booster = ""
-                    Exit Sub
-                End If
-                If Pilot.IsSB And Comm.IsSB Then
-                    Pilot.IsSB = False
-                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                    Exit Sub
+        If activeFleetMembers.ContainsKey(PilotName) = True Then
+            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+            If CheckSquad.Commander <> "" Then
+                Dim Comm As FleetManager.FleetMember = activeFleetMembers(CheckSquad.Commander)
+                If Pilot.Name <> Comm.Name Then
+                    If Pilot.IsFB And Comm.IsFB Then
+                        Pilot.IsFB = False
+                        Exit Sub
+                    End If
+                    If Pilot.IsWB And Comm.IsWB Then
+                        Pilot.IsWB = False
+                        activeFleet.Wings(Pilot.WingName).Booster = ""
+                        Exit Sub
+                    End If
+                    If Pilot.IsSB And Comm.IsSB Then
+                        Pilot.IsSB = False
+                        activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                        Exit Sub
+                    End If
                 End If
             End If
+            For Each checkPilot As String In CheckSquad.Members.Keys
+                If checkPilot <> PilotName Then
+                    If Pilot.IsFB And activeFleetMembers(checkPilot).IsFB Then
+                        Pilot.IsFB = False
+                        Exit Sub
+                    End If
+                    If Pilot.IsWB And activeFleetMembers(checkPilot).IsWB Then
+                        Pilot.IsWB = False
+                        activeFleet.Wings(Pilot.WingName).Booster = ""
+                        Exit Sub
+                    End If
+                    If Pilot.IsSB And activeFleetMembers(checkPilot).IsSB Then
+                        Pilot.IsSB = False
+                        activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                        Exit Sub
+                    End If
+                End If
+            Next
         End If
-        For Each checkPilot As String In CheckSquad.Members.Keys
-            If checkPilot <> PilotName Then
-                If Pilot.IsFB And activeFleetMembers(checkPilot).IsFB Then
-                    Pilot.IsFB = False
-                    Exit Sub
-                End If
-                If Pilot.IsWB And activeFleetMembers(checkPilot).IsWB Then
-                    Pilot.IsWB = False
-                    activeFleet.Wings(Pilot.WingName).Booster = ""
-                    Exit Sub
-                End If
-                If Pilot.IsSB And activeFleetMembers(checkPilot).IsSB Then
-                    Pilot.IsSB = False
-                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                    Exit Sub
-                End If
-            End If
-        Next
     End Sub
 
     Private Sub clvFleetStructure_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles clvFleetStructure.ItemDrag

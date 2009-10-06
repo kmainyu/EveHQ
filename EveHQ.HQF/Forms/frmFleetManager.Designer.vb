@@ -65,6 +65,8 @@ Partial Class frmFleetManager
         Me.colRemoteAssign = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxPilotList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuRemoveRemoteModule = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuFMShowMissingSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.btnClearAssignments = New System.Windows.Forms.Button
         Me.tabFM = New System.Windows.Forms.TabControl
         Me.tabFleetSettings = New System.Windows.Forms.TabPage
@@ -74,8 +76,7 @@ Partial Class frmFleetManager
         Me.panelFleetStructure = New System.Windows.Forms.Panel
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuFMShowMissingSkills = New System.Windows.Forms.ToolStripMenuItem
+        Me.scFleet = New System.Windows.Forms.SplitContainer
         Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
@@ -83,6 +84,9 @@ Partial Class frmFleetManager
         Me.gbFleetSettings.SuspendLayout()
         Me.tabFleetStructure.SuspendLayout()
         Me.panelFleetStructure.SuspendLayout()
+        Me.scFleet.Panel1.SuspendLayout()
+        Me.scFleet.Panel2.SuspendLayout()
+        Me.scFleet.SuspendLayout()
         Me.SuspendLayout()
         '
         'clvFleetStructure
@@ -95,12 +99,12 @@ Partial Class frmFleetManager
         Me.clvFleetStructure.DefaultItemHeight = 20
         Me.clvFleetStructure.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.clvFleetStructure.ItemContextMenu = Me.ctxFleetStructure
-        Me.clvFleetStructure.Location = New System.Drawing.Point(8, 389)
+        Me.clvFleetStructure.Location = New System.Drawing.Point(6, 21)
         Me.clvFleetStructure.Name = "clvFleetStructure"
         Me.clvFleetStructure.ShowPlusMinus = True
         Me.clvFleetStructure.ShowRootTreeLines = True
         Me.clvFleetStructure.ShowTreeLines = True
-        Me.clvFleetStructure.Size = New System.Drawing.Size(1066, 234)
+        Me.clvFleetStructure.Size = New System.Drawing.Size(1060, 335)
         Me.clvFleetStructure.TabIndex = 0
         '
         'colFleetStructure
@@ -218,7 +222,7 @@ Partial Class frmFleetManager
         'lblViewingFleet
         '
         Me.lblViewingFleet.AutoSize = True
-        Me.lblViewingFleet.Location = New System.Drawing.Point(5, 373)
+        Me.lblViewingFleet.Location = New System.Drawing.Point(3, 5)
         Me.lblViewingFleet.Name = "lblViewingFleet"
         Me.lblViewingFleet.Size = New System.Drawing.Size(102, 13)
         Me.lblViewingFleet.TabIndex = 3
@@ -269,8 +273,9 @@ Partial Class frmFleetManager
         '
         'btnAddPilot
         '
+        Me.btnAddPilot.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAddPilot.Enabled = False
-        Me.btnAddPilot.Location = New System.Drawing.Point(5, 337)
+        Me.btnAddPilot.Location = New System.Drawing.Point(6, 193)
         Me.btnAddPilot.Name = "btnAddPilot"
         Me.btnAddPilot.Size = New System.Drawing.Size(75, 23)
         Me.btnAddPilot.TabIndex = 8
@@ -279,8 +284,9 @@ Partial Class frmFleetManager
         '
         'btnEditPilot
         '
+        Me.btnEditPilot.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnEditPilot.Enabled = False
-        Me.btnEditPilot.Location = New System.Drawing.Point(86, 337)
+        Me.btnEditPilot.Location = New System.Drawing.Point(87, 193)
         Me.btnEditPilot.Name = "btnEditPilot"
         Me.btnEditPilot.Size = New System.Drawing.Size(75, 23)
         Me.btnEditPilot.TabIndex = 9
@@ -289,8 +295,9 @@ Partial Class frmFleetManager
         '
         'btnDeletePilot
         '
+        Me.btnDeletePilot.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeletePilot.Enabled = False
-        Me.btnDeletePilot.Location = New System.Drawing.Point(167, 337)
+        Me.btnDeletePilot.Location = New System.Drawing.Point(168, 193)
         Me.btnDeletePilot.Name = "btnDeletePilot"
         Me.btnDeletePilot.Size = New System.Drawing.Size(75, 23)
         Me.btnDeletePilot.TabIndex = 10
@@ -299,8 +306,9 @@ Partial Class frmFleetManager
         '
         'btnUpdateFleet
         '
+        Me.btnUpdateFleet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdateFleet.Enabled = False
-        Me.btnUpdateFleet.Location = New System.Drawing.Point(443, 337)
+        Me.btnUpdateFleet.Location = New System.Drawing.Point(444, 193)
         Me.btnUpdateFleet.Name = "btnUpdateFleet"
         Me.btnUpdateFleet.Size = New System.Drawing.Size(156, 23)
         Me.btnUpdateFleet.TabIndex = 11
@@ -373,8 +381,9 @@ Partial Class frmFleetManager
         '
         'btnShipAudit
         '
+        Me.btnShipAudit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnShipAudit.Enabled = False
-        Me.btnShipAudit.Location = New System.Drawing.Point(248, 337)
+        Me.btnShipAudit.Location = New System.Drawing.Point(249, 193)
         Me.btnShipAudit.Name = "btnShipAudit"
         Me.btnShipAudit.Size = New System.Drawing.Size(75, 23)
         Me.btnShipAudit.TabIndex = 20
@@ -384,17 +393,18 @@ Partial Class frmFleetManager
         'clvPilots
         '
         Me.clvPilots.AllowDrop = True
-        Me.clvPilots.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.clvPilots.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvPilots.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRemotePilot, Me.colPilotFitting, Me.colRemoteModGroup, Me.colRemoteMod, Me.colRemoteAssign})
         Me.clvPilots.DefaultItemHeight = 20
         Me.clvPilots.ItemContextMenu = Me.ctxPilotList
-        Me.clvPilots.Location = New System.Drawing.Point(3, 33)
+        Me.clvPilots.Location = New System.Drawing.Point(3, 3)
         Me.clvPilots.Name = "clvPilots"
         Me.clvPilots.ShowPlusMinus = True
         Me.clvPilots.ShowRootTreeLines = True
         Me.clvPilots.ShowTreeLines = True
-        Me.clvPilots.Size = New System.Drawing.Size(1071, 298)
+        Me.clvPilots.Size = New System.Drawing.Size(1063, 184)
         Me.clvPilots.TabIndex = 21
         '
         'colRemotePilot
@@ -444,7 +454,7 @@ Partial Class frmFleetManager
         '
         Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule, Me.ToolStripMenuItem1, Me.mnuFMShowMissingSkills})
         Me.ctxPilotList.Name = "ctxPilotList"
-        Me.ctxPilotList.Size = New System.Drawing.Size(177, 76)
+        Me.ctxPilotList.Size = New System.Drawing.Size(177, 54)
         '
         'mnuRemoveRemoteModule
         '
@@ -452,10 +462,22 @@ Partial Class frmFleetManager
         Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(176, 22)
         Me.mnuRemoveRemoteModule.Text = "Remove Module"
         '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(173, 6)
+        '
+        'mnuFMShowMissingSkills
+        '
+        Me.mnuFMShowMissingSkills.Name = "mnuFMShowMissingSkills"
+        Me.mnuFMShowMissingSkills.Size = New System.Drawing.Size(176, 22)
+        Me.mnuFMShowMissingSkills.Text = "Show Missing Skills"
+        '
         'btnClearAssignments
         '
+        Me.btnClearAssignments.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnClearAssignments.Enabled = False
-        Me.btnClearAssignments.Location = New System.Drawing.Point(329, 337)
+        Me.btnClearAssignments.Location = New System.Drawing.Point(330, 193)
         Me.btnClearAssignments.Name = "btnClearAssignments"
         Me.btnClearAssignments.Size = New System.Drawing.Size(108, 23)
         Me.btnClearAssignments.TabIndex = 22
@@ -525,17 +547,9 @@ Partial Class frmFleetManager
         '
         'panelFleetStructure
         '
+        Me.panelFleetStructure.Controls.Add(Me.scFleet)
         Me.panelFleetStructure.Controls.Add(Me.cboFleet)
         Me.panelFleetStructure.Controls.Add(Me.lblFleet)
-        Me.panelFleetStructure.Controls.Add(Me.clvPilots)
-        Me.panelFleetStructure.Controls.Add(Me.lblViewingFleet)
-        Me.panelFleetStructure.Controls.Add(Me.btnDeletePilot)
-        Me.panelFleetStructure.Controls.Add(Me.clvFleetStructure)
-        Me.panelFleetStructure.Controls.Add(Me.btnUpdateFleet)
-        Me.panelFleetStructure.Controls.Add(Me.btnAddPilot)
-        Me.panelFleetStructure.Controls.Add(Me.btnClearAssignments)
-        Me.panelFleetStructure.Controls.Add(Me.btnEditPilot)
-        Me.panelFleetStructure.Controls.Add(Me.btnShipAudit)
         Me.panelFleetStructure.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelFleetStructure.Location = New System.Drawing.Point(3, 3)
         Me.panelFleetStructure.Name = "panelFleetStructure"
@@ -561,16 +575,33 @@ Partial Class frmFleetManager
         Me.lblFleet.TabIndex = 23
         Me.lblFleet.Text = "Fleet:"
         '
-        'ToolStripMenuItem1
+        'scFleet
         '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(173, 6)
+        Me.scFleet.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.scFleet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.scFleet.Location = New System.Drawing.Point(3, 33)
+        Me.scFleet.Name = "scFleet"
+        Me.scFleet.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'mnuFMShowMissingSkills
+        'scFleet.Panel1
         '
-        Me.mnuFMShowMissingSkills.Name = "mnuFMShowMissingSkills"
-        Me.mnuFMShowMissingSkills.Size = New System.Drawing.Size(176, 22)
-        Me.mnuFMShowMissingSkills.Text = "Show Missing Skills"
+        Me.scFleet.Panel1.Controls.Add(Me.btnAddPilot)
+        Me.scFleet.Panel1.Controls.Add(Me.btnShipAudit)
+        Me.scFleet.Panel1.Controls.Add(Me.btnEditPilot)
+        Me.scFleet.Panel1.Controls.Add(Me.clvPilots)
+        Me.scFleet.Panel1.Controls.Add(Me.btnClearAssignments)
+        Me.scFleet.Panel1.Controls.Add(Me.btnDeletePilot)
+        Me.scFleet.Panel1.Controls.Add(Me.btnUpdateFleet)
+        '
+        'scFleet.Panel2
+        '
+        Me.scFleet.Panel2.Controls.Add(Me.lblViewingFleet)
+        Me.scFleet.Panel2.Controls.Add(Me.clvFleetStructure)
+        Me.scFleet.Size = New System.Drawing.Size(1073, 590)
+        Me.scFleet.SplitterDistance = 223
+        Me.scFleet.TabIndex = 25
         '
         'frmFleetManager
         '
@@ -591,6 +622,10 @@ Partial Class frmFleetManager
         Me.tabFleetStructure.ResumeLayout(False)
         Me.panelFleetStructure.ResumeLayout(False)
         Me.panelFleetStructure.PerformLayout()
+        Me.scFleet.Panel1.ResumeLayout(False)
+        Me.scFleet.Panel2.ResumeLayout(False)
+        Me.scFleet.Panel2.PerformLayout()
+        Me.scFleet.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -646,4 +681,5 @@ Partial Class frmFleetManager
     Friend WithEvents mnuRemoveRemoteModule As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuFMShowMissingSkills As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents scFleet As System.Windows.Forms.SplitContainer
 End Class
