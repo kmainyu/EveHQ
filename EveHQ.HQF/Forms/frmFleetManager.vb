@@ -1881,28 +1881,30 @@ Public Class frmFleetManager
             Dim RA As FleetManager.RemoteAssignment
             For i As Integer = RR.Count - 1 To 0 Step -1
                 RA = CType(RR(i), FleetManager.RemoteAssignment)
-                Dim remoteShip As Ship = BaseFleetShips(RA.RemotePilot)
-                For Each remoteModule As ShipModule In remoteShip.SlotCollection
-                    If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
-                        remoteModule.ModuleState = 16
-                        remoteModule.SlotNo = 0
-                        If RA.RemoteModule = remoteModule.Name Then
-                            RR.RemoveAt(i)
-                            fleetShip.RemoteSlotCollection.Add(remoteModule)
-                        End If
-                    End If
-                Next
-                For Each remoteDrone As DroneBayItem In remoteShip.DroneBayItems.Values
-                    If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
-                        If remoteDrone.IsActive = True Then
-                            remoteDrone.DroneType.ModuleState = 16
-                            If RA.RemoteModule = remoteDrone.DroneType.Name Then
+                If BaseFleetShips.ContainsKey(RA.RemotePilot) = True Then
+                    Dim remoteShip As Ship = BaseFleetShips(RA.RemotePilot)
+                    For Each remoteModule As ShipModule In remoteShip.SlotCollection
+                        If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
+                            remoteModule.ModuleState = 16
+                            remoteModule.SlotNo = 0
+                            If RA.RemoteModule = remoteModule.Name Then
                                 RR.RemoveAt(i)
-                                fleetShip.RemoteSlotCollection.Add(remoteDrone)
+                                fleetShip.RemoteSlotCollection.Add(remoteModule)
                             End If
                         End If
-                    End If
-                Next
+                    Next
+                    For Each remoteDrone As DroneBayItem In remoteShip.DroneBayItems.Values
+                        If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
+                            If remoteDrone.IsActive = True Then
+                                remoteDrone.DroneType.ModuleState = 16
+                                If RA.RemoteModule = remoteDrone.DroneType.Name Then
+                                    RR.RemoveAt(i)
+                                    fleetShip.RemoteSlotCollection.Add(remoteDrone)
+                                End If
+                            End If
+                        End If
+                    Next
+                End If
             Next
         End If
     End Sub
