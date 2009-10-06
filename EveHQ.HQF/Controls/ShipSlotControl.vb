@@ -364,6 +364,8 @@ Public Class ShipSlotControl
                                 slotName.SubItems.Add(FormatNumber(shipMod.Attributes("99"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             ElseIf shipMod.Attributes.Contains("103") Then
                                 slotName.SubItems.Add(FormatNumber(shipMod.Attributes("103"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("142") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("142"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Else
                                 slotName.SubItems.Add("")
                             End If
@@ -512,6 +514,8 @@ Public Class ShipSlotControl
                             slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("99"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         ElseIf shipMod.Attributes.Contains("103") Then
                             slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("103"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("142") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("142"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         Else
                             slotName.SubItems(idx).Text = ""
                         End If

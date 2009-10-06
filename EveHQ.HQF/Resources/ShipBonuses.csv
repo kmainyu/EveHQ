@@ -1027,6 +1027,7 @@
 640,1,3338,239,2,201,0,1,0,15,15,ECM Jam Strength
 640,1,3338,240,2,201,0,1,0,15,15,ECM Jam Strength
 640,1,3338,241,2,201,0,1,0,15,15,ECM Jam Strength
+640,1,3338,142,2,80,0,1,0,20,15,ECM Burst Radius
 # Scythe,,,,,,,,,,,
 631,1,3333,77,2,54,0,1,0,20,15,Mining Laser Yield
 631,1,3333,351,2,209,0,1,0,3.5,15,Tracking Link Optimal Range Bonus
