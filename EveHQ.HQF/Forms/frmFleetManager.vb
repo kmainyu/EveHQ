@@ -163,6 +163,7 @@ Public Class frmFleetManager
             FleetManager.FleetCollection = CType(f.Deserialize(s), SortedList(Of String, FleetManager.Fleet))
             s.Close()
         End If
+        Call FleetManager.CheckAllFittings()
         Call Me.RedrawFleetList()
         clvPilots.Items.Clear()
         clvFleetStructure.Items.Clear()
@@ -385,8 +386,12 @@ Public Class frmFleetManager
 
     Private Function CheckForExistingBooster(ByVal PilotName As String) As Boolean
         ' Check if the pilot is already a booster
-        Dim FM As FleetManager.FleetMember = activeFleetMembers(PilotName)
-        Return (FM.IsFB Or FM.IsWB Or FM.IsSB)
+        If activeFleetMembers.ContainsKey(PilotName) = True Then
+            Dim FM As FleetManager.FleetMember = activeFleetMembers(PilotName)
+            Return (FM.IsFB Or FM.IsWB Or FM.IsSB)
+        Else
+            Return False
+        End If
     End Function
 
     Private Sub clvFleetStructure_ItemCollapsed(ByVal sender As Object, ByVal e As DotNetLib.Windows.Forms.ContainerListViewEventArgs) Handles clvFleetStructure.ItemCollapsed
@@ -441,7 +446,12 @@ Public Class frmFleetManager
                 If OpenPilots.Contains(pilotName) = True Then
                     newPilot.Expand()
                 End If
-                newPilot.SubItems(1).Text = activeFleet.FleetSetups(pilotName)
+                newPilot.SubItems(1).Text = activeFleet.FleetSetups(pilotName).FittingName
+                If activeFleet.FleetSetups(pilotName).IsFlyable = False Then
+                    newPilot.BackColor = Color.Salmon
+                Else
+                    newPilot.BackColor = Color.LimeGreen
+                End If
                 Call Me.DisplayRemoteModules(newPilot)
                 If activeFleet.RemoteReceiving.ContainsKey(pilotName) = True Then
                     For Each RA As FleetManager.RemoteAssignment In activeFleet.RemoteReceiving(pilotName)
@@ -527,7 +537,7 @@ Public Class frmFleetManager
 
     Private Sub DisplayRemoteModules(ByVal selItem As ContainerListViewItem)
         Dim pilotName As String = selItem.Text
-        Dim shipFit As String = activeFleet.FleetSetups(pilotName)
+        Dim shipFit As String = activeFleet.FleetSetups(pilotName).FittingName
         Dim fittingSep As Integer = shipFit.IndexOf(", ")
         Dim shipName As String = shipFit.Substring(0, fittingSep)
         Dim fittingName As String = shipFit.Substring(fittingSep + 2)
@@ -891,7 +901,12 @@ Public Class frmFleetManager
                 If Not (TypeOf droppedItem.Tag Is ShipModule) Then
                     If item1.Depth >= 1 Then
                         Dim targetPilot As String = Me.GetPilotNameFromCLVI(item1)
-                        Dim droppedPilot As String = Me.GetPilotNameFromCLVI(droppedItem)
+                        Dim droppedPilot As String = ""
+                        If droppedItem.ListView.Name = CType(sender, ContainerListView).Name Then
+                            droppedPilot = Me.GetPilotNameFromCLVI(droppedItem)
+                        Else
+                            droppedPilot = droppedItem.Text
+                        End If
                         If droppedPilot <> targetPilot Then ' Can't drop if same person
                             clvFleetStructure.SelectedItems.Clear()
                             item1.Selected = True
@@ -1402,7 +1417,7 @@ Public Class frmFleetManager
         Me.Cursor = Cursors.WaitCursor
         For Each pilotName As String In activeFleet.FleetSetups.Keys
             If activeFleetMembers.ContainsKey(pilotName) = True Then
-                Dim shipFit As String = activeFleet.FleetSetups(pilotName)
+                Dim shipFit As String = activeFleet.FleetSetups(pilotName).FittingName
                 Dim fittingSep As Integer = shipFit.IndexOf(", ")
                 Dim shipName As String = shipFit.Substring(0, fittingSep)
                 Dim fittingName As String = shipFit.Substring(fittingSep + 2)
@@ -1419,7 +1434,7 @@ Public Class frmFleetManager
         ' Establish fleet, wing and squad boosters for this pilot
         For Each pilotName As String In activeFleet.FleetSetups.Keys
             If activeFleetMembers.ContainsKey(pilotName) = True Then
-                Dim shipFit As String = activeFleet.FleetSetups(pilotName)
+                Dim shipFit As String = activeFleet.FleetSetups(pilotName).FittingName
                 Dim fittingSep As Integer = shipFit.IndexOf(", ")
                 Dim shipName As String = shipFit.Substring(0, fittingSep)
                 Dim fittingName As String = shipFit.Substring(fittingSep + 2)
@@ -1800,7 +1815,13 @@ Public Class frmFleetManager
             If selItem.Depth = 2 Then
                 If selItem.Text = selItem.ParentItem.Text And selItem.SubItems(4).Text = "" Then
                     e.Cancel = True
+                Else
+                    mnuRemoveRemoteModule.Enabled = True
+                    mnuFMShowMissingSkills.Enabled = False
                 End If
+            ElseIf selItem.Depth = 1 Then
+                mnuRemoveRemoteModule.Enabled = False
+                mnuFMShowMissingSkills.Enabled = True
             End If
         Else
             e.Cancel = True
@@ -1840,6 +1861,21 @@ Public Class frmFleetManager
                 End If
             Next
             Call Me.RedrawPilotList()
+        End If
+    End Sub
+
+    Private Sub mnuFMShowMissingSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFMShowMissingSkills.Click
+        If clvPilots.SelectedItems.Count > 0 Then
+            ' Determine which deletion method we are using
+            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
+            Dim fleetPilot As String = selItem.Text
+            Dim cSetup As FleetManager.FleetSetup = activeFleet.FleetSetups(fleetPilot)
+            If cSetup.RequiredSkills.Count > 0 Then
+                Dim myRequiredSkills As New frmRequiredSkills
+                myRequiredSkills.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(fleetPilot), EveHQ.Core.Pilot)
+                myRequiredSkills.Skills = cSetup.RequiredSkills
+                myRequiredSkills.ShowDialog()
+            End If
         End If
     End Sub
 End Class

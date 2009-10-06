@@ -116,14 +116,29 @@ Public Class frmFleetPilot
                 Exit Sub
             Else
                 ' Add the pilot and fitting to the setups
-                FleetManager.FleetCollection(FleetName).FleetSetups.Add(cboPilot.SelectedItem.ToString, cboFitting.SelectedItem.ToString)
+                Dim newSetup As New FleetManager.FleetSetup
+                newSetup.PilotName = cboPilot.SelectedItem.ToString
+                newSetup.FittingName = cboFitting.SelectedItem.ToString
+                newSetup.RequiredSkills = FleetManager.IsFittingUsable(newSetup.PilotName, newSetup.FittingName)
+                If newSetup.RequiredSkills.Count = 0 Then
+                    newSetup.IsFlyable = True
+                Else
+                    newSetup.IsFlyable = False
+                End If
+                FleetManager.FleetCollection(FleetName).FleetSetups.Add(newSetup.PilotName, newSetup)
                 Me.DialogResult = Windows.Forms.DialogResult.OK
                 Me.Close()
             End If
         Else
             ' We should change the pilot fitting
             For Each pilotName As String In cPilotNames
-                FleetManager.FleetCollection(FleetName).FleetSetups(pilotName) = cboFitting.SelectedItem.ToString
+                FleetManager.FleetCollection(FleetName).FleetSetups(pilotName).FittingName = cboFitting.SelectedItem.ToString
+                FleetManager.FleetCollection(FleetName).FleetSetups(pilotName).RequiredSkills = FleetManager.IsFittingUsable(pilotName, cboFitting.SelectedItem.ToString)
+                If FleetManager.FleetCollection(FleetName).FleetSetups(pilotName).RequiredSkills.Count = 0 Then
+                    FleetManager.FleetCollection(FleetName).FleetSetups(pilotName).IsFlyable = True
+                Else
+                    FleetManager.FleetCollection(FleetName).FleetSetups(pilotName).IsFlyable = False
+                End If
             Next
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()

@@ -2526,7 +2526,6 @@ Public Class Engine
         Next
         Return usable
     End Function
-
     Public Shared Function IsFittable(ByVal cMod As ShipModule, ByVal cShip As Ship) As Boolean
         If cMod.CPU <= cShip.CPU - cShip.CPU_Used Then
             If cMod.PG <= cShip.PG - cShip.PG_Used Then
@@ -2576,6 +2575,256 @@ Public Class Engine
         Else
             Return -currentTime
         End If
+    End Function
+    Public Shared Function NeededSkillsForShip(ByVal pilotName As String, ByVal cShip As Ship) As SortedList
+        Dim nSkills As New SortedList
+        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+        Dim mySkill As HQFSkill
+        Dim rSkill As ReqSkill
+        Dim count As Integer = 0
+        For Each nSkill As ItemSkills In cShip.RequiredSkills.Values
+            count += 1
+            If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                If mySkill.Level < nSkill.Level Then
+                    rSkill = New ReqSkill
+                    rSkill.Name = nSkill.Name
+                    rSkill.ID = nSkill.ID
+                    rSkill.ReqLevel = nSkill.Level
+                    rSkill.CurLevel = mySkill.Level
+                    rSkill.NeededFor = cShip.Name
+                    nSkills.Add("Ship" & count.ToString, rSkill)
+                End If
+            Else
+                rSkill = New ReqSkill
+                rSkill.Name = nSkill.Name
+                rSkill.ID = nSkill.ID
+                rSkill.ReqLevel = nSkill.Level
+                rSkill.CurLevel = 0
+                rSkill.NeededFor = cShip.Name
+                nSkills.Add("Ship" & count.ToString, rSkill)
+            End If
+        Next
+        For slot As Integer = 1 To cShip.HiSlots
+            If cShip.HiSlot(slot) IsNot Nothing Then
+                count = 0
+                For Each nSkill As ItemSkills In cShip.HiSlot(slot).RequiredSkills.Values
+                    count += 1
+                    If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                        mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                        If mySkill.Level < nSkill.Level Then
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = mySkill.Level
+                            rSkill.NeededFor = cShip.HiSlot(slot).Name
+                            nSkills.Add("HiSlot" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Else
+                        rSkill = New ReqSkill
+                        rSkill.Name = nSkill.Name
+                        rSkill.ID = nSkill.ID
+                        rSkill.ReqLevel = nSkill.Level
+                        rSkill.CurLevel = 0
+                        rSkill.NeededFor = cShip.HiSlot(slot).Name
+                        nSkills.Add("HiSlot" & slot.ToString & count.ToString, rSkill)
+                    End If
+                Next
+                If cShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    count = 0
+                    For Each nSkill As ItemSkills In cShip.HiSlot(slot).LoadedCharge.RequiredSkills.Values
+                        count += 1
+                        If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                            mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                            If mySkill.Level < nSkill.Level Then
+                                rSkill = New ReqSkill
+                                rSkill.Name = nSkill.Name
+                                rSkill.ID = nSkill.ID
+                                rSkill.ReqLevel = nSkill.Level
+                                rSkill.CurLevel = mySkill.Level
+                                rSkill.NeededFor = cShip.HiSlot(slot).LoadedCharge.Name
+                                nSkills.Add("HiSlot Charge" & slot.ToString & count.ToString, rSkill)
+                            End If
+                        Else
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = 0
+                            rSkill.NeededFor = cShip.HiSlot(slot).LoadedCharge.Name
+                            nSkills.Add("HiSlot Charge" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Next
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To cShip.MidSlots
+            If cShip.MidSlot(slot) IsNot Nothing Then
+                count = 0
+                For Each nSkill As ItemSkills In cShip.MidSlot(slot).RequiredSkills.Values
+                    count += 1
+                    If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                        mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                        If mySkill.Level < nSkill.Level Then
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = mySkill.Level
+                            rSkill.NeededFor = cShip.MidSlot(slot).Name
+                            nSkills.Add("MidSlot" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Else
+                        rSkill = New ReqSkill
+                        rSkill.Name = nSkill.Name
+                        rSkill.ID = nSkill.ID
+                        rSkill.ReqLevel = nSkill.Level
+                        rSkill.CurLevel = 0
+                        rSkill.NeededFor = cShip.MidSlot(slot).Name
+                        nSkills.Add("MidSlot" & slot.ToString & count.ToString, rSkill)
+                    End If
+                Next
+                If cShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    count = 0
+                    For Each nSkill As ItemSkills In cShip.MidSlot(slot).LoadedCharge.RequiredSkills.Values
+                        count += 1
+                        If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                            mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                            If mySkill.Level < nSkill.Level Then
+                                rSkill = New ReqSkill
+                                rSkill.Name = nSkill.Name
+                                rSkill.ID = nSkill.ID
+                                rSkill.ReqLevel = nSkill.Level
+                                rSkill.CurLevel = mySkill.Level
+                                rSkill.NeededFor = cShip.MidSlot(slot).LoadedCharge.Name
+                                nSkills.Add("MidSlot Charge" & slot.ToString & count.ToString, rSkill)
+                            End If
+                        Else
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = 0
+                            rSkill.NeededFor = cShip.MidSlot(slot).LoadedCharge.Name
+                            nSkills.Add("MidSlot Charge" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Next
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To cShip.LowSlots
+            If cShip.LowSlot(slot) IsNot Nothing Then
+                count = 0
+                For Each nSkill As ItemSkills In cShip.LowSlot(slot).RequiredSkills.Values
+                    count += 1
+                    If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                        mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                        If mySkill.Level < nSkill.Level Then
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = mySkill.Level
+                            rSkill.NeededFor = cShip.LowSlot(slot).Name
+                            nSkills.Add("LowSlot" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Else
+                        rSkill = New ReqSkill
+                        rSkill.Name = nSkill.Name
+                        rSkill.ID = nSkill.ID
+                        rSkill.ReqLevel = nSkill.Level
+                        rSkill.CurLevel = 0
+                        rSkill.NeededFor = cShip.LowSlot(slot).Name
+                        nSkills.Add("LowSlot" & slot.ToString & count.ToString, rSkill)
+                    End If
+                Next
+                If cShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    count = 0
+                    For Each nSkill As ItemSkills In cShip.LowSlot(slot).LoadedCharge.RequiredSkills.Values
+                        count += 1
+                        If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                            mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                            If mySkill.Level < nSkill.Level Then
+                                rSkill = New ReqSkill
+                                rSkill.Name = nSkill.Name
+                                rSkill.ID = nSkill.ID
+                                rSkill.ReqLevel = nSkill.Level
+                                rSkill.CurLevel = mySkill.Level
+                                rSkill.NeededFor = cShip.LowSlot(slot).LoadedCharge.Name
+                                nSkills.Add("LowSlot Charge" & slot.ToString & count.ToString, rSkill)
+                            End If
+                        Else
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = 0
+                            rSkill.NeededFor = cShip.LowSlot(slot).LoadedCharge.Name
+                            nSkills.Add("LowSlot Charge" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Next
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To cShip.RigSlots
+            If cShip.RigSlot(slot) IsNot Nothing Then
+                count = 0
+                For Each nSkill As ItemSkills In cShip.RigSlot(slot).RequiredSkills.Values
+                    count += 1
+                    If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                        mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                        If mySkill.Level < nSkill.Level Then
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = mySkill.Level
+                            rSkill.NeededFor = cShip.RigSlot(slot).Name
+                            nSkills.Add("RigSlot" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Else
+                        rSkill = New ReqSkill
+                        rSkill.Name = nSkill.Name
+                        rSkill.ID = nSkill.ID
+                        rSkill.ReqLevel = nSkill.Level
+                        rSkill.CurLevel = 0
+                        rSkill.NeededFor = cShip.RigSlot(slot).Name
+                        nSkills.Add("RigSlot" & slot.ToString & count.ToString, rSkill)
+                    End If
+                Next
+            End If
+        Next
+        Dim droneCount As Integer = 0
+        For Each droneItem As DroneBayItem In cShip.DroneBayItems.Values
+            droneCount += 1
+            Dim drone As ShipModule = droneItem.DroneType
+            count = 0
+            For Each nSkill As ItemSkills In drone.RequiredSkills.Values
+                count += 1
+                If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                    mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                    If mySkill.Level < nSkill.Level Then
+                        rSkill = New ReqSkill
+                        rSkill.Name = nSkill.Name
+                        rSkill.ID = nSkill.ID
+                        rSkill.ReqLevel = nSkill.Level
+                        rSkill.CurLevel = mySkill.Level
+                        rSkill.NeededFor = drone.Name
+                        nSkills.Add("Drone" & droneCount.ToString & count.ToString, rSkill)
+                    End If
+                Else
+                    rSkill = New ReqSkill
+                    rSkill.Name = nSkill.Name
+                    rSkill.ID = nSkill.ID
+                    rSkill.ReqLevel = nSkill.Level
+                    rSkill.CurLevel = 0
+                    rSkill.NeededFor = drone.Name
+                    nSkills.Add("Drone" & droneCount.ToString & count.ToString, rSkill)
+                End If
+            Next
+        Next
+        Return nSkills
     End Function
 #End Region
 
