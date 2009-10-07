@@ -81,6 +81,8 @@ Partial Class frmFleetManager
         Me.lblFleet = New System.Windows.Forms.Label
         Me.btnExportFleet = New System.Windows.Forms.Button
         Me.btnImportFleet = New System.Windows.Forms.Button
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btnImportFleetInto = New System.Windows.Forms.Button
         Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
@@ -512,6 +514,7 @@ Partial Class frmFleetManager
         '
         'panelFleetSettings
         '
+        Me.panelFleetSettings.Controls.Add(Me.btnImportFleetInto)
         Me.panelFleetSettings.Controls.Add(Me.btnImportFleet)
         Me.panelFleetSettings.Controls.Add(Me.btnExportFleet)
         Me.panelFleetSettings.Controls.Add(Me.gbFleetSettings)
@@ -633,21 +636,33 @@ Partial Class frmFleetManager
         '
         'btnExportFleet
         '
-        Me.btnExportFleet.Location = New System.Drawing.Point(242, 178)
+        Me.btnExportFleet.Location = New System.Drawing.Point(242, 274)
         Me.btnExportFleet.Name = "btnExportFleet"
         Me.btnExportFleet.Size = New System.Drawing.Size(75, 23)
         Me.btnExportFleet.TabIndex = 20
         Me.btnExportFleet.Text = "Export Fleet"
+        Me.ToolTip1.SetToolTip(Me.btnExportFleet, "Exports a fleet in XML format for backup or sending to other users")
         Me.btnExportFleet.UseVisualStyleBackColor = True
         '
         'btnImportFleet
         '
-        Me.btnImportFleet.Location = New System.Drawing.Point(242, 149)
+        Me.btnImportFleet.Location = New System.Drawing.Point(242, 202)
         Me.btnImportFleet.Name = "btnImportFleet"
         Me.btnImportFleet.Size = New System.Drawing.Size(75, 23)
         Me.btnImportFleet.TabIndex = 21
         Me.btnImportFleet.Text = "Import Fleet"
+        Me.ToolTip1.SetToolTip(Me.btnImportFleet, "Imports a fitting using the name given in the XML")
         Me.btnImportFleet.UseVisualStyleBackColor = True
+        '
+        'btnImportFleetInto
+        '
+        Me.btnImportFleetInto.Location = New System.Drawing.Point(242, 231)
+        Me.btnImportFleetInto.Name = "btnImportFleetInto"
+        Me.btnImportFleetInto.Size = New System.Drawing.Size(75, 37)
+        Me.btnImportFleetInto.TabIndex = 22
+        Me.btnImportFleetInto.Text = "Import Fleet Into"
+        Me.ToolTip1.SetToolTip(Me.btnImportFleetInto, "Imports a fitting into the currently selected fleet")
+        Me.btnImportFleetInto.UseVisualStyleBackColor = True
         '
         'frmFleetManager
         '
@@ -733,4 +748,6 @@ Partial Class frmFleetManager
     Friend WithEvents cboRemoteGroup As System.Windows.Forms.ComboBox
     Friend WithEvents btnExportFleet As System.Windows.Forms.Button
     Friend WithEvents btnImportFleet As System.Windows.Forms.Button
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents btnImportFleetInto As System.Windows.Forms.Button
 End Class

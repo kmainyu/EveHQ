@@ -237,8 +237,12 @@ Public Class frmFleetManager
         btnClearAssignments.Enabled = True
         btnUpdateFleet.Enabled = True
         ' Activate the remote module list
-        cboRemoteGroup.SelectedIndex = 0
         cboRemoteGroup.Enabled = True
+        If cboRemoteGroup.SelectedIndex = 0 Then
+            Call Me.RedrawPilotList()
+        Else
+            cboRemoteGroup.SelectedIndex = 0
+        End If
         ' Redraw the fleet structure
         Call Me.RedrawFleetStructure()
     End Sub
@@ -2101,6 +2105,7 @@ Public Class frmFleetManager
                 Dim FleetFitting As XmlElement = fleetXML.CreateElement("fitting")
                 FleetFittings.AppendChild(FleetFitting)
                 Dim fleetFittingName As XmlAttribute = fleetXML.CreateAttribute("name")
+                fleetFittingName.Value = fs.FittingName
                 FleetFitting.Attributes.Append(fleetFittingName)
                 ' Add the module details
                 Dim shipFit As String = fs.FittingName
@@ -2110,6 +2115,7 @@ Public Class frmFleetManager
                     FleetElement.InnerText = cMod
                     FleetFitting.AppendChild(FleetElement)
                 Next
+                UsedFittings.Add(fs.FittingName)
             End If
         Next
     End Sub
@@ -2137,27 +2143,190 @@ Public Class frmFleetManager
                     Catch ex As Exception
                         MessageBox.Show("Unable to read file data. Please check the file is not corrupted and you have permissions to access this file", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Try
-                    Call Me.ImportFleetXML(fleetXML, True)
+                    Call Me.ImportFleetXML(fleetXML, True, "")
+                    Call Me.RedrawFleetList()
                 End If
             End If
         End With
     End Sub
 
-    Private Sub ImportFleetXML(ByVal fleetXML As XmlDocument, ByVal CheckForExistingFleets As Boolean)
+    Private Sub btnImportFleetInto_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportFleetInto.Click
+        If clvFleetList.SelectedItems.Count > 0 Then
+            Dim fleetName As String = clvFleetList.SelectedItems(0).Text
+            Dim msg As String = "Are you sure you wish to overwrite the fleet '" & fleetName & "'?"
+            Dim reply As Integer = MessageBox.Show(msg, "Confirm Replace?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.No Then Exit Sub
+
+            ' Create a new file dialog
+            Dim ofd1 As New OpenFileDialog
+            With ofd1
+                .Title = "Select Fleet XML file..."
+                .FileName = ""
+                .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+                .Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*"
+                .FilterIndex = 1
+                .RestoreDirectory = True
+                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    If My.Computer.FileSystem.FileExists(.FileName) = False Then
+                        MessageBox.Show("Specified file does not exist. Please try again.", "Error Finding File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                    Else
+                        ' Open the file for reading
+                        Dim fleetXML As New XmlDocument
+                        Try
+                            fleetXML.Load(.FileName)
+                        Catch ex As Exception
+                            MessageBox.Show("Unable to read file data. Please check the file is not corrupted and you have permissions to access this file", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Try
+                        Call Me.ImportFleetXML(fleetXML, True, fleetName)
+                        Call Me.RedrawFleetList()
+                    End If
+                End If
+            End With
+        Else
+            MessageBox.Show("Please select a fleet before trying to import the details!", "Fleet Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub ImportFleetXML(ByVal fleetXML As XmlDocument, ByVal CheckForExistingFleets As Boolean, ByVal SpecifiedFleetName As String)
         ' Get fleet name
+        Dim fleetName As String = ""
         Dim fleetList As XmlNodeList = fleetXML.SelectNodes("fleets/fleet")
         For Each fleet As XmlNode In fleetList
-            Dim fleetName As String = fleet.Attributes.GetNamedItem("name").Value
-            If FleetManager.FleetCollection.ContainsKey(fleetName) = True And CheckForExistingFleets = True Then
-                Dim msg As String = "There is already a fleet called '" & fleetName & "'. Do you want to overwrite it?"
-                Dim reply As Integer = MessageBox.Show(msg, "Confirm Replace?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If reply = DialogResult.No Then Exit Sub
+            If SpecifiedFleetName <> "" Then
+                fleetName = SpecifiedFleetName
+            Else
+                fleetName = fleet.Attributes.GetNamedItem("name").Value
+                If FleetManager.FleetCollection.ContainsKey(fleetName) = True And CheckForExistingFleets = True Then
+                    Dim msg As String = "There is already a fleet called '" & fleetName & "'. Do you want to overwrite it?"
+                    Dim reply As Integer = MessageBox.Show(msg, "Confirm Replace?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If reply = DialogResult.No Then Exit Sub
+                End If
             End If
-            Call Me.ImportFleetXMLData(fleetXML, fleetName)
+            Call Me.ImportFleetXMLData(fleet, fleetName)
         Next
     End Sub
 
-    Private Sub ImportFleetXMLData(ByVal fleetXML As XmlDocument, ByVal fleetName As String)
+    Private Sub ImportFleetXMLData(ByVal fleet As XmlNode, ByVal fleetName As String)
+        ' Check required fleet name
+        Dim importFleet As New FleetManager.Fleet
+        If FleetManager.FleetCollection.ContainsKey(fleetName) = True Then
+            importFleet = FleetManager.FleetCollection(fleetName)
+            importFleet.Wings.Clear()
+            importFleet.RemoteGiving.Clear()
+            importFleet.RemoteReceiving.Clear()
+            importFleet.FleetSetups.Clear()
+        Else
+            FleetManager.FleetCollection.Add(fleetName, importFleet)
+        End If
+        ' Get fleet details
+        importFleet.Name = fleetName
+        importFleet.Commander = fleet.ChildNodes(0).InnerText
+        importFleet.Booster = fleet.ChildNodes(1).InnerText
+        importFleet.DamageProfile = fleet.ChildNodes(2).InnerText
+        importFleet.WHEffect = fleet.ChildNodes(3).InnerText
+        importFleet.WHClass = fleet.ChildNodes(4).InnerText
+        ' Get ships and pilots
+        Dim ships As XmlNodeList = fleet.SelectNodes("ships/ship")
+        For Each fleetShip As XmlNode In ships
+            Dim newSetup As New FleetManager.FleetSetup
+            newSetup.PilotName = fleetShip.ChildNodes(0).InnerText
+            newSetup.FittingName = fleetShip.ChildNodes(1).InnerText
+            newSetup.RequiredSkills = FleetManager.IsFittingUsable(newSetup.PilotName, newSetup.FittingName)
+            If newSetup.RequiredSkills.Count = 0 Then
+                newSetup.IsFlyable = True
+            Else
+                newSetup.IsFlyable = False
+            End If
+            importFleet.FleetSetups.Add(newSetup.PilotName, newSetup)
+        Next
+        ' Get Assignments
+        Dim Assignments As XmlNodeList = fleet.SelectNodes("projectedAssignments/projectedAssignment")
+        For Each Ass As XmlNode In Assignments
+            Dim rg As New FleetManager.RemoteAssignment
+            rg.FleetPilot = Ass.ChildNodes(0).InnerText
+            rg.RemotePilot = Ass.ChildNodes(1).InnerText
+            rg.RemoteModule = Ass.ChildNodes(2).InnerText
+            Dim rgs As New ArrayList
+            If importFleet.RemoteGiving.ContainsKey(rg.FleetPilot) = True Then
+                rgs = importFleet.RemoteGiving(rg.FleetPilot)
+            Else
+                importFleet.RemoteGiving.Add(rg.FleetPilot, rgs)
+            End If
+            rgs.Add(rg)
+            Dim rr As New FleetManager.RemoteAssignment
+            rr.FleetPilot = Ass.ChildNodes(0).InnerText
+            rr.RemotePilot = Ass.ChildNodes(1).InnerText
+            rr.RemoteModule = Ass.ChildNodes(2).InnerText
+            Dim rrs As New ArrayList
+            If importFleet.RemoteReceiving.ContainsKey(rr.FleetPilot) = True Then
+                rrs = importFleet.RemoteReceiving(rr.FleetPilot)
+            Else
+                importFleet.RemoteReceiving.Add(rr.FleetPilot, rrs)
+            End If
+            rrs.Add(rr)
+        Next
+        ' Get Fittings
+        Dim XMLFittings As XmlNodeList = fleet.SelectNodes("fittings/fitting")
+        Dim tempFits As New SortedList(Of String, ArrayList)
+        For Each fitting As XmlNode In XMLFittings
+            Dim tempFit As New ArrayList
+            For Each fittedItem As XmlNode In fitting.ChildNodes
+                tempFit.Add(fittedItem.InnerText)
+            Next
+            tempFits.Add(fitting.Attributes.GetNamedItem("name").Value, tempFit)
+        Next
+        ' Check fittings against existing ones
+        Dim existingFits As New ArrayList
+        For Each fit As String In tempFits.Keys
+            If Fittings.FittingList.ContainsKey(fit) = True Then
+                existingFits.Add(fit)
+            End If
+        Next
+        If existingFits.Count > 0 Then
+            Dim msg As String = "The imported XML file contains " & existingFits.Count.ToString & " fittings that already exist within HQF. Would you like to replace those fittings with the imported ones?"
+            Dim reply As Integer = MessageBox.Show(msg, "Confirm Fitting Replace", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.Yes Then
+                Call Me.ImportFitsFromXML(tempFits, True)
+            Else
+                Call Me.ImportFitsFromXML(tempFits, False)
+            End If
+        End If
+        ' Import Wing, Squad and Member details
+        Dim Wings As XmlNodeList = fleet.SelectNodes("wings/wing")
+        For Each Wing As XmlNode In Wings
+            Dim newWing As New FleetManager.Wing
+            newWing.Name = Wing.Attributes.GetNamedItem("name").Value
+            newWing.Commander = Wing.ChildNodes(0).InnerText
+            newWing.Booster = Wing.ChildNodes(1).InnerText
+            Dim Squads As XmlNodeList = Wing.SelectNodes("squads/squad")
+            For Each Squad As XmlNode In Squads
+                Dim newSquad As New FleetManager.Squad
+                newSquad.Name = Squad.Attributes.GetNamedItem("name").Value
+                newSquad.Commander = Squad.ChildNodes(0).InnerText
+                newSquad.Booster = Squad.ChildNodes(1).InnerText
+                Dim Members As XmlNodeList = Squad.SelectNodes("members/member")
+                For Each Member As XmlNode In Members
+                    newSquad.Members.Add(Member.InnerText, Member.InnerText)
+                Next
+                newWing.Squads.Add(newSquad.Name, newSquad)
+            Next
+            importFleet.Wings.Add(newWing.Name, newWing)
+        Next
 
     End Sub
+
+    Private Sub ImportFitsFromXML(ByVal tempFits As SortedList(Of String, ArrayList), ByVal ReplaceExisting As Boolean)
+        For Each fit As String In tempFits.Keys
+            If Fittings.FittingList.ContainsKey(fit) = False Then
+                Fittings.FittingList.Add(fit, tempFits(fit))
+            Else
+                If ReplaceExisting = True Then
+                    Fittings.FittingList(fit) = tempFits(fit)
+                End If
+            End If
+        Next
+    End Sub
+
+    
 End Class
