@@ -165,27 +165,34 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub btnLoadFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadFleet.Click
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            FleetManager.FleetCollection = CType(f.Deserialize(s), SortedList(Of String, FleetManager.Fleet))
-            s.Close()
-        End If
-        Call FleetManager.CheckAllFittings()
-        Call Me.RedrawFleetList()
-        clvPilots.Items.Clear()
-        clvFleetStructure.Items.Clear()
-        lblViewingFleet.Text = "Viewing Fleet: None"
-        ' Deactivate the buttons
-        btnAddPilot.Enabled = False
-        btnEditPilot.Enabled = False
-        btnDeletePilot.Enabled = False
-        btnShipAudit.Enabled = False
-        btnClearAssignments.Enabled = False
-        btnUpdateFleet.Enabled = False
-        ' Deactivate the remote module list
-        cboRemoteGroup.SelectedIndex = -1
-        cboRemoteGroup.Enabled = False
+        Try
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin")) = True Then
+                Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFleets.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                FleetManager.FleetCollection = CType(f.Deserialize(s), SortedList(Of String, FleetManager.Fleet))
+                s.Close()
+            End If
+            Call FleetManager.CheckAllFittings()
+            Call Me.RedrawFleetList()
+            clvPilots.Items.Clear()
+            clvFleetStructure.Items.Clear()
+            lblViewingFleet.Text = "Viewing Fleet: None"
+            ' Deactivate the buttons
+            btnAddPilot.Enabled = False
+            btnEditPilot.Enabled = False
+            btnDeletePilot.Enabled = False
+            btnShipAudit.Enabled = False
+            btnClearAssignments.Enabled = False
+            btnUpdateFleet.Enabled = False
+            ' Deactivate the remote module list
+            cboRemoteGroup.SelectedIndex = -1
+            cboRemoteGroup.Enabled = False
+        Catch ex As Exception
+            ' Assume loading error of binary file
+            Dim msg As String = "There was an error loading he Fleet Settings file." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "This could be due to changes in the data structures used or from a corrupt file."
+            MessageBox.Show(msg, "Error Loading Fleet Settings", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
     Private Sub cboWHEffect_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHEffect.SelectedIndexChanged
