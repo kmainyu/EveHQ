@@ -1942,7 +1942,7 @@ Public Class frmFleetManager
                 Call Me.CreateFleetXML(fleets)
             End If
         Else
-            MessageBox.Show("Please select a fleet before trying to export the details", "Fleet Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Please select a fleet before trying to export the details!", "Fleet Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -1963,6 +1963,7 @@ Public Class frmFleetManager
             FleetRoot.AppendChild(FleetNode)
             Call Me.CreateFleetXMLFleetElements(repFleet, fleetXML, FleetNode)
             Call Me.CreateFleetXMLFleetStructure(repFleet, fleetXML, FleetNode)
+            Call Me.CreateFleetXMLFleetFittings(repFleet, fleetXML, FleetNode)
         Next
 
         ' Get a file name
@@ -2011,11 +2012,11 @@ Public Class frmFleetManager
         FleetElement.InnerText = repFleet.WHClass
         fleetNode.AppendChild(FleetElement)
         ' Create the fleet members and their fittings
-        Dim FleetFittings As XmlElement = fleetXML.CreateElement("fittings")
-        fleetNode.AppendChild(FleetFittings)
+        Dim FleetShips As XmlElement = fleetXML.CreateElement("ships")
+        fleetNode.AppendChild(FleetShips)
         For Each fs As FleetManager.FleetSetup In repFleet.FleetSetups.Values
-            Dim FleetFitting As XmlElement = fleetXML.CreateElement("fitting")
-            FleetFittings.AppendChild(FleetFitting)
+            Dim FleetFitting As XmlElement = fleetXML.CreateElement("ship")
+            FleetShips.AppendChild(FleetFitting)
             FleetElement = fleetXML.CreateElement("pilot")
             FleetElement.InnerText = fs.PilotName
             FleetFitting.AppendChild(FleetElement)
@@ -2088,6 +2089,75 @@ Public Class frmFleetManager
             Next
         Next
     End Sub
+
+    Private Sub CreateFleetXMLFleetFittings(ByRef repFleet As FleetManager.Fleet, ByRef fleetXML As XmlDocument, ByRef fleetNode As XmlElement)
+        ' Create fittings from the list
+        Dim UsedFittings As New ArrayList
+        Dim FleetFittings As XmlElement = fleetXML.CreateElement("fittings")
+        fleetNode.AppendChild(FleetFittings)
+        For Each fs As FleetManager.FleetSetup In repFleet.FleetSetups.Values
+            If UsedFittings.Contains(fs.FittingName) = False Then
+                ' Add the fleet details
+                Dim FleetFitting As XmlElement = fleetXML.CreateElement("fitting")
+                FleetFittings.AppendChild(FleetFitting)
+                Dim fleetFittingName As XmlAttribute = fleetXML.CreateAttribute("name")
+                FleetFitting.Attributes.Append(fleetFittingName)
+                ' Add the module details
+                Dim shipFit As String = fs.FittingName
+                Dim FleetElement As XmlElement
+                For Each cMod As String In CType(Fittings.FittingList(shipFit), ArrayList)
+                    FleetElement = fleetXML.CreateElement("fittedItem")
+                    FleetElement.InnerText = cMod
+                    FleetFitting.AppendChild(FleetElement)
+                Next
+            End If
+        Next
+    End Sub
 #End Region
 
+    Private Sub btnImportFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportFleet.Click
+        ' Create a new file dialog
+        Dim ofd1 As New OpenFileDialog
+        With ofd1
+            .Title = "Select Fleet XML file..."
+            .FileName = ""
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            .Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*"
+            .FilterIndex = 1
+            .RestoreDirectory = True
+            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                If My.Computer.FileSystem.FileExists(.FileName) = False Then
+                    MessageBox.Show("Specified file does not exist. Please try again.", "Error Finding File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                Else
+                    ' Open the file for reading
+                    Dim fleetXML As New XmlDocument
+                    Try
+                        fleetXML.Load(.FileName)
+                    Catch ex As Exception
+                        MessageBox.Show("Unable to read file data. Please check the file is not corrupted and you have permissions to access this file", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Try
+                    Call Me.ImportFleetXML(fleetXML, True)
+                End If
+            End If
+        End With
+    End Sub
+
+    Private Sub ImportFleetXML(ByVal fleetXML As XmlDocument, ByVal CheckForExistingFleets As Boolean)
+        ' Get fleet name
+        Dim fleetList As XmlNodeList = fleetXML.SelectNodes("fleets/fleet")
+        For Each fleet As XmlNode In fleetList
+            Dim fleetName As String = fleet.Attributes.GetNamedItem("name").Value
+            If FleetManager.FleetCollection.ContainsKey(fleetName) = True And CheckForExistingFleets = True Then
+                Dim msg As String = "There is already a fleet called '" & fleetName & "'. Do you want to overwrite it?"
+                Dim reply As Integer = MessageBox.Show(msg, "Confirm Replace?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = DialogResult.No Then Exit Sub
+            End If
+            Call Me.ImportFleetXMLData(fleetXML, fleetName)
+        Next
+    End Sub
+
+    Private Sub ImportFleetXMLData(ByVal fleetXML As XmlDocument, ByVal fleetName As String)
+
+    End Sub
 End Class

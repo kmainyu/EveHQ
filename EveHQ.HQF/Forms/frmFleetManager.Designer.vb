@@ -80,6 +80,7 @@ Partial Class frmFleetManager
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
         Me.btnExportFleet = New System.Windows.Forms.Button
+        Me.btnImportFleet = New System.Windows.Forms.Button
         Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
@@ -511,6 +512,7 @@ Partial Class frmFleetManager
         '
         'panelFleetSettings
         '
+        Me.panelFleetSettings.Controls.Add(Me.btnImportFleet)
         Me.panelFleetSettings.Controls.Add(Me.btnExportFleet)
         Me.panelFleetSettings.Controls.Add(Me.gbFleetSettings)
         Me.panelFleetSettings.Controls.Add(Me.clvFleetList)
@@ -631,12 +633,21 @@ Partial Class frmFleetManager
         '
         'btnExportFleet
         '
-        Me.btnExportFleet.Location = New System.Drawing.Point(242, 287)
+        Me.btnExportFleet.Location = New System.Drawing.Point(242, 178)
         Me.btnExportFleet.Name = "btnExportFleet"
         Me.btnExportFleet.Size = New System.Drawing.Size(75, 23)
         Me.btnExportFleet.TabIndex = 20
         Me.btnExportFleet.Text = "Export Fleet"
         Me.btnExportFleet.UseVisualStyleBackColor = True
+        '
+        'btnImportFleet
+        '
+        Me.btnImportFleet.Location = New System.Drawing.Point(242, 149)
+        Me.btnImportFleet.Name = "btnImportFleet"
+        Me.btnImportFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnImportFleet.TabIndex = 21
+        Me.btnImportFleet.Text = "Import Fleet"
+        Me.btnImportFleet.UseVisualStyleBackColor = True
         '
         'frmFleetManager
         '
@@ -721,4 +732,5 @@ Partial Class frmFleetManager
     Friend WithEvents lblRemoteGroup As System.Windows.Forms.Label
     Friend WithEvents cboRemoteGroup As System.Windows.Forms.ComboBox
     Friend WithEvents btnExportFleet As System.Windows.Forms.Button
+    Friend WithEvents btnImportFleet As System.Windows.Forms.Button
 End Class
