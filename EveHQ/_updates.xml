@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQUpdate>
-  <lastUpdated>03/08/2009 21:00:00</lastUpdated>
+  <lastUpdated>07/10/2009 21:00:00</lastUpdated>
   <files>
     <file>
       <name>EveHQ.exe</name>
       <type>Required</type>
-      <version>1.13.2.913</version>
+      <version>1.13.2.932</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Executable</description>
     </file>
     <file>
       <name>EveHQ.Core.dll</name>
       <type>Required</type>
-      <version>1.13.2.913</version>
+      <version>1.13.2.932</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
     </file>
     <file>
       <name>EveHQ.CoreControls.dll</name>
       <type>Required</type>
-      <version>1.13.2.913</version>
+      <version>1.13.2.932</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
     </file>
@@ -89,7 +89,7 @@
     <file>
       <name>EveHQ.HQF.dll</name>
       <type>Plug-in</type>
-      <version>1.13.2.915</version>
+      <version>1.13.2.932</version>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
     </file>
