@@ -102,6 +102,11 @@ Partial Class frmDataConvert
         Me.txtSourceDir = New System.Windows.Forms.TextBox
         Me.btnZipIt = New System.Windows.Forms.Button
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
+        Me.TabPage7 = New System.Windows.Forms.TabPage
+        Me.panelWormholes = New System.Windows.Forms.Panel
+        Me.gbClassLocations = New System.Windows.Forms.GroupBox
+        Me.btnGenerateWHClassLocations = New System.Windows.Forms.Button
+        Me.btnGenerateWHAttribs = New System.Windows.Forms.Button
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,6 +123,9 @@ Partial Class frmDataConvert
         Me.panelImport.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.panelZip.SuspendLayout()
+        Me.TabPage7.SuspendLayout()
+        Me.panelWormholes.SuspendLayout()
+        Me.gbClassLocations.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboConvertType
@@ -483,6 +491,7 @@ Partial Class frmDataConvert
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Controls.Add(Me.TabPage6)
+        Me.TabControl1.Controls.Add(Me.TabPage7)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -879,6 +888,55 @@ Partial Class frmDataConvert
         '
         Me.ofd1.FileName = "OpenFileDialog1"
         '
+        'TabPage7
+        '
+        Me.TabPage7.Controls.Add(Me.panelWormholes)
+        Me.TabPage7.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage7.Name = "TabPage7"
+        Me.TabPage7.Size = New System.Drawing.Size(646, 437)
+        Me.TabPage7.TabIndex = 6
+        Me.TabPage7.Text = "Wormholes"
+        Me.TabPage7.UseVisualStyleBackColor = True
+        '
+        'panelWormholes
+        '
+        Me.panelWormholes.BackColor = System.Drawing.SystemColors.Control
+        Me.panelWormholes.Controls.Add(Me.gbClassLocations)
+        Me.panelWormholes.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelWormholes.Location = New System.Drawing.Point(0, 0)
+        Me.panelWormholes.Name = "panelWormholes"
+        Me.panelWormholes.Size = New System.Drawing.Size(646, 437)
+        Me.panelWormholes.TabIndex = 0
+        '
+        'gbClassLocations
+        '
+        Me.gbClassLocations.Controls.Add(Me.btnGenerateWHAttribs)
+        Me.gbClassLocations.Controls.Add(Me.btnGenerateWHClassLocations)
+        Me.gbClassLocations.Location = New System.Drawing.Point(8, 12)
+        Me.gbClassLocations.Name = "gbClassLocations"
+        Me.gbClassLocations.Size = New System.Drawing.Size(630, 214)
+        Me.gbClassLocations.TabIndex = 0
+        Me.gbClassLocations.TabStop = False
+        Me.gbClassLocations.Text = "Wormhole Class Locations"
+        '
+        'btnGenerateWHClassLocations
+        '
+        Me.btnGenerateWHClassLocations.Location = New System.Drawing.Point(19, 31)
+        Me.btnGenerateWHClassLocations.Name = "btnGenerateWHClassLocations"
+        Me.btnGenerateWHClassLocations.Size = New System.Drawing.Size(200, 23)
+        Me.btnGenerateWHClassLocations.TabIndex = 0
+        Me.btnGenerateWHClassLocations.Text = "Generate Class Locations"
+        Me.btnGenerateWHClassLocations.UseVisualStyleBackColor = True
+        '
+        'btnGenerateWHAttribs
+        '
+        Me.btnGenerateWHAttribs.Location = New System.Drawing.Point(19, 60)
+        Me.btnGenerateWHAttribs.Name = "btnGenerateWHAttribs"
+        Me.btnGenerateWHAttribs.Size = New System.Drawing.Size(200, 23)
+        Me.btnGenerateWHAttribs.TabIndex = 1
+        Me.btnGenerateWHAttribs.Text = "Generate WH Attribs"
+        Me.btnGenerateWHAttribs.UseVisualStyleBackColor = True
+        '
         'frmDataConvert
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -914,6 +972,9 @@ Partial Class frmDataConvert
         Me.TabPage6.ResumeLayout(False)
         Me.panelZip.ResumeLayout(False)
         Me.panelZip.PerformLayout()
+        Me.TabPage7.ResumeLayout(False)
+        Me.panelWormholes.ResumeLayout(False)
+        Me.gbClassLocations.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -996,4 +1057,9 @@ Partial Class frmDataConvert
     Friend WithEvents lblZipFile As System.Windows.Forms.Label
     Friend WithEvents lblSourceDir As System.Windows.Forms.Label
     Friend WithEvents txtZipFile As System.Windows.Forms.TextBox
+    Friend WithEvents TabPage7 As System.Windows.Forms.TabPage
+    Friend WithEvents panelWormholes As System.Windows.Forms.Panel
+    Friend WithEvents gbClassLocations As System.Windows.Forms.GroupBox
+    Friend WithEvents btnGenerateWHClassLocations As System.Windows.Forms.Button
+    Friend WithEvents btnGenerateWHAttribs As System.Windows.Forms.Button
 End Class

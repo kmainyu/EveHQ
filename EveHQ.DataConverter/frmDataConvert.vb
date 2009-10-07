@@ -1751,4 +1751,58 @@ Public Class frmDataConvert
             strmZipOutputStream.Write(abyBuffer, 0, abyBuffer.Length)
         Next
     End Sub
+
+    Private Sub btnGenerateWHClassLocations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateWHClassLocations.Click
+        With ofd1
+            .Title = "Select WH Locations XML file..."
+            .FileName = ""
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            .Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*"
+            .FilterIndex = 1
+            .RestoreDirectory = True
+            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                Dim WHXML As New XmlDocument
+                WHXML.Load(.FileName)
+                Dim ClassList As XmlNodeList = WHXML.SelectNodes("data/locationwormholeclasses")
+                Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\EveHQ\WHClasses.txt")
+                For Each ClassItem As XmlNode In ClassList
+                    If CInt(ClassItem.ChildNodes(1).InnerText) >= 1 And CInt(ClassItem.ChildNodes(1).InnerText) <= 6 Then
+                        sw.WriteLine(ClassItem.ChildNodes(0).InnerText & "," & ClassItem.ChildNodes(1).InnerText)
+                    End If
+                Next
+                sw.Flush()
+                sw.Close()
+                MessageBox.Show("Export of WH Location Classes complete!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End With
+    End Sub
+
+    Private Sub btnGenerateWHAttribs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateWHAttribs.Click
+        With ofd1
+            .Title = "Select dgmTypeAttributes XML file..."
+            .FileName = ""
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            .Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*"
+            .FilterIndex = 1
+            .RestoreDirectory = True
+            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                Dim WHXML As New XmlDocument
+                WHXML.Load(.FileName)
+                MessageBox.Show("Starting WH Attribute parsing...")
+                Dim ClassList As XmlNodeList = WHXML.SelectNodes("data/dgmtypeattribs")
+                Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\EveHQ\WHattribs.txt")
+                For Each ClassItem As XmlNode In ClassList
+                    If EveHQ.Core.HQ.itemData.ContainsKey(ClassItem.ChildNodes(0).InnerText) = True Then
+                        Dim item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ClassItem.ChildNodes(0).InnerText)
+                        If item.Group = 988 Then
+                            sw.WriteLine(ClassItem.ChildNodes(0).InnerText & "," & ClassItem.ChildNodes(1).InnerText & "," & CLng(ClassItem.ChildNodes(2).InnerText).ToString)
+                        End If
+                    End If
+                Next
+                sw.Flush()
+                sw.Close()
+                MessageBox.Show("Export of WH Attribs complete!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End With
+    End Sub
 End Class
