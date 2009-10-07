@@ -79,6 +79,7 @@ Partial Class frmFleetManager
         Me.cboRemoteGroup = New System.Windows.Forms.ComboBox
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
+        Me.btnExportFleet = New System.Windows.Forms.Button
         Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
@@ -456,23 +457,23 @@ Partial Class frmFleetManager
         '
         Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule, Me.ToolStripMenuItem1, Me.mnuFMShowMissingSkills})
         Me.ctxPilotList.Name = "ctxPilotList"
-        Me.ctxPilotList.Size = New System.Drawing.Size(177, 54)
+        Me.ctxPilotList.Size = New System.Drawing.Size(174, 54)
         '
         'mnuRemoveRemoteModule
         '
         Me.mnuRemoveRemoteModule.Name = "mnuRemoveRemoteModule"
-        Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(176, 22)
+        Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(173, 22)
         Me.mnuRemoveRemoteModule.Text = "Remove Module"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(173, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(170, 6)
         '
         'mnuFMShowMissingSkills
         '
         Me.mnuFMShowMissingSkills.Name = "mnuFMShowMissingSkills"
-        Me.mnuFMShowMissingSkills.Size = New System.Drawing.Size(176, 22)
+        Me.mnuFMShowMissingSkills.Size = New System.Drawing.Size(173, 22)
         Me.mnuFMShowMissingSkills.Text = "Show Missing Skills"
         '
         'btnClearAssignments
@@ -510,6 +511,7 @@ Partial Class frmFleetManager
         '
         'panelFleetSettings
         '
+        Me.panelFleetSettings.Controls.Add(Me.btnExportFleet)
         Me.panelFleetSettings.Controls.Add(Me.gbFleetSettings)
         Me.panelFleetSettings.Controls.Add(Me.clvFleetList)
         Me.panelFleetSettings.Controls.Add(Me.btnNewFleet)
@@ -627,6 +629,15 @@ Partial Class frmFleetManager
         Me.lblFleet.TabIndex = 23
         Me.lblFleet.Text = "Fleet:"
         '
+        'btnExportFleet
+        '
+        Me.btnExportFleet.Location = New System.Drawing.Point(242, 287)
+        Me.btnExportFleet.Name = "btnExportFleet"
+        Me.btnExportFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportFleet.TabIndex = 20
+        Me.btnExportFleet.Text = "Export Fleet"
+        Me.btnExportFleet.UseVisualStyleBackColor = True
+        '
         'frmFleetManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -709,4 +720,5 @@ Partial Class frmFleetManager
     Friend WithEvents scFleet As System.Windows.Forms.SplitContainer
     Friend WithEvents lblRemoteGroup As System.Windows.Forms.Label
     Friend WithEvents cboRemoteGroup As System.Windows.Forms.ComboBox
+    Friend WithEvents btnExportFleet As System.Windows.Forms.Button
 End Class

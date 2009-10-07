@@ -3,6 +3,7 @@ Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.Xml
 
 Public Class frmFleetManager
     Dim maxWings As Integer = 5
@@ -189,7 +190,7 @@ Public Class frmFleetManager
             cboRemoteGroup.Enabled = False
         Catch ex As Exception
             ' Assume loading error of binary file
-            Dim msg As String = "There was an error loading he Fleet Settings file." & ControlChars.CrLf & ControlChars.CrLf
+            Dim msg As String = "There was an error loading the Fleet Settings file." & ControlChars.CrLf & ControlChars.CrLf
             msg &= "This could be due to changes in the data structures used or from a corrupt file."
             MessageBox.Show(msg, "Error Loading Fleet Settings", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
@@ -652,6 +653,13 @@ Public Class frmFleetManager
         End If
     End Sub
 
+    Private Sub cboRemoteGroup_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboRemoteGroup.SelectedIndexChanged
+        If cboRemoteGroup.SelectedIndex <> -1 Then
+            ' Redraw the pilot list
+            Call Me.RedrawPilotList()
+        End If
+    End Sub
+
 #End Region
 
 #Region "Drag and Drop Routines"
@@ -1103,7 +1111,7 @@ Public Class frmFleetManager
         End If
     End Sub
 
-   
+
 #End Region
 
 #Region "Fleet Structure Context Menu Item Routines"
@@ -1921,10 +1929,165 @@ Public Class frmFleetManager
 
 #End Region
 
-    Private Sub cboRemoteGroup_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboRemoteGroup.SelectedIndexChanged
-        If cboRemoteGroup.SelectedIndex <> -1 Then
-            ' Redraw the pilot list
-            Call Me.RedrawPilotList()
+#Region "Fleet Import and Export Routines"
+    Private Sub btnExportFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportFleet.Click
+        If clvFleetList.SelectedItems.Count > 0 Then
+            Dim fleets As New ArrayList
+            For Each fleet As ContainerListViewItem In clvFleetList.SelectedItems
+                If FleetManager.FleetCollection.ContainsKey(fleet.Text) = True Then
+                    fleets.Add(fleet.Text)
+                End If
+            Next
+            If fleets.Count > 0 Then
+                Call Me.CreateFleetXML(fleets)
+            End If
+        Else
+            MessageBox.Show("Please select a fleet before trying to export the details", "Fleet Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
+
+    Private Sub CreateFleetXML(ByVal fleets As ArrayList)
+
+        Dim fleetXML As New XmlDocument
+        ' Create XML Declaration
+        Dim dec As XmlDeclaration = fleetXML.CreateXmlDeclaration("1.0", Nothing, Nothing)
+        fleetXML.AppendChild(dec)
+        ' Create fleets root
+        Dim FleetRoot As XmlElement = fleetXML.CreateElement("fleets")
+        fleetXML.AppendChild(FleetRoot)
+        ' Iterate through the selected fleets
+        For Each fleet As String In fleets
+            Dim repFleet As FleetManager.Fleet = FleetManager.FleetCollection(fleet)
+            ' Create the fleet node
+            Dim FleetNode As XmlElement = fleetXML.CreateElement("fleet")
+            FleetRoot.AppendChild(FleetNode)
+            Call Me.CreateFleetXMLFleetElements(repFleet, fleetXML, FleetNode)
+            Call Me.CreateFleetXMLFleetStructure(repFleet, fleetXML, FleetNode)
+        Next
+
+        ' Get a file name
+        Try
+            Dim sfd1 As New SaveFileDialog
+            With sfd1
+                .Title = "Save Fleet as XML File..."
+                .FileName = ""
+                .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+                .Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*"
+                .FilterIndex = 1
+                .RestoreDirectory = True
+                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    If .FileName <> "" Then
+                        ' Output the file
+                        fleetXML.Save(.FileName)
+                    End If
+                End If
+            End With
+        Catch e As Exception
+            Dim msg As String = "There was an error saving the XML file. The error was: " & e.Message
+            MessageBox.Show(msg, "Error Exporting Fleet", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub CreateFleetXMLFleetElements(ByRef repFleet As FleetManager.Fleet, ByRef fleetXML As XmlDocument, ByRef fleetNode As XmlElement)
+        ' Create the fleet details
+        Dim fleetNodeName As XmlAttribute = fleetXML.CreateAttribute("name")
+        fleetNodeName.Value = repFleet.Name
+        fleetNode.Attributes.Append(fleetNodeName)
+        ' Create the various fleet detail nodes
+        Dim FleetElement As XmlElement
+        FleetElement = fleetXML.CreateElement("commander")
+        FleetElement.InnerText = repFleet.Commander
+        fleetNode.AppendChild(FleetElement)
+        FleetElement = fleetXML.CreateElement("booster")
+        FleetElement.InnerText = repFleet.Booster
+        fleetNode.AppendChild(FleetElement)
+        FleetElement = fleetXML.CreateElement("damageProfile")
+        FleetElement.InnerText = repFleet.DamageProfile
+        fleetNode.AppendChild(FleetElement)
+        FleetElement = fleetXML.CreateElement("WHEffect")
+        FleetElement.InnerText = repFleet.WHEffect
+        fleetNode.AppendChild(FleetElement)
+        FleetElement = fleetXML.CreateElement("WHClass")
+        FleetElement.InnerText = repFleet.WHClass
+        fleetNode.AppendChild(FleetElement)
+        ' Create the fleet members and their fittings
+        Dim FleetFittings As XmlElement = fleetXML.CreateElement("fittings")
+        fleetNode.AppendChild(FleetFittings)
+        For Each fs As FleetManager.FleetSetup In repFleet.FleetSetups.Values
+            Dim FleetFitting As XmlElement = fleetXML.CreateElement("fitting")
+            FleetFittings.AppendChild(FleetFitting)
+            FleetElement = fleetXML.CreateElement("pilot")
+            FleetElement.InnerText = fs.PilotName
+            FleetFitting.AppendChild(FleetElement)
+            FleetElement = fleetXML.CreateElement("fit")
+            FleetElement.InnerText = fs.FittingName
+            FleetFitting.AppendChild(FleetElement)
+        Next
+        ' Create the remote giving section
+        Dim FleetProjecteds As XmlElement = fleetXML.CreateElement("projectedAssignments")
+        fleetNode.AppendChild(FleetProjecteds)
+        For Each rPilot As String In repFleet.RemoteGiving.Keys
+            Dim FleetProjected As XmlElement = fleetXML.CreateElement("projectedAssignment")
+            FleetProjecteds.AppendChild(FleetProjected)
+            For Each ra As FleetManager.RemoteAssignment In repFleet.RemoteGiving(rPilot)
+                FleetElement = fleetXML.CreateElement("fleetPilot")
+                FleetElement.InnerText = ra.FleetPilot
+                FleetProjected.AppendChild(FleetElement)
+                FleetElement = fleetXML.CreateElement("remotePilot")
+                FleetElement.InnerText = ra.RemotePilot
+                FleetProjected.AppendChild(FleetElement)
+                FleetElement = fleetXML.CreateElement("remoteModule")
+                FleetElement.InnerText = ra.RemoteModule
+                FleetProjected.AppendChild(FleetElement)
+            Next
+        Next
+    End Sub
+
+    Private Sub CreateFleetXMLFleetStructure(ByRef repFleet As FleetManager.Fleet, ByRef fleetXML As XmlDocument, ByRef fleetNode As XmlElement)
+        ' Create the wings, squads and members
+        Dim FleetWings As XmlElement = fleetXML.CreateElement("wings")
+        fleetNode.AppendChild(FleetWings)
+        For Each wing As FleetManager.Wing In repFleet.Wings.Values
+            Dim FleetWing As XmlElement = fleetXML.CreateElement("wing")
+            FleetWings.AppendChild(FleetWing)
+            ' Create the wing details
+            Dim fleetWingName As XmlAttribute = fleetXML.CreateAttribute("name")
+            fleetWingName.Value = wing.Name
+            FleetWing.Attributes.Append(fleetWingName)
+            Dim FleetElement As XmlElement
+            FleetElement = fleetXML.CreateElement("commander")
+            FleetElement.InnerText = wing.Commander
+            FleetWing.AppendChild(FleetElement)
+            FleetElement = fleetXML.CreateElement("booster")
+            FleetElement.InnerText = wing.Booster
+            FleetWing.AppendChild(FleetElement)
+            ' Add squads
+            Dim FleetSquads As XmlElement = fleetXML.CreateElement("squads")
+            FleetWing.AppendChild(FleetSquads)
+            For Each squad As FleetManager.Squad In wing.Squads.Values
+                Dim FleetSquad As XmlElement = fleetXML.CreateElement("squad")
+                FleetSquads.AppendChild(FleetSquad)
+                ' Create the squad details
+                Dim fleetSquadName As XmlAttribute = fleetXML.CreateAttribute("name")
+                fleetSquadName.Value = squad.Name
+                FleetSquad.Attributes.Append(fleetSquadName)
+                FleetElement = fleetXML.CreateElement("commander")
+                FleetElement.InnerText = squad.Commander
+                FleetSquad.AppendChild(FleetElement)
+                FleetElement = fleetXML.CreateElement("booster")
+                FleetElement.InnerText = squad.Booster
+                FleetSquad.AppendChild(FleetElement)
+                ' Add squad members
+                Dim FleetMembers As XmlElement = fleetXML.CreateElement("members")
+                FleetSquad.AppendChild(FleetMembers)
+                For Each member As String In squad.Members.Values
+                    FleetElement = fleetXML.CreateElement("member")
+                    FleetElement.InnerText = member
+                    FleetMembers.AppendChild(FleetElement)
+                Next
+            Next
+        Next
+    End Sub
+#End Region
+
 End Class
