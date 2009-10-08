@@ -1,6 +1,7 @@
 ﻿Public Class VoidData
     Public Shared Wormholes As New SortedList(Of String, WormHole)
     Public Shared WormholeSystems As New SortedList(Of String, WormholeSystem)
+    Public Shared WormholeEffects As New SortedList(Of String, WormholeEffect)
 End Class
 
 Public Class WormHole
@@ -21,4 +22,9 @@ Public Class WormholeSystem
     Public Region As String
     Public WClass As String
     Public WEffect As String
+End Class
+
+Public Class WormholeEffect
+    Public WormholeType As String
+    Public Attributes As New SortedList(Of String, Double)
 End Class

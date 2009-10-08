@@ -2,9 +2,12 @@
 
 Public Class frmVoid
 
+    Dim WHEffects As New SortedList(Of String, String)
+
     Private Sub frmVoid_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call Me.LoadWHData()
         Call Me.LoadWHSystemData()
+        Call Me.LoadWHEffects()
     End Sub
 
     Private Sub LoadWHData()
@@ -30,6 +33,20 @@ Public Class frmVoid
             cboWHSystem.AutoCompleteCustomSource.Add(WH.Name)
         Next
         cboWHSystem.EndUpdate()
+    End Sub
+
+    Private Sub LoadWHEffects()
+        ' Parse the WHEffects resource
+        WHEffects = New SortedList(Of String, String)
+        Dim Effects() As String = My.Resources.WHEffects.Split((ControlChars.CrLf).ToCharArray)
+        For Each Effect As String In Effects
+            If Effect <> "" Then
+                Dim EffectData() As String = Effect.Split(",".ToCharArray)
+                If WHEffects.ContainsKey(EffectData(0)) = False Then
+                    WHEffects.Add(EffectData(0), EffectData(10))
+                End If
+            End If
+        Next
     End Sub
 
     Private Sub cboWHType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHType.SelectedIndexChanged
@@ -64,7 +81,51 @@ Public Class frmVoid
         ' Update the WH System Details
         If VoidData.WormholeSystems.ContainsKey(cboWHSystem.SelectedItem.ToString) = True Then
             Dim WH As Void.WormholeSystem = VoidData.WormholeSystems(cboWHSystem.SelectedItem.ToString)
-            lblAnomalyName.Text = WH.WEffect
+            If WH.WEffect <> "" Then
+                Dim modName As String = ""
+                If WH.WEffect = "Red Giant" Then
+                    modName = WH.WEffect & " Beacon Class " & WH.WClass
+                Else
+                    modName = WH.WEffect & " Effect Beacon Class " & WH.WClass
+                End If
+                Dim SSun As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(EveHQ.Core.HQ.itemList(modName))
+                lblAnomalyName.Text = WH.WEffect
+                ' Establish the effects
+                Dim EffectList As New SortedList(Of String, Double)
+                Dim SysEffects As WormholeEffect = VoidData.WormholeEffects(modName)
+                For Each att As String In SysEffects.Attributes.Keys
+                    If WHEffects.ContainsKey(att) = True Then
+                        EffectList.Add(WHEffects(att), SysEffects.Attributes(att))
+                    End If
+                Next
+                lvwEffects.BeginUpdate()
+                lvwEffects.Items.Clear()
+                For Each Effect As String In EffectList.Keys
+                    Dim newEffect As New ListViewItem
+                    newEffect.Text = Effect
+                    Dim value As Double = CDbl(EffectList(Effect))
+                    If value < 5 And value > -5 Then
+                        If value < 1 Or Effect.EndsWith("Penalty") Then
+                            newEffect.ForeColor = Drawing.Color.Red
+                        Else
+                            newEffect.ForeColor = Drawing.Color.LimeGreen
+                        End If
+                        newEffect.SubItems.Add(EffectList(Effect).ToString("N2") & " x")
+                    Else
+                        If value < 0 Or Effect.EndsWith("Penalty") Then
+                            newEffect.ForeColor = Drawing.Color.Red
+                        Else
+                            newEffect.ForeColor = Drawing.Color.LimeGreen
+                        End If
+                        newEffect.SubItems.Add(EffectList(Effect).ToString("N2") & " %")
+                    End If
+                    lvwEffects.Items.Add(newEffect)
+                Next
+                lvwEffects.EndUpdate()
+            Else
+                lblAnomalyName.Text = "<None>"
+                lvwEffects.Items.Clear()
+            End If
             lblSystemClass.Text = WH.WClass
         End If
     End Sub

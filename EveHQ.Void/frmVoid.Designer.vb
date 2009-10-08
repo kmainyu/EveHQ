@@ -24,16 +24,16 @@ Partial Class frmVoid
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVoid))
         Me.gbWHInfo = New System.Windows.Forms.GroupBox
-        Me.lblWHType = New System.Windows.Forms.Label
-        Me.cboWHType = New System.Windows.Forms.ComboBox
-        Me.lblTargetSystemClassLbl = New System.Windows.Forms.Label
-        Me.lblTargetSystemClass = New System.Windows.Forms.Label
-        Me.lblStabilityWindow = New System.Windows.Forms.Label
-        Me.lblStabilityWindowLbl = New System.Windows.Forms.Label
-        Me.lblMaxTotalMass = New System.Windows.Forms.Label
-        Me.lblMaxTotalMassLbl = New System.Windows.Forms.Label
         Me.lblMaxJumpableMass = New System.Windows.Forms.Label
         Me.lblMaxJumpableMassLbl = New System.Windows.Forms.Label
+        Me.lblMaxTotalMass = New System.Windows.Forms.Label
+        Me.lblMaxTotalMassLbl = New System.Windows.Forms.Label
+        Me.lblStabilityWindow = New System.Windows.Forms.Label
+        Me.lblStabilityWindowLbl = New System.Windows.Forms.Label
+        Me.lblTargetSystemClass = New System.Windows.Forms.Label
+        Me.lblTargetSystemClassLbl = New System.Windows.Forms.Label
+        Me.cboWHType = New System.Windows.Forms.ComboBox
+        Me.lblWHType = New System.Windows.Forms.Label
         Me.gbWHSystemInfo = New System.Windows.Forms.GroupBox
         Me.lblAnomalyName = New System.Windows.Forms.Label
         Me.lblAnomalyNameLbl = New System.Windows.Forms.Label
@@ -41,6 +41,9 @@ Partial Class frmVoid
         Me.lblSystemClassLbl = New System.Windows.Forms.Label
         Me.cboWHSystem = New System.Windows.Forms.ComboBox
         Me.lblLocus = New System.Windows.Forms.Label
+        Me.lvwEffects = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.gbWHInfo.SuspendLayout()
         Me.gbWHSystemInfo.SuspendLayout()
         Me.SuspendLayout()
@@ -59,82 +62,10 @@ Partial Class frmVoid
         Me.gbWHInfo.Controls.Add(Me.lblWHType)
         Me.gbWHInfo.Location = New System.Drawing.Point(12, 12)
         Me.gbWHInfo.Name = "gbWHInfo"
-        Me.gbWHInfo.Size = New System.Drawing.Size(384, 185)
+        Me.gbWHInfo.Size = New System.Drawing.Size(354, 185)
         Me.gbWHInfo.TabIndex = 0
         Me.gbWHInfo.TabStop = False
         Me.gbWHInfo.Text = "Wormhole Information"
-        '
-        'lblWHType
-        '
-        Me.lblWHType.AutoSize = True
-        Me.lblWHType.Location = New System.Drawing.Point(17, 33)
-        Me.lblWHType.Name = "lblWHType"
-        Me.lblWHType.Size = New System.Drawing.Size(82, 13)
-        Me.lblWHType.TabIndex = 0
-        Me.lblWHType.Text = "Wormhole Type"
-        '
-        'cboWHType
-        '
-        Me.cboWHType.FormattingEnabled = True
-        Me.cboWHType.Location = New System.Drawing.Point(106, 30)
-        Me.cboWHType.Name = "cboWHType"
-        Me.cboWHType.Size = New System.Drawing.Size(151, 21)
-        Me.cboWHType.Sorted = True
-        Me.cboWHType.TabIndex = 1
-        '
-        'lblTargetSystemClassLbl
-        '
-        Me.lblTargetSystemClassLbl.AutoSize = True
-        Me.lblTargetSystemClassLbl.Location = New System.Drawing.Point(17, 64)
-        Me.lblTargetSystemClassLbl.Name = "lblTargetSystemClassLbl"
-        Me.lblTargetSystemClassLbl.Size = New System.Drawing.Size(109, 13)
-        Me.lblTargetSystemClassLbl.TabIndex = 2
-        Me.lblTargetSystemClassLbl.Text = "Target System Class:"
-        '
-        'lblTargetSystemClass
-        '
-        Me.lblTargetSystemClass.AutoSize = True
-        Me.lblTargetSystemClass.Location = New System.Drawing.Point(153, 64)
-        Me.lblTargetSystemClass.Name = "lblTargetSystemClass"
-        Me.lblTargetSystemClass.Size = New System.Drawing.Size(23, 13)
-        Me.lblTargetSystemClass.TabIndex = 3
-        Me.lblTargetSystemClass.Text = "n/a"
-        '
-        'lblStabilityWindow
-        '
-        Me.lblStabilityWindow.AutoSize = True
-        Me.lblStabilityWindow.Location = New System.Drawing.Point(153, 93)
-        Me.lblStabilityWindow.Name = "lblStabilityWindow"
-        Me.lblStabilityWindow.Size = New System.Drawing.Size(23, 13)
-        Me.lblStabilityWindow.TabIndex = 5
-        Me.lblStabilityWindow.Text = "n/a"
-        '
-        'lblStabilityWindowLbl
-        '
-        Me.lblStabilityWindowLbl.AutoSize = True
-        Me.lblStabilityWindowLbl.Location = New System.Drawing.Point(17, 93)
-        Me.lblStabilityWindowLbl.Name = "lblStabilityWindowLbl"
-        Me.lblStabilityWindowLbl.Size = New System.Drawing.Size(87, 13)
-        Me.lblStabilityWindowLbl.TabIndex = 4
-        Me.lblStabilityWindowLbl.Text = "Life Expectancy:"
-        '
-        'lblMaxTotalMass
-        '
-        Me.lblMaxTotalMass.AutoSize = True
-        Me.lblMaxTotalMass.Location = New System.Drawing.Point(153, 122)
-        Me.lblMaxTotalMass.Name = "lblMaxTotalMass"
-        Me.lblMaxTotalMass.Size = New System.Drawing.Size(23, 13)
-        Me.lblMaxTotalMass.TabIndex = 7
-        Me.lblMaxTotalMass.Text = "n/a"
-        '
-        'lblMaxTotalMassLbl
-        '
-        Me.lblMaxTotalMassLbl.AutoSize = True
-        Me.lblMaxTotalMassLbl.Location = New System.Drawing.Point(17, 122)
-        Me.lblMaxTotalMassLbl.Name = "lblMaxTotalMassLbl"
-        Me.lblMaxTotalMassLbl.Size = New System.Drawing.Size(109, 13)
-        Me.lblMaxTotalMassLbl.TabIndex = 6
-        Me.lblMaxTotalMassLbl.Text = "Maximum Total Mass:"
         '
         'lblMaxJumpableMass
         '
@@ -154,8 +85,83 @@ Partial Class frmVoid
         Me.lblMaxJumpableMassLbl.TabIndex = 8
         Me.lblMaxJumpableMassLbl.Text = "Maximum Jumpable Mass:"
         '
+        'lblMaxTotalMass
+        '
+        Me.lblMaxTotalMass.AutoSize = True
+        Me.lblMaxTotalMass.Location = New System.Drawing.Point(153, 122)
+        Me.lblMaxTotalMass.Name = "lblMaxTotalMass"
+        Me.lblMaxTotalMass.Size = New System.Drawing.Size(23, 13)
+        Me.lblMaxTotalMass.TabIndex = 7
+        Me.lblMaxTotalMass.Text = "n/a"
+        '
+        'lblMaxTotalMassLbl
+        '
+        Me.lblMaxTotalMassLbl.AutoSize = True
+        Me.lblMaxTotalMassLbl.Location = New System.Drawing.Point(17, 122)
+        Me.lblMaxTotalMassLbl.Name = "lblMaxTotalMassLbl"
+        Me.lblMaxTotalMassLbl.Size = New System.Drawing.Size(109, 13)
+        Me.lblMaxTotalMassLbl.TabIndex = 6
+        Me.lblMaxTotalMassLbl.Text = "Maximum Total Mass:"
+        '
+        'lblStabilityWindow
+        '
+        Me.lblStabilityWindow.AutoSize = True
+        Me.lblStabilityWindow.Location = New System.Drawing.Point(153, 93)
+        Me.lblStabilityWindow.Name = "lblStabilityWindow"
+        Me.lblStabilityWindow.Size = New System.Drawing.Size(23, 13)
+        Me.lblStabilityWindow.TabIndex = 5
+        Me.lblStabilityWindow.Text = "n/a"
+        '
+        'lblStabilityWindowLbl
+        '
+        Me.lblStabilityWindowLbl.AutoSize = True
+        Me.lblStabilityWindowLbl.Location = New System.Drawing.Point(17, 93)
+        Me.lblStabilityWindowLbl.Name = "lblStabilityWindowLbl"
+        Me.lblStabilityWindowLbl.Size = New System.Drawing.Size(87, 13)
+        Me.lblStabilityWindowLbl.TabIndex = 4
+        Me.lblStabilityWindowLbl.Text = "Life Expectancy:"
+        '
+        'lblTargetSystemClass
+        '
+        Me.lblTargetSystemClass.AutoSize = True
+        Me.lblTargetSystemClass.Location = New System.Drawing.Point(153, 64)
+        Me.lblTargetSystemClass.Name = "lblTargetSystemClass"
+        Me.lblTargetSystemClass.Size = New System.Drawing.Size(23, 13)
+        Me.lblTargetSystemClass.TabIndex = 3
+        Me.lblTargetSystemClass.Text = "n/a"
+        '
+        'lblTargetSystemClassLbl
+        '
+        Me.lblTargetSystemClassLbl.AutoSize = True
+        Me.lblTargetSystemClassLbl.Location = New System.Drawing.Point(17, 64)
+        Me.lblTargetSystemClassLbl.Name = "lblTargetSystemClassLbl"
+        Me.lblTargetSystemClassLbl.Size = New System.Drawing.Size(109, 13)
+        Me.lblTargetSystemClassLbl.TabIndex = 2
+        Me.lblTargetSystemClassLbl.Text = "Target System Class:"
+        '
+        'cboWHType
+        '
+        Me.cboWHType.FormattingEnabled = True
+        Me.cboWHType.Location = New System.Drawing.Point(106, 30)
+        Me.cboWHType.Name = "cboWHType"
+        Me.cboWHType.Size = New System.Drawing.Size(151, 21)
+        Me.cboWHType.Sorted = True
+        Me.cboWHType.TabIndex = 1
+        '
+        'lblWHType
+        '
+        Me.lblWHType.AutoSize = True
+        Me.lblWHType.Location = New System.Drawing.Point(17, 33)
+        Me.lblWHType.Name = "lblWHType"
+        Me.lblWHType.Size = New System.Drawing.Size(82, 13)
+        Me.lblWHType.TabIndex = 0
+        Me.lblWHType.Text = "Wormhole Type"
+        '
         'gbWHSystemInfo
         '
+        Me.gbWHSystemInfo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.gbWHSystemInfo.Controls.Add(Me.lvwEffects)
         Me.gbWHSystemInfo.Controls.Add(Me.lblAnomalyName)
         Me.gbWHSystemInfo.Controls.Add(Me.lblAnomalyNameLbl)
         Me.gbWHSystemInfo.Controls.Add(Me.lblSystemClass)
@@ -164,7 +170,7 @@ Partial Class frmVoid
         Me.gbWHSystemInfo.Controls.Add(Me.lblLocus)
         Me.gbWHSystemInfo.Location = New System.Drawing.Point(12, 224)
         Me.gbWHSystemInfo.Name = "gbWHSystemInfo"
-        Me.gbWHSystemInfo.Size = New System.Drawing.Size(384, 138)
+        Me.gbWHSystemInfo.Size = New System.Drawing.Size(354, 381)
         Me.gbWHSystemInfo.TabIndex = 1
         Me.gbWHSystemInfo.TabStop = False
         Me.gbWHSystemInfo.Text = "Wormhole System Information"
@@ -223,6 +229,31 @@ Partial Class frmVoid
         Me.lblLocus.TabIndex = 0
         Me.lblLocus.Text = "Locus Signature"
         '
+        'lvwEffects
+        '
+        Me.lvwEffects.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lvwEffects.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.lvwEffects.FullRowSelect = True
+        Me.lvwEffects.GridLines = True
+        Me.lvwEffects.Location = New System.Drawing.Point(6, 118)
+        Me.lvwEffects.Name = "lvwEffects"
+        Me.lvwEffects.Size = New System.Drawing.Size(342, 257)
+        Me.lvwEffects.TabIndex = 6
+        Me.lvwEffects.UseCompatibleStateImageBehavior = False
+        Me.lvwEffects.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Effect"
+        Me.ColumnHeader1.Width = 225
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Value"
+        Me.ColumnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader2.Width = 80
+        '
         'frmVoid
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -259,4 +290,7 @@ Partial Class frmVoid
     Friend WithEvents lblSystemClassLbl As System.Windows.Forms.Label
     Friend WithEvents cboWHSystem As System.Windows.Forms.ComboBox
     Friend WithEvents lblLocus As System.Windows.Forms.Label
+    Friend WithEvents lvwEffects As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
 End Class

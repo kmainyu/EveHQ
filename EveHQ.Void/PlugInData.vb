@@ -40,6 +40,9 @@ Public Class PlugInData
         If Me.LoadWHSystemData = False Then
             Return False
         End If
+        If Me.LoadWHAttributeData = False Then
+            Return False
+        End If
         Return True
     End Function
 
@@ -172,6 +175,48 @@ Public Class PlugInData
             End If
         Catch ex As Exception
             MessageBox.Show("Error Loading System Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
+    End Function
+
+    Private Function LoadWHAttributeData() As Boolean
+        ' Load the data
+        Dim strSQL As String = "SELECT invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
+        strSQL &= " FROM invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID"
+        strSQL &= " WHERE (((invTypes.groupID)=920));"
+        Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Try
+            If WHData IsNot Nothing Then
+                If WHData.Tables(0).Rows.Count > 0 Then
+                    Dim cWH As New WormHole
+                    VoidData.WormholeEffects.Clear()
+                    Dim currentEffect As New WormholeEffect
+                    For WH As Integer = 0 To WHData.Tables(0).Rows.Count - 1
+                        Dim typeName As String = CStr(WHData.Tables(0).Rows(WH).Item("typeName"))
+                        Dim attID As String = CStr(WHData.Tables(0).Rows(WH).Item("attributeID"))
+                        Dim attValue As Double = 0
+                        If IsDBNull(WHData.Tables(0).Rows(WH).Item("valueInt")) = False Then
+                            attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueInt"))
+                        Else
+                            attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueFloat"))
+                        End If
+                        If VoidData.WormholeEffects.ContainsKey(typeName) = False Then
+                            VoidData.WormholeEffects.Add(typeName, New WormholeEffect)
+                        End If
+                        currentEffect = VoidData.WormholeEffects(typeName)
+                        currentEffect.WormholeType = typeName
+                        currentEffect.Attributes.Add(attID, attValue)
+                    Next
+                    WHData.Dispose()
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error Loading Wormhole Effect Data for the Void Plugin" & ControlChars.CrLf & ex.Message, "Void Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
