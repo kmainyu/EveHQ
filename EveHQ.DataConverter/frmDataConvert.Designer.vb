@@ -101,12 +101,13 @@ Partial Class frmDataConvert
         Me.btnBrowse = New System.Windows.Forms.Button
         Me.txtSourceDir = New System.Windows.Forms.TextBox
         Me.btnZipIt = New System.Windows.Forms.Button
-        Me.ofd1 = New System.Windows.Forms.OpenFileDialog
         Me.TabPage7 = New System.Windows.Forms.TabPage
         Me.panelWormholes = New System.Windows.Forms.Panel
         Me.gbClassLocations = New System.Windows.Forms.GroupBox
-        Me.btnGenerateWHClassLocations = New System.Windows.Forms.Button
         Me.btnGenerateWHAttribs = New System.Windows.Forms.Button
+        Me.btnGenerateWHClassLocations = New System.Windows.Forms.Button
+        Me.ofd1 = New System.Windows.Forms.OpenFileDialog
+        Me.btnGenerateCertRecommendations = New System.Windows.Forms.Button
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -718,6 +719,7 @@ Partial Class frmDataConvert
         'panelCerts
         '
         Me.panelCerts.BackColor = System.Drawing.SystemColors.Control
+        Me.panelCerts.Controls.Add(Me.btnGenerateCertRecommendations)
         Me.panelCerts.Controls.Add(Me.lblCertLocation)
         Me.panelCerts.Controls.Add(Me.btnDecodeCertificates)
         Me.panelCerts.Controls.Add(Me.btnFindCertficates)
@@ -884,10 +886,6 @@ Partial Class frmDataConvert
         Me.btnZipIt.Text = "Zip It !!"
         Me.btnZipIt.UseVisualStyleBackColor = True
         '
-        'ofd1
-        '
-        Me.ofd1.FileName = "OpenFileDialog1"
-        '
         'TabPage7
         '
         Me.TabPage7.Controls.Add(Me.panelWormholes)
@@ -919,6 +917,15 @@ Partial Class frmDataConvert
         Me.gbClassLocations.TabStop = False
         Me.gbClassLocations.Text = "Wormhole Class Locations"
         '
+        'btnGenerateWHAttribs
+        '
+        Me.btnGenerateWHAttribs.Location = New System.Drawing.Point(19, 60)
+        Me.btnGenerateWHAttribs.Name = "btnGenerateWHAttribs"
+        Me.btnGenerateWHAttribs.Size = New System.Drawing.Size(200, 23)
+        Me.btnGenerateWHAttribs.TabIndex = 1
+        Me.btnGenerateWHAttribs.Text = "Generate WH Attribs"
+        Me.btnGenerateWHAttribs.UseVisualStyleBackColor = True
+        '
         'btnGenerateWHClassLocations
         '
         Me.btnGenerateWHClassLocations.Location = New System.Drawing.Point(19, 31)
@@ -928,14 +935,18 @@ Partial Class frmDataConvert
         Me.btnGenerateWHClassLocations.Text = "Generate Class Locations"
         Me.btnGenerateWHClassLocations.UseVisualStyleBackColor = True
         '
-        'btnGenerateWHAttribs
+        'ofd1
         '
-        Me.btnGenerateWHAttribs.Location = New System.Drawing.Point(19, 60)
-        Me.btnGenerateWHAttribs.Name = "btnGenerateWHAttribs"
-        Me.btnGenerateWHAttribs.Size = New System.Drawing.Size(200, 23)
-        Me.btnGenerateWHAttribs.TabIndex = 1
-        Me.btnGenerateWHAttribs.Text = "Generate WH Attribs"
-        Me.btnGenerateWHAttribs.UseVisualStyleBackColor = True
+        Me.ofd1.FileName = "OpenFileDialog1"
+        '
+        'btnGenerateCertRecommendations
+        '
+        Me.btnGenerateCertRecommendations.Location = New System.Drawing.Point(19, 121)
+        Me.btnGenerateCertRecommendations.Name = "btnGenerateCertRecommendations"
+        Me.btnGenerateCertRecommendations.Size = New System.Drawing.Size(200, 23)
+        Me.btnGenerateCertRecommendations.TabIndex = 49
+        Me.btnGenerateCertRecommendations.Text = "Generate Cert Recommendations"
+        Me.btnGenerateCertRecommendations.UseVisualStyleBackColor = True
         '
         'frmDataConvert
         '
@@ -1062,4 +1073,5 @@ Partial Class frmDataConvert
     Friend WithEvents gbClassLocations As System.Windows.Forms.GroupBox
     Friend WithEvents btnGenerateWHClassLocations As System.Windows.Forms.Button
     Friend WithEvents btnGenerateWHAttribs As System.Windows.Forms.Button
+    Friend WithEvents btnGenerateCertRecommendations As System.Windows.Forms.Button
 End Class

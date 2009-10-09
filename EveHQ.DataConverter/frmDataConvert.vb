@@ -1805,4 +1805,27 @@ Public Class frmDataConvert
             End If
         End With
     End Sub
+
+    Private Sub btnGenerateCertRecommendations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateCertRecommendations.Click
+        With ofd1
+            .Title = "Select Cert Recommendations XML file..."
+            .FileName = ""
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            .Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*"
+            .FilterIndex = 1
+            .RestoreDirectory = True
+            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                Dim CertXML As New XmlDocument
+                CertXML.Load(.FileName)
+                Dim ClassList As XmlNodeList = CertXML.SelectNodes("data/AllShipCertificateRecommendations")
+                Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\EveHQ\ShipCertRecs.txt")
+                For Each ClassItem As XmlNode In ClassList
+                    sw.WriteLine(ClassItem.ChildNodes(0).InnerText & "," & ClassItem.ChildNodes(1).InnerText)
+                Next
+                sw.Flush()
+                sw.Close()
+                MessageBox.Show("Export of Ship Certificate Recommendations complete!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End With
+    End Sub
 End Class
