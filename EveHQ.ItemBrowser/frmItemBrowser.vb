@@ -57,6 +57,8 @@ Public Class frmItemBrowser
     Dim displayPilot As EveHQ.Core.Pilot
     Dim startup As Boolean = False
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    Dim ShipCerts As New SortedList(Of String, ArrayList)
+    Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
 
     ' BP Variables
     Dim BPWF As Double = 0
@@ -83,6 +85,7 @@ Public Class frmItemBrowser
         Me.tabItem.TabPages.Remove(Me.tabFitting)
         Me.tabItem.TabPages.Remove(Me.tabMaterials)
         Me.tabItem.TabPages.Remove(Me.tabComponent)
+        Me.tabItem.TabPages.Remove(Me.tabRecommended)
         Me.tabItem.TabPages.Remove(Me.tabVariations)
         Me.tabItem.TabPages.Remove(Me.tabDepends)
         Me.tabItem.TabPages.Remove(Me.tabEveCentral)
@@ -101,12 +104,13 @@ Public Class frmItemBrowser
         Call GenerateSkills(itemTypeID, itemTypeName)
         Call GetVariations(itemTypeID, itemTypeName)
         Call GenerateFitting()
+        If (itemCatName = "Ship") Then
+            Call GetRecommendations(itemTypeID, itemTypeName)
+            Call GetInsurance(itemTypeID, itemTypeName)
+        End If
         Call GetMaterials(itemTypeID, itemTypeName)
         Call GetComponents(itemTypeID, itemTypeName)
         Call GetDependencies(itemTypeID, itemTypeName)
-        If (itemCatName = "Ship") Then
-            Call GetInsurance(itemTypeID, itemTypeName)
-        End If
         System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetEveCentralData, itemTypeID)
         ssDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
         itemEnd = Now
@@ -457,6 +461,7 @@ Public Class frmItemBrowser
             tabPagesC(activity) = Me.tabComponents.TabPages("tabC" & activity)
         Next
         Call Me.LoadFittingAttributes()
+        Call Me.LoadShipCertRecommendations()
         Me.tabItem.TabPages.Remove(Me.tabFitting)
         Me.tabItem.TabPages.Remove(Me.tabVariations)
         Me.tabItem.TabPages.Remove(Me.tabSkills)
@@ -589,6 +594,28 @@ Public Class frmItemBrowser
             newInsuranceItem.SubItems.Add(insuranceProfit.ToString("N02"))
             lstInsurance.Items.Add(newInsuranceItem)
         Next
+    End Sub
+
+    Private Sub GetRecommendations(ByVal typeID As Long, ByVal typeName As String)
+        Me.tabItem.TabPages.Add(Me.tabRecommended)
+        lvwRecommended.BeginUpdate()
+        lvwRecommended.Items.Clear()
+        Dim Certs As ArrayList = ShipCerts(CStr(typeID))
+        Dim dCerts As New SortedList(Of String, Integer)
+        For Each cert As String In Certs
+            Dim newCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(cert)
+            Dim certClass As EveHQ.Core.CertificateClass = EveHQ.Core.HQ.CertificateClasses(CStr(newCert.ClassID))
+            dCerts.Add(certClass.Name, newCert.Grade)
+        Next
+        For Each certName As String In dCerts.Keys
+            Dim newCert As New ListViewItem
+            newCert.Text = certName
+            newCert.ImageIndex = dCerts(certName)
+            Dim certGrade As String = CertGrades(dCerts(certName))
+            newCert.SubItems.Add(certGrade)
+            lvwRecommended.Items.Add(newCert)
+        Next
+        lvwRecommended.EndUpdate()
     End Sub
     Private Sub GetAttributes(ByVal typeID As Long, ByVal typeName As String)
 
@@ -1489,6 +1516,22 @@ Public Class frmItemBrowser
         fittingAtts.Add("1153")
         fittingAtts.Add("1132")
         fittingAtts.Add("1137")
+    End Sub
+
+    Private Sub LoadShipCertRecommendations()
+        ' Parse the WHEffects resource
+        ShipCerts = New SortedList(Of String, ArrayList) ' ShipID, ArrayList of Certs
+        Dim Certs() As String = My.Resources.ShipCerts.Split((ControlChars.CrLf).ToCharArray)
+        For Each Cert As String In Certs
+            If Cert <> "" Then
+                Dim CertData() As String = Cert.Split(",".ToCharArray)
+                If ShipCerts.ContainsKey(CertData(0)) = False Then
+                    ShipCerts.Add(CertData(0), New ArrayList)
+                End If
+                Dim currentCerts As ArrayList = ShipCerts(CertData(0))
+                currentCerts.Add(CertData(1))
+            End If
+        Next
     End Sub
 
     Private Sub GenerateFitting()

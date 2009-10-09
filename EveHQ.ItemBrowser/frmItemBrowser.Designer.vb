@@ -112,6 +112,10 @@ Partial Class frmItemBrowser
         Me.tabDescription = New System.Windows.Forms.TabPage
         Me.lblDescription = New System.Windows.Forms.Label
         Me.tabItem = New System.Windows.Forms.TabControl
+        Me.tabRecommended = New System.Windows.Forms.TabPage
+        Me.lvwRecommended = New System.Windows.Forms.ListView
+        Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.tabComponent = New System.Windows.Forms.TabPage
         Me.tabComponents = New System.Windows.Forms.TabControl
         Me.tabC1 = New System.Windows.Forms.TabPage
@@ -243,6 +247,7 @@ Partial Class frmItemBrowser
         Me.btnWantedAdd = New System.Windows.Forms.Button
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
+        Me.imgListCerts = New System.Windows.Forms.ImageList(Me.components)
         Me.sbtnBack = New EveHQ.ItemBrowser.SplitButton
         Me.sbtnForward = New EveHQ.ItemBrowser.SplitButton
         Me.ctxSkills.SuspendLayout()
@@ -269,6 +274,7 @@ Partial Class frmItemBrowser
         Me.tabAttributes.SuspendLayout()
         Me.tabDescription.SuspendLayout()
         Me.tabItem.SuspendLayout()
+        Me.tabRecommended.SuspendLayout()
         Me.tabComponent.SuspendLayout()
         Me.tabComponents.SuspendLayout()
         Me.tabC1.SuspendLayout()
@@ -1005,6 +1011,7 @@ Partial Class frmItemBrowser
         Me.tabItem.Controls.Add(Me.tabSkills)
         Me.tabItem.Controls.Add(Me.tabFitting)
         Me.tabItem.Controls.Add(Me.tabVariations)
+        Me.tabItem.Controls.Add(Me.tabRecommended)
         Me.tabItem.Controls.Add(Me.tabMaterials)
         Me.tabItem.Controls.Add(Me.tabComponent)
         Me.tabItem.Controls.Add(Me.tabDepends)
@@ -1015,6 +1022,41 @@ Partial Class frmItemBrowser
         Me.tabItem.SelectedIndex = 0
         Me.tabItem.Size = New System.Drawing.Size(575, 351)
         Me.tabItem.TabIndex = 1
+        '
+        'tabRecommended
+        '
+        Me.tabRecommended.Controls.Add(Me.lvwRecommended)
+        Me.tabRecommended.Location = New System.Drawing.Point(4, 22)
+        Me.tabRecommended.Name = "tabRecommended"
+        Me.tabRecommended.Size = New System.Drawing.Size(567, 325)
+        Me.tabRecommended.TabIndex = 11
+        Me.tabRecommended.Text = "Recommended"
+        Me.tabRecommended.UseVisualStyleBackColor = True
+        '
+        'lvwRecommended
+        '
+        Me.lvwRecommended.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader59, Me.ColumnHeader60})
+        Me.lvwRecommended.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwRecommended.FullRowSelect = True
+        Me.lvwRecommended.GridLines = True
+        Me.lvwRecommended.Location = New System.Drawing.Point(0, 0)
+        Me.lvwRecommended.Name = "lvwRecommended"
+        Me.lvwRecommended.Size = New System.Drawing.Size(567, 325)
+        Me.lvwRecommended.SmallImageList = Me.imgListCerts
+        Me.lvwRecommended.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwRecommended.TabIndex = 1
+        Me.lvwRecommended.UseCompatibleStateImageBehavior = False
+        Me.lvwRecommended.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader59
+        '
+        Me.ColumnHeader59.Text = "Certificate"
+        Me.ColumnHeader59.Width = 300
+        '
+        'ColumnHeader60
+        '
+        Me.ColumnHeader60.Text = "Level"
+        Me.ColumnHeader60.Width = 150
         '
         'tabComponent
         '
@@ -2239,6 +2281,17 @@ Partial Class frmItemBrowser
         Me.lblPilot.TabIndex = 42
         Me.lblPilot.Text = "Pilot:"
         '
+        'imgListCerts
+        '
+        Me.imgListCerts.ImageStream = CType(resources.GetObject("imgListCerts.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgListCerts.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgListCerts.Images.SetKeyName(0, "icon79_01.png")
+        Me.imgListCerts.Images.SetKeyName(1, "icon79_02.png")
+        Me.imgListCerts.Images.SetKeyName(2, "icon79_03.png")
+        Me.imgListCerts.Images.SetKeyName(3, "icon79_04.png")
+        Me.imgListCerts.Images.SetKeyName(4, "icon79_05.png")
+        Me.imgListCerts.Images.SetKeyName(5, "icon79_06.png")
+        '
         'sbtnBack
         '
         Me.sbtnBack.AutoSize = True
@@ -2316,6 +2369,7 @@ Partial Class frmItemBrowser
         Me.tabAttributes.ResumeLayout(False)
         Me.tabDescription.ResumeLayout(False)
         Me.tabItem.ResumeLayout(False)
+        Me.tabRecommended.ResumeLayout(False)
         Me.tabComponent.ResumeLayout(False)
         Me.tabComponents.ResumeLayout(False)
         Me.tabC1.ResumeLayout(False)
@@ -2569,4 +2623,9 @@ Partial Class frmItemBrowser
     Friend WithEvents Payout As System.Windows.Forms.ColumnHeader
     Friend WithEvents PayoutProfit As System.Windows.Forms.ColumnHeader
     Friend WithEvents MarketPrice As System.Windows.Forms.ColumnHeader
+    Friend WithEvents tabRecommended As System.Windows.Forms.TabPage
+    Friend WithEvents lvwRecommended As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader59 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents imgListCerts As System.Windows.Forms.ImageList
 End Class
