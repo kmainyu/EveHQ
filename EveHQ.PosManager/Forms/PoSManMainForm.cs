@@ -45,6 +45,7 @@ namespace EveHQ.PosManager
         bool PosChanged = false;
         bool UpdateTower = true;
         bool mailSendErr = false;
+        bool apiWorkerRunning = false;
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
@@ -257,7 +258,11 @@ namespace EveHQ.PosManager
             load = false;
 
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            bgw_APIUpdate.RunWorkerAsync();
+            if (!apiWorkerRunning)
+            {
+                apiWorkerRunning = true;
+                bgw_APIUpdate.RunWorkerAsync();
+            }
         }
 
         private void tb_PosManager_SelectedIndexChanged(object sender, EventArgs e)
@@ -3303,13 +3308,10 @@ namespace EveHQ.PosManager
         private void UdateMonitorInformation(object sender, EventArgs e)
         {
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            try
+            if (!apiWorkerRunning)
             {
+                apiWorkerRunning = true;
                 bgw_APIUpdate.RunWorkerAsync();
-            }
-            catch
-            {
-                // just try again later
             }
         }
 
@@ -4777,7 +4779,11 @@ namespace EveHQ.PosManager
         private void b_UpdateAPIData_Click(object sender, EventArgs e)
         {
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            bgw_APIUpdate.RunWorkerAsync();
+            if (!apiWorkerRunning)
+            {
+                apiWorkerRunning = true;
+                bgw_APIUpdate.RunWorkerAsync();
+            }
         }
 
         private void bgw_APIUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -4794,6 +4800,7 @@ namespace EveHQ.PosManager
             RunCalculationsWithUpdatedInformation();
             POSList.SaveDesignListing();
             tsl_APIState.Text = "";
+            apiWorkerRunning = false;
         }
 
         private void bgw_APIUpdate_DoWork(object sender, DoWorkEventArgs e)
