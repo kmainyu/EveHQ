@@ -522,7 +522,6 @@ Public Class frmSettings
 
     Private Sub btnGetData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetData.Click
         Call frmEveHQ.QueryMyEveServer()
-        Call Me.UpdatePilots()
     End Sub
 
     Public Sub UpdateAccounts()
@@ -2424,6 +2423,11 @@ Public Class frmSettings
                 EveHQ.Core.HQ.EveHQSettings.UserQueueColumns(idx) = slotName & "1"
             End If
         End If
+    End Sub
+
+    Public Sub FinaliseAPIServerUpdate()
+        btnGetData.Enabled = True
+        Call Me.UpdatePilots()
     End Sub
 
    

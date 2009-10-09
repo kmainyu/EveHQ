@@ -246,6 +246,8 @@ Partial Public Class frmSettings
         Me.lblNotifyOffset = New System.Windows.Forms.Label
         Me.trackNotifyOffset = New System.Windows.Forms.TrackBar
         Me.gbEmailOptions = New System.Windows.Forms.GroupBox
+        Me.lblSenderAddress = New System.Windows.Forms.Label
+        Me.txtSenderAddress = New System.Windows.Forms.TextBox
         Me.txtSMTPPort = New System.Windows.Forms.TextBox
         Me.lblSMTPPort = New System.Windows.Forms.Label
         Me.btnTestEmail = New System.Windows.Forms.Button
@@ -337,8 +339,7 @@ Partial Public Class frmSettings
         Me.lblWidgetMain2 = New System.Windows.Forms.Label
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
-        Me.lblSenderAddress = New System.Windows.Forms.Label
-        Me.txtSenderAddress = New System.Windows.Forms.TextBox
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -877,9 +878,9 @@ Partial Public Class frmSettings
         Me.gbEveAccounts.Controls.Add(Me.btnEditAccount)
         Me.gbEveAccounts.Controls.Add(Me.btnAddAccount)
         Me.gbEveAccounts.Controls.Add(Me.lvAccounts)
-        Me.gbEveAccounts.Location = New System.Drawing.Point(659, 130)
+        Me.gbEveAccounts.Location = New System.Drawing.Point(194, 12)
         Me.gbEveAccounts.Name = "gbEveAccounts"
-        Me.gbEveAccounts.Size = New System.Drawing.Size(93, 45)
+        Me.gbEveAccounts.Size = New System.Drawing.Size(693, 502)
         Me.gbEveAccounts.TabIndex = 16
         Me.gbEveAccounts.TabStop = False
         Me.gbEveAccounts.Text = "API Account Management"
@@ -892,6 +893,7 @@ Partial Public Class frmSettings
         Me.btnGetData.Size = New System.Drawing.Size(90, 35)
         Me.btnGetData.TabIndex = 22
         Me.btnGetData.Text = "Retrieve Account Data"
+        Me.ToolTip1.SetToolTip(Me.btnGetData, "Retrieves API data for all listed accounts")
         '
         'btnDeleteAccount
         '
@@ -900,6 +902,7 @@ Partial Public Class frmSettings
         Me.btnDeleteAccount.Size = New System.Drawing.Size(90, 25)
         Me.btnDeleteAccount.TabIndex = 21
         Me.btnDeleteAccount.Text = "Delete Account"
+        Me.ToolTip1.SetToolTip(Me.btnDeleteAccount, "Removes an API account from EveHQ")
         '
         'btnEditAccount
         '
@@ -908,6 +911,7 @@ Partial Public Class frmSettings
         Me.btnEditAccount.Size = New System.Drawing.Size(90, 25)
         Me.btnEditAccount.TabIndex = 20
         Me.btnEditAccount.Text = "Edit Account"
+        Me.ToolTip1.SetToolTip(Me.btnEditAccount, "Allows the API Key or friendly name of an account to be modified")
         '
         'btnAddAccount
         '
@@ -916,6 +920,7 @@ Partial Public Class frmSettings
         Me.btnAddAccount.Size = New System.Drawing.Size(90, 25)
         Me.btnAddAccount.TabIndex = 19
         Me.btnAddAccount.Text = "Add Account"
+        Me.ToolTip1.SetToolTip(Me.btnAddAccount, "Adds a new API account to EveHQ")
         '
         'lvAccounts
         '
@@ -926,7 +931,7 @@ Partial Public Class frmSettings
         Me.lvAccounts.GridLines = True
         Me.lvAccounts.Location = New System.Drawing.Point(12, 19)
         Me.lvAccounts.Name = "lvAccounts"
-        Me.lvAccounts.Size = New System.Drawing.Size(383, 16)
+        Me.lvAccounts.Size = New System.Drawing.Size(383, 473)
         Me.lvAccounts.TabIndex = 18
         Me.lvAccounts.UseCompatibleStateImageBehavior = False
         Me.lvAccounts.View = System.Windows.Forms.View.Details
@@ -2427,9 +2432,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
+        Me.gbNotifications.Location = New System.Drawing.Point(729, 300)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(693, 500)
+        Me.gbNotifications.Size = New System.Drawing.Size(59, 57)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2545,6 +2550,22 @@ Partial Public Class frmSettings
         Me.gbEmailOptions.TabStop = False
         Me.gbEmailOptions.Text = "E-Mail Options"
         Me.gbEmailOptions.Visible = False
+        '
+        'lblSenderAddress
+        '
+        Me.lblSenderAddress.AutoSize = True
+        Me.lblSenderAddress.Location = New System.Drawing.Point(7, 102)
+        Me.lblSenderAddress.Name = "lblSenderAddress"
+        Me.lblSenderAddress.Size = New System.Drawing.Size(87, 13)
+        Me.lblSenderAddress.TabIndex = 13
+        Me.lblSenderAddress.Text = "Sender Address:"
+        '
+        'txtSenderAddress
+        '
+        Me.txtSenderAddress.Location = New System.Drawing.Point(106, 99)
+        Me.txtSenderAddress.Name = "txtSenderAddress"
+        Me.txtSenderAddress.Size = New System.Drawing.Size(331, 21)
+        Me.txtSenderAddress.TabIndex = 12
         '
         'txtSMTPPort
         '
@@ -3436,29 +3457,14 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
-        'lblSenderAddress
-        '
-        Me.lblSenderAddress.AutoSize = True
-        Me.lblSenderAddress.Location = New System.Drawing.Point(7, 102)
-        Me.lblSenderAddress.Name = "lblSenderAddress"
-        Me.lblSenderAddress.Size = New System.Drawing.Size(87, 13)
-        Me.lblSenderAddress.TabIndex = 13
-        Me.lblSenderAddress.Text = "Sender Address:"
-        '
-        'txtSenderAddress
-        '
-        Me.txtSenderAddress.Location = New System.Drawing.Point(106, 99)
-        Me.txtSenderAddress.Name = "txtSenderAddress"
-        Me.txtSenderAddress.Size = New System.Drawing.Size(331, 21)
-        Me.txtSenderAddress.TabIndex = 12
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbDashboard)
+        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbColours)
@@ -3468,7 +3474,6 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbPilots)
-        Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbEveFolders)
         Me.Controls.Add(Me.gbProxyServer)
         Me.Controls.Add(Me.gbPlugIns)
@@ -3880,4 +3885,5 @@ Partial Public Class frmSettings
     Friend WithEvents colQueueColumns As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblSenderAddress As System.Windows.Forms.Label
     Friend WithEvents txtSenderAddress As System.Windows.Forms.TextBox
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 End Class

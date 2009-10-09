@@ -869,6 +869,7 @@ Public Class frmEveHQ
     Public Sub QueryMyEveServer()
         tsbRetrieveData.Enabled = False
         mnuToolsGetAccountInfo.Enabled = False
+        frmSettings.btnGetData.Enabled = False
         Threading.ThreadPool.QueueUserWorkItem(AddressOf StartCharacterAPIThread)
     End Sub
 
@@ -924,11 +925,15 @@ Public Class frmEveHQ
         ' Enable the option again
         tsbRetrieveData.Enabled = True
         mnuToolsGetAccountInfo.Enabled = True
-
+        Me.Invoke(New MethodInvoker(AddressOf ResetSettingsButton))
         ' Update if we have retrieved new data
         If ContainsNew = True Then
             Me.Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
         End If
+    End Sub
+
+    Public Sub ResetSettingsButton()
+        Call frmSettings.FinaliseAPIServerUpdate()
     End Sub
 
     Public Sub UpdatePilotInfo(Optional ByVal startUp As Boolean = False)
