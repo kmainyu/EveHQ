@@ -40,6 +40,10 @@
 
     Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
         ' Update the control properties
+        If cboPilots.SelectedItem Is Nothing Then
+            MessageBox.Show("You must select a valid pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
         cDBWidget.ControlWidth = CInt(nudWidth.Value)
         cDBWidget.ControlHeight = CInt(nudHeight.Value)
         If cboPilots.SelectedItem IsNot Nothing Then

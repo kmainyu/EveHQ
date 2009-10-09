@@ -53,9 +53,14 @@
         cDBWidget.ControlHeight = CInt(nudHeight.Value)
         If cboPilots.SelectedItem IsNot Nothing Then
             cDBWidget.DefaultPilotName = cboPilots.SelectedItem.ToString
+        Else
+            MessageBox.Show("You must select a valid Pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
         End If
         If cboSkillQueue.SelectedItem IsNot Nothing Then
             cDBWidget.DefaultQueueName = cboSkillQueue.SelectedItem.ToString
+        Else
+            cDBWidget.DefaultQueueName = ""
         End If
         cDBWidget.EveQueue = radEve.Checked
         ' Now close the form
