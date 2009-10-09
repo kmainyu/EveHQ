@@ -181,8 +181,8 @@ Public Class PlugInData
 
     Private Function LoadWHAttributeData() As Boolean
         ' Load the data
-        Dim strSQL As String = "SELECT invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
-        strSQL &= " FROM invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID"
+        Dim strSQL As String = "SELECT invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.unitID"
+        strSQL &= " FROM dgmAttributeTypes INNER JOIN (invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID) ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID"
         strSQL &= " WHERE (((invTypes.groupID)=920));"
         Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
@@ -199,6 +199,9 @@ Public Class PlugInData
                             attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueInt"))
                         Else
                             attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueFloat"))
+                        End If
+                        If CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "124" Then
+                            attValue = -attValue
                         End If
                         If VoidData.WormholeEffects.ContainsKey(typeName) = False Then
                             VoidData.WormholeEffects.Add(typeName, New WormholeEffect)
