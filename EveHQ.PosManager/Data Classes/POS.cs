@@ -650,7 +650,285 @@ namespace EveHQ.PosManager
             return run_time;
         }
 
+        public bool RemoveQtyAndVolFromModuleID(decimal ID, decimal qty, decimal vol)
+        {
+            bool retVal = false;
+
+            foreach (Module m in Modules)
+            {
+                if (m.ModuleID == ID)
+                {
+                    if (m.State == "Online")
+                    {
+                        if (m.CapQty >= qty)
+                        {
+                            // If dest module is not a reaction type, then increment qty values
+                            m.CapQty -= (qty);
+                            m.CapVol -= (vol);
+                            retVal = true;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
+        public bool MoveQtyAndVolToModuleID(decimal ID, decimal qty, decimal vol)
+        {
+            bool retVal = false;
+
+            foreach (Module m in Modules)
+            {
+                if (m.ModuleID == ID)
+                {
+                    if (m.State == "Online")
+                    {
+                        if (IsModuleReactionType(Convert.ToInt32(m.ModType)))
+                        {
+                            // If module is reaction type, just return true - src needs to decrement
+                            retVal = true;
+                        }
+                        else if (m.MaxQty >= (m.CapQty + qty))
+                        {
+                            // If dest module is not a reaction type, then increment qty values
+                            m.CapQty += (qty);
+                            m.CapVol += (vol);
+                            retVal = true;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
+        public bool DoesModuleHaveQtyToMove(decimal ID, decimal qty)
+        {
+            foreach (Module m in Modules)
+            {
+                if (m.ModuleID == ID)
+                {
+                    if (m.State == "Online")
+                    {
+                        if (m.CapQty >= qty)
+                            return true;
+                        else if (IsModuleReactionType(Convert.ToInt32(m.ModType)))
+                            return true;
+                        else if (IsModuleHarvestorType(Convert.ToInt32(m.ModType)))
+                            return true;
+                        else
+                            return false;
+                    }
+                }
+            }
+            return false;
+        }
+        
+        public bool DoesModuleHaveRoomToMoveQty(decimal ID, decimal qty)
+        {
+            foreach (Module m in Modules)
+            {
+                if (m.ModuleID == ID)
+                {
+                    if (m.State == "Online")
+                    {
+                        if ((m.CapQty+qty) <= m.MaxQty)
+                            return true;
+                        else
+                            return false;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool IsModuleReactionType(int mType)
+        {
+            switch (mType)
+            {
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool IsModuleHarvestorType(int mType)
+        {
+            switch (mType)
+            {
+                case 1:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // To calculate reactions, I need to do the following:
+        // 1. Move mats from Junction Modules to Silo's
+        // 2. Move mats from Harvestors to Junction/Silo/Reaction
+        // 3. Move mats from Reaction to Junction/Silo
+        // 4. Move mats from Silo to Reaction
         public bool CalculateReactions()
+        {
+            DateTime C_TimeStamp;
+            TimeSpan D_TimeStamp;
+            int hours;
+            bool changed = false;
+            bool reacIn = false;
+            bool reacOut = false;
+
+            C_TimeStamp = DateTime.Now;
+            D_TimeStamp = C_TimeStamp.Subtract(React_TS);
+
+            if (D_TimeStamp.Hours > 0)
+            {
+                // It has been at least an hour since the last update - set quantity values appropriately
+                // Store hours expired
+                hours = D_TimeStamp.Hours;
+                hours += (D_TimeStamp.Days * 24);
+
+                // Set current React_TS to the correct new value
+                React_TS = DateTime.Now.Subtract(new TimeSpan(0, D_TimeStamp.Minutes, D_TimeStamp.Seconds));
+
+                // For each hour of expired time, do:
+                for (int ct = 0; ct < hours; ct++)
+                {
+                    // 1. Move mats from Junction Modules to Silo's or Reactions
+                    foreach (Module m in Modules)
+                    {
+                        if ((Convert.ToInt64(m.ModType)) == 10)
+                        {
+                            // Junction, need to move materials from here to downstream Silo/Etc if present and has room
+                            if (m.State == "Online")
+                            {
+                                // Search ReactionLinks for this module being the input ID (only 1 is valid)
+                                foreach (ReactionLink rl in ReactionLinks)
+                                {
+                                    if (rl.InpID == m.ModuleID)
+                                    {
+                                        if (MoveQtyAndVolToModuleID(rl.OutID, m.CapQty, m.CapVol))
+                                        {
+                                            // Qty added to output, subtract from current input
+                                            m.CapQty = 0;
+                                            m.CapVol = 0;
+                                            changed = true;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // 2. Move mats from Harvestors to Junction/Silo/Reaction
+                    foreach (Module m in Modules)
+                    {
+                        if ((Convert.ToInt64(m.ModType)) == 1)
+                        {
+                            // Harvestor, need to move materials from here to downstream Silo/Etc if present and has room
+                            if (m.State == "Online")
+                            {
+                                // Search ReactionLinks for this module being the input ID (only 1 is valid)
+                                foreach (ReactionLink rl in ReactionLinks)
+                                {
+                                    if (rl.InpID == m.ModuleID)
+                                    {
+                                        // Output can be:
+                                        // 1. Junction, Silo or Reaction
+                                        if (MoveQtyAndVolToModuleID(rl.OutID, rl.XferQty, rl.XferVol))
+                                        {
+                                            // Qty added to output -- since we are a harvestor, no need to
+                                            // do anything for current module qty values
+                                            changed = true;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // 3. Move mats to & from Reaction for Junction/Silo/Reaction
+                    foreach (Module m in Modules)
+                    {
+                        if (IsModuleReactionType(Convert.ToInt32(m.ModType)))
+                        {
+                            // Reaction, need to move materials from here to downstream Junction/Silo/Etc if present and has room
+                            if (m.State == "Online")
+                            {
+                                reacIn = true;
+                                reacOut = true;
+
+                                // Search ReactionLinks for this module being the Output ID 
+                                foreach (ReactionLink rl in ReactionLinks)
+                                {
+                                    if (rl.OutID == m.ModuleID)
+                                    {
+                                        reacIn = DoesModuleHaveQtyToMove(rl.InpID, rl.XferQty);
+
+                                        if (!reacIn)
+                                            break;
+                                    }
+                                }
+
+                                // Search ReactionLinks for this module being the input ID
+                                foreach (ReactionLink rl in ReactionLinks)
+                                {
+                                    if (rl.InpID == m.ModuleID)
+                                    {
+                                        reacOut = DoesModuleHaveRoomToMoveQty(rl.OutID, rl.XferQty);
+
+                                        if (!reacOut)
+                                            break;
+                                    }
+                                }
+
+                                if (reacIn && reacOut)
+                                {
+                                    // Inputs here
+                                    // 1. Junction, Silo or Reaction
+                                    foreach (ReactionLink rl in ReactionLinks)
+                                    {
+                                        if (rl.OutID == m.ModuleID)
+                                        {
+                                            if (RemoveQtyAndVolFromModuleID(rl.InpID, rl.XferQty, rl.XferVol))
+                                            {
+                                                // Qty added to output -- since we are a Reactor, no need to
+                                                // do anything for current module qty values
+                                                changed = true;
+                                            }
+                                        }
+
+                                        if (rl.InpID == m.ModuleID)
+                                        {
+                                            // Outputs here
+                                            // 1. Junction, Silo or Reaction
+                                            if (MoveQtyAndVolToModuleID(rl.OutID, rl.XferQty, rl.XferVol))
+                                            {
+                                                // Qty added to output -- since we are a Reactor, no need to
+                                                // do anything for current module qty values
+                                                changed = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return changed;
+       }
+
+        public bool OLD_CalculateReactions()
         {
             DateTime C_TimeStamp;
             TimeSpan D_TimeStamp;

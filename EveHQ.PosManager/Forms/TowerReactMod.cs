@@ -652,7 +652,7 @@ namespace EveHQ.PosManager
             GetQty.ShowDialog();
 
             ReactMod.CapQty = GetVal;
-            ReactMod.CapVol = ReactMod.CapQty * ReactMod.selMineral.volume;
+            ReactMod.CapVol = (ReactMod.CapQty * ReactMod.selMineral.volume * SiloMult);
 
             ComputeAndShowFillLevels();
             myData.TowerReactModuleUpdated(ReactMod, 5, 0, "");
@@ -669,7 +669,7 @@ namespace EveHQ.PosManager
         private void b_SetFull_Click(object sender, EventArgs e)
         {
             ReactMod.CapQty = ReactMod.MaxQty;
-            ReactMod.CapVol = ReactMod.Capacity;
+            ReactMod.CapVol = (ReactMod.Capacity * SiloMult);
             ComputeAndShowFillLevels();
             myData.TowerReactModuleUpdated(ReactMod, 5, 0, "");
         }

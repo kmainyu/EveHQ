@@ -45,7 +45,6 @@ namespace EveHQ.PosManager
         bool PosChanged = false;
         bool UpdateTower = true;
         bool mailSendErr = false;
-        bool apiWorkerRunning = false;
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
@@ -258,9 +257,9 @@ namespace EveHQ.PosManager
             load = false;
 
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            if (!apiWorkerRunning)
+            if (!bgw_APIUpdate.IsBusy)
             {
-                apiWorkerRunning = true;
+                tsb_UpdateAPI.Enabled = false;
                 bgw_APIUpdate.RunWorkerAsync();
             }
         }
@@ -3308,9 +3307,9 @@ namespace EveHQ.PosManager
         private void UdateMonitorInformation(object sender, EventArgs e)
         {
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            if (!apiWorkerRunning)
+            if (!bgw_APIUpdate.IsBusy)
             {
-                apiWorkerRunning = true;
+                tsb_UpdateAPI.Enabled = false;
                 bgw_APIUpdate.RunWorkerAsync();
             }
         }
@@ -4779,9 +4778,9 @@ namespace EveHQ.PosManager
         private void b_UpdateAPIData_Click(object sender, EventArgs e)
         {
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            if (!apiWorkerRunning)
+            if (!bgw_APIUpdate.IsBusy)
             {
-                apiWorkerRunning = true;
+                tsb_UpdateAPI.Enabled = false;
                 bgw_APIUpdate.RunWorkerAsync();
             }
         }
@@ -4800,7 +4799,7 @@ namespace EveHQ.PosManager
             RunCalculationsWithUpdatedInformation();
             POSList.SaveDesignListing();
             tsl_APIState.Text = "";
-            apiWorkerRunning = false;
+            tsb_UpdateAPI.Enabled = true;
         }
 
         private void bgw_APIUpdate_DoWork(object sender, DoWorkEventArgs e)
