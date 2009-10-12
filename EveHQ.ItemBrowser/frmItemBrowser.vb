@@ -597,24 +597,26 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub GetRecommendations(ByVal typeID As Long, ByVal typeName As String)
-        Me.tabItem.TabPages.Add(Me.tabRecommended)
         lvwRecommended.BeginUpdate()
         lvwRecommended.Items.Clear()
-        Dim Certs As ArrayList = ShipCerts(CStr(typeID))
-        Dim dCerts As New SortedList(Of String, Integer)
-        For Each cert As String In Certs
-            Dim newCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(cert)
-            Dim certClass As EveHQ.Core.CertificateClass = EveHQ.Core.HQ.CertificateClasses(CStr(newCert.ClassID))
-            dCerts.Add(certClass.Name, newCert.Grade)
-        Next
-        For Each certName As String In dCerts.Keys
-            Dim newCert As New ListViewItem
-            newCert.Text = certName
-            newCert.ImageIndex = dCerts(certName)
-            Dim certGrade As String = CertGrades(dCerts(certName))
-            newCert.SubItems.Add(certGrade)
-            lvwRecommended.Items.Add(newCert)
-        Next
+        If ShipCerts.ContainsKey(CStr(typeID)) Then
+            Dim Certs As ArrayList = ShipCerts(CStr(typeID))
+            Dim dCerts As New SortedList(Of String, Integer)
+            For Each cert As String In Certs
+                Dim newCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(cert)
+                Dim certClass As EveHQ.Core.CertificateClass = EveHQ.Core.HQ.CertificateClasses(CStr(newCert.ClassID))
+                dCerts.Add(certClass.Name, newCert.Grade)
+            Next
+            For Each certName As String In dCerts.Keys
+                Dim newCert As New ListViewItem
+                newCert.Text = certName
+                newCert.ImageIndex = dCerts(certName)
+                Dim certGrade As String = CertGrades(dCerts(certName))
+                newCert.SubItems.Add(certGrade)
+                lvwRecommended.Items.Add(newCert)
+            Next
+            Me.tabItem.TabPages.Add(Me.tabRecommended)
+        End If
         lvwRecommended.EndUpdate()
     End Sub
     Private Sub GetAttributes(ByVal typeID As Long, ByVal typeName As String)
