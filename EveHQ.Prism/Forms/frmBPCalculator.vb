@@ -237,6 +237,7 @@ Public Class frmBPCalculator
 #End Region
 
 #Region "Blueprint Selection & Calculation Routines"
+
     Private Sub cboBPs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
         ' Enable the various parts
         gbSkills.Enabled = True
@@ -321,7 +322,7 @@ Public Class frmBPCalculator
         Call Me.DisplayCostInformation()
     End Sub
 
-   
+
     Private Sub CalculateAssemblyLocations()
         Dim productID As String = CurrentBP.ProductID.ToString
         Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(productID)
