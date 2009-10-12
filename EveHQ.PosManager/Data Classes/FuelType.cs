@@ -19,7 +19,7 @@ namespace EveHQ.PosManager
         public string Name, UsedFor;
         public decimal BaseVol, QtyVol;
         public decimal Cost;
-        public decimal Qty, BaseQty, PeriodQty, RunTime;
+        public decimal Qty, BaseQty, PeriodQty, RunTime, LastQty, APIPerQty;
         public decimal VolForQty, CostForQty;
         public ArrayList Extra;
 
@@ -36,6 +36,8 @@ namespace EveHQ.PosManager
             RunTime = 0;
             VolForQty = 0;
             CostForQty = 0;
+            LastQty = 0;
+            APIPerQty = 0;
             Extra = new ArrayList();
         }
 
@@ -52,6 +54,8 @@ namespace EveHQ.PosManager
             RunTime = ft.RunTime;
             VolForQty = ft.VolForQty;
             CostForQty = ft.CostForQty;
+            LastQty = ft.LastQty;
+            APIPerQty = ft.APIPerQty;
             Extra = new ArrayList(ft.Extra);
         }
 
@@ -82,11 +86,18 @@ namespace EveHQ.PosManager
 
         public decimal GetFuelQtyForPeriod(decimal sov, decimal cap, decimal used)
         {
-            decimal ret, pcMult;
+            decimal ret, pcMult, pQty;
+
+            if (PeriodQty == 0)
+                pQty = APIPerQty;
+            else if ((PeriodQty != 0) && (PeriodQty != APIPerQty) && (APIPerQty != 0))
+                pQty = APIPerQty;
+            else
+                pQty = PeriodQty;
 
             if ((cap == 1) && (used == 1))
             {
-                ret = Math.Ceiling(sov * PeriodQty);
+                ret = Math.Ceiling(sov * pQty);
             }
             else
             {
@@ -95,12 +106,16 @@ namespace EveHQ.PosManager
                 else
                     pcMult = 1;
 
-                if(used > 0)
-                    ret = Math.Floor((pcMult * sov * PeriodQty) + 1);
+                if ((PeriodQty == 0) || ((PeriodQty != 0) && (PeriodQty != APIPerQty) && (APIPerQty != 0)))
+                    ret = APIPerQty;
                 else
-                    ret = Math.Floor(pcMult * sov * PeriodQty);
+                {
+                    if (used > 0)
+                        ret = Math.Floor((pcMult * sov * pQty) + 1);
+                    else
+                        ret = Math.Floor(pcMult * sov * pQty);
+                }
             }
-
 
             return ret;
         }

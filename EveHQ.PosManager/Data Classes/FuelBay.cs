@@ -66,6 +66,73 @@ namespace EveHQ.PosManager
             Extra = new ArrayList(fb.Extra);
         }
 
+        public void SetLastFuelRead()
+        {
+            // Do all types, although at this time only HW and LO matter
+            EnrUran.LastQty = EnrUran.Qty;
+            Oxygen.LastQty = Oxygen.Qty;
+            MechPart.LastQty = MechPart.Qty;
+            Coolant.LastQty = Coolant.Qty;
+            Robotics.LastQty = Robotics.Qty;
+            HvyWater.LastQty = HvyWater.Qty;
+            LiqOzone.LastQty = LiqOzone.Qty;
+            Charters.LastQty = Charters.Qty;
+            N2Iso.LastQty = N2Iso.Qty;
+            H2Iso.LastQty = H2Iso.Qty;
+            O2Iso.LastQty = O2Iso.Qty;
+            HeIso.LastQty = HeIso.Qty;
+            Strontium.LastQty = Strontium.Qty;
+        }
+
+        public void SetAPIFuelUsage()
+        {
+            // Do all types, although at this time only HW and LO matter
+            EnrUran.APIPerQty = EnrUran.LastQty - EnrUran.Qty;
+            Oxygen.APIPerQty = Oxygen.LastQty - Oxygen.Qty;
+            MechPart.APIPerQty = MechPart.LastQty - MechPart.Qty;
+            Coolant.APIPerQty = Coolant.LastQty - Coolant.Qty;
+            Robotics.APIPerQty = Robotics.LastQty - Robotics.Qty;
+            HvyWater.APIPerQty = HvyWater.LastQty - HvyWater.Qty;
+            LiqOzone.APIPerQty = LiqOzone.LastQty - LiqOzone.Qty;
+            Charters.APIPerQty = Charters.LastQty - Charters.Qty;
+            N2Iso.APIPerQty = N2Iso.LastQty - N2Iso.Qty;
+            HeIso.APIPerQty = HeIso.LastQty - HeIso.Qty;
+            H2Iso.APIPerQty = H2Iso.LastQty - H2Iso.Qty;
+            O2Iso.APIPerQty = O2Iso.LastQty - O2Iso.Qty;
+            Strontium.APIPerQty = Strontium.LastQty - Strontium.Qty;
+        }
+
+        public void CopyLastAndAPI(FuelBay fb)
+        {
+            EnrUran.LastQty = fb.EnrUran.LastQty;
+            Oxygen.LastQty = fb.Oxygen.LastQty;
+            MechPart.LastQty = fb.MechPart.LastQty;
+            Coolant.LastQty = fb.Coolant.LastQty;
+            Robotics.LastQty = fb.Robotics.LastQty;
+            HvyWater.LastQty = fb.HvyWater.LastQty;
+            LiqOzone.LastQty = fb.LiqOzone.LastQty;
+            Charters.LastQty = fb.Charters.LastQty;
+            N2Iso.LastQty = fb.N2Iso.LastQty;
+            H2Iso.LastQty = fb.H2Iso.LastQty;
+            O2Iso.LastQty = fb.O2Iso.LastQty;
+            HeIso.LastQty = fb.HeIso.LastQty;
+            Strontium.LastQty = fb.Strontium.LastQty;
+
+            EnrUran.APIPerQty = fb.EnrUran.APIPerQty;
+            Oxygen.APIPerQty = fb.Oxygen.APIPerQty;
+            MechPart.APIPerQty = fb.MechPart.APIPerQty;
+            Coolant.APIPerQty = fb.Coolant.APIPerQty;
+            Robotics.APIPerQty = fb.Robotics.APIPerQty;
+            HvyWater.APIPerQty = fb.HvyWater.APIPerQty;
+            LiqOzone.APIPerQty = fb.LiqOzone.APIPerQty;
+            Charters.APIPerQty = fb.Charters.APIPerQty;
+            N2Iso.APIPerQty = fb.N2Iso.APIPerQty;
+            H2Iso.APIPerQty = fb.H2Iso.APIPerQty;
+            O2Iso.APIPerQty = fb.O2Iso.APIPerQty;
+            HeIso.APIPerQty = fb.HeIso.APIPerQty;
+            Strontium.APIPerQty = fb.Strontium.APIPerQty;
+        }
+        
         public void SetCurrentFuelCosts(FuelBay fb)
         {
             if (fb.EnrUran.Cost > 0)

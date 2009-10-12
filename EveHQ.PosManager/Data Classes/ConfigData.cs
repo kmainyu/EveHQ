@@ -25,6 +25,7 @@ namespace EveHQ.PosManager
         public bool maintChart, maintStront, noNegs;
         public ArrayList dgMonBool, dgDesBool;
         public decimal maintTP, maintPV;
+        // Extra - Storage and Values
 
         public ConfigData()
         {
