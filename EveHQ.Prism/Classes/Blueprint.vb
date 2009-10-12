@@ -278,7 +278,7 @@ Public Class BlueprintSelection
                     subPJ.TypeName = resource.TypeName
                     subPJ.PerfectUnits = perfectRaw
                     subPJ.WasteUnits = waste
-                    subPJ.Runs = perfectRaw + waste
+                    subPJ.Runs = (perfectRaw + waste) * Runs
                     subPJ.StartTime = Now
                     subPJ.RunTime = subBPS.CalculateProductionTime(IndSkill, ProdImplantBonus, SlotArray)
                     ' Do the iteration on the component BP
