@@ -1958,7 +1958,13 @@ Public Class frmFleetManager
                         If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
                             If remoteDrone.IsActive = True Then
                                 remoteDrone.DroneType.ModuleState = 16
-                                If RA.RemoteModule = remoteDrone.DroneType.Name Then
+                                Dim remoteModule As String = ""
+                                If RA.RemoteModule.Contains("(x") = True Then
+                                    remoteModule = RA.RemoteModule.Substring(0, RA.RemoteModule.LastIndexOf(" "))
+                                Else
+                                    remoteModule = RA.RemoteModule
+                                End If
+                                If remoteModule = remoteDrone.DroneType.Name Then
                                     RR.RemoveAt(i)
                                     fleetShip.RemoteSlotCollection.Add(remoteDrone)
                                     Exit For
