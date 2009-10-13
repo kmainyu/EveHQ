@@ -1518,6 +1518,7 @@ Public Class frmFleetManager
                 RA = CType(RR(i), FleetManager.RemoteAssignment)
                 If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
                     RR.RemoveAt(i)
+                    Exit For
                 End If
             Next
             ' Next, remove it from the giving pilot
@@ -1526,6 +1527,7 @@ Public Class frmFleetManager
                 RA = CType(RG(i), FleetManager.RemoteAssignment)
                 If RA.FleetPilot = fleetPilot And RA.RemotePilot = remotePilot And RA.RemoteModule = remoteModule Then
                     RG.RemoveAt(i)
+                    Exit For
                 End If
             Next
             Call Me.RedrawPilotList()
