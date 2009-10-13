@@ -479,7 +479,13 @@ Public Class frmFleetManager
                 Call Me.DisplayRemoteModules(newPilot)
                 If activeFleet.RemoteReceiving.ContainsKey(pilotName) = True Then
                     For Each RA As FleetManager.RemoteAssignment In activeFleet.RemoteReceiving(pilotName)
-                        Dim modRA As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(RA.RemoteModule)), ShipModule).Clone
+                        Dim remoteModule As String = ""
+                        If RA.RemoteModule.Contains("(x") = True Then
+                            remoteModule = RA.RemoteModule.Substring(0, RA.RemoteModule.LastIndexOf(" "))
+                        Else
+                            remoteModule = RA.RemoteModule
+                        End If
+                        Dim modRA As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(remoteModule)), ShipModule).Clone
                         If cboRemoteGroup.SelectedIndex = 0 Or (cboRemoteGroup.SelectedIndex <> 0 And (EveHQ.Core.HQ.itemGroups(modRA.DatabaseGroup) = cboRemoteGroup.SelectedItem.ToString)) Then
                             Dim newRA As New ContainerListViewItem
                             newRA.Text = RA.RemotePilot
@@ -635,9 +641,15 @@ Public Class frmFleetManager
                     If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
                         'For Each RA As FleetManager.RemoteAssignment In RG
                         Dim RA As FleetManager.RemoteAssignment
+                        Dim remoteModule As String = ""
                         For i As Integer = RG.Count - 1 To 0 Step -1
                             RA = CType(RG(i), FleetManager.RemoteAssignment)
-                            If RA.RemoteModule = remoteDrone.DroneType.Name Then
+                            If RA.RemoteModule.Contains("(x") = True Then
+                                remoteModule = RA.RemoteModule.Substring(0, RA.RemoteModule.LastIndexOf(" "))
+                            Else
+                                remoteModule = RA.RemoteModule
+                            End If
+                            If remoteModule = remoteDrone.DroneType.Name Then
                                 newRemoteItem.SubItems(4).Text = RA.FleetPilot
                                 RG.RemoveAt(i)
                                 Exit For
@@ -1029,7 +1041,7 @@ Public Class frmFleetManager
             Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight)
 
             If item1 IsNot Nothing Then
-                If TypeOf droppedItem.Tag Is ShipModule Then
+                If TypeOf droppedItem.Tag Is ShipModule Or TypeOf droppedItem.Tag Is DroneBayItem Then
                     If item1.Depth = 1 Then
                         If item1.Text <> droppedItem.Text Then
                             ' Check for being already assigned
@@ -1044,13 +1056,27 @@ Public Class frmFleetManager
                                 Dim newRR As New FleetManager.RemoteAssignment
                                 newRR.FleetPilot = item1.Text
                                 newRR.RemotePilot = droppedItem.Text
-                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                If TypeOf droppedItem.Tag Is ShipModule Then
+                                    ' Ship Module
+                                    newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                Else
+                                    ' Assume drone item
+                                    Dim remoteDrone As DroneBayItem = CType(droppedItem.Tag, DroneBayItem)
+                                    newRR.RemoteModule = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                                End If
                                 activeFleet.RemoteReceiving(item1.Text).Add(newRR)
                                 ' Set the giving modules
                                 Dim newRG As New FleetManager.RemoteAssignment
                                 newRR.FleetPilot = item1.Text
                                 newRR.RemotePilot = droppedItem.Text
-                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                If TypeOf droppedItem.Tag Is ShipModule Then
+                                    ' Ship Module
+                                    newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                Else
+                                    ' Assume drone item
+                                    Dim remoteDrone As DroneBayItem = CType(droppedItem.Tag, DroneBayItem)
+                                    newRR.RemoteModule = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                                End If
                                 activeFleet.RemoteGiving(droppedItem.Text).Add(newRR)
                                 droppedItem.SubItems(4).Text = item1.Text
                                 ' Redraw the pilot list
@@ -1075,7 +1101,7 @@ Public Class frmFleetManager
             Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight + clvPilots.VerticalScrollOffset)
 
             If item1 IsNot Nothing Then
-                If TypeOf droppedItem.Tag Is ShipModule Then
+                If TypeOf droppedItem.Tag Is ShipModule Or TypeOf droppedItem.Tag Is DroneBayItem Then
                     If item1.Depth = 1 Then
                         If item1.Text <> droppedItem.Text Then  ' Can't drop module onto the same person!
                             If droppedItem.SubItems(4).Text <> item1.Text Then ' Can't drop module if already assigned!
