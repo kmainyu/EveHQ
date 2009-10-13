@@ -538,27 +538,31 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub btnShipAudit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipAudit.Click
-        If clvPilots.SelectedItems.Count = 1 Then
-            Dim pilotName As String = clvPilots.SelectedItems(0).Text
-            Dim fittedShip As Ship = FinalFleetShips(pilotName)
-            Dim myAuditLog As New frmShipAudit
-            Dim logData() As String
-            Dim newLog As New ListViewItem
-            myAuditLog.lvwAudit.BeginUpdate()
-            For Each log As String In fittedShip.AuditLog
-                logData = log.Split("#".ToCharArray)
-                'If logData(2).Trim <> logData(3).Trim Then
-                newLog = New ListViewItem
-                newLog.Text = logData(0).Trim
-                newLog.SubItems.Add(logData(1).Trim)
-                newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                myAuditLog.lvwAudit.Items.Add(newLog)
-                'End If
-            Next
-            myAuditLog.lvwAudit.EndUpdate()
-            myAuditLog.ShowDialog()
-            myAuditLog = Nothing
+        Dim pilotName As String = clvPilots.SelectedItems(0).Text
+        If FinalFleetShips.ContainsKey(pilotname) = True Then
+            If clvPilots.SelectedItems.Count = 1 Then
+                Dim fittedShip As Ship = FinalFleetShips(pilotName)
+                Dim myAuditLog As New frmShipAudit
+                Dim logData() As String
+                Dim newLog As New ListViewItem
+                myAuditLog.lvwAudit.BeginUpdate()
+                For Each log As String In fittedShip.AuditLog
+                    logData = log.Split("#".ToCharArray)
+                    'If logData(2).Trim <> logData(3).Trim Then
+                    newLog = New ListViewItem
+                    newLog.Text = logData(0).Trim
+                    newLog.SubItems.Add(logData(1).Trim)
+                    newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    myAuditLog.lvwAudit.Items.Add(newLog)
+                    'End If
+                Next
+                myAuditLog.lvwAudit.EndUpdate()
+                myAuditLog.ShowDialog()
+                myAuditLog = Nothing
+            End If
+        Else
+            MessageBox.Show("This pilot is not updated in the fleet. Try updating the fleet first before checking the audit log.", "Update Fleet?", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -578,6 +582,12 @@ Public Class frmFleetManager
         Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
         aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
         aShip = Engine.CollectModules(aShip)
+        Dim RG As New ArrayList
+        If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
+            RG = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
+        Else
+            RG = Nothing
+        End If
         ' Let's try and generate a fitting and get some module info
         For Each remoteModule As ShipModule In aShip.SlotCollection
             If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
@@ -595,7 +605,6 @@ Public Class frmFleetManager
                 End If
                 ' Check for assignments
                 If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
-                    Dim RG As ArrayList = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
                     'For Each RA As FleetManager.RemoteAssignment In RG
                     Dim RA As FleetManager.RemoteAssignment
                     For i As Integer = RG.Count - 1 To 0 Step -1
@@ -603,6 +612,7 @@ Public Class frmFleetManager
                         If RA.RemoteModule = remoteModule.Name Then
                             newRemoteItem.SubItems(4).Text = RA.FleetPilot
                             RG.RemoveAt(i)
+                            Exit For
                         End If
                     Next
                 End If
@@ -623,7 +633,6 @@ Public Class frmFleetManager
                     newRemoteItem.SubItems(3).Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
                     ' Check for assignments
                     If activeFleet.RemoteGiving.ContainsKey(pilotName) = True Then
-                        Dim RG As ArrayList = CType(activeFleet.RemoteGiving(pilotName).Clone, ArrayList)
                         'For Each RA As FleetManager.RemoteAssignment In RG
                         Dim RA As FleetManager.RemoteAssignment
                         For i As Integer = RG.Count - 1 To 0 Step -1
@@ -631,6 +640,7 @@ Public Class frmFleetManager
                             If RA.RemoteModule = remoteDrone.DroneType.Name Then
                                 newRemoteItem.SubItems(4).Text = RA.FleetPilot
                                 RG.RemoveAt(i)
+                                Exit For
                             End If
                         Next
                     End If
@@ -1912,6 +1922,7 @@ Public Class frmFleetManager
                             If RA.RemoteModule = remoteModule.Name Then
                                 RR.RemoveAt(i)
                                 fleetShip.RemoteSlotCollection.Add(remoteModule)
+                                Exit For
                             End If
                         End If
                     Next
@@ -1922,6 +1933,7 @@ Public Class frmFleetManager
                                 If RA.RemoteModule = remoteDrone.DroneType.Name Then
                                     RR.RemoveAt(i)
                                     fleetShip.RemoteSlotCollection.Add(remoteDrone)
+                                    Exit For
                                 End If
                             End If
                         End If
