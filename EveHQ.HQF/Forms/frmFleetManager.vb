@@ -1038,7 +1038,7 @@ Public Class frmFleetManager
 
             Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
             Dim point1 As Point = clvPilots.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight)
+            Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight + clvPilots.VerticalScrollOffset)
 
             If item1 IsNot Nothing Then
                 If TypeOf droppedItem.Tag Is ShipModule Or TypeOf droppedItem.Tag Is DroneBayItem Then
