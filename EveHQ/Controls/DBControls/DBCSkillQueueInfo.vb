@@ -174,6 +174,8 @@
             cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
             ' Update the list of EveHQ Skill Queues
             Call Me.UpdateQueueList()
+            ' Update the details
+            Call Me.UpdateQueueInfo()
         End If
     End Sub
 
