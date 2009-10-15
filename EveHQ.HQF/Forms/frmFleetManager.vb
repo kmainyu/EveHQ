@@ -690,12 +690,86 @@ Public Class frmFleetManager
 
 #Region "Drag and Drop Routines"
 
+    Private Sub CheckForExistingBoostersInFleet(ByVal PilotName As String)
+        If activeFleetMembers.ContainsKey(PilotName) = True Then
+            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+            If activeFleet.Commander = PilotName Then
+                If Pilot.IsSB Then
+                    Pilot.IsSB = False
+                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                    Exit Sub
+                End If
+                If Pilot.IsWB Then
+                    Pilot.IsWB = False
+                    activeFleet.Wings(Pilot.WingName).Booster = ""
+                    Exit Sub
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub CheckForExistingBoostersInWing(ByVal PilotName As String, ByVal CheckWing As FleetManager.Wing)
+        If activeFleetMembers.ContainsKey(PilotName) = True Then
+            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+            If CheckWing.Commander = PilotName Then
+                If Pilot.IsSB Then
+                    Pilot.IsSB = False
+                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                    Exit Sub
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub CheckForExistingBoostersInSquad(ByVal PilotName As String, ByVal CheckSquad As FleetManager.Squad)
+        If activeFleetMembers.ContainsKey(PilotName) = True Then
+            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
+            If CheckSquad.Commander <> "" Then
+                Dim Comm As FleetManager.FleetMember = activeFleetMembers(CheckSquad.Commander)
+                If Pilot.Name <> Comm.Name Then
+                    If Pilot.IsFB And Comm.IsFB Then
+                        Pilot.IsFB = False
+                        Exit Sub
+                    End If
+                    If Pilot.IsWB And Comm.IsWB Then
+                        Pilot.IsWB = False
+                        activeFleet.Wings(Pilot.WingName).Booster = ""
+                        Exit Sub
+                    End If
+                    If Pilot.IsSB And Comm.IsSB Then
+                        Pilot.IsSB = False
+                        activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                        Exit Sub
+                    End If
+                End If
+            End If
+            For Each checkPilot As String In CheckSquad.Members.Keys
+                If checkPilot <> PilotName Then
+                    If Pilot.IsFB And activeFleetMembers(checkPilot).IsFB Then
+                        Pilot.IsFB = False
+                        Exit Sub
+                    End If
+                    If Pilot.IsWB And activeFleetMembers(checkPilot).IsWB Then
+                        Pilot.IsWB = False
+                        activeFleet.Wings(Pilot.WingName).Booster = ""
+                        Exit Sub
+                    End If
+                    If Pilot.IsSB And activeFleetMembers(checkPilot).IsSB Then
+                        Pilot.IsSB = False
+                        activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
+                        Exit Sub
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
     Private Sub clvFleetStructure_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles clvFleetStructure.DragDrop
         ' Check for the custom DataFormat ContainerListViewItem item.
         If e.Data.GetDataPresent("System.Windows.Forms.ContainerListViewItem") Then
 
             Dim point1 As Point = clvFleetStructure.PointToClient(New Point(e.X, e.Y))
-            Dim item1 As ContainerListViewItem = clvFleetStructure.GetItemAt(point1.Y - clvFleetStructure.HeaderHeight)
+            Dim item1 As ContainerListViewItem = clvFleetStructure.GetItemAt(point1.Y - clvFleetStructure.HeaderHeight + clvFleetStructure.VerticalScrollOffset)
             Dim droppedItem As ContainerListViewItem = CType(e.Data.GetData("System.Windows.Forms.ContainerListViewItem"), ContainerListViewItem)
             Dim DropName As String = droppedItem.Text
             ' Check for internal restructure
@@ -705,7 +779,7 @@ Public Class frmFleetManager
             End If
 
             If item1 IsNot Nothing Then
-                If Not (TypeOf droppedItem.Tag Is ShipModule) Then
+                If Not (TypeOf droppedItem.Tag Is ShipModule) And Not (TypeOf droppedItem.Tag Is DroneBayItem) Then
                     Select Case item1.Depth
                         Case 1 ' FC
                             Dim fleetItem As ContainerListViewItem
@@ -847,13 +921,27 @@ Public Class frmFleetManager
                                 Dim newRR As New FleetManager.RemoteAssignment
                                 newRR.FleetPilot = targetPilot
                                 newRR.RemotePilot = droppedItem.Text
-                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                If TypeOf droppedItem.Tag Is ShipModule Then
+                                    ' Ship Module
+                                    newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                Else
+                                    ' Assume drone item
+                                    Dim remoteDrone As DroneBayItem = CType(droppedItem.Tag, DroneBayItem)
+                                    newRR.RemoteModule = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                                End If
                                 activeFleet.RemoteReceiving(targetPilot).Add(newRR)
                                 ' Set the giving modules
                                 Dim newRG As New FleetManager.RemoteAssignment
                                 newRR.FleetPilot = targetPilot
                                 newRR.RemotePilot = droppedItem.Text
-                                newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                If TypeOf droppedItem.Tag Is ShipModule Then
+                                    ' Ship Module
+                                    newRR.RemoteModule = CType(droppedItem.Tag, ShipModule).Name
+                                Else
+                                    ' Assume drone item
+                                    Dim remoteDrone As DroneBayItem = CType(droppedItem.Tag, DroneBayItem)
+                                    newRR.RemoteModule = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                                End If
                                 activeFleet.RemoteGiving(droppedItem.Text).Add(newRR)
                                 droppedItem.SubItems(4).Text = targetPilot
                                 ' Redraw the pilot list
@@ -868,80 +956,6 @@ Public Class frmFleetManager
         ' Reset the internalReorder flag ready for the next drag/drop operation
         internalReorder = False
 
-    End Sub
-
-    Private Sub CheckForExistingBoostersInFleet(ByVal PilotName As String)
-        If activeFleetMembers.ContainsKey(PilotName) = True Then
-            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
-            If activeFleet.Commander = PilotName Then
-                If Pilot.IsSB Then
-                    Pilot.IsSB = False
-                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                    Exit Sub
-                End If
-                If Pilot.IsWB Then
-                    Pilot.IsWB = False
-                    activeFleet.Wings(Pilot.WingName).Booster = ""
-                    Exit Sub
-                End If
-            End If
-        End If
-    End Sub
-
-    Private Sub CheckForExistingBoostersInWing(ByVal PilotName As String, ByVal CheckWing As FleetManager.Wing)
-        If activeFleetMembers.ContainsKey(PilotName) = True Then
-            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
-            If CheckWing.Commander = PilotName Then
-                If Pilot.IsSB Then
-                    Pilot.IsSB = False
-                    activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                    Exit Sub
-                End If
-            End If
-        End If
-    End Sub
-
-    Private Sub CheckForExistingBoostersInSquad(ByVal PilotName As String, ByVal CheckSquad As FleetManager.Squad)
-        If activeFleetMembers.ContainsKey(PilotName) = True Then
-            Dim Pilot As FleetManager.FleetMember = activeFleetMembers(PilotName)
-            If CheckSquad.Commander <> "" Then
-                Dim Comm As FleetManager.FleetMember = activeFleetMembers(CheckSquad.Commander)
-                If Pilot.Name <> Comm.Name Then
-                    If Pilot.IsFB And Comm.IsFB Then
-                        Pilot.IsFB = False
-                        Exit Sub
-                    End If
-                    If Pilot.IsWB And Comm.IsWB Then
-                        Pilot.IsWB = False
-                        activeFleet.Wings(Pilot.WingName).Booster = ""
-                        Exit Sub
-                    End If
-                    If Pilot.IsSB And Comm.IsSB Then
-                        Pilot.IsSB = False
-                        activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                        Exit Sub
-                    End If
-                End If
-            End If
-            For Each checkPilot As String In CheckSquad.Members.Keys
-                If checkPilot <> PilotName Then
-                    If Pilot.IsFB And activeFleetMembers(checkPilot).IsFB Then
-                        Pilot.IsFB = False
-                        Exit Sub
-                    End If
-                    If Pilot.IsWB And activeFleetMembers(checkPilot).IsWB Then
-                        Pilot.IsWB = False
-                        activeFleet.Wings(Pilot.WingName).Booster = ""
-                        Exit Sub
-                    End If
-                    If Pilot.IsSB And activeFleetMembers(checkPilot).IsSB Then
-                        Pilot.IsSB = False
-                        activeFleet.Wings(Pilot.WingName).Squads(Pilot.SquadName).Booster = ""
-                        Exit Sub
-                    End If
-                End If
-            Next
-        End If
     End Sub
 
     Private Sub clvFleetStructure_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles clvFleetStructure.ItemDrag
