@@ -1380,6 +1380,13 @@ Public Class ShipSlotControl
         End Select
         Return 0
     End Function
+
+    Private Sub lvwSlots_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvwSlots.KeyDown
+        If e.KeyCode = Keys.Delete Then
+            Call Me.RemoveModules(sender, e)
+        End If
+    End Sub
+
     Private Sub lvwSlots_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvwSlots.MouseDown
         Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
         If hti.Item IsNot Nothing Then
