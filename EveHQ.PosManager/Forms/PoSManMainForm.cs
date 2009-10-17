@@ -1659,6 +1659,13 @@ namespace EveHQ.PosManager
             int typeID;
             string location;
 
+            if (CurrentName == "")
+            {
+                MessageBox.Show("You MUST select New to create a tower or POS design.", "Invalid Creation");
+                Design.ClearAllPOSData();
+                return;
+            }
+
             DDE = DoDragDrop(e.Item, DragDropEffects.Copy);
 
             if (DDE == DragDropEffects.Copy)

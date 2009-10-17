@@ -283,7 +283,7 @@ namespace EveHQ.PosManager
             string status;
             DateTime F_TimeStamp, S_TimeStamp, C_TimeStamp, A_TimeStamp;
             DateTime A_In_TimeStamp = DateTime.Now;
-            TimeSpan D_TimeStamp;
+            TimeSpan D_TimeStamp, API_TimeSpan;
             APITowerData apid = new APITowerData();
             FuelBay fb = new FuelBay(PosTower.Fuel);
             ArrayList shortRun;
@@ -334,7 +334,20 @@ namespace EveHQ.PosManager
                     PosTower.Fuel.O2Iso.Qty = apid.O2Iso;
                     PosTower.Fuel.Strontium.Qty = apid.Stront;
 
-                    apiUpdated = true;
+                    API_TimeSpan = F_TimeStamp.Subtract(A_TimeStamp);
+
+                    if (PosTower.Fuel.EnrUran.LastQty == 0)
+                    {
+                        PosTower.Fuel.SetLastFuelRead();
+                    }
+                    else
+                    {
+                        PosTower.Fuel.SetAPIFuelUsage(API_TimeSpan.Hours + (API_TimeSpan.Days*24));
+                        PosTower.Fuel.SetLastFuelRead();
+                    }
+                    PosTower.T_Fuel.CopyLastAndAPI(PosTower.Fuel);
+                    PosTower.A_Fuel.CopyLastAndAPI(PosTower.Fuel);
+                    PosTower.D_Fuel.CopyLastAndAPI(PosTower.Fuel);
                 }
             }
 

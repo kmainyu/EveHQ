@@ -84,22 +84,25 @@ namespace EveHQ.PosManager
             Strontium.LastQty = Strontium.Qty;
         }
 
-        public void SetAPIFuelUsage()
+        public void SetAPIFuelUsage(decimal hrs)
         {
+            if (hrs < 1)
+                hrs = 1;
+
             // Do all types, although at this time only HW and LO matter
-            EnrUran.APIPerQty = EnrUran.LastQty - EnrUran.Qty;
-            Oxygen.APIPerQty = Oxygen.LastQty - Oxygen.Qty;
-            MechPart.APIPerQty = MechPart.LastQty - MechPart.Qty;
-            Coolant.APIPerQty = Coolant.LastQty - Coolant.Qty;
-            Robotics.APIPerQty = Robotics.LastQty - Robotics.Qty;
-            HvyWater.APIPerQty = HvyWater.LastQty - HvyWater.Qty;
-            LiqOzone.APIPerQty = LiqOzone.LastQty - LiqOzone.Qty;
-            Charters.APIPerQty = Charters.LastQty - Charters.Qty;
-            N2Iso.APIPerQty = N2Iso.LastQty - N2Iso.Qty;
-            HeIso.APIPerQty = HeIso.LastQty - HeIso.Qty;
-            H2Iso.APIPerQty = H2Iso.LastQty - H2Iso.Qty;
-            O2Iso.APIPerQty = O2Iso.LastQty - O2Iso.Qty;
-            Strontium.APIPerQty = Strontium.LastQty - Strontium.Qty;
+            EnrUran.APIPerQty = Math.Ceiling((EnrUran.LastQty - EnrUran.Qty) / hrs);
+            Oxygen.APIPerQty = Math.Ceiling((Oxygen.LastQty - Oxygen.Qty) / hrs);
+            MechPart.APIPerQty = Math.Ceiling((MechPart.LastQty - MechPart.Qty) / hrs);
+            Coolant.APIPerQty = Math.Ceiling((Coolant.LastQty - Coolant.Qty) / hrs);
+            Robotics.APIPerQty = Math.Ceiling((Robotics.LastQty - Robotics.Qty) / hrs);
+            HvyWater.APIPerQty = Math.Ceiling((HvyWater.LastQty - HvyWater.Qty) / hrs);
+            LiqOzone.APIPerQty = Math.Ceiling((LiqOzone.LastQty - LiqOzone.Qty) / hrs);
+            Charters.APIPerQty = Math.Ceiling((Charters.LastQty - Charters.Qty) / hrs);
+            N2Iso.APIPerQty = Math.Ceiling((N2Iso.LastQty - N2Iso.Qty) / hrs);
+            HeIso.APIPerQty = Math.Ceiling((HeIso.LastQty - HeIso.Qty) / hrs);
+            H2Iso.APIPerQty = Math.Ceiling((H2Iso.LastQty - H2Iso.Qty) / hrs);
+            O2Iso.APIPerQty = Math.Ceiling((O2Iso.LastQty - O2Iso.Qty) / hrs);
+            Strontium.APIPerQty = Math.Ceiling((Strontium.LastQty - Strontium.Qty) / hrs);
         }
 
         public void CopyLastAndAPI(FuelBay fb)
