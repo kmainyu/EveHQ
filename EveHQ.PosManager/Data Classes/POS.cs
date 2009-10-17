@@ -290,7 +290,6 @@ namespace EveHQ.PosManager
             int F_HourDiff = 0, S_HourDiff = 0;
             int F_DayDiff = 0, F_MinDiff = 0, S_DayDiff = 0, S_MinDiff = 0;
             decimal sov_mult;
-            bool apiUpdated = false;
 
             sov_mult = GetSovMultiple();
 
@@ -362,22 +361,6 @@ namespace EveHQ.PosManager
             S_DayDiff = D_TimeStamp.Days;
             S_MinDiff = D_TimeStamp.Minutes;
             S_HourDiff += S_DayDiff * 24;
-
-            if (apiUpdated && (F_HourDiff == 1))
-            {
-                if (PosTower.Fuel.EnrUran.LastQty == 0)
-                {
-                    PosTower.Fuel.SetLastFuelRead();
-                }
-                else
-                {
-                    PosTower.Fuel.SetAPIFuelUsage();
-                    PosTower.Fuel.SetLastFuelRead();
-                }
-                PosTower.T_Fuel.CopyLastAndAPI(PosTower.Fuel);
-                PosTower.A_Fuel.CopyLastAndAPI(PosTower.Fuel);
-                PosTower.D_Fuel.CopyLastAndAPI(PosTower.Fuel);
-            }
 
             if (status == "Offline")
             {
