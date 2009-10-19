@@ -1686,6 +1686,12 @@ Public Class ShipSlotControl
                         showMarketGroupMenuItem.Text = "Show Module Market Group"
                         AddHandler showMarketGroupMenuItem.Click, AddressOf Me.ShowModuleMarketGroup
                         ctxSlots.Items.Add(showMarketGroupMenuItem)
+                        ' Add the Show Meta Variations menu item
+                        Dim showMetaVariationsMenuItem As New ToolStripMenuItem
+                        showMetaVariationsMenuItem.Name = currentMod.Name
+                        showMetaVariationsMenuItem.Text = "Show Meta Variations"
+                        AddHandler showMetaVariationsMenuItem.Click, AddressOf Me.ShowMetaVariations
+                        ctxSlots.Items.Add(showMetaVariationsMenuItem)
                         ' Add the Add to Favourites menu item
                         Dim AddToFavourtiesMenuItem As New ToolStripMenuItem
                         AddToFavourtiesMenuItem.Name = currentMod.Name
@@ -2135,6 +2141,15 @@ Public Class ShipSlotControl
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
         ShipModule.DisplayedMarketGroup = pathLine
+    End Sub
+    Private Sub ShowMetaVariations(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim ShowMarketMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim moduleName As String = ShowMarketMenu.Name
+        Dim moduleID As String = CStr(ModuleLists.moduleListName(moduleName))
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim newComparison As New frmMetaVariations
+        newComparison.BaseModule = cModule
+        newComparison.ShowDialog()
     End Sub
     Private Sub AddModuleToFavourites(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ShowMarketMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)

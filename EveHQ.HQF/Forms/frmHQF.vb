@@ -2727,11 +2727,16 @@ Public Class frmHQF
 
 #End Region
 
+#Region "Meta Variations Code"
 
+    Private Sub mnuShowMetaVariations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowMetaVariations.Click
+        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim newComparison As New frmMetaVariations
+        newComparison.BaseModule = cModule
+        newComparison.ShowDialog()
+    End Sub
 
-
-
-
-
+#End Region
 
 End Class
