@@ -537,10 +537,60 @@ Public Class frmFleetManager
             If reply = DialogResult.Yes Then
                 For Each pilotName As String In pilots
                     FleetManager.FleetCollection(activeFleet.Name).FleetSetups.Remove(pilotName)
+                    ' Remove from Fleet Structure
+                    Call Me.RemoveFleetMember(pilotName)
+                    ' Remove Remote Giving of deleted pilot
+                    If activeFleet.RemoteGiving.ContainsKey(pilotName) Then
+                        activeFleet.RemoteGiving.Remove(pilotName)
+                    End If
+                    ' Remove Remote Giving to deleted pilot
+                    For Each rr As ArrayList In activeFleet.RemoteGiving.Values
+                        Dim ra As New FleetManager.RemoteAssignment
+                        For i As Integer = rr.Count - 1 To 0 Step -1
+                            ra = CType(rr(i), FleetManager.RemoteAssignment)
+                            If ra.FleetPilot = pilotName Then
+                                rr.RemoveAt(i)
+                            End If
+                        Next
+                    Next
+                    ' Remove Remote Receiving of deleted pilot
+                    For Each rr As ArrayList In activeFleet.RemoteReceiving.Values
+                        Dim ra As New FleetManager.RemoteAssignment
+                        For i As Integer = rr.Count - 1 To 0 Step -1
+                            ra = CType(rr(i), FleetManager.RemoteAssignment)
+                            If ra.RemotePilot = pilotName Then
+                                rr.RemoveAt(i)
+                            End If
+                        Next
+                    Next
                 Next
                 Call Me.RedrawPilotList()
+                Call Me.RedrawFleetStructure()
             End If
         End If
+    End Sub
+
+    Private Sub RemoveFleetMember(ByVal pilotName As String)
+        Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+        Dim SquadName As String = FM.SquadName
+        Dim WingName As String = FM.WingName
+        If FM.IsFC Then
+            BaseFleetShips.Remove(activeFleet.Commander)
+            activeFleet.Commander = ""
+            Exit Sub
+        End If
+        If FM.IsWC Then
+            BaseFleetShips.Remove(activeFleet.Wings(WingName).Commander)
+            activeFleet.Wings(WingName).Commander = ""
+            Exit Sub
+        End If
+        If FM.IsSC Then
+            BaseFleetShips.Remove(activeFleet.Wings(WingName).Squads(SquadName).Commander)
+            activeFleet.Wings(WingName).Squads(SquadName).Commander = ""
+            Exit Sub
+        End If
+        BaseFleetShips.Remove(pilotName)
+        activeFleet.Wings(WingName).Squads(SquadName).Members.Remove(pilotName)
     End Sub
 
     Private Sub btnShipAudit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipAudit.Click
