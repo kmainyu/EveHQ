@@ -48,12 +48,11 @@ Partial Class frmDamageAnalysis
         Me.tabShips = New System.Windows.Forms.TabPage
         Me.nudTargetVel = New System.Windows.Forms.NumericUpDown
         Me.Label3 = New System.Windows.Forms.Label
-        Me.EveSpace1 = New EveHQ.HQF.EveSpace
         Me.Label2 = New System.Windows.Forms.Label
         Me.radMovableVel = New System.Windows.Forms.RadioButton
         Me.nudAttackerVel = New System.Windows.Forms.NumericUpDown
         Me.radManualVelocity = New System.Windows.Forms.RadioButton
-        Me.tabManual = New System.Windows.Forms.TabPage
+        Me.EveSpace1 = New EveHQ.HQF.EveSpace
         CType(Me.nudVel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudRange, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabStats.SuspendLayout()
@@ -166,9 +165,10 @@ Partial Class frmDamageAnalysis
         '
         'nudVel
         '
+        Me.nudVel.BackColor = System.Drawing.SystemColors.Window
         Me.nudVel.DecimalPlaces = 2
         Me.nudVel.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.nudVel.Location = New System.Drawing.Point(302, 362)
+        Me.nudVel.Location = New System.Drawing.Point(302, 360)
         Me.nudVel.Maximum = New Decimal(New Integer() {25, 0, 0, 0})
         Me.nudVel.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.nudVel.Name = "nudVel"
@@ -181,7 +181,7 @@ Partial Class frmDamageAnalysis
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(243, 364)
+        Me.Label1.Location = New System.Drawing.Point(243, 362)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(53, 13)
         Me.Label1.TabIndex = 18
@@ -271,7 +271,6 @@ Partial Class frmDamageAnalysis
         'tabTurretMethod
         '
         Me.tabTurretMethod.Controls.Add(Me.tabShips)
-        Me.tabTurretMethod.Controls.Add(Me.tabManual)
         Me.tabTurretMethod.Location = New System.Drawing.Point(15, 60)
         Me.tabTurretMethod.Name = "tabTurretMethod"
         Me.tabTurretMethod.SelectedIndex = 0
@@ -320,20 +319,6 @@ Partial Class frmDamageAnalysis
         Me.Label3.TabIndex = 26
         Me.Label3.Text = "Target -"
         '
-        'EveSpace1
-        '
-        Me.EveSpace1.BackColor = System.Drawing.Color.Black
-        Me.EveSpace1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.EveSpace1.Location = New System.Drawing.Point(6, 6)
-        Me.EveSpace1.Name = "EveSpace1"
-        Me.EveSpace1.RangeScale = 1
-        Me.EveSpace1.Size = New System.Drawing.Size(350, 350)
-        Me.EveSpace1.SourceShip = Nothing
-        Me.EveSpace1.TabIndex = 14
-        Me.EveSpace1.TargetShip = Nothing
-        Me.EveSpace1.UseIntegratedVelocity = False
-        Me.EveSpace1.VelocityScale = 1
-        '
         'Label2
         '
         Me.Label2.AutoSize = True
@@ -375,14 +360,19 @@ Partial Class frmDamageAnalysis
         Me.radManualVelocity.Text = "Manual Velocity"
         Me.radManualVelocity.UseVisualStyleBackColor = True
         '
-        'tabManual
+        'EveSpace1
         '
-        Me.tabManual.Location = New System.Drawing.Point(4, 22)
-        Me.tabManual.Name = "tabManual"
-        Me.tabManual.Size = New System.Drawing.Size(362, 480)
-        Me.tabManual.TabIndex = 2
-        Me.tabManual.Text = "Manual"
-        Me.tabManual.UseVisualStyleBackColor = True
+        Me.EveSpace1.BackColor = System.Drawing.Color.Black
+        Me.EveSpace1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.EveSpace1.Location = New System.Drawing.Point(6, 6)
+        Me.EveSpace1.Name = "EveSpace1"
+        Me.EveSpace1.RangeScale = 1
+        Me.EveSpace1.Size = New System.Drawing.Size(350, 350)
+        Me.EveSpace1.SourceShip = Nothing
+        Me.EveSpace1.TabIndex = 14
+        Me.EveSpace1.TargetShip = Nothing
+        Me.EveSpace1.UseIntegratedVelocity = False
+        Me.EveSpace1.VelocityScale = 1
         '
         'frmDamageAnalysis
         '
@@ -445,7 +435,6 @@ Partial Class frmDamageAnalysis
     Friend WithEvents btnOptimalRange As System.Windows.Forms.Button
     Friend WithEvents tabTurretMethod As System.Windows.Forms.TabControl
     Friend WithEvents tabShips As System.Windows.Forms.TabPage
-    Friend WithEvents tabManual As System.Windows.Forms.TabPage
     Friend WithEvents tabStats As System.Windows.Forms.TabControl
     Friend WithEvents tabTurretStats As System.Windows.Forms.TabPage
     Friend WithEvents tabMissileStats As System.Windows.Forms.TabPage

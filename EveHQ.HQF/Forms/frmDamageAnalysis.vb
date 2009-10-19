@@ -325,6 +325,7 @@ Public Class frmDamageAnalysis
     Private Sub btnOptimalRange_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimalRange.Click
         If tMod.Name <> "" Then
             Dim r As Double = Math.Round(CDbl(tMod.Attributes("54")) / 80000, 5)
+            r = Math.Max(r, nudRange.Minimum)
             nudRange.Value = CDec(r)
         End If
     End Sub
