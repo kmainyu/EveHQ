@@ -1109,7 +1109,7 @@
 # RIGS - PROJECTILE WEAPON,,,,,,,,,,
 1138,2,777,30,2,55,0,0,0,15,Projectile Weapon Rig Drawback - PG Penalty
 349,2,777,158,2,55,0,0,0,15,Projectile Ambit Extension
-204,2,777,10013,2,55,0,0,0,15,Projectile Burst Aerator
+204,2,777,10013,2,55,1,0,0,15,Projectile Burst Aerator
 64,2,777,10016,2,55,1,0,5,15,Projectile Collision Accelerator
 317,2,777,6,2,55,1,0,0,15,Projectile Discharge Elutriation
 351,2,777,54,2,55,1,0,0,15,Projectile Locus Coordinator
