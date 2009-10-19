@@ -544,31 +544,35 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub btnShipAudit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipAudit.Click
-        Dim pilotName As String = clvPilots.SelectedItems(0).Text
-        If FinalFleetShips.ContainsKey(pilotname) = True Then
-            If clvPilots.SelectedItems.Count = 1 Then
-                Dim fittedShip As Ship = FinalFleetShips(pilotName)
-                Dim myAuditLog As New frmShipAudit
-                Dim logData() As String
-                Dim newLog As New ListViewItem
-                myAuditLog.lvwAudit.BeginUpdate()
-                For Each log As String In fittedShip.AuditLog
-                    logData = log.Split("#".ToCharArray)
-                    'If logData(2).Trim <> logData(3).Trim Then
-                    newLog = New ListViewItem
-                    newLog.Text = logData(0).Trim
-                    newLog.SubItems.Add(logData(1).Trim)
-                    newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                    newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                    myAuditLog.lvwAudit.Items.Add(newLog)
-                    'End If
-                Next
-                myAuditLog.lvwAudit.EndUpdate()
-                myAuditLog.ShowDialog()
-                myAuditLog = Nothing
+        If clvPilots.SelectedItems.Count > 0 Then
+            Dim pilotName As String = clvPilots.SelectedItems(0).Text
+            If FinalFleetShips.ContainsKey(pilotName) = True Then
+                If clvPilots.SelectedItems.Count = 1 Then
+                    Dim fittedShip As Ship = FinalFleetShips(pilotName)
+                    Dim myAuditLog As New frmShipAudit
+                    Dim logData() As String
+                    Dim newLog As New ListViewItem
+                    myAuditLog.lvwAudit.BeginUpdate()
+                    For Each log As String In fittedShip.AuditLog
+                        logData = log.Split("#".ToCharArray)
+                        'If logData(2).Trim <> logData(3).Trim Then
+                        newLog = New ListViewItem
+                        newLog.Text = logData(0).Trim
+                        newLog.SubItems.Add(logData(1).Trim)
+                        newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        myAuditLog.lvwAudit.Items.Add(newLog)
+                        'End If
+                    Next
+                    myAuditLog.lvwAudit.EndUpdate()
+                    myAuditLog.ShowDialog()
+                    myAuditLog = Nothing
+                End If
+            Else
+                MessageBox.Show("This pilot is not updated in the fleet. Try updating the fleet first before checking the audit log.", "Update Fleet?", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Else
-            MessageBox.Show("This pilot is not updated in the fleet. Try updating the fleet first before checking the audit log.", "Update Fleet?", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Please select a pilot in the pilot list before looking at the ship audit!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
