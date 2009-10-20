@@ -2571,7 +2571,7 @@ Public Class Engine
 
         ' Return the result
         If Capacitor > 0 Then
-            Return Capacitor
+            Return Math.Min(Capacitor, CapacitorCapacity)
         Else
             Return -currentTime
         End If
