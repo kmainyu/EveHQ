@@ -59,11 +59,13 @@ Public Class frmMetaVariations
         Dim ModuleList As New ArrayList
 
         For Each modID As String In compItems.Keys
-            Dim sModule As ShipModule = CType(ModuleLists.moduleList.Item(modID), ShipModule).Clone
-            If chkApplySkills.Checked = True Then
-                Engine.ApplySkillEffectsToModule(sModule, True)
+            If ModuleLists.moduleList.ContainsKey(modID) = True Then
+                Dim sModule As ShipModule = CType(ModuleLists.moduleList.Item(modID), ShipModule).Clone
+                If chkApplySkills.Checked = True Then
+                    Engine.ApplySkillEffectsToModule(sModule, True)
+                End If
+                ModuleList.Add(sModule)
             End If
-            ModuleList.Add(sModule)
         Next
 
         lvwComparisons.BeginUpdate()
