@@ -2543,6 +2543,7 @@ Public Class Engine
         Dim RechargeRate As Double = baseShip.CapRecharge
         Dim capConstant As Double = (RechargeRate / 5.0)
         Dim maxTime As Double = 3600 ' an hour
+        Dim minCap As Double = Capacitor
 
         ' Populate the module list
         Dim modCount As Integer = 0
@@ -2567,6 +2568,7 @@ Public Class Engine
                 End If
                 nextTime = Math.Min(nextTime, shipMods(sm, 2))
             Next
+            If Capacitor < minCap Then minCap = Capacitor
         End While
 
         ' Return the result
