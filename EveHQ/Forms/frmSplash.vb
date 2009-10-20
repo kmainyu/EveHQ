@@ -354,51 +354,89 @@ Public Class frmSplash
 
     Private Sub LoadModules()
         For Each filename As String In My.Computer.FileSystem.GetFiles(Application.StartupPath, FileIO.SearchOption.SearchTopLevelOnly, "*.dll")
-            Try
-                Dim myAssembly As Assembly = Assembly.LoadFrom(filename)
-                Dim types() As Type = myAssembly.GetTypes
-                For Each t As Type In types
-                    If t.IsPublic = True Then
-                        If t.GetInterface("EveHQ.Core.IEveHQPlugIn") IsNot Nothing Then
-                            Dim myPlugIn As EveHQ.Core.IEveHQPlugIn = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-                            Dim EveHQPlugIn As EveHQ.Core.PlugIn = myPlugIn.GetEveHQPlugInInfo
-                            EveHQPlugIn.FileName = filename
-                            Dim fi As New IO.FileInfo(filename)
-                            EveHQPlugIn.ShortFileName = fi.Name
-                            EveHQPlugIn.FileType = t.FullName
-                            EveHQPlugIn.Version = myAssembly.GetName.Version.ToString
-                            EveHQPlugIn.Instance = myPlugIn
-                            ' Get status of plug-ins from settings (should already exist!)
-                            If EveHQ.Core.HQ.EveHQSettings.Plugins.Contains(EveHQPlugIn.Name) = True Then
-                                Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
-                                EveHQPlugIn.Disabled = oldPlugIn.Disabled
-                                EveHQPlugIn.Available = True
-                                EveHQ.Core.HQ.EveHQSettings.Plugins.Remove(EveHQPlugIn.Name)
-                            Else
-                                ' If not listed, it must be new
-                                EveHQPlugIn.Disabled = False
-                                EveHQPlugIn.Available = True
+            If IsDotNetAssembly(filename) = True Then
+                Try
+                    Dim myAssembly As Assembly = Assembly.LoadFrom(filename)
+                    Dim types() As Type = myAssembly.GetTypes
+                    For Each t As Type In types
+                        If t.IsPublic = True Then
+                            If t.GetInterface("EveHQ.Core.IEveHQPlugIn") IsNot Nothing Then
+                                Dim myPlugIn As EveHQ.Core.IEveHQPlugIn = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
+                                Dim EveHQPlugIn As EveHQ.Core.PlugIn = myPlugIn.GetEveHQPlugInInfo
+                                EveHQPlugIn.FileName = filename
+                                Dim fi As New IO.FileInfo(filename)
+                                EveHQPlugIn.ShortFileName = fi.Name
+                                EveHQPlugIn.FileType = t.FullName
+                                EveHQPlugIn.Version = myAssembly.GetName.Version.ToString
+                                EveHQPlugIn.Instance = myPlugIn
+                                ' Get status of plug-ins from settings (should already exist!)
+                                If EveHQ.Core.HQ.EveHQSettings.Plugins.Contains(EveHQPlugIn.Name) = True Then
+                                    Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
+                                    EveHQPlugIn.Disabled = oldPlugIn.Disabled
+                                    EveHQPlugIn.Available = True
+                                    EveHQ.Core.HQ.EveHQSettings.Plugins.Remove(EveHQPlugIn.Name)
+                                Else
+                                    ' If not listed, it must be new
+                                    EveHQPlugIn.Disabled = False
+                                    EveHQPlugIn.Available = True
+                                End If
+                                ' Check for opening parameters
+                                If PlugInLoading.ContainsKey(EveHQPlugIn.Name) = True Then
+                                    EveHQPlugIn.PostStartupData = PlugInLoading(EveHQPlugIn.Name)
+                                End If
+                                EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
+                                EveHQ.Core.HQ.EveHQSettings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
                             End If
-                            ' Check for opening parameters
-                            If PlugInLoading.ContainsKey(EveHQPlugIn.Name) = True Then
-                                EveHQPlugIn.PostStartupData = PlugInLoading(EveHQPlugIn.Name)
-                            End If
-                            EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
-                            EveHQ.Core.HQ.EveHQSettings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
                         End If
-                    End If
-                Next
-                types = Nothing
-                myAssembly = Nothing
-            Catch bife As BadImageFormatException
-                'Ignore non .Net dlls (ones without manifests i.e. the G15 lglcd.dll) i.e. don't error
-            Catch rtle As ReflectionTypeLoadException
-                ' Assume it's a bad/old version and ignore it
-            Catch e As Exception
-                MessageBox.Show("Error loading module: " & filename & ControlChars.CrLf & e.Message.ToString, "Module Error!", MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            End Try
+                    Next
+                    types = Nothing
+                    myAssembly = Nothing
+                Catch bife As BadImageFormatException
+                    'Ignore non .Net dlls (ones without manifests i.e. the G15 lglcd.dll) i.e. don't error
+                Catch rtle As ReflectionTypeLoadException
+                    ' Assume it's a bad/old version and ignore it
+                Catch e As Exception
+                    MessageBox.Show("Error loading module: " & filename & ControlChars.CrLf & e.Message.ToString, "Module Error!", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                End Try
+            End If
         Next
     End Sub
+
+    Private Function IsDotNetAssembly(ByVal fileName As String) As Boolean
+        'private bool IsDotNetAssembly(string fileName)
+        Using fs As New FileStream(fileName, FileMode.Open, FileAccess.Read)
+            Try
+                Using br As New BinaryReader(fs)
+                    Try
+                        fs.Position = &H3C ' PE Header start offset
+                        Dim headerOffset As UInteger = br.ReadUInt32
+                        fs.Position = headerOffset + &H18
+                        Dim magicNumber As UInt16 = br.ReadUInt16()
+                        Dim dictionaryOffset As Integer
+                        Select Case magicNumber
+                            Case &H10B ' 32 bit
+                                dictionaryOffset = &H60
+                            Case &H20B ' 64 bit
+                                dictionaryOffset = &H70
+                            Case Else
+                                Throw New Exception("Invalid Image Format")
+                        End Select
+                        ' Position to RVA 15
+                        fs.Position = headerOffset + &H18 + dictionaryOffset + &H70
+                        ' Read the value
+                        Dim rva15value As UInt32 = br.ReadUInt32()
+                        Return rva15value <> 0
+                    Catch ex As Exception
+                    Finally
+                        br.Close()
+                    End Try
+                End Using
+            Catch ex As Exception
+            Finally
+                fs.Close()
+            End Try
+        End Using
+    End Function
 
     Private Function TestDataDBConnection() As Boolean
         Dim strConnection As String = ""
