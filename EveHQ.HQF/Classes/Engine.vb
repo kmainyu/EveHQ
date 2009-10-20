@@ -2544,14 +2544,17 @@ Public Class Engine
         Dim capConstant As Double = (RechargeRate / 5.0)
         Dim maxTime As Double = 3600 ' an hour
         Dim minCap As Double = Capacitor
+        Dim minCapTime As Double = 0
 
         ' Populate the module list
+        Dim stagger As Double = 0
         Dim modCount As Integer = 0
         Dim shipMods(baseShip.SlotCollection.Count, 2) As Double
         For Each slotMod As ShipModule In baseShip.SlotCollection
             If slotMod.CapUsage <> 0 And (slotMod.ModuleState Or 28) = 28 Then
                 shipMods(modCount, 0) = slotMod.CapUsage
                 shipMods(modCount, 1) = slotMod.ActivationTime + CDbl(slotMod.Attributes("10011")) + CDbl(slotMod.Attributes("10012"))
+                shipMods(modCount, 2) = stagger * modCount
                 modCount += 1
             End If
         Next
@@ -2568,12 +2571,17 @@ Public Class Engine
                 End If
                 nextTime = Math.Min(nextTime, shipMods(sm, 2))
             Next
-            If Capacitor < minCap Then minCap = Capacitor
+            If Capacitor < minCap Then
+                minCap = Capacitor
+                minCapTime = currentTime
+            End If
+
         End While
 
         ' Return the result
         If Capacitor > 0 Then
-            Return Math.Min(Capacitor, CapacitorCapacity)
+            'Return Math.Min(Capacitor, CapacitorCapacity)
+            Return Math.Min(minCap, CapacitorCapacity)
         Else
             Return -currentTime
         End If
