@@ -42,6 +42,7 @@ Public Class frmTraining
     Dim certListNodes As New SortedList
     Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
     Dim displayPilot As New EveHQ.Core.Pilot
+    Dim cDisplayPilotName As String = ""
     Dim startup As Boolean = False
 
     Delegate Sub UpdateSuggestionUIDelegate(ByVal ActQueueName As String)
@@ -51,9 +52,10 @@ Public Class frmTraining
 
     Public Property DisplayPilotName() As String
         Get
-            Return displayPilot.Name
+            Return cDisplayPilotName
         End Get
         Set(ByVal value As String)
+            cDisplayPilotName = value
             If cboPilots.Items.Contains(value) Then
                 cboPilots.SelectedItem = value
             End If
@@ -104,9 +106,9 @@ Public Class frmTraining
         cboPilots.EndUpdate()
 
         ' Select a pilot
-        If displayPilot.Name <> "" Then
-            If cboPilots.Items.Contains(displayPilot.Name) = True Then
-                cboPilots.SelectedItem = displayPilot.Name
+        If cDisplayPilotName <> "" Then
+            If cboPilots.Items.Contains(cDisplayPilotName) = True Then
+                cboPilots.SelectedItem = cDisplayPilotName
             Else
                 cboPilots.SelectedIndex = 0
             End If
