@@ -227,6 +227,8 @@ Public Class frmFleetManager
         ' Reset Ships
         Me.BaseFleetShips.Clear()
         Me.FinalFleetShips.Clear()
+        ' Check remote modules
+        Call Me.CheckFittingsWithRemoteModules()
         ' Redraw remote modules
         clvPilots.Items.Clear()
         ' Activate the buttons
@@ -458,6 +460,68 @@ Public Class frmFleetManager
 #End Region
 
 #Region "Pilot List Routines"
+
+    Private Sub CheckFittingsWithRemoteModules()
+        Dim AssignmentsRemoved As Boolean = False
+        Dim RemovedAssignments As New SortedList(Of String, ArrayList)
+        For Each pilotName As String In activeFleet.RemoteGiving.Keys
+            ' Get list of modules for this pilot
+            Dim shipFit As String = activeFleet.FleetSetups(pilotName).FittingName
+            Dim fittingSep As Integer = shipFit.IndexOf(", ")
+            Dim shipName As String = shipFit.Substring(0, fittingSep)
+            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+            Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+            Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
+            aShip = Engine.CollectModules(aShip)
+            Dim modList As New ArrayList
+            For Each remoteModule As ShipModule In aShip.SlotCollection
+                If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
+                    modList.Add(remoteModule.Name)
+                End If
+            Next
+            ' Check the remote giving
+            Dim rr As ArrayList = activeFleet.RemoteGiving(pilotName)
+            Dim ra As New FleetManager.RemoteAssignment
+            For i As Integer = rr.Count - 1 To 0 Step -1
+                ra = CType(rr(i), FleetManager.RemoteAssignment)
+                If modList.Contains(ra.RemoteModule) Then
+                    ' Move it from the module list
+                    modList.Remove(ra.RemoteModule)
+                Else
+                    ' Remove it from the remote assignments
+                    rr.RemoveAt(i)
+                    ' Add the remote assignment to another list to check for remote receiving
+                    Dim RemAss As New ArrayList
+                    If RemovedAssignments.ContainsKey(ra.RemotePilot) = True Then
+                        RemAss = RemovedAssignments(ra.RemotePilot)
+                    Else
+                        RemovedAssignments.Add(ra.RemotePilot, RemAss)
+                    End If
+                    RemAss.Add(ra)
+                End If
+            Next
+        Next
+        ' We should have a list of remote assignments to remove so remove them from the remote receiving
+        For Each pilotName As String In RemovedAssignments.Keys
+            Dim RemAss As ArrayList = RemovedAssignments(pilotName)
+            Dim rr As ArrayList = activeFleet.RemoteReceiving(pilotName)
+            Dim ra, remA As New FleetManager.RemoteAssignment
+            For i As Integer = rr.Count - 1 To 0 Step -1
+                ra = CType(rr(i), FleetManager.RemoteAssignment)
+                For r As Integer = RemAss.Count - 1 To 0 Step -1
+                    remA = CType(RemAss(r), FleetManager.RemoteAssignment)
+                    If ra.RemoteModule = remA.RemoteModule And ra.RemotePilot = remA.FleetPilot And ra.FleetPilot = remA.RemotePilot Then
+                        ' Remove it from the remote assignments
+                        rr.RemoveAt(i)
+                        RemAss.RemoveAt(r)
+                        AssignmentsRemoved = True
+                        Exit For
+                    End If
+                Next
+            Next
+        Next
+    End Sub
 
     Private Sub RedrawPilotList()
         clvPilots.BeginUpdate()
