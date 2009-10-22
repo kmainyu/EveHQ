@@ -481,7 +481,11 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                If fEffect.AffectedValue < 0 Then
+                                    newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                Else
+                                    newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                End If
                             Case EffectCalcType.Velocity
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + (CDbl(newShip.Attributes(att)) * (CDbl(newShip.Attributes("10010")) / CDbl(newShip.Attributes("10002")) * (fEffect.AffectedValue / 100)))
                             Case EffectCalcType.Absolute
@@ -1262,7 +1266,11 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                        If fEffect.AffectedValue < 0 Then
+                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                        Else
+                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                        End If
                                     Case EffectCalcType.Absolute
                                         aModule.Attributes(att) = fEffect.AffectedValue
                                     Case EffectCalcType.Multiplier
@@ -1352,7 +1360,11 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                If fEffect.AffectedValue < 0 Then
+                                    newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                Else
+                                    newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                End If
                             Case EffectCalcType.Absolute
                                 newShip.Attributes(att) = fEffect.AffectedValue
                             Case EffectCalcType.Multiplier
@@ -1433,7 +1445,11 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                If fEffect.AffectedValue < 0 Then
+                                    newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                Else
+                                    newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                End If
                             Case EffectCalcType.Absolute
                                 newShip.Attributes(att) = fEffect.AffectedValue
                             Case EffectCalcType.Multiplier
@@ -1527,7 +1543,11 @@ Public Class Engine
                                 Case EffectCalcType.Addition
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                 Case EffectCalcType.Difference ' Used for resistances
-                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                    If fEffect.AffectedValue < 0 Then
+                                        aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                    Else
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                    End If
                                 Case EffectCalcType.Absolute
                                     aModule.Attributes(att) = fEffect.AffectedValue
                                 Case EffectCalcType.Multiplier
@@ -1603,7 +1623,11 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
+                                        If fEffect.AffectedValue < 0 Then
+                                            aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
+                                        Else
+                                            aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                        End If
                                     Case EffectCalcType.Absolute
                                         aModule.LoadedCharge.Attributes(att) = fEffect.AffectedValue
                                     Case EffectCalcType.Multiplier
@@ -1698,7 +1722,11 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                        If fEffect.AffectedValue < 0 Then
+                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                        Else
+                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                        End If
                                     Case EffectCalcType.Absolute
                                         aModule.Attributes(att) = fEffect.AffectedValue
                                     Case EffectCalcType.Multiplier
@@ -1792,7 +1820,11 @@ Public Class Engine
                                 Case EffectCalcType.Addition
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                 Case EffectCalcType.Difference ' Used for resistances
-                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                    If fEffect.AffectedValue < 0 Then
+                                        aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                    Else
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                    End If
                                 Case EffectCalcType.Absolute
                                     aModule.Attributes(att) = fEffect.AffectedValue
                                 Case EffectCalcType.Multiplier
@@ -1872,7 +1904,11 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
+                                        If fEffect.AffectedValue < 0 Then
+                                            aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
+                                        Else
+                                            aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                        End If
                                     Case EffectCalcType.Absolute
                                         aModule.LoadedCharge.Attributes(att) = fEffect.AffectedValue
                                     Case EffectCalcType.Multiplier
@@ -1970,6 +2006,11 @@ Public Class Engine
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                 Case EffectCalcType.Difference ' Used for resistances
                                     aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                    If fEffect.AffectedValue < 0 Then
+                                        aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                    Else
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                    End If
                                 Case EffectCalcType.Absolute
                                     aModule.Attributes(att) = fEffect.AffectedValue
                                 Case EffectCalcType.Multiplier
@@ -2053,7 +2094,11 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                If fEffect.AffectedValue < 0 Then
+                                    newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                Else
+                                    newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
+                                End If
                             Case EffectCalcType.Velocity
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + (CDbl(newShip.Attributes(att)) * (CDbl(newShip.Attributes("10010")) / CDbl(newShip.Attributes("10002")) * (fEffect.AffectedValue / 100)))
                             Case EffectCalcType.Absolute
