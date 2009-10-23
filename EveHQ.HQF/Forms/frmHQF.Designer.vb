@@ -52,8 +52,6 @@ Partial Class frmHQF
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
         Me.cboFittings = New System.Windows.Forms.ToolStripComboBox
         Me.SplitContainerShip = New System.Windows.Forms.SplitContainer
-        Me.clvFittings = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuFittingsFittingName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
@@ -110,6 +108,7 @@ Partial Class frmHQF
         Me.mnuRemoveFromFavourites = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuSep2 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuShowModuleMarketGroup = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuShowMetaVariations = New System.Windows.Forms.ToolStripMenuItem
         Me.imgAttributes = New System.Windows.Forms.ImageList(Me.components)
         Me.ctxTabHQF = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuCloseHQFTab = New System.Windows.Forms.ToolStripMenuItem
@@ -192,9 +191,10 @@ Partial Class frmHQF
         Me.tabFit = New System.Windows.Forms.TabPage
         Me.panelShipSlot = New System.Windows.Forms.Panel
         Me.panelShipInfo = New System.Windows.Forms.Panel
-        Me.Splitter1 = New System.Windows.Forms.Splitter
-        Me.Splitter2 = New System.Windows.Forms.Splitter
-        Me.mnuShowMetaVariations = New System.Windows.Forms.ToolStripMenuItem
+        Me.clvFittings = New DotNetLib.Windows.Forms.ContainerListView
+        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
+        Me.CollapsibleSplitter2 = New NJFLib.Controls.CollapsibleSplitter
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainerShip.Panel1.SuspendLayout()
         Me.SplitContainerShip.Panel2.SuspendLayout()
@@ -473,30 +473,6 @@ Partial Class frmHQF
         Me.SplitContainerShip.SplitterDistance = 298
         Me.SplitContainerShip.SplitterWidth = 2
         Me.SplitContainerShip.TabIndex = 3
-        '
-        'clvFittings
-        '
-        Me.clvFittings.AllowMultiSelect = True
-        Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
-        Me.clvFittings.DefaultItemHeight = 16
-        Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.clvFittings.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.clvFittings.ItemContextMenu = Me.ctxFittings
-        Me.clvFittings.Location = New System.Drawing.Point(0, 0)
-        Me.clvFittings.Name = "clvFittings"
-        Me.clvFittings.ShowPlusMinus = True
-        Me.clvFittings.ShowRootTreeLines = True
-        Me.clvFittings.ShowTreeLines = True
-        Me.clvFittings.Size = New System.Drawing.Size(196, 294)
-        Me.clvFittings.TabIndex = 0
-        '
-        'ContainerListViewColumnHeader1
-        '
-        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader1.Tag = Nothing
-        Me.ContainerListViewColumnHeader1.Text = "Available Fittings"
-        Me.ContainerListViewColumnHeader1.Width = 150
         '
         'ctxFittings
         '
@@ -950,7 +926,7 @@ Partial Class frmHQF
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup, Me.mnuShowMetaVariations})
         Me.ctxModuleList.Name = "ctxModuleList"
-        Me.ctxModuleList.Size = New System.Drawing.Size(224, 148)
+        Me.ctxModuleList.Size = New System.Drawing.Size(224, 126)
         '
         'mnuShowModuleInfo
         '
@@ -986,6 +962,12 @@ Partial Class frmHQF
         Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleMarketGroup.Text = "Show Module Market Group"
         '
+        'mnuShowMetaVariations
+        '
+        Me.mnuShowMetaVariations.Name = "mnuShowMetaVariations"
+        Me.mnuShowMetaVariations.Size = New System.Drawing.Size(223, 22)
+        Me.mnuShowMetaVariations.Text = "Show Meta Variations"
+        '
         'imgAttributes
         '
         Me.imgAttributes.ImageStream = CType(resources.GetObject("imgAttributes.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -1018,11 +1000,11 @@ Partial Class frmHQF
         Me.tabHQF.Controls.Add(Me.tabShipPreview)
         Me.tabHQF.Controls.Add(Me.tabFit)
         Me.tabHQF.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tabHQF.Location = New System.Drawing.Point(203, 25)
+        Me.tabHQF.Location = New System.Drawing.Point(208, 25)
         Me.tabHQF.Multiline = True
         Me.tabHQF.Name = "tabHQF"
         Me.tabHQF.SelectedIndex = 0
-        Me.tabHQF.Size = New System.Drawing.Size(602, 696)
+        Me.tabHQF.Size = New System.Drawing.Size(592, 696)
         Me.tabHQF.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.tabHQF.TabIndex = 0
         '
@@ -1032,7 +1014,7 @@ Partial Class frmHQF
         Me.tabShipPreview.Location = New System.Drawing.Point(4, 22)
         Me.tabShipPreview.Name = "tabShipPreview"
         Me.tabShipPreview.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabShipPreview.Size = New System.Drawing.Size(594, 670)
+        Me.tabShipPreview.Size = New System.Drawing.Size(584, 670)
         Me.tabShipPreview.TabIndex = 0
         Me.tabShipPreview.Text = "Ship Preview"
         Me.tabShipPreview.UseVisualStyleBackColor = True
@@ -1047,7 +1029,7 @@ Partial Class frmHQF
         Me.panelPreview.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelPreview.Location = New System.Drawing.Point(3, 3)
         Me.panelPreview.Name = "panelPreview"
-        Me.panelPreview.Size = New System.Drawing.Size(588, 664)
+        Me.panelPreview.Size = New System.Drawing.Size(578, 664)
         Me.panelPreview.TabIndex = 19
         '
         'lblShipType
@@ -1057,7 +1039,7 @@ Partial Class frmHQF
         Me.lblShipType.Font = New System.Drawing.Font("Arial", 20.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblShipType.Location = New System.Drawing.Point(4, 4)
         Me.lblShipType.Name = "lblShipType"
-        Me.lblShipType.Size = New System.Drawing.Size(581, 33)
+        Me.lblShipType.Size = New System.Drawing.Size(571, 33)
         Me.lblShipType.TabIndex = 2
         Me.lblShipType.Text = "Ship Type"
         '
@@ -1077,7 +1059,7 @@ Partial Class frmHQF
         Me.FlowLayoutPanel1.Controls.Add(Me.gbSpeed)
         Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 174)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(582, 485)
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(572, 502)
         Me.FlowLayoutPanel1.TabIndex = 18
         '
         'GroupBox1
@@ -1827,7 +1809,7 @@ Partial Class frmHQF
         Me.txtShipDescription.Name = "txtShipDescription"
         Me.txtShipDescription.ReadOnly = True
         Me.txtShipDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
-        Me.txtShipDescription.Size = New System.Drawing.Size(451, 128)
+        Me.txtShipDescription.Size = New System.Drawing.Size(441, 128)
         Me.txtShipDescription.TabIndex = 17
         Me.txtShipDescription.Text = "Ship Description"
         '
@@ -1837,7 +1819,7 @@ Partial Class frmHQF
         Me.tabFit.Controls.Add(Me.panelShipInfo)
         Me.tabFit.Location = New System.Drawing.Point(4, 22)
         Me.tabFit.Name = "tabFit"
-        Me.tabFit.Size = New System.Drawing.Size(594, 670)
+        Me.tabFit.Size = New System.Drawing.Size(243, 168)
         Me.tabFit.TabIndex = 2
         Me.tabFit.Text = "Fitting"
         Me.tabFit.UseVisualStyleBackColor = True
@@ -1847,39 +1829,69 @@ Partial Class frmHQF
         Me.panelShipSlot.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelShipSlot.Location = New System.Drawing.Point(0, 0)
         Me.panelShipSlot.Name = "panelShipSlot"
-        Me.panelShipSlot.Size = New System.Drawing.Size(344, 670)
+        Me.panelShipSlot.Size = New System.Drawing.Size(0, 168)
         Me.panelShipSlot.TabIndex = 1
         '
         'panelShipInfo
         '
         Me.panelShipInfo.Dock = System.Windows.Forms.DockStyle.Right
-        Me.panelShipInfo.Location = New System.Drawing.Point(344, 0)
+        Me.panelShipInfo.Location = New System.Drawing.Point(-7, 0)
         Me.panelShipInfo.Name = "panelShipInfo"
-        Me.panelShipInfo.Size = New System.Drawing.Size(250, 670)
+        Me.panelShipInfo.Size = New System.Drawing.Size(250, 168)
         Me.panelShipInfo.TabIndex = 0
         '
-        'Splitter1
+        'clvFittings
         '
-        Me.Splitter1.Location = New System.Drawing.Point(200, 25)
-        Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(3, 696)
-        Me.Splitter1.TabIndex = 7
-        Me.Splitter1.TabStop = False
+        Me.clvFittings.AllowMultiSelect = True
+        Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
+        Me.clvFittings.DefaultItemHeight = 16
+        Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvFittings.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.clvFittings.ItemContextMenu = Me.ctxFittings
+        Me.clvFittings.Location = New System.Drawing.Point(0, 0)
+        Me.clvFittings.Name = "clvFittings"
+        Me.clvFittings.ShowPlusMinus = True
+        Me.clvFittings.ShowRootTreeLines = True
+        Me.clvFittings.ShowTreeLines = True
+        Me.clvFittings.Size = New System.Drawing.Size(196, 294)
+        Me.clvFittings.TabIndex = 0
         '
-        'Splitter2
+        'ContainerListViewColumnHeader1
         '
-        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Splitter2.Location = New System.Drawing.Point(805, 25)
-        Me.Splitter2.Name = "Splitter2"
-        Me.Splitter2.Size = New System.Drawing.Size(3, 696)
-        Me.Splitter2.TabIndex = 8
-        Me.Splitter2.TabStop = False
+        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader1.Tag = Nothing
+        Me.ContainerListViewColumnHeader1.Text = "Available Fittings"
+        Me.ContainerListViewColumnHeader1.Width = 150
         '
-        'mnuShowMetaVariations
+        'CollapsibleSplitter1
         '
-        Me.mnuShowMetaVariations.Name = "mnuShowMetaVariations"
-        Me.mnuShowMetaVariations.Size = New System.Drawing.Size(223, 22)
-        Me.mnuShowMetaVariations.Text = "Show Meta Variations"
+        Me.CollapsibleSplitter1.AnimationDelay = 20
+        Me.CollapsibleSplitter1.AnimationStep = 20
+        Me.CollapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat
+        Me.CollapsibleSplitter1.ControlToHide = Me.SplitContainerShip
+        Me.CollapsibleSplitter1.ExpandParentForm = False
+        Me.CollapsibleSplitter1.Location = New System.Drawing.Point(200, 25)
+        Me.CollapsibleSplitter1.Name = "CollapsibleSplitter1"
+        Me.CollapsibleSplitter1.TabIndex = 9
+        Me.CollapsibleSplitter1.TabStop = False
+        Me.CollapsibleSplitter1.UseAnimations = False
+        Me.CollapsibleSplitter1.VisualStyle = NJFLib.Controls.VisualStyles.XP
+        '
+        'CollapsibleSplitter2
+        '
+        Me.CollapsibleSplitter2.AnimationDelay = 20
+        Me.CollapsibleSplitter2.AnimationStep = 20
+        Me.CollapsibleSplitter2.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat
+        Me.CollapsibleSplitter2.ControlToHide = Me.SplitContainerMod
+        Me.CollapsibleSplitter2.Dock = System.Windows.Forms.DockStyle.Right
+        Me.CollapsibleSplitter2.ExpandParentForm = False
+        Me.CollapsibleSplitter2.Location = New System.Drawing.Point(800, 25)
+        Me.CollapsibleSplitter2.Name = "CollapsibleSplitter2"
+        Me.CollapsibleSplitter2.TabIndex = 10
+        Me.CollapsibleSplitter2.TabStop = False
+        Me.CollapsibleSplitter2.UseAnimations = False
+        Me.CollapsibleSplitter2.VisualStyle = NJFLib.Controls.VisualStyles.XP
         '
         'frmHQF
         '
@@ -1887,8 +1899,8 @@ Partial Class frmHQF
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1099, 721)
         Me.Controls.Add(Me.tabHQF)
-        Me.Controls.Add(Me.Splitter2)
-        Me.Controls.Add(Me.Splitter1)
+        Me.Controls.Add(Me.CollapsibleSplitter2)
+        Me.Controls.Add(Me.CollapsibleSplitter1)
         Me.Controls.Add(Me.SplitContainerMod)
         Me.Controls.Add(Me.SplitContainerShip)
         Me.Controls.Add(Me.ToolStrip1)
@@ -2102,8 +2114,6 @@ Partial Class frmHQF
     Friend WithEvents tabFit As System.Windows.Forms.TabPage
     Friend WithEvents panelShipSlot As System.Windows.Forms.Panel
     Friend WithEvents panelShipInfo As System.Windows.Forms.Panel
-    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
-    Friend WithEvents Splitter2 As System.Windows.Forms.Splitter
     Friend WithEvents chkOnlyShowFittable As System.Windows.Forms.CheckBox
     Friend WithEvents btnScreenshot As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
@@ -2135,4 +2145,6 @@ Partial Class frmHQF
     Friend WithEvents tsbFleetManager As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuShowMetaVariations As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
+    Friend WithEvents CollapsibleSplitter2 As NJFLib.Controls.CollapsibleSplitter
 End Class
