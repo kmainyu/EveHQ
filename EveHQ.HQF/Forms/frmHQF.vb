@@ -2553,32 +2553,6 @@ Public Class frmHQF
         End Try
     End Sub
 
-    Private Sub btnShipPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipPanel.Click
-        If btnShipPanel.Checked = True Then
-            ' If the panel is open
-            'btnShipPanel.Image = My.Resources.panel_close
-            SplitContainerShip.Visible = True
-            cboFittings.Visible = False
-        Else
-            ' If the panel is closed
-            'btnShipPanel.Image = My.Resources.panel_open
-            SplitContainerShip.Visible = False
-            cboFittings.Visible = True
-        End If
-    End Sub
-
-    Private Sub btnItemPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnItemPanel.Click
-        If btnItemPanel.Checked = True Then
-            ' If the panel is open
-            'btnShipPanel.Image = My.Resources.panel_close
-            SplitContainerMod.Visible = True
-        Else
-            ' If the panel is closed
-            'btnShipPanel.Image = My.Resources.panel_open
-            SplitContainerMod.Visible = False
-        End If
-    End Sub
-
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
         If myPilotManager.IsHandleCreated = False Then
             myPilotManager = New frmPilotManager
@@ -2739,4 +2713,7 @@ Public Class frmHQF
 
 #End Region
 
+    Private Sub CollapsibleSplitter1_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles CollapsibleSplitter1.MouseClick
+        cboFittings.Visible = CollapsibleSplitter1.IsCollapsed
+    End Sub
 End Class

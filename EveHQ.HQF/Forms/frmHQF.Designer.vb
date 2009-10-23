@@ -25,9 +25,6 @@ Partial Class frmHQF
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQF))
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
-        Me.btnShipPanel = New System.Windows.Forms.ToolStripButton
-        Me.btnItemPanel = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton
         Me.tsbOptions = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
@@ -52,6 +49,8 @@ Partial Class frmHQF
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
         Me.cboFittings = New System.Windows.Forms.ToolStripComboBox
         Me.SplitContainerShip = New System.Windows.Forms.SplitContainer
+        Me.clvFittings = New DotNetLib.Windows.Forms.ContainerListView
+        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuFittingsFittingName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
@@ -191,8 +190,6 @@ Partial Class frmHQF
         Me.tabFit = New System.Windows.Forms.TabPage
         Me.panelShipSlot = New System.Windows.Forms.Panel
         Me.panelShipInfo = New System.Windows.Forms.Panel
-        Me.clvFittings = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.CollapsibleSplitter2 = New NJFLib.Controls.CollapsibleSplitter
         Me.ToolStrip1.SuspendLayout()
@@ -253,43 +250,12 @@ Partial Class frmHQF
         'ToolStrip1
         '
         Me.ToolStrip1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.ToolStripSeparator5, Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.tsbFleetManager, Me.ToolStripSeparator1, Me.btnPilotManager, Me.ToolStripSeparator8, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.tsbFleetManager, Me.ToolStripSeparator1, Me.btnPilotManager, Me.ToolStripSeparator8, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1099, 25)
         Me.ToolStrip1.TabIndex = 2
         Me.ToolStrip1.Text = "ToolStrip1"
-        '
-        'btnShipPanel
-        '
-        Me.btnShipPanel.Checked = True
-        Me.btnShipPanel.CheckOnClick = True
-        Me.btnShipPanel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.btnShipPanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnShipPanel.Image = CType(resources.GetObject("btnShipPanel.Image"), System.Drawing.Image)
-        Me.btnShipPanel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnShipPanel.Name = "btnShipPanel"
-        Me.btnShipPanel.Size = New System.Drawing.Size(23, 22)
-        Me.btnShipPanel.Text = "ToolStripButton1"
-        Me.btnShipPanel.ToolTipText = "Toggle Ship Panels"
-        '
-        'btnItemPanel
-        '
-        Me.btnItemPanel.Checked = True
-        Me.btnItemPanel.CheckOnClick = True
-        Me.btnItemPanel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.btnItemPanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnItemPanel.Image = CType(resources.GetObject("btnItemPanel.Image"), System.Drawing.Image)
-        Me.btnItemPanel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnItemPanel.Name = "btnItemPanel"
-        Me.btnItemPanel.Size = New System.Drawing.Size(23, 22)
-        Me.btnItemPanel.Text = "ToolStripButton2"
-        Me.btnItemPanel.ToolTipText = "Toggle Item Panels"
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
         '
         'ToolStripButton3
         '
@@ -473,6 +439,30 @@ Partial Class frmHQF
         Me.SplitContainerShip.SplitterDistance = 298
         Me.SplitContainerShip.SplitterWidth = 2
         Me.SplitContainerShip.TabIndex = 3
+        '
+        'clvFittings
+        '
+        Me.clvFittings.AllowMultiSelect = True
+        Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
+        Me.clvFittings.DefaultItemHeight = 16
+        Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvFittings.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.clvFittings.ItemContextMenu = Me.ctxFittings
+        Me.clvFittings.Location = New System.Drawing.Point(0, 0)
+        Me.clvFittings.Name = "clvFittings"
+        Me.clvFittings.ShowPlusMinus = True
+        Me.clvFittings.ShowRootTreeLines = True
+        Me.clvFittings.ShowTreeLines = True
+        Me.clvFittings.Size = New System.Drawing.Size(196, 294)
+        Me.clvFittings.TabIndex = 0
+        '
+        'ContainerListViewColumnHeader1
+        '
+        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader1.Tag = Nothing
+        Me.ContainerListViewColumnHeader1.Text = "Available Fittings"
+        Me.ContainerListViewColumnHeader1.Width = 150
         '
         'ctxFittings
         '
@@ -1819,7 +1809,7 @@ Partial Class frmHQF
         Me.tabFit.Controls.Add(Me.panelShipInfo)
         Me.tabFit.Location = New System.Drawing.Point(4, 22)
         Me.tabFit.Name = "tabFit"
-        Me.tabFit.Size = New System.Drawing.Size(243, 168)
+        Me.tabFit.Size = New System.Drawing.Size(584, 670)
         Me.tabFit.TabIndex = 2
         Me.tabFit.Text = "Fitting"
         Me.tabFit.UseVisualStyleBackColor = True
@@ -1829,40 +1819,16 @@ Partial Class frmHQF
         Me.panelShipSlot.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelShipSlot.Location = New System.Drawing.Point(0, 0)
         Me.panelShipSlot.Name = "panelShipSlot"
-        Me.panelShipSlot.Size = New System.Drawing.Size(0, 168)
+        Me.panelShipSlot.Size = New System.Drawing.Size(334, 670)
         Me.panelShipSlot.TabIndex = 1
         '
         'panelShipInfo
         '
         Me.panelShipInfo.Dock = System.Windows.Forms.DockStyle.Right
-        Me.panelShipInfo.Location = New System.Drawing.Point(-7, 0)
+        Me.panelShipInfo.Location = New System.Drawing.Point(334, 0)
         Me.panelShipInfo.Name = "panelShipInfo"
-        Me.panelShipInfo.Size = New System.Drawing.Size(250, 168)
+        Me.panelShipInfo.Size = New System.Drawing.Size(250, 670)
         Me.panelShipInfo.TabIndex = 0
-        '
-        'clvFittings
-        '
-        Me.clvFittings.AllowMultiSelect = True
-        Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
-        Me.clvFittings.DefaultItemHeight = 16
-        Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.clvFittings.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.clvFittings.ItemContextMenu = Me.ctxFittings
-        Me.clvFittings.Location = New System.Drawing.Point(0, 0)
-        Me.clvFittings.Name = "clvFittings"
-        Me.clvFittings.ShowPlusMinus = True
-        Me.clvFittings.ShowRootTreeLines = True
-        Me.clvFittings.ShowTreeLines = True
-        Me.clvFittings.Size = New System.Drawing.Size(196, 294)
-        Me.clvFittings.TabIndex = 0
-        '
-        'ContainerListViewColumnHeader1
-        '
-        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader1.Tag = Nothing
-        Me.ContainerListViewColumnHeader1.Text = "Available Fittings"
-        Me.ContainerListViewColumnHeader1.Width = 150
         '
         'CollapsibleSplitter1
         '
@@ -1981,8 +1947,6 @@ Partial Class frmHQF
     Friend WithEvents SplitContainerMod As System.Windows.Forms.SplitContainer
     Friend WithEvents tvwShips As System.Windows.Forms.TreeView
     Friend WithEvents tsbOptions As System.Windows.Forms.ToolStripButton
-    Friend WithEvents btnShipPanel As System.Windows.Forms.ToolStripButton
-    Friend WithEvents btnItemPanel As System.Windows.Forms.ToolStripButton
     Friend WithEvents tvwItems As System.Windows.Forms.TreeView
     Friend WithEvents lvwItems As EveHQ.HQF.ListViewNoFlicker
     Friend WithEvents ToolStripButton3 As System.Windows.Forms.ToolStripButton
@@ -2121,7 +2085,6 @@ Partial Class frmHQF
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents pbSearchShips As System.Windows.Forms.PictureBox
-    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuShipStats As System.Windows.Forms.ToolStripMenuItem
