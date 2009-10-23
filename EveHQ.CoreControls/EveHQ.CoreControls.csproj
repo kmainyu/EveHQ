@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollapsibleSplitter\CollapsibleSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProgressBar\ProgressBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
