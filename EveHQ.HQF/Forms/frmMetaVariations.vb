@@ -104,7 +104,10 @@ Public Class frmMetaVariations
             Dim newMod As New ListViewItem
             newMod.Text = sMod.Name
             newMod.Name = sMod.ID
-            newMod.SubItems.Add(sMod.MetaLevel.ToString)
+            Dim mlItem As New ListViewItem.ListViewSubItem
+            mlItem.Text = sMod.MetaLevel.ToString
+            mlItem.Name = sMod.MetaLevel.ToString
+            newMod.SubItems.Add(mlItem)
             ' Add column placeholders
             For c As Integer = 2 To lvwComparisons.Columns.Count
                 newMod.SubItems.Add("")
