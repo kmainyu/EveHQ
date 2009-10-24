@@ -255,13 +255,6 @@ Public Class IGB
     End Sub
     Public Shared Function IGBHTMLHeader(ByVal context As Net.HttpListenerContext, Optional ByVal strTitle As String = "") As String
         Dim strHTML As String = ""
-        ' Check if site is trusted and requested trusted if not
-        If context.Request.Headers("EVE_TRUSTED") Is Nothing Then
-            Dim msgTrust As String = "By allowing this site to be trusted, you will be able to integrate your "
-            msgTrust &= "in-game browser (IGB) with EveHQ. This will allow you to get Eve item data"
-            msgTrust &= "in your IGB."
-            context.Response.Headers.Add("EVE_TRUSTME", "http://" & context.Request.Headers("Host") & "/::" & msgTrust)
-        End If
         ' Check for PDA Header!
         If context.Request.UserAgent.Contains("Windows CE") = True Then
             pdaStyle = True
@@ -285,7 +278,7 @@ Public Class IGB
         End If
         strHTML &= "--></STYLE>"
         strHTML &= "</HEAD>"
-        strHTML &= "<BODY link=#ff8888 alink=#ff8888 vlink=#ff8888>"
+        strHTML &= "<BODY onLoad=""CCPEVE.RequestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
         If pdaStyle = False Then
             If context.Request.Headers("EVE_CHARNAME") <> "" Then
                 'strHTML &= "<img src='portrait:" & context.Request.Headers("EVE_CHARID") & "' size='64' alt='Mini Mugshot' />"
@@ -298,7 +291,6 @@ Public Class IGB
             Else
                 strHTML &= "Greetings " & context.Request.Headers("EVE_CHARNAME") & "!<br>"
             End If
-            strHTML &= "There are " & EveHQ.Core.HQ.myTQServer.Players & " pilots on-line (" & EveHQ.Core.HQ.mySiSiServer.Players & " on test server)<br>"
             strHTML &= "<hr><a href=/>Home</a>  |  <a href=/itemDB>Item Database</a>  |  <a href=/reports>Reports</a>  |  <a href=/headers>IGB Headers</a>"
             For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
                 If PlugInInfo.RunInIGB = True Then
@@ -314,7 +306,6 @@ Public Class IGB
             strHTML &= "<table width=240px border=0 bgcolor=#000000><tr><td width=240px>"
             strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />"
             strHTML &= "Greetings Pilot!<br>"
-            strHTML &= "There are " & EveHQ.Core.HQ.myTQServer.Players & " pilots on-line (" & EveHQ.Core.HQ.mySiSiServer.Players & " on test server)<hr>"
             strHTML &= "</td></tr><tr><td width=240px align=center>Search Item Database: "
             strHTML &= "<form method=""GET"" action=""/searchResults"">"
             strHTML &= "<input type=""text"" name=""str"">"
@@ -337,7 +328,7 @@ Public Class IGB
         If pdaStyle = True Then
             strHTML &= "<table width=240px border=0><tr><td width=100% align=center>"
         Else
-            strHTML &= "<table width=800px border=0><tr><td width=100% align=center>"
+            strHTML &= "<table width=100% border=0><tr><td width=100% align=center>"
         End If
         strHTML &= "<hr>"
         strHTML &= "<p align=""center"">Created by " & My.Application.Info.ProductName & " v" & My.Application.Info.Version.ToString
@@ -526,7 +517,6 @@ Public Class IGB
                     dbNavigator &= "<a href=/itemDB/?view=t&id=" & pInfo(0) & ">" & pInfo(1) & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"
-
                     strHTML &= "<p><a href=/itemDB/?view=t&id=" & typeID & "&s=a>ATTRIBUTES</a>"
                     strHTML &= "  |  "
                     Dim bpTypeID As String = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
@@ -559,11 +549,8 @@ Public Class IGB
                             strHTML &= "  |  "
                         End If
                     End If
-                    'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
-                    '    strHTML &= "<a href=showinfo:" & typeID & ">INGAME INFO</a></p>"
-                    'Else
-                    strHTML &= "[n/a]</p>"
-                    'End If
+                    strHTML &= "<button type=""button"" onClick=""CCPEVE.ShowInfo(" & typeID & ")"">Show Info</button>"
+                    strHTML &= "</p>"
                     strHTML &= "<table width=800px class=tbl border=1 cellpadding=0><tr width=100%>"
                     'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                     '    strHTML &= "<td width=64px><img src=""typeicon:" & typeID & """ width=64 height=64></td>"
