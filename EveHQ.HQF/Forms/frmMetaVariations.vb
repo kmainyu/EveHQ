@@ -96,14 +96,16 @@ Public Class frmMetaVariations
                 newCol.Name = att
                 newCol.Tag = CType(Attributes.AttributeList(att), Attribute).UnitName
                 newCol.TextAlign = HorizontalAlignment.Right
-                lvwComparisons.Columns.Add(newCol)
+                If newCol.Text <> "" Then
+                    lvwComparisons.Columns.Add(newCol)
+                End If
             End If
         Next
         ' Add the modules
         For Each sMod As ShipModule In ModuleList
             Dim newMod As New ListViewItem
             newMod.Text = sMod.Name
-            newMod.Name = sMod.ID
+            newMod.Name = sMod.Name
             Dim mlItem As New ListViewItem.ListViewSubItem
             mlItem.Text = sMod.MetaLevel.ToString
             mlItem.Name = sMod.MetaLevel.ToString
