@@ -481,7 +481,7 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                If fEffect.AffectedValue < 0 Then
+                                If fEffect.AffectedValue <= 0 Then
                                     newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
                                 Else
                                     newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1266,7 +1266,7 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        If fEffect.AffectedValue < 0 Then
+                                        If fEffect.AffectedValue <= 0 Then
                                             aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
                                         Else
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1360,7 +1360,7 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                If fEffect.AffectedValue < 0 Then
+                                If fEffect.AffectedValue <= 0 Then
                                     newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
                                 Else
                                     newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1445,7 +1445,7 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                If fEffect.AffectedValue < 0 Then
+                                If fEffect.AffectedValue <= 0 Then
                                     newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
                                 Else
                                     newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1543,7 +1543,7 @@ Public Class Engine
                                 Case EffectCalcType.Addition
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                 Case EffectCalcType.Difference ' Used for resistances
-                                    If fEffect.AffectedValue < 0 Then
+                                    If fEffect.AffectedValue <= 0 Then
                                         aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
                                     Else
                                         aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1623,7 +1623,7 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        If fEffect.AffectedValue < 0 Then
+                                        If fEffect.AffectedValue <= 0 Then
                                             aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
                                         Else
                                             aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1722,7 +1722,7 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        If fEffect.AffectedValue < 0 Then
+                                        If fEffect.AffectedValue <= 0 Then
                                             aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
                                         Else
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1820,7 +1820,7 @@ Public Class Engine
                                 Case EffectCalcType.Addition
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                 Case EffectCalcType.Difference ' Used for resistances
-                                    If fEffect.AffectedValue < 0 Then
+                                    If fEffect.AffectedValue <= 0 Then
                                         aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
                                     Else
                                         aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -1904,7 +1904,7 @@ Public Class Engine
                                     Case EffectCalcType.Addition
                                         aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                     Case EffectCalcType.Difference ' Used for resistances
-                                        If fEffect.AffectedValue < 0 Then
+                                        If fEffect.AffectedValue <= 0 Then
                                             aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
                                         Else
                                             aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -2006,7 +2006,7 @@ Public Class Engine
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                 Case EffectCalcType.Difference ' Used for resistances
                                     aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
-                                    If fEffect.AffectedValue < 0 Then
+                                    If fEffect.AffectedValue <= 0 Then
                                         aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
                                     Else
                                         aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (fEffect.AffectedValue / 100)
@@ -2094,7 +2094,7 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                If fEffect.AffectedValue < 0 Then
+                                If fEffect.AffectedValue <= 0 Then
                                     newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
                                 Else
                                     newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (fEffect.AffectedValue / 100)
