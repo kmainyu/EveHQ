@@ -635,26 +635,28 @@ Public Class frmFleetManager
     End Sub
 
     Private Sub RemoveFleetMember(ByVal pilotName As String)
-        Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
-        Dim SquadName As String = FM.SquadName
-        Dim WingName As String = FM.WingName
-        If FM.IsFC Then
-            BaseFleetShips.Remove(activeFleet.Commander)
-            activeFleet.Commander = ""
-            Exit Sub
-        End If
-        If FM.IsWC Then
-            BaseFleetShips.Remove(activeFleet.Wings(WingName).Commander)
-            activeFleet.Wings(WingName).Commander = ""
-            Exit Sub
-        End If
-        If FM.IsSC Then
-            BaseFleetShips.Remove(activeFleet.Wings(WingName).Squads(SquadName).Commander)
-            activeFleet.Wings(WingName).Squads(SquadName).Commander = ""
-            Exit Sub
-        End If
         BaseFleetShips.Remove(pilotName)
-        activeFleet.Wings(WingName).Squads(SquadName).Members.Remove(pilotName)
+        If activeFleetMembers.ContainsKey(pilotName) = True Then
+            Dim FM As FleetManager.FleetMember = activeFleetMembers(pilotName)
+            Dim SquadName As String = FM.SquadName
+            Dim WingName As String = FM.WingName
+            If FM.IsFC Then
+                BaseFleetShips.Remove(activeFleet.Commander)
+                activeFleet.Commander = ""
+                Exit Sub
+            End If
+            If FM.IsWC Then
+                BaseFleetShips.Remove(activeFleet.Wings(WingName).Commander)
+                activeFleet.Wings(WingName).Commander = ""
+                Exit Sub
+            End If
+            If FM.IsSC Then
+                BaseFleetShips.Remove(activeFleet.Wings(WingName).Squads(SquadName).Commander)
+                activeFleet.Wings(WingName).Squads(SquadName).Commander = ""
+                Exit Sub
+            End If
+            activeFleet.Wings(WingName).Squads(SquadName).Members.Remove(pilotName)
+        End If
     End Sub
 
     Private Sub btnShipAudit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipAudit.Click
