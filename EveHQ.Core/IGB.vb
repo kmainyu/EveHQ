@@ -35,7 +35,6 @@ Public Class IGB
     Const maxActivities As Integer = 9
     Private EveIcons As Collection = New Collection
     Private cTQPlayers, cSisiPlayers As Long
-    Shared pdaStyle As Boolean = False
 
     Public Property TQPlayers() As Long
         Get
@@ -255,12 +254,6 @@ Public Class IGB
     End Sub
     Public Shared Function IGBHTMLHeader(ByVal context As Net.HttpListenerContext, Optional ByVal strTitle As String = "") As String
         Dim strHTML As String = ""
-        ' Check for PDA Header!
-        If context.Request.UserAgent.Contains("Windows CE") = True Then
-            pdaStyle = True
-        Else
-            pdaStyle = False
-        End If
         strHTML &= "<HTML>"
         strHTML &= "<HEAD><TITLE>" & strTitle & "</TITLE>"
         strHTML &= "<STYLE><!--"
@@ -271,65 +264,37 @@ Public Class IGB
         strHTML &= ".thead { font-family: Tahoma, Arial; font-size: 12px; color: #ffffff; font-variant: small-caps; background-color: #444444; }"
         strHTML &= ".footer { font-family: Tahoma, Arial; font-size: 9px; color: #ffffff; font-variant: small-caps; }"
         strHTML &= ".title { font-family: Tahoma, Arial; font-size: 20px; color: #ffffff; font-variant: small-caps; }"
-        If pdaStyle = False Then
-            strHTML &= ".tbl { width: 800px; color: #ffffff; }"
-        Else
-            strHTML &= ".tbl { width: 240px; color: #ffffff; }"
-        End If
+        strHTML &= ".tbl { width: 800px; color: #ffffff; }"
         strHTML &= "--></STYLE>"
         strHTML &= "</HEAD>"
         strHTML &= "<BODY onLoad=""CCPEVE.RequestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
-        If pdaStyle = False Then
-            If context.Request.Headers("EVE_CHARNAME") <> "" Then
-                'strHTML &= "<img src='portrait:" & context.Request.Headers("EVE_CHARID") & "' size='64' alt='Mini Mugshot' />"
-                strHTML &= "<img src='http://img.eve.is/serv.asp?s=64&c=" & context.Request.Headers("EVE_CHARID") & "' size=96 alt='Mini Mugshot' />"
-            End If
-            strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />  IGB Server<br>"
-            strHTML &= "<p>"
-            If context.Request.Headers("EVE_CHARNAME") = "" Then
-                strHTML &= "Greetings Pilot!<br>"
-            Else
-                strHTML &= "Greetings " & context.Request.Headers("EVE_CHARNAME") & "!<br>"
-            End If
-            strHTML &= "<hr><a href=/>Home</a>  |  <a href=/itemDB>Item Database</a>  |  <a href=/reports>Reports</a>  |  <a href=/headers>IGB Headers</a>"
-            For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
-                If PlugInInfo.RunInIGB = True Then
-                    strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
-                End If
-            Next
-            strHTML &= "</p>"
-            strHTML &= "<form method=""GET"" action=""/searchResults"">"
-            strHTML &= "Search Item Database:  "
-            strHTML &= "<input type=""text"" name=""str"">"
-            strHTML &= "<input type=""submit"" value=""Search!""></form><hr><br>"
-        Else
-            strHTML &= "<table width=240px border=0 bgcolor=#000000><tr><td width=240px>"
-            strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />"
-            strHTML &= "Greetings Pilot!<br>"
-            strHTML &= "</td></tr><tr><td width=240px align=center>Search Item Database: "
-            strHTML &= "<form method=""GET"" action=""/searchResults"">"
-            strHTML &= "<input type=""text"" name=""str"">"
-            strHTML &= "<input type=""submit"" value=""Search!"">"
-            strHTML &= "</form></td></tr>"
-            strHTML &= "<tr height=30><td colspan=2>"
-            strHTML &= " <a href=/>Home</a>  |  <a href=/itemDB>Item Database</a>  |  <a href=/reports>Reports</a>  |  <a href=/headers>IGB Headers</a>"
-            strHTML &= "</td></tr></table><hr>"
-            strHTML &= "<br>"
+        If context.Request.Headers("EVE_CHARNAME") <> "" Then
+            'strHTML &= "<img src='portrait:" & context.Request.Headers("EVE_CHARID") & "' size='64' alt='Mini Mugshot' />"
+            strHTML &= "<img src='http://img.eve.is/serv.asp?s=64&c=" & context.Request.Headers("EVE_CHARID") & "' size=96 alt='Mini Mugshot' />"
         End If
+        strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />  IGB Server<br>"
+        strHTML &= "<p>"
+        If context.Request.Headers("EVE_CHARNAME") = "" Then
+            strHTML &= "Greetings Pilot!<br>"
+        Else
+            strHTML &= "Greetings " & context.Request.Headers("EVE_CHARNAME") & "!<br>"
+        End If
+        strHTML &= "<hr><a href=/>Home</a>  |  <a href=/itemDB>Item Database</a>  |  <a href=/reports>Reports</a>  |  <a href=/headers>IGB Headers</a>"
+        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+            If PlugInInfo.RunInIGB = True Then
+                strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
+            End If
+        Next
+        strHTML &= "</p>"
+        strHTML &= "<form method=""GET"" action=""/searchResults"">"
+        strHTML &= "Search Item Database:  "
+        strHTML &= "<input type=""text"" name=""str"">"
+        strHTML &= "<input type=""submit"" value=""Search!""></form><hr><br>"
         Return strHTML
     End Function
     Public Shared Function IGBHTMLFooter(ByVal context As Net.HttpListenerContext) As String
         Dim strHTML As String = ""
-        If context.Request.UserAgent.Contains("Windows CE") = True Then
-            pdaStyle = True
-        Else
-            pdaStyle = False
-        End If
-        If pdaStyle = True Then
-            strHTML &= "<table width=240px border=0><tr><td width=100% align=center>"
-        Else
-            strHTML &= "<table width=100% border=0><tr><td width=100% align=center>"
-        End If
+        strHTML &= "<table width=100% border=0><tr><td width=100% align=center>"
         strHTML &= "<hr>"
         strHTML &= "<p align=""center"">Created by " & My.Application.Info.ProductName & " v" & My.Application.Info.Version.ToString
         timeEnd = Now
@@ -735,27 +700,14 @@ Public Class IGB
                             For itemloop As Integer = 1 To attNo
                                 If attributes(itemloop, 0) = "0" And attributes(itemloop, 1) <> "0" Then
                                     Dim attGroup As String = attributes(itemloop, 5)
-                                    If pdaStyle = False Then
-                                        strHTML &= "<table width=800px border=1 cellpadding=0><tr bgcolor=#661111><td colspan=2>" & attGroups(CInt(attGroup)) & "</td></tr>"
-                                    Else
-                                        strHTML &= "<table width=240px border=1 cellpadding=0><tr bgcolor=#661111><td>" & attGroups(CInt(attGroup)) & "</td></tr>"
-                                    End If
+                                    strHTML &= "<table width=800px border=1 cellpadding=0><tr bgcolor=#661111><td colspan=2>" & attGroups(CInt(attGroup)) & "</td></tr>"
                                     For item As Integer = itemloop To attNo
                                         If attributes(item, 5) = attGroup And attributes(item, 1) <> "0" Then
-                                            If pdaStyle = False Then
-                                                strHTML &= "<tr align=top width=600px><td width=300px>"
-                                                strHTML &= "(" & attributes(item, 1) & ")  " & attributes(item, 2)
-                                                strHTML &= "</td><td>"
-                                                strHTML &= attributes(item, 3) & attributes(item, 4)
-                                                strHTML &= "</td></tr>"
-                                            Else
-                                                strHTML &= "<tr align=top width=240px><td width=240px>"
-                                                strHTML &= "<div class=atthead>"
-                                                strHTML &= "(" & attributes(item, 1) & ")  " & attributes(item, 2)
-                                                strHTML &= "</div><div class=attbody>"
-                                                strHTML &= attributes(item, 3) & attributes(item, 4)
-                                                strHTML &= "</div></td></tr>"
-                                            End If
+                                            strHTML &= "<tr align=top width=600px><td width=300px>"
+                                            strHTML &= "(" & attributes(item, 1) & ")  " & attributes(item, 2)
+                                            strHTML &= "</td><td>"
+                                            strHTML &= attributes(item, 3) & attributes(item, 4)
+                                            strHTML &= "</td></tr>"
                                             attributes(item, 0) = "1"
                                         End If
                                     Next
