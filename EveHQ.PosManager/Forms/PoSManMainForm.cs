@@ -1571,6 +1571,8 @@ namespace EveHQ.PosManager
 
         private void GetTowerItemListData()
         {
+            int ind;
+
             cb_ItemType.Items.Clear();
 
             foreach (CategoryItem ci in CL.Cats)
@@ -3572,11 +3574,18 @@ namespace EveHQ.PosManager
         {
             ContextMenuStrip Mnu = (ContextMenuStrip)sender;
             api = (PoS_Item)Mnu.SourceControl;
-            ToolStripMenuItem tsmi;
+            ToolStripMenuItem tsmi, tsmm;
 
             tsmi = (ToolStripMenuItem)cms_PosItem.Items[4];
+            tsmm = (ToolStripMenuItem)cms_PosItem.Items[3];
             tsmi.DropDownItems.Clear();
             tsmi.Available = true;
+
+            if (api.typeID == 0)
+                // Empty Block, do not show Context menu / disable all
+                Mnu.Enabled = false;
+            else
+                Mnu.Enabled = true;
 
             if (api.TypeKey != EveHQ.PosManager.PoS_Item.TypeKeyEnum.Tower)
             {
@@ -3585,7 +3594,7 @@ namespace EveHQ.PosManager
                     if ((m.typeID == api.typeID) && (api.contName == m.Location))
                     {
                         // found the module, populate the charge list
-                        if (m.ChargeList == null)
+                        if ((m.ChargeList == null) || (m.ChargeList.Count < 1))
                         {
                             tsmi.Available = false;
                             break;
@@ -3598,6 +3607,16 @@ namespace EveHQ.PosManager
                     }
                 }
             }
+
+            if (tsmi.Available == true)
+                tsmi.Enabled = true;
+            else
+                tsmi.Enabled = false;
+
+            if ((api.catName == "Silo") || (api.catName == "Moon Mining") || (api.catName == "Mobile Reactor"))
+                tsmm.Enabled = false;
+            else
+                tsmm.Enabled = true;
         }
 
         private void tsm_SetModuleCharge_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -4802,7 +4821,7 @@ namespace EveHQ.PosManager
             API_D.LoadAPIListing();
             BuildPOSListForMonitoring();
             UpdateAllTowerSovLevels();
-            GetTowerItemListData();
+            //GetTowerItemListData();
             RunCalculationsWithUpdatedInformation();
             POSList.SaveDesignListing();
             tsl_APIState.Text = "";
