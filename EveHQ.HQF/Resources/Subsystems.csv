@@ -2,10 +2,10 @@
 #Type ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
 # Defensive Subsystems,,,,,,,,,,,
 # Legion Defensive - Adaptive Augmenter,,,,,,,,,,,
-29964,1,30532,267,1,29986,0,1,2,5,15,Armor EM Resistance
-29964,1,30532,268,1,29986,0,1,2,5,15,Armor Explosive Resistance
-29964,1,30532,269,1,29986,0,1,2,5,15,Armor Kinetic Resistance
-29964,1,30532,270,1,29986,0,1,2,5,15,Armor Thermal Resistance
+29964,1,30532,267,1,29986,0,1,2,-5,15,Armor EM Resistance
+29964,1,30532,268,1,29986,0,1,2,-5,15,Armor Explosive Resistance
+29964,1,30532,269,1,29986,0,1,2,-5,15,Armor Kinetic Resistance
+29964,1,30532,270,1,29986,0,1,2,-5,15,Armor Thermal Resistance
 29964,1,30532,84,2,325,0,1,2,10,15,Remote Armor Repair Amount
 # Legion Defensive - Nanobot Injector,,,,,,,,,,,
 29965,1,30532,84,2,62,0,1,0,10,15,Armor Repair Amount
@@ -16,26 +16,26 @@
 29967,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 29967,1,30532,833,1,20069;20409;22227,0,1,0,5,15,Armored Warfare Link Bonus
 # Loki Defensive - Adaptive Shielding,,,,,,,,,,,
-29974,1,30545,271,1,29990,0,1,2,5,15,EM Shield Resist
-29974,1,30545,272,1,29990,0,1,2,5,15,Exp Shield Resist
-29974,1,30545,273,1,29990,0,1,2,5,15,Kin Shield Resist
-29974,1,30545,274,1,29990,0,1,2,5,15,Therm Shield Resist
+29974,1,30545,271,1,29990,0,1,2,-5,15,EM Shield Resist
+29974,1,30545,272,1,29990,0,1,2,-5,15,Exp Shield Resist
+29974,1,30545,273,1,29990,0,1,2,-5,15,Kin Shield Resist
+29974,1,30545,274,1,29990,0,1,2,-5,15,Therm Shield Resist
 29974,1,30545,68,2,41,0,1,0,10,15,Shield Transporter Amount
 # Loki Defensive - Adaptive Augmenter,,,,,,,,,,,
-29975,1,30545,267,1,29990,0,1,2,5,15,Armor EM Resistance
-29975,1,30545,268,1,29990,0,1,2,5,15,Armor Explosive Resistance
-29975,1,30545,269,1,29990,0,1,2,5,15,Armor Kinetic Resistance
-29975,1,30545,270,1,29990,0,1,2,5,15,Armor Thermal Resistance
+29975,1,30545,267,1,29990,0,1,2,-5,15,Armor EM Resistance
+29975,1,30545,268,1,29990,0,1,2,-5,15,Armor Explosive Resistance
+29975,1,30545,269,1,29990,0,1,2,-5,15,Armor Kinetic Resistance
+29975,1,30545,270,1,29990,0,1,2,-5,15,Armor Thermal Resistance
 # Loki Defensive - Amplification Node,,,,,,,,,,,
 29976,1,30545,552,1,11387,0,1,0,-5,15,Signature Radius
 # Loki Defensive - Warfare Processor,,,,,,,,,,,
 29977,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 29977,1,30545,833,1,20070;11017;20408,0,1,0,5,15,Skirmish Warfare Link Bonus
 # Proteus Defensive - Adaptive Augmenter,,,,,,,,,,,
-29979,1,30540,267,1,29988,0,1,2,5,15,Armor EM Resistance
-29979,1,30540,268,1,29988,0,1,2,5,15,Armor Explosive Resistance
-29979,1,30540,269,1,29988,0,1,2,5,15,Armor Kinetic Resistance
-29979,1,30540,270,1,29988,0,1,2,5,15,Armor Thermal Resistance
+29979,1,30540,267,1,29988,0,1,2,-5,15,Armor EM Resistance
+29979,1,30540,268,1,29988,0,1,2,-5,15,Armor Explosive Resistance
+29979,1,30540,269,1,29988,0,1,2,-5,15,Armor Kinetic Resistance
+29979,1,30540,270,1,29988,0,1,2,-5,15,Armor Thermal Resistance
 29979,1,30540,84,2,325,0,1,2,10,15,Remote Armor Repair Amount
 # Proteus Defensive - Nanobot Injector,,,,,,,,,,,
 29980,1,30540,84,2,62,0,1,0,10,15,Armor Repair Amount
@@ -46,10 +46,10 @@
 29982,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 29982,1,30540,833,1,20406;20405;11052,0,1,0,5,15,Information Warfare Link Bonus
 # Tengu Defensive - Adaptive Shielding,,,,,,,,,,,
-29969,1,30544,271,1,29984,0,1,2,5,15,EM Shield Resist
-29969,1,30544,272,1,29984,0,1,2,5,15,Exp Shield Resist
-29969,1,30544,273,1,29984,0,1,2,5,15,Kin Shield Resist
-29969,1,30544,274,1,29984,0,1,2,5,15,Therm Shield Resist
+29969,1,30544,271,1,29984,0,1,2,-5,15,EM Shield Resist
+29969,1,30544,272,1,29984,0,1,2,-5,15,Exp Shield Resist
+29969,1,30544,273,1,29984,0,1,2,-5,15,Kin Shield Resist
+29969,1,30544,274,1,29984,0,1,2,-5,15,Therm Shield Resist
 29969,1,30544,68,2,41,0,1,0,10,15,Shield Transporter Amount
 # Tengu Defensive - Amplification Node,,,,,,,,,,,
 29970,1,30544,68,2,40,0,1,0,10,15,Shield Booster Boost
