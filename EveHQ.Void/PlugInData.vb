@@ -19,14 +19,14 @@ Public Class PlugInData
         EveHQPlugIn.Author = "Vessper"
         EveHQPlugIn.MainMenuText = "Void"
         EveHQPlugIn.RunAtStartup = True
-        EveHQPlugIn.RunInIGB = False
+        EveHQPlugIn.RunInIGB = True
         EveHQPlugIn.MenuImage = My.Resources.plugin_icon
         EveHQPlugIn.Version = My.Application.Info.Version.ToString
         Return EveHQPlugIn
     End Function
 
     Public Function IGBService(ByVal IGBContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
-        Return ""
+        Return IGBData.Response(IGBContext)
     End Function
 
     Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn

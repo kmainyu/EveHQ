@@ -258,7 +258,7 @@ Public Class IGB
         strHTML &= "<HEAD><TITLE>" & strTitle & "</TITLE>"
         strHTML &= "<STYLE><!--"
         strHTML &= "BODY { font-family: Arial, Tahoma; font-size: 10px; bgcolor: #000000; background: #000000; color: #ffffff; }"
-        strHTML &= "TD, P, FORM { font-family: Arial, Tahoma; font-size: 10px; color: #ffffff; }"
+        strHTML &= "TD, P, FORM { font-family: Arial, Tahoma; font-size: 10px;}"
         strHTML &= ".attbody { font-family: Arial, Tahoma; font-size: 10px; color: #ffffff; }"
         strHTML &= ".atthead { font-family: Tahoma, Arial; font-size: 8px; color: #ffffff; font-variant: small-caps; }"
         strHTML &= ".thead { font-family: Tahoma, Arial; font-size: 12px; color: #ffffff; font-variant: small-caps; background-color: #444444; }"

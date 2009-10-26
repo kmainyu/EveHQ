@@ -88,7 +88,7 @@ Public Class frmVoid
                 Else
                     modName = WH.WEffect & " Effect Beacon Class " & WH.WClass
                 End If
-                Dim SSun As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(EveHQ.Core.HQ.itemList(modName))
+                'Dim SSun As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(EveHQ.Core.HQ.itemList(modName))
                 lblAnomalyName.Text = WH.WEffect
                 ' Establish the effects
                 Dim EffectList As New SortedList(Of String, Double)
