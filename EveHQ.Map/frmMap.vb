@@ -852,7 +852,7 @@ Public Class frmMap
                                 nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel) : newItem.SubItems.Add(nsi)
                                 nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel * 0.15) : newItem.SubItems.Add(nsi)
                             Else
-                                newItem.SubItems.Add("-") : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
+                                newItem.SubItems.Add(maxJumps.ToString) : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                             End If
                             If route1.Sys.SovereigntyName <> "" Then
                                 nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.SovereigntyName : nsi.Name = route1.Sys.SovereigntyName : newItem.SubItems.Add(nsi)

@@ -973,7 +973,7 @@ Partial Class frmMap
         '
         'colDistance
         '
-        Me.colDistance.Text = "Distance (ly)"
+        Me.colDistance.Text = "Distance"
         Me.colDistance.Width = 100
         '
         'colFuel
@@ -994,12 +994,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1795,24 +1795,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
