@@ -604,6 +604,11 @@ Public Class frmMap
                 nudJumps.Enabled = True
                 lblEndSystem.Visible = False
                 btnAddEnd.Enabled = False
+            Case 4
+                gbJumpDrive.Visible = False
+                nudJumps.Enabled = False
+                lblEndSystem.Visible = False
+                btnAddEnd.Enabled = False
         End Select
     End Sub
     Private Sub goClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCalculate.Click
@@ -694,6 +699,7 @@ Public Class frmMap
         Gates = 0
         JumpRadius = 3
         Jumps = 1
+        RegionSystem = 4
     End Enum
     Public Function AddGates(ByVal c As Route, ByVal [to] As SolarSystem) As Route
         If (c Is Nothing) Then
@@ -744,13 +750,14 @@ Public Class frmMap
         Select Case algotype1
             Case RouteType.Gates, RouteType.Jumps
                 endSys = PlugInData.SystemsID(CStr(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))).ID))
-            Case RouteType.GateRadius, RouteType.JumpRadius
+            Case RouteType.GateRadius, RouteType.JumpRadius, RouteType.RegionSystem
                 endSys = Nothing
         End Select
         Dim text2 As String
         Dim maxJumps As Integer = 0
         Dim route1 As Route = Nothing
         Dim text1 As String = Nothing
+        Dim myRoute As Dijkstra = New Dijkstra
 
         frmMap.minjump = CDbl(Me.nudMinSec.Value)
         frmMap.maxjump = CDbl(Me.nudMaxSec.Value)
@@ -814,6 +821,11 @@ Public Class frmMap
                 frmMap.maxdist = Math.Min(driveRange, 14.625)
                 maxJumps = Math.Max(CInt(nJumps), 1)
                 route1 = Me.JumpRadius(startSys, maxJumps)
+            Case RouteType.RegionSystem
+                ' Calculate a gate route
+                Dim minSec As Double = nudMinSec.Value
+                Dim maxSec As Double = nudMaxSec.Value
+                Call myRoute.GetPath(startSys, startSys, True, minSec, maxSec)
         End Select
         Dim endTime As DateTime = Now
         Dim timeTaken As TimeSpan = endTime - startTime
@@ -821,7 +833,7 @@ Public Class frmMap
         ' Write the route to the listview
         lvwRoute.BeginUpdate()
         lvwRoute.Items.Clear()
-        If (route1 Is Nothing) Then
+        If (route1 Is Nothing) And myRoute Is Nothing Then
             lvwRoute.Items.Add(" - ")
             lvwRoute.Items(0).SubItems.Add("No valid results found.")
             lvwRoute.Items(0).Name = "Invalid"
@@ -866,6 +878,45 @@ Public Class frmMap
                     Me.lblTotalDistance.Text = "Total Available Jumps: " & lvwRoute.Items.Count
                     Me.lblEuclideanDistance.Text = ""
                     Me.lblTotalFuel.Text = ""
+                Case RouteType.RegionSystem
+                    Dim regionNames As New SortedList(Of String, SolarSystem)
+                    Dim regionDists As New SortedList(Of String, Integer)
+                    For Each sys As SolarSystem In Map.PlugInData.SystemsID.Values
+                        ' Get the distance
+                        If startSys.Region <> sys.Region Then
+                            Dim route As ArrayList = myRoute.GetPath(startSys, sys, False)
+                            If route IsNot Nothing Then
+                                If regionDists.ContainsKey(sys.Region) = True Then
+                                    If (route.Count - 1) < regionDists(sys.Region) Then
+                                        regionDists(sys.Region) = route.Count - 1
+                                        regionNames(sys.Region) = sys
+                                    End If
+                                Else
+                                    regionDists.Add(sys.Region, route.Count - 1)
+                                    regionNames.Add(sys.Region, sys)
+                                End If
+                            End If
+                        End If
+                    Next
+                    Dim count As Integer = 0
+                    For Each reg As String In regionNames.Keys
+                        Dim newItem As ListViewItem = New ListViewItem
+                        count += 1
+                        newItem.Name = CStr(count)
+                        newItem.Text = CStr(count)
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Name : nsi.Name = regionNames(reg).Name : newItem.SubItems.Add(nsi)
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Constellation : nsi.Name = regionNames(reg).Constellation : newItem.SubItems.Add(nsi)
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Region : nsi.Name = regionNames(reg).Region : newItem.SubItems.Add(nsi)
+                        newItem.BackColor = Me.SystemColour(regionNames(reg).EveSec)
+                        newItem.SubItems.Add(FormatNumber(regionNames(reg).EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        newItem.SubItems.Add(regionDists(reg).ToString) : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
+                        If regionNames(reg).SovereigntyName <> "" Then
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).SovereigntyName : nsi.Name = regionNames(reg).SovereigntyName : newItem.SubItems.Add(nsi)
+                        Else
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = "<Unclaimed>" : nsi.Name = "<Unclaimed>" : newItem.SubItems.Add(nsi)
+                        End If
+                        lvwRoute.Items.Add(newItem)
+                    Next
                 Case Else
                     text2 = String.Concat(New Object() {startSys.Name, " to ", endSys.Name, ": ", (route1.Length - 1), " jumps"})
                     Dim totalDist As Double = route1.RouteDist

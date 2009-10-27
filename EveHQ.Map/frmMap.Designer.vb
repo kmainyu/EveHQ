@@ -1053,7 +1053,7 @@ Partial Class frmMap
         '
         Me.cboRouteMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboRouteMode.FormattingEnabled = True
-        Me.cboRouteMode.Items.AddRange(New Object() {"Gate Route", "Jump Route", "Systems in Gate Radius", "Systems in Jump Radius"})
+        Me.cboRouteMode.Items.AddRange(New Object() {"Gate Route", "Jump Route", "Systems in Gate Radius", "Systems in Jump Radius", "Nearest Region System"})
         Me.cboRouteMode.Location = New System.Drawing.Point(55, 22)
         Me.cboRouteMode.Name = "cboRouteMode"
         Me.cboRouteMode.Size = New System.Drawing.Size(164, 21)
