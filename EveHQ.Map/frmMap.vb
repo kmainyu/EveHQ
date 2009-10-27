@@ -855,7 +855,7 @@ Public Class frmMap
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
-                            newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
+                            newItem.BackColor = Me.SystemColour(route1.Sys.EveSec, 255)
                             newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             If (algotype1 = RouteType.JumpRadius) Then
                                 Dim dd As Double = Math.Round(frmMap.Distance(startSys, route1.Sys), 8, MidpointRounding.AwayFromZero)
@@ -907,7 +907,7 @@ Public Class frmMap
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Name : nsi.Name = regionNames(reg).Name : newItem.SubItems.Add(nsi)
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Constellation : nsi.Name = regionNames(reg).Constellation : newItem.SubItems.Add(nsi)
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Region : nsi.Name = regionNames(reg).Region : newItem.SubItems.Add(nsi)
-                        newItem.BackColor = Me.SystemColour(regionNames(reg).EveSec)
+                        newItem.BackColor = Me.SystemColour(regionNames(reg).EveSec, 255)
                         newItem.SubItems.Add(FormatNumber(regionNames(reg).EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                         newItem.SubItems.Add(regionDists(reg).ToString) : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                         If regionNames(reg).SovereigntyName <> "" Then
@@ -935,7 +935,7 @@ Public Class frmMap
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
-                            newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
+                            newItem.BackColor = Me.SystemColour(route1.Sys.EveSec, 255)
                             newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             If (algotype1 = RouteType.Jumps) Then
                                 nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = CStr(jumpDist) : newItem.SubItems.Add(nsi)
@@ -972,30 +972,30 @@ Public Class frmMap
         Me.btnCalculate.Enabled = True
         lblTimeTaken.Text = "Time Taken: " & FormatNumber(timeTaken.TotalSeconds, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s"
     End Sub
-    Private Function SystemColour(ByVal secStatus As Double) As Color
+    Private Function SystemColour(ByVal secStatus As Double, ByVal alpha As Integer) As Color
         Select Case secStatus
             Case Is < 0.05
-                Return Color.FromArgb(204, 0, 0)
+                Return Color.FromArgb(alpha, 204, 0, 0)
             Case 0.05 To 0.15
-                Return Color.FromArgb(229, 26, 0)
+                Return Color.FromArgb(alpha, 229, 26, 0)
             Case 0.15 To 0.25
-                Return Color.FromArgb(255, 51, 0)
+                Return Color.FromArgb(alpha, 255, 51, 0)
             Case 0.25 To 0.35
-                Return Color.FromArgb(255, 77, 0)
+                Return Color.FromArgb(alpha, 255, 77, 0)
             Case 0.35 To 0.45
-                Return Color.FromArgb(229, 102, 0)
+                Return Color.FromArgb(alpha, 229, 102, 0)
             Case 0.45 To 0.55
-                Return Color.FromArgb(255, 255, 0)
+                Return Color.FromArgb(alpha, 255, 255, 0)
             Case 0.55 To 0.65
-                Return Color.FromArgb(77, 229, 0)
+                Return Color.FromArgb(alpha, 77, 229, 0)
             Case 0.65 To 0.75
-                Return Color.FromArgb(77, 229, 26)
+                Return Color.FromArgb(alpha, 77, 229, 26)
             Case 0.75 To 0.85
-                Return Color.FromArgb(26, 255, 51)
+                Return Color.FromArgb(alpha, 26, 255, 51)
             Case 0.85 To 0.95
-                Return Color.FromArgb(0, 255, 128)
+                Return Color.FromArgb(alpha, 0, 255, 128)
             Case Is > 0.95
-                Return Color.FromArgb(51, 255, 255)
+                Return Color.FromArgb(alpha, 51, 255, 255)
         End Select
     End Function
     Public Shared Sub ErrorMsg(ByVal err As String)
@@ -1507,7 +1507,7 @@ Public Class frmMap
                     ' A valid point in the zoomed map!
                     locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
                     locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
-                    Dim myBrush As SolidBrush = New SolidBrush(Me.SystemColour(cSystem.Security))
+                    Dim myBrush As SolidBrush = New SolidBrush(Me.SystemColour(cSystem.Security, 255))
                     Dim brushSize As Integer
                     If Int(zoomLevel / 500) = 0 Then
                         brushSize = 3
@@ -2057,7 +2057,7 @@ Public Class frmMap
                     nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                     nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                     nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
-                    newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
+                    newItem.BackColor = Me.SystemColour(route1.Sys.EveSec, 255)
                     newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     If (cboRouteMode.SelectedItem.ToString = "Route Jumps") Then
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = CStr(jumpDist) : newItem.SubItems.Add(nsi)
