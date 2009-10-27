@@ -23,6 +23,7 @@ Public Class frmFleetManager
     Dim fleetGroups As New ArrayList
     Dim fleetSkills As New ArrayList
     Dim SBModules, WBModules, FBModules As New ArrayList
+    Public Event OpenFitting(ByVal fittingName As String)
 
 #Region "Form Initialisation, Loading and Closing"
 
@@ -2508,5 +2509,12 @@ Public Class frmFleetManager
         Next
     End Sub
 
-    
+    Private Sub mnuOpenFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuOpenFitting.Click
+        If clvPilots.SelectedItems.Count > 0 Then
+            Dim selItem As ContainerListViewItem = clvPilots.SelectedItems(0)
+            Dim fleetPilot As String = selItem.Text
+            Dim cSetup As FleetManager.FleetSetup = activeFleet.FleetSetups(fleetPilot)
+            RaiseEvent OpenFitting(cSetup.FittingName)
+        End If
+    End Sub
 End Class

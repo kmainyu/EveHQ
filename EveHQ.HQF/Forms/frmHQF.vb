@@ -109,7 +109,7 @@ Public Class frmHQF
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
         AddHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
         AddHandler HQFEvents.UpdateAllImplantLists, AddressOf Me.UpdateAllImplantLists
-
+       
         ' Load the Profiles - stored separately from settings for distibution!
         Call Settings.HQFSettings.LoadProfiles()
 
@@ -1993,6 +1993,19 @@ Public Class frmHQF
             MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
+    Public Sub RemoteShowFitting(ByVal shipFit As String)
+        If Fittings.FittingList.Contains(shipFit) = True Then
+            ' Create the tab and display
+            If Fittings.FittingTabList.Contains(shipFit) = False Then
+                Call Me.CreateFittingTabPage(shipFit)
+                tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
+                currentShipSlot.UpdateEverything()
+            Else
+                tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+            End If
+        End If
+    End Sub
     Private Sub mnuFittingsBCBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsBCBrowser.Click
         Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
@@ -2578,6 +2591,7 @@ Public Class frmHQF
     Private Sub tsbFleetManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbFleetManager.Click
         If myFleetManager.IsHandleCreated = False Then
             myFleetManager = New frmFleetManager
+            AddHandler myFleetManager.OpenFitting, AddressOf Me.RemoteShowFitting
             myFleetManager.Show()
         Else
             If myFleetManager.WindowState = FormWindowState.Minimized Then

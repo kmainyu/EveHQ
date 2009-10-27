@@ -71,6 +71,9 @@ Partial Class frmFleetManager
         Me.tabFM = New System.Windows.Forms.TabControl
         Me.tabFleetSettings = New System.Windows.Forms.TabPage
         Me.panelFleetSettings = New System.Windows.Forms.Panel
+        Me.btnImportFleetInto = New System.Windows.Forms.Button
+        Me.btnImportFleet = New System.Windows.Forms.Button
+        Me.btnExportFleet = New System.Windows.Forms.Button
         Me.gbFleetSettings = New System.Windows.Forms.GroupBox
         Me.tabFleetStructure = New System.Windows.Forms.TabPage
         Me.panelFleetStructure = New System.Windows.Forms.Panel
@@ -79,10 +82,9 @@ Partial Class frmFleetManager
         Me.cboRemoteGroup = New System.Windows.Forms.ComboBox
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
-        Me.btnExportFleet = New System.Windows.Forms.Button
-        Me.btnImportFleet = New System.Windows.Forms.Button
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnImportFleetInto = New System.Windows.Forms.Button
+        Me.mnuOpenFitting = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
@@ -458,25 +460,25 @@ Partial Class frmFleetManager
         '
         'ctxPilotList
         '
-        Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule, Me.ToolStripMenuItem1, Me.mnuFMShowMissingSkills})
+        Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule, Me.ToolStripMenuItem1, Me.mnuOpenFitting, Me.ToolStripMenuItem2, Me.mnuFMShowMissingSkills})
         Me.ctxPilotList.Name = "ctxPilotList"
-        Me.ctxPilotList.Size = New System.Drawing.Size(174, 54)
+        Me.ctxPilotList.Size = New System.Drawing.Size(177, 104)
         '
         'mnuRemoveRemoteModule
         '
         Me.mnuRemoveRemoteModule.Name = "mnuRemoveRemoteModule"
-        Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(173, 22)
+        Me.mnuRemoveRemoteModule.Size = New System.Drawing.Size(176, 22)
         Me.mnuRemoveRemoteModule.Text = "Remove Module"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(173, 6)
         '
         'mnuFMShowMissingSkills
         '
         Me.mnuFMShowMissingSkills.Name = "mnuFMShowMissingSkills"
-        Me.mnuFMShowMissingSkills.Size = New System.Drawing.Size(173, 22)
+        Me.mnuFMShowMissingSkills.Size = New System.Drawing.Size(176, 22)
         Me.mnuFMShowMissingSkills.Text = "Show Missing Skills"
         '
         'btnClearAssignments
@@ -528,6 +530,36 @@ Partial Class frmFleetManager
         Me.panelFleetSettings.Name = "panelFleetSettings"
         Me.panelFleetSettings.Size = New System.Drawing.Size(1079, 628)
         Me.panelFleetSettings.TabIndex = 0
+        '
+        'btnImportFleetInto
+        '
+        Me.btnImportFleetInto.Location = New System.Drawing.Point(242, 231)
+        Me.btnImportFleetInto.Name = "btnImportFleetInto"
+        Me.btnImportFleetInto.Size = New System.Drawing.Size(75, 37)
+        Me.btnImportFleetInto.TabIndex = 22
+        Me.btnImportFleetInto.Text = "Import Fleet Into"
+        Me.ToolTip1.SetToolTip(Me.btnImportFleetInto, "Imports a fitting into the currently selected fleet")
+        Me.btnImportFleetInto.UseVisualStyleBackColor = True
+        '
+        'btnImportFleet
+        '
+        Me.btnImportFleet.Location = New System.Drawing.Point(242, 202)
+        Me.btnImportFleet.Name = "btnImportFleet"
+        Me.btnImportFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnImportFleet.TabIndex = 21
+        Me.btnImportFleet.Text = "Import Fleet"
+        Me.ToolTip1.SetToolTip(Me.btnImportFleet, "Imports a fitting using the name given in the XML")
+        Me.btnImportFleet.UseVisualStyleBackColor = True
+        '
+        'btnExportFleet
+        '
+        Me.btnExportFleet.Location = New System.Drawing.Point(242, 274)
+        Me.btnExportFleet.Name = "btnExportFleet"
+        Me.btnExportFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportFleet.TabIndex = 20
+        Me.btnExportFleet.Text = "Export Fleet"
+        Me.ToolTip1.SetToolTip(Me.btnExportFleet, "Exports a fleet in XML format for backup or sending to other users")
+        Me.btnExportFleet.UseVisualStyleBackColor = True
         '
         'gbFleetSettings
         '
@@ -634,35 +666,16 @@ Partial Class frmFleetManager
         Me.lblFleet.TabIndex = 23
         Me.lblFleet.Text = "Fleet:"
         '
-        'btnExportFleet
+        'mnuOpenFitting
         '
-        Me.btnExportFleet.Location = New System.Drawing.Point(242, 274)
-        Me.btnExportFleet.Name = "btnExportFleet"
-        Me.btnExportFleet.Size = New System.Drawing.Size(75, 23)
-        Me.btnExportFleet.TabIndex = 20
-        Me.btnExportFleet.Text = "Export Fleet"
-        Me.ToolTip1.SetToolTip(Me.btnExportFleet, "Exports a fleet in XML format for backup or sending to other users")
-        Me.btnExportFleet.UseVisualStyleBackColor = True
+        Me.mnuOpenFitting.Name = "mnuOpenFitting"
+        Me.mnuOpenFitting.Size = New System.Drawing.Size(176, 22)
+        Me.mnuOpenFitting.Text = "Open Fitting"
         '
-        'btnImportFleet
+        'ToolStripMenuItem2
         '
-        Me.btnImportFleet.Location = New System.Drawing.Point(242, 202)
-        Me.btnImportFleet.Name = "btnImportFleet"
-        Me.btnImportFleet.Size = New System.Drawing.Size(75, 23)
-        Me.btnImportFleet.TabIndex = 21
-        Me.btnImportFleet.Text = "Import Fleet"
-        Me.ToolTip1.SetToolTip(Me.btnImportFleet, "Imports a fitting using the name given in the XML")
-        Me.btnImportFleet.UseVisualStyleBackColor = True
-        '
-        'btnImportFleetInto
-        '
-        Me.btnImportFleetInto.Location = New System.Drawing.Point(242, 231)
-        Me.btnImportFleetInto.Name = "btnImportFleetInto"
-        Me.btnImportFleetInto.Size = New System.Drawing.Size(75, 37)
-        Me.btnImportFleetInto.TabIndex = 22
-        Me.btnImportFleetInto.Text = "Import Fleet Into"
-        Me.ToolTip1.SetToolTip(Me.btnImportFleetInto, "Imports a fitting into the currently selected fleet")
-        Me.btnImportFleetInto.UseVisualStyleBackColor = True
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(173, 6)
         '
         'frmFleetManager
         '
@@ -750,4 +763,6 @@ Partial Class frmFleetManager
     Friend WithEvents btnImportFleet As System.Windows.Forms.Button
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents btnImportFleetInto As System.Windows.Forms.Button
+    Friend WithEvents mnuOpenFitting As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
 End Class
