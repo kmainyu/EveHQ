@@ -24,6 +24,7 @@ Imports System.IO
 Imports System.Net.Sockets
 Imports System.Threading
 Imports System.Xml
+Imports System.Web
 Imports System.Windows.Forms
 Imports System.Runtime.Serialization.Formatters.Binary
 
@@ -339,7 +340,7 @@ Public Class Settings
         ' Save the open fittings
         XMLS &= Chr(9) & "<openFittings>" & vbCrLf
         For Each fitting As String In ShipLists.fittedShipList.Keys
-            XMLS &= Chr(9) & Chr(9) & "<fitting>" & fitting & "</fitting>" & vbCrLf
+            XMLS &= Chr(9) & Chr(9) & "<fitting>" & HttpUtility.HtmlEncode(fitting) & "</fitting>" & vbCrLf
         Next
         XMLS &= Chr(9) & "</openFittings>" & vbCrLf
 
@@ -448,7 +449,7 @@ Public Class Settings
                 settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
                 If settingSettings.HasChildNodes Then
                     For group As Integer = 0 To settingSettings.ChildNodes.Count - 1
-                        HQFSettings.OpenFittingList.Add(settingSettings.ChildNodes(group).InnerText)
+                        HQFSettings.OpenFittingList.Add(HttpUtility.HtmlDecode(settingSettings.ChildNodes(group).InnerText))
                     Next
                 End If
             Catch
