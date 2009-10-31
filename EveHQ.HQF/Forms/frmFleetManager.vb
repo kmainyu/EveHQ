@@ -581,6 +581,8 @@ Public Class frmFleetManager
                 pilots.Add(pilot.Text)
             Next
             Dim newPilotForm As New frmFleetPilot
+            newPilotForm.Text = "Edit Fleet Pilot"
+            newPilotForm.btnAccept.Text = "Apply"
             newPilotForm.FleetName = activeFleet.Name
             newPilotForm.PilotNames = pilots
             newPilotForm.ShowDialog()
@@ -1234,6 +1236,24 @@ Public Class frmFleetManager
             Dim scrolloffset As Integer = clvPilots.AutoScrollOffset.Y
             Dim point1 As Point = clvPilots.PointToClient(New Point(e.X, e.Y))
             Dim item1 As ContainerListViewItem = clvPilots.GetItemAt(point1.Y - clvPilots.HeaderHeight + clvPilots.VerticalScrollOffset)
+
+            ' Check for auto-scroll mechanism
+            Dim tsr As Integer = clvPilots.HeaderHeight
+            Dim bsr As Integer = clvPilots.Height - 10
+            If point1.Y < tsr Or point1.Y > bsr Then
+                If point1.Y < tsr Then
+                    ' Scroll the listview up
+                    clvPilots.EnsureVisible(clvPilots.TopItem.PreviousItem)
+                Else
+                    ' Scroll the listview down
+                    If clvPilots.BottomItemPartiallyVisible.Depth = 2 Then
+                        clvPilots.EnsureVisible(clvPilots.BottomItemCompletelyVisible.ParentItem.NextItem)
+                    Else
+                        clvPilots.EnsureVisible(clvPilots.BottomItemCompletelyVisible.NextItem)
+                    End If
+
+                End If
+            End If
 
             If item1 IsNot Nothing Then
                 If TypeOf droppedItem.Tag Is ShipModule Or TypeOf droppedItem.Tag Is DroneBayItem Then

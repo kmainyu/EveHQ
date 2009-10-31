@@ -66,6 +66,8 @@ Partial Class frmFleetManager
         Me.ctxPilotList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuRemoveRemoteModule = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuOpenFitting = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuFMShowMissingSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.btnClearAssignments = New System.Windows.Forms.Button
         Me.tabFM = New System.Windows.Forms.TabControl
@@ -83,8 +85,6 @@ Partial Class frmFleetManager
         Me.cboFleet = New System.Windows.Forms.ComboBox
         Me.lblFleet = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.mnuOpenFitting = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.ctxPilotList.SuspendLayout()
         Me.tabFM.SuspendLayout()
         Me.tabFleetSettings.SuspendLayout()
@@ -462,7 +462,7 @@ Partial Class frmFleetManager
         '
         Me.ctxPilotList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRemoveRemoteModule, Me.ToolStripMenuItem1, Me.mnuOpenFitting, Me.ToolStripMenuItem2, Me.mnuFMShowMissingSkills})
         Me.ctxPilotList.Name = "ctxPilotList"
-        Me.ctxPilotList.Size = New System.Drawing.Size(177, 104)
+        Me.ctxPilotList.Size = New System.Drawing.Size(177, 82)
         '
         'mnuRemoveRemoteModule
         '
@@ -474,6 +474,17 @@ Partial Class frmFleetManager
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(173, 6)
+        '
+        'mnuOpenFitting
+        '
+        Me.mnuOpenFitting.Name = "mnuOpenFitting"
+        Me.mnuOpenFitting.Size = New System.Drawing.Size(176, 22)
+        Me.mnuOpenFitting.Text = "Open Fitting"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(173, 6)
         '
         'mnuFMShowMissingSkills
         '
@@ -665,17 +676,6 @@ Partial Class frmFleetManager
         Me.lblFleet.Size = New System.Drawing.Size(35, 13)
         Me.lblFleet.TabIndex = 23
         Me.lblFleet.Text = "Fleet:"
-        '
-        'mnuOpenFitting
-        '
-        Me.mnuOpenFitting.Name = "mnuOpenFitting"
-        Me.mnuOpenFitting.Size = New System.Drawing.Size(176, 22)
-        Me.mnuOpenFitting.Text = "Open Fitting"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(173, 6)
         '
         'frmFleetManager
         '
