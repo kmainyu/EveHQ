@@ -89,6 +89,11 @@ namespace EveHQ.PosManager
             if (hrs < 1)
                 hrs = 1;
 
+            while (((Robotics.LastQty - Robotics.Qty) / hrs) > 1)
+            {
+                hrs = hrs + 1;
+            }
+
             // Do all types, although at this time only HW and LO matter
             EnrUran.APIPerQty = Math.Ceiling((EnrUran.LastQty - EnrUran.Qty) / hrs);
             Oxygen.APIPerQty = Math.Ceiling((Oxygen.LastQty - Oxygen.Qty) / hrs);
