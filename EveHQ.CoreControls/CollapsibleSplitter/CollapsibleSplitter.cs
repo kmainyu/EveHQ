@@ -121,6 +121,22 @@ namespace NJFLib.Controls
 			}
 		}
 
+        /// <summary>
+        /// The initial state of the Splitter. Set to True if the control to hide is not visible by default
+        /// </summary>
+        [Bindable(true), Category("Collapsing Options"), DefaultValue("False"),
+        Description("Determines whether the mouse is hovering over the collapsible section.")]
+        public bool IsHot
+        {
+            get
+            {
+                if (this.hot != null)
+                    return this.hot;
+                else
+                    return true;
+            }
+        }
+
 		/// <summary>
 		/// The System.Windows.Forms.Control that the splitter will collapse
 		/// </summary>
@@ -210,7 +226,7 @@ namespace NJFLib.Controls
 
 		#region Public Methods
 
-		public void ToggleState()
+        public void ToggleState()
 		{
 			this.ToggleSplitter();
 		}
