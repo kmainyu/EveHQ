@@ -38,6 +38,8 @@ Public Class frmHQF
     Dim myBCBrowser As New frmBCBrowser
     Dim myEveImport As New frmEveImport
     Dim shutdownComplete As Boolean = False
+    Dim shipPanelTemp As Boolean = False
+    Dim modPanelTemp As Boolean = False
 
 #Region "Class Wide Variables"
 
@@ -298,6 +300,7 @@ Public Class frmHQF
         tvwItems.SelectedNode = cNode
         tvwItems.Select()
     End Sub
+
     Private Sub SplitContainerShip_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplitContainerShip.Resize
         Try
             SplitContainerShip.SplitterDistance = Settings.HQFSettings.ShipSplitterWidth
@@ -2730,4 +2733,21 @@ Public Class frmHQF
     Private Sub CollapsibleSplitter1_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles CollapsibleSplitter1.MouseClick
         cboFittings.Visible = CollapsibleSplitter1.IsCollapsed
     End Sub
+
+    'Private Sub CollapsibleSplitter1_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles CollapsibleSplitter1.MouseHover
+    '    If CollapsibleSplitter1.IsCollapsed = True And CollapsibleSplitter1.IsHot = False Then
+    '        CollapsibleSplitter1.ToggleState()
+    '        shipPanelTemp = True
+    '    End If
+    'End Sub
+
+    'Private Sub CollapsibleSplitter1_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles CollapsibleSplitter1.MouseLeave
+    '    If CollapsibleSplitter1.IsCollapsed = False And shipPanelTemp = True Then
+    '        If frmHQF.MousePosition.X > CollapsibleSplitter1.ControlToHide.Location.X + CollapsibleSplitter1.ControlToHide.Width Then
+    '            CollapsibleSplitter1.ToggleState()
+    '            shipPanelTemp = False
+    '        End If
+    '    End If
+    'End Sub
+
 End Class
