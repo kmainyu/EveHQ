@@ -856,7 +856,7 @@ Public Class frmMap
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
                             newItem.BackColor = Me.SystemColour(route1.Sys.EveSec, 255)
-                            newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(route1.Sys.EveSec, 1) : nsi.Name = FormatNumber(route1.Sys.EveSec, 1) : newItem.SubItems.Add(nsi)
                             If (algotype1 = RouteType.JumpRadius) Then
                                 Dim dd As Double = Math.Round(frmMap.Distance(startSys, route1.Sys), 8, MidpointRounding.AwayFromZero)
                                 nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(dd, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = CStr(dd) : newItem.SubItems.Add(nsi)
@@ -908,7 +908,7 @@ Public Class frmMap
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Constellation : nsi.Name = regionNames(reg).Constellation : newItem.SubItems.Add(nsi)
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Region : nsi.Name = regionNames(reg).Region : newItem.SubItems.Add(nsi)
                         newItem.BackColor = Me.SystemColour(regionNames(reg).EveSec, 255)
-                        newItem.SubItems.Add(FormatNumber(regionNames(reg).EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(route1.Sys.EveSec, 1) : nsi.Name = FormatNumber(route1.Sys.EveSec, 1) : newItem.SubItems.Add(nsi)
                         newItem.SubItems.Add(regionDists(reg).ToString) : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                         If regionNames(reg).SovereigntyName <> "" Then
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).SovereigntyName : nsi.Name = regionNames(reg).SovereigntyName : newItem.SubItems.Add(nsi)
@@ -936,7 +936,7 @@ Public Class frmMap
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
                             newItem.BackColor = Me.SystemColour(route1.Sys.EveSec, 255)
-                            newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(route1.Sys.EveSec, 1) : nsi.Name = FormatNumber(route1.Sys.EveSec, 1) : newItem.SubItems.Add(nsi)
                             If (algotype1 = RouteType.Jumps) Then
                                 nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = CStr(jumpDist) : newItem.SubItems.Add(nsi)
                                 fuel = CInt(Int(jumpDist * fuelMultiplier))
