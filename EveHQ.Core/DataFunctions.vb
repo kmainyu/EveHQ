@@ -1306,7 +1306,7 @@ Public Class DataFunctions
         For Each order As String In orderList
             orderDetails = order.Split(",".ToCharArray)
 
-            oPrice = CDbl(orderDetails(0).Trim)
+            oPrice = Double.Parse(orderDetails(0).Trim, Globalization.NumberStyles.Number, culture)
             oVol = CLng(orderDetails(1).Trim)
             oTypeID = CLng(orderDetails(2).Trim)
             oRange = CLng(orderDetails(3).Trim)
