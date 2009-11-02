@@ -59,17 +59,19 @@ Public Class frmAddCustomBP
 
     Private Sub cboBPs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
         ' This is a standard blueprint
-        Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
-        currentBP = New BlueprintAsset
-        currentBP.TypeID = bpID
-        currentBP.AssetID = bpID
-        currentBP.MELevel = CInt(nudMELevel.Value)
-        currentBP.PELevel = CInt(nudPELevel.Value)
-        currentBP.Runs = -1
-        currentBP.BPType = BPType.User
-        currentBP.Status = BPStatus.Present
-        ' First get the image
-        pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(bpID, EveHQ.Core.ImageHandler.ImageType.Blueprints)
+        If EveHQ.Core.HQ.itemList.ContainsKey(cboBPs.SelectedItem.ToString.Trim) = True Then
+            Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
+            currentBP = New BlueprintAsset
+            currentBP.TypeID = bpID
+            currentBP.AssetID = bpID
+            currentBP.MELevel = CInt(nudMELevel.Value)
+            currentBP.PELevel = CInt(nudPELevel.Value)
+            currentBP.Runs = -1
+            currentBP.BPType = BPType.User
+            currentBP.Status = BPStatus.Present
+            ' First get the image
+            pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(bpID, EveHQ.Core.ImageHandler.ImageType.Blueprints)
+        End If
     End Sub
 
     Private Sub nudMELevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMELevel.ValueChanged
