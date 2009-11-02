@@ -1163,7 +1163,8 @@
 # SHIPS										
 1034,3,6,669,2,330,0,0,4,15,Cloak Reactivation Delay
 # ENVIRONMENT,,,,,,,,,,
-146,2,920,263,3,6,0,0,0,15,Shield HP Bonus
+146,2,920,263,3,6,0,0,0,15,Shield HP Bonus - Ship
+146,2,920,72,2,38,0,0,0,15,Shield HP Bonus - Extenders
 169,2,920,70,3,6,0,0,5,15,Inertia Modifer
 237,2,920,76,3,6,0,0,0,15,Targeting Range Bonus
 243,2,920,76,3,6,0,0,5,15,Max Range Multiplier
