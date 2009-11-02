@@ -138,6 +138,9 @@ Public Class frmPrism
         cboRefineMode.SelectedIndex = 0
         startup = False
 
+        ' Set the value of the min system value text box
+        txtMinSystemValue.Text = FormatNumber(0, 2)
+
     End Sub
     Private Sub BuildCorpList()
         PlugInData.CorpList.Clear()
