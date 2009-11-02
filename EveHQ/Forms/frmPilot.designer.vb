@@ -311,6 +311,7 @@ Partial Public Class frmPilot
         Me.tcSkills.Location = New System.Drawing.Point(156, 337)
         Me.tcSkills.Name = "tcSkills"
         Me.tcSkills.SelectedIndex = 0
+        Me.tcSkills.ShowToolTips = True
         Me.tcSkills.Size = New System.Drawing.Size(733, 301)
         Me.tcSkills.TabIndex = 39
         '
@@ -322,6 +323,7 @@ Partial Public Class frmPilot
         Me.tabSkills.Size = New System.Drawing.Size(725, 275)
         Me.tabSkills.TabIndex = 0
         Me.tabSkills.Text = "Skills"
+        Me.tabSkills.ToolTipText = "Shows the pilots skills with levels and skillpoints"
         Me.tabSkills.UseVisualStyleBackColor = True
         '
         'clvSkills
@@ -403,6 +405,7 @@ Partial Public Class frmPilot
         Me.tabCerts.Size = New System.Drawing.Size(725, 275)
         Me.tabCerts.TabIndex = 1
         Me.tabCerts.Text = "Certificates"
+        Me.tabCerts.ToolTipText = "Shows the pilot's claimed certificates"
         Me.tabCerts.UseVisualStyleBackColor = True
         '
         'Panel1
@@ -490,7 +493,8 @@ Partial Public Class frmPilot
         Me.tabSkillQueue.Name = "tabSkillQueue"
         Me.tabSkillQueue.Size = New System.Drawing.Size(725, 275)
         Me.tabSkillQueue.TabIndex = 2
-        Me.tabSkillQueue.Text = "Skill Queue"
+        Me.tabSkillQueue.Text = "Eve Skill Queue"
+        Me.tabSkillQueue.ToolTipText = "Shows the current in-game skill queue"
         Me.tabSkillQueue.UseVisualStyleBackColor = True
         '
         'clvQueue
