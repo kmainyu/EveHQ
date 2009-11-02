@@ -37,8 +37,14 @@ Public Class DataFunctions
                 ' Get the directory of the existing Access database to write the new one there
                 Dim outputFile As String = ""
                 If EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> "" Then
-                    outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
-                    MessageBox.Show("Creating database using existing path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBDataFilename) = True Then
+                        outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
+                        MessageBox.Show("Creating database using existing path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        ' Can't find the file
+                        outputFile = (Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb"))
+                        MessageBox.Show("Creating database in users EveHQ Applciation Data folder: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
                 Else
                     If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = True Or EveHQ.Core.HQ.IsUsingLocalFolders = True Then
                         outputFile = (Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQData.mdb"))
