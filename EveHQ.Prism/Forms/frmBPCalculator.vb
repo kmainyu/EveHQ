@@ -193,6 +193,10 @@ Public Class frmBPCalculator
         Else
             ' Don't do anything here at present as we shall just use the default values for the last selected pilot
         End If
+        If UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Call Me.UpdateBlueprintInformation()
+        End If
 
     End Sub
 
