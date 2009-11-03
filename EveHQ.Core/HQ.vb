@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2009  Lee Vessey
 ' 
 ' This file is part of EveHQ.
 '
