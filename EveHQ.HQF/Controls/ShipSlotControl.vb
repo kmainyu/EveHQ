@@ -1391,6 +1391,13 @@ Public Class ShipSlotControl
         Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
         If hti.Item IsNot Nothing Then
             If e.Button = Windows.Forms.MouseButtons.Middle Then
+
+                ' Check for key status
+                Dim keyMode As Integer = 0 ' 0=None, 1=Shift, 2=Ctrl, 4=Alt
+                If My.Computer.Keyboard.ShiftKeyDown Then keyMode += 1
+                If My.Computer.Keyboard.CtrlKeyDown Then keyMode += 2
+                If My.Computer.Keyboard.AltKeyDown Then keyMode += 4
+
                 If hti.Location = ListViewHitTestLocations.Image Or hti.Location = ListViewHitTestLocations.Label Or hti.Location = ListViewHitTestLocations.RightOfClientArea Then
                     ' Get the module details
                     Dim modID As String = CStr(ModuleLists.moduleListName.Item(hti.Item.Text))
@@ -1432,27 +1439,26 @@ Public Class ShipSlotControl
                         If currentMod.Attributes.Contains("1211") = True Then
                             canOverload = True
                         End If
-                        currentstate *= 2
-                        Dim changedstate As Boolean = False
-                        Do
-                            changedstate = False
-                            If currentstate > 8 Then
-                                currentstate = 1
-                                changedstate = True
-                            End If
-                            If currentstate = ModuleStates.Offline And canOffline = False Then
-                                currentstate *= 2
-                                changedstate = True
-                            End If
-                            If currentstate = ModuleStates.Inactive And canDeactivate = False Then
-                                currentstate *= 2
-                                changedstate = True
-                            End If
-                            If currentstate = ModuleStates.Overloaded And canOverload = False Then
-                                currentstate *= 2
-                                changedstate = True
-                            End If
-                        Loop Until changedstate = False
+
+                        ' Do new routine for handling module state changes
+                        Select Case keyMode
+                            Case 0 ' No additional keys
+                                If currentstate = ModuleStates.Offline Or currentstate = ModuleStates.Inactive Or currentstate = ModuleStates.Overloaded Then
+                                    currentstate = ModuleStates.Active
+                                ElseIf currentstate = ModuleStates.Active Then
+                                    If canDeactivate = True Then
+                                        currentstate = ModuleStates.Inactive
+                                    End If
+                                End If
+                            Case 1 ' Shift
+                                If canOverload = True Then
+                                    currentstate = ModuleStates.Overloaded
+                                End If
+                            Case 2 ' Ctrl
+                                If canOffline = True Then
+                                    currentstate = ModuleStates.Offline
+                                End If
+                        End Select
 
                         ' Update only if the module state has changed
                         If currentstate <> currentMod.ModuleState Then
