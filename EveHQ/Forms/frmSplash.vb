@@ -148,7 +148,7 @@ Public Class frmSplash
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.dataFolder)
         End If
 
-        ' Check for existence of a backup folder in the application directory
+        ' Check for existence of a backup folder
         lblStatus.Text = "> Checking backup directory..."
         Me.Refresh()
         If isLocal = False Then
@@ -160,6 +160,20 @@ Public Class frmSplash
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.backupFolder) = False Then
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.backupFolder)
+        End If
+
+        ' Check for existence of an EveHQ backup folder
+        lblStatus.Text = "> Checking EveHQ backup directory..."
+        Me.Refresh()
+        If isLocal = False Then
+            EveHQ.Core.HQ.EveHQBackupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EveHQ")
+            EveHQ.Core.HQ.EveHQBackupFolder = Path.Combine(EveHQ.Core.HQ.EveHQBackupFolder, "EveHQBackups")
+        Else
+            EveHQ.Core.HQ.EveHQBackupFolder = Path.Combine(Application.StartupPath, "EveHQBackups")
+        End If
+        If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQBackupFolder) = False Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.EveHQBackupFolder)
         End If
 
         If showSettings = True Then

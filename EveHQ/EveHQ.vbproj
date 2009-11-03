@@ -139,6 +139,12 @@
     <Compile Include="Controls\TrainingQueue.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\frmBackupEveHQ.Designer.vb">
+      <DependentUpon>frmBackupEveHQ.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBackupEveHQ.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmDashboard.Designer.vb">
       <DependentUpon>frmDashboard.vb</DependentUpon>
     </Compile>
@@ -365,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TrainingQueue.resx">
       <DependentUpon>TrainingQueue.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBackupEveHQ.resx">
+      <DependentUpon>frmBackupEveHQ.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDashboard.resx">
       <DependentUpon>frmDashboard.vb</DependentUpon>

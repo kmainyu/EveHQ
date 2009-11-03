@@ -1416,6 +1416,10 @@ Public Class frmEveHQ
         Call Me.OpenBackUpForm()
     End Sub
 
+    Private Sub mnuEveHQBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEveHQBackup.Click
+        Call Me.OpenEveHQBackupForm()
+    End Sub
+
     Private Sub DashboardToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DashboardToolStripMenuItem.Click
         Call Me.OpenDashboard()
     End Sub
@@ -1792,6 +1796,14 @@ Public Class frmEveHQ
             frmBackup.Show()
         Else
             tabMDI.SelectTab(frmBackup.Text)
+        End If
+    End Sub
+    Private Sub OpenEveHQBackUpForm()
+        If tabMDI.TabPages.ContainsKey(frmBackupEveHQ.Text) = False Then
+            frmBackupEveHQ.MdiParent = Me
+            frmBackupEveHQ.Show()
+        Else
+            tabMDI.SelectTab(frmBackupEveHQ.Text)
         End If
     End Sub
     Private Sub OpenAPICheckerForm()
@@ -2693,5 +2705,6 @@ Public Class frmEveHQ
     End Function
 #End Region
 
+ 
 End Class
 
