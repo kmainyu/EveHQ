@@ -481,7 +481,11 @@ Public Class Settings
         If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
             For Each slotItem As ListViewItem In cStandardSlotColumns
                 If HQFSettings.UserSlotColumns.Contains(slotItem.Name & "0") = False And HQFSettings.UserSlotColumns.Contains(slotItem.Name & "1") = False Then
-                    HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
+                    If slotItem.Checked = True Then
+                        HQFSettings.UserSlotColumns.Add(slotItem.Name & "1")
+                    Else
+                        HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
+                    End If
                 End If
             Next
         End If
@@ -531,13 +535,13 @@ Public Class Settings
         newItem = New ListViewItem
         newItem.Name = "ActTime"
         newItem.Text = "Activation Time"
-        newItem.Checked = False
+        newItem.Checked = True
         cStandardSlotColumns.Add(newItem)
         ' Setup Cap Usage Rate Item
         newItem = New ListViewItem
         newItem.Name = "CapUsageRate"
         newItem.Text = "Cap Usage Rate"
-        newItem.Checked = False
+        newItem.Checked = True
         cStandardSlotColumns.Add(newItem)
         ' Setup Optimal Range Item
         newItem = New ListViewItem
