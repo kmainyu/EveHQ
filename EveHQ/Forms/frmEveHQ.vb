@@ -36,6 +36,7 @@ Public Class frmEveHQ
     Dim WithEvents SkillWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents ImportWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents BackupWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
+    Dim WithEvents EveHQBackupWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents ReportWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Private Declare Auto Function SetWindowPos Lib "user32.dll" (ByVal hwnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal x As Int32, ByVal y As Int32, ByVal cx As Int32, ByVal cy As Int32, ByVal wFlags As Int32) As Int32
     Private Declare Auto Function MoveWindow Lib "user32.dll" (ByVal hwnd As IntPtr, ByVal x As Int32, ByVal y As Int32, ByVal nWidth As Int32, ByVal nHeight As Int32, ByVal bRepaint As Boolean) As Int32
@@ -1465,6 +1466,18 @@ Public Class frmEveHQ
                 End If
             End If
         End If
+        If EveHQBackupWorker.IsBusy = False Then
+            If EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 2 Then
+                Dim nextBackup As Date = EveHQ.Core.HQ.EveHQSettings.EveHQBackupStart
+                If EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast > nextBackup Then
+                    nextBackup = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast
+                End If
+                nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq, nextBackup)
+                If Now >= nextBackup Then
+                    EveHQBackupWorker.RunWorkerAsync()
+                End If
+            End If
+        End If
     End Sub
     Private Sub BackupWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackupWorker.DoWork
         Call frmBackup.BackupEveSettings()
@@ -1477,9 +1490,22 @@ Public Class frmEveHQ
         Call frmBackup.CalcNextBackup()
         Call frmBackup.ScanBackups()
         If EveHQ.Core.HQ.EveHQSettings.BackupLastResult = -1 Then
-            tsAPIStatus.Text = "Settings Backup Successful: " & Format(EveHQ.Core.HQ.EveHQSettings.BackupLast, "dd/MM/yyyy HH:mm")
+            tsAPIStatus.Text = "Eve Settings Backup Successful: " & FormatDateTime(EveHQ.Core.HQ.EveHQSettings.BackupLast, DateFormat.GeneralDate)
         Else
-            tsAPIStatus.Text = "Settings Backup Aborted - No Source Folders"
+            tsAPIStatus.Text = "Eve Settings Backup Aborted - No Source Folders"
+        End If
+    End Sub
+
+    Private Sub EveHQBackupWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles EveHQBackupWorker.DoWork
+        Call frmBackupEveHQ.BackupEveHQSettings()
+    End Sub
+    Private Sub EveHQBackupWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles EveHQBackupWorker.RunWorkerCompleted
+        Call frmBackupEveHQ.CalcNextBackup()
+        Call frmBackupEveHQ.ScanBackups()
+        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = -1 Then
+            tsAPIStatus.Text = "EveHQ Settings Backup Successful: " & FormatDateTime(EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast, DateFormat.GeneralDate)
+        Else
+            tsAPIStatus.Text = "EveHQ Settings Backup Failed!"
         End If
     End Sub
 

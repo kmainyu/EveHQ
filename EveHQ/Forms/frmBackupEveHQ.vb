@@ -47,6 +47,7 @@ Public Class frmBackupEveHQ
             msg &= ControlChars.CrLf & e.Message & ControlChars.CrLf
             MessageBox.Show(msg, "EveHQ Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = 0
+            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast = oldTime
             Me.Cursor = Cursors.Default
             Return False
         End Try
