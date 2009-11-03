@@ -22,6 +22,7 @@ Partial Class frmBackupEveHQ
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBackupEveHQ))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.btnRestore = New System.Windows.Forms.Button
@@ -47,6 +48,7 @@ Partial Class frmBackupEveHQ
         Me.nudBackupWarning = New System.Windows.Forms.NumericUpDown
         Me.lblBackupWarning = New System.Windows.Forms.Label
         Me.RadAutoBackup = New System.Windows.Forms.RadioButton
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.gbBackup.SuspendLayout()
         CType(Me.nudDays, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,11 +70,13 @@ Partial Class frmBackupEveHQ
         'btnRestore
         '
         Me.btnRestore.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRestore.Enabled = False
         Me.btnRestore.Location = New System.Drawing.Point(5, 258)
         Me.btnRestore.Name = "btnRestore"
         Me.btnRestore.Size = New System.Drawing.Size(92, 23)
         Me.btnRestore.TabIndex = 14
         Me.btnRestore.Text = "Restore Now!"
+        Me.ToolTip1.SetToolTip(Me.btnRestore, "Restores a selected backup directory")
         Me.btnRestore.UseVisualStyleBackColor = True
         '
         'lvwBackups
@@ -102,6 +106,7 @@ Partial Class frmBackupEveHQ
         Me.btnScan.Size = New System.Drawing.Size(137, 23)
         Me.btnScan.TabIndex = 12
         Me.btnScan.Text = "Scan Backup Directory"
+        Me.ToolTip1.SetToolTip(Me.btnScan, "Scans the EveHQ Backup location for directories")
         Me.btnScan.UseVisualStyleBackColor = True
         '
         'gbBackup
@@ -138,6 +143,7 @@ Partial Class frmBackupEveHQ
         Me.btnResetBackup.Size = New System.Drawing.Size(109, 23)
         Me.btnResetBackup.TabIndex = 13
         Me.btnResetBackup.Text = "Reset Last Backup"
+        Me.ToolTip1.SetToolTip(Me.btnResetBackup, "Reset the last backup date")
         Me.btnResetBackup.UseVisualStyleBackColor = True
         '
         'btnBackup
@@ -147,6 +153,7 @@ Partial Class frmBackupEveHQ
         Me.btnBackup.Size = New System.Drawing.Size(92, 23)
         Me.btnBackup.TabIndex = 12
         Me.btnBackup.Text = "Backup Now!"
+        Me.ToolTip1.SetToolTip(Me.btnBackup, "Backup the EveHQ settings now")
         Me.btnBackup.UseVisualStyleBackColor = True
         '
         'lblNextBackupLbl
@@ -260,6 +267,7 @@ Partial Class frmBackupEveHQ
         Me.radManualBackup.Size = New System.Drawing.Size(125, 17)
         Me.radManualBackup.TabIndex = 14
         Me.radManualBackup.Text = "Manual Backup Mode"
+        Me.ToolTip1.SetToolTip(Me.radManualBackup, "Does not prompt or perform any automatic backups of EveHQ settings")
         Me.radManualBackup.UseVisualStyleBackColor = True
         '
         'radPromptBackup
@@ -270,6 +278,8 @@ Partial Class frmBackupEveHQ
         Me.radPromptBackup.Size = New System.Drawing.Size(131, 17)
         Me.radPromptBackup.TabIndex = 15
         Me.radPromptBackup.Text = "Backup Warning Mode"
+        Me.ToolTip1.SetToolTip(Me.radPromptBackup, "Will prompt the user to backup the settings if a backup has not been made for at " & _
+                "least the number of days specified in the ""Warning Frequency""")
         Me.radPromptBackup.UseVisualStyleBackColor = True
         '
         'lblBackupWarningDays
@@ -312,6 +322,8 @@ Partial Class frmBackupEveHQ
         Me.RadAutoBackup.Size = New System.Drawing.Size(139, 17)
         Me.RadAutoBackup.TabIndex = 19
         Me.RadAutoBackup.Text = "Automatic Backup Mode"
+        Me.ToolTip1.SetToolTip(Me.RadAutoBackup, "Will automatically backup the EveHQ settings periodically according to the freque" & _
+                "ncy selected")
         Me.RadAutoBackup.UseVisualStyleBackColor = True
         '
         'frmBackupEveHQ
@@ -357,4 +369,5 @@ Partial Class frmBackupEveHQ
     Friend WithEvents lblBackupWarning As System.Windows.Forms.Label
     Friend WithEvents radPromptBackup As System.Windows.Forms.RadioButton
     Friend WithEvents radManualBackup As System.Windows.Forms.RadioButton
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 End Class
