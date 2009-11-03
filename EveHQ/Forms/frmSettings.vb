@@ -1014,7 +1014,6 @@ Public Class frmSettings
             Case 0
                 gbAccess.Left = 6 : gbAccess.Top = 80 : gbAccess.Width = 500 : gbAccess.Height = 250
                 txtMDBServer.Text = EveHQ.Core.HQ.EveHQSettings.DBFilename
-                txtMDBServer2.Text = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
                 txtMDBUsername.Text = EveHQ.Core.HQ.EveHQSettings.DBUsername
                 txtMDBPassword.Text = EveHQ.Core.HQ.EveHQSettings.DBPassword
                 gbAccess.Visible = True : gbMSSQL.Visible = False
@@ -1022,7 +1021,6 @@ Public Class frmSettings
                 gbMSSQL.Left = 6 : gbMSSQL.Top = 80 : gbMSSQL.Width = 500 : gbMSSQL.Height = 250
                 txtMSSQLServer.Text = EveHQ.Core.HQ.EveHQSettings.DBServer
                 txtMSSQLDatabase.Text = EveHQ.Core.HQ.EveHQSettings.DBName
-                txtMSSQLDatabase2.Text = EveHQ.Core.HQ.EveHQSettings.DBDataName
                 txtMSSQLUsername.Text = EveHQ.Core.HQ.EveHQSettings.DBUsername
                 txtMSSQLPassword.Text = EveHQ.Core.HQ.EveHQSettings.DBPassword
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
@@ -1047,20 +1045,6 @@ Public Class frmSettings
             .RestoreDirectory = True
             If .ShowDialog() = Windows.Forms.DialogResult.OK Then
                 txtMDBServer.Text = .FileName
-            End If
-        End With
-    End Sub
-
-    Private Sub btnBrowseMDB2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBrowseMDB2.Click
-        With ofd1
-            .Title = "Select Access Data file"
-            .FileName = ""
-            .InitialDirectory = EveHQ.Core.HQ.appFolder
-            .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
-            .FilterIndex = 1
-            .RestoreDirectory = True
-            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
-                txtMDBServer2.Text = .FileName
             End If
         End With
     End Sub
@@ -1105,16 +1089,8 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.DBFilename = txtMDBServer.Text
     End Sub
 
-    Private Sub txtMDBServer2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMDBServer2.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.DBDataFilename = txtMDBServer2.Text
-    End Sub
-
     Private Sub txtMSSQLDatabase_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMSSQLDatabase.TextChanged
         EveHQ.Core.HQ.EveHQSettings.DBName = txtMSSQLDatabase.Text
-    End Sub
-
-    Private Sub txtMSSQLDatabase2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMSSQLDatabase2.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.DBDataName = txtMSSQLDatabase2.Text
     End Sub
 
     Private Sub btnTestDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestDB.Click
@@ -2431,4 +2407,7 @@ Public Class frmSettings
     End Sub
 
    
+    Private Sub lblMSSQLDatabase2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
 End Class

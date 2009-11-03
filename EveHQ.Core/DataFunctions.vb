@@ -36,30 +36,8 @@ Public Class DataFunctions
             Case 0 ' Access
                 ' Get the directory of the existing Access database to write the new one there
                 Dim outputFile As String = ""
-                If EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> "" Then
-                    If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBDataFilename) = True Then
-                        outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
-                        MessageBox.Show("Creating database using existing path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Else
-                        ' Can't find the file
-                        outputFile = (Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb"))
-                        MessageBox.Show("Creating database in users EveHQ Applciation Data folder: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                Else
-                    If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = True Or EveHQ.Core.HQ.IsUsingLocalFolders = True Then
-                        outputFile = (Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQData.mdb"))
-                        If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
-                            MessageBox.Show("/local switch active - Location: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = True Then
-                                MessageBox.Show("Using application directory for database - Location: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            End If
-                        End If
-                    Else
-                        outputFile = (Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb"))
-                        MessageBox.Show("Creating database in users EveHQ Applciation Data folder: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                End If
+                outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
+                MessageBox.Show("Creating database using path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 ' Try to create a new access db from resources
                 Dim fs As New FileStream(outputFile, FileMode.Create)
                 Dim bw As New BinaryWriter(fs)
