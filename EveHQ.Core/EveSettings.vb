@@ -164,7 +164,52 @@ Imports System.Diagnostics
     Private cUserQueueColumns As New ArrayList
     Private cEmailSenderAddress As String = "notifications@evehq.net"
     Private cIBShowAllItems As Boolean = False
+    Private cEveHQBackupAuto As Boolean = False
+    Private cEveHQBackupStart As Date = Now
+    Private cEveHQBackupFreq As Integer = 1
+    Private cEveHQBackupLast As Date = CDate("01/01/1999")
+    Private cEveHQBackupLastResult As Integer = 0
 
+    Public Property EveHQBackupAuto() As Boolean
+        Get
+            Return cEveHQBackupAuto
+        End Get
+        Set(ByVal value As Boolean)
+            cEveHQBackupAuto = value
+        End Set
+    End Property
+    Public Property EveHQBackupStart() As Date
+        Get
+            Return cEveHQBackupStart
+        End Get
+        Set(ByVal value As Date)
+            cEveHQBackupStart = value
+        End Set
+    End Property
+    Public Property EveHQBackupFreq() As Integer
+        Get
+            Return cEveHQBackupFreq
+        End Get
+        Set(ByVal value As Integer)
+            cEveHQBackupFreq = value
+        End Set
+    End Property
+    Public Property EveHQBackupLast() As Date
+        Get
+            Return cEveHQBackupLast
+        End Get
+        Set(ByVal value As Date)
+            cEveHQBackupLast = value
+        End Set
+    End Property
+    Public Property EveHQBackupLastResult() As Integer
+        Get
+            Return cEveHQBackupLastResult
+        End Get
+        Set(ByVal value As Integer)
+            cEveHQBackupLastResult = value
+        End Set
+    End Property
     Public Property IBShowAllItems() As Boolean
         Get
             Return cIBShowAllItems
