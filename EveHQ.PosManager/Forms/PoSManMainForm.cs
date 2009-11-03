@@ -1571,9 +1571,7 @@ namespace EveHQ.PosManager
 
         private void GetTowerItemListData()
         {
-            int ind;
-
-            cb_ItemType.Items.Clear();
+           cb_ItemType.Items.Clear();
 
             foreach (CategoryItem ci in CL.Cats)
             {
