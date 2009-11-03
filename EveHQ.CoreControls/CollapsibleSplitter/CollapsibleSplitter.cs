@@ -130,10 +130,7 @@ namespace NJFLib.Controls
         {
             get
             {
-                if (this.hot != null)
-                    return this.hot;
-                else
-                    return true;
+                return this.hot; 
             }
         }
 
