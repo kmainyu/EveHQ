@@ -75,7 +75,18 @@ Public Class frmBackupEveHQ
 
     Private Sub frmBackupEveHQ_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         nudDays.Tag = CInt(1) : dtpStart.Tag = CInt(1)
-        chkAuto.Checked = EveHQ.Core.HQ.EveHQSettings.EveHQBackupAuto
+        Select Case EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode
+            Case 0
+                radManualBackup.Checked = True
+            Case 1
+                radPromptBackup.Checked = True
+            Case 2
+                RadAutoBackup.Checked = True
+        End Select
+        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupWarnFreq < 1 Then
+            EveHQ.Core.HQ.EveHQSettings.EveHQBackupWarnFreq = 1
+        End If
+        nudBackupWarning.Value = EveHQ.Core.HQ.EveHQSettings.EveHQBackupWarnFreq
         If EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq < 1 Then
             EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq = 1
         End If
@@ -103,20 +114,6 @@ Public Class frmBackupEveHQ
         Call CalcNextBackup()
     End Sub
 
-    Private Sub chkAuto_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAuto.CheckedChanged
-        Me.lblBackupDays.Enabled = chkAuto.Checked
-        Me.lblBackupFreq.Enabled = chkAuto.Checked
-        Me.lblBackupStart.Enabled = chkAuto.Checked
-        Me.lblLastBackup.Enabled = chkAuto.Checked
-        Me.lblLastBackupLbl.Enabled = chkAuto.Checked
-        Me.lblNextBackup.Enabled = chkAuto.Checked
-        Me.lblNextBackupLbl.Enabled = chkAuto.Checked
-        Me.lblStartFormat.Enabled = chkAuto.Checked
-        Me.nudDays.Enabled = chkAuto.Checked
-        Me.dtpStart.Enabled = chkAuto.Checked
-        EveHQ.Core.HQ.EveHQSettings.EveHQBackupAuto = chkAuto.Checked
-    End Sub
-
     Private Sub nudDays_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudDays.ValueChanged
         If nudDays.Tag IsNot Nothing Then
             If nudDays.Tag.ToString = "0" Then
@@ -133,5 +130,56 @@ Public Class frmBackupEveHQ
             End If
         End If
         Call CalcNextBackup()
+    End Sub
+
+    Private Sub radManualBackup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radManualBackup.CheckedChanged
+        If radManualBackup.Checked = True Then
+            EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 0
+            Me.lblBackupWarning.Enabled = False
+            Me.lblBackupWarningDays.Enabled = False
+            Me.nudBackupWarning.Enabled = False
+            Me.lblBackupDays.Enabled = False
+            Me.lblBackupFreq.Enabled = False
+            Me.lblBackupStart.Enabled = False
+            Me.lblNextBackup.Enabled = False
+            Me.lblNextBackupLbl.Enabled = False
+            Me.lblStartFormat.Enabled = False
+            Me.nudDays.Enabled = False
+            Me.dtpStart.Enabled = False
+        End If
+    End Sub
+
+    Private Sub radPromptBackup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radPromptBackup.CheckedChanged
+        If radPromptBackup.Checked = True Then
+            EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 1
+            Me.lblBackupWarning.Enabled = True
+            Me.lblBackupWarningDays.Enabled = True
+            Me.nudBackupWarning.Enabled = True
+            Me.lblBackupDays.Enabled = False
+            Me.lblBackupFreq.Enabled = False
+            Me.lblBackupStart.Enabled = False
+            Me.lblNextBackup.Enabled = False
+            Me.lblNextBackupLbl.Enabled = False
+            Me.lblStartFormat.Enabled = False
+            Me.nudDays.Enabled = False
+            Me.dtpStart.Enabled = False
+        End If
+    End Sub
+
+    Private Sub RadAutoBackup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadAutoBackup.CheckedChanged
+        If RadAutoBackup.Checked = True Then
+            EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 2
+            Me.lblBackupWarning.Enabled = False
+            Me.lblBackupWarningDays.Enabled = False
+            Me.nudBackupWarning.Enabled = False
+            Me.lblBackupDays.Enabled = True
+            Me.lblBackupFreq.Enabled = True
+            Me.lblBackupStart.Enabled = True
+            Me.lblNextBackup.Enabled = True
+            Me.lblNextBackupLbl.Enabled = True
+            Me.lblStartFormat.Enabled = True
+            Me.nudDays.Enabled = True
+            Me.dtpStart.Enabled = True
+        End If
     End Sub
 End Class

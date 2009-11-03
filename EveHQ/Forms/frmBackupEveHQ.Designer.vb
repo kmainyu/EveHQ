@@ -41,10 +41,16 @@ Partial Class frmBackupEveHQ
         Me.lblBackupDays = New System.Windows.Forms.Label
         Me.nudDays = New System.Windows.Forms.NumericUpDown
         Me.lblBackupFreq = New System.Windows.Forms.Label
-        Me.chkAuto = New System.Windows.Forms.CheckBox
+        Me.radManualBackup = New System.Windows.Forms.RadioButton
+        Me.radPromptBackup = New System.Windows.Forms.RadioButton
+        Me.lblBackupWarningDays = New System.Windows.Forms.Label
+        Me.nudBackupWarning = New System.Windows.Forms.NumericUpDown
+        Me.lblBackupWarning = New System.Windows.Forms.Label
+        Me.RadAutoBackup = New System.Windows.Forms.RadioButton
         Me.GroupBox1.SuspendLayout()
         Me.gbBackup.SuspendLayout()
         CType(Me.nudDays, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudBackupWarning, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -52,7 +58,7 @@ Partial Class frmBackupEveHQ
         Me.GroupBox1.Controls.Add(Me.btnRestore)
         Me.GroupBox1.Controls.Add(Me.lvwBackups)
         Me.GroupBox1.Controls.Add(Me.btnScan)
-        Me.GroupBox1.Location = New System.Drawing.Point(12, 214)
+        Me.GroupBox1.Location = New System.Drawing.Point(13, 266)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(612, 292)
         Me.GroupBox1.TabIndex = 3
@@ -100,6 +106,12 @@ Partial Class frmBackupEveHQ
         '
         'gbBackup
         '
+        Me.gbBackup.Controls.Add(Me.RadAutoBackup)
+        Me.gbBackup.Controls.Add(Me.lblBackupWarningDays)
+        Me.gbBackup.Controls.Add(Me.nudBackupWarning)
+        Me.gbBackup.Controls.Add(Me.lblBackupWarning)
+        Me.gbBackup.Controls.Add(Me.radPromptBackup)
+        Me.gbBackup.Controls.Add(Me.radManualBackup)
         Me.gbBackup.Controls.Add(Me.btnResetBackup)
         Me.gbBackup.Controls.Add(Me.btnBackup)
         Me.gbBackup.Controls.Add(Me.lblNextBackupLbl)
@@ -112,17 +124,16 @@ Partial Class frmBackupEveHQ
         Me.gbBackup.Controls.Add(Me.lblBackupDays)
         Me.gbBackup.Controls.Add(Me.nudDays)
         Me.gbBackup.Controls.Add(Me.lblBackupFreq)
-        Me.gbBackup.Controls.Add(Me.chkAuto)
         Me.gbBackup.Location = New System.Drawing.Point(12, 12)
         Me.gbBackup.Name = "gbBackup"
-        Me.gbBackup.Size = New System.Drawing.Size(612, 196)
+        Me.gbBackup.Size = New System.Drawing.Size(612, 248)
         Me.gbBackup.TabIndex = 2
         Me.gbBackup.TabStop = False
         Me.gbBackup.Text = "EveHQ Settings Backup"
         '
         'btnResetBackup
         '
-        Me.btnResetBackup.Location = New System.Drawing.Point(104, 165)
+        Me.btnResetBackup.Location = New System.Drawing.Point(497, 20)
         Me.btnResetBackup.Name = "btnResetBackup"
         Me.btnResetBackup.Size = New System.Drawing.Size(109, 23)
         Me.btnResetBackup.TabIndex = 13
@@ -131,7 +142,7 @@ Partial Class frmBackupEveHQ
         '
         'btnBackup
         '
-        Me.btnBackup.Location = New System.Drawing.Point(6, 165)
+        Me.btnBackup.Location = New System.Drawing.Point(399, 20)
         Me.btnBackup.Name = "btnBackup"
         Me.btnBackup.Size = New System.Drawing.Size(92, 23)
         Me.btnBackup.TabIndex = 12
@@ -142,7 +153,7 @@ Partial Class frmBackupEveHQ
         '
         Me.lblNextBackupLbl.AutoSize = True
         Me.lblNextBackupLbl.Enabled = False
-        Me.lblNextBackupLbl.Location = New System.Drawing.Point(75, 134)
+        Me.lblNextBackupLbl.Location = New System.Drawing.Point(54, 219)
         Me.lblNextBackupLbl.Name = "lblNextBackupLbl"
         Me.lblNextBackupLbl.Size = New System.Drawing.Size(71, 13)
         Me.lblNextBackupLbl.TabIndex = 11
@@ -151,8 +162,7 @@ Partial Class frmBackupEveHQ
         'lblLastBackup
         '
         Me.lblLastBackup.AutoSize = True
-        Me.lblLastBackup.Enabled = False
-        Me.lblLastBackup.Location = New System.Drawing.Point(178, 109)
+        Me.lblLastBackup.Location = New System.Drawing.Point(138, 25)
         Me.lblLastBackup.Name = "lblLastBackup"
         Me.lblLastBackup.Size = New System.Drawing.Size(66, 13)
         Me.lblLastBackup.TabIndex = 10
@@ -162,7 +172,7 @@ Partial Class frmBackupEveHQ
         '
         Me.lblNextBackup.AutoSize = True
         Me.lblNextBackup.Enabled = False
-        Me.lblNextBackup.Location = New System.Drawing.Point(178, 134)
+        Me.lblNextBackup.Location = New System.Drawing.Point(157, 219)
         Me.lblNextBackup.Name = "lblNextBackup"
         Me.lblNextBackup.Size = New System.Drawing.Size(66, 13)
         Me.lblNextBackup.TabIndex = 9
@@ -171,18 +181,17 @@ Partial Class frmBackupEveHQ
         'lblLastBackupLbl
         '
         Me.lblLastBackupLbl.AutoSize = True
-        Me.lblLastBackupLbl.Enabled = False
-        Me.lblLastBackupLbl.Location = New System.Drawing.Point(75, 109)
+        Me.lblLastBackupLbl.Location = New System.Drawing.Point(15, 25)
         Me.lblLastBackupLbl.Name = "lblLastBackupLbl"
-        Me.lblLastBackupLbl.Size = New System.Drawing.Size(68, 13)
+        Me.lblLastBackupLbl.Size = New System.Drawing.Size(117, 13)
         Me.lblLastBackupLbl.TabIndex = 8
-        Me.lblLastBackupLbl.Text = "Last Backup:"
+        Me.lblLastBackupLbl.Text = "Last Recorded Backup:"
         '
         'lblStartFormat
         '
         Me.lblStartFormat.AutoSize = True
         Me.lblStartFormat.Enabled = False
-        Me.lblStartFormat.Location = New System.Drawing.Point(316, 82)
+        Me.lblStartFormat.Location = New System.Drawing.Point(295, 191)
         Me.lblStartFormat.Name = "lblStartFormat"
         Me.lblStartFormat.Size = New System.Drawing.Size(164, 13)
         Me.lblStartFormat.TabIndex = 7
@@ -193,7 +202,7 @@ Partial Class frmBackupEveHQ
         Me.dtpStart.CustomFormat = "dd/MM/yyyy HH:mm"
         Me.dtpStart.Enabled = False
         Me.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpStart.Location = New System.Drawing.Point(181, 78)
+        Me.dtpStart.Location = New System.Drawing.Point(160, 186)
         Me.dtpStart.Name = "dtpStart"
         Me.dtpStart.ShowUpDown = True
         Me.dtpStart.Size = New System.Drawing.Size(129, 21)
@@ -205,7 +214,7 @@ Partial Class frmBackupEveHQ
         '
         Me.lblBackupStart.AutoSize = True
         Me.lblBackupStart.Enabled = False
-        Me.lblBackupStart.Location = New System.Drawing.Point(75, 84)
+        Me.lblBackupStart.Location = New System.Drawing.Point(54, 191)
         Me.lblBackupStart.Name = "lblBackupStart"
         Me.lblBackupStart.Size = New System.Drawing.Size(87, 13)
         Me.lblBackupStart.TabIndex = 4
@@ -215,7 +224,7 @@ Partial Class frmBackupEveHQ
         '
         Me.lblBackupDays.AutoSize = True
         Me.lblBackupDays.Enabled = False
-        Me.lblBackupDays.Location = New System.Drawing.Point(223, 54)
+        Me.lblBackupDays.Location = New System.Drawing.Point(202, 161)
         Me.lblBackupDays.Name = "lblBackupDays"
         Me.lblBackupDays.Size = New System.Drawing.Size(39, 13)
         Me.lblBackupDays.TabIndex = 3
@@ -224,7 +233,7 @@ Partial Class frmBackupEveHQ
         'nudDays
         '
         Me.nudDays.Enabled = False
-        Me.nudDays.Location = New System.Drawing.Point(181, 52)
+        Me.nudDays.Location = New System.Drawing.Point(160, 159)
         Me.nudDays.Maximum = New Decimal(New Integer() {28, 0, 0, 0})
         Me.nudDays.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudDays.Name = "nudDays"
@@ -237,27 +246,79 @@ Partial Class frmBackupEveHQ
         '
         Me.lblBackupFreq.AutoSize = True
         Me.lblBackupFreq.Enabled = False
-        Me.lblBackupFreq.Location = New System.Drawing.Point(75, 54)
+        Me.lblBackupFreq.Location = New System.Drawing.Point(54, 161)
         Me.lblBackupFreq.Name = "lblBackupFreq"
         Me.lblBackupFreq.Size = New System.Drawing.Size(99, 13)
         Me.lblBackupFreq.TabIndex = 1
         Me.lblBackupFreq.Text = "Backup Frequency:"
         '
-        'chkAuto
+        'radManualBackup
         '
-        Me.chkAuto.AutoSize = True
-        Me.chkAuto.Location = New System.Drawing.Point(24, 29)
-        Me.chkAuto.Name = "chkAuto"
-        Me.chkAuto.Size = New System.Drawing.Size(171, 17)
-        Me.chkAuto.TabIndex = 0
-        Me.chkAuto.Text = "Activate Auto Settings Backup"
-        Me.chkAuto.UseVisualStyleBackColor = True
+        Me.radManualBackup.AutoSize = True
+        Me.radManualBackup.Location = New System.Drawing.Point(18, 54)
+        Me.radManualBackup.Name = "radManualBackup"
+        Me.radManualBackup.Size = New System.Drawing.Size(125, 17)
+        Me.radManualBackup.TabIndex = 14
+        Me.radManualBackup.Text = "Manual Backup Mode"
+        Me.radManualBackup.UseVisualStyleBackColor = True
+        '
+        'radPromptBackup
+        '
+        Me.radPromptBackup.AutoSize = True
+        Me.radPromptBackup.Location = New System.Drawing.Point(18, 79)
+        Me.radPromptBackup.Name = "radPromptBackup"
+        Me.radPromptBackup.Size = New System.Drawing.Size(131, 17)
+        Me.radPromptBackup.TabIndex = 15
+        Me.radPromptBackup.Text = "Backup Warning Mode"
+        Me.radPromptBackup.UseVisualStyleBackColor = True
+        '
+        'lblBackupWarningDays
+        '
+        Me.lblBackupWarningDays.AutoSize = True
+        Me.lblBackupWarningDays.Enabled = False
+        Me.lblBackupWarningDays.Location = New System.Drawing.Point(202, 104)
+        Me.lblBackupWarningDays.Name = "lblBackupWarningDays"
+        Me.lblBackupWarningDays.Size = New System.Drawing.Size(39, 13)
+        Me.lblBackupWarningDays.TabIndex = 18
+        Me.lblBackupWarningDays.Text = "(Days)"
+        '
+        'nudBackupWarning
+        '
+        Me.nudBackupWarning.Enabled = False
+        Me.nudBackupWarning.Location = New System.Drawing.Point(160, 102)
+        Me.nudBackupWarning.Maximum = New Decimal(New Integer() {28, 0, 0, 0})
+        Me.nudBackupWarning.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudBackupWarning.Name = "nudBackupWarning"
+        Me.nudBackupWarning.Size = New System.Drawing.Size(36, 21)
+        Me.nudBackupWarning.TabIndex = 17
+        Me.nudBackupWarning.Tag = "1"
+        Me.nudBackupWarning.Value = New Decimal(New Integer() {7, 0, 0, 0})
+        '
+        'lblBackupWarning
+        '
+        Me.lblBackupWarning.AutoSize = True
+        Me.lblBackupWarning.Enabled = False
+        Me.lblBackupWarning.Location = New System.Drawing.Point(49, 104)
+        Me.lblBackupWarning.Name = "lblBackupWarning"
+        Me.lblBackupWarning.Size = New System.Drawing.Size(105, 13)
+        Me.lblBackupWarning.TabIndex = 16
+        Me.lblBackupWarning.Text = "Warning Frequency:"
+        '
+        'RadAutoBackup
+        '
+        Me.RadAutoBackup.AutoSize = True
+        Me.RadAutoBackup.Location = New System.Drawing.Point(18, 133)
+        Me.RadAutoBackup.Name = "RadAutoBackup"
+        Me.RadAutoBackup.Size = New System.Drawing.Size(139, 17)
+        Me.RadAutoBackup.TabIndex = 19
+        Me.RadAutoBackup.Text = "Automatic Backup Mode"
+        Me.RadAutoBackup.UseVisualStyleBackColor = True
         '
         'frmBackupEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(637, 518)
+        Me.ClientSize = New System.Drawing.Size(637, 565)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.gbBackup)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -268,6 +329,7 @@ Partial Class frmBackupEveHQ
         Me.gbBackup.ResumeLayout(False)
         Me.gbBackup.PerformLayout()
         CType(Me.nudDays, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudBackupWarning, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -289,5 +351,10 @@ Partial Class frmBackupEveHQ
     Friend WithEvents lblBackupDays As System.Windows.Forms.Label
     Friend WithEvents nudDays As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblBackupFreq As System.Windows.Forms.Label
-    Friend WithEvents chkAuto As System.Windows.Forms.CheckBox
+    Friend WithEvents RadAutoBackup As System.Windows.Forms.RadioButton
+    Friend WithEvents lblBackupWarningDays As System.Windows.Forms.Label
+    Friend WithEvents nudBackupWarning As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblBackupWarning As System.Windows.Forms.Label
+    Friend WithEvents radPromptBackup As System.Windows.Forms.RadioButton
+    Friend WithEvents radManualBackup As System.Windows.Forms.RadioButton
 End Class
