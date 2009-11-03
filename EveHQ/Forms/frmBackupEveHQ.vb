@@ -16,19 +16,26 @@ Public Class frmBackupEveHQ
         Dim timeStamp As String = Format(backupTime, "yyyy-MM-dd-HH-mm-ss")
         Dim zipFolder As String = System.IO.Path.Combine(EveHQ.Core.HQ.EveHQBackupFolder, "EveHQBackup " & timeStamp)
         Dim zipFileName As String = System.IO.Path.Combine(zipFolder, "EveHQBackup " & timeStamp & ".zip")
+        Dim oldTime As Date = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast
+        Dim oldResult As Integer = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult
         Try
+            ' Update backup details
+            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast = backupTime
+            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = -1
+
+            ' Save the settings file
+            Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
+
             ' Create the zip folder
             If My.Computer.FileSystem.DirectoryExists(zipFolder) = False Then
                 My.Computer.FileSystem.CreateDirectory(zipFolder)
             End If
 
+            ' Backup the data
             Dim zipSettings As FastZip = New FastZip()
             Me.Cursor = Cursors.WaitCursor
             zipSettings.CreateZip(zipFileName, EveHQ.Core.HQ.appDataFolder, True, "", "^(?:(?!cache).)*$")
             Me.Cursor = Cursors.Default
-
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast = backupTime
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = -1
             Return True
         Catch e As Exception
             ' Try and tidy up

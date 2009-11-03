@@ -545,7 +545,6 @@ Public Class frmEveHQ
         Me.TopMost = False
     End Sub
     Public Sub ShutdownRoutine()
-        Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
 
         ' Check if Shutdown Notification is active
         If EveHQ.Core.HQ.EveHQSettings.ShutdownNotify = True Then
@@ -602,6 +601,21 @@ Public Class frmEveHQ
         For Each tp As TabPage In tabMDI.TabPages
             TryCast(tp.Tag, Form).Close()
         Next
+
+        ' Check for backup warning expiry
+        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 1 Then
+            Dim backupDate As Date = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.AddDays(EveHQ.Core.HQ.EveHQSettings.EveHQBackupWarnFreq)
+            If backupDate < Now Then
+                Dim timeElapsed As TimeSpan = Now - EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast
+                Dim msg As String = "You haven't backed up your EveHQ Settings for " & timeElapsed.Days & " days. Would you like to do this now?"
+                Dim reply As Integer = MessageBox.Show(msg, "Backup EveHQ Settings?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = DialogResult.Yes Then
+                    Call frmBackupEveHQ.BackupEveHQSettings()
+                End If
+            End If
+        Else
+            Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
+        End If
 
         ' Remove the icons
         EveStatusIcon.Visible = False : iconEveHQMLW.Visible = False
