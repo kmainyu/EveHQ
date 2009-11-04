@@ -1633,18 +1633,6 @@ Public Class ShipSlotControl
 #End Region
 
 #Region "UI Routines"
-    Private Sub btnToggleStorage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToggleStorage.Click
-        If SplitContainer1.Panel2Collapsed = True Then
-            UpdateDrones = True
-            SplitContainer1.Panel2Collapsed = False
-            SplitContainer1.SplitterDistance = SplitContainer1.Height - 180
-            Me.RedrawDroneBay()
-            Me.RedrawCargoBay()
-            UpdateDrones = False
-        Else
-            SplitContainer1.Panel2Collapsed = True
-        End If
-    End Sub
     Private Sub ctxSlots_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSlots.Opening
         If cancelSlotMenu = False Then
             ctxSlots.Items.Clear()
@@ -2199,6 +2187,9 @@ Public Class ShipSlotControl
         Next
         Return newText.ToString
     End Function
+    Private Sub CollapsibleSplitter1_SplitterMoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles CollapsibleSplitter1.SplitterMoved
+        HQF.Settings.HQFSettings.StorageBayHeight = tabStorage.Height
+    End Sub
 #End Region
 
 #Region "Set Module Status"
@@ -4270,4 +4261,5 @@ Public Class ShipSlotControl
 
 #End Region
 
+ 
 End Class

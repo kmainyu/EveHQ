@@ -62,7 +62,16 @@ Public Class Settings
     Private cIncludeCapReloadTime As Boolean = False
     Private cIncludeAmmoReloadTime As Boolean = False
     Private cUseLastPilot As Boolean = False
+    Private cStorageBayHeight As Integer = 200
 
+    Public Property StorageBayHeight() As Integer
+        Get
+            Return cStorageBayHeight
+        End Get
+        Set(ByVal value As Integer)
+            cStorageBayHeight = value
+        End Set
+    End Property
     Public Property UseLastPilot() As Boolean
         Get
             Return cUseLastPilot
@@ -320,6 +329,7 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<includeAmmoTime>" & HQFSettings.IncludeAmmoReloadTime & "</includeAmmoTime>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<includeCapTime>" & HQFSettings.IncludeCapReloadTime & "</includeCapTime>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<useLastPilot>" & HQFSettings.UseLastPilot & "</useLastPilot>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<storageBayHeight>" & HQFSettings.StorageBayHeight & "</storageBayHeight>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the slot layout
@@ -407,6 +417,7 @@ Public Class Settings
                         HQFSettings.IncludeAmmoReloadTime = CBool(settingSettings.ChildNodes(19).InnerText)
                         HQFSettings.IncludeCapReloadTime = CBool(settingSettings.ChildNodes(20).InnerText)
                         HQFSettings.UseLastPilot = CBool(settingSettings.ChildNodes(21).InnerText)
+                        HQFSettings.StorageBayHeight = CInt(settingSettings.ChildNodes(22).InnerText)
                     End If
                 End If
             Catch
