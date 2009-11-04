@@ -455,12 +455,12 @@ Public Class frmHQF
     End Sub
     Private Sub mnuPreviewShip_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip.Click
         Dim shipName As String = mnuShipBrowserShipName.Text
-        Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship)
+        Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
         Call DisplayShipPreview(selShip)
     End Sub
     Private Sub mnuBattleClinicBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBattleClinicBrowser.Click
         Dim shipName As String = mnuShipBrowserShipName.Text
-        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship)
+        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
         If myBCBrowser.IsHandleCreated = True Then
             myBCBrowser.ShipType = bShip
             myBCBrowser.BringToFront()
@@ -2036,7 +2036,7 @@ Public Class frmHQF
     Private Sub mnuFittingsBCBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsBCBrowser.Click
         Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
-        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship)
+        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
         If myBCBrowser.IsHandleCreated = True Then
             myBCBrowser.ShipType = bShip
             myBCBrowser.BringToFront()
