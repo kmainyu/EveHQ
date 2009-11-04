@@ -1990,6 +1990,30 @@ Public Class frmHQF
                     'MessageBox.Show("Can't load the '" & shipFit & "' fitting as it's not there!!", "Error locating fitting details", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             End If
+            ' Check for user columns only being the default "Module Name"
+            Dim colCount As Integer = 0
+            For Each col As String In Settings.HQFSettings.UserSlotColumns
+                If col.EndsWith("1") = True Then
+                    colCount += 1
+                End If
+            Next
+            If colCount = 0 Then
+                Dim msg As String = "HQF has detected you are using the old default column settings which will limit the amount of information displayed by HQF." & ControlChars.CrLf
+                msg &= "HQF can display much more module data if the columns are configured prior to displaying a fitting." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "Would you like to configure the displayed columns now?"
+                Dim reply As Integer = MessageBox.Show(msg, "Configure Slot Columns?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = DialogResult.No Then
+                    MessageBox.Show("You can always configure the columns later by going into the HQF settings and choosing the Slot Layout section", "For Future Reference...", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    ' Open options form
+                    Dim mySettings As New frmHQFSettings
+                    mySettings.Tag = "nodeSlotFormat"
+                    mySettings.ShowDialog()
+                    mySettings = Nothing
+                    Call Me.UpdateFittingsTree(False)
+                    Call Me.CheckOpenTabs()
+                End If
+            End If
         Else
             Dim msg As String = "There are no pilots or accounts created in EveHQ." & ControlChars.CrLf
             msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."

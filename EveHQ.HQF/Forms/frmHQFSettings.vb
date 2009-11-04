@@ -55,14 +55,26 @@ Public Class frmHQFSettings
         Call Me.UpdateSlotFormatOptions()
         Call Me.UpdateConstantsOptions()
 
-        If Me.Tag IsNot Nothing Then
-            If Me.Tag.ToString = "" Then
-                Me.Tag = "tabGeneral"
-            End If
-        End If
         forceUpdate = False
         redrawColumns = True
         startUp = False
+
+        ' Switch to the right tab
+        Me.tvwSettings.Select()
+        If Me.Tag IsNot Nothing Then
+            If Me.Tag.ToString = "" Then
+                Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+            Else
+                If Me.tvwSettings.Nodes.ContainsKey(Me.Tag.ToString) = True Then
+                    Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes(Me.Tag.ToString)
+                Else
+                    Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+                End If
+            End If
+        Else
+            Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+        End If
+
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -309,7 +321,8 @@ Public Class frmHQFSettings
 #End Region
 
 #Region "Treeview Routines"
-    Private Sub tvwSettings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSettings.NodeMouseClick
+
+    Private Sub tvwSettings_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwSettings.AfterSelect
         Dim nodeName As String = e.Node.Name
         Dim gbName As String = nodeName.TrimStart("node".ToCharArray)
         gbName = "gb" & gbName
@@ -317,13 +330,17 @@ Public Class frmHQFSettings
             If setControl.Name = "tvwSettings" Or setControl.Name = "btnClose" Or setControl.Name = gbName Then
                 Me.Controls(gbName).Top = 12
                 Me.Controls(gbName).Left = 195
-                Me.Controls(gbName).Width = 500
+                Me.Controls(gbName).Width = 700
                 Me.Controls(gbName).Height = 500
                 Me.Controls(gbName).Visible = True
             Else
                 setControl.Visible = False
             End If
         Next
+    End Sub
+
+    Private Sub tvwSettings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSettings.NodeMouseClick
+        Me.tvwSettings.SelectedNode = e.Node
     End Sub
 
 #End Region

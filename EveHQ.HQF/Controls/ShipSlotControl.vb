@@ -2046,7 +2046,6 @@ Public Class ShipSlotControl
                         ctxSlots.Items.Add(AmmoInfo)
                     End If
                 End If
-
             Else
                 e.Cancel = True
             End If
