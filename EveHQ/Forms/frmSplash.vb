@@ -225,8 +225,31 @@ Public Class frmSplash
             End If
         End If
 
-        ' Force DBDataDirectory location
+        ' Force DBDataDirectory location if using Access
+        If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb") Then
+            Dim oldLocation As String = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
+            Dim newLocation As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb")
+            If My.Computer.FileSystem.FileExists(oldLocation) = True Then
+                ' Attempt to copy to the new location
+                Try
+                    Dim msg As String = "Attempting to copy the custom database from " & ControlChars.CrLf & oldLocation & " to " & ControlChars.CrLf & newLocation & "."
+                    MessageBox.Show(msg, "Relocating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    My.Computer.FileSystem.CopyFile(oldLocation, newLocation)
+                Catch ex As Exception
+                    Dim msg As String = "Unable to copy the custom database from " & ControlChars.CrLf & oldLocation & " to " & ControlChars.CrLf & newLocation & ". This will need to be copied manually."
+                    MessageBox.Show(msg, "Unable to Copy Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Try
+                MessageBox.Show("Copying successful. Attempting to delete the old file at " & ControlChars.CrLf & oldLocation, "Copy Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Try
+                    My.Computer.FileSystem.DeleteFile(oldLocation)
+                Catch ex As Exception
+                    Dim msg As String = "Unable to delete the old custom database from " & ControlChars.CrLf & oldLocation & ". This will need to be deleted manually if required."
+                    MessageBox.Show(msg, "Unable to Delete Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Try
+            End If
+        End If
         EveHQ.Core.HQ.EveHQSettings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb")
+        Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
 
         ' Check for new database
         lblStatus.Text = "> Checking custom data..."

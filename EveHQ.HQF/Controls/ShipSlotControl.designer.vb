@@ -26,11 +26,11 @@ Partial Class ShipSlotControl
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystem Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystem Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label
         Me.lblShipMarketPrice = New System.Windows.Forms.Label
         Me.lblTurretSlots = New System.Windows.Forms.Label
@@ -529,7 +529,7 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.Controls.Add(Me.panelCargo)
         Me.tabCargoBay.Location = New System.Drawing.Point(4, 22)
         Me.tabCargoBay.Name = "tabCargoBay"
-        Me.tabCargoBay.Size = New System.Drawing.Size(668, 162)
+        Me.tabCargoBay.Size = New System.Drawing.Size(668, 174)
         Me.tabCargoBay.TabIndex = 1
         Me.tabCargoBay.Text = "CargoBay"
         Me.tabCargoBay.UseVisualStyleBackColor = True
@@ -544,7 +544,7 @@ Partial Class ShipSlotControl
         Me.panelCargo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelCargo.Location = New System.Drawing.Point(0, 0)
         Me.panelCargo.Name = "panelCargo"
-        Me.panelCargo.Size = New System.Drawing.Size(668, 162)
+        Me.panelCargo.Size = New System.Drawing.Size(668, 174)
         Me.panelCargo.TabIndex = 33
         '
         'pbCargoBay
@@ -594,7 +594,7 @@ Partial Class ShipSlotControl
         Me.lvwCargoBay.GridLines = True
         Me.lvwCargoBay.Location = New System.Drawing.Point(3, 35)
         Me.lvwCargoBay.Name = "lvwCargoBay"
-        Me.lvwCargoBay.Size = New System.Drawing.Size(662, 124)
+        Me.lvwCargoBay.Size = New System.Drawing.Size(662, 136)
         Me.lvwCargoBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwCargoBay.TabIndex = 5
         Me.lvwCargoBay.UseCompatibleStateImageBehavior = False
@@ -616,7 +616,7 @@ Partial Class ShipSlotControl
         Me.tabRemote.Controls.Add(Me.panelRemote)
         Me.tabRemote.Location = New System.Drawing.Point(4, 22)
         Me.tabRemote.Name = "tabRemote"
-        Me.tabRemote.Size = New System.Drawing.Size(668, 162)
+        Me.tabRemote.Size = New System.Drawing.Size(668, 174)
         Me.tabRemote.TabIndex = 2
         Me.tabRemote.Text = "Remote Effects"
         Me.tabRemote.UseVisualStyleBackColor = True
@@ -635,7 +635,7 @@ Partial Class ShipSlotControl
         Me.panelRemote.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelRemote.Location = New System.Drawing.Point(0, 0)
         Me.panelRemote.Name = "panelRemote"
-        Me.panelRemote.Size = New System.Drawing.Size(668, 162)
+        Me.panelRemote.Size = New System.Drawing.Size(668, 174)
         Me.panelRemote.TabIndex = 9
         '
         'cboFitting
@@ -676,7 +676,7 @@ Partial Class ShipSlotControl
         Me.lvwRemoteFittings.GridLines = True
         Me.lvwRemoteFittings.Location = New System.Drawing.Point(6, 36)
         Me.lvwRemoteFittings.Name = "lvwRemoteFittings"
-        Me.lvwRemoteFittings.Size = New System.Drawing.Size(319, 123)
+        Me.lvwRemoteFittings.Size = New System.Drawing.Size(319, 135)
         Me.lvwRemoteFittings.TabIndex = 7
         Me.lvwRemoteFittings.UseCompatibleStateImageBehavior = False
         Me.lvwRemoteFittings.View = System.Windows.Forms.View.Details
@@ -707,7 +707,7 @@ Partial Class ShipSlotControl
         Me.lvwRemoteEffects.GridLines = True
         Me.lvwRemoteEffects.Location = New System.Drawing.Point(331, 36)
         Me.lvwRemoteEffects.Name = "lvwRemoteEffects"
-        Me.lvwRemoteEffects.Size = New System.Drawing.Size(386, 123)
+        Me.lvwRemoteEffects.Size = New System.Drawing.Size(386, 135)
         Me.lvwRemoteEffects.TabIndex = 5
         Me.lvwRemoteEffects.UseCompatibleStateImageBehavior = False
         Me.lvwRemoteEffects.View = System.Windows.Forms.View.Details
@@ -741,7 +741,7 @@ Partial Class ShipSlotControl
         Me.tabFleet.Controls.Add(Me.panelFleet)
         Me.tabFleet.Location = New System.Drawing.Point(4, 22)
         Me.tabFleet.Name = "tabFleet"
-        Me.tabFleet.Size = New System.Drawing.Size(668, 162)
+        Me.tabFleet.Size = New System.Drawing.Size(668, 174)
         Me.tabFleet.TabIndex = 3
         Me.tabFleet.Text = "Fleet Effects"
         Me.tabFleet.UseVisualStyleBackColor = True
@@ -770,7 +770,7 @@ Partial Class ShipSlotControl
         Me.panelFleet.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelFleet.Location = New System.Drawing.Point(0, 0)
         Me.panelFleet.Name = "panelFleet"
-        Me.panelFleet.Size = New System.Drawing.Size(668, 162)
+        Me.panelFleet.Size = New System.Drawing.Size(668, 174)
         Me.panelFleet.TabIndex = 25
         '
         'chkFCActive
@@ -953,7 +953,7 @@ Partial Class ShipSlotControl
         Me.tabBoosters.Controls.Add(Me.panelBoosters)
         Me.tabBoosters.Location = New System.Drawing.Point(4, 22)
         Me.tabBoosters.Name = "tabBoosters"
-        Me.tabBoosters.Size = New System.Drawing.Size(668, 162)
+        Me.tabBoosters.Size = New System.Drawing.Size(668, 174)
         Me.tabBoosters.TabIndex = 6
         Me.tabBoosters.Text = "Boosters"
         Me.tabBoosters.UseVisualStyleBackColor = True
@@ -973,7 +973,7 @@ Partial Class ShipSlotControl
         Me.panelBoosters.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelBoosters.Location = New System.Drawing.Point(0, 0)
         Me.panelBoosters.Name = "panelBoosters"
-        Me.panelBoosters.Size = New System.Drawing.Size(668, 162)
+        Me.panelBoosters.Size = New System.Drawing.Size(668, 174)
         Me.panelBoosters.TabIndex = 27
         '
         'lblBoosterPenalties3
@@ -1142,7 +1142,7 @@ Partial Class ShipSlotControl
         Me.tabEnvironment.Controls.Add(Me.panelWH)
         Me.tabEnvironment.Location = New System.Drawing.Point(4, 22)
         Me.tabEnvironment.Name = "tabEnvironment"
-        Me.tabEnvironment.Size = New System.Drawing.Size(668, 162)
+        Me.tabEnvironment.Size = New System.Drawing.Size(668, 174)
         Me.tabEnvironment.TabIndex = 5
         Me.tabEnvironment.Text = "WH Effects"
         Me.tabEnvironment.UseVisualStyleBackColor = True
@@ -1157,7 +1157,7 @@ Partial Class ShipSlotControl
         Me.panelWH.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelWH.Location = New System.Drawing.Point(0, 0)
         Me.panelWH.Name = "panelWH"
-        Me.panelWH.Size = New System.Drawing.Size(668, 162)
+        Me.panelWH.Size = New System.Drawing.Size(668, 174)
         Me.panelWH.TabIndex = 26
         '
         'lblWHClass
@@ -1203,7 +1203,7 @@ Partial Class ShipSlotControl
         Me.tabShipBay.Controls.Add(Me.panelShipBay)
         Me.tabShipBay.Location = New System.Drawing.Point(4, 22)
         Me.tabShipBay.Name = "tabShipBay"
-        Me.tabShipBay.Size = New System.Drawing.Size(668, 162)
+        Me.tabShipBay.Size = New System.Drawing.Size(668, 174)
         Me.tabShipBay.TabIndex = 4
         Me.tabShipBay.Text = "Ship Maintenance Bay"
         Me.tabShipBay.UseVisualStyleBackColor = True
@@ -1217,7 +1217,7 @@ Partial Class ShipSlotControl
         Me.panelShipBay.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelShipBay.Location = New System.Drawing.Point(0, 0)
         Me.panelShipBay.Name = "panelShipBay"
-        Me.panelShipBay.Size = New System.Drawing.Size(668, 162)
+        Me.panelShipBay.Size = New System.Drawing.Size(668, 174)
         Me.panelShipBay.TabIndex = 34
         '
         'pbShipBay
@@ -1257,7 +1257,7 @@ Partial Class ShipSlotControl
         Me.lvwShipBay.GridLines = True
         Me.lvwShipBay.Location = New System.Drawing.Point(3, 35)
         Me.lvwShipBay.Name = "lvwShipBay"
-        Me.lvwShipBay.Size = New System.Drawing.Size(662, 124)
+        Me.lvwShipBay.Size = New System.Drawing.Size(662, 136)
         Me.lvwShipBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwShipBay.TabIndex = 5
         Me.lvwShipBay.UseCompatibleStateImageBehavior = False
@@ -1308,17 +1308,17 @@ Partial Class ShipSlotControl
         Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
         Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwSlots.FullRowSelect = True
-        ListViewGroup6.Header = "High Slots"
-        ListViewGroup6.Name = "lvwgHighSlots"
-        ListViewGroup7.Header = "Mid Slots"
-        ListViewGroup7.Name = "lvwgMidSlots"
-        ListViewGroup8.Header = "Low Slots"
-        ListViewGroup8.Name = "lvwgLowSlots"
-        ListViewGroup9.Header = "Rig Slots"
-        ListViewGroup9.Name = "lvwgRigSlots"
-        ListViewGroup10.Header = "Subsystem Slots"
-        ListViewGroup10.Name = "lvwgSubSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10})
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        ListViewGroup5.Header = "Subsystem Slots"
+        ListViewGroup5.Name = "lvwgSubSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
         Me.lvwSlots.Location = New System.Drawing.Point(0, 38)
         Me.lvwSlots.Name = "lvwSlots"
         Me.lvwSlots.ShowItemToolTips = True
