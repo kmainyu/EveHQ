@@ -1451,12 +1451,20 @@ Public Class ShipSlotControl
                                     End If
                                 End If
                             Case 1 ' Shift
-                                If canOverload = True Then
-                                    currentstate = ModuleStates.Overloaded
+                                If currentstate = ModuleStates.Overloaded Then
+                                    currentstate = ModuleStates.Active
+                                Else
+                                    If canOverload = True Then
+                                        currentstate = ModuleStates.Overloaded
+                                    End If
                                 End If
                             Case 2 ' Ctrl
-                                If canOffline = True Then
-                                    currentstate = ModuleStates.Offline
+                                If currentstate = ModuleStates.Offline Then
+                                    currentstate = ModuleStates.Active
+                                Else
+                                    If canOffline = True Then
+                                        currentstate = ModuleStates.Offline
+                                    End If
                                 End If
                         End Select
 

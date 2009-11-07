@@ -146,6 +146,7 @@ Public Class frmTraining
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
             displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            cDisplayPilotName = displayPilot.Name
             ' Only update if we are not starting up
             If startup = False Then
                 tabQueues.SuspendLayout()
