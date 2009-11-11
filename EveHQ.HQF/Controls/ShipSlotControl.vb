@@ -4053,42 +4053,44 @@ Public Class ShipSlotControl
         Dim mnu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim idx As Integer = CInt(mnu.Name.Substring(mnu.Name.Length - 1, 1))
         Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
-        Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
-        Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
-        Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
-        Dim currentFilter As Integer = bModule.SlotType
-        Dim filter As Integer = CInt(Math.Pow(2, idx - 1))
-        If CType(ctxBoosters.Items("mnuBoosterPenalty" & idx.ToString), ToolStripMenuItem).Checked = True Then
-            currentFilter += filter
-        Else
-            currentFilter -= filter
-        End If
-        ' Create a new module
-        Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
-        nModule.SlotType = currentFilter
-        ' Alter the attributes according to the penalties
-        Dim count As Integer = 0
-        Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
-        Dim effectList As String = "Penalties: "
-        For Each bEffect As BoosterEffect In effects.Values
-            CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
-            filter = CInt(Math.Pow(2, count))
-            If (nModule.SlotType Or filter) <> nModule.SlotType Then
-                ' Reset the attribute
-                nModule.Attributes(bEffect.AttributeID) = 0
+        If cb IsNot Nothing Then
+            Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
+            Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
+            Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
+            Dim currentFilter As Integer = bModule.SlotType
+            Dim filter As Integer = CInt(Math.Pow(2, idx - 1))
+            If CType(ctxBoosters.Items("mnuBoosterPenalty" & idx.ToString), ToolStripMenuItem).Checked = True Then
+                currentFilter += filter
             Else
-                effectList &= bEffect.AttributeEffect & ", "
+                currentFilter -= filter
             End If
-            count += 1
-        Next
-        If effectList.EndsWith(": ") = True Then
-            cblabel.Text = "Penalties: None"
-        Else
-            cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
+            ' Create a new module
+            Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
+            nModule.SlotType = currentFilter
+            ' Alter the attributes according to the penalties
+            Dim count As Integer = 0
+            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
+            Dim effectList As String = "Penalties: "
+            For Each bEffect As BoosterEffect In effects.Values
+                CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
+                filter = CInt(Math.Pow(2, count))
+                If (nModule.SlotType Or filter) <> nModule.SlotType Then
+                    ' Reset the attribute
+                    nModule.Attributes(bEffect.AttributeID) = 0
+                Else
+                    effectList &= bEffect.AttributeEffect & ", "
+                End If
+                count += 1
+            Next
+            If effectList.EndsWith(": ") = True Then
+                cblabel.Text = "Penalties: None"
+            Else
+                cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
+            End If
+            cblabel.Refresh()
+            cb.Tag = nModule
+            Call Me.ApplyBoosters()
         End If
-        cblabel.Refresh()
-        cb.Tag = nModule
-        Call Me.ApplyBoosters()
     End Sub
 
     Private Sub ctxBoosters_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBoosters.Opening
@@ -4193,78 +4195,84 @@ Public Class ShipSlotControl
 
     Private Sub mnuShowBoosterInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowBoosterInfo.Click
         Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
-        Dim sModule As ShipModule = CType(cb.Tag, ShipModule)
-        For Each bModule As ShipModule In fittedShip.BoosterSlotCollection
-            If sModule.Name = bModule.Name Then
-                Dim showInfo As New frmShowInfo
-                Dim hPilot As EveHQ.Core.Pilot
-                If currentInfo IsNot Nothing Then
-                    hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
-                Else
-                    If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
-                        hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+        If cb IsNot Nothing Then
+            Dim sModule As ShipModule = CType(cb.Tag, ShipModule)
+            For Each bModule As ShipModule In fittedShip.BoosterSlotCollection
+                If sModule.Name = bModule.Name Then
+                    Dim showInfo As New frmShowInfo
+                    Dim hPilot As EveHQ.Core.Pilot
+                    If currentInfo IsNot Nothing Then
+                        hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
                     Else
-                        hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+                        If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+                        Else
+                            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+                        End If
                     End If
+                    showInfo.ShowItemDetails(bModule, hPilot)
                 End If
-                showInfo.ShowItemDetails(bModule, hPilot)
-            End If
-        Next
+            Next
+        End If
     End Sub
 
     Private Sub mnuRemoveBooster_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveBooster.Click
         Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
-        cb.SelectedIndex = -1
-        cb.Tag = Nothing
-        ToolTip1.SetToolTip(cb, "")
-        Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
-        Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
-        cblabel.Text = "Penalties: "
-        cblabel.Refresh()
-        Call Me.ApplyBoosters()
+        If cb IsNot Nothing Then
+            cb.SelectedIndex = -1
+            cb.Tag = Nothing
+            ToolTip1.SetToolTip(cb, "")
+            Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
+            Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
+            cblabel.Text = "Penalties: "
+            cblabel.Refresh()
+            Call Me.ApplyBoosters()
+        End If
     End Sub
 
     Private Sub mnuRandomSideEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRandomSideEffects.Click
         Dim cb As ComboBox = CType(ctxBoosters.SourceControl, ComboBox)
-        Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
-        Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
-        Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
-        Dim currentfilter As Integer = 0
-        Dim filter As Integer = 0
-        Dim r As New Random(Now.Millisecond * Now.Millisecond)
-        For se As Integer = 1 To 4
-            filter = CInt(Math.Pow(2, se - 1))
-            Dim chance As Double = r.NextDouble()
-            If chance <= CDbl(bModule.Attributes("1089")) Then
-                currentfilter += filter
-            End If
-        Next
-        ' Create a new module
-        Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
-        nModule.SlotType = currentfilter
-        ' Alter the attributes according to the penalties
-        Dim count As Integer = 0
-        Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
-        Dim effectList As String = "Penalties: "
-        For Each bEffect As BoosterEffect In effects.Values
-            CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
-            filter = CInt(Math.Pow(2, count))
-            If (nModule.SlotType Or filter) <> nModule.SlotType Then
-                ' Reset the attribute
-                nModule.Attributes(bEffect.AttributeID) = 0
+        If cb IsNot Nothing Then
+            Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
+            Dim cblabel As Label = CType(panelBoosters.Controls("lblBoosterPenalties" & cbidx.ToString), Label)
+            Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
+            Dim currentfilter As Integer = 0
+            Dim filter As Integer = 0
+            Dim r As New Random(Now.Millisecond * Now.Millisecond)
+            For se As Integer = 1 To 4
+                filter = CInt(Math.Pow(2, se - 1))
+                Dim chance As Double = r.NextDouble()
+                If chance <= CDbl(bModule.Attributes("1089")) Then
+                    currentfilter += filter
+                End If
+            Next
+            ' Create a new module
+            Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
+            nModule.SlotType = currentfilter
+            ' Alter the attributes according to the penalties
+            Dim count As Integer = 0
+            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
+            Dim effectList As String = "Penalties: "
+            For Each bEffect As BoosterEffect In effects.Values
+                CType(ctxBoosters.Items("mnuBoosterPenalty" & (count + 1).ToString), ToolStripMenuItem).Text = bEffect.AttributeEffect
+                filter = CInt(Math.Pow(2, count))
+                If (nModule.SlotType Or filter) <> nModule.SlotType Then
+                    ' Reset the attribute
+                    nModule.Attributes(bEffect.AttributeID) = 0
+                Else
+                    effectList &= bEffect.AttributeEffect & ", "
+                End If
+                count += 1
+            Next
+            If effectList.EndsWith(": ") = True Then
+                cblabel.Text = "Penalties: None"
             Else
-                effectList &= bEffect.AttributeEffect & ", "
+                cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
             End If
-            count += 1
-        Next
-        If effectList.EndsWith(": ") = True Then
-            cblabel.Text = "Penalties: None"
-        Else
-            cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
+            cblabel.Refresh()
+            cb.Tag = nModule
+            Call Me.ApplyBoosters()
         End If
-        cblabel.Refresh()
-        cb.Tag = nModule
-        Call Me.ApplyBoosters()
     End Sub
 
 #End Region
