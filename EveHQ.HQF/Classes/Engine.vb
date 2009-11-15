@@ -44,19 +44,27 @@ Public Class Engine
         Dim PirateImplantComponents As New ArrayList
         PirateImplantGroups.Clear()
         PirateImplantGroups.Add("Crystal", 1)
+        PirateImplantGroups.Add("Grail", 1)
         PirateImplantGroups.Add("Halo", 1)
+        PirateImplantGroups.Add("Jackal", 1)
         PirateImplantGroups.Add("Slave", 1)
         PirateImplantGroups.Add("Snake", 1)
+        PirateImplantGroups.Add("Spur", 1)
         PirateImplantGroups.Add("Talisman", 1)
+        PirateImplantGroups.Add("Talon", 1)
         PirateImplantGroups.Add("Low-grade Centurion", 1)
         PirateImplantGroups.Add("Low-grade Crystal", 1)
         PirateImplantGroups.Add("Low-grade Edge", 1)
+        PirateImplantGroups.Add("Low-grade Grail", 1)
         PirateImplantGroups.Add("Low-grade Halo", 1)
         PirateImplantGroups.Add("Low-grade Harvest", 1)
+        PirateImplantGroups.Add("Low-grade Jackal", 1)
         PirateImplantGroups.Add("Low-grade Nomad", 1)
         PirateImplantGroups.Add("Low-grade Slave", 1)
         PirateImplantGroups.Add("Low-grade Snake", 1)
+        PirateImplantGroups.Add("Low-grade Spur", 1)
         PirateImplantGroups.Add("Low-grade Talisman", 1)
+        PirateImplantGroups.Add("Low-grade Talon", 1)
         PirateImplantGroups.Add("Low-grade Virtue", 1)
         PirateImplantComponents.Clear()
         PirateImplantComponents.Add(" Alpha")
@@ -630,18 +638,34 @@ Public Class Engine
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("838"))
                     Case "Low-grade Edge"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1291"))
+                    Case "Grail"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1550"))
+                    Case "Low-grade Grail"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1569"))
                     Case "Halo", "Low-grade Halo"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("863"))
                     Case "Low-grade Harvest"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1292"))
+                    Case "Jackal"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1554"))
+                    Case "Low-grade Jackal"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1572"))
                     Case "Low-grade Nomad"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1282"))
                     Case "Slave", "Low-grade Slave"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("864"))
                     Case "Snake", "Low-grade Snake"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("802"))
+                    Case "Spur"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1553"))
+                    Case "Low-grade Spur"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1570"))
                     Case "Talisman", "Low-grade Talisman"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("799"))
+                    Case "Talon"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1552"))
+                    Case "Low-grade Talon"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1571"))
                     Case "Low-grade Virtue"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1284"))
                 End Select

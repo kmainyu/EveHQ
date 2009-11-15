@@ -14,6 +14,11 @@
 #,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Elite
 #,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Improved
 #,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Standard
+1030,1,31954,208,3,6,0,0,0,Electronics;Learning,Grail Alpha
+1030,1,31955,208,3,6,0,0,0,Electronics;Learning,Grail Beta
+1030,1,31956,208,3,6,0,0,0,Electronics;Learning,Grail Delta
+1030,1,31957,208,3,6,0,0,0,Electronics;Learning,Grail Epsilon
+1030,1,31958,208,3,6,0,0,0,Electronics;Learning,Grail Gamma
 554,1,20498,552,3,6,0,0,0,Electronics;Learning,Halo Alpha
 554,1,20500,552,3,6,0,0,0,Electronics;Learning,Halo Beta
 554,1,20502,552,3,6,0,0,0,Electronics;Learning,Halo Delta
@@ -278,6 +283,11 @@
 884,1,21889,1321,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
 884,1,21889,1322,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
 884,1,21889,1323,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
+1028,1,31974,209,3,6,0,0,0,Electronics;Learning,Jackal Alpha
+1028,1,31975,209,3,6,0,0,0,Electronics;Learning,Jackal Beta
+1028,1,31976,209,3,6,0,0,0,Electronics;Learning,Jackal Delta
+1028,1,31977,209,3,6,0,0,0,Electronics;Learning,Jackal Epsilon
+1028,1,31978,209,3,6,0,0,0,Electronics;Learning,Jackal Gamma
 #,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor
 #,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor - Beta
 #,1,,,,,,0,0,Learning,#Limited Memory Augmentation
@@ -288,6 +298,26 @@
 #,1,,,,,,0,0,Learning,#Limited Ocular Filter - Beta
 #,1,,,,,,0,0,Learning,#Limited Social Adaptation Chip
 #,1,,,,,,0,0,Learning,#Limited Social Adaptation Chip - Beta
+1565,1,32101,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Alpha
+1565,1,32102,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Beta
+1565,1,32103,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Delta
+1565,1,32104,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Epsilon
+1565,1,32105,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Gamma
+1566,1,32117,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Alpha
+1566,1,32118,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Beta
+1566,1,32119,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Delta
+1566,1,32120,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Epsilon
+1566,1,32121,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Gamma
+1568,1,32107,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Alpha
+1568,1,32108,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Beta
+1568,1,32109,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Delta
+1568,1,32110,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Epsilon
+1568,1,32111,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Gamma
+1567,1,32112,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Alpha
+1567,1,32113,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Beta
+1567,1,32114,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Delta
+1567,1,32115,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Epsilon
+1567,1,32116,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Gamma
 294,1,28790,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Alpha
 294,1,28791,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Beta
 294,1,28792,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Delta
@@ -402,12 +432,22 @@
 #,1,,,,,,0,0,Learning,#Social Adaptation Chip - Basic
 #,1,,,,,,0,0,Learning,#Social Adaptation Chip - Improved
 #,1,,,,,,0,0,Learning,#Social Adaptation Chip - Standard
+1029,1,31968,210,3,6,0,0,0,Electronics;Learning,Spur Alpha
+1029,1,31969,210,3,6,0,0,0,Electronics;Learning,Spur Beta
+1029,1,31970,210,3,6,0,0,0,Electronics;Learning,Spur Delta
+1029,1,31971,210,3,6,0,0,0,Electronics;Learning,Spur Epsilon
+1029,1,31972,210,3,6,0,0,0,Electronics;Learning,Spur Gamma
 66,1,19534,73,5,3423,0,0,0,Engineering;Learning,Talisman Alpha
 66,1,19535,73,5,3423,0,0,0,Engineering;Learning,Talisman Beta
 66,1,19537,73,5,3423,0,0,0,Engineering;Learning,Talisman Delta
 66,1,19538,73,5,3423,0,0,0,Engineering;Learning,Talisman Epsilon
 66,1,19536,73,5,3423,0,0,0,Engineering;Learning,Talisman Gamma
 #,1,19539,,,,,0,0,Science,#Talisman Omega
+1027,1,31962,211,3,6,0,0,0,Electronics;Learning,Talon Alpha
+1027,1,31963,211,3,6,0,0,0,Electronics;Learning,Talon Beta
+1027,1,31964,211,3,6,0,0,0,Electronics;Learning,Talon Delta
+1027,1,31965,211,3,6,0,0,0,Electronics;Learning,Talon Epsilon
+1027,1,31966,211,3,6,0,0,0,Electronics;Learning,Talon Gamma
 293,1,20371,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Whelan Machorin's Ballistic Smartlink
 318,1,24663,20,2,46,0,0,0,Navigation,Zor's Custom Navigation Hyper-Link
 66,1,19500,73,4,542,0,0,0,Navigation,Zor's Custom Navigation Link
