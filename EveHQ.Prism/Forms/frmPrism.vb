@@ -405,6 +405,9 @@ Public Class frmPrism
                 If cboOwner.SelectedItem.ToString = EveHQ.Core.HQ.EveHQSettings.StartupPilot Then
                     ' Just refresh
                     Call Me.UpdatePrismInfo()
+                    ' Set the label and enable the button
+                    lblCurrentAPI.Text = "Cached APIs Loaded:"
+                    tsbDownloadData.Enabled = True
                 Else
                     ' Set the pilot
                     cboOwner.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
@@ -3068,6 +3071,10 @@ Public Class frmPrism
     Private Sub tsbDownloadData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbDownloadData.Click
         ' Set the loaded counter to 0
         ProcessXMLCount = 0
+
+        ' Set the label and disable the button
+        lblCurrentAPI.Text = "Downloading API Data..."
+        tsbDownloadData.Enabled = False
 
         ' Set the Corp Reps to Default
         PlugInData.CorpReps.Clear()
