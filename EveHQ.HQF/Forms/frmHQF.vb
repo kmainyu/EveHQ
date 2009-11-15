@@ -2575,7 +2575,7 @@ Public Class frmHQF
     Private Sub mnuShipStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShipStats.Click
         Dim currentship As Ship = currentShipSlot.ShipFitted
         Dim stats As New System.Text.StringBuilder
-        stats.AppendLine("[Statistics]")
+        stats.AppendLine("[Statistics - " & currentShipInfo.cboPilots.SelectedItem.ToString & "]")
         stats.AppendLine("")
         stats.AppendLine(currentShipInfo.lblEffectiveHP.Text)
         stats.AppendLine(currentShipInfo.lblTankAbility.Text)
