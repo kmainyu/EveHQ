@@ -48,6 +48,9 @@ Partial Class frmPilotManager
         Me.chkShowModifiedSkills = New System.Windows.Forms.CheckBox
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabSkills = New System.Windows.Forms.TabPage
+        Me.lblSkillQueue = New System.Windows.Forms.Label
+        Me.cboSkillQueue = New System.Windows.Forms.ComboBox
+        Me.btnSetToSkillQueue = New System.Windows.Forms.Button
         Me.btnUpdateSkills = New System.Windows.Forms.Button
         Me.tabImplants = New System.Windows.Forms.TabPage
         Me.btnSaveGroup = New System.Windows.Forms.Button
@@ -63,16 +66,13 @@ Partial Class frmPilotManager
         Me.btnCollapseAllM = New System.Windows.Forms.Button
         Me.lblImplantFilterM = New System.Windows.Forms.Label
         Me.cboImplantGroupsM = New System.Windows.Forms.ComboBox
-        Me.lblImplantDescriptionM = New System.Windows.Forms.Label
         Me.tvwImplantsM = New System.Windows.Forms.TreeView
         Me.btnRemoveImplantGroup = New System.Windows.Forms.Button
         Me.btnEditImplantGroup = New System.Windows.Forms.Button
         Me.btnAddImplantGroup = New System.Windows.Forms.Button
         Me.lstImplantGroups = New System.Windows.Forms.ListBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnSetToSkillQueue = New System.Windows.Forms.Button
-        Me.cboSkillQueue = New System.Windows.Forms.ComboBox
-        Me.lblSkillQueue = New System.Windows.Forms.Label
+        Me.lblImplantDescriptionM = New System.Windows.Forms.TextBox
         Me.ctxHQFLevel.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.tabSkills.SuspendLayout()
@@ -294,6 +294,39 @@ Partial Class frmPilotManager
         Me.tabSkills.Text = "Skills"
         Me.tabSkills.UseVisualStyleBackColor = True
         '
+        'lblSkillQueue
+        '
+        Me.lblSkillQueue.AutoSize = True
+        Me.lblSkillQueue.Location = New System.Drawing.Point(13, 512)
+        Me.lblSkillQueue.Name = "lblSkillQueue"
+        Me.lblSkillQueue.Size = New System.Drawing.Size(63, 13)
+        Me.lblSkillQueue.TabIndex = 10
+        Me.lblSkillQueue.Text = "Skill Queue:"
+        '
+        'cboSkillQueue
+        '
+        Me.cboSkillQueue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSkillQueue.FormattingEnabled = True
+        Me.cboSkillQueue.Location = New System.Drawing.Point(82, 509)
+        Me.cboSkillQueue.Name = "cboSkillQueue"
+        Me.cboSkillQueue.Size = New System.Drawing.Size(174, 21)
+        Me.cboSkillQueue.Sorted = True
+        Me.cboSkillQueue.TabIndex = 9
+        '
+        'btnSetToSkillQueue
+        '
+        Me.btnSetToSkillQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSetToSkillQueue.Enabled = False
+        Me.btnSetToSkillQueue.Location = New System.Drawing.Point(262, 500)
+        Me.btnSetToSkillQueue.Name = "btnSetToSkillQueue"
+        Me.btnSetToSkillQueue.Size = New System.Drawing.Size(75, 36)
+        Me.btnSetToSkillQueue.TabIndex = 8
+        Me.btnSetToSkillQueue.Text = "Set Skills to Skill Queue"
+        Me.ToolTip1.SetToolTip(Me.btnSetToSkillQueue, "Increases skills to levels based on the selected skill queue. Does not affect ski" & _
+                "lls not in the skill queue therefore you can apply multiple skill queues if requ" & _
+                "ired.")
+        Me.btnSetToSkillQueue.UseVisualStyleBackColor = True
+        '
         'btnUpdateSkills
         '
         Me.btnUpdateSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -407,11 +440,11 @@ Partial Class frmPilotManager
         '
         'tabImplantManager
         '
+        Me.tabImplantManager.Controls.Add(Me.lblImplantDescriptionM)
         Me.tabImplantManager.Controls.Add(Me.lblCurrentGroup)
         Me.tabImplantManager.Controls.Add(Me.btnCollapseAllM)
         Me.tabImplantManager.Controls.Add(Me.lblImplantFilterM)
         Me.tabImplantManager.Controls.Add(Me.cboImplantGroupsM)
-        Me.tabImplantManager.Controls.Add(Me.lblImplantDescriptionM)
         Me.tabImplantManager.Controls.Add(Me.tvwImplantsM)
         Me.tabImplantManager.Controls.Add(Me.btnRemoveImplantGroup)
         Me.tabImplantManager.Controls.Add(Me.btnEditImplantGroup)
@@ -464,16 +497,6 @@ Partial Class frmPilotManager
         Me.cboImplantGroupsM.Sorted = True
         Me.cboImplantGroupsM.TabIndex = 15
         '
-        'lblImplantDescriptionM
-        '
-        Me.lblImplantDescriptionM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblImplantDescriptionM.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblImplantDescriptionM.Location = New System.Drawing.Point(221, 467)
-        Me.lblImplantDescriptionM.Name = "lblImplantDescriptionM"
-        Me.lblImplantDescriptionM.Size = New System.Drawing.Size(378, 70)
-        Me.lblImplantDescriptionM.TabIndex = 14
-        '
         'tvwImplantsM
         '
         Me.tvwImplantsM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -524,38 +547,15 @@ Partial Class frmPilotManager
         Me.lstImplantGroups.Size = New System.Drawing.Size(192, 472)
         Me.lstImplantGroups.TabIndex = 9
         '
-        'btnSetToSkillQueue
+        'lblImplantDescriptionM
         '
-        Me.btnSetToSkillQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSetToSkillQueue.Enabled = False
-        Me.btnSetToSkillQueue.Location = New System.Drawing.Point(262, 500)
-        Me.btnSetToSkillQueue.Name = "btnSetToSkillQueue"
-        Me.btnSetToSkillQueue.Size = New System.Drawing.Size(75, 36)
-        Me.btnSetToSkillQueue.TabIndex = 8
-        Me.btnSetToSkillQueue.Text = "Set Skills to Skill Queue"
-        Me.ToolTip1.SetToolTip(Me.btnSetToSkillQueue, "Increases skills to levels based on the selected skill queue. Does not affect ski" & _
-                "lls not in the skill queue therefore you can apply multiple skill queues if requ" & _
-                "ired.")
-        Me.btnSetToSkillQueue.UseVisualStyleBackColor = True
-        '
-        'cboSkillQueue
-        '
-        Me.cboSkillQueue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboSkillQueue.FormattingEnabled = True
-        Me.cboSkillQueue.Location = New System.Drawing.Point(82, 509)
-        Me.cboSkillQueue.Name = "cboSkillQueue"
-        Me.cboSkillQueue.Size = New System.Drawing.Size(174, 21)
-        Me.cboSkillQueue.Sorted = True
-        Me.cboSkillQueue.TabIndex = 9
-        '
-        'lblSkillQueue
-        '
-        Me.lblSkillQueue.AutoSize = True
-        Me.lblSkillQueue.Location = New System.Drawing.Point(13, 512)
-        Me.lblSkillQueue.Name = "lblSkillQueue"
-        Me.lblSkillQueue.Size = New System.Drawing.Size(63, 13)
-        Me.lblSkillQueue.TabIndex = 10
-        Me.lblSkillQueue.Text = "Skill Queue:"
+        Me.lblImplantDescriptionM.Location = New System.Drawing.Point(221, 464)
+        Me.lblImplantDescriptionM.Multiline = True
+        Me.lblImplantDescriptionM.Name = "lblImplantDescriptionM"
+        Me.lblImplantDescriptionM.ReadOnly = True
+        Me.lblImplantDescriptionM.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.lblImplantDescriptionM.Size = New System.Drawing.Size(378, 73)
+        Me.lblImplantDescriptionM.TabIndex = 19
         '
         'frmPilotManager
         '
@@ -622,7 +622,6 @@ Partial Class frmPilotManager
     Friend WithEvents btnCollapseAllM As System.Windows.Forms.Button
     Friend WithEvents lblImplantFilterM As System.Windows.Forms.Label
     Friend WithEvents cboImplantGroupsM As System.Windows.Forms.ComboBox
-    Friend WithEvents lblImplantDescriptionM As System.Windows.Forms.Label
     Friend WithEvents tvwImplantsM As System.Windows.Forms.TreeView
     Friend WithEvents btnRemoveImplantGroup As System.Windows.Forms.Button
     Friend WithEvents btnEditImplantGroup As System.Windows.Forms.Button
@@ -633,4 +632,5 @@ Partial Class frmPilotManager
     Friend WithEvents btnSetToSkillQueue As System.Windows.Forms.Button
     Friend WithEvents lblSkillQueue As System.Windows.Forms.Label
     Friend WithEvents cboSkillQueue As System.Windows.Forms.ComboBox
+    Friend WithEvents lblImplantDescriptionM As System.Windows.Forms.TextBox
 End Class
