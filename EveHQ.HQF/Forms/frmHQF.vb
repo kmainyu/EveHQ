@@ -471,6 +471,7 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub DisplayShipPreview(ByVal selShip As Ship)
+        Ship.MapShipAttributes(selShip)
         pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(selShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
         lblShipType.Text = selShip.Name
         txtShipDescription.Text = selShip.Description
