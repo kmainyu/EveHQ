@@ -324,7 +324,7 @@ Partial Class frmAddDamageProfile
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmAddDamageProfile"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Add Damage Profile"
         Me.gbManualProfile.ResumeLayout(False)
         Me.gbManualProfile.PerformLayout()

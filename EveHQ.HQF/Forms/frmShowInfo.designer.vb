@@ -290,7 +290,7 @@ Partial Class frmShowInfo
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "frmShowInfo"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Show Info"
         Me.TopMost = True
         Me.tabShowInfo.ResumeLayout(False)

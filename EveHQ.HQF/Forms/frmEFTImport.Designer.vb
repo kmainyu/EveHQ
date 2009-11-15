@@ -114,7 +114,7 @@ Partial Class frmEFTImport
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmEFTImport"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Import EFT Setups"
         Me.ResumeLayout(False)
         Me.PerformLayout()

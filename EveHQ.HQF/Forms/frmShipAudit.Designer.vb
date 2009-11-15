@@ -73,7 +73,7 @@ Partial Class frmShipAudit
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmShipAudit"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Ship Attribute Audit Log"
         Me.ResumeLayout(False)
 

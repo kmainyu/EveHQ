@@ -36,15 +36,15 @@ Partial Class frmGunnery
         Me.colThDamage = New System.Windows.Forms.ColumnHeader
         Me.colDamage = New System.Windows.Forms.ColumnHeader
         Me.colDPS = New System.Windows.Forms.ColumnHeader
+        Me.ctxResults = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.lblCPU = New System.Windows.Forms.Label
         Me.lblPG = New System.Windows.Forms.Label
         Me.lblDmgMod = New System.Windows.Forms.Label
         Me.lblROF = New System.Windows.Forms.Label
         Me.gbStandardInfo = New System.Windows.Forms.GroupBox
-        Me.ctxResults = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.gbStandardInfo.SuspendLayout()
         Me.ctxResults.SuspendLayout()
+        Me.gbStandardInfo.SuspendLayout()
         Me.SuspendLayout()
         '
         'lvGuns
@@ -107,6 +107,18 @@ Partial Class frmGunnery
         '
         Me.colDPS.Text = "DPS"
         '
+        'ctxResults
+        '
+        Me.ctxResults.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyToolStripMenuItem})
+        Me.ctxResults.Name = "ctxResults"
+        Me.ctxResults.Size = New System.Drawing.Size(175, 26)
+        '
+        'CopyToolStripMenuItem
+        '
+        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.CopyToolStripMenuItem.Text = "Copy To Clipboard"
+        '
         'lblCPU
         '
         Me.lblCPU.AutoSize = True
@@ -158,18 +170,6 @@ Partial Class frmGunnery
         Me.gbStandardInfo.TabStop = False
         Me.gbStandardInfo.Text = "Standard Weapon Attributes"
         '
-        'ctxResults
-        '
-        Me.ctxResults.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyToolStripMenuItem})
-        Me.ctxResults.Name = "ctxResults"
-        Me.ctxResults.Size = New System.Drawing.Size(175, 26)
-        '
-        'CopyToolStripMenuItem
-        '
-        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
-        Me.CopyToolStripMenuItem.Text = "Copy To Clipboard"
-        '
         'frmGunnery
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -185,11 +185,11 @@ Partial Class frmGunnery
         Me.Name = "frmGunnery"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "HQF Ammo Analysis"
+        Me.ctxResults.ResumeLayout(False)
         Me.gbStandardInfo.ResumeLayout(False)
         Me.gbStandardInfo.PerformLayout()
-        Me.ctxResults.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

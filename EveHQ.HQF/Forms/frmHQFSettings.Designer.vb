@@ -26,6 +26,7 @@ Partial Public Class frmHQFSettings
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.chkUseLastPilot = New System.Windows.Forms.CheckBox
         Me.chkShowPerformance = New System.Windows.Forms.CheckBox
         Me.chkAutoUpdateHQFSkills = New System.Windows.Forms.CheckBox
         Me.chkRestoreLastSession = New System.Windows.Forms.CheckBox
@@ -75,7 +76,6 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkUseLastPilot = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,6 +105,16 @@ Partial Public Class frmHQFSettings
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'chkUseLastPilot
+        '
+        Me.chkUseLastPilot.AutoSize = True
+        Me.chkUseLastPilot.Location = New System.Drawing.Point(25, 119)
+        Me.chkUseLastPilot.Name = "chkUseLastPilot"
+        Me.chkUseLastPilot.Size = New System.Drawing.Size(203, 17)
+        Me.chkUseLastPilot.TabIndex = 11
+        Me.chkUseLastPilot.Text = "Start With Last Used Pilot for Fittings"
+        Me.chkUseLastPilot.UseVisualStyleBackColor = True
         '
         'chkShowPerformance
         '
@@ -597,16 +607,6 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
-        'chkUseLastPilot
-        '
-        Me.chkUseLastPilot.AutoSize = True
-        Me.chkUseLastPilot.Location = New System.Drawing.Point(25, 119)
-        Me.chkUseLastPilot.Name = "chkUseLastPilot"
-        Me.chkUseLastPilot.Size = New System.Drawing.Size(203, 17)
-        Me.chkUseLastPilot.TabIndex = 11
-        Me.chkUseLastPilot.Text = "Start With Last Used Pilot for Fittings"
-        Me.chkUseLastPilot.UseVisualStyleBackColor = True
-        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -625,7 +625,7 @@ Partial Public Class frmHQFSettings
         Me.MinimizeBox = False
         Me.Name = "frmHQFSettings"
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "HQF Settings"
         Me.gbGeneral.ResumeLayout(False)
         Me.gbGeneral.PerformLayout()
