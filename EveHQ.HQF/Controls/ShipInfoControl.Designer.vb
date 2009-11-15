@@ -949,7 +949,7 @@ Partial Class ShipInfoControl
         Me.lblCapBalN.Size = New System.Drawing.Size(17, 13)
         Me.lblCapBalN.TabIndex = 14
         Me.lblCapBalN.Text = "-0"
-        Me.ToolTip1.SetToolTip(Me.lblCapBalN, "Total Consumption Rate (F/s)")
+        Me.ToolTip1.SetToolTip(Me.lblCapBalN, "Total Consumption Rate (GJ/s)")
         '
         'lblCapBalP
         '
@@ -959,7 +959,7 @@ Partial Class ShipInfoControl
         Me.lblCapBalP.Size = New System.Drawing.Size(21, 13)
         Me.lblCapBalP.TabIndex = 13
         Me.lblCapBalP.Text = "+0"
-        Me.ToolTip1.SetToolTip(Me.lblCapBalP, "Peak Injection Rate (F/s)")
+        Me.ToolTip1.SetToolTip(Me.lblCapBalP, "Peak Injection Rate (GJ/s)")
         '
         'pbCapBal
         '
