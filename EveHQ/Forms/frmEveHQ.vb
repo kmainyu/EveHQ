@@ -1032,9 +1032,11 @@ Public Class frmEveHQ
                     Dim ssPadding As New Padding(8, 2, 8, 2)
                     newSSLabel.Padding = ssPadding
                     pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-                    pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
-                    pilotCount += 1
-                    ssTraining.Items.Add(newSSLabel)
+                    If pilotTimes.ContainsKey(Format(pilotTime, "0000000000") & "_" & cPilot.ID) = False Then
+                        pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
+                        pilotCount += 1
+                        ssTraining.Items.Add(newSSLabel)
+                    End If
                 End If
                 accounts.Add(cPilot.Account)
             End If
@@ -1102,7 +1104,9 @@ Public Class frmEveHQ
                 If cPilot.Training = True Then
                     If cPilot.Active = True Then
                         pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-                        pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
+                        If pilotTimes.ContainsKey(Format(pilotTime, "0000000000") & "_" & cPilot.ID) = False Then
+                            pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
+                        End If
                     End If
                     accounts.Add(cPilot.Account)
                 End If
