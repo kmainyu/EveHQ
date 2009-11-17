@@ -597,15 +597,28 @@ Public Class frmHQFSettings
     Private Sub LoadShips()
         cboShipName.BeginUpdate()
         cboShipName.Items.Clear()
-        For Each shipName As String In ShipLists.shipListKeyName.Keys
+        For Each shipName As String In ShipLists.shipList.Keys
             cboShipName.Items.Add(shipName)
         Next
         cboShipName.EndUpdate()
     End Sub
 
     Private Sub cboShipName_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboShipName.SelectedIndexChanged
-        For Each key As String In Engine.ShipBonusesMap.Keys
-
-        Next
+        Dim aShip As Ship = CType(ShipLists.shipList(cboShipName.SelectedItem.ToString), Ship)
+        lvwBonuses.BeginUpdate()
+        lvwBonuses.Items.Clear()
+        If Engine.ShipBonusesMap.ContainsKey(aShip.ID) Then
+            Dim aShipBonuses As ArrayList = CType(Engine.ShipBonusesMap(aShip.ID), ArrayList)
+            For Each bonus As ShipEffect In aShipBonuses
+                Dim newItem As New ListViewItem
+                newItem.Text = bonus.AffectedAtt.ToString
+                newItem.SubItems.Add(bonus.Value.ToString("N4"))
+                newItem.SubItems.Add(bonus.IsPerLevel.ToString)
+                newItem.SubItems.Add(bonus.StackNerf.ToString)
+                newItem.SubItems.Add(bonus.CalcType.ToString)
+                lvwBonuses.Items.Add(newItem)
+            Next
+        End If
+        lvwBonuses.EndUpdate()
     End Sub
 End Class
