@@ -54,6 +54,7 @@ Public Class frmHQFSettings
         Call Me.UpdateGeneralOptions()
         Call Me.UpdateSlotFormatOptions()
         Call Me.UpdateConstantsOptions()
+        Call Me.UpdateDataOptions()
 
         forceUpdate = False
         redrawColumns = True
@@ -346,6 +347,9 @@ Public Class frmHQFSettings
 #End Region
 
 #Region "Data Cache Options"
+    Private Sub UpdateDataOptions()
+        Call Me.LoadShips()
+    End Sub
     Private Sub btnDeleteCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteCache.Click
         If My.Computer.FileSystem.DirectoryExists(Settings.HQFFolder) = True Then
             Try
@@ -359,7 +363,7 @@ Public Class frmHQFSettings
     Private Sub btnDeleteAllFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteAllFittings.Click
         Dim response As Integer = MessageBox.Show("This will delete all your existing fittings. Are you sure you wish to proceed?", "Confirm Delete ALL Fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If response = Windows.Forms.DialogResult.Yes Then
-            Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Delete ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Dim cResponse As Integer = MessageBox.Show("Are you really, really sure you wish to proceed?", "Confirm Delete ALL Fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If cResponse = Windows.Forms.DialogResult.Yes Then
                 Try
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
@@ -590,6 +594,18 @@ Public Class frmHQFSettings
         Next
     End Sub
 
-   
-  
+    Private Sub LoadShips()
+        cboShipName.BeginUpdate()
+        cboShipName.Items.Clear()
+        For Each shipName As String In ShipLists.shipListKeyName.Keys
+            cboShipName.Items.Add(shipName)
+        Next
+        cboShipName.EndUpdate()
+    End Sub
+
+    Private Sub cboShipName_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboShipName.SelectedIndexChanged
+        For Each key As String In Engine.ShipBonusesMap.Keys
+
+        Next
+    End Sub
 End Class

@@ -76,6 +76,13 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.cboShipName = New System.Windows.Forms.ComboBox
+        Me.lvwBonuses = New System.Windows.Forms.ListView
+        Me.colAttribute = New System.Windows.Forms.ColumnHeader
+        Me.colValue = New System.Windows.Forms.ColumnHeader
+        Me.colPerLevel = New System.Windows.Forms.ColumnHeader
+        Me.colStack = New System.Windows.Forms.ColumnHeader
+        Me.colCalcType = New System.Windows.Forms.ColumnHeader
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,9 +105,9 @@ Partial Public Class frmHQFSettings
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.lblDefaultPilot)
-        Me.gbGeneral.Location = New System.Drawing.Point(196, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(451, 280)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(496, 488)
+        Me.gbGeneral.Size = New System.Drawing.Size(134, 31)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -360,6 +367,8 @@ Partial Public Class frmHQFSettings
         '
         'gbCache
         '
+        Me.gbCache.Controls.Add(Me.lvwBonuses)
+        Me.gbCache.Controls.Add(Me.cboShipName)
         Me.gbCache.Controls.Add(Me.btnCheckMarket)
         Me.gbCache.Controls.Add(Me.btnExportShipBonuses)
         Me.gbCache.Controls.Add(Me.btnExportImplantEffects)
@@ -369,9 +378,9 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(272, 186)
+        Me.gbCache.Location = New System.Drawing.Point(194, 12)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(97, 60)
+        Me.gbCache.Size = New System.Drawing.Size(498, 500)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
@@ -379,7 +388,7 @@ Partial Public Class frmHQFSettings
         '
         'btnCheckMarket
         '
-        Me.btnCheckMarket.Location = New System.Drawing.Point(330, 458)
+        Me.btnCheckMarket.Location = New System.Drawing.Point(254, 148)
         Me.btnCheckMarket.Name = "btnCheckMarket"
         Me.btnCheckMarket.Size = New System.Drawing.Size(105, 33)
         Me.btnCheckMarket.TabIndex = 9
@@ -419,7 +428,7 @@ Partial Public Class frmHQFSettings
         '
         'btnCheckAttributeIntFloat
         '
-        Me.btnCheckAttributeIntFloat.Location = New System.Drawing.Point(6, 433)
+        Me.btnCheckAttributeIntFloat.Location = New System.Drawing.Point(383, 77)
         Me.btnCheckAttributeIntFloat.Name = "btnCheckAttributeIntFloat"
         Me.btnCheckAttributeIntFloat.Size = New System.Drawing.Size(102, 58)
         Me.btnCheckAttributeIntFloat.TabIndex = 5
@@ -429,7 +438,7 @@ Partial Public Class frmHQFSettings
         '
         'btnCheckModuleMetaData
         '
-        Me.btnCheckModuleMetaData.Location = New System.Drawing.Point(114, 445)
+        Me.btnCheckModuleMetaData.Location = New System.Drawing.Point(383, 141)
         Me.btnCheckModuleMetaData.Name = "btnCheckModuleMetaData"
         Me.btnCheckModuleMetaData.Size = New System.Drawing.Size(102, 46)
         Me.btnCheckModuleMetaData.TabIndex = 4
@@ -448,7 +457,7 @@ Partial Public Class frmHQFSettings
         '
         'btnCheckData
         '
-        Me.btnCheckData.Location = New System.Drawing.Point(222, 468)
+        Me.btnCheckData.Location = New System.Drawing.Point(257, 112)
         Me.btnCheckData.Name = "btnCheckData"
         Me.btnCheckData.Size = New System.Drawing.Size(102, 23)
         Me.btnCheckData.TabIndex = 2
@@ -607,15 +616,60 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
+        'cboShipName
+        '
+        Me.cboShipName.FormattingEnabled = True
+        Me.cboShipName.Location = New System.Drawing.Point(6, 256)
+        Me.cboShipName.Name = "cboShipName"
+        Me.cboShipName.Size = New System.Drawing.Size(149, 21)
+        Me.cboShipName.TabIndex = 10
+        '
+        'lvwBonuses
+        '
+        Me.lvwBonuses.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colAttribute, Me.colValue, Me.colPerLevel, Me.colStack, Me.colCalcType})
+        Me.lvwBonuses.FullRowSelect = True
+        Me.lvwBonuses.GridLines = True
+        Me.lvwBonuses.Location = New System.Drawing.Point(6, 284)
+        Me.lvwBonuses.Name = "lvwBonuses"
+        Me.lvwBonuses.Size = New System.Drawing.Size(486, 204)
+        Me.lvwBonuses.TabIndex = 11
+        Me.lvwBonuses.UseCompatibleStateImageBehavior = False
+        Me.lvwBonuses.View = System.Windows.Forms.View.Details
+        '
+        'colAttribute
+        '
+        Me.colAttribute.Text = "Attribute"
+        Me.colAttribute.Width = 100
+        '
+        'colValue
+        '
+        Me.colValue.Text = "Value"
+        Me.colValue.Width = 75
+        '
+        'colPerLevel
+        '
+        Me.colPerLevel.Text = "Bonus Type"
+        Me.colPerLevel.Width = 75
+        '
+        'colStack
+        '
+        Me.colStack.Text = "Stacking"
+        Me.colStack.Width = 100
+        '
+        'colCalcType
+        '
+        Me.colCalcType.Text = "Calc Type"
+        Me.colCalcType.Width = 100
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbSlotFormat)
-        Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -696,4 +750,11 @@ Partial Public Class frmHQFSettings
     Friend WithEvents chkAmmoLoadTime As System.Windows.Forms.CheckBox
     Friend WithEvents chkCapBoosterReloadTime As System.Windows.Forms.CheckBox
     Friend WithEvents chkUseLastPilot As System.Windows.Forms.CheckBox
+    Friend WithEvents lvwBonuses As System.Windows.Forms.ListView
+    Friend WithEvents colAttribute As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colValue As System.Windows.Forms.ColumnHeader
+    Friend WithEvents cboShipName As System.Windows.Forms.ComboBox
+    Friend WithEvents colPerLevel As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colStack As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colCalcType As System.Windows.Forms.ColumnHeader
 End Class
