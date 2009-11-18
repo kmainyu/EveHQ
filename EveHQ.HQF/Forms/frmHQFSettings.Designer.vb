@@ -54,6 +54,13 @@ Partial Public Class frmHQFSettings
         Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
         Me.lblSlotColumns = New System.Windows.Forms.Label
         Me.gbCache = New System.Windows.Forms.GroupBox
+        Me.lvwBonuses = New System.Windows.Forms.ListView
+        Me.colAttribute = New System.Windows.Forms.ColumnHeader
+        Me.colValue = New System.Windows.Forms.ColumnHeader
+        Me.colPerLevel = New System.Windows.Forms.ColumnHeader
+        Me.colStack = New System.Windows.Forms.ColumnHeader
+        Me.colCalcType = New System.Windows.Forms.ColumnHeader
+        Me.cboShipName = New System.Windows.Forms.ComboBox
         Me.btnCheckMarket = New System.Windows.Forms.Button
         Me.btnExportShipBonuses = New System.Windows.Forms.Button
         Me.btnExportImplantEffects = New System.Windows.Forms.Button
@@ -76,13 +83,6 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.cboShipName = New System.Windows.Forms.ComboBox
-        Me.lvwBonuses = New System.Windows.Forms.ListView
-        Me.colAttribute = New System.Windows.Forms.ColumnHeader
-        Me.colValue = New System.Windows.Forms.ColumnHeader
-        Me.colPerLevel = New System.Windows.Forms.ColumnHeader
-        Me.colStack = New System.Windows.Forms.ColumnHeader
-        Me.colCalcType = New System.Windows.Forms.ColumnHeader
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -386,6 +386,53 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Text = "Data and Cache Settings"
         Me.gbCache.Visible = False
         '
+        'lvwBonuses
+        '
+        Me.lvwBonuses.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colAttribute, Me.colValue, Me.colPerLevel, Me.colStack, Me.colCalcType})
+        Me.lvwBonuses.FullRowSelect = True
+        Me.lvwBonuses.GridLines = True
+        Me.lvwBonuses.Location = New System.Drawing.Point(6, 284)
+        Me.lvwBonuses.Name = "lvwBonuses"
+        Me.lvwBonuses.Size = New System.Drawing.Size(486, 204)
+        Me.lvwBonuses.TabIndex = 11
+        Me.lvwBonuses.UseCompatibleStateImageBehavior = False
+        Me.lvwBonuses.View = System.Windows.Forms.View.Details
+        Me.lvwBonuses.Visible = False
+        '
+        'colAttribute
+        '
+        Me.colAttribute.Text = "Attribute"
+        Me.colAttribute.Width = 100
+        '
+        'colValue
+        '
+        Me.colValue.Text = "Value"
+        Me.colValue.Width = 75
+        '
+        'colPerLevel
+        '
+        Me.colPerLevel.Text = "Bonus Type"
+        Me.colPerLevel.Width = 75
+        '
+        'colStack
+        '
+        Me.colStack.Text = "Stacking"
+        Me.colStack.Width = 100
+        '
+        'colCalcType
+        '
+        Me.colCalcType.Text = "Calc Type"
+        Me.colCalcType.Width = 100
+        '
+        'cboShipName
+        '
+        Me.cboShipName.FormattingEnabled = True
+        Me.cboShipName.Location = New System.Drawing.Point(6, 256)
+        Me.cboShipName.Name = "cboShipName"
+        Me.cboShipName.Size = New System.Drawing.Size(149, 21)
+        Me.cboShipName.TabIndex = 10
+        Me.cboShipName.Visible = False
+        '
         'btnCheckMarket
         '
         Me.btnCheckMarket.Location = New System.Drawing.Point(254, 148)
@@ -615,51 +662,6 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
-        '
-        'cboShipName
-        '
-        Me.cboShipName.FormattingEnabled = True
-        Me.cboShipName.Location = New System.Drawing.Point(6, 256)
-        Me.cboShipName.Name = "cboShipName"
-        Me.cboShipName.Size = New System.Drawing.Size(149, 21)
-        Me.cboShipName.TabIndex = 10
-        '
-        'lvwBonuses
-        '
-        Me.lvwBonuses.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colAttribute, Me.colValue, Me.colPerLevel, Me.colStack, Me.colCalcType})
-        Me.lvwBonuses.FullRowSelect = True
-        Me.lvwBonuses.GridLines = True
-        Me.lvwBonuses.Location = New System.Drawing.Point(6, 284)
-        Me.lvwBonuses.Name = "lvwBonuses"
-        Me.lvwBonuses.Size = New System.Drawing.Size(486, 204)
-        Me.lvwBonuses.TabIndex = 11
-        Me.lvwBonuses.UseCompatibleStateImageBehavior = False
-        Me.lvwBonuses.View = System.Windows.Forms.View.Details
-        '
-        'colAttribute
-        '
-        Me.colAttribute.Text = "Attribute"
-        Me.colAttribute.Width = 100
-        '
-        'colValue
-        '
-        Me.colValue.Text = "Value"
-        Me.colValue.Width = 75
-        '
-        'colPerLevel
-        '
-        Me.colPerLevel.Text = "Bonus Type"
-        Me.colPerLevel.Width = 75
-        '
-        'colStack
-        '
-        Me.colStack.Text = "Stacking"
-        Me.colStack.Width = 100
-        '
-        'colCalcType
-        '
-        Me.colCalcType.Text = "Calc Type"
-        Me.colCalcType.Width = 100
         '
         'frmHQFSettings
         '
