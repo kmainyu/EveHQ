@@ -144,20 +144,20 @@ Partial Class frmCorpHQ
         '
         Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
         Me.ctxStandings.Name = "ctxStandings"
-        Me.ctxStandings.Size = New System.Drawing.Size(188, 26)
+        Me.ctxStandings.Size = New System.Drawing.Size(192, 26)
         '
         'mnuExtrapolateStandings
         '
         Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
-        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(187, 22)
+        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(191, 22)
         Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
         '
         'btExportStandings
         '
         Me.btExportStandings.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btExportStandings.Location = New System.Drawing.Point(627, 456)
+        Me.btExportStandings.Location = New System.Drawing.Point(623, 40)
         Me.btExportStandings.Name = "btExportStandings"
-        Me.btExportStandings.Size = New System.Drawing.Size(115, 23)
+        Me.btExportStandings.Size = New System.Drawing.Size(119, 23)
         Me.btExportStandings.TabIndex = 4
         Me.btExportStandings.Text = "Export Standings"
         Me.btExportStandings.UseVisualStyleBackColor = True
@@ -223,8 +223,8 @@ Partial Class frmCorpHQ
         Me.Controls.Add(Me.lblTypeFilter)
         Me.Controls.Add(Me.cboFilter)
         Me.Controls.Add(Me.btnClearCache)
-        Me.Controls.Add(Me.btExportStandings)
         Me.Controls.Add(Me.lvwStandings)
+        Me.Controls.Add(Me.btExportStandings)
         Me.Controls.Add(Me.lblSelectOwner)
         Me.Controls.Add(Me.cboOwner)
         Me.Controls.Add(Me.btnGetStandings)

@@ -125,6 +125,7 @@
     <Compile Include="SplitButton.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="StandingsCacheDecoder.vb" />
     <Compile Include="Ticker.Designer.vb">
       <DependentUpon>Ticker.vb</DependentUpon>
     </Compile>
@@ -174,6 +175,7 @@
     <Content Include="LgLcd.NET.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Strings.txt" />
     <None Include="Resources\EveHQDataDB.mdb" />
     <None Include="Resources\attributeGroups.csv" />
     <None Include="Resources\EveHQ_IGBLogo.jpg" />

@@ -72,8 +72,26 @@ Partial Public Class frmPilot
         Me.colToLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colStartTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colEndTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.tabStandings = New System.Windows.Forms.TabPage
+        Me.lvwStandings = New System.Windows.Forms.ListView
+        Me.colName = New System.Windows.Forms.ColumnHeader
+        Me.colID = New System.Windows.Forms.ColumnHeader
+        Me.colType = New System.Windows.Forms.ColumnHeader
+        Me.colRawValue = New System.Windows.Forms.ColumnHeader
+        Me.colActualValue = New System.Windows.Forms.ColumnHeader
+        Me.nudPrecision = New System.Windows.Forms.NumericUpDown
+        Me.lblPrecision = New System.Windows.Forms.Label
+        Me.lblTypeFilter = New System.Windows.Forms.Label
+        Me.cboFilter = New System.Windows.Forms.ComboBox
+        Me.btnClearCache = New System.Windows.Forms.Button
+        Me.btExportStandings = New System.Windows.Forms.Button
+        Me.lblSelectOwner = New System.Windows.Forms.Label
+        Me.cboOwner = New System.Windows.Forms.ComboBox
+        Me.btnGetStandings = New System.Windows.Forms.Button
         Me.lblPilot = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
+        Me.ctxStandings = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuExtrapolateStandings = New System.Windows.Forms.ToolStripMenuItem
         Me.lvPilot = New EveHQ.ListViewNoFlicker
         Me.Category = New System.Windows.Forms.ColumnHeader
         Me.Data = New System.Windows.Forms.ColumnHeader
@@ -89,41 +107,44 @@ Partial Public Class frmPilot
         Me.Panel1.SuspendLayout()
         Me.ctxCerts.SuspendLayout()
         Me.tabSkillQueue.SuspendLayout()
+        Me.tabStandings.SuspendLayout()
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ctxStandings.SuspendLayout()
         Me.SuspendLayout()
         '
         'ctxSkills
         '
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails, Me.ToolStripMenuItem1, Me.mnuForceTraining})
         Me.ctxSkills.Name = "ctxSkills"
-        Me.ctxSkills.Size = New System.Drawing.Size(175, 82)
+        Me.ctxSkills.Size = New System.Drawing.Size(174, 82)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(174, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(173, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(171, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(170, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(174, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(173, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(171, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(170, 6)
         '
         'mnuForceTraining
         '
         Me.mnuForceTraining.Name = "mnuForceTraining"
-        Me.mnuForceTraining.Size = New System.Drawing.Size(174, 22)
+        Me.mnuForceTraining.Size = New System.Drawing.Size(173, 22)
         Me.mnuForceTraining.Text = "Force Skill Training"
         '
         'picPilot
@@ -143,24 +164,24 @@ Partial Public Class frmPilot
         '
         Me.ctxPic.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCtxPicGetPortraitFromServer, Me.mnuCtxPicGetPortraitFromLocal, Me.mnuSavePortrait})
         Me.ctxPic.Name = "ctxPic"
-        Me.ctxPic.Size = New System.Drawing.Size(246, 70)
+        Me.ctxPic.Size = New System.Drawing.Size(244, 70)
         '
         'mnuCtxPicGetPortraitFromServer
         '
         Me.mnuCtxPicGetPortraitFromServer.Name = "mnuCtxPicGetPortraitFromServer"
-        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(245, 22)
+        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(243, 22)
         Me.mnuCtxPicGetPortraitFromServer.Text = "Get Portrait from Eve Server"
         '
         'mnuCtxPicGetPortraitFromLocal
         '
         Me.mnuCtxPicGetPortraitFromLocal.Name = "mnuCtxPicGetPortraitFromLocal"
-        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(245, 22)
+        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(243, 22)
         Me.mnuCtxPicGetPortraitFromLocal.Text = "Get Portrait from Eve Installation"
         '
         'mnuSavePortrait
         '
         Me.mnuSavePortrait.Name = "mnuSavePortrait"
-        Me.mnuSavePortrait.Size = New System.Drawing.Size(245, 22)
+        Me.mnuSavePortrait.Size = New System.Drawing.Size(243, 22)
         Me.mnuSavePortrait.Text = "Save Portrait into Image Cache"
         '
         'lvImplants
@@ -308,6 +329,7 @@ Partial Public Class frmPilot
         Me.tcSkills.Controls.Add(Me.tabSkills)
         Me.tcSkills.Controls.Add(Me.tabCerts)
         Me.tcSkills.Controls.Add(Me.tabSkillQueue)
+        Me.tcSkills.Controls.Add(Me.tabStandings)
         Me.tcSkills.Location = New System.Drawing.Point(156, 337)
         Me.tcSkills.Name = "tcSkills"
         Me.tcSkills.SelectedIndex = 0
@@ -466,24 +488,24 @@ Partial Public Class frmPilot
         '
         Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator2, Me.mnuViewCertDetails})
         Me.ctxCerts.Name = "ctxSkills"
-        Me.ctxCerts.Size = New System.Drawing.Size(138, 54)
+        Me.ctxCerts.Size = New System.Drawing.Size(144, 54)
         '
         'mnuCertName
         '
         Me.mnuCertName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuCertName.Name = "mnuCertName"
-        Me.mnuCertName.Size = New System.Drawing.Size(137, 22)
+        Me.mnuCertName.Size = New System.Drawing.Size(143, 22)
         Me.mnuCertName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(137, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
         'tabSkillQueue
@@ -548,6 +570,160 @@ Partial Public Class frmPilot
         Me.colEndTime.Width = 150
         Me.colEndTime.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
         '
+        'tabStandings
+        '
+        Me.tabStandings.Controls.Add(Me.lvwStandings)
+        Me.tabStandings.Controls.Add(Me.nudPrecision)
+        Me.tabStandings.Controls.Add(Me.lblPrecision)
+        Me.tabStandings.Controls.Add(Me.lblTypeFilter)
+        Me.tabStandings.Controls.Add(Me.cboFilter)
+        Me.tabStandings.Controls.Add(Me.btnClearCache)
+        Me.tabStandings.Controls.Add(Me.btExportStandings)
+        Me.tabStandings.Controls.Add(Me.lblSelectOwner)
+        Me.tabStandings.Controls.Add(Me.cboOwner)
+        Me.tabStandings.Controls.Add(Me.btnGetStandings)
+        Me.tabStandings.Location = New System.Drawing.Point(4, 22)
+        Me.tabStandings.Name = "tabStandings"
+        Me.tabStandings.Size = New System.Drawing.Size(725, 275)
+        Me.tabStandings.TabIndex = 3
+        Me.tabStandings.Text = "Standings"
+        Me.tabStandings.UseVisualStyleBackColor = True
+        '
+        'lvwStandings
+        '
+        Me.lvwStandings.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwStandings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colName, Me.colID, Me.colType, Me.colRawValue, Me.colActualValue})
+        Me.lvwStandings.ContextMenuStrip = Me.ctxStandings
+        Me.lvwStandings.Enabled = False
+        Me.lvwStandings.FullRowSelect = True
+        Me.lvwStandings.GridLines = True
+        Me.lvwStandings.Location = New System.Drawing.Point(3, 64)
+        Me.lvwStandings.MultiSelect = False
+        Me.lvwStandings.Name = "lvwStandings"
+        Me.lvwStandings.Size = New System.Drawing.Size(719, 208)
+        Me.lvwStandings.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwStandings.TabIndex = 19
+        Me.lvwStandings.UseCompatibleStateImageBehavior = False
+        Me.lvwStandings.View = System.Windows.Forms.View.Details
+        '
+        'colName
+        '
+        Me.colName.Text = "Entity"
+        Me.colName.Width = 200
+        '
+        'colID
+        '
+        Me.colID.Text = "Entity ID"
+        Me.colID.Width = 100
+        '
+        'colType
+        '
+        Me.colType.Text = "Entity Type"
+        Me.colType.Width = 100
+        '
+        'colRawValue
+        '
+        Me.colRawValue.Text = "Standing Value (Raw)"
+        Me.colRawValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colRawValue.Width = 150
+        '
+        'colActualValue
+        '
+        Me.colActualValue.Text = "Standing Value (Actual)"
+        Me.colActualValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colActualValue.Width = 150
+        '
+        'nudPrecision
+        '
+        Me.nudPrecision.Location = New System.Drawing.Point(63, 35)
+        Me.nudPrecision.Maximum = New Decimal(New Integer() {16, 0, 0, 0})
+        Me.nudPrecision.Name = "nudPrecision"
+        Me.nudPrecision.Size = New System.Drawing.Size(66, 21)
+        Me.nudPrecision.TabIndex = 18
+        Me.nudPrecision.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'lblPrecision
+        '
+        Me.lblPrecision.AutoSize = True
+        Me.lblPrecision.Location = New System.Drawing.Point(7, 37)
+        Me.lblPrecision.Name = "lblPrecision"
+        Me.lblPrecision.Size = New System.Drawing.Size(49, 13)
+        Me.lblPrecision.TabIndex = 17
+        Me.lblPrecision.Text = "Precision"
+        '
+        'lblTypeFilter
+        '
+        Me.lblTypeFilter.AutoSize = True
+        Me.lblTypeFilter.Enabled = False
+        Me.lblTypeFilter.Location = New System.Drawing.Point(146, 37)
+        Me.lblTypeFilter.Name = "lblTypeFilter"
+        Me.lblTypeFilter.Size = New System.Drawing.Size(67, 13)
+        Me.lblTypeFilter.TabIndex = 16
+        Me.lblTypeFilter.Text = "Select Filter:"
+        '
+        'cboFilter
+        '
+        Me.cboFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFilter.Enabled = False
+        Me.cboFilter.FormattingEnabled = True
+        Me.cboFilter.Items.AddRange(New Object() {"<All>", "Agent", "Corporation", "Faction", "Player/Corp"})
+        Me.cboFilter.Location = New System.Drawing.Point(226, 34)
+        Me.cboFilter.Name = "cboFilter"
+        Me.cboFilter.Size = New System.Drawing.Size(103, 21)
+        Me.cboFilter.Sorted = True
+        Me.cboFilter.TabIndex = 15
+        Me.cboFilter.Tag = "0"
+        '
+        'btnClearCache
+        '
+        Me.btnClearCache.Location = New System.Drawing.Point(441, 7)
+        Me.btnClearCache.Name = "btnClearCache"
+        Me.btnClearCache.Size = New System.Drawing.Size(119, 23)
+        Me.btnClearCache.TabIndex = 14
+        Me.btnClearCache.Text = "Clear Cache"
+        Me.btnClearCache.UseVisualStyleBackColor = True
+        '
+        'btExportStandings
+        '
+        Me.btExportStandings.Location = New System.Drawing.Point(441, 34)
+        Me.btExportStandings.Name = "btExportStandings"
+        Me.btExportStandings.Size = New System.Drawing.Size(119, 23)
+        Me.btExportStandings.TabIndex = 13
+        Me.btExportStandings.Text = "Export Standings"
+        Me.btExportStandings.UseVisualStyleBackColor = True
+        '
+        'lblSelectOwner
+        '
+        Me.lblSelectOwner.AutoSize = True
+        Me.lblSelectOwner.Enabled = False
+        Me.lblSelectOwner.Location = New System.Drawing.Point(146, 10)
+        Me.lblSelectOwner.Name = "lblSelectOwner"
+        Me.lblSelectOwner.Size = New System.Drawing.Size(75, 13)
+        Me.lblSelectOwner.TabIndex = 12
+        Me.lblSelectOwner.Text = "Select Owner:"
+        '
+        'cboOwner
+        '
+        Me.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboOwner.Enabled = False
+        Me.cboOwner.FormattingEnabled = True
+        Me.cboOwner.Location = New System.Drawing.Point(226, 7)
+        Me.cboOwner.Name = "cboOwner"
+        Me.cboOwner.Size = New System.Drawing.Size(209, 21)
+        Me.cboOwner.Sorted = True
+        Me.cboOwner.TabIndex = 11
+        '
+        'btnGetStandings
+        '
+        Me.btnGetStandings.Location = New System.Drawing.Point(10, 6)
+        Me.btnGetStandings.Name = "btnGetStandings"
+        Me.btnGetStandings.Size = New System.Drawing.Size(119, 23)
+        Me.btnGetStandings.TabIndex = 10
+        Me.btnGetStandings.Text = "Get Standings"
+        Me.btnGetStandings.UseVisualStyleBackColor = True
+        '
         'lblPilot
         '
         Me.lblPilot.AutoSize = True
@@ -568,6 +744,18 @@ Partial Public Class frmPilot
         Me.cboPilots.Size = New System.Drawing.Size(175, 21)
         Me.cboPilots.Sorted = True
         Me.cboPilots.TabIndex = 41
+        '
+        'ctxStandings
+        '
+        Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
+        Me.ctxStandings.Name = "ctxStandings"
+        Me.ctxStandings.Size = New System.Drawing.Size(192, 26)
+        '
+        'mnuExtrapolateStandings
+        '
+        Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
+        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(191, 22)
+        Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
         '
         'lvPilot
         '
@@ -658,6 +846,10 @@ Partial Public Class frmPilot
         Me.Panel1.ResumeLayout(False)
         Me.ctxCerts.ResumeLayout(False)
         Me.tabSkillQueue.ResumeLayout(False)
+        Me.tabStandings.ResumeLayout(False)
+        Me.tabStandings.PerformLayout()
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ctxStandings.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -721,5 +913,23 @@ Partial Public Class frmPilot
     Friend WithEvents colEndTime As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents lblPilot As System.Windows.Forms.Label
     Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
+    Friend WithEvents tabStandings As System.Windows.Forms.TabPage
+    Friend WithEvents nudPrecision As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblPrecision As System.Windows.Forms.Label
+    Friend WithEvents lblTypeFilter As System.Windows.Forms.Label
+    Friend WithEvents cboFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents btnClearCache As System.Windows.Forms.Button
+    Friend WithEvents btExportStandings As System.Windows.Forms.Button
+    Friend WithEvents lblSelectOwner As System.Windows.Forms.Label
+    Friend WithEvents cboOwner As System.Windows.Forms.ComboBox
+    Friend WithEvents btnGetStandings As System.Windows.Forms.Button
+    Friend WithEvents lvwStandings As System.Windows.Forms.ListView
+    Friend WithEvents colName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colID As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colRawValue As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colActualValue As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ctxStandings As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuExtrapolateStandings As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -404,14 +404,11 @@ Public Class frmCorpHQ
     Private Sub nudPrecision_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPrecision.ValueChanged
         Call Me.UpdateStandingsList()
     End Sub
-#End Region
-
     Private Sub ctxStandings_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxStandings.Opening
         If lvwStandings.SelectedItems.Count = 0 Then
             e.Cancel = True
         End If
     End Sub
-
     Private Sub mnuExtrapolateStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExtrapolateStandings.Click
         If lvwStandings.SelectedItems.Count >= 1 Then
             Dim standingsLine As ListViewItem = lvwStandings.SelectedItems(0)
@@ -425,4 +422,9 @@ Public Class frmCorpHQ
             extraStandings.ShowDialog()
         End If
     End Sub
+#End Region
+
+    
+
+    
 End Class
