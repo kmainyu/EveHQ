@@ -133,7 +133,6 @@ Partial Public Class frmEveHQ
         Me.ctxExit = New System.Windows.Forms.ToolStripMenuItem
         Me.EveHQStatusStrip = New System.Windows.Forms.StatusStrip
         Me.tsTQStatus = New System.Windows.Forms.ToolStripStatusLabel
-        Me.tsSisiStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsAPIStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsAPITime = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsEveTime = New System.Windows.Forms.ToolStripStatusLabel
@@ -876,7 +875,7 @@ Partial Public Class frmEveHQ
         'EveHQStatusStrip
         '
         Me.EveHQStatusStrip.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsSisiStatus, Me.tsAPIStatus, Me.tsAPITime, Me.tsEveTime})
+        Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsAPIStatus, Me.tsAPITime, Me.tsEveTime})
         Me.EveHQStatusStrip.Location = New System.Drawing.Point(0, 631)
         Me.EveHQStatusStrip.Name = "EveHQStatusStrip"
         Me.EveHQStatusStrip.Size = New System.Drawing.Size(1033, 25)
@@ -893,21 +892,8 @@ Partial Public Class frmEveHQ
         Me.tsTQStatus.Name = "tsTQStatus"
         Me.tsTQStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.tsTQStatus.Size = New System.Drawing.Size(250, 20)
-        Me.tsTQStatus.Text = "Status"
+        Me.tsTQStatus.Text = "Tranquility Status: Unknown"
         Me.tsTQStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'tsSisiStatus
-        '
-        Me.tsSisiStatus.AutoSize = False
-        Me.tsSisiStatus.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
-        Me.tsSisiStatus.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
-        Me.tsSisiStatus.Name = "tsSisiStatus"
-        Me.tsSisiStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.tsSisiStatus.Size = New System.Drawing.Size(250, 20)
-        Me.tsSisiStatus.Text = "Status"
-        Me.tsSisiStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'tsAPIStatus
         '
@@ -919,7 +905,7 @@ Partial Public Class frmEveHQ
         Me.tsAPIStatus.DoubleClickEnabled = True
         Me.tsAPIStatus.Name = "tsAPIStatus"
         Me.tsAPIStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.tsAPIStatus.Size = New System.Drawing.Size(410, 20)
+        Me.tsAPIStatus.Size = New System.Drawing.Size(629, 20)
         Me.tsAPIStatus.Spring = True
         Me.tsAPIStatus.Text = "API Status:"
         Me.tsAPIStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1067,7 +1053,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents ctxExit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EveHQStatusStrip As System.Windows.Forms.StatusStrip
     Friend WithEvents tsTQStatus As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents tsSisiStatus As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tsAPIStatus As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents PilotInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunIGBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

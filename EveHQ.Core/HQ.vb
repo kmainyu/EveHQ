@@ -29,7 +29,6 @@ Public Class HQ
     Public Shared myIGB As New IGB
     Public Shared myAPIRS As New APIRS
     Public Shared myTQServer As EveServer = New EveServer
-    Public Shared mySiSiServer As EveServer = New EveServer
     Public Shared SkillListName As New SortedList(Of String, EveHQ.Core.EveSkill)
     Public Shared SkillListID As New SortedList(Of String, EveHQ.Core.EveSkill)
     Public Shared SkillGroups As New SortedList(Of String, EveHQ.Core.SkillGroup)

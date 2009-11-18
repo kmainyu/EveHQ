@@ -1257,6 +1257,7 @@ Public Class frmSettings
             frmEveHQ.EveStatusIcon.Icon = My.Resources.EveHQ
             frmEveHQ.EveStatusIcon.Text = "EveHQ"
             frmEveHQ.tmrEve.Enabled = False
+            frmEveHQ.tsTQStatus.Text = "Tranquility Status: Unknown"
         End If
     End Sub
     Private Sub chkAutoAPI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoAPI.CheckedChanged

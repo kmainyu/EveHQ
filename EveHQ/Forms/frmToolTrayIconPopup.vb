@@ -193,45 +193,9 @@ Public Class frmToolTrayIconPopup
                 Case EveHQ.Core.EveServer.ServerStatus.Unknown
                     TQLabel.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Status unknown"
                 Case EveHQ.Core.EveServer.ServerStatus.Up
-                    Dim msg As String = EveHQ.Core.HQ.myTQServer.ServerName & ":" & vbCrLf
-                    msg = msg & "Version: " & EveHQ.Core.HQ.myTQServer.Version & vbCrLf
-                    msg = msg & "Players: " & EveHQ.Core.HQ.myTQServer.Players
-                    If msg.Length > 50 Then
-                        TQLabel.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Server currently initialising"
-                    Else
-                        TQLabel.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.Version & ", " & EveHQ.Core.HQ.myTQServer.Players & " online"
-                    End If
+                    TQLabel.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Online (" & EveHQ.Core.HQ.myTQServer.Players & " Players)"
             End Select
             AGP1.Controls.Add(TQLabel)
-            textY += TQLabel.Height - 1
-            Dim SisiLabel As New Label
-            SisiLabel.AutoSize = True
-            SisiLabel.Location = New Point(20, textY)
-            SisiLabel.Font = New Font("tahoma", 8, FontStyle.Regular)
-            Select Case EveHQ.Core.HQ.mySiSiServer.Status
-                Case EveHQ.Core.EveServer.ServerStatus.Down
-                    SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": Unable to connect to server"
-                Case EveHQ.Core.EveServer.ServerStatus.Starting
-                    SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-                Case EveHQ.Core.EveServer.ServerStatus.Shutting
-                    SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-                Case EveHQ.Core.EveServer.ServerStatus.Full
-                    SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-                Case EveHQ.Core.EveServer.ServerStatus.ProxyDown
-                    SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-                Case EveHQ.Core.EveServer.ServerStatus.Unknown
-                    SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": Status unknown"
-                Case EveHQ.Core.EveServer.ServerStatus.Up
-                    Dim msg As String = EveHQ.Core.HQ.mySiSiServer.ServerName & ":" & vbCrLf
-                    msg = msg & "Version: " & EveHQ.Core.HQ.mySiSiServer.Version & vbCrLf
-                    msg = msg & "Players: " & EveHQ.Core.HQ.mySiSiServer.Players
-                    If msg.Length > 50 Then
-                        SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": Server currently initialising"
-                    Else
-                        SisiLabel.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.Version & ", " & EveHQ.Core.HQ.mySiSiServer.Players & " online"
-                    End If
-            End Select
-            AGP1.Controls.Add(SisiLabel)
         End If
     End Sub
 

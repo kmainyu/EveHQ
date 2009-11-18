@@ -30,7 +30,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmEveHQ
     Dim WithEvents eveTQWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
-    Dim WithEvents eveSisiWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents IGBWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Public WithEvents APIRSWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents SkillWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
@@ -183,13 +182,9 @@ Public Class frmEveHQ
         Else
             eveTQWorker.RunWorkerAsync()
         End If
-        If eveSisiWorker.IsBusy Then
-        Else
-            eveSisiWorker.RunWorkerAsync()
-        End If
     End Sub
     Private Sub tmrEve_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrEve.Tick
-        tmrEve.Interval = 60000
+        tmrEve.Interval = 120000
         Call GetServerStatus()
     End Sub
     Private Sub UpdateEveTime()
@@ -220,26 +215,17 @@ Public Class frmEveHQ
             Case EveHQ.Core.EveServer.ServerStatus.Full
                 EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
                 tsTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
-                EveStatusIcon.Icon = My.Resources.EveHQ_starting
+                EveStatusIcon.Icon = My.Resources.EveHQ_online
             Case EveHQ.Core.EveServer.ServerStatus.ProxyDown
-                tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-                EveStatusIcon.Icon = My.Resources.EveHQ_starting
+                tsTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
+                EveStatusIcon.Icon = My.Resources.EveHQ_offline
                 EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
             Case EveHQ.Core.EveServer.ServerStatus.Unknown
                 EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
                 tsTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Status unknown"
                 EveStatusIcon.Icon = My.Resources.EveHQ
             Case EveHQ.Core.EveServer.ServerStatus.Up
-                Dim msg As String = EveHQ.Core.HQ.myTQServer.ServerName & ":" & vbCrLf
-                msg = msg & "Version: " & EveHQ.Core.HQ.myTQServer.Version & vbCrLf
-                msg = msg & "Players: " & EveHQ.Core.HQ.myTQServer.Players
-                If msg.Length > 50 Then
-                    EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.ServerName & ":" & vbCrLf & "Server currently initialising"
-                    tsTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Server currently initialising"
-                Else
-                    EveStatusIcon.Text = msg
-                    tsTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": version " & EveHQ.Core.HQ.myTQServer.Version & " (" & EveHQ.Core.HQ.myTQServer.Players & " pilots)"
-                End If
+                tsTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Online (" & EveHQ.Core.HQ.myTQServer.Players & " Players)"
                 EveStatusIcon.Icon = My.Resources.EveHQ_online
         End Select
 
@@ -261,40 +247,6 @@ Public Class frmEveHQ
         End If
         ' Update last status
         EveHQ.Core.HQ.myTQServer.LastStatus = EveHQ.Core.HQ.myTQServer.Status
-
-    End Sub
-    Private Sub eveSisiWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles eveSisiWorker.DoWork
-        ' Defines what work the thread has to do
-        Call EveHQ.Core.HQ.mySiSiServer.GetServerStatus()
-    End Sub
-    Private Sub eveSisiWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles eveSisiWorker.RunWorkerCompleted
-        ' Sub raised on the completion of a call to read the Eve Sisi data
-        ' For the singularity server, we don't want to give details in the icon area!!
-        ' We also don't need notification of Sisi server status changes at this point
-
-        ' Depending on server status, set the notify icon text and the statusbar text
-        Select Case EveHQ.Core.HQ.mySiSiServer.Status
-            Case EveHQ.Core.EveServer.ServerStatus.Down
-                tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": Unable to connect to server"
-            Case EveHQ.Core.EveServer.ServerStatus.Starting
-                tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-            Case EveHQ.Core.EveServer.ServerStatus.Shutting
-                tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-            Case EveHQ.Core.EveServer.ServerStatus.Full
-                tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-            Case EveHQ.Core.EveServer.ServerStatus.Unknown
-                tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": Status unknown"
-            Case EveHQ.Core.EveServer.ServerStatus.ProxyDown
-                tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": " & EveHQ.Core.HQ.mySiSiServer.StatusText
-            Case EveHQ.Core.EveServer.ServerStatus.Up
-
-                Dim msg As String = EveHQ.Core.HQ.mySiSiServer.ServerName & ": version " & EveHQ.Core.HQ.mySiSiServer.Version & " (" & EveHQ.Core.HQ.mySiSiServer.Players & " pilots)"
-                If msg.Length > 50 Then
-                    tsSisiStatus.Text = EveHQ.Core.HQ.mySiSiServer.ServerName & ": Server currently initialising"
-                Else
-                    tsSisiStatus.Text = msg
-                End If
-        End Select
 
     End Sub
 

@@ -372,7 +372,6 @@ Public Class frmSplash
         lblStatus.Text = "> Setting Eve Server details..."
         Me.Refresh()
         EveHQ.Core.HQ.myTQServer.Server = 0
-        EveHQ.Core.HQ.mySiSiServer.Server = 1
 
         ' Update the pilot account info
         If EveHQ.Core.PilotParseFunctions.LoadKeySkills() = False Then
