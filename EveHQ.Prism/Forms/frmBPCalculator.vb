@@ -1,6 +1,7 @@
 ﻿Imports System.Windows.Forms
 Imports System.Xml
 Imports DotNetLib.Windows.Forms
+Imports System.Text
 
 Public Class frmBPCalculator
 
@@ -981,7 +982,25 @@ Public Class frmBPCalculator
     End Sub
 
 #End Region
-   
-   
-    
+
+    Private Sub btnCopyToClipboard_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopyToClipboard.Click
+        Dim csvChar As String = EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar
+        Dim str As New StringBuilder
+        ' Add a line for the current build job
+        str.AppendLine("Resource Availability for " & currentJob.TypeName & " (" & currentJob.Runs & " runs)")
+        str.AppendLine("")
+        ' Add some headings
+        str.AppendLine("Material" & csvChar & "Quantity Required" & csvChar & "Quantity Owned" & csvChar & "Surplus")
+        ' Add the details
+        For Each req As ContainerListViewItem In clvOwnedResources.Items
+            str.AppendLine(req.Text & csvChar & req.SubItems(1).Text & csvChar & csvChar & req.SubItems(2).Text & csvChar & req.SubItems(3).Text)
+        Next
+        ' Copy to the clipboard
+        Try
+            Clipboard.SetText(str.ToString)
+        Catch ex As Exception
+            MessageBox.Show("Unable to copy Resource Data to the clipboard.", "Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Sub
+
 End Class

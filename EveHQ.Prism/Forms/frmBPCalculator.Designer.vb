@@ -91,7 +91,7 @@ Partial Class frmBPCalculator
         Me.lblUnitBuildTimeLbl = New System.Windows.Forms.Label
         Me.lblBPEfficiency = New System.Windows.Forms.Label
         Me.lblBPEfficiencyLbl = New System.Windows.Forms.Label
-        Me.btnOreCalculator = New System.Windows.Forms.Button
+        Me.btnCopyToClipboard = New System.Windows.Forms.Button
         Me.gbSkills = New System.Windows.Forms.GroupBox
         Me.chkOverrideSkills = New System.Windows.Forms.CheckBox
         Me.lblPilot = New System.Windows.Forms.Label
@@ -880,15 +880,14 @@ Partial Class frmBPCalculator
         Me.lblBPEfficiencyLbl.TabIndex = 24
         Me.lblBPEfficiencyLbl.Text = "Efficiency:"
         '
-        'btnOreCalculator
+        'btnCopyToClipboard
         '
-        Me.btnOreCalculator.Enabled = False
-        Me.btnOreCalculator.Location = New System.Drawing.Point(671, 6)
-        Me.btnOreCalculator.Name = "btnOreCalculator"
-        Me.btnOreCalculator.Size = New System.Drawing.Size(125, 23)
-        Me.btnOreCalculator.TabIndex = 3
-        Me.btnOreCalculator.Text = "Tell me in ore amounts"
-        Me.btnOreCalculator.UseVisualStyleBackColor = True
+        Me.btnCopyToClipboard.Location = New System.Drawing.Point(671, 6)
+        Me.btnCopyToClipboard.Name = "btnCopyToClipboard"
+        Me.btnCopyToClipboard.Size = New System.Drawing.Size(125, 23)
+        Me.btnCopyToClipboard.TabIndex = 3
+        Me.btnCopyToClipboard.Text = "Copy To Clipboard"
+        Me.btnCopyToClipboard.UseVisualStyleBackColor = True
         '
         'gbSkills
         '
@@ -1254,7 +1253,7 @@ Partial Class frmBPCalculator
         Me.tabBPResourcesOwned.Controls.Add(Me.lblAssetSelection)
         Me.tabBPResourcesOwned.Controls.Add(Me.clvOwnedResources)
         Me.tabBPResourcesOwned.Controls.Add(Me.lblMaxUnits)
-        Me.tabBPResourcesOwned.Controls.Add(Me.btnOreCalculator)
+        Me.tabBPResourcesOwned.Controls.Add(Me.btnCopyToClipboard)
         Me.tabBPResourcesOwned.Location = New System.Drawing.Point(4, 22)
         Me.tabBPResourcesOwned.Name = "tabBPResourcesOwned"
         Me.tabBPResourcesOwned.Padding = New System.Windows.Forms.Padding(3)
@@ -1427,7 +1426,7 @@ Partial Class frmBPCalculator
     Friend WithEvents cboIndustrySkill As System.Windows.Forms.ComboBox
     Friend WithEvents lblPESkill As System.Windows.Forms.Label
     Friend WithEvents lblIndustrySkill As System.Windows.Forms.Label
-    Friend WithEvents btnOreCalculator As System.Windows.Forms.Button
+    Friend WithEvents btnCopyToClipboard As System.Windows.Forms.Button
     Friend WithEvents lblBPPE As System.Windows.Forms.Label
     Friend WithEvents lblBPWF As System.Windows.Forms.Label
     Friend WithEvents lblBPME As System.Windows.Forms.Label
