@@ -62,6 +62,7 @@ Partial Class frmPilotManager
         Me.lblImplantDescription = New System.Windows.Forms.Label
         Me.tvwImplants = New System.Windows.Forms.TreeView
         Me.tabImplantManager = New System.Windows.Forms.TabPage
+        Me.lblImplantDescriptionM = New System.Windows.Forms.TextBox
         Me.lblCurrentGroup = New System.Windows.Forms.Label
         Me.btnCollapseAllM = New System.Windows.Forms.Button
         Me.lblImplantFilterM = New System.Windows.Forms.Label
@@ -72,7 +73,7 @@ Partial Class frmPilotManager
         Me.btnAddImplantGroup = New System.Windows.Forms.Button
         Me.lstImplantGroups = New System.Windows.Forms.ListBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblImplantDescriptionM = New System.Windows.Forms.TextBox
+        Me.btnAddHQFSkillstoQueue = New System.Windows.Forms.Button
         Me.ctxHQFLevel.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.tabSkills.SuspendLayout()
@@ -193,7 +194,7 @@ Partial Class frmPilotManager
         Me.clvSkills.ShowPlusMinus = True
         Me.clvSkills.ShowRootTreeLines = True
         Me.clvSkills.ShowTreeLines = True
-        Me.clvSkills.Size = New System.Drawing.Size(588, 451)
+        Me.clvSkills.Size = New System.Drawing.Size(638, 451)
         Me.clvSkills.SmallImageList = Me.ImageList1
         Me.clvSkills.TabIndex = 2
         '
@@ -224,9 +225,9 @@ Partial Class frmPilotManager
         'btnResetAll
         '
         Me.btnResetAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnResetAll.Location = New System.Drawing.Point(448, 500)
+        Me.btnResetAll.Location = New System.Drawing.Point(481, 500)
         Me.btnResetAll.Name = "btnResetAll"
-        Me.btnResetAll.Size = New System.Drawing.Size(75, 36)
+        Me.btnResetAll.Size = New System.Drawing.Size(85, 36)
         Me.btnResetAll.TabIndex = 3
         Me.btnResetAll.Text = "Reset All To Actual"
         Me.ToolTip1.SetToolTip(Me.btnResetAll, "Sets all the skills of the current pilot to the actual skills as per the API")
@@ -235,9 +236,9 @@ Partial Class frmPilotManager
         'btnSetAllToLevel5
         '
         Me.btnSetAllToLevel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSetAllToLevel5.Location = New System.Drawing.Point(529, 500)
+        Me.btnSetAllToLevel5.Location = New System.Drawing.Point(572, 500)
         Me.btnSetAllToLevel5.Name = "btnSetAllToLevel5"
-        Me.btnSetAllToLevel5.Size = New System.Drawing.Size(75, 36)
+        Me.btnSetAllToLevel5.Size = New System.Drawing.Size(82, 36)
         Me.btnSetAllToLevel5.TabIndex = 4
         Me.btnSetAllToLevel5.Text = "Set All Skills To Level 5"
         Me.ToolTip1.SetToolTip(Me.btnSetAllToLevel5, "Sets all the skill of the current pilot to level 5")
@@ -273,11 +274,12 @@ Partial Class frmPilotManager
         Me.TabControl1.Location = New System.Drawing.Point(12, 37)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(618, 575)
+        Me.TabControl1.Size = New System.Drawing.Size(668, 575)
         Me.TabControl1.TabIndex = 7
         '
         'tabSkills
         '
+        Me.tabSkills.Controls.Add(Me.btnAddHQFSkillstoQueue)
         Me.tabSkills.Controls.Add(Me.lblSkillQueue)
         Me.tabSkills.Controls.Add(Me.cboSkillQueue)
         Me.tabSkills.Controls.Add(Me.btnSetToSkillQueue)
@@ -289,7 +291,7 @@ Partial Class frmPilotManager
         Me.tabSkills.Location = New System.Drawing.Point(4, 22)
         Me.tabSkills.Name = "tabSkills"
         Me.tabSkills.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSkills.Size = New System.Drawing.Size(610, 549)
+        Me.tabSkills.Size = New System.Drawing.Size(660, 549)
         Me.tabSkills.TabIndex = 0
         Me.tabSkills.Text = "Skills"
         Me.tabSkills.UseVisualStyleBackColor = True
@@ -297,7 +299,7 @@ Partial Class frmPilotManager
         'lblSkillQueue
         '
         Me.lblSkillQueue.AutoSize = True
-        Me.lblSkillQueue.Location = New System.Drawing.Point(13, 512)
+        Me.lblSkillQueue.Location = New System.Drawing.Point(13, 500)
         Me.lblSkillQueue.Name = "lblSkillQueue"
         Me.lblSkillQueue.Size = New System.Drawing.Size(63, 13)
         Me.lblSkillQueue.TabIndex = 10
@@ -307,9 +309,9 @@ Partial Class frmPilotManager
         '
         Me.cboSkillQueue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSkillQueue.FormattingEnabled = True
-        Me.cboSkillQueue.Location = New System.Drawing.Point(82, 509)
+        Me.cboSkillQueue.Location = New System.Drawing.Point(16, 515)
         Me.cboSkillQueue.Name = "cboSkillQueue"
-        Me.cboSkillQueue.Size = New System.Drawing.Size(174, 21)
+        Me.cboSkillQueue.Size = New System.Drawing.Size(183, 21)
         Me.cboSkillQueue.Sorted = True
         Me.cboSkillQueue.TabIndex = 9
         '
@@ -317,9 +319,9 @@ Partial Class frmPilotManager
         '
         Me.btnSetToSkillQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSetToSkillQueue.Enabled = False
-        Me.btnSetToSkillQueue.Location = New System.Drawing.Point(262, 500)
+        Me.btnSetToSkillQueue.Location = New System.Drawing.Point(205, 499)
         Me.btnSetToSkillQueue.Name = "btnSetToSkillQueue"
-        Me.btnSetToSkillQueue.Size = New System.Drawing.Size(75, 36)
+        Me.btnSetToSkillQueue.Size = New System.Drawing.Size(75, 37)
         Me.btnSetToSkillQueue.TabIndex = 8
         Me.btnSetToSkillQueue.Text = "Set Skills to Skill Queue"
         Me.ToolTip1.SetToolTip(Me.btnSetToSkillQueue, "Increases skills to levels based on the selected skill queue. Does not affect ski" & _
@@ -330,9 +332,9 @@ Partial Class frmPilotManager
         'btnUpdateSkills
         '
         Me.btnUpdateSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateSkills.Location = New System.Drawing.Point(367, 500)
+        Me.btnUpdateSkills.Location = New System.Drawing.Point(390, 500)
         Me.btnUpdateSkills.Name = "btnUpdateSkills"
-        Me.btnUpdateSkills.Size = New System.Drawing.Size(75, 36)
+        Me.btnUpdateSkills.Size = New System.Drawing.Size(85, 36)
         Me.btnUpdateSkills.TabIndex = 7
         Me.btnUpdateSkills.Text = "Update HQF Skills"
         Me.ToolTip1.SetToolTip(Me.btnUpdateSkills, "Updates all skills less than actual to actual but leaves skills manually set to h" & _
@@ -352,7 +354,7 @@ Partial Class frmPilotManager
         Me.tabImplants.Location = New System.Drawing.Point(4, 22)
         Me.tabImplants.Name = "tabImplants"
         Me.tabImplants.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabImplants.Size = New System.Drawing.Size(610, 549)
+        Me.tabImplants.Size = New System.Drawing.Size(660, 549)
         Me.tabImplants.TabIndex = 1
         Me.tabImplants.Text = "Implants"
         Me.tabImplants.UseVisualStyleBackColor = True
@@ -360,7 +362,7 @@ Partial Class frmPilotManager
         'btnSaveGroup
         '
         Me.btnSaveGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSaveGroup.Location = New System.Drawing.Point(448, 432)
+        Me.btnSaveGroup.Location = New System.Drawing.Point(498, 432)
         Me.btnSaveGroup.Name = "btnSaveGroup"
         Me.btnSaveGroup.Size = New System.Drawing.Size(75, 23)
         Me.btnSaveGroup.TabIndex = 16
@@ -390,7 +392,7 @@ Partial Class frmPilotManager
         'btnCollapseAll
         '
         Me.btnCollapseAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCollapseAll.Location = New System.Drawing.Point(529, 432)
+        Me.btnCollapseAll.Location = New System.Drawing.Point(579, 432)
         Me.btnCollapseAll.Name = "btnCollapseAll"
         Me.btnCollapseAll.Size = New System.Drawing.Size(75, 23)
         Me.btnCollapseAll.TabIndex = 13
@@ -425,7 +427,7 @@ Partial Class frmPilotManager
         Me.lblImplantDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblImplantDescription.Location = New System.Drawing.Point(16, 466)
         Me.lblImplantDescription.Name = "lblImplantDescription"
-        Me.lblImplantDescription.Size = New System.Drawing.Size(588, 70)
+        Me.lblImplantDescription.Size = New System.Drawing.Size(638, 70)
         Me.lblImplantDescription.TabIndex = 10
         '
         'tvwImplants
@@ -435,7 +437,7 @@ Partial Class frmPilotManager
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwImplants.Location = New System.Drawing.Point(16, 52)
         Me.tvwImplants.Name = "tvwImplants"
-        Me.tvwImplants.Size = New System.Drawing.Size(588, 374)
+        Me.tvwImplants.Size = New System.Drawing.Size(638, 374)
         Me.tvwImplants.TabIndex = 9
         '
         'tabImplantManager
@@ -452,10 +454,22 @@ Partial Class frmPilotManager
         Me.tabImplantManager.Controls.Add(Me.lstImplantGroups)
         Me.tabImplantManager.Location = New System.Drawing.Point(4, 22)
         Me.tabImplantManager.Name = "tabImplantManager"
-        Me.tabImplantManager.Size = New System.Drawing.Size(610, 549)
+        Me.tabImplantManager.Size = New System.Drawing.Size(660, 549)
         Me.tabImplantManager.TabIndex = 2
         Me.tabImplantManager.Text = "Implant Manager"
         Me.tabImplantManager.UseVisualStyleBackColor = True
+        '
+        'lblImplantDescriptionM
+        '
+        Me.lblImplantDescriptionM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblImplantDescriptionM.Location = New System.Drawing.Point(221, 464)
+        Me.lblImplantDescriptionM.Multiline = True
+        Me.lblImplantDescriptionM.Name = "lblImplantDescriptionM"
+        Me.lblImplantDescriptionM.ReadOnly = True
+        Me.lblImplantDescriptionM.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.lblImplantDescriptionM.Size = New System.Drawing.Size(428, 73)
+        Me.lblImplantDescriptionM.TabIndex = 19
         '
         'lblCurrentGroup
         '
@@ -469,7 +483,7 @@ Partial Class frmPilotManager
         'btnCollapseAllM
         '
         Me.btnCollapseAllM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCollapseAllM.Location = New System.Drawing.Point(524, 430)
+        Me.btnCollapseAllM.Location = New System.Drawing.Point(574, 430)
         Me.btnCollapseAllM.Name = "btnCollapseAllM"
         Me.btnCollapseAllM.Size = New System.Drawing.Size(75, 23)
         Me.btnCollapseAllM.TabIndex = 17
@@ -504,7 +518,7 @@ Partial Class frmPilotManager
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwImplantsM.Location = New System.Drawing.Point(221, 29)
         Me.tvwImplantsM.Name = "tvwImplantsM"
-        Me.tvwImplantsM.Size = New System.Drawing.Size(378, 395)
+        Me.tvwImplantsM.Size = New System.Drawing.Size(428, 395)
         Me.tvwImplantsM.TabIndex = 13
         '
         'btnRemoveImplantGroup
@@ -547,21 +561,23 @@ Partial Class frmPilotManager
         Me.lstImplantGroups.Size = New System.Drawing.Size(192, 472)
         Me.lstImplantGroups.TabIndex = 9
         '
-        'lblImplantDescriptionM
+        'btnAddHQFSkillstoQueue
         '
-        Me.lblImplantDescriptionM.Location = New System.Drawing.Point(221, 464)
-        Me.lblImplantDescriptionM.Multiline = True
-        Me.lblImplantDescriptionM.Name = "lblImplantDescriptionM"
-        Me.lblImplantDescriptionM.ReadOnly = True
-        Me.lblImplantDescriptionM.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.lblImplantDescriptionM.Size = New System.Drawing.Size(378, 73)
-        Me.lblImplantDescriptionM.TabIndex = 19
+        Me.btnAddHQFSkillstoQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAddHQFSkillstoQueue.Location = New System.Drawing.Point(299, 500)
+        Me.btnAddHQFSkillstoQueue.Name = "btnAddHQFSkillstoQueue"
+        Me.btnAddHQFSkillstoQueue.Size = New System.Drawing.Size(85, 36)
+        Me.btnAddHQFSkillstoQueue.TabIndex = 11
+        Me.btnAddHQFSkillstoQueue.Text = "Add HQF Skills to Queue"
+        Me.ToolTip1.SetToolTip(Me.btnAddHQFSkillstoQueue, "Updates all skills less than actual to actual but leaves skills manually set to h" & _
+                "igher skill levels")
+        Me.btnAddHQFSkillstoQueue.UseVisualStyleBackColor = True
         '
         'frmPilotManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(634, 624)
+        Me.ClientSize = New System.Drawing.Size(684, 624)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.lblSkillsModified)
         Me.Controls.Add(Me.cboPilots)
@@ -633,4 +649,5 @@ Partial Class frmPilotManager
     Friend WithEvents lblSkillQueue As System.Windows.Forms.Label
     Friend WithEvents cboSkillQueue As System.Windows.Forms.ComboBox
     Friend WithEvents lblImplantDescriptionM As System.Windows.Forms.TextBox
+    Friend WithEvents btnAddHQFSkillstoQueue As System.Windows.Forms.Button
 End Class

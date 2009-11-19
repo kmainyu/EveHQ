@@ -27,6 +27,7 @@ Public Class frmPilotManager
     Dim currentPilot As HQFPilot
     Dim currentGroup As ImplantGroup
     Dim StartUp As Boolean = False
+    Dim QueueSkills As New ArrayList
 
     Private WriteOnly Property ForceUpdate() As Boolean
         Set(ByVal value As Boolean)
@@ -134,6 +135,7 @@ Public Class frmPilotManager
             ' Display the skill groups
             clvSkills.BeginUpdate()
             clvSkills.Items.Clear()
+            QueueSkills.Clear()
             Dim newSkillGroup As EveHQ.Core.SkillGroup
             Dim newSkill As EveHQ.Core.EveSkill
             Dim SkillsModified As Boolean = False
@@ -177,6 +179,14 @@ Public Class frmPilotManager
                                         ' HQF is higher than default - green
                                         skillNode.ForeColor = Drawing.Color.LimeGreen
                                         SkillsModified = True
+                                        ' add to the queue skills
+                                        Dim r As New ReqSkill
+                                        r.Name = hSkill.Name
+                                        r.ID = hSkill.ID
+                                        r.ReqLevel = hSkill.Level
+                                        r.CurLevel = CInt(skillNode.SubItems(1).Text)
+                                        r.NeededFor = ""
+                                        QueueSkills.Add(r)
                                     Else
                                         ' Default = HQF
                                         skillNode.ForeColor = Drawing.Color.Black
@@ -374,6 +384,18 @@ Public Class frmPilotManager
         If cboSkillQueue.SelectedIndex <> -1 Then
             btnSetToSkillQueue.Enabled = True
         End If
+    End Sub
+
+    Private Sub btnAddHQFSkillstoQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddHQFSkillstoQueue.Click
+        Call Me.AddNeededSkillsToQueue()
+    End Sub
+
+    Private Sub AddNeededSkillsToQueue()
+        Dim selQ As New frmSelectQueue
+        selQ.rPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentPilot.PilotName), Core.Pilot)
+        selQ.skillsNeeded = QueueSkills
+        selQ.ShowDialog()
+        EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
     End Sub
 
 #End Region
@@ -732,6 +754,4 @@ Public Class frmPilotManager
     End Sub
 #End Region
 
-   
-   
 End Class
