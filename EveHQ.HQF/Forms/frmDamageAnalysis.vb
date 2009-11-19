@@ -587,7 +587,11 @@ Public Class frmDamageAnalysis
             hdEM = wEM * (1 - hEM / 100) : hdEx = wEx * (1 - hEx / 100) : hdKi = wKi * (1 - hKi / 100) : hdTh = wTh * (1 - hTh / 100) : hdT = hdEM + hdEx + hdKi + hdTh
 
             ' Calculate the actual damage
-            CTH = wT * Math.Min(Math.Min(sr / missileER, 1), (missileEV / missileER * sr / targetVel) ^ (Math.Log(missileDRF) / Math.Log(missileDRS)))
+            If tor < d Then
+                CTH = wT * Math.Min(Math.Min(sr / missileER, 1), (missileEV / missileER * sr / targetVel) ^ (Math.Log(missileDRF) / Math.Log(missileDRS)))
+            Else
+                CTH = 0
+            End If
             EDR = CTH / wT
 
             ' Calculate Expected Damage (DPS)
