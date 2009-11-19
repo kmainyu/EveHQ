@@ -1120,7 +1120,7 @@ Public Class frmPilot
                     Cursor = Cursors.Default
                     btnGetStandings.Enabled = True
                     Dim msg As String = "Unable to locate cache folder for your " & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(folderNo) & " installation." & ControlChars.CrLf & ControlChars.CrLf
-                    msg &= "CorpHQ is checking the location: " & cacheDir & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "EveHQ is checking the location: " & cacheDir & ControlChars.CrLf & ControlChars.CrLf
                     msg &= "Please check the location of your Eve Client and/or log in to Eve to create it. If you think this message is in error, please file a bug report."
                     MessageBox.Show(msg, "Missing Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
@@ -1144,7 +1144,7 @@ Public Class frmPilot
             Cursor = Cursors.Default
             btnGetStandings.Enabled = True
         Else
-            MessageBox.Show("CorpHQ was unable to locate any valid cache files in any of your Eve installations. Please check the location of your Eve Client and/or log in to Eve and view your standings to create the relevant cache files.", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Unable to locate any valid cache files in any of your Eve installations. Please check the location of your Eve Client and/or log in to Eve and view your standings to create the relevant cache files.", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
 
         Cursor = Cursors.Default
@@ -1157,43 +1157,47 @@ Public Class frmPilot
         If AllStandings.Count > 0 Then
             ' Create the list of owners in the combobox
             cboOwner.BeginUpdate()
-            For Each MyStandings As EveHQ.Core.StandingsData In AllStandings.Values
-                ' Get Either Pilot or Corp Name
-                Dim ownerID As String = MyStandings.OwnerID
-                ' Cycle through the pilots to see if we have a match
-                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                    Select Case MyStandings.CacheType
-                        Case "GetCharStandings"
-                            If ownerID = cPilot.ID Then
-                                If cboOwner.Items.Contains(cPilot.Name) = False Then
-                                    cboOwner.Items.Add(cPilot.Name)
-                                    MyStandings.OwnerName = cPilot.Name
+            Try
+                For Each MyStandings As EveHQ.Core.StandingsData In AllStandings.Values
+                    ' Get Either Pilot or Corp Name
+                    Dim ownerID As String = MyStandings.OwnerID
+                    ' Cycle through the pilots to see if we have a match
+                    For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                        Select Case MyStandings.CacheType
+                            Case "GetCharStandings"
+                                If ownerID = cPilot.ID Then
+                                    If cboOwner.Items.Contains(cPilot.Name) = False Then
+                                        cboOwner.Items.Add(cPilot.Name)
+                                        MyStandings.OwnerName = cPilot.Name
+                                    End If
                                 End If
-                            End If
-                        Case "GetCorpStandings"
-                            If ownerID = cPilot.CorpID Then
-                                If cboOwner.Items.Contains(cPilot.Corp) = False Then
-                                    cboOwner.Items.Add(cPilot.Corp)
-                                    MyStandings.OwnerName = cPilot.Corp
+                            Case "GetCorpStandings"
+                                If ownerID = cPilot.CorpID Then
+                                    If cboOwner.Items.Contains(cPilot.Corp) = False Then
+                                        cboOwner.Items.Add(cPilot.Corp)
+                                        MyStandings.OwnerName = cPilot.Corp
+                                    End If
                                 End If
-                            End If
-                    End Select
+                        End Select
+                    Next
                 Next
-            Next
-            cboOwner.EndUpdate()
-            ' Enable everything
-            cboOwner.Enabled = True
-            lblSelectOwner.Enabled = True
-            lvwStandings.Enabled = True
-            lblTypeFilter.Enabled = True
-            cboFilter.Enabled = True
+                ' Enable everything
+                cboOwner.Enabled = True
+                lblSelectOwner.Enabled = True
+                lvwStandings.Enabled = True
+                lblTypeFilter.Enabled = True
+                cboFilter.Enabled = True
+            Catch e As Exception
+                AllStandings.Clear()
+                ' Disable everything
+                cboOwner.Enabled = False
+                lblSelectOwner.Enabled = False
+                lvwStandings.Enabled = False
+                lblTypeFilter.Enabled = False
+                cboFilter.Enabled = False
+            End Try
+            cboOwner.EndUpdate()   
         Else
-            ' Disable everything
-            cboOwner.Enabled = False
-            lblSelectOwner.Enabled = False
-            lvwStandings.Enabled = False
-            lblTypeFilter.Enabled = False
-            cboFilter.Enabled = False
             'MessageBox.Show("Unable to find any valid cache files!", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
