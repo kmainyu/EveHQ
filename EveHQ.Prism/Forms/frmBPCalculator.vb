@@ -982,21 +982,27 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
-        Call Me.ExportToClipboard(EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("Resource Availability for " & currentJob.TypeName & " (" & currentJob.Runs & " runs)", clvOwnedResources, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
     End Sub
     Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
-        Call Me.ExportToClipboard(ControlChars.Tab)
+        Call Me.ExportToClipboard("Resource Availability for " & currentJob.TypeName & " (" & currentJob.Runs & " runs)", clvOwnedResources, ControlChars.Tab)
     End Sub
-    Private Sub ExportToClipboard(ByVal sepChar As String)
+    Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As ContainerListView, ByVal sepChar As String)
         Dim str As New StringBuilder
         ' Add a line for the current build job
-        str.AppendLine("Resource Availability for " & currentJob.TypeName & " (" & currentJob.Runs & " runs)")
+        str.AppendLine(title)
         str.AppendLine("")
         ' Add some headings
-        str.AppendLine("Material" & sepChar & "Quantity Required" & sepChar & "Quantity Owned" & sepChar & "Surplus")
+        For c As Integer = 0 To sourceList.Columns.Count - 2
+            str.Append(sourceList.Columns(c).Text & sepChar)
+        Next
+        str.AppendLine(sourceList.Columns(sourceList.Columns.Count - 1).Text)
         ' Add the details
-        For Each req As ContainerListViewItem In clvOwnedResources.Items
-            str.AppendLine(req.Text & sepChar & req.SubItems(1).Text & sepChar & req.SubItems(2).Text & sepChar & req.SubItems(3).Text)
+        For Each req As ContainerListViewItem In sourceList.Items
+            For c As Integer = 0 To sourceList.Columns.Count - 2
+                str.Append(req.SubItems(c).Text & sepChar)
+            Next
+            str.AppendLine(req.SubItems(sourceList.Columns.Count - 1).Text)
         Next
         ' Copy to the clipboard
         Try

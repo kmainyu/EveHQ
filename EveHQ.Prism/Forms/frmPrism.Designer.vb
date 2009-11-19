@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
@@ -406,6 +406,13 @@ Partial Class frmPrism
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btnExport = New EveHQ.Core.SplitButton
+        Me.ctxRecycleExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuExportToCSV = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuExportToTSV = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuExportTotalsToCSV = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuExportTotalsToTSV = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -450,6 +457,7 @@ Partial Class frmPrism
         Me.ctxBPManager.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        Me.ctxRecycleExport.SuspendLayout()
         Me.SuspendLayout()
         '
         'ctxAssets
@@ -1076,11 +1084,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup1.Header = "Corporation"
-        ListViewGroup1.Name = "grpCorporation"
-        ListViewGroup2.Header = "Personal"
-        ListViewGroup2.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -2619,6 +2627,7 @@ Partial Class frmPrism
         '
         'tabRecycle
         '
+        Me.tabRecycle.Controls.Add(Me.btnExport)
         Me.tabRecycle.Controls.Add(Me.chkFeesOnItems)
         Me.tabRecycle.Controls.Add(Me.lblPriceTotals)
         Me.tabRecycle.Controls.Add(Me.chkFeesOnRefine)
@@ -4038,6 +4047,54 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.AutoSize = True
+        Me.btnExport.ContextMenuStrip = Me.ctxRecycleExport
+        Me.btnExport.Location = New System.Drawing.Point(1030, 520)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(100, 23)
+        Me.btnExport.SplitMenu = Me.ctxRecycleExport
+        Me.btnExport.TabIndex = 62
+        Me.btnExport.Text = "Export"
+        Me.btnExport.UseVisualStyleBackColor = True
+        '
+        'ctxRecycleExport
+        '
+        Me.ctxRecycleExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExportToCSV, Me.mnuExportToTSV, Me.ToolStripMenuItem5, Me.mnuExportTotalsToCSV, Me.mnuExportTotalsToTSV})
+        Me.ctxRecycleExport.Name = "ctxResourceExport"
+        Me.ctxRecycleExport.Size = New System.Drawing.Size(293, 120)
+        '
+        'mnuExportToCSV
+        '
+        Me.mnuExportToCSV.Name = "mnuExportToCSV"
+        Me.mnuExportToCSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportToCSV.Text = "Copy Recycling Data to Clipboard (CSV)"
+        '
+        'mnuExportToTSV
+        '
+        Me.mnuExportToTSV.Name = "mnuExportToTSV"
+        Me.mnuExportToTSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportToTSV.Text = "Copy Recycling Data to Clipboard (TSV)"
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(289, 6)
+        '
+        'mnuExportTotalsToCSV
+        '
+        Me.mnuExportTotalsToCSV.Name = "mnuExportTotalsToCSV"
+        Me.mnuExportTotalsToCSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportTotalsToCSV.Text = "Copy Recycling Totals to Clipboard (CSV)"
+        '
+        'mnuExportTotalsToTSV
+        '
+        Me.mnuExportTotalsToTSV.Name = "mnuExportTotalsToTSV"
+        Me.mnuExportTotalsToTSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportTotalsToTSV.Text = "Copy Recycling Totals to Clipboard (TSV)"
+        '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4111,6 +4168,7 @@ Partial Class frmPrism
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ctxRecycleExport.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -4495,4 +4553,11 @@ Partial Class frmPrism
     Friend WithEvents mnuClearXMLCache As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents cmbWalletTransType As System.Windows.Forms.ComboBox
     Friend WithEvents lblType As System.Windows.Forms.Label
+    Friend WithEvents btnExport As EveHQ.Core.SplitButton
+    Friend WithEvents ctxRecycleExport As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuExportToCSV As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuExportToTSV As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuExportTotalsToCSV As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuExportTotalsToTSV As System.Windows.Forms.ToolStripMenuItem
 End Class

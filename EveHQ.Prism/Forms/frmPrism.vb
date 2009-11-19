@@ -6160,6 +6160,48 @@ Public Class frmPrism
 
 #End Region
 
+    Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", clvRecycle, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+    End Sub
+
+    Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", clvRecycle, ControlChars.Tab)
+    End Sub
+
+    Private Sub mnuExportTotalsToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToCSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", clvRecycle, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+    End Sub
+
+    Private Sub mnuExportTotalsToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToTSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", clvRecycle, ControlChars.Tab)
+    End Sub
+
+    Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As ContainerListView, ByVal sepChar As String)
+        Dim str As New StringBuilder
+        ' Add a line for the current build job
+        str.AppendLine(title)
+        str.AppendLine("")
+        ' Add some headings
+        For c As Integer = 0 To sourceList.Columns.Count - 2
+            str.Append(sourceList.Columns(c).Text & sepChar)
+        Next
+        str.AppendLine(sourceList.Columns(sourceList.Columns.Count - 1).Text)
+        ' Add the details
+        For Each req As ContainerListViewItem In sourceList.Items
+            For c As Integer = 0 To sourceList.Columns.Count - 2
+                str.Append(req.SubItems(c).Text & sepChar)
+            Next
+            str.AppendLine(req.SubItems(sourceList.Columns.Count - 1).Text)
+        Next
+        ' Copy to the clipboard
+        Try
+            Clipboard.SetText(str.ToString)
+        Catch ex As Exception
+            MessageBox.Show("Unable to copy Resource Data to the clipboard.", "Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Sub
+
+   
 End Class
 
 Public Enum PrismRepCodes As Integer

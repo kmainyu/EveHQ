@@ -1274,19 +1274,19 @@ Partial Class frmBPCalculator
         '
         Me.ctxResourceExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExportToCSV, Me.mnuExportToTSV})
         Me.ctxResourceExport.Name = "ctxResourceExport"
-        Me.ctxResourceExport.Size = New System.Drawing.Size(202, 48)
+        Me.ctxResourceExport.Size = New System.Drawing.Size(204, 70)
         '
         'mnuExportToCSV
         '
         Me.mnuExportToCSV.Name = "mnuExportToCSV"
-        Me.mnuExportToCSV.Size = New System.Drawing.Size(201, 22)
-        Me.mnuExportToCSV.Text = "Export to CSV"
+        Me.mnuExportToCSV.Size = New System.Drawing.Size(203, 22)
+        Me.mnuExportToCSV.Text = "Copy to Clipboard (CSV)"
         '
         'mnuExportToTSV
         '
         Me.mnuExportToTSV.Name = "mnuExportToTSV"
-        Me.mnuExportToTSV.Size = New System.Drawing.Size(201, 22)
-        Me.mnuExportToTSV.Text = "Export to Tab-Separated"
+        Me.mnuExportToTSV.Size = New System.Drawing.Size(203, 22)
+        Me.mnuExportToTSV.Text = "Copy to Clipboard (TSB)"
         '
         'cboAssetSelection
         '
