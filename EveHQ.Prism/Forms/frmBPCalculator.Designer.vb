@@ -91,7 +91,6 @@ Partial Class frmBPCalculator
         Me.lblUnitBuildTimeLbl = New System.Windows.Forms.Label
         Me.lblBPEfficiency = New System.Windows.Forms.Label
         Me.lblBPEfficiencyLbl = New System.Windows.Forms.Label
-        Me.btnCopyToClipboard = New System.Windows.Forms.Button
         Me.gbSkills = New System.Windows.Forms.GroupBox
         Me.chkOverrideSkills = New System.Windows.Forms.CheckBox
         Me.lblPilot = New System.Windows.Forms.Label
@@ -125,6 +124,10 @@ Partial Class frmBPCalculator
         Me.colBPResValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colBPResIdealML = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabBPResourcesOwned = New System.Windows.Forms.TabPage
+        Me.btnExport = New EveHQ.Core.SplitButton
+        Me.ctxResourceExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuExportToCSV = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuExportToTSV = New System.Windows.Forms.ToolStripMenuItem
         Me.cboAssetSelection = New System.Windows.Forms.ComboBox
         Me.lblAssetSelection = New System.Windows.Forms.Label
         Me.clvOwnedResources = New DotNetLib.Windows.Forms.ContainerListView
@@ -151,6 +154,7 @@ Partial Class frmBPCalculator
         Me.tabBPResources.SuspendLayout()
         Me.tabBPResourcesRequired.SuspendLayout()
         Me.tabBPResourcesOwned.SuspendLayout()
+        Me.ctxResourceExport.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboBPs
@@ -880,15 +884,6 @@ Partial Class frmBPCalculator
         Me.lblBPEfficiencyLbl.TabIndex = 24
         Me.lblBPEfficiencyLbl.Text = "Efficiency:"
         '
-        'btnCopyToClipboard
-        '
-        Me.btnCopyToClipboard.Location = New System.Drawing.Point(671, 6)
-        Me.btnCopyToClipboard.Name = "btnCopyToClipboard"
-        Me.btnCopyToClipboard.Size = New System.Drawing.Size(125, 23)
-        Me.btnCopyToClipboard.TabIndex = 3
-        Me.btnCopyToClipboard.Text = "Copy To Clipboard"
-        Me.btnCopyToClipboard.UseVisualStyleBackColor = True
-        '
         'gbSkills
         '
         Me.gbSkills.Controls.Add(Me.chkOverrideSkills)
@@ -1249,11 +1244,11 @@ Partial Class frmBPCalculator
         '
         'tabBPResourcesOwned
         '
+        Me.tabBPResourcesOwned.Controls.Add(Me.btnExport)
         Me.tabBPResourcesOwned.Controls.Add(Me.cboAssetSelection)
         Me.tabBPResourcesOwned.Controls.Add(Me.lblAssetSelection)
         Me.tabBPResourcesOwned.Controls.Add(Me.clvOwnedResources)
         Me.tabBPResourcesOwned.Controls.Add(Me.lblMaxUnits)
-        Me.tabBPResourcesOwned.Controls.Add(Me.btnCopyToClipboard)
         Me.tabBPResourcesOwned.Location = New System.Drawing.Point(4, 22)
         Me.tabBPResourcesOwned.Name = "tabBPResourcesOwned"
         Me.tabBPResourcesOwned.Padding = New System.Windows.Forms.Padding(3)
@@ -1261,6 +1256,37 @@ Partial Class frmBPCalculator
         Me.tabBPResourcesOwned.TabIndex = 1
         Me.tabBPResourcesOwned.Text = "Resources Owned"
         Me.tabBPResourcesOwned.UseVisualStyleBackColor = True
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.AutoSize = True
+        Me.btnExport.ContextMenuStrip = Me.ctxResourceExport
+        Me.btnExport.Location = New System.Drawing.Point(696, 6)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(100, 23)
+        Me.btnExport.SplitMenu = Me.ctxResourceExport
+        Me.btnExport.TabIndex = 9
+        Me.btnExport.Text = "Export"
+        Me.btnExport.UseVisualStyleBackColor = True
+        '
+        'ctxResourceExport
+        '
+        Me.ctxResourceExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExportToCSV, Me.mnuExportToTSV})
+        Me.ctxResourceExport.Name = "ctxResourceExport"
+        Me.ctxResourceExport.Size = New System.Drawing.Size(202, 48)
+        '
+        'mnuExportToCSV
+        '
+        Me.mnuExportToCSV.Name = "mnuExportToCSV"
+        Me.mnuExportToCSV.Size = New System.Drawing.Size(201, 22)
+        Me.mnuExportToCSV.Text = "Export to CSV"
+        '
+        'mnuExportToTSV
+        '
+        Me.mnuExportToTSV.Name = "mnuExportToTSV"
+        Me.mnuExportToTSV.Size = New System.Drawing.Size(201, 22)
+        Me.mnuExportToTSV.Text = "Export to Tab-Separated"
         '
         'cboAssetSelection
         '
@@ -1383,6 +1409,7 @@ Partial Class frmBPCalculator
         Me.tabBPResourcesRequired.PerformLayout()
         Me.tabBPResourcesOwned.ResumeLayout(False)
         Me.tabBPResourcesOwned.PerformLayout()
+        Me.ctxResourceExport.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1426,7 +1453,6 @@ Partial Class frmBPCalculator
     Friend WithEvents cboIndustrySkill As System.Windows.Forms.ComboBox
     Friend WithEvents lblPESkill As System.Windows.Forms.Label
     Friend WithEvents lblIndustrySkill As System.Windows.Forms.Label
-    Friend WithEvents btnCopyToClipboard As System.Windows.Forms.Button
     Friend WithEvents lblBPPE As System.Windows.Forms.Label
     Friend WithEvents lblBPWF As System.Windows.Forms.Label
     Friend WithEvents lblBPME As System.Windows.Forms.Label
@@ -1497,5 +1523,9 @@ Partial Class frmBPCalculator
     Friend WithEvents cboAssetSelection As System.Windows.Forms.ComboBox
     Friend WithEvents lblAssetSelection As System.Windows.Forms.Label
     Friend WithEvents chkUseStandardBPCosting As System.Windows.Forms.CheckBox
+    Friend WithEvents btnExport As EveHQ.Core.SplitButton
+    Friend WithEvents ctxResourceExport As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuExportToCSV As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuExportToTSV As System.Windows.Forms.ToolStripMenuItem
 
 End Class
