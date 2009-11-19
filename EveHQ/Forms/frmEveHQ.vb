@@ -1441,10 +1441,6 @@ Public Class frmEveHQ
         Call Me.OpenMarketPricesForm()
     End Sub
 
-    Private Sub mnuInEveUploader_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuInEveUploader.Click
-        Call Me.OpenInEveUploaderForm()
-    End Sub
-
 #Region "Backup Worker routines"
 
     Private Sub tmrBackup_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrBackup.Tick
@@ -1855,14 +1851,6 @@ Public Class frmEveHQ
             EveHQMLF.Show()
         Else
             tabMDI.SelectTab(EveHQMLF.Text)
-        End If
-    End Sub
-    Private Sub OpenInEveUploaderForm()
-        If tabMDI.TabPages.ContainsKey(frmInEveUploader.Text) = False Then
-            frmInEveUploader.MdiParent = Me
-            frmInEveUploader.Show()
-        Else
-            tabMDI.SelectTab(frmInEveUploader.Text)
         End If
     End Sub
     Private Sub OpenDashboard()
