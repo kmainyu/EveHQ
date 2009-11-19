@@ -6169,11 +6169,11 @@ Public Class frmPrism
     End Sub
 
     Private Sub mnuExportTotalsToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", clvRecycle, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", clvTotals, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
     End Sub
 
     Private Sub mnuExportTotalsToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToTSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", clvRecycle, ControlChars.Tab)
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", clvTotals, ControlChars.Tab)
     End Sub
 
     Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As ContainerListView, ByVal sepChar As String)
