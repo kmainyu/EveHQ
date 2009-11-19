@@ -41,7 +41,6 @@ Partial Public Class frmEveHQ
         Me.ViewMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.PilotInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SkillTrainingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.TrainingInformationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DashboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolsMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.RunIGBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -285,7 +284,7 @@ Partial Public Class frmEveHQ
         '
         'ViewMenu
         '
-        Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PilotInfoToolStripMenuItem, Me.SkillTrainingToolStripMenuItem, Me.TrainingInformationToolStripMenuItem, Me.DashboardToolStripMenuItem})
+        Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PilotInfoToolStripMenuItem, Me.SkillTrainingToolStripMenuItem, Me.DashboardToolStripMenuItem})
         Me.ViewMenu.Name = "ViewMenu"
         Me.ViewMenu.Size = New System.Drawing.Size(41, 20)
         Me.ViewMenu.Text = "&View"
@@ -305,14 +304,6 @@ Partial Public Class frmEveHQ
         Me.SkillTrainingToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
         Me.SkillTrainingToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.SkillTrainingToolStripMenuItem.Text = "Skill Training"
-        '
-        'TrainingInformationToolStripMenuItem
-        '
-        Me.TrainingInformationToolStripMenuItem.CheckOnClick = True
-        Me.TrainingInformationToolStripMenuItem.Image = CType(resources.GetObject("TrainingInformationToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.TrainingInformationToolStripMenuItem.Name = "TrainingInformationToolStripMenuItem"
-        Me.TrainingInformationToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
-        Me.TrainingInformationToolStripMenuItem.Text = "Training Overlay"
         '
         'DashboardToolStripMenuItem
         '
@@ -1099,7 +1090,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuReportCurrentCharXMLNew As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportTimeToLevel5 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tabMDI As System.Windows.Forms.TabControl
-    Friend WithEvents TrainingInformationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tsbRetrieveData As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tsbPilotInfo As System.Windows.Forms.ToolStripButton
