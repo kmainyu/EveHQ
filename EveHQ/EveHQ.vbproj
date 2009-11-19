@@ -91,6 +91,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CharacterBlock.Designer.vb">
+      <DependentUpon>CharacterBlock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CharacterBlock.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\DBConfigs\DBCPilotInfoConfig.Designer.vb">
       <DependentUpon>DBCPilotInfoConfig.vb</DependentUpon>
     </Compile>
@@ -349,6 +355,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\CharacterBlock.resx">
+      <DependentUpon>CharacterBlock.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DBConfigs\DBCPilotInfoConfig.resx">
       <DependentUpon>DBCPilotInfoConfig.vb</DependentUpon>
     </EmbeddedResource>

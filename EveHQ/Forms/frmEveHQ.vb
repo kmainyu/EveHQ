@@ -104,7 +104,7 @@ Public Class frmEveHQ
 
     Private Sub EveHQIcon1_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles EveStatusIcon.MouseHover
         ' Only display the pop up window if the context menu isn't showing
-        If Not Me.EveIconMenu.Visible Then
+        If Not Me.EveIconMenu.Visible And EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode = 1 Then
             EveHQTrayForm = New frmToolTrayIconPopup
             EveHQTrayForm.Show()
         End If
