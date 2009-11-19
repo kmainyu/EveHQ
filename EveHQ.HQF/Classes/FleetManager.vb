@@ -50,17 +50,17 @@
         Public PilotName As String
         Public FittingName As String
         <NonSerialized()> Public IsFlyable As Boolean
-        <NonSerialized()> Public RequiredSkills As New SortedList
+        <NonSerialized()> Public RequiredSkills As New ArrayList
     End Class
 
-    Public Shared Function IsFittingUsable(ByVal pilotName As String, ByVal shipFit As String) As SortedList
+    Public Shared Function IsFittingUsable(ByVal pilotName As String, ByVal shipFit As String) As ArrayList
         Dim fittingSep As Integer = shipFit.IndexOf(", ")
         Dim shipName As String = shipFit.Substring(0, fittingSep)
         Dim fittingName As String = shipFit.Substring(fittingSep + 2)
         Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
         Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
         aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
-        Return Engine.NeededSkillsForShip(pilotName, aShip)
+        Return Engine.CalculateNeededSkills(pilotName, aShip).ShipPilotSkills
     End Function
 
     Public Shared Sub CheckAllFittings()

@@ -23,7 +23,7 @@ Imports System.Windows.Forms
 Public Class frmRequiredSkills
 
 #Region "Property Variables"
-    Private reqSkills As New SortedList
+    Private reqSkills As New ArrayList
     Private reqPilot As EveHQ.Core.Pilot
     Private reqHPilot As HQFPilot
     Private SkillList As New SortedList(Of String, Integer)
@@ -39,11 +39,11 @@ Public Class frmRequiredSkills
         End Set
     End Property
 
-    Public Property Skills() As SortedList
+    Public Property Skills() As ArrayList
         Get
             Return reqSkills
         End Get
-        Set(ByVal value As SortedList)
+        Set(ByVal value As ArrayList)
             reqSkills = value
             Call Me.DrawSkillsTable()
         End Set
@@ -66,11 +66,12 @@ Public Class frmRequiredSkills
 
     Private Sub DrawSkillsTable()
         Dim aSkill As EveHQ.Core.PilotSkill
+        Dim hSkill As HQFSkill
         Dim aLevel As Integer = 0
 
         ' Compress the list of required skills into the smallest possible list
         Dim newSkills As New SortedList
-        For Each rSkill As ReqSkill In reqSkills.Values
+        For Each rSkill As ReqSkill In reqSkills
             If newSkills.Contains(rSkill.Name & " (Lvl " & rSkill.ReqLevel & ") - " & rSkill.NeededFor) = False Then
                 newSkills.Add(rSkill.Name & " (Lvl " & rSkill.ReqLevel & ") - " & rSkill.NeededFor, rSkill)
             End If
@@ -97,7 +98,12 @@ Public Class frmRequiredSkills
             Else
                 newSkill.SubItems(2).Text = "0"
             End If
-            newSkill.SubItems(3).Text = rSkill.CurLevel.ToString
+            If reqHPilot.SkillSet.Contains(rSkill.Name) = True Then
+                hSkill = CType(reqHPilot.SkillSet(rSkill.Name), HQFSkill)
+                newSkill.SubItems(3).Text = hSkill.Level.ToString
+            Else
+                newSkill.SubItems(3).Text = "0"
+            End If
             newSkill.SubItems(4).Text = rSkill.NeededFor
             Dim reqLevel As Integer = CInt(newSkill.SubItems(1).Text)
             Dim actLevel As Integer = CInt(newSkill.SubItems(2).Text)
@@ -176,14 +182,14 @@ Public Class frmRequiredSkills
 
         ' Add the skills we have to the training queue (in any order, no learning skills will be applied)
         Dim skill As Integer = 0
-        For Each rSkill As ReqSkill In reqSkills.Values
+        For Each rSkill As ReqSkill In reqSkills
             Dim skillName As String = rSkill.Name
             Dim skillLevel As Integer = CInt(rSkill.ReqLevel)
             Dim qItem As New EveHQ.Core.SkillQueueItem
             qItem.Name = skillName
             qItem.FromLevel = 0
             qItem.ToLevel = skillLevel
-            qItem.Pos = Skill + 1
+            qItem.Pos = skill + 1
             qItem.Key = qItem.Name & qItem.FromLevel & qItem.ToLevel
             newQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(nPilot, skillName, skill + 1, newQueue, skillLevel, True, True)
         Next
@@ -232,7 +238,7 @@ Public Class frmRequiredSkills
     End Sub
 
     Private Sub UpdateReqSkills()
-        For Each rSkill As ReqSkill In reqSkills.Values
+        For Each rSkill As ReqSkill In reqSkills
             If SkillList.ContainsKey(rSkill.Name) = True Then
                 rSkill.CurLevel = SkillList(rSkill.Name)
             End If

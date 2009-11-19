@@ -22,7 +22,7 @@ Imports System.Windows.Forms
 Public Class frmSelectQueue
 
     Public rPilot As EveHQ.Core.Pilot
-    Public skillsNeeded As New SortedList
+    Public skillsNeeded As New ArrayList
 
     Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
         Dim qName As String = ""
@@ -59,7 +59,7 @@ Public Class frmSelectQueue
         End If
         If rPilot.Name <> "" Then
             If skillsNeeded.Count <> 0 Then
-                For Each skill As ReqSkill In skillsNeeded.Values
+                For Each skill As ReqSkill In skillsNeeded
                     Dim skillName As String = skill.Name
                     Dim skillLvl As Integer = skill.ReqLevel
                     qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(rPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl)

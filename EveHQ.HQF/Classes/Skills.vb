@@ -23,6 +23,11 @@
     Public Level As Integer
 End Class
 
+<Serializable()> Public Class NeededSkillsCollection
+    Public ShipPilotSkills As New ArrayList
+    Public TruePilotSkills As New ArrayList
+End Class
+
 <Serializable()> Public Class ReqSkill
     Public ID As String
     Public Name As String

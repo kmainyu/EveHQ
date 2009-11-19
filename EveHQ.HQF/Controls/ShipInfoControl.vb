@@ -23,7 +23,7 @@ Public Class ShipInfoControl
 
 #Region "Other Variables"
     Private fittedShip As Ship ' Should be the modified ship after passing through the engine
-    Private reqSkills As New SortedList ' Lists the skills required for the ship/mods/drones
+    Private reqSkillsCollection As New NeededSkillsCollection ' Lists the skills required for the ship/mods/drones
 #End Region
 
 #Region "Property Variables"
@@ -325,11 +325,18 @@ Public Class ShipInfoControl
         End If
 
         ' Collect List of Needed Skills
-        reqSkills = Engine.NeededSkillsForShip(cboPilots.SelectedItem.ToString, fittedShip)
-        If reqSkills.Count = 0 Then
+        reqSkillsCollection = Engine.CalculateNeededSkills(cboPilots.SelectedItem.ToString, fittedShip)
+        If reqSkillsCollection.TruePilotSkills.Count = 0 Then
             btnSkills.Image = My.Resources.Skills1
+            ToolTip1.SetToolTip(btnSkills, "No additional skills required")
         Else
-            btnSkills.Image = My.Resources.Skills0
+            If reqSkillsCollection.ShipPilotSkills.Count = 0 Then
+                btnSkills.Image = My.Resources.Skills2
+                ToolTip1.SetToolTip(btnSkills, "HQF skills match, additional actual skills required - click to view")
+            Else
+                btnSkills.Image = My.Resources.Skills0
+                ToolTip1.SetToolTip(btnSkills, "Additional skills required - click to view")
+            End If
         End If
 
         ' Set buttons
@@ -482,10 +489,10 @@ Public Class ShipInfoControl
     End Sub
 
     Private Sub btnSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSkills.Click
-        If reqSkills.Count > 0 Then
+        If reqSkillsCollection.TruePilotSkills.Count > 0 Then
             Dim myRequiredSkills As New frmRequiredSkills
             myRequiredSkills.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem), EveHQ.Core.Pilot)
-            myRequiredSkills.Skills = reqSkills
+            myRequiredSkills.Skills = reqSkillsCollection.TruePilotSkills
             myRequiredSkills.ShowDialog()
         End If
     End Sub
