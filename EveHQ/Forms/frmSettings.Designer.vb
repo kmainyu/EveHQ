@@ -35,8 +35,7 @@ Partial Public Class frmSettings
         Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
         Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
         Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
         Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox
@@ -165,18 +164,6 @@ Partial Public Class frmSettings
         Me.lblSkillQueueColours = New System.Windows.Forms.Label
         Me.lblQueueColumns = New System.Windows.Forms.Label
         Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox
-        Me.gbMSSQL = New System.Windows.Forms.GroupBox
-        Me.txtMSSQLDatabase = New System.Windows.Forms.TextBox
-        Me.lblMSSQLDatabase = New System.Windows.Forms.Label
-        Me.lblMSSQLSecurity = New System.Windows.Forms.Label
-        Me.radMSSQLDatabase = New System.Windows.Forms.RadioButton
-        Me.radMSSQLWindows = New System.Windows.Forms.RadioButton
-        Me.txtMSSQLPassword = New System.Windows.Forms.TextBox
-        Me.txtMSSQLUsername = New System.Windows.Forms.TextBox
-        Me.txtMSSQLServer = New System.Windows.Forms.TextBox
-        Me.lblMSSQLPassword = New System.Windows.Forms.Label
-        Me.lblMSSQLUser = New System.Windows.Forms.Label
-        Me.lblMSSQLServer = New System.Windows.Forms.Label
         Me.nudDBTimeout = New System.Windows.Forms.NumericUpDown
         Me.lblDatabaseTimeout = New System.Windows.Forms.Label
         Me.btnTestDB = New System.Windows.Forms.Button
@@ -191,6 +178,18 @@ Partial Public Class frmSettings
         Me.lblMDBPassword = New System.Windows.Forms.Label
         Me.lblMDBUser = New System.Windows.Forms.Label
         Me.lblMDBFilename = New System.Windows.Forms.Label
+        Me.gbMSSQL = New System.Windows.Forms.GroupBox
+        Me.txtMSSQLDatabase = New System.Windows.Forms.TextBox
+        Me.lblMSSQLDatabase = New System.Windows.Forms.Label
+        Me.lblMSSQLSecurity = New System.Windows.Forms.Label
+        Me.radMSSQLDatabase = New System.Windows.Forms.RadioButton
+        Me.radMSSQLWindows = New System.Windows.Forms.RadioButton
+        Me.txtMSSQLPassword = New System.Windows.Forms.TextBox
+        Me.txtMSSQLUsername = New System.Windows.Forms.TextBox
+        Me.txtMSSQLServer = New System.Windows.Forms.TextBox
+        Me.lblMSSQLPassword = New System.Windows.Forms.Label
+        Me.lblMSSQLUser = New System.Windows.Forms.Label
+        Me.lblMSSQLServer = New System.Windows.Forms.Label
         Me.gbProxyServer = New System.Windows.Forms.GroupBox
         Me.gbProxyServerInfo = New System.Windows.Forms.GroupBox
         Me.lblProxyPassword = New System.Windows.Forms.Label
@@ -270,28 +269,6 @@ Partial Public Class frmSettings
         Me.lblCSVSeparatorChar = New System.Windows.Forms.Label
         Me.chkDisableVisualStyles = New System.Windows.Forms.CheckBox
         Me.cd1 = New System.Windows.Forms.ColorDialog
-        Me.gbTrainingOverlay = New System.Windows.Forms.GroupBox
-        Me.chkClickThroughOverlay = New System.Windows.Forms.CheckBox
-        Me.pbFontColour = New System.Windows.Forms.PictureBox
-        Me.lblFontColour = New System.Windows.Forms.Label
-        Me.chkShowOverlayOnStartup = New System.Windows.Forms.CheckBox
-        Me.nudOverlayYOffset = New System.Windows.Forms.NumericUpDown
-        Me.nudOverlayXOffset = New System.Windows.Forms.NumericUpDown
-        Me.lvlOverlayYOffset = New System.Windows.Forms.Label
-        Me.lblOverlayXOffset = New System.Windows.Forms.Label
-        Me.lblOverlayOffset = New System.Windows.Forms.Label
-        Me.radBottomRight = New System.Windows.Forms.RadioButton
-        Me.radBottomLeft = New System.Windows.Forms.RadioButton
-        Me.radTopRight = New System.Windows.Forms.RadioButton
-        Me.lblOverlayPosition = New System.Windows.Forms.Label
-        Me.radTopLeft = New System.Windows.Forms.RadioButton
-        Me.pbPanelColour = New System.Windows.Forms.PictureBox
-        Me.pbBorderColour = New System.Windows.Forms.PictureBox
-        Me.lblTransparancyValue = New System.Windows.Forms.Label
-        Me.tbTransparancy = New System.Windows.Forms.TrackBar
-        Me.lblTransparancy = New System.Windows.Forms.Label
-        Me.lblPanelColour = New System.Windows.Forms.Label
-        Me.lblBorderColour = New System.Windows.Forms.Label
         Me.gbG15 = New System.Windows.Forms.GroupBox
         Me.nudCycleTime = New System.Windows.Forms.NumericUpDown
         Me.lblCycleTime = New System.Windows.Forms.Label
@@ -363,9 +340,9 @@ Partial Public Class frmSettings
         CType(Me.pbHasPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDatabaseFormat.SuspendLayout()
-        Me.gbMSSQL.SuspendLayout()
         CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbAccess.SuspendLayout()
+        Me.gbMSSQL.SuspendLayout()
         Me.gbProxyServer.SuspendLayout()
         Me.gbProxyServerInfo.SuspendLayout()
         Me.gbEveServer.SuspendLayout()
@@ -379,13 +356,6 @@ Partial Public Class frmSettings
         Me.gbEmailOptions.SuspendLayout()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbColours.SuspendLayout()
-        Me.gbTrainingOverlay.SuspendLayout()
-        CType(Me.pbFontColour, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudOverlayYOffset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudOverlayXOffset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelColour, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbBorderColour, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.tbTransparancy, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbG15.SuspendLayout()
         CType(Me.nudCycleTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPrices.SuspendLayout()
@@ -1718,128 +1688,13 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(449, 77)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 494)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(113, 47)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
         Me.gbDatabaseFormat.Visible = False
-        '
-        'gbMSSQL
-        '
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLDatabase)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLDatabase)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLSecurity)
-        Me.gbMSSQL.Controls.Add(Me.radMSSQLDatabase)
-        Me.gbMSSQL.Controls.Add(Me.radMSSQLWindows)
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLPassword)
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLUsername)
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLServer)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLPassword)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLUser)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLServer)
-        Me.gbMSSQL.Location = New System.Drawing.Point(9, 155)
-        Me.gbMSSQL.Name = "gbMSSQL"
-        Me.gbMSSQL.Size = New System.Drawing.Size(513, 160)
-        Me.gbMSSQL.TabIndex = 35
-        Me.gbMSSQL.TabStop = False
-        Me.gbMSSQL.Text = "MS SQL Options"
-        Me.gbMSSQL.Visible = False
-        '
-        'txtMSSQLDatabase
-        '
-        Me.txtMSSQLDatabase.Location = New System.Drawing.Point(105, 77)
-        Me.txtMSSQLDatabase.Name = "txtMSSQLDatabase"
-        Me.txtMSSQLDatabase.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLDatabase.TabIndex = 10
-        '
-        'lblMSSQLDatabase
-        '
-        Me.lblMSSQLDatabase.AutoSize = True
-        Me.lblMSSQLDatabase.Location = New System.Drawing.Point(6, 82)
-        Me.lblMSSQLDatabase.Name = "lblMSSQLDatabase"
-        Me.lblMSSQLDatabase.Size = New System.Drawing.Size(82, 13)
-        Me.lblMSSQLDatabase.TabIndex = 9
-        Me.lblMSSQLDatabase.Text = "Item Database:"
-        '
-        'lblMSSQLSecurity
-        '
-        Me.lblMSSQLSecurity.AutoSize = True
-        Me.lblMSSQLSecurity.Location = New System.Drawing.Point(6, 32)
-        Me.lblMSSQLSecurity.Name = "lblMSSQLSecurity"
-        Me.lblMSSQLSecurity.Size = New System.Drawing.Size(46, 13)
-        Me.lblMSSQLSecurity.TabIndex = 8
-        Me.lblMSSQLSecurity.Text = "Security"
-        '
-        'radMSSQLDatabase
-        '
-        Me.radMSSQLDatabase.AutoSize = True
-        Me.radMSSQLDatabase.Location = New System.Drawing.Point(105, 29)
-        Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
-        Me.radMSSQLDatabase.Size = New System.Drawing.Size(44, 17)
-        Me.radMSSQLDatabase.TabIndex = 7
-        Me.radMSSQLDatabase.Text = "SQL"
-        Me.radMSSQLDatabase.UseVisualStyleBackColor = True
-        '
-        'radMSSQLWindows
-        '
-        Me.radMSSQLWindows.AutoSize = True
-        Me.radMSSQLWindows.Location = New System.Drawing.Point(173, 29)
-        Me.radMSSQLWindows.Name = "radMSSQLWindows"
-        Me.radMSSQLWindows.Size = New System.Drawing.Size(68, 17)
-        Me.radMSSQLWindows.TabIndex = 6
-        Me.radMSSQLWindows.Text = "Windows"
-        Me.radMSSQLWindows.UseVisualStyleBackColor = True
-        '
-        'txtMSSQLPassword
-        '
-        Me.txtMSSQLPassword.Location = New System.Drawing.Point(105, 130)
-        Me.txtMSSQLPassword.Name = "txtMSSQLPassword"
-        Me.txtMSSQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLPassword.TabIndex = 5
-        '
-        'txtMSSQLUsername
-        '
-        Me.txtMSSQLUsername.Location = New System.Drawing.Point(105, 104)
-        Me.txtMSSQLUsername.Name = "txtMSSQLUsername"
-        Me.txtMSSQLUsername.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLUsername.TabIndex = 4
-        '
-        'txtMSSQLServer
-        '
-        Me.txtMSSQLServer.Location = New System.Drawing.Point(105, 51)
-        Me.txtMSSQLServer.Name = "txtMSSQLServer"
-        Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLServer.TabIndex = 3
-        '
-        'lblMSSQLPassword
-        '
-        Me.lblMSSQLPassword.AutoSize = True
-        Me.lblMSSQLPassword.Location = New System.Drawing.Point(6, 133)
-        Me.lblMSSQLPassword.Name = "lblMSSQLPassword"
-        Me.lblMSSQLPassword.Size = New System.Drawing.Size(57, 13)
-        Me.lblMSSQLPassword.TabIndex = 2
-        Me.lblMSSQLPassword.Text = "Password:"
-        '
-        'lblMSSQLUser
-        '
-        Me.lblMSSQLUser.AutoSize = True
-        Me.lblMSSQLUser.Location = New System.Drawing.Point(6, 107)
-        Me.lblMSSQLUser.Name = "lblMSSQLUser"
-        Me.lblMSSQLUser.Size = New System.Drawing.Size(33, 13)
-        Me.lblMSSQLUser.TabIndex = 1
-        Me.lblMSSQLUser.Text = "User:"
-        '
-        'lblMSSQLServer
-        '
-        Me.lblMSSQLServer.AutoSize = True
-        Me.lblMSSQLServer.Location = New System.Drawing.Point(6, 56)
-        Me.lblMSSQLServer.Name = "lblMSSQLServer"
-        Me.lblMSSQLServer.Size = New System.Drawing.Size(43, 13)
-        Me.lblMSSQLServer.TabIndex = 0
-        Me.lblMSSQLServer.Text = "Server:"
         '
         'nudDBTimeout
         '
@@ -1970,6 +1825,121 @@ Partial Public Class frmSettings
         Me.lblMDBFilename.Size = New System.Drawing.Size(82, 13)
         Me.lblMDBFilename.TabIndex = 0
         Me.lblMDBFilename.Text = "Item Database:"
+        '
+        'gbMSSQL
+        '
+        Me.gbMSSQL.Controls.Add(Me.txtMSSQLDatabase)
+        Me.gbMSSQL.Controls.Add(Me.lblMSSQLDatabase)
+        Me.gbMSSQL.Controls.Add(Me.lblMSSQLSecurity)
+        Me.gbMSSQL.Controls.Add(Me.radMSSQLDatabase)
+        Me.gbMSSQL.Controls.Add(Me.radMSSQLWindows)
+        Me.gbMSSQL.Controls.Add(Me.txtMSSQLPassword)
+        Me.gbMSSQL.Controls.Add(Me.txtMSSQLUsername)
+        Me.gbMSSQL.Controls.Add(Me.txtMSSQLServer)
+        Me.gbMSSQL.Controls.Add(Me.lblMSSQLPassword)
+        Me.gbMSSQL.Controls.Add(Me.lblMSSQLUser)
+        Me.gbMSSQL.Controls.Add(Me.lblMSSQLServer)
+        Me.gbMSSQL.Location = New System.Drawing.Point(9, 155)
+        Me.gbMSSQL.Name = "gbMSSQL"
+        Me.gbMSSQL.Size = New System.Drawing.Size(513, 160)
+        Me.gbMSSQL.TabIndex = 35
+        Me.gbMSSQL.TabStop = False
+        Me.gbMSSQL.Text = "MS SQL Options"
+        Me.gbMSSQL.Visible = False
+        '
+        'txtMSSQLDatabase
+        '
+        Me.txtMSSQLDatabase.Location = New System.Drawing.Point(105, 77)
+        Me.txtMSSQLDatabase.Name = "txtMSSQLDatabase"
+        Me.txtMSSQLDatabase.Size = New System.Drawing.Size(230, 21)
+        Me.txtMSSQLDatabase.TabIndex = 10
+        '
+        'lblMSSQLDatabase
+        '
+        Me.lblMSSQLDatabase.AutoSize = True
+        Me.lblMSSQLDatabase.Location = New System.Drawing.Point(6, 82)
+        Me.lblMSSQLDatabase.Name = "lblMSSQLDatabase"
+        Me.lblMSSQLDatabase.Size = New System.Drawing.Size(82, 13)
+        Me.lblMSSQLDatabase.TabIndex = 9
+        Me.lblMSSQLDatabase.Text = "Item Database:"
+        '
+        'lblMSSQLSecurity
+        '
+        Me.lblMSSQLSecurity.AutoSize = True
+        Me.lblMSSQLSecurity.Location = New System.Drawing.Point(6, 32)
+        Me.lblMSSQLSecurity.Name = "lblMSSQLSecurity"
+        Me.lblMSSQLSecurity.Size = New System.Drawing.Size(46, 13)
+        Me.lblMSSQLSecurity.TabIndex = 8
+        Me.lblMSSQLSecurity.Text = "Security"
+        '
+        'radMSSQLDatabase
+        '
+        Me.radMSSQLDatabase.AutoSize = True
+        Me.radMSSQLDatabase.Location = New System.Drawing.Point(105, 29)
+        Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
+        Me.radMSSQLDatabase.Size = New System.Drawing.Size(44, 17)
+        Me.radMSSQLDatabase.TabIndex = 7
+        Me.radMSSQLDatabase.Text = "SQL"
+        Me.radMSSQLDatabase.UseVisualStyleBackColor = True
+        '
+        'radMSSQLWindows
+        '
+        Me.radMSSQLWindows.AutoSize = True
+        Me.radMSSQLWindows.Location = New System.Drawing.Point(173, 29)
+        Me.radMSSQLWindows.Name = "radMSSQLWindows"
+        Me.radMSSQLWindows.Size = New System.Drawing.Size(68, 17)
+        Me.radMSSQLWindows.TabIndex = 6
+        Me.radMSSQLWindows.Text = "Windows"
+        Me.radMSSQLWindows.UseVisualStyleBackColor = True
+        '
+        'txtMSSQLPassword
+        '
+        Me.txtMSSQLPassword.Location = New System.Drawing.Point(105, 130)
+        Me.txtMSSQLPassword.Name = "txtMSSQLPassword"
+        Me.txtMSSQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 21)
+        Me.txtMSSQLPassword.TabIndex = 5
+        '
+        'txtMSSQLUsername
+        '
+        Me.txtMSSQLUsername.Location = New System.Drawing.Point(105, 104)
+        Me.txtMSSQLUsername.Name = "txtMSSQLUsername"
+        Me.txtMSSQLUsername.Size = New System.Drawing.Size(230, 21)
+        Me.txtMSSQLUsername.TabIndex = 4
+        '
+        'txtMSSQLServer
+        '
+        Me.txtMSSQLServer.Location = New System.Drawing.Point(105, 51)
+        Me.txtMSSQLServer.Name = "txtMSSQLServer"
+        Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 21)
+        Me.txtMSSQLServer.TabIndex = 3
+        '
+        'lblMSSQLPassword
+        '
+        Me.lblMSSQLPassword.AutoSize = True
+        Me.lblMSSQLPassword.Location = New System.Drawing.Point(6, 133)
+        Me.lblMSSQLPassword.Name = "lblMSSQLPassword"
+        Me.lblMSSQLPassword.Size = New System.Drawing.Size(57, 13)
+        Me.lblMSSQLPassword.TabIndex = 2
+        Me.lblMSSQLPassword.Text = "Password:"
+        '
+        'lblMSSQLUser
+        '
+        Me.lblMSSQLUser.AutoSize = True
+        Me.lblMSSQLUser.Location = New System.Drawing.Point(6, 107)
+        Me.lblMSSQLUser.Name = "lblMSSQLUser"
+        Me.lblMSSQLUser.Size = New System.Drawing.Size(33, 13)
+        Me.lblMSSQLUser.TabIndex = 1
+        Me.lblMSSQLUser.Text = "User:"
+        '
+        'lblMSSQLServer
+        '
+        Me.lblMSSQLServer.AutoSize = True
+        Me.lblMSSQLServer.Location = New System.Drawing.Point(6, 56)
+        Me.lblMSSQLServer.Name = "lblMSSQLServer"
+        Me.lblMSSQLServer.Size = New System.Drawing.Size(43, 13)
+        Me.lblMSSQLServer.TabIndex = 0
+        Me.lblMSSQLServer.Text = "Server:"
         '
         'gbProxyServer
         '
@@ -2723,11 +2693,9 @@ Partial Public Class frmSettings
         TreeNode14.Text = "Proxy Server"
         TreeNode15.Name = "nodeTaskBarIcon"
         TreeNode15.Text = "Taskbar Icon"
-        TreeNode16.Name = "nodeTrainingOverlay"
-        TreeNode16.Text = "Training Overlay"
-        TreeNode17.Name = "nodeTrainingQueue"
-        TreeNode17.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17})
+        TreeNode16.Name = "nodeTrainingQueue"
+        TreeNode16.Text = "Training Queue"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
         '
@@ -2772,237 +2740,6 @@ Partial Public Class frmSettings
         Me.chkDisableVisualStyles.TabIndex = 38
         Me.chkDisableVisualStyles.Text = "Disable Visual Styles"
         Me.chkDisableVisualStyles.UseVisualStyleBackColor = True
-        '
-        'gbTrainingOverlay
-        '
-        Me.gbTrainingOverlay.Controls.Add(Me.chkClickThroughOverlay)
-        Me.gbTrainingOverlay.Controls.Add(Me.pbFontColour)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblFontColour)
-        Me.gbTrainingOverlay.Controls.Add(Me.chkShowOverlayOnStartup)
-        Me.gbTrainingOverlay.Controls.Add(Me.nudOverlayYOffset)
-        Me.gbTrainingOverlay.Controls.Add(Me.nudOverlayXOffset)
-        Me.gbTrainingOverlay.Controls.Add(Me.lvlOverlayYOffset)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblOverlayXOffset)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblOverlayOffset)
-        Me.gbTrainingOverlay.Controls.Add(Me.radBottomRight)
-        Me.gbTrainingOverlay.Controls.Add(Me.radBottomLeft)
-        Me.gbTrainingOverlay.Controls.Add(Me.radTopRight)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblOverlayPosition)
-        Me.gbTrainingOverlay.Controls.Add(Me.radTopLeft)
-        Me.gbTrainingOverlay.Controls.Add(Me.pbPanelColour)
-        Me.gbTrainingOverlay.Controls.Add(Me.pbBorderColour)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblTransparancyValue)
-        Me.gbTrainingOverlay.Controls.Add(Me.tbTransparancy)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblTransparancy)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblPanelColour)
-        Me.gbTrainingOverlay.Controls.Add(Me.lblBorderColour)
-        Me.gbTrainingOverlay.Location = New System.Drawing.Point(363, 109)
-        Me.gbTrainingOverlay.Name = "gbTrainingOverlay"
-        Me.gbTrainingOverlay.Size = New System.Drawing.Size(145, 42)
-        Me.gbTrainingOverlay.TabIndex = 29
-        Me.gbTrainingOverlay.TabStop = False
-        Me.gbTrainingOverlay.Text = "Training Overlay"
-        Me.gbTrainingOverlay.Visible = False
-        '
-        'chkClickThroughOverlay
-        '
-        Me.chkClickThroughOverlay.AutoSize = True
-        Me.chkClickThroughOverlay.Location = New System.Drawing.Point(10, 365)
-        Me.chkClickThroughOverlay.Name = "chkClickThroughOverlay"
-        Me.chkClickThroughOverlay.Size = New System.Drawing.Size(140, 17)
-        Me.chkClickThroughOverlay.TabIndex = 20
-        Me.chkClickThroughOverlay.Text = """Click-Through"" Overlay"
-        Me.chkClickThroughOverlay.UseVisualStyleBackColor = True
-        '
-        'pbFontColour
-        '
-        Me.pbFontColour.BackColor = System.Drawing.Color.Black
-        Me.pbFontColour.Location = New System.Drawing.Point(95, 91)
-        Me.pbFontColour.Name = "pbFontColour"
-        Me.pbFontColour.Size = New System.Drawing.Size(24, 24)
-        Me.pbFontColour.TabIndex = 19
-        Me.pbFontColour.TabStop = False
-        '
-        'lblFontColour
-        '
-        Me.lblFontColour.AutoSize = True
-        Me.lblFontColour.Location = New System.Drawing.Point(6, 99)
-        Me.lblFontColour.Name = "lblFontColour"
-        Me.lblFontColour.Size = New System.Drawing.Size(63, 13)
-        Me.lblFontColour.TabIndex = 18
-        Me.lblFontColour.Text = "Font Colour"
-        '
-        'chkShowOverlayOnStartup
-        '
-        Me.chkShowOverlayOnStartup.AutoSize = True
-        Me.chkShowOverlayOnStartup.Location = New System.Drawing.Point(10, 342)
-        Me.chkShowOverlayOnStartup.Name = "chkShowOverlayOnStartup"
-        Me.chkShowOverlayOnStartup.Size = New System.Drawing.Size(149, 17)
-        Me.chkShowOverlayOnStartup.TabIndex = 17
-        Me.chkShowOverlayOnStartup.Text = "Show Overlay On Startup"
-        Me.chkShowOverlayOnStartup.UseVisualStyleBackColor = True
-        '
-        'nudOverlayYOffset
-        '
-        Me.nudOverlayYOffset.Location = New System.Drawing.Point(239, 256)
-        Me.nudOverlayYOffset.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
-        Me.nudOverlayYOffset.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
-        Me.nudOverlayYOffset.Name = "nudOverlayYOffset"
-        Me.nudOverlayYOffset.Size = New System.Drawing.Size(57, 21)
-        Me.nudOverlayYOffset.TabIndex = 16
-        Me.nudOverlayYOffset.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'nudOverlayXOffset
-        '
-        Me.nudOverlayXOffset.Location = New System.Drawing.Point(239, 233)
-        Me.nudOverlayXOffset.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
-        Me.nudOverlayXOffset.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
-        Me.nudOverlayXOffset.Name = "nudOverlayXOffset"
-        Me.nudOverlayXOffset.Size = New System.Drawing.Size(57, 21)
-        Me.nudOverlayXOffset.TabIndex = 15
-        Me.nudOverlayXOffset.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'lvlOverlayYOffset
-        '
-        Me.lvlOverlayYOffset.AutoSize = True
-        Me.lvlOverlayYOffset.Location = New System.Drawing.Point(183, 258)
-        Me.lvlOverlayYOffset.Name = "lvlOverlayYOffset"
-        Me.lvlOverlayYOffset.Size = New System.Drawing.Size(47, 13)
-        Me.lvlOverlayYOffset.TabIndex = 14
-        Me.lvlOverlayYOffset.Text = "Y Offset"
-        '
-        'lblOverlayXOffset
-        '
-        Me.lblOverlayXOffset.AutoSize = True
-        Me.lblOverlayXOffset.Location = New System.Drawing.Point(183, 235)
-        Me.lblOverlayXOffset.Name = "lblOverlayXOffset"
-        Me.lblOverlayXOffset.Size = New System.Drawing.Size(47, 13)
-        Me.lblOverlayXOffset.TabIndex = 13
-        Me.lblOverlayXOffset.Text = "X Offset"
-        '
-        'lblOverlayOffset
-        '
-        Me.lblOverlayOffset.AutoSize = True
-        Me.lblOverlayOffset.Location = New System.Drawing.Point(166, 208)
-        Me.lblOverlayOffset.Name = "lblOverlayOffset"
-        Me.lblOverlayOffset.Size = New System.Drawing.Size(83, 13)
-        Me.lblOverlayOffset.TabIndex = 12
-        Me.lblOverlayOffset.Text = "Overlay Offset:"
-        '
-        'radBottomRight
-        '
-        Me.radBottomRight.AutoSize = True
-        Me.radBottomRight.Checked = True
-        Me.radBottomRight.Location = New System.Drawing.Point(22, 302)
-        Me.radBottomRight.Name = "radBottomRight"
-        Me.radBottomRight.Size = New System.Drawing.Size(87, 17)
-        Me.radBottomRight.TabIndex = 11
-        Me.radBottomRight.TabStop = True
-        Me.radBottomRight.Text = "Bottom Right"
-        Me.radBottomRight.UseVisualStyleBackColor = True
-        '
-        'radBottomLeft
-        '
-        Me.radBottomLeft.AutoSize = True
-        Me.radBottomLeft.Location = New System.Drawing.Point(22, 279)
-        Me.radBottomLeft.Name = "radBottomLeft"
-        Me.radBottomLeft.Size = New System.Drawing.Size(81, 17)
-        Me.radBottomLeft.TabIndex = 10
-        Me.radBottomLeft.Text = "Bottom Left"
-        Me.radBottomLeft.UseVisualStyleBackColor = True
-        '
-        'radTopRight
-        '
-        Me.radTopRight.AutoSize = True
-        Me.radTopRight.Location = New System.Drawing.Point(22, 256)
-        Me.radTopRight.Name = "radTopRight"
-        Me.radTopRight.Size = New System.Drawing.Size(71, 17)
-        Me.radTopRight.TabIndex = 9
-        Me.radTopRight.Text = "Top Right"
-        Me.radTopRight.UseVisualStyleBackColor = True
-        '
-        'lblOverlayPosition
-        '
-        Me.lblOverlayPosition.AutoSize = True
-        Me.lblOverlayPosition.Location = New System.Drawing.Point(7, 208)
-        Me.lblOverlayPosition.Name = "lblOverlayPosition"
-        Me.lblOverlayPosition.Size = New System.Drawing.Size(89, 13)
-        Me.lblOverlayPosition.TabIndex = 8
-        Me.lblOverlayPosition.Text = "Overlay Position:"
-        '
-        'radTopLeft
-        '
-        Me.radTopLeft.AutoSize = True
-        Me.radTopLeft.Location = New System.Drawing.Point(22, 233)
-        Me.radTopLeft.Name = "radTopLeft"
-        Me.radTopLeft.Size = New System.Drawing.Size(65, 17)
-        Me.radTopLeft.TabIndex = 7
-        Me.radTopLeft.Text = "Top Left"
-        Me.radTopLeft.UseVisualStyleBackColor = True
-        '
-        'pbPanelColour
-        '
-        Me.pbPanelColour.BackColor = System.Drawing.Color.White
-        Me.pbPanelColour.Location = New System.Drawing.Point(95, 61)
-        Me.pbPanelColour.Name = "pbPanelColour"
-        Me.pbPanelColour.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelColour.TabIndex = 6
-        Me.pbPanelColour.TabStop = False
-        '
-        'pbBorderColour
-        '
-        Me.pbBorderColour.BackColor = System.Drawing.Color.Black
-        Me.pbBorderColour.Location = New System.Drawing.Point(95, 31)
-        Me.pbBorderColour.Name = "pbBorderColour"
-        Me.pbBorderColour.Size = New System.Drawing.Size(24, 24)
-        Me.pbBorderColour.TabIndex = 5
-        Me.pbBorderColour.TabStop = False
-        '
-        'lblTransparancyValue
-        '
-        Me.lblTransparancyValue.AutoSize = True
-        Me.lblTransparancyValue.Location = New System.Drawing.Point(369, 162)
-        Me.lblTransparancyValue.Name = "lblTransparancyValue"
-        Me.lblTransparancyValue.Size = New System.Drawing.Size(36, 13)
-        Me.lblTransparancyValue.TabIndex = 4
-        Me.lblTransparancyValue.Text = "100%"
-        '
-        'tbTransparancy
-        '
-        Me.tbTransparancy.Location = New System.Drawing.Point(85, 148)
-        Me.tbTransparancy.Maximum = 100
-        Me.tbTransparancy.Name = "tbTransparancy"
-        Me.tbTransparancy.Size = New System.Drawing.Size(283, 45)
-        Me.tbTransparancy.TabIndex = 3
-        Me.tbTransparancy.TickFrequency = 5
-        Me.tbTransparancy.TickStyle = System.Windows.Forms.TickStyle.Both
-        '
-        'lblTransparancy
-        '
-        Me.lblTransparancy.AutoSize = True
-        Me.lblTransparancy.Location = New System.Drawing.Point(7, 162)
-        Me.lblTransparancy.Name = "lblTransparancy"
-        Me.lblTransparancy.Size = New System.Drawing.Size(73, 13)
-        Me.lblTransparancy.TabIndex = 2
-        Me.lblTransparancy.Text = "Transparancy"
-        '
-        'lblPanelColour
-        '
-        Me.lblPanelColour.AutoSize = True
-        Me.lblPanelColour.Location = New System.Drawing.Point(6, 67)
-        Me.lblPanelColour.Name = "lblPanelColour"
-        Me.lblPanelColour.Size = New System.Drawing.Size(67, 13)
-        Me.lblPanelColour.TabIndex = 1
-        Me.lblPanelColour.Text = "Panel Colour"
-        '
-        'lblBorderColour
-        '
-        Me.lblBorderColour.AutoSize = True
-        Me.lblBorderColour.Location = New System.Drawing.Point(6, 37)
-        Me.lblBorderColour.Name = "lblBorderColour"
-        Me.lblBorderColour.Size = New System.Drawing.Size(73, 13)
-        Me.lblBorderColour.TabIndex = 0
-        Me.lblBorderColour.Text = "Border Colour"
         '
         'gbG15
         '
@@ -3410,8 +3147,8 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbDashboard)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbTrainingQueue)
@@ -3419,7 +3156,6 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbG15)
-        Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbPilots)
         Me.Controls.Add(Me.gbEveFolders)
@@ -3475,11 +3211,11 @@ Partial Public Class frmSettings
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDatabaseFormat.ResumeLayout(False)
         Me.gbDatabaseFormat.PerformLayout()
-        Me.gbMSSQL.ResumeLayout(False)
-        Me.gbMSSQL.PerformLayout()
         CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbAccess.ResumeLayout(False)
         Me.gbAccess.PerformLayout()
+        Me.gbMSSQL.ResumeLayout(False)
+        Me.gbMSSQL.PerformLayout()
         Me.gbProxyServer.ResumeLayout(False)
         Me.gbProxyServer.PerformLayout()
         Me.gbProxyServerInfo.ResumeLayout(False)
@@ -3502,14 +3238,6 @@ Partial Public Class frmSettings
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbColours.ResumeLayout(False)
         Me.gbColours.PerformLayout()
-        Me.gbTrainingOverlay.ResumeLayout(False)
-        Me.gbTrainingOverlay.PerformLayout()
-        CType(Me.pbFontColour, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudOverlayYOffset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudOverlayXOffset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelColour, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbBorderColour, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.tbTransparancy, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbG15.ResumeLayout(False)
         Me.gbG15.PerformLayout()
         CType(Me.nudCycleTime, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3655,28 +3383,6 @@ Partial Public Class frmSettings
     Friend WithEvents cd1 As System.Windows.Forms.ColorDialog
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnRefreshPlugins As System.Windows.Forms.Button
-    Friend WithEvents gbTrainingOverlay As System.Windows.Forms.GroupBox
-    Friend WithEvents tbTransparancy As System.Windows.Forms.TrackBar
-    Friend WithEvents lblTransparancy As System.Windows.Forms.Label
-    Friend WithEvents lblPanelColour As System.Windows.Forms.Label
-    Friend WithEvents lblBorderColour As System.Windows.Forms.Label
-    Friend WithEvents lblTransparancyValue As System.Windows.Forms.Label
-    Friend WithEvents pbBorderColour As System.Windows.Forms.PictureBox
-    Friend WithEvents pbPanelColour As System.Windows.Forms.PictureBox
-    Friend WithEvents lblOverlayXOffset As System.Windows.Forms.Label
-    Friend WithEvents lblOverlayOffset As System.Windows.Forms.Label
-    Friend WithEvents radBottomRight As System.Windows.Forms.RadioButton
-    Friend WithEvents radBottomLeft As System.Windows.Forms.RadioButton
-    Friend WithEvents radTopRight As System.Windows.Forms.RadioButton
-    Friend WithEvents lblOverlayPosition As System.Windows.Forms.Label
-    Friend WithEvents radTopLeft As System.Windows.Forms.RadioButton
-    Friend WithEvents nudOverlayYOffset As System.Windows.Forms.NumericUpDown
-    Friend WithEvents nudOverlayXOffset As System.Windows.Forms.NumericUpDown
-    Friend WithEvents lvlOverlayYOffset As System.Windows.Forms.Label
-    Friend WithEvents chkShowOverlayOnStartup As System.Windows.Forms.CheckBox
-    Friend WithEvents pbFontColour As System.Windows.Forms.PictureBox
-    Friend WithEvents lblFontColour As System.Windows.Forms.Label
-    Friend WithEvents chkClickThroughOverlay As System.Windows.Forms.CheckBox
     Friend WithEvents lblMDITabStyle As System.Windows.Forms.Label
     Friend WithEvents cboMDITabStyle As System.Windows.Forms.ComboBox
     Friend WithEvents chkMinimiseOnExit As System.Windows.Forms.CheckBox
