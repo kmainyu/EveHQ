@@ -1,125 +1,48 @@
 ﻿Imports System.IO
+Imports System.Runtime.InteropServices
 
 Public Class frmToolTrayIconPopup
-    Private Declare Function SHAppBarMessage Lib "shell32.dll" Alias "SHAppBarMessage" (ByVal dwMessage As Int32, ByRef pData As APPBARDATA) As Int32
-
-    Friend Structure RECT
-        Friend Left As Int32
-        Friend Top As Int32
-        Friend Right As Int32
-        Friend Bottom As Int32
-        Friend Sub New(ByVal Left%, ByVal Top%, ByVal Right%, ByVal Bottom%)
-            Me.Left = Left : Me.Bottom = Bottom : Me.Right = Right : Me.Top = Top
-        End Sub
-        Public Shared Widening Operator CType(ByVal a As Rectangle) As RECT
-            Return New RECT(a.Left, a.Top, a.Right, a.Bottom)
-        End Operator
-        Public Shared Widening Operator CType(ByVal a As RECT) As Rectangle
-            Return New Rectangle(a.Left, a.Top, a.Right - a.Left, a.Bottom - a.Top)
-        End Operator
-    End Structure
-    Private Const ABM_GETTASKBARPOS As Int32 = &H5
-    Private Const ABM_GETSTATE As Int32 = &H4
-    Private Const ABS_AUTOHIDE As Int32 = &H1
-    Private Const ABS_ALWAYSONTOP As Int32 = &H2
-    Private Structure APPBARDATA
-        Dim cbSize As Int32
-        Dim hwnd As IntPtr
-        Dim uCallbackMessage As [Delegate]
-        Dim uEdge As Int32
-        Dim rc As RECT
-        Dim lParam As Int32
-    End Structure
+   
     Dim currentLabel As New Label
     Dim currentPilot As EveHQ.Core.Pilot
     Dim currentDate As Date
 
-    Private Sub frmToolTrayIconPopup_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
-        Dim TaskBarLocation As String = Me.GetTaskbarLocation
-        Select Case TaskBarLocation
-            Case "Bottom"
-                Me.Location = New System.Drawing.Point(workingRectangle.Width - Me.Width - 5, workingRectangle.Height - Me.Height - 5)
-            Case "Top"
-                Me.Location = New System.Drawing.Point(workingRectangle.Width - Me.Width - 5, workingRectangle.Y + 5)
-            Case "Left"
-                Me.Location = New System.Drawing.Point(workingRectangle.X + 5, workingRectangle.Height - Me.Height - 5)
-            Case "Right"
-                Me.Location = New System.Drawing.Point(workingRectangle.Width - Me.Width - 5, workingRectangle.Height - Me.Height - 5)
-            Case "Error"
-                Me.Close()
-        End Select
-        tmrSkill.Start()
+    Private m_autoRefresh As Boolean
+    Private m_tooltip As String
+
+    Protected Overrides Sub OnClosed(ByVal e As EventArgs)
+        Me.displayTimer.Stop()
+        MyBase.OnClosed(e)
     End Sub
 
-#Region "Taskbar Locating Routines"
-    Private Function GetTaskbarLocation() As String
-        Dim tbLeft As Int32
-        Dim tbTop As Int32
-        Dim tbRight As Int32
-        Dim tbBottom As Int32
-        Dim location As String = ""
+    Protected Overrides Sub OnLoad(ByVal e As EventArgs)
+        MyBase.OnLoad(e)
+        Me.m_autoRefresh = True
+        Me.UpdateForm()
+    End Sub
 
-        ' Get task bar position and state
-        Dim Result As String = GetTaskbarState(Me.Handle, tbLeft, tbTop, tbRight, tbBottom)
-
-        ' Get screen dimensions
-        Dim sX, sY, sW, sH As Int32
-        sX = 0
-        sY = 0
-        sW = Screen.PrimaryScreen.Bounds.Width
-        sH = Screen.PrimaryScreen.Bounds.Height
-        ' Check for error
-        If sW = 0 And sH = 0 Then
-            location = "Error"
-            Return location
+    Protected Overrides Sub OnShown(ByVal e As EventArgs)
+        MyBase.OnShown(e)
+        If Me.m_autoRefresh Then
+            Me.displayTimer.Start()
         End If
-        ' Work out position
-        If tbBottom = sH Then
-            If tbTop <> sY Then
-                location = "Bottom"
-            Else
-                If tbRight = sW Then
-                    location = "Right"
-                Else
-                    location = "Left"
-                End If
-            End If
-        Else
-            location = "Top"
-        End If
-        Return location
-    End Function
-    Private Function GetTaskbarState(ByVal ParentHandle As IntPtr, ByRef tbLeft As Int32, ByRef tbTop As Int32, ByRef tbRight As Int32, ByRef tbBottom As Int32) As String
-        Dim Result As Int32
-        Dim abd As New APPBARDATA
-        Dim state As String = ""
-        Try
-            Call SHAppBarMessage(ABM_GETTASKBARPOS, abd)
-            Result = SHAppBarMessage(ABM_GETSTATE, abd)
-            If CBool((Result And ABS_AUTOHIDE)) Then
-                state = "Autohide is Enabled"
-            ElseIf CBool((Result And ABS_ALWAYSONTOP)) Then
-                state = "Always on Top"
-            End If
-            With abd.rc
-                tbLeft = .Left
-                tbTop = .Top
-                tbRight = .Right
-                tbBottom = .Bottom
-            End With
-            Return state
-        Catch e As Exception
-            tbLeft = 0
-            tbTop = 0
-            tbRight = 0
-            tbBottom = 0
-            Return state
-        End Try
-    End Function
-#End Region
+        NativeMethods.SetWindowPos(MyBase.Handle, -1, 0, 0, 0, 0, &H13)
+        NativeMethods.ShowWindow(MyBase.Handle, 4)
+    End Sub
 
-    Public Sub ConfigureForm()
+    Private Sub displayTimer_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles displayTimer.Tick
+        Me.UpdateSkillTimes()
+    End Sub
+
+    Private Sub UpdateForm()
+        MyBase.SuspendLayout()
+        Me.ConfigureForm()
+        MyBase.ResumeLayout()
+        MyBase.PerformLayout()
+        EveHQ.Core.EveHQIcon.SetToolTipLocation(Me)
+    End Sub
+
+    Private Sub ConfigureForm()
         Dim charCount As Integer = 0
         Dim textY As Integer = 20
         AGP1.Controls.Clear()
@@ -199,10 +122,6 @@ Public Class frmToolTrayIconPopup
         End If
     End Sub
 
-    Private Sub AGP1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles AGP1.Click
-        Me.Close()
-    End Sub
-
     Public Sub UpdateSkillTimes()
         For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If currentPilot.Training = True Then
@@ -212,8 +131,22 @@ Public Class frmToolTrayIconPopup
             End If
         Next
     End Sub
+End Class
 
-    Private Sub tmrSkill_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrSkill.Tick
-        Me.Close()
-    End Sub
+Friend Class NativeMethods
+    ' Methods
+    <DllImport("user32.dll")> _
+    Public Shared Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As UInt32) As Boolean
+    End Function
+
+    <DllImport("user32.dll")> _
+    Public Shared Function ShowWindow(ByVal hWnd As IntPtr, ByVal flags As Integer) As Boolean
+    End Function
+
+    ' Fields
+    Public Const HWND_TOPMOST As Integer = -1
+    Public Const SW_SHOWNOACTIVATE As Integer = 4
+    Public Const SWP_NOACTIVATE As Integer = &H10
+    Public Const SWP_NOMOVE As Integer = 2
+    Public Const SWP_NOSIZE As Integer = 1
 End Class

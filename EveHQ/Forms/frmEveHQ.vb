@@ -49,6 +49,7 @@ Public Class frmEveHQ
     Private childFormCount As Integer = 0
     Dim EveHQMLW As New SortedList
     Dim EveHQMLF As New frmMarketPrices
+    Private EveHQTrayForm As Form = Nothing
     Friend Structure RECT
         Friend Left As Int32
         Friend Top As Int32
@@ -76,6 +77,48 @@ Public Class frmEveHQ
         Dim rc As RECT
         Dim lParam As Int32
     End Structure
+
+#Region "Icon Routines"
+
+    Private Sub EveHQIcon1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles EveStatusIcon.Click
+        If Not (TypeOf e Is MouseEventArgs AndAlso (Not TypeOf e Is MouseEventArgs OrElse (TryCast(e, MouseEventArgs).Button = MouseButtons.Right))) Then
+            MyBase.Visible = True
+            Select Case EveHQ.Core.HQ.EveHQSettings.MainFormPosition(4)
+                Case FormWindowState.Maximized
+                    Me.WindowState = FormWindowState.Maximized
+                Case FormWindowState.Normal
+                    Me.Left = EveHQ.Core.HQ.EveHQSettings.MainFormPosition(0)
+                    Me.Top = EveHQ.Core.HQ.EveHQSettings.MainFormPosition(1)
+                    Me.Width = EveHQ.Core.HQ.EveHQSettings.MainFormPosition(2)
+                    Me.Height = EveHQ.Core.HQ.EveHQSettings.MainFormPosition(3)
+                    Me.WindowState = FormWindowState.Normal
+            End Select
+            MyBase.ShowInTaskbar = True
+            MyBase.Activate()
+            If EveHQTrayForm IsNot Nothing Then
+                EveHQTrayForm.Close()
+                EveHQTrayForm = Nothing
+            End If
+        End If
+    End Sub
+
+    Private Sub EveHQIcon1_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles EveStatusIcon.MouseHover
+        ' Only display the pop up window if the context menu isn't showing
+        If Not Me.EveIconMenu.Visible Then
+            EveHQTrayForm = New frmToolTrayIconPopup
+            EveHQTrayForm.Show()
+        End If
+    End Sub
+
+    Private Sub EveHQIcon1_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EveStatusIcon.MouseLeave
+        ' Remove the popup if its showing
+        If EveHQTrayForm IsNot Nothing Then
+            EveHQTrayForm.Close()
+            EveHQTrayForm = Nothing
+        End If
+    End Sub
+
+#End Region
 
 #Region "Menu Click Routines"
 
@@ -201,7 +244,7 @@ Public Class frmEveHQ
         ' Depending on server status, set the notify icon text and the statusbar text
         Select Case EveHQ.Core.HQ.myTQServer.Status
             Case EveHQ.Core.EveServer.ServerStatus.Down
-                EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                'EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
                 tsTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Unable to connect to server"
                 EveStatusIcon.Icon = My.Resources.EveHQ_offline
             Case EveHQ.Core.EveServer.ServerStatus.Starting
@@ -286,6 +329,8 @@ Public Class frmEveHQ
     Private Sub frmEveHQ_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         Me.Hide()
+
+        Me.EveStatusIcon.Visible = True
 
         Me.MenuStrip.MdiWindowListItem = Nothing
 
@@ -424,11 +469,6 @@ Public Class frmEveHQ
             End Select
         End If
 
-        ' Show the training overlay if required
-        If EveHQ.Core.HQ.EveHQSettings.OverlayStartup = True Then
-            Call Me.ShowTrainingOverlay()
-        End If
-
         ' Start the timers
         If EveHQ.Core.HQ.EveHQSettings.EnableEveStatus = True Then
             tmrEve.Enabled = True
@@ -480,7 +520,7 @@ Public Class frmEveHQ
                 EveHQ.Core.HQ.EveHQSettings.MainFormPosition(4) = FormWindowState.Maximized
         End Select
     End Sub
-    Private Sub EveStatusIcon_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles EveStatusIcon.DoubleClick
+    Private Sub EveStatusIcon_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs)
         ' Restores the window
         Me.TopMost = True
         Me.Show()
@@ -547,9 +587,6 @@ Public Class frmEveHQ
             End If
         End If
 
-        ' Close the training overlay form if it is still open
-        frmTrainingInfo.Close()
-
         ' Close the tabs if they are open, forcing the correct closure of each plug-in and form
         For Each tp As TabPage In tabMDI.TabPages
             TryCast(tp.Tag, Form).Close()
@@ -572,8 +609,8 @@ Public Class frmEveHQ
 
         ' Remove the icons
         EveStatusIcon.Visible = False : iconEveHQMLW.Visible = False
-        EveStatusIcon.Icon = Nothing : iconEveHQMLW.Icon = Nothing
-        EveStatusIcon.Dispose() : iconEveHQMLW.Dispose()
+        iconEveHQMLW.Icon = Nothing
+        iconEveHQMLW.Dispose() : EveStatusIcon.Dispose()
         'MessageBox.Show("Shutdown Routine is complete. Smell ya later!", "Shut Down Complete!", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End
 
@@ -607,12 +644,6 @@ Public Class frmEveHQ
         End If
         If frmSkillDetails.IsHandleCreated = True Then
             Call frmSkillDetails.UpdateSkillDetails()
-        End If
-        If frmTrainingInfo.IsHandleCreated = True Then
-            Call frmTrainingInfo.UpdateTraining()
-        End If
-        If frmToolTrayIconPopup.IsHandleCreated = True Then
-            Call frmToolTrayIconPopup.UpdateSkillTimes()
         End If
         ' Update the G15 LCD if applicable
         If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True And EveHQ.Core.HQ.IsG15LCDActive = True Then
@@ -1322,6 +1353,12 @@ Public Class frmEveHQ
 
     Private Sub EveIconMenu_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles EveIconMenu.Opening
 
+        ' Hide the tooltip form
+        If EveHQTrayForm IsNot Nothing Then
+            EveHQTrayForm.Close()
+            EveHQTrayForm = Nothing
+        End If
+
         If EveHQ.Core.HQ.EveHQSettings.EveFolder(1) IsNot Nothing Then
             If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(1), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(1) = False Then
                 If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(1) <> "" Then
@@ -1381,6 +1418,7 @@ Public Class frmEveHQ
                 ctxLaunchEve4Normal.Visible = False
             End If
         End If
+
     End Sub
 
     Private Sub mnuBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBackup.Click
@@ -1884,35 +1922,6 @@ Public Class frmEveHQ
 
 #End Region
 
-    Private Sub ShowTrainingOverlay()
-        ' Get x,y co-ords
-        Dim wx As Integer = Screen.PrimaryScreen.WorkingArea.Right
-        Dim wy As Integer = Screen.PrimaryScreen.WorkingArea.Bottom
-        Dim x As Integer = 0
-        Dim y As Integer = 0
-        Select Case EveHQ.Core.HQ.EveHQSettings.OverlayPosition
-            Case 0
-                x = EveHQ.Core.HQ.EveHQSettings.OverlayXOffset
-                y = EveHQ.Core.HQ.EveHQSettings.OverlayYOffset
-            Case 1
-                x = wx - frmTrainingInfo.Width - EveHQ.Core.HQ.EveHQSettings.OverlayXOffset
-                y = EveHQ.Core.HQ.EveHQSettings.OverlayYOffset
-            Case 2
-                x = EveHQ.Core.HQ.EveHQSettings.OverlayXOffset
-                y = wy - frmTrainingInfo.Height - EveHQ.Core.HQ.EveHQSettings.OverlayYOffset
-            Case Else
-                x = wx - frmTrainingInfo.Width - EveHQ.Core.HQ.EveHQSettings.OverlayXOffset
-                y = wy - frmTrainingInfo.Height - EveHQ.Core.HQ.EveHQSettings.OverlayYOffset
-        End Select
-        frmTrainingInfo.Left = x
-        frmTrainingInfo.Top = y
-        frmTrainingInfo.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.OverlayBorderColor))
-        frmTrainingInfo.Panel1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.OverlayPanelColor))
-        frmTrainingInfo.lblPilot.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.OverlayFontColor))
-        frmTrainingInfo.lblTrainingStatus.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.OverlayFontColor))
-        frmTrainingInfo.Opacity = (100 - EveHQ.Core.HQ.EveHQSettings.OverlayTransparancy) / 100
-        frmTrainingInfo.Show()
-    End Sub
     Private Sub RemoteRefreshPilots()
         Call Me.UpdatePilotInfo()
     End Sub
@@ -2053,104 +2062,6 @@ Public Class frmEveHQ
     Private Sub APIRSWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles APIRSWorker.DoWork
         EveHQ.Core.HQ.myAPIRS.RunAPIRS(IGBWorker, e)
     End Sub
-#End Region
-
-#Region "New Popup Routines"
-    Private Sub EveStatusIcon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles EveStatusIcon.MouseMove
-        Select Case EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode
-            Case 0 ' Simple (tooltip
-
-            Case 1 ' Enhanced (form)
-                EveStatusIcon.Text = ""
-                Try
-                    If frmToolTrayIconPopup.IsHandleCreated = False Then
-                        frmToolTrayIconPopup.ConfigureForm()
-                        Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
-                        Dim TaskBarLocation As String = Me.GetTaskbarLocation
-                        Select Case TaskBarLocation
-                            Case "Bottom"
-                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
-                            Case "Top"
-                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Y + 5)
-                            Case "Left"
-                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.X + 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
-                            Case "Right"
-                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
-                            Case Else
-                                Exit Sub
-                        End Select
-                        frmToolTrayIconPopup.Show()
-                    Else
-                        frmToolTrayIconPopup.tmrSkill.Stop()
-                        frmToolTrayIconPopup.tmrSkill.Start()
-                    End If
-                Catch ex As Exception
-                End Try
-        End Select
-
-    End Sub
-    Private Function GetTaskbarLocation() As String
-        Dim tbLeft As Int32
-        Dim tbTop As Int32
-        Dim tbRight As Int32
-        Dim tbBottom As Int32
-        Dim location As String = ""
-
-        ' Get task bar position and state
-        Dim Result As String = GetTaskbarState(Me.Handle, tbLeft, tbTop, tbRight, tbBottom)
-
-        If Result <> "Error" Then
-
-            ' Get screen dimensions
-            Dim sX, sY, sW, sH As Int32
-            sX = 0
-            sY = 0
-            sW = Screen.PrimaryScreen.Bounds.Width
-            sH = Screen.PrimaryScreen.Bounds.Height
-
-            ' Work out position
-            If tbBottom = sH Then
-                If tbTop <> sY Then
-                    location = "Bottom"
-                Else
-                    If tbRight = sW Then
-                        location = "Right"
-                    Else
-                        location = "Left"
-                    End If
-                End If
-            Else
-                location = "Top"
-            End If
-            Return location
-        Else
-            Return "Error"
-        End If
-    End Function
-    Private Function GetTaskbarState(ByVal ParentHandle As IntPtr, ByRef tbLeft As Int32, ByRef tbTop As Int32, ByRef tbRight As Int32, ByRef tbBottom As Int32) As String
-        Try
-            Dim Result As Int32
-            Dim abd As New APPBARDATA
-            Dim state As String = ""
-            Call SHAppBarMessage(ABM_GETTASKBARPOS, abd)
-            Result = SHAppBarMessage(ABM_GETSTATE, abd)
-            If CBool((Result And ABS_AUTOHIDE)) Then
-                state = "Autohide is Enabled"
-            ElseIf CBool((Result And ABS_ALWAYSONTOP)) Then
-                state = "Always on Top"
-            End If
-            With abd.rc
-                tbLeft = .Left
-                tbTop = .Top
-                tbRight = .Right
-                tbBottom = .Bottom
-            End With
-            Return state
-        Catch e As Exception
-            Return "Error"
-        End Try
-    End Function
-
 #End Region
 
 #Region "Cache Clearing Routines"
@@ -2701,7 +2612,5 @@ Public Class frmEveHQ
 
     End Function
 #End Region
-
- 
 End Class
 

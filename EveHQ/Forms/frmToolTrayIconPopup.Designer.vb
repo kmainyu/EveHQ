@@ -24,16 +24,11 @@ Partial Class frmToolTrayIconPopup
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmToolTrayIconPopup))
-        Me.tmrSkill = New System.Windows.Forms.Timer(Me.components)
         Me.AGP1 = New EveHQ.Core.AlphaGradientPanel
         Me.ColorWithAlpha1 = New EveHQ.Core.ColorWithAlpha
         Me.ColorWithAlpha2 = New EveHQ.Core.ColorWithAlpha
+        Me.displayTimer = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
-        '
-        'tmrSkill
-        '
-        Me.tmrSkill.Enabled = True
-        Me.tmrSkill.Interval = 2000
         '
         'AGP1
         '
@@ -77,6 +72,10 @@ Partial Class frmToolTrayIconPopup
         Me.ColorWithAlpha2.Color = System.Drawing.Color.White
         Me.ColorWithAlpha2.Parent = Me.AGP1
         '
+        'displayTimer
+        '
+        Me.displayTimer.Interval = 1000
+        '
         'frmToolTrayIconPopup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -103,5 +102,5 @@ Partial Class frmToolTrayIconPopup
     Friend WithEvents AGP1 As EveHQ.Core.AlphaGradientPanel
     Friend WithEvents ColorWithAlpha1 As EveHQ.Core.ColorWithAlpha
     Friend WithEvents ColorWithAlpha2 As EveHQ.Core.ColorWithAlpha
-    Friend WithEvents tmrSkill As System.Windows.Forms.Timer
+    Private WithEvents displayTimer As System.Windows.Forms.Timer
 End Class
