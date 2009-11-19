@@ -579,10 +579,10 @@ Namespace My.Resources
         '''#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
         '''# Abaddon,,,,,,,,,,,
         '''24692,1,3339,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
-        '''24692,1,3339,267,1,24692,0,1,2,5,15,Armor EM Resistance
-        '''24692,1,3339,268,1,24692,0,1,2,5,15,Armor Explosive Resistance
-        '''24692,1,3339,269,1,24692,0,1,2,5,15,Armor Kinetic Resistance
-        '''24692,1,3339,270,1,24692,0,1,2,5,15,Armor Thermal Resistan [rest of string was truncated]&quot;;.
+        '''24692,1,3339,267,1,24692,0,1,2,-5,15,Armor EM Resistance
+        '''24692,1,3339,268,1,24692,0,1,2,-5,15,Armor Explosive Resistance
+        '''24692,1,3339,269,1,24692,0,1,2,-5,15,Armor Kinetic Resistance
+        '''24692,1,3339,270,1,24692,0,1,2,-5,15,Armor Thermal Resi [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ShipBonuses() As String
             Get
@@ -616,6 +616,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property Skills2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Skills2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property Status_green() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Status_green", resourceCulture)
@@ -642,10 +649,10 @@ Namespace My.Resources
         '''#Type ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
         '''# Defensive Subsystems,,,,,,,,,,,
         '''# Legion Defensive - Adaptive Augmenter,,,,,,,,,,,
-        '''29964,1,30532,267,1,29986,0,1,2,5,15,Armor EM Resistance
-        '''29964,1,30532,268,1,29986,0,1,2,5,15,Armor Explosive Resistance
-        '''29964,1,30532,269,1,29986,0,1,2,5,15,Armor Kinetic Resistance
-        '''29964,1,30532,270,1,29986,0,1,2,5,15,Armor Thermal Re [rest of string was truncated]&quot;;.
+        '''29964,1,30532,267,1,29986,0,1,2,-5,15,Armor EM Resistance
+        '''29964,1,30532,268,1,29986,0,1,2,-5,15,Armor Explosive Resistance
+        '''29964,1,30532,269,1,29986,0,1,2,-5,15,Armor Kinetic Resistance
+        '''29964,1,30532,270,1,29986,0,1,2,-5,15,Armor Therma [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property Subsystems() As String
             Get
