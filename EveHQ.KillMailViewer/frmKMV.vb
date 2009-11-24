@@ -280,7 +280,11 @@ Public Class frmKMV
             Dim newKM As New ListViewItem
             newKM.Name = charKM.killID
             newKM.ToolTipText = "KillID: " & charKM.killID
-            newKM.Text = charKM.Victim.charName
+            If charKM.Victim.charName = "" Then
+                newKM.Text = charKM.Victim.corpName
+            Else
+                newKM.Text = charKM.Victim.charName
+            End If
             newKM.SubItems.Add(EveHQ.Core.HQ.itemData(charKM.Victim.shipTypeID).Name)
             newKM.SubItems.Add(FormatDateTime(charKM.killTime, DateFormat.GeneralDate))
             lvwKillMails.Items.Add(newKM)
@@ -328,7 +332,11 @@ Public Class frmKMV
         Dim ss As SolarSystem = PlugInData.Systems(selKM.systemID)
 
         ' Write the victim details
-        KMText.AppendLine("Victim: " & selKM.Victim.charName)
+        If selKM.Victim.charName = "" Then
+            KMText.AppendLine("Victim: " & selKM.Victim.corpName)
+        Else
+            KMText.AppendLine("Victim: " & selKM.Victim.charName)
+        End If
         KMText.AppendLine("Corp: " & selKM.Victim.corpName)
         If selKM.Victim.allianceName = "" Then
             KMText.AppendLine("Alliance: NONE")
@@ -376,7 +384,11 @@ Public Class frmKMV
                 Else
                     KMText.AppendLine("Faction: " & attacker.factionName)
                 End If
-                KMText.AppendLine("Ship: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name)
+                If attacker.shipTypeID = "0" Then
+                    KMText.AppendLine("Ship: Unknown")
+                Else
+                    KMText.AppendLine("Ship: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name)
+                End If
                 KMText.AppendLine("Weapon: " & EveHQ.Core.HQ.itemData(attacker.weaponTypeID).Name)
             Else
                 If attacker.corpName = "" Then
