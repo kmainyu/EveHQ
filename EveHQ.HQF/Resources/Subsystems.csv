@@ -6,7 +6,7 @@
 29964,1,30532,268,1,29986,0,1,2,-5,15,Armor Explosive Resistance
 29964,1,30532,269,1,29986,0,1,2,-5,15,Armor Kinetic Resistance
 29964,1,30532,270,1,29986,0,1,2,-5,15,Armor Thermal Resistance
-29964,1,30532,84,2,325,0,1,2,10,15,Remote Armor Repair Amount
+29964,1,30532,84,2,325,0,1,0,10,15,Remote Armor Repair Amount
 # Legion Defensive - Nanobot Injector,,,,,,,,,,,
 29965,1,30532,84,2,62,0,1,0,10,15,Armor Repair Amount
 # Legion Defensive - Augmented Plating,,,,,,,,,,,
@@ -36,7 +36,7 @@
 29979,1,30540,268,1,29988,0,1,2,-5,15,Armor Explosive Resistance
 29979,1,30540,269,1,29988,0,1,2,-5,15,Armor Kinetic Resistance
 29979,1,30540,270,1,29988,0,1,2,-5,15,Armor Thermal Resistance
-29979,1,30540,84,2,325,0,1,2,10,15,Remote Armor Repair Amount
+29979,1,30540,84,2,325,0,1,0,10,15,Remote Armor Repair Amount
 # Proteus Defensive - Nanobot Injector,,,,,,,,,,,
 29980,1,30540,84,2,62,0,1,0,10,15,Armor Repair Amount
 # Proteus Defensive - Augmented Plating,,,,,,,,,,,
