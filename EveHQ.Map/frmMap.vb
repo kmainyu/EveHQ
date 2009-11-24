@@ -833,7 +833,7 @@ Public Class frmMap
         ' Write the route to the listview
         lvwRoute.BeginUpdate()
         lvwRoute.Items.Clear()
-        If (route1 Is Nothing) And myRoute Is Nothing Then
+        If (route1 Is Nothing And algotype1 <> RouteType.RegionSystem) Or (algotype1 = RouteType.RegionSystem And myRoute Is Nothing) Then
             lvwRoute.Items.Add(" - ")
             lvwRoute.Items(0).SubItems.Add("No valid results found.")
             lvwRoute.Items(0).Name = "Invalid"
@@ -908,7 +908,7 @@ Public Class frmMap
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Constellation : nsi.Name = regionNames(reg).Constellation : newItem.SubItems.Add(nsi)
                         nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).Region : nsi.Name = regionNames(reg).Region : newItem.SubItems.Add(nsi)
                         newItem.BackColor = Me.SystemColour(regionNames(reg).EveSec, 255)
-                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(route1.Sys.EveSec, 1) : nsi.Name = FormatNumber(route1.Sys.EveSec, 1) : newItem.SubItems.Add(nsi)
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(regionNames(reg).EveSec, 1) : nsi.Name = FormatNumber(regionNames(reg).EveSec, 1) : newItem.SubItems.Add(nsi)
                         newItem.SubItems.Add(regionDists(reg).ToString) : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                         If regionNames(reg).SovereigntyName <> "" Then
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = regionNames(reg).SovereigntyName : nsi.Name = regionNames(reg).SovereigntyName : newItem.SubItems.Add(nsi)
