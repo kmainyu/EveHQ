@@ -37,10 +37,13 @@ Public Class frmToolTrayIconPopup
     End Sub
 
     Private Sub ConfigureForm()
+        Dim count As Integer = 0
         For Each dPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If dPilot.Training = True And dPilot.Active = True Then
+                count += 1
                 Dim newCharBlock As New CharacterBlock(dPilot.Name)
                 newCharBlock.Name = dPilot.Name
+                newCharBlock.Location = New Point(5, 5 + (newCharBlock.Height * (count - 1)))
                 AGP1.Controls.Add(newCharBlock)
             End If
         Next

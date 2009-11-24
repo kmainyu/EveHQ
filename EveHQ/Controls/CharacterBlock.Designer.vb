@@ -41,10 +41,10 @@ Partial Class CharacterBlock
         'lblPilotName
         '
         Me.lblPilotName.AutoSize = True
-        Me.lblPilotName.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPilotName.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotName.Location = New System.Drawing.Point(73, 3)
         Me.lblPilotName.Name = "lblPilotName"
-        Me.lblPilotName.Size = New System.Drawing.Size(75, 16)
+        Me.lblPilotName.Size = New System.Drawing.Size(90, 18)
         Me.lblPilotName.TabIndex = 1
         Me.lblPilotName.Text = "Pilot Name"
         '
@@ -62,7 +62,7 @@ Partial Class CharacterBlock
         '
         Me.lblTime.AutoSize = True
         Me.lblTime.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTime.Location = New System.Drawing.Point(73, 37)
+        Me.lblTime.Location = New System.Drawing.Point(73, 35)
         Me.lblTime.Name = "lblTime"
         Me.lblTime.Size = New System.Drawing.Size(50, 13)
         Me.lblTime.TabIndex = 3
@@ -72,7 +72,7 @@ Partial Class CharacterBlock
         '
         Me.lblIsk.AutoSize = True
         Me.lblIsk.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblIsk.Location = New System.Drawing.Point(73, 52)
+        Me.lblIsk.Location = New System.Drawing.Point(73, 48)
         Me.lblIsk.Name = "lblIsk"
         Me.lblIsk.Size = New System.Drawing.Size(41, 13)
         Me.lblIsk.TabIndex = 4

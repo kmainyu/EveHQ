@@ -23,21 +23,26 @@ Partial Class frmToolTrayIconPopup
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmToolTrayIconPopup))
         Me.ColorWithAlpha1 = New EveHQ.Core.ColorWithAlpha
         Me.ColorWithAlpha2 = New EveHQ.Core.ColorWithAlpha
         Me.displayTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.AGP1 = New System.Windows.Forms.FlowLayoutPanel
+        Me.AGP1 = New EveHQ.Core.AlphaGradientPanel
+        Me.ColorWithAlpha3 = New EveHQ.Core.ColorWithAlpha
+        Me.ColorWithAlpha4 = New EveHQ.Core.ColorWithAlpha
         Me.SuspendLayout()
         '
         'ColorWithAlpha1
         '
         Me.ColorWithAlpha1.Alpha = 255
         Me.ColorWithAlpha1.Color = System.Drawing.Color.LightSteelBlue
+        Me.ColorWithAlpha1.Parent = Nothing
         '
         'ColorWithAlpha2
         '
         Me.ColorWithAlpha2.Alpha = 128
         Me.ColorWithAlpha2.Color = System.Drawing.Color.White
+        Me.ColorWithAlpha2.Parent = Nothing
         '
         'displayTimer
         '
@@ -46,14 +51,45 @@ Partial Class frmToolTrayIconPopup
         'AGP1
         '
         Me.AGP1.AutoSize = True
-        Me.AGP1.BackColor = System.Drawing.SystemColors.Info
-        Me.AGP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.AGP1.BackColor = System.Drawing.Color.Transparent
+        Me.AGP1.Border = True
+        Me.AGP1.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.AGP1.Colors.Add(Me.ColorWithAlpha3)
+        Me.AGP1.Colors.Add(Me.ColorWithAlpha4)
+        Me.AGP1.ContentPadding = New System.Windows.Forms.Padding(0)
+        Me.AGP1.CornerRadius = 10
+        Me.AGP1.Corners = CType((((EveHQ.Core.Corner.TopLeft Or EveHQ.Core.Corner.TopRight) _
+                    Or EveHQ.Core.Corner.BottomLeft) _
+                    Or EveHQ.Core.Corner.BottomRight), EveHQ.Core.Corner)
         Me.AGP1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.AGP1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.AGP1.Gradient = True
+        Me.AGP1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal
+        Me.AGP1.GradientOffset = 1.0!
+        Me.AGP1.GradientSize = New System.Drawing.Size(0, 0)
+        Me.AGP1.GradientWrapMode = System.Drawing.Drawing2D.WrapMode.Tile
+        Me.AGP1.Grayscale = False
+        Me.AGP1.Image = CType(resources.GetObject("AGP1.Image"), System.Drawing.Image)
+        Me.AGP1.ImageAlpha = 75
+        Me.AGP1.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.AGP1.ImagePosition = EveHQ.Core.ImagePosition.TopRight
+        Me.AGP1.ImageSize = New System.Drawing.Size(64, 64)
         Me.AGP1.Location = New System.Drawing.Point(0, 0)
         Me.AGP1.Name = "AGP1"
+        Me.AGP1.Rounded = True
         Me.AGP1.Size = New System.Drawing.Size(300, 80)
         Me.AGP1.TabIndex = 0
+        '
+        'ColorWithAlpha3
+        '
+        Me.ColorWithAlpha3.Alpha = 255
+        Me.ColorWithAlpha3.Color = System.Drawing.Color.Khaki
+        Me.ColorWithAlpha3.Parent = Me.AGP1
+        '
+        'ColorWithAlpha4
+        '
+        Me.ColorWithAlpha4.Alpha = 255
+        Me.ColorWithAlpha4.Color = System.Drawing.SystemColors.Info
+        Me.ColorWithAlpha4.Parent = Me.AGP1
         '
         'frmToolTrayIconPopup
         '
@@ -81,5 +117,7 @@ Partial Class frmToolTrayIconPopup
     Friend WithEvents ColorWithAlpha1 As EveHQ.Core.ColorWithAlpha
     Friend WithEvents ColorWithAlpha2 As EveHQ.Core.ColorWithAlpha
     Private WithEvents displayTimer As System.Windows.Forms.Timer
-    Friend WithEvents AGP1 As System.Windows.Forms.FlowLayoutPanel
+    Friend WithEvents AGP1 As EveHQ.Core.AlphaGradientPanel
+    Friend WithEvents ColorWithAlpha3 As EveHQ.Core.ColorWithAlpha
+    Friend WithEvents ColorWithAlpha4 As EveHQ.Core.ColorWithAlpha
 End Class
