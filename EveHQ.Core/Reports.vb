@@ -1530,17 +1530,19 @@ Public Class Reports
     End Sub
     Public Shared Function IceReport(ByVal forIGB As Boolean) As String
         Dim strHTML As String = ""
+        Dim MaxGroups As Integer = 1
+        Dim IceMetaTypes As Integer = 24
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE ramTypeRequirements.requiredTypeID=invTypes.typeID) AS Material, ramTypeRequirements.requiredTypeID, ramTypeRequirements.quantity, invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE ramTypeRequirements.requiredTypeID=invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN ramTypeRequirements ON invTypes.typeID=ramTypeRequirements.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
-        strSQL &= " WHERE(((invGroups.categoryID) = 25) And ((ramTypeRequirements.activityID) = 9) And ((invGroups.groupID) = 465))"
+        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
+        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
+        strSQL &= " WHERE(((invGroups.categoryID) = 25) And (invTypes.published=true) And ((invGroups.groupID) = 465))"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
-        Dim oreMaterials(1, 12, 7) As String
-        Dim oreIcons(12, 12) As String
-        Dim oreID(12, 12) As String
+        Dim oreMaterials(MaxGroups, IceMetaTypes, 7) As String
+        Dim oreIcons(IceMetaTypes, IceMetaTypes) As String
+        Dim oreID(IceMetaTypes, IceMetaTypes) As String
         Dim minIcons(7) As String
         Dim minID(7) As String
 
@@ -1567,31 +1569,31 @@ Public Class Reports
                 Case "Heavy Water"
                     oreMaterials(groupCount, typeCount, 1) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(1) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(1) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(1) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Liquid Ozone"
                     oreMaterials(groupCount, typeCount, 2) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(2) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(2) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(2) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Strontium Clathrates"
                     oreMaterials(groupCount, typeCount, 3) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(3) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(3) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(3) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Helium Isotopes"
                     oreMaterials(groupCount, typeCount, 4) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(4) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(4) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(4) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Hydrogen Isotopes"
                     oreMaterials(groupCount, typeCount, 5) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(5) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(5) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(5) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Nitrogen Isotopes"
                     oreMaterials(groupCount, typeCount, 6) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(6) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(6) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(6) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Oxygen Isotopes"
                     oreMaterials(groupCount, typeCount, 7) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(7) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(7) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(7) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
             End Select
         Next
 
@@ -1619,9 +1621,9 @@ Public Class Reports
         strHTML &= "<td width=80px align=center>Oxygen Isotopes</td>"
         strHTML &= "</tr>"
 
-        For groupType As Integer = 1 To 1
+        For groupType As Integer = 1 To MaxGroups
             strHTML &= "<tr><td colspan=9 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-            For oreType As Integer = 1 To 12
+            For oreType As Integer = 1 To IceMetaTypes
                 If forIGB = False Then
                     strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
                 Else
