@@ -1253,9 +1253,9 @@ Public Class Reports
         Dim strHTML As String = ""
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE ramTypeRequirements.requiredTypeID=invTypes.typeID) AS Material, ramTypeRequirements.requiredTypeID, ramTypeRequirements.quantity, invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE ramTypeRequirements.requiredTypeID=invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN ramTypeRequirements ON invTypes.typeID=ramTypeRequirements.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
-        strSQL &= " WHERE((invGroups.groupID) = 355) And ((ramTypeRequirements.activityID) = 9)"
+        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
+        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
+        strSQL &= " WHERE(invGroups.groupID = 355)"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
