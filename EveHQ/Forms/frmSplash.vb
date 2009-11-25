@@ -354,7 +354,6 @@ Public Class frmSplash
                 Dim conn As New Data.SqlClient.SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 conn.Open()
-                Call EveHQ.Core.DataFunctions.AddSQLRefiningData(conn)
                 Call EveHQ.Core.DataFunctions.AddSQLAttributeGroupColumn(conn)
                 Call EveHQ.Core.DataFunctions.CorrectSQLEveUnits(conn)
                 If conn.State = Data.ConnectionState.Open Then

@@ -160,42 +160,6 @@ Namespace My.Resources
             End Get
         End Property
         
-        '''<summary>
-        '''  Looks up a localized string similar to typeID,activity,requiredTypeID,quantity,damagePerJob
-        '''22,9,34,300,1
-        '''22,9,39,166,1
-        '''22,9,40,333,1
-        '''17455,9,34,269,1
-        '''17455,9,35,538,1
-        '''17455,9,36,269,1
-        '''1223,9,35,170,1
-        '''1223,9,39,341,1
-        '''1223,9,40,170,1
-        '''17466,9,34,735,1
-        '''17466,9,35,147,1
-        '''17466,9,40,147,1
-        '''17470,9,34,1050,1
-        '''17463,9,34,875,1
-        '''17463,9,35,437,1
-        '''17425,9,34,315,1
-        '''17425,9,39,174,1
-        '''17425,9,40,350,1
-        '''1225,9,34,331,1
-        '''1225,9,38,331,1
-        '''1225,9,39,663,1
-        '''17433,9,34,364,1
-        '''17433,9,38,364,1
-        '''17433,9,39,729,1
-        '''1232,9,34,250,1
-        '''1232,9,38,500,1
-        '''1232,9 [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property materialsForRefining() As String
-            Get
-                Return ResourceManager.GetString("materialsForRefining", resourceCulture)
-            End Get
-        End Property
-        
         Friend ReadOnly Property refresh() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("refresh", resourceCulture)

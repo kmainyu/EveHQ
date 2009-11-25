@@ -881,18 +881,6 @@ Public Class DataFunctions
     End Function
 
 #Region "MSSQL Data Conversion Routines"
-    Public Shared Sub AddSQLRefiningData(ByVal connection As SqlConnection)
-        Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
-                Dim keyCommand As New SqlCommand(strSQL, connection)
-                keyCommand.ExecuteNonQuery()
-            End If
-        Next
-    End Sub
     Public Shared Sub AddSQLAttributeGroupColumn(ByVal connection As SqlConnection)
         Dim strSQL As String = "ALTER TABLE dgmAttributeTypes ADD attributeGroup INTEGER DEFAULT 0;"
         Dim keyCommand As New SqlCommand(strSQL, connection)
