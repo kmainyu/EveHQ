@@ -69,7 +69,7 @@ Partial Class frmToolTrayIconPopup
         Me.AGP1.GradientWrapMode = System.Drawing.Drawing2D.WrapMode.Tile
         Me.AGP1.Grayscale = False
         Me.AGP1.Image = CType(resources.GetObject("AGP1.Image"), System.Drawing.Image)
-        Me.AGP1.ImageAlpha = 75
+        Me.AGP1.ImageAlpha = 40
         Me.AGP1.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.AGP1.ImagePosition = EveHQ.Core.ImagePosition.TopRight
         Me.AGP1.ImageSize = New System.Drawing.Size(64, 64)
