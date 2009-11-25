@@ -485,7 +485,7 @@ Public Class IGB
                     strHTML &= "<p><a href=/itemDB/?view=t&id=" & typeID & "&s=a>ATTRIBUTES</a>"
                     strHTML &= "  |  "
                     Dim bpTypeID As String = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from typeActivityMaterials WHERE (typeID=" & bpTypeID & " OR typeID=" & typeID & ")")
+                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from ramTypeRequirements WHERE (typeID=" & bpTypeID & " OR typeID=" & typeID & ")")
                     If eveData.Tables(0).Rows.Count > 0 Then
                         strHTML &= "<a href=/itemDB/?view=t&id=" & typeID & "&s=m>MATERIALS</a>"
                         strHTML &= "  |  "
@@ -718,9 +718,9 @@ Public Class IGB
                         Case "m"
                             bpTypeID = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
                             ' Select only the building activity (at the minute!)
-                            strSQL = "SELECT typeActivityMaterials.requiredTypeID, invTypes.typeName, typeActivityMaterials.quantity, typeActivityMaterials.damagePerJob, invCategories.categoryID as categoryTypeID, invCategories.categoryName, invGroups.groupID as groupTypeID, invGroups.groupName, typeActivityMaterials.activityID"
-                            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID"
-                            strSQL &= " WHERE (typeActivityMaterials.typeID=" & bpTypeID & " OR typeActivityMaterials.typeID=" & typeID & ")"
+                            strSQL = "SELECT ramTypeRequirements.requiredTypeID, invTypes.typeName, ramTypeRequirements.quantity, ramTypeRequirements.damagePerJob, invCategories.categoryID as categoryTypeID, invCategories.categoryName, invGroups.groupID as groupTypeID, invGroups.groupName, ramTypeRequirements.activityID"
+                            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID"
+                            strSQL &= " WHERE (ramTypeRequirements.typeID=" & bpTypeID & " OR ramTypeRequirements.typeID=" & typeID & ")"
                             eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
                             ' Work out what activities we have in the list
