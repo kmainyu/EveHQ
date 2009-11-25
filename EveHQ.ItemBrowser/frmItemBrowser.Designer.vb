@@ -82,6 +82,10 @@ Partial Class frmItemBrowser
         Me.lstM8 = New System.Windows.Forms.ListView
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
+        Me.tabM9 = New System.Windows.Forms.TabPage
+        Me.lstM9 = New System.Windows.Forms.ListView
+        Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader18 = New System.Windows.Forms.ColumnHeader
         Me.tabVariations = New System.Windows.Forms.TabPage
         Me.tabVariation = New System.Windows.Forms.TabControl
         Me.tabMetaVariations = New System.Windows.Forms.TabPage
@@ -260,6 +264,7 @@ Partial Class frmItemBrowser
         Me.tabM6.SuspendLayout()
         Me.tabM7.SuspendLayout()
         Me.tabM8.SuspendLayout()
+        Me.tabM9.SuspendLayout()
         Me.tabVariations.SuspendLayout()
         Me.tabVariation.SuspendLayout()
         Me.tabMetaVariations.SuspendLayout()
@@ -394,6 +399,7 @@ Partial Class frmItemBrowser
         Me.tabMaterial.Controls.Add(Me.tabM6)
         Me.tabMaterial.Controls.Add(Me.tabM7)
         Me.tabMaterial.Controls.Add(Me.tabM8)
+        Me.tabMaterial.Controls.Add(Me.tabM9)
         Me.tabMaterial.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabMaterial.Location = New System.Drawing.Point(0, 0)
         Me.tabMaterial.Name = "tabMaterial"
@@ -719,6 +725,41 @@ Partial Class frmItemBrowser
         Me.ColumnHeader16.Text = "Quantity"
         Me.ColumnHeader16.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader16.Width = 150
+        '
+        'tabM9
+        '
+        Me.tabM9.Controls.Add(Me.lstM9)
+        Me.tabM9.Location = New System.Drawing.Point(4, 22)
+        Me.tabM9.Name = "tabM9"
+        Me.tabM9.Size = New System.Drawing.Size(559, 299)
+        Me.tabM9.TabIndex = 8
+        Me.tabM9.Text = "Recycling"
+        Me.tabM9.UseVisualStyleBackColor = True
+        '
+        'lstM9
+        '
+        Me.lstM9.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader17, Me.ColumnHeader18})
+        Me.lstM9.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lstM9.FullRowSelect = True
+        Me.lstM9.GridLines = True
+        Me.lstM9.Location = New System.Drawing.Point(0, 0)
+        Me.lstM9.Name = "lstM9"
+        Me.lstM9.Size = New System.Drawing.Size(559, 299)
+        Me.lstM9.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lstM9.TabIndex = 4
+        Me.lstM9.UseCompatibleStateImageBehavior = False
+        Me.lstM9.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader17
+        '
+        Me.ColumnHeader17.Text = "Material"
+        Me.ColumnHeader17.Width = 250
+        '
+        'ColumnHeader18
+        '
+        Me.ColumnHeader18.Text = "Quantity"
+        Me.ColumnHeader18.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader18.Width = 150
         '
         'tabVariations
         '
@@ -2317,6 +2358,7 @@ Partial Class frmItemBrowser
         Me.tabM6.ResumeLayout(False)
         Me.tabM7.ResumeLayout(False)
         Me.tabM8.ResumeLayout(False)
+        Me.tabM9.ResumeLayout(False)
         Me.tabVariations.ResumeLayout(False)
         Me.tabVariation.ResumeLayout(False)
         Me.tabMetaVariations.ResumeLayout(False)
@@ -2417,6 +2459,10 @@ Partial Class frmItemBrowser
     Friend WithEvents lstM8 As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents tabM9 As System.Windows.Forms.TabPage
+    Friend WithEvents lstM9 As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader17 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader18 As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabVariations As System.Windows.Forms.TabPage
     Friend WithEvents lstVariations As System.Windows.Forms.ListView
     Friend WithEvents colTypeName As System.Windows.Forms.ColumnHeader

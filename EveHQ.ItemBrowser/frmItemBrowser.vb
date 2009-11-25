@@ -27,7 +27,7 @@ Imports System.Xml
 
 Public Class frmItemBrowser
 
-    Const ActivityCount As Integer = 8
+    Const ActivityCount As Integer = 9
     Dim metaParentID As Long
     Dim metaItemCount As Long
     Dim itemTypeID As Long
@@ -1105,6 +1105,8 @@ Public Class frmItemBrowser
                         materialsView = Me.lstM7
                     Case 8
                         materialsView = Me.lstM8
+                    Case 9
+                        materialsView = Me.lstM9
                 End Select
                 materialsView.Items.Clear()
                 materialsView.BeginUpdate()
@@ -1168,7 +1170,7 @@ Public Class frmItemBrowser
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
         If eveData.Tables(0).Rows.Count > 0 Then
-            Me.tabMaterial.TabPages.Add(tabPagesM(6))
+            Me.tabMaterial.TabPages.Add(tabPagesM(9))
             Dim materials(eveData.Tables(0).Rows.Count, 9)
             With eveData.Tables(0)
                 For row As Integer = 0 To .Rows.Count - 1
@@ -1195,7 +1197,7 @@ Public Class frmItemBrowser
 
             Dim itemcount As Integer = eveData.Tables(0).Rows.Count - 1
             Dim matCatID, matCatName, matGroupID, matGroupName As String
-            Dim materialsView As ListView = Me.lstM6
+            Dim materialsView As ListView = Me.lstM9
             materialsView.Items.Clear()
             materialsView.BeginUpdate()
             For itemloop As Integer = 0 To itemcount
@@ -1758,6 +1760,12 @@ Public Class frmItemBrowser
     End Sub
     Private Sub lstM8_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstM8.DoubleClick
         Dim id As String = lstM8.SelectedItems(0).Name
+        Call Me.LoadItemID(id)
+        ' Alter navigation
+        Call Me.AddToNavigation(itemTypeName)
+    End Sub
+    Private Sub lstM9_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstM9.DoubleClick
+        Dim id As String = lstM9.SelectedItems(0).Name
         Call Me.LoadItemID(id)
         ' Alter navigation
         Call Me.AddToNavigation(itemTypeName)
