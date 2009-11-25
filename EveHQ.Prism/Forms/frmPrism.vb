@@ -4796,7 +4796,7 @@ Public Class frmPrism
         ' Fetch the data from the database
         Dim strSQL As String = "SELECT invTypeMaterials.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, invTypeMaterials.quantity AS materialQuantity"
         strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invTypeMaterials ON invTypes.typeID = invTypeMaterials.materialTypeID) ON invCategories.categoryID = invGroups.categoryID"
-        strSQL &= " WHERE (invtypeMaterials.typeID IN (" & strAssets.ToString & ") AND invTypes.groupID NOT IN (268,269,270,332)) ORDER BY invCategories.categoryName, invGroups.groupName"
+        strSQL &= " WHERE (invTypeMaterials.typeID IN (" & strAssets.ToString & ") AND invTypes.groupID NOT IN (268,269,270,332)) ORDER BY invCategories.categoryName, invGroups.groupName"
         Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
 
         ' Add the data into a collection for parsing
