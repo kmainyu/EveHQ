@@ -20,6 +20,7 @@
 Imports System.IO
 Imports System.Windows.Forms
 Imports System.Text
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class StandingsCacheDecoder
 
@@ -528,7 +529,7 @@ Public Class StandingsCacheDecoder
         Next
         Return ret
     End Function
-    
+
     Private Sub DecodeUnpackedRowSetObject(ByVal br As BinaryReader)
         MyStandings = New StandingsData
         Dim StandingsValues As New SortedList
@@ -655,6 +656,92 @@ Public Class StandingsCacheDecoder
         Return length
     End Function
 #End Region
+
+    Public Shared Function GetStanding(ByVal PilotName As String, ByVal corpID As String) As Double
+        ' Check the data in an Arraylist and contains 2 items - pilotName and corpID
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(PilotName) = True Then
+            ' Check if the standings are loaded
+            If EveHQ.Core.HQ.AllStandings.Count > 0 Then
+                Return FindStanding(PilotName, corpID)
+            Else
+                ' Try to load standings and try again
+                EveHQ.Core.StandingsCacheDecoder.LoadStandings()
+                If EveHQ.Core.HQ.AllStandings.Count > 0 Then
+                    Return FindStanding(PilotName, corpID)
+                Else
+                    Return 0
+                End If
+            End If
+        Else
+            Return 0
+        End If
+    End Function
+
+    Public Shared Sub LoadStandings()
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin"), FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            EveHQ.Core.HQ.AllStandings.Clear()
+            Try
+                EveHQ.Core.HQ.AllStandings = CType(f.Deserialize(s), SortedList)
+            Catch e As Exception
+                MessageBox.Show("There was an error retrieving the cached standings file, please obtain a new set of standings.", "Load Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                EveHQ.Core.HQ.AllStandings.Clear()
+            End Try
+            s.Close()
+        End If
+    End Sub
+
+    Public Shared Sub SaveStandings()
+        Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin"), FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.AllStandings)
+        s.Close()
+    End Sub
+
+    Private Shared Function FindStanding(ByVal ownerName As String, ByVal corpID As String) As Double
+        Dim DiplomacyLevel As Integer = 0
+        Dim ConnectionsLevel As Integer = 0
+        Dim standing As Double = 0
+        ' Iterate through the list and find the rightID
+        For Each MyStandings As StandingsData In EveHQ.Core.HQ.AllStandings.Values
+            If ownerName = MyStandings.OwnerName Then
+                ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
+                If MyStandings.CacheType = "GetCharStandings" Then
+                    Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(ownerName), Core.Pilot)
+                    For Each cSkill As EveHQ.Core.PilotSkill In cPilot.PilotSkills
+                        If cSkill.Name = "Diplomacy" Then
+                            DiplomacyLevel = cSkill.Level
+                        End If
+                        If cSkill.Name = "Connections" Then
+                            ConnectionsLevel = cSkill.Level
+                        End If
+                    Next
+                Else
+                    DiplomacyLevel = 0
+                    ConnectionsLevel = 0
+                End If
+                ' Get the standing directly
+                Try
+                    If MyStandings.StandingValues.ContainsKey(corpID) Then
+                        standing = CDbl(MyStandings.StandingValues(corpID))
+                        If CLng(corpID) < 70000000 Then
+                            If standing < 0 Then
+                                standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
+                            Else
+                                standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
+                            End If
+                        End If
+                        Return standing
+                    Else
+                        Return standing
+                    End If
+                Catch e As Exception
+                    Return 0
+                End Try
+            End If
+        Next
+    End Function
 
 End Class
 

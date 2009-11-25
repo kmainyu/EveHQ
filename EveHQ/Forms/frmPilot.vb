@@ -34,7 +34,6 @@ Public Class frmPilot
     Dim TrainingGroup As ContainerListViewItem
     Dim displayPilot As New EveHQ.Core.Pilot
     Dim cDisplayPilotName As String = ""
-    Dim AllStandings As New SortedList
 
     Public Property DisplayPilotName() As String
         Get
@@ -49,7 +48,7 @@ Public Class frmPilot
     End Property
 
     Private Sub frmPilot_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        Me.SaveStandings()
+        EveHQ.Core.StandingsCacheDecoder.SaveStandings()
     End Sub
 
     Private Sub frmPilot_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -74,8 +73,8 @@ Public Class frmPilot
         Next
         cboPilots.EndUpdate()
 
-        If AllStandings.Count = 0 Then
-            Call Me.LoadStandings()
+        If EveHQ.Core.HQ.AllStandings.Count = 0 Then
+            Call EveHQ.Core.StandingsCacheDecoder.LoadStandings()
         End If
         Call Me.UpdateOwners()
         If cboOwner.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
@@ -1025,22 +1024,8 @@ Public Class frmPilot
         End If
     End Sub
 
-
 #Region "Standings Routines"
-    Private Sub LoadStandings()
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            AllStandings.Clear()
-            Try
-                AllStandings = CType(f.Deserialize(s), SortedList)
-            Catch e As Exception
-                MessageBox.Show("There was an error retrieving the cached standings file, please obtain a new set of standings.", "Load Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                AllStandings.Clear()
-            End Try
-            s.Close()
-        End If
-    End Sub
+   
     Private Sub btnGetStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetStandings.Click
         ' First, let's check out the cache location based on the value of the settings
         Dim cacheFileList As New ArrayList
@@ -1130,16 +1115,16 @@ Public Class frmPilot
         If cacheFileList.Count > 0 Then
             Cursor = Cursors.WaitCursor
             Dim StandingsDecoder As New EveHQ.Core.StandingsCacheDecoder
-            AllStandings.Clear()
+            EveHQ.Core.HQ.AllStandings.Clear()
             For Each cachefile As String In cacheFileList
                 MyStandings = StandingsDecoder.FetchStandings(cachefile)
                 If MyStandings.OwnerID IsNot Nothing Then
-                    If AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
-                        AllStandings.Add(MyStandings.OwnerID, MyStandings)
+                    If EveHQ.Core.HQ.AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
+                        EveHQ.Core.HQ.AllStandings.Add(MyStandings.OwnerID, MyStandings)
                     End If
                 End If
             Next
-            Call Me.SaveStandings()
+            Call EveHQ.Core.StandingsCacheDecoder.SaveStandings()
             Call UpdateOwners()
             Cursor = Cursors.Default
             btnGetStandings.Enabled = True
@@ -1154,11 +1139,11 @@ Public Class frmPilot
     Private Sub UpdateOwners()
         cboOwner.Items.Clear()
         lvwStandings.Items.Clear()
-        If AllStandings.Count > 0 Then
+        If EveHQ.Core.HQ.AllStandings.Count > 0 Then
             ' Create the list of owners in the combobox
             cboOwner.BeginUpdate()
             Try
-                For Each MyStandings As EveHQ.Core.StandingsData In AllStandings.Values
+                For Each MyStandings As EveHQ.Core.StandingsData In EveHQ.Core.HQ.AllStandings.Values
                     ' Get Either Pilot or Corp Name
                     Dim ownerID As String = MyStandings.OwnerID
                     ' Cycle through the pilots to see if we have a match
@@ -1188,7 +1173,7 @@ Public Class frmPilot
                 lblTypeFilter.Enabled = True
                 cboFilter.Enabled = True
             Catch e As Exception
-                AllStandings.Clear()
+                EveHQ.Core.HQ.AllStandings.Clear()
                 ' Disable everything
                 cboOwner.Enabled = False
                 lblSelectOwner.Enabled = False
@@ -1196,7 +1181,7 @@ Public Class frmPilot
                 lblTypeFilter.Enabled = False
                 cboFilter.Enabled = False
             End Try
-            cboOwner.EndUpdate()   
+            cboOwner.EndUpdate()
         Else
             'MessageBox.Show("Unable to find any valid cache files!", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -1309,7 +1294,7 @@ Public Class frmPilot
                 Dim ConnectionsLevel As Integer = 0
                 Dim standing As Double = 0
                 ' Iterate through the list and find the rightID
-                For Each MyStandings As EveHQ.Core.StandingsData In AllStandings.Values
+                For Each MyStandings As EveHQ.Core.StandingsData In EveHQ.Core.HQ.AllStandings.Values
                     If ownerName = MyStandings.OwnerName Then
                         ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
                         If MyStandings.CacheType = "GetCharStandings" Then
@@ -1421,12 +1406,6 @@ Public Class frmPilot
             extraStandings.BaseStanding = CDbl(standingsLine.SubItems("RawStanding").Tag)
             extraStandings.ShowDialog()
         End If
-    End Sub
-    Private Sub SaveStandings()
-        Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, AllStandings)
-        s.Close()
     End Sub
 
 #End Region

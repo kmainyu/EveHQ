@@ -5108,21 +5108,8 @@ Public Class frmPrism
     End Sub
 
     Private Function GetStanding(ByVal pilotName As String, ByVal corpID As String) As Double
-        ' Check for the existence of the CorpHQ plug-in and try and get the standing data
-        Dim PluginName As String = "CorpHQ"
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
-        If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
-            Dim PlugInData As New ArrayList
-            PlugInData.Add(pilotName)
-            PlugInData.Add(corpID)
-            Return CDbl(myPlugIn.Instance.GetPlugInData(PlugInData, 0))
-        Else
-            ' Plug-in is not loaded so best not try to access it!
-            Dim msg As String = ""
-            msg &= "The " & myPlugIn.MainMenuText & " Plug-in is not currently active. This is required to get accurate standings information." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Please load the plug-in in order to get standings info."
-            MessageBox.Show(msg, "Error Starting " & myPlugIn.MainMenuText & " Plug-in!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+        ' Try and get the standings data
+        Return EveHQ.Core.StandingsCacheDecoder.GetStanding(pilotName, corpID)
     End Function
 
 #Region "Override Base Yield functions"

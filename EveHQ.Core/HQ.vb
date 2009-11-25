@@ -74,6 +74,7 @@ Public Class HQ
     Public Shared CertificateClasses As New SortedList
     Public Shared Certificates As New SortedList
     Public Shared FittingProtocol As String = "fitting"
+    Public Shared AllStandings As New SortedList
     Public Shared Event ShutDownEveHQ()
 
     Shared Property StartShutdownEveHQ() As Boolean
