@@ -103,7 +103,7 @@ Public Class frmDataConvert
                 fileList.Add("dbo_invMetaGroups.sql")
                 fileList.Add("dbo_invMetaTypes.sql")
                 fileList.Add("dbo_invTypes.sql")
-                fileList.Add("typeActivityMaterials.sql")
+                fileList.Add("ramTypeRequirements.sql")
             Case 2
                 fileList.Add("dbo_chrAncestries.sql")
                 fileList.Add("dbo_chrBloodlines.sql")
@@ -123,7 +123,7 @@ Public Class frmDataConvert
                 fileList.Add("dbo_invMetaGroups.sql")
                 fileList.Add("dbo_invMetaTypes.sql")
                 fileList.Add("dbo_invTypes.sql")
-                fileList.Add("typeActivityMaterials.sql")
+                fileList.Add("ramTypeRequirements.sql")
                 fileList.Add("dbo_mapConstellations.sql")
                 fileList.Add("dbo_mapRegions.sql")
                 fileList.Add("dbo_mapSolarSystemJumps.sql")
@@ -462,7 +462,7 @@ Public Class frmDataConvert
         ' Read the first line which is a header line
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
+                Dim strSQL As String = "INSERT INTO ramTypeRequirements (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
                 Dim keyCommand As New SqlCommand(strSQL, connection)
                 keyCommand.ExecuteNonQuery()
             End If
@@ -572,7 +572,7 @@ Public Class frmDataConvert
     Private Sub AddCSVRefiningData()
         Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
         Dim lines() As String = line.Split(Chr(13))
-        Dim sw As StreamWriter = New StreamWriter(Path.Combine(txtTarget.Text, "dbo_typeActivityMaterials.sql.csv"), True)
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(txtTarget.Text, "dbo_ramTypeRequirements.sql.csv"), True)
         ' Read each line and write if not header
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
@@ -750,7 +750,7 @@ Public Class frmDataConvert
         ' Read the first line which is a header line
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
+                Dim strSQL As String = "INSERT INTO ramTypeRequirements (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
                 Dim keyCommand As New OleDbCommand(strSQL, connection)
                 keyCommand.ExecuteNonQuery()
             End If
@@ -966,8 +966,8 @@ Public Class frmDataConvert
             strBPS &= newData.Tables(0).Rows(row).Item("wasteFactor") & ","
             strBPS &= newData.Tables(0).Rows(row).Item("maxProductionLimit")
             Dim strSQL As String = "SELECT *"
-            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID"
-            strSQL &= " WHERE (typeActivityMaterials.typeID=" & bpTypeID & " OR typeActivityMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID"
+            strSQL &= " WHERE (ramTypeRequirements.typeID=" & bpTypeID & " OR ramTypeRequirements.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
             materialData = EveHQ.Core.DataFunctions.GetData(strSQL)
             For row2 As Integer = 0 To materialData.Tables(0).Rows.Count - 1
                 Dim strMats As String = ""

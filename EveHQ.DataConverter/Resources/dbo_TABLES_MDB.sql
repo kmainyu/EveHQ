@@ -907,7 +907,7 @@ CREATE TABLE dbo.trnTranslationColumns
   CONSTRAINT translationColumns_PK PRIMARY KEY (tcID)
 );
 
-CREATE TABLE dbo.typeActivityMaterials
+CREATE TABLE dbo.ramTypeRequirements
 (
   typeID  			integer			NOT NULL,
   activityID  		integer			NOT NULL,

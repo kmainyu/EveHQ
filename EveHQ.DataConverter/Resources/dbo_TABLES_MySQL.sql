@@ -1126,18 +1126,18 @@ CREATE TABLE `staStations` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Table structure for table `typeActivityMaterials`
+-- Table structure for table `ramTypeRequirements`
 --
 
-DROP TABLE IF EXISTS `typeActivityMaterials`;
-CREATE TABLE `typeActivityMaterials` (
+DROP TABLE IF EXISTS `ramTypeRequirements`;
+CREATE TABLE `ramTypeRequirements` (
   `typeID` smallint(6) NOT NULL,
   `activityID` tinyint(3) unsigned NOT NULL,
   `requiredTypeID` smallint(6) NOT NULL,
   `quantity` int(11) default NULL,
   `damagePerJob` float default NULL,
   PRIMARY KEY  (`typeID`,`activityID`,`requiredTypeID`),
-  KEY `typeActivityMaterials_IX_activity` (`activityID`)
+  KEY `ramTypeRequirements_IX_activity` (`activityID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

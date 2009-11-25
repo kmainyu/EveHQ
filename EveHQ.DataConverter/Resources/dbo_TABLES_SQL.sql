@@ -903,7 +903,7 @@ CREATE TABLE dbo.invTypeReactions
   quantity			int			NOT NULL,
  )
 
-CREATE TABLE dbo.typeActivityMaterials
+CREATE TABLE dbo.ramTypeRequirements
 (
   typeID  			int			NOT NULL,
   activity  		int			NOT NULL,

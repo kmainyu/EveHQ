@@ -40,4 +40,4 @@ staOperationServices, <none>
 staServices, serviceID
 staStations, stationID
 staStationTypes, stationTypeID
-typeActivityMaterials, <none>
+ramTypeRequirements, <none>

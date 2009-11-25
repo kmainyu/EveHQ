@@ -115,5 +115,5 @@ staStations, regionID, mapRegions, regionID
 staStationTypes, dockingBayGraphicID, eveGraphics, graphicID
 staStationTypes, hangarGraphicID, eveGraphics, graphicID
 staStationTypes, operationID, staOperations, operationID
-typeActivityMaterials, typeID, invTypes, typeID
-typeActivityMaterials, requiredTypeID, invTypes, typeID
+ramTypeRequirements, typeID, invTypes, typeID
+ramTypeRequirements, requiredTypeID, invTypes, typeID
