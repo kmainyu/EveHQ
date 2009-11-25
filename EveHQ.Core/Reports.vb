@@ -1288,35 +1288,35 @@ Public Class Reports
                 Case "Tritanium"
                     oreMaterials(groupCount, typeCount, 1) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(1) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(1) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(1) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Pyerite"
                     oreMaterials(groupCount, typeCount, 2) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(2) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(2) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(2) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Mexallon"
                     oreMaterials(groupCount, typeCount, 3) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(3) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(3) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(3) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Isogen"
                     oreMaterials(groupCount, typeCount, 4) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(4) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(4) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(4) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Nocxium"
                     oreMaterials(groupCount, typeCount, 5) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(5) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(5) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(5) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Zydrine"
                     oreMaterials(groupCount, typeCount, 6) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(6) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(6) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(6) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Megacyte"
                     oreMaterials(groupCount, typeCount, 7) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(7) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(7) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(7) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Morphite"
                     oreMaterials(groupCount, typeCount, 8) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(8) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(8) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(8) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
             End Select
         Next
 
@@ -1390,17 +1390,20 @@ Public Class Reports
     End Sub
     Public Shared Function RockReport(ByVal forIGB As Boolean) As String
         Dim strHTML As String = ""
+        Dim MaxGroups As Integer = 16
+        Dim OreMetaTypes As Integer = 6
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE ramTypeRequirements.requiredTypeID=invTypes.typeID) AS Material, ramTypeRequirements.requiredTypeID, ramTypeRequirements.quantity, invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE ramTypeRequirements.requiredTypeID=invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN ramTypeRequirements ON invTypes.typeID=ramTypeRequirements.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
-        strSQL &= " WHERE(((invGroups.categoryID) = 25) And ((ramTypeRequirements.activityID) = 9) And ((invGroups.groupID) <> 465))"
+        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
+        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
+        strSQL &= " WHERE(((invGroups.categoryID) = 25) And (invTypes.published=true) And ((invGroups.groupID) <> 465))"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
+
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
-        Dim oreMaterials(16, 3, 8) As String
-        Dim oreIcons(16, 3) As String
-        Dim oreID(16, 3) As String
+        Dim oreMaterials(MaxGroups, OreMetaTypes, 8) As String
+        Dim oreIcons(MaxGroups, OreMetaTypes) As String
+        Dim oreID(MaxGroups, OreMetaTypes) As String
         Dim minIcons(8) As String
         Dim minID(8) As String
 
@@ -1427,35 +1430,35 @@ Public Class Reports
                 Case "Tritanium"
                     oreMaterials(groupCount, typeCount, 1) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(1) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(1) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(1) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Pyerite"
                     oreMaterials(groupCount, typeCount, 2) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(2) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(2) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(2) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Mexallon"
                     oreMaterials(groupCount, typeCount, 3) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(3) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(3) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(3) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Isogen"
                     oreMaterials(groupCount, typeCount, 4) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(4) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(4) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(4) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Nocxium"
                     oreMaterials(groupCount, typeCount, 5) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(5) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(5) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(5) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Zydrine"
                     oreMaterials(groupCount, typeCount, 6) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(6) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(6) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(6) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Megacyte"
                     oreMaterials(groupCount, typeCount, 7) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(7) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(7) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(7) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
                 Case "Morphite"
                     oreMaterials(groupCount, typeCount, 8) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
                     minIcons(8) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
-                    minID(8) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                    minID(8) = eveData.Tables(0).Rows(ore).Item("materialTypeID").ToString
             End Select
         Next
 
@@ -1484,9 +1487,9 @@ Public Class Reports
         strHTML &= "<td width=75px align=center>Morphite</td>"
         strHTML &= "</tr>"
 
-        For groupType As Integer = 1 To 16
+        For groupType As Integer = 1 To groupCount
             strHTML &= "<tr><td colspan=10 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
-            For oreType As Integer = 1 To 3
+            For oreType As Integer = 1 To typeCount
                 strHTML &= "<tr>"
                 strHTML &= "<td width=35px>"
                 If forIGB = False Then
