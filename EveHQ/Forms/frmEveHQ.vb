@@ -1579,6 +1579,8 @@ Public Class frmEveHQ
                 modMenu.DropDownItems(0).Enabled = True
                 modMenu.DropDownItems(1).Enabled = False
                 plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Failed
+                tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
+                tsbMenu.Enabled = False
             Else
                 If EveHQToolStrip.Items.ContainsKey(plugInInfo.Name) = True Then
                     tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
