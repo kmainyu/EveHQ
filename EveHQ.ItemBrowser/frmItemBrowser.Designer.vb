@@ -20,6 +20,7 @@ Partial Class frmItemBrowser
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmItemBrowser))
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Containers", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Materials", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Accessories", System.Windows.Forms.HorizontalAlignment.Left)
@@ -32,7 +33,6 @@ Partial Class frmItemBrowser
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmItemBrowser))
         Me.ctxSkills = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuSkillName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
@@ -82,10 +82,6 @@ Partial Class frmItemBrowser
         Me.lstM8 = New System.Windows.Forms.ListView
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
-        Me.tabM9 = New System.Windows.Forms.TabPage
-        Me.lstM9 = New System.Windows.Forms.ListView
-        Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader18 = New System.Windows.Forms.ColumnHeader
         Me.tabVariations = New System.Windows.Forms.TabPage
         Me.tabVariation = New System.Windows.Forms.TabControl
         Me.tabMetaVariations = New System.Windows.Forms.TabPage
@@ -116,6 +112,7 @@ Partial Class frmItemBrowser
         Me.lvwRecommended = New System.Windows.Forms.ListView
         Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
+        Me.imgListCerts = New System.Windows.Forms.ImageList(Me.components)
         Me.tabComponent = New System.Windows.Forms.TabPage
         Me.tabComponents = New System.Windows.Forms.TabControl
         Me.tabC1 = New System.Windows.Forms.TabPage
@@ -247,7 +244,6 @@ Partial Class frmItemBrowser
         Me.btnWantedAdd = New System.Windows.Forms.Button
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
-        Me.imgListCerts = New System.Windows.Forms.ImageList(Me.components)
         Me.sbtnBack = New EveHQ.ItemBrowser.SplitButton
         Me.sbtnForward = New EveHQ.ItemBrowser.SplitButton
         Me.ctxSkills.SuspendLayout()
@@ -264,7 +260,6 @@ Partial Class frmItemBrowser
         Me.tabM6.SuspendLayout()
         Me.tabM7.SuspendLayout()
         Me.tabM8.SuspendLayout()
-        Me.tabM9.SuspendLayout()
         Me.tabVariations.SuspendLayout()
         Me.tabVariation.SuspendLayout()
         Me.tabMetaVariations.SuspendLayout()
@@ -399,7 +394,6 @@ Partial Class frmItemBrowser
         Me.tabMaterial.Controls.Add(Me.tabM6)
         Me.tabMaterial.Controls.Add(Me.tabM7)
         Me.tabMaterial.Controls.Add(Me.tabM8)
-        Me.tabMaterial.Controls.Add(Me.tabM9)
         Me.tabMaterial.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabMaterial.Location = New System.Drawing.Point(0, 0)
         Me.tabMaterial.Name = "tabMaterial"
@@ -726,41 +720,6 @@ Partial Class frmItemBrowser
         Me.ColumnHeader16.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader16.Width = 150
         '
-        'tabM9
-        '
-        Me.tabM9.Controls.Add(Me.lstM9)
-        Me.tabM9.Location = New System.Drawing.Point(4, 22)
-        Me.tabM9.Name = "tabM9"
-        Me.tabM9.Size = New System.Drawing.Size(559, 299)
-        Me.tabM9.TabIndex = 8
-        Me.tabM9.Text = "Composition"
-        Me.tabM9.UseVisualStyleBackColor = True
-        '
-        'lstM9
-        '
-        Me.lstM9.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader17, Me.ColumnHeader18})
-        Me.lstM9.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lstM9.FullRowSelect = True
-        Me.lstM9.GridLines = True
-        Me.lstM9.Location = New System.Drawing.Point(0, 0)
-        Me.lstM9.Name = "lstM9"
-        Me.lstM9.Size = New System.Drawing.Size(559, 299)
-        Me.lstM9.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lstM9.TabIndex = 4
-        Me.lstM9.UseCompatibleStateImageBehavior = False
-        Me.lstM9.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader17
-        '
-        Me.ColumnHeader17.Text = "Material"
-        Me.ColumnHeader17.Width = 250
-        '
-        'ColumnHeader18
-        '
-        Me.ColumnHeader18.Text = "Quantity"
-        Me.ColumnHeader18.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader18.Width = 150
-        '
         'tabVariations
         '
         Me.tabVariations.Controls.Add(Me.tabVariation)
@@ -1057,6 +1016,17 @@ Partial Class frmItemBrowser
         '
         Me.ColumnHeader60.Text = "Level"
         Me.ColumnHeader60.Width = 150
+        '
+        'imgListCerts
+        '
+        Me.imgListCerts.ImageStream = CType(resources.GetObject("imgListCerts.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgListCerts.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgListCerts.Images.SetKeyName(0, "icon79_01.png")
+        Me.imgListCerts.Images.SetKeyName(1, "icon79_02.png")
+        Me.imgListCerts.Images.SetKeyName(2, "icon79_03.png")
+        Me.imgListCerts.Images.SetKeyName(3, "icon79_04.png")
+        Me.imgListCerts.Images.SetKeyName(4, "icon79_05.png")
+        Me.imgListCerts.Images.SetKeyName(5, "icon79_06.png")
         '
         'tabComponent
         '
@@ -2281,17 +2251,6 @@ Partial Class frmItemBrowser
         Me.lblPilot.TabIndex = 42
         Me.lblPilot.Text = "Pilot:"
         '
-        'imgListCerts
-        '
-        Me.imgListCerts.ImageStream = CType(resources.GetObject("imgListCerts.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgListCerts.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgListCerts.Images.SetKeyName(0, "icon79_01.png")
-        Me.imgListCerts.Images.SetKeyName(1, "icon79_02.png")
-        Me.imgListCerts.Images.SetKeyName(2, "icon79_03.png")
-        Me.imgListCerts.Images.SetKeyName(3, "icon79_04.png")
-        Me.imgListCerts.Images.SetKeyName(4, "icon79_05.png")
-        Me.imgListCerts.Images.SetKeyName(5, "icon79_06.png")
-        '
         'sbtnBack
         '
         Me.sbtnBack.AutoSize = True
@@ -2358,7 +2317,6 @@ Partial Class frmItemBrowser
         Me.tabM6.ResumeLayout(False)
         Me.tabM7.ResumeLayout(False)
         Me.tabM8.ResumeLayout(False)
-        Me.tabM9.ResumeLayout(False)
         Me.tabVariations.ResumeLayout(False)
         Me.tabVariation.ResumeLayout(False)
         Me.tabMetaVariations.ResumeLayout(False)
@@ -2459,10 +2417,6 @@ Partial Class frmItemBrowser
     Friend WithEvents lstM8 As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents tabM9 As System.Windows.Forms.TabPage
-    Friend WithEvents lstM9 As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader17 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader18 As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabVariations As System.Windows.Forms.TabPage
     Friend WithEvents lstVariations As System.Windows.Forms.ListView
     Friend WithEvents colTypeName As System.Windows.Forms.ColumnHeader

@@ -27,7 +27,7 @@ Imports System.Xml
 
 Public Class frmItemBrowser
 
-    Const ActivityCount As Integer = 9
+    Const ActivityCount As Integer = 8
     Dim metaParentID As Long
     Dim metaItemCount As Long
     Dim itemTypeID As Long
@@ -1105,8 +1105,6 @@ Public Class frmItemBrowser
                         materialsView = Me.lstM7
                     Case 8
                         materialsView = Me.lstM8
-                    Case 9
-                        materialsView = Me.lstM9
                 End Select
                 materialsView.Items.Clear()
                 materialsView.BeginUpdate()
@@ -1158,6 +1156,74 @@ Public Class frmItemBrowser
             End If
         End If
 
+        Call Me.GetRecyclingData(typeID.ToString)
+
+    End Sub
+
+    Private Sub GetRecyclingData(ByVal typeID As String)
+        ' Fetch the recycling information
+        Dim strSQL As String = "SELECT *"
+        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invTypeMaterials ON invTypes.typeID = invTypeMaterials.materialTypeID"
+        strSQL &= " WHERE (invTypeMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+
+        If eveData.Tables(0).Rows.Count > 0 Then
+            Me.tabMaterial.TabPages.Add(tabPagesM(6))
+            Dim materials(eveData.Tables(0).Rows.Count, 9)
+            With eveData.Tables(0)
+                For row As Integer = 0 To .Rows.Count - 1
+                    If Val(.Rows(row).Item("quantity")) > 0 Then
+                        materials(row, 0) = "0"
+                        materials(row, 1) = .Rows(row).Item("materialTypeID").ToString.Trim
+                        materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
+                        materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
+                        materials(row, 4) = ""
+                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                            Case 0
+                                materials(row, 5) = .Rows(row).Item("invCategories.categoryID").ToString.Trim
+                                materials(row, 7) = .Rows(row).Item("invGroups.groupID").ToString.Trim
+                            Case Else
+                                materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
+                                materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
+                        End Select
+                        materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
+                        materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
+                        materials(row, 9) = ""
+                    End If
+                Next
+            End With
+
+            Dim itemcount As Integer = eveData.Tables(0).Rows.Count - 1
+            Dim matCatID, matCatName, matGroupID, matGroupName As String
+            Dim materialsView As ListView = Me.lstM6
+            materialsView.Items.Clear()
+            materialsView.BeginUpdate()
+            For itemloop As Integer = 0 To itemcount
+                If materials(itemloop, 0) = "0" Then
+                    matCatID = materials(itemloop, 5)
+                    matCatName = materials(itemloop, 6)
+                    matGroupID = materials(itemloop, 7)
+                    matGroupName = materials(itemloop, 8)
+                    ' Create a listview group
+                    Dim lvGroup As New ListViewGroup
+                    lvGroup.Name = matCatID & matGroupID
+                    lvGroup.Header = matCatName & " / " & matGroupName
+                    materialsView.Groups.Add(lvGroup)
+                    For item As Integer = itemloop To itemcount
+                        If materials(item, 5) = matCatID And materials(item, 7) = matGroupID Then
+                            Dim newItem As New ListViewItem
+                            newItem.Name = materials(item, 1)
+                            newItem.Text = materials(item, 2)
+                            newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
+                            newItem.Group = materialsView.Groups.Item(matCatID & matGroupID)
+                            materialsView.Items.Add(newItem)
+                            materials(item, 0) = "1"
+                        End If
+                    Next
+                End If
+            Next
+            materialsView.EndUpdate()
+        End If
     End Sub
 
     Private Sub GetComponents(ByVal typeID As Long, ByVal typeName As String)
@@ -1692,12 +1758,6 @@ Public Class frmItemBrowser
     End Sub
     Private Sub lstM8_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstM8.DoubleClick
         Dim id As String = lstM8.SelectedItems(0).Name
-        Call Me.LoadItemID(id)
-        ' Alter navigation
-        Call Me.AddToNavigation(itemTypeName)
-    End Sub
-    Private Sub lstM9_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstM9.DoubleClick
-        Dim id As String = lstM9.SelectedItems(0).Name
         Call Me.LoadItemID(id)
         ' Alter navigation
         Call Me.AddToNavigation(itemTypeName)
