@@ -3596,9 +3596,9 @@ Public Class frmPrism
         RigBuildData = New SortedList
 
         ' Get the BP Details and build requirements
-        Dim strSQL As String = "SELECT typeActivityMaterials.typeID AS typeActivityMaterials_typeID, typeActivityMaterials.activityID, typeActivityMaterials.requiredTypeID, typeActivityMaterials.quantity, typeActivityMaterials.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
-        strSQL &= " FROM invTypes INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID"
-        strSQL &= " WHERE (((typeActivityMaterials.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
+        Dim strSQL As String = "SELECT ramTypeRequirements.typeID AS ramTypeRequirements_typeID, ramTypeRequirements.activityID, ramTypeRequirements.requiredTypeID, ramTypeRequirements.quantity, ramTypeRequirements.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
+        strSQL &= " FROM invTypes INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.typeID"
+        strSQL &= " WHERE (((ramTypeRequirements.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
         Dim rigData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Dim BPID As String = ""
         Dim BPName As String = ""
@@ -4794,9 +4794,9 @@ Public Class frmPrism
         strAssets.Remove(0, 2)
 
         ' Fetch the data from the database
-        Dim strSQL As String = "SELECT typeActivityMaterials.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, typeActivityMaterials.quantity AS materialQuantity"
-        strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID) ON invCategories.categoryID = invGroups.categoryID"
-        strSQL &= " WHERE (typeActivityMaterials.typeID IN (" & strAssets.ToString & ") AND typeActivityMaterials.activityID IN (6,9) AND invTypes.groupID NOT IN (268,269,270,332)) ORDER BY invCategories.categoryName, invGroups.groupName"
+        Dim strSQL As String = "SELECT ramTypeRequirements.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, ramTypeRequirements.quantity AS materialQuantity"
+        strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID) ON invCategories.categoryID = invGroups.categoryID"
+        strSQL &= " WHERE (ramTypeRequirements.typeID IN (" & strAssets.ToString & ") AND ramTypeRequirements.activityID IN (6,9) AND invTypes.groupID NOT IN (268,269,270,332)) ORDER BY invCategories.categoryName, invGroups.groupName"
         Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
 
         ' Add the data into a collection for parsing

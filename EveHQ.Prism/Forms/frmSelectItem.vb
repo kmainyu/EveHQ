@@ -25,8 +25,8 @@ Public Class frmSelectItem
 
         ' Fetch the data from the database
         Dim strSQL As String = "SELECT DISTINCT invTypes.typeName AS itemName"
-        strSQL &= " FROM invTypes INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID"
-        strSQL &= " WHERE typeActivityMaterials.activityID IN (6, 9)"
+        strSQL &= " FROM invTypes INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.typeID"
+        strSQL &= " WHERE ramTypeRequirements.activityID IN (6, 9)"
         strSQL &= " ORDER BY invTypes.typeName;"
 
         Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
