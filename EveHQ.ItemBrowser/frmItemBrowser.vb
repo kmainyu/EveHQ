@@ -1039,8 +1039,8 @@ Public Class frmItemBrowser
 
         ' Select only the building activity (at the minute!)
         Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID"
-        strSQL &= " WHERE (typeActivityMaterials.typeID=" & bpTypeID & " OR typeActivityMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID"
+        strSQL &= " WHERE (ramTypeRequirements.typeID=" & bpTypeID & " OR ramTypeRequirements.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If eveData.Tables(0).Rows.Count > 0 Then
 
@@ -1169,8 +1169,8 @@ Public Class frmItemBrowser
 
         ' Select only the building activity (at the minute!)
         Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID"
-        strSQL &= " WHERE (typeActivityMaterials.requiredTypeID=" & bpTypeID & " OR typeActivityMaterials.requiredTypeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.typeID"
+        strSQL &= " WHERE (ramTypeRequirements.requiredTypeID=" & bpTypeID & " OR ramTypeRequirements.requiredTypeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If eveData.Tables(0).Rows.Count > 0 Then
 
