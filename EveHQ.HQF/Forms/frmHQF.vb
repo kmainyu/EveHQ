@@ -1645,6 +1645,24 @@ Public Class frmHQF
         Dim fittingName As String = ""
         Dim fittingSep As Integer = 0
         Dim isFlyable As Boolean = True
+
+        ' Update Fitting Names
+        Dim updateList As New SortedList(Of String, String)
+        For Each fitting As String In Fittings.FittingList.Keys
+            If fitting.Contains("Amarr Navy Slicer") Then
+                Dim newFit As String = fitting.Replace("Amarr Navy Slicer", "Imperial Navy Slicer")
+                updateList.Add(fitting, newFit)
+            End If
+            If fitting.Contains("Gallente Navy Comet") Then
+                Dim newFit As String = fitting.Replace("Gallente Navy Comet", "Federation Navy Comet")
+                updateList.Add(fitting, newFit)
+            End If
+        Next
+        For Each fitting As String In updateList.Keys
+            Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
+            Fittings.FittingList.Remove(fitting)
+        Next
+
         If Fittings.FittingList.Count > 0 Then
             For Each fitting As String In Fittings.FittingList.Keys
                 fittingSep = fitting.IndexOf(", ")
@@ -1721,7 +1739,7 @@ Public Class frmHQF
         Dim fittingSep As Integer = shipFit.IndexOf(", ")
         Dim shipName As String = shipFit.Substring(0, fittingSep)
         Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-        If ShipLists.shipList.ContainsKey(shipName) = False Then
+        If ShipLists.shipList.ContainsKey(shipName) = True Then
             Dim curShip As Ship = CType(CType(ShipLists.shipList(shipName), Ship).Clone, Ship)
             curShip.DamageProfile = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
             ShipLists.fittedShipList.Add(shipFit, curShip)
