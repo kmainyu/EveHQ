@@ -158,17 +158,6 @@ Public Class frmHQF
 
         HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
 
-        ' Check for protocol
-        If IsProtocolInstalled(EveHQ.Core.HQ.FittingProtocol) = False Then
-            ' Ask if we want to install the protocol
-            Dim msg As String = "Would you like to associate the '" & EveHQ.Core.HQ.FittingProtocol & "://' protocol with EveHQ?"
-            Dim reply As Integer = MessageBox.Show(msg, "Install Protocol", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = DialogResult.Yes Then
-                Call Me.InstallProtocol(EveHQ.Core.HQ.FittingProtocol)
-            End If
-        End If
-
-
     End Sub
     Private Sub LoadFittings()
         Fittings.FittingList.Clear()
@@ -2747,36 +2736,7 @@ Public Class frmHQF
 
 #End Region
 
-#Region "Protocol Check Routines"
 
-    Private Function IsProtocolInstalled(ByVal protocol As String) As Boolean
-        Dim rk As RegistryKey = Registry.ClassesRoot.OpenSubKey(protocol)
-        If rk IsNot Nothing Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-
-    Private Sub InstallProtocol(ByVal protocol As String)
-        Dim rKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(protocol, True)
-        Try
-            If rKey Is Nothing Then
-                rKey = Registry.ClassesRoot.CreateSubKey(protocol)
-                rKey.SetValue("", "URL: Eve Fitting Protocol")
-                rKey.SetValue("URL Protocol", "")
-                rKey = rKey.CreateSubKey("shell\open\command")
-                Dim keyValue As String = ControlChars.Quote & Application.ExecutablePath & ControlChars.Quote & " " & ControlChars.Quote & "%1" & ControlChars.Quote
-                rKey.SetValue("", keyValue)
-            Else
-                rKey.Close()
-            End If
-        Catch ex As System.UnauthorizedAccessException
-            MessageBox.Show("You do not have the required permissions to access the registry. To install the protocol, EveHQ will need to be run in administrator mode.", "Elevated Permissions Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-    End Sub
-
-#End Region
 
 #Region "Meta Variations Code"
 

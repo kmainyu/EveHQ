@@ -83,6 +83,11 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.gbFittingProtocol = New System.Windows.Forms.GroupBox
+        Me.lblFittingProtocolStatusLbl = New System.Windows.Forms.Label
+        Me.lblFittingProtocolStatus = New System.Windows.Forms.Label
+        Me.btnEnableProtocol = New System.Windows.Forms.Button
+        Me.btnDisableProtocol = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,19 +100,21 @@ Partial Public Class frmHQFSettings
         CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbFittingProtocol.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.gbFittingProtocol)
         Me.gbGeneral.Controls.Add(Me.chkUseLastPilot)
         Me.gbGeneral.Controls.Add(Me.chkShowPerformance)
         Me.gbGeneral.Controls.Add(Me.chkAutoUpdateHQFSkills)
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.lblDefaultPilot)
-        Me.gbGeneral.Location = New System.Drawing.Point(451, 280)
+        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(134, 31)
+        Me.gbGeneral.Size = New System.Drawing.Size(498, 500)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -126,7 +133,7 @@ Partial Public Class frmHQFSettings
         'chkShowPerformance
         '
         Me.chkShowPerformance.AutoSize = True
-        Me.chkShowPerformance.Location = New System.Drawing.Point(25, 376)
+        Me.chkShowPerformance.Location = New System.Drawing.Point(36, 422)
         Me.chkShowPerformance.Name = "chkShowPerformance"
         Me.chkShowPerformance.Size = New System.Drawing.Size(142, 17)
         Me.chkShowPerformance.TabIndex = 10
@@ -378,9 +385,9 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(194, 12)
+        Me.gbCache.Location = New System.Drawing.Point(476, 381)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(498, 500)
+        Me.gbCache.Size = New System.Drawing.Size(137, 45)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
@@ -663,13 +670,63 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
+        'gbFittingProtocol
+        '
+        Me.gbFittingProtocol.Controls.Add(Me.btnDisableProtocol)
+        Me.gbFittingProtocol.Controls.Add(Me.btnEnableProtocol)
+        Me.gbFittingProtocol.Controls.Add(Me.lblFittingProtocolStatus)
+        Me.gbFittingProtocol.Controls.Add(Me.lblFittingProtocolStatusLbl)
+        Me.gbFittingProtocol.Location = New System.Drawing.Point(25, 183)
+        Me.gbFittingProtocol.Name = "gbFittingProtocol"
+        Me.gbFittingProtocol.Size = New System.Drawing.Size(439, 90)
+        Me.gbFittingProtocol.TabIndex = 12
+        Me.gbFittingProtocol.TabStop = False
+        Me.gbFittingProtocol.Text = "Fitting Protocol"
+        '
+        'lblFittingProtocolStatusLbl
+        '
+        Me.lblFittingProtocolStatusLbl.AutoSize = True
+        Me.lblFittingProtocolStatusLbl.Location = New System.Drawing.Point(28, 30)
+        Me.lblFittingProtocolStatusLbl.Name = "lblFittingProtocolStatusLbl"
+        Me.lblFittingProtocolStatusLbl.Size = New System.Drawing.Size(117, 13)
+        Me.lblFittingProtocolStatusLbl.TabIndex = 0
+        Me.lblFittingProtocolStatusLbl.Text = "Fitting Protocol Status:"
+        '
+        'lblFittingProtocolStatus
+        '
+        Me.lblFittingProtocolStatus.AutoSize = True
+        Me.lblFittingProtocolStatus.Location = New System.Drawing.Point(151, 30)
+        Me.lblFittingProtocolStatus.Name = "lblFittingProtocolStatus"
+        Me.lblFittingProtocolStatus.Size = New System.Drawing.Size(47, 13)
+        Me.lblFittingProtocolStatus.TabIndex = 1
+        Me.lblFittingProtocolStatus.Text = "Disabled"
+        '
+        'btnEnableProtocol
+        '
+        Me.btnEnableProtocol.Location = New System.Drawing.Point(240, 25)
+        Me.btnEnableProtocol.Name = "btnEnableProtocol"
+        Me.btnEnableProtocol.Size = New System.Drawing.Size(75, 23)
+        Me.btnEnableProtocol.TabIndex = 2
+        Me.btnEnableProtocol.Text = "Enable"
+        Me.btnEnableProtocol.UseVisualStyleBackColor = True
+        '
+        'btnDisableProtocol
+        '
+        Me.btnDisableProtocol.Enabled = False
+        Me.btnDisableProtocol.Location = New System.Drawing.Point(321, 25)
+        Me.btnDisableProtocol.Name = "btnDisableProtocol"
+        Me.btnDisableProtocol.Size = New System.Drawing.Size(75, 23)
+        Me.btnDisableProtocol.TabIndex = 3
+        Me.btnDisableProtocol.Text = "Disable"
+        Me.btnDisableProtocol.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
-        Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.tvwSettings)
@@ -698,6 +755,8 @@ Partial Public Class frmHQFSettings
         CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbFittingProtocol.ResumeLayout(False)
+        Me.gbFittingProtocol.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -759,4 +818,9 @@ Partial Public Class frmHQFSettings
     Friend WithEvents colPerLevel As System.Windows.Forms.ColumnHeader
     Friend WithEvents colStack As System.Windows.Forms.ColumnHeader
     Friend WithEvents colCalcType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents gbFittingProtocol As System.Windows.Forms.GroupBox
+    Friend WithEvents btnDisableProtocol As System.Windows.Forms.Button
+    Friend WithEvents btnEnableProtocol As System.Windows.Forms.Button
+    Friend WithEvents lblFittingProtocolStatus As System.Windows.Forms.Label
+    Friend WithEvents lblFittingProtocolStatusLbl As System.Windows.Forms.Label
 End Class
