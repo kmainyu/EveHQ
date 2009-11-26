@@ -31,6 +31,7 @@ Partial Class frmAbout
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Black
+        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.EveHQSplash1_14
         Me.Panel1.Controls.Add(Me.lblCopyright)
         Me.Panel1.Controls.Add(Me.lblDate)
         Me.Panel1.Controls.Add(Me.lblVersion)

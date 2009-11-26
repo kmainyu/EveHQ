@@ -125,14 +125,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\EveFTP.vb" />
-    <Compile Include="Classes\XPander.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Classes\XPanderDesigner.vb" />
-    <Compile Include="Classes\XPanderList.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Classes\XPanderListDesigner.vb" />
     <Compile Include="Controls\DBControls\DBCSkillQueueInfo.Designer.vb">
       <DependentUpon>DBCSkillQueueInfo.vb</DependentUpon>
     </Compile>
@@ -361,14 +353,6 @@
     <EmbeddedResource Include="Controls\DBControls\DBCPilotInfo.resx">
       <DependentUpon>DBCPilotInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\XPander.resx">
-      <DependentUpon>XPander.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Classes\XPanderList.resx">
-      <DependentUpon>XPanderList.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DBControls\DBCSkillQueueInfo.resx">
       <DependentUpon>DBCSkillQueueInfo.vb</DependentUpon>
     </EmbeddedResource>
@@ -507,9 +491,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\EveHQ.ico" />
-    <None Include="Resources\refresh.jpg" />
     <None Include="Resources\noitem.jpg" />
-    <None Include="Resources\EveHQ_IGBLogo1.jpg" />
     <None Include="Resources\EveHQ_starting2.ico" />
     <None Include="Resources\EveHQ_offline2.ico" />
     <None Include="Resources\EveHQ_online2.ico" />
@@ -552,15 +534,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ExpandedHighlightImage.gif" />
-    <None Include="Resources\CollapsedImage.gif" />
-    <None Include="Resources\CollapsedHighlightImage.gif" />
-    <None Include="Resources\ExpandedImage.gif" />
-    <None Include="Resources\Status_red.gif" />
-    <None Include="Resources\Status_green.gif" />
-    <None Include="Resources\Status_yellow.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>
@@ -571,37 +544,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Expand_h.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Expand.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Collapse_h.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Collapse.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\icon22_41.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\application_side_expand.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\application_side_contract.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon09_09.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon09_09_grey.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\EveHQ_IGB.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\EveHQ_IGBLogo.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\level0.gif" />
@@ -648,8 +597,8 @@
     <None Include="Resources\CertificateClasses.bin" />
     <None Include="Resources\Certificates.bin" />
     <None Include="Resources\Errors.txt" />
-    <None Include="Resources\Splashv1.jpg" />
     <None Include="Resources\Strings.txt" />
+    <None Include="Resources\EveHQSplash1.14.jpg" />
     <Content Include="_latest.xml" />
     <Content Include="_updates.xml" />
   </ItemGroup>

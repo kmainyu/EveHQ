@@ -20,11 +20,6 @@
 Public Class frmAbout
 
     Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Set the image for the splash screen
-        'Dim r As New Random
-        'Dim img As Integer = r.Next(1, 6)
-        'Panel1.BackgroundImage = CType(My.Resources.ResourceManager.GetObject("Splashv" & img.ToString), Image)
-        Panel1.BackgroundImage = My.Resources.Splashv1
         ' Insert the version number to the splash screen
         lblVersion.Text = "Version " & My.Application.Info.Version.ToString
         lblCopyright.Text = My.Application.Info.Copyright

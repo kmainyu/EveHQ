@@ -127,24 +127,6 @@
   <data name="level4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level4.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CollapsedImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CollapsedImage.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Collapse_h" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Collapse_h.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Collapse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Collapse.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Expand_h" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Expand_h.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CollapsedHighlightImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CollapsedHighlightImage.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Expand" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Expand.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="level5_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level5_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -154,14 +136,8 @@
   <data name="History" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\History.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="panel_open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\application_side_expand.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="level2_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level2_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ExpandedHighlightImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExpandedHighlightImage.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="level5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level5.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -175,9 +151,6 @@
   <data name="level1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="panel_close" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\application_side_contract.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="level1_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level1_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -189,15 +162,6 @@
   </data>
   <data name="level0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level0.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Status_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Status_red.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Status_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Status_yellow.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Status_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Status_green.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EveHQ_offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EveHQ_offline.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -214,9 +178,6 @@
   <data name="EveHQ_starting" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EveHQ_starting.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ExpandedImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExpandedImage.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CertificateCategories" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CertificateCategories.bin;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -229,7 +190,7 @@
   <data name="Errors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Errors.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="Splashv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Splashv1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="EveHQSplash1_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EveHQSplash1.14.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
