@@ -139,11 +139,13 @@ Public Class frmHQF
                 If Fittings.FittingList.ContainsKey(shipFit) = True Then
                     ' Create the tab and display
                     If Fittings.FittingTabList.Contains(shipFit) = False Then
-                        Call Me.CreateFittingTabPage(shipFit)
+                        If Me.CreateFittingTabPage(shipFit) = False Then
+                            Continue For
+                        End If
+                        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                        Call UpdateSelectedTab()
+                        currentShipSlot.UpdateEverything()
                     End If
-                    tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-                    Call UpdateSelectedTab()
-                    currentShipSlot.UpdateEverything()
                 End If
             Next
         End If
@@ -551,13 +553,14 @@ Public Class frmHQF
             If fittingName <> "" Then
                 Dim fittingKeyName As String = shipName & ", " & fittingName
                 Fittings.FittingList.Add(fittingKeyName, New ArrayList)
-                Call Me.CreateFittingTabPage(fittingKeyName)
-                Call Me.UpdateFilteredShips()
-                tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
-                If tabHQF.TabPages.Count = 1 Then
-                    Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
+                If Me.CreateFittingTabPage(fittingKeyName) = True Then
+                    Call Me.UpdateFilteredShips()
+                    tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
+                    If tabHQF.TabPages.Count = 1 Then
+                        Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
+                    End If
+                    currentShipSlot.UpdateEverything()
                 End If
-                currentShipSlot.UpdateEverything()
             Else
                 MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
@@ -1714,61 +1717,68 @@ Public Class frmHQF
         cboFittings.EndUpdate()
     End Sub
 
-    Private Sub CreateFittingTabPage(ByVal shipFit As String)
+    Private Function CreateFittingTabPage(ByVal shipFit As String) As Boolean
         Dim fittingSep As Integer = shipFit.IndexOf(", ")
         Dim shipName As String = shipFit.Substring(0, fittingSep)
         Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-        Dim curShip As Ship = CType(CType(ShipLists.shipList(shipName), Ship).Clone, Ship)
-        curShip.DamageProfile = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
-        ShipLists.fittedShipList.Add(shipFit, curShip)
+        If ShipLists.shipList.ContainsKey(shipName) = False Then
+            Dim curShip As Ship = CType(CType(ShipLists.shipList(shipName), Ship).Clone, Ship)
+            curShip.DamageProfile = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
+            ShipLists.fittedShipList.Add(shipFit, curShip)
 
-        Dim tp As New TabPage(shipFit)
-        tp.Tag = shipFit
-        tp.Name = shipFit
+            Dim tp As New TabPage(shipFit)
+            tp.Tag = shipFit
+            tp.Name = shipFit
 
-        tabHQF.TabPages.Add(tp)
-        tp.Parent = Me.tabHQF
+            tabHQF.TabPages.Add(tp)
+            tp.Parent = Me.tabHQF
 
-        Dim pSS As New Panel
-        pSS.BorderStyle = BorderStyle.Fixed3D
-        pSS.Dock = System.Windows.Forms.DockStyle.Fill
-        pSS.Location = New System.Drawing.Point(0, 0)
-        pSS.Name = "panelShipSlot"
-        pSS.Size = New System.Drawing.Size(414, 600)
-        pSS.TabIndex = 1
+            Dim pSS As New Panel
+            pSS.BorderStyle = BorderStyle.Fixed3D
+            pSS.Dock = System.Windows.Forms.DockStyle.Fill
+            pSS.Location = New System.Drawing.Point(0, 0)
+            pSS.Name = "panelShipSlot"
+            pSS.Size = New System.Drawing.Size(414, 600)
+            pSS.TabIndex = 1
 
-        Dim pSI As New Panel
-        pSI.Dock = System.Windows.Forms.DockStyle.Left
-        pSI.Location = New System.Drawing.Point(0, 384)
-        pSI.Name = "panelShipInfo"
-        pSI.Size = New System.Drawing.Size(270, 600)
-        pSI.TabIndex = 0
+            Dim pSI As New Panel
+            pSI.Dock = System.Windows.Forms.DockStyle.Left
+            pSI.Location = New System.Drawing.Point(0, 384)
+            pSI.Name = "panelShipInfo"
+            pSI.Size = New System.Drawing.Size(270, 600)
+            pSI.TabIndex = 0
 
-        tp.Controls.Add(pSS)
-        tp.Controls.Add(pSI)
-        tp.Location = New System.Drawing.Point(4, 22)
-        tp.Size = New System.Drawing.Size(414, 666)
-        tp.UseVisualStyleBackColor = True
+            tp.Controls.Add(pSS)
+            tp.Controls.Add(pSI)
+            tp.Location = New System.Drawing.Point(4, 22)
+            tp.Size = New System.Drawing.Size(414, 666)
+            tp.UseVisualStyleBackColor = True
 
-        Dim shipSlot As New ShipSlotControl
-        shipSlot.Name = "shipSlot"
-        shipSlot.Location = New Point(0, 0)
-        shipSlot.Dock = DockStyle.Fill
-        pSS.Controls.Add(shipSlot)
-        shipSlot.pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(curShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+            Dim shipSlot As New ShipSlotControl
+            shipSlot.Name = "shipSlot"
+            shipSlot.Location = New Point(0, 0)
+            shipSlot.Dock = DockStyle.Fill
+            pSS.Controls.Add(shipSlot)
+            shipSlot.pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(curShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
 
-        Dim shipInfo As New ShipInfoControl(shipFit)
-        shipInfo.Name = "shipInfo"
-        shipInfo.Location = New Point(0, 0)
-        shipInfo.Dock = DockStyle.Fill
-        pSI.Controls.Add(shipInfo)
+            Dim shipInfo As New ShipInfoControl(shipFit)
+            shipInfo.Name = "shipInfo"
+            shipInfo.Location = New Point(0, 0)
+            shipInfo.Dock = DockStyle.Fill
+            pSI.Controls.Add(shipInfo)
 
-        shipInfo.ShipSlot = shipSlot
-        shipSlot.ShipInfo = shipInfo
-        shipSlot.ShipFit = shipFit
+            shipInfo.ShipSlot = shipSlot
+            shipSlot.ShipInfo = shipInfo
+            shipSlot.ShipFit = shipFit
 
-        Fittings.FittingTabList.Add(shipFit)
-    End Sub
+            Fittings.FittingTabList.Add(shipFit)
+            Return True
+        Else
+            Dim msg As String = shipName & " is no longer a valid ship type."
+            MessageBox.Show(msg, "Unknown Ship Type", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End If
+    End Function
     Private Sub ctxFittings_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFittings.Opening
         If clvFittings.SelectedItems.Count < 2 Then
             If clvFittings.SelectedItems.Count = 0 Then
@@ -1955,11 +1965,12 @@ Public Class frmHQF
         If fittingName <> "" Then
             Dim fittingKeyName As String = shipName & ", " & fittingName
             Fittings.FittingList.Add(fittingKeyName, New ArrayList)
-            Call Me.CreateFittingTabPage(fittingKeyName)
-            Call Me.UpdateFilteredShips()
-            tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
-            If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-            currentShipSlot.UpdateEverything()
+            If Me.CreateFittingTabPage(fittingKeyName) = True Then
+                Call Me.UpdateFilteredShips()
+                tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
+                If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
+                currentShipSlot.UpdateEverything()
+            End If
         Else
             MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -1980,7 +1991,9 @@ Public Class frmHQF
                 If Fittings.FittingList.Contains(shipFit) = True Then
                     ' Create the tab and display
                     If Fittings.FittingTabList.Contains(shipFit) = False Then
-                        Call Me.CreateFittingTabPage(shipFit)
+                        If Me.CreateFittingTabPage(shipFit) = False Then
+                            Exit Sub
+                        End If
                         tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
                         If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
                         currentShipSlot.UpdateEverything()
@@ -2025,7 +2038,9 @@ Public Class frmHQF
         If Fittings.FittingList.Contains(shipFit) = True Then
             ' Create the tab and display
             If Fittings.FittingTabList.Contains(shipFit) = False Then
-                Call Me.CreateFittingTabPage(shipFit)
+                If Me.CreateFittingTabPage(shipFit) = False Then
+                    Exit Sub
+                End If
                 tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
                 If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
                 currentShipSlot.UpdateEverything()
@@ -2116,7 +2131,9 @@ Public Class frmHQF
         Dim shipFit As String = cboFittings.SelectedItem.ToString
         ' Create the tab and display
         If Fittings.FittingTabList.Contains(shipFit) = False Then
-            Call Me.CreateFittingTabPage(shipFit)
+            If Me.CreateFittingTabPage(shipFit) = False Then
+                Exit Sub
+            End If
         End If
         tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
         If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
