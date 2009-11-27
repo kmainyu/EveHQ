@@ -2620,8 +2620,24 @@ Public Class frmHQF
 
     Private Sub mnuCopyImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyImplants.Click
         Dim implantSetName As String = currentShipInfo.cboImplants.SelectedItem.ToString
-        Dim implantSet As ImplantGroup = CType(Implants.implantGroups(implantSetName), ImplantGroup)
-        Dim stats As New System.Text.StringBuilder
+        If Implants.implantGroups.ContainsKey(implantSetName) = True Then
+            Dim implantSet As ImplantGroup = CType(Implants.implantGroups(implantSetName), ImplantGroup)
+            Dim stats As New System.Text.StringBuilder
+            stats.AppendLine("[Implants - " & implantSet.GroupName & "]")
+            stats.AppendLine("")
+            For slotNo As Integer = 1 To 10
+                If implantSet.ImplantName(slotNo) <> "" Then
+                    stats.AppendLine("Slot " & slotNo.ToString & ": " & implantSet.ImplantName(slotNo))
+                Else
+                    stats.AppendLine("Slot " & slotNo.ToString & ": <Empty>")
+                End If
+            Next
+            Try
+                Clipboard.SetText(stats.ToString)
+            Catch ex As Exception
+                MessageBox.Show("There was an error writing data to the clipboard. Please wait a couple of seconds and try again.", "Copy Stats Error")
+            End Try
+        End If
     End Sub
 
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
