@@ -451,6 +451,15 @@ Public Class frmPilotManager
     Private Sub cboImplantGroups_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboImplantFilter.SelectedIndexChanged
         Call Me.DrawImplantTree()
     End Sub
+    Private Sub tvwImplants_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwImplants.AfterSelect
+        If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
+            Dim implantName As String = e.Node.Text
+            Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
+            lblImplantDescription.Text = cImplant.Description
+        Else
+            lblImplantDescription.Text = ""
+        End If
+    End Sub
     Private Sub tvwImplants_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplants.NodeMouseClick
         If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
@@ -610,6 +619,13 @@ Public Class frmPilotManager
 
             Next
             tvwImplantsM.EndUpdate()
+        End If
+    End Sub
+    Private Sub tvwImplantsM_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwImplantsM.AfterSelect
+        If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
+            Dim implantName As String = e.Node.Text
+            Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
+            lblImplantDescriptionM.Text = cImplant.Description
         End If
     End Sub
     Private Sub tvwImplantsM_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplantsM.NodeMouseClick

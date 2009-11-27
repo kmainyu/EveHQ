@@ -48,6 +48,7 @@ Partial Class frmPilotManager
         Me.chkShowModifiedSkills = New System.Windows.Forms.CheckBox
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabSkills = New System.Windows.Forms.TabPage
+        Me.btnAddHQFSkillstoQueue = New System.Windows.Forms.Button
         Me.lblSkillQueue = New System.Windows.Forms.Label
         Me.cboSkillQueue = New System.Windows.Forms.ComboBox
         Me.btnSetToSkillQueue = New System.Windows.Forms.Button
@@ -59,7 +60,6 @@ Partial Class frmPilotManager
         Me.btnCollapseAll = New System.Windows.Forms.Button
         Me.lblImplantFilter = New System.Windows.Forms.Label
         Me.cboImplantFilter = New System.Windows.Forms.ComboBox
-        Me.lblImplantDescription = New System.Windows.Forms.Label
         Me.tvwImplants = New System.Windows.Forms.TreeView
         Me.tabImplantManager = New System.Windows.Forms.TabPage
         Me.lblImplantDescriptionM = New System.Windows.Forms.TextBox
@@ -73,7 +73,7 @@ Partial Class frmPilotManager
         Me.btnAddImplantGroup = New System.Windows.Forms.Button
         Me.lstImplantGroups = New System.Windows.Forms.ListBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnAddHQFSkillstoQueue = New System.Windows.Forms.Button
+        Me.lblImplantDescription = New System.Windows.Forms.TextBox
         Me.ctxHQFLevel.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.tabSkills.SuspendLayout()
@@ -296,6 +296,18 @@ Partial Class frmPilotManager
         Me.tabSkills.Text = "Skills"
         Me.tabSkills.UseVisualStyleBackColor = True
         '
+        'btnAddHQFSkillstoQueue
+        '
+        Me.btnAddHQFSkillstoQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAddHQFSkillstoQueue.Location = New System.Drawing.Point(299, 500)
+        Me.btnAddHQFSkillstoQueue.Name = "btnAddHQFSkillstoQueue"
+        Me.btnAddHQFSkillstoQueue.Size = New System.Drawing.Size(85, 36)
+        Me.btnAddHQFSkillstoQueue.TabIndex = 11
+        Me.btnAddHQFSkillstoQueue.Text = "Add HQF Skills to Queue"
+        Me.ToolTip1.SetToolTip(Me.btnAddHQFSkillstoQueue, "Updates all skills less than actual to actual but leaves skills manually set to h" & _
+                "igher skill levels")
+        Me.btnAddHQFSkillstoQueue.UseVisualStyleBackColor = True
+        '
         'lblSkillQueue
         '
         Me.lblSkillQueue.AutoSize = True
@@ -343,13 +355,13 @@ Partial Class frmPilotManager
         '
         'tabImplants
         '
+        Me.tabImplants.Controls.Add(Me.lblImplantDescription)
         Me.tabImplants.Controls.Add(Me.btnSaveGroup)
         Me.tabImplants.Controls.Add(Me.cboImplantGroup)
         Me.tabImplants.Controls.Add(Me.lblUseImplantGroup)
         Me.tabImplants.Controls.Add(Me.btnCollapseAll)
         Me.tabImplants.Controls.Add(Me.lblImplantFilter)
         Me.tabImplants.Controls.Add(Me.cboImplantFilter)
-        Me.tabImplants.Controls.Add(Me.lblImplantDescription)
         Me.tabImplants.Controls.Add(Me.tvwImplants)
         Me.tabImplants.Location = New System.Drawing.Point(4, 22)
         Me.tabImplants.Name = "tabImplants"
@@ -419,16 +431,6 @@ Partial Class frmPilotManager
         Me.cboImplantFilter.Size = New System.Drawing.Size(150, 21)
         Me.cboImplantFilter.Sorted = True
         Me.cboImplantFilter.TabIndex = 11
-        '
-        'lblImplantDescription
-        '
-        Me.lblImplantDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblImplantDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblImplantDescription.Location = New System.Drawing.Point(16, 466)
-        Me.lblImplantDescription.Name = "lblImplantDescription"
-        Me.lblImplantDescription.Size = New System.Drawing.Size(638, 70)
-        Me.lblImplantDescription.TabIndex = 10
         '
         'tvwImplants
         '
@@ -561,17 +563,17 @@ Partial Class frmPilotManager
         Me.lstImplantGroups.Size = New System.Drawing.Size(192, 472)
         Me.lstImplantGroups.TabIndex = 9
         '
-        'btnAddHQFSkillstoQueue
+        'lblImplantDescription
         '
-        Me.btnAddHQFSkillstoQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAddHQFSkillstoQueue.Location = New System.Drawing.Point(299, 500)
-        Me.btnAddHQFSkillstoQueue.Name = "btnAddHQFSkillstoQueue"
-        Me.btnAddHQFSkillstoQueue.Size = New System.Drawing.Size(85, 36)
-        Me.btnAddHQFSkillstoQueue.TabIndex = 11
-        Me.btnAddHQFSkillstoQueue.Text = "Add HQF Skills to Queue"
-        Me.ToolTip1.SetToolTip(Me.btnAddHQFSkillstoQueue, "Updates all skills less than actual to actual but leaves skills manually set to h" & _
-                "igher skill levels")
-        Me.btnAddHQFSkillstoQueue.UseVisualStyleBackColor = True
+        Me.lblImplantDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblImplantDescription.Location = New System.Drawing.Point(16, 459)
+        Me.lblImplantDescription.Multiline = True
+        Me.lblImplantDescription.Name = "lblImplantDescription"
+        Me.lblImplantDescription.ReadOnly = True
+        Me.lblImplantDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.lblImplantDescription.Size = New System.Drawing.Size(638, 84)
+        Me.lblImplantDescription.TabIndex = 20
         '
         'frmPilotManager
         '
@@ -628,7 +630,6 @@ Partial Class frmPilotManager
     Friend WithEvents btnCollapseAll As System.Windows.Forms.Button
     Friend WithEvents lblImplantFilter As System.Windows.Forms.Label
     Friend WithEvents cboImplantFilter As System.Windows.Forms.ComboBox
-    Friend WithEvents lblImplantDescription As System.Windows.Forms.Label
     Friend WithEvents tvwImplants As System.Windows.Forms.TreeView
     Friend WithEvents cboImplantGroup As System.Windows.Forms.ComboBox
     Friend WithEvents lblUseImplantGroup As System.Windows.Forms.Label
@@ -650,4 +651,5 @@ Partial Class frmPilotManager
     Friend WithEvents cboSkillQueue As System.Windows.Forms.ComboBox
     Friend WithEvents lblImplantDescriptionM As System.Windows.Forms.TextBox
     Friend WithEvents btnAddHQFSkillstoQueue As System.Windows.Forms.Button
+    Friend WithEvents lblImplantDescription As System.Windows.Forms.TextBox
 End Class
