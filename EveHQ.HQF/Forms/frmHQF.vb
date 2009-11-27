@@ -2618,6 +2618,12 @@ Public Class frmHQF
         End Try
     End Sub
 
+    Private Sub mnuCopyImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyImplants.Click
+        Dim implantSetName As String = currentShipInfo.cboImplants.SelectedItem.ToString
+        Dim implantSet As ImplantGroup = CType(Implants.implantGroups(implantSetName), ImplantGroup)
+        Dim stats As New System.Text.StringBuilder
+    End Sub
+
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
         If myPilotManager.IsHandleCreated = False Then
             myPilotManager = New frmPilotManager
@@ -2770,4 +2776,5 @@ Public Class frmHQF
     '    End If
     'End Sub
 
+   
 End Class

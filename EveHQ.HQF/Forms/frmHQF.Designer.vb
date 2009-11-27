@@ -192,6 +192,7 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.CollapsibleSplitter2 = New NJFLib.Controls.CollapsibleSplitter
+        Me.mnuCopyImplants = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainerShip.Panel1.SuspendLayout()
         Me.SplitContainerShip.Panel2.SuspendLayout()
@@ -308,7 +309,7 @@ Partial Class frmHQF
         '
         'btnCopy
         '
-        Me.btnCopy.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyForHQF, Me.mnuCopyForEFT, Me.mnuCopyForForums, Me.ToolStripMenuItem7, Me.mnuShipStats})
+        Me.btnCopy.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyForHQF, Me.mnuCopyForEFT, Me.mnuCopyForForums, Me.ToolStripMenuItem7, Me.mnuShipStats, Me.mnuCopyImplants})
         Me.btnCopy.Enabled = False
         Me.btnCopy.Image = CType(resources.GetObject("btnCopy.Image"), System.Drawing.Image)
         Me.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta
@@ -319,30 +320,30 @@ Partial Class frmHQF
         'mnuCopyForHQF
         '
         Me.mnuCopyForHQF.Name = "mnuCopyForHQF"
-        Me.mnuCopyForHQF.Size = New System.Drawing.Size(168, 22)
+        Me.mnuCopyForHQF.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyForHQF.Text = "Copy For HQF"
         '
         'mnuCopyForEFT
         '
         Me.mnuCopyForEFT.Name = "mnuCopyForEFT"
-        Me.mnuCopyForEFT.Size = New System.Drawing.Size(168, 22)
+        Me.mnuCopyForEFT.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyForEFT.Text = "Copy For EFT"
         '
         'mnuCopyForForums
         '
         Me.mnuCopyForForums.Name = "mnuCopyForForums"
-        Me.mnuCopyForForums.Size = New System.Drawing.Size(168, 22)
+        Me.mnuCopyForForums.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyForForums.Text = "Copy For Forums"
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(165, 6)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(170, 6)
         '
         'mnuShipStats
         '
         Me.mnuShipStats.Name = "mnuShipStats"
-        Me.mnuShipStats.Size = New System.Drawing.Size(168, 22)
+        Me.mnuShipStats.Size = New System.Drawing.Size(173, 22)
         Me.mnuShipStats.Text = "Copy Ship Statistics"
         '
         'ToolStripSeparator6
@@ -1859,6 +1860,12 @@ Partial Class frmHQF
         Me.CollapsibleSplitter2.UseAnimations = False
         Me.CollapsibleSplitter2.VisualStyle = NJFLib.Controls.VisualStyles.XP
         '
+        'mnuCopyImplants
+        '
+        Me.mnuCopyImplants.Name = "mnuCopyImplants"
+        Me.mnuCopyImplants.Size = New System.Drawing.Size(173, 22)
+        Me.mnuCopyImplants.Text = "Copy Implant Details"
+        '
         'frmHQF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2110,4 +2117,5 @@ Partial Class frmHQF
     Friend WithEvents mnuShowMetaVariations As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
     Friend WithEvents CollapsibleSplitter2 As NJFLib.Controls.CollapsibleSplitter
+    Friend WithEvents mnuCopyImplants As System.Windows.Forms.ToolStripMenuItem
 End Class
