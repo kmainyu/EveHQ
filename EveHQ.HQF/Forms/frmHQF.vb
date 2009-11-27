@@ -167,6 +167,29 @@ Public Class frmHQF
             Fittings.FittingList = CType(f.Deserialize(s), SortedList)
             s.Close()
         End If
+        ' Update Fitting Names
+        Dim updateList As New SortedList(Of String, String)
+        For Each fitting As String In Fittings.FittingList.Keys
+            If fitting.Contains("Amarr Navy Slicer") Then
+                Dim newFit As String = fitting.Replace("Amarr Navy Slicer", "Imperial Navy Slicer")
+                updateList.Add(fitting, newFit)
+            End If
+            If fitting.Contains("Gallente Navy Comet") Then
+                Dim newFit As String = fitting.Replace("Gallente Navy Comet", "Federation Navy Comet")
+                updateList.Add(fitting, newFit)
+            End If
+        Next
+        For Each fitting As String In updateList.Keys
+            Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
+            Fittings.FittingList.Remove(fitting)
+        Next
+        ' Update Modules
+        For Each fitting As ArrayList In Fittings.FittingList.Values
+            For idx As Integer = 0 To fitting.Count - 1
+                fitting(idx) = fitting(idx).ToString.Replace("Amarr Navy", "Imperial Navy")
+                fitting(idx) = fitting(idx).ToString.Replace("Gallente Navy", "Federation Navy")
+            Next
+        Next
         Call Me.UpdateFittingsTree(True)
     End Sub
     Private Sub SaveFittings()
@@ -1635,23 +1658,6 @@ Public Class frmHQF
         Dim fittingSep As Integer = 0
         Dim isFlyable As Boolean = True
 
-        ' Update Fitting Names
-        Dim updateList As New SortedList(Of String, String)
-        For Each fitting As String In Fittings.FittingList.Keys
-            If fitting.Contains("Amarr Navy Slicer") Then
-                Dim newFit As String = fitting.Replace("Amarr Navy Slicer", "Imperial Navy Slicer")
-                updateList.Add(fitting, newFit)
-            End If
-            If fitting.Contains("Gallente Navy Comet") Then
-                Dim newFit As String = fitting.Replace("Gallente Navy Comet", "Federation Navy Comet")
-                updateList.Add(fitting, newFit)
-            End If
-        Next
-        For Each fitting As String In updateList.Keys
-            Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
-            Fittings.FittingList.Remove(fitting)
-        Next
-
         If Fittings.FittingList.Count > 0 Then
             For Each fitting As String In Fittings.FittingList.Keys
                 fittingSep = fitting.IndexOf(", ")
@@ -2758,8 +2764,6 @@ Public Class frmHQF
 
 #End Region
 
-
-
 #Region "Meta Variations Code"
 
     Private Sub mnuShowMetaVariations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowMetaVariations.Click
@@ -2776,21 +2780,4 @@ Public Class frmHQF
         cboFittings.Visible = CollapsibleSplitter1.IsCollapsed
     End Sub
 
-    'Private Sub CollapsibleSplitter1_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles CollapsibleSplitter1.MouseHover
-    '    If CollapsibleSplitter1.IsCollapsed = True And CollapsibleSplitter1.IsHot = False Then
-    '        CollapsibleSplitter1.ToggleState()
-    '        shipPanelTemp = True
-    '    End If
-    'End Sub
-
-    'Private Sub CollapsibleSplitter1_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles CollapsibleSplitter1.MouseLeave
-    '    If CollapsibleSplitter1.IsCollapsed = False And shipPanelTemp = True Then
-    '        If frmHQF.MousePosition.X > CollapsibleSplitter1.ControlToHide.Location.X + CollapsibleSplitter1.ControlToHide.Width Then
-    '            CollapsibleSplitter1.ToggleState()
-    '            shipPanelTemp = False
-    '        End If
-    '    End If
-    'End Sub
-
-   
 End Class
