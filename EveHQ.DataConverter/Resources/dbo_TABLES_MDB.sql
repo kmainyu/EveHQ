@@ -149,22 +149,11 @@ CREATE TABLE dbo.ramAssemblyLineTypeDetailPerGroup
   materialMultiplier  double    NULL
 );
 
-CREATE TABLE dbo.ramInstallationTypeDefaultContents
+CREATE TABLE dbo.ramInstallationTypeContents
 (
   installationTypeID            integer  NOT NULL,
   assemblyLineTypeID            integer   NOT NULL,
-  UIGroupingID                  integer   NOT NULL,
-  quantity                      integer   NOT NULL,
-  costInstall                   double     NOT NULL,
-  costPerHour                   double     NOT NULL,
-  restrictionMask               integer   NOT NULL,
-  discountPerGoodStandingPoint  double     NOT NULL,
-  surchargePerBadStandingPoint  double     NOT NULL,
-  minimumStanding               double     NOT NULL,
-  minimumCharSecurity           double     NOT NULL,
-  minimumCorpSecurity           double     NOT NULL,
-  maximumCharSecurity           double     NOT NULL,
-  maximumCorpSecurity           double     NOT NULL
+  quantity                      integer   NULL
 );
 
 CREATE TABLE dbo.ramAssemblyLines
@@ -654,8 +643,7 @@ CREATE TABLE dbo.crpNPCCorporationResearchFields
 CREATE TABLE dbo.crpNPCCorporationTrades
 (
   corporationID                 integer        NOT NULL,
-  typeID						integer        NOT NULL,
-  supplyDemand                  double         NOT NULL 
+  typeID						integer        NOT NULL
 );
 
 CREATE TABLE dbo.crpNPCDivisions
@@ -915,5 +903,35 @@ CREATE TABLE dbo.ramTypeRequirements
   quantity			integer			NULL,
   damagePerJob		double			NULL,
   recycle           integer         NULL
+);
+
+CREATE TABLE dbo.invTypeMaterials
+(
+  typeID  			integer			NOT NULL,
+  materialTypeID	integer			NOT NULL,
+  quantity			integer			NOT NULL
+);
+
+CREATE TABLE dbo.crtRecommendations
+(
+  recommendationID		integer			NOT NULL,
+  shipTypeID  			integer			NULL,
+  certificateID			integer			NULL,
+  recommendationLevel	integer			NOT NULL,
+  CONSTRAINT pk_crtRecommendations PRIMARY KEY  (recommendationID)
+);
+
+CREATE TABLE dbo.mapLocationScenes
+(
+  locationID			integer			NOT NULL,
+  sceneID  				integer			NULL,
+  CONSTRAINT pk_mapLocationScenes PRIMARY KEY  (locationID)
+);
+
+CREATE TABLE dbo.mapLocationWormholeClasses
+(
+  locationID			integer			NOT NULL,
+  wormholeClassID		integer			NULL,
+  CONSTRAINT pk_mapLocationWormholeClasses PRIMARY KEY  (locationID)
 );
 

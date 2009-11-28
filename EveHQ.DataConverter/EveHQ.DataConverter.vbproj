@@ -85,9 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -101,14 +101,12 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="Resources\attributeGroups.csv" />
-    <None Include="Resources\materialsForRefining.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\DB_Links.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\dbo_TABLES_MDB.sql" />
-    <None Include="Resources\dbo_TABLES_SQL.sql" />
     <None Include="Resources\DB_Primary.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -126,9 +124,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\dbo_TABLES_MySQL.sql" />
     <None Include="Resources\EntityData.csv" />
-    <None Include="Resources\WHAttribs.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon84_08.png" />

@@ -172,18 +172,6 @@ Public Class frmDataConvert
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
         DataWorker.CancelAsync()
     End Sub
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim line As String = My.Resources.materialsForRefining.Substring(50, 50)
-        Dim msg As String = ""
-        For a As Integer = 0 To 49
-            msg &= a & ": " & Asc(line.Substring(a, 1))
-            If Asc(line.Substring(a, 1)) > 32 Then
-                msg &= line.Substring(a, 1)
-            End If
-            msg &= ControlChars.CrLf
-        Next
-        MsgBox(msg)
-    End Sub
     Private Sub btnTarget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTarget.Click
         With fbd1
             .Description = "Please select the target folder where the new data files will be saved."
@@ -251,10 +239,6 @@ Public Class frmDataConvert
                     Call ConvertToMDB(totalLines, DataWorker, e)
                 Case 1
                     Call ConvertToCSV(totalLines, DataWorker, e)
-                Case 2
-                    Call ConvertToSQL(False, totalLines, DataWorker, e)
-                Case 3
-                    Call ConvertToSQL(True, totalLines, DataWorker, e)
             End Select
         End If
     End Sub
@@ -276,223 +260,6 @@ Public Class frmDataConvert
             pbProgress.Value = 0
         End If
     End Sub
-#End Region
-#Region "Create SQL Data"
-    Private Sub ConvertToSQL(ByVal SQLExpress As Boolean, ByVal totallines As Long, ByVal worker As System.ComponentModel.BackgroundWorker, ByVal e As System.ComponentModel.DoWorkEventArgs)
-        Dim connection As SqlConnection
-        Try
-            Dim dataFiles As System.Collections.ObjectModel.ReadOnlyCollection(Of String)
-            dataFiles = My.Computer.FileSystem.GetFiles(txtSource.Text)
-            Dim inputFile As String = ""
-
-            Dim strConn As String
-            If CreateSQLDB("EveHQ", SQLExpress) = False Then Exit Sub
-            strConn = "Server=" & server
-            If SQLExpress = True Then
-                strConn &= "\SQLEXPRESS"
-            End If
-            If SQLSecurity = True Then
-                strConn += "; Database = EveHQ; User ID=" & userName & "; Password=" & password & ";"
-            Else
-                strConn += "; Database = EveHQ; Integrated Security = SSPI;"
-            End If
-            Dim lineCount As Long = 0
-
-            connection = New SqlConnection(strConn)
-            connection.Open()
-            ' Write the table definitions from internal resources
-            Dim tableData As String = My.Resources.dbo_TABLES_SQL
-            Dim command As New SqlCommand(tableData, connection)
-            command.ExecuteNonQuery()
-
-            ' Now write the data
-            For Each inputFile In dataFiles
-                Dim tblName As String = ""
-                Dim keyName As String = ""
-                Dim keyColumn As String = ""
-                Dim inputFileInfo As FileInfo = My.Computer.FileSystem.GetFileInfo(inputFile)
-                Dim fileName As String = inputFileInfo.Name
-                If fileList.Count = 0 Or fileList.Contains(fileName) Then
-                    Dim sr As StreamReader = New StreamReader(inputFile)
-
-                    ' Start main iteration thru files
-                    Do
-                        If worker.CancellationPending = True Then
-                            connection.Close()
-                            e.Cancel = True
-                        Else
-                            ' Get a T-SQL "line"
-                            Dim oline As String = ""
-                            Dim line As String = ""
-                            Do
-                                line &= sr.ReadLine & ControlChars.CrLf
-                            Loop Until line.EndsWith(";" & ControlChars.CrLf) Or sr.EndOfStream = True
-                            lineCount += 1
-                            oline = line
-                            ' Replace the dbo bits of the tables
-                            line = line.Replace("dbo.", "")
-                            line = line.Replace("dbo_", "")
-                            line = line.Replace(".csv", "")
-                            ' Remove the "COMMIT;" bits
-                            line = line.Replace("COMMIT;", "")
-                            line = line.Replace(",True", ",1")
-                            line = line.Replace(",False", ",0")
-                            ' Replace blank entries with "null"
-                            Do While line.Contains(",,") = True
-                                line = line.Replace(",,", ",null,")
-                            Loop
-                            line = line.Replace("'6/13/2007 11:01:00 AM'", "null")
-                            line = line.Replace(",);", ",null);")
-
-                            If line.EndsWith(";" & ControlChars.CrLf) = True And line.StartsWith(ControlChars.CrLf & "INSERT") = True Then
-                                command = New SqlCommand(line, connection)
-                                command.ExecuteNonQuery()
-                                If Int(lineCount / 1000) = lineCount / 1000 Then
-                                    worker.ReportProgress(CInt(lineCount / totallines * 100))
-                                End If
-                            End If
-                        End If
-                        'End If
-                    Loop Until sr.EndOfStream = True
-                    GC.Collect()
-                End If
-            Next
-            Call AddSQLRefiningData(connection)
-            Call AddSQLAttributeGroupColumn(connection)
-            Call CorrectSQLEveUnits(connection)
-            connection.Close()
-            conversionSuccess = True
-        Catch ex As Exception
-            Dim msg As String = "There was an error converting the data." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "The error was: " & ex.Message
-            MessageBox.Show(msg, "Error Converting to MS SQL", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            conversionSuccess = False
-            Exit Sub
-        End Try
-
-    End Sub
-    Private Function CreateSQLDB(ByVal dbName As String, ByVal SQLExpress As Boolean) As Boolean
-
-        Dim conn As SqlConnection
-        Dim strConn As String
-        strConn = "Server = " & server
-        If SQLExpress = True Then
-            strConn &= "\SQLEXPRESS"
-        End If
-        If SQLSecurity = True Then
-            strConn += "; Database = ;User ID=" & userName & ";Password=" & password & ";"
-        Else
-            strConn += "; Database = ; Integrated Security = SSPI;"
-        End If
-        conn = New SqlConnection(strConn)
-        Try
-            conn.Open()
-        Catch e As Exception
-            Dim msg As String = "There was an error connecting to the SQL Server on " & server & "." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Please ensure the server name, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "The error was: " & e.Message
-            MessageBox.Show(msg, "Error Connecting to SQL Server", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            conversionSuccess = False
-            Return False
-            Exit Function
-        End Try
-        Dim strSQL As String
-        strSQL = "if Exists (Select * From master..sysdatabases Where Name = '" & dbName & "')"
-        strSQL &= " DROP DATABASE " & dbName & vbCrLf & " CREATE DATABASE " & dbName
-        Dim cmd As New SqlCommand(strSQL, conn)
-        cmd.CommandType = CommandType.Text
-        Try
-            cmd.ExecuteNonQuery()
-        Catch e As Exception
-            MessageBox.Show("Error Creating SQL Database: " & e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            conversionSuccess = False
-            Return False
-            Exit Function
-        Finally
-            cmd.Dispose()
-        End Try
-        conn.Close()
-        Return True
-
-    End Function
-    Private Sub AddSQLPrimaryKeys(ByVal connection As SqlConnection)
-
-        Dim strLines() As String = My.Resources.DB_Primary.Split(ControlChars.CrLf)
-        Dim command As SqlCommand
-        Dim strSQL As String = ""
-        Dim strLinks(1) As String
-        For Each strLine As String In strLines
-            Try
-                strLinks = strLine.Split(",")
-                If strLinks(1).Trim <> "<none>" Then
-                    strSQL = "ALTER TABLE " & strLinks(0).Trim & " ALTER COLUMN " & strLinks(1).Trim & " INTEGER NOT NULL;"
-                    command = New SqlCommand(strSQL, connection)
-                    command.ExecuteNonQuery()
-                    strSQL = "ALTER TABLE " & strLinks(0).Trim & " ADD PRIMARY KEY (" & strLinks(1).Trim & ");"
-                    command = New SqlCommand(strSQL, connection)
-                    command.ExecuteNonQuery()
-                End If
-            Catch ex As Exception
-
-            End Try
-        Next
-
-    End Sub
-    Private Sub CreateSQLRelationships(ByVal connection As SqlConnection)
-
-        Dim strLines() As String = My.Resources.DB_Links.Split(ControlChars.CrLf)
-        Dim command As SqlCommand
-        Dim strSQL As String = ""
-        Dim strLinks(3) As String
-        For Each strLine As String In strLines
-            Try
-                strLinks = strLine.Split(",")
-                strSQL = "ALTER TABLE " & strLinks(0).Trim & " ADD FOREIGN KEY (" & strLinks(1).Trim & ") REFERENCES " & strLinks(2).Trim
-                command = New SqlCommand(strSQL, connection)
-                command.ExecuteNonQuery()
-            Catch ex As Exception
-
-            End Try
-        Next
-
-    End Sub
-    Private Sub AddSQLRefiningData(ByVal connection As SqlConnection)
-        Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO ramTypeRequirements (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
-                Dim keyCommand As New SqlCommand(strSQL, connection)
-                keyCommand.ExecuteNonQuery()
-            End If
-        Next
-    End Sub
-    Private Sub AddSQLAttributeGroupColumn(ByVal connection As SqlConnection)
-        Dim strSQL As String = "ALTER TABLE dgmAttributeTypes ADD attributeGroup INTEGER DEFAULT 0;"
-        Dim keyCommand As New SqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        strSQL = "UPDATE dgmAttributeTypes SET attributeGroup=0;"
-        keyCommand = New SqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        Dim line As String = My.Resources.attributeGroups.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("attributeID") = False And line <> "" Then
-                Dim fields() As String = line.Split(",")
-                Dim strSQL2 As String = "UPDATE dgmAttributeTypes SET attributeGroup=" & fields(1) & " WHERE attributeID=" & fields(0) & ";"
-                Dim keyCommand2 As New SqlCommand(strSQL2, connection)
-                keyCommand2.ExecuteNonQuery()
-            End If
-        Next
-    End Sub
-    Private Sub CorrectSQLEveUnits(ByVal connection As SqlConnection)
-        Dim strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
-        Dim keyCommand As New SqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-    End Sub
-
 #End Region
 #Region "Create CSV Data"
     Private Sub ConvertToCSV(ByVal totalLines As Long, ByVal worker As System.ComponentModel.BackgroundWorker, ByVal e As System.ComponentModel.DoWorkEventArgs)
@@ -558,7 +325,6 @@ Public Class frmDataConvert
                     GC.Collect()
                 End If
             Next
-            Call AddCSVRefiningData()
             conversionSuccess = True
         Catch ex As Exception
             Dim msg As String = "There was an error converting the data." & ControlChars.CrLf & ControlChars.CrLf
@@ -568,20 +334,6 @@ Public Class frmDataConvert
             Exit Sub
         End Try
 
-    End Sub
-    Private Sub AddCSVRefiningData()
-        Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        Dim sw As StreamWriter = New StreamWriter(Path.Combine(txtTarget.Text, "dbo_ramTypeRequirements.sql.csv"), True)
-        ' Read each line and write if not header
-        For Each line In lines
-            If line.StartsWith("typeID") = False And line <> "" Then
-                sw.WriteLine(line)
-            End If
-        Next
-        sw.Flush()
-        sw.Close()
-        GC.Collect()
     End Sub
 #End Region
 #Region "Create MDB Data"
@@ -686,9 +438,7 @@ Public Class frmDataConvert
             End If
         Next
         Call CreateRelationships()
-        Call AddMDBRefiningData()
         Call AddMDBAttributeGroupColumn()
-        Call AddMDBWHData()
         Call AddEntityData()
         Call CorrectMDBEveUnits()
         Call AddMDBVersionTable()
@@ -740,41 +490,6 @@ Public Class frmDataConvert
         ' Close the connection
         connection.Close()
 
-    End Sub
-    Private Sub AddMDBRefiningData()
-        Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
-        Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
-        connection.Open()
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO ramTypeRequirements (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
-                Dim keyCommand As New OleDbCommand(strSQL, connection)
-                keyCommand.ExecuteNonQuery()
-            End If
-        Next
-        connection.Close()
-    End Sub
-    Private Sub AddMDBWHData()
-        Dim line As String = My.Resources.WHAttribs.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
-        Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
-        connection.Open()
-        ' Read the first line which is a header line
-        For Each line In lines
-            Try
-                If line.StartsWith("typeID") = False And line <> "" Then
-                    Dim strSQL As String = "INSERT INTO dgmTypeAttributes (typeID,attributeID,valueInt,valueFloat) VALUES(" & line & ");"
-                    Dim keyCommand As New OleDbCommand(strSQL, connection)
-                    keyCommand.ExecuteNonQuery()
-                End If
-            Catch e As Exception
-            End Try
-        Next
-        connection.Close()
     End Sub
     Private Sub AddEntityData()
         Dim line As String = My.Resources.EntityData.Replace(ControlChars.CrLf, Chr(13))
