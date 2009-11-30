@@ -2155,6 +2155,7 @@ Public Class Engine
     End Sub
 
     Private Shared Sub ApplyStackingPenalties()
+        Call Engine.PrioritiseEffects()
         Dim sTime, eTime As Date
         sTime = Now
         Dim baseEffectList As New ArrayList
@@ -2324,6 +2325,41 @@ Public Class Engine
                 Next
             End If
             ModuleEffectsTable(att) = finalEffectList
+        Next
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+    End Sub
+
+    Private Shared Sub PrioritiseEffects()
+        Dim sTime, eTime As Date
+        sTime = Now
+        Dim baseEffectList As New ArrayList
+        Dim finalEffectList As New ArrayList
+        Dim HiPEffectList As New ArrayList
+        Dim LowPEffectList As New ArrayList
+        Dim tempEffectList As New ArrayList
+        Dim att As String
+        For attNumber As Integer = 0 To ModuleEffectsTable.Keys.Count - 1
+            att = CStr(ModuleEffectsTable.GetKey(attNumber))
+            baseEffectList = CType(ModuleEffectsTable(att), ArrayList)
+            HiPEffectList.Clear() : LowPEffectList.Clear()
+            finalEffectList = New ArrayList
+            For Each fEffect As FinalEffect In baseEffectList
+                Select Case fEffect.CalcType
+                    Case EffectCalcType.Addition
+                        HiPEffectList.Add(fEffect)
+                    Case Else
+                        LowPEffectList.Add(fEffect)
+                End Select
+            Next
+            tempEffectList = New ArrayList
+            For Each fEffect As FinalEffect In HiPEffectList
+                tempEffectList.Add(fEffect)
+            Next
+            For Each fEffect As FinalEffect In LowPEffectList
+                tempEffectList.Add(fEffect)
+            Next
+            ModuleEffectsTable(att) = tempEffectList
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
