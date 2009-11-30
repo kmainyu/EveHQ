@@ -906,6 +906,16 @@ CREATE TABLE dbo.ramTypeRequirements
   recycle           integer         NULL
 );
 
+CREATE TABLE dbo.invBuildMaterials
+(
+  typeID  			integer			NOT NULL,
+  activityID  		integer			NOT NULL,
+  requiredTypeID	integer			NOT NULL,
+  quantity			integer			NULL,
+  damagePerJob		double			NULL,
+  baseMaterial		integer         NULL
+);
+
 CREATE TABLE dbo.invTypeMaterials
 (
   typeID  			integer			NOT NULL,
