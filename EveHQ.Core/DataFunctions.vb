@@ -905,6 +905,11 @@ Public Class DataFunctions
         Dim keyCommand As New SqlCommand(strSQL, connection)
         keyCommand.ExecuteNonQuery()
     End Sub
+    Public Shared Sub DoSQLQuery(ByVal connection As SqlConnection)
+        Dim strSQL As String = My.Resources.SQLQueries.ToString
+        Dim keyCommand As New SqlCommand(strSQL, connection)
+        keyCommand.ExecuteNonQuery()
+    End Sub
 #End Region ' Converts the Base CCP Data Export into something EveHQ can use
 
     Public Shared Function LoadMarketPricesFromDB() As Boolean

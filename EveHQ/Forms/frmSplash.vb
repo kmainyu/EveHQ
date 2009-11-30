@@ -356,6 +356,7 @@ Public Class frmSplash
                 conn.Open()
                 Call EveHQ.Core.DataFunctions.AddSQLAttributeGroupColumn(conn)
                 Call EveHQ.Core.DataFunctions.CorrectSQLEveUnits(conn)
+                Call EveHQ.Core.DataFunctions.DoSQLQuery(conn)
                 If conn.State = Data.ConnectionState.Open Then
                     conn.Close()
                 End If

@@ -168,6 +168,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to CREATE TABLE invBuildMaterials (
+        ''' typeID INTEGER,	--	id of blueprint using this material
+        ''' activityID INTEGER,	--	building, copying, etc
+        ''' requiredTypeID INTEGER,	--	id of resource used for this activity
+        ''' quantity INTEGER,	--	how many of this resource is used
+        ''' damagePerJob FLOAT,	--	how much of the resource is expended
+        ''' baseMaterial INTEGER,	--	how much is the base material.  0 means unaffected by waste, &gt;=quantity means entirely affected
+        ''' PRIMARY KEY (typeID, activityID, requiredTypeID)
+        ''');
+        '''INSERT IN [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property SQLQueries() As String
+            Get
+                Return ResourceManager.GetString("SQLQueries", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to *corpid
         '''*locationid
         '''age

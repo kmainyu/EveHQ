@@ -190,6 +190,7 @@
     <Content Include="LgLcd.NET.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\SQLQueries.txt" />
     <None Include="Resources\Strings.txt" />
     <None Include="Resources\EveHQDataDB.mdb" />
     <None Include="Resources\attributeGroups.csv" />
