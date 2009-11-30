@@ -1039,8 +1039,8 @@ Public Class frmItemBrowser
 
         ' Select only the building activity (at the minute!)
         Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID"
-        strSQL &= " WHERE (ramTypeRequirements.typeID=" & bpTypeID & " OR ramTypeRequirements.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invBuildMaterials ON invTypes.typeID = invBuildMaterials.requiredTypeID"
+        strSQL &= " WHERE (invBuildMaterials.typeID=" & bpTypeID & " OR invBuildMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If eveData.Tables(0).Rows.Count > 0 Then
 
