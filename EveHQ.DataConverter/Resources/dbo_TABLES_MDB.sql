@@ -536,6 +536,7 @@ CREATE TABLE dbo.dgmAttributeTypes
   stackable                     integer             NOT NULL DEFAULT 1,
   highIsGood                    integer             NOT NULL DEFAULT 1,
   categoryID					integer				NULL,
+  attributeGroup				integer				NULL,
   CONSTRAINT pk_dgmAttributeTypes PRIMARY KEY  (attributeID)
 );
 

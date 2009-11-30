@@ -438,9 +438,7 @@ Public Class frmDataConvert
             End If
         Next
         Call CreateRelationships()
-        Call AddMDBAttributeGroupColumn()
         Call AddEntityData()
-        Call CorrectMDBEveUnits()
         Call AddMDBVersionTable()
         conversionSuccess = True
 
@@ -508,38 +506,6 @@ Public Class frmDataConvert
             Catch e As Exception
             End Try
         Next
-        connection.Close()
-    End Sub
-    Private Sub AddMDBAttributeGroupColumn()
-        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
-        Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
-        connection.Open()
-        Dim strSQL As String = "ALTER TABLE dgmAttributeTypes ADD COLUMN attributeGroup INTEGER;"
-        Dim keyCommand As New OleDbCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        strSQL = "UPDATE dgmAttributeTypes SET attributeGroup=0;"
-        keyCommand = New OleDbCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        Dim line As String = My.Resources.attributeGroups.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("attributeID") = False And line <> "" Then
-                Dim fields() As String = line.Split(",")
-                Dim strSQL2 As String = "UPDATE dgmAttributeTypes SET attributeGroup=" & fields(1) & " WHERE attributeID=" & fields(0) & ";"
-                Dim keyCommand2 As New OleDbCommand(strSQL2, connection)
-                keyCommand2.ExecuteNonQuery()
-            End If
-        Next
-        connection.Close()
-    End Sub
-    Private Sub CorrectMDBEveUnits()
-        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
-        Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
-        connection.Open()
-        Dim strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
-        Dim keyCommand As New OleDbCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
         connection.Close()
     End Sub
     Private Sub AddMDBVersionTable()
