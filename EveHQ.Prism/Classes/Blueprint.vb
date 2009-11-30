@@ -51,7 +51,7 @@
                     End If
                 Next
                 ' Ok so far so let's add the material requirements
-                strSQL = "SELECT ramTypeRequirements.*, invTypes.typeName, invGroups.groupID, invGroups.categoryID FROM invGroups INNER JOIN (invTypes INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID) ON invGroups.groupID = invTypes.groupID ORDER BY ramTypeRequirements.typeID;"
+                strSQL = "SELECT invBuildMaterials.*, invTypes.typeName, invGroups.groupID, invGroups.categoryID FROM invGroups INNER JOIN (invTypes INNER JOIN invBuildMaterials ON invTypes.typeID = invBuildMaterials.requiredTypeID) ON invGroups.groupID = invTypes.groupID ORDER BY invBuildMaterials.typeID;"
                 BPDataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
                 If BPDataSet IsNot Nothing Then
                     If BPDataSet.Tables(0).Rows.Count > 0 Then
