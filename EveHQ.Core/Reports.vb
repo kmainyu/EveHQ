@@ -3308,4 +3308,116 @@ Public Class Reports
 
 #End Region
 
+#Region "Skills Cost Report"
+    Public Shared Sub GenerateSkillsCost(ByVal rpilot As EveHQ.Core.Pilot)
+
+        Dim strHTML As String = ""
+        strHTML &= HTMLHeader("Skills Cost - " & rpilot.Name)
+        strHTML &= HTMLTitle("Skills Cost - " & rpilot.Name)
+        strHTML &= HTMLCharacterDetails(rpilot)
+        strHTML &= SkillsCost(rpilot)
+        strHTML &= HTMLFooter()
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsCost (" & rpilot.Name & ").html"))
+        sw.Write(strHTML)
+        sw.Flush()
+        sw.Close()
+        strHTML = Nothing
+
+        ' Tidy up report variables
+        GC.Collect()
+
+    End Sub
+
+    Public Shared Function SkillsCost(ByVal rpilot As EveHQ.Core.Pilot) As String
+        Dim strHTML As String = ""
+
+        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSP As String = ""
+        Dim currentTime As String = ""
+        If rpilot.Training = True Then
+            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSP = CStr(rpilot.TrainingCurrentSP)
+            currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
+        End If
+        Dim totalCost As Long = 0
+        Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 4) As String
+        Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
+        Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
+        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim groupCount As Integer = 0
+        For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
+            groupCount += 1
+            repGroup(groupCount, 1) = cGroup.Name
+            Dim skillCount As Long = 0
+            Dim groupCost As Long = 0
+            Dim SPCount As Long = 0
+            ' Collect skills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
+            For Each cSkill In rpilot.PilotSkills
+                repSkills.Add(cSkill.Name, cSkill)
+            Next
+            For Each cSkill In repSkills.Values
+                If cSkill.GroupID = cGroup.ID Then
+                    skillCount += 1
+                    SPCount += cSkill.SP
+                    groupCost = CLng(groupCost + (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9))
+                    repSkill(groupCount, CInt(skillCount), 0) = cSkill.ID
+                    repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
+                    repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
+                    repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
+
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = cSkill.ID Then
+                            repSkill(groupCount, CInt(skillCount), 3) = CStr((Val(repSkill(groupCount, CInt(skillCount), 3)) + Val(currentSP)))
+                            repSkill(groupCount, CInt(skillCount), 4) = currentTime
+                            SPCount += CLng(currentSP)
+                        End If
+                    End If
+                End If
+            Next
+            repGroup(groupCount, 2) = CStr(skillCount)
+            repGroup(groupCount, 3) = CStr(SPCount)
+            repGroup(groupCount, 4) = groupCost.ToString("N0")
+            totalCost += groupCost
+        Next
+
+        Dim imgLevel As String = ""
+        strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
+        For group As Integer = 1 To EveHQ.Core.HQ.SkillGroups.Count
+            If CDbl(repGroup(group, 2)) > 0 Then
+                strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 1) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills, Cost: " & repGroup(group, 4) & " ISK)</td><td class=thead width=50px></td></tr>"
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+                For skill As Integer = 1 To CInt(repGroup(group, 2))
+                    strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = repSkill(group, skill, 0) Then
+                            strHTML &= "<td style='color:#FFAA00;'>"
+                            imgLevel = "http://myeve.eve-online.com/bitmaps/character/level" & CDbl(repSkill(group, skill, 5)) + 1 & "_act.gif"
+                        Else
+                            strHTML &= "<td>"
+                            imgLevel = "http://myeve.eve-online.com/bitmaps/character/level" & repSkill(group, skill, 5) & ".gif"
+                        End If
+                    Else
+                        strHTML &= "<td>"
+                        imgLevel = "http://myeve.eve-online.com/bitmaps/character/level" & repSkill(group, skill, 5) & ".gif"
+                    End If
+                    strHTML &= "<b>" & repSkill(group, skill, 1) & "</b>&nbsp;&nbsp;/&nbsp;&nbsp;"
+                    strHTML &= "Rank " & repSkill(group, skill, 2) & "&nbsp;&nbsp;/&nbsp;&nbsp;"
+                    strHTML &= "SP: " & Format(CLng(repSkill(group, skill, 3)), "#,###") & "&nbsp;&nbsp;/&nbsp;&nbsp;"
+                    strHTML &= "Skill Cost: " & repSkill(group, skill, 4)
+                    strHTML &= "</td><td width=100px align=center><img src=" & imgLevel & " width=48 height=8 alt='Level " & repSkill(group, skill, 5) & "'></td></tr>"
+                Next
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+            End If
+        Next
+        strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+        strHTML &= "<tr><td width=50px></td><td width=50px></td><td><b>Total Skill Cost: " & totalCost.ToString("N0") & "</b></td><td width=100px></td></tr>"
+        strHTML &= "</table><p></p>"
+        Return strHTML
+    End Function
+#End Region
+
 End Class

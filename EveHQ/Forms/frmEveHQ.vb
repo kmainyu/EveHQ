@@ -1311,6 +1311,10 @@ Public Class frmEveHQ
                 DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
             Case "mnuReportECMExport"
                 Call EveHQ.Core.Reports.GenerateECMExportReports(rPilot)
+            Case "mnuReportSkillsCost"
+                Call EveHQ.Core.Reports.GenerateSkillsCost(rPilot)
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").html"))
+                DisplayReport(newReport, "Skills Cost - " & rPilot.Name)
         End Select
     End Sub
 
@@ -2610,5 +2614,6 @@ Public Class frmEveHQ
 
     End Function
 #End Region
+
 End Class
 
