@@ -62,6 +62,8 @@ Public Class EveAPI
                 remoteURL = "/eve/SkillTree.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.Sovereignty
                 remoteURL = "/map/Sovereignty.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.SovereigntyStatus
+                remoteURL = "/map/SovereigntyStatus.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.MapJumps
                 remoteURL = "/map/Jumps.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.MapKills
@@ -177,6 +179,10 @@ Public Class EveAPI
                 remoteURL = "/corp/Medals.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.MemberMedals
                 remoteURL = "/corp/MemberMedals.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.MailMessages
+                remoteURL = "/char/MailMessages.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.Notifications
+                remoteURL = "/char/Notifications.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -576,6 +582,9 @@ Public Class EveAPI
         MedalsAvailable = 46
         MemberMedals = 47
         SkillQueue = 48
+        SovereigntyStatus = 49
+        MailMessages = 50
+        Notifications = 51
     End Enum
 
     Public Enum APIResults As Integer
