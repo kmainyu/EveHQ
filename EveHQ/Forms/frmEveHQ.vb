@@ -1582,10 +1582,18 @@ Public Class frmEveHQ
                 tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
                 tsbMenu.Enabled = False
             Else
-                If EveHQToolStrip.Items.ContainsKey(plugInInfo.Name) = True Then
-                    tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
-                    tsbMenu.Enabled = True
-                End If
+                Dim hitError As Boolean = False
+                Do
+                    hitError = False
+                    Try
+                        If EveHQToolStrip.Items.ContainsKey(plugInInfo.Name) = True Then
+                            tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
+                            tsbMenu.Enabled = True
+                        End If
+                    Catch e As Exception
+                        hitError = True
+                    End Try
+                Loop Until hitError = False
                 plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active
                 modMenu.DropDownItems(0).Enabled = False
                 modMenu.DropDownItems(1).Enabled = True
