@@ -1043,7 +1043,9 @@
 # RIGS - DRONE,,,,,,,,,,
 1138,2,778,48,3,6,0,0,0,15,Drone Rig Drawback - CPU Output
 459,2,778,10007,3,6,0,0,1,15,Drone Control Range Augmentor
-327,2,778,9,3,18,0,0,0,15,Drone Durability Enhancer
+327,2,778,263,3,18,0,0,0,15,Drone Durability Enhancer - Shield
+327,2,778,265,3,18,0,0,0,15,Drone Durability Enhancer - Armor
+327,2,778,9,3,18,0,0,0,15,Drone Durability Enhancer - Hull
 434,2,778,77,3,18,0,0,0,15,Drone Mining Augmentor
 39,2,778,68,3,18,0,0,0,15,Drone Repair Augmentor - Shield
 39,2,778,84,3,18,0,0,0,15,Drone Repair Augmentor - Armor
