@@ -1315,6 +1315,10 @@ Public Class frmEveHQ
                 Call EveHQ.Core.Reports.GenerateSkillsCost(rPilot)
                 newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Skills Cost - " & rPilot.Name)
+            Case "mnuReportsTextSkillsCost"
+                Call EveHQ.Core.Reports.GenerateTextSkillsCost(rPilot)
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").txt"))
+                DisplayReport(newReport, "Skills Cost - " & rPilot.Name)
         End Select
     End Sub
 

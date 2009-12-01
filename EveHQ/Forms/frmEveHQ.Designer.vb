@@ -71,6 +71,7 @@ Partial Public Class frmEveHQ
         Me.mnuReportSkillsAvailable = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportSkillsNotTrained = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportPartiallyTrainedSkills = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportSkillsCost = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportAsteroids = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportAsteroidAlloys = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportAsteroidRocks = New System.Windows.Forms.ToolStripMenuItem
@@ -146,7 +147,7 @@ Partial Public Class frmEveHQ
         Me.ssTraining = New System.Windows.Forms.StatusStrip
         Me.panelTrainingStatus = New System.Windows.Forms.Panel
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
-        Me.mnuReportSkillsCost = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsTextSkillsCost = New System.Windows.Forms.ToolStripMenuItem
         Me.EveHQToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -496,6 +497,12 @@ Partial Public Class frmEveHQ
         Me.mnuReportPartiallyTrainedSkills.Size = New System.Drawing.Size(184, 22)
         Me.mnuReportPartiallyTrainedSkills.Text = "Partially Trained Skills"
         '
+        'mnuReportSkillsCost
+        '
+        Me.mnuReportSkillsCost.Name = "mnuReportSkillsCost"
+        Me.mnuReportSkillsCost.Size = New System.Drawing.Size(184, 22)
+        Me.mnuReportSkillsCost.Text = "Skills Cost"
+        '
         'mnuReportAsteroids
         '
         Me.mnuReportAsteroids.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportAsteroidAlloys, Me.mnuReportAsteroidRocks, Me.mnuReportAsteroidIce})
@@ -536,9 +543,9 @@ Partial Public Class frmEveHQ
         '
         'mnuReportsTextChar
         '
-        Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills})
+        Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills, Me.mnuReportsTextSkillsCost})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(122, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -992,11 +999,11 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
         '
-        'mnuReportSkillsCost
+        'mnuReportsTextSkillsCost
         '
-        Me.mnuReportSkillsCost.Name = "mnuReportSkillsCost"
-        Me.mnuReportSkillsCost.Size = New System.Drawing.Size(184, 22)
-        Me.mnuReportSkillsCost.Text = "Skills Cost"
+        Me.mnuReportsTextSkillsCost.Name = "mnuReportsTextSkillsCost"
+        Me.mnuReportsTextSkillsCost.Size = New System.Drawing.Size(184, 22)
+        Me.mnuReportsTextSkillsCost.Text = "Skills Cost"
         '
         'frmEveHQ
         '
@@ -1154,5 +1161,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuEveHQBackup As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EveStatusIcon As EveHQ.Core.EveHQIcon
     Friend WithEvents mnuReportSkillsCost As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportsTextSkillsCost As System.Windows.Forms.ToolStripMenuItem
 
 End Class

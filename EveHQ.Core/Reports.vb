@@ -3420,4 +3420,103 @@ Public Class Reports
     End Function
 #End Region
 
+#Region "Text Skills Cost Report"
+    Public Shared Sub GenerateTextSkillsCost(ByVal rpilot As EveHQ.Core.Pilot)
+
+        Dim strText As String = ""
+        strText &= TextCharacterDetails("Character Sheet", rpilot)
+        strText &= TextSkillsCost(rpilot)
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsCost (" & rpilot.Name & ").txt"))
+        sw.Write(strText)
+        sw.Flush()
+        sw.Close()
+        strText = Nothing
+
+        ' Tidy up report variables
+        GC.Collect()
+
+    End Sub
+
+    Public Shared Function TextSkillsCost(ByVal rpilot As EveHQ.Core.Pilot) As String
+        Dim strText As New StringBuilder
+
+        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSP As String = ""
+        Dim currentTime As String = ""
+        If rpilot.Training = True Then
+            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSP = CStr(rpilot.TrainingCurrentSP)
+            currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
+        End If
+        Dim totalCost As Long = 0
+        Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 4) As String
+        Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
+        Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
+        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim groupCount As Integer = 0
+        For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
+            groupCount += 1
+            repGroup(groupCount, 1) = cGroup.Name
+            Dim skillCount As Long = 0
+            Dim groupCost As Long = 0
+            Dim SPCount As Long = 0
+            ' Collect skills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
+            For Each cSkill In rpilot.PilotSkills
+                repSkills.Add(cSkill.Name, cSkill)
+            Next
+            For Each cSkill In repSkills.Values
+                If cSkill.GroupID = cGroup.ID Then
+                    skillCount += 1
+                    SPCount += cSkill.SP
+                    groupCost = CLng(groupCost + (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9))
+                    repSkill(groupCount, CInt(skillCount), 0) = cSkill.ID
+                    repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
+                    repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
+                    repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
+
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = cSkill.ID Then
+                            repSkill(groupCount, CInt(skillCount), 3) = CStr((Val(repSkill(groupCount, CInt(skillCount), 3)) + Val(currentSP)))
+                            repSkill(groupCount, CInt(skillCount), 4) = currentTime
+                            SPCount += CLng(currentSP)
+                        End If
+                    End If
+                End If
+            Next
+            repGroup(groupCount, 2) = CStr(skillCount)
+            repGroup(groupCount, 3) = CStr(SPCount)
+            repGroup(groupCount, 4) = groupCost.ToString("N0")
+            totalCost += groupCost
+        Next
+
+        For group As Integer = 1 To EveHQ.Core.HQ.SkillGroups.Count
+            If CDbl(repGroup(group, 2)) > 0 Then
+                strText.AppendLine(repGroup(group, 1) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills, Cost: " & repGroup(group, 4) & " ISK)")
+                For skill As Integer = 1 To CInt(repGroup(group, 2))
+                    Dim txtData(4) As String
+                    txtData(0) = "  * " & repSkill(group, skill, 1)
+                    txtData(1) = "Rank " & repSkill(group, skill, 2)
+                    txtData(2) = "Level " & repSkill(group, skill, 5)
+                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(4) = "Cost " & repSkill(group, skill, 4)
+                    strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
+                Next
+                strText.AppendLine()
+            End If
+        Next
+
+        Dim txtFinalData(1) As String
+        strText.AppendLine("")
+        txtFinalData(0) = "Total Skill Cost:"
+        txtFinalData(1) = FormatNumber(totalCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        strText.AppendLine(String.Format("{0,-45} {1,-10}", txtFinalData))
+
+        Return strText.ToString
+    End Function
+
+#End Region
+
 End Class
