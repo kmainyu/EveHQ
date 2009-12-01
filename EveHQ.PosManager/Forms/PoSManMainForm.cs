@@ -1448,11 +1448,11 @@ namespace EveHQ.PosManager
             foreach (Module m in Design.Modules)
             {
                 totalCost += m.Cost;
-                anchorT += m.Anchor_Time;
+                anchorT += m.Anchor_Time * m.Qty;
                 if (m.State == "Online")
-                    onlineT += m.Online_Time;
+                    onlineT += m.Online_Time * m.Qty;
 
-                unAnchorT += m.UnAnchor_Time;
+                unAnchorT += m.UnAnchor_Time * m.Qty;
             }
 
             l_POS_C.Text = String.Format("{0:#,0.#}", totalCost);
@@ -2545,57 +2545,60 @@ namespace EveHQ.PosManager
                     {
                         apid = API_D.GetAPIDataMemberForTowerID(p.itemID);
                         // Get Table With Tower or Tower Item Information
-                        if (apid.locName == "Unknown")
+                        if (apid != null)
                         {
-                            strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
-                            locData = EveHQ.Core.DataFunctions.GetData(strSQL);
-                            loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
-                            apid.locName = loc;
-                            API_D.SaveAPIListing();
-                        }
+                            if (apid.locName == "Unknown")
+                            {
+                                strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
+                                locData = EveHQ.Core.DataFunctions.GetData(strSQL);
+                                loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                                apid.locName = loc;
+                                API_D.SaveAPIListing();
+                            }
 
-                        line = "<" + apid.locName + "> ";
-                        line += apid.towerName;
+                            line = "<" + apid.locName + "> ";
+                            line += apid.towerName;
 
-                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Link].Value = line;
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Link].Value = line;
 
-                        cache = apid.cacheUntil;
-                        cTim = Convert.ToDateTime(cache);
-                        cTim = TimeZone.CurrentTimeZone.ToLocalTime(cTim);
-                        now = DateTime.Now;
-                        diffT = now.Subtract(cTim);
+                            cache = apid.cacheUntil;
+                            cTim = Convert.ToDateTime(cache);
+                            cTim = TimeZone.CurrentTimeZone.ToLocalTime(cTim);
+                            now = DateTime.Now;
+                            diffT = now.Subtract(cTim);
 
-                        switch (apid.stateV)
-                        {
-                            case 0:
-                                p.PosTower.State = "Unanchored";
-                                break;
-                            case 1:
-                                p.PosTower.State = "Offline";
-                                break;
-                            case 2:
-                                p.PosTower.State = "Onlining";
-                                break;
-                            case 3:
-                                p.PosTower.State = "Reinforced";
-                                ref_TM = Convert.ToDateTime(apid.stateTS);
-                                break;
-                            case 4:
-                                p.PosTower.State = "Online";
-                                break;
-                        }
+                            switch (apid.stateV)
+                            {
+                                case 0:
+                                    p.PosTower.State = "Unanchored";
+                                    break;
+                                case 1:
+                                    p.PosTower.State = "Offline";
+                                    break;
+                                case 2:
+                                    p.PosTower.State = "Onlining";
+                                    break;
+                                case 3:
+                                    p.PosTower.State = "Reinforced";
+                                    ref_TM = Convert.ToDateTime(apid.stateTS);
+                                    break;
+                                case 4:
+                                    p.PosTower.State = "Online";
+                                    break;
+                            }
 
-                        if(diffT.Hours > 1)
-                        {
-                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cTim.ToString();
-                            // Cache can be updated, highlight red
-                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Style.ForeColor = Color.Red;
-                        }
-                        else
-                        {
-                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cache;
-                            // Cache is up to date, highlight green
-                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Style.ForeColor = Color.Green;
+                            if (diffT.Hours > 1)
+                            {
+                                dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cTim.ToString();
+                                // Cache can be updated, highlight red
+                                dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Style.ForeColor = Color.Red;
+                            }
+                            else
+                            {
+                                dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cache;
+                                // Cache is up to date, highlight green
+                                dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Style.ForeColor = Color.Green;
+                            }
                         }
                     }
                     else

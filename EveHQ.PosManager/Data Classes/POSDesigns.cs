@@ -158,6 +158,29 @@ namespace EveHQ.PosManager
             //AddDesignToList(des);
         }
 
+        public void UpdatePOSDesignData(TowerListing TL)
+        {
+            // Go through the active POS Designs, and update the data to reflect any
+            // new data slots or values.
+            // 11/30/09 -- Added FuelType.itemID for fuel costs
+            foreach (POS p in Designs)
+            {
+                // FuelBays are: Fuel, D_Fuel, A_Fuel, T_Fuel
+                foreach (Tower t in TL.Towers)
+                {
+                    if (t.typeID == p.PosTower.typeID)
+                    {
+                        // Same base tower found, update the fuel bay data
+                        p.PosTower.Fuel.SetFuelItemID(t.Fuel);
+                        p.PosTower.D_Fuel.SetFuelItemID(t.Fuel);
+                        p.PosTower.A_Fuel.SetFuelItemID(t.Fuel);
+                        p.PosTower.T_Fuel.SetFuelItemID(t.Fuel);
+                    }
+                }
+
+            }
+        }
+
         public void CalculatePOSFuelRunTimes(API_List APIL, FuelBay fb)
         {
             // This function will calculate the fuel run times for the current

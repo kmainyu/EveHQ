@@ -140,84 +140,116 @@ namespace EveHQ.PosManager
             HeIso.APIPerQty = fb.HeIso.APIPerQty;
             Strontium.APIPerQty = fb.Strontium.APIPerQty;
         }
-        
+
+        public void SetFuelItemID(FuelBay fb)
+        {
+            EnrUran.itemID = fb.EnrUran.itemID;
+            Oxygen.itemID = fb.Oxygen.itemID;
+            MechPart.itemID = fb.MechPart.itemID;
+            Coolant.itemID = fb.Coolant.itemID;
+            Robotics.itemID = fb.Robotics.itemID;
+            HvyWater.itemID = fb.HvyWater.itemID;
+            LiqOzone.itemID = fb.LiqOzone.itemID;
+            Charters.itemID = fb.Charters.itemID;
+            N2Iso.itemID = fb.N2Iso.itemID;
+            H2Iso.itemID = fb.H2Iso.itemID;
+            O2Iso.itemID = fb.O2Iso.itemID;
+            HeIso.itemID = fb.HeIso.itemID;
+            Strontium.itemID = fb.Strontium.itemID;
+        }
+
         public void SetCurrentFuelCosts(FuelBay fb)
         {
+            decimal fCost;
+
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(EnrUran.itemID));
             if (fb.EnrUran.Cost > 0)
                 EnrUran.CostForQty = (EnrUran.Qty * fb.EnrUran.Cost);
             else
-                EnrUran.CostForQty = (EnrUran.Qty * EnrUran.Cost);
+                EnrUran.CostForQty = (EnrUran.Qty * fCost);
             FuelCost = EnrUran.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Oxygen.itemID));
             if (fb.Oxygen.Cost > 0)
                 Oxygen.CostForQty = (Oxygen.Qty * fb.Oxygen.Cost);
             else
-                Oxygen.CostForQty = (Oxygen.Qty * Oxygen.Cost);
+                Oxygen.CostForQty = (Oxygen.Qty * fCost);
             FuelCost += Oxygen.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(MechPart.itemID));
             if (fb.MechPart.Cost > 0)
                 MechPart.CostForQty = (MechPart.Qty * fb.MechPart.Cost);
             else
-                MechPart.CostForQty = (MechPart.Qty * MechPart.Cost);
+                MechPart.CostForQty = (MechPart.Qty * fCost);
             FuelCost += MechPart.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Coolant.itemID));
             if (fb.Coolant.Cost > 0)
                 Coolant.CostForQty = (Coolant.Qty * fb.Coolant.Cost);
             else
-                Coolant.CostForQty = (Coolant.Qty * Coolant.Cost);
+                Coolant.CostForQty = (Coolant.Qty * fCost);
             FuelCost += Coolant.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Robotics.itemID));
             if (fb.Robotics.Cost > 0)
                 Robotics.CostForQty = (Robotics.Qty * fb.Robotics.Cost);
             else
-                Robotics.CostForQty = (Robotics.Qty * Robotics.Cost);
+                Robotics.CostForQty = (Robotics.Qty * fCost);
             FuelCost += Robotics.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(HvyWater.itemID));
             if (fb.HvyWater.Cost > 0)
                 HvyWater.CostForQty = (HvyWater.Qty * fb.HvyWater.Cost);
             else
-                HvyWater.CostForQty = (HvyWater.Qty * HvyWater.Cost);
+                HvyWater.CostForQty = (HvyWater.Qty * fCost);
             FuelCost += HvyWater.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(LiqOzone.itemID));
             if (fb.LiqOzone.Cost > 0)
                 LiqOzone.CostForQty = (LiqOzone.Qty * fb.LiqOzone.Cost);
             else
-                LiqOzone.CostForQty = (LiqOzone.Qty * LiqOzone.Cost);
+                LiqOzone.CostForQty = (LiqOzone.Qty * fCost);
             FuelCost += LiqOzone.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Charters.itemID));
             if (fb.Charters.Cost > 0)
                 Charters.CostForQty = (Charters.Qty * fb.Charters.Cost);
             else
-                Charters.CostForQty = (Charters.Qty * Charters.Cost);
+                Charters.CostForQty = (Charters.Qty * fCost);
             FuelCost += Charters.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Strontium.itemID));
             if (fb.Strontium.Cost > 0)
                 Strontium.CostForQty = (Strontium.Qty * fb.Strontium.Cost);
             else
-                Strontium.CostForQty = (Strontium.Qty * Strontium.Cost);
+                Strontium.CostForQty = (Strontium.Qty * fCost);
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(N2Iso.itemID));
             if (fb.N2Iso.Cost > 0)
                 N2Iso.CostForQty = (N2Iso.Qty * fb.N2Iso.Cost);
             else
-                N2Iso.CostForQty = (N2Iso.Qty * N2Iso.Cost);
+                N2Iso.CostForQty = (N2Iso.Qty * fCost);
             FuelCost += N2Iso.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(H2Iso.itemID));
             if (fb.H2Iso.Cost > 0)
                 H2Iso.CostForQty = (H2Iso.Qty * fb.H2Iso.Cost);
             else
-                H2Iso.CostForQty = (H2Iso.Qty * H2Iso.Cost);
+                H2Iso.CostForQty = (H2Iso.Qty * fCost);
             FuelCost += H2Iso.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(HeIso.itemID));
             if (fb.HeIso.Cost > 0)
                 HeIso.CostForQty = (HeIso.Qty * fb.HeIso.Cost);
             else
-                HeIso.CostForQty = (HeIso.Qty * HeIso.Cost);
+                HeIso.CostForQty = (HeIso.Qty * fCost);
             FuelCost += HeIso.CostForQty;
 
+            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(O2Iso.itemID));
             if (fb.O2Iso.Cost > 0)
                 O2Iso.CostForQty = (O2Iso.Qty * fb.O2Iso.Cost);
             else
-                O2Iso.CostForQty = (O2Iso.Qty * O2Iso.Cost);
+                O2Iso.CostForQty = (O2Iso.Qty * fCost);
             FuelCost += O2Iso.CostForQty;
 
         }

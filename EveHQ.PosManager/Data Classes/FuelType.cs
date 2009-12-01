@@ -16,7 +16,7 @@ namespace EveHQ.PosManager
     [Serializable]
     public class FuelType
     {
-        public string Name, UsedFor;
+        public string Name, UsedFor, itemID;
         public decimal BaseVol, QtyVol;
         public decimal Cost;
         public decimal Qty, BaseQty, PeriodQty, RunTime, LastQty, APIPerQty;
@@ -27,6 +27,7 @@ namespace EveHQ.PosManager
         {
             Name = "";
             UsedFor = "";
+            itemID = "";
             BaseVol = 0;
             QtyVol = 0;
             Cost = 0;
@@ -44,6 +45,7 @@ namespace EveHQ.PosManager
         public FuelType(FuelType ft)
         {
             Name = ft.Name;
+            itemID = ft.itemID;
             UsedFor = ft.UsedFor;
             BaseVol = ft.BaseVol;
             QtyVol = ft.QtyVol;

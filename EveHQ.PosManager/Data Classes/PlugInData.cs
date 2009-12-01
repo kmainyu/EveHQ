@@ -21,11 +21,13 @@ namespace EveHQ.PosManager
         ModuleListing ML = new ModuleListing();
         CategoryList CL = new CategoryList();
         SystemList SLs = new SystemList();
+        POSDesigns PDL = new POSDesigns();
+
         public string PoSManage_Path;
         public string PoSBase_Path;
         public string PoSCache_Path;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.13.2.895";
+        public string LastCacheRefresh = "1.13.2.908";
         public static ManualResetEvent[] resetEvents;
         SystemSovList SL = new SystemSovList();
         AllianceList AL = new AllianceList();
@@ -109,6 +111,16 @@ namespace EveHQ.PosManager
             ThreadPool.QueueUserWorkItem(new WaitCallback(AL.LoadAllianceListFromAPI));
 
             WaitHandle.WaitAll(resetEvents);
+
+            // If we re-parsed the DB, need to update tower data structure for any possible changes
+            // to existing tower data information
+            // 11/30/2009 --> Update to include fuel itemID in FuelType data
+            if (!UseSerializableData)
+            {
+                PDL.LoadDesignListing();
+                PDL.UpdatePOSDesignData(TL);
+                PDL.SaveDesignListing();
+            }
 
             endT = DateTime.Now;
             runT = endT.Subtract(startT);
