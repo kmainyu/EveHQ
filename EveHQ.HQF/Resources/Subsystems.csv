@@ -142,6 +142,10 @@
 30149,1,30546,11,1,29988,0,1,0,5,15,PG Bonus
 # Proteus Engineering - Augmented Capacitor Reservoir,,,,,,,,,,,
 30151,1,30546,482,1,29988,0,1,0,5,15,Capacitor Capacity
+30151,1,30546,263,3,18,0,1,0,7.5,15,Drone Shield HP
+30151,1,30546,265,3,18,0,1,0,7.5,15,Drone Armor HP
+30151,1,30546,9,3,18,0,1,0,7.5,15,Drone Hull HP
+30151,1,30546,37,3,18,0,1,0,5,15,Drone MWD Speed
 # Proteus Engineering - Capacitor Regeneration Matrix,,,,,,,,,,,
 30153,1,30546,55,1,29988,0,1,0,-5,15,Capacitor Recharge
 # Proteus Engineering - Supplemental Coolant Injector,,,,,,,,,,,
