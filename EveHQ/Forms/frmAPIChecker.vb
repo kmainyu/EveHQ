@@ -43,6 +43,7 @@ Public Class frmAPIChecker
                 EveHQ.Core.EveAPI.APIRequest.RefTypes, _
                 EveHQ.Core.EveAPI.APIRequest.SkillTree, _
                 EveHQ.Core.EveAPI.APIRequest.Sovereignty, _
+                EveHQ.Core.EveAPI.APIRequest.SovereigntyStatus, _
                 EveHQ.Core.EveAPI.APIRequest.MapJumps, _
                 EveHQ.Core.EveAPI.APIRequest.MapKills, _
                 EveHQ.Core.EveAPI.APIRequest.Conquerables, _
@@ -97,7 +98,9 @@ Public Class frmAPIChecker
             EveHQ.Core.EveAPI.APIRequest.FWStatsCorp, _
             EveHQ.Core.EveAPI.APIRequest.MedalsReceived, _
             EveHQ.Core.EveAPI.APIRequest.MedalsAvailable, _
-            EveHQ.Core.EveAPI.APIRequest.MemberMedals
+            EveHQ.Core.EveAPI.APIRequest.MailMessages, _
+            EveHQ.Core.EveAPI.APIRequest.Notifications, _
+                EveHQ.Core.EveAPI.APIRequest.MemberMedals
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
                 lblAccount.Enabled = False : cboAccount.Enabled = False
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
