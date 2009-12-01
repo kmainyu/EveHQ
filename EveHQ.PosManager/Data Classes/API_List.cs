@@ -271,9 +271,9 @@ namespace EveHQ.PosManager
                                 aptd.allowAlliance = true;
                             else
                                 aptd.allowAlliance = false;
-                            if (Convert.ToInt32(rsltList[0].ChildNodes[4].InnerText) > 0)
-                                aptd.claimSov = true;
-                            else
+                            //if (Convert.ToInt32(rsltList[0].ChildNodes[4].InnerText) > 0)
+                            //    aptd.claimSov = true;
+                            //else
                                 aptd.claimSov = false;
 
                             rsltList = apiPOSDetails.SelectNodes("/eveapi/result/combatSettings");

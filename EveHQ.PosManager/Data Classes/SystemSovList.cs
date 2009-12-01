@@ -162,8 +162,8 @@ namespace EveHQ.PosManager
                     sd.systemName = sysName;
                     sd.systemID = Convert.ToDecimal(syst.Attributes.GetNamedItem("solarSystemID").Value.ToString());
                     sd.allianceID = Convert.ToDecimal(syst.Attributes.GetNamedItem("allianceID").Value.ToString());
-                    sd.constSov = Convert.ToDecimal(syst.Attributes.GetNamedItem("constellationSovereignty").Value.ToString());
-                    sd.sovLevel = Convert.ToDecimal(syst.Attributes.GetNamedItem("sovereigntyLevel").Value.ToString());
+                    //sd.constSov = Convert.ToDecimal(syst.Attributes.GetNamedItem("constellationSovereignty").Value.ToString());
+                    //sd.sovLevel = Convert.ToDecimal(syst.Attributes.GetNamedItem("sovereigntyLevel").Value.ToString());
                     sd.cacheDate = cacheDate;
                     sd.cacheUntil = cacheUntil;
                     SovList.Systems.Add(sysName, sd);
@@ -172,8 +172,8 @@ namespace EveHQ.PosManager
                 {
                     sd.systemID = Convert.ToDecimal(syst.Attributes.GetNamedItem("solarSystemID").Value.ToString());
                     sd.allianceID = Convert.ToDecimal(syst.Attributes.GetNamedItem("allianceID").Value.ToString());
-                    sd.constSov = Convert.ToDecimal(syst.Attributes.GetNamedItem("constellationSovereignty").Value.ToString());
-                    sd.sovLevel = Convert.ToDecimal(syst.Attributes.GetNamedItem("sovereigntyLevel").Value.ToString());
+                    //sd.constSov = Convert.ToDecimal(syst.Attributes.GetNamedItem("constellationSovereignty").Value.ToString());
+                    //sd.sovLevel = Convert.ToDecimal(syst.Attributes.GetNamedItem("sovereigntyLevel").Value.ToString());
                     sd.cacheDate = cacheDate;
                     sd.cacheUntil = cacheUntil;
                 }
