@@ -1392,7 +1392,6 @@ Public Class frmMap
             lblEveSec.Text = FormatNumber(cSystem.EveSec, 1, TriState.True)
             lblNoGates.Text = CStr(cSystem.Gates.Count)
             lblGates.Text = ""
-            lblSovereigntyLevel.Text = CStr(cSystem.sovereigntyLevel)
             If cSystem.SovereigntyName <> "" Then
                 lblSovHolder.Text = cSystem.SovereigntyName
             Else

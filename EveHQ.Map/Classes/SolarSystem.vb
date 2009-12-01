@@ -39,8 +39,6 @@
     Public SovereigntyID As Integer
     Public RegionID As Integer
     Public SecClass As String
-    Public constellationSovereignty As Integer
-    Public sovereigntyLevel As Integer
     Public Ice As String
 
     Public Function GetName() As String

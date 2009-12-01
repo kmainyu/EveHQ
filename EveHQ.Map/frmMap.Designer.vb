@@ -34,8 +34,6 @@ Partial Class frmMap
         Me.lblABeltsLbl = New System.Windows.Forms.Label
         Me.lblMoonsLbl = New System.Windows.Forms.Label
         Me.lblPlanetsLbl = New System.Windows.Forms.Label
-        Me.lblSovereigntyLevel = New System.Windows.Forms.Label
-        Me.lblSovereigntyLevellbl = New System.Windows.Forms.Label
         Me.lblSovHolder = New System.Windows.Forms.Label
         Me.lblSovHolderLbl = New System.Windows.Forms.Label
         Me.lblRegion = New System.Windows.Forms.Label
@@ -260,8 +258,6 @@ Partial Class frmMap
         Me.gbSystemInfo.Controls.Add(Me.lblABeltsLbl)
         Me.gbSystemInfo.Controls.Add(Me.lblMoonsLbl)
         Me.gbSystemInfo.Controls.Add(Me.lblPlanetsLbl)
-        Me.gbSystemInfo.Controls.Add(Me.lblSovereigntyLevel)
-        Me.gbSystemInfo.Controls.Add(Me.lblSovereigntyLevellbl)
         Me.gbSystemInfo.Controls.Add(Me.lblSovHolder)
         Me.gbSystemInfo.Controls.Add(Me.lblSovHolderLbl)
         Me.gbSystemInfo.Controls.Add(Me.lblRegion)
@@ -377,24 +373,6 @@ Partial Class frmMap
         Me.lblPlanetsLbl.TabIndex = 43
         Me.lblPlanetsLbl.Text = "Planets:"
         '
-        'lblSovereigntyLevel
-        '
-        Me.lblSovereigntyLevel.AutoSize = True
-        Me.lblSovereigntyLevel.Location = New System.Drawing.Point(82, 180)
-        Me.lblSovereigntyLevel.Name = "lblSovereigntyLevel"
-        Me.lblSovereigntyLevel.Size = New System.Drawing.Size(62, 13)
-        Me.lblSovereigntyLevel.TabIndex = 41
-        Me.lblSovereigntyLevel.Text = "Placeholder"
-        '
-        'lblSovereigntyLevellbl
-        '
-        Me.lblSovereigntyLevellbl.AutoSize = True
-        Me.lblSovereigntyLevellbl.Location = New System.Drawing.Point(10, 181)
-        Me.lblSovereigntyLevellbl.Name = "lblSovereigntyLevellbl"
-        Me.lblSovereigntyLevellbl.Size = New System.Drawing.Size(57, 13)
-        Me.lblSovereigntyLevellbl.TabIndex = 39
-        Me.lblSovereigntyLevellbl.Text = "Sov Level:"
-        '
         'lblSovHolder
         '
         Me.lblSovHolder.AutoSize = True
@@ -452,7 +430,7 @@ Partial Class frmMap
         'lblGates
         '
         Me.lblGates.AutoSize = True
-        Me.lblGates.Location = New System.Drawing.Point(82, 207)
+        Me.lblGates.Location = New System.Drawing.Point(82, 193)
         Me.lblGates.Name = "lblGates"
         Me.lblGates.Size = New System.Drawing.Size(62, 13)
         Me.lblGates.TabIndex = 18
@@ -461,7 +439,7 @@ Partial Class frmMap
         'lblNoGates
         '
         Me.lblNoGates.AutoSize = True
-        Me.lblNoGates.Location = New System.Drawing.Point(82, 194)
+        Me.lblNoGates.Location = New System.Drawing.Point(82, 180)
         Me.lblNoGates.Name = "lblNoGates"
         Me.lblNoGates.Size = New System.Drawing.Size(62, 13)
         Me.lblNoGates.TabIndex = 17
@@ -470,7 +448,7 @@ Partial Class frmMap
         'lblNoGateslbl
         '
         Me.lblNoGateslbl.AutoSize = True
-        Me.lblNoGateslbl.Location = New System.Drawing.Point(10, 194)
+        Me.lblNoGateslbl.Location = New System.Drawing.Point(10, 180)
         Me.lblNoGateslbl.Name = "lblNoGateslbl"
         Me.lblNoGateslbl.Size = New System.Drawing.Size(39, 13)
         Me.lblNoGateslbl.TabIndex = 16
@@ -2181,8 +2159,6 @@ Partial Class frmMap
     Friend WithEvents cboConst As System.Windows.Forms.ComboBox
     Friend WithEvents cboRegion As System.Windows.Forms.ComboBox
     Friend WithEvents tabSystem As System.Windows.Forms.TabPage
-    Friend WithEvents lblSovereigntyLevel As System.Windows.Forms.Label
-    Friend WithEvents lblSovereigntyLevellbl As System.Windows.Forms.Label
     Friend WithEvents lblSovHolder As System.Windows.Forms.Label
     Friend WithEvents lblSovHolderLbl As System.Windows.Forms.Label
     Friend WithEvents lblStations As System.Windows.Forms.Label

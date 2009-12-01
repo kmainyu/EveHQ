@@ -957,8 +957,6 @@ Public Class PlugInData
                             nAlliance = CType(AllianceList(solar.SovereigntyID.ToString), Alliance)
                             If nAlliance IsNot Nothing Then
                                 solar.SovereigntyName = nAlliance.name
-                                solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
-                                solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
                             Else
                                 ' Try to get the name from the IDToName API
                                 Try
@@ -972,14 +970,10 @@ Public Class PlugInData
                                 Catch e As Exception
                                     solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
                                 End Try
-                                solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
-                                solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
                             End If
                         Else
                             solar.SovereigntyID = 0
                             solar.SovereigntyName = ""
-                            solar.sovereigntyLevel = 0
-                            solar.constellationSovereignty = 0
                         End If
                     End If
                 End If
