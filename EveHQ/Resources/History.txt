@@ -1,7 +1,7 @@
 EveHQ - Version History
 -----------------------
 
-1.14.0.????
+1.14.0.1120
 -----------
 New Features:
 - Void: A new plug-in to provide Wormhole and W-Space information
@@ -38,7 +38,7 @@ Improvements:
 - Core: Updated API Checker for new APIs
 - Core: Added Skills Cost report
 - Core: Added Text Skills Cost report
-- DC: Updated for Dominion export
+- Data Converter: Updated for Dominion export
 - HQF: Added loadoutID to the status bar of the BC Browser
 - HQF: Cap stability now reports as minimum value, not average sustainable
 - HQF: Replaced splitter controls with new CollapsibleSplitter controls and removed toggle buttons from the toolbar
@@ -57,7 +57,7 @@ Improvements:
 - HQF: Modules automatically updated from Amarr/Gallente Navy to their new names
 - HQF: Added export for the implant set currently being used
 - HQF: Navigating implants in the Pilot Manager now updates the implant description
-- IB: Added ship certificate recommendations for ships
+- Item Browser: Added ship certificate recommendations for ships
 - Map: Gate radius feature now shows distance from base location
 - Map: Added new "Closest System in Region" mode
 - Map: Updated API routines to handle Sovereignty API changes
@@ -116,8 +116,8 @@ Fixes:
 - HQF: Fixed prioritisation of calculations prior to stacking calculations
 - HQF: Drone durability rigs now affect Drone shield and armor HP
 - HQF: Fixed Proteus Augmented Capacitor Reservoir bonuses for drones
-- KMV: If no ship typeID is provided in the killmail, KMV reports "Unknown" instead of "#System"
-- KMV: Where there is no character victim, the Corp name is used instead (i.e. for POS kills)
+- Killmail Viewer: If no ship typeID is provided in the killmail, KMV reports "Unknown" instead of "#System"
+- Killmail Viewer: Where there is no character victim, the Corp name is used instead (i.e. for POS kills)
 - Map: Routing table can now be sorted by security level
 - Map: Fixed crash when finding a route that is empty
 - POS: Added a semaphore for the update worker to help prevent crashes
@@ -135,6 +135,7 @@ Fixes:
 - POS: Fixed anchoring issue with module details on POS Monitor tab
 - POS: Fixed a bug with tower anchor/online times
 - POS: Modified fuel costs to pull from EveHQ info data, unless config tab override (non-zero) is set
+- POS: Fixed startup causing fatal crashed in EveHQ
 - Prism: Fixed issue with sub-jobs not calculating the correct number of runs
 - Prism: Minimum System Value box should now start with the correct value based on regional settings
 - Prism: Fixed crash where a BP could not be found in the item list
