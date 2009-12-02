@@ -2376,11 +2376,13 @@ namespace EveHQ.PosManager
                     sd = (Sov_Data)SL.Systems[p.System];
                     if (sd != null)
                     {
-                        if (sd.allianceID == ad.allianceID)
+                        if ((sd.corpID == corpID) || (sd.allianceID == ad.allianceID))
                         {
                             // Found the correct system and alliance ID
-                            p.SovLevel = (int)sd.sovLevel;
+                            p.SovLevel = 1;
                         }
+                        else
+                            p.SovLevel = 0;
                     }
                 }
             }
@@ -4822,7 +4824,6 @@ namespace EveHQ.PosManager
             API_D.LoadAPIListing();
             BuildPOSListForMonitoring();
             UpdateAllTowerSovLevels();
-            //GetTowerItemListData();
             RunCalculationsWithUpdatedInformation();
             POSList.SaveDesignListing();
             tsl_APIState.Text = "";
@@ -4835,23 +4836,17 @@ namespace EveHQ.PosManager
             GetCorpSheet();
             GetAllySovLists();
             API_D.LoadPOSDataFromAPI(TL);
-            //API_D.LoadCorpTowerDataFromAPI(TL);
             API_D.SaveAPIListing();
             PopulateCorpList();
         }
 
         private void GetAllySovLists()
         {
-            XmlDocument apiXML;
             SystemSovList SSL = new SystemSovList();
-
             AL = new AllianceList();
 
-            apiXML = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.AllianceList, 0);
-            apiXML = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.Sovereignty, 0);
             AL.LoadAllianceListFromAPI(1);
             SSL.LoadSovListFromAPI(1);
-
         }
 
         private void GetCorpAssets()

@@ -86,7 +86,7 @@ namespace EveHQ.PosManager
             sd = (Sov_Data)SL.SovList.Systems[sysName];
 
             if (sd != null)
-                return sd.sovLevel;
+                return 1;
             else
                 return 0;
         }
@@ -97,7 +97,7 @@ namespace EveHQ.PosManager
             sd = (Sov_Data)SL.SovList.Systems[sysName];
 
             if (sd != null)
-                return sd.constSov;
+                return 1;
             else
                 return 0;
         }
@@ -151,35 +151,41 @@ namespace EveHQ.PosManager
                 return;
             }
 
-            foreach (XmlNode syst in svList)
+            try
             {
-                sysName = syst.Attributes.GetNamedItem("solarSystemName").Value.ToString();
-                sd = GetDataForSystemName(sysName);
+                foreach (XmlNode syst in svList)
+                {
+                    sysName = syst.Attributes.GetNamedItem("solarSystemName").Value.ToString();
+                    sd = GetDataForSystemName(sysName);
 
-                if (sd == null)
-                {
-                    sd = new Sov_Data();
-                    sd.systemName = sysName;
-                    sd.systemID = Convert.ToDecimal(syst.Attributes.GetNamedItem("solarSystemID").Value.ToString());
-                    sd.allianceID = Convert.ToDecimal(syst.Attributes.GetNamedItem("allianceID").Value.ToString());
-                    //sd.constSov = Convert.ToDecimal(syst.Attributes.GetNamedItem("constellationSovereignty").Value.ToString());
-                    //sd.sovLevel = Convert.ToDecimal(syst.Attributes.GetNamedItem("sovereigntyLevel").Value.ToString());
-                    sd.cacheDate = cacheDate;
-                    sd.cacheUntil = cacheUntil;
-                    SovList.Systems.Add(sysName, sd);
-                }
-                else
-                {
-                    sd.systemID = Convert.ToDecimal(syst.Attributes.GetNamedItem("solarSystemID").Value.ToString());
-                    sd.allianceID = Convert.ToDecimal(syst.Attributes.GetNamedItem("allianceID").Value.ToString());
-                    //sd.constSov = Convert.ToDecimal(syst.Attributes.GetNamedItem("constellationSovereignty").Value.ToString());
-                    //sd.sovLevel = Convert.ToDecimal(syst.Attributes.GetNamedItem("sovereigntyLevel").Value.ToString());
-                    sd.cacheDate = cacheDate;
-                    sd.cacheUntil = cacheUntil;
+                    if (sd == null)
+                    {
+                        sd = new Sov_Data();
+                        sd.systemName = sysName;
+                        sd.systemID = Convert.ToDecimal(syst.Attributes.GetNamedItem("solarSystemID").Value.ToString());
+                        sd.allianceID = Convert.ToDecimal(syst.Attributes.GetNamedItem("allianceID").Value.ToString());
+                        sd.factionID = Convert.ToDecimal(syst.Attributes.GetNamedItem("factionID").Value.ToString());
+                        sd.corpID = Convert.ToDecimal(syst.Attributes.GetNamedItem("corporationID").Value.ToString());
+                        sd.cacheDate = cacheDate;
+                        sd.cacheUntil = cacheUntil;
+                        SovList.Systems.Add(sysName, sd);
+                    }
+                    else
+                    {
+                        sd.systemID = Convert.ToDecimal(syst.Attributes.GetNamedItem("solarSystemID").Value.ToString());
+                        sd.allianceID = Convert.ToDecimal(syst.Attributes.GetNamedItem("allianceID").Value.ToString());
+                        sd.factionID = Convert.ToDecimal(syst.Attributes.GetNamedItem("factionID").Value.ToString());
+                        sd.corpID = Convert.ToDecimal(syst.Attributes.GetNamedItem("corporationID").Value.ToString()); 
+                        sd.cacheDate = cacheDate;
+                        sd.cacheUntil = cacheUntil;
+                    }
                 }
             }
+            catch
+            {
+                DialogResult dr = MessageBox.Show("An Error was encountered while Parsing System Sov API Data.", "PoSManager: API Error", MessageBoxButtons.OK);
+            }
+
         }
-
-
     }
 }

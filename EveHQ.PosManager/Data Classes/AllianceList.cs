@@ -177,30 +177,38 @@ namespace EveHQ.PosManager
             }
             alliances.Clear();
 
-            foreach (XmlNode ally in allyList)
+            try
             {
-                ad = new Alliance_Data();
 
-                ad.allianceID = Convert.ToDecimal(ally.Attributes.GetNamedItem("allianceID").Value.ToString());
-                ad.execCorpID = Convert.ToDecimal(ally.Attributes.GetNamedItem("executorCorpID").Value.ToString());
-                ad.members = Convert.ToDecimal(ally.Attributes.GetNamedItem("memberCount").Value.ToString());
-                ad.name = ally.Attributes.GetNamedItem("name").Value.ToString();
-                ad.ticker = ally.Attributes.GetNamedItem("shortName").Value.ToString();
-                ad.cacheDate = cacheDate;
-                ad.cacheUntil = cacheUntil;
-                ad.startDate = ally.Attributes.GetNamedItem("startDate").Value.ToString();
-
-                corpList = ally.ChildNodes[0].ChildNodes;
-
-                ad.corps.Clear();
-
-                foreach (XmlNode cid in corpList)
+                foreach (XmlNode ally in allyList)
                 {
-                    corpID = Convert.ToDecimal(cid.Attributes.GetNamedItem("corporationID").Value.ToString());
-                    ad.corps.Add(corpID);
-                    alliances.Add(corpID, ad);
+                    ad = new Alliance_Data();
+
+                    ad.allianceID = Convert.ToDecimal(ally.Attributes.GetNamedItem("allianceID").Value.ToString());
+                    ad.execCorpID = Convert.ToDecimal(ally.Attributes.GetNamedItem("executorCorpID").Value.ToString());
+                    ad.members = Convert.ToDecimal(ally.Attributes.GetNamedItem("memberCount").Value.ToString());
+                    ad.name = ally.Attributes.GetNamedItem("name").Value.ToString();
+                    ad.ticker = ally.Attributes.GetNamedItem("shortName").Value.ToString();
+                    ad.cacheDate = cacheDate;
+                    ad.cacheUntil = cacheUntil;
+                    ad.startDate = ally.Attributes.GetNamedItem("startDate").Value.ToString();
+
+                    corpList = ally.ChildNodes[0].ChildNodes;
+
+                    ad.corps.Clear();
+
+                    foreach (XmlNode cid in corpList)
+                    {
+                        corpID = Convert.ToDecimal(cid.Attributes.GetNamedItem("corporationID").Value.ToString());
+                        ad.corps.Add(corpID);
+                        alliances.Add(corpID, ad);
+                    }
+
                 }
-                
+            }
+            catch
+            {
+                DialogResult dr = MessageBox.Show("An Error was encountered while Parsing Alliance API Data.", "PoSManager: API Error", MessageBoxButtons.OK);
             }
         }
 

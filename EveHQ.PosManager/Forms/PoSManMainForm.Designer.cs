@@ -4971,11 +4971,7 @@
             this.cb_SovLevel.FormattingEnabled = true;
             this.cb_SovLevel.Items.AddRange(new object[] {
             "No Sov",
-            "Sov Level 1",
-            "Sov Level 2",
-            "Sov Level 3",
-            "Sov Level 4",
-            "Constellation Sov"});
+            "Sov"});
             this.cb_SovLevel.Location = new System.Drawing.Point(48, 88);
             this.cb_SovLevel.Name = "cb_SovLevel";
             this.cb_SovLevel.Size = new System.Drawing.Size(138, 21);
@@ -5214,27 +5210,27 @@
             this.quantityToolStripMenuItem,
             this.tsm_SetModuleCharge});
             this.cms_PosItem.Name = "cms_PosItem";
-            this.cms_PosItem.Size = new System.Drawing.Size(142, 114);
+            this.cms_PosItem.Size = new System.Drawing.Size(146, 114);
             this.cms_PosItem.Opening += new System.ComponentModel.CancelEventHandler(this.cms_PosItem_Opening);
             // 
             // tsm_Online
             // 
             this.tsm_Online.Name = "tsm_Online";
-            this.tsm_Online.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Online.Size = new System.Drawing.Size(145, 22);
             this.tsm_Online.Text = "Place Online";
             this.tsm_Online.Click += new System.EventHandler(this.tsm_Online_Click);
             // 
             // tsm_Offline
             // 
             this.tsm_Offline.Name = "tsm_Offline";
-            this.tsm_Offline.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Offline.Size = new System.Drawing.Size(145, 22);
             this.tsm_Offline.Text = "Place Offline";
             this.tsm_Offline.Click += new System.EventHandler(this.tsm_Offline_Click);
             // 
             // tsm_Remove
             // 
             this.tsm_Remove.Name = "tsm_Remove";
-            this.tsm_Remove.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Remove.Size = new System.Drawing.Size(145, 22);
             this.tsm_Remove.Text = "Remove";
             this.tsm_Remove.Click += new System.EventHandler(this.tsm_Remove_Click);
             // 
@@ -5252,83 +5248,83 @@
             this.tsm_Qty_9,
             this.tsm_Qty_10});
             this.quantityToolStripMenuItem.Name = "quantityToolStripMenuItem";
-            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.quantityToolStripMenuItem.Text = "Quantity";
             // 
             // tsm_Qty_1
             // 
             this.tsm_Qty_1.Name = "tsm_Qty_1";
-            this.tsm_Qty_1.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_1.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_1.Text = "1";
             this.tsm_Qty_1.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_2
             // 
             this.tsm_Qty_2.Name = "tsm_Qty_2";
-            this.tsm_Qty_2.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_2.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_2.Text = "2";
             this.tsm_Qty_2.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_3
             // 
             this.tsm_Qty_3.Name = "tsm_Qty_3";
-            this.tsm_Qty_3.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_3.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_3.Text = "3";
             this.tsm_Qty_3.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_4
             // 
             this.tsm_Qty_4.Name = "tsm_Qty_4";
-            this.tsm_Qty_4.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_4.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_4.Text = "4";
             this.tsm_Qty_4.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_5
             // 
             this.tsm_Qty_5.Name = "tsm_Qty_5";
-            this.tsm_Qty_5.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_5.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_5.Text = "5";
             this.tsm_Qty_5.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_6
             // 
             this.tsm_Qty_6.Name = "tsm_Qty_6";
-            this.tsm_Qty_6.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_6.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_6.Text = "6";
             this.tsm_Qty_6.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_7
             // 
             this.tsm_Qty_7.Name = "tsm_Qty_7";
-            this.tsm_Qty_7.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_7.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_7.Text = "7";
             this.tsm_Qty_7.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_8
             // 
             this.tsm_Qty_8.Name = "tsm_Qty_8";
-            this.tsm_Qty_8.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_8.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_8.Text = "8";
             this.tsm_Qty_8.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_9
             // 
             this.tsm_Qty_9.Name = "tsm_Qty_9";
-            this.tsm_Qty_9.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_9.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_9.Text = "9";
             this.tsm_Qty_9.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_10
             // 
             this.tsm_Qty_10.Name = "tsm_Qty_10";
-            this.tsm_Qty_10.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_10.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_10.Text = "10";
             this.tsm_Qty_10.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_SetModuleCharge
             // 
             this.tsm_SetModuleCharge.Name = "tsm_SetModuleCharge";
-            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(141, 22);
+            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(145, 22);
             this.tsm_SetModuleCharge.Text = "Set Charge";
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
@@ -7022,19 +7018,19 @@
             this.tsm_EditPlayer,
             this.tsm_RemovePlayer});
             this.cms_Player.Name = "cms_Player";
-            this.cms_Player.Size = new System.Drawing.Size(153, 48);
+            this.cms_Player.Size = new System.Drawing.Size(158, 48);
             // 
             // tsm_EditPlayer
             // 
             this.tsm_EditPlayer.Name = "tsm_EditPlayer";
-            this.tsm_EditPlayer.Size = new System.Drawing.Size(152, 22);
+            this.tsm_EditPlayer.Size = new System.Drawing.Size(157, 22);
             this.tsm_EditPlayer.Text = "Edit Player";
             this.tsm_EditPlayer.Click += new System.EventHandler(this.tsm_EditPlayer_Click);
             // 
             // tsm_RemovePlayer
             // 
             this.tsm_RemovePlayer.Name = "tsm_RemovePlayer";
-            this.tsm_RemovePlayer.Size = new System.Drawing.Size(152, 22);
+            this.tsm_RemovePlayer.Size = new System.Drawing.Size(157, 22);
             this.tsm_RemovePlayer.Text = "Remove Player";
             this.tsm_RemovePlayer.Click += new System.EventHandler(this.tsm_RemovePlayer_Click);
             // 
@@ -7065,19 +7061,19 @@
             this.tsm_EditNotify,
             this.tsm_RemoveNotify});
             this.cms_Notification.Name = "cms_Notification";
-            this.cms_Notification.Size = new System.Drawing.Size(184, 48);
+            this.cms_Notification.Size = new System.Drawing.Size(182, 48);
             // 
             // tsm_EditNotify
             // 
             this.tsm_EditNotify.Name = "tsm_EditNotify";
-            this.tsm_EditNotify.Size = new System.Drawing.Size(183, 22);
+            this.tsm_EditNotify.Size = new System.Drawing.Size(181, 22);
             this.tsm_EditNotify.Text = "Edit Notification";
             this.tsm_EditNotify.Click += new System.EventHandler(this.tsm_EditNotify_Click);
             // 
             // tsm_RemoveNotify
             // 
             this.tsm_RemoveNotify.Name = "tsm_RemoveNotify";
-            this.tsm_RemoveNotify.Size = new System.Drawing.Size(183, 22);
+            this.tsm_RemoveNotify.Size = new System.Drawing.Size(181, 22);
             this.tsm_RemoveNotify.Text = "Remove Notification";
             this.tsm_RemoveNotify.Click += new System.EventHandler(this.tsm_RemoveNotify_Click);
             // 
