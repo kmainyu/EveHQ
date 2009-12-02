@@ -267,10 +267,11 @@ Public Class IGB
         strHTML &= ".tbl { width: 800px; color: #ffffff; }"
         strHTML &= "--></STYLE>"
         strHTML &= "</HEAD>"
-        strHTML &= "<BODY onLoad=""CCPEVE.RequestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
         If context.Request.Headers("EVE_CHARNAME") <> "" Then
-            'strHTML &= "<img src='portrait:" & context.Request.Headers("EVE_CHARID") & "' size='64' alt='Mini Mugshot' />"
+            strHTML &= "<BODY link=#ff8888 alink=#ff8888 vlink=#ff8888>"
             strHTML &= "<img src='http://img.eve.is/serv.asp?s=64&c=" & context.Request.Headers("EVE_CHARID") & "' size=96 alt='Mini Mugshot' />"
+        Else
+            strHTML &= "<BODY onLoad=""CCPEVE.requestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
         End If
         strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />  IGB Server<br>"
         strHTML &= "<p>"
