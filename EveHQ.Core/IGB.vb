@@ -269,7 +269,6 @@ Public Class IGB
         strHTML &= "</HEAD>"
         If context.Request.Headers("EVE_CHARNAME") <> "" Then
             strHTML &= "<BODY link=#ff8888 alink=#ff8888 vlink=#ff8888>"
-            strHTML &= "<img src='http://img.eve.is/serv.asp?s=64&c=" & context.Request.Headers("EVE_CHARID") & "' size=96 alt='Mini Mugshot' />"
         Else
             strHTML &= "<BODY onLoad=""CCPEVE.requestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
         End If
