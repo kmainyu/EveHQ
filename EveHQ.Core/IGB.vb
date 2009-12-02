@@ -515,7 +515,7 @@ Public Class IGB
                             strHTML &= "  |  "
                         End If
                     End If
-                    strHTML &= "<button type=""button"" onClick=""CCPEVE.ShowInfo(" & typeID & ")"">Show Info</button>"
+                    strHTML &= "<button type=""button"" onClick=""CCPEVE.showInfo(" & typeID & ")"">Show Info</button>"
                     strHTML &= "</p>"
                     strHTML &= "<table width=800px class=tbl border=1 cellpadding=0><tr width=100%>"
                     'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
