@@ -1,6 +1,148 @@
 EveHQ - Version History
 -----------------------
 
+1.14.0.????
+-----------
+New Features:
+- Void: A new plug-in to provide Wormhole and W-Space information
+- Fitting protocol: Allows web links starting with fitting:// to open up a session of HQF and import the fitting
+- EveHQ Settings Backup: Allows manual or automatic backup of EveHQ Settings
+- Weapon Damage: A new damage analysis feature for HQF
+- HQF Meta Variations: Get all the variants of a specific module via a context menu option
+- Dominion Database changes
+
+Removed Features:
+- Core: Removed server status of Singularity
+- Core: Removed the training overlay form and feature
+- Core: Removed InEve feature (site is dead)
+- CorpHQ: Removed all functionality of this plug-in – standings can now be found in the pilot information screen
+
+Improvements:
+- Core: Image Handler can now return a raw location of the original HTTP URL
+- Core: Amended IGBS to provide a content type in the response to the IGB
+- Core: Clicking the Import/Export button in the Training form expands the dropdown menu
+- Core: Triggering an API update from the Settings form will now disable the button until the process is complete
+- Core: Tooltips added to the API Accounts section of Settings
+- Core: Added a CollapsibleSplitter control to allow better hiding of panels and controls
+- Core: Clarified use of the "Skill Queue" tab on the pilot form
+- Core: Added tooltip text to the skill/cert/queue tabs
+- Core: Removed excessive calculations for extracting price data from manual log import, thus speeding up the import
+- Core: Forced custom database into same location as settings (AppData folder) – this resolves several issues with finding the data
+- Core: Pilot Standings now located in the Pilot Information form
+- Core: Altered Eve Status to use CCP API and reduced cycle time to 2 minutes
+- Core: System tray icon should now be more responsive
+- Core: Removed repeated flicker of the popup form when hovering over the system tray icon
+- Core: Asteroid report now contains compressed ores
+- Core: Ice report now contains compressed ices
+- Core: Added new APIs into the EveAPI class
+- Core: Updated API Checker for new APIs
+- Core: Added Skills Cost report
+- Core: Added Text Skills Cost report
+- DC: Updated for Dominion export
+- HQF: Added loadoutID to the status bar of the BC Browser
+- HQF: Cap stability now reports as minimum value, not average sustainable
+- HQF: Replaced splitter controls with new CollapsibleSplitter controls and removed toggle buttons from the toolbar
+- HQF: Added CollapsableSplitter on the ShipSlotControl to control the storage bays
+- HQF: Altered method for changing module state via the middle mouse button where Shift-click and Ctrl-click now act as a toggle for overload/offline respectively
+- HQF: Increased default number of columns for first time users
+- HQF: Improved the settings form to display the General settings on startup (as opposed to being blank)
+- HQF: Opening a fitting will now look for user columns and prompt if none are selected
+- HQF: Storage bay height is now remembered in HQF Settings
+- HQF: Statistics export shows name of current pilot
+- HQF: Implant descriptions in implant manager now scrollable
+- HQF: Reworked skills code to allow for better distinction between HQF skills and actual skills
+- HQF: Added option to add modified skills to an EveHQ skill queue
+- HQF: Updated faction and capital ship bonuses and attributes with Dominion changes
+- HQF: Fittings containing the Slicer and Comet now updated automatically
+- HQF: Modules automatically updated from Amarr/Gallente Navy to their new names
+- HQF: Added export for the implant set currently being used
+- HQF: Navigating implants in the Pilot Manager now updates the implant description
+- IB: Added ship certificate recommendations for ships
+- Map: Gate radius feature now shows distance from base location
+- Map: Added new "Closest System in Region" mode
+- Map: Updated API routines to handle Sovereignty API changes
+- POS: Changed Text and Buttons to remove pictures and add text to make more like the rest of the program
+- POS: Added auto-fuel usage determination for any tower linked to API data
+- Prism: Added Copy To Clipboard option for required resources in the BPCalc
+- Prism: Added export options in the recycler
+
+Fixes:
+- Core: Modified Asteroid report to work correctly under MoonDoggie
+- Core: Modified Ice report to work correctly under MoonDoggie
+- Core: Modified Alloy report to work correctly under MoonDoggie
+- Core: Updated references to IGB images for MoonDoggie
+- Core: Fixed IGB Trust for Moondoggie
+- Core: Corrected IGBFooter - now spans whole page width
+- Core: Fixed Show Info links in the IGB Server for items in the database
+- Core: EMP Export no longer crashes if no skill queue tab is selected
+- Core: EMP Import no longer crashes
+- Core: Fixed crashes in Widgets when no pilot/skill queue was available
+- Core: SkillQueue Widget now updates the queue information correctly when changing pilots
+- Core: Clicking the skill link of the pilot widget now opens up the training form on the correct pilot
+- Core: Fixed issue with not finding the custom database
+- Core: Fixed automatic log import of price data when using non English cultures
+- Core: Fixed training queue issue with pilot name not being passed correctly
+- Core: Fixed duplicate training status issues
+- Core: Fixed crash importing invalid market log files from the Market log watcher
+- Core: Replaced database references to various tables 
+- Core: Fixed crashes in Material Composition reports where no valid data is returned
+- Core: A failed plug-in will no longer stay in a "loading" state on the toolbar but will revert to disabled
+- Core: Handled a conflict with Plug-in items being accessed simultaneously
+- HQF: Fixed Mercoxit Mining Crystal mappings
+- HQF: Survey skill now correctly affects the relevant modules
+- HQF: Added a cut-off point in the Damage Analysis where EDR suddenly drops to zero
+- HQF: Remote effects no longer permitted to work in Siege or Triage mode
+- HQF: Fixed overload icon in the slot control (was showing as grey)
+- HQF: Corrected warp speed of various ships
+- HQF: Added check in Engine to test for correct rig fitting
+- HQF: Scorpion now has its ECM Burst radius bonus
+- HQF: ECM Burst Radius now shown in optimal range in the ShipSlotControl
+- HQF: Fixed stacking of Projectile Burst Aerator rigs
+- HQF: Capacitor figures will no longer show > 100%
+- HQF: Reworked the resistance calculations for resistance penalties
+- HQF: HTMLEncoded fitting names in the open fittings section of the settings XML
+- HQF: Fixed WH Effects on shield HP not applying to shield extenders
+- HQF: Fixed cloning of ship class for use in BCBrowser which resolves a number of issues with accessing ships afterwards
+- HQF: Fixed crashes with booster context menu
+- HQF: Fixed mix-up of shield boost and shield transfer bonuses in Cataclysmic Variable wormholes
+- HQF: Updated tooltips on capacitor information to show GJ/s instead of F/s
+- HQF: All forms should now centre correctly in the screen
+- HQF: Ship Preview now shows correct warp speed
+- HQF: Fixed mappings for Grail, Jackal, Spur and Talon implants (both HG and LG)
+- HQF: Fixed ECM bonuses on Tengu Offensive - Rifling Launcher Pattern
+- HQF: Fixed Legion and Proteus Defensive Subsystems RR bonus
+- HQF: Fixed incorrect mapping of armor rep cycle bonus on AWL - Passive Defense to AWL - Rapid Repair
+- HQF: Fixed crash where ship type does not exist
+- HQF: Fixed prioritisation of calculations prior to stacking calculations
+- HQF: Drone durability rigs now affect Drone shield and armor HP
+- HQF: Fixed Proteus Augmented Capacitor Reservoir bonuses for drones
+- KMV: If no ship typeID is provided in the killmail, KMV reports "Unknown" instead of "#System"
+- KMV: Where there is no character victim, the Corp name is used instead (i.e. for POS kills)
+- Map: Routing table can now be sorted by security level
+- Map: Fixed crash when finding a route that is empty
+- POS: Added a semaphore for the update worker to help prevent crashes
+- POS: Fixed fill level issue for Silos and Display
+- POS: Junction modules and reactions now function correctly
+- POS: Revised the methods for preventing update issues
+- POS: Fix CPU and Power Bar Colors in the PoS Designer
+- POS: Fix the fact that the Selection menu in the Designer resets to Control Towers Periodically
+- POS: Disable Context menu items if the Tower Designer item is blank or empty
+- POS: Disable Quantity for Silo's, Harvester's, and Reactors since the Reaction manager can only track Qty 1 of those anyways
+- POS: Hide the charge selection for items that do not have charges
+- POS: Highlight drop-down for Tower Item / Module selection
+- POS: Fix for auto-fuel use calculations - will only calculate if you get 2 API data reads 1 hour apart
+- POS: Modified button text color slightly to make for a clearer separation from the tabs
+- POS: Fixed anchoring issue with module details on POS Monitor tab
+- POS: Fixed a bug with tower anchor/online times
+- POS: Modified fuel costs to pull from EveHQ info data, unless config tab override (non-zero) is set
+- Prism: Fixed issue with sub-jobs not calculating the correct number of runs
+- Prism: Minimum System Value box should now start with the correct value based on regional settings
+- Prism: Fixed crash where a BP could not be found in the item list
+- Prism: Reverting back to actual skills (i.e. not overriding) will update the blueprint information
+- Prism: Disabled Download API button while API download is in progress
+- Prism: Provided label notification of download in progress
+
+
 1.13.2.895
 ----------
 Fixes & Improvements:
