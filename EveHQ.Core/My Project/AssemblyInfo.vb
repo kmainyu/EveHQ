@@ -50,6 +50,6 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.13.2.1028")> 
-<Assembly: AssemblyFileVersion("1.13.2.1028")> 
+<Assembly: AssemblyVersion("1.14.0.1115")> 
+<Assembly: AssemblyFileVersion("1.14.0.1115")> 
 
