@@ -2357,8 +2357,15 @@ Public Class frmMap
         For Each cAgent As Agent In PlugInData.AgentID.Values
             agtest = CheckAgent(cAgent)
             If agtest = True Then
-                Dim agentStation As Station = CType(PlugInData.StationList(cAgent.stationId), Station)
-                Dim agentSystem As SolarSystem = CType(PlugInData.SystemsID(agentStation.solarSystemID.ToString), SolarSystem)
+                Dim agentStation As New Station
+                Dim agentSystem As New SolarSystem
+                If PlugInData.StationList.ContainsKey(cAgent.stationId) = True Then
+                    agentStation = CType(PlugInData.StationList(cAgent.stationId), Station)
+                    agentSystem = CType(PlugInData.SystemsID(agentStation.solarSystemID.ToString), SolarSystem)
+                Else
+                    agentStation = Nothing
+                    agentSystem = CType(PlugInData.SystemsID(CStr(cAgent.stationId - 30000000)), SolarSystem)
+                End If
                 Dim agentCorp As NPCCorp = CType(PlugInData.NPCCorpList(cAgent.corporationID), NPCCorp)
                 Dim agentFaction As Faction = CType(PlugInData.FactionList(agentCorp.factionID.ToString), Faction)
                 Dim newAgent As New ListViewItem
@@ -2379,8 +2386,12 @@ Public Class frmMap
                 newAgent.SubItems.Add(FormatNumber(agentSystem.Security, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 newAgent.SubItems.Add(agentSystem.Region) 'region
                 newAgent.SubItems.Add(agentSystem.Constellation) 'cont
-                newAgent.SubItems.Add(agentSystem.Name) 'systm
-                newAgent.SubItems.Add(agentStation.stationName)
+                newAgent.SubItems.Add(agentSystem.Name) 'system
+                If agentStation IsNot Nothing Then
+                    newAgent.SubItems.Add(agentStation.stationName)
+                Else
+                    newAgent.SubItems.Add("<In Space>")
+                End If
                 Select Case CInt(cAgent.Type)
                     Case 1
                         ' Non Agent
@@ -2425,8 +2436,14 @@ Public Class frmMap
         Dim agcid As Integer = xAgent.corporationID
         Dim agcorp As NPCCorp = CType(PlugInData.NPCCorpList(agcid), NPCCorp)
         Dim statid As Integer = xAgent.stationId
-        Dim agstat As Station = CType(PlugInData.StationList(statid), Station)
-        Dim agsysid As Integer = agstat.solarSystemID
+        Dim agstat As New Station
+        Dim agsysid As Integer
+        If PlugInData.StationList.ContainsKey(statid) = True Then
+            agstat = CType(PlugInData.StationList(statid), Station)
+            agsysid = agstat.solarSystemID
+        Else
+            agsysid = statid - 30000000
+        End If
         Dim agsys As SolarSystem = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem)
         Dim agfid As Integer = agcorp.factionID
         Dim agfacnam As String = CType(PlugInData.FactionList(agfid.ToString), Faction).factionName

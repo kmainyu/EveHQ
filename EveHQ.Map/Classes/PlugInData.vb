@@ -9,7 +9,7 @@ Public Class PlugInData
     Dim mapFolder As String = ""
     Shared mapCacheFolder As String = ""
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.14.0.1115"
+    Shared LastCacheRefresh As String = "1.14.0.1120"
 
 #Region "Plug-in Interface Functions"
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
@@ -1274,12 +1274,22 @@ Public Class PlugInData
                         Else
                             cAgent.corporationID = 0
                         End If
-                        If IsDBNull(AgentData.Tables(0).Rows(a).Item("stationID")) = False Then
-                            cAgent.stationId = CInt(AgentData.Tables(0).Rows(a).Item("stationID"))
-                        Else
-                            skip = True
-                            cAgent.stationId = 0
-                        End If
+                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                            Case 0 ' Access
+                                If IsDBNull(AgentData.Tables(0).Rows(a).Item("stationID")) = False Then
+                                    cAgent.stationId = CInt(AgentData.Tables(0).Rows(a).Item("stationID"))
+                                Else
+                                    skip = True
+                                    cAgent.stationId = 0
+                                End If
+                            Case Else
+                                If IsDBNull(AgentData.Tables(0).Rows(a).Item("locationID")) = False Then
+                                    cAgent.stationId = CInt(AgentData.Tables(0).Rows(a).Item("locationID"))
+                                Else
+                                    skip = True
+                                    cAgent.stationId = 0
+                                End If
+                        End Select                        
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("level")) = False Then
                             cAgent.Level = CInt(AgentData.Tables(0).Rows(a).Item("level"))
                         Else
