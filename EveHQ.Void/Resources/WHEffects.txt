@@ -38,8 +38,8 @@
 1493,2,920,64,4,561;564;567;570;574;577,0,0,5,15,Small Weapon Damage Multiplier
 1494,2,920,64,4,562;565;568;572;575;578,0,0,5,15,Medium Weapon Damage Multiplier
 1495,2,920,84,2,62,0,0,5,15,Repair Amount Multiplier
-1496,2,920,68,2,41,0,0,5,15,Shield Transfer Amount Multiplier
-1497,2,920,68,2,40,0,0,5,15,Shield Repair Multiplier
+1496,2,920,68,2,40,0,0,5,15,Shield Repair Multiplier
+1497,2,920,68,2,41,0,0,5,15,Shield Transfer Amount Multiplier
 1498,2,920,84,2,325,0,0,5,15,Remote Repair Amount Multiplier
 1499,2,920,482,3,6,0,0,5,15,Capacitor Capacity Multiplier
 1500,2,920,55,3,6,0,0,5,15,Capacitor Recharge Multiplier
