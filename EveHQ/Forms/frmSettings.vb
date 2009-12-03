@@ -1916,19 +1916,23 @@ Public Class frmSettings
         lvWidgets.BeginUpdate()
         lvWidgets.Items.Clear()
         For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration
-            Dim newWidgetLVI As New ListViewItem
-            newWidgetLVI.Text = CStr(config("ControlName"))
-            Select Case CStr(config("ControlName"))
-                Case "Pilot Information"
-                    newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")))
-                Case "Skill Queue Information"
-                    If CBool(config("EveQueue")) = True Then
-                        newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", Eve Queue")
-                    Else
-                        newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", EveHQ Queue (" & CStr(config("DefaultQueueName")) & ")")
-                    End If
-            End Select
-            lvWidgets.Items.Add(newWidgetLVI)
+            Try
+                Dim newWidgetLVI As New ListViewItem
+                newWidgetLVI.Text = CStr(config("ControlName"))
+                Select Case CStr(config("ControlName"))
+                    Case "Pilot Information"
+                        newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")))
+                    Case "Skill Queue Information"
+                        If CBool(config("EveQueue")) = True Then
+                            newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", Eve Queue")
+                        Else
+                            newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", EveHQ Queue (" & CStr(config("DefaultQueueName")) & ")")
+                        End If
+                End Select
+                lvWidgets.Items.Add(newWidgetLVI)
+            Catch e As Exception
+                ' presumably it's an old Widget, therefore discount it
+            End Try
         Next
         lvWidgets.EndUpdate()
     End Sub
