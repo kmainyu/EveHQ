@@ -44,6 +44,7 @@ Public Class frmUpdater
             ServicePointManager.Expect100Continue = False
             Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
             Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
+            request.UserAgent = "EveHQ Updater " & My.Application.Info.Version.ToString
             request.CachePolicy = policy
             ' Setup proxy server (if required)
             If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
@@ -386,6 +387,7 @@ Public Class frmUpdater
             End If
             request.Proxy = EveHQProxy
         End If
+        request.UserAgent = "EveHQ Updater " & My.Application.Info.Version.ToString
         request.CachePolicy = policy
         request.Method = WebRequestMethods.File.DownloadFile
         request.Timeout = 900000
