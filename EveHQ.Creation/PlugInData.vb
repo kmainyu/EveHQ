@@ -3,15 +3,9 @@
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
 
-
     Public Shared raceData As New DataSet
     Public Shared bloodData As New DataSet
     Public Shared ancestryData As New DataSet
-    Public Shared careerData As New DataSet
-    Public Shared specData As New DataSet
-    Public Shared raceSkillData As New DataSet
-    Public Shared careerSkillData As New DataSet
-    Public Shared specSkillData As New DataSet
 
     Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Return Nothing
@@ -74,56 +68,6 @@ Public Class PlugInData
                 Return False
             End If
         End If
-        'careerData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareers")
-        'If careerData Is Nothing Then
-        '    MessageBox.Show("chrCareers table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '    Return False
-        'Else
-        '    If careerData.Tables(0).Rows.Count = 0 Then
-        '        MessageBox.Show("chrCareers table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '        Return False
-        '    End If
-        'End If
-        'specData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialities")
-        'If specData Is Nothing Then
-        '    MessageBox.Show("chrCareerSpec table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '    Return False
-        'Else
-        '    If specData.Tables(0).Rows.Count = 0 Then
-        '        MessageBox.Show("chrCareerSpec table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '        Return False
-        '    End If
-        'End If
-        raceSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaceSkills")
-        If raceSkillData Is Nothing Then
-            MessageBox.Show("chrRaceSkills table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            If raceSkillData.Tables(0).Rows.Count = 0 Then
-                MessageBox.Show("chrRaceSkills table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
-        'careerSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSkills")
-        'If careerSkillData Is Nothing Then
-        '    MessageBox.Show("chrCareerSkills table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '    Return False
-        'Else
-        '    If careerSkillData.Tables(0).Rows.Count = 0 Then
-        '        MessageBox.Show("chrCareerSkills table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '        Return False
-        '    End If
-        'End If
-        'specSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialitySkills")
-        'If specSkillData Is Nothing Then
-        '    MessageBox.Show("chrCareerSpecSkills table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '    Return False
-        'Else
-        '    If specSkillData.Tables(0).Rows.Count = 0 Then
-        '        MessageBox.Show("chrCareerSpecSkills table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '        Return False
-        '    End If
-        'End If
         Return True
     End Function
 

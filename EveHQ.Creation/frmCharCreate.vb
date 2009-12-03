@@ -93,9 +93,9 @@ Public Class frmCharCreate
         End If
 
         ' Clear any subsequent controls as these will no longer be relevant
-        lblStep3.Enabled = False : lblStep4.Enabled = False : lblStep5.Enabled = False
-        cboAncestry.Items.Clear() : cboCareer.Items.Clear() : cboSpec.Items.Clear()
-        cboAncestry.Enabled = False : cboCareer.Enabled = False : cboSpec.Enabled = False
+        lblStep3.Enabled = False
+        cboAncestry.Items.Clear()
+        cboAncestry.Enabled = False
 
         ' Store the raceID and raceName
         sRaceName = CStr(cboRace.SelectedItem)
@@ -143,11 +143,6 @@ Public Class frmCharCreate
             lblStep3.Enabled = True : cboAncestry.Enabled = True
         End If
 
-        ' Clear any subsequent controls as these will no longer be relevant
-        lblStep4.Enabled = False : lblStep5.Enabled = False
-        cboCareer.Items.Clear() : cboSpec.Items.Clear()
-        cboCareer.Enabled = False : cboSpec.Enabled = False
-
         ' Store the raceID and raceName
         sBloodName = CStr(cboBloodline.SelectedItem)
         sBloodID = CInt(eveBloodlines.Item(sBloodName))
@@ -187,30 +182,9 @@ Public Class frmCharCreate
     End Sub
     Private Sub cboAncestry_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAncestry.SelectedIndexChanged
 
-        ' If we have chosen something, then activate the next control
-        'If cboAncestry.SelectedIndex > -1 Then
-        '    lblStep4.Enabled = True : cboCareer.Enabled = True
-        'End If
-
-        ' Clear any subsequent controls as these will no longer be relevant
-        lblStep5.Enabled = False
-        cboSpec.Items.Clear()
-        cboSpec.Enabled = False
-
         ' Store the raceID and raceName
         sAncestryName = CStr(cboAncestry.SelectedItem)
         sAncestryID = CInt(eveAncestries.Item(sAncestryName))
-
-        ' Load up the options for the careers
-        'cboCareer.Items.Clear()
-        'eveCareers.Clear()
-        'Dim careerset() As DataRow = PlugInData.careerData.Tables(0).Select("raceID=" & sRaceID)
-        'Dim careerName As String = ""
-        'For careerNo As Integer = 0 To careerset.GetUpperBound(0)
-        '    careerName = CStr(careerset(careerNo).Item("careerName"))
-        '    Me.eveCareers.Add(careerName, careerset(careerNo).Item("careerID"))
-        '    Me.cboCareer.Items.Add(careerName)
-        'Next
 
         Call CalcAncestryAttributes(CStr(sAncestryID))
 
@@ -236,19 +210,28 @@ Public Class frmCharCreate
     End Sub
 
     Private Sub CalcRaceSkills(ByVal raceID As String)
+        ' Extract RaceSkills from resources
+        Dim RaceSkills As New ArrayList
+        Dim RaceSkillsTable As String = My.Resources.RaceSkillsTable
+        Dim RaceSkillLines() As String = RaceSkillsTable.Split(ControlChars.CrLf.ToCharArray)
+        For Each RaceSkill As String In RaceSkillLines
+            Dim RaceSkillData() As String = RaceSkill.Split(",".ToCharArray)
+            If RaceSkillData(0) = raceID Then
+                RaceSkills.Add(RaceSkillData(1) & "," & RaceSkillData(2))
+            End If
+        Next
 
         ' Load up the skills for the selected race
         skillsRace.Clear()
-        Dim skillRows() As DataRow
-        skillRows = PlugInData.raceSkillData.Tables(0).Select("raceID = " & raceID)
         Dim skillID As String = ""
         Dim skillName As String = ""
         Dim skillLevel As Integer = 0
         Dim skillPoints As Long = 0
-        For skillNo As Integer = 0 To skillRows.GetUpperBound(0)
-            skillID = CStr(skillRows(skillNo).Item("skillTypeID"))
+        For Each raceskill As String In RaceSkills
+            Dim RaceSkillData() As String = raceskill.Split(",".ToCharArray)
+            skillID = RaceSkillData(0)
+            skillLevel = CInt(RaceSkillData(1))
             skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
-            skillLevel = CInt(skillRows(skillNo).Item("levels"))
             skillPoints = CLng(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel), 0))
             Dim skillItem As New ListViewItem
             skillItem.Text = skillName

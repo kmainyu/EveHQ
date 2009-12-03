@@ -36,10 +36,6 @@ Partial Class frmCharCreate
         Me.lblPer = New System.Windows.Forms.Label
         Me.lblCha = New System.Windows.Forms.Label
         Me.lblInt = New System.Windows.Forms.Label
-        Me.lblStep5 = New System.Windows.Forms.Label
-        Me.lblStep4 = New System.Windows.Forms.Label
-        Me.cboSpec = New System.Windows.Forms.ComboBox
-        Me.cboCareer = New System.Windows.Forms.ComboBox
         Me.cboAncestry = New System.Windows.Forms.ComboBox
         Me.lblStep3 = New System.Windows.Forms.Label
         Me.cboBloodline = New System.Windows.Forms.ComboBox
@@ -153,10 +149,6 @@ Partial Class frmCharCreate
         Me.tabSelection.Controls.Add(Me.btnAddPilot)
         Me.tabSelection.Controls.Add(Me.gbSkills)
         Me.tabSelection.Controls.Add(Me.gbAttributes)
-        Me.tabSelection.Controls.Add(Me.lblStep5)
-        Me.tabSelection.Controls.Add(Me.lblStep4)
-        Me.tabSelection.Controls.Add(Me.cboSpec)
-        Me.tabSelection.Controls.Add(Me.cboCareer)
         Me.tabSelection.Controls.Add(Me.cboAncestry)
         Me.tabSelection.Controls.Add(Me.lblStep3)
         Me.tabSelection.Controls.Add(Me.cboBloodline)
@@ -186,9 +178,9 @@ Partial Class frmCharCreate
         Me.gbSkills.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.gbSkills.Controls.Add(Me.lvwSkills)
-        Me.gbSkills.Location = New System.Drawing.Point(12, 158)
+        Me.gbSkills.Location = New System.Drawing.Point(12, 118)
         Me.gbSkills.Name = "gbSkills"
-        Me.gbSkills.Size = New System.Drawing.Size(341, 491)
+        Me.gbSkills.Size = New System.Drawing.Size(341, 531)
         Me.gbSkills.TabIndex = 23
         Me.gbSkills.TabStop = False
         Me.gbSkills.Text = "Character Skills"
@@ -200,7 +192,7 @@ Partial Class frmCharCreate
         Me.lvwSkills.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colSkill, Me.colLevel, Me.colSP})
         Me.lvwSkills.Location = New System.Drawing.Point(7, 20)
         Me.lvwSkills.Name = "lvwSkills"
-        Me.lvwSkills.Size = New System.Drawing.Size(328, 465)
+        Me.lvwSkills.Size = New System.Drawing.Size(328, 505)
         Me.lvwSkills.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwSkills.TabIndex = 0
         Me.lvwSkills.UseCompatibleStateImageBehavior = False
@@ -289,46 +281,6 @@ Partial Class frmCharCreate
         Me.lblInt.Size = New System.Drawing.Size(85, 13)
         Me.lblInt.TabIndex = 0
         Me.lblInt.Text = "Intelligence: n/a"
-        '
-        'lblStep5
-        '
-        Me.lblStep5.AutoSize = True
-        Me.lblStep5.Enabled = False
-        Me.lblStep5.Location = New System.Drawing.Point(9, 131)
-        Me.lblStep5.Name = "lblStep5"
-        Me.lblStep5.Size = New System.Drawing.Size(148, 13)
-        Me.lblStep5.TabIndex = 21
-        Me.lblStep5.Text = "Step 5: Choose Specialization"
-        '
-        'lblStep4
-        '
-        Me.lblStep4.AutoSize = True
-        Me.lblStep4.Enabled = False
-        Me.lblStep4.Location = New System.Drawing.Point(9, 104)
-        Me.lblStep4.Name = "lblStep4"
-        Me.lblStep4.Size = New System.Drawing.Size(117, 13)
-        Me.lblStep4.TabIndex = 20
-        Me.lblStep4.Text = "Step 4: Choose Career"
-        '
-        'cboSpec
-        '
-        Me.cboSpec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboSpec.Enabled = False
-        Me.cboSpec.FormattingEnabled = True
-        Me.cboSpec.Location = New System.Drawing.Point(163, 128)
-        Me.cboSpec.Name = "cboSpec"
-        Me.cboSpec.Size = New System.Drawing.Size(190, 21)
-        Me.cboSpec.TabIndex = 19
-        '
-        'cboCareer
-        '
-        Me.cboCareer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboCareer.Enabled = False
-        Me.cboCareer.FormattingEnabled = True
-        Me.cboCareer.Location = New System.Drawing.Point(163, 101)
-        Me.cboCareer.Name = "cboCareer"
-        Me.cboCareer.Size = New System.Drawing.Size(190, 21)
-        Me.cboCareer.TabIndex = 18
         '
         'cboAncestry
         '
@@ -467,7 +419,7 @@ Partial Class frmCharCreate
         '
         Me.ctxChars.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddCharacter, Me.ToolStripMenuItem3, Me.mnuExportToCSV})
         Me.ctxChars.Name = "ctxChars"
-        Me.ctxChars.Size = New System.Drawing.Size(236, 76)
+        Me.ctxChars.Size = New System.Drawing.Size(236, 54)
         '
         'mnuAddCharacter
         '
@@ -958,10 +910,6 @@ Partial Class frmCharCreate
     Friend WithEvents lblPer As System.Windows.Forms.Label
     Friend WithEvents lblCha As System.Windows.Forms.Label
     Friend WithEvents lblInt As System.Windows.Forms.Label
-    Friend WithEvents lblStep5 As System.Windows.Forms.Label
-    Friend WithEvents lblStep4 As System.Windows.Forms.Label
-    Friend WithEvents cboSpec As System.Windows.Forms.ComboBox
-    Friend WithEvents cboCareer As System.Windows.Forms.ComboBox
     Friend WithEvents cboAncestry As System.Windows.Forms.ComboBox
     Friend WithEvents lblStep3 As System.Windows.Forms.Label
     Friend WithEvents cboBloodline As System.Windows.Forms.ComboBox
