@@ -966,6 +966,7 @@
 1203,1,27951,90,2,67,0,0,0,4,Energy Transfer Bonus
 1204,1,27951,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
 # Tracking Computers,,,,,,,,,,
+349,2,213,158,2,55;53;74,1,0,0,4,Falloff
 351,2,213,54,2,55;53;74,1,0,0,4,Optimal Range
 767,2,213,160,2,55;53;74,1,0,0,4,Tracking Speed
 # Tracking Enhancers,,,,,,,,,,
