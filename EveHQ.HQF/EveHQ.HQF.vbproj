@@ -504,6 +504,7 @@
     <None Include="Resources\Eve.ico" />
     <None Include="Resources\icon44_17.png" />
     <None Include="Resources\Skills2.png" />
+    <None Include="Resources\icon09_05.png" />
     <Content Include="_Changelog.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -101,7 +101,13 @@ Public Class EveSpace
             cSourceShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                Dim img As New Bitmap(EveHQ.Core.ImageHandler.GetImage(SourceShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types), 32, 32)
+                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(SourceShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+                Dim img As Bitmap
+                If baseImage IsNot Nothing Then
+                    img = New Bitmap(baseImage, 32, 32)
+                Else
+                    img = New Bitmap(My.Resources.EveSpaceAttacker, 32, 32)
+                End If
                 If DIs.ContainsKey("SourceShip") = False Then
                     DIs.Add("SourceShip", New DraggableImage("SourceShip", img, value.Location))
                     DI1 = DIs("SourceShip")
@@ -131,7 +137,13 @@ Public Class EveSpace
             cTargetShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                Dim img As New Bitmap(EveHQ.Core.ImageHandler.GetImage(TargetShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types), 32, 32)
+                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(TargetShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+                Dim img As Bitmap
+                If baseImage IsNot Nothing Then
+                    img = New Bitmap(baseImage, 32, 32)
+                Else
+                    img = New Bitmap(My.Resources.EveSpaceAttacker, 32, 32)
+                End If
                 If DIs.ContainsKey("TargetShip") = False Then
                     DIs.Add("TargetShip", New DraggableImage("TargetShip", img, value.Location))
                     DI1 = DIs("TargetShip")
