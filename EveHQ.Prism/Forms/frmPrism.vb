@@ -3596,9 +3596,9 @@ Public Class frmPrism
         RigBuildData = New SortedList
 
         ' Get the BP Details and build requirements
-        Dim strSQL As String = "SELECT ramTypeRequirements.typeID AS ramTypeRequirements_typeID, ramTypeRequirements.activityID, ramTypeRequirements.requiredTypeID, ramTypeRequirements.quantity, ramTypeRequirements.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
-        strSQL &= " FROM invTypes INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.typeID"
-        strSQL &= " WHERE (((ramTypeRequirements.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
+        Dim strSQL As String = "SELECT invBuildMaterials.typeID AS invBuildMaterials_typeID, invBuildMaterials.activityID, invBuildMaterials.requiredTypeID, invBuildMaterials.quantity, invBuildMaterials.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
+        strSQL &= " FROM invTypes INNER JOIN invBuildMaterials ON invTypes.typeID = invBuildMaterials.typeID"
+        strSQL &= " WHERE (((invBuildMaterials.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
         Dim rigData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Dim BPID As String = ""
         Dim BPName As String = ""
