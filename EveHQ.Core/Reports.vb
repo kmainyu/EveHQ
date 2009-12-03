@@ -3371,7 +3371,6 @@ Public Class Reports
                     If rpilot.Training = True Then
                         If currentSkill.ID = cSkill.ID Then
                             repSkill(groupCount, CInt(skillCount), 3) = CStr((Val(repSkill(groupCount, CInt(skillCount), 3)) + Val(currentSP)))
-                            repSkill(groupCount, CInt(skillCount), 4) = currentTime
                             SPCount += CLng(currentSP)
                         End If
                     End If
@@ -3393,7 +3392,7 @@ Public Class Reports
                     strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
                     If rpilot.Training = True Then
                         If currentSkill.ID = repSkill(group, skill, 0) Then
-                            strHTML &= "<td style='color:#FFAA00;'>"
+                            strHTML &= "<td>"
                             imgLevel = "http://myeve.eve-online.com/bitmaps/character/level" & CDbl(repSkill(group, skill, 5)) + 1 & "_act.gif"
                         Else
                             strHTML &= "<td>"
@@ -3480,7 +3479,6 @@ Public Class Reports
                     If rpilot.Training = True Then
                         If currentSkill.ID = cSkill.ID Then
                             repSkill(groupCount, CInt(skillCount), 3) = CStr((Val(repSkill(groupCount, CInt(skillCount), 3)) + Val(currentSP)))
-                            repSkill(groupCount, CInt(skillCount), 4) = currentTime
                             SPCount += CLng(currentSP)
                         End If
                     End If
