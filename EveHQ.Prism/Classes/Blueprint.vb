@@ -68,6 +68,11 @@
                                 newReq.TypeCategory = CInt(req.Item("categoryID"))
                                 newReq.Quantity = CInt(req.Item("quantity"))
                                 newReq.TypeName = CStr(req.Item("typeName"))
+                                If IsDBNull(req.Item("baseMaterial")) = False Then
+                                    newReq.BaseMaterial = CInt(req.Item("baseMaterial"))
+                                Else
+                                    newReq.BaseMaterial = 0
+                                End If
                                 If newBP.Resources.ContainsKey(newReq.TypeID.ToString & "_" & newReq.Activity.ToString) = False Then
                                     newBP.Resources.Add(newReq.TypeID.ToString & "_" & newReq.Activity.ToString, newReq)
                                 End If
@@ -84,6 +89,11 @@
                                     newReq.TypeCategory = CInt(req.Item("categoryID"))
                                     newReq.Quantity = CInt(req.Item("quantity"))
                                     newReq.TypeName = CStr(req.Item("typeName"))
+                                    If IsDBNull(req.Item("baseMaterial")) = False Then
+                                        newReq.BaseMaterial = CInt(req.Item("baseMaterial"))
+                                    Else
+                                        newReq.BaseMaterial = 0
+                                    End If
                                     If newBP.Resources.ContainsKey(newReq.TypeID.ToString & "_" & newReq.Activity.ToString) = False Then
                                         newBP.Resources.Add(newReq.TypeID.ToString & "_" & newReq.Activity.ToString, newReq)
                                     End If
@@ -120,6 +130,7 @@ End Class
     Public Activity As Integer
     Public Quantity As Integer
     Public DamagePerJob As Double
+    Public BaseMaterial As Integer
 End Class
 
 <Serializable()> Public Class ProductionJob
@@ -209,42 +220,45 @@ Public Class BlueprintSelection
                 Dim subBP As BlueprintAsset = Nothing
 
                 ' Calculate the current perfect and waste resources
-                Dim perfectExtra As Integer = 0
-                Dim perfectRaw As Integer = resource.Quantity
                 Dim waste As Integer = 0
-                ' Check for data in the activityID=6
-                If Me.Resources.ContainsKey(resource.TypeID.ToString & "_6") Then
-                    perfectExtra = Me.Resources(resource.TypeID.ToString & "_6").Quantity
-                    If perfectExtra >= perfectRaw Then
-                        ' Material is raw
-                        waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
-                    Else
-                        ' Material is extra
-                        waste = CInt(Math.Round(BPWF * perfectExtra * MatMod, 0, MidpointRounding.AwayFromZero))
-                    End If
-                Else
-                    ' Material is extra and therfore not subject to waste?
-                    Select Case Me.GroupID
-                        Case 371, 447, 914, 915, 356
-                            Select Case resource.TypeGroup
-                                Case 18, 429, 530
-                                    ' Material is raw
-                                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
-                                Case Else
-                                    waste = 0
-                            End Select
-                        Case 535
-                            Select Case resource.TypeGroup
-                                Case 536
-                                    ' Material is raw
-                                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
-                                Case Else
-                                    waste = 0
-                            End Select
-                        Case Else
-                            waste = 0
-                    End Select
-                End If
+                Dim perfectRaw As Integer = resource.Quantity
+                'Dim perfectExtra As Integer = 0
+                '' Check for data in the activityID=6
+                'If Me.Resources.ContainsKey(resource.TypeID.ToString & "_6") Then
+                '    perfectExtra = Me.Resources(resource.TypeID.ToString & "_6").Quantity
+                '    If perfectExtra >= perfectRaw Then
+                '        ' Material is raw
+                '        waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
+                '    Else
+                '        ' Material is extra
+                '        waste = CInt(Math.Round(BPWF * perfectExtra * MatMod, 0, MidpointRounding.AwayFromZero))
+                '    End If
+                'Else
+                '    ' Material is extra and therfore not subject to waste?
+                '    Select Case Me.GroupID
+                '        Case 371, 447, 914, 915, 356
+                '            Select Case resource.TypeGroup
+                '                Case 18, 429, 530
+                '                    ' Material is raw
+                '                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
+                '                Case Else
+                '                    waste = 0
+                '            End Select
+                '        Case 535
+                '            Select Case resource.TypeGroup
+                '                Case 536
+                '                    ' Material is raw
+                '                    waste = CInt(Math.Round(BPWF * perfectRaw * MatMod, 0, MidpointRounding.AwayFromZero))
+                '                Case Else
+                '                    waste = 0
+                '            End Select
+                '        Case Else
+                '            waste = 0
+                '    End Select
+                'End If
+
+                ' Calculate Waste - Mark II!
+                waste = CInt(Math.Round(BPWF * resource.BaseMaterial * MatMod, 0, MidpointRounding.AwayFromZero))
 
                 ' Check if we have component iteration active
                 If ComponentIteration = True Then

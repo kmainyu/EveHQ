@@ -327,7 +327,6 @@ Public Class frmBPCalculator
         Call Me.DisplayCostInformation()
     End Sub
 
-
     Private Sub CalculateAssemblyLocations()
         Dim productID As String = CurrentBP.ProductID.ToString
         Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(productID)
