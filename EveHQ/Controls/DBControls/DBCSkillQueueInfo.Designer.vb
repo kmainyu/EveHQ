@@ -22,6 +22,7 @@ Partial Class DBCSkillQueueInfo
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.AGPSkillInfo = New EveHQ.Core.AlphaGradientPanel
         Me.ColorWithAlpha1 = New EveHQ.Core.ColorWithAlpha
         Me.ColorWithAlpha2 = New EveHQ.Core.ColorWithAlpha
@@ -37,6 +38,7 @@ Partial Class DBCSkillQueueInfo
         Me.ColorWithAlpha4 = New EveHQ.Core.ColorWithAlpha
         Me.lblHeader = New System.Windows.Forms.Label
         Me.pbConfig = New System.Windows.Forms.PictureBox
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.AGPSkillInfo.SuspendLayout()
         Me.AGPHeader.SuspendLayout()
         CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -227,6 +229,7 @@ Partial Class DBCSkillQueueInfo
         Me.pbConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.pbConfig.TabIndex = 13
         Me.pbConfig.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbConfig, "Double-click to configure the control")
         '
         'DBCSkillQueueInfo
         '
@@ -259,5 +262,6 @@ Partial Class DBCSkillQueueInfo
     Friend WithEvents lvwSkills As System.Windows.Forms.ListView
     Friend WithEvents colSkillName As System.Windows.Forms.ColumnHeader
     Friend WithEvents cboSkillQueue As System.Windows.Forms.ComboBox
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 
 End Class

@@ -71,17 +71,6 @@ Public Class ImageHandler
             Dim remoteURL As String = CStr(DownloadInfo(0))
             Dim imageName As String = CStr(DownloadInfo(1))
             Dim RequestPic As WebRequest = WebRequest.Create(remoteURL)
-            ' Setup proxy server (if required)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                    EveHQProxy.UseDefaultCredentials = True
-                Else
-                    EveHQProxy.UseDefaultCredentials = False
-                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                End If
-                RequestPic.Proxy = EveHQProxy
-            End If
             Dim ResponsePic As WebResponse = RequestPic.GetResponse
             Dim WebImage As Image = Image.FromStream(ResponsePic.GetResponseStream())
             ' Save the image into the cache
