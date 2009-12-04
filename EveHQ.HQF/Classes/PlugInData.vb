@@ -394,7 +394,7 @@ Public Class PlugInData
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.published, invTypes.raceID, invTypes.marketGroupID"
             strSQL &= " FROM (invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID"
-            strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true AND invTypes.typeID<>30842) ORDER BY typeName;"
+            strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true) ORDER BY typeName;"
             PlugInData.shipNameData = EveHQ.Core.DataFunctions.GetData(strSQL)
             If PlugInData.shipNameData IsNot Nothing Then
                 If PlugInData.shipNameData.Tables(0).Rows.Count <> 0 Then
@@ -418,7 +418,7 @@ Public Class PlugInData
             Dim pSkillName As String = "" : Dim sSkillName As String = "" : Dim tSkillName As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.raceID, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
-            strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true) ORDER BY typeName, attributeID;"
+            strSQL &= " WHERE ((invCategories.categoryID=6 AND invTypes.published=true) OR invTypes.typeID IN (601,596,588,606)) ORDER BY typeName, attributeID;"
             Dim shipData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If shipData IsNot Nothing Then
                 If shipData.Tables(0).Rows.Count <> 0 Then
