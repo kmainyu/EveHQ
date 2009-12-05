@@ -1024,7 +1024,11 @@ Public Class frmTraining
         btnMoveUp.Enabled = False
         btnMoveDown.Enabled = False
         btnShowDetails.Enabled = True
-        btnAddSkill.Enabled = True
+        If activeQueue IsNot Nothing Then
+            btnAddSkill.Enabled = True
+        Else
+            btnAddSkill.Enabled = False
+        End If
         If e.Node.Parent IsNot Nothing Or (e.Node.Parent Is Nothing And usingFilter = False) Then
             Dim skillID As String = e.Node.Name
             Call Me.ShowSkillDetails(skillID)
