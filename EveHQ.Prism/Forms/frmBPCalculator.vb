@@ -284,6 +284,11 @@ Public Class frmBPCalculator
         lblBPOMarketValue.Text = FormatNumber(CDbl(EveHQ.Core.HQ.BasePriceList(CurrentBP.ID.ToString)) * 0.9, 2) & " Isk"
         ' Update the limits on the Runs
         nudCopyRuns.Maximum = CurrentBP.MaxProdLimit
+        If CurrentBP.Runs = -1 Then
+            nudRuns.Maximum = 1000000
+        Else
+            nudRuns.Maximum = Math.Min(CurrentBP.MaxProdLimit, CurrentBP.Runs)
+        End If
         ToolTip1.SetToolTip(nudCopyRuns, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
         ToolTip1.SetToolTip(lblRunsPerCopy, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
         UpdateBPInfo = True
