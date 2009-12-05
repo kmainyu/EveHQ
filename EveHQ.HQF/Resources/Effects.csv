@@ -227,7 +227,7 @@
 927,1,22578,1082,2,546,0,1,0,0,Mining Upgrades
 # LEADERSHIP,,,,,,,,,,
 335,1,-20494,265,3,6,0,0,0,32,Armored Warfare - Ship
-335,1,-20494,1159,2,329,0,0,0,32,Armored Warfare - Plates
+#335,1,-20494,1159,2,329,0,0,0,32,Armored Warfare - Plates
 277,1,11569,833,1,20069;20409;22227,0,1,5,0,Armored Warfare Specialist
 #,1,24764,,,,0,1,0,0,Fleet Command
 309,1,-20495,76,3,6,0,0,0,32,Information Warfare
@@ -242,7 +242,7 @@
 434,1,-22536,77,4,1039,0,0,0,32,Mining Foreman
 434,1,-22536,77,4,1040,0,0,0,32,Mining Foreman
 337,1,-3350,263,3,6,0,0,0,32,Siege Warfare - Ship
-337,1,-3350,72,2,38,0,0,0,32,Siege Warfare - Extenders
+#337,1,-3350,72,2,38,0,0,0,32,Siege Warfare - Extenders
 277,1,3351,833,1,20124;22228;20514,0,1,5,0,Siege Warfare Specialist
 151,1,-3349,70,3,6,0,0,0,32,Skirmish Warfare
 277,1,11572,833,1,20070;11017;20408,0,1,5,0,Skirmish Warfare Specialist
@@ -1169,7 +1169,7 @@
 1034,3,6,669,2,330,0,0,4,15,Cloak Reactivation Delay
 # ENVIRONMENT,,,,,,,,,,
 146,2,920,263,3,6,0,0,0,15,Shield HP Bonus - Ship
-146,2,920,72,2,38,0,0,0,15,Shield HP Bonus - Extenders
+#146,2,920,72,2,38,0,0,0,15,Shield HP Bonus - Extenders
 169,2,920,70,3,6,0,0,5,15,Inertia Modifer
 237,2,920,76,3,6,0,0,0,15,Targeting Range Bonus
 243,2,920,76,3,6,0,0,5,15,Max Range Multiplier
