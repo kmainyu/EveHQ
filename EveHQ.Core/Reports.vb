@@ -167,6 +167,43 @@ Public Class Reports
         Return strText.ToString
     End Function
 
+    Public Shared Function PHPBBCharacterDetails(ByVal reportTitle As String, ByVal rpilot As EveHQ.Core.Pilot) As String
+        Dim strText As New StringBuilder
+        Dim tmpText As String = ""
+        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSP As String = "0"
+        Dim currentTime As String = "0"
+        If rpilot.Training = True Then
+            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rpilot))
+            currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rpilot))
+        End If
+
+        tmpText = reportTitle & " - " & rpilot.Name
+        strText.AppendLine(tmpText)
+        strText.AppendLine(New String(CChar("="), tmpText.Length))
+        strText.AppendLine()
+        strText.AppendLine("Name: " & rpilot.Name)
+        strText.AppendLine("Race: " & rpilot.Race)
+        strText.AppendLine("Bloodline: " & rpilot.Blood)
+        strText.AppendLine("Corporation: " & rpilot.Corp)
+        strText.AppendLine("Isk: " & FormatNumber(rpilot.Isk, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        strText.AppendLine("Skillpoints: " & FormatNumber(CLng(rpilot.SkillPoints) + CLng(currentSP), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        strText.AppendLine("Skills: " & rpilot.PilotSkills.Count)
+        strText.AppendLine()
+        strText.AppendLine("Charisma: " & Format(CDbl(rpilot.CAttT), "##.00"))
+        strText.AppendLine("Intelligence: " & Format(CDbl(rpilot.IAttT), "##.00"))
+        strText.AppendLine("Memory: " & Format(CDbl(rpilot.MAttT), "##.00"))
+        strText.AppendLine("Perception: " & Format(CDbl(rpilot.PAttT), "##.00"))
+        strText.AppendLine("Willpower: " & Format(CDbl(rpilot.WAttT), "##.00"))
+        strText.AppendLine()
+        strText.AppendLine(New String(CChar("-"), 50))
+        strText.AppendLine()
+
+        Return strText.ToString
+    End Function
+
+
     Public Shared Function XMLImplantDetails(ByVal rpilot As EveHQ.Core.Pilot) As String
         Dim strXML As String = ""
         Dim tabs(10) As String
@@ -3511,6 +3548,109 @@ Public Class Reports
         txtFinalData(0) = "Total Skill Cost:"
         txtFinalData(1) = FormatNumber(totalCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         strText.AppendLine(String.Format("{0,-45} {1,-10}", txtFinalData))
+
+        Return strText.ToString
+    End Function
+
+#End Region
+
+#Region "PHPBB Character Sheet Report"
+
+    Public Shared Sub GeneratePHPBBCharSheet(ByVal rpilot As EveHQ.Core.Pilot)
+
+        Dim strHTML As String = ""
+        strHTML &= PHPBBCharacterDetails("Character Sheet", rpilot)
+        strHTML &= PHPBBCharacterSheet(rpilot)
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "PHPBBCharSheet (" & rpilot.Name & ").txt"))
+        sw.Write(strHTML)
+        sw.Flush()
+        sw.Close()
+        strHTML = Nothing
+
+        ' Tidy up report variables
+        GC.Collect()
+
+    End Sub
+
+    Public Shared Function PHPBBCharacterSheet(ByVal rpilot As EveHQ.Core.Pilot) As String
+        Dim strText As New StringBuilder
+
+        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSP As String = ""
+        Dim currentTime As String = ""
+        If rpilot.Training = True Then
+            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSP = CStr(rpilot.TrainingCurrentSP)
+            currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
+        End If
+
+        Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 3) As String
+        Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
+        Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
+        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim groupCount As Integer = 0
+        For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
+            groupCount += 1
+            repGroup(groupCount, 1) = cGroup.Name
+            Dim skillCount As Long = 0
+            Dim SPCount As Long = 0
+            ' Collect skills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
+            For Each cSkill In rpilot.PilotSkills
+                repSkills.Add(cSkill.Name, cSkill)
+            Next
+            For Each cSkill In repSkills.Values
+                If cSkill.GroupID = cGroup.ID Then
+                    skillCount += 1
+                    SPCount += cSkill.SP
+                    repSkill(groupCount, CInt(skillCount), 0) = cSkill.ID
+                    repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
+                    repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
+                    repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cSkill.Name), 0))
+                    repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
+
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = cSkill.ID Then
+                            repSkill(groupCount, CInt(skillCount), 3) = CStr((Val(repSkill(groupCount, CInt(skillCount), 3)) + Val(currentSP)))
+                            repSkill(groupCount, CInt(skillCount), 4) = currentTime
+                            SPCount += CLng(currentSP)
+                        End If
+                    End If
+                End If
+            Next
+            repGroup(groupCount, 2) = CStr(skillCount)
+            repGroup(groupCount, 3) = CStr(SPCount)
+        Next
+
+        Dim trainingFlag As Boolean = False
+        For group As Integer = 1 To EveHQ.Core.HQ.SkillGroups.Count
+            If CDbl(repGroup(group, 2)) > 0 Then
+                strText.AppendLine("[b][u]" & repGroup(group, 1) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)[/u][/b]")
+                For skill As Integer = 1 To CInt(repGroup(group, 2))
+                    trainingFlag = False
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = repSkill(group, skill, 0) Then
+                            trainingFlag = True
+                            strText.Append("[color=#ffaa00]")
+                            strText.Append("[img]http://www.eveonline.com/bitmaps/character/level" & (CInt(repSkill(group, skill, 5)) + 1).ToString & "_act.gif[/img]")
+                        Else
+                            strText.Append("[img]http://www.eveonline.com/bitmaps/character/level" & repSkill(group, skill, 5) & ".gif[/img]")
+                        End If
+                    Else
+                        strText.Append("[img]http://www.eveonline.com/bitmaps/character/level" & repSkill(group, skill, 5) & ".gif[/img]")
+                    End If
+                    strText.Append("  " & repSkill(group, skill, 1))
+                    strText.Append(" (Rank " & repSkill(group, skill, 2) & " - " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP)")
+                    If trainingFlag = True Then
+                        strText.AppendLine("[/color]")
+                    Else
+                        strText.AppendLine()
+                    End If
+                Next
+                strText.AppendLine()
+            End If
+        Next
 
         Return strText.ToString
     End Function

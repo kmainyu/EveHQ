@@ -1159,7 +1159,7 @@ Public Class frmEveHQ
 
     Private Sub DrawReportsMenu(ByVal allPilots As SortedList)
 
-        For menu As Integer = 0 To 3
+        For menu As Integer = 0 To 4
             Dim currentMenu As New ToolStripMenuItem
             Select Case menu
                 Case 0
@@ -1170,6 +1170,8 @@ Public Class frmEveHQ
                     currentMenu = mnuReportsTextChar
                 Case 3
                     currentMenu = mnuReportsChartsChar
+                Case 4
+                    currentMenu = mnuReportsPHPBBChar
             End Select
             For Each reportMenu As ToolStripMenuItem In currentMenu.DropDownItems
                 reportMenu.DropDownItems.Clear()
@@ -1319,6 +1321,10 @@ Public Class frmEveHQ
                 Call EveHQ.Core.Reports.GenerateTextSkillsCost(rPilot)
                 newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Skills Cost - " & rPilot.Name)
+            Case "mnuReportsPHPBBCharSheet"
+                Call EveHQ.Core.Reports.GeneratePHPBBCharSheet(rPilot)
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "PHPBBCharSheet (" & rPilot.Name & ").txt"))
+                DisplayReport(newReport, "PHPBB Character Sheet - " & rPilot.Name)
         End Select
     End Sub
 

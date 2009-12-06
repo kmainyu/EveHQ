@@ -88,6 +88,7 @@ Partial Public Class frmEveHQ
         Me.mnuReportsTextSkillsAvailable = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsTextSkillsNotTrained = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsTextPartiallyTrainedSkills = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsTextSkillsCost = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsXML = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsXMLChar = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportCharXML = New System.Windows.Forms.ToolStripMenuItem
@@ -147,7 +148,9 @@ Partial Public Class frmEveHQ
         Me.ssTraining = New System.Windows.Forms.StatusStrip
         Me.panelTrainingStatus = New System.Windows.Forms.Panel
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
-        Me.mnuReportsTextSkillsCost = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsPHPBB = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsPHPBBChar = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsPHPBBCharSheet = New System.Windows.Forms.ToolStripMenuItem
         Me.EveHQToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -417,7 +420,7 @@ Partial Public Class frmEveHQ
         '
         'mnuReports
         '
-        Me.mnuReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsHTML, Me.mnuReportsText, Me.mnuReportsXML, Me.mnuReportsCharts, Me.ToolStripSeparator3, Me.mnuReportOpenfolder})
+        Me.mnuReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsHTML, Me.mnuReportsPHPBB, Me.mnuReportsText, Me.mnuReportsXML, Me.mnuReportsCharts, Me.ToolStripSeparator3, Me.mnuReportOpenfolder})
         Me.mnuReports.Name = "mnuReports"
         Me.mnuReports.Size = New System.Drawing.Size(102, 20)
         Me.mnuReports.Text = "Reports && Charts"
@@ -602,6 +605,12 @@ Partial Public Class frmEveHQ
         Me.mnuReportsTextPartiallyTrainedSkills.Size = New System.Drawing.Size(184, 22)
         Me.mnuReportsTextPartiallyTrainedSkills.Text = "Partially Trained Skills"
         '
+        'mnuReportsTextSkillsCost
+        '
+        Me.mnuReportsTextSkillsCost.Name = "mnuReportsTextSkillsCost"
+        Me.mnuReportsTextSkillsCost.Size = New System.Drawing.Size(184, 22)
+        Me.mnuReportsTextSkillsCost.Text = "Skills Cost"
+        '
         'mnuReportsXML
         '
         Me.mnuReportsXML.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsXMLChar})
@@ -613,7 +622,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld, Me.mnuReportECMExport})
         Me.mnuReportsXMLChar.Name = "mnuReportsXMLChar"
-        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(122, 22)
+        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportsXMLChar.Text = "Character"
         '
         'mnuReportCharXML
@@ -999,11 +1008,25 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
         '
-        'mnuReportsTextSkillsCost
+        'mnuReportsPHPBB
         '
-        Me.mnuReportsTextSkillsCost.Name = "mnuReportsTextSkillsCost"
-        Me.mnuReportsTextSkillsCost.Size = New System.Drawing.Size(184, 22)
-        Me.mnuReportsTextSkillsCost.Text = "Skills Cost"
+        Me.mnuReportsPHPBB.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsPHPBBChar})
+        Me.mnuReportsPHPBB.Name = "mnuReportsPHPBB"
+        Me.mnuReportsPHPBB.Size = New System.Drawing.Size(169, 22)
+        Me.mnuReportsPHPBB.Text = "PHPBB Reports"
+        '
+        'mnuReportsPHPBBChar
+        '
+        Me.mnuReportsPHPBBChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsPHPBBCharSheet})
+        Me.mnuReportsPHPBBChar.Name = "mnuReportsPHPBBChar"
+        Me.mnuReportsPHPBBChar.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportsPHPBBChar.Text = "Character"
+        '
+        'mnuReportsPHPBBCharSheet
+        '
+        Me.mnuReportsPHPBBCharSheet.Name = "mnuReportsPHPBBCharSheet"
+        Me.mnuReportsPHPBBCharSheet.Size = New System.Drawing.Size(153, 22)
+        Me.mnuReportsPHPBBCharSheet.Text = "Character Sheet"
         '
         'frmEveHQ
         '
@@ -1162,5 +1185,8 @@ Partial Public Class frmEveHQ
     Friend WithEvents EveStatusIcon As EveHQ.Core.EveHQIcon
     Friend WithEvents mnuReportSkillsCost As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportsTextSkillsCost As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportsPHPBB As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportsPHPBBChar As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportsPHPBBCharSheet As System.Windows.Forms.ToolStripMenuItem
 
 End Class
