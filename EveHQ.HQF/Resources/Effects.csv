@@ -200,7 +200,7 @@
 292,1,3315,10014,2,53,0,1,0,0,Surgical Strike - Energy
 292,1,3315,10015,2,74,0,1,0,0,Surgical Strike - Hybrid
 292,1,3315,10016,2,55,0,1,0,0,Surgical Strike - Projectile
-885,1,22043,714,1,2280,0,1,0,0,Tactical Weapon Reconfiguration
+885,1,22043,714,1,20280,0,1,8,0,Tactical Weapon Reconfiguration
 349,1,3317,158,2,53,0,1,0,0,Trajectory Analysis - Energy
 349,1,3317,158,2,74,0,1,0,0,Trajectory Analysis - Hybrid
 349,1,3317,158,2,55,0,1,0,0,Trajectory Analysis - Projectile
@@ -227,7 +227,7 @@
 927,1,22578,1082,2,546,0,1,0,0,Mining Upgrades
 # LEADERSHIP,,,,,,,,,,
 335,1,-20494,265,3,6,0,0,0,32,Armored Warfare - Ship
-#335,1,-20494,1159,2,329,0,0,0,32,Armored Warfare - Plates
+#,1,-20494,1159,2,329,0,0,0,32,Armored Warfare - Plates
 277,1,11569,833,1,20069;20409;22227,0,1,5,0,Armored Warfare Specialist
 #,1,24764,,,,0,1,0,0,Fleet Command
 309,1,-20495,76,3,6,0,0,0,32,Information Warfare
@@ -242,7 +242,7 @@
 434,1,-22536,77,4,1039,0,0,0,32,Mining Foreman
 434,1,-22536,77,4,1040,0,0,0,32,Mining Foreman
 337,1,-3350,263,3,6,0,0,0,32,Siege Warfare - Ship
-#337,1,-3350,72,2,38,0,0,0,32,Siege Warfare - Extenders
+#,1,-3350,72,2,38,0,0,0,32,Siege Warfare - Extenders
 277,1,3351,833,1,20124;22228;20514,0,1,5,0,Siege Warfare Specialist
 151,1,-3349,70,3,6,0,0,0,32,Skirmish Warfare
 277,1,11572,833,1,20070;11017;20408,0,1,5,0,Skirmish Warfare Specialist
@@ -286,7 +286,7 @@
 312,1,3393,73,4,1051,0,1,0,0,Repair Systems - Large
 #,1,25863,,,,0,1,0,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
-#,1,27906,,,,0,1,0,0,Tactical Logistics Reconfiguration
+885,1,27906,714,1,27951,0,1,8,0,Tactical Logistics Reconfiguration
 958,1,22809,987,2,98;326,0,1,0,0,Thermic Armor Compensation - Passive
 988,1,22809,997,2,328,0,1,5,0,Thermic Armor Compensation - Active
 # MISSILE LAUNCHER OPERATION,,,,,,,,,,
@@ -974,7 +974,7 @@
 351,2,211,54,2,55;53;74,1,0,0,14,Optimal Range
 767,2,211,160,2,55;53;74,1,0,0,14,Tracking Speed
 # Tracking Links,,,,,,,,,,
-349,2,209,158,2,55;53;74,1,0,0,14,Falloff
+349,2,209,158,2,55;53;74,1,0,0,16,Falloff
 351,2,209,54,2,55;53;74,1,0,0,16,Optimal Range
 767,2,209,160,2,55;53;74,1,0,0,16,Tracking Speed
 # Mining Upgrade,,,,,,,,,,
@@ -1164,12 +1164,12 @@
 1425,3,32,274,3,6,0,0,1,15,Shield Thermal Resist
 10002,3,32,10002,3,6,0,0,1,15,Mass
 10004,3,32,10004,3,6,0,0,1,15,Cargo Capacity
-1034,3,32,1034,3,6,0,0,4,15,Cloak Reactivation Delay
-# SHIPS										
+1034,3,32,669,2,330,0,0,4,15,Cloak Reactivation Delay
+# SHIPS,,,,,,,,,,
 1034,3,6,669,2,330,0,0,4,15,Cloak Reactivation Delay
 # ENVIRONMENT,,,,,,,,,,
 146,2,920,263,3,6,0,0,0,15,Shield HP Bonus - Ship
-#146,2,920,72,2,38,0,0,0,15,Shield HP Bonus - Extenders
+#,2,920,72,2,38,0,0,0,15,Shield HP Bonus - Extenders
 169,2,920,70,3,6,0,0,5,15,Inertia Modifer
 237,2,920,76,3,6,0,0,0,15,Targeting Range Bonus
 243,2,920,76,3,6,0,0,5,15,Max Range Multiplier
@@ -1209,7 +1209,7 @@
 1493,2,920,64,4,561;564;567;570;574;577,0,0,5,15,Small Weapon Damage Multiplier
 1494,2,920,64,4,562;565;568;572;575;578,0,0,5,15,Medium Weapon Damage Multiplier
 1495,2,920,84,2,62,0,0,5,15,Repair Amount Multiplier
-1496,2,920,68,2,40,0,0,5,15,Shield Boost Multiplier
+1496,2,920,68,2,40,0,0,5,15,Shield Repair Amount Multiplier
 1497,2,920,68,2,41,0,0,5,15,Shield Transfer Amount Multiplier
 1498,2,920,84,2,325,0,0,5,15,Remote Repair Amount Multiplier
 1499,2,920,482,3,6,0,0,5,15,Capacitor Capacity Multiplier
