@@ -275,6 +275,8 @@
 317,1,27213,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX1000
 317,1,27215,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX2000
 317,1,27214,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX500
+806,1,32254,84,2,62,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
+1083,1,32254,265,3,6,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
 1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
 309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink
 884,1,21889,833,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
@@ -406,6 +408,8 @@
 441,1,25868,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Pashan's Turret Customization Mindlink
 292,1,25867,10014,4,569,0,0,0,Gunnery,Pashan's Turret Handling Mindlink
 1084,1,22715,37,3,6,0,0,0,Navigation,Republic Special Ops Field Enhancer - Gamma
+337,1,32255,263,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
+338,1,32255,479,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
 1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
 337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
 884,1,21888,833,1,20124;22228;20514,0,0,0,Gang,Siege Warfare Mindlink

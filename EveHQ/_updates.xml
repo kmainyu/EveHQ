@@ -89,7 +89,7 @@
     <file>
       <name>EveHQ.HQF.dll</name>
       <type>Plug-in</type>
-      <version>1.14.0.1140</version>
+      <version>1.14.0.1141</version>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
     </file>

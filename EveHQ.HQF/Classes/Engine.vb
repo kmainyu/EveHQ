@@ -681,35 +681,43 @@ Public Class Engine
             hImplant = hPilot.ImplantName(slotNo)
             If hImplant <> "" Then
                 ' Go through the attributes
-                aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
-                If ImplantEffectsMap.Contains(hImplant) = True Then
-                    For Each chkEffect As ImplantEffect In CType(ImplantEffectsMap(hImplant), ArrayList)
-                        If chkEffect.IsGang = False Then
-                            If aImplant.Attributes.Contains(chkEffect.AffectingAtt.ToString) = True Then
-                                fEffect = New FinalEffect
-                                fEffect.AffectedAtt = chkEffect.AffectedAtt
-                                fEffect.AffectedType = chkEffect.AffectedType
-                                fEffect.AffectedID = chkEffect.AffectedID
-                                If PirateImplants.Contains(aImplant.Name) = True Then
-                                    PIGroup = CStr(PirateImplants.Item(hImplant))
-                                    fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(PIGroup))
-                                    fEffect.Cause = aImplant.Name & " (Set Bonus: " & FormatNumber(cPirateImplantGroups.Item(PIGroup), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x)"
-                                Else
-                                    fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
-                                    fEffect.Cause = aImplant.Name
+                If ModuleLists.moduleListName.ContainsKey(hImplant) = True Then
+                    aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
+                    If ImplantEffectsMap.Contains(hImplant) = True Then
+                        For Each chkEffect As ImplantEffect In CType(ImplantEffectsMap(hImplant), ArrayList)
+                            If chkEffect.IsGang = False Then
+                                If aImplant.Attributes.Contains(chkEffect.AffectingAtt.ToString) = True Then
+                                    fEffect = New FinalEffect
+                                    fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                    fEffect.AffectedType = chkEffect.AffectedType
+                                    fEffect.AffectedID = chkEffect.AffectedID
+                                    If PirateImplants.Contains(aImplant.Name) = True Then
+                                        PIGroup = CStr(PirateImplants.Item(hImplant))
+                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(PIGroup))
+                                        fEffect.Cause = aImplant.Name & " (Set Bonus: " & FormatNumber(cPirateImplantGroups.Item(PIGroup), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x)"
+                                    Else
+                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
+                                        fEffect.Cause = aImplant.Name
+                                    End If
+                                    fEffect.StackNerf = 0
+                                    fEffect.CalcType = chkEffect.CalcType
+                                    If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                        fEffectList = New ArrayList
+                                        SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                    Else
+                                        fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                    End If
+                                    fEffectList.Add(fEffect)
                                 End If
-                                fEffect.StackNerf = 0
-                                fEffect.CalcType = chkEffect.CalcType
-                                If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                                    fEffectList = New ArrayList
-                                    SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                                Else
-                                    fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-                                End If
-                                fEffectList.Add(fEffect)
                             End If
-                        End If
-                    Next
+                        Next
+                    End If
+                Else
+                    Dim msg As String = "Unable to find the implant: " & hImplant & "." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "This implant will be removed from the pilot's implant list. "
+                    msg &= "Please go into the Pilot Manager and replace the implant if required."
+                    MessageBox.Show(msg, "Unable to Locate Implant", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    hPilot.ImplantName(slotNo) = ""
                 End If
             End If
         Next
