@@ -44,6 +44,7 @@ Public Class frmTraining
     Dim displayPilot As New EveHQ.Core.Pilot
     Dim cDisplayPilotName As String = ""
     Dim startup As Boolean = False
+    Dim redrawingOptions As Boolean = False
 
     Delegate Sub UpdateSuggestionUIDelegate(ByVal ActQueueName As String)
     Private SetSuggUIToCalc As UpdateSuggestionUIDelegate = New UpdateSuggestionUIDelegate(AddressOf SetSuggestionUIToCalc)
@@ -773,6 +774,8 @@ Public Class frmTraining
         Next
     End Sub
     Private Sub RedrawOptions()
+        ' Set the redraw flag to avoid triggering a recalc
+        redrawingOptions = True
         ' Determines what buttons and menus are available from the listview!
         btnImportExport.Enabled = True
         If activeLVW IsNot Nothing Then
@@ -910,6 +913,8 @@ Public Class frmTraining
             tsbNeuralRemap.Enabled = False
             mnuExportEMP.Enabled = False
         End If
+        ' Reset the redraw flag
+        redrawingOptions = False
     End Sub
     Public Sub UpdateTraining()
         ' Only perform this if the form isn't starting
@@ -2487,11 +2492,13 @@ Public Class frmTraining
         Call Me.ClearTrainingQueue()
     End Sub
     Private Sub btnICT_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnICT.CheckedChanged
-        If activeQueue IsNot Nothing Then
-            activeLVW.IncludeCurrentTraining = btnICT.Checked
-            activeQueue.IncCurrentTraining = btnICT.Checked
-            If activeQueue.Name IsNot Nothing Then
-                RefreshTraining(activeQueue.Name)
+        If redrawingOptions = False Then
+            If activeQueue IsNot Nothing Then
+                activeLVW.IncludeCurrentTraining = btnICT.Checked
+                activeQueue.IncCurrentTraining = btnICT.Checked
+                If activeQueue.Name IsNot Nothing Then
+                    RefreshTraining(activeQueue.Name)
+                End If
             End If
         End If
     End Sub
@@ -3069,4 +3076,5 @@ Public Class frmTraining
     Private Sub btnImportExport_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportExport.ButtonClick
         btnImportExport.ShowDropDown()
     End Sub
+
 End Class
