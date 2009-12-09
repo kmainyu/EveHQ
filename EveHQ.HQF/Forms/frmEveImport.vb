@@ -102,6 +102,16 @@ Public Class frmEveImport
                 Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
                 lvwSlots.Items.Add(newSlot)
             Next
+            ' Produce sub slots
+            For slot As Integer = 1 To currentShip.SubSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "16_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgSubSlots")
+                Call Me.AddUserColumns(currentShip.SubSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
             lvwSlots.EndUpdate()
         End If
     End Sub
@@ -134,6 +144,9 @@ Public Class frmEveImport
             Next
             For slot As Integer = 1 To currentShip.RigSlots
                 currentShip.RigSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.SubSlots
+                currentShip.SubSlot(slot) = Nothing
             Next
             currentShip.DroneBayItems.Clear()
             currentShip.DroneBay_Used = 0
@@ -376,6 +389,7 @@ Public Class frmEveImport
                     currentFit.Add(fittedDrone & " x" & CStr(droneList(fittedDrone)))
                 Next
                 currentFitName = fitName
+                Call Me.ReorderModules()
                 currentShip = Engine.UpdateShipDataFromFittingList(currentShip, currentFit)
                 ' Generate fitting data
                 Call Me.GenerateFittingData()
@@ -386,6 +400,31 @@ Public Class frmEveImport
                 Exit For
             End If
         Next
+    End Sub
+
+    Private Sub ReorderModules()
+        Dim subs, mods As New ArrayList
+        For Each cMod As String In currentFit
+            If ModuleLists.moduleListName.ContainsKey(cMod) = True Then
+                If CType(ModuleLists.moduleList(ModuleLists.moduleListName(cMod)), ShipModule).SlotType = 16 Then
+                    subs.Add(cMod)
+                Else
+                    mods.Add(cMod)
+                End If
+            Else
+                mods.Add(cMod)
+            End If
+        Next
+        ' Recreate the current fit
+        currentFit.Clear()
+        For Each cmod As String In subs
+            currentFit.Add(cmod)
+        Next
+        For Each cmod As String In mods
+            currentFit.Add(cmod)
+        Next
+        subs.Clear()
+        mods.Clear()
     End Sub
 
 #End Region

@@ -92,7 +92,7 @@ Public Class frmEveExport
     End Function
 
     Private Sub ExportFittingList(ByVal fitting As ArrayList, ByRef fitXML As XmlDocument, ByRef fitNode As XmlNode)
-        Dim hislot, medslot, lowslot, rigslot As Integer
+        Dim subslot, hislot, medslot, lowslot, rigslot As Integer
         Dim hardware As XmlNode
         Dim hardwareAtt As XmlAttribute
         Dim slotGroup As String = ""
@@ -171,6 +171,10 @@ Public Class frmEveExport
                                 ' Must be a proper module then!
                                 sMod.ModuleState = state
                                 Select Case sMod.SlotType
+                                    Case 16 ' Subsystems
+                                        slotGroup = "subsystem slot "
+                                        slotNo = subslot
+                                        subslot += 1
                                     Case 8 ' High
                                         slotGroup = "hi slot "
                                         slotNo = hislot

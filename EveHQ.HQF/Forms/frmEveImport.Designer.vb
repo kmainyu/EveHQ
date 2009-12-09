@@ -27,6 +27,7 @@ Partial Class frmEveImport
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystem Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEveImport))
         Me.lblFittings = New System.Windows.Forms.Label
         Me.clvLoadouts = New DotNetLib.Windows.Forms.ContainerListView
@@ -110,12 +111,12 @@ Partial Class frmEveImport
         '
         Me.ctxLoadout.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewLoadout})
         Me.ctxLoadout.Name = "ctxLoadout"
-        Me.ctxLoadout.Size = New System.Drawing.Size(147, 26)
+        Me.ctxLoadout.Size = New System.Drawing.Size(150, 26)
         '
         'mnuViewLoadout
         '
         Me.mnuViewLoadout.Name = "mnuViewLoadout"
-        Me.mnuViewLoadout.Size = New System.Drawing.Size(146, 22)
+        Me.mnuViewLoadout.Size = New System.Drawing.Size(149, 22)
         Me.mnuViewLoadout.Text = "View Loadout"
         '
         'StatusStrip1
@@ -450,7 +451,9 @@ Partial Class frmEveImport
         ListViewGroup3.Name = "lvwgLowSlots"
         ListViewGroup4.Header = "Rig Slots"
         ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        ListViewGroup5.Header = "Subsystem Slots"
+        ListViewGroup5.Name = "lvwgSubSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
         Me.lvwSlots.Location = New System.Drawing.Point(509, 147)
         Me.lvwSlots.Name = "lvwSlots"
         Me.lvwSlots.Size = New System.Drawing.Size(395, 463)
