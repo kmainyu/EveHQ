@@ -125,6 +125,21 @@
     <Compile Include="Pilot.vb" />
     <Compile Include="PilotParseFunctions.vb" />
     <Compile Include="PlugIn.vb" />
+    <Compile Include="PropertyGridEx\BrowsableTypeConverter.vb" />
+    <Compile Include="PropertyGridEx\CustomChoices.vb" />
+    <Compile Include="PropertyGridEx\CustomColorScheme.vb" />
+    <Compile Include="PropertyGridEx\CustomProperty.vb" />
+    <Compile Include="PropertyGridEx\CustomPropertyCollection.vb" />
+    <Compile Include="PropertyGridEx\CustomPropertyCollectionSet.vb" />
+    <Compile Include="PropertyGridEx\PropertyGridEx.Designer.vb">
+      <DependentUpon>PropertyGridEx.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGridEx\PropertyGridEx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PropertyGridEx\UICustomEventEditor.vb" />
+    <Compile Include="PropertyGridEx\UIFilenameEditor.vb" />
+    <Compile Include="PropertyGridEx\UIListboxEditor.vb" />
     <Compile Include="Reports.vb" />
     <Compile Include="ScrollingMarquee.designer.vb">
       <DependentUpon>ScrollingMarquee.vb</DependentUpon>
