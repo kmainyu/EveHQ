@@ -1111,8 +1111,8 @@ Public Class SkillQueueFunctions
     Public Shared Function SortQueueByPos(ByVal aQ As EveHQ.Core.SkillQueue) As EveHQ.Core.SkillQueue
         Dim sorter As New ArrayList
         For Each sqItem As EveHQ.Core.SkillQueueItem In aQ.Queue
-            sqItem.Pos += 100
-            sorter.Add(Format(sqItem.Pos, "00#") & sqItem.Key)
+            sqItem.Pos += 10000
+            sorter.Add(Format(sqItem.Pos, "0000#") & sqItem.Key)
         Next
         sorter.Sort()
         Dim newQueue As EveHQ.Core.SkillQueue = CType(aQ.Clone, SkillQueue)
@@ -1121,7 +1121,7 @@ Public Class SkillQueueFunctions
         Dim newPos As Integer = 0
         For Each sqItem As String In sorter
             newPos += 1
-            sqKey = sqItem.Substring(3)
+            sqKey = sqItem.Substring(5)
             Dim nQI As EveHQ.Core.SkillQueueItem = CType(aQ.Queue(sqKey), SkillQueueItem)
             nQI.Pos = newPos
             newQueue.Queue.Add(nQI, nQI.Key)
