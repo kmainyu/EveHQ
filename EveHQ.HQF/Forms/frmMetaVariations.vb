@@ -124,7 +124,7 @@ Public Class frmMetaVariations
                         newMod.SubItems(i).Text = EveHQ.Core.HQ.itemData(CStr(sMod.Attributes(att))).Name
                         newMod.SubItems(i).Name = newMod.SubItems(i).Text
                     Else
-                        newMod.SubItems(i).Text = Format(sMod.Attributes(att), "#,###,##0.#") & " " & lvwComparisons.Columns(att).Tag.ToString
+                        newMod.SubItems(i).Text = Format(sMod.Attributes(att), "#,###,##0.########") & " " & lvwComparisons.Columns(att).Tag.ToString
                         newMod.SubItems(i).Name = CStr(sMod.Attributes(att))
                     End If
                 End If
