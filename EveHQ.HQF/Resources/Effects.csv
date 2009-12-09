@@ -284,7 +284,7 @@
 312,1,3393,73,4,1049,0,1,0,0,Repair Systems - Small
 312,1,3393,73,4,1050,0,1,0,0,Repair Systems - Medium
 312,1,3393,73,4,1051,0,1,0,0,Repair Systems - Large
-#,1,25863,,,,0,1,0,0,Salvaging
+902,1,25863,902,1,25861;30836,0,1,0,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 885,1,27906,714,1,27951,0,1,8,0,Tactical Logistics Reconfiguration
 958,1,22809,987,2,98;326,0,1,0,0,Thermic Armor Compensation - Passive
@@ -1031,6 +1031,7 @@
 806,2,773,84,4,1049;1050;1051,1,0,0,15,Auxiliary Nano Pump
 312,2,773,73,4,1049;1050;1051,1,0,0,15,Nanobot Accelerator
 317,2,773,6,4,1059;1058;1057,1,0,0,15,Remote Repair Augmentor
+902,2,773,902,1,25861;30836,0,1,0,15,Salvage Tackle
 335,2,773,265,3,6,0,0,0,15,Trimark Armor Pump
 # RIGS - ASTRONAUTIC,,,,,,,,,,
 1138,2,782,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
