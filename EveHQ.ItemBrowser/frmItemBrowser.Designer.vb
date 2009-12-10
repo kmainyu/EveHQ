@@ -314,24 +314,24 @@ Partial Class frmItemBrowser
         Me.ctxSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails})
         Me.ctxSkills.Name = "ctxDepend"
-        Me.ctxSkills.Size = New System.Drawing.Size(133, 54)
+        Me.ctxSkills.Size = New System.Drawing.Size(144, 54)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(143, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(129, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(132, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ssData
@@ -628,7 +628,7 @@ Partial Class frmItemBrowser
         Me.tabM6.Name = "tabM6"
         Me.tabM6.Size = New System.Drawing.Size(559, 299)
         Me.tabM6.TabIndex = 5
-        Me.tabM6.Text = "Recycling"
+        Me.tabM6.Text = "Duplicating"
         Me.tabM6.UseVisualStyleBackColor = True
         '
         'lstM6
