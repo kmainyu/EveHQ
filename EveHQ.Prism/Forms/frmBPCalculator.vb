@@ -351,12 +351,16 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub CalculateWasteFactor()
-        If nudMELevel.Value < 0 Then
-            ' This is for negative ME
-            CurrentBPWF = ((1 / CurrentBP.WasteFactor) * (1 - nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
+        If CurrentBP.WasteFactor = 0 Then
+            CurrentBPWF = 0
         Else
-            ' This is for zero and positive ME
-            CurrentBPWF = ((1 / CurrentBP.WasteFactor) / (1 + nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
+            If nudMELevel.Value < 0 Then
+                ' This is for negative ME
+                CurrentBPWF = ((1 / CurrentBP.WasteFactor) * (1 - nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
+            Else
+                ' This is for zero and positive ME
+                CurrentBPWF = ((1 / CurrentBP.WasteFactor) / (1 + nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
+            End If
         End If
         txtNewWasteFactor.Text = FormatNumber(CurrentBPWF * 100, 6) & "%"
     End Sub
