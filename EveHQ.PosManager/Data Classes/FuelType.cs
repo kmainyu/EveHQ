@@ -119,6 +119,9 @@ namespace EveHQ.PosManager
                 }
             }
 
+            if (ret < 0)
+                ret = PeriodQty;
+
             return ret;
         }
 

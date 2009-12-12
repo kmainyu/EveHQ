@@ -89,6 +89,22 @@ namespace EveHQ.PosManager
             if (hrs < 1)
                 hrs = 1;
 
+            // If fuel has gone up - get out
+            if ((EnrUran.Qty > EnrUran.LastQty) ||
+                (Oxygen.Qty > Oxygen.LastQty) ||
+                (MechPart.Qty > MechPart.LastQty) ||
+                (Coolant.Qty > Coolant.LastQty) ||
+                (Robotics.Qty > Robotics.LastQty) ||
+                (HvyWater.Qty > HvyWater.LastQty) ||
+                (Charters.Qty > Charters.LastQty) ||
+                (N2Iso.Qty > N2Iso.LastQty) ||
+                (HeIso.Qty > HeIso.LastQty) ||
+                (O2Iso.Qty > O2Iso.LastQty) ||
+                (H2Iso.Qty > H2Iso.LastQty) ||
+                (Strontium.Qty > Strontium.LastQty))           
+                return;
+
+
             while (((Robotics.LastQty - Robotics.Qty) / hrs) > 1)
             {
                 hrs = hrs + 1;
