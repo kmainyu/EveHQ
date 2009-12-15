@@ -344,40 +344,46 @@ Public Class frmEveImport
         Dim fitXML As New XmlDocument
         fitXML.Load(fileName)
         Dim fittingList As XmlNodeList = fitXML.SelectNodes("/fittings/fitting")
+        Dim subCount As Integer = 0
         For Each fitNode As XmlNode In fittingList
             If fitNode.Attributes("name").Value = fitName And fitNode.SelectSingleNode("shipType").Attributes("value").Value = shipName Then
                 Dim modNodes As XmlNodeList = fitNode.SelectNodes("hardware")
                 For Each modNode As XmlNode In modNodes
                     Dim fModule As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(modNode.Attributes("type").Value)), ShipModule)
-                    If moduleList.ContainsKey(modNode.Attributes("slot").Value) = False Then
-                        ' Add the mod/ammo to the slot
-                        If fModule.IsCharge = True Then
-                            moduleList.Add(modNode.Attributes("slot").Value, ", " & fModule.Name)
-                        Else
-                            If fModule.IsDrone = True Then
-                                If droneList.ContainsKey(fModule.Name) = False Then
-                                    droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
-                                Else
-                                    droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
-                                End If
+                    If modNode.Attributes("slot").Value <> "subsystem slot 0" Then
+                        If moduleList.ContainsKey(modNode.Attributes("slot").Value) = False Then
+                            ' Add the mod/ammo to the slot
+                            If fModule.IsCharge = True Then
+                                moduleList.Add(modNode.Attributes("slot").Value, ", " & fModule.Name)
                             Else
-                                moduleList.Add(modNode.Attributes("slot").Value, fModule.Name)
+                                If fModule.IsDrone = True Then
+                                    If droneList.ContainsKey(fModule.Name) = False Then
+                                        droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                    Else
+                                        droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
+                                    End If
+                                Else
+                                    moduleList.Add(modNode.Attributes("slot").Value, fModule.Name)
+                                End If
+                            End If
+                        Else
+                            If fModule.IsCharge = True Then
+                                moduleList(modNode.Attributes("slot").Value) = CStr(moduleList(modNode.Attributes("slot").Value)) & ", " & fModule.Name
+                            Else
+                                If fModule.IsDrone = True Then
+                                    If droneList.ContainsKey(fModule.Name) = False Then
+                                        droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                    Else
+                                        droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
+                                    End If
+                                Else
+                                    moduleList(modNode.Attributes("slot").Value) = fModule.Name & ", " & CStr(moduleList(modNode.Attributes("slot").Value))
+                                End If
                             End If
                         End If
                     Else
-                        If fModule.IsCharge = True Then
-                            moduleList(modNode.Attributes("slot").Value) = CStr(moduleList(modNode.Attributes("slot").Value)) & ", " & fModule.Name
-                        Else
-                            If fModule.IsDrone = True Then
-                                If droneList.ContainsKey(fModule.Name) = False Then
-                                    droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
-                                Else
-                                    droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
-                                End If
-                            Else
-                                moduleList(modNode.Attributes("slot").Value) = fModule.Name & ", " & CStr(moduleList(modNode.Attributes("slot").Value))
-                            End If
-                        End If
+                        moduleList.Add(modNode.Attributes("slot").Value.TrimEnd("0".ToCharArray) & subCount.ToString, fModule.Name)
+                        subCount += 1
                     End If
                 Next
                 currentFit = New ArrayList
