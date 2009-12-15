@@ -2741,6 +2741,15 @@ Public Class frmHQF
         myEveExport.Dispose()
     End Sub
 
+    Private Sub ExportMainFittingToEve()
+        Dim Fittings As New ArrayList
+        Fittings.Add(currentShipSlot.ShipFit)
+        Dim myEveExport As New frmEveExport
+        myEveExport.FittingList = Fittings
+        myEveExport.ShowDialog()
+        myEveExport.Dispose()
+    End Sub
+
     Private Function GetExportFittingsCollection() As ArrayList
         Dim Fittings As New ArrayList
         For Each fitting As ContainerListViewItem In clvFittings.SelectedItems
@@ -2780,4 +2789,12 @@ Public Class frmHQF
         cboFittings.Visible = CollapsibleSplitter1.IsCollapsed
     End Sub
 
+    Private Sub mnuMainExportToEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMainExportToEve.Click
+        If clvFittings.SelectedItems.Count = 0 Then
+            Dim msg As String = "Please make sure you have selected the relevant fittings in the fitting panel before exporting to Eve."
+            MessageBox.Show("msg", "Fittings Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            Call Me.ExportMainFittingToEve()
+        End If
+    End Sub
 End Class

@@ -188,6 +188,8 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.CollapsibleSplitter2 = New NJFLib.Controls.CollapsibleSplitter
+        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuMainExportToEve = New System.Windows.Forms.ToolStripMenuItem
         Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
         Me.colModuleName = New System.Windows.Forms.ColumnHeader
         Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
@@ -310,7 +312,7 @@ Partial Class frmHQF
         '
         'btnCopy
         '
-        Me.btnCopy.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyForHQF, Me.mnuCopyForEFT, Me.mnuCopyForForums, Me.ToolStripMenuItem7, Me.mnuShipStats, Me.mnuCopyImplants})
+        Me.btnCopy.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyForHQF, Me.mnuCopyForEFT, Me.mnuCopyForForums, Me.ToolStripMenuItem7, Me.mnuShipStats, Me.mnuCopyImplants, Me.ToolStripMenuItem8, Me.mnuMainExportToEve})
         Me.btnCopy.Enabled = False
         Me.btnCopy.Image = CType(resources.GetObject("btnCopy.Image"), System.Drawing.Image)
         Me.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta
@@ -1828,6 +1830,17 @@ Partial Class frmHQF
         Me.CollapsibleSplitter2.UseAnimations = False
         Me.CollapsibleSplitter2.VisualStyle = NJFLib.Controls.VisualStyles.XP
         '
+        'ToolStripMenuItem8
+        '
+        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(181, 6)
+        '
+        'mnuMainExportToEve
+        '
+        Me.mnuMainExportToEve.Name = "mnuMainExportToEve"
+        Me.mnuMainExportToEve.Size = New System.Drawing.Size(184, 22)
+        Me.mnuMainExportToEve.Text = "Export to Eve"
+        '
         'lvwItems
         '
         Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -2119,4 +2132,6 @@ Partial Class frmHQF
     Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
     Friend WithEvents CollapsibleSplitter2 As NJFLib.Controls.CollapsibleSplitter
     Friend WithEvents mnuCopyImplants As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem8 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuMainExportToEve As System.Windows.Forms.ToolStripMenuItem
 End Class
