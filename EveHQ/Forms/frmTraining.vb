@@ -927,44 +927,46 @@ Public Class frmTraining
                             Dim cLabel As Label = tq.lblQueueTime
                             Dim cLVW As EveHQ.DragAndDropListView = tq.lvQueue
                             Dim newQ As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(tp.Name), Core.SkillQueue)
-                            Dim bIncludeSkill As Boolean = newQ.IncCurrentTraining
-                            If bIncludeSkill Then
-                                If cLVW.Items.Count > 0 Then
-                                    Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
-                                    Dim clevel As Integer = displayPilot.TrainingSkillLevel
-                                    Dim cTime As Double = displayPilot.TrainingCurrentTime
-                                    Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-                                    Dim endtime As Date = displayPilot.TrainingEndTime
-                                    Dim percent As Integer = 0
-                                    percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
-                                    If (percent > 100) Then
-                                        percent = 100
-                                    End If
-
-                                    Dim lvi As ListViewItem = Nothing
-                                    For Each lvi In cLVW.Items
-                                        If lvi.Text = myCurSkill.Name Then
-                                            Exit For
-                                        End If
-                                    Next
-                                    If lvi.SubItems.ContainsKey("Percent") Then
-                                        lvi.SubItems("Percent").Text = CStr(percent)
-                                    End If
-                                    If lvi.SubItems.ContainsKey("TrainTime") Then
-                                        lvi.SubItems("TrainTime").Tag = cTime
-                                        lvi.SubItems("TrainTime").Text = CStr(strTime)
-                                    End If
-
-                                    ' Calculate total time
+                            If newQ IsNot Nothing Then
+                                Dim bIncludeSkill As Boolean = newQ.IncCurrentTraining
+                                If bIncludeSkill Then
                                     If cLVW.Items.Count > 0 Then
-                                        Dim totalTime As Double = 0
-                                        For count As Integer = 0 To cLVW.Items.Count - 1
-                                            If lvi.SubItems.ContainsKey("TrainTime") Then
-                                                totalTime += CLng(cLVW.Items(count).SubItems("TrainTime").Tag)
+                                        Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
+                                        Dim clevel As Integer = displayPilot.TrainingSkillLevel
+                                        Dim cTime As Double = displayPilot.TrainingCurrentTime
+                                        Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
+                                        Dim endtime As Date = displayPilot.TrainingEndTime
+                                        Dim percent As Integer = 0
+                                        percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
+                                        If (percent > 100) Then
+                                            percent = 100
+                                        End If
+
+                                        Dim lvi As ListViewItem = Nothing
+                                        For Each lvi In cLVW.Items
+                                            If lvi.Text = myCurSkill.Name Then
+                                                Exit For
                                             End If
                                         Next
-                                        cLabel.Tag = totalTime.ToString
-                                        cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                                        If lvi.SubItems.ContainsKey("Percent") Then
+                                            lvi.SubItems("Percent").Text = CStr(percent)
+                                        End If
+                                        If lvi.SubItems.ContainsKey("TrainTime") Then
+                                            lvi.SubItems("TrainTime").Tag = cTime
+                                            lvi.SubItems("TrainTime").Text = CStr(strTime)
+                                        End If
+
+                                        ' Calculate total time
+                                        If cLVW.Items.Count > 0 Then
+                                            Dim totalTime As Double = 0
+                                            For count As Integer = 0 To cLVW.Items.Count - 1
+                                                If lvi.SubItems.ContainsKey("TrainTime") Then
+                                                    totalTime += CLng(cLVW.Items(count).SubItems("TrainTime").Tag)
+                                                End If
+                                            Next
+                                            cLabel.Tag = totalTime.ToString
+                                            cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                                        End If
                                     End If
                                 End If
                             End If
