@@ -5,7 +5,9 @@
 End Class
 
 Public Class EveMailMessage
+    Public MessageKey As String
     Public MessageID As Long
+    Public OriginatorID As Long
     Public SenderID As Long
     Public MessageDate As Date
     Public MessageTitle As String

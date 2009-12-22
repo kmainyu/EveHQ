@@ -1525,7 +1525,7 @@ Public Class DataFunctions
                     strSQL.AppendLine("  toListIDs            memo NULL,")
                     strSQL.AppendLine("  readMail             integer NOT NULL,")
                     strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageID)")
+                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageKey)")
                     strSQL.AppendLine(")")
                 Case Else
                     strSQL.AppendLine("CREATE TABLE eveMail")
@@ -1541,7 +1541,7 @@ Public Class DataFunctions
                     strSQL.AppendLine("  toListIDs            nvarchar(1000) NULL,")
                     strSQL.AppendLine("  readMail             bit NOT NULL,")
                     strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageID)")
+                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageKey)")
                     strSQL.AppendLine(")")
             End Select
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
