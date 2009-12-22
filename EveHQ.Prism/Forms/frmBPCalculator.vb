@@ -372,7 +372,7 @@ Public Class frmBPCalculator
         Dim ProdImplant As Double = 1 - (CDbl(cboIndustyImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
         Dim METime As Double = CurrentBP.ResearchMatTime * (1 - (0.05 * cboMetallurgySkill.SelectedIndex)) * MEImplant
         Dim PETime As Double = CurrentBP.ResearchProdTime * (1 - (0.05 * cboResearchSkill.SelectedIndex)) * PEImplant
-        Dim CopyTime As Double = CurrentBP.ResearchCopyTime * 0.2 * (1 - (0.05 * cboScienceSkill.SelectedIndex)) * CopyImplant
+        Dim CopyTime As Double = CurrentBP.ResearchCopyTime / CurrentBP.MaxProdLimit * 2 * (1 - (0.05 * cboScienceSkill.SelectedIndex)) * CopyImplant
         Dim prodTime As Double = CurrentBP.ProdTime * (1 - (0.04 * cboIndustrySkill.SelectedIndex)) * ProdImplant
         ' Calculate the production time
         If nudPELevel.Value >= 0 Then
