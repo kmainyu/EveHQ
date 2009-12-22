@@ -86,6 +86,7 @@ Partial Class frmMail
         'colFrom
         '
         Me.colFrom.CustomSortTag = Nothing
+        Me.colFrom.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colFrom.Tag = Nothing
         Me.colFrom.Text = "From"
         Me.colFrom.Width = 200
@@ -94,6 +95,7 @@ Partial Class frmMail
         '
         Me.colSubject.CustomSortTag = Nothing
         Me.colSubject.DisplayIndex = 1
+        Me.colSubject.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colSubject.Tag = Nothing
         Me.colSubject.Text = "Subject"
         Me.colSubject.Width = 500
@@ -102,6 +104,7 @@ Partial Class frmMail
         '
         Me.colDateTime.CustomSortTag = Nothing
         Me.colDateTime.DisplayIndex = 2
+        Me.colDateTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
         Me.colDateTime.Tag = Nothing
         Me.colDateTime.Text = "Date"
         Me.colDateTime.Width = 125

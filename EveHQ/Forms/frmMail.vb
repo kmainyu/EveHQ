@@ -262,7 +262,7 @@ Public Class frmMail
                     newMail.ToCharacterIDs = CStr(mailRow.Item("toCharacterIDs"))
                     newMail.ToListIDs = CStr(mailRow.Item("toListIDs"))
                     newMail.ReadFlag = CBool(mailRow.Item("readMail"))
-                    allMails.Add(newMail.MessageID, newMail)
+                    allMails.Add(-newMail.MessageID, newMail)
                     ' Get Sender IDs
                     ParseIDs(IDs, CStr(mailRow.Item("senderID")))
                     ' Get Character IDs
