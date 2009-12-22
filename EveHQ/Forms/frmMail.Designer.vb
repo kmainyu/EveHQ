@@ -98,7 +98,7 @@ Partial Class frmMail
         Me.colSubject.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colSubject.Tag = Nothing
         Me.colSubject.Text = "Subject"
-        Me.colSubject.Width = 500
+        Me.colSubject.Width = 400
         '
         'colDateTime
         '
@@ -107,7 +107,7 @@ Partial Class frmMail
         Me.colDateTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
         Me.colDateTime.Tag = Nothing
         Me.colDateTime.Text = "Date"
-        Me.colDateTime.Width = 125
+        Me.colDateTime.Width = 200
         '
         'frmMail
         '

@@ -170,6 +170,8 @@ Public Class frmMail
 
         Me.Cursor = Cursors.Default
 
+        Call frmEveHQ.UpdateEveMailButton()
+
     End Sub
 
     Private Sub ParseIDs(ByRef IDs As ArrayList, ByVal strID As String)
