@@ -85,7 +85,7 @@ Public Class frmMail
 
         Me.Cursor = Cursors.WaitCursor
 
-        Dim Mails As New SortedList(Of Long, EveHQ.Core.EveMailMessage)
+        Dim Mails As New SortedList(Of String, EveHQ.Core.EveMailMessage)
         For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             ' Stage 1: Download the latest EveMail API using the standard API method
             If mPilot.Active = True Then
@@ -102,6 +102,7 @@ Public Class frmMail
                     If mailList.Count > 0 Then
                         For Each mail In mailList
                             Dim nMail As New EveHQ.Core.EveMailMessage
+                            nMail.OriginatorID = CLng(mPilot.ID)
                             nMail.MessageID = CLng(mail.Attributes.GetNamedItem("messageID").Value)
                             nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
                             nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
@@ -110,8 +111,9 @@ Public Class frmMail
                             nMail.ToCorpAllianceIDs = mail.Attributes.GetNamedItem("toCorpOrAllianceID").Value
                             nMail.ToListIDs = mail.Attributes.GetNamedItem("toListIDs").Value
                             nMail.ReadFlag = CBool(mail.Attributes.GetNamedItem("read").Value)
-                            If Mails.ContainsKey(nMail.MessageID) = False Then
-                                Mails.Add(nMail.MessageID, nMail)
+                            nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
+                            If Mails.ContainsKey(nMail.MessageKey) = False Then
+                                Mails.Add(nMail.MessageKey, nMail)
                             End If
                         Next
                     End If
@@ -130,23 +132,24 @@ Public Class frmMail
         End If
 
         ' Stage 4: Post all new messages to the database
-        Dim strInsert As String = "INSERT INTO eveMail (messageID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail) VALUES "
-        For Each mailID As Long In Mails.Keys
-            If mailID > lastMessageID Then
-                Dim cMail As EveHQ.Core.EveMailMessage = Mails(mailID)
-                Dim uSQL As New StringBuilder
-                uSQL.Append(strInsert)
-                uSQL.Append("(" & cMail.MessageID & ", ")
-                uSQL.Append(cMail.SenderID & ", ")
-                uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
-                uSQL.Append("'" & cMail.MessageTitle & "', ")
-                uSQL.Append("'" & cMail.ToCorpAllianceIDs & "', ")
-                uSQL.Append("'" & cMail.ToCharacterIDs & "', ")
-                uSQL.Append("'" & cMail.ToListIDs & "', ")
-                uSQL.Append(CInt(cMail.ReadFlag) & ");")
-                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                    MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
+        Dim strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail) VALUES "
+        For Each mailKey As String In Mails.Keys
+            Dim cMail As EveHQ.Core.EveMailMessage = Mails(mailKey)
+            Dim uSQL As New StringBuilder
+            uSQL.Append(strInsert)
+            uSQL.Append("(")
+            uSQL.Append("'" & cMail.MessageKey & "', ")
+            uSQL.Append(cMail.MessageID & ", ")
+            uSQL.Append(cMail.OriginatorID & ", ")
+            uSQL.Append(cMail.SenderID & ", ")
+            uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
+            uSQL.Append("'" & cMail.MessageTitle & "', ")
+            uSQL.Append("'" & cMail.ToCorpAllianceIDs & "', ")
+            uSQL.Append("'" & cMail.ToCharacterIDs & "', ")
+            uSQL.Append("'" & cMail.ToListIDs & "', ")
+            uSQL.Append(CInt(cMail.ReadFlag) & ");")
+            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Next
 
@@ -245,7 +248,7 @@ Public Class frmMail
 
     Private Sub UpdateMailInfo()
         ' Get the mails for the selected pilot and the corp
-        Dim strSQL As String = "SELECT * FROM eveMAIL WHERE toCorpOrAllianceID=" & displayPilot.CorpID & " OR toCharacterIDs LIKE '%" & displayPilot.ID & "%' ORDER BY messageID DESC;"
+        Dim strSQL As String = "SELECT * FROM eveMAIL WHERE originatorID=" & displayPilot.ID & " ORDER BY messageID DESC;"
         Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
         Dim allMails As New SortedList(Of Long, EveHQ.Core.EveMailMessage)
         Dim FinalIDs As New SortedList(Of Long, String)
@@ -254,7 +257,9 @@ Public Class frmMail
                 Dim IDs As New ArrayList
                 For Each mailRow As DataRow In mailData.Tables(0).Rows
                     Dim newMail As New EveHQ.Core.EveMailMessage
+                    newMail.MessageKey = CStr(mailRow.Item("messageKey"))
                     newMail.MessageID = CLng(mailRow.Item("messageID"))
+                    newMail.OriginatorID = CLng(mailRow.Item("originatorID"))
                     newMail.SenderID = CLng(mailRow.Item("senderID"))
                     newMail.MessageDate = CDate(mailRow.Item("sentDate"))
                     newMail.MessageTitle = CStr(mailRow.Item("title"))
