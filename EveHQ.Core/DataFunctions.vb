@@ -1514,7 +1514,9 @@ Public Class DataFunctions
                 Case 0
                     strSQL.AppendLine("CREATE TABLE eveMail")
                     strSQL.AppendLine("(")
+                    strSQL.AppendLine("  messageKey           text(30) NOT NULL,")
                     strSQL.AppendLine("  messageID            long NOT NULL,")
+                    strSQL.AppendLine("  originatorID         long NOT NULL,")
                     strSQL.AppendLine("  senderID             long NOT NULL,")
                     strSQL.AppendLine("  sentDate             datetime NOT NULL,")
                     strSQL.AppendLine("  title                memo NOT NULL,")
@@ -1528,7 +1530,9 @@ Public Class DataFunctions
                 Case Else
                     strSQL.AppendLine("CREATE TABLE eveMail")
                     strSQL.AppendLine("(")
+                    strSQL.AppendLine("  messageKey           nvarchar(30) NOT NULL,")
                     strSQL.AppendLine("  messageID            bigint NOT NULL,")
+                    strSQL.AppendLine("  originatorID         bigint NOT NULL,")
                     strSQL.AppendLine("  senderID             bigint NOT NULL,")
                     strSQL.AppendLine("  sentDate             datetime NOT NULL,")
                     strSQL.AppendLine("  title                nvarchar(1000) NOT NULL,")
