@@ -652,7 +652,7 @@ namespace EveHQ.PosManager
             GetQty.ShowDialog();
 
             ReactMod.CapQty = GetVal;
-            ReactMod.CapVol = (ReactMod.CapQty * ReactMod.selMineral.volume * SiloMult);
+            ReactMod.CapVol = (ReactMod.CapQty * ReactMod.selMineral.volume);// * SiloMult);
 
             ComputeAndShowFillLevels();
             myData.TowerReactModuleUpdated(ReactMod, 5, 0, "");

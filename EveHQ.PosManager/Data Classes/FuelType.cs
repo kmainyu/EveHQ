@@ -89,15 +89,25 @@ namespace EveHQ.PosManager
         public decimal GetFuelQtyForPeriod(decimal sov, decimal cap, decimal used)
         {
             decimal ret, pcMult, pQty;
+            bool useAPI = false;
 
             if (PeriodQty == 0)
+            {
                 pQty = APIPerQty;
+            }
             else if ((PeriodQty != 0) && (PeriodQty != APIPerQty) && (APIPerQty != 0))
+            {
                 pQty = APIPerQty;
+                useAPI = true;
+            }
             else
                 pQty = PeriodQty;
 
-            if ((cap == 1) && (used == 1))
+            if (useAPI) 
+            {
+                ret = pQty;
+            }
+            else if ((cap == 1) && (used == 1))
             {
                 ret = Math.Ceiling(sov * pQty);
             }

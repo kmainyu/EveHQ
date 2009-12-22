@@ -2418,6 +2418,9 @@ namespace EveHQ.PosManager
                             p.PosTower.State = "Online";
                             break;
                     }
+
+                    if (p.corpID == 0)
+                        p.corpID = td.corpID;
                 }
                 else
                 {

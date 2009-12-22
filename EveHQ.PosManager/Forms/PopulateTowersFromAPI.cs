@@ -111,6 +111,7 @@ namespace EveHQ.PosManager
                             }
 
                             APITower.CorpName = apid.corpName;
+                            APITower.corpID = apid.corpID;
                             APITower.System = apid.locName;
 
                             // Need to set tower as Linked to the API by default
