@@ -32,6 +32,7 @@ Partial Public Class frmEveHQ
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbPilotInfo = New System.Windows.Forms.ToolStripButton
         Me.tsbSkillTraining = New System.Windows.Forms.ToolStripButton
+        Me.tsbMail = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbIGB = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
@@ -77,6 +78,9 @@ Partial Public Class frmEveHQ
         Me.mnuReportAsteroidRocks = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportAsteroidIce = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportSPSummary = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsPHPBB = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsPHPBBChar = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsPHPBBCharSheet = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsText = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsTextChar = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsTextCharSheet = New System.Windows.Forms.ToolStripMenuItem
@@ -148,9 +152,6 @@ Partial Public Class frmEveHQ
         Me.ssTraining = New System.Windows.Forms.StatusStrip
         Me.panelTrainingStatus = New System.Windows.Forms.Panel
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
-        Me.mnuReportsPHPBB = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuReportsPHPBBChar = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuReportsPHPBBCharSheet = New System.Windows.Forms.ToolStripMenuItem
         Me.EveHQToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -171,7 +172,7 @@ Partial Public Class frmEveHQ
         '
         Me.EveHQToolStrip.Dock = System.Windows.Forms.DockStyle.Left
         Me.EveHQToolStrip.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EveHQToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnAddAccount, Me.ToolStripSeparator12, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator9})
+        Me.EveHQToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnAddAccount, Me.ToolStripSeparator12, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbMail, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator9})
         Me.EveHQToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.EveHQToolStrip.Name = "EveHQToolStrip"
         Me.EveHQToolStrip.Size = New System.Drawing.Size(37, 607)
@@ -238,6 +239,19 @@ Partial Public Class frmEveHQ
         Me.tsbSkillTraining.Size = New System.Drawing.Size(36, 36)
         Me.tsbSkillTraining.Text = "ToolStripButton3"
         Me.tsbSkillTraining.ToolTipText = "View Skill Training"
+        '
+        'tsbMail
+        '
+        Me.tsbMail.AutoSize = False
+        Me.tsbMail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tsbMail.ForeColor = System.Drawing.Color.Navy
+        Me.tsbMail.Image = CType(resources.GetObject("tsbMail.Image"), System.Drawing.Image)
+        Me.tsbMail.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsbMail.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbMail.Name = "tsbMail"
+        Me.tsbMail.Size = New System.Drawing.Size(36, 36)
+        Me.tsbMail.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay
+        Me.tsbMail.ToolTipText = "View Mail and Notifications"
         '
         'ToolStripSeparator2
         '
@@ -537,6 +551,26 @@ Partial Public Class frmEveHQ
         Me.mnuReportSPSummary.Size = New System.Drawing.Size(173, 22)
         Me.mnuReportSPSummary.Text = "Skill Level Table"
         '
+        'mnuReportsPHPBB
+        '
+        Me.mnuReportsPHPBB.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsPHPBBChar})
+        Me.mnuReportsPHPBB.Name = "mnuReportsPHPBB"
+        Me.mnuReportsPHPBB.Size = New System.Drawing.Size(169, 22)
+        Me.mnuReportsPHPBB.Text = "PHPBB Reports"
+        '
+        'mnuReportsPHPBBChar
+        '
+        Me.mnuReportsPHPBBChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsPHPBBCharSheet})
+        Me.mnuReportsPHPBBChar.Name = "mnuReportsPHPBBChar"
+        Me.mnuReportsPHPBBChar.Size = New System.Drawing.Size(122, 22)
+        Me.mnuReportsPHPBBChar.Text = "Character"
+        '
+        'mnuReportsPHPBBCharSheet
+        '
+        Me.mnuReportsPHPBBCharSheet.Name = "mnuReportsPHPBBCharSheet"
+        Me.mnuReportsPHPBBCharSheet.Size = New System.Drawing.Size(153, 22)
+        Me.mnuReportsPHPBBCharSheet.Text = "Character Sheet"
+        '
         'mnuReportsText
         '
         Me.mnuReportsText.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextChar})
@@ -548,7 +582,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills, Me.mnuReportsTextSkillsCost})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(122, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -622,7 +656,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld, Me.mnuReportECMExport})
         Me.mnuReportsXMLChar.Name = "mnuReportsXMLChar"
-        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(122, 22)
         Me.mnuReportsXMLChar.Text = "Character"
         '
         'mnuReportCharXML
@@ -1008,26 +1042,6 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
         '
-        'mnuReportsPHPBB
-        '
-        Me.mnuReportsPHPBB.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsPHPBBChar})
-        Me.mnuReportsPHPBB.Name = "mnuReportsPHPBB"
-        Me.mnuReportsPHPBB.Size = New System.Drawing.Size(169, 22)
-        Me.mnuReportsPHPBB.Text = "PHPBB Reports"
-        '
-        'mnuReportsPHPBBChar
-        '
-        Me.mnuReportsPHPBBChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsPHPBBCharSheet})
-        Me.mnuReportsPHPBBChar.Name = "mnuReportsPHPBBChar"
-        Me.mnuReportsPHPBBChar.Size = New System.Drawing.Size(152, 22)
-        Me.mnuReportsPHPBBChar.Text = "Character"
-        '
-        'mnuReportsPHPBBCharSheet
-        '
-        Me.mnuReportsPHPBBCharSheet.Name = "mnuReportsPHPBBCharSheet"
-        Me.mnuReportsPHPBBCharSheet.Size = New System.Drawing.Size(153, 22)
-        Me.mnuReportsPHPBBCharSheet.Text = "Character Sheet"
-        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1188,5 +1202,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuReportsPHPBB As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportsPHPBBChar As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportsPHPBBCharSheet As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tsbMail As System.Windows.Forms.ToolStripButton
 
 End Class

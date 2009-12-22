@@ -189,6 +189,9 @@ Public Class frmEveHQ
     Private Sub SkillTrainingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SkillTrainingToolStripMenuItem.Click, tsbSkillTraining.Click
         Call OpenSkillTrainingForm()
     End Sub
+    Private Sub tsbMail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbMail.Click
+        Call Me.OpenEveHQMailForm()
+    End Sub
     Private Sub ctxExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxExit.Click
         Call Me.ShutdownRoutine()
     End Sub
@@ -1844,6 +1847,14 @@ Public Class frmEveHQ
             tabMDI.SelectTab(frmTraining.Text)
         End If
     End Sub
+    Public Sub OpenEveHQMailForm()
+        If tabMDI.TabPages.ContainsKey(frmMail.Text) = False Then
+            frmMail.MdiParent = Me
+            frmMail.Show()
+        Else
+            tabMDI.SelectTab(frmMail.Text)
+        End If
+    End Sub
     Private Sub OpenBackUpForm()
         If tabMDI.TabPages.ContainsKey(frmBackup.Text) = False Then
             frmBackup.MdiParent = Me
@@ -2626,5 +2637,6 @@ Public Class frmEveHQ
     End Function
 #End Region
 
+ 
 End Class
 
