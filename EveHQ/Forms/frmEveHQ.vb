@@ -1548,7 +1548,10 @@ Public Class frmEveHQ
             If PlugInInfo.Available = True And PlugInInfo.Disabled = False Then
                 'If PlugInInfo.Available = True Then
                 If PlugInInfo.RunAtStartup = True Then
-                    ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
+                    Dim t As New Thread(AddressOf Me.RunModuleStartUps)
+                    t.IsBackground = True
+                    t.Start(PlugInInfo)
+                    'ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
                 End If
             ElseIf PlugInInfo.Available = True And PlugInInfo.Disabled = True Then
                 ' Check for initialisation from a parameter
@@ -1623,6 +1626,9 @@ Public Class frmEveHQ
                 Dim myDelegate As New OpenPlugInDelegate(AddressOf OpenPlugIn)
                 Me.Invoke(myDelegate, New Object() {plugInInfo.Name})
             End If
+        Catch et As ThreadAbortException
+            modMenu.DropDownItems(0).Enabled = True
+            modMenu.DropDownItems(1).Enabled = False
         Catch ex As Exception
             MessageBox.Show("Unable to load plugin: " & plugInInfo.Name & ControlChars.CrLf & ex.Message, "Plugin error")
             modMenu.DropDownItems(0).Enabled = True
@@ -2664,5 +2670,6 @@ Public Class frmEveHQ
         tsbMail.ToolTipText = "View Mail & Notifications" & ControlChars.CrLf & "(" & unreadMail.ToString & " mails / " & unreadNotices.ToString & " notices)"
     End Sub
 #End Region
+
 End Class
 
