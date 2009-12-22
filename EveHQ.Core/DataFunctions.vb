@@ -1426,4 +1426,127 @@ Public Class DataFunctions
         Return CDbl(price / count)
     End Function
 
+    Public Shared Function CheckForIDNameTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("eveIDToName") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the DB and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                Case 0
+                    strSQL.AppendLine("CREATE TABLE eveIDToName")
+                    strSQL.AppendLine("(")
+                    strSQL.AppendLine("  eveID      long NOT NULL,")
+                    strSQL.AppendLine("  eveName    text(255) NOT NULL,")
+                    strSQL.AppendLine("")
+                    strSQL.AppendLine("  CONSTRAINT eveIDToName_PK PRIMARY KEY CLUSTERED (eveID)")
+                    strSQL.AppendLine(")")
+                Case Else
+                    strSQL.AppendLine("CREATE TABLE eveIDToName")
+                    strSQL.AppendLine("(")
+                    strSQL.AppendLine("  eveID      bigint NOT NULL,")
+                    strSQL.AppendLine("  eveName    nvarchar(255) NOT NULL,")
+                    strSQL.AppendLine("")
+                    strSQL.AppendLine("  CONSTRAINT eveIDToName_PK PRIMARY KEY CLUSTERED (eveID)")
+                    strSQL.AppendLine(")")
+            End Select
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Eve ID-To-Name database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+    End Function
+    Public Shared Function CheckForEveMailTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("eveMail") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the DB and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                Case 0
+                    strSQL.AppendLine("CREATE TABLE eveMail")
+                    strSQL.AppendLine("(")
+                    strSQL.AppendLine("  messageID            long NOT NULL,")
+                    strSQL.AppendLine("  senderID             long NOT NULL,")
+                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
+                    strSQL.AppendLine("  title                memo NOT NULL,")
+                    strSQL.AppendLine("  toCorpOrAllianceID   memo NULL,")
+                    strSQL.AppendLine("  toCharacterIDs       memo NULL,")
+                    strSQL.AppendLine("  toListIDs            memo NULL,")
+                    strSQL.AppendLine("  readMail             integer NOT NULL,")
+                    strSQL.AppendLine("")
+                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageID)")
+                    strSQL.AppendLine(")")
+                Case Else
+                    strSQL.AppendLine("CREATE TABLE eveMail")
+                    strSQL.AppendLine("(")
+                    strSQL.AppendLine("  messageID            bigint NOT NULL,")
+                    strSQL.AppendLine("  senderID             bigint NOT NULL,")
+                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
+                    strSQL.AppendLine("  title                nvarchar NOT NULL,")
+                    strSQL.AppendLine("  toCorpOrAllianceID   nvarchar NULL,")
+                    strSQL.AppendLine("  toCharacterIDs       nvarchar NULL,")
+                    strSQL.AppendLine("  toListIDs            nvarchar NULL,")
+                    strSQL.AppendLine("  readMail             bit NOT NULL,")
+                    strSQL.AppendLine("")
+                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageID)")
+                    strSQL.AppendLine(")")
+            End Select
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+    End Function
+
 End Class
