@@ -1356,7 +1356,7 @@ Public Class frmMarketPrices
         If SupressProgress = False Then
             StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
         End If
-        Dim localfile As String = Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml")
+        Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & index.ToString & ".xml")
         ServicePointManager.DefaultConnectionLimit = 10
         ServicePointManager.Expect100Continue = False
         Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
@@ -1425,9 +1425,9 @@ Public Class frmMarketPrices
     Private Sub ParseFactionPriceFeed(ByVal FeedName As String, ByVal index As Integer, ByVal StatusLabel As Label)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(marketCacheFolder, FeedName & index.ToString & ".xml")) = True Then
             Try
-                feedXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml"))
+                feedXML.Load(Path.Combine(marketCacheFolder, FeedName & index.ToString & ".xml"))
                 Dim Items As XmlNodeList
                 Dim Item As XmlNode
                 Items = feedXML.SelectNodes("/factionPriceData/items/item")
@@ -1437,8 +1437,8 @@ Public Class frmMarketPrices
                 Next
             Catch e As Exception
                 MessageBox.Show("Unable to parse Faction Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml")) = True Then
-                    My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml"))
+                If My.Computer.FileSystem.FileExists(Path.Combine(marketCacheFolder, FeedName & index.ToString & ".xml")) = True Then
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(marketCacheFolder, FeedName & index.ToString & ".xml"))
                 End If
             End Try
         End If
@@ -1446,9 +1446,9 @@ Public Class frmMarketPrices
     Private Sub ParseMarketPriceFeed(ByVal FeedName As String, ByVal index As Integer, ByVal StatusLabel As Label)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(marketCacheFolder, FeedName & index.ToString & ".xml")) = True Then
             Try
-                feedXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml"))
+                feedXML.Load(Path.Combine(marketCacheFolder, FeedName & index.ToString & ".xml"))
                 Dim Items As XmlNodeList
                 Items = feedXML.SelectNodes("/evec_api/marketstat/type")
                 For Each Item As XmlNode In Items
@@ -1478,8 +1478,8 @@ Public Class frmMarketPrices
                 Next
             Catch e As Exception
                 MessageBox.Show("Unable to parse Market Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml")) = True Then
-                    My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml"))
+                If My.Computer.FileSystem.FileExists(Path.Combine(marketCacheFolder, FeedName & ".xml")) = True Then
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(marketCacheFolder, FeedName & ".xml"))
                 End If
             End Try
         End If
