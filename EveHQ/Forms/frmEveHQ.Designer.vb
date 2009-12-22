@@ -152,6 +152,7 @@ Partial Public Class frmEveHQ
         Me.ssTraining = New System.Windows.Forms.StatusStrip
         Me.panelTrainingStatus = New System.Windows.Forms.Panel
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
+        Me.tmrEveMail = New System.Windows.Forms.Timer(Me.components)
         Me.EveHQToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -244,12 +245,14 @@ Partial Public Class frmEveHQ
         '
         Me.tsbMail.AutoSize = False
         Me.tsbMail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tsbMail.ForeColor = System.Drawing.Color.Navy
+        Me.tsbMail.ForeColor = System.Drawing.Color.Black
         Me.tsbMail.Image = CType(resources.GetObject("tsbMail.Image"), System.Drawing.Image)
+        Me.tsbMail.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.tsbMail.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.tsbMail.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbMail.Name = "tsbMail"
-        Me.tsbMail.Size = New System.Drawing.Size(36, 36)
+        Me.tsbMail.Size = New System.Drawing.Size(36, 40)
+        Me.tsbMail.TextAlign = System.Drawing.ContentAlignment.BottomRight
         Me.tsbMail.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay
         Me.tsbMail.ToolTipText = "View Mail and Notifications"
         '
@@ -1042,6 +1045,11 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
         '
+        'tmrEveMail
+        '
+        Me.tmrEveMail.Enabled = True
+        Me.tmrEveMail.Interval = 5000
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1203,5 +1211,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuReportsPHPBBChar As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportsPHPBBCharSheet As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tsbMail As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tmrEveMail As System.Windows.Forms.Timer
 
 End Class

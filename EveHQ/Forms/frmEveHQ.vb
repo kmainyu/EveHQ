@@ -2637,6 +2637,32 @@ Public Class frmEveHQ
     End Function
 #End Region
 
- 
+#Region "Eve Mail Timer Functions"
+    Private Sub tmrEveMail_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrEveMail.Tick
+        Call Me.UpdateEveMailButton()
+    End Sub
+
+    Public Sub UpdateEveMailButton()
+        ' Get a list of the mail messages that are unread
+        tmrEveMail.Interval = 600000
+        Dim strSQL As String = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
+        Dim mailData As Data.DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim unreadMail As Integer = 0
+        Dim unreadNotices As Integer = 0
+        If mailData IsNot Nothing Then
+            If mailData.Tables(0).Rows.Count > 0 Then
+                unreadMail = CInt(mailData.Tables(0).Rows(0).Item(0))
+            End If
+        End If
+        If unreadMail > 0 Or unreadNotices > 0 Then
+            tsbMail.Text = unreadMail.ToString & "/" & unreadNotices.ToString
+            tsbMail.BackColor = Color.Lime
+        Else
+            tsbMail.Text = ""
+            tsbMail.BackColor = Color.Transparent
+        End If
+        tsbMail.ToolTipText = "View Mail & Notifications" & ControlChars.CrLf & "(" & unreadMail.ToString & " mails / " & unreadNotices.ToString & " notices)"
+    End Sub
+#End Region
 End Class
 
