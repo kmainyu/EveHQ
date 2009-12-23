@@ -367,7 +367,15 @@ Public Class frmMail
             uSQL.Append("'" & cMail.ToListIDs & "', ")
             uSQL.Append(CInt(cMail.ReadFlag) & ");")
             If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                If EveHQ.Core.HQ.dataError.Contains("Cannot insert duplicate key") = True Then
+                    ' Try an update
+                    Dim updateSQL As String = "UPDATE eveMail SET readMail=" & CInt(cMail.ReadFlag) & " WHERE messageKey='" & cMail.MessageKey & "';"
+                    If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
+                        MessageBox.Show("There was an error updating data in the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End If
+                Else
+                    MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
             End If
         Next
 
@@ -451,7 +459,15 @@ Public Class frmMail
             uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
             uSQL.Append(CInt(cMail.ReadFlag) & ");")
             If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                If EveHQ.Core.HQ.dataError.Contains("Cannot insert duplicate key") = True Then
+                    ' Try an update
+                    Dim updateSQL As String = "UPDATE eveNotifications SET readMail=" & CInt(cMail.ReadFlag) & " WHERE messageKey='" & cMail.MessageKey & "';"
+                    If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
+                        MessageBox.Show("There was an error updating data in the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End If
+                Else
+                    MessageBox.Show("There was an error writing data to the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
             End If
         Next
 
