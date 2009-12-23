@@ -1444,7 +1444,7 @@ Public Class DataFunctions
             msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
             MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
             If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
                 MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1476,7 +1476,7 @@ Public Class DataFunctions
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
             Else
-                MessageBox.Show("There was an error creating the Eve ID-To-Name database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("There was an error creating the Eve ID-To-Name database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Eve ID-To-Name Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             End If
         End If
@@ -1499,7 +1499,7 @@ Public Class DataFunctions
             msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
             MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
             If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
                 MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1547,7 +1547,72 @@ Public Class DataFunctions
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
             Else
-                MessageBox.Show("There was an error creating the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("There was an error creating the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Eve Mail Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+    End Function
+    Public Shared Function CheckForEveNotificationTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("eveNotifications") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the DB and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                Case 0
+                    strSQL.AppendLine("CREATE TABLE eveNotifications")
+                    strSQL.AppendLine("(")
+                    strSQL.AppendLine("  messageKey           text(30) NOT NULL,")
+                    strSQL.AppendLine("  messageID            long NOT NULL,")
+                    strSQL.AppendLine("  typeID               long NOT NULL,")
+                    strSQL.AppendLine("  originatorID         long NOT NULL,")
+                    strSQL.AppendLine("  senderID             long NOT NULL,")
+                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
+                    strSQL.AppendLine("  readMail             integer NOT NULL,")
+                    strSQL.AppendLine("")
+                    strSQL.AppendLine("  CONSTRAINT eveNotifications_PK PRIMARY KEY CLUSTERED (messageKey)")
+                    strSQL.AppendLine(")")
+                Case Else
+                    strSQL.AppendLine("CREATE TABLE eveNotifications")
+                    strSQL.AppendLine("(")
+                    strSQL.AppendLine("  messageKey           nvarchar(30) NOT NULL,")
+                    strSQL.AppendLine("  messageID            bigint NOT NULL,")
+                    strSQL.AppendLine("  typeID               bigint NOT NULL,")
+                    strSQL.AppendLine("  originatorID         bigint NOT NULL,")
+                    strSQL.AppendLine("  senderID             bigint NOT NULL,")
+                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
+                    strSQL.AppendLine("  readMail             bit NOT NULL,")
+                    strSQL.AppendLine("")
+                    strSQL.AppendLine("  CONSTRAINT eveNotifications_PK PRIMARY KEY CLUSTERED (messageKey)")
+                    strSQL.AppendLine(")")
+            End Select
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Eve Notification database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Eve Notification Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             End If
         End If
