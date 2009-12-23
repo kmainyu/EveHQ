@@ -149,7 +149,7 @@ Public Class frmMail
             uSQL.Append("'" & cMail.ToListIDs & "', ")
             uSQL.Append(CInt(cMail.ReadFlag) & ");")
             If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                'MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Next
 
