@@ -1212,6 +1212,7 @@ Public Class frmSettings
         chkEnableEveStatus.Checked = EveHQ.Core.HQ.EveHQSettings.EnableEveStatus
         trackServerOffset.Value = EveHQ.Core.HQ.EveHQSettings.ServerOffset
         chkAutoAPI.Checked = EveHQ.Core.HQ.EveHQSettings.AutoAPI
+        chkAutoMailAPI.Checked = EveHQ.Core.HQ.EveHQSettings.AutoMailAPI
         If System.Net.HttpListener.IsSupported Then
             nudAPIRSPort.Value = EveHQ.Core.HQ.EveHQSettings.APIRSPort
             chkAPIRSAutoStart.Checked = EveHQ.Core.HQ.EveHQSettings.APIRSAutoStart
@@ -1265,6 +1266,13 @@ Public Class frmSettings
             EveHQ.Core.HQ.NextAutoAPITime = Now.AddMinutes(60)
         Else
             EveHQ.Core.HQ.EveHQSettings.AutoAPI = False
+        End If
+    End Sub
+    Private Sub chkAutoMailAPI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoMailAPI.CheckedChanged
+        If chkAutoMailAPI.Checked = True Then
+            EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = True
+        Else
+            EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = False
         End If
     End Sub
     Private Sub chkActivateAPIRS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkActivateAPIRS.CheckedChanged
@@ -1373,10 +1381,10 @@ Public Class frmSettings
         Me.lblSoundFile.Text = EveHQ.Core.HQ.EveHQSettings.NotifySoundFile
         If EveHQ.Core.HQ.EveHQSettings.NotifyEMail = True Then
             Me.chkNotifyEmail.Checked = True
-            gbEmailOptions.Visible = True
+            gbEmail.Visible = True
         Else
             Me.chkNotifyEmail.Checked = False
-            gbEmailOptions.Visible = False
+            gbEmail.Visible = False
         End If
         If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
             Me.chkSMTPAuthentication.Checked = True
@@ -1454,10 +1462,8 @@ Public Class frmSettings
     Private Sub chkNotifyEmail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyEmail.CheckedChanged
         If chkNotifyEmail.Checked = True Then
             EveHQ.Core.HQ.EveHQSettings.NotifyEMail = True
-            gbEmailOptions.Visible = True
         Else
             EveHQ.Core.HQ.EveHQSettings.NotifyEMail = False
-            gbEmailOptions.Visible = False
         End If
     End Sub
 
@@ -1575,7 +1581,8 @@ Public Class frmSettings
                             newCredentials.Password = EveHQ.Core.HQ.EveHQSettings.EMailPassword
                             eveHQMail.Credentials = newCredentials
                         End If
-                        Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress, EveHQ.Core.HQ.EveHQSettings.EMailAddress)
+                        Dim recList As String = EveHQ.Core.HQ.EveHQSettings.EMailAddress.Replace(ControlChars.CrLf, "").Replace(" ", "").Replace(";", ",")
+                        Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress, recList)
                         eveHQMsg.Subject = "Eve Training Notification: " & cPilot.Name & " (" & cPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ")"
                         eveHQMsg.Body = notifyText
                         eveHQMail.Send(eveHQMsg)
@@ -1584,6 +1591,8 @@ Public Class frmSettings
                         Exit Sub
                     Catch ex As Exception
                         MessageBox.Show("The mail sending process failed. Please check that the server, address, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf & "The error was: " & ex.Message, "EveHQ Test Email Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        ' Exit after the first mail
+                        Exit Sub
                     End Try
                 End If
             End If
@@ -2230,4 +2239,6 @@ Public Class frmSettings
     Private Sub lblMSSQLDatabase2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
+
+   
 End Class

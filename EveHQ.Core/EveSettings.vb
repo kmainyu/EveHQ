@@ -180,7 +180,16 @@ Imports System.Diagnostics
     Private cEveHQBackupLastResult As Integer = 0
     Private cEveHQBackupMode As Integer = 0
     Private cEveHQBackupWarnFreq As Integer = 1
+    Private cAutoMailAPI As Boolean = False
 
+    Public Property AutoMailAPI() As Boolean
+        Get
+            Return cAutoMailAPI
+        End Get
+        Set(ByVal value As Boolean)
+            cAutoMailAPI = value
+        End Set
+    End Property
     Public Property EveHQBackupWarnFreq() As Integer
         Get
             Return cEveHQBackupWarnFreq

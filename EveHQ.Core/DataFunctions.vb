@@ -24,6 +24,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Text
 Imports System.Windows.Forms
+Imports System.Xml
 
 Public Class DataFunctions
 
@@ -1617,5 +1618,52 @@ Public Class DataFunctions
             End If
         End If
     End Function
+
+    Public Shared Sub ParseIDs(ByRef IDs As ArrayList, ByVal strID As String)
+        Dim strIDs() As String = strID.Split(",".ToCharArray)
+        For Each ID As String In strIDs
+            If IDs.Contains(ID) = False Then
+                IDs.Add(ID)
+            End If
+        Next
+    End Sub
+
+    Public Shared Sub WriteEveIDsToDatabase(ByVal IDs As ArrayList)
+        Dim strID As New StringBuilder
+        For Each ID As String In IDs
+            strID.Append(ID & ",")
+        Next
+        strID.Append("0")
+        ' Send this to the API
+        Dim IDXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, strID.ToString, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        ' Parse this XML
+        Dim FinalIDs As New SortedList(Of Long, String)
+        Dim IDList As XmlNodeList
+        Dim IDNode As XmlNode
+        Dim eveID As Long = 0
+        Dim eveName As String = ""
+        IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
+        If IDList.Count > 0 Then
+            For Each IDNode In IDList
+                eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
+                eveName = IDNode.Attributes.GetNamedItem("name").Value
+                If FinalIDs.ContainsKey(eveID) = False Then
+                    FinalIDs.Add(eveID, eveName)
+                End If
+            Next
+        End If
+        ' Add all the data to the database
+        Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
+        For Each eveID In FinalIDs.Keys
+            eveName = FinalIDs(eveID)
+            Dim uSQL As New StringBuilder
+            uSQL.Append(strIDInsert)
+            uSQL.Append("(" & eveID & ", ")
+            uSQL.Append("'" & eveName & "');")
+            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+        Next
+    End Sub
 
 End Class

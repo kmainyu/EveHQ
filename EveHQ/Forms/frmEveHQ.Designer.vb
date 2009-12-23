@@ -137,6 +137,7 @@ Partial Public Class frmEveHQ
         Me.EveHQStatusStrip = New System.Windows.Forms.StatusStrip
         Me.tsTQStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsAPIStatus = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tsMailAPITime = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsAPITime = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsEveTime = New System.Windows.Forms.ToolStripStatusLabel
         Me.tmrSkillUpdate = New System.Windows.Forms.Timer(Me.components)
@@ -152,7 +153,6 @@ Partial Public Class frmEveHQ
         Me.ssTraining = New System.Windows.Forms.StatusStrip
         Me.panelTrainingStatus = New System.Windows.Forms.Panel
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
-        Me.tmrEveMail = New System.Windows.Forms.Timer(Me.components)
         Me.EveHQToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -907,9 +907,10 @@ Partial Public Class frmEveHQ
         'EveHQStatusStrip
         '
         Me.EveHQStatusStrip.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsAPIStatus, Me.tsAPITime, Me.tsEveTime})
+        Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsAPIStatus, Me.tsMailAPITime, Me.tsAPITime, Me.tsEveTime})
         Me.EveHQStatusStrip.Location = New System.Drawing.Point(0, 631)
         Me.EveHQStatusStrip.Name = "EveHQStatusStrip"
+        Me.EveHQStatusStrip.ShowItemToolTips = True
         Me.EveHQStatusStrip.Size = New System.Drawing.Size(1033, 25)
         Me.EveHQStatusStrip.TabIndex = 10
         Me.EveHQStatusStrip.Text = "StatusStrip1"
@@ -937,10 +938,22 @@ Partial Public Class frmEveHQ
         Me.tsAPIStatus.DoubleClickEnabled = True
         Me.tsAPIStatus.Name = "tsAPIStatus"
         Me.tsAPIStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.tsAPIStatus.Size = New System.Drawing.Size(660, 20)
+        Me.tsAPIStatus.Size = New System.Drawing.Size(610, 20)
         Me.tsAPIStatus.Spring = True
         Me.tsAPIStatus.Text = "API Status:"
         Me.tsAPIStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'tsMailAPITime
+        '
+        Me.tsMailAPITime.AutoSize = False
+        Me.tsMailAPITime.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.tsMailAPITime.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
+        Me.tsMailAPITime.Name = "tsMailAPITime"
+        Me.tsMailAPITime.Size = New System.Drawing.Size(50, 20)
+        Me.tsMailAPITime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.tsMailAPITime.ToolTipText = "Time Until Next Mail API Update"
         '
         'tsAPITime
         '
@@ -952,6 +965,7 @@ Partial Public Class frmEveHQ
         Me.tsAPITime.Name = "tsAPITime"
         Me.tsAPITime.Size = New System.Drawing.Size(50, 20)
         Me.tsAPITime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.tsAPITime.ToolTipText = "Time Until Next Character API Update"
         '
         'tsEveTime
         '
@@ -1044,11 +1058,6 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.ContextMenuStrip = Me.EveIconMenu
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
-        '
-        'tmrEveMail
-        '
-        Me.tmrEveMail.Enabled = True
-        Me.tmrEveMail.Interval = 5000
         '
         'frmEveHQ
         '
@@ -1211,6 +1220,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuReportsPHPBBChar As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportsPHPBBCharSheet As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tsbMail As System.Windows.Forms.ToolStripButton
-    Friend WithEvents tmrEveMail As System.Windows.Forms.Timer
+    Friend WithEvents tsMailAPITime As System.Windows.Forms.ToolStripStatusLabel
 
 End Class

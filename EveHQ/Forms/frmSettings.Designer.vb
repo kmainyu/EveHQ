@@ -24,18 +24,19 @@ Partial Public Class frmSettings
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Colours & Styles")
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Dashboard")
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Database Format")
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
-        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("E-Mail")
+        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
+        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
+        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
         Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox
@@ -239,7 +240,7 @@ Partial Public Class frmSettings
         Me.chkNotifySound = New System.Windows.Forms.CheckBox
         Me.lblNotifyOffset = New System.Windows.Forms.Label
         Me.trackNotifyOffset = New System.Windows.Forms.TrackBar
-        Me.gbEmailOptions = New System.Windows.Forms.GroupBox
+        Me.gbEmail = New System.Windows.Forms.GroupBox
         Me.lblSenderAddress = New System.Windows.Forms.Label
         Me.txtSenderAddress = New System.Windows.Forms.TextBox
         Me.txtSMTPPort = New System.Windows.Forms.TextBox
@@ -312,6 +313,7 @@ Partial Public Class frmSettings
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.chkAutoMailAPI = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -353,7 +355,7 @@ Partial Public Class frmSettings
         Me.gbPlugIns.SuspendLayout()
         Me.gbNotifications.SuspendLayout()
         CType(Me.trackNotifyOffset, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbEmailOptions.SuspendLayout()
+        Me.gbEmail.SuspendLayout()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbColours.SuspendLayout()
         Me.gbG15.SuspendLayout()
@@ -2057,15 +2059,17 @@ Partial Public Class frmSettings
         '
         'gbEveServer
         '
+        Me.gbEveServer.Controls.Add(Me.chkAutoMailAPI)
         Me.gbEveServer.Controls.Add(Me.gbAPIServer)
         Me.gbEveServer.Controls.Add(Me.gbAPIRelayServer)
         Me.gbEveServer.Controls.Add(Me.chkEnableEveStatus)
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
-        Me.gbEveServer.Location = New System.Drawing.Point(213, 140)
+        Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
+        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(138, 37)
+        Me.gbEveServer.Size = New System.Drawing.Size(693, 500)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2081,10 +2085,9 @@ Partial Public Class frmSettings
         Me.gbAPIServer.Controls.Add(Me.lblAPIRSServer)
         Me.gbAPIServer.Controls.Add(Me.txtCCPAPIServer)
         Me.gbAPIServer.Controls.Add(Me.lblCCPAPIServer)
-        Me.gbAPIServer.Controls.Add(Me.chkAutoAPI)
         Me.gbAPIServer.Location = New System.Drawing.Point(6, 152)
         Me.gbAPIServer.Name = "gbAPIServer"
-        Me.gbAPIServer.Size = New System.Drawing.Size(668, 161)
+        Me.gbAPIServer.Size = New System.Drawing.Size(668, 133)
         Me.gbAPIServer.TabIndex = 20
         Me.gbAPIServer.TabStop = False
         Me.gbAPIServer.Text = "API Server"
@@ -2160,11 +2163,11 @@ Partial Public Class frmSettings
         'chkAutoAPI
         '
         Me.chkAutoAPI.AutoSize = True
-        Me.chkAutoAPI.Location = New System.Drawing.Point(12, 130)
+        Me.chkAutoAPI.Location = New System.Drawing.Point(18, 397)
         Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(204, 17)
+        Me.chkAutoAPI.Size = New System.Drawing.Size(255, 17)
         Me.chkAutoAPI.TabIndex = 20
-        Me.chkAutoAPI.Text = "Automatically Check for XML Updates"
+        Me.chkAutoAPI.Text = "Automatically Check for Character XML Updates"
         Me.chkAutoAPI.UseVisualStyleBackColor = True
         '
         'gbAPIRelayServer
@@ -2173,9 +2176,9 @@ Partial Public Class frmSettings
         Me.gbAPIRelayServer.Controls.Add(Me.nudAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.chkActivateAPIRS)
-        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 319)
+        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 291)
         Me.gbAPIRelayServer.Name = "gbAPIRelayServer"
-        Me.gbAPIRelayServer.Size = New System.Drawing.Size(668, 114)
+        Me.gbAPIRelayServer.Size = New System.Drawing.Size(668, 83)
         Me.gbAPIRelayServer.TabIndex = 15
         Me.gbAPIRelayServer.TabStop = False
         Me.gbAPIRelayServer.Text = "API Relay Server"
@@ -2183,7 +2186,7 @@ Partial Public Class frmSettings
         'chkAPIRSAutoStart
         '
         Me.chkAPIRSAutoStart.AutoSize = True
-        Me.chkAPIRSAutoStart.Location = New System.Drawing.Point(12, 79)
+        Me.chkAPIRSAutoStart.Location = New System.Drawing.Point(223, 30)
         Me.chkAPIRSAutoStart.Name = "chkAPIRSAutoStart"
         Me.chkAPIRSAutoStart.Size = New System.Drawing.Size(184, 17)
         Me.chkAPIRSAutoStart.TabIndex = 5
@@ -2343,16 +2346,15 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.chkNotifySound)
         Me.gbNotifications.Controls.Add(Me.lblNotifyOffset)
         Me.gbNotifications.Controls.Add(Me.trackNotifyOffset)
-        Me.gbNotifications.Controls.Add(Me.gbEmailOptions)
         Me.gbNotifications.Controls.Add(Me.chkNotifyEmail)
         Me.gbNotifications.Controls.Add(Me.chkNotifyDialog)
         Me.gbNotifications.Controls.Add(Me.chkNotifyToolTip)
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(729, 300)
+        Me.gbNotifications.Location = New System.Drawing.Point(552, 263)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(59, 57)
+        Me.gbNotifications.Size = New System.Drawing.Size(113, 38)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2445,34 +2447,34 @@ Partial Public Class frmSettings
         Me.trackNotifyOffset.TickFrequency = 30
         Me.trackNotifyOffset.TickStyle = System.Windows.Forms.TickStyle.Both
         '
-        'gbEmailOptions
+        'gbEmail
         '
-        Me.gbEmailOptions.Controls.Add(Me.lblSenderAddress)
-        Me.gbEmailOptions.Controls.Add(Me.txtSenderAddress)
-        Me.gbEmailOptions.Controls.Add(Me.txtSMTPPort)
-        Me.gbEmailOptions.Controls.Add(Me.lblSMTPPort)
-        Me.gbEmailOptions.Controls.Add(Me.btnTestEmail)
-        Me.gbEmailOptions.Controls.Add(Me.lblEmailPassword)
-        Me.gbEmailOptions.Controls.Add(Me.txtEmailPassword)
-        Me.gbEmailOptions.Controls.Add(Me.txtEmailUsername)
-        Me.gbEmailOptions.Controls.Add(Me.lblEmailUsername)
-        Me.gbEmailOptions.Controls.Add(Me.chkSMTPAuthentication)
-        Me.gbEmailOptions.Controls.Add(Me.lblEMailAddress)
-        Me.gbEmailOptions.Controls.Add(Me.txtEmailAddress)
-        Me.gbEmailOptions.Controls.Add(Me.txtSMTPServer)
-        Me.gbEmailOptions.Controls.Add(Me.lblSMTPServer)
-        Me.gbEmailOptions.Location = New System.Drawing.Point(21, 255)
-        Me.gbEmailOptions.Name = "gbEmailOptions"
-        Me.gbEmailOptions.Size = New System.Drawing.Size(463, 225)
-        Me.gbEmailOptions.TabIndex = 6
-        Me.gbEmailOptions.TabStop = False
-        Me.gbEmailOptions.Text = "E-Mail Options"
-        Me.gbEmailOptions.Visible = False
+        Me.gbEmail.Controls.Add(Me.lblSenderAddress)
+        Me.gbEmail.Controls.Add(Me.txtSenderAddress)
+        Me.gbEmail.Controls.Add(Me.txtSMTPPort)
+        Me.gbEmail.Controls.Add(Me.lblSMTPPort)
+        Me.gbEmail.Controls.Add(Me.btnTestEmail)
+        Me.gbEmail.Controls.Add(Me.lblEmailPassword)
+        Me.gbEmail.Controls.Add(Me.txtEmailPassword)
+        Me.gbEmail.Controls.Add(Me.txtEmailUsername)
+        Me.gbEmail.Controls.Add(Me.lblEmailUsername)
+        Me.gbEmail.Controls.Add(Me.chkSMTPAuthentication)
+        Me.gbEmail.Controls.Add(Me.lblEMailAddress)
+        Me.gbEmail.Controls.Add(Me.txtEmailAddress)
+        Me.gbEmail.Controls.Add(Me.txtSMTPServer)
+        Me.gbEmail.Controls.Add(Me.lblSMTPServer)
+        Me.gbEmail.Location = New System.Drawing.Point(709, 327)
+        Me.gbEmail.Name = "gbEmail"
+        Me.gbEmail.Size = New System.Drawing.Size(138, 47)
+        Me.gbEmail.TabIndex = 6
+        Me.gbEmail.TabStop = False
+        Me.gbEmail.Text = "E-Mail Options"
+        Me.gbEmail.Visible = False
         '
         'lblSenderAddress
         '
         Me.lblSenderAddress.AutoSize = True
-        Me.lblSenderAddress.Location = New System.Drawing.Point(7, 102)
+        Me.lblSenderAddress.Location = New System.Drawing.Point(18, 82)
         Me.lblSenderAddress.Name = "lblSenderAddress"
         Me.lblSenderAddress.Size = New System.Drawing.Size(87, 13)
         Me.lblSenderAddress.TabIndex = 13
@@ -2480,14 +2482,14 @@ Partial Public Class frmSettings
         '
         'txtSenderAddress
         '
-        Me.txtSenderAddress.Location = New System.Drawing.Point(106, 99)
+        Me.txtSenderAddress.Location = New System.Drawing.Point(117, 79)
         Me.txtSenderAddress.Name = "txtSenderAddress"
         Me.txtSenderAddress.Size = New System.Drawing.Size(331, 21)
         Me.txtSenderAddress.TabIndex = 12
         '
         'txtSMTPPort
         '
-        Me.txtSMTPPort.Location = New System.Drawing.Point(106, 46)
+        Me.txtSMTPPort.Location = New System.Drawing.Point(117, 52)
         Me.txtSMTPPort.Name = "txtSMTPPort"
         Me.txtSMTPPort.Size = New System.Drawing.Size(86, 21)
         Me.txtSMTPPort.TabIndex = 11
@@ -2495,7 +2497,7 @@ Partial Public Class frmSettings
         'lblSMTPPort
         '
         Me.lblSMTPPort.AutoSize = True
-        Me.lblSMTPPort.Location = New System.Drawing.Point(7, 49)
+        Me.lblSMTPPort.Location = New System.Drawing.Point(18, 55)
         Me.lblSMTPPort.Name = "lblSMTPPort"
         Me.lblSMTPPort.Size = New System.Drawing.Size(60, 13)
         Me.lblSMTPPort.TabIndex = 10
@@ -2503,7 +2505,7 @@ Partial Public Class frmSettings
         '
         'btnTestEmail
         '
-        Me.btnTestEmail.Location = New System.Drawing.Point(371, 176)
+        Me.btnTestEmail.Location = New System.Drawing.Point(19, 438)
         Me.btnTestEmail.Name = "btnTestEmail"
         Me.btnTestEmail.Size = New System.Drawing.Size(75, 23)
         Me.btnTestEmail.TabIndex = 9
@@ -2514,7 +2516,7 @@ Partial Public Class frmSettings
         '
         Me.lblEmailPassword.AutoSize = True
         Me.lblEmailPassword.Enabled = False
-        Me.lblEmailPassword.Location = New System.Drawing.Point(7, 182)
+        Me.lblEmailPassword.Location = New System.Drawing.Point(52, 327)
         Me.lblEmailPassword.Name = "lblEmailPassword"
         Me.lblEmailPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblEmailPassword.TabIndex = 8
@@ -2523,7 +2525,7 @@ Partial Public Class frmSettings
         'txtEmailPassword
         '
         Me.txtEmailPassword.Enabled = False
-        Me.txtEmailPassword.Location = New System.Drawing.Point(106, 179)
+        Me.txtEmailPassword.Location = New System.Drawing.Point(117, 323)
         Me.txtEmailPassword.Name = "txtEmailPassword"
         Me.txtEmailPassword.Size = New System.Drawing.Size(250, 21)
         Me.txtEmailPassword.TabIndex = 7
@@ -2531,7 +2533,7 @@ Partial Public Class frmSettings
         'txtEmailUsername
         '
         Me.txtEmailUsername.Enabled = False
-        Me.txtEmailUsername.Location = New System.Drawing.Point(106, 153)
+        Me.txtEmailUsername.Location = New System.Drawing.Point(117, 297)
         Me.txtEmailUsername.Name = "txtEmailUsername"
         Me.txtEmailUsername.Size = New System.Drawing.Size(250, 21)
         Me.txtEmailUsername.TabIndex = 6
@@ -2540,7 +2542,7 @@ Partial Public Class frmSettings
         '
         Me.lblEmailUsername.AutoSize = True
         Me.lblEmailUsername.Enabled = False
-        Me.lblEmailUsername.Location = New System.Drawing.Point(7, 156)
+        Me.lblEmailUsername.Location = New System.Drawing.Point(52, 301)
         Me.lblEmailUsername.Name = "lblEmailUsername"
         Me.lblEmailUsername.Size = New System.Drawing.Size(59, 13)
         Me.lblEmailUsername.TabIndex = 5
@@ -2549,7 +2551,7 @@ Partial Public Class frmSettings
         'chkSMTPAuthentication
         '
         Me.chkSMTPAuthentication.AutoSize = True
-        Me.chkSMTPAuthentication.Location = New System.Drawing.Point(10, 130)
+        Me.chkSMTPAuthentication.Location = New System.Drawing.Point(21, 274)
         Me.chkSMTPAuthentication.Name = "chkSMTPAuthentication"
         Me.chkSMTPAuthentication.Size = New System.Drawing.Size(146, 17)
         Me.chkSMTPAuthentication.TabIndex = 4
@@ -2558,23 +2560,23 @@ Partial Public Class frmSettings
         '
         'lblEMailAddress
         '
-        Me.lblEMailAddress.AutoSize = True
-        Me.lblEMailAddress.Location = New System.Drawing.Point(7, 75)
+        Me.lblEMailAddress.Location = New System.Drawing.Point(18, 109)
         Me.lblEMailAddress.Name = "lblEMailAddress"
-        Me.lblEMailAddress.Size = New System.Drawing.Size(81, 13)
+        Me.lblEMailAddress.Size = New System.Drawing.Size(93, 82)
         Me.lblEMailAddress.TabIndex = 3
-        Me.lblEMailAddress.Text = "E-Mail Address:"
+        Me.lblEMailAddress.Text = "E-Mail Addresses:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Separate with ;" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'txtEmailAddress
         '
-        Me.txtEmailAddress.Location = New System.Drawing.Point(106, 72)
+        Me.txtEmailAddress.Location = New System.Drawing.Point(117, 106)
+        Me.txtEmailAddress.Multiline = True
         Me.txtEmailAddress.Name = "txtEmailAddress"
-        Me.txtEmailAddress.Size = New System.Drawing.Size(331, 21)
+        Me.txtEmailAddress.Size = New System.Drawing.Size(331, 158)
         Me.txtEmailAddress.TabIndex = 2
         '
         'txtSMTPServer
         '
-        Me.txtSMTPServer.Location = New System.Drawing.Point(106, 20)
+        Me.txtSMTPServer.Location = New System.Drawing.Point(117, 26)
         Me.txtSMTPServer.Name = "txtSMTPServer"
         Me.txtSMTPServer.Size = New System.Drawing.Size(331, 21)
         Me.txtSMTPServer.TabIndex = 1
@@ -2582,7 +2584,7 @@ Partial Public Class frmSettings
         'lblSMTPServer
         '
         Me.lblSMTPServer.AutoSize = True
-        Me.lblSMTPServer.Location = New System.Drawing.Point(7, 23)
+        Me.lblSMTPServer.Location = New System.Drawing.Point(18, 29)
         Me.lblSMTPServer.Name = "lblSMTPServer"
         Me.lblSMTPServer.Size = New System.Drawing.Size(72, 13)
         Me.lblSMTPServer.TabIndex = 0
@@ -2671,31 +2673,33 @@ Partial Public Class frmSettings
         TreeNode3.Text = "Dashboard"
         TreeNode4.Name = "nodeDatabaseFormat"
         TreeNode4.Text = "Database Format"
-        TreeNode5.Name = "nodeEveAccounts"
-        TreeNode5.Text = "Eve Accounts"
-        TreeNode6.Name = "nodeEveFolders"
-        TreeNode6.Text = "Eve Folders"
-        TreeNode7.Name = "nodeEveServer"
-        TreeNode7.Text = "Eve API & Server"
-        TreeNode8.Name = "nodeFTPAccounts"
-        TreeNode8.Text = "FTP Accounts"
-        TreeNode9.Name = "nodeG15"
-        TreeNode9.Text = "G15 Display"
-        TreeNode10.Name = "nodeIGB"
-        TreeNode10.Text = "IGB"
-        TreeNode11.Name = "nodeNotifications"
-        TreeNode11.Text = "Notifications"
-        TreeNode12.Name = "nodePilots"
-        TreeNode12.Text = "Pilots"
-        TreeNode13.Name = "nodePlugins"
-        TreeNode13.Text = "Plug Ins"
-        TreeNode14.Name = "nodeProxyServer"
-        TreeNode14.Text = "Proxy Server"
-        TreeNode15.Name = "nodeTaskBarIcon"
-        TreeNode15.Text = "Taskbar Icon"
-        TreeNode16.Name = "nodeTrainingQueue"
-        TreeNode16.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
+        TreeNode5.Name = "nodeEmail"
+        TreeNode5.Text = "E-Mail"
+        TreeNode6.Name = "nodeEveAccounts"
+        TreeNode6.Text = "Eve Accounts"
+        TreeNode7.Name = "nodeEveFolders"
+        TreeNode7.Text = "Eve Folders"
+        TreeNode8.Name = "nodeEveServer"
+        TreeNode8.Text = "Eve API & Server"
+        TreeNode9.Name = "nodeFTPAccounts"
+        TreeNode9.Text = "FTP Accounts"
+        TreeNode10.Name = "nodeG15"
+        TreeNode10.Text = "G15 Display"
+        TreeNode11.Name = "nodeIGB"
+        TreeNode11.Text = "IGB"
+        TreeNode12.Name = "nodeNotifications"
+        TreeNode12.Text = "Notifications"
+        TreeNode13.Name = "nodePilots"
+        TreeNode13.Text = "Pilots"
+        TreeNode14.Name = "nodePlugins"
+        TreeNode14.Text = "Plug Ins"
+        TreeNode15.Name = "nodeProxyServer"
+        TreeNode15.Text = "Proxy Server"
+        TreeNode16.Name = "nodeTaskBarIcon"
+        TreeNode16.Text = "Taskbar Icon"
+        TreeNode17.Name = "nodeTrainingQueue"
+        TreeNode17.Text = "Training Queue"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
         '
@@ -3142,19 +3146,30 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
+        'chkAutoMailAPI
+        '
+        Me.chkAutoMailAPI.AutoSize = True
+        Me.chkAutoMailAPI.Location = New System.Drawing.Point(18, 420)
+        Me.chkAutoMailAPI.Name = "chkAutoMailAPI"
+        Me.chkAutoMailAPI.Size = New System.Drawing.Size(303, 17)
+        Me.chkAutoMailAPI.TabIndex = 21
+        Me.chkAutoMailAPI.Text = "Automatically Check for Mail and Notification XML Updates"
+        Me.chkAutoMailAPI.UseVisualStyleBackColor = True
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
+        Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbEmail)
+        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbEveAccounts)
-        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbPilots)
@@ -3233,8 +3248,8 @@ Partial Public Class frmSettings
         Me.gbNotifications.ResumeLayout(False)
         Me.gbNotifications.PerformLayout()
         CType(Me.trackNotifyOffset, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbEmailOptions.ResumeLayout(False)
-        Me.gbEmailOptions.PerformLayout()
+        Me.gbEmail.ResumeLayout(False)
+        Me.gbEmail.PerformLayout()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbColours.ResumeLayout(False)
         Me.gbColours.PerformLayout()
@@ -3365,7 +3380,7 @@ Partial Public Class frmSettings
     Friend WithEvents chkNotifyEmail As System.Windows.Forms.CheckBox
     Friend WithEvents chkNotifyDialog As System.Windows.Forms.CheckBox
     Friend WithEvents chkNotifyToolTip As System.Windows.Forms.CheckBox
-    Friend WithEvents gbEmailOptions As System.Windows.Forms.GroupBox
+    Friend WithEvents gbEmail As System.Windows.Forms.GroupBox
     Friend WithEvents lblEMailAddress As System.Windows.Forms.Label
     Friend WithEvents txtEmailAddress As System.Windows.Forms.TextBox
     Friend WithEvents txtSMTPServer As System.Windows.Forms.TextBox
@@ -3535,4 +3550,5 @@ Partial Public Class frmSettings
     Friend WithEvents lblSenderAddress As System.Windows.Forms.Label
     Friend WithEvents txtSenderAddress As System.Windows.Forms.TextBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents chkAutoMailAPI As System.Windows.Forms.CheckBox
 End Class

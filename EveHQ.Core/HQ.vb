@@ -75,6 +75,7 @@ Public Class HQ
     Public Shared Certificates As New SortedList
     Public Shared FittingProtocol As String = "fitting"
     Public Shared AllStandings As New SortedList
+    Public Shared NextAutoMailAPITime As DateTime = Now
     Public Shared Event ShutDownEveHQ()
 
     Shared Property StartShutdownEveHQ() As Boolean

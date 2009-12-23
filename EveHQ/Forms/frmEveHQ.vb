@@ -482,6 +482,9 @@ Public Class frmEveHQ
         Call EveHQ.Core.HQ.ReduceMemory()
         tmrMemory.Enabled = True
 
+        ' Update the EveMailNotice button
+        Call Me.UpdateEveMailButton()
+
         ' Start the update check on a new thread
         If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = False Then
             Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.CheckForUpdates)
@@ -648,6 +651,7 @@ Public Class frmEveHQ
         If frmSkillDetails.IsHandleCreated = True Then
             Call frmSkillDetails.UpdateSkillDetails()
         End If
+
         ' Update the G15 LCD if applicable
         If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True And EveHQ.Core.HQ.IsG15LCDActive = True Then
             Select Case EveHQ.Core.HQ.lcdCharMode
@@ -657,48 +661,11 @@ Public Class frmEveHQ
                     Call EveHQ.Core.HQ.EveHQLCD.DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot)
             End Select
         End If
-        ' Check for an API update if applicable
-        If EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
 
-            Dim updateRequired As Boolean = False
-            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                If cPilot.Name <> "" And cPilot.Account <> "" Then
-                    Dim cacheCDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.CacheExpirationTime)
-                    Dim cacheTDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingExpirationTime)
-                    If cacheCDate < Now Or cacheTDate < Now Then
-                        updateRequired = True
-                        Exit For
-                    Else
-                        If cacheCDate < EveHQ.Core.HQ.NextAutoAPITime Then
-                            EveHQ.Core.HQ.NextAutoAPITime = cacheCDate
-                        End If
-                        If cacheTDate < EveHQ.Core.HQ.NextAutoAPITime Then
-                            EveHQ.Core.HQ.NextAutoAPITime = cacheTDate
-                        End If
-                        If EveHQ.Core.HQ.AutoRetryAPITime > EveHQ.Core.HQ.NextAutoAPITime Then
-                            EveHQ.Core.HQ.NextAutoAPITime = EveHQ.Core.HQ.AutoRetryAPITime
-                        End If
-                    End If
-                End If
-            Next
-            If Now > EveHQ.Core.HQ.AutoRetryAPITime Then
-                If updateRequired = True Then
-                    ' Invoke the API Caller
-                    EveHQ.Core.HQ.NextAutoAPITime = Now.AddMinutes(60)
-                    EveHQ.Core.HQ.AutoRetryAPITime = Now.AddMinutes(5)
-                    Call QueryMyEveServer()
-                End If
-                ' Display time until autoAPI download
-                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoAPITime - Now
-                tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(TimeLeft.TotalSeconds, False)
-            Else
-                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoAPITime - Now
-                Dim TimeLeft2 As TimeSpan = EveHQ.Core.HQ.AutoRetryAPITime - Now
-                tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(Math.Max(TimeLeft.TotalSeconds, TimeLeft2.TotalSeconds), False)
-            End If
-        Else
-            tsAPITime.Text = ""
-        End If
+        Call Me.CheckForCharAPIUpdate()
+
+        Call Me.CheckForMailAPIUpdate()
+        
     End Sub
     Private Sub tmrSkillUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrSkillUpdate.Tick
         If SkillWorker.IsBusy = False Then
@@ -859,6 +826,66 @@ Public Class frmEveHQ
                 End If
             End If
         Next
+    End Sub
+    Private Sub CheckForCharAPIUpdate()
+        ' Check for an API update if applicable
+        If EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
+            Dim updateRequired As Boolean = False
+            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                If cPilot.Name <> "" And cPilot.Account <> "" Then
+                    Dim cacheCDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.CacheExpirationTime)
+                    Dim cacheTDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingExpirationTime)
+                    If cacheCDate < Now Or cacheTDate < Now Then
+                        updateRequired = True
+                        Exit For
+                    Else
+                        If cacheCDate < EveHQ.Core.HQ.NextAutoAPITime Then
+                            EveHQ.Core.HQ.NextAutoAPITime = cacheCDate
+                        End If
+                        If cacheTDate < EveHQ.Core.HQ.NextAutoAPITime Then
+                            EveHQ.Core.HQ.NextAutoAPITime = cacheTDate
+                        End If
+                        If EveHQ.Core.HQ.AutoRetryAPITime > EveHQ.Core.HQ.NextAutoAPITime Then
+                            EveHQ.Core.HQ.NextAutoAPITime = EveHQ.Core.HQ.AutoRetryAPITime
+                        End If
+                    End If
+                End If
+            Next
+            If Now > EveHQ.Core.HQ.AutoRetryAPITime Then
+                If updateRequired = True Then
+                    ' Invoke the API Caller
+                    EveHQ.Core.HQ.NextAutoAPITime = Now.AddMinutes(60)
+                    EveHQ.Core.HQ.AutoRetryAPITime = Now.AddMinutes(5)
+                    Call QueryMyEveServer()
+                End If
+                ' Display time until autoAPI download
+                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoAPITime - Now
+                tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(TimeLeft.TotalSeconds, False)
+            Else
+                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoAPITime - Now
+                Dim TimeLeft2 As TimeSpan = EveHQ.Core.HQ.AutoRetryAPITime - Now
+                tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(Math.Max(TimeLeft.TotalSeconds, TimeLeft2.TotalSeconds), False)
+            End If
+        Else
+            tsAPITime.Text = ""
+        End If
+    End Sub
+    Private Sub CheckForMailAPIUpdate()
+        ' Check for an API update if applicable
+        If EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = True Then
+            If Now > EveHQ.Core.HQ.NextAutoMailAPITime Then
+                ' Invoke the API Caller
+                Call Me.UpdateMailNotifications()
+                ' Display time until autoMailAPI download
+                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoMailAPITime - Now
+                tsMailAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(TimeLeft.TotalSeconds, False)
+            Else
+                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoMailAPITime - Now
+                tsMailAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(TimeLeft.TotalSeconds, False)
+            End If
+        Else
+            tsMailAPITime.Text = ""
+        End If
     End Sub
 
 #End Region
@@ -2643,14 +2670,10 @@ Public Class frmEveHQ
     End Function
 #End Region
 
-#Region "Eve Mail Timer Functions"
-    Private Sub tmrEveMail_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrEveMail.Tick
-        Call Me.UpdateEveMailButton()
-    End Sub
+#Region "Eve Mail Functions"
 
     Public Sub UpdateEveMailButton()
         ' Get a list of the mail messages that are unread
-        tmrEveMail.Interval = 600000
         Dim strSQL As String = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
         Dim mailData As Data.DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
         Dim unreadMail As Integer = 0
@@ -2669,6 +2692,41 @@ Public Class frmEveHQ
         End If
         tsbMail.ToolTipText = "View Mail & Notifications" & ControlChars.CrLf & "(" & unreadMail.ToString & " mails / " & unreadNotices.ToString & " notices)"
     End Sub
+
+    Private Sub UpdateMailNotifications()
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread)
+    End Sub
+
+    Private Sub MailUpdateThread(ByVal state As Object)
+        ' Check for the AutoMailAPI flag
+        Dim requiresAutoDisable As Boolean = False
+        If EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = True Then
+            requiresAutoDisable = True
+        End If
+        ' Disable the AutoMailAPI flag if required
+        If requiresAutoDisable = True Then
+            EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = False
+        End If
+        frmMail.btnDownloadMail.Enabled = False
+
+        ' Call the main routines!
+        Call EveHQ.Core.EveMail.GetEveMail()
+        Call EveHQ.Core.EveMail.GetNotifications()
+
+        ' Update the display with EveMail
+        If frmMail.IsHandleCreated = True Then
+            Call frmMail.UpdateMailInfo()
+        End If
+
+        frmMail.btnDownloadMail.Enabled = True
+        ' Set the AutoMailAPI flag if required
+        If requiresAutoDisable = True Then
+            EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = True
+        End If
+        ' Update the main EveMail button
+        Call Me.UpdateEveMailButton()
+    End Sub
+
 #End Region
 
 End Class
