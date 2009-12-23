@@ -52,16 +52,24 @@ Public Class EveServer
 
     Public Sub GetServerStatus()
         Try
-            Dim StatusXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.ServerStatus, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
-            Dim StatusDetails As XmlNodeList = StatusXML.SelectNodes("/eveapi/result")
-            Dim ServerIsUp As Boolean = CBool(StatusDetails(0).ChildNodes(0).InnerText)
-            Dim ServerPlayers As Integer = CInt(StatusDetails(0).ChildNodes(1).InnerText)
-            If ServerIsUp = True Then
-                Status = EveServer.ServerStatus.Up
-                Players = ServerPlayers
+            Dim StatusXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.ServerStatus, EveHQ.Core.EveAPI.APIReturnMethod.ReturnActual)
+            If StatusXML IsNot Nothing Then
+                Dim StatusDetails As XmlNodeList = StatusXML.SelectNodes("/eveapi/result")
+                Dim ServerIsUp As Boolean = CBool(StatusDetails(0).ChildNodes(0).InnerText)
+                Dim ServerPlayers As Integer = CInt(StatusDetails(0).ChildNodes(1).InnerText)
+                If ServerIsUp = True Then
+                    Status = EveServer.ServerStatus.Up
+                    Players = ServerPlayers
+                Else
+                    Status = EveServer.ServerStatus.Down
+                    Players = 0
+                End If
             Else
-                Status = EveServer.ServerStatus.Down
+                Version = ""
                 Players = 0
+                Codename = ""
+                Status = EveServer.ServerStatus.Unknown
+                StatusText = "Server Status Unknown"
             End If
             LastChecked = Now
         Catch e As Exception
