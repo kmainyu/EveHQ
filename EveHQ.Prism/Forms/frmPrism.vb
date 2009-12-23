@@ -5545,121 +5545,125 @@ Public Class frmPrism
         ' Establish the owner
         Dim IsCorp As Boolean = False
         ' Get the owner we will use
-        Dim owner As String = cboOwner.SelectedItem.ToString()
+        If cboOwner.SelectedItem IsNot Nothing Then
+            Dim owner As String = cboOwner.SelectedItem.ToString()
 
-        ' Fetch the ownerBPs if it exists
-        Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
-        If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
-            ownerBPs = PlugInData.BlueprintAssets(owner)
-        Else
-            PlugInData.BlueprintAssets.Add(owner, ownerBPs)
-        End If
+            ' Fetch the ownerBPs if it exists
+            Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
+            If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
+                ownerBPs = PlugInData.BlueprintAssets(owner)
+            Else
+                PlugInData.BlueprintAssets.Add(owner, ownerBPs)
+            End If
 
-        ' See if this owner is a corp
-        If PlugInData.CorpList.ContainsKey(owner) = True Then
-            IsCorp = True
-            ' See if we have a representative
-            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
-            If CorpRep IsNot Nothing Then
-                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
+            ' See if this owner is a corp
+            If PlugInData.CorpList.ContainsKey(owner) = True Then
+                IsCorp = True
+                ' See if we have a representative
+                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
+                If CorpRep IsNot Nothing Then
+                    If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                        owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
+                    Else
+                        owner = ""
+                    End If
                 Else
                     owner = ""
                 End If
-            Else
-                owner = ""
             End If
-        End If
 
-        If owner <> "" Then
-            ' Parse the Assets XML
-            Dim assetXML As New XmlDocument
-            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
-            Dim accountName As String = selPilot.Account
-            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-            If IsCorp = True Then
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
-            Else
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
-            End If
-            If assetXML IsNot Nothing Then
-                Dim Assets As New SortedList(Of String, BlueprintAsset)
-                Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                If locList.Count > 0 Then
-                    ' Define what we want to obtain
-                    Dim categories, groups, types As New ArrayList
-                    categories.Add(9) ' Blueprints
-                    For Each loc As XmlNode In locList
-                        Dim locationID As String = loc.Attributes.GetNamedItem("locationID").Value
-                        Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
-                        Dim locationDetails As String = PlugInData.itemFlags(flagID).ToString
+            If owner <> "" Then
+                ' Parse the Assets XML
+                Dim assetXML As New XmlDocument
+                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+                Dim accountName As String = selPilot.Account
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                If IsCorp = True Then
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                Else
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                End If
+                If assetXML IsNot Nothing Then
+                    Dim Assets As New SortedList(Of String, BlueprintAsset)
+                    Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                    If locList.Count > 0 Then
+                        ' Define what we want to obtain
+                        Dim categories, groups, types As New ArrayList
+                        categories.Add(9) ' Blueprints
+                        For Each loc As XmlNode In locList
+                            Dim locationID As String = loc.Attributes.GetNamedItem("locationID").Value
+                            Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
+                            Dim locationDetails As String = PlugInData.itemFlags(flagID).ToString
 
-                        ' Check the asset
-                        Dim ItemData As New EveHQ.Core.EveItem
-                        Dim AssetID As String = ""
-                        Dim itemID As String = ""
-                        AssetID = loc.Attributes.GetNamedItem("itemID").Value
-                        itemID = loc.Attributes.GetNamedItem("typeID").Value
-                        If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-                            ItemData = EveHQ.Core.HQ.itemData(itemID)
-                            If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
-                                Dim newBP As New BlueprintAsset
-                                newBP.AssetID = AssetID
-                                newBP.LocationID = locationID
-                                If IsCorp = True Then
-                                    Dim accountID As Integer = flagID + 885
-                                    If accountID = 889 Then accountID = 1000
-                                    If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
-                                        locationDetails = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
+                            ' Check the asset
+                            Dim ItemData As New EveHQ.Core.EveItem
+                            Dim AssetID As String = ""
+                            Dim itemID As String = ""
+                            AssetID = loc.Attributes.GetNamedItem("itemID").Value
+                            itemID = loc.Attributes.GetNamedItem("typeID").Value
+                            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
+                                ItemData = EveHQ.Core.HQ.itemData(itemID)
+                                If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
+                                    Dim newBP As New BlueprintAsset
+                                    newBP.AssetID = AssetID
+                                    newBP.LocationID = locationID
+                                    If IsCorp = True Then
+                                        Dim accountID As Integer = flagID + 885
+                                        If accountID = 889 Then accountID = 1000
+                                        If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
+                                            locationDetails = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
+                                        End If
                                     End If
+                                    newBP.LocationDetails = locationDetails
+                                    newBP.TypeID = itemID
+                                    newBP.Status = BPStatus.Present
+                                    newBP.MELevel = 0
+                                    newBP.PELevel = 0
+                                    newBP.Runs = -1
+                                    newBP.Notes = ""
+                                    Assets.Add(AssetID, newBP)
                                 End If
-                                newBP.LocationDetails = locationDetails
-                                newBP.TypeID = itemID
-                                newBP.Status = BPStatus.Present
-                                newBP.MELevel = 0
-                                newBP.PELevel = 0
-                                newBP.Runs = -1
-                                newBP.Notes = ""
-                                Assets.Add(AssetID, newBP)
                             End If
-                        End If
 
-                        ' Get the location name
-                        If loc.ChildNodes.Count > 0 Then
-                            Call GetAssetFromNode(loc, categories, groups, types, Assets, locationID, locationDetails, selPilot, IsCorp)
-                        End If
-                    Next
+                            ' Get the location name
+                            If loc.ChildNodes.Count > 0 Then
+                                Call GetAssetFromNode(loc, categories, groups, types, Assets, locationID, locationDetails, selPilot, IsCorp)
+                            End If
+                        Next
+                    End If
+                    If Assets.Count > 0 Then
+                        ' Mark all of our existing blueprints as missing
+                        For Each ownerBP As BlueprintAsset In ownerBPs.Values
+                            If ownerBP.BPType <> BPType.User Then
+                                ownerBP.Status = BPStatus.Missing
+                            Else
+                                ownerBP.Status = BPStatus.Present
+                            End If
+                        Next
+                        ' Should have our list of assets now so let's compare them
+                        Dim item As New EveHQ.Core.EveItem
+                        For Each assetID As String In Assets.Keys
+                            ' See if the assetID already exists for the owner
+                            If ownerBPs.ContainsKey(assetID) = True Then
+                                ' We have it so set the status to present
+                                ownerBPs(assetID).Status = BPStatus.Present
+                                ' Update the location
+                                ownerBPs(assetID).LocationID = Assets(assetID).LocationID
+                                ownerBPs(assetID).LocationDetails = Assets(assetID).LocationDetails
+                            Else
+                                ' Not present in the existing list so let's add it in
+                                ownerBPs.Add(assetID, Assets(assetID))
+                            End If
+                        Next
+                    End If
                 End If
-                If Assets.Count > 0 Then
-                    ' Mark all of our existing blueprints as missing
-                    For Each ownerBP As BlueprintAsset In ownerBPs.Values
-                        If ownerBP.BPType <> BPType.User Then
-                            ownerBP.Status = BPStatus.Missing
-                        Else
-                            ownerBP.Status = BPStatus.Present
-                        End If
-                    Next
-                    ' Should have our list of assets now so let's compare them
-                    Dim item As New EveHQ.Core.EveItem
-                    For Each assetID As String In Assets.Keys
-                        ' See if the assetID already exists for the owner
-                        If ownerBPs.ContainsKey(assetID) = True Then
-                            ' We have it so set the status to present
-                            ownerBPs(assetID).Status = BPStatus.Present
-                            ' Update the location
-                            ownerBPs(assetID).LocationID = Assets(assetID).LocationID
-                            ownerBPs(assetID).LocationDetails = Assets(assetID).LocationDetails
-                        Else
-                            ' Not present in the existing list so let's add it in
-                            ownerBPs.Add(assetID, Assets(assetID))
-                        End If
-                    Next
+                ' Update the owner list if the option requires it
+                If chkShowOwnedBPs.Checked = True Then
+                    Call Me.UpdateOwnerBPList()
                 End If
             End If
-            ' Update the owner list if the option requires it
-            If chkShowOwnedBPs.Checked = True Then
-                Call Me.UpdateOwnerBPList()
-            End If
+        Else
+            MessageBox.Show("Make sure you have entered your API details and selected the correct owner before proceeding.", "Owner Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
     Private Function GetLocationNameFromID(ByVal locID As String) As String
