@@ -284,6 +284,7 @@ Public Class frmMail
             mailItem.Text = FinalIDs(newNotice.SenderID)
             clvNotifications.Items.Add(mailItem)
             Dim strNotice As String = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID)
+            strNotice = strNotice.Replace("_", " ")
             mailItem.SubItems(1).Text = strNotice
             mailItem.SubItems(2).Text = FormatDateTime(newNotice.MessageDate)
             If newNotice.ReadFlag = False Then
@@ -384,8 +385,8 @@ Public Class frmMail
     End Sub
 
     Private Sub GetNotifications()
-        ' Stage 1: Download the latest EveMail API using the standard API method
-        ' Stage 2: Populate the class with our EveMail
+        ' Stage 1: Download the latest EveNotifications API using the standard API method
+        ' Stage 2: Populate the class with our Eve Notifications
         ' Stage 3: Check the last messageID posted to our database
         ' Stage 4: Post all new messages to the database
         ' Stage 5: Get all the IDs and parse them
@@ -409,7 +410,7 @@ Public Class frmMail
                             For Each mail In mailList
                                 Dim nMail As New EveHQ.Core.EveNotification
                                 nMail.OriginatorID = CLng(mPilot.ID)
-                                nMail.MessageID = CLng(mail.Attributes.GetNamedItem("messageID").Value)
+                                nMail.MessageID = CLng(mail.Attributes.GetNamedItem("notificationID").Value)
                                 nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
                                 nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
                                 nMail.TypeID = CLng(mail.Attributes.GetNamedItem("typeID").Value)
