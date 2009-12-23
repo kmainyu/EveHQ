@@ -26,10 +26,19 @@ Partial Class frmMail
         Me.lblPilot = New System.Windows.Forms.Label
         Me.btnDownloadMail = New System.Windows.Forms.Button
         Me.clvMail = New DotNetLib.Windows.Forms.ContainerListView
-        Me.btnGetEveIDs = New System.Windows.Forms.Button
         Me.colFrom = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colSubject = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colDateTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.btnGetEveIDs = New System.Windows.Forms.Button
+        Me.clvNotifications = New DotNetLib.Windows.Forms.ContainerListView
+        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader2 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.lblEveMail = New System.Windows.Forms.Label
+        Me.panelNotifications = New System.Windows.Forms.Panel
+        Me.lblEveNotifications = New System.Windows.Forms.Label
+        Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
+        Me.panelNotifications.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboPilots
@@ -69,19 +78,10 @@ Partial Class frmMail
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvMail.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colFrom, Me.colSubject, Me.colDateTime})
         Me.clvMail.DefaultItemHeight = 20
-        Me.clvMail.Location = New System.Drawing.Point(12, 48)
+        Me.clvMail.Location = New System.Drawing.Point(0, 59)
         Me.clvMail.Name = "clvMail"
-        Me.clvMail.Size = New System.Drawing.Size(860, 484)
+        Me.clvMail.Size = New System.Drawing.Size(884, 260)
         Me.clvMail.TabIndex = 45
-        '
-        'btnGetEveIDs
-        '
-        Me.btnGetEveIDs.Location = New System.Drawing.Point(374, 10)
-        Me.btnGetEveIDs.Name = "btnGetEveIDs"
-        Me.btnGetEveIDs.Size = New System.Drawing.Size(100, 23)
-        Me.btnGetEveIDs.TabIndex = 46
-        Me.btnGetEveIDs.Text = "Get Eve IDs"
-        Me.btnGetEveIDs.UseVisualStyleBackColor = True
         '
         'colFrom
         '
@@ -109,11 +109,106 @@ Partial Class frmMail
         Me.colDateTime.Text = "Date"
         Me.colDateTime.Width = 200
         '
+        'btnGetEveIDs
+        '
+        Me.btnGetEveIDs.Location = New System.Drawing.Point(772, 10)
+        Me.btnGetEveIDs.Name = "btnGetEveIDs"
+        Me.btnGetEveIDs.Size = New System.Drawing.Size(100, 23)
+        Me.btnGetEveIDs.TabIndex = 46
+        Me.btnGetEveIDs.Text = "Get Eve IDs"
+        Me.btnGetEveIDs.UseVisualStyleBackColor = True
+        Me.btnGetEveIDs.Visible = False
+        '
+        'clvNotifications
+        '
+        Me.clvNotifications.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clvNotifications.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3})
+        Me.clvNotifications.DefaultItemHeight = 20
+        Me.clvNotifications.Location = New System.Drawing.Point(0, 25)
+        Me.clvNotifications.Name = "clvNotifications"
+        Me.clvNotifications.Size = New System.Drawing.Size(884, 186)
+        Me.clvNotifications.TabIndex = 47
+        '
+        'ContainerListViewColumnHeader1
+        '
+        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader1.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.ContainerListViewColumnHeader1.Tag = Nothing
+        Me.ContainerListViewColumnHeader1.Text = "From"
+        Me.ContainerListViewColumnHeader1.Width = 200
+        '
+        'ContainerListViewColumnHeader2
+        '
+        Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader2.DisplayIndex = 1
+        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.ContainerListViewColumnHeader2.Tag = Nothing
+        Me.ContainerListViewColumnHeader2.Text = "Subject"
+        Me.ContainerListViewColumnHeader2.Width = 400
+        '
+        'ContainerListViewColumnHeader3
+        '
+        Me.ContainerListViewColumnHeader3.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader3.DisplayIndex = 2
+        Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
+        Me.ContainerListViewColumnHeader3.Tag = Nothing
+        Me.ContainerListViewColumnHeader3.Text = "Date"
+        Me.ContainerListViewColumnHeader3.Width = 200
+        '
+        'lblEveMail
+        '
+        Me.lblEveMail.AutoSize = True
+        Me.lblEveMail.Location = New System.Drawing.Point(3, 43)
+        Me.lblEveMail.Name = "lblEveMail"
+        Me.lblEveMail.Size = New System.Drawing.Size(56, 13)
+        Me.lblEveMail.TabIndex = 49
+        Me.lblEveMail.Text = "Eve Mails:"
+        '
+        'panelNotifications
+        '
+        Me.panelNotifications.Controls.Add(Me.lblEveNotifications)
+        Me.panelNotifications.Controls.Add(Me.clvNotifications)
+        Me.panelNotifications.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.panelNotifications.Location = New System.Drawing.Point(0, 333)
+        Me.panelNotifications.Name = "panelNotifications"
+        Me.panelNotifications.Size = New System.Drawing.Size(884, 211)
+        Me.panelNotifications.TabIndex = 50
+        '
+        'lblEveNotifications
+        '
+        Me.lblEveNotifications.AutoSize = True
+        Me.lblEveNotifications.Location = New System.Drawing.Point(3, 9)
+        Me.lblEveNotifications.Name = "lblEveNotifications"
+        Me.lblEveNotifications.Size = New System.Drawing.Size(90, 13)
+        Me.lblEveNotifications.TabIndex = 50
+        Me.lblEveNotifications.Text = "Eve Notifications:"
+        '
+        'CollapsibleSplitter1
+        '
+        Me.CollapsibleSplitter1.AnimationDelay = 20
+        Me.CollapsibleSplitter1.AnimationStep = 20
+        Me.CollapsibleSplitter1.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.CollapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat
+        Me.CollapsibleSplitter1.ControlToHide = Me.panelNotifications
+        Me.CollapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.CollapsibleSplitter1.ExpandParentForm = False
+        Me.CollapsibleSplitter1.Location = New System.Drawing.Point(0, 325)
+        Me.CollapsibleSplitter1.Name = "CollapsibleSplitter1"
+        Me.CollapsibleSplitter1.TabIndex = 51
+        Me.CollapsibleSplitter1.TabStop = False
+        Me.CollapsibleSplitter1.UseAnimations = False
+        Me.CollapsibleSplitter1.VisualStyle = NJFLib.Controls.VisualStyles.XP
+        '
         'frmMail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(884, 544)
+        Me.Controls.Add(Me.CollapsibleSplitter1)
+        Me.Controls.Add(Me.panelNotifications)
+        Me.Controls.Add(Me.lblEveMail)
         Me.Controls.Add(Me.btnGetEveIDs)
         Me.Controls.Add(Me.clvMail)
         Me.Controls.Add(Me.btnDownloadMail)
@@ -121,6 +216,8 @@ Partial Class frmMail
         Me.Controls.Add(Me.lblPilot)
         Me.Name = "frmMail"
         Me.Text = "EveHQ Mail Viewer"
+        Me.panelNotifications.ResumeLayout(False)
+        Me.panelNotifications.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -133,4 +230,12 @@ Partial Class frmMail
     Friend WithEvents colFrom As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colSubject As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colDateTime As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents clvNotifications As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader2 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader3 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents lblEveMail As System.Windows.Forms.Label
+    Friend WithEvents panelNotifications As System.Windows.Forms.Panel
+    Friend WithEvents lblEveNotifications As System.Windows.Forms.Label
+    Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
 End Class
