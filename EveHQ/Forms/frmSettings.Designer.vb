@@ -2366,9 +2366,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
+        Me.gbNotifications.Location = New System.Drawing.Point(213, 125)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(693, 500)
+        Me.gbNotifications.Size = New System.Drawing.Size(162, 47)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2535,9 +2535,9 @@ Partial Public Class frmSettings
         Me.gbEmail.Controls.Add(Me.txtEmailAddress)
         Me.gbEmail.Controls.Add(Me.txtSMTPServer)
         Me.gbEmail.Controls.Add(Me.lblSMTPServer)
-        Me.gbEmail.Location = New System.Drawing.Point(709, 327)
+        Me.gbEmail.Location = New System.Drawing.Point(194, 12)
         Me.gbEmail.Name = "gbEmail"
-        Me.gbEmail.Size = New System.Drawing.Size(138, 47)
+        Me.gbEmail.Size = New System.Drawing.Size(693, 489)
         Me.gbEmail.TabIndex = 6
         Me.gbEmail.TabStop = False
         Me.gbEmail.Text = "E-Mail Options"

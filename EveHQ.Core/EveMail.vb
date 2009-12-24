@@ -76,6 +76,7 @@ Public Class EveMail
         End If
 
         ' Stage 4: Post all new messages to the database
+        Dim NewMails As New ArrayList
         Dim strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail) VALUES "
         For Each mailKey As String In Mails.Keys
             Dim cMail As EveHQ.Core.EveMailMessage = Mails(mailKey)
@@ -102,6 +103,9 @@ Public Class EveMail
                 Else
                     MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
+            Else
+                ' This may require an EveMail notification, so store it for later
+                NewMails.Add(cMail)
             End If
         Next
 
@@ -116,6 +120,11 @@ Public Class EveMail
             EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCorpAllianceIDs)
         Next
         Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
+
+        ' Send E-mail notification of new mails if required
+        If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And NewMails.Count > 0 Then
+            Call EveMail.SendEmailForNewEveMails(NewMails, IDs)
+        End If
 
         ' Just check the timer to make sure we're not gonna be bombarded with tons of short-lived requests!
         If EveHQ.Core.HQ.NextAutoMailAPITime < Now.AddSeconds(60) Then
@@ -189,6 +198,7 @@ Public Class EveMail
         End If
 
         ' Stage 4: Post all new messages to the database
+        Dim newNotifys As New ArrayList
         Dim strInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail) VALUES "
         For Each NoticeKey As String In Notices.Keys
             Dim cMail As EveHQ.Core.EveNotification = Notices(NoticeKey)
@@ -212,6 +222,9 @@ Public Class EveMail
                 Else
                     MessageBox.Show("There was an error writing data to the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
+            Else
+                ' This may require an EveMail notification, so sotre it
+                newNotifys.Add(cMail)
             End If
         Next
 
@@ -223,11 +236,125 @@ Public Class EveMail
         Next
         Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
 
+        ' Send E-mail notification of new mails if required
+        If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And newNotifys.Count > 0 Then
+            Call EveMail.SendEmailForNewEveNotifications(newNotifys, IDs)
+        End If
+
         ' Just check the timer to make sure we're not gonna be bombarded with tons of short-lived requests!
         If EveHQ.Core.HQ.NextAutoMailAPITime < Now.AddSeconds(60) Then
             EveHQ.Core.HQ.NextAutoMailAPITime = EveHQ.Core.HQ.NextAutoMailAPITime.AddSeconds(60)
         End If
 
+    End Sub
+
+    Private Shared Sub SendEmailForNewEveMails(ByVal NewMails As ArrayList, ByVal IDs As ArrayList)
+        ' Get the name data from the DB
+        Dim strID As New StringBuilder
+        For Each ID As String In IDs
+            If ID <> "" Then
+                strID.Append(ID & ",")
+            End If
+        Next
+        strID.Append("0")
+        Dim FinalIDs As New SortedList(Of Long, String)
+        Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
+        Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        If IDData IsNot Nothing Then
+            If IDData.Tables(0).Rows.Count > 0 Then
+                For Each IDRow As DataRow In IDData.Tables(0).Rows
+                    FinalIDs.Add(CLng(IDRow.Item("eveID")), CStr(IDRow.Item("eveName")))
+                Next
+            End If
+        End If
+        Dim strBody As New StringBuilder
+        strBody.AppendLine("EveHQ has collected the following new Eve mail messages:")
+        strBody.AppendLine("")
+        Dim messageTotal As Integer = 0
+        For Each cMail As EveHQ.Core.EveMailMessage In NewMails
+            If cMail.SenderID <> cMail.OriginatorID Then
+                messageTotal += 1
+            End If
+        Next
+        Dim MessageCount As Integer = 1
+        For Each cMail As EveHQ.Core.EveMailMessage In NewMails
+            If cMail.SenderID <> cMail.OriginatorID Then
+                strBody.AppendLine("Mail " & MessageCount.ToString & " of " & messageTotal.ToString)
+                strBody.AppendLine("From: " & FinalIDs(cMail.SenderID))
+                If cMail.ToCharacterIDs <> "" Then
+                    strBody.AppendLine("To: " & FinalIDs(cMail.OriginatorID))
+                Else
+                    If cMail.ToCorpAllianceIDs <> "" Then
+                        strBody.AppendLine("To: " & FinalIDs(CLng(cMail.ToCorpAllianceIDs)))
+                    Else
+                        strBody.AppendLine("To: Mailing List")
+                    End If
+                End If
+                strBody.AppendLine("Date: " & FormatDateTime(cMail.MessageDate))
+                strBody.AppendLine("Subject: " & cMail.MessageTitle)
+                strBody.AppendLine("")
+                MessageCount += 1
+            End If
+        Next
+        EveMail.SendEveHQMail("New Eve Mail Messages Notification", strBody.ToString)
+    End Sub
+
+    Private Shared Sub SendEmailForNewEveNotifications(ByVal NewNotifys As ArrayList, ByVal IDs As ArrayList)
+        ' Get the name data from the DB
+        Dim strID As New StringBuilder
+        For Each ID As String In IDs
+            If ID <> "" Then
+                strID.Append(ID & ",")
+            End If
+        Next
+        strID.Append("0")
+        Dim FinalIDs As New SortedList(Of Long, String)
+        Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
+        Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        If IDData IsNot Nothing Then
+            If IDData.Tables(0).Rows.Count > 0 Then
+                For Each IDRow As DataRow In IDData.Tables(0).Rows
+                    FinalIDs.Add(CLng(IDRow.Item("eveID")), CStr(IDRow.Item("eveName")))
+                Next
+            End If
+        End If
+        Dim strBody As New StringBuilder
+        strBody.AppendLine("EveHQ has collected the following new Eve mail messages:")
+        strBody.AppendLine("")
+        Dim MessageCount As Integer = 1
+        For Each cMail As EveHQ.Core.EveNotification In NewNotifys
+            strBody.AppendLine("Mail " & MessageCount.ToString & " of " & NewNotifys.Count.ToString)
+            strBody.AppendLine("From: " & FinalIDs(cMail.SenderID))
+            strBody.AppendLine("To: " & FinalIDs(cMail.OriginatorID))
+            strBody.AppendLine("Date: " & FormatDateTime(cMail.MessageDate))
+            Dim strNotice As String = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), cMail.TypeID)
+            strNotice = strNotice.Replace("_", " ")
+            strBody.AppendLine("Subject: " & strNotice)
+            strBody.AppendLine("")
+            MessageCount += 1
+        Next
+        EveMail.SendEveHQMail("New Eve Notification Messages Notification", strBody.ToString)
+    End Sub
+
+    Private Shared Sub SendEveHQMail(ByVal mailSubject As String, ByVal mailText As String)
+        Dim eveHQMail As New System.Net.Mail.SmtpClient
+        Try
+            eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
+            eveHQMail.Port = EveHQ.Core.HQ.EveHQSettings.EMailPort
+            If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
+                Dim newCredentials As New System.Net.NetworkCredential
+                newCredentials.UserName = EveHQ.Core.HQ.EveHQSettings.EMailUsername
+                newCredentials.Password = EveHQ.Core.HQ.EveHQSettings.EMailPassword
+                eveHQMail.Credentials = newCredentials
+            End If
+            Dim recList As String = EveHQ.Core.HQ.EveHQSettings.EMailAddress.Replace(ControlChars.CrLf, "").Replace(" ", "").Replace(";", ",")
+            Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress, recList)
+            eveHQMsg.Subject = mailSubject
+            eveHQMsg.Body = mailText
+            eveHQMail.Send(eveHQMsg)
+        Catch ex As Exception
+            MessageBox.Show("The mail notification sending process failed. Please check that the server, port, address, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf & "The error was: " & ex.Message, "EveHQ Email Notification Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
     End Sub
 
 End Class
