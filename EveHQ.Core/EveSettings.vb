@@ -181,7 +181,25 @@ Imports System.Diagnostics
     Private cEveHQBackupMode As Integer = 0
     Private cEveHQBackupWarnFreq As Integer = 1
     Private cAutoMailAPI As Boolean = False
+    Private cNotifyEveMail As Boolean = False
+    Private cNotifyEveNotification As Boolean = False
 
+    Public Property NotifyEveNotification() As Boolean
+        Get
+            Return cNotifyEveNotification
+        End Get
+        Set(ByVal value As Boolean)
+            cNotifyEveNotification = value
+        End Set
+    End Property
+    Public Property NotifyEveMail() As Boolean
+        Get
+            Return cNotifyEveMail
+        End Get
+        Set(ByVal value As Boolean)
+            cNotifyEveMail = value
+        End Set
+    End Property
     Public Property AutoMailAPI() As Boolean
         Get
             Return cAutoMailAPI

@@ -203,6 +203,7 @@ Partial Public Class frmSettings
         Me.radUseDefaultCreds = New System.Windows.Forms.RadioButton
         Me.chkUseProxy = New System.Windows.Forms.CheckBox
         Me.gbEveServer = New System.Windows.Forms.GroupBox
+        Me.chkAutoMailAPI = New System.Windows.Forms.CheckBox
         Me.gbAPIServer = New System.Windows.Forms.GroupBox
         Me.txtAPIFileExtension = New System.Windows.Forms.TextBox
         Me.lblAPIFileExtension = New System.Windows.Forms.Label
@@ -212,7 +213,6 @@ Partial Public Class frmSettings
         Me.lblAPIRSServer = New System.Windows.Forms.Label
         Me.txtCCPAPIServer = New System.Windows.Forms.TextBox
         Me.lblCCPAPIServer = New System.Windows.Forms.Label
-        Me.chkAutoAPI = New System.Windows.Forms.CheckBox
         Me.gbAPIRelayServer = New System.Windows.Forms.GroupBox
         Me.chkAPIRSAutoStart = New System.Windows.Forms.CheckBox
         Me.nudAPIRSPort = New System.Windows.Forms.NumericUpDown
@@ -222,6 +222,7 @@ Partial Public Class frmSettings
         Me.lblCurrentOffset = New System.Windows.Forms.Label
         Me.lblServerOffset = New System.Windows.Forms.Label
         Me.trackServerOffset = New System.Windows.Forms.TrackBar
+        Me.chkAutoAPI = New System.Windows.Forms.CheckBox
         Me.gbPlugIns = New System.Windows.Forms.GroupBox
         Me.btnTidyPlugins = New System.Windows.Forms.Button
         Me.btnRefreshPlugins = New System.Windows.Forms.Button
@@ -240,6 +241,12 @@ Partial Public Class frmSettings
         Me.chkNotifySound = New System.Windows.Forms.CheckBox
         Me.lblNotifyOffset = New System.Windows.Forms.Label
         Me.trackNotifyOffset = New System.Windows.Forms.TrackBar
+        Me.chkNotifyEmail = New System.Windows.Forms.CheckBox
+        Me.chkNotifyDialog = New System.Windows.Forms.CheckBox
+        Me.chkNotifyToolTip = New System.Windows.Forms.CheckBox
+        Me.nudShutdownNotifyPeriod = New System.Windows.Forms.NumericUpDown
+        Me.lblShutdownNotifyPeriod = New System.Windows.Forms.Label
+        Me.chkShutdownNotify = New System.Windows.Forms.CheckBox
         Me.gbEmail = New System.Windows.Forms.GroupBox
         Me.lblSenderAddress = New System.Windows.Forms.Label
         Me.txtSenderAddress = New System.Windows.Forms.TextBox
@@ -255,12 +262,6 @@ Partial Public Class frmSettings
         Me.txtEmailAddress = New System.Windows.Forms.TextBox
         Me.txtSMTPServer = New System.Windows.Forms.TextBox
         Me.lblSMTPServer = New System.Windows.Forms.Label
-        Me.chkNotifyEmail = New System.Windows.Forms.CheckBox
-        Me.chkNotifyDialog = New System.Windows.Forms.CheckBox
-        Me.chkNotifyToolTip = New System.Windows.Forms.CheckBox
-        Me.nudShutdownNotifyPeriod = New System.Windows.Forms.NumericUpDown
-        Me.lblShutdownNotifyPeriod = New System.Windows.Forms.Label
-        Me.chkShutdownNotify = New System.Windows.Forms.CheckBox
         Me.btnClose = New System.Windows.Forms.Button
         Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
@@ -313,7 +314,8 @@ Partial Public Class frmSettings
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkAutoMailAPI = New System.Windows.Forms.CheckBox
+        Me.chkNotifyEveMail = New System.Windows.Forms.CheckBox
+        Me.chkNotifyNotification = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -355,8 +357,8 @@ Partial Public Class frmSettings
         Me.gbPlugIns.SuspendLayout()
         Me.gbNotifications.SuspendLayout()
         CType(Me.trackNotifyOffset, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbEmail.SuspendLayout()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbEmail.SuspendLayout()
         Me.gbColours.SuspendLayout()
         Me.gbG15.SuspendLayout()
         CType(Me.nudCycleTime, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2067,13 +2069,23 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
+        Me.gbEveServer.Location = New System.Drawing.Point(213, 298)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(693, 500)
+        Me.gbEveServer.Size = New System.Drawing.Size(184, 47)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
         Me.gbEveServer.Visible = False
+        '
+        'chkAutoMailAPI
+        '
+        Me.chkAutoMailAPI.AutoSize = True
+        Me.chkAutoMailAPI.Location = New System.Drawing.Point(18, 420)
+        Me.chkAutoMailAPI.Name = "chkAutoMailAPI"
+        Me.chkAutoMailAPI.Size = New System.Drawing.Size(303, 17)
+        Me.chkAutoMailAPI.TabIndex = 21
+        Me.chkAutoMailAPI.Text = "Automatically Check for Mail and Notification XML Updates"
+        Me.chkAutoMailAPI.UseVisualStyleBackColor = True
         '
         'gbAPIServer
         '
@@ -2159,16 +2171,6 @@ Partial Public Class frmSettings
         Me.lblCCPAPIServer.Size = New System.Drawing.Size(128, 13)
         Me.lblCCPAPIServer.TabIndex = 21
         Me.lblCCPAPIServer.Text = "CCP API Server Address:"
-        '
-        'chkAutoAPI
-        '
-        Me.chkAutoAPI.AutoSize = True
-        Me.chkAutoAPI.Location = New System.Drawing.Point(18, 397)
-        Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(255, 17)
-        Me.chkAutoAPI.TabIndex = 20
-        Me.chkAutoAPI.Text = "Automatically Check for Character XML Updates"
-        Me.chkAutoAPI.UseVisualStyleBackColor = True
         '
         'gbAPIRelayServer
         '
@@ -2262,6 +2264,16 @@ Partial Public Class frmSettings
         Me.trackServerOffset.TickFrequency = 30
         Me.trackServerOffset.TickStyle = System.Windows.Forms.TickStyle.Both
         '
+        'chkAutoAPI
+        '
+        Me.chkAutoAPI.AutoSize = True
+        Me.chkAutoAPI.Location = New System.Drawing.Point(18, 397)
+        Me.chkAutoAPI.Name = "chkAutoAPI"
+        Me.chkAutoAPI.Size = New System.Drawing.Size(255, 17)
+        Me.chkAutoAPI.TabIndex = 20
+        Me.chkAutoAPI.Text = "Automatically Check for Character XML Updates"
+        Me.chkAutoAPI.UseVisualStyleBackColor = True
+        '
         'gbPlugIns
         '
         Me.gbPlugIns.Controls.Add(Me.btnTidyPlugins)
@@ -2337,6 +2349,8 @@ Partial Public Class frmSettings
         '
         'gbNotifications
         '
+        Me.gbNotifications.Controls.Add(Me.chkNotifyNotification)
+        Me.gbNotifications.Controls.Add(Me.chkNotifyEveMail)
         Me.gbNotifications.Controls.Add(Me.chkNotifyEarly)
         Me.gbNotifications.Controls.Add(Me.chkNotifyNow)
         Me.gbNotifications.Controls.Add(Me.lblNotifyMe)
@@ -2352,9 +2366,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(552, 263)
+        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(113, 38)
+        Me.gbNotifications.Size = New System.Drawing.Size(693, 500)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2446,6 +2460,64 @@ Partial Public Class frmSettings
         Me.trackNotifyOffset.TabIndex = 12
         Me.trackNotifyOffset.TickFrequency = 30
         Me.trackNotifyOffset.TickStyle = System.Windows.Forms.TickStyle.Both
+        '
+        'chkNotifyEmail
+        '
+        Me.chkNotifyEmail.AutoSize = True
+        Me.chkNotifyEmail.Location = New System.Drawing.Point(400, 89)
+        Me.chkNotifyEmail.Name = "chkNotifyEmail"
+        Me.chkNotifyEmail.Size = New System.Drawing.Size(136, 17)
+        Me.chkNotifyEmail.TabIndex = 5
+        Me.chkNotifyEmail.Text = "Send E-Mail Notifcation"
+        Me.chkNotifyEmail.UseVisualStyleBackColor = True
+        '
+        'chkNotifyDialog
+        '
+        Me.chkNotifyDialog.AutoSize = True
+        Me.chkNotifyDialog.Location = New System.Drawing.Point(231, 89)
+        Me.chkNotifyDialog.Name = "chkNotifyDialog"
+        Me.chkNotifyDialog.Size = New System.Drawing.Size(162, 17)
+        Me.chkNotifyDialog.TabIndex = 4
+        Me.chkNotifyDialog.Text = "Show Dialog Box Notification"
+        Me.chkNotifyDialog.UseVisualStyleBackColor = True
+        '
+        'chkNotifyToolTip
+        '
+        Me.chkNotifyToolTip.AutoSize = True
+        Me.chkNotifyToolTip.Location = New System.Drawing.Point(21, 89)
+        Me.chkNotifyToolTip.Name = "chkNotifyToolTip"
+        Me.chkNotifyToolTip.Size = New System.Drawing.Size(205, 17)
+        Me.chkNotifyToolTip.TabIndex = 3
+        Me.chkNotifyToolTip.Text = "Show System Tray Popup Notification"
+        Me.chkNotifyToolTip.UseVisualStyleBackColor = True
+        '
+        'nudShutdownNotifyPeriod
+        '
+        Me.nudShutdownNotifyPeriod.Location = New System.Drawing.Point(219, 53)
+        Me.nudShutdownNotifyPeriod.Maximum = New Decimal(New Integer() {72, 0, 0, 0})
+        Me.nudShutdownNotifyPeriod.Name = "nudShutdownNotifyPeriod"
+        Me.nudShutdownNotifyPeriod.Size = New System.Drawing.Size(68, 21)
+        Me.nudShutdownNotifyPeriod.TabIndex = 2
+        Me.nudShutdownNotifyPeriod.Value = New Decimal(New Integer() {8, 0, 0, 0})
+        '
+        'lblShutdownNotifyPeriod
+        '
+        Me.lblShutdownNotifyPeriod.AutoSize = True
+        Me.lblShutdownNotifyPeriod.Location = New System.Drawing.Point(71, 55)
+        Me.lblShutdownNotifyPeriod.Name = "lblShutdownNotifyPeriod"
+        Me.lblShutdownNotifyPeriod.Size = New System.Drawing.Size(136, 13)
+        Me.lblShutdownNotifyPeriod.TabIndex = 1
+        Me.lblShutdownNotifyPeriod.Text = "Notification Period (hours):"
+        '
+        'chkShutdownNotify
+        '
+        Me.chkShutdownNotify.AutoSize = True
+        Me.chkShutdownNotify.Location = New System.Drawing.Point(21, 30)
+        Me.chkShutdownNotify.Name = "chkShutdownNotify"
+        Me.chkShutdownNotify.Size = New System.Drawing.Size(339, 17)
+        Me.chkShutdownNotify.TabIndex = 0
+        Me.chkShutdownNotify.Text = "Notify of imminent completion of skill training on EveHQ shutdown"
+        Me.chkShutdownNotify.UseVisualStyleBackColor = True
         '
         'gbEmail
         '
@@ -2589,64 +2661,6 @@ Partial Public Class frmSettings
         Me.lblSMTPServer.Size = New System.Drawing.Size(72, 13)
         Me.lblSMTPServer.TabIndex = 0
         Me.lblSMTPServer.Text = "SMTP Server:"
-        '
-        'chkNotifyEmail
-        '
-        Me.chkNotifyEmail.AutoSize = True
-        Me.chkNotifyEmail.Location = New System.Drawing.Point(400, 89)
-        Me.chkNotifyEmail.Name = "chkNotifyEmail"
-        Me.chkNotifyEmail.Size = New System.Drawing.Size(136, 17)
-        Me.chkNotifyEmail.TabIndex = 5
-        Me.chkNotifyEmail.Text = "Send E-Mail Notifcation"
-        Me.chkNotifyEmail.UseVisualStyleBackColor = True
-        '
-        'chkNotifyDialog
-        '
-        Me.chkNotifyDialog.AutoSize = True
-        Me.chkNotifyDialog.Location = New System.Drawing.Point(231, 89)
-        Me.chkNotifyDialog.Name = "chkNotifyDialog"
-        Me.chkNotifyDialog.Size = New System.Drawing.Size(162, 17)
-        Me.chkNotifyDialog.TabIndex = 4
-        Me.chkNotifyDialog.Text = "Show Dialog Box Notification"
-        Me.chkNotifyDialog.UseVisualStyleBackColor = True
-        '
-        'chkNotifyToolTip
-        '
-        Me.chkNotifyToolTip.AutoSize = True
-        Me.chkNotifyToolTip.Location = New System.Drawing.Point(21, 89)
-        Me.chkNotifyToolTip.Name = "chkNotifyToolTip"
-        Me.chkNotifyToolTip.Size = New System.Drawing.Size(205, 17)
-        Me.chkNotifyToolTip.TabIndex = 3
-        Me.chkNotifyToolTip.Text = "Show System Tray Popup Notification"
-        Me.chkNotifyToolTip.UseVisualStyleBackColor = True
-        '
-        'nudShutdownNotifyPeriod
-        '
-        Me.nudShutdownNotifyPeriod.Location = New System.Drawing.Point(219, 53)
-        Me.nudShutdownNotifyPeriod.Maximum = New Decimal(New Integer() {72, 0, 0, 0})
-        Me.nudShutdownNotifyPeriod.Name = "nudShutdownNotifyPeriod"
-        Me.nudShutdownNotifyPeriod.Size = New System.Drawing.Size(68, 21)
-        Me.nudShutdownNotifyPeriod.TabIndex = 2
-        Me.nudShutdownNotifyPeriod.Value = New Decimal(New Integer() {8, 0, 0, 0})
-        '
-        'lblShutdownNotifyPeriod
-        '
-        Me.lblShutdownNotifyPeriod.AutoSize = True
-        Me.lblShutdownNotifyPeriod.Location = New System.Drawing.Point(71, 55)
-        Me.lblShutdownNotifyPeriod.Name = "lblShutdownNotifyPeriod"
-        Me.lblShutdownNotifyPeriod.Size = New System.Drawing.Size(136, 13)
-        Me.lblShutdownNotifyPeriod.TabIndex = 1
-        Me.lblShutdownNotifyPeriod.Text = "Notification Period (hours):"
-        '
-        'chkShutdownNotify
-        '
-        Me.chkShutdownNotify.AutoSize = True
-        Me.chkShutdownNotify.Location = New System.Drawing.Point(21, 30)
-        Me.chkShutdownNotify.Name = "chkShutdownNotify"
-        Me.chkShutdownNotify.Size = New System.Drawing.Size(339, 17)
-        Me.chkShutdownNotify.TabIndex = 0
-        Me.chkShutdownNotify.Text = "Notify of imminent completion of skill training on EveHQ shutdown"
-        Me.chkShutdownNotify.UseVisualStyleBackColor = True
         '
         'btnClose
         '
@@ -3146,24 +3160,34 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
-        'chkAutoMailAPI
+        'chkNotifyEveMail
         '
-        Me.chkAutoMailAPI.AutoSize = True
-        Me.chkAutoMailAPI.Location = New System.Drawing.Point(18, 420)
-        Me.chkAutoMailAPI.Name = "chkAutoMailAPI"
-        Me.chkAutoMailAPI.Size = New System.Drawing.Size(303, 17)
-        Me.chkAutoMailAPI.TabIndex = 21
-        Me.chkAutoMailAPI.Text = "Automatically Check for Mail and Notification XML Updates"
-        Me.chkAutoMailAPI.UseVisualStyleBackColor = True
+        Me.chkNotifyEveMail.AutoSize = True
+        Me.chkNotifyEveMail.Location = New System.Drawing.Point(21, 270)
+        Me.chkNotifyEveMail.Name = "chkNotifyEveMail"
+        Me.chkNotifyEveMail.Size = New System.Drawing.Size(133, 17)
+        Me.chkNotifyEveMail.TabIndex = 21
+        Me.chkNotifyEveMail.Text = "Notify on New EveMail"
+        Me.chkNotifyEveMail.UseVisualStyleBackColor = True
+        '
+        'chkNotifyNotification
+        '
+        Me.chkNotifyNotification.AutoSize = True
+        Me.chkNotifyNotification.Location = New System.Drawing.Point(231, 270)
+        Me.chkNotifyNotification.Name = "chkNotifyNotification"
+        Me.chkNotifyNotification.Size = New System.Drawing.Size(172, 17)
+        Me.chkNotifyNotification.TabIndex = 22
+        Me.chkNotifyNotification.Text = "Notify on New Eve Notification"
+        Me.chkNotifyNotification.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbEveServer)
-        Me.Controls.Add(Me.gbEmail)
         Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbEmail)
+        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbEveAccounts)
@@ -3248,9 +3272,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.ResumeLayout(False)
         Me.gbNotifications.PerformLayout()
         CType(Me.trackNotifyOffset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbEmail.ResumeLayout(False)
         Me.gbEmail.PerformLayout()
-        CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbColours.ResumeLayout(False)
         Me.gbColours.PerformLayout()
         Me.gbG15.ResumeLayout(False)
@@ -3551,4 +3575,6 @@ Partial Public Class frmSettings
     Friend WithEvents txtSenderAddress As System.Windows.Forms.TextBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents chkAutoMailAPI As System.Windows.Forms.CheckBox
+    Friend WithEvents chkNotifyNotification As System.Windows.Forms.CheckBox
+    Friend WithEvents chkNotifyEveMail As System.Windows.Forms.CheckBox
 End Class

@@ -1344,21 +1344,14 @@ Public Class frmSettings
 
 #Region "Notification Options"
     Public Sub UpdateNotificationOptions()
-        If EveHQ.Core.HQ.EveHQSettings.ShutdownNotify = True Then
-            Me.chkShutdownNotify.Checked = True
-        Else
-            Me.chkShutdownNotify.Checked = False
-        End If
-        If EveHQ.Core.HQ.EveHQSettings.NotifyToolTip = True Then
-            Me.chkNotifyToolTip.Checked = True
-        Else
-            Me.chkNotifyToolTip.Checked = False
-        End If
-        If EveHQ.Core.HQ.EveHQSettings.NotifyDialog = True Then
-            Me.chkNotifyDialog.Checked = True
-        Else
-            Me.chkNotifyDialog.Checked = False
-        End If
+        Me.chkShutdownNotify.Checked = EveHQ.Core.HQ.EveHQSettings.ShutdownNotify
+        Me.chkNotifyToolTip.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyToolTip
+        Me.chkNotifyDialog.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyDialog
+        Me.chkNotifyNow.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyNow
+        Me.chkNotifyEarly.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyEarly
+        Me.chkNotifyEmail.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyEMail
+        Me.chkNotifyEveMail.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyEveMail
+        Me.chkNotifyNotification.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyEveNotification
         If EveHQ.Core.HQ.EveHQSettings.NotifySound = True Then
             Me.chkNotifySound.Checked = True
             btnSelectSoundFile.Enabled = True
@@ -1368,24 +1361,7 @@ Public Class frmSettings
             btnSelectSoundFile.Enabled = False
             btnSoundTest.Enabled = False
         End If
-        If EveHQ.Core.HQ.EveHQSettings.NotifyNow = True Then
-            Me.chkNotifyNow.Checked = True
-        Else
-            Me.chkNotifyNow.Checked = False
-        End If
-        If EveHQ.Core.HQ.EveHQSettings.NotifyEarly = True Then
-            Me.chkNotifyEarly.Checked = True
-        Else
-            Me.chkNotifyEarly.Checked = False
-        End If
         Me.lblSoundFile.Text = EveHQ.Core.HQ.EveHQSettings.NotifySoundFile
-        If EveHQ.Core.HQ.EveHQSettings.NotifyEMail = True Then
-            Me.chkNotifyEmail.Checked = True
-            gbEmail.Visible = True
-        Else
-            Me.chkNotifyEmail.Checked = False
-            gbEmail.Visible = False
-        End If
         If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
             Me.chkSMTPAuthentication.Checked = True
             lblEmailUsername.Enabled = True : lblEmailPassword.Enabled = True
@@ -1428,43 +1404,23 @@ Public Class frmSettings
     End Sub
 
     Private Sub chkNotifyNow_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyNow.CheckedChanged
-        If chkNotifyNow.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.NotifyNow = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.NotifyNow = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.NotifyNow = chkNotifyNow.Checked
     End Sub
 
     Private Sub chkNotifyEarly_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyEarly.CheckedChanged
-        If chkNotifyEarly.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.NotifyEarly = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.NotifyEarly = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.NotifyEarly = chkNotifyEarly.Checked
     End Sub
 
     Private Sub chkNotifyToolTip_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyToolTip.CheckedChanged
-        If chkNotifyToolTip.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.NotifyToolTip = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.NotifyToolTip = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.NotifyToolTip = chkNotifyToolTip.Checked
     End Sub
 
     Private Sub chkNotifyDialog_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyDialog.CheckedChanged
-        If chkNotifyDialog.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.NotifyDialog = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.NotifyDialog = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.NotifyDialog = chkNotifyDialog.Checked
     End Sub
 
     Private Sub chkNotifyEmail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyEmail.CheckedChanged
-        If chkNotifyEmail.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.NotifyEMail = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.NotifyEMail = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.NotifyEMail = chkNotifyEmail.Checked
     End Sub
 
     Private Sub chkNotifySound_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifySound.CheckedChanged
@@ -1477,6 +1433,14 @@ Public Class frmSettings
             btnSelectSoundFile.Enabled = False
             btnSoundTest.Enabled = False
         End If
+    End Sub
+
+    Private Sub chkNotifyEveMail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyEveMail.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = chkNotifyEveMail.Checked
+    End Sub
+
+    Private Sub chkNotifyNotification_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyNotification.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.NotifyEveNotification = chkNotifyNotification.Checked
     End Sub
 
     Private Sub trackNotifyOffset_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles trackNotifyOffset.ValueChanged
@@ -2235,10 +2199,8 @@ Public Class frmSettings
         Call Me.UpdatePilots()
     End Sub
 
-   
     Private Sub lblMSSQLDatabase2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
-   
 End Class
