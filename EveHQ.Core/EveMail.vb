@@ -15,7 +15,7 @@ Public Class EveMail
         ' Stage 5: Get all the IDs and parse them
 
         ' Add to the auto timer
-        EveHQ.Core.HQ.NextAutoMailAPITime = EveHQ.Core.HQ.NextAutoMailAPITime.AddMinutes(30)
+        EveHQ.Core.HQ.NextAutoMailAPITime = Now.AddMinutes(30)
         Dim Mails As New SortedList(Of String, EveHQ.Core.EveMailMessage)
         For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             ' Stage 1: Download the latest EveMail API using the standard API method
@@ -56,7 +56,7 @@ Public Class EveMail
                             CacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
                             cache = CacheList(0)
                             Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
-                            If cacheTime < EveHQ.Core.HQ.NextAutoMailAPITime Then
+                            If cacheTime < EveHQ.Core.HQ.NextAutoMailAPITime And cacheTime > Now Then
                                 EveHQ.Core.HQ.NextAutoMailAPITime = cacheTime
                             End If
                         End If
@@ -140,7 +140,7 @@ Public Class EveMail
         ' Stage 5: Get all the IDs and parse them
 
         ' Add to the auto timer
-        EveHQ.Core.HQ.NextAutoMailAPITime = EveHQ.Core.HQ.NextAutoMailAPITime.AddMinutes(30)
+        EveHQ.Core.HQ.NextAutoMailAPITime = Now.AddMinutes(30)
         Dim Notices As New SortedList(Of String, EveHQ.Core.EveNotification)
         For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             ' Stage 1: Download the latest EveMail API using the standard API method
@@ -178,7 +178,7 @@ Public Class EveMail
                             CacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
                             cache = CacheList(0)
                             Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
-                            If cacheTime < EveHQ.Core.HQ.NextAutoMailAPITime Then
+                            If cacheTime < EveHQ.Core.HQ.NextAutoMailAPITime And cacheTime > Now Then
                                 EveHQ.Core.HQ.NextAutoMailAPITime = cacheTime
                             End If
                         End If
