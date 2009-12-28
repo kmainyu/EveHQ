@@ -5772,118 +5772,126 @@ Public Class frmPrism
             If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
                 ownerBPs = PlugInData.BlueprintAssets(owner)
             End If
+        Else
+            MessageBox.Show("Make sure you have entered your API details and selected the correct owner before proceeding.", "Owner Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
         End If
 
         ' We are going to scan the whole of the Jobs API to try and find relevant IDs - no sense dicking around here, we need info!!
-        Dim cacheFolder As String = EveHQ.Core.HQ.cacheFolder
-        For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheFolder, FileIO.SearchOption.SearchTopLevelOnly, "EVEHQAPI_Industry*")
-            ' Load up the XML
-            Dim jobXML As New XmlDocument
-            jobXML.Load(cacheFile)
-            ' Get the Node List
-            Dim jobs As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
-            For Each job As XmlNode In jobs
-                Dim assetID As String = job.Attributes.GetNamedItem("installedItemID").Value
-                If ownerBPs.ContainsKey(assetID) = True Then
-                    ' Fetch the current BP Data
-                    Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
-                    Select Case CInt(job.Attributes.GetNamedItem("activityID").Value)
-                        Case 1 ' Manufacturing
-                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                            ' Check if the MELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
-                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                            End If
-                            ' Check if the PELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
-                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                            End If
-                            ' Check if the Runs remaining are less than what we have
-                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                            If initialRuns <> -1 Then
-                                cBPInfo.BPType = BPType.BPC
-                                If initialRuns - Runs < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                    cBPInfo.Runs = initialRuns - Runs
+        If ownerBPs IsNot Nothing Then
+            Dim cacheFolder As String = EveHQ.Core.HQ.cacheFolder
+            For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheFolder, FileIO.SearchOption.SearchTopLevelOnly, "EVEHQAPI_Industry*")
+                ' Load up the XML
+                Dim jobXML As New XmlDocument
+                jobXML.Load(cacheFile)
+                ' Get the Node List
+                Dim jobs As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
+                For Each job As XmlNode In jobs
+                    Dim assetID As String = job.Attributes.GetNamedItem("installedItemID").Value
+                    If ownerBPs.ContainsKey(assetID) = True Then
+                        ' Fetch the current BP Data
+                        Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
+                        Select Case CInt(job.Attributes.GetNamedItem("activityID").Value)
+                            Case 1 ' Manufacturing
+                                Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                                ' Check if the MELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
+                                    cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
                                 End If
-                                If cBPInfo.Runs = 0 Then
-                                    cBPInfo.Status = BPStatus.Exhausted
+                                ' Check if the PELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
+                                    cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
                                 End If
-                            Else
-                                cBPInfo.BPType = BPType.BPO
-                            End If
-                        Case 3 ' PE Research
-                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                            ' Check if the MELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
-                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                            End If
-                            ' Check if the PELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + Runs > cBPInfo.PELevel Then
-                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + Runs
-                            End If
-                            ' Check if the Runs remaining are less than what we have
-                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                            If initialRuns <> -1 Then
-                                cBPInfo.BPType = BPType.BPC
-                                If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                    cBPInfo.Runs = initialRuns
+                                ' Check if the Runs remaining are less than what we have
+                                Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                                If initialRuns <> -1 Then
+                                    cBPInfo.BPType = BPType.BPC
+                                    If initialRuns - Runs < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                        cBPInfo.Runs = initialRuns - Runs
+                                    End If
+                                    If cBPInfo.Runs = 0 Then
+                                        cBPInfo.Status = BPStatus.Exhausted
+                                    End If
+                                Else
+                                    cBPInfo.BPType = BPType.BPO
                                 End If
-                                If cBPInfo.Runs = 0 Then
-                                    cBPInfo.Status = BPStatus.Exhausted
+                            Case 3 ' PE Research
+                                Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                                ' Check if the MELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
+                                    cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
                                 End If
-                            Else
-                                cBPInfo.BPType = BPType.BPO
-                            End If
-                        Case 4 ' ME Research
-                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                            ' Check if the MELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs > cBPInfo.MELevel Then
-                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs
-                            End If
-                            ' Check if the PELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
-                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                            End If
-                            ' Check if the Runs remaining are less than what we have
-                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                            If initialRuns <> -1 Then
-                                cBPInfo.BPType = BPType.BPC
-                                If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                    cBPInfo.Runs = initialRuns
+                                ' Check if the PELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + Runs > cBPInfo.PELevel Then
+                                    cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + Runs
                                 End If
-                                If cBPInfo.Runs = 0 Then
-                                    cBPInfo.Status = BPStatus.Exhausted
+                                ' Check if the Runs remaining are less than what we have
+                                Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                                If initialRuns <> -1 Then
+                                    cBPInfo.BPType = BPType.BPC
+                                    If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                        cBPInfo.Runs = initialRuns
+                                    End If
+                                    If cBPInfo.Runs = 0 Then
+                                        cBPInfo.Status = BPStatus.Exhausted
+                                    End If
+                                Else
+                                    cBPInfo.BPType = BPType.BPO
                                 End If
-                            Else
-                                cBPInfo.BPType = BPType.BPO
-                            End If
-                        Case 5 ' Copying
-                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                            ' Check if the MELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
-                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                            End If
-                            ' Check if the PELevel is greater than what we have
-                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
-                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                            End If
-                            ' Check if the Runs remaining are less than what we have
-                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                            If initialRuns <> -1 Then
-                                cBPInfo.BPType = BPType.BPC
-                                If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                    cBPInfo.Runs = initialRuns
+                            Case 4 ' ME Research
+                                Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                                ' Check if the MELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs > cBPInfo.MELevel Then
+                                    cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs
                                 End If
-                                If cBPInfo.Runs = 0 Then
-                                    cBPInfo.Status = BPStatus.Exhausted
+                                ' Check if the PELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
+                                    cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
                                 End If
-                            Else
-                                cBPInfo.BPType = BPType.BPO
-                            End If
-                    End Select
-                End If
+                                ' Check if the Runs remaining are less than what we have
+                                Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                                If initialRuns <> -1 Then
+                                    cBPInfo.BPType = BPType.BPC
+                                    If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                        cBPInfo.Runs = initialRuns
+                                    End If
+                                    If cBPInfo.Runs = 0 Then
+                                        cBPInfo.Status = BPStatus.Exhausted
+                                    End If
+                                Else
+                                    cBPInfo.BPType = BPType.BPO
+                                End If
+                            Case 5 ' Copying
+                                Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                                ' Check if the MELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
+                                    cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
+                                End If
+                                ' Check if the PELevel is greater than what we have
+                                If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
+                                    cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
+                                End If
+                                ' Check if the Runs remaining are less than what we have
+                                Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                                If initialRuns <> -1 Then
+                                    cBPInfo.BPType = BPType.BPC
+                                    If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                        cBPInfo.Runs = initialRuns
+                                    End If
+                                    If cBPInfo.Runs = 0 Then
+                                        cBPInfo.Status = BPStatus.Exhausted
+                                    End If
+                                Else
+                                    cBPInfo.BPType = BPType.BPO
+                                End If
+                        End Select
+                    End If
+                Next
             Next
-        Next
+        Else
+            MessageBox.Show("Make sure you have retrieved your Blueprint details before attempting to update them.", "Blueprints Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
 
         ' Update the owner list if the option requires it
         If chkShowOwnedBPs.Checked = True Then
