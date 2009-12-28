@@ -902,62 +902,66 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub StartCharacterAPIThread(ByVal state As Object)
-        Dim curSelPilot As String = ""
+        Try
+            Dim curSelPilot As String = ""
 
-        ' If we have accounts to query then get the data for them
-        If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 Then
-            tsAPIStatus.Text = "API Status: No accounts entered into settings!! (" & Now.ToString & ")"
-            Exit Sub
-        Else
-            tsAPIStatus.Text = "API Status: Fetching Character Data..."
-            EveHQStatusStrip.Refresh()
-            ' Clear the current list of pilots
-            EveHQ.Core.HQ.TPilots.Clear()
-            EveHQ.Core.HQ.APIResults.Clear()
-            ' get the details for the account
-            Dim CurrentAccount As New EveHQ.Core.EveAccount
-            For Each CurrentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-                tsAPIStatus.Text = "API Status: Updating Account '" & CurrentAccount.FriendlyName & "' (ID=" & CurrentAccount.userID & ")..."
-                EveHQStatusStrip.Refresh()
-                Call EveHQ.Core.PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
-            Next
-            Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
-        End If
-
-        ' Determine API responses and display appropriate message
-        Dim AllCached As Boolean = True
-        Dim ContainsNew As Boolean = False
-        Dim ContainsErrors As Boolean = False
-        For Each result As Integer In EveHQ.Core.HQ.APIResults.Values
-            If result = 0 Then ContainsNew = True
-            If result <> 1 Then AllCached = False
-            Select Case result
-                Case 2, 3, 4, 5, 6, 8, 9
-                    ContainsErrors = True
-                Case Is < 0
-                    ContainsErrors = True
-            End Select
-        Next
-
-        ' Display the results
-        If ContainsErrors = True Then
-            tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Errors occured - double-click for details)"
-        Else
-            If AllCached = True Then
-                tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (No new updates)"
+            ' If we have accounts to query then get the data for them
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 Then
+                tsAPIStatus.Text = "API Status: No accounts entered into settings!! (" & Now.ToString & ")"
+                Exit Sub
             Else
-                tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Update successful)"
+                tsAPIStatus.Text = "API Status: Fetching Character Data..."
+                EveHQStatusStrip.Refresh()
+                ' Clear the current list of pilots
+                EveHQ.Core.HQ.TPilots.Clear()
+                EveHQ.Core.HQ.APIResults.Clear()
+                ' get the details for the account
+                Dim CurrentAccount As New EveHQ.Core.EveAccount
+                For Each CurrentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                    tsAPIStatus.Text = "API Status: Updating Account '" & CurrentAccount.FriendlyName & "' (ID=" & CurrentAccount.userID & ")..."
+                    EveHQStatusStrip.Refresh()
+                    Call EveHQ.Core.PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
+                Next
+                Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
             End If
-        End If
 
-        ' Enable the option again
-        tsbRetrieveData.Enabled = True
-        mnuToolsGetAccountInfo.Enabled = True
-        Me.Invoke(New MethodInvoker(AddressOf ResetSettingsButton))
-        ' Update if we have retrieved new data
-        If ContainsNew = True Then
-            Me.Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
-        End If
+            ' Determine API responses and display appropriate message
+            Dim AllCached As Boolean = True
+            Dim ContainsNew As Boolean = False
+            Dim ContainsErrors As Boolean = False
+            For Each result As Integer In EveHQ.Core.HQ.APIResults.Values
+                If result = 0 Then ContainsNew = True
+                If result <> 1 Then AllCached = False
+                Select Case result
+                    Case 2, 3, 4, 5, 6, 8, 9
+                        ContainsErrors = True
+                    Case Is < 0
+                        ContainsErrors = True
+                End Select
+            Next
+
+            ' Display the results
+            If ContainsErrors = True Then
+                tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Errors occured - double-click for details)"
+            Else
+                If AllCached = True Then
+                    tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (No new updates)"
+                Else
+                    tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Update successful)"
+                End If
+            End If
+
+            ' Enable the option again
+            tsbRetrieveData.Enabled = True
+            mnuToolsGetAccountInfo.Enabled = True
+            Me.Invoke(New MethodInvoker(AddressOf ResetSettingsButton))
+            ' Update if we have retrieved new data
+            If ContainsNew = True Then
+                Me.Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
+            End If
+        Catch e As Exception
+            Call CatchGeneralException(e)
+        End Try
     End Sub
 
     Public Sub ResetSettingsButton()
@@ -2728,6 +2732,36 @@ Public Class frmEveHQ
     End Sub
 
 #End Region
+
+    Public Shared Sub CatchGeneralException(ByRef e As Exception)
+        Dim myException As New frmException
+        myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
+        myException.lblError.Text = e.Message
+        Dim trace As New System.Text.StringBuilder
+        trace.AppendLine(e.StackTrace.ToString)
+        trace.AppendLine("")
+        trace.AppendLine("========== Plug-ins ==========")
+        trace.AppendLine("")
+        For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+            If myPlugIn.ShortFileName IsNot Nothing Then
+                trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
+            End If
+        Next
+        trace.AppendLine("")
+        trace.AppendLine("")
+        trace.AppendLine("========= System Info =========")
+        trace.AppendLine("")
+        trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
+        trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
+        trace.AppendLine("EveHQ Location: " & EveHQ.Core.HQ.appFolder)
+        trace.AppendLine("EveHQ Cache Locations: " & EveHQ.Core.HQ.appDataFolder)
+        myException.txtStackTrace.Text = trace.ToString
+        Dim result As Integer = myException.ShowDialog()
+        If result = DialogResult.Ignore Then
+        Else
+            Call frmEveHQ.ShutdownRoutine()
+        End If
+    End Sub
 
 End Class
 
