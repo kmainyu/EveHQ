@@ -276,27 +276,29 @@ Public Class EveMail
                 messageTotal += 1
             End If
         Next
-        Dim MessageCount As Integer = 1
-        For Each cMail As EveHQ.Core.EveMailMessage In NewMails
-            If cMail.SenderID <> cMail.OriginatorID Then
-                strBody.AppendLine("Mail " & MessageCount.ToString & " of " & messageTotal.ToString)
-                strBody.AppendLine("From: " & FinalIDs(cMail.SenderID))
-                If cMail.ToCharacterIDs <> "" Then
-                    strBody.AppendLine("To: " & FinalIDs(cMail.OriginatorID))
-                Else
-                    If cMail.ToCorpAllianceIDs <> "" Then
-                        strBody.AppendLine("To: " & FinalIDs(CLng(cMail.ToCorpAllianceIDs)))
+        If messageTotal > 0 Then
+            Dim MessageCount As Integer = 1
+            For Each cMail As EveHQ.Core.EveMailMessage In NewMails
+                If cMail.SenderID <> cMail.OriginatorID Then
+                    strBody.AppendLine("Mail " & MessageCount.ToString & " of " & messageTotal.ToString)
+                    strBody.AppendLine("From: " & FinalIDs(cMail.SenderID))
+                    If cMail.ToCharacterIDs <> "" Then
+                        strBody.AppendLine("To: " & FinalIDs(cMail.OriginatorID))
                     Else
-                        strBody.AppendLine("To: Mailing List")
+                        If cMail.ToCorpAllianceIDs <> "" Then
+                            strBody.AppendLine("To: " & FinalIDs(CLng(cMail.ToCorpAllianceIDs)))
+                        Else
+                            strBody.AppendLine("To: Mailing List")
+                        End If
                     End If
+                    strBody.AppendLine("Date: " & FormatDateTime(cMail.MessageDate))
+                    strBody.AppendLine("Subject: " & cMail.MessageTitle)
+                    strBody.AppendLine("")
+                    MessageCount += 1
                 End If
-                strBody.AppendLine("Date: " & FormatDateTime(cMail.MessageDate))
-                strBody.AppendLine("Subject: " & cMail.MessageTitle)
-                strBody.AppendLine("")
-                MessageCount += 1
-            End If
-        Next
-        EveMail.SendEveHQMail("New Eve Mail Messages Notification", strBody.ToString)
+            Next
+            EveMail.SendEveHQMail("New Eve Mail Messages Notification", strBody.ToString)
+        End If
     End Sub
 
     Private Shared Sub SendEmailForNewEveNotifications(ByVal NewNotifys As ArrayList, ByVal IDs As ArrayList)
