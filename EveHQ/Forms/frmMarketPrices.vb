@@ -1309,6 +1309,7 @@ Public Class frmMarketPrices
                     Dim count As Integer = 0
                     Dim ecURL As String = ""
                     Dim itemRow As DataRow
+                    Dim failedUpdate As Boolean = False
                     For item As Integer = 0 To priceData.Tables(0).Rows.Count - 1 Step 20
                         count += 1
                         ecURL = mpURL
@@ -1321,18 +1322,26 @@ Public Class frmMarketPrices
                         lblMarketPriceUpdateStatus.Text = "Parsing Batch: " & count.ToString & " of " & Int((priceData.Tables(0).Rows.Count - 1) / 20) + 1 & "..." : lblMarketPriceUpdateStatus.Refresh()
                         If GetPriceFeed("MarketPrices", ecURL, lblMarketPriceUpdateStatus, count, True) = True Then
                             Call Me.ParseMarketPriceFeed("MarketPrices", count, lblMarketPriceUpdateStatus)
+                        Else
+                            failedUpdate = True
+                            Exit For
                         End If
                     Next
-                    EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = Now
-                    lblLastMarketPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate, "dd/MM/yyyy HH:mm:ss")
-                    If EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate.AddSeconds(86400) < Now Then
-                        btnUpdateMarketPrices.Enabled = True
-                        lblMarketPriceUpdateStatus.Text = "Status: Awaiting update."
+                    If failedUpdate = False Then
+                        EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = Now
+                        lblLastMarketPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+                        If EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate.AddSeconds(86400) < Now Then
+                            btnUpdateMarketPrices.Enabled = True
+                            lblMarketPriceUpdateStatus.Text = "Status: Awaiting update."
+                        Else
+                            btnUpdateMarketPrices.Enabled = False
+                            lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+                        End If
+                        lblMarketPriceUpdateStatus.Text = "Market Price Update Complete!" : lblMarketPriceUpdateStatus.Refresh()
                     Else
-                        btnUpdateMarketPrices.Enabled = False
-                        lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+                        MessageBox.Show("Market Price feed download aborted due to error. Please try again later.", "Market Price Update Aborted", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        lblMarketPriceUpdateStatus.Text = "Market Price Update Failed!" : lblMarketPriceUpdateStatus.Refresh()
                     End If
-                    lblMarketPriceUpdateStatus.Text = "Market Price Update Complete!" : lblMarketPriceUpdateStatus.Refresh()
                 End If
             End If
             ' Close the DB
