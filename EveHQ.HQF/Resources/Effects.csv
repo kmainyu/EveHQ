@@ -932,6 +932,7 @@
 64,2,302,10015,2,74,1,0,5,14,Damage Bonus
 # Industrial Core,,,,,,,,,,
 20,1,28583,37,3,6,0,0,0,4,Max Velocity Bonus
+1238,1,28583,833,1,22553;22555;22557,0,0,5,4,Mining Foreman Ganglink Bonus
 # Siege Module,,,,,,,,,,
 20,1,20280,37,3,6,0,0,0,4,Max Velocity Bonus
 292,1,20280,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,4,Damage Bonus - EM Missiles
