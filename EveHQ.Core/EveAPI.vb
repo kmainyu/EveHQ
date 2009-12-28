@@ -268,12 +268,22 @@ Public Class EveAPI
 
     Private Shared Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal ReturnMethod As Long, ByVal feature As Integer) As XmlDocument
         Dim fileDate As String = ""
-        ' Check if the file already exists
-        Dim fileLoc As String = Path.Combine(EveHQ.Core.HQ.cacheFolder, fileName & fileDate & ".xml")
-        cLastAPIFileName = fileLoc
         Dim APIXML As New XmlDocument
         Dim errlist As XmlNodeList
+        Dim fileLoc As String = ""
         Try
+            fileLoc = Path.Combine(EveHQ.Core.HQ.cacheFolder, fileName & fileDate & ".xml")
+        Catch e As Exception
+            Dim msg As String = "An error occured while trying to assemble the cache location string. The location being created should be in:" & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "Cache Folder: " & EveHQ.Core.HQ.cacheFolder & ControlChars.CrLf
+            msg &= "File Name: " & fileName & ControlChars.CrLf
+            msg &= "File Date: " & fileDate & ControlChars.CrLf
+            Windows.Forms.MessageBox.Show(msg, "Cache Location Error", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information)
+            Return Nothing
+        End Try
+        Try
+            ' Check if the file already exists
+            cLastAPIFileName = fileLoc
             If My.Computer.FileSystem.FileExists(fileLoc) = True Then
                 Dim tmpAPIXML As New XmlDocument
                 ' Check cache time of file
@@ -319,11 +329,11 @@ Public Class EveAPI
                                 cLastAPIErrorText = errMsg
                                 Return APIXML
                             Else
-                               ' Return the current one regardless
+                                ' Return the current one regardless
                                 cLastAPIResult = APIResults.ReturnedActual
                                 tmpAPIXML.Save(fileLoc)
                                 Return tmpAPIXML
-                             End If
+                            End If
                         Else
                             ' Return the old XML file but report a general error - usually as a result of a API Server error
                             cLastAPIResult = APIResults.UnknownError
@@ -339,7 +349,7 @@ Public Class EveAPI
                         tmpAPIXML.Save(fileLoc)
                         Return tmpAPIXML
                     End If
-                    End If
+                End If
             Else
                 If ReturnMethod = APIReturnMethod.ReturnCacheOnly Then
                     ' If we demand that a cached fle be returned, return nothing as the file does not exist
