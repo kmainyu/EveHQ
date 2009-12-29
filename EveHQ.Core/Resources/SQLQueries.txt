@@ -7,6 +7,7 @@ CREATE TABLE invBuildMaterials (
  baseMaterial INTEGER,	--	how much is the base material.  0 means unaffected by waste, >=quantity means entirely affected
  PRIMARY KEY (typeID, activityID, requiredTypeID)
 );
+
 INSERT INTO invBuildMaterials
  (typeID, activityID, requiredTypeID, quantity, damagePerJob, baseMaterial)
 SELECT
@@ -64,3 +65,5 @@ INSERT INTO invBuildMaterials
  (typeID, activityID, requiredTypeID, quantity, damagePerJob, baseMaterial)
 SELECT * FROM ramTypeRequirements AS rtr
 WHERE rtr.activityID<>1;
+
+CREATE INDEX idxReqTypeID ON invBuildMaterials (requiredTypeID);
