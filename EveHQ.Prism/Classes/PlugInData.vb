@@ -460,7 +460,7 @@ Public Class PlugInData
             strSQL.AppendLine("  regionID       int,")
             strSQL.AppendLine("  importDate     datetime,")
             strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT walletTransactions_PK PRIMARY KEY CLUSTERED (transID)")
+            strSQL.AppendLine("  CONSTRAINT walletTransactions_PK PRIMARY KEY (transID)")
             strSQL.AppendLine(")")
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
@@ -505,7 +505,7 @@ Public Class PlugInData
             strSQL.AppendLine("  itemID         int,")
             strSQL.AppendLine("  itemName       nvarchar(100),")
             strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT assetItemNames_PK PRIMARY KEY CLUSTERED (itemID)")
+            strSQL.AppendLine("  CONSTRAINT assetItemNames_PK PRIMARY KEY (itemID)")
             strSQL.AppendLine(")")
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
