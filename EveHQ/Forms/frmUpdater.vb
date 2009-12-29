@@ -118,17 +118,17 @@ Public Class frmUpdater
             Else
                 CurrentComponents.Add("LgLcd.dll", "Not Present")
             End If
-            ' Try and add the database version (if using Access)
+            ' Try and add the database version (if using SQL CE)
             If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
                 Dim databaseData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
                 If databaseData IsNot Nothing Then
                     If databaseData.Tables(0).Rows.Count > 0 Then
-                        CurrentComponents.Add("EveHQ.mdb.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
+                        CurrentComponents.Add("EveHQ.sdf.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
                     Else
-                        CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                        CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
                     End If
                 Else
-                    CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                    CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
                 End If
             End If
 
@@ -203,7 +203,7 @@ Public Class frmUpdater
                 newFile.SubItems(5).Text = "Update Not Required"
             End If
         Else
-            If newFile.Text <> "EveHQ.mdb.zip" Or (newFile.Text = "EveHQ.mdb.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
+            If newFile.Text <> "EveHQ.sdf.zip" Or (newFile.Text = "EveHQ.sdf.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
                 newFile.SubItems(2).Text = "New!!"
                 newFile.ForeColor = Color.Red
                 Dim chkDownload As New CheckBox

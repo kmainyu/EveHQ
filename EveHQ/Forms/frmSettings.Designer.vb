@@ -232,6 +232,8 @@ Partial Public Class frmSettings
         Me.colPlugInName = New System.Windows.Forms.ColumnHeader
         Me.colStatus = New System.Windows.Forms.ColumnHeader
         Me.gbNotifications = New System.Windows.Forms.GroupBox
+        Me.chkNotifyNotification = New System.Windows.Forms.CheckBox
+        Me.chkNotifyEveMail = New System.Windows.Forms.CheckBox
         Me.chkNotifyEarly = New System.Windows.Forms.CheckBox
         Me.chkNotifyNow = New System.Windows.Forms.CheckBox
         Me.lblNotifyMe = New System.Windows.Forms.Label
@@ -314,8 +316,6 @@ Partial Public Class frmSettings
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkNotifyEveMail = New System.Windows.Forms.CheckBox
-        Me.chkNotifyNotification = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1692,9 +1692,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(449, 77)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(113, 47)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 496)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -1729,7 +1729,7 @@ Partial Public Class frmSettings
         '
         Me.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboFormat.FormattingEnabled = True
-        Me.cboFormat.Items.AddRange(New Object() {"Access Database (.MDB)", "MS SQL Server", "MS SQL 2005 Express"})
+        Me.cboFormat.Items.AddRange(New Object() {"MS SQL CE (.SDF)", "MS SQL Server"})
         Me.cboFormat.Location = New System.Drawing.Point(103, 45)
         Me.cboFormat.Name = "cboFormat"
         Me.cboFormat.Size = New System.Drawing.Size(309, 21)
@@ -1759,7 +1759,7 @@ Partial Public Class frmSettings
         Me.gbAccess.Size = New System.Drawing.Size(500, 250)
         Me.gbAccess.TabIndex = 37
         Me.gbAccess.TabStop = False
-        Me.gbAccess.Text = "Access (MDB) Options"
+        Me.gbAccess.Text = "MS SQL CE (SDF) Options"
         '
         'chkUseAppDirForDB
         '
@@ -2374,6 +2374,26 @@ Partial Public Class frmSettings
         Me.gbNotifications.Text = "Notifications"
         Me.gbNotifications.Visible = False
         '
+        'chkNotifyNotification
+        '
+        Me.chkNotifyNotification.AutoSize = True
+        Me.chkNotifyNotification.Location = New System.Drawing.Point(231, 270)
+        Me.chkNotifyNotification.Name = "chkNotifyNotification"
+        Me.chkNotifyNotification.Size = New System.Drawing.Size(172, 17)
+        Me.chkNotifyNotification.TabIndex = 22
+        Me.chkNotifyNotification.Text = "Notify on New Eve Notification"
+        Me.chkNotifyNotification.UseVisualStyleBackColor = True
+        '
+        'chkNotifyEveMail
+        '
+        Me.chkNotifyEveMail.AutoSize = True
+        Me.chkNotifyEveMail.Location = New System.Drawing.Point(21, 270)
+        Me.chkNotifyEveMail.Name = "chkNotifyEveMail"
+        Me.chkNotifyEveMail.Size = New System.Drawing.Size(133, 17)
+        Me.chkNotifyEveMail.TabIndex = 21
+        Me.chkNotifyEveMail.Text = "Notify on New EveMail"
+        Me.chkNotifyEveMail.UseVisualStyleBackColor = True
+        '
         'chkNotifyEarly
         '
         Me.chkNotifyEarly.AutoSize = True
@@ -2535,9 +2555,9 @@ Partial Public Class frmSettings
         Me.gbEmail.Controls.Add(Me.txtEmailAddress)
         Me.gbEmail.Controls.Add(Me.txtSMTPServer)
         Me.gbEmail.Controls.Add(Me.lblSMTPServer)
-        Me.gbEmail.Location = New System.Drawing.Point(194, 12)
+        Me.gbEmail.Location = New System.Drawing.Point(643, 305)
         Me.gbEmail.Name = "gbEmail"
-        Me.gbEmail.Size = New System.Drawing.Size(693, 489)
+        Me.gbEmail.Size = New System.Drawing.Size(181, 47)
         Me.gbEmail.TabIndex = 6
         Me.gbEmail.TabStop = False
         Me.gbEmail.Text = "E-Mail Options"
@@ -3160,36 +3180,16 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
-        'chkNotifyEveMail
-        '
-        Me.chkNotifyEveMail.AutoSize = True
-        Me.chkNotifyEveMail.Location = New System.Drawing.Point(21, 270)
-        Me.chkNotifyEveMail.Name = "chkNotifyEveMail"
-        Me.chkNotifyEveMail.Size = New System.Drawing.Size(133, 17)
-        Me.chkNotifyEveMail.TabIndex = 21
-        Me.chkNotifyEveMail.Text = "Notify on New EveMail"
-        Me.chkNotifyEveMail.UseVisualStyleBackColor = True
-        '
-        'chkNotifyNotification
-        '
-        Me.chkNotifyNotification.AutoSize = True
-        Me.chkNotifyNotification.Location = New System.Drawing.Point(231, 270)
-        Me.chkNotifyNotification.Name = "chkNotifyNotification"
-        Me.chkNotifyNotification.Size = New System.Drawing.Size(172, 17)
-        Me.chkNotifyNotification.TabIndex = 22
-        Me.chkNotifyNotification.Text = "Notify on New Eve Notification"
-        Me.chkNotifyNotification.UseVisualStyleBackColor = True
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbNotifications)
-        Me.Controls.Add(Me.gbEmail)
-        Me.Controls.Add(Me.gbEveServer)
-        Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbDatabaseFormat)
+        Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbEmail)
+        Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)

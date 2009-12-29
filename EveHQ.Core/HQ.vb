@@ -89,10 +89,8 @@ Public Class HQ
     End Property
 
     Public Enum DBFormat As Integer
-        Access = 0
+        SQLCE = 0
         MSSQL = 1
-        MSSQLE = 2
-        MySQL = 3
     End Enum
 
     Public Shared Sub ReduceMemory()

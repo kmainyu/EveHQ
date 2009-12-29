@@ -2447,12 +2447,12 @@ Public Class frmEveHQ
                 Dim databaseData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
                 If databaseData IsNot Nothing Then
                     If databaseData.Tables(0).Rows.Count > 0 Then
-                        CurrentComponents.Add("EveHQ.mdb.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
+                        CurrentComponents.Add("EveHQ.sdf.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
                     Else
-                        CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                        CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
                     End If
                 Else
-                    CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                    CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
                 End If
             End If
 
@@ -2469,7 +2469,7 @@ Public Class frmEveHQ
                             UpdateRequired = True
                         End If
                     Else
-                        If updateFile.ChildNodes(0).InnerText <> "EveHQ.mdb.zip" Or (updateFile.ChildNodes(0).InnerText = "EveHQ.mdb.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
+                        If updateFile.ChildNodes(0).InnerText <> "EveHQ.sdf.zip" Or (updateFile.ChildNodes(0).InnerText = "EveHQ.sdf.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
                             UpdateRequired = True
                         End If
                     End If

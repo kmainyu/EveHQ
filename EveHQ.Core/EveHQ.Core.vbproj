@@ -46,6 +46,7 @@
     <Reference Include="LgLcd.NET, Version=1.0.2182.20042, Culture=neutral" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
@@ -208,7 +209,6 @@
     </Content>
     <None Include="Resources\SQLQueries.txt" />
     <None Include="Resources\Strings.txt" />
-    <None Include="Resources\EveHQDataDB.mdb" />
     <None Include="Resources\attributeGroups.csv" />
     <None Include="Resources\EveHQ_IGBLogo.jpg" />
   </ItemGroup>

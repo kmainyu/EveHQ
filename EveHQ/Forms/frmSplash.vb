@@ -225,10 +225,10 @@ Public Class frmSplash
             End If
         End If
 
-        ' Force DBDataDirectory location if using Access
-        If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb") Then
+        ' Force DBDataDirectory location if using SQL CE
+        If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf") Then
             Dim oldLocation As String = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
-            Dim newLocation As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb")
+            Dim newLocation As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
             If My.Computer.FileSystem.FileExists(oldLocation) = True Then
                 ' Attempt to copy to the new location
                 Try
@@ -248,7 +248,7 @@ Public Class frmSplash
                 End Try
             End If
         End If
-        EveHQ.Core.HQ.EveHQSettings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb")
+        EveHQ.Core.HQ.EveHQSettings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
         Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
 
         ' Check for new database
@@ -269,7 +269,7 @@ Public Class frmSplash
                     End If
                 Else
                     ' Looks like the file exists, but let's test a connection to make sure 
-                    If TestDataDBConnection() = False Then
+                    If EveHQ.Core.DataFunctions.CheckDataDatabaseConnection(True) = False Then
                         ' Looks like it fails so let's recreate it - but inform the user
                         Dim msg As String = "EveHQ has detected that although the the new storage database is initialised, it cannot be located." & ControlChars.CrLf
                         msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
@@ -296,7 +296,7 @@ Public Class frmSplash
                     End If
                 Else
                     ' Looks like the file exists, but let's test a connection to make sure 
-                    If TestDataDBConnection() = False Then
+                    If EveHQ.Core.DataFunctions.CheckDataDatabaseConnection(True) = False Then
                         ' Looks like it fails so let's recreate it - but inform the user
                         Dim msg As String = "EveHQ has detected that although the the new storage database is initialised, it cannot be located." & ControlChars.CrLf
                         msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
@@ -397,6 +397,13 @@ Public Class frmSplash
                 EveHQ.Core.HQ.APIErrors.Add(ErrNode.Attributes.GetNamedItem("errorCode").Value, ErrNode.Attributes.GetNamedItem("errorText").Value)
             Next
         End If
+
+        ' Check for additional database tables in the custom database
+        lblStatus.Text = "> Checking Custom Database..."
+        Me.Refresh()
+        Call EveHQ.Core.DataFunctions.CheckForEveMailTable()
+        Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
+        Call EveHQ.Core.DataFunctions.CheckForIDNameTable()
 
         ' Check if we need to start the market watcher
         If EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcherAtStartup = True Then
@@ -505,52 +512,6 @@ Public Class frmSplash
                 fs.Close()
             End Try
         End Using
-    End Function
-
-    Private Function TestDataDBConnection() As Boolean
-        Dim strConnection As String = ""
-        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0
-                strConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & ";"
-                Dim connection As New Data.OleDb.OleDbConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    Return True
-                Catch ex As Exception
-                    Return False
-                End Try
-            Case 1
-                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
-                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Else
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; Integrated Security = SSPI;"
-                End If
-                Dim connection As New Data.SqlClient.SqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    Return True
-                Catch ex As Exception
-                    Return False
-                End Try
-            Case 2
-                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
-                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Else
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; Integrated Security = SSPI;"
-                End If
-                Dim connection As New Data.SqlClient.SqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    Return True
-                Catch ex As Exception
-                    Return False
-                End Try
-        End Select
     End Function
 
 End Class
