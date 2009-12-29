@@ -224,12 +224,7 @@ Public Class frmItemBrowser
             Dim compAttID As String = ""
             Dim compValue As String = ""
             Dim compUnit As String = eveData.Tables(0).Rows(row).Item("unitDisplayName").ToString.Trim
-            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                Case 0
-                    compAttID = eveData.Tables(0).Rows(row).Item("dgmAttributeTypes.attributeID")
-                Case Else
-                    compAttID = eveData.Tables(0).Rows(row).Item("attributeID")
-            End Select
+            compAttID = eveData.Tables(0).Rows(row).Item("attributeID")
             If IsDBNull(eveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
                 compValue = eveData.Tables(0).Rows(row).Item("valueFloat")
             Else
@@ -823,12 +818,7 @@ Public Class frmItemBrowser
             eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
             For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
                 attNo += 1
-                Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                    Case 0
-                        attributes(attNo, 1) = eveData.Tables(0).Rows(row).Item("dgmAttributeTypes.attributeID")
-                    Case Else
-                        attributes(attNo, 1) = eveData.Tables(0).Rows(row).Item("attributeID")
-                End Select
+                attributes(attNo, 1) = eveData.Tables(0).Rows(row).Item("attributeID")
                 If eveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim = "" Then
                     attributes(attNo, 2) = eveData.Tables(0).Rows(row).Item("attributeName").ToString.Trim
                 Else
@@ -1069,15 +1059,9 @@ Public Class frmItemBrowser
                         materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
                         materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
                         materials(row, 4) = .Rows(row).Item("damagePerJob").ToString.Trim
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0
-                                materials(row, 5) = .Rows(row).Item("invCategories.categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("invGroups.groupID").ToString.Trim
-                            Case Else
-                                materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
-                        End Select
+                        materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
                         materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
+                        materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
                         materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
                         materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
                     End If
@@ -1180,15 +1164,9 @@ Public Class frmItemBrowser
                         materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
                         materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
                         materials(row, 4) = ""
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0
-                                materials(row, 5) = .Rows(row).Item("invCategories.categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("invGroups.groupID").ToString.Trim
-                            Case Else
-                                materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
-                        End Select
+                        materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
                         materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
+                        materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
                         materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
                         materials(row, 9) = ""
                     End If
@@ -1261,20 +1239,13 @@ Public Class frmItemBrowser
                 For row As Integer = 0 To .Rows.Count - 1
                     If Val(.Rows(row).Item("quantity")) > 0 Then
                         materials(row, 0) = "0"
+                        materials(row, 1) = .Rows(row).Item("typeID").ToString.Trim
                         materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
                         materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
                         materials(row, 4) = .Rows(row).Item("damagePerJob").ToString.Trim
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0
-                                materials(row, 1) = .Rows(row).Item("invTypes.typeID").ToString.Trim
-                                materials(row, 5) = .Rows(row).Item("invCategories.categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("invGroups.groupID").ToString.Trim
-                            Case Else
-                                materials(row, 1) = .Rows(row).Item("typeID").ToString.Trim
-                                materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
-                        End Select
+                        materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
                         materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
+                        materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
                         materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
                         materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
                     End If
