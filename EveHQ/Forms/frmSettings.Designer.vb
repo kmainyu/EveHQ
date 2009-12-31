@@ -1692,9 +1692,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(418, 111)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 496)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(162, 47)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -2069,9 +2069,9 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbEveServer.Location = New System.Drawing.Point(213, 298)
+        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(184, 47)
+        Me.gbEveServer.Size = New System.Drawing.Size(693, 504)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -3185,10 +3185,10 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbNotifications)
-        Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbEmail)
+        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbDashboard)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbTrainingQueue)
