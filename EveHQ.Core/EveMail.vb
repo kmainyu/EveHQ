@@ -88,7 +88,7 @@ Public Class EveMail
             uSQL.Append(cMail.OriginatorID & ", ")
             uSQL.Append(cMail.SenderID & ", ")
             uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
-            uSQL.Append("'" & cMail.MessageTitle & "', ")
+            uSQL.Append("'" & cMail.MessageTitle.Replace("'", "''") & "', ")
             uSQL.Append("'" & cMail.ToCorpAllianceIDs & "', ")
             uSQL.Append("'" & cMail.ToCharacterIDs & "', ")
             uSQL.Append("'" & cMail.ToListIDs & "', ")
