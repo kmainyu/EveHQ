@@ -114,6 +114,8 @@ Public Class EveMail
         For Each cMail As EveHQ.Core.EveMailMessage In Mails.Values
             ' Get Sender IDs
             EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.SenderID.ToString)
+            ' Get Originator IDs
+            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.OriginatorID.ToString)
             ' Get Character IDs
             EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCharacterIDs)
             ' Get Corp/Alliance IDs
@@ -233,6 +235,8 @@ Public Class EveMail
         For Each cNotice As EveHQ.Core.EveNotification In Notices.Values
             ' Get Sender IDs
             EveHQ.Core.DataFunctions.ParseIDs(IDs, cNotice.SenderID.ToString)
+            ' Get Originator IDs
+            EveHQ.Core.DataFunctions.ParseIDs(IDs, cNotice.OriginatorID.ToString)
         Next
         Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
 
