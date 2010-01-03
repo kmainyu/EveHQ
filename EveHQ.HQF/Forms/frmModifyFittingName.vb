@@ -28,6 +28,7 @@ Public Class frmModifyFittingName
             If reply = Windows.Forms.DialogResult.Retry Then
                 Exit Sub
             Else
+                Me.DialogResult = Windows.Forms.DialogResult.Cancel
                 Me.Close()
                 Exit Sub
             End If
@@ -43,7 +44,7 @@ Public Class frmModifyFittingName
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
                     Else
-                        txtFittingName.Text = ""
+                        Me.DialogResult = Windows.Forms.DialogResult.Cancel
                         Me.Close()
                         Exit Sub
                     End If
@@ -57,7 +58,7 @@ Public Class frmModifyFittingName
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
                     Else
-                        txtFittingName.Text = ""
+                        Me.DialogResult = Windows.Forms.DialogResult.Cancel
                         Me.Close()
                         Exit Sub
                     End If
@@ -71,17 +72,18 @@ Public Class frmModifyFittingName
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
                     Else
-                        txtFittingName.Text = ""
+                        Me.DialogResult = Windows.Forms.DialogResult.Cancel
                         Me.Close()
                         Exit Sub
                     End If
                 End If
         End Select
+        Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        txtFittingName.Text = ""
+        Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
 

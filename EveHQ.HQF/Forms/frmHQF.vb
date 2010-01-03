@@ -560,22 +560,25 @@ Public Class frmHQF
                 .ShowDialog()
                 fittingName = .txtFittingName.Text
             End With
-            myNewFitting = Nothing
-
-            If fittingName <> "" Then
-                Dim fittingKeyName As String = shipName & ", " & fittingName
-                Fittings.FittingList.Add(fittingKeyName, New ArrayList)
-                If Me.CreateFittingTabPage(fittingKeyName) = True Then
-                    Call Me.UpdateFilteredShips()
-                    tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
-                    If tabHQF.TabPages.Count = 1 Then
-                        Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
-                    End If
-                    currentShipSlot.UpdateEverything()
-                End If
+            If myNewFitting.DialogResult = Windows.Forms.DialogResult.Cancel Then
+                MessageBox.Show("Create New Fitting has been cancelled!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If fittingName <> "" Then
+                    Dim fittingKeyName As String = shipName & ", " & fittingName
+                    Fittings.FittingList.Add(fittingKeyName, New ArrayList)
+                    If Me.CreateFittingTabPage(fittingKeyName) = True Then
+                        Call Me.UpdateFilteredShips()
+                        tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
+                        If tabHQF.TabPages.Count = 1 Then
+                            Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
+                        End If
+                        currentShipSlot.UpdateEverything()
+                    End If
+                Else
+                    MessageBox.Show("Unable to create new fitting due to insufficient data!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             End If
+            myNewFitting = Nothing
         Else
             Dim msg As String = "There appears to be no pilots or accounts created in EveHQ." & ControlChars.CrLf
             msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
@@ -1868,29 +1871,32 @@ Public Class frmHQF
             .ShowDialog()
             fittingName = .txtFittingName.Text
         End With
-        myNewFitting = Nothing
 
-        ' Add and Remove the Fittings
-        If fittingName <> "" Then
-            Dim fittingKeyName As String = shipName & ", " & fittingName
-            Fittings.FittingList.Remove(oldKeyName)
-            Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
-            ' Amend it in the tabs if it's there!
-            Dim tp As TabPage = tabHQF.TabPages(oldKeyName)
-            If tp IsNot Nothing Then
-                Fittings.FittingTabList.Remove(oldKeyName)
-                Fittings.FittingTabList.Add(fittingKeyName)
-                Dim copyShip As Ship = CType(ShipLists.fittedShipList(oldKeyName), Ship).Clone
-                ShipLists.fittedShipList.Remove(oldKeyName)
-                ShipLists.fittedShipList.Add(fittingKeyName, copyShip)
-                tp.Name = fittingKeyName
-                tp.Tag = fittingKeyName
-                tp.Text = fittingKeyName
-            End If
-            Call Me.UpdateFilteredShips()
+        If myNewFitting.DialogResult = Windows.Forms.DialogResult.Cancel Then
+            MessageBox.Show("Rename Fitting has been cancelled!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
-            MessageBox.Show("Unable to Copy Fitting!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If fittingName <> "" Then
+                Dim fittingKeyName As String = shipName & ", " & fittingName
+                Fittings.FittingList.Remove(oldKeyName)
+                Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
+                ' Amend it in the tabs if it's there!
+                Dim tp As TabPage = tabHQF.TabPages(oldKeyName)
+                If tp IsNot Nothing Then
+                    Fittings.FittingTabList.Remove(oldKeyName)
+                    Fittings.FittingTabList.Add(fittingKeyName)
+                    Dim copyShip As Ship = CType(ShipLists.fittedShipList(oldKeyName), Ship).Clone
+                    ShipLists.fittedShipList.Remove(oldKeyName)
+                    ShipLists.fittedShipList.Add(fittingKeyName, copyShip)
+                    tp.Name = fittingKeyName
+                    tp.Tag = fittingKeyName
+                    tp.Text = fittingKeyName
+                End If
+                Call Me.UpdateFilteredShips()
+            Else
+                MessageBox.Show("Unable to rename fitting due to insufficient data!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
+        myNewFitting = Nothing
     End Sub
     Private Sub mnuFittingsCopyFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsCopyFitting.Click
         ' Get the node details
@@ -1912,16 +1918,18 @@ Public Class frmHQF
             .ShowDialog()
             fittingName = .txtFittingName.Text
         End With
-        myNewFitting = Nothing
-
-        ' Add and Copy the Fitting
-        If fittingName <> "" Then
-            Dim fittingKeyName As String = shipName & ", " & fittingName
-            Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
-            Call Me.UpdateFilteredShips()
+        If myNewFitting.DialogResult = Windows.Forms.DialogResult.Cancel Then
+            MessageBox.Show("Copy Fitting has been cancelled!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
-            MessageBox.Show("Unable to Copy Fitting!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If fittingName <> "" Then
+                Dim fittingKeyName As String = shipName & ", " & fittingName
+                Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
+                Call Me.UpdateFilteredShips()
+            Else
+                MessageBox.Show("Unable to copy fitting due to insufficient data!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
+        myNewFitting = Nothing
     End Sub
     Private Sub mnuFittingsDeleteFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsDeleteFitting.Click
         ' Get the node details
