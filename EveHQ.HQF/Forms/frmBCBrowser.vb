@@ -235,7 +235,7 @@ Public Class frmBCBrowser
             ' Try and match the ammo to the modules
             Dim BaseFit As String = ""
             Dim RevisedFit As String = ""
-            currentFit.Clear()
+            currentFit = New ArrayList
             For Each fittedMod As String In moduleList
                 Dim fModule As ShipModule = CType(ModuleLists.moduleList(fittedMod), ShipModule)
                 If fModule IsNot Nothing Then
@@ -541,5 +541,8 @@ Public Class frmBCBrowser
 
 #End Region
 
+    Private Sub clvLoadouts_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvLoadouts.SelectedItemsChanged
+
+    End Sub
 End Class
 
