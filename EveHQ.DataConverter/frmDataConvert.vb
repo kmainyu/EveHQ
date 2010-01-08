@@ -630,7 +630,6 @@ Public Class frmDataConvert
         Dim strBPS As String = ""
         strBPS = "Item Type,Tech Level,Production Time,Research Productivity Time,Research Material Time,Research Copy Time,Research Tech Time,Productivity Modifier,Material Modifier,Waste Factor,Max Production Limit"
         sw.WriteLine(strBPS)
-
         For row As Integer = 0 To newData.Tables(0).Rows.Count - 1
             Dim typeID As String = newData.Tables(0).Rows(row).Item("typeID")
             Dim bpTypeID As String = newData.Tables(0).Rows(row).Item("blueprintTypeID")
@@ -645,22 +644,30 @@ Public Class frmDataConvert
             strBPS &= newData.Tables(0).Rows(row).Item("materialModifier") & ","
             strBPS &= newData.Tables(0).Rows(row).Item("wasteFactor") & ","
             strBPS &= newData.Tables(0).Rows(row).Item("maxProductionLimit")
-            Dim strSQL As String = "SELECT *"
-            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID"
-            strSQL &= " WHERE (ramTypeRequirements.typeID=" & bpTypeID & " OR ramTypeRequirements.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
-            materialData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            For row2 As Integer = 0 To materialData.Tables(0).Rows.Count - 1
-                Dim strMats As String = ""
-                If materialData.Tables(0).Rows(row2).Item("activityID") = 1 Then
-                    strMats &= newData.Tables(0).Rows(row).Item("typeName") & ","
-                    strMats &= materialData.Tables(0).Rows(row2).Item("activityID") & ","
-                    strMats &= materialData.Tables(0).Rows(row2).Item("typeName") & ","
-                    strMats &= materialData.Tables(0).Rows(row2).Item("quantity") & ","
-                    strMats &= materialData.Tables(0).Rows(row2).Item("damagePerJob")
-                    sw2.WriteLine(strMats)
-                End If
-            Next
             sw.WriteLine(strBPS)
+        Next
+        Dim strSQL As String = "SELECT invBuildMaterials.*, invTypes1.typeName as typeName1, invTypes.typeName as typeName"
+        strSQL &= " FROM invTypes AS invTypes1 INNER JOIN (invBuildMaterials INNER JOIN invTypes ON invBuildMaterials.typeID = invTypes.typeID) ON invTypes1.typeID = invBuildMaterials.requiredTypeID"
+        strSQL &= " WHERE invBuildMaterials.activityID=1 ORDER BY invTypes.typeName;"
+        materialData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Dim strCol As String = ""
+        For col As Integer = 0 To materialData.Tables(0).Columns.Count - 1
+            strCol &= materialData.Tables(0).Columns(col).ColumnName & ControlChars.CrLf
+        Next
+        MessageBox.Show(strCol)
+        For row2 As Integer = 0 To materialData.Tables(0).Rows.Count - 1
+            Dim strMats As String = ""
+            strMats &= materialData.Tables(0).Rows(row2).Item("typeName1") & ","
+            strMats &= materialData.Tables(0).Rows(row2).Item("activityID") & ","
+            strMats &= materialData.Tables(0).Rows(row2).Item("typeName") & ","
+            strMats &= materialData.Tables(0).Rows(row2).Item("quantity") & ","
+            strMats &= materialData.Tables(0).Rows(row2).Item("damagePerJob") & ","
+            If IsDBNull(materialData.Tables(0).Rows(row2).Item("baseMaterial")) = False Then
+                strMats &= materialData.Tables(0).Rows(row2).Item("baseMaterial")
+            Else
+                strMats &= "0"
+            End If
+            sw2.WriteLine(strMats)
         Next
         sw.Flush() : sw.Close()
         sw2.Flush() : sw2.Close()
