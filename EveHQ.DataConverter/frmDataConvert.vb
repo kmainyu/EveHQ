@@ -648,7 +648,7 @@ Public Class frmDataConvert
         Next
         Dim strSQL As String = "SELECT invBuildMaterials.*, invTypes1.typeName as typeName1, invTypes.typeName as typeName"
         strSQL &= " FROM invTypes AS invTypes1 INNER JOIN (invBuildMaterials INNER JOIN invTypes ON invBuildMaterials.typeID = invTypes.typeID) ON invTypes1.typeID = invBuildMaterials.requiredTypeID"
-        strSQL &= " WHERE invBuildMaterials.activityID=1 ORDER BY invTypes.typeName;"
+        strSQL &= " WHERE invBuildMaterials.activityID=1 ORDER BY typeName, typeName1;"
         materialData = EveHQ.Core.DataFunctions.GetData(strSQL)
         Dim strCol As String = ""
         For col As Integer = 0 To materialData.Tables(0).Columns.Count - 1
@@ -657,9 +657,9 @@ Public Class frmDataConvert
         MessageBox.Show(strCol)
         For row2 As Integer = 0 To materialData.Tables(0).Rows.Count - 1
             Dim strMats As String = ""
-            strMats &= materialData.Tables(0).Rows(row2).Item("typeName1") & ","
+            strMats &= materialData.Tables(0).Rows(row2).Item("typeName").ToString.Replace(" Blueprint", "") & ","
             strMats &= materialData.Tables(0).Rows(row2).Item("activityID") & ","
-            strMats &= materialData.Tables(0).Rows(row2).Item("typeName") & ","
+            strMats &= materialData.Tables(0).Rows(row2).Item("typeName1") & ","
             strMats &= materialData.Tables(0).Rows(row2).Item("quantity") & ","
             strMats &= materialData.Tables(0).Rows(row2).Item("damagePerJob") & ","
             If IsDBNull(materialData.Tables(0).Rows(row2).Item("baseMaterial")) = False Then
