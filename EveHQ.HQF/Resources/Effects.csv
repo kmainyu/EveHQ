@@ -777,7 +777,7 @@
 235,2,96,192,3,6,0,0,1,14,Auto Targeter - Max Locked Targets
 # Cloaking Devices,,,,,,,,,,
 306,2,330,37,3,6,0,0,0,4,Cloaking Device - Max Velocity Penalty
-565,2,330,564,3,6,0,0,0,14,Cloaking Device - Scan Resolution
+565,2,330,564,3,6,0,0,0,15,Cloaking Device - Scan Resolution
 # CPU Upgrades,,,,,,,,,,
 202,2,285,48,3,6,0,0,0,14,Co-Processor - CPU Output
 # Remote Sensor Boosters,,,,,,,,,,
