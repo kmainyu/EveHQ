@@ -414,7 +414,7 @@
 337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
 884,1,21888,833,1,20124;22228;20514,0,0,0,Gang,Siege Warfare Mindlink
 315,1,21890,37,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
-884,1,21890,833,2,20070;11017;20408,0,0,0,Gang,Skirmish Warfare Mindlink
+884,1,21890,833,1,20070;11017;20408,0,0,0,Gang,Skirmish Warfare Mindlink
 335,1,20499,265,3,6,0,0,0,Armor;Learning,Slave Alpha
 335,1,20499,1159,2,329,0,0,0,Armor;Learning,Slave Alpha
 335,1,20501,265,3,6,0,0,0,Armor;Learning,Slave Beta
