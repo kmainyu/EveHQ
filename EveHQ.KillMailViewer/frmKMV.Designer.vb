@@ -38,13 +38,13 @@ Partial Class frmKMV
         Me.colCharacterName = New System.Windows.Forms.ColumnHeader
         Me.btnFetchKillMails = New System.Windows.Forms.Button
         Me.lblKMSummary = New System.Windows.Forms.Label
-        Me.lvwKillMails = New System.Windows.Forms.ListView
-        Me.colVictim = New System.Windows.Forms.ColumnHeader
-        Me.colShip = New System.Windows.Forms.ColumnHeader
-        Me.colKillTime = New System.Windows.Forms.ColumnHeader
         Me.lblKillmailDetails = New System.Windows.Forms.Label
         Me.txtKillMailDetails = New System.Windows.Forms.TextBox
         Me.btnUploadToBC = New System.Windows.Forms.Button
+        Me.clvKillMails = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colVictim = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colShipLost = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colKillTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.gbAPIInfo.SuspendLayout()
         Me.gbCharacters.SuspendLayout()
         Me.SuspendLayout()
@@ -213,37 +213,6 @@ Partial Class frmKMV
         Me.lblKMSummary.TabIndex = 2
         Me.lblKMSummary.Text = "Killmail Summary"
         '
-        'lvwKillMails
-        '
-        Me.lvwKillMails.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lvwKillMails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colVictim, Me.colShip, Me.colKillTime})
-        Me.lvwKillMails.FullRowSelect = True
-        Me.lvwKillMails.GridLines = True
-        Me.lvwKillMails.HideSelection = False
-        Me.lvwKillMails.Location = New System.Drawing.Point(12, 188)
-        Me.lvwKillMails.Name = "lvwKillMails"
-        Me.lvwKillMails.ShowItemToolTips = True
-        Me.lvwKillMails.Size = New System.Drawing.Size(405, 440)
-        Me.lvwKillMails.TabIndex = 3
-        Me.lvwKillMails.UseCompatibleStateImageBehavior = False
-        Me.lvwKillMails.View = System.Windows.Forms.View.Details
-        '
-        'colVictim
-        '
-        Me.colVictim.Text = "Victim"
-        Me.colVictim.Width = 125
-        '
-        'colShip
-        '
-        Me.colShip.Text = "Ship Lost"
-        Me.colShip.Width = 125
-        '
-        'colKillTime
-        '
-        Me.colKillTime.Text = "Kill Time"
-        Me.colKillTime.Width = 125
-        '
         'lblKillmailDetails
         '
         Me.lblKillmailDetails.AutoSize = True
@@ -277,15 +246,52 @@ Partial Class frmKMV
         Me.btnUploadToBC.UseVisualStyleBackColor = True
         Me.btnUploadToBC.Visible = False
         '
+        'clvKillMails
+        '
+        Me.clvKillMails.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.clvKillMails.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colVictim, Me.colShipLost, Me.colKillTime})
+        Me.clvKillMails.DefaultItemHeight = 20
+        Me.clvKillMails.Location = New System.Drawing.Point(12, 188)
+        Me.clvKillMails.Name = "clvKillMails"
+        Me.clvKillMails.Size = New System.Drawing.Size(405, 440)
+        Me.clvKillMails.TabIndex = 8
+        '
+        'colVictim
+        '
+        Me.colVictim.CustomSortTag = Nothing
+        Me.colVictim.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colVictim.Tag = Nothing
+        Me.colVictim.Text = "Victim"
+        Me.colVictim.Width = 125
+        '
+        'colShipLost
+        '
+        Me.colShipLost.CustomSortTag = Nothing
+        Me.colShipLost.DisplayIndex = 1
+        Me.colShipLost.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colShipLost.Tag = Nothing
+        Me.colShipLost.Text = "Ship Lost"
+        Me.colShipLost.Width = 125
+        '
+        'colKillTime
+        '
+        Me.colKillTime.CustomSortTag = Nothing
+        Me.colKillTime.DisplayIndex = 2
+        Me.colKillTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
+        Me.colKillTime.Tag = Nothing
+        Me.colKillTime.Text = "Kill Time"
+        Me.colKillTime.Width = 125
+        '
         'frmKMV
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(880, 640)
+        Me.Controls.Add(Me.clvKillMails)
         Me.Controls.Add(Me.btnUploadToBC)
         Me.Controls.Add(Me.txtKillMailDetails)
         Me.Controls.Add(Me.lblKillmailDetails)
-        Me.Controls.Add(Me.lvwKillMails)
         Me.Controls.Add(Me.lblKMSummary)
         Me.Controls.Add(Me.gbCharacters)
         Me.Controls.Add(Me.gbAPIInfo)
@@ -312,10 +318,6 @@ Partial Class frmKMV
     Friend WithEvents btnFetchKillMails As System.Windows.Forms.Button
     Friend WithEvents colCharacterName As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblKMSummary As System.Windows.Forms.Label
-    Friend WithEvents lvwKillMails As System.Windows.Forms.ListView
-    Friend WithEvents colVictim As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colShip As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colKillTime As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblKillmailDetails As System.Windows.Forms.Label
     Friend WithEvents txtKillMailDetails As System.Windows.Forms.TextBox
     Friend WithEvents chkUseCorp As System.Windows.Forms.CheckBox
@@ -323,4 +325,8 @@ Partial Class frmKMV
     Friend WithEvents radUseAccount As System.Windows.Forms.RadioButton
     Friend WithEvents cboAccount As System.Windows.Forms.ComboBox
     Friend WithEvents btnUploadToBC As System.Windows.Forms.Button
+    Friend WithEvents clvKillMails As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colVictim As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colShipLost As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colKillTime As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class

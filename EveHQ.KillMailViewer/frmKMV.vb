@@ -3,6 +3,7 @@ Imports System.Xml
 Imports System.Text
 Imports System.IO
 Imports System.Net
+Imports DotNetLib.Windows.Forms
 
 Public Class frmKMV
 
@@ -274,27 +275,26 @@ Public Class frmKMV
 #Region "Killmail Summary Routines"
     Private Sub DrawKMSummary()
         ' Update the list of killmails
-        lvwKillMails.BeginUpdate()
-        lvwKillMails.Items.Clear()
+        clvKillMails.BeginUpdate()
+        clvKillMails.Items.Clear()
         For Each charKM As KillMail In KMs.Values
-            Dim newKM As New ListViewItem
-            newKM.Name = charKM.killID
-            newKM.ToolTipText = "KillID: " & charKM.killID
+            Dim newKM As New ContainerListViewItem
+            newKM.Tag = charKM.killID
             If charKM.Victim.charName = "" Then
                 newKM.Text = charKM.Victim.corpName
             Else
                 newKM.Text = charKM.Victim.charName
             End If
-            newKM.SubItems.Add(EveHQ.Core.HQ.itemData(charKM.Victim.shipTypeID).Name)
-            newKM.SubItems.Add(FormatDateTime(charKM.killTime, DateFormat.GeneralDate))
-            lvwKillMails.Items.Add(newKM)
+            clvKillMails.Items.Add(newKM)
+            newKM.SubItems(1).Text = EveHQ.Core.HQ.itemData(charKM.Victim.shipTypeID).Name
+            newKM.SubItems(2).Text = FormatDateTime(charKM.killTime, DateFormat.GeneralDate)
         Next
-        lvwKillMails.EndUpdate()
+        clvKillMails.EndUpdate()
         ' Update the summary label
         If chkUseCorp.Checked = True Then
-            lblKMSummary.Text = "Corp Killmail Summary for " & charName & " (" & lvwKillMails.Items.Count & " items)"
+            lblKMSummary.Text = "Corp Killmail Summary for " & charName & " (" & clvKillMails.Items.Count & " items)"
         Else
-            lblKMSummary.Text = "Killmail Summary for " & charName & " (" & lvwKillMails.Items.Count & " items)"
+            lblKMSummary.Text = "Killmail Summary for " & charName & " (" & clvKillMails.Items.Count & " items)"
         End If
         ' Clear the killmail detail text
         txtKillMailDetails.Text = ""
@@ -303,15 +303,14 @@ Public Class frmKMV
 
 #Region "Killmail Detail Routines"
 
-    Private Sub lvwKillMails_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwKillMails.SelectedIndexChanged
-        If lvwKillMails.SelectedItems.Count > 0 Then
+    Private Sub clvKillMails_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvKillMails.MouseClick
+        If clvKillMails.SelectedItems.Count > 0 Then
             ' Get the killID of the selected Killmail
-            Dim killID As String = lvwKillMails.SelectedItems(0).Name
+            Dim killID As String = CStr(clvKillMails.SelectedItems(0).Tag)
             Dim selKM As KillMail = CType(KMs(killID), KillMail)
             ' Write the killmail detail
             Call DrawKMDetail(selKM)
         End If
-
     End Sub
 
     Private Sub DrawKMDetail(ByVal selKM As KillMail)
@@ -473,9 +472,9 @@ Public Class frmKMV
         ' Only do selected KM for now for testing purposes
         Dim URI As String = "http://eve.battleclinic.com/killboard/index.php"
 
-        If lvwKillMails.SelectedItems.Count > 0 Then
+        If clvKillMails.SelectedItems.Count > 0 Then
             ' Get the killID of the selected Killmail
-            Dim killID As String = lvwKillMails.SelectedItems(0).Name
+            Dim killID As String = CStr(clvKillMails.SelectedItems(0).Tag)
             Dim selKM As KillMail = CType(KMs(killID), KillMail)
             ' Check for valid attackers (i.e. not all NPC ones)
             Dim validKM As Boolean = False
@@ -548,4 +547,5 @@ Public Class frmKMV
 
 #End Region
 
+   
 End Class
