@@ -197,13 +197,10 @@ Public Class frmSettings
     Private Sub chkDisableAutoConnections_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDisableAutoConnections.CheckedChanged
         EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = chkDisableAutoConnections.Checked
         If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = True Then
-            chkAutoAPI.Checked = False
             chkAutoAPI.Enabled = False
-            chkAutoMailAPI.Checked = False
-            chkAutoMailAPI.Enabled = False
+            chkAutoAPI.Checked = False
         Else
             chkAutoAPI.Enabled = True
-            chkAutoMailAPI.Enabled = True
         End If
     End Sub
 

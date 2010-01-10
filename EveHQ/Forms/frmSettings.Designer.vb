@@ -232,6 +232,8 @@ Partial Public Class frmSettings
         Me.colPlugInName = New System.Windows.Forms.ColumnHeader
         Me.colStatus = New System.Windows.Forms.ColumnHeader
         Me.gbNotifications = New System.Windows.Forms.GroupBox
+        Me.chkNotifyNotification = New System.Windows.Forms.CheckBox
+        Me.chkNotifyEveMail = New System.Windows.Forms.CheckBox
         Me.chkNotifyEarly = New System.Windows.Forms.CheckBox
         Me.chkNotifyNow = New System.Windows.Forms.CheckBox
         Me.lblNotifyMe = New System.Windows.Forms.Label
@@ -314,8 +316,6 @@ Partial Public Class frmSettings
         Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
         Me.lblWidgetMain1 = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkNotifyEveMail = New System.Windows.Forms.CheckBox
-        Me.chkNotifyNotification = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2069,9 +2069,9 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
+        Me.gbEveServer.Location = New System.Drawing.Point(213, 298)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(693, 504)
+        Me.gbEveServer.Size = New System.Drawing.Size(184, 47)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2366,13 +2366,33 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(213, 125)
+        Me.gbNotifications.Location = New System.Drawing.Point(661, 311)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(162, 47)
+        Me.gbNotifications.Size = New System.Drawing.Size(86, 47)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
         Me.gbNotifications.Visible = False
+        '
+        'chkNotifyNotification
+        '
+        Me.chkNotifyNotification.AutoSize = True
+        Me.chkNotifyNotification.Location = New System.Drawing.Point(231, 270)
+        Me.chkNotifyNotification.Name = "chkNotifyNotification"
+        Me.chkNotifyNotification.Size = New System.Drawing.Size(172, 17)
+        Me.chkNotifyNotification.TabIndex = 22
+        Me.chkNotifyNotification.Text = "Notify on New Eve Notification"
+        Me.chkNotifyNotification.UseVisualStyleBackColor = True
+        '
+        'chkNotifyEveMail
+        '
+        Me.chkNotifyEveMail.AutoSize = True
+        Me.chkNotifyEveMail.Location = New System.Drawing.Point(21, 270)
+        Me.chkNotifyEveMail.Name = "chkNotifyEveMail"
+        Me.chkNotifyEveMail.Size = New System.Drawing.Size(133, 17)
+        Me.chkNotifyEveMail.TabIndex = 21
+        Me.chkNotifyEveMail.Text = "Notify on New EveMail"
+        Me.chkNotifyEveMail.UseVisualStyleBackColor = True
         '
         'chkNotifyEarly
         '
@@ -2535,9 +2555,9 @@ Partial Public Class frmSettings
         Me.gbEmail.Controls.Add(Me.txtEmailAddress)
         Me.gbEmail.Controls.Add(Me.txtSMTPServer)
         Me.gbEmail.Controls.Add(Me.lblSMTPServer)
-        Me.gbEmail.Location = New System.Drawing.Point(194, 12)
+        Me.gbEmail.Location = New System.Drawing.Point(247, 88)
         Me.gbEmail.Name = "gbEmail"
-        Me.gbEmail.Size = New System.Drawing.Size(693, 489)
+        Me.gbEmail.Size = New System.Drawing.Size(145, 36)
         Me.gbEmail.TabIndex = 6
         Me.gbEmail.TabStop = False
         Me.gbEmail.Text = "E-Mail Options"
@@ -3160,32 +3180,12 @@ Partial Public Class frmSettings
         Me.lblWidgetMain1.TabIndex = 36
         Me.lblWidgetMain1.Text = "Widget Main 1"
         '
-        'chkNotifyEveMail
-        '
-        Me.chkNotifyEveMail.AutoSize = True
-        Me.chkNotifyEveMail.Location = New System.Drawing.Point(21, 270)
-        Me.chkNotifyEveMail.Name = "chkNotifyEveMail"
-        Me.chkNotifyEveMail.Size = New System.Drawing.Size(133, 17)
-        Me.chkNotifyEveMail.TabIndex = 21
-        Me.chkNotifyEveMail.Text = "Notify on New EveMail"
-        Me.chkNotifyEveMail.UseVisualStyleBackColor = True
-        '
-        'chkNotifyNotification
-        '
-        Me.chkNotifyNotification.AutoSize = True
-        Me.chkNotifyNotification.Location = New System.Drawing.Point(231, 270)
-        Me.chkNotifyNotification.Name = "chkNotifyNotification"
-        Me.chkNotifyNotification.Size = New System.Drawing.Size(172, 17)
-        Me.chkNotifyNotification.TabIndex = 22
-        Me.chkNotifyNotification.Text = "Notify on New Eve Notification"
-        Me.chkNotifyNotification.UseVisualStyleBackColor = True
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbEmail)
+        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbEmail)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbDashboard)
