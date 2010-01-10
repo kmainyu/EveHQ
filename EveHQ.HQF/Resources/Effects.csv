@@ -22,11 +22,11 @@
 327,1,23618,9,3,18,0,1,0,0,Drone Durability - Hull
 335,1,23618,265,3,18,0,1,0,0,Drone Durability - Armor
 337,1,23618,263,3,18,0,1,0,0,Drone Durability - Shield
-292,1,3442,114,3,18,0,1,0,0,Drone Interfacing - EM
-292,1,3442,116,3,18,0,1,0,0,Drone Interfacing - Explosive
-292,1,3442,117,3,18,0,1,0,0,Drone Interfacing - Kinetic
-292,1,3442,118,3,18,0,1,0,0,Drone Interfacing - Thermal
-434,1,3442,77,3,18,0,1,0,0,Drone Interfacing - Mining
+292,1,3442,114,2,100,0,1,0,0,Drone Interfacing - EM
+292,1,3442,116,2,100,0,1,0,0,Drone Interfacing - Explosive
+292,1,3442,117,2,100,0,1,0,0,Drone Interfacing - Kinetic
+292,1,3442,118,2,100,0,1,0,0,Drone Interfacing - Thermal
+434,1,3442,77,2,101,0,1,0,0,Drone Interfacing - Mining
 591,1,12305,37,3,18,0,1,0,0,Drone Navigation
 294,1,23606,54,3,18,0,1,0,0,Drone Sharpshooting
 353,1,3436,10005,3,6,0,1,1,0,Drones
