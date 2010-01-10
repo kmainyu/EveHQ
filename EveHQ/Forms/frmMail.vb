@@ -20,7 +20,7 @@ Public Class frmMail
     End Property
 
     Private Sub frmMail_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Check for the existence of our 3 required tables
+        ' Check for the existence of our 2 required tables
         Call EveHQ.Core.DataFunctions.CheckForEveMailTable()
         Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
         Call EveHQ.Core.DataFunctions.CheckForIDNameTable()

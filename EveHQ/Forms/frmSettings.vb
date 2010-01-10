@@ -19,6 +19,9 @@
 '=========================================================================
 Imports Microsoft.Win32
 Imports System.Data
+Imports System.Data.OleDb
+Imports System.Data.Odbc
+Imports System.Data.SqlClient
 Imports System.Xml
 Imports System.IO
 Imports System.Net
@@ -1036,10 +1039,10 @@ Public Class frmSettings
 
     Private Sub btnBrowseMDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBrowseMDB.Click
         With ofd1
-            .Title = "Select SQL CE Data file"
+            .Title = "Select Access Data file"
             .FileName = ""
             .InitialDirectory = EveHQ.Core.HQ.appFolder
-            .Filter = "SQL Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
+            .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
             .FilterIndex = 1
             .RestoreDirectory = True
             If .ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -1093,7 +1096,50 @@ Public Class frmSettings
     End Sub
 
     Private Sub btnTestDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestDB.Click
-        Call EveHQ.Core.DataFunctions.CheckDatabaseConnection(False)
+        Dim strConnection As String = ""
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0
+                strConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBFilename & ";"
+                Dim connection As New OleDbConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    MessageBox.Show("Connected successfully to Access database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message, "Error Opening Access Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Case 1
+                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; Integrated Security = SSPI;"
+                End If
+                Dim connection As New SqlConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    MessageBox.Show("Connected successfully to MS SQL database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message, "Error Opening MS SQL Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Case 2
+                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; Integrated Security = SSPI;"
+                End If
+                Dim connection As New SqlConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    MessageBox.Show("Connected successfully to MS SQL EXPRESS database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message, "Error Opening MS SQL EXPRESS Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+        End Select
     End Sub
 
     Private Sub chkUseAppDirForDB_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseAppDirForDB.CheckedChanged

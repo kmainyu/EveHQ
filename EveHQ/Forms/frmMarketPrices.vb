@@ -89,7 +89,7 @@ Public Class frmMarketPrices
             strSQL.AppendLine("  stdSell         float,")
             strSQL.AppendLine("  medSell         float,")
             strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT marketStats_PK PRIMARY KEY (statID)")
+            strSQL.AppendLine("  CONSTRAINT marketStats_PK PRIMARY KEY CLUSTERED (statID)")
             strSQL.AppendLine(")")
             If EveHQ.Core.HQ.EveHQSettings.DBFormat > 0 Then
                 strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_type ON marketStats (typeID)")
@@ -140,7 +140,7 @@ Public Class frmMarketPrices
             strSQL.AppendLine("  dateID         int IDENTITY(1,1),")
             strSQL.AppendLine("  priceDate      datetime,")
             strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT marketDates_PK PRIMARY KEY (dateID)")
+            strSQL.AppendLine("  CONSTRAINT marketDates_PK PRIMARY KEY CLUSTERED (dateID)")
             strSQL.AppendLine(")")
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True

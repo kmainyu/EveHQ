@@ -1701,7 +1701,7 @@ Public Class EveHQSettingsFunctions
         ' Determine if a database format has been chosen before and set it if not
         If EveHQ.Core.HQ.EveHQSettings.DBFormat = -1 Then
             EveHQ.Core.HQ.EveHQSettings.DBFormat = 0
-            EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.sdf")
+            EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.mdb")
             ' Check for this file!
             Dim fileExists As Boolean = False
             Do
@@ -1716,10 +1716,10 @@ Public Class EveHQSettingsFunctions
                     End If
                     Dim ofd1 As New OpenFileDialog
                     With ofd1
-                        .Title = "Select SQL CE Data file"
+                        .Title = "Select Access Data file"
                         .FileName = ""
                         .InitialDirectory = EveHQ.Core.HQ.appFolder
-                        .Filter = "SQL CE Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
+                        .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
                         .FilterIndex = 1
                         .RestoreDirectory = True
                         If .ShowDialog() = Windows.Forms.DialogResult.OK Then

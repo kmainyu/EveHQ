@@ -22,6 +22,7 @@ Imports System.Windows.Forms
 Imports System.Text.RegularExpressions
 Imports System.Data
 Imports System.Data.OleDb
+Imports System.Data.Odbc
 Imports System.Data.SqlClient
 Imports System.IO.Compression
 Imports System.Text

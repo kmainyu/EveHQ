@@ -102,8 +102,8 @@ Public Class frmPatcher
         ' Check for a database upgrade
         lblCurrentStatus.Text = "Checking for database upgrade..."
         Me.Refresh()
-        ' See if we have the EveHQ.sdf.zip file
-        Dim DBZipLocation As String = Path.Combine(updateFolder, "EveHQ.sdf.zip")
+        ' See if we have the EveHQ.mdb.zip file
+        Dim DBZipLocation As String = Path.Combine(updateFolder, "EveHQ.mdb.zip")
         If My.Computer.FileSystem.FileExists(DBZipLocation) = True Then
             ' We have the file, let's try extracting it
             lblCurrentStatus.Text = "Extracting new database..."
@@ -111,8 +111,8 @@ Public Class frmPatcher
             Try
                 Dim unzip As FastZip = New FastZip()
                 unzip.ExtractZip(DBZipLocation, updateFolder, "")
-                ' See if we have the EveHQ.sdf file
-                Dim DBLocation As String = Path.Combine(updateFolder, "EveHQ.sdf")
+                ' See if we have the EveHQ.mdb file
+                Dim DBLocation As String = Path.Combine(updateFolder, "EveHQ.mdb")
                 If My.Computer.FileSystem.FileExists(DBLocation) = True Then
                     ' Copy to existing DB Location
                     lblCurrentStatus.Text = "Copying new database..."
