@@ -39,6 +39,8 @@ Partial Class frmHQF
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuShipStats = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuCopyImplants = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuMainExportToEve = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.btnScreenshot = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
@@ -96,6 +98,11 @@ Partial Class frmHQF
         Me.lblModuleDisplayType = New System.Windows.Forms.Label
         Me.txtSearchModules = New System.Windows.Forms.TextBox
         Me.lblSearchModules = New System.Windows.Forms.Label
+        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
+        Me.colModuleName = New System.Windows.Forms.ColumnHeader
+        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
+        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
+        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
@@ -188,13 +195,6 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.CollapsibleSplitter2 = New NJFLib.Controls.CollapsibleSplitter
-        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuMainExportToEve = New System.Windows.Forms.ToolStripMenuItem
-        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
-        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
-        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainerShip.Panel1.SuspendLayout()
         Me.SplitContainerShip.Panel2.SuspendLayout()
@@ -354,6 +354,17 @@ Partial Class frmHQF
         Me.mnuCopyImplants.Name = "mnuCopyImplants"
         Me.mnuCopyImplants.Size = New System.Drawing.Size(184, 22)
         Me.mnuCopyImplants.Text = "Copy Implant Details"
+        '
+        'ToolStripMenuItem8
+        '
+        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(181, 6)
+        '
+        'mnuMainExportToEve
+        '
+        Me.mnuMainExportToEve.Name = "mnuMainExportToEve"
+        Me.mnuMainExportToEve.Size = New System.Drawing.Size(184, 22)
+        Me.mnuMainExportToEve.Text = "Export to Eve"
         '
         'ToolStripSeparator6
         '
@@ -883,6 +894,45 @@ Partial Class frmHQF
         Me.lblSearchModules.TabIndex = 18
         Me.lblSearchModules.Text = "Search:"
         '
+        'lvwItems
+        '
+        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
+        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
+        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwItems.FullRowSelect = True
+        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
+        Me.lvwItems.MultiSelect = False
+        Me.lvwItems.Name = "lvwItems"
+        Me.lvwItems.ShowItemToolTips = True
+        Me.lvwItems.Size = New System.Drawing.Size(287, 343)
+        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwItems.TabIndex = 0
+        Me.lvwItems.UseCompatibleStateImageBehavior = False
+        Me.lvwItems.View = System.Windows.Forms.View.Details
+        '
+        'colModuleName
+        '
+        Me.colModuleName.Text = "Module"
+        Me.colModuleName.Width = 150
+        '
+        'colModuleMetaType
+        '
+        Me.colModuleMetaType.Text = "Meta"
+        Me.colModuleMetaType.Width = 40
+        '
+        'colModuleCPU
+        '
+        Me.colModuleCPU.Text = "CPU"
+        Me.colModuleCPU.Width = 40
+        '
+        'colModulePG
+        '
+        Me.colModulePG.Text = "PG"
+        Me.colModulePG.Width = 40
+        '
         'ctxModuleList
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup, Me.mnuShowMetaVariations})
@@ -965,7 +1015,7 @@ Partial Class frmHQF
         Me.tabHQF.Multiline = True
         Me.tabHQF.Name = "tabHQF"
         Me.tabHQF.SelectedIndex = 0
-        Me.tabHQF.Size = New System.Drawing.Size(592, 696)
+        Me.tabHQF.Size = New System.Drawing.Size(597, 696)
         Me.tabHQF.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.tabHQF.TabIndex = 0
         '
@@ -975,7 +1025,7 @@ Partial Class frmHQF
         Me.tabShipPreview.Location = New System.Drawing.Point(4, 22)
         Me.tabShipPreview.Name = "tabShipPreview"
         Me.tabShipPreview.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabShipPreview.Size = New System.Drawing.Size(584, 670)
+        Me.tabShipPreview.Size = New System.Drawing.Size(589, 670)
         Me.tabShipPreview.TabIndex = 0
         Me.tabShipPreview.Text = "Ship Preview"
         Me.tabShipPreview.UseVisualStyleBackColor = True
@@ -990,7 +1040,7 @@ Partial Class frmHQF
         Me.panelPreview.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelPreview.Location = New System.Drawing.Point(3, 3)
         Me.panelPreview.Name = "panelPreview"
-        Me.panelPreview.Size = New System.Drawing.Size(578, 664)
+        Me.panelPreview.Size = New System.Drawing.Size(583, 664)
         Me.panelPreview.TabIndex = 19
         '
         'lblShipType
@@ -1000,7 +1050,7 @@ Partial Class frmHQF
         Me.lblShipType.Font = New System.Drawing.Font("Arial", 20.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblShipType.Location = New System.Drawing.Point(4, 4)
         Me.lblShipType.Name = "lblShipType"
-        Me.lblShipType.Size = New System.Drawing.Size(571, 33)
+        Me.lblShipType.Size = New System.Drawing.Size(576, 33)
         Me.lblShipType.TabIndex = 2
         Me.lblShipType.Text = "Ship Type"
         '
@@ -1020,7 +1070,7 @@ Partial Class frmHQF
         Me.FlowLayoutPanel1.Controls.Add(Me.gbSpeed)
         Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 174)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(572, 502)
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(577, 502)
         Me.FlowLayoutPanel1.TabIndex = 18
         '
         'GroupBox1
@@ -1770,7 +1820,7 @@ Partial Class frmHQF
         Me.txtShipDescription.Name = "txtShipDescription"
         Me.txtShipDescription.ReadOnly = True
         Me.txtShipDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
-        Me.txtShipDescription.Size = New System.Drawing.Size(441, 128)
+        Me.txtShipDescription.Size = New System.Drawing.Size(446, 128)
         Me.txtShipDescription.TabIndex = 17
         Me.txtShipDescription.Text = "Ship Description"
         '
@@ -1823,62 +1873,12 @@ Partial Class frmHQF
         Me.CollapsibleSplitter2.ControlToHide = Me.SplitContainerMod
         Me.CollapsibleSplitter2.Dock = System.Windows.Forms.DockStyle.Right
         Me.CollapsibleSplitter2.ExpandParentForm = False
-        Me.CollapsibleSplitter2.Location = New System.Drawing.Point(800, 25)
+        Me.CollapsibleSplitter2.Location = New System.Drawing.Point(805, 25)
         Me.CollapsibleSplitter2.Name = "CollapsibleSplitter2"
         Me.CollapsibleSplitter2.TabIndex = 10
         Me.CollapsibleSplitter2.TabStop = False
         Me.CollapsibleSplitter2.UseAnimations = False
         Me.CollapsibleSplitter2.VisualStyle = NJFLib.Controls.VisualStyles.XP
-        '
-        'ToolStripMenuItem8
-        '
-        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(181, 6)
-        '
-        'mnuMainExportToEve
-        '
-        Me.mnuMainExportToEve.Name = "mnuMainExportToEve"
-        Me.mnuMainExportToEve.Size = New System.Drawing.Size(184, 22)
-        Me.mnuMainExportToEve.Text = "Export to Eve"
-        '
-        'lvwItems
-        '
-        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
-        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
-        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwItems.FullRowSelect = True
-        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
-        Me.lvwItems.MultiSelect = False
-        Me.lvwItems.Name = "lvwItems"
-        Me.lvwItems.ShowItemToolTips = True
-        Me.lvwItems.Size = New System.Drawing.Size(287, 343)
-        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwItems.TabIndex = 0
-        Me.lvwItems.UseCompatibleStateImageBehavior = False
-        Me.lvwItems.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module"
-        Me.colModuleName.Width = 150
-        '
-        'colModuleMetaType
-        '
-        Me.colModuleMetaType.Text = "Meta"
-        Me.colModuleMetaType.Width = 40
-        '
-        'colModuleCPU
-        '
-        Me.colModuleCPU.Text = "CPU"
-        Me.colModuleCPU.Width = 40
-        '
-        'colModulePG
-        '
-        Me.colModulePG.Text = "PG"
-        Me.colModulePG.Width = 40
         '
         'frmHQF
         '

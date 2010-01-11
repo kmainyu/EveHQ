@@ -180,8 +180,12 @@ Public Class frmHQF
             End If
         Next
         For Each fitting As String In updateList.Keys
-            Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
-            Fittings.FittingList.Remove(fitting)
+            If Fittings.FittingList.ContainsKey(updateList(fitting)) = False Then
+                Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
+            End If
+            If Fittings.FittingList.ContainsKey(fitting) = False Then
+                Fittings.FittingList.Remove(fitting)
+            End If
         Next
         ' Update Modules
         For Each fitting As ArrayList In Fittings.FittingList.Values
