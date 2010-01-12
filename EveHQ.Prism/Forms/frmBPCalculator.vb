@@ -588,7 +588,7 @@ Public Class frmBPCalculator
                         newRes.SubItems(3).Text = FormatNumber(total * ProductionRuns, 0)
                         newRes.SubItems(4).Text = FormatNumber(price, 2)
                         newRes.SubItems(5).Text = FormatNumber(value * ProductionRuns, 2)
-                        newRes.SubItems(6).Text = FormatNumber(Int(rResource.PerfectUnits / CurrentBP.MatMod), 0)
+                        newRes.SubItems(6).Text = FormatNumber(Int(rResource.BaseUnits / CurrentBP.MatMod), 0)
 
                         ' Add this into the required resources if necessary i.e. is not a skill
                         'If rResource.TypeCategory <> 16 Then
@@ -722,7 +722,7 @@ Public Class frmBPCalculator
                     newRes.SubItems(3).Text = FormatNumber(total, 0)
                     newRes.SubItems(4).Text = FormatNumber(price, 2)
                     newRes.SubItems(5).Text = FormatNumber(value, 2)
-                    newRes.SubItems(6).Text = FormatNumber(Int(rResource.PerfectUnits / CurrentBP.MatMod), 0)
+                    newRes.SubItems(6).Text = FormatNumber(Int(rResource.BaseUnits / CurrentBP.MatMod), 0)
 
                     ' Add this into the required resources if necessary i.e. is not a skill
                     'If rResource.TypeCategory <> 16 Then

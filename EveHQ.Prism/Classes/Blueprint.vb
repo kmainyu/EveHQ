@@ -150,6 +150,7 @@ End Class
     Public TypeGroup As Integer
     Public TypeCategory As Integer
     Public PerfectUnits As Double
+    Public BaseUnits As Double
     Public WasteUnits As Double
 End Class
 
@@ -306,6 +307,7 @@ Public Class BlueprintSelection
                     newResource.TypeCategory = resource.TypeCategory
                     newResource.PerfectUnits = perfectRaw
                     newResource.WasteUnits = waste
+                    newResource.BaseUnits = resource.BaseMaterial
                     ReqdResources.Add(resource.TypeID, newResource)
                 End If
             End If
