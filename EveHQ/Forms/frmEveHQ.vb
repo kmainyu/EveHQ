@@ -2681,12 +2681,22 @@ Public Class frmEveHQ
         Dim strSQL As String = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
         Dim mailData As Data.DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
         Dim unreadMail As Integer = 0
-        Dim unreadNotices As Integer = 0
         If mailData IsNot Nothing Then
             If mailData.Tables(0).Rows.Count > 0 Then
                 unreadMail = CInt(mailData.Tables(0).Rows(0).Item(0))
             End If
         End If
+
+        ' Get a list of the notifications that are unread
+        strSQL = "SELECT COUNT(*) FROM eveNotifications WHERE readMail=0;"
+        mailData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim unreadNotices As Integer = 0
+        If mailData IsNot Nothing Then
+            If mailData.Tables(0).Rows.Count > 0 Then
+                unreadNotices = CInt(mailData.Tables(0).Rows(0).Item(0))
+            End If
+        End If
+
         If unreadMail > 0 Or unreadNotices > 0 Then
             tsbMail.Text = unreadMail.ToString & "/" & unreadNotices.ToString
             tsbMail.BackColor = Color.Lime
@@ -2694,7 +2704,7 @@ Public Class frmEveHQ
             tsbMail.Text = ""
             tsbMail.BackColor = Color.Transparent
         End If
-        tsbMail.ToolTipText = "View Mail & Notifications" & ControlChars.CrLf & "(" & unreadMail.ToString & " mails / " & unreadNotices.ToString & " notices)"
+        tsbMail.ToolTipText = "View Mail & Notifications" & ControlChars.CrLf & "Unread: " & unreadMail.ToString & " mails, " & unreadNotices.ToString & " notifications"
     End Sub
 
     Private Sub UpdateMailNotifications()
