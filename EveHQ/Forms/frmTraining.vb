@@ -2953,11 +2953,11 @@ Public Class frmTraining
                         MessageBox.Show("Unable to read file data. Please check the file is not corrupted and you have permissions to access this file", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Try
                     ' Get the list of skills from the plan
-                    Dim skillList As XmlNodeList = planXML.SelectNodes("/plan/Entries/entry")
+                    Dim skillList As XmlNodeList = planXML.SelectNodes("/plan/entry")
                     Dim planSkills As New ArrayList
                     For Each skill As XmlNode In skillList
-                        Dim skillName As String = skill.ChildNodes(0).InnerText
-                        Dim skillLevel As String = skill.ChildNodes(1).InnerText
+                        Dim skillName As String = skill.Attributes.GetNamedItem("skill").Value
+                        Dim skillLevel As String = skill.Attributes.GetNamedItem("level").Value
                         planSkills.Add(skillName & skillLevel)
                     Next
                     ' Get a dialog for the new skills
