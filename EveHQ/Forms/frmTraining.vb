@@ -2976,6 +2976,7 @@ Public Class frmTraining
             Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, activeQueue)
             Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
             If arrQueue IsNot Nothing Then
+                Dim EMPAtt As XmlAttribute
                 ' Create XML Document
                 Dim EMPXML As New XmlDocument
                 ' Create XML Declaration
@@ -2984,31 +2985,73 @@ Public Class frmTraining
                 ' Create plan root
                 Dim EMPRoot As XmlElement = EMPXML.CreateElement("plan")
                 EMPXML.AppendChild(EMPRoot)
-                ' Create Entries child
-                Dim EMPEntries As XmlElement = EMPXML.CreateElement("Entries")
-                EMPRoot.AppendChild(EMPEntries)
+
+                EMPAtt = EMPXML.CreateAttribute("name")
+                EMPAtt.Value = activeQueue.Name
+                EMPRoot.Attributes.Append(EMPAtt)
+
+                'EMPAtt = EMPXML.CreateAttribute("owner")
+                'EMPAtt.Value = displayPilot.Name
+                'EMPRoot.Attributes.Append(EMPAtt)
+
+                EMPAtt = EMPXML.CreateAttribute("revision")
+                EMPAtt.Value = "1968"
+                EMPRoot.Attributes.Append(EMPAtt)
+
+                Dim EMPSort As XmlElement = EMPXML.CreateElement("sorting")
+                EMPRoot.AppendChild(EMPSort)
+
+                EMPAtt = EMPXML.CreateAttribute("criteria")
+                EMPAtt.Value = "None"
+                EMPSort.Attributes.Append(EMPAtt)
+
+                EMPAtt = EMPXML.CreateAttribute("order")
+                EMPAtt.Value = "None"
+                EMPSort.Attributes.Append(EMPAtt)
+
+                EMPAtt = EMPXML.CreateAttribute("optimizeLearning")
+                EMPAtt.Value = "false"
+                EMPSort.Attributes.Append(EMPAtt)
+
+                EMPAtt = EMPXML.CreateAttribute("groupByPriority")
+                EMPAtt.Value = "false"
+                EMPSort.Attributes.Append(EMPAtt)
+
                 ' Create individual entries
                 Dim EMPElement As XmlElement
+
                 For Each qItem In arrQueue
                     Dim EMPEntry As XmlNode = EMPXML.CreateElement("entry")
 
-                    EMPElement = EMPXML.CreateElement("SkillName")
-                    EMPElement.InnerText = qItem.Name
-                    EMPEntry.AppendChild(EMPElement)
+                    EMPAtt = EMPXML.CreateAttribute("skillID")
+                    EMPAtt.Value = qItem.ID
+                    EMPEntry.Attributes.Append(EMPAtt)
 
-                    EMPElement = EMPXML.CreateElement("Level")
-                    EMPElement.InnerText = qItem.ToLevel
-                    EMPEntry.AppendChild(EMPElement)
+                    EMPAtt = EMPXML.CreateAttribute("skill")
+                    EMPAtt.Value = qItem.Name
+                    EMPEntry.Attributes.Append(EMPAtt)
 
-                    EMPElement = EMPXML.CreateElement("EntryType")
+                    EMPAtt = EMPXML.CreateAttribute("level")
+                    EMPAtt.Value = qItem.ToLevel
+                    EMPEntry.Attributes.Append(EMPAtt)
+
+                    EMPAtt = EMPXML.CreateAttribute("priority")
+                    EMPAtt.Value = "3"
+                    EMPEntry.Attributes.Append(EMPAtt)
+
+                    EMPAtt = EMPXML.CreateAttribute("type")
                     If qItem.IsPrereq Then
-                        EMPElement.InnerText = "Prerequisite"
+                        EMPAtt.Value = "Prerequisite"
                     Else
-                        EMPElement.InnerText = "Planned"
+                        EMPAtt.Value = "Planned"
                     End If
+                    EMPEntry.Attributes.Append(EMPAtt)
+
+                    EMPElement = EMPXML.CreateElement("notes")
+                    EMPElement.InnerText = qItem.Notes
                     EMPEntry.AppendChild(EMPElement)
 
-                    EMPEntries.AppendChild(EMPEntry)
+                    EMPRoot.AppendChild(EMPEntry)
                 Next
 
                 ' Form a string of the XML
