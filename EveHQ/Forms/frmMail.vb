@@ -175,7 +175,12 @@ Public Class frmMail
         Dim UnreadFont As New Font(clvMail.Font, FontStyle.Bold)
         For Each newMail As EveHQ.Core.EveMailMessage In allMails.Values
             Dim mailItem As New ContainerListViewItem
-            mailItem.Text = FinalIDs(newMail.SenderID)
+            If FinalIDs.ContainsKey(newMail.SenderID) = True Then
+                mailItem.Text = FinalIDs(newMail.SenderID)
+            Else
+                'TODO: Replace this with a routine to get the name from the API
+                mailItem.Text = "Unknown"
+            End If
             clvMail.Items.Add(mailItem)
             mailItem.SubItems(1).Text = newMail.MessageTitle
             mailItem.SubItems(2).Text = FormatDateTime(newMail.MessageDate)
@@ -232,7 +237,12 @@ Public Class frmMail
         Dim UnreadFont As New Font(clvMail.Font, FontStyle.Bold)
         For Each newNotice As EveHQ.Core.EveNotification In allNotices.Values
             Dim mailItem As New ContainerListViewItem
-            mailItem.Text = FinalIDs(newNotice.SenderID)
+            If FinalIDs.ContainsKey(newNotice.SenderID) = True Then
+                mailItem.Text = FinalIDs(newNotice.SenderID)
+            Else
+                'TODO: Replace this with a routine to get the name from the API
+                mailItem.Text = "Unknown"
+            End If
             clvNotifications.Items.Add(mailItem)
             Dim strNotice As String = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID)
             strNotice = strNotice.Replace("_", " ")
