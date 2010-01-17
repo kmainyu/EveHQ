@@ -349,7 +349,7 @@ Public Class frmEveImport
             If fitNode.Attributes("name").Value = fitName And fitNode.SelectSingleNode("shipType").Attributes("value").Value = shipName Then
                 Dim modNodes As XmlNodeList = fitNode.SelectNodes("hardware")
                 For Each modNode As XmlNode In modNodes
-                    Dim fModule As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(modNode.Attributes("type").Value)), ShipModule)
+                    Dim fModule As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(modNode.Attributes("type").Value.Trim)), ShipModule)
                     If modNode.Attributes("slot").Value <> "subsystem slot 0" Then
                         If moduleList.ContainsKey(modNode.Attributes("slot").Value) = False Then
                             ' Add the mod/ammo to the slot
