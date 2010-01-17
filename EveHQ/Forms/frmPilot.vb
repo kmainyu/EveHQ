@@ -1025,7 +1025,7 @@ Public Class frmPilot
     End Sub
 
 #Region "Standings Routines"
-   
+
     Private Sub btnGetStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetStandings.Click
         ' First, let's check out the cache location based on the value of the settings
         Dim cacheFileList As New ArrayList
@@ -1113,14 +1113,24 @@ Public Class frmPilot
         Next
 
         If cacheFileList.Count > 0 Then
+            Dim lastWrites As Dictionary(Of String, Date) = New Dictionary(Of String, Date)
+
             Cursor = Cursors.WaitCursor
             Dim StandingsDecoder As New EveHQ.Core.StandingsCacheDecoder
             EveHQ.Core.HQ.AllStandings.Clear()
             For Each cachefile As String In cacheFileList
                 MyStandings = StandingsDecoder.FetchStandings(cachefile)
                 If MyStandings.OwnerID IsNot Nothing Then
+                    Dim last As Date = File.GetLastWriteTime(cachefile)
                     If EveHQ.Core.HQ.AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
                         EveHQ.Core.HQ.AllStandings.Add(MyStandings.OwnerID, MyStandings)
+                        lastWrites.Add(MyStandings.OwnerID, last)
+                    Else
+                        If last > lastWrites(MyStandings.OwnerID) Then
+                            EveHQ.Core.HQ.AllStandings.Remove(MyStandings.OwnerID)
+                            EveHQ.Core.HQ.AllStandings.Add(MyStandings.OwnerID, MyStandings)
+                            lastWrites(MyStandings.OwnerID) = last
+                        End If
                     End If
                 End If
             Next
