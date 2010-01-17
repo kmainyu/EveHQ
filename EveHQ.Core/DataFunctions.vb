@@ -1635,7 +1635,7 @@ Public Class DataFunctions
         Next
         strID.Append("0")
         ' Send this to the API
-        Dim IDXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, strID.ToString, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        Dim IDXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, strID.ToString, EveHQ.Core.EveAPI.APIReturnMethod.ReturnActual)
         ' Parse this XML
         Dim FinalIDs As New SortedList(Of Long, String)
         Dim IDList As XmlNodeList
