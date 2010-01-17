@@ -3155,8 +3155,11 @@ Public Class Engine
                             If modData.Length > 1 Then
                                 If modData(1).EndsWith("a") = True Then
                                     active = True
+                                    modData(1) = modData(1).TrimEnd("a".ToCharArray)
+                                ElseIf modData(1).EndsWith("i") = True Then
+                                    modData(1) = modData(1).TrimEnd("i".ToCharArray)
                                 End If
-                                Call Engine.AddDrone(currentship, sMod, CInt(modData(1).Substring(0, Len(modData(1)) - 1)), active)
+                                Call Engine.AddDrone(currentship, sMod, CInt(modData(1)), active)
                             Else
                                 Call Engine.AddDrone(currentship, sMod, 1, active)
                             End If
