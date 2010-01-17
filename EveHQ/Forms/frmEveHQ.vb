@@ -122,9 +122,6 @@ Public Class frmEveHQ
 
 #Region "Menu Click Routines"
 
-    Private Sub ExitToolsStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ExitToolStripMenuItem.Click
-        Me.Close()
-    End Sub
     Private Sub CascadeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.LayoutMdi(MdiLayout.Cascade)
     End Sub
@@ -201,8 +198,7 @@ Public Class frmEveHQ
         End If
     End Sub
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
-        Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
-        End
+        Me.Close()
     End Sub
     Private Sub RestoreWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RestoreWindowToolStripMenuItem.Click
         ' Restores the window
