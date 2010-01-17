@@ -2825,102 +2825,98 @@ Public Class frmTraining
         ' Try to find the EveMon settings file
         Dim EveMonLocation As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveMon"), "Settings.xml")
         If My.Computer.FileSystem.FileExists(EveMonLocation) = False Then
-            MessageBox.Show("EveMon Settings File Not Found." & ControlChars.CrLf & ControlChars.CrLf & "Please check the EveMon installation.", "EveMon Settings Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        Else
-            Try
-                ' Load the Settings file into an XMLDocument
-                Dim EMXML As New Xml.XmlDocument
-                EMXML.Load(EveMonLocation)
-                ' Get a list of the characters that are in files (not API)
-                Dim EMPilots As New SortedList
-                Dim CharDetails As Xml.XmlNodeList
-                Dim CharNode As Xml.XmlNode
-                CharDetails = EMXML.SelectNodes("/logindata2/CharFileList/CharFileInfo")
-                If CharDetails.Count > 0 Then
-                    ' Need to add details of pilots here
-                    For Each CharNode In CharDetails
-                        EMPilots.Add(CharNode.ChildNodes(0).InnerText, CharNode.ChildNodes(3).InnerText)
-                    Next
-                End If
-                ' Don't need to get a list of the characters that are in the API - this info is retrieved direct from the plan!
-                'CharDetails = EMXML.SelectNodes("/logindata2/CharacterList/CharLoginInfo")
-                'If CharDetails.Count > 0 Then
-                '    ' Need to add details of pilots here
-                '    For Each CharNode In CharDetails
-                '        ' Check char nodes for the "CharacterName" node
-                '        For Each cNode As Xml.XmlNode In CharNode.ChildNodes
-                '            If cNode.InnerXml = "CharacterName" Then
-                '               'EMPilots.Add("API" & CharNode.ChildNodes(3).InnerText, CharNode.ChildNodes(3).InnerText)
-                '            End If
-                '        Next
-                '    Next
-                'End If
+            ' Try for the settings-debug file which is common during development
+            EveMonLocation = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveMon"), "Settings-debug.xml")
+            If My.Computer.FileSystem.FileExists(EveMonLocation) = False Then
+                MessageBox.Show("EveMon Settings File Not Found." & ControlChars.CrLf & ControlChars.CrLf & "Please check the EveMon installation.", "EveMon Settings Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+        Try
+            ' Load the Settings file into an XMLDocument
+            Dim EMXML As New Xml.XmlDocument
+            EMXML.Load(EveMonLocation)
+            ' Get a list of the characters that are in files (not API)
+            Dim EMPilots As New SortedList
+            Dim CharDetails As Xml.XmlNodeList
+            Dim CharNode As Xml.XmlNode
+            ' Get details of characters assigned to an API account
+            CharDetails = EMXML.SelectNodes("Settings/characters/ccp")
+            If CharDetails.Count > 0 Then
+                ' Need to add details of pilots here
+                For Each CharNode In CharDetails
+                    EMPilots.Add(CharNode.Attributes.GetNamedItem("guid").Value, CharNode.ChildNodes(1).InnerText) ' Adds the GUID and name
+                Next
+            End If
+            ' Get details of characters added by a file
+            CharDetails = EMXML.SelectNodes("Settings/characters/uri")
+            If CharDetails.Count > 0 Then
+                ' Need to add details of pilots here
+                For Each CharNode In CharDetails
+                    EMPilots.Add(CharNode.Attributes.GetNamedItem("guid").Value, CharNode.ChildNodes(1).InnerText) ' Adds the GUID and name
+                Next
+            End If
 
-                ' Try and get the plan information
-                Dim PlanDetails As Xml.XmlNodeList
-                Dim PlanNode As Xml.XmlNode
-                Dim PlansItemNode As Xml.XmlNode
-                Dim PlansParentNode As Xml.XmlNode
-                PlanDetails = EMXML.SelectNodes("/logindata2/Plans/PairOfStringPlan")
-                If PlanDetails.Count > 0 Then
-                    Dim PlanInfo(PlanDetails.Count, 2) As String
-                    Dim count As Integer = -1
-                    For Each PlanNode In PlanDetails
-                        count += 1
-                        Dim planText As String = PlanNode.ChildNodes(0).InnerText.Replace("::", "#")
-                        Dim planTexts() As String = planText.Split("#".ToCharArray)
-                        Dim pilotName As String = ""
-                        Dim planName As String = planTexts(1)
-                        If EMPilots.Contains(planTexts(0)) = True Then
-                            ' File pilot
-                            pilotName = CStr(EMPilots.Item(planTexts(0)))
-                        Else
-                            ' API pilot
-                            pilotName = planTexts(0)
-                        End If
-                        PlanInfo(count, 0) = pilotName : PlanInfo(count, 1) = planName
-                        PlansParentNode = PlanNode.ChildNodes(1)
-                        Dim SQ As New Collection
-                        Dim SQCount As Integer = 0
-                        For Each PlansItemNode In PlansParentNode.ChildNodes(0)
-                            SQCount += 1
-                            Dim SQI As New EveHQ.Core.SkillQueueItem
-                            SQI.Name = PlansItemNode.ChildNodes(0).InnerText
-                            SQI.ToLevel = CInt(PlansItemNode.ChildNodes(1).InnerText)
-                            SQI.FromLevel = SQI.ToLevel - 1
-                            SQI.Pos = SQCount
-                            SQI.Key = SQI.Name & SQI.FromLevel & SQI.ToLevel
-                            SQ.Add(SQI, SQI.Key)
-                        Next
-                        PlanInfo(count, 2) = SQ.Count.ToString
+            ' Try and get the plan information
+            Dim PlanDetails As Xml.XmlNodeList
+            Dim PlanNode As Xml.XmlNode
+            Dim PlansItemNode As Xml.XmlNode
+            Dim PlansParentNode As Xml.XmlNode
+            PlanDetails = EMXML.SelectNodes("Settings/plans/plan")
+            If PlanDetails.Count > 0 Then
+                Dim PlanInfo(PlanDetails.Count, 2) As String
+                Dim count As Integer = -1
+                For Each PlanNode In PlanDetails
+                    count += 1
+                    Dim planOwner As String = PlanNode.Attributes.GetNamedItem("owner").Value
+                    If EMPilots.ContainsKey(planOwner) = True Then
+                        Dim pilotName As String = CStr(EMPilots(planOwner))
+                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(pilotName) = True Then
+                            Dim planName As String = PlanNode.Attributes.GetNamedItem("name").Value
+                            PlanInfo(count, 0) = pilotName : PlanInfo(count, 1) = planName
+                            PlansParentNode = PlanNode.ChildNodes(1)
+                            Dim SQ As New Collection
+                            Dim SQCount As Integer = 0
+                            Dim planItems As XmlNodeList = PlanNode.SelectNodes("entry")
+                            If planItems.Count > 0 Then
+                                For Each PlansItemNode In planItems
+                                    SQCount += 1
+                                    Dim SQI As New EveHQ.Core.SkillQueueItem
+                                    SQI.Name = PlansItemNode.Attributes.GetNamedItem("skill").Value
+                                    SQI.ToLevel = CInt(PlansItemNode.Attributes.GetNamedItem("level").Value)
+                                    SQI.FromLevel = SQI.ToLevel - 1
+                                    SQI.Pos = SQCount
+                                    SQI.Key = SQI.Name & SQI.FromLevel & SQI.ToLevel
+                                    SQI.Notes = PlansItemNode.ChildNodes(0).InnerText
+                                    SQ.Add(SQI, SQI.Key)
+                                Next
+                                PlanInfo(count, 2) = SQ.Count.ToString
 
-                        ' Check if we have a relevant pilot!
-                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(PlanInfo(count, 0)) = True Then
-                            ' Ok, load up the plan
-                            Dim newSQ As New EveHQ.Core.SkillQueue
-                            newSQ.Name = PlanInfo(count, 1)
-                            newSQ.IncCurrentTraining = True
-                            newSQ.Primary = False
-                            newSQ.Queue = SQ
-                            Dim QPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PlanInfo(count, 0)), Core.Pilot)
-                            If QPilot.TrainingQueues.Contains(PlanInfo(count, 1)) = False Then
-                                QPilot.TrainingQueues.Add(newSQ.Name, newSQ)
-                                RecalcQueues = True
+                                ' Ok, load up the plan
+                                Dim newSQ As New EveHQ.Core.SkillQueue
+                                newSQ.Name = PlanInfo(count, 1)
+                                newSQ.IncCurrentTraining = True
+                                newSQ.Primary = False
+                                newSQ.Queue = SQ
+                                Dim QPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PlanInfo(count, 0)), Core.Pilot)
+                                If QPilot.TrainingQueues.Contains(PlanInfo(count, 1)) = False Then
+                                    QPilot.TrainingQueues.Add(newSQ.Name, newSQ)
+                                    RecalcQueues = True
+                                End If
                             End If
                         End If
-                    Next
-                End If
+                    End If
+                Next
+            End If
 
-                ' Recalc the queues if appropriate
-                If RecalcQueues = True Then
-                    Call Me.RefreshAllTraining()
-                End If
-                MessageBox.Show("Import of " & PlanDetails.Count & " EveMon plans complete", "EveMon Skill Queue Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show("Error importing EveMon plans." & ControlChars.CrLf & ControlChars.CrLf & "Error: " & ex.Message & ControlChars.CrLf & ex.StackTrace, "Import EveMon Plans Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            End Try
-        End If
+            ' Recalc the queues if appropriate
+            If RecalcQueues = True Then
+                Call Me.RefreshAllTraining()
+            End If
+            MessageBox.Show("Import of " & PlanDetails.Count & " EveMon plans complete!", "EveMon Skill Queue Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Error importing EveMon plans." & ControlChars.CrLf & ControlChars.CrLf & "Error: " & ex.Message & ControlChars.CrLf & ex.StackTrace, "Import EveMon Plans Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End Try
     End Sub
 
     Private Sub mnuImportEMP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEMP.Click
