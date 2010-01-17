@@ -620,6 +620,7 @@
 317,2,85,6,6,0,0,0,0,15,Hybrid Ammo - Activation Cost
 120,2,83,54,6,0,0,0,0,15,Projectile Ammo - Optimal Range
 317,2,83,6,6,0,0,0,0,15,Projectile Ammo - Activation Cost
+244,2,83,160,6,0,0,0,5,15,Projectile Ammo - Tracking Bonus
 # T2 MISSILES,,,,,,,,,,
 554,2,654,552,3,6,0,0,0,15,Assault - Signature Radius Penalty
 306,2,654,37,3,6,0,0,0,15,Assault - Max Velocity Penalty
