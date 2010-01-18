@@ -148,7 +148,7 @@ Public Class frmPilotManager
                     groupNode.SelectedImageIndex = 8
                     clvSkills.Items.Add(groupNode)
                     ' Now cycle through the list to get the skills
-                    For Each newSkill In EveHQ.Core.HQ.SkillListID.Values
+                    For Each newSkill In EveHQ.Core.HQ.SkillListName.Values
                         If newSkill.GroupID <> "505" Then
                             If newSkill.GroupID = newSkillGroup.ID And newSkill.Published = True Then
                                 Dim skillNode As New ContainerListViewItem
