@@ -2234,7 +2234,11 @@ Public Class frmHQF
         Dim moduleID As String = lvwItems.SelectedItems(0).Name
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
-        ShipModule.DisplayedMarketGroup = pathLine
+        If pathLine IsNot Nothing Then
+            ShipModule.DisplayedMarketGroup = pathLine
+        Else
+            MessageBox.Show("Unable to display Market Group due to absence of Market Group information in HQF.", "Unable to Show Market Group", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
 
 #End Region
