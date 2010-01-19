@@ -5594,7 +5594,6 @@ Public Class frmPrism
                             Dim locationID As String = loc.Attributes.GetNamedItem("locationID").Value
                             Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
                             Dim locationDetails As String = PlugInData.itemFlags(flagID).ToString
-
                             ' Check the asset
                             Dim ItemData As New EveHQ.Core.EveItem
                             Dim AssetID As String = ""
@@ -5603,6 +5602,13 @@ Public Class frmPrism
                             itemID = loc.Attributes.GetNamedItem("typeID").Value
                             If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
                                 ItemData = EveHQ.Core.HQ.itemData(itemID)
+                                If flagID = 0 Then
+                                    If PlugInData.AssetItemNames.ContainsKey(AssetID) = True Then
+                                        locationDetails = PlugInData.AssetItemNames(AssetID)
+                                    Else
+                                        locationDetails = ItemData.Name
+                                    End If
+                                End If
                                 If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
                                     Dim newBP As New BlueprintAsset
                                     newBP.AssetID = AssetID
