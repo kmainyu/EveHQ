@@ -973,11 +973,13 @@ Public Class frmPrism
                                 If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
                                     If PlugInData.BlueprintAssets(owner).ContainsKey(newAsset.Tag.ToString) = True Then
                                         Dim chkBPO As BlueprintAsset = PlugInData.BlueprintAssets(owner).Item(newAsset.Tag.ToString)
-                                        If chkBPO.Runs > -1 Then
+                                        If chkBPO.Runs > -1 Or chkBPO.BPType = BPType.Unknown Then
                                             IsBPO = False
-                                            newAsset.Text = newAsset.Text.Replace("Blueprint", "Blueprint Copy")
+                                            If chkBPO.BPType <> BPType.Unknown Then
+                                                newAsset.Text = newAsset.Text.Replace("Blueprint", "BPC")
+                                            End If
                                         Else
-                                            newAsset.Text = newAsset.Text.Replace("Blueprint", "Blueprint Orig")
+                                            newAsset.Text = newAsset.Text.Replace("Blueprint", "BPO")
                                         End If
                                     End If
                                 End If
@@ -1126,11 +1128,13 @@ Public Class frmPrism
                     If PlugInData.BlueprintAssets.ContainsKey(assetOwner) = True Then
                         If PlugInData.BlueprintAssets(assetOwner).ContainsKey(subAsset.Tag.ToString) = True Then
                             Dim chkBPO As BlueprintAsset = PlugInData.BlueprintAssets(assetOwner).Item(subAsset.Tag.ToString)
-                            If chkBPO.Runs > -1 Then
+                            If chkBPO.Runs > -1 Or chkBPO.BPType = BPType.Unknown Then
                                 IsBPO = False
-                                subAsset.Text = subAsset.Text.Replace("Blueprint", "Blueprint Copy")
+                                If chkBPO.BPType <> BPType.Unknown Then
+                                    subAsset.Text = subAsset.Text.Replace("Blueprint", "BPC")
+                                End If
                             Else
-                                subAsset.Text = subAsset.Text.Replace("Blueprint", "Blueprint Orig")
+                                subAsset.Text = subAsset.Text.Replace("Blueprint", "BPO")
                             End If
                         End If
                     End If
