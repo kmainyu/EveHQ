@@ -53,6 +53,7 @@ Public Class frmPrism
     Dim totalAssetCount As Long = 0
     Dim totalAssetBatch As Long = 0
     Dim HQFShip As New ArrayList
+    Dim assetCorpMode As Boolean = False
     Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
@@ -805,9 +806,11 @@ Public Class frmPrism
             Dim owner As String = cPilot.Text
             Dim rep As String = ""
             Dim IsCorp As Boolean = False
+            assetCorpMode = False
             ' See if this owner is a corp
             If PlugInData.CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
+                assetCorpMode = chkCorpHangarMode.Checked
                 ' See if we have a representative
                 Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
                 If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
@@ -1047,6 +1050,8 @@ Public Class frmPrism
         Dim subLocList As XmlNodeList
         Dim subLoc As XmlNode
         Dim containerPrice As Double = 0
+        Dim AssetIsInHanger As Boolean = False
+        Dim hangarPrice As Double = 0
         Dim linePrice As Double = 0
         subLocList = loc.ChildNodes(0).ChildNodes
         If IsNumeric(parentAsset.SubItems(AssetColumn.Price).Text) = True Then
@@ -1096,7 +1101,31 @@ Public Class frmPrism
 
                 Dim subAsset As New ContainerListViewItem
                 subAsset.Tag = subLoc.Attributes.GetNamedItem("itemID").Value
-                parentAsset.Items.Add(subAsset)
+                Dim subFlagID As Integer = CInt(subLoc.Attributes.GetNamedItem("flag").Value)
+                Dim subFlagName As String = PlugInData.itemFlags(subFlagID).ToString
+                Dim accountID As Integer = subFlagID + 885
+                If accountID = 889 Then accountID = 1000
+                If assetOwner = selPilot.Corp And groupName <> "Station Services" Then
+                    If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
+                        subFlagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
+                        If assetCorpMode = True And parentAsset.Items.Count < 7 Then
+                            ' Build the corp division nodes
+                            For div As Integer = 0 To 6
+                                Dim hangar As New ContainerListViewItem
+                                hangar.Text = CStr(divisions.Item(selPilot.CorpID & "_" & (1000 + div).ToString))
+                                parentAsset.Items.Add(hangar)
+                                hangar.SubItems(AssetColumn.Value).Text = FormatNumber(0, 2)
+                            Next
+                        End If
+                    End If
+                End If
+                If assetCorpMode = True And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
+                    parentAsset.Items(accountID - 1000).Items.Add(subAsset)
+                    AssetIsInHanger = True
+                Else
+                    parentAsset.Items.Add(subAsset)
+                    AssetIsInHanger = False
+                End If
                 subAsset.SubItems(0).Tag = itemName
                 If PlugInData.AssetItemNames.ContainsKey(subAsset.Tag.ToString) = True Then
                     subAsset.Text = PlugInData.AssetItemNames(subAsset.Tag.ToString)
@@ -1106,15 +1135,6 @@ Public Class frmPrism
                 subAsset.SubItems(AssetColumn.Owner).Text = assetOwner
                 subAsset.SubItems(AssetColumn.Group).Text = groupName
                 subAsset.SubItems(AssetColumn.Category).Text = catName
-                Dim subFlagID As Integer = CInt(subLoc.Attributes.GetNamedItem("flag").Value)
-                Dim subFlagName As String = PlugInData.itemFlags(subFlagID).ToString
-                If assetOwner = selPilot.Corp And subAsset.SubItems(2).Text <> "Station Services" Then
-                    Dim accountID As Integer = subFlagID + 885
-                    If accountID = 889 Then accountID = 1000
-                    If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
-                        subFlagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
-                    End If
-                End If
                 subAsset.SubItems(AssetColumn.Location).Text = subFlagName
                 subAsset.SubItems(AssetColumn.Meta).Text = metaLevel
                 subAsset.SubItems(AssetColumn.Volume).Text = volume
@@ -1153,6 +1173,12 @@ Public Class frmPrism
                 End If
                 containerPrice += linePrice
                 subAsset.SubItems(AssetColumn.Value).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+
+                ' Update hangar price if applicable
+                If AssetIsInHanger = True Then
+                    hangarPrice = CDbl(subAsset.ParentItem.SubItems(AssetColumn.Value).Text)
+                    subAsset.ParentItem.SubItems(AssetColumn.Value).Text = FormatNumber(hangarPrice + linePrice, 2)
+                End If
 
                 ' Add the asset to the list of assets
                 Dim newAssetList As New AssetItem
