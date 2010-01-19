@@ -1864,7 +1864,7 @@ Public Class PlugInData
             rootNode.Name = rootNode.Text
             Call PopulateModuleGroups(CInt(rootRow.Item("marketGroupID")), rootNode, marketTable)
             Select Case rootNode.Text
-                Case "Ship Equipment", "Ammunition & Charges", "Drones", "Ship Modifications" ', "Implants & Boosters"
+                Case "Ship Equipment", "Ammunition & Charges", "Drones", "Ship Modifications", "Implants & Boosters"
                     tvwItems.Nodes.Add(rootNode)
             End Select
         Next
