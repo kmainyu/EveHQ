@@ -716,8 +716,8 @@ Public Class frmPrism
 #Region "Assets XML Parsing"
     Private Sub PopulateAssets()
         assetList.Clear()
-        tlvAssets.BeginUpdate()
-        tlvAssets.Items.Clear()
+        clvAssets.BeginUpdate()
+        clvAssets.Items.Clear()
         totalAssetValue = 0
         totalAssetCount = 0
         ' Get the details of corp accounts
@@ -742,8 +742,8 @@ Public Class frmPrism
             Call Me.DisplayOrders()
         End If
         tssLabelTotalAssets.Text = FormatNumber(totalAssetValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK  (" & FormatNumber(totalAssetCount, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " total quantity)"
-        tlvAssets.Sort(0, System.Windows.Forms.SortOrder.Ascending, True)
-        tlvAssets.EndUpdate()
+        clvAssets.Sort(0, System.Windows.Forms.SortOrder.Ascending, True)
+        clvAssets.EndUpdate()
     End Sub
     Private Sub ParseCorpSheets()
         ' Reset the lists of divisions and wallets
@@ -835,6 +835,8 @@ Public Class frmPrism
                 If assetXML IsNot Nothing Then
                     Dim locList As XmlNodeList
                     Dim loc As XmlNode
+                    Dim AssetIsInHanger As Boolean = False
+                    Dim hangarPrice As Double = 0
                     locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
                     If locList.Count > 0 Then
                         Dim linePrice As Double = 0
@@ -843,7 +845,7 @@ Public Class frmPrism
                             ' Check if the location is already listed
                             Dim locNode As New ContainerListViewItem
                             Dim addLocation As Boolean = True
-                            For Each testNode As ContainerListViewItem In tlvAssets.Items
+                            For Each testNode As ContainerListViewItem In clvAssets.Items
                                 If testNode.Tag.ToString = (loc.Attributes.GetNamedItem("locationID").Value) Then
                                     locNode = testNode
                                     addLocation = False
@@ -901,7 +903,7 @@ Public Class frmPrism
                                     End If
                                 End If
                                 locNode.SubItems(0).Tag = locNode.Text
-                                tlvAssets.Items.Add(locNode)
+                                clvAssets.Items.Add(locNode)
                             End If
 
                             Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
@@ -943,8 +945,34 @@ Public Class frmPrism
 
                             Dim newAsset As New ContainerListViewItem
                             newAsset.Tag = loc.Attributes.GetNamedItem("itemID").Value
+                            Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
+                            Dim flagName As String = PlugInData.itemFlags(flagID).ToString
+                            Dim accountID As Integer = flagID + 885
+                            If accountID = 889 Then accountID = 1000
+                            If IsCorp = True And groupName <> "Station Services" Then
+                                If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
+                                    flagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
+                                    If assetCorpMode = True And locNode.Items.Count < 7 Then
+                                        ' Build the corp division nodes
+                                        For div As Integer = 0 To 6
+                                            Dim hangar As New ContainerListViewItem
+                                            hangar.Text = CStr(divisions.Item(selPilot.CorpID & "_" & (1000 + div).ToString))
+                                            locNode.Items.Add(hangar)
+                                            hangar.SubItems(AssetColumn.Value).Text = FormatNumber(0, 2)
+                                        Next
+                                    End If
+                                End If
+                            End If
+
                             ' Add the asset to the treelistview
-                            locNode.Items.Add(newAsset)
+                            If assetCorpMode = True And (flagID = 4 Or (flagID >= 116 And flagID <= 121)) Then
+                                locNode.Items(accountID - 1000).Items.Add(newAsset)
+                                AssetIsInHanger = True
+                            Else
+                                locNode.Items.Add(newAsset)
+                                AssetIsInHanger = False
+                            End If
+
                             newAsset.SubItems(0).Tag = itemName
                             If PlugInData.AssetItemNames.ContainsKey(newAsset.Tag.ToString) = True Then
                                 newAsset.Text = PlugInData.AssetItemNames(newAsset.Tag.ToString)
@@ -954,15 +982,6 @@ Public Class frmPrism
                             newAsset.SubItems(AssetColumn.Owner).Text = owner
                             newAsset.SubItems(AssetColumn.Group).Text = groupName
                             newAsset.SubItems(AssetColumn.Category).Text = catName
-                            Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
-                            Dim flagName As String = PlugInData.itemFlags(flagID).ToString
-                            If IsCorp = True And newAsset.SubItems(2).Text <> "Station Services" Then
-                                Dim accountID As Integer = flagID + 885
-                                If accountID = 889 Then accountID = 1000
-                                If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
-                                    flagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
-                                End If
-                            End If
                             newAsset.SubItems(AssetColumn.Location).Text = flagName
                             newAsset.SubItems(AssetColumn.Meta).Text = metaLevel
                             newAsset.SubItems(AssetColumn.Volume).Text = volume
@@ -1000,6 +1019,12 @@ Public Class frmPrism
                             End If
                             newAsset.SubItems(AssetColumn.Value).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
+                            ' Update hangar price if applicable
+                            If AssetIsInHanger = True Then
+                                hangarPrice = CDbl(newAsset.ParentItem.SubItems(AssetColumn.Value).Text)
+                                newAsset.ParentItem.SubItems(AssetColumn.Value).Text = FormatNumber(hangarPrice + linePrice, 2)
+                            End If
+
                             ' Add the asset to the list of assets
                             Dim newAssetList As New AssetItem
                             newAssetList.itemID = newAsset.Tag.ToString
@@ -1028,9 +1053,9 @@ Public Class frmPrism
         Dim locationPrice As Double = 0
         Dim cLoc As ContainerListViewItem
         Dim cL As Integer = 0
-        If tlvAssets.Items.Count > 0 Then
+        If clvAssets.Items.Count > 0 Then
             Do
-                cLoc = tlvAssets.Items(cL)
+                cLoc = clvAssets.Items(cL)
                 locationPrice = 0
                 For Each cLine As ContainerListViewItem In cLoc.Items
                     locationPrice += CDbl(cLine.SubItems(AssetColumn.Value).Text)
@@ -1039,11 +1064,11 @@ Public Class frmPrism
                 cLoc.SubItems(AssetColumn.Value).Text = FormatNumber(locationPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 ' Delete if no child nodes at the locations
                 If cLoc.Items.Count = 0 Then
-                    tlvAssets.Items.Remove(cLoc)
+                    clvAssets.Items.Remove(cLoc)
                     cL -= 1
                 End If
                 cL += 1
-            Loop Until cL = tlvAssets.Items.Count
+            Loop Until cL = clvAssets.Items.Count
         End If
     End Sub
     Private Function PopulateAssetNode(ByVal parentAsset As ContainerListViewItem, ByVal loc As XmlNode, ByVal assetOwner As String, ByVal location As String, ByVal selPilot As EveHQ.Core.Pilot) As Double
@@ -1287,7 +1312,7 @@ Public Class frmPrism
         Dim totalCash As Double = 0
         node.Tag = "ISK"
         node.Text = "Cash Balances"
-        tlvAssets.Items.Add(node)
+        clvAssets.Items.Add(node)
         ' Add the personal balances
         If charWallets.Count > 0 Then
             Dim personalNode As New ContainerListViewItem
@@ -1352,7 +1377,7 @@ Public Class frmPrism
         Dim totalValue As Double = 0
         investNode.Tag = "Investments"
         investNode.Text = "Investments"
-        tlvAssets.Items.Add(investNode)
+        clvAssets.Items.Add(investNode)
 
         ' Check and list investments
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
@@ -1409,7 +1434,7 @@ Public Class frmPrism
         Dim buyValue, sellValue As Double
         ordersNode.Tag = "Orders"
         ordersNode.Text = "Market Orders"
-        tlvAssets.Items.Add(ordersNode)
+        clvAssets.Items.Add(ordersNode)
         ' Add the Buy Orders node
         buyOrders.Text = "Buy Orders"
         buyOrders.Tag = "Buy Orders"
@@ -1500,12 +1525,12 @@ Public Class frmPrism
     Private Sub FilterTree()
         Dim cL As Integer = 0
         Dim cLoc As ContainerListViewItem
-        If tlvAssets.Items.Count > 0 Then
+        If clvAssets.Items.Count > 0 Then
             Do
-                cLoc = tlvAssets.Items(cL)
+                cLoc = clvAssets.Items(cL)
                 If cLoc.Items.Count = 0 Then
                     If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
-                        tlvAssets.Items.Remove(cLoc)
+                        clvAssets.Items.Remove(cLoc)
                         assetList.Remove(cLoc.Tag)
                         totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                         cL -= 1
@@ -1514,7 +1539,7 @@ Public Class frmPrism
                     Call FilterNode(cLoc)
                     If cLoc.Items.Count = 0 Then
                         If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
-                            tlvAssets.Items.Remove(cLoc)
+                            clvAssets.Items.Remove(cLoc)
                             If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
                                 totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                             End If
@@ -1534,7 +1559,7 @@ Public Class frmPrism
                     End If
                 End If
                 cL += 1
-            Loop Until (cL = tlvAssets.Items.Count)
+            Loop Until (cL = clvAssets.Items.Count)
         End If
         Call Me.CalcFilteredPrices()
     End Sub
@@ -1577,7 +1602,7 @@ Public Class frmPrism
     Private Sub CalcFilteredPrices()
         totalAssetValue = 0
         Dim locPrice As Double = 0
-        For Each cLoc As ContainerListViewItem In tlvAssets.Items
+        For Each cLoc As ContainerListViewItem In clvAssets.Items
             ' Calculate cost of all the sub nodes
             If cLoc.Items.Count > 0 Then
                 locPrice = Me.CalcNodePrice(cLoc)
@@ -1783,18 +1808,18 @@ Public Class frmPrism
         End If
         Dim cL As Integer = 0
         Dim cLoc As ContainerListViewItem
-        If tlvAssets.Items.Count > 0 Then
+        If clvAssets.Items.Count > 0 Then
             Do
-                cLoc = tlvAssets.Items(cL)
+                cLoc = clvAssets.Items(cL)
                 If CDbl(cLoc.SubItems(AssetColumn.Value).Text) < minValue Then
                     Call FilterSystemNode(cLoc)
                     If cLoc.Items.Count = 0 Then
-                        tlvAssets.Items.Remove(cLoc)
+                        clvAssets.Items.Remove(cLoc)
                         cL -= 1
                     End If
                 End If
                 cL += 1
-            Loop Until (cL = tlvAssets.Items.Count)
+            Loop Until (cL = clvAssets.Items.Count)
         End If
         Call Me.RecalcAllPrices()
 
@@ -1832,7 +1857,7 @@ Public Class frmPrism
     Private Sub RecalcAllPrices()
         totalAssetValue = 0
         Dim locPrice As Double = 0
-        For Each cLoc As ContainerListViewItem In tlvAssets.Items
+        For Each cLoc As ContainerListViewItem In clvAssets.Items
             ' Calculate cost of all the sub nodes
             If cLoc.Items.Count > 0 Then
                 locPrice = Me.RecalcNodePrice(cLoc)
@@ -2004,7 +2029,7 @@ Public Class frmPrism
         Dim LocationValue As Double = 0
         Dim GroupValue As Double = 0
         strHTML.Append("<table width=800px align=center>")
-        For Each Loc As ContainerListViewItem In tlvAssets.Items
+        For Each Loc As ContainerListViewItem In clvAssets.Items
             LocationValue = 0
             strHTML.Append("<tr bgcolor=444488><td colspan=6>" & Loc.Text & "</td></tr>")
             Dim assets As New SortedList
@@ -2752,14 +2777,14 @@ Public Class frmPrism
 
 #Region "Asset Context Menu & UI Routines"
     Private Sub ctxAssets_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxAssets.Opening
-        If tlvAssets.SelectedItems.Count > 0 Then
-            If tlvAssets.SelectedItems.Count = 1 Then
-                If tlvAssets.SelectedItems(0).SubItems(0).Tag IsNot Nothing Then
-                    Dim itemName As String = tlvAssets.SelectedItems(0).SubItems(0).Tag.ToString
-                    Dim itemText As String = tlvAssets.SelectedItems(0).Text
-                    Dim itemID As String = tlvAssets.SelectedItems(0).Tag.ToString
+        If clvAssets.SelectedItems.Count > 0 Then
+            If clvAssets.SelectedItems.Count = 1 Then
+                If clvAssets.SelectedItems(0).SubItems(0).Tag IsNot Nothing Then
+                    Dim itemName As String = clvAssets.SelectedItems(0).SubItems(0).Tag.ToString
+                    Dim itemText As String = clvAssets.SelectedItems(0).Text
+                    Dim itemID As String = clvAssets.SelectedItems(0).Tag.ToString
                     If itemName <> "Cash Balances" And itemName <> "Investments" Then
-                        If EveHQ.Core.HQ.itemList.ContainsKey(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
+                        If EveHQ.Core.HQ.itemList.ContainsKey(itemName) = True And itemName <> "Office" And clvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
                             mnuItemName.Text = itemName
                             mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
                             mnuAddCustomName.Visible = True
@@ -2767,12 +2792,12 @@ Public Class frmPrism
                             mnuModifyPrice.Visible = True
                             mnuToolSep.Visible = True
                             mnuRecycleItem.Enabled = True
-                            If tlvAssets.SelectedItems(0).SubItems(AssetColumn.Category).Text = "Ship" Then
+                            If clvAssets.SelectedItems(0).SubItems(AssetColumn.Category).Text = "Ship" Then
                                 mnuViewInHQF.Visible = True
                             Else
                                 mnuViewInHQF.Visible = False
                             End If
-                            If tlvAssets.SelectedItems(0).Items.Count > 0 Then
+                            If clvAssets.SelectedItems(0).Items.Count > 0 Then
                                 mnuRecycleContained.Enabled = True
                                 mnuRecycleAll.Enabled = True
                             Else
@@ -2795,7 +2820,7 @@ Public Class frmPrism
                             mnuViewInHQF.Visible = False
                             mnuModifyPrice.Visible = False
                             mnuToolSep.Visible = False
-                            If tlvAssets.SelectedItems(0).Items.Count > 0 Then
+                            If clvAssets.SelectedItems(0).Items.Count > 0 Then
                                 mnuRecycleItem.Enabled = False
                                 mnuRecycleContained.Enabled = True
                                 mnuRecycleAll.Enabled = False
@@ -2818,7 +2843,7 @@ Public Class frmPrism
                 mnuModifyPrice.Visible = False
                 mnuToolSep.Visible = False
                 Dim containerItems As Boolean = False
-                For Each item As ContainerListViewItem In tlvAssets.SelectedItems
+                For Each item As ContainerListViewItem In clvAssets.SelectedItems
                     If item.Items.Count > 0 Then
                         containerItems = True
                         Exit For
@@ -2873,10 +2898,10 @@ Public Class frmPrism
         newPrice.ShowDialog()
     End Sub
     Private Sub mnuViewInHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInHQF.Click
-        If tlvAssets.SelectedItems.Count > 0 Then
-            Dim assetID As String = tlvAssets.SelectedItems(0).Tag.ToString
-            Dim shipName As String = tlvAssets.SelectedItems(0).Text
-            Dim owner As String = tlvAssets.SelectedItems(0).SubItems(AssetColumn.Owner).Text
+        If clvAssets.SelectedItems.Count > 0 Then
+            Dim assetID As String = clvAssets.SelectedItems(0).Tag.ToString
+            Dim shipName As String = clvAssets.SelectedItems(0).Text
+            Dim owner As String = clvAssets.SelectedItems(0).SubItems(AssetColumn.Owner).Text
             HQFShip = New ArrayList
             Call Me.SearchForShip(assetID, owner)
             ' Should have got the ship by now
@@ -3068,12 +3093,12 @@ Public Class frmPrism
             End Try
         Next
     End Sub
-    Private Sub tlvAssets_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tlvAssets.SelectedItemsChanged
-        If tlvAssets.SelectedItems.Count > 0 Then
+    Private Sub tlvAssets_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvAssets.SelectedItemsChanged
+        If clvAssets.SelectedItems.Count > 0 Then
             Dim volume, lineValue, value As Double
             Dim chkParent As New ContainerListViewItem
             Dim parentFlag As Boolean = False
-            For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
+            For Each asset As ContainerListViewItem In clvAssets.SelectedItems
                 parentFlag = False
                 chkParent = asset.ParentItem
                 Do While chkParent IsNot Nothing
@@ -3116,7 +3141,7 @@ Public Class frmPrism
         newCustomName.AssetName = assetName
         newCustomName.ShowDialog()
         If newCustomName.AssetItemName <> "" Then
-            tlvAssets.SelectedItems(0).Text = newCustomName.AssetItemName
+            clvAssets.SelectedItems(0).Text = newCustomName.AssetItemName
         End If
         newCustomName.Dispose()
     End Sub
@@ -3128,7 +3153,7 @@ Public Class frmPrism
             MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
             PlugInData.AssetItemNames.Remove(assetID)
-            tlvAssets.SelectedItems(0).Text = itemName
+            clvAssets.SelectedItems(0).Text = itemName
         End If
     End Sub
 #End Region
@@ -3835,7 +3860,7 @@ Public Class frmPrism
         Dim recycleList As New SortedList
         Dim assetName As String = ""
         tempAssetList.Clear()
-        For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
+        For Each asset As ContainerListViewItem In clvAssets.SelectedItems
             assetName = asset.SubItems(0).Tag.ToString
             If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(assetName)) = True Then
                 If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
@@ -3856,7 +3881,7 @@ Public Class frmPrism
         tempAssetList.Clear()
         RecyclerAssetList = recycleList
         RecyclerAssetOwner = cboOwner.SelectedItem.ToString
-        RecyclerAssetLocation = GetLocationID(tlvAssets.SelectedItems(0))
+        RecyclerAssetLocation = GetLocationID(clvAssets.SelectedItems(0))
         Call LoadRecyclingInfo()
         If tabPrism.TabPages.Contains(tabRecycle) = False Then
             tabPrism.TabPages.Add(tabRecycle)
@@ -3869,13 +3894,13 @@ Public Class frmPrism
     Private Sub mnuRecycleContained_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleContained.Click
         Dim recycleList As New SortedList
         tempAssetList.Clear()
-        For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
+        For Each asset As ContainerListViewItem In clvAssets.SelectedItems
             Call Me.AddItemsToRecycleList(asset, recycleList)
         Next
         tempAssetList.Clear()
         RecyclerAssetList = recycleList
         RecyclerAssetOwner = cboOwner.SelectedItem.ToString
-        RecyclerAssetLocation = GetLocationID(tlvAssets.SelectedItems(0))
+        RecyclerAssetLocation = GetLocationID(clvAssets.SelectedItems(0))
         Call Me.LoadRecyclingInfo()
         If tabPrism.TabPages.Contains(tabRecycle) = False Then
             tabPrism.TabPages.Add(tabRecycle)
@@ -3889,7 +3914,7 @@ Public Class frmPrism
         Dim recycleList As New SortedList
         Dim assetName As String = ""
         tempAssetList.Clear()
-        For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
+        For Each asset As ContainerListViewItem In clvAssets.SelectedItems
             assetName = asset.SubItems(0).Tag.ToString
             If EveHQ.Core.HQ.itemList.ContainsKey(assetName) = True Then
                 If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(assetName)) = True Then
@@ -3913,7 +3938,7 @@ Public Class frmPrism
         tempAssetList.Clear()
         RecyclerAssetList = recycleList
         RecyclerAssetOwner = cboOwner.SelectedItem.ToString
-        RecyclerAssetLocation = GetLocationID(tlvAssets.SelectedItems(0))
+        RecyclerAssetLocation = GetLocationID(clvAssets.SelectedItems(0))
         Call Me.LoadRecyclingInfo()
         If tabPrism.TabPages.Contains(tabRecycle) = False Then
             tabPrism.TabPages.Add(tabRecycle)
