@@ -5528,44 +5528,8 @@ Public Class frmPrism
                                     newBPItem.Text = BPData.Name
                                     newBPItem.Tag = BP.AssetID
                                     clvBlueprints.Items.Add(newBPItem)
-
                                     newBPItem.SubItems(3).Text = BPData.TechLevel.ToString
-                                    newBPItem.SubItems(4).Text = FormatNumber(BP.MELevel, 0)
-                                    newBPItem.SubItems(5).Text = FormatNumber(BP.PELevel, 0)
-                                    Select Case BP.BPType
-                                        Case BPType.Unknown  ' Undetermined
-                                            newBPItem.SubItems(1).Text = LocationName
-                                            newBPItem.SubItems(2).Text = BP.LocationDetails
-                                            newBPItem.SubItems(6).Text = "Unknown"
-                                            newBPItem.SubItems(6).Tag = BP.Runs
-                                            newBPItem.BackColor = Drawing.Color.LightGray
-                                        Case BPType.BPO  ' BPO
-                                            newBPItem.SubItems(1).Text = LocationName
-                                            newBPItem.SubItems(2).Text = BP.LocationDetails
-                                            newBPItem.SubItems(6).Text = "BPO"
-                                            newBPItem.SubItems(6).Tag = 1000000
-                                            newBPItem.BackColor = Drawing.Color.LightGreen
-                                        Case BPType.BPC  ' BPC
-                                            newBPItem.SubItems(1).Text = LocationName
-                                            newBPItem.SubItems(2).Text = BP.LocationDetails
-                                            newBPItem.SubItems(6).Text = FormatNumber(BP.Runs, 0)
-                                            newBPItem.SubItems(6).Tag = BP.Runs
-                                            newBPItem.BackColor = Drawing.Color.LightSteelBlue
-                                        Case BPType.User
-                                            newBPItem.SubItems(1).Text = owner & "'s Secret BP Stash"
-                                            newBPItem.SubItems(2).Text = owner & "'s Secret BP Stash"
-                                            newBPItem.SubItems(6).Text = "BPO"
-                                            newBPItem.SubItems(6).Tag = 1000000
-                                            newBPItem.BackColor = Drawing.Color.Yellow
-                                    End Select
-                                    newBPItem.SubItems(7).Text = [Enum].GetName(GetType(BPStatus), BP.Status)
-                                    newBPItem.SubItems(7).Tag = BP.Status
-                                    Select Case BP.Status
-                                        Case BPStatus.Missing
-                                            newBPItem.BackColor = Drawing.Color.LightCoral
-                                        Case BPStatus.Exhausted
-                                            newBPItem.BackColor = Drawing.Color.Orange
-                                    End Select
+                                    Call UpdateOwnerBPItem(owner, LocationName, BP, newBPItem)
                                 End If
                             End If
                         End If
@@ -5575,6 +5539,44 @@ Public Class frmPrism
             clvBlueprints.Sort(0, False, False)
             clvBlueprints.EndUpdate()
         End If
+    End Sub
+    Private Sub UpdateOwnerBPItem(ByVal Owner As String, ByVal LocationName As String, ByVal BP As BlueprintAsset, ByVal newBPItem As ContainerListViewItem)
+        newBPItem.SubItems(4).Text = FormatNumber(BP.MELevel, 0)
+        newBPItem.SubItems(5).Text = FormatNumber(BP.PELevel, 0)
+        Select Case BP.BPType
+            Case BPType.Unknown  ' Undetermined
+                newBPItem.SubItems(1).Text = LocationName
+                newBPItem.SubItems(2).Text = BP.LocationDetails
+                newBPItem.SubItems(6).Text = "Unknown"
+                newBPItem.SubItems(6).Tag = BP.Runs
+                newBPItem.BackColor = Drawing.Color.LightGray
+            Case BPType.BPO  ' BPO
+                newBPItem.SubItems(1).Text = LocationName
+                newBPItem.SubItems(2).Text = BP.LocationDetails
+                newBPItem.SubItems(6).Text = "BPO"
+                newBPItem.SubItems(6).Tag = 1000000
+                newBPItem.BackColor = Drawing.Color.LightGreen
+            Case BPType.BPC  ' BPC
+                newBPItem.SubItems(1).Text = LocationName
+                newBPItem.SubItems(2).Text = BP.LocationDetails
+                newBPItem.SubItems(6).Text = FormatNumber(BP.Runs, 0)
+                newBPItem.SubItems(6).Tag = BP.Runs
+                newBPItem.BackColor = Drawing.Color.LightSteelBlue
+            Case BPType.User
+                newBPItem.SubItems(1).Text = Owner & "'s Secret BP Stash"
+                newBPItem.SubItems(2).Text = Owner & "'s Secret BP Stash"
+                newBPItem.SubItems(6).Text = "BPO"
+                newBPItem.SubItems(6).Tag = 1000000
+                newBPItem.BackColor = Drawing.Color.Yellow
+        End Select
+        newBPItem.SubItems(7).Text = [Enum].GetName(GetType(BPStatus), BP.Status)
+        newBPItem.SubItems(7).Tag = BP.Status
+        Select Case BP.Status
+            Case BPStatus.Missing
+                newBPItem.BackColor = Drawing.Color.LightCoral
+            Case BPStatus.Exhausted
+                newBPItem.BackColor = Drawing.Color.Orange
+        End Select
     End Sub
 
     Private Sub btnUpdateBPsFromAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateBPsFromAssets.Click
@@ -5755,7 +5757,7 @@ Public Class frmPrism
                     Return newLocation.stationName
                 End If
             End If
-            End If
+        End If
     End Function
     Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef Assets As SortedList(Of String, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal selPilot As EveHQ.Core.Pilot, ByVal IsCorp As Boolean)
         Dim itemList As XmlNodeList = loc.ChildNodes(0).ChildNodes
@@ -5800,7 +5802,7 @@ Public Class frmPrism
             End If
             ' Check child items if they exist
             If item.ChildNodes.Count > 0 Then
-                Call GetAssetFromNode(item, categories, groups, types, Assets, locationID, flagname, selPilot, IsCorp)
+                Call GetAssetFromNode(item, categories, groups, types, Assets, locationID, flagName, selPilot, IsCorp)
             End If
         Next
     End Sub
@@ -5964,9 +5966,10 @@ Public Class frmPrism
             End If
         Else
             mnuSendToBPCalc.Enabled = False
-            mnuRemoveCustomBP.Enabled = False
+            mnuRemoveCustomBP.Text = "Remove Blueprints (" & clvBlueprints.SelectedItems.Count.ToString & ")"
+            mnuRemoveCustomBP.Enabled = True
         End If
-            mnuAmendBPDetails.Enabled = chkShowOwnedBPs.Checked
+        mnuAmendBPDetails.Enabled = chkShowOwnedBPs.Checked
     End Sub
 
     Private Sub mnuSendToBPCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSendToBPCalc.Click
@@ -6010,7 +6013,14 @@ Public Class frmPrism
         Next
         BPForm.AssetIDs = BPs
         BPForm.ShowDialog()
-        Call Me.UpdateBPList()
+        ' Update the list using the details
+        Dim BP As New BlueprintAsset
+        Dim locationName As String = ""
+        For Each selitem As ContainerListViewItem In clvBlueprints.SelectedItems
+            BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(selitem.Tag.ToString)
+            LocationName = Me.GetLocationNameFromID(BP.LocationID)
+            Call Me.UpdateOwnerBPItem(BPForm.OwnerName, locationName, BP, selitem)
+        Next
     End Sub
 
     Private Sub txtBPSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtBPSearch.TextChanged
@@ -6032,11 +6042,20 @@ Public Class frmPrism
 
     Private Sub mnuRemoveCustomBP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveCustomBP.Click
         ' Remove the custom BP from the assets
-        Dim assetID As String = CStr(clvBlueprints.SelectedItems(0).Tag)
-        Dim BPOwner As String = cboOwner.SelectedItem.ToString
-        If PlugInData.BlueprintAssets(BPOwner).ContainsKey(assetID) = True Then
-            PlugInData.BlueprintAssets(BPOwner).Remove(assetID)
-            Call Me.UpdateBPList()
+        If clvBlueprints.SelectedItems.Count > 0 Then
+            Dim rBP As New ContainerListViewItem
+            Dim cIDX As Integer = clvBlueprints.SelectedItems.Count - 1
+            Do
+                rBP = clvBlueprints.SelectedItems(cIDX)
+                Dim assetID As String = CStr(rBP.Tag)
+                Dim BPOwner As String = cboOwner.SelectedItem.ToString
+                If PlugInData.BlueprintAssets(BPOwner).ContainsKey(assetID) = True Then
+                    PlugInData.BlueprintAssets(BPOwner).Remove(assetID)
+                    clvBlueprints.Items.Remove(rBP)
+                    cIDX -= 1
+                End If
+            Loop Until cIDX = -1
+            'Call Me.UpdateBPList()
         End If
     End Sub
 
