@@ -968,10 +968,28 @@ Public Class frmPrism
                                 newAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 linePrice = 0
                             Else
-                                newAsset.SubItems(AssetColumn.Price).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(itemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                                If IsNumeric(newAsset.SubItems(8).Text) = True Then
-                                    linePrice = CDbl(newAsset.SubItems(7).Text) * CDbl(newAsset.SubItems(8).Text)
+                                ' Check with BP Manager if this is a BPO
+                                Dim IsBPO As Boolean = True
+                                If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
+                                    If PlugInData.BlueprintAssets(owner).ContainsKey(newAsset.Tag.ToString) = True Then
+                                        Dim chkBPO As BlueprintAsset = PlugInData.BlueprintAssets(owner).Item(newAsset.Tag.ToString)
+                                        If chkBPO.Runs > -1 Then
+                                            IsBPO = False
+                                            newAsset.Text = newAsset.Text.Replace("Blueprint", "Blueprint Copy")
+                                        Else
+                                            newAsset.Text = newAsset.Text.Replace("Blueprint", "Blueprint Orig")
+                                        End If
+                                    End If
+                                End If
+                                If IsBPO = True Then
+                                    newAsset.SubItems(AssetColumn.Price).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(itemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    If IsNumeric(newAsset.SubItems(AssetColumn.Price).Text) = True Then
+                                        linePrice = CDbl(newAsset.SubItems(AssetColumn.Quantity).Text) * CDbl(newAsset.SubItems(AssetColumn.Price).Text)
+                                    Else
+                                        linePrice = 0
+                                    End If
                                 Else
+                                    newAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     linePrice = 0
                                 End If
                             End If
@@ -1103,12 +1121,30 @@ Public Class frmPrism
                     subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     linePrice = 0
                 Else
-                    subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    If IsNumeric(subAsset.SubItems(AssetColumn.Price).Text) = True Then
-                        linePrice = CDbl(subAsset.SubItems(AssetColumn.Quantity).Text) * CDbl(subAsset.SubItems(AssetColumn.Price).Text)
+                    ' Check with BP Manager if this is a BPO
+                    Dim IsBPO As Boolean = True
+                    If PlugInData.BlueprintAssets.ContainsKey(assetOwner) = True Then
+                        If PlugInData.BlueprintAssets(assetOwner).ContainsKey(subAsset.Tag.ToString) = True Then
+                            Dim chkBPO As BlueprintAsset = PlugInData.BlueprintAssets(assetOwner).Item(subAsset.Tag.ToString)
+                            If chkBPO.Runs > -1 Then
+                                IsBPO = False
+                                subAsset.Text = subAsset.Text.Replace("Blueprint", "Blueprint Copy")
+                            Else
+                                subAsset.Text = subAsset.Text.Replace("Blueprint", "Blueprint Orig")
+                            End If
+                        End If
+                    End If
+                    If IsBPO = True Then
+                        subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        If IsNumeric(subAsset.SubItems(AssetColumn.Price).Text) = True Then
+                            linePrice = CDbl(subAsset.SubItems(AssetColumn.Quantity).Text) * CDbl(subAsset.SubItems(AssetColumn.Price).Text)
+                        Else
+                            linePrice = 0
+                            subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        End If
                     Else
                         linePrice = 0
-                        subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     End If
                 End If
                 containerPrice += linePrice
