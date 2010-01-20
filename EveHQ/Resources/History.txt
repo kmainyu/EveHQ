@@ -1,6 +1,100 @@
 EveHQ - Version History
 -----------------------
 
+1.14.1.????
+-----------
+Fixes & Improvements:
+- Core: Fixed skill cost reports showing training time instead of cost
+- Core: Correctly handled errors within Widget update in Settings
+- Core: Added User Agent string to Updater routine
+- Core: Added toolip to the skill queue widget config button
+- Core: Fixed crash selecting the "Add Skill" button with no skill queue selected
+- Core: Added first PHPBB Report - Character Sheet
+- Core: Fixed an issue in the skill queues where a queue could be calculated unnecessarily when changing the active queue tab
+- Core: Fixed issue in queue sorting for large queues
+- Core: Fixed a null reference error in training form
+- Core: Updated all the APIs in the APIRS
+- Core: Permitted use of querystrings in the APIRS format to allow for GET as well as POST
+- Core: Fixed issues creating new database tables in MSSQL
+- Core: Market & Faction prices now correctly stored in the MarketCache folder on download
+- Core: Improved plug-in thread start coding
+- Core: ServerStatus will now get the actual XML, not the cached version
+- Core: Ticking the email notification option now has no effect on the display of the email group box
+- Core: Errors in the Test email will only occur once
+- Core: Email field now supports multiple email addresses
+- Core: Updated certificates for Dominion
+- Core: Fixed issue where cache times would cause an infinite loop if they were less than the current time
+- Core: An error in market price download will now cause an abort of the update
+- Core: Added error handling around character API update thread to catch errors
+- Core: Caught error where path creation in the GetXML function was failing
+- Core: Fixed error in API trying to save IDToName/NameToID files where filename contains data > 240 characters
+- Core: Fixed skill queue issue with skill training bonus where skill extends past the limit
+- Core: Fixed skill queue issue with skill training bonus where limit is exceeded in a multiple level skill
+- Core: Fixed EMP export and imports issues due to new XML structure of the newer versions of EveMon (1.3.0+)
+- Core: Removed duplicate shutdown routine causing conflicts when using the File > Exit menu option
+- Core: Added patch for Standings to only use the latest files if multiple directories exist
+- Creation: Removed requirement for chrRaceSkills table not present in the official CCP Data Export
+- Data Converter: Updated BPDump routines for Dominion
+- HQF: Added default images for ships in the Damage Analysis where images can't be found
+- HQF: Fixed falloff on tracking computers, tracking enhancers and tracking links
+- HQF: Added Rookie ships to HQF (available only via Search)
+- HQF: Fixed gang bonuses affecting shield extenders, armor plates
+- HQF: Fixed WH Effects affecting shield extenders
+- HQF: Fixed display of warp speed
+- HQF: Fixed stacking penalties on falloff rigs
+- HQF: Fixed consumption quantities of fuel on triage and siege modules
+- HQF: Fixed issue with implant name changes in Dominion
+- HQF: Fixed import and export of Eve fittings to handle subsystems
+- HQF: Increased precision of values in the meta variations form
+- HQF: Salvager skill now affect the access bonus on Salvagers
+- HQF: Salvage Tackle rigs now affect the access bonus on Salvagers
+- HQF: Fixed Eve import issue because CCP assign the same slot number to all subsystems
+- HQF: Added Export to Eve option in main Export dropdown menu for exporting the current fit
+- HQF: Fixed Rorqual bonus to mining foreman links when Industrial Core is active
+- HQF: Fixed tracking bonuses for T1 projectile ammo
+- HQF: Energy Emission Systems skill now affects capital energy transfer arrays
+- HQF: Combat booster related implants now function correctly
+- HQF: Precision of capacitor stability increased to 2dp
+- HQF: Fixed bug in BC Browser where all fittings imported in a session took the form of the last import
+- HQF: Dialog boxes for creating, renaming and copying fittings have been made more specific
+- HQF: Fixed role errors on Ashimmu, Cruor and Daredevil
+- HQF: Skirmish Warfare Mindlink now gives bonuses to the correct modules
+- HQF: Cloaking device scan resolution penalty now applied even if module is offline
+- HQF: Removed effect of drone interfacing skill for fighters
+- HQF: Fixed crash trying to show market group where no market group info is available
+- HQF: Implants and Boosters now added as a valid market group in the module list
+- HQF: Fixed error with duplicate fitting names
+- HQF: Fixed bonuses for Flycatcher
+- HQF: Siege module now gives bonues to Citadel Cruise Missiles
+- HQF: Fixed crash importing Eve fittings where a matching module wasn't found
+- HQF: Fixed crash in Damage Analysis using a fit that has been imported into EveHQ from EFT but never opened
+- HQF: Skills in the pilot manager are now ordered alphabetically
+- Item Browser: The old recycling tab has now been renamed to Duplicating
+- Killmail Viewer: Columns in killmail list now sortable
+- Map: Fixed issue with database fields from Dominion 1.0
+- POS: Fix to the issue of setting NUD values to negative
+- POS: Patched a hole in the fuel usage detection routine
+- POS: Tower Import and corpID, so Sov was missing
+- POS: API fuel calculation and Sov was off, reporting low for calculated fuel values
+- Prism: Fixed waste calculations in BP Manager
+- Prism: Perfect ML now corrected due to new waste calculations
+- Prism: Fixed rig builder quantity issue
+- Prism: Fixed number of runs restriction in the BPCalc
+- Prism: Fixed issue in BPCalc with 0% waste factor on BPs
+- Prism: Fixed copy formula for items where maxProdLimit <> 10
+- Prism: Fixed crash clicking update BP button with no owner selected
+- Prism: Fixed crash clicking update BPs with no blueprints
+- Prism: Fixed custom database SQL strings for table creation
+- Prism: BP Manager asset import now shows more detail in the location
+- Prism: Blueprint values in assets now analysed correctly based on details in BP Manager
+- Prism: Blueprints in assets updated with new text based on copy/original data from BP Manager
+- Prism: Multiple blueprints can now be deleted from the BP Manager
+- Prism: Deleting and modifying blueprints in the BP Manager will not alter the default sort order
+- Prism: Blueprint values in Assets will now be nil if they are of an unknown type in BP Manager
+- Prism: Added "Corp Hangar" mode in Assets for splitting corp assets into hangars
+- Prism: Owner dropdown listed is now sorted
+
+
 1.14.0.1120
 -----------
 New Features:
