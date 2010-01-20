@@ -835,12 +835,12 @@ Public Class frmPrism
                 If assetXML IsNot Nothing Then
                     Dim locList As XmlNodeList
                     Dim loc As XmlNode
-                    Dim AssetIsInHanger As Boolean = False
-                    Dim hangarPrice As Double = 0
                     locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
                     If locList.Count > 0 Then
                         Dim linePrice As Double = 0
                         Dim containerPrice As Double = 0
+                        Dim AssetIsInHanger As Boolean = False
+                        Dim hangarPrice As Double = 0
                         For Each loc In locList
                             ' Check if the location is already listed
                             Dim locNode As New ContainerListViewItem
@@ -1019,12 +1019,6 @@ Public Class frmPrism
                             End If
                             newAsset.SubItems(AssetColumn.Value).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
-                            ' Update hangar price if applicable
-                            If AssetIsInHanger = True Then
-                                hangarPrice = CDbl(newAsset.ParentItem.SubItems(AssetColumn.Value).Text)
-                                newAsset.ParentItem.SubItems(AssetColumn.Value).Text = FormatNumber(hangarPrice + linePrice, 2)
-                            End If
-
                             ' Add the asset to the list of assets
                             Dim newAssetList As New AssetItem
                             newAssetList.itemID = newAsset.Tag.ToString
@@ -1043,6 +1037,12 @@ Public Class frmPrism
                             ' Check if this row has child nodes and repeat
                             If loc.HasChildNodes = True Then
                                 Call Me.PopulateAssetNode(newAsset, loc, owner, locNode.Text, selPilot)
+                            End If
+
+                            ' Update hangar price if applicable
+                            If AssetIsInHanger = True Then
+                                hangarPrice = CDbl(newAsset.ParentItem.SubItems(AssetColumn.Value).Text)
+                                newAsset.ParentItem.SubItems(AssetColumn.Value).Text = FormatNumber(hangarPrice + CDbl(newAsset.SubItems(AssetColumn.Value).Text), 2)
                             End If
                         Next
                     End If
