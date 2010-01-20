@@ -38,7 +38,9 @@ Partial Class frmMail
         Me.panelNotifications = New System.Windows.Forms.Panel
         Me.lblEveNotifications = New System.Windows.Forms.Label
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
+        Me.panelMails = New System.Windows.Forms.Panel
         Me.panelNotifications.SuspendLayout()
+        Me.panelMails.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboPilots
@@ -47,7 +49,7 @@ Partial Class frmMail
         Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboPilots.FormattingEnabled = True
         Me.cboPilots.IntegralHeight = False
-        Me.cboPilots.Location = New System.Drawing.Point(48, 12)
+        Me.cboPilots.Location = New System.Drawing.Point(44, 9)
         Me.cboPilots.Name = "cboPilots"
         Me.cboPilots.Size = New System.Drawing.Size(175, 21)
         Me.cboPilots.Sorted = True
@@ -56,7 +58,7 @@ Partial Class frmMail
         'lblPilot
         '
         Me.lblPilot.AutoSize = True
-        Me.lblPilot.Location = New System.Drawing.Point(12, 15)
+        Me.lblPilot.Location = New System.Drawing.Point(8, 12)
         Me.lblPilot.Name = "lblPilot"
         Me.lblPilot.Size = New System.Drawing.Size(30, 13)
         Me.lblPilot.TabIndex = 42
@@ -64,7 +66,7 @@ Partial Class frmMail
         '
         'btnDownloadMail
         '
-        Me.btnDownloadMail.Location = New System.Drawing.Point(268, 10)
+        Me.btnDownloadMail.Location = New System.Drawing.Point(225, 7)
         Me.btnDownloadMail.Name = "btnDownloadMail"
         Me.btnDownloadMail.Size = New System.Drawing.Size(100, 23)
         Me.btnDownloadMail.TabIndex = 44
@@ -78,9 +80,9 @@ Partial Class frmMail
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvMail.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colFrom, Me.colSubject, Me.colDateTime})
         Me.clvMail.DefaultItemHeight = 20
-        Me.clvMail.Location = New System.Drawing.Point(0, 59)
+        Me.clvMail.Location = New System.Drawing.Point(0, 56)
         Me.clvMail.Name = "clvMail"
-        Me.clvMail.Size = New System.Drawing.Size(884, 260)
+        Me.clvMail.Size = New System.Drawing.Size(881, 263)
         Me.clvMail.TabIndex = 45
         '
         'colFrom
@@ -111,7 +113,7 @@ Partial Class frmMail
         '
         'btnGetEveIDs
         '
-        Me.btnGetEveIDs.Location = New System.Drawing.Point(772, 10)
+        Me.btnGetEveIDs.Location = New System.Drawing.Point(331, 7)
         Me.btnGetEveIDs.Name = "btnGetEveIDs"
         Me.btnGetEveIDs.Size = New System.Drawing.Size(100, 23)
         Me.btnGetEveIDs.TabIndex = 46
@@ -160,7 +162,7 @@ Partial Class frmMail
         'lblEveMail
         '
         Me.lblEveMail.AutoSize = True
-        Me.lblEveMail.Location = New System.Drawing.Point(3, 43)
+        Me.lblEveMail.Location = New System.Drawing.Point(3, 40)
         Me.lblEveMail.Name = "lblEveMail"
         Me.lblEveMail.Size = New System.Drawing.Size(56, 13)
         Me.lblEveMail.TabIndex = 49
@@ -201,25 +203,35 @@ Partial Class frmMail
         Me.CollapsibleSplitter1.UseAnimations = False
         Me.CollapsibleSplitter1.VisualStyle = NJFLib.Controls.VisualStyles.XP
         '
+        'panelMails
+        '
+        Me.panelMails.Controls.Add(Me.btnGetEveIDs)
+        Me.panelMails.Controls.Add(Me.btnDownloadMail)
+        Me.panelMails.Controls.Add(Me.lblPilot)
+        Me.panelMails.Controls.Add(Me.lblEveMail)
+        Me.panelMails.Controls.Add(Me.clvMail)
+        Me.panelMails.Controls.Add(Me.cboPilots)
+        Me.panelMails.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMails.Location = New System.Drawing.Point(0, 0)
+        Me.panelMails.Name = "panelMails"
+        Me.panelMails.Size = New System.Drawing.Size(884, 325)
+        Me.panelMails.TabIndex = 52
+        '
         'frmMail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(884, 544)
+        Me.Controls.Add(Me.panelMails)
         Me.Controls.Add(Me.CollapsibleSplitter1)
         Me.Controls.Add(Me.panelNotifications)
-        Me.Controls.Add(Me.lblEveMail)
-        Me.Controls.Add(Me.btnGetEveIDs)
-        Me.Controls.Add(Me.clvMail)
-        Me.Controls.Add(Me.btnDownloadMail)
-        Me.Controls.Add(Me.cboPilots)
-        Me.Controls.Add(Me.lblPilot)
         Me.Name = "frmMail"
         Me.Text = "EveHQ Mail Viewer"
         Me.panelNotifications.ResumeLayout(False)
         Me.panelNotifications.PerformLayout()
+        Me.panelMails.ResumeLayout(False)
+        Me.panelMails.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
@@ -238,4 +250,5 @@ Partial Class frmMail
     Friend WithEvents panelNotifications As System.Windows.Forms.Panel
     Friend WithEvents lblEveNotifications As System.Windows.Forms.Label
     Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
+    Friend WithEvents panelMails As System.Windows.Forms.Panel
 End Class
