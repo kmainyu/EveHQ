@@ -1571,8 +1571,12 @@ Public Class frmPrism
             If cLoc.Items.Count = 0 Then
                 If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                     pLoc.Items.Remove(cLoc)
-                    assetList.Remove(cLoc.Tag)
-                    totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
+                    If cLoc.Tag IsNot Nothing Then
+                        assetList.Remove(cLoc.Tag)
+                    End If
+                    If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                        totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
+                    End If
                     cL -= 1
                 End If
             Else
@@ -1580,8 +1584,12 @@ Public Class frmPrism
                 If cLoc.Items.Count = 0 Then
                     If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                         pLoc.Items.Remove(cLoc)
-                        assetList.Remove(cLoc.Tag)
-                        totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
+                        If cLoc.Tag IsNot Nothing Then
+                            assetList.Remove(cLoc.Tag)
+                        End If
+                        If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                            totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
+                        End If
                         cL -= 1
                     End If
                 Else
@@ -1592,7 +1600,9 @@ Public Class frmPrism
                         ' Remove quantity and price information
                         cLoc.SubItems(AssetColumn.Quantity).Text = ""
                         cLoc.SubItems(AssetColumn.Price).Text = ""
-                        assetList.Remove(cLoc.Tag)
+                        If cLoc.Tag IsNot Nothing Then
+                            assetList.Remove(cLoc.Tag)
+                        End If
                     End If
                 End If
             End If
