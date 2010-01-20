@@ -182,8 +182,13 @@ Public Class frmMail
                 mailItem.Text = "Unknown"
             End If
             clvMail.Items.Add(mailItem)
-            mailItem.SubItems(1).Text = newMail.MessageTitle
-            mailItem.SubItems(2).Text = FormatDateTime(newMail.MessageDate)
+            If newMail.ToCorpAllianceIDs <> "" Then
+                mailItem.SubItems(1).Text = displayPilot.Corp
+            Else
+                mailItem.SubItems(1).Text = displayPilot.Name
+            End If
+            mailItem.SubItems(2).Text = newMail.MessageTitle
+            mailItem.SubItems(3).Text = FormatDateTime(newMail.MessageDate)
             If newMail.ReadFlag = False Then
                 mailItem.Font = UnreadFont
             End If
@@ -246,8 +251,9 @@ Public Class frmMail
             clvNotifications.Items.Add(mailItem)
             Dim strNotice As String = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID)
             strNotice = strNotice.Replace("_", " ")
-            mailItem.SubItems(1).Text = strNotice
-            mailItem.SubItems(2).Text = FormatDateTime(newNotice.MessageDate)
+            mailItem.SubItems(1).Text = displayPilot.Name
+            mailItem.SubItems(2).Text = strNotice
+            mailItem.SubItems(3).Text = FormatDateTime(newNotice.MessageDate)
             If newNotice.ReadFlag = False Then
                 mailItem.Font = UnreadFont
             End If

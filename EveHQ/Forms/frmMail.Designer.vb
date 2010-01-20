@@ -39,6 +39,8 @@ Partial Class frmMail
         Me.lblEveNotifications = New System.Windows.Forms.Label
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.panelMails = New System.Windows.Forms.Panel
+        Me.colTo = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.panelNotifications.SuspendLayout()
         Me.panelMails.SuspendLayout()
         Me.SuspendLayout()
@@ -78,7 +80,7 @@ Partial Class frmMail
         Me.clvMail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvMail.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colFrom, Me.colSubject, Me.colDateTime})
+        Me.clvMail.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colFrom, Me.colTo, Me.colSubject, Me.colDateTime})
         Me.clvMail.DefaultItemHeight = 20
         Me.clvMail.Location = New System.Drawing.Point(0, 56)
         Me.clvMail.Name = "clvMail"
@@ -91,12 +93,12 @@ Partial Class frmMail
         Me.colFrom.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colFrom.Tag = Nothing
         Me.colFrom.Text = "From"
-        Me.colFrom.Width = 200
+        Me.colFrom.Width = 160
         '
         'colSubject
         '
         Me.colSubject.CustomSortTag = Nothing
-        Me.colSubject.DisplayIndex = 1
+        Me.colSubject.DisplayIndex = 2
         Me.colSubject.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colSubject.Tag = Nothing
         Me.colSubject.Text = "Subject"
@@ -105,7 +107,7 @@ Partial Class frmMail
         'colDateTime
         '
         Me.colDateTime.CustomSortTag = Nothing
-        Me.colDateTime.DisplayIndex = 2
+        Me.colDateTime.DisplayIndex = 3
         Me.colDateTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
         Me.colDateTime.Tag = Nothing
         Me.colDateTime.Text = "Date"
@@ -126,7 +128,7 @@ Partial Class frmMail
         Me.clvNotifications.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvNotifications.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3})
+        Me.clvNotifications.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader4, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3})
         Me.clvNotifications.DefaultItemHeight = 20
         Me.clvNotifications.Location = New System.Drawing.Point(0, 25)
         Me.clvNotifications.Name = "clvNotifications"
@@ -139,12 +141,12 @@ Partial Class frmMail
         Me.ContainerListViewColumnHeader1.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.ContainerListViewColumnHeader1.Tag = Nothing
         Me.ContainerListViewColumnHeader1.Text = "From"
-        Me.ContainerListViewColumnHeader1.Width = 200
+        Me.ContainerListViewColumnHeader1.Width = 160
         '
         'ContainerListViewColumnHeader2
         '
         Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader2.DisplayIndex = 1
+        Me.ContainerListViewColumnHeader2.DisplayIndex = 2
         Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.ContainerListViewColumnHeader2.Tag = Nothing
         Me.ContainerListViewColumnHeader2.Text = "Subject"
@@ -153,7 +155,7 @@ Partial Class frmMail
         'ContainerListViewColumnHeader3
         '
         Me.ContainerListViewColumnHeader3.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader3.DisplayIndex = 2
+        Me.ContainerListViewColumnHeader3.DisplayIndex = 3
         Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
         Me.ContainerListViewColumnHeader3.Tag = Nothing
         Me.ContainerListViewColumnHeader3.Text = "Date"
@@ -217,6 +219,24 @@ Partial Class frmMail
         Me.panelMails.Size = New System.Drawing.Size(884, 325)
         Me.panelMails.TabIndex = 52
         '
+        'colTo
+        '
+        Me.colTo.CustomSortTag = Nothing
+        Me.colTo.DisplayIndex = 1
+        Me.colTo.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colTo.Tag = Nothing
+        Me.colTo.Text = "To"
+        Me.colTo.Width = 160
+        '
+        'ContainerListViewColumnHeader4
+        '
+        Me.ContainerListViewColumnHeader4.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader4.DisplayIndex = 1
+        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.ContainerListViewColumnHeader4.Tag = Nothing
+        Me.ContainerListViewColumnHeader4.Text = "To"
+        Me.ContainerListViewColumnHeader4.Width = 160
+        '
         'frmMail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -251,4 +271,6 @@ Partial Class frmMail
     Friend WithEvents lblEveNotifications As System.Windows.Forms.Label
     Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
     Friend WithEvents panelMails As System.Windows.Forms.Panel
+    Friend WithEvents colTo As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader4 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class
