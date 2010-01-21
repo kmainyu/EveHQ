@@ -260,13 +260,13 @@ Partial Class ShipSlotControl
         Me.ctxSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(124, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'imgState
@@ -285,40 +285,40 @@ Partial Class ShipSlotControl
         Me.ctxBays.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(156, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(155, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(152, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(155, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(155, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(152, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(155, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'ctxRemoteFittings
@@ -326,13 +326,13 @@ Partial Class ShipSlotControl
         Me.ctxRemoteFittings.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
         Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
-        Me.ctxRemoteFittings.Size = New System.Drawing.Size(169, 26)
+        Me.ctxRemoteFittings.Size = New System.Drawing.Size(180, 26)
         '
         'RemoveFittingToolStripMenuItem
         '
         Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
         Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
         Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
         '
         'ctxRemoteModule
@@ -340,12 +340,12 @@ Partial Class ShipSlotControl
         Me.ctxRemoteModule.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
         Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(124, 26)
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(135, 26)
         '
         'mnuShowRemoteModInfo
         '
         Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(123, 22)
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(134, 22)
         Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'ToolTip1
@@ -369,12 +369,12 @@ Partial Class ShipSlotControl
         Me.ctxShipSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxShipSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRelevantSkills})
         Me.ctxShipSkills.Name = "ctxShipSkills"
-        Me.ctxShipSkills.Size = New System.Drawing.Size(169, 26)
+        Me.ctxShipSkills.Size = New System.Drawing.Size(180, 26)
         '
         'mnuAlterRelevantSkills
         '
         Me.mnuAlterRelevantSkills.Name = "mnuAlterRelevantSkills"
-        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(168, 22)
+        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(179, 22)
         Me.mnuAlterRelevantSkills.Text = "Alter Relevant Skills"
         '
         'panelFunctions
@@ -1028,73 +1028,73 @@ Partial Class ShipSlotControl
         Me.ctxBoosters.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxBoosters.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowBoosterInfo, Me.ToolStripMenuItem3, Me.mnuBoosterPenalty1, Me.mnuBoosterPenalty2, Me.mnuBoosterPenalty3, Me.mnuBoosterPenalty4, Me.mnuSepPenalties, Me.mnuRandomSideEffects, Me.mnuAlterBoosterSkills, Me.ToolStripMenuItem4, Me.mnuRemoveBooster})
         Me.ctxBoosters.Name = "ctx"
-        Me.ctxBoosters.Size = New System.Drawing.Size(174, 198)
+        Me.ctxBoosters.Size = New System.Drawing.Size(185, 198)
         '
         'mnuShowBoosterInfo
         '
         Me.mnuShowBoosterInfo.Name = "mnuShowBoosterInfo"
-        Me.mnuShowBoosterInfo.Size = New System.Drawing.Size(173, 22)
+        Me.mnuShowBoosterInfo.Size = New System.Drawing.Size(184, 22)
         Me.mnuShowBoosterInfo.Text = "Show Info"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(181, 6)
         '
         'mnuBoosterPenalty1
         '
         Me.mnuBoosterPenalty1.CheckOnClick = True
         Me.mnuBoosterPenalty1.Name = "mnuBoosterPenalty1"
-        Me.mnuBoosterPenalty1.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty1.Size = New System.Drawing.Size(184, 22)
         Me.mnuBoosterPenalty1.Text = "Penalty1"
         '
         'mnuBoosterPenalty2
         '
         Me.mnuBoosterPenalty2.CheckOnClick = True
         Me.mnuBoosterPenalty2.Name = "mnuBoosterPenalty2"
-        Me.mnuBoosterPenalty2.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty2.Size = New System.Drawing.Size(184, 22)
         Me.mnuBoosterPenalty2.Text = "Penalty2"
         '
         'mnuBoosterPenalty3
         '
         Me.mnuBoosterPenalty3.CheckOnClick = True
         Me.mnuBoosterPenalty3.Name = "mnuBoosterPenalty3"
-        Me.mnuBoosterPenalty3.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty3.Size = New System.Drawing.Size(184, 22)
         Me.mnuBoosterPenalty3.Text = "Penalty3"
         '
         'mnuBoosterPenalty4
         '
         Me.mnuBoosterPenalty4.CheckOnClick = True
         Me.mnuBoosterPenalty4.Name = "mnuBoosterPenalty4"
-        Me.mnuBoosterPenalty4.Size = New System.Drawing.Size(173, 22)
+        Me.mnuBoosterPenalty4.Size = New System.Drawing.Size(184, 22)
         Me.mnuBoosterPenalty4.Text = "Penalty4"
         '
         'mnuSepPenalties
         '
         Me.mnuSepPenalties.Name = "mnuSepPenalties"
-        Me.mnuSepPenalties.Size = New System.Drawing.Size(170, 6)
+        Me.mnuSepPenalties.Size = New System.Drawing.Size(181, 6)
         '
         'mnuRandomSideEffects
         '
         Me.mnuRandomSideEffects.Name = "mnuRandomSideEffects"
-        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(173, 22)
+        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(184, 22)
         Me.mnuRandomSideEffects.Text = "Random Side Effects"
         '
         'mnuAlterBoosterSkills
         '
         Me.mnuAlterBoosterSkills.Name = "mnuAlterBoosterSkills"
-        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(173, 22)
+        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(184, 22)
         Me.mnuAlterBoosterSkills.Text = "Alter Relevant Skills"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(181, 6)
         '
         'mnuRemoveBooster
         '
         Me.mnuRemoveBooster.Name = "mnuRemoveBooster"
-        Me.mnuRemoveBooster.Size = New System.Drawing.Size(173, 22)
+        Me.mnuRemoveBooster.Size = New System.Drawing.Size(184, 22)
         Me.mnuRemoveBooster.Text = "Remove Booster"
         '
         'lblBoosterSlot2
