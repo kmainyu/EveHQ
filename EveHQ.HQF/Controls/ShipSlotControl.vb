@@ -1404,9 +1404,15 @@ Public Class ShipSlotControl
 
                 ' Check which mode, single or multi
                 If lvwSlots.SelectedItems.Count > 1 Then
-                    For Each i As ListViewItem In lvwSlots.SelectedItems
-                        Call Me.ChangeModuleStateSingleMod(keyMode, i)
-                    Next
+                    If (hti.Location = ListViewHitTestLocations.Image Or hti.Location = ListViewHitTestLocations.Label Or hti.Location = ListViewHitTestLocations.RightOfClientArea) And hti.Item.Selected = True Then
+                        For Each i As ListViewItem In lvwSlots.SelectedItems
+                            Call Me.ChangeModuleStateSingleMod(keyMode, i)
+                        Next
+                    Else
+                        If hti.Location = ListViewHitTestLocations.Image Or hti.Location = ListViewHitTestLocations.Label Or hti.Location = ListViewHitTestLocations.RightOfClientArea Then
+                            Call Me.ChangeModuleStateSingleMod(keyMode, hti.Item)
+                        End If
+                    End If
                 Else
                     If hti.Location = ListViewHitTestLocations.Image Or hti.Location = ListViewHitTestLocations.Label Or hti.Location = ListViewHitTestLocations.RightOfClientArea Then
                         Call Me.ChangeModuleStateSingleMod(keyMode, hti.Item)
