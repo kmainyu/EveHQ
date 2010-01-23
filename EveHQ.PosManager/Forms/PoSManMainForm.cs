@@ -1624,6 +1624,13 @@ namespace EveHQ.PosManager
             }
             else
             {
+                if (ML.Modules.Count < 1)
+                {
+                    // No modules found, attempt to retrieve them
+                    MessageBox.Show("Did not find any modules, Attempting to find them - this will take a bit, please wait.", "Modules Error", MessageBoxButtons.OK);
+                    ML.PopulateModuleListing(1);
+                }
+
                 foreach (Module m in ML.Modules)
                 {
                     if (selGroup == m.groupID)

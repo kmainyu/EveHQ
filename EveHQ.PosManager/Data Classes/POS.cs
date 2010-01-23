@@ -239,14 +239,10 @@ namespace EveHQ.PosManager
             Module m;
 
             m = (Module)Modules[rowIndex];
-            foreach (ReactionLink rl in ReactionLinks)
-            {
-                if (rl.InpID == m.ModuleID)
-                {
-                    ReactionLinks.Remove(rl);
-                    break;
-                }
-            }
+
+            if (m.MSRList.Count > 0)
+                ReactionLinks.Clear();
+
             Modules.RemoveAt(rowIndex);
         }
 
