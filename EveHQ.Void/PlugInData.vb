@@ -200,7 +200,7 @@ Public Class PlugInData
                         Else
                             attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueFloat"))
                         End If
-                        If CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "124" Then
+                        If CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "124" Or CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "105" Then
                             attValue = -attValue
                         End If
                         If VoidData.WormholeEffects.ContainsKey(typeName) = False Then
