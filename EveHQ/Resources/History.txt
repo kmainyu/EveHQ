@@ -69,6 +69,8 @@ Fixes & Improvements:
 - HQF: Fixed crash importing Eve fittings where a matching module wasn't found
 - HQF: Fixed crash in Damage Analysis using a fit that has been imported into EveHQ from EFT but never opened
 - HQF: Skills in the pilot manager are now ordered alphabetically
+- HQF: Enabled multiple module status changing via the MMB
+- HQF: Removed charges from the Eve Exports causing issues when attempting to import into Eve
 - Item Browser: The old recycling tab has now been renamed to Duplicating
 - Killmail Viewer: Columns in killmail list now sortable
 - Map: Fixed issue with database fields from Dominion 1.0
@@ -76,6 +78,8 @@ Fixes & Improvements:
 - POS: Patched a hole in the fuel usage detection routine
 - POS: Tower Import and corpID, so Sov was missing
 - POS: API fuel calculation and Sov was off, reporting low for calculated fuel values
+- POS: Fix for removing modules and Reaction Manager
+- POS: Fix to re-try getting the tower module data if it is for some reason missing
 - Prism: Fixed waste calculations in BP Manager
 - Prism: Perfect ML now corrected due to new waste calculations
 - Prism: Fixed rig builder quantity issue
@@ -93,6 +97,7 @@ Fixes & Improvements:
 - Prism: Blueprint values in Assets will now be nil if they are of an unknown type in BP Manager
 - Prism: Added "Corp Hangar" mode in Assets for splitting corp assets into hangars
 - Prism: Owner dropdown listed is now sorted
+- Void: Fixed shield resist atttribute display
 
 
 1.14.0.1120
