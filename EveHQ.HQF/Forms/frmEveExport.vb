@@ -200,17 +200,6 @@ Public Class frmEveExport
                                 hardwareAtt.Value = sMod.Name
                                 hardware.Attributes.Append(hardwareAtt)
                                 fitNode.AppendChild(hardware)
-                                If sMod.LoadedCharge IsNot Nothing Then
-                                    hardware = fitXML.CreateElement("hardware")
-                                    hardwareAtt = fitXML.CreateAttribute("slot")
-                                    hardwareAtt.Value = slotGroup & slotNo.ToString
-                                    hardware.Attributes.Append(hardwareAtt)
-                                    hardwareAtt = fitXML.CreateAttribute("type")
-                                    hardwareAtt.Value = sMod.LoadedCharge.Name
-                                    hardware.Attributes.Append(hardwareAtt)
-                                    fitNode.AppendChild(hardware)
-                                End If
-                                'Call AddModule(sMod, 0, True, Nothing)
                             End If
                         End If
                     Else
