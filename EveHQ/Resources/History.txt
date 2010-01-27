@@ -4,6 +4,7 @@ EveHQ - Version History
 1.14.1.????
 -----------
 Fixes & Improvements:
+- Core: Updated database to Dominion 1.1.1
 - Core: Fixed skill cost reports showing training time instead of cost
 - Core: Correctly handled errors within Widget update in Settings
 - Core: Added User Agent string to Updater routine
@@ -70,7 +71,9 @@ Fixes & Improvements:
 - HQF: Fixed crash in Damage Analysis using a fit that has been imported into EveHQ from EFT but never opened
 - HQF: Skills in the pilot manager are now ordered alphabetically
 - HQF: Enabled multiple module status changing via the MMB
-- HQF: Removed charges from the Eve Exports causing issues when attempting to import into Eve
+- HQF: Removed charges from the Eve Exports that cause issues when attempting to import into Eve
+- HQF: Updated supercarrier bonuses
+- HQF: Added fighter bombers into drones
 - Item Browser: The old recycling tab has now been renamed to Duplicating
 - Killmail Viewer: Columns in killmail list now sortable
 - Map: Fixed issue with database fields from Dominion 1.0
