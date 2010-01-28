@@ -191,6 +191,7 @@ Public Class APIRS
                             "/CHAR/MEDALS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, _
                             "/CORP/MEDALS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, _
                             "/CORP/MEMBERMEDALS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, _
+                            "/CHAR/MAILINGLISTS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, _
                             "/CHAR/MAILMESSAGES.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, _
                             "/CHAR/NOTIFICATIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
 
@@ -268,6 +269,8 @@ Public Class APIRS
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.MailMessages, aAccount, charID, 0)
                                             Case "/CHAR/NOTIFICATIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Notifications, aAccount, charID, 0)
+                                            Case "/CHAR/MAILINGLISTS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
+                                                APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.MailingLists, aAccount, charID, 0)
                                         End Select
                                         responseString = APIXML.InnerXml
                                     Case APIRSResponseTypes.IncorrectPOSTData

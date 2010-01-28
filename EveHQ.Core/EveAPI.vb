@@ -183,6 +183,8 @@ Public Class EveAPI
                 remoteURL = "/char/MailMessages.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.Notifications
                 remoteURL = "/char/Notifications.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.MailingLists
+                remoteURL = "/char/MailingLists.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -595,6 +597,7 @@ Public Class EveAPI
         SovereigntyStatus = 49
         MailMessages = 50
         Notifications = 51
+        MailingLists = 52
     End Enum
 
     Public Enum APIResults As Integer

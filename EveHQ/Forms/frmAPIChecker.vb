@@ -100,6 +100,7 @@ Public Class frmAPIChecker
             EveHQ.Core.EveAPI.APIRequest.MedalsAvailable, _
             EveHQ.Core.EveAPI.APIRequest.MailMessages, _
             EveHQ.Core.EveAPI.APIRequest.Notifications, _
+                EveHQ.Core.EveAPI.APIRequest.MailingLists, _
                 EveHQ.Core.EveAPI.APIRequest.MemberMedals
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
                 lblAccount.Enabled = False : cboAccount.Enabled = False
