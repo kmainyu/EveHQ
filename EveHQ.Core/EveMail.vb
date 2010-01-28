@@ -10,7 +10,7 @@ Public Class EveMail
     Public Shared Sub GetEveMail()
         ' Stage 1: Download the latest EveMail API using the standard API method
         ' Stage 2: Populate the class with our EveMail
-        ' Stage 3: Check the last messageID posted to our database
+        ' Stage 3: Check the messages which have already been posted
         ' Stage 4: Post all new messages to the database
         ' Stage 5: Get all the IDs and parse them
 
@@ -65,13 +65,22 @@ Public Class EveMail
             End If
         Next
 
-        ' Stage 3: Check the last messageID posted to our database
-        Dim lastMessageID As Long = -1
-        Dim strSQL As String = "SELECT TOP 1 * FROM eveMail ORDER BY messageID DESC;"
-        Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-        If mailData IsNot Nothing Then
-            If mailData.Tables(0).Rows.Count > 0 Then
-                lastMessageID = CLng(mailData.Tables(0).Rows(0).Item("messageID"))
+        ' Stage 3: Check the messages which have already been posted
+        Dim existingMails As New ArrayList
+        Dim strExistingMails As New StringBuilder
+        If Mails.Count > 0 Then
+            For Each messageKey As String In Mails.Keys
+                strExistingMails.Append(",'" & messageKey & "'")
+            Next
+            strExistingMails.Remove(0, 1)
+            Dim strSQL As String = "SELECT messageKey FROM eveMail WHERE messageKey IN (" & strExistingMails.ToString & ");"
+            Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            If mailData IsNot Nothing Then
+                If mailData.Tables(0).Rows.Count > 0 Then
+                    For Each mailRow As DataRow In mailData.Tables(0).Rows
+                        existingMails.Add(mailRow.Item("messageKey").ToString)
+                    Next
+                End If
             End If
         End If
 
@@ -80,32 +89,33 @@ Public Class EveMail
         Dim strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail) VALUES "
         For Each mailKey As String In Mails.Keys
             Dim cMail As EveHQ.Core.EveMailMessage = Mails(mailKey)
-            Dim uSQL As New StringBuilder
-            uSQL.Append(strInsert)
-            uSQL.Append("(")
-            uSQL.Append("'" & cMail.MessageKey & "', ")
-            uSQL.Append(cMail.MessageID & ", ")
-            uSQL.Append(cMail.OriginatorID & ", ")
-            uSQL.Append(cMail.SenderID & ", ")
-            uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
-            uSQL.Append("'" & cMail.MessageTitle.Replace("'", "''") & "', ")
-            uSQL.Append("'" & cMail.ToCorpAllianceIDs & "', ")
-            uSQL.Append("'" & cMail.ToCharacterIDs & "', ")
-            uSQL.Append("'" & cMail.ToListIDs & "', ")
-            uSQL.Append(CInt(cMail.ReadFlag) & ");")
-            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                If EveHQ.Core.HQ.dataError.Contains("Cannot insert duplicate key") = True Then
-                    ' Try an update
-                    Dim updateSQL As String = "UPDATE eveMail SET readMail=" & CInt(cMail.ReadFlag) & " WHERE messageKey='" & cMail.MessageKey & "';"
-                    If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
-                        MessageBox.Show("There was an error updating data in the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    End If
-                Else
+            If existingMails.Contains(mailKey) = False Then
+                ' Add the message to the database
+                Dim uSQL As New StringBuilder
+                uSQL.Append(strInsert)
+                uSQL.Append("(")
+                uSQL.Append("'" & cMail.MessageKey & "', ")
+                uSQL.Append(cMail.MessageID & ", ")
+                uSQL.Append(cMail.OriginatorID & ", ")
+                uSQL.Append(cMail.SenderID & ", ")
+                uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
+                uSQL.Append("'" & cMail.MessageTitle.Replace("'", "''") & "', ")
+                uSQL.Append("'" & cMail.ToCorpAllianceIDs & "', ")
+                uSQL.Append("'" & cMail.ToCharacterIDs & "', ")
+                uSQL.Append("'" & cMail.ToListIDs & "', ")
+                uSQL.Append(CInt(cMail.ReadFlag) & ");")
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
                     MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    ' This may require an EveMail notification, so store it for later
+                    NewMails.Add(cMail)
                 End If
             Else
-                ' This may require an EveMail notification, so store it for later
-                NewMails.Add(cMail)
+                ' Update the message in the database
+                Dim updateSQL As String = "UPDATE eveMail SET readMail=" & CInt(cMail.ReadFlag) & " WHERE messageKey='" & cMail.MessageKey & "';"
+                If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
+                    MessageBox.Show("There was an error updating data in the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
             End If
         Next
 
@@ -137,7 +147,7 @@ Public Class EveMail
     Public Shared Sub GetNotifications()
         ' Stage 1: Download the latest EveNotifications API using the standard API method
         ' Stage 2: Populate the class with our Eve Notifications
-        ' Stage 3: Check the last messageID posted to our database
+        ' Stage 3: Check the messages which have already been posted
         ' Stage 4: Post all new messages to the database
         ' Stage 5: Get all the IDs and parse them
 
@@ -189,13 +199,22 @@ Public Class EveMail
             End If
         Next
 
-        ' Stage 3: Check the last messageID posted to our database
-        Dim lastMessageID As Long = -1
-        Dim strSQL As String = "SELECT TOP 1 * FROM eveNotifications ORDER BY messageID DESC;"
-        Dim NoticeData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-        If NoticeData IsNot Nothing Then
-            If NoticeData.Tables(0).Rows.Count > 0 Then
-                lastMessageID = CLng(NoticeData.Tables(0).Rows(0).Item("messageID"))
+        ' Stage 3: Check the messages which have already been posted
+        Dim existingMails As New ArrayList
+        Dim strExistingMails As New StringBuilder
+        If Notices.Count > 0 Then
+            For Each messageKey As String In Notices.Keys
+                strExistingMails.Append(",'" & messageKey & "'")
+            Next
+            strExistingMails.Remove(0, 1)
+            Dim strSQL As String = "SELECT messageKey FROM eveNotifications WHERE messageKey IN (" & strExistingMails.ToString & ");"
+            Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            If mailData IsNot Nothing Then
+                If mailData.Tables(0).Rows.Count > 0 Then
+                    For Each mailRow As DataRow In mailData.Tables(0).Rows
+                        existingMails.Add(mailRow.Item("messageKey").ToString)
+                    Next
+                End If
             End If
         End If
 
@@ -204,30 +223,32 @@ Public Class EveMail
         Dim strInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail) VALUES "
         For Each NoticeKey As String In Notices.Keys
             Dim cMail As EveHQ.Core.EveNotification = Notices(NoticeKey)
-            Dim uSQL As New StringBuilder
-            uSQL.Append(strInsert)
-            uSQL.Append("(")
-            uSQL.Append("'" & cMail.MessageKey & "', ")
-            uSQL.Append(cMail.MessageID & ", ")
-            uSQL.Append(cMail.OriginatorID & ", ")
-            uSQL.Append(cMail.SenderID & ", ")
-            uSQL.Append(cMail.TypeID & ", ")
-            uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
-            uSQL.Append(CInt(cMail.ReadFlag) & ");")
-            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                If EveHQ.Core.HQ.dataError.Contains("Cannot insert duplicate key") = True Then
-                    ' Try an update
-                    Dim updateSQL As String = "UPDATE eveNotifications SET readMail=" & CInt(cMail.ReadFlag) & " WHERE messageKey='" & cMail.MessageKey & "';"
-                    If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
-                        MessageBox.Show("There was an error updating data in the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    End If
-                Else
+            If existingMails.Contains(cMail.MessageKey) = False Then
+                ' Add the message to the database
+                Dim uSQL As New StringBuilder
+                uSQL.Append(strInsert)
+                uSQL.Append("(")
+                uSQL.Append("'" & cMail.MessageKey & "', ")
+                uSQL.Append(cMail.MessageID & ", ")
+                uSQL.Append(cMail.OriginatorID & ", ")
+                uSQL.Append(cMail.SenderID & ", ")
+                uSQL.Append(cMail.TypeID & ", ")
+                uSQL.Append("'" & Format(cMail.MessageDate, "yyyy-MM-dd HH:mm:ss") & "', ")
+                uSQL.Append(CInt(cMail.ReadFlag) & ");")
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
                     MessageBox.Show("There was an error writing data to the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    ' This may require an EveMail notification, so store it
+                    newNotifys.Add(cMail)
                 End If
             Else
-                ' This may require an EveMail notification, so sotre it
-                newNotifys.Add(cMail)
+                ' Update the message in the database
+                Dim updateSQL As String = "UPDATE eveNotifications SET readMail=" & CInt(cMail.ReadFlag) & " WHERE messageKey='" & cMail.MessageKey & "';"
+                If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
+                    MessageBox.Show("There was an error updating data in the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
             End If
+
         Next
 
         ' Stage 5: Get all the IDs and parse them

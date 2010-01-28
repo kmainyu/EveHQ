@@ -463,7 +463,7 @@ Public Class DataFunctions
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
                     conn.Open()
-                    If strSQL.Contains(" LIKE ") = False Then
+                    If strSQL.Contains(" LIKE ") = False And strSQL.Contains(" IN ") = False Then
                         strSQL = strSQL.Replace("'", "''")
                         strSQL = strSQL.Replace(ControlChars.Quote, "'")
                         strSQL = strSQL.Replace("=true", "=1")
