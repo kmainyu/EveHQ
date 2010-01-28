@@ -1622,8 +1622,10 @@ Public Class DataFunctions
     Public Shared Sub ParseIDs(ByRef IDs As ArrayList, ByVal strID As String)
         Dim strIDs() As String = strID.Split(",".ToCharArray)
         For Each ID As String In strIDs
-            If IDs.Contains(ID) = False Then
-                IDs.Add(ID)
+            If ID.Trim <> "" Then
+                If IDs.Contains(ID) = False Then
+                    IDs.Add(ID)
+                End If
             End If
         Next
     End Sub

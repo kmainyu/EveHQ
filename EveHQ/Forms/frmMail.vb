@@ -184,12 +184,20 @@ Public Class frmMail
                 mailItem.Text = "Unknown"
             End If
             clvMail.Items.Add(mailItem)
-            Dim strTo As String = newMail.ToCharacterIDs & ", " & newMail.ToCorpAllianceIDs & ", " & newMail.ToListIDs
-            If newMail.ToCorpAllianceIDs <> "" Then
-                mailItem.SubItems(1).Text = displayPilot.Corp
+            Dim strTo As String = ""
+            If newMail.ToListIDs = "" Then
+                strTo = newMail.ToCharacterIDs & ", " & newMail.ToCorpAllianceIDs
+                Dim IDs As New ArrayList
+                EveHQ.Core.DataFunctions.ParseIDs(IDs, strTo)
+                strTo = ""
+                For Each ID As String In IDs
+                    strTo &= "; " & FinalIDs(CLng(ID))
+                Next
+                strTo = strTo.Remove(0, 2)
             Else
-                mailItem.SubItems(1).Text = displayPilot.Name
+                strTo = "<Mailing List>"
             End If
+            mailItem.SubItems(1).Text = strTo
             mailItem.SubItems(2).Text = newMail.MessageTitle
             mailItem.SubItems(3).Text = FormatDateTime(newMail.MessageDate)
             If newMail.ReadFlag = False Then
