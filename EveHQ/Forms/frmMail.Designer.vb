@@ -41,6 +41,7 @@ Partial Class frmMail
         Me.lblEveNotifications = New System.Windows.Forms.Label
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.panelMails = New System.Windows.Forms.Panel
+        Me.lblDownloadMailStatus = New System.Windows.Forms.Label
         Me.panelNotifications.SuspendLayout()
         Me.panelMails.SuspendLayout()
         Me.SuspendLayout()
@@ -62,7 +63,7 @@ Partial Class frmMail
         Me.lblPilot.AutoSize = True
         Me.lblPilot.Location = New System.Drawing.Point(8, 12)
         Me.lblPilot.Name = "lblPilot"
-        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 42
         Me.lblPilot.Text = "Pilot:"
         '
@@ -184,7 +185,7 @@ Partial Class frmMail
         Me.lblEveMail.AutoSize = True
         Me.lblEveMail.Location = New System.Drawing.Point(3, 40)
         Me.lblEveMail.Name = "lblEveMail"
-        Me.lblEveMail.Size = New System.Drawing.Size(56, 13)
+        Me.lblEveMail.Size = New System.Drawing.Size(55, 13)
         Me.lblEveMail.TabIndex = 49
         Me.lblEveMail.Text = "Eve Mails:"
         '
@@ -203,7 +204,7 @@ Partial Class frmMail
         Me.lblEveNotifications.AutoSize = True
         Me.lblEveNotifications.Location = New System.Drawing.Point(3, 9)
         Me.lblEveNotifications.Name = "lblEveNotifications"
-        Me.lblEveNotifications.Size = New System.Drawing.Size(90, 13)
+        Me.lblEveNotifications.Size = New System.Drawing.Size(91, 13)
         Me.lblEveNotifications.TabIndex = 50
         Me.lblEveNotifications.Text = "Eve Notifications:"
         '
@@ -225,6 +226,7 @@ Partial Class frmMail
         '
         'panelMails
         '
+        Me.panelMails.Controls.Add(Me.lblDownloadMailStatus)
         Me.panelMails.Controls.Add(Me.btnGetEveIDs)
         Me.panelMails.Controls.Add(Me.btnDownloadMail)
         Me.panelMails.Controls.Add(Me.lblPilot)
@@ -237,6 +239,14 @@ Partial Class frmMail
         Me.panelMails.Size = New System.Drawing.Size(884, 325)
         Me.panelMails.TabIndex = 52
         '
+        'lblDownloadMailStatus
+        '
+        Me.lblDownloadMailStatus.AutoSize = True
+        Me.lblDownloadMailStatus.Location = New System.Drawing.Point(65, 40)
+        Me.lblDownloadMailStatus.Name = "lblDownloadMailStatus"
+        Me.lblDownloadMailStatus.Size = New System.Drawing.Size(0, 13)
+        Me.lblDownloadMailStatus.TabIndex = 50
+        '
         'frmMail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -245,6 +255,7 @@ Partial Class frmMail
         Me.Controls.Add(Me.panelMails)
         Me.Controls.Add(Me.CollapsibleSplitter1)
         Me.Controls.Add(Me.panelNotifications)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmMail"
         Me.Text = "EveHQ Mail Viewer"
         Me.panelNotifications.ResumeLayout(False)
@@ -273,4 +284,5 @@ Partial Class frmMail
     Friend WithEvents panelMails As System.Windows.Forms.Panel
     Friend WithEvents colTo As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ContainerListViewColumnHeader4 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents lblDownloadMailStatus As System.Windows.Forms.Label
 End Class
