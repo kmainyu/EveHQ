@@ -150,6 +150,8 @@ Public Class frmMail
                     EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(mailRow.Item("toCharacterIDs")))
                     ' Get Corp/Alliance IDs
                     EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(mailRow.Item("toCorpOrAllianceID")))
+                    ' Get Mailing List IDs
+                    EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(mailRow.Item("toListIDs")))
                 Next
                 Dim strID As New StringBuilder
                 For Each ID As String In IDs
@@ -175,17 +177,14 @@ Public Class frmMail
         Dim UnreadFont As New Font(clvMail.Font, FontStyle.Bold)
         For Each newMail As EveHQ.Core.EveMailMessage In allMails.Values
             Dim mailItem As New ContainerListViewItem
-            If newMail.ToListIDs = "" Then
-                If FinalIDs.ContainsKey(newMail.SenderID) = True Then
-                    mailItem.Text = FinalIDs(newMail.SenderID)
-                Else
-                    'TODO: Replace this with a routine to get the name from the API
-                    mailItem.Text = "Unknown"
-                End If
+            If FinalIDs.ContainsKey(newMail.SenderID) = True Then
+                mailItem.Text = FinalIDs(newMail.SenderID)
             Else
-                mailItem.Text = "<Mailing List>"
+                'TODO: Replace this with a routine to get the name from the API??
+                mailItem.Text = "Unknown"
             End If
             clvMail.Items.Add(mailItem)
+            Dim strTo As String = newMail.ToCharacterIDs & ", " & newMail.ToCorpAllianceIDs & ", " & newMail.ToListIDs
             If newMail.ToCorpAllianceIDs <> "" Then
                 mailItem.SubItems(1).Text = displayPilot.Corp
             Else

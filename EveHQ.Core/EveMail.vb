@@ -23,6 +23,8 @@ Public Class EveMail
                 Dim accountName As String = mPilot.Account
                 If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
                     Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                    ' Add in the data for mailing lists
+                    Call EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
                     ' Make a call to the EveHQ.Core.API to fetch the EveMail
                     Dim mailXML As New XmlDocument
                     mailXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.MailMessages, mAccount, mPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
@@ -132,6 +134,11 @@ Public Class EveMail
             EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCorpAllianceIDs)
         Next
         Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
+
+        ' Add in the Mailing List IDs
+        For Each cMail As EveHQ.Core.EveMailMessage In Mails.Values
+            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCorpAllianceIDs)
+        Next
 
         ' Send E-mail notification of new mails if required
         If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And NewMails.Count > 0 Then

@@ -27,11 +27,13 @@ Partial Class frmMail
         Me.btnDownloadMail = New System.Windows.Forms.Button
         Me.clvMail = New DotNetLib.Windows.Forms.ContainerListView
         Me.colFrom = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTo = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colSubject = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colDateTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.btnGetEveIDs = New System.Windows.Forms.Button
         Me.clvNotifications = New DotNetLib.Windows.Forms.ContainerListView
         Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ContainerListViewColumnHeader2 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lblEveMail = New System.Windows.Forms.Label
@@ -39,8 +41,6 @@ Partial Class frmMail
         Me.lblEveNotifications = New System.Windows.Forms.Label
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.panelMails = New System.Windows.Forms.Panel
-        Me.colTo = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.panelNotifications.SuspendLayout()
         Me.panelMails.SuspendLayout()
         Me.SuspendLayout()
@@ -95,6 +95,15 @@ Partial Class frmMail
         Me.colFrom.Text = "From"
         Me.colFrom.Width = 160
         '
+        'colTo
+        '
+        Me.colTo.CustomSortTag = Nothing
+        Me.colTo.DisplayIndex = 1
+        Me.colTo.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colTo.Tag = Nothing
+        Me.colTo.Text = "To"
+        Me.colTo.Width = 160
+        '
         'colSubject
         '
         Me.colSubject.CustomSortTag = Nothing
@@ -142,6 +151,15 @@ Partial Class frmMail
         Me.ContainerListViewColumnHeader1.Tag = Nothing
         Me.ContainerListViewColumnHeader1.Text = "From"
         Me.ContainerListViewColumnHeader1.Width = 160
+        '
+        'ContainerListViewColumnHeader4
+        '
+        Me.ContainerListViewColumnHeader4.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader4.DisplayIndex = 1
+        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.ContainerListViewColumnHeader4.Tag = Nothing
+        Me.ContainerListViewColumnHeader4.Text = "To"
+        Me.ContainerListViewColumnHeader4.Width = 160
         '
         'ContainerListViewColumnHeader2
         '
@@ -218,24 +236,6 @@ Partial Class frmMail
         Me.panelMails.Name = "panelMails"
         Me.panelMails.Size = New System.Drawing.Size(884, 325)
         Me.panelMails.TabIndex = 52
-        '
-        'colTo
-        '
-        Me.colTo.CustomSortTag = Nothing
-        Me.colTo.DisplayIndex = 1
-        Me.colTo.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colTo.Tag = Nothing
-        Me.colTo.Text = "To"
-        Me.colTo.Width = 160
-        '
-        'ContainerListViewColumnHeader4
-        '
-        Me.ContainerListViewColumnHeader4.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader4.DisplayIndex = 1
-        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader4.Tag = Nothing
-        Me.ContainerListViewColumnHeader4.Text = "To"
-        Me.ContainerListViewColumnHeader4.Width = 160
         '
         'frmMail
         '
