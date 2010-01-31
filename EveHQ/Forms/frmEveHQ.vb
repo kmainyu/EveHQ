@@ -2706,7 +2706,6 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub UpdateMailNotifications()
-        OpenEveHQMailForm()
         Threading.ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread, frmMail.IsHandleCreated)
     End Sub
 
