@@ -34,6 +34,7 @@ Fixes & Improvements:
 - Core: Fixed EMP export and imports issues due to new XML structure of the newer versions of EveMon (1.3.0+)
 - Core: Removed duplicate shutdown routine causing conflicts when using the File > Exit menu option
 - Core: Added patch for Standings to only use the latest files if multiple directories exist
+- Core: Added MailingLists API
 - Creation: Removed requirement for chrRaceSkills table not present in the official CCP Data Export
 - Data Converter: Updated BPDump routines for Dominion
 - HQF: Added default images for ships in the Damage Analysis where images can't be found
