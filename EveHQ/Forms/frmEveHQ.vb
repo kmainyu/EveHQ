@@ -50,6 +50,8 @@ Public Class frmEveHQ
     Dim EveHQMLW As New SortedList
     Dim EveHQMLF As New frmMarketPrices
     Private EveHQTrayForm As Form = Nothing
+    Public Event MailUpdateStarted()
+    Public Event MailUpdateCompleted()
     Friend Structure RECT
         Friend Left As Int32
         Friend Top As Int32
@@ -2704,10 +2706,11 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub UpdateMailNotifications()
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread)
+        OpenEveHQMailForm()
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread, frmMail.IsHandleCreated)
     End Sub
 
-    Private Sub MailUpdateThread(ByVal state As Object)
+    Private Sub MailUpdateThread(ByVal MailFormOpen As Object)
         ' Check for the AutoMailAPI flag
         Dim requiresAutoDisable As Boolean = False
         If EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = True Then
@@ -2717,24 +2720,23 @@ Public Class frmEveHQ
         If requiresAutoDisable = True Then
             EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = False
         End If
-        frmMail.btnDownloadMail.Enabled = False
+
+        RaiseEvent MailUpdateStarted()
 
         ' Call the main routines!
         Dim myMail As New EveHQ.Core.EveMail
         Call myMail.GetMail()
 
-        ' Update the display with EveMail
-        If frmMail.IsHandleCreated = True Then
-            Call frmMail.UpdateMailInfo()
-        End If
+        RaiseEvent MailUpdateCompleted()
 
-        frmMail.btnDownloadMail.Enabled = True
+        ' Update the main EveMail button
+        Call Me.UpdateEveMailButton()
+
         ' Set the AutoMailAPI flag if required
         If requiresAutoDisable = True Then
             EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = True
         End If
-        ' Update the main EveMail button
-        Call Me.UpdateEveMailButton()
+
     End Sub
 
 #End Region

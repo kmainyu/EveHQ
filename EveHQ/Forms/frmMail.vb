@@ -21,6 +21,9 @@ Public Class frmMail
     End Property
 
     Private Sub frmMail_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        ' Adds handlers for the external mail events
+        AddHandler frmEveHQ.MailUpdateStarted, AddressOf MailUpdateStarted
+        AddHandler frmEveHQ.MailUpdateCompleted, AddressOf MailUpdateCompleted
         ' Check for the existence of our 2 required tables
         Call EveHQ.Core.DataFunctions.CheckForEveMailTable()
         Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
@@ -82,7 +85,7 @@ Public Class frmMail
     Private Sub MailUpdateThread(ByVal state As Object)
         Dim myMail As New EveHQ.Core.EveMail
         AddHandler myMail.MailProgress, AddressOf DisplayMailProgress
-        btnDownloadMail.Enabled = False
+        Me.Invoke(New MethodInvoker(AddressOf MailUpdateStarted))
         Call myMail.GetMail()
         Me.Invoke(New MethodInvoker(AddressOf MailUpdateCompleted))
     End Sub
@@ -96,7 +99,12 @@ Public Class frmMail
         lblDownloadMailStatus.Text = mailStatus
     End Sub
 
-    Private Sub MailUpdateCompleted()
+    Public Sub MailUpdateStarted()
+        lblDownloadMailStatus.Text = "Processing EveMails and Notifications..."
+        btnDownloadMail.Enabled = False
+    End Sub
+
+    Public Sub MailUpdateCompleted()
         ' Update the display with EveMail
         Call Me.UpdateMailInfo()
         lblDownloadMailStatus.Text = "Mail Processing Complete!"
