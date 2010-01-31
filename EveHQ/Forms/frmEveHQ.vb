@@ -2720,8 +2720,8 @@ Public Class frmEveHQ
         frmMail.btnDownloadMail.Enabled = False
 
         ' Call the main routines!
-        Call EveHQ.Core.EveMail.GetEveMail()
-        Call EveHQ.Core.EveMail.GetNotifications()
+        Dim myMail As New EveHQ.Core.EveMail
+        Call myMail.GetMail()
 
         ' Update the display with EveMail
         If frmMail.IsHandleCreated = True Then

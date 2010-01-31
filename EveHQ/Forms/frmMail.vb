@@ -78,8 +78,8 @@ Public Class frmMail
 
         Me.Cursor = Cursors.WaitCursor
 
-        Call EveHQ.Core.EveMail.GetEveMail()
-        Call EveHQ.Core.EveMail.GetNotifications()
+        Dim myMail As New EveHQ.Core.EveMail
+        Call myMail.GetMail()
 
         ' Update the display with EveMail
         Call Me.UpdateMailInfo()

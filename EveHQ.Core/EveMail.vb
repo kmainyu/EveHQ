@@ -4,10 +4,15 @@ Imports System.Windows.Forms
 
 Public Class EveMail
 
-    Shared MailTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    Dim MailTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
-    Public Shared Sub GetEveMail()
+    Public Sub GetMail()
+        Call Me.GetEveMail()
+        Call Me.GetNotifications()
+    End Sub
+
+    Private Sub GetEveMail()
         ' Stage 1: Download the latest EveMail API using the standard API method
         ' Stage 2: Populate the class with our EveMail
         ' Stage 3: Check the messages which have already been posted
@@ -142,7 +147,7 @@ Public Class EveMail
 
         ' Send E-mail notification of new mails if required
         If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And NewMails.Count > 0 Then
-            Call EveMail.SendEmailForNewEveMails(NewMails, IDs)
+            Call SendEmailForNewEveMails(NewMails, IDs)
         End If
 
         ' Just check the timer to make sure we're not gonna be bombarded with tons of short-lived requests!
@@ -151,7 +156,7 @@ Public Class EveMail
         End If
     End Sub
 
-    Public Shared Sub GetNotifications()
+    Private Sub GetNotifications()
         ' Stage 1: Download the latest EveNotifications API using the standard API method
         ' Stage 2: Populate the class with our Eve Notifications
         ' Stage 3: Check the messages which have already been posted
@@ -270,7 +275,7 @@ Public Class EveMail
 
         ' Send E-mail notification of new mails if required
         If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And newNotifys.Count > 0 Then
-            Call EveMail.SendEmailForNewEveNotifications(newNotifys, IDs)
+            Call SendEmailForNewEveNotifications(newNotifys, IDs)
         End If
 
         ' Just check the timer to make sure we're not gonna be bombarded with tons of short-lived requests!
@@ -280,7 +285,7 @@ Public Class EveMail
 
     End Sub
 
-    Private Shared Sub SendEmailForNewEveMails(ByVal NewMails As ArrayList, ByVal IDs As ArrayList)
+    Private Sub SendEmailForNewEveMails(ByVal NewMails As ArrayList, ByVal IDs As ArrayList)
         ' Get the name data from the DB
         Dim strID As New StringBuilder
         For Each ID As String In IDs
@@ -329,11 +334,11 @@ Public Class EveMail
                     MessageCount += 1
                 End If
             Next
-            EveMail.SendEveHQMail("New Eve Mail Messages Notification", strBody.ToString)
+            Call SendEveHQMail("New Eve Mail Messages Notification", strBody.ToString)
         End If
     End Sub
 
-    Private Shared Sub SendEmailForNewEveNotifications(ByVal NewNotifys As ArrayList, ByVal IDs As ArrayList)
+    Private Sub SendEmailForNewEveNotifications(ByVal NewNotifys As ArrayList, ByVal IDs As ArrayList)
         ' Get the name data from the DB
         Dim strID As New StringBuilder
         For Each ID As String In IDs
@@ -367,10 +372,10 @@ Public Class EveMail
             strBody.AppendLine("")
             MessageCount += 1
         Next
-        EveMail.SendEveHQMail("New Eve Notification Messages Notification", strBody.ToString)
+        Call SendEveHQMail("New Eve Notification Messages Notification", strBody.ToString)
     End Sub
 
-    Private Shared Sub SendEveHQMail(ByVal mailSubject As String, ByVal mailText As String)
+    Private Sub SendEveHQMail(ByVal mailSubject As String, ByVal mailText As String)
         Dim eveHQMail As New System.Net.Mail.SmtpClient
         Try
             eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
