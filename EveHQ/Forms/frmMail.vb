@@ -6,6 +6,7 @@ Imports DotNetLib.Windows.Forms
 Public Class frmMail
     Dim displayPilot As New EveHQ.Core.Pilot
     Dim cDisplayPilotName As String = ""
+    Dim mailStatus As String = ""
 
     Public Property DisplayPilotName() As String
         Get
@@ -75,19 +76,32 @@ Public Class frmMail
     End Sub
 
     Private Sub btnDownloadMail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDownloadMail.Click
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread)
+    End Sub
 
-        Me.Cursor = Cursors.WaitCursor
-
+    Private Sub MailUpdateThread(ByVal state As Object)
         Dim myMail As New EveHQ.Core.EveMail
+        AddHandler myMail.MailProgress, AddressOf DisplayMailProgress
+        btnDownloadMail.Enabled = False
         Call myMail.GetMail()
+        Me.Invoke(New MethodInvoker(AddressOf MailUpdateCompleted))
+    End Sub
 
+    Private Sub DisplayMailProgress(ByVal Status As String)
+        mailStatus = Status
+        Me.Invoke(New MethodInvoker(AddressOf UpdateMailProgress))
+    End Sub
+
+    Private Sub UpdateMailProgress()
+        lblDownloadMailStatus.Text = mailStatus
+    End Sub
+
+    Private Sub MailUpdateCompleted()
         ' Update the display with EveMail
         Call Me.UpdateMailInfo()
-
-        Me.Cursor = Cursors.Default
-
+        lblDownloadMailStatus.Text = "Mail Processing Complete!"
+        btnDownloadMail.Enabled = True
         Call frmEveHQ.UpdateEveMailButton()
-
     End Sub
 
     Private Sub btnGetEveIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetEveIDs.Click
@@ -272,6 +286,6 @@ Public Class frmMail
         clvNotifications.EndUpdate()
     End Sub
 
-   
+
 End Class
 

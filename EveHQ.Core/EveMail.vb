@@ -7,6 +7,8 @@ Public Class EveMail
     Dim MailTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
+    Public Event MailProgress(ByVal Status As String)
+
     Public Sub GetMail()
         Call Me.GetEveMail()
         Call Me.GetNotifications()
@@ -29,8 +31,10 @@ Public Class EveMail
                 If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
                     Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
                     ' Add in the data for mailing lists
+                    RaiseEvent MailProgress("Processing Mailing Lists for " & mPilot.Name & "...")
                     Call EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
                     ' Make a call to the EveHQ.Core.API to fetch the EveMail
+                    RaiseEvent MailProgress("Fetching EveMails for " & mPilot.Name & "...")
                     Dim mailXML As New XmlDocument
                     mailXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.MailMessages, mAccount, mPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
                     If mailXML IsNot Nothing Then
@@ -73,6 +77,7 @@ Public Class EveMail
         Next
 
         ' Stage 3: Check the messages which have already been posted
+        RaiseEvent MailProgress("Checking for new EveMails for all characters...")
         Dim existingMails As New ArrayList
         Dim strExistingMails As New StringBuilder
         If Mails.Count > 0 Then
@@ -92,6 +97,7 @@ Public Class EveMail
         End If
 
         ' Stage 4: Post all new messages to the database
+        RaiseEvent MailProgress("Posting new EveMails to the database...")
         Dim NewMails As New ArrayList
         Dim strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail) VALUES "
         For Each mailKey As String In Mails.Keys
@@ -127,6 +133,7 @@ Public Class EveMail
         Next
 
         ' Stage 5: Get all the IDs and parse them
+        RaiseEvent MailProgress("Posting EveMail IDs to the database...")
         Dim IDs As New ArrayList
         For Each cMail As EveHQ.Core.EveMailMessage In Mails.Values
             ' Get Sender IDs
@@ -142,11 +149,12 @@ Public Class EveMail
 
         ' Add in the Mailing List IDs
         For Each cMail As EveHQ.Core.EveMailMessage In Mails.Values
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCorpAllianceIDs)
+            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToListIDs)
         Next
 
         ' Send E-mail notification of new mails if required
         If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And NewMails.Count > 0 Then
+            RaiseEvent MailProgress("Sending notification of new mails...")
             Call SendEmailForNewEveMails(NewMails, IDs)
         End If
 
@@ -173,6 +181,7 @@ Public Class EveMail
                 If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
                     Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
                     ' Make a call to the EveHQ.Core.API to fetch the EveMail
+                    RaiseEvent MailProgress("Fetching Eve Notifications for " & mPilot.Name & "...")
                     Dim mailXML As New XmlDocument
                     mailXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Notifications, mAccount, mPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
                     If mailXML IsNot Nothing Then
@@ -212,6 +221,7 @@ Public Class EveMail
         Next
 
         ' Stage 3: Check the messages which have already been posted
+        RaiseEvent MailProgress("Checking for new Eve Notifications for all characters...")
         Dim existingMails As New ArrayList
         Dim strExistingMails As New StringBuilder
         If Notices.Count > 0 Then
@@ -231,6 +241,7 @@ Public Class EveMail
         End If
 
         ' Stage 4: Post all new messages to the database
+        RaiseEvent MailProgress("Posting new Eve Notifications to the database...")
         Dim newNotifys As New ArrayList
         Dim strInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail) VALUES "
         For Each NoticeKey As String In Notices.Keys
@@ -264,6 +275,7 @@ Public Class EveMail
         Next
 
         ' Stage 5: Get all the IDs and parse them
+        RaiseEvent MailProgress("Posting Eve Notification IDs to the database...")
         Dim IDs As New ArrayList
         For Each cNotice As EveHQ.Core.EveNotification In Notices.Values
             ' Get Sender IDs
@@ -275,6 +287,7 @@ Public Class EveMail
 
         ' Send E-mail notification of new mails if required
         If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And newNotifys.Count > 0 Then
+            RaiseEvent MailProgress("Sending notification of new notices...")
             Call SendEmailForNewEveNotifications(newNotifys, IDs)
         End If
 
