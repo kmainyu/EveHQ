@@ -1,10 +1,13 @@
 EveHQ - Version History
 -----------------------
 
-1.14.1.????
+1.14.1.1283
 -----------
+New Features:
+- Dominion 1.1.1 Database changes
+- EveMail and Eve Notification Viewer
+
 Fixes & Improvements:
-- Core: Updated database to Dominion 1.1.1
 - Core: Fixed skill cost reports showing training time instead of cost
 - Core: Correctly handled errors within Widget update in Settings
 - Core: Added User Agent string to Updater routine
