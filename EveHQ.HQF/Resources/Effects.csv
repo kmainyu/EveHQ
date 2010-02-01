@@ -693,8 +693,10 @@
 1314,2,911,566,6,0,0,0,0,15,Sensor Dampener - Scan Resolution
 1315,2,909,351,6,0,0,0,0,15,Tracking Disruptor - Optimal Range
 1316,2,909,767,6,0,0,0,0,15,Tracking Disruptor - Tracking Speed
+1332,2,909,349,6,0,0,0,0,15,Tracking Disruptor - Falloff
 1315,2,907,351,6,0,0,0,0,15,Tracking Computer - Optimal Range
 1316,2,907,767,6,0,0,0,0,15,Tracking Computer - Tracking Speed
+1332,2,907,349,6,0,0,0,0,15,Tracking Computer - Falloff
 66,2,908,73,6,0,0,0,0,15,Warp Disruption Field – Duration Bonus
 317,2,908,6,6,0,0,0,0,15,Warp Disruption Field – Capacitor Need
 1227,2,908,554,6,0,0,0,0,15,Warp Disruption Field – Signature Radius
