@@ -213,7 +213,9 @@ Public Class frmMail
                 EveHQ.Core.DataFunctions.ParseIDs(IDs, strTo)
                 strTo = ""
                 For Each ID As String In IDs
-                    strTo &= "; " & FinalIDs(CLng(ID))
+                    If FinalIDs.ContainsKey(CLng(ID)) = True Then
+                        strTo &= "; " & FinalIDs(CLng(ID))
+                    End If
                 Next
                 strTo = strTo.Remove(0, 2)
             Else
