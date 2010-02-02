@@ -106,10 +106,11 @@ Public Class frmMail
 
     Public Sub MailUpdateCompleted()
         ' Update the display with EveMail
+        lblDownloadMailStatus.Text = "Updating EveMail display!"
         Call Me.UpdateMailInfo()
-        lblDownloadMailStatus.Text = "Mail Processing Complete!"
         btnDownloadMail.Enabled = True
         Call frmEveHQ.UpdateEveMailButton()
+        lblDownloadMailStatus.Text = "Mail Processing Complete!"
     End Sub
 
     Private Sub btnGetEveIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetEveIDs.Click
