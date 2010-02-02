@@ -966,8 +966,27 @@ Public Class frmPrism
 
                             ' Add the asset to the treelistview
                             If assetCorpMode = True And (flagID = 4 Or (flagID >= 116 And flagID <= 121)) Then
-                                locNode.Items(accountID - 1000).Items.Add(newAsset)
-                                AssetIsInHanger = True
+                                If (accountID - 1000) >= 0 And (accountID - 1000) < locNode.Items.Count Then
+                                    locNode.Items(accountID - 1000).Items.Add(newAsset)
+                                    AssetIsInHanger = True
+                                Else
+                                    ' Catch case where errors were occuring
+                                    Dim msg As String = "Unable to add corp asset into hangar:" & ControlChars.CrLf
+                                    msg &= "AssetID: " & newAsset.Tag.ToString & ControlChars.CrLf
+                                    msg &= "Item: " & itemName & ControlChars.CrLf
+                                    msg &= "FlagID: " & flagID.ToString & " (" & flagName & ")" & ControlChars.CrLf
+                                    msg &= "AccountID: " & accountID.ToString & ControlChars.CrLf
+                                    msg &= "Parent: " & locNode.Text & ControlChars.CrLf & ControlChars.CrLf
+                                    msg &= "Please post this as a bug report - the text of this message has been copied to the clipboard to assist you." & ControlChars.CrLf & ControlChars.CrLf
+                                    msg &= "Corp Assets will be incomplete while this error appears. Corp Hangar Mode will be disabled."
+                                    chkCorpHangarMode.Checked = False
+                                    Try
+                                        Clipboard.SetText(msg)
+                                    Catch e As Exception
+                                    End Try
+                                    MessageBox.Show(msg, "Corp Hangar Mode Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit For
+                                End If
                             Else
                                 locNode.Items.Add(newAsset)
                                 AssetIsInHanger = False
