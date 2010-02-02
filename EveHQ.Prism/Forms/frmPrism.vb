@@ -949,10 +949,10 @@ Public Class frmPrism
                             Dim flagName As String = PlugInData.itemFlags(flagID).ToString
                             Dim accountID As Integer = flagID + 885
                             If accountID = 889 Then accountID = 1000
-                            If IsCorp = True And groupName <> "Station Services" Then
+                            If IsCorp = True And itemName <> "Office" Then
                                 If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
                                     flagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
-                                    If assetCorpMode = True And locNode.Items.Count < 7 Then
+                                    If assetCorpMode = True And locNode.Items.Count < 7 And itemName <> "Office" Then
                                         ' Build the corp division nodes
                                         For div As Integer = 0 To 6
                                             Dim hangar As New ContainerListViewItem
@@ -965,7 +965,7 @@ Public Class frmPrism
                             End If
 
                             ' Add the asset to the treelistview
-                            If assetCorpMode = True And (flagID = 4 Or (flagID >= 116 And flagID <= 121)) Then
+                            If assetCorpMode = True And itemName <> "Office" And (flagID = 4 Or (flagID >= 116 And flagID <= 121)) Then
                                 If (accountID - 1000) >= 0 And (accountID - 1000) < locNode.Items.Count Then
                                     locNode.Items(accountID - 1000).Items.Add(newAsset)
                                     AssetIsInHanger = True
@@ -1149,10 +1149,10 @@ Public Class frmPrism
                 Dim subFlagName As String = PlugInData.itemFlags(subFlagID).ToString
                 Dim accountID As Integer = subFlagID + 885
                 If accountID = 889 Then accountID = 1000
-                If assetOwner = selPilot.Corp And groupName <> "Station Services" Then
+                If assetOwner = selPilot.Corp And itemName <> "Office" Then
                     If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
                         subFlagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
-                        If assetCorpMode = True And parentAsset.Items.Count < 7 Then
+                        If assetCorpMode = True And parentAsset.Items.Count < 7 And itemName <> "Office" Then
                             ' Build the corp division nodes
                             For div As Integer = 0 To 6
                                 Dim hangar As New ContainerListViewItem
@@ -1163,7 +1163,7 @@ Public Class frmPrism
                         End If
                     End If
                 End If
-                If assetCorpMode = True And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
+                If assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
                     parentAsset.Items(accountID - 1000).Items.Add(subAsset)
                     AssetIsInHanger = True
                 Else
