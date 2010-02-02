@@ -218,7 +218,13 @@ Public Class frmMail
                         strTo &= "; " & FinalIDs(CLng(ID))
                     End If
                 Next
-                strTo = strTo.Remove(0, 2)
+                If strTo = "" Then
+                    strTo = "IDs: " & newMail.ToCharacterIDs & "," & newMail.ToCorpAllianceIDs
+                Else
+                    If strTo.Length > 1 Then
+                        strTo = strTo.Remove(0, 2)
+                    End If
+                End If
             Else
                 strTo = "<Mailing List>"
             End If
