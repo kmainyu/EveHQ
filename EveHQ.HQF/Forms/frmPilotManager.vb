@@ -420,6 +420,9 @@ Public Class frmPilotManager
         tvwImplants.BeginUpdate()
         tvwImplants.Nodes.Clear()
         For slot As Integer = 1 To 10
+            If ModuleLists.moduleListName.ContainsKey(currentPilot.ImplantName(slot)) = False Then
+                currentPilot.ImplantName(slot) = ""
+            End If
             If currentPilot.ImplantName(slot) = "" Then
                 tvwImplants.Nodes.Add("Slot " & slot.ToString, "Slot " & slot.ToString)
             Else
