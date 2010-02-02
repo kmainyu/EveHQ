@@ -1,6 +1,16 @@
 EveHQ - Version History
 -----------------------
 
+1.14.2.1290
+-----------
+Fixes & Improvements:
+- Core: Checked for valid IDs when displaying EveMails
+- Core: Added additional status message for downloading EveMails etc
+- HQF: Tracking scripts now affect module falloff bonuses
+- HQF: Fixed issue with Pilot Manager displaying invalid implants
+- Prism: Fixed Corporation Hangar Mode error with corporation offices
+
+
 1.14.1.1283
 -----------
 New Features:
