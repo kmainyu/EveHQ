@@ -5068,6 +5068,10 @@ namespace EveHQ.PosManager
                                 }
                             }
 
+                            if (xfIn <= 0)
+                                xfIn = 1;
+                            if (xfOut <= 0)
+                                xfOut = 1;
                             if ((fInp) && (!fOutp))
                             {
                                 // Silo is an input to another module only - WarnOn Empty (2)
@@ -5743,13 +5747,36 @@ namespace EveHQ.PosManager
             if ((SrcMod.Category == "Silo") || (SrcMod.Category == "Moon Mining"))
             {
                 // Plain mineral incomming
-                qty = SrcMod.selMineral.reactQty;
-                mult = SrcMod.selMineral.portionSize;
-                vol = SrcMod.selMineral.volume;
-                bPrice = SrcMod.selMineral.basePrice;
 
-                retV[0] = qty;
-                retV[1] = retV[0] * vol * mult;
+                // There are some cases, where the destination is a reaction, that the reaction
+                // should override on silo due to the selMineral.reactQty being just plain Wrong!
+                if ((DstMod.ModType == 5) || (DstMod.ModType == 6) || (DstMod.ModType == 7))
+                {
+                    foreach (InOutData iod in DstMod.selReact.inputs)
+                    {
+                        if (iod.typeID == SrcMod.selMineral.typeID)
+                        {
+                            qty = iod.qty;
+                            mult = SrcMod.selMineral.portionSize;
+                            vol = SrcMod.selMineral.volume;
+                            bPrice = SrcMod.selMineral.basePrice;
+                            rQty = SrcMod.selMineral.reactQty;
+
+                            retV[0] = qty * rQty;
+                            retV[1] = retV[0] * vol * mult;
+                        }
+                    }
+                }
+                else
+                {
+                    qty = SrcMod.selMineral.reactQty;
+                    mult = SrcMod.selMineral.portionSize;
+                    vol = SrcMod.selMineral.volume;
+                    bPrice = SrcMod.selMineral.basePrice;
+
+                    retV[0] = qty;
+                    retV[1] = retV[0] * vol * mult;
+                }
             }
             else if (SrcMod.Category == "Mobile Reactor")
             {

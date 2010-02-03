@@ -123,7 +123,7 @@ namespace EveHQ.PosManager
                 else
                 {
                     if (used > 0)
-                        ret = Math.Floor((pcMult * sov * pQty) + 1);
+                        ret = Math.Ceiling(pcMult * sov * pQty);
                     else
                         ret = Math.Floor(pcMult * sov * pQty);
                 }
