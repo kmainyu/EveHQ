@@ -2405,7 +2405,16 @@ namespace EveHQ.PosManager
                     strSQL = "SELECT mapDenormalize.itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + td.moonID + ";";
                     ml = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-                    p.Moon = ml.Tables[0].Rows[0].ItemArray[0].ToString();
+                    if (ml != null)
+                        if ((ml.Tables != null) && (ml.Tables.Count > 0))
+                            if ((ml.Tables[0].Rows != null) && (ml.Tables[0].Rows.Count > 0))
+                                p.Moon = ml.Tables[0].Rows[0].ItemArray[0].ToString();
+                            else
+                                p.Moon = "Unknown";
+                        else
+                            p.Moon = "Unknown";
+                    else
+                        p.Moon = "Unknown";
 
                     switch (td.stateV)
                     {
