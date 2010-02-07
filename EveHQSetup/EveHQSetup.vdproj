@@ -501,7 +501,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.14.1.1282, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.14.2.1292, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_3B004DA2C1E91BA77392D2AC2A463B34"
@@ -603,7 +603,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.14.1.1282, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.14.2.1292, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_9E0CECDE34AB9B7D9B953AAED12EEF9E"
@@ -697,14 +697,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
-        "ProductCode" = "8:{440002B9-AB9A-48C2-88F8-409BFC7AB75F}"
-        "PackageCode" = "8:{AE13DBB0-3064-4528-AF7C-B5678B55133A}"
+        "ProductCode" = "8:{82D02D4B-C843-4DCB-9DDD-351DA535D2DD}"
+        "PackageCode" = "8:{F2FF4F53-8A1A-4648-9AEB-81E51A706B8C}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.14.1"
+        "ProductVersion" = "8:1.14.2"
         "Manufacturer" = "8:Indicium Technologies"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
