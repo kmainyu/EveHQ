@@ -172,17 +172,27 @@ Public Class DataFunctions
 
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0
-                If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
+                Try
                     EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
-                Else
-                    Try
-                        Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name)
-                    Catch e As Exception
-                        MessageBox.Show("There was an error setting the EveHQData connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Return False
-                    End Try
-                End If
+                Catch e As Exception
+                    Dim msg As String = "There was an error setting the EveHQData connection string. Relevant data is as follows:" & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Error: " & e.Message & ControlChars.CrLf
+                    msg &= "DBDataFilename: " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & ControlChars.CrLf
+                    MessageBox.Show(msg, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End Try
+                'If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
+                '    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
+                'Else
+                '    Try
+                '        Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
+                '        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name)
+                '    Catch e As Exception
+                '        Dim msg As String = "There was an error setting the EveHQData connection string. Relevant data is as follows:" & ControlChars.CrLf & ControlChars.CrLf
+                '        msg &= "AppFolder: " & EveHQ.Core.HQ.appFolder
+                '        MessageBox.Show("There was an error setting the EveHQData connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Return False
+                '    End Try
+                'End If
             Case 1
                 EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
