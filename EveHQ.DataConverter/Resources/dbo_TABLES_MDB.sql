@@ -784,7 +784,7 @@ CREATE TABLE dbo.agtAgents
   agentID               integer             NOT NULL,
   divisionID            integer             NULL,
   corporationID         integer             NULL,
-  stationID             integer             NULL,
+  locationID             integer             NULL,
   `level`               integer         NULL,
   quality               integer        NULL,
   agentTypeID           integer         NOT NULL,
