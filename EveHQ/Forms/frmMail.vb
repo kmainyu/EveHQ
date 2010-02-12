@@ -291,7 +291,12 @@ Public Class frmMail
                 mailItem.Text = "Unknown"
             End If
             clvNotifications.Items.Add(mailItem)
-            Dim strNotice As String = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID)
+            Dim strNotice As String = ""
+            If [Enum].IsDefined(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID) = True Then
+                strNotice = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID)
+            Else
+                strNotice = "Unknown Notification"
+            End If
             strNotice = strNotice.Replace("_", " ")
             mailItem.SubItems(1).Text = displayPilot.Name
             mailItem.SubItems(2).Text = strNotice
