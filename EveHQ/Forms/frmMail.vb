@@ -292,7 +292,7 @@ Public Class frmMail
             End If
             clvNotifications.Items.Add(mailItem)
             Dim strNotice As String = ""
-            If [Enum].IsDefined(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID) = True Then
+            If [Enum].IsDefined(GetType(EveHQ.Core.EveNotificationTypes), CInt(newNotice.TypeID)) = True Then
                 strNotice = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID)
             Else
                 strNotice = "Unknown Notification"
