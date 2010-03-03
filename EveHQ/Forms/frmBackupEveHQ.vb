@@ -51,23 +51,31 @@ Public Class frmBackupEveHQ
             End If
 
             ' Backup the data
+            Dim fileFilter As String = "-\.config$;-\.dll$;-\.exe$;-\.manifest$;-\.mdb$;-\.pdb;-\.sdf$;-\.zip$"
             Dim zipSettings As FastZip = New FastZip()
             Me.Cursor = Cursors.WaitCursor
-            zipSettings.CreateZip(zipFileName, EveHQ.Core.HQ.appDataFolder, True, "", "^(?:(?!cache).)*$")
+            zipSettings.CreateZip(zipFileName, EveHQ.Core.HQ.appDataFolder, True, fileFilter, "^(?:(?!cache).)*$")
             Me.Cursor = Cursors.Default
             Return True
         Catch e As Exception
-            ' Try and tidy up
-            ' Delete the zip folder
-            If My.Computer.FileSystem.DirectoryExists(zipFolder) = True Then
-                My.Computer.FileSystem.DeleteDirectory(zipFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
+            ' Report the error
             Dim msg As String = "Error Performing EveHQ Backup:"
             msg &= ControlChars.CrLf & e.Message & ControlChars.CrLf
+            If e.InnerException IsNot Nothing Then
+                msg &= "Inner Exception: " & e.InnerException.Message & ControlChars.CrLf
+            End If
             MessageBox.Show(msg, "EveHQ Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = 0
             EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast = oldTime
             Me.Cursor = Cursors.Default
+            ' Try and delete the zip folder
+            Try
+                If My.Computer.FileSystem.DirectoryExists(zipFolder) = True Then
+                    My.Computer.FileSystem.DeleteDirectory(zipFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                End If
+            Catch ex As Exception
+                ' Delete failed - ignore!
+            End Try
             Return False
         End Try
     End Function
