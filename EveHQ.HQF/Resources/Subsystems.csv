@@ -27,7 +27,7 @@
 29975,1,30545,269,1,29990,0,1,2,-5,15,Armor Kinetic Resistance
 29975,1,30545,270,1,29990,0,1,2,-5,15,Armor Thermal Resistance
 # Loki Defensive - Amplification Node,,,,,,,,,,,
-29976,1,30545,552,1,11387,0,1,0,-5,15,Signature Radius
+29976,1,30545,552,1,29990,0,1,0,-5,15,Signature Radius
 # Loki Defensive - Warfare Processor,,,,,,,,,,,
 29977,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 29977,1,30545,833,1,20070;11017;20408,0,1,0,5,15,Skirmish Warfare Link Bonus
