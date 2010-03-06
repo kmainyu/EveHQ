@@ -2653,6 +2653,11 @@ Public Class frmTraining
         Else
             mnuChangeLevel.Enabled = True
         End If
+        If activeQueue.Queue.Contains(keyName) = False Then
+            mnuEditNote.Enabled = False
+        Else
+            mnuEditNote.Enabled = True
+        End If
     End Sub
     Private Sub mnuChangeLevel1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel1.Click
         Call Me.ChangeLevel(1)
