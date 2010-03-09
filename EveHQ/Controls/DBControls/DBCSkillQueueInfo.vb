@@ -124,7 +124,10 @@
         For Each ConfigProperty As String In cControlConfig.Keys
             Dim pi As System.Reflection.PropertyInfo = Me.GetType().GetProperty(ConfigProperty)
             If ConfigProperty <> "ControlName" Then
-                pi.SetValue(Me, Convert.ChangeType(cControlConfig(ConfigProperty), pi.PropertyType, Globalization.CultureInfo.InvariantCulture), Nothing)
+                Try
+                    pi.SetValue(Me, Convert.ChangeType(cControlConfig(ConfigProperty), pi.PropertyType, Globalization.CultureInfo.InvariantCulture), Nothing)
+                Catch e As Exception
+                End Try
             End If
         Next
         ReadConfig = False

@@ -1,6 +1,23 @@
 EveHQ - Version History
 -----------------------
 
+1.14.3.1505
+-----------
+Fixes & Improvements:
+- Core: Replaced blank "To" string in EveMails with IDs
+- Core: Altered routine used to handle custom database
+- Core: Fixed crash in Notification display where the notification typeID is not in the list
+- Core: Fixed backup issues with unwanted files
+- Core: Fixed crash with editing the note for the current training skill
+- HQF: Fixed sig radius bonus on Loki Defensive Amplification Node
+- HQF: Fixed damage bonuses for titans
+- POS: Fix for bad tower fuel computation with certain configurations
+- POS: Fix for at some reaction time computations
+- POS: Check for a bad DB query return
+- Prism: Fixed cost display issues in BPCalc
+- Prism: Fixed efficiency display issues in BPCalc
+
+
 1.14.2.1290
 -----------
 Fixes & Improvements:

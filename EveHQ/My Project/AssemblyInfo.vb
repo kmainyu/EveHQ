@@ -31,7 +31,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Eve Online game tool")> 
 <Assembly: AssemblyCompany("Indicium Technologies")> 
 <Assembly: AssemblyProduct("EveHQ")> 
-<Assembly: AssemblyCopyright("© Vessper 2007-2009")> 
+<Assembly: AssemblyCopyright("© Vessper 2007-2010")> 
 
 <Assembly: CLSCompliant(True)> 
 
@@ -51,7 +51,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.14.2.1292")> 
-<Assembly: AssemblyFileVersion("1.14.2.1292")> 
-<Assembly: AssemblyTrademark("02/02/2010")> 
+<Assembly: AssemblyVersion("1.14.3.1505")> 
+<Assembly: AssemblyFileVersion("1.14.3.1505")> 
+<Assembly: AssemblyTrademark("09/03/2010")> 
 
