@@ -636,7 +636,7 @@ Public Class frmBPCalculator
                 newRes.SubItems(4).Text = FormatNumber(price, 2)
                 newRes.SubItems(5).Text = FormatNumber(value * ProductionRuns, 2)
                 newRes.SubItems(6).Text = FormatNumber(Int(subJob.PerfectUnits / CurrentBP.MatMod), 0)
-                Call DisplayJob(subJob, newRes, maxProducableUnits)
+                Call DisplayJob(subJob, currentJob.Runs, newRes, maxProducableUnits)
                 ' Recalculate sub prices
                 Dim subprice As Double = 0
                 For Each subRes As ContainerListViewItem In newRes.Items
@@ -686,7 +686,7 @@ Public Class frmBPCalculator
 
     End Sub
 
-    Private Sub DisplayJob(ByVal parentJob As ProductionJob, ByVal parentRes As ContainerListViewItem, ByRef maxProducableUnits As Long)
+    Private Sub DisplayJob(ByVal parentJob As ProductionJob, ByVal BaseRuns As Integer, ByVal parentRes As ContainerListViewItem, ByRef maxProducableUnits As Long)
         For Each resource As Object In parentJob.RequiredResources.Values
             If TypeOf (resource) Is RequiredResource Then
                 ' This is a resource so add it
@@ -703,8 +703,8 @@ Public Class frmBPCalculator
                     ' Calculate costs
                     If rResource.TypeCategory <> 16 Then
                         ' Not a skill
-                        UnitMaterial += value
-                        UnitWaste += waste * price
+                        UnitMaterial += (value / parentJob.Runs)
+                        UnitWaste += (waste / BaseRuns) * price
                     Else
                         ' A skill
                         newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(CInt(rResource.PerfectUnits)) & ")"
@@ -771,7 +771,7 @@ Public Class frmBPCalculator
                 newRes.SubItems(4).Text = FormatNumber(price, 2)
                 newRes.SubItems(5).Text = FormatNumber(value * runs, 2)
                 newRes.SubItems(6).Text = FormatNumber(Int(perfectRaw / CurrentBP.MatMod), 0)
-                Call DisplayJob(subJob, newRes, maxProducableUnits)
+                Call DisplayJob(subJob, BaseRuns, newRes, maxProducableUnits)
                 ' Recalculate sub prices
                 Dim subprice As Double = 0
                 For Each subRes As ContainerListViewItem In newRes.Items
