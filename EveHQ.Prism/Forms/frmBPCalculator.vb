@@ -703,7 +703,7 @@ Public Class frmBPCalculator
                     ' Calculate costs
                     If rResource.TypeCategory <> 16 Then
                         ' Not a skill
-                        UnitMaterial += (value / parentJob.Runs)
+                        UnitMaterial += (value / BaseRuns)
                         UnitWaste += (waste / BaseRuns) * price
                     Else
                         ' A skill
