@@ -213,9 +213,9 @@
 16240,0,0,10013,2,53;55;74,0,0,0,25,15,Projectile Turret ROF
 16240,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Celestis,,,,,,,,,,,
-633,1,3352,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-633,1,3352,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
-633,1,3352,566,2,208,0,1,0,5,15,Remote Sensor Damp Res
+633,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+633,1,3332,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
+633,1,3332,566,2,208,0,1,0,5,15,Remote Sensor Damp Res
 # Cerberus,,,,,,,,,,,
 11993,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,Kinetic Missile Damage
 11993,1,3334,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,10,15,Missile Velocity
