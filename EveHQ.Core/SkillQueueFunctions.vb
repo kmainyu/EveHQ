@@ -586,11 +586,15 @@ Public Class SkillQueueFunctions
     Private Shared Sub CheckSkillFlow(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
         ' Check there aren't any discrepancies
         Dim skillsChecked As String = ""
+        Dim skillsToRemove As New ArrayList
+        Dim mainCount As Integer = 0
 
         If bQueue.Queue.Count <> 0 Then
-            For count As Integer = 1 To bQueue.Queue.Count
+            Do
+                mainCount += 1
+                'For count As Integer = 1 To bQueue.Queue.Count
                 Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-                curSkill = CType(bQueue.Queue(count), SkillQueueItem)
+                curSkill = CType(bQueue.Queue(mainCount), SkillQueueItem)
                 If skillsChecked.Contains(curSkill.Name) = False Then
                     Dim pilotLevel As Integer = 0
                     Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -612,7 +616,7 @@ Public Class SkillQueueFunctions
                     skillArray(0) = curKey
 
                     Dim counter As Integer = 0
-                    For count2 As Integer = count + 1 To bQueue.Queue.Count
+                    For count2 As Integer = mainCount + 1 To bQueue.Queue.Count
                         Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
                         checkSkill = CType(bQueue.Queue(count2), SkillQueueItem)
                         If curSkill.Name = checkSkill.Name Then
@@ -638,6 +642,7 @@ Public Class SkillQueueFunctions
                         replaceSkill.Notes = curSkill.Notes
                         replaceSkill.Priority = curSkill.Priority
                         bQueue.Queue.Remove(startKeyName)
+                        mainCount -= 1
                         startKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
                         bQueue.Queue.Add(replaceSkill, startKeyName)
                         skillArray(0) = startKeyName
@@ -665,8 +670,12 @@ Public Class SkillQueueFunctions
                                     replaceSkill.Notes = curSkill.Notes
                                     replaceSkill.Priority = curSkill.Priority
                                     bQueue.Queue.Remove(curKeyName)
+                                    mainCount -= 1
                                     newKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
                                     bQueue.Queue.Add(replaceSkill, newKeyName)
+                                    If replaceSkill.ToLevel = replaceSkill.FromLevel Then
+                                        skillsToRemove.Add(newKeyName)
+                                    End If
                                 Else
                                     ' We have decreased the skill level? 
                                     ' Increase the current one to match
@@ -677,14 +686,23 @@ Public Class SkillQueueFunctions
                                     replaceSkill.Notes = curSkill.Notes
                                     replaceSkill.Priority = curSkill.Priority
                                     bQueue.Queue.Remove(nextKeyName)
+                                    mainCount -= 1
                                     newKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
                                     bQueue.Queue.Add(replaceSkill, newKeyName)
+                                    If replaceSkill.FromLevel = replaceSkill.ToLevel Then
+                                        skillsToRemove.Add(newKeyName)
+                                    End If
                                 End If
                             End If
                         Next
                     End If
                     skillsChecked &= curSkill.Name & " "
                 End If
+                If mainCount < 0 Then mainCount = 0
+            Loop Until mainCount = bQueue.Queue.Count
+            ' remove unwanted skills
+            For Each unneededSkill As String In skillsToRemove
+                bQueue.Queue.Remove(unneededSkill)
             Next
         End If
     End Sub
