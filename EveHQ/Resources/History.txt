@@ -1,7 +1,16 @@
 EveHQ - Version History
 -----------------------
 
-1.14.3.1505
+1.14.4.1555 (02/04/2010)
+-----------
+Fixes & Improvements:
+- Core: Fixed 2 issues with skill flow calculations
+- HQF: Fixed Celestis ship bonuses
+- HQF: Fixed gravity capacitor rigs not giving bonuses to probes
+- Prism: Fixed another cost display issue
+
+
+1.14.3.1505 (09/03/2010)
 -----------
 Fixes & Improvements:
 - Core: Replaced blank "To" string in EveMails with IDs
