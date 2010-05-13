@@ -103,6 +103,7 @@ Partial Class frmHQF
         Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
         Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
         Me.colModulePG = New System.Windows.Forms.ColumnHeader
+        Me.colModulePrice = New System.Windows.Forms.ColumnHeader
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
@@ -284,7 +285,6 @@ Partial Class frmHQF
         '
         'tsbFleetManager
         '
-        Me.tsbFleetManager.Enabled = False
         Me.tsbFleetManager.Image = CType(resources.GetObject("tsbFleetManager.Image"), System.Drawing.Image)
         Me.tsbFleetManager.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbFleetManager.Name = "tsbFleetManager"
@@ -899,7 +899,7 @@ Partial Class frmHQF
         Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
+        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG, Me.colModulePrice})
         Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
         Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvwItems.FullRowSelect = True
@@ -932,6 +932,11 @@ Partial Class frmHQF
         '
         Me.colModulePG.Text = "PG"
         Me.colModulePG.Width = 40
+        '
+        'colModulePrice
+        '
+        Me.colModulePrice.Text = "Price"
+        Me.colModulePrice.Width = 100
         '
         'ctxModuleList
         '
@@ -1830,7 +1835,7 @@ Partial Class frmHQF
         Me.tabFit.Controls.Add(Me.panelShipInfo)
         Me.tabFit.Location = New System.Drawing.Point(4, 22)
         Me.tabFit.Name = "tabFit"
-        Me.tabFit.Size = New System.Drawing.Size(589, 670)
+        Me.tabFit.Size = New System.Drawing.Size(584, 670)
         Me.tabFit.TabIndex = 2
         Me.tabFit.Text = "Fitting"
         Me.tabFit.UseVisualStyleBackColor = True
@@ -1840,13 +1845,13 @@ Partial Class frmHQF
         Me.panelShipSlot.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelShipSlot.Location = New System.Drawing.Point(0, 0)
         Me.panelShipSlot.Name = "panelShipSlot"
-        Me.panelShipSlot.Size = New System.Drawing.Size(339, 670)
+        Me.panelShipSlot.Size = New System.Drawing.Size(334, 670)
         Me.panelShipSlot.TabIndex = 1
         '
         'panelShipInfo
         '
         Me.panelShipInfo.Dock = System.Windows.Forms.DockStyle.Right
-        Me.panelShipInfo.Location = New System.Drawing.Point(339, 0)
+        Me.panelShipInfo.Location = New System.Drawing.Point(334, 0)
         Me.panelShipInfo.Name = "panelShipInfo"
         Me.panelShipInfo.Size = New System.Drawing.Size(250, 670)
         Me.panelShipInfo.TabIndex = 0
@@ -2134,4 +2139,5 @@ Partial Class frmHQF
     Friend WithEvents mnuCopyImplants As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuMainExportToEve As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents colModulePrice As System.Windows.Forms.ColumnHeader
 End Class

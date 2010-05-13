@@ -71,13 +71,16 @@
 294,1,19759,54,2,208,0,1,0,0,Long Distance Jamming - RSD
 294,1,19759,54,2,291,0,1,0,0,Long Distance Jamming - TD
 294,1,19759,54,2,379,0,1,0,0,Long Distance Jamming - TP
+294,1,19759,54,2,209,0,1,0,0,Long Distance Jamming - Tracking Links
 309,1,3428,76,3,6,0,1,0,0,Long Range Targeting
 311,1,3430,10064,3,6,0,1,1,0,Multitasking
 1193,1,27911,669,2,842,0,1,0,0,Projected Electronic Counter Measures
 317,1,3435,6,2,52,0,1,0,0,Propulsion Jamming - Warp Scrambler
 317,1,3435,6,2,65,0,1,0,0,Propulsion Jamming - Stasis Webifier
+317,1,3435,6,2,899,0,1,0,0,Propulsion Jamming - WDFG
 317,1,3433,6,2,290,0,1,0,0,Sensor Linking - RSB
 317,1,3433,6,2,208,0,1,0,0,Sensor Linking - RSD
+317,1,3433,6,2,209,0,1,0,0,Sensor Linking - Tracking Link
 828,1,19761,238,2,201,0,1,0,0,Signal Dispersion - Grav ECM
 828,1,19761,239,2,201,0,1,0,0,Signal Dispersion - Ladar ECM
 828,1,19761,240,2,201,0,1,0,0,Signal Dispersion - Mag ECM
@@ -114,10 +117,7 @@
 958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation - Passive
 988,1,12366,996,2,77,0,1,5,0,Kinetic Shield Compensation - Active
 851,1,21059,6,4,609;610;611;612,0,1,0,0,Shield Compensation
-317,1,3422,6,4,604,0,1,0,0,Shield Emission Systems - Micro
-317,1,3422,6,4,603,0,1,0,0,Shield Emission Systems - Small
-317,1,3422,6,4,602,0,1,0,0,Shield Emission Systems - Medium
-317,1,3422,6,4,601,0,1,0,0,Shield Emission Systems - Large
+317,1,3422,6,2,41,0,1,0,0,Shield Emission Systems
 337,1,3419,263,3,6,0,1,0,0,Shield Management - Shields
 337,1,3419,72,2,38,0,1,0,0,Shield Management - Shield Extenders
 338,1,3416,479,3,6,0,1,0,0,Shield Operation
@@ -300,10 +300,10 @@
 292,1,3326,117,2,386;656,0,1,0,0,Cruise Missiles - Kinetic
 292,1,3326,118,2,386;656,0,1,0,0,Cruise Missiles - Thermal
 547,1,3323,37,2,88,0,1,0,0,Defender Missiles
-292,1,3322,114,4,914,0,1,0,0,FoF Missiles - EM
-292,1,3322,116,2,914,0,1,0,0,FoF Missiles - Explosive
-292,1,3322,117,2,914,0,1,0,0,FoF Missiles - Kinetic
-292,1,3322,118,2,914,0,1,0,0,FoF Missiles - Thermal
+292,1,3322,114,2,394;395;396,0,1,0,0,FoF Missiles - EM
+292,1,3322,116,2,394;395;396,0,1,0,0,FoF Missiles - Explosive
+292,1,3322,117,2,394;395;396,0,1,0,0,FoF Missiles - Kinetic
+292,1,3322,118,2,394;395;396,0,1,0,0,FoF Missiles - Thermal
 848,1,20312,654,2,384,0,1,0,0,Guided Missile Precision - Light
 848,1,20312,654,2,385,0,1,0,0,Guided Missile Precision - Heavy
 848,1,20312,654,2,386,0,1,0,0,Guided Missile Precision - Cruise
@@ -693,7 +693,7 @@
 1314,2,911,566,6,0,0,0,0,15,Sensor Dampener - Scan Resolution
 1315,2,909,351,6,0,0,0,0,15,Tracking Disruptor - Optimal Range
 1316,2,909,767,6,0,0,0,0,15,Tracking Disruptor - Tracking Speed
-1332,2,909,349,6,0,0,0,0,15,Tracking Disruptor - Falloff
+1332,2,909,349,6,0,0,0,0,15,Tracking Disruptor- Falloff
 1315,2,907,351,6,0,0,0,0,15,Tracking Computer - Optimal Range
 1316,2,907,767,6,0,0,0,0,15,Tracking Computer - Tracking Speed
 1332,2,907,349,6,0,0,0,0,15,Tracking Computer - Falloff
@@ -1224,12 +1224,12 @@
 1144,1,10155,54,2,55;53;74,0,0,0,15,Improved Blue Pill - Turret Optimal Range Penalty
 1147,1,10155,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Blue Pill - Explosion Velocity Penalty
 1150,1,10155,482,3,6,0,0,0,15,Improved Blue Pill - Capacitor Capacity Penalty
-848,1,10151,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Explosion Velocity Bonus
+848,1,10151,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Explosion Radius Bonus
 616,1,10151,68,2,40,0,0,0,15,Improved Crash - Shield Booster Penalty
 1141,1,10151,265,3,6,0,0,0,15,Improved Crash - Armor HP Penalty
 1148,1,10151,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Missile Velocity Penalty
 1151,1,10151,37,3,6,0,0,0,15,Improved Crash - Max Velocity Penalty
-244,1,15477,160,2,55;53;74,0,0,1,15,Improved Drop - Tracking Speed Bonus
+244,1,15477,160,2,55;53;74,0,0,5,15,Improved Drop - Tracking Speed Bonus
 1142,1,15477,84,2,62,0,0,0,15,Improved Drop - Armor Repair Amount Penalty
 1143,1,15477,263,3,6,0,0,0,15,Improved Drop - Shield Capacity Penalty
 1146,1,15477,158,2,55;53;74,0,0,0,15,Improved Drop - Turret Falloff Penalty
@@ -1264,12 +1264,12 @@
 1144,1,9950,54,2,55;53;74,0,0,0,15,Standard Blue Pill - Turret Optimal Range Penalty
 1147,1,9950,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Blue Pill - Explosion Velocity Penalty
 1150,1,9950,482,3,6,0,0,0,15,Standard Blue Pill - Capacitor Capacity Penalty
-848,1,9947,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Explosion Velocity Bonus
+848,1,9947,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Explosion Radius Bonus
 616,1,9947,68,2,40,0,0,0,15,Standard Crash - Shield Booster Penalty
 1141,1,9947,265,3,6,0,0,0,15,Standard Crash - Armor HP Penalty
 1148,1,9947,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Missile Velocity Penalty
 1151,1,9947,37,3,6,0,0,0,15,Standard Crash - Max Velocity Penalty
-244,1,15466,160,2,55;53;74,0,0,1,15,Standard Drop - Tracking Speed Bonus
+244,1,15466,160,2,55;53;74,0,0,5,15,Standard Drop - Tracking Speed Bonus
 1142,1,15466,84,2,62,0,0,0,15,Standard Drop - Armor Repair Amount Penalty
 1143,1,15466,263,3,6,0,0,0,15,Standard Drop - Shield Capacity Penalty
 1146,1,15466,158,2,55;53;74,0,0,0,15,Standard Drop - Turret Falloff Penalty
@@ -1304,12 +1304,12 @@
 1144,1,10156,54,2,55;53;74,0,0,0,15,Strong Blue Pill - Turret Optimal Range Penalty
 1147,1,10156,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Blue Pill - Explosion Velocity Penalty
 1150,1,10156,482,3,6,0,0,0,15,Strong Blue Pill - Capacitor Capacity Penalty
-848,1,10152,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Explosion Velocity Bonus
+848,1,10152,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Explosion Radius Bonus
 616,1,10152,68,2,40,0,0,0,15,Strong Crash - Shield Booster Penalty
 1141,1,10152,265,3,6,0,0,0,15,Strong Crash - Armor HP Penalty
 1148,1,10152,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Missile Velocity Penalty
 1151,1,10152,37,3,6,0,0,0,15,Strong Crash - Max Velocity Penalty
-244,1,15478,160,2,55;53;74,0,0,1,15,Strong Drop - Tracking Speed Bonus
+244,1,15478,160,2,55;53;74,0,0,5,15,Strong Drop - Tracking Speed Bonus
 1142,1,15478,84,2,62,0,0,0,15,Strong Drop - Armor Repair Amount Penalty
 1143,1,15478,263,3,6,0,0,0,15,Strong Drop - Shield Capacity Penalty
 1146,1,15478,158,2,55;53;74,0,0,0,15,Strong Drop - Turret Falloff Penalty
@@ -1340,8 +1340,8 @@
 1146,1,15459,158,2,55;53;74,0,0,0,15,Strong Xinstict - Turret Falloff Penalty
 1148,1,15459,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Xinstict - Missile Velocity Penalty
 548,1,28670,68,2,40,0,0,0,15,Synth Blue Pill - Shield Boost Bonus
-848,1,28672,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Synth Crash - Explosion Velocity Bonus
-244,1,28674,160,2,55;53;74,0,0,1,15,Synth Drop - Tracking Speed Bonus
+848,1,28672,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Synth Crash - Explosion Radius Bonus
+244,1,28674,160,2,55;53;74,0,0,5,15,Synth Drop - Tracking Speed Bonus
 895,1,28676,84,2,62,0,0,0,15,Synth Exile - Armor Repair Bonus
 294,1,28678,54,2,55;53;74,0,0,0,15,Synth Frentix - Turret Optimal Range Bonus
 1079,1,28680,482,3,6,0,0,0,15,Synth Mindflood - Capacitor Bonus

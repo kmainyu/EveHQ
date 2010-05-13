@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2010  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -974,6 +974,7 @@ Public Class frmHQF
                 newModule.SubItems.Add(shipMod.MetaLevel.ToString)
                 newModule.SubItems.Add(shipMod.CPU.ToString)
                 newModule.SubItems.Add(shipMod.PG.ToString)
+                newModule.SubItems.Add(EveHQ.Core.DataFunctions.GetPrice(shipMod.ID).ToString("N2"))
                 Select Case shipMod.SlotType
                     Case 16 ' Subsystem
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
@@ -1086,6 +1087,7 @@ Public Class frmHQF
                     newModule.SubItems.Add(shipMod.MetaLevel.ToString)
                     newModule.SubItems.Add(shipMod.CPU.ToString)
                     newModule.SubItems.Add(shipMod.PG.ToString)
+                    newModule.SubItems.Add(EveHQ.Core.DataFunctions.GetPrice(shipMod.ID).ToString("N2"))
                     Select Case shipMod.SlotType
                         Case 16 ' Subsystem
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
@@ -1227,6 +1229,7 @@ Public Class frmHQF
                 newModule.SubItems.Add(shipMod.MetaLevel.ToString)
                 newModule.SubItems.Add(shipMod.CPU.ToString)
                 newModule.SubItems.Add(shipMod.PG.ToString)
+                newModule.SubItems.Add(EveHQ.Core.DataFunctions.GetPrice(shipMod.ID).ToString("N2"))
                 Select Case shipMod.SlotType
                     Case 16 ' Subsystem
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
@@ -2808,7 +2811,7 @@ Public Class frmHQF
     Private Sub mnuMainExportToEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMainExportToEve.Click
         If clvFittings.SelectedItems.Count = 0 Then
             Dim msg As String = "Please make sure you have selected the relevant fittings in the fitting panel before exporting to Eve."
-            MessageBox.Show("msg", "Fittings Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(msg, "Fittings Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             Call Me.ExportMainFittingToEve()
         End If

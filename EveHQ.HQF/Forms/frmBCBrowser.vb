@@ -392,52 +392,56 @@ Public Class frmBCBrowser
     Private Sub GenerateFittingData()
         ' Let's try and generate a fitting and get some damage info
         If currentShip IsNot Nothing Then
-            Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
-            Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
+            If cboPilots.SelectedItem IsNot Nothing Then
+                gbStatistics.Enabled = True
+                Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
+                Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
 
-            currentShip.DamageProfile = loadoutProfile
-            Dim loadoutShip As Ship = Engine.ApplyFitting(currentShip, loadoutPilot)
+                currentShip.DamageProfile = loadoutProfile
+                Dim loadoutShip As Ship = Engine.ApplyFitting(currentShip, loadoutPilot)
 
-            lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
-            lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
-            lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
-            Dim cap As Double = Engine.CalculateCapStatistics(loadoutShip)
-            If cap > 0 Then
-                cap = cap / loadoutShip.CapCapacity * 100
-                lblCapacitor.Text = "Stable at " & FormatNumber(cap, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            Else
-                lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-cap, False)
-            End If
-            lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
-            lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
-            Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
-            lblCPU.Text = FormatNumber(CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            If CPU > 100 Then
-                lblCPU.ForeColor = Color.Red
-            Else
-                lblCPU.ForeColor = Color.Black
-            End If
-            Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
-            lblPG.Text = FormatNumber(PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            If PG > 100 Then
-                lblPG.ForeColor = Color.Red
-            Else
-                lblPG.ForeColor = Color.Black
-            End If
-            Dim maxOpt As Double = 0
-            For slot As Integer = 1 To loadoutShip.HiSlots
-                Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
-                If shipMod IsNot Nothing Then
-                    If shipMod.Attributes.Contains("54") Then
-                        maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
-                    End If
+                lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
+                lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
+                lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
+                Dim cap As Double = Engine.CalculateCapStatistics(loadoutShip)
+                If cap > 0 Then
+                    cap = cap / loadoutShip.CapCapacity * 100
+                    lblCapacitor.Text = "Stable at " & FormatNumber(cap, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                Else
+                    lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-cap, False)
                 End If
-            Next
-            lblOptimalRange.Text = FormatNumber(maxOpt, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
-
+                lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
+                lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+                Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
+                lblCPU.Text = FormatNumber(CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                If CPU > 100 Then
+                    lblCPU.ForeColor = Color.Red
+                Else
+                    lblCPU.ForeColor = Color.Black
+                End If
+                Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
+                lblPG.Text = FormatNumber(PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                If PG > 100 Then
+                    lblPG.ForeColor = Color.Red
+                Else
+                    lblPG.ForeColor = Color.Black
+                End If
+                Dim maxOpt As Double = 0
+                For slot As Integer = 1 To loadoutShip.HiSlots
+                    Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
+                    If shipMod IsNot Nothing Then
+                        If shipMod.Attributes.Contains("54") Then
+                            maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
+                        End If
+                    End If
+                Next
+                lblOptimalRange.Text = FormatNumber(maxOpt, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+            Else
+                gbStatistics.Enabled = False
+            End If
         End If
 
     End Sub

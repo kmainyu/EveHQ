@@ -1,13 +1,14 @@
 #HQF Implant Mapping Table,,,,,,,,,,
 #Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Calc Type,State,IsGang,Group,Implant Name
 1083,1,21606,265,3,6,0,0,0,Armor,Akemon's Modified 'Noble' ZET5000
+1083,1,21606,1159,2,329,0,0,0,Armor,Akemon's Modified 'Noble' ZET5000
 1083,1,13209,265,3,6,0,0,1,Armor,Armored Warfare Mindlink
 884,1,13209,833,1,20069;20409;22227,0,0,0,Gang,Armored Warfare Mindlink
-548,1,20121,68,2,40,0,0,0,Shield;Learning,Crystal Alpha
-548,1,20157,68,2,40,0,0,0,Shield;Learning,Crystal Beta
-548,1,20159,68,2,40,0,0,0,Shield;Learning,Crystal Delta
-548,1,20160,68,2,40,0,0,0,Shield;Learning,Crystal Epsilon
-548,1,20158,68,2,40,0,0,0,Shield;Learning,Crystal Gamma
+548,1,20121,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Alpha
+548,1,20157,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Beta
+548,1,20159,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Delta
+548,1,20160,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Epsilon
+548,1,20158,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Gamma
 #,1,20161,,,,,0,0,Science,#Crystal Omega
 #,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Advanced
 #,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Basic
@@ -326,11 +327,11 @@
 294,1,28793,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Epsilon
 294,1,28794,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Gamma
 #,1,28795,,,,,0,0,Science,#Low-grade Centurion Omega
-548,1,22107,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Alpha
-548,1,22108,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Beta
-548,1,22109,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Delta
-548,1,22110,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Epsilon
-548,1,22111,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Gamma
+548,1,22107,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Alpha
+548,1,22108,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Beta
+548,1,22109,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Delta
+548,1,22110,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Epsilon
+548,1,22111,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Gamma
 #,1,22112,,,,,0,0,Science,#Low-grade Crystal Omega
 #,1,28814,,,,,0,0,Science;Learning,#Low-grade Edge Alpha
 #,1,28815,,,,,0,0,Science;Learning,#Low-grade Edge Beta
@@ -344,11 +345,11 @@
 554,1,22116,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Epsilon
 554,1,22117,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Gamma
 #,1,22118,,,,,0,0,Science,#Low-grade Halo Omega
-243,1,28802,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Alpha
-243,1,28803,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Beta
-243,1,28804,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Delta
-243,1,28805,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Epsilon
-243,1,28806,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Gamma
+351,1,28802,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Alpha
+351,1,28803,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Beta
+351,1,28804,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Delta
+351,1,28805,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Epsilon
+351,1,28806,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Gamma
 #,1,28807,,,,,0,0,Science,#Low-grade Harvest Omega
 151,1,28796,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Alpha
 151,1,28797,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Beta
@@ -409,6 +410,7 @@
 292,1,25867,10014,4,569,0,0,0,Gunnery,Pashan's Turret Handling Mindlink
 1084,1,22715,37,3,6,0,0,0,Navigation,Republic Special Ops Field Enhancer - Gamma
 337,1,32255,263,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
+337,1,32255,72,2,38,0,0,0,Shield,Sansha Modified 'Gnome' Implant
 338,1,32255,479,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
 1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
 337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink

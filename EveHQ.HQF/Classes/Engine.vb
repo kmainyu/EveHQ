@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2010  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -43,15 +43,20 @@ Public Class Engine
     Public Shared Sub BuildPirateImplants()
         Dim PirateImplantComponents As New ArrayList
         PirateImplantGroups.Clear()
+        PirateImplantGroups.Add("Centurion", 1)
         PirateImplantGroups.Add("Crystal", 1)
+        PirateImplantGroups.Add("Edge", 1)
         PirateImplantGroups.Add("Grail", 1)
         PirateImplantGroups.Add("Halo", 1)
+        PirateImplantGroups.Add("Harvest", 1)
         PirateImplantGroups.Add("Jackal", 1)
+        PirateImplantGroups.Add("Nomad", 1)
         PirateImplantGroups.Add("Slave", 1)
         PirateImplantGroups.Add("Snake", 1)
         PirateImplantGroups.Add("Spur", 1)
         PirateImplantGroups.Add("Talisman", 1)
         PirateImplantGroups.Add("Talon", 1)
+        PirateImplantGroups.Add("Virtue", 1)
         PirateImplantGroups.Add("Low-grade Centurion", 1)
         PirateImplantGroups.Add("Low-grade Crystal", 1)
         PirateImplantGroups.Add("Low-grade Edge", 1)
@@ -632,44 +637,53 @@ Public Class Engine
                 PIGroup = CStr(PirateImplants.Item(hImplant))
                 aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
                 Select Case PIGroup
-                    Case "Low-grade Centurion"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1293"))
+                    Case "Centurion", "Low-grade Centurion"
+                        cPirateImplantGroups.Item("Centurion") = CDbl(cPirateImplantGroups.Item("Centurion")) * CDbl(aImplant.Attributes("1293"))
+                        cPirateImplantGroups.Item("Low-grade Centurion") = CDbl(cPirateImplantGroups.Item("Low-grade Centurion")) * CDbl(aImplant.Attributes("1293"))
                     Case "Crystal", "Low-grade Crystal"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("838"))
-                    Case "Low-grade Edge"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1291"))
+                        cPirateImplantGroups.Item("Crystal") = CDbl(cPirateImplantGroups.Item("Crystal")) * CDbl(aImplant.Attributes("838"))
+                        cPirateImplantGroups.Item("Low-grade Crystal") = CDbl(cPirateImplantGroups.Item("Low-grade Crystal")) * CDbl(aImplant.Attributes("838"))
+                    Case "Edge", "Low-grade Edge"
+                        cPirateImplantGroups.Item("Edge") = CDbl(cPirateImplantGroups.Item("Edge")) * CDbl(aImplant.Attributes("1291"))
+                        cPirateImplantGroups.Item("Low-grade Edge") = CDbl(cPirateImplantGroups.Item("Low-grade Edge")) * CDbl(aImplant.Attributes("1291"))
                     Case "Grail"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1550"))
                     Case "Low-grade Grail"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1569"))
                     Case "Halo", "Low-grade Halo"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("863"))
-                    Case "Low-grade Harvest"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1292"))
+                        cPirateImplantGroups.Item("Halo") = CDbl(cPirateImplantGroups.Item("Halo")) * CDbl(aImplant.Attributes("863"))
+                        cPirateImplantGroups.Item("Low-grade Halo") = CDbl(cPirateImplantGroups.Item("Low-grade Halo")) * CDbl(aImplant.Attributes("863"))
+                    Case "Harvest", "Low-grade Harvest"
+                        cPirateImplantGroups.Item("Harvest") = CDbl(cPirateImplantGroups.Item("Harvest")) * CDbl(aImplant.Attributes("1292"))
+                        cPirateImplantGroups.Item("Low-grade Harvest") = CDbl(cPirateImplantGroups.Item("Low-grade Harvest")) * CDbl(aImplant.Attributes("1292"))
                     Case "Jackal"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1554"))
                     Case "Low-grade Jackal"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1572"))
-                    Case "Low-grade Nomad"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1282"))
+                    Case "Nomad", "Low-grade Nomad"
+                        cPirateImplantGroups.Item("Nomad") = CDbl(cPirateImplantGroups.Item("Nomad")) * CDbl(aImplant.Attributes("1282"))
+                        cPirateImplantGroups.Item("Low-grade Nomad") = CDbl(cPirateImplantGroups.Item("Low-grade Nomad")) * CDbl(aImplant.Attributes("1282"))
                     Case "Slave", "Low-grade Slave"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("864"))
+                        cPirateImplantGroups.Item("Slave") = CDbl(cPirateImplantGroups.Item("Slave")) * CDbl(aImplant.Attributes("864"))
+                        cPirateImplantGroups.Item("Low-grade Slave") = CDbl(cPirateImplantGroups.Item("Low-grade Slave")) * CDbl(aImplant.Attributes("864"))
                     Case "Snake", "Low-grade Snake"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("802"))
+                        cPirateImplantGroups.Item("Snake") = CDbl(cPirateImplantGroups.Item("Snake")) * CDbl(aImplant.Attributes("802"))
+                        cPirateImplantGroups.Item("Low-grade Snake") = CDbl(cPirateImplantGroups.Item("Low-grade Snake")) * CDbl(aImplant.Attributes("802"))
                     Case "Spur"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1553"))
                     Case "Low-grade Spur"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1570"))
                     Case "Talisman", "Low-grade Talisman"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("799"))
+                        cPirateImplantGroups.Item("Talisman") = CDbl(cPirateImplantGroups.Item("Talisman")) * CDbl(aImplant.Attributes("799"))
+                        cPirateImplantGroups.Item("Low-grade Talisman") = CDbl(cPirateImplantGroups.Item("Low-grade Talisman")) * CDbl(aImplant.Attributes("799"))
                     Case "Talon"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1552"))
                     Case "Low-grade Talon"
                         cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1571"))
-                    Case "Low-grade Virtue"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1284"))
+                    Case "Virtue", "Low-grade Virtue"
+                        cPirateImplantGroups.Item("Virtue") = CDbl(cPirateImplantGroups.Item("Virtue")) * CDbl(aImplant.Attributes("1284"))
+                        cPirateImplantGroups.Item("Low-grade Virtue") = CDbl(cPirateImplantGroups.Item("Low-grade Virtue")) * CDbl(aImplant.Attributes("1284"))
                 End Select
-
             End If
         Next
 
@@ -3149,13 +3163,18 @@ Public Class Engine
             If shipMod IsNot Nothing Then
                 ' Check for installed charges
                 Dim modData() As String = shipMod.Split(",".ToCharArray)
+                Dim state As Integer = 4 ' default to "active"
                 ' Remove the activity flag
                 If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
-                    modData(0) = modData(0).Substring(0, modData(0).Length - 2)
+                    'modData(0) = modData(0).Substring(0, modData(0).Length - 2)
+                    state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
+                    modData(0) = modData(0).TrimEnd(("_" & state.ToString).ToCharArray)
+                    state = CInt(Math.Pow(2, state))
                 End If
                 If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
                     Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
                     Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                    sMod.ModuleState = state
                     If modData.GetUpperBound(0) > 0 Then
                         ' Check if a charge (will be a valid item)
                         If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
