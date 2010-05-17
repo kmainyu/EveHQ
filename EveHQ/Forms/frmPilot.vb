@@ -412,6 +412,7 @@ Public Class frmPilot
                     clvSkills.Items.Add(newCLVItem)
                 End If
                 newCLVItem.SubItems(1).Text = cSkill.Rank.ToString
+                newCLVItem.SubItems(1).Tag = cSkill.Rank
 
                 Dim pb As New PictureBox
                 pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & cSkill.Level.ToString), Image)

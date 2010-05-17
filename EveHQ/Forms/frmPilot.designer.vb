@@ -79,6 +79,8 @@ Partial Public Class frmPilot
         Me.colType = New System.Windows.Forms.ColumnHeader
         Me.colRawValue = New System.Windows.Forms.ColumnHeader
         Me.colActualValue = New System.Windows.Forms.ColumnHeader
+        Me.ctxStandings = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuExtrapolateStandings = New System.Windows.Forms.ToolStripMenuItem
         Me.nudPrecision = New System.Windows.Forms.NumericUpDown
         Me.lblPrecision = New System.Windows.Forms.Label
         Me.lblTypeFilter = New System.Windows.Forms.Label
@@ -90,8 +92,6 @@ Partial Public Class frmPilot
         Me.btnGetStandings = New System.Windows.Forms.Button
         Me.lblPilot = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
-        Me.ctxStandings = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuExtrapolateStandings = New System.Windows.Forms.ToolStripMenuItem
         Me.lvPilot = New EveHQ.ListViewNoFlicker
         Me.Category = New System.Windows.Forms.ColumnHeader
         Me.Data = New System.Windows.Forms.ColumnHeader
@@ -108,43 +108,43 @@ Partial Public Class frmPilot
         Me.ctxCerts.SuspendLayout()
         Me.tabSkillQueue.SuspendLayout()
         Me.tabStandings.SuspendLayout()
-        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxStandings.SuspendLayout()
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ctxSkills
         '
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails, Me.ToolStripMenuItem1, Me.mnuForceTraining})
         Me.ctxSkills.Name = "ctxSkills"
-        Me.ctxSkills.Size = New System.Drawing.Size(174, 82)
+        Me.ctxSkills.Size = New System.Drawing.Size(175, 82)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(173, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(174, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(171, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(173, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(174, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(171, 6)
         '
         'mnuForceTraining
         '
         Me.mnuForceTraining.Name = "mnuForceTraining"
-        Me.mnuForceTraining.Size = New System.Drawing.Size(173, 22)
+        Me.mnuForceTraining.Size = New System.Drawing.Size(174, 22)
         Me.mnuForceTraining.Text = "Force Skill Training"
         '
         'picPilot
@@ -164,24 +164,24 @@ Partial Public Class frmPilot
         '
         Me.ctxPic.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCtxPicGetPortraitFromServer, Me.mnuCtxPicGetPortraitFromLocal, Me.mnuSavePortrait})
         Me.ctxPic.Name = "ctxPic"
-        Me.ctxPic.Size = New System.Drawing.Size(244, 70)
+        Me.ctxPic.Size = New System.Drawing.Size(246, 70)
         '
         'mnuCtxPicGetPortraitFromServer
         '
         Me.mnuCtxPicGetPortraitFromServer.Name = "mnuCtxPicGetPortraitFromServer"
-        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(243, 22)
+        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(245, 22)
         Me.mnuCtxPicGetPortraitFromServer.Text = "Get Portrait from Eve Server"
         '
         'mnuCtxPicGetPortraitFromLocal
         '
         Me.mnuCtxPicGetPortraitFromLocal.Name = "mnuCtxPicGetPortraitFromLocal"
-        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(243, 22)
+        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(245, 22)
         Me.mnuCtxPicGetPortraitFromLocal.Text = "Get Portrait from Eve Installation"
         '
         'mnuSavePortrait
         '
         Me.mnuSavePortrait.Name = "mnuSavePortrait"
-        Me.mnuSavePortrait.Size = New System.Drawing.Size(243, 22)
+        Me.mnuSavePortrait.Size = New System.Drawing.Size(245, 22)
         Me.mnuSavePortrait.Text = "Save Portrait into Image Cache"
         '
         'lvImplants
@@ -357,6 +357,7 @@ Partial Public Class frmPilot
         Me.clvSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.clvSkills.ItemContextMenu = Me.ctxSkills
         Me.clvSkills.Location = New System.Drawing.Point(0, 0)
+        Me.clvSkills.MultipleColumnSort = True
         Me.clvSkills.Name = "clvSkills"
         Me.clvSkills.Size = New System.Drawing.Size(725, 275)
         Me.clvSkills.TabIndex = 37
@@ -488,24 +489,24 @@ Partial Public Class frmPilot
         '
         Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator2, Me.mnuViewCertDetails})
         Me.ctxCerts.Name = "ctxSkills"
-        Me.ctxCerts.Size = New System.Drawing.Size(144, 54)
+        Me.ctxCerts.Size = New System.Drawing.Size(138, 54)
         '
         'mnuCertName
         '
         Me.mnuCertName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuCertName.Name = "mnuCertName"
-        Me.mnuCertName.Size = New System.Drawing.Size(143, 22)
+        Me.mnuCertName.Size = New System.Drawing.Size(137, 22)
         Me.mnuCertName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(143, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(137, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
         'tabSkillQueue
@@ -635,6 +636,18 @@ Partial Public Class frmPilot
         Me.colActualValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colActualValue.Width = 150
         '
+        'ctxStandings
+        '
+        Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
+        Me.ctxStandings.Name = "ctxStandings"
+        Me.ctxStandings.Size = New System.Drawing.Size(188, 26)
+        '
+        'mnuExtrapolateStandings
+        '
+        Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
+        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(187, 22)
+        Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
+        '
         'nudPrecision
         '
         Me.nudPrecision.Location = New System.Drawing.Point(63, 35)
@@ -745,18 +758,6 @@ Partial Public Class frmPilot
         Me.cboPilots.Sorted = True
         Me.cboPilots.TabIndex = 41
         '
-        'ctxStandings
-        '
-        Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
-        Me.ctxStandings.Name = "ctxStandings"
-        Me.ctxStandings.Size = New System.Drawing.Size(192, 26)
-        '
-        'mnuExtrapolateStandings
-        '
-        Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
-        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(191, 22)
-        Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
-        '
         'lvPilot
         '
         Me.lvPilot.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -848,8 +849,8 @@ Partial Public Class frmPilot
         Me.tabSkillQueue.ResumeLayout(False)
         Me.tabStandings.ResumeLayout(False)
         Me.tabStandings.PerformLayout()
-        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxStandings.ResumeLayout(False)
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
