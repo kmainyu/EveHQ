@@ -53,7 +53,7 @@ Public Class EveMail
                                     nMail.MessageTitle = mail.Attributes.GetNamedItem("title").Value
                                     nMail.ToCharacterIDs = mail.Attributes.GetNamedItem("toCharacterIDs").Value
                                     nMail.ToCorpAllianceIDs = mail.Attributes.GetNamedItem("toCorpOrAllianceID").Value
-                                    nMail.ToListIDs = mail.Attributes.GetNamedItem("toListIDs").Value
+                                    nMail.ToListIDs = mail.Attributes.GetNamedItem("toListID").Value
                                     nMail.ReadFlag = CBool(mail.Attributes.GetNamedItem("read").Value)
                                     nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
                                     If Mails.ContainsKey(nMail.MessageKey) = False Then

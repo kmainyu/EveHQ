@@ -279,21 +279,22 @@ namespace EveHQ.PosManager
                                 aptd.claimSov = false;
 
                                 rsltList = apiPOSDetails.SelectNodes("/eveapi/result/combatSettings");
-                                // 0 = Standing Drop
-                                // 1 = Status Drop
-                                // 2 = Agression
-                                // 3 = War
-                                aptd.standDrop = Convert.ToDecimal(rsltList[0].ChildNodes[0].Attributes.GetNamedItem("standing").Value.ToString());
-                                if (Convert.ToInt32(rsltList[0].ChildNodes[1].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
+                                // 0 = Use Standings From
+                                // 1 = Standing Drop
+                                // 2 = Status Drop
+                                // 3 = Agression
+                                // 4 = War
+                                aptd.standDrop = Convert.ToDecimal(rsltList[0].ChildNodes[1].Attributes.GetNamedItem("standing").Value.ToString());
+                                if (Convert.ToInt32(rsltList[0].ChildNodes[2].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
                                     aptd.onStatusDrop = true;
                                 else
                                     aptd.onStatusDrop = false;
-                                aptd.statusDrop = Convert.ToDecimal(rsltList[0].ChildNodes[1].Attributes.GetNamedItem("standing").Value.ToString());
-                                if (Convert.ToInt32(rsltList[0].ChildNodes[2].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
+                                aptd.statusDrop = Convert.ToDecimal(rsltList[0].ChildNodes[2].Attributes.GetNamedItem("standing").Value.ToString());
+                                if (Convert.ToInt32(rsltList[0].ChildNodes[3].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
                                     aptd.onAgression = true;
                                 else
                                     aptd.onAgression = false;
-                                if (Convert.ToInt32(rsltList[0].ChildNodes[3].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
+                                if (Convert.ToInt32(rsltList[0].ChildNodes[4].Attributes.GetNamedItem("enabled").Value.ToString()) == 1)
                                     aptd.onWar = true;
                                 else
                                     aptd.onWar = false;
