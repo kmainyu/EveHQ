@@ -282,14 +282,17 @@ Partial Class frmHQF
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator3.Visible = False
         '
         'tsbFleetManager
         '
+        Me.tsbFleetManager.Enabled = False
         Me.tsbFleetManager.Image = CType(resources.GetObject("tsbFleetManager.Image"), System.Drawing.Image)
         Me.tsbFleetManager.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbFleetManager.Name = "tsbFleetManager"
         Me.tsbFleetManager.Size = New System.Drawing.Size(96, 22)
         Me.tsbFleetManager.Text = "Fleet Manager"
+        Me.tsbFleetManager.Visible = False
         '
         'ToolStripSeparator1
         '

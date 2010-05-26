@@ -448,6 +448,28 @@ Public Class SkillFunctions
                         ' Add the currentskill to the name list
                         EveHQ.Core.HQ.SkillListID.Add(newSkill.ID, newSkill)
                         EveHQ.Core.HQ.SkillListName.Add(newSkill.Name, newSkill)
+                    Else
+                        Dim newSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skill.Attributes.GetNamedItem("typeID").Value)
+                        If skill.Attributes.GetNamedItem("typeName").Value <> newSkill.Name Then
+                            ' Need to update the skill details because CCP changed them!
+                            newSkill.ID = skill.Attributes.GetNamedItem("typeID").Value
+                            newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
+                            newSkill.GroupID = skill.Attributes.GetNamedItem("groupID").Value
+                            newSkill.Description = skill.ChildNodes(0).InnerText
+                            newSkill.Published = True
+                            newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
+                            If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
+                                For skillNode As Integer = 0 To skill.ChildNodes(2).ChildNodes.Count - 1
+                                    newSkill.PreReqSkills.Add(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("typeID").Value, CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("skillLevel").Value))
+                                Next
+                            End If
+                            newSkill.PA = StrConv(skill.ChildNodes(3).ChildNodes(0).InnerText, VbStrConv.ProperCase)
+                            newSkill.SA = StrConv(skill.ChildNodes(3).ChildNodes(1).InnerText, VbStrConv.ProperCase)
+                            ' Calculate the levels
+                            For a As Integer = 0 To 5
+                                newSkill.LevelUp(a) = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, a))
+                            Next
+                        End If
                     End If
                 Next
             End If

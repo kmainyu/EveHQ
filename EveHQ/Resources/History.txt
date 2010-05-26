@@ -1,6 +1,31 @@
 EveHQ - Version History
 -----------------------
 
+1.14.5.1788 (26/05/2010)
+-----------
+Fixes & Improvements:
+- Core: Rank column in pilot info screen now sorted correctly
+- Core: Updated EveMail for use with Tyrannis changes
+- HQF: Rorqual bonus to mining links increased from 5% to 10%
+- HQF: Fixed crash in BCBrowser if looking at a loadout with no pilots configured
+- HQF: Fixed pirate implant calculations for mixing certain groups
+- HQF: Module states now applied correctly to external fitting calculations
+- HQF: Price added to the module list
+- HQF: Fixed "Named" armor and shield HP implants giving bonuses to armor/shield extenders
+- HQF: Removed incorrect capacitor bonus on Proteus Engineering - Augmented Capacitor Reservoir
+- HQF: Fixed various errors in tracking link skill mappings
+- HQF: Fixed Scythe range bonus to tracking links
+- HQF: Fixed error message when exporting fittings to Eve without fittings selected.
+- HQF: Fixed Incursus bonuses
+- HQF: Fixed Crash booster bonus affecting Explosion velocity, not radius
+- HQF: Fixed incorrect calculation method for Drop booster tracking bonus
+- HQF: Fixed Ragnarok and Leviathan warfare link bonuses
+- HQF: Fixed Rook missile bonus
+- HQF: Fixed damage bonuses on FoF missiles
+- HQF: Fixed Harvest implants attribute mappings
+- HQF: Shield Emission skill now applies to capital shield transporters
+- POS: Updated POS API for use with Tyrannis changes
+
 1.14.4.1555 (02/04/2010)
 -----------
 Fixes & Improvements:

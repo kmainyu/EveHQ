@@ -341,7 +341,8 @@ Public Class frmPilot
     End Sub
 
     Private Sub DisplaySkills()
-        Dim groupHeaders(15, 3) As String
+        Dim maxGroups As Integer = 16
+        Dim groupHeaders(maxGroups, 3) As String
         groupHeaders(0, 0) = "Corporation Management"
         groupHeaders(1, 0) = "Drones"
         groupHeaders(2, 0) = "Electronics"
@@ -353,11 +354,12 @@ Public Class frmPilot
         groupHeaders(8, 0) = "Mechanic"
         groupHeaders(9, 0) = "Missiles"
         groupHeaders(10, 0) = "Navigation"
-        groupHeaders(11, 0) = "Science"
-        groupHeaders(12, 0) = "Social"
-        groupHeaders(13, 0) = "Spaceship Command"
-        groupHeaders(14, 0) = "Subsystems"
-        groupHeaders(15, 0) = "Trade"
+        groupHeaders(11, 0) = "Planet Management"
+        groupHeaders(12, 0) = "Science"
+        groupHeaders(13, 0) = "Social"
+        groupHeaders(14, 0) = "Spaceship Command"
+        groupHeaders(15, 0) = "Subsystems"
+        groupHeaders(16, 0) = "Trade"
         groupHeaders(0, 1) = "266"
         groupHeaders(1, 1) = "273"
         groupHeaders(2, 1) = "272"
@@ -369,11 +371,12 @@ Public Class frmPilot
         groupHeaders(8, 1) = "269"
         groupHeaders(9, 1) = "256"
         groupHeaders(10, 1) = "275"
-        groupHeaders(11, 1) = "270"
-        groupHeaders(12, 1) = "278"
-        groupHeaders(13, 1) = "257"
-        groupHeaders(14, 1) = "989"
-        groupHeaders(15, 1) = "274"
+        groupHeaders(11, 1) = "1044"
+        groupHeaders(12, 1) = "270"
+        groupHeaders(13, 1) = "278"
+        groupHeaders(14, 1) = "257"
+        groupHeaders(15, 1) = "989"
+        groupHeaders(16, 1) = "274"
 
         ' Set up Groups
         clvSkills.Items.Clear()
@@ -383,7 +386,7 @@ Public Class frmPilot
 
         Dim groupStructure As New SortedList
         If chkGroupSkills.Checked = True Then
-            For group As Integer = 0 To 15
+            For group As Integer = 0 To maxGroups
                 Dim newCLVGroup As New ContainerListViewItem
                 newCLVGroup.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
                 newCLVGroup.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
@@ -446,7 +449,7 @@ Public Class frmPilot
                 newCLVItem.SubItems(4).Text = FormatNumber(cSkill.SP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
                 If chkGroupSkills.Checked = True Then
-                    For skillGroup As Integer = 0 To 15
+                    For skillGroup As Integer = 0 To maxGroups
                         If cSkill.GroupID = groupHeaders(skillGroup, 1) Then
                             'newLine.Group = lvSkills.Groups.Item(skillGroup)
                             groupHeaders(skillGroup, 2) = CStr(CDbl(groupHeaders(skillGroup, 2)) + cSkill.SP)
