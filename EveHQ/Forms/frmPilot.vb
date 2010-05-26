@@ -291,7 +291,7 @@ Public Class frmPilot
                     End If
                     lvTraining.Items(0).SubItems.Add("Yes")
                     lvTraining.Items(1).SubItems.Add(currentSkill.Name & " (Level " & EveHQ.Core.SkillFunctions.Roman(displayPilot.TrainingSkillLevel) & ")")
-                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, EveHQ.Core.HQ.SkillListName(currentSkill.Name)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
+                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, EveHQ.Core.HQ.SkillListID(currentSkill.ID)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
                     Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.TrainingEndTime)
                     lvTraining.Items(3).SubItems.Add(Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime) & ")")
                 Else
