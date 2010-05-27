@@ -973,7 +973,7 @@ Public Class frmTraining
                         End If
                     Next
                 End If
-                Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName)
+                Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(displayPilot.TrainingSkillID)
                 If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
                     lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                     Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
@@ -1717,7 +1717,7 @@ Public Class frmTraining
     End Sub
     Public Sub UpdateSkillDetails()
         If displayPilot.Training = True Then
-            Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName)
+            Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(displayPilot.TrainingSkillID)
             If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
                 lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                 Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
