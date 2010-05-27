@@ -45,9 +45,11 @@
                     newBP.MaxProdLimit = CInt(BP.Item("maxProductionLimit"))
                     newBP.Resources = New SortedList(Of String, BlueprintResource)
                     PlugInData.Blueprints.Add(newBP.ID.ToString, newBP)
-                    Dim catID As String = CStr(EveHQ.Core.HQ.itemData(newBP.ProductID.ToString).Category)
-                    If PlugInData.CategoryNames.ContainsKey(EveHQ.Core.HQ.itemCats(catID)) = False Then
-                        PlugInData.CategoryNames.Add(EveHQ.Core.HQ.itemCats(catID), catID)
+                    If EveHQ.Core.HQ.itemData.ContainsKey(newBP.ProductID.ToString) Then
+                        Dim catID As String = CStr(EveHQ.Core.HQ.itemData(newBP.ProductID.ToString).Category)
+                        If PlugInData.CategoryNames.ContainsKey(EveHQ.Core.HQ.itemCats(catID)) = False Then
+                            PlugInData.CategoryNames.Add(EveHQ.Core.HQ.itemCats(catID), catID)
+                        End If
                     End If
                 Next
                 ' Ok so far so let's add the material requirements

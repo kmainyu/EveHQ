@@ -1,7 +1,7 @@
 EveHQ - Version History
 -----------------------
 
-1.14.5.1789 (26/05/2010)
+1.14.5.1790 (26/05/2010)
 -----------
 Fixes & Improvements:
 - Core: Rank column in pilot info screen now sorted correctly

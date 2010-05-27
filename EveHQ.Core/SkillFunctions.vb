@@ -400,7 +400,7 @@ Public Class SkillFunctions
             Next
             ' Add the pre-reqs into the list
             For prereq As Integer = 1 To MaxPreReqs
-                If PreReqSkills(prereq) <> "" Then
+                If PreReqSkills(prereq) <> "" And PreReqSkills(prereq) <> "0" Then
                     newSkill.PreReqSkills.Add(PreReqSkills(prereq), PreReqSkillLevels(prereq))
                 End If
             Next

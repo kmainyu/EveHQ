@@ -593,11 +593,13 @@ Public Class DataFunctions
                     itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
                     If itemData.Tables(0).Rows.Count > 0 Then
                         For Each itemRow As DataRow In itemData.Tables(0).Rows
-                            newItem = EveHQ.Core.HQ.itemData(CStr(itemRow.Item("typeID")))
-                            If IsDBNull(itemRow.Item("valueInt")) = False Then
-                                newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
-                            Else
-                                newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
+                            If EveHQ.Core.HQ.itemData.ContainsKey(CStr(itemRow.Item("typeID"))) Then
+                                newItem = EveHQ.Core.HQ.itemData(CStr(itemRow.Item("typeID")))
+                                If IsDBNull(itemRow.Item("valueInt")) = False Then
+                                    newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
+                                Else
+                                    newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
+                                End If
                             End If
                         Next
                         If itemData IsNot Nothing Then
