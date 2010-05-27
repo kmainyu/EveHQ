@@ -1,32 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQUpdate>
-  <lastUpdated>26/05/2010 23:00:00</lastUpdated>
+  <lastUpdated>27/05/2010 20:00:00</lastUpdated>
   <files>
     <file>
       <name>EveHQ.exe</name>
       <type>Required</type>
-      <version>1.14.5.1790</version>
+      <version>1.15.0.1797</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Executable</description>
     </file>
     <file>
       <name>EveHQ.Core.dll</name>
       <type>Required</type>
-      <version>1.14.5.1790</version>
+      <version>1.15.0.1797</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
     </file>
     <file>
       <name>EveHQ.CoreControls.dll</name>
       <type>Required</type>
-      <version>1.14.5.1790</version>
+      <version>1.15.0.1797</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
     </file>
     <file>
       <name>EveHQ.mdb.zip</name>
       <type>Required</type>
-      <version>1.14.1.0</version>
+      <version>1.15.0.0</version>
       <hasDebug>False</hasDebug>
       <description>EveHQ Access Database</description>
     </file>
@@ -96,7 +96,7 @@
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.14.4.1555</version>
+      <version>1.15.0.1797</version>
       <hasDebug>True</hasDebug>
       <description>Science and Industry Plug-in</description>
     </file>
