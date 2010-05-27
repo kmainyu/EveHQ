@@ -1,12 +1,18 @@
 EveHQ - Version History
 -----------------------
 
+1.15.0.1800 (27/05/2010)
+-----------
+New Features:
+- Tyrannis 1.0 Database changes
+
+
 1.14.5.1790 (26/05/2010)
 -----------
 Fixes & Improvements:
 - Core: Rank column in pilot info screen now sorted correctly
 - Core: Updated EveMail for use with Tyrannis changes
-- Core: Added additional skill groups for Planet Management in the pilot
+- Core: Added additional skill groups for Planet Management in the pilot info screen
 - HQF: Rorqual bonus to mining links increased from 5% to 10%
 - HQF: Fixed crash in BCBrowser if looking at a loadout with no pilots configured
 - HQF: Fixed pirate implant calculations for mixing certain groups
@@ -26,6 +32,7 @@ Fixes & Improvements:
 - HQF: Fixed Harvest implants attribute mappings
 - HQF: Shield Emission skill now applies to capital shield transporters
 - POS: Updated POS API for use with Tyrannis changes
+
 
 1.14.4.1555 (02/04/2010)
 -----------
