@@ -1507,41 +1507,43 @@ Public Class frmTraining
                     Dim newItem As New ListViewItem
                     Dim toolTipText As New StringBuilder
                     itemData = item.Split(CChar("_"))
-                    catID = EveHQ.Core.HQ.groupCats.Item(itemData(1))
-                    newItem.Group = lvwDepend.Groups("Cat" & catID)
-                    newItem.Text = EveHQ.Core.HQ.itemData(itemData(0)).Name
-                    newItem.Name = itemData(0)
-                    newItem.Tag = itemData(0)
-                    Dim skillUnlocked As ArrayList = EveHQ.Core.HQ.ItemUnlocks(itemData(0))
-                    Dim allTrained As Boolean = True
-                    For Each skillPair As String In skillUnlocked
-                        skillData = skillPair.Split(CChar("."))
-                        skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillData(0))
-                        If skillData(0) <> skillID Then
-                            toolTipText.Append(skillName)
-                            toolTipText.Append(" (Level ")
-                            toolTipText.Append(skillData(1))
-                            toolTipText.Append("), ")
-                        End If
-                        If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
-                            allTrained = False
-                        End If
-                    Next
-                    If toolTipText.Length > 0 Then
-                        toolTipText.Insert(0, "Also Requires: ")
+                    If EveHQ.Core.HQ.itemData.ContainsKey(itemData(0)) = True Then
+                        catID = EveHQ.Core.HQ.groupCats.Item(itemData(1))
+                        newItem.Group = lvwDepend.Groups("Cat" & catID)
+                        newItem.Text = EveHQ.Core.HQ.itemData(itemData(0)).Name
+                        newItem.Name = itemData(0)
+                        newItem.Tag = itemData(0)
+                        Dim skillUnlocked As ArrayList = EveHQ.Core.HQ.ItemUnlocks(itemData(0))
+                        Dim allTrained As Boolean = True
+                        For Each skillPair As String In skillUnlocked
+                            skillData = skillPair.Split(CChar("."))
+                            skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillData(0))
+                            If skillData(0) <> skillID Then
+                                toolTipText.Append(skillName)
+                                toolTipText.Append(" (Level ")
+                                toolTipText.Append(skillData(1))
+                                toolTipText.Append("), ")
+                            End If
+                            If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
+                                allTrained = False
+                            End If
+                        Next
+                        If toolTipText.Length > 0 Then
+                            toolTipText.Insert(0, "Also Requires: ")
 
-                        If (toolTipText.ToString().EndsWith(", ")) Then
-                            toolTipText.Remove(toolTipText.Length - 2, 2)
+                            If (toolTipText.ToString().EndsWith(", ")) Then
+                                toolTipText.Remove(toolTipText.Length - 2, 2)
+                            End If
                         End If
+                        If allTrained = True Then
+                            newItem.ForeColor = Color.Green
+                        Else
+                            newItem.ForeColor = Color.Red
+                        End If
+                        newItem.ToolTipText = toolTipText.ToString()
+                        newItem.SubItems.Add("Level " & lvl)
+                        lvwDepend.Items.Add(newItem)
                     End If
-                    If allTrained = True Then
-                        newItem.ForeColor = Color.Green
-                    Else
-                        newItem.ForeColor = Color.Red
-                    End If
-                    newItem.ToolTipText = toolTipText.ToString()
-                    newItem.SubItems.Add("Level " & lvl)
-                    lvwDepend.Items.Add(newItem)
                 Next
             End If
             ' Add the certificate unlocks
