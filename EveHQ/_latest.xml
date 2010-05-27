@@ -5,7 +5,7 @@
     <file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-      <version>1.15.0.1797</version>
+      <version>1.15.0.1800</version>
       <requires/>
       <hasDebug>True</hasDebug>
 			<description>EveHQ Executable</description>
@@ -13,7 +13,7 @@
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-      <version>1.15.0.1797</version>
+      <version>1.15.0.1800</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
@@ -21,7 +21,7 @@
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-      <version>1.15.0.1797</version>
+      <version>1.15.0.1800</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
@@ -93,7 +93,7 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-      <version>1.14.5.1790</version>
+      <version>1.15.0.1800</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
@@ -101,7 +101,7 @@
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.15.0.1797</version>
+      <version>1.15.0.1800</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Science and Industry Plug-in</description>
@@ -109,7 +109,7 @@
     <file>
       <name>EveHQ.PosManager.dll</name>
       <type>Plug-in</type>
-      <version>1.14.5.1790</version>
+      <version>1.15.0.1800</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>POS Design and Management Plug-in</description>
