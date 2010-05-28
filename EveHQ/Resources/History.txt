@@ -1,5 +1,10 @@
 EveHQ - Version History
 -----------------------
+1.15.1.1805 (28/05/2010)
+-----------
+Fixes & Improvements:
+- Item Browser: Fixed crashes due to non-existant items in the database
+- Prism: Fixed crash when filtering owned blueprints in the BPManager
 
 1.15.0.1800 (27/05/2010)
 -----------

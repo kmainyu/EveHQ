@@ -68,7 +68,7 @@
     <file>
       <name>EveHQ.ItemBrowser.dll</name>
       <type>Plug-in</type>
-      <version>1.14.1.1283</version>
+      <version>1.15.1.1805</version>
       <hasDebug>True</hasDebug>
       <description>Item Browser Plug-in</description>
     </file>
@@ -96,7 +96,7 @@
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.15.0.1800</version>
+      <version>1.15.1.1805</version>
       <hasDebug>True</hasDebug>
       <description>Science and Industry Plug-in</description>
     </file>
