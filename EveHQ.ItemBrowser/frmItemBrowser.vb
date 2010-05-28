@@ -91,31 +91,40 @@ Public Class frmItemBrowser
         Me.tabItem.TabPages.Remove(Me.tabEveCentral)
         Me.tabItem.TabPages.Remove(Me.tabInsurance)
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        itemTypeID = eveData.Tables(0).Rows(0).Item("typeID")
-        itemTypeName = eveData.Tables(0).Rows(0).Item("typeName")
-        itemGroupID = eveData.Tables(0).Rows(0).Item("groupID")
-        itemCatID = EveHQ.Core.HQ.groupCats(itemGroupID)
-        itemGroupName = EveHQ.Core.HQ.itemGroups(itemGroupID)
-        itemCatName = EveHQ.Core.HQ.itemCats(itemCatID)
-        lblItem.Text = itemTypeName
-        ssLblID.Text = "ID: " & itemCatID & "/" & itemGroupID & "/" & itemTypeID
-        lblDescription.Text = eveData.Tables(0).Rows(0).Item("description")
-        Call GetAttributes(itemTypeID, itemTypeName)
-        Call GenerateSkills(itemTypeID, itemTypeName)
-        Call GetVariations(itemTypeID, itemTypeName)
-        Call GenerateFitting()
-        If (itemCatName = "Ship") Then
-            Call GetRecommendations(itemTypeID, itemTypeName)
-            Call GetInsurance(itemTypeID, itemTypeName)
+        If eveData IsNot Nothing Then
+            If eveData.Tables(0).Rows.Count > 0 Then
+                itemTypeID = eveData.Tables(0).Rows(0).Item("typeID")
+                itemTypeName = eveData.Tables(0).Rows(0).Item("typeName")
+                itemGroupID = eveData.Tables(0).Rows(0).Item("groupID")
+                itemCatID = EveHQ.Core.HQ.groupCats(itemGroupID)
+                itemGroupName = EveHQ.Core.HQ.itemGroups(itemGroupID)
+                itemCatName = EveHQ.Core.HQ.itemCats(itemCatID)
+                lblItem.Text = itemTypeName
+                ssLblID.Text = "ID: " & itemCatID & "/" & itemGroupID & "/" & itemTypeID
+                lblDescription.Text = eveData.Tables(0).Rows(0).Item("description")
+                Call GetAttributes(itemTypeID, itemTypeName)
+                Call GenerateSkills(itemTypeID, itemTypeName)
+                Call GetVariations(itemTypeID, itemTypeName)
+                Call GenerateFitting()
+                If (itemCatName = "Ship") Then
+                    Call GetRecommendations(itemTypeID, itemTypeName)
+                    Call GetInsurance(itemTypeID, itemTypeName)
+                End If
+                Call GetMaterials(itemTypeID, itemTypeName)
+                Call GetComponents(itemTypeID, itemTypeName)
+                Call GetDependencies(itemTypeID, itemTypeName)
+                System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetEveCentralData, itemTypeID)
+                ssDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
+                itemEnd = Now
+                itemTime = itemEnd - itemStart
+                ssLabel.Text = "Last Item retrieved in " & itemTime.TotalSeconds & "s"
+            Else
+                Dim msg As String = "There is an inconsistency in the Eve static data." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "There are references to a typeID which doesn't appear to be listed in the invTypes table. The SQL used to get this data was:" & ControlChars.CrLf & ControlChars.CrLf
+                msg &= strSQL
+                MessageBox.Show(msg, "Inconsistent Eve Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
-        Call GetMaterials(itemTypeID, itemTypeName)
-        Call GetComponents(itemTypeID, itemTypeName)
-        Call GetDependencies(itemTypeID, itemTypeName)
-        System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetEveCentralData, itemTypeID)
-        ssDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
-        itemEnd = Now
-        itemTime = itemEnd - itemStart
-        ssLabel.Text = "Last Item retrieved in " & itemTime.TotalSeconds & "s"
     End Sub
     Private Sub GetVariations(ByVal metaTypeID As Long, ByVal metaTypeName As String)
         Dim strSQL As String = ""
