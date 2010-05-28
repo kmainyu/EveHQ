@@ -5543,8 +5543,10 @@ Public Class frmPrism
                         matchCat = True
                     Else
                         If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                            If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BP.ProductID.ToString).Category) Then
-                                matchCat = True
+                            If EveHQ.Core.HQ.itemData.ContainsKey(BP.ProductID.ToString) Then
+                                If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BP.ProductID.ToString).Category) Then
+                                    matchCat = True
+                                End If
                             End If
                         End If
                     End If
