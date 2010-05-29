@@ -308,6 +308,35 @@ Public Class frmMail
         clvNotifications.EndUpdate()
     End Sub
 
+    Private Sub btnMarkAllMailsRead_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMarkAllMailsRead.Click
+        ' Confirm we want to mark them all as read
+        Dim reply As DialogResult = MessageBox.Show("This will mark all EveMails as read for all characters. Are you sure you want to mark all EveMails as read?", "Read All EveMails?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = Windows.Forms.DialogResult.No Then
+            Exit Sub
+        Else
+            Dim updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
+            If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
+                MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+            Call Me.UpdateMails()
+            Call Me.MailUpdateCompleted()
+        End If
+    End Sub
+
+    Private Sub btnMarkAllNoticesAsRead_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMarkAllNoticesAsRead.Click
+        ' Confirm we want to mark them all as read
+        Dim reply As DialogResult = MessageBox.Show("This will mark all Notifications as read for all characters. Are you sure you want to mark all Notifications as read?", "Read All Notifications?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = Windows.Forms.DialogResult.No Then
+            Exit Sub
+        Else
+            Dim updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
+            If EveHQ.Core.DataFunctions.SetData(updateSQL) = False Then
+                MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+            Call Me.UpdateNotifications()
+            Call Me.MailUpdateCompleted()
+        End If
+    End Sub
 
 End Class
 

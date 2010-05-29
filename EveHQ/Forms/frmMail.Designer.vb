@@ -38,9 +38,11 @@ Partial Class frmMail
         Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lblEveMail = New System.Windows.Forms.Label
         Me.panelNotifications = New System.Windows.Forms.Panel
+        Me.btnMarkAllNoticesAsRead = New System.Windows.Forms.Button
         Me.lblEveNotifications = New System.Windows.Forms.Label
         Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
         Me.panelMails = New System.Windows.Forms.Panel
+        Me.btnMarkAllMailsRead = New System.Windows.Forms.Button
         Me.lblDownloadMailStatus = New System.Windows.Forms.Label
         Me.panelNotifications.SuspendLayout()
         Me.panelMails.SuspendLayout()
@@ -140,9 +142,9 @@ Partial Class frmMail
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvNotifications.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader4, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3})
         Me.clvNotifications.DefaultItemHeight = 20
-        Me.clvNotifications.Location = New System.Drawing.Point(0, 25)
+        Me.clvNotifications.Location = New System.Drawing.Point(0, 35)
         Me.clvNotifications.Name = "clvNotifications"
-        Me.clvNotifications.Size = New System.Drawing.Size(884, 186)
+        Me.clvNotifications.Size = New System.Drawing.Size(884, 176)
         Me.clvNotifications.TabIndex = 47
         '
         'ContainerListViewColumnHeader1
@@ -191,6 +193,7 @@ Partial Class frmMail
         '
         'panelNotifications
         '
+        Me.panelNotifications.Controls.Add(Me.btnMarkAllNoticesAsRead)
         Me.panelNotifications.Controls.Add(Me.lblEveNotifications)
         Me.panelNotifications.Controls.Add(Me.clvNotifications)
         Me.panelNotifications.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -199,10 +202,20 @@ Partial Class frmMail
         Me.panelNotifications.Size = New System.Drawing.Size(884, 211)
         Me.panelNotifications.TabIndex = 50
         '
+        'btnMarkAllNoticesAsRead
+        '
+        Me.btnMarkAllNoticesAsRead.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMarkAllNoticesAsRead.Location = New System.Drawing.Point(731, 9)
+        Me.btnMarkAllNoticesAsRead.Name = "btnMarkAllNoticesAsRead"
+        Me.btnMarkAllNoticesAsRead.Size = New System.Drawing.Size(150, 23)
+        Me.btnMarkAllNoticesAsRead.TabIndex = 52
+        Me.btnMarkAllNoticesAsRead.Text = "Mark All Notices As Read"
+        Me.btnMarkAllNoticesAsRead.UseVisualStyleBackColor = True
+        '
         'lblEveNotifications
         '
         Me.lblEveNotifications.AutoSize = True
-        Me.lblEveNotifications.Location = New System.Drawing.Point(3, 9)
+        Me.lblEveNotifications.Location = New System.Drawing.Point(3, 19)
         Me.lblEveNotifications.Name = "lblEveNotifications"
         Me.lblEveNotifications.Size = New System.Drawing.Size(91, 13)
         Me.lblEveNotifications.TabIndex = 50
@@ -226,6 +239,7 @@ Partial Class frmMail
         '
         'panelMails
         '
+        Me.panelMails.Controls.Add(Me.btnMarkAllMailsRead)
         Me.panelMails.Controls.Add(Me.lblDownloadMailStatus)
         Me.panelMails.Controls.Add(Me.btnGetEveIDs)
         Me.panelMails.Controls.Add(Me.btnDownloadMail)
@@ -238,6 +252,16 @@ Partial Class frmMail
         Me.panelMails.Name = "panelMails"
         Me.panelMails.Size = New System.Drawing.Size(884, 325)
         Me.panelMails.TabIndex = 52
+        '
+        'btnMarkAllMailsRead
+        '
+        Me.btnMarkAllMailsRead.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMarkAllMailsRead.Location = New System.Drawing.Point(731, 30)
+        Me.btnMarkAllMailsRead.Name = "btnMarkAllMailsRead"
+        Me.btnMarkAllMailsRead.Size = New System.Drawing.Size(150, 23)
+        Me.btnMarkAllMailsRead.TabIndex = 51
+        Me.btnMarkAllMailsRead.Text = "Mark All Mails As Read"
+        Me.btnMarkAllMailsRead.UseVisualStyleBackColor = True
         '
         'lblDownloadMailStatus
         '
@@ -285,4 +309,6 @@ Partial Class frmMail
     Friend WithEvents colTo As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ContainerListViewColumnHeader4 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents lblDownloadMailStatus As System.Windows.Forms.Label
+    Friend WithEvents btnMarkAllNoticesAsRead As System.Windows.Forms.Button
+    Friend WithEvents btnMarkAllMailsRead As System.Windows.Forms.Button
 End Class
