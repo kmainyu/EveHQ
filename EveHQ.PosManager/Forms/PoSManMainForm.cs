@@ -2438,11 +2438,6 @@ namespace EveHQ.PosManager
                     if (p.corpID == 0)
                         p.corpID = td.corpID;
                 }
-                else
-                {
-                    // Tower Item ID no longer exists in API Data, so clear it as link is no longer valid
-                    p.itemID = 0;
-                }
             }
 
             // Update Tower Charter Requirements

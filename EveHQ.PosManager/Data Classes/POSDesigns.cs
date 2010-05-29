@@ -171,6 +171,7 @@ namespace EveHQ.PosManager
                     if (t.typeID == p.PosTower.typeID)
                     {
                         // Same base tower found, update the fuel bay data
+                        p.PosTower.Fuel.SetFuelBaseValues(t.Fuel);
                         p.PosTower.Fuel.SetFuelItemID(t.Fuel);
                         p.PosTower.D_Fuel.SetFuelItemID(t.Fuel);
                         p.PosTower.A_Fuel.SetFuelItemID(t.Fuel);

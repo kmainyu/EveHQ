@@ -174,6 +174,23 @@ namespace EveHQ.PosManager
             Strontium.itemID = fb.Strontium.itemID;
         }
 
+        public void SetFuelBaseValues(FuelBay fb)
+        {
+            EnrUran.UpdateBaseValues(fb.EnrUran);
+            Oxygen.UpdateBaseValues(fb.Oxygen);
+            MechPart.UpdateBaseValues(fb.MechPart);
+            Coolant.UpdateBaseValues(fb.Coolant);
+            Robotics.UpdateBaseValues(fb.Robotics);
+            HvyWater.UpdateBaseValues(fb.HvyWater);
+            LiqOzone.UpdateBaseValues(fb.LiqOzone);
+            Charters.UpdateBaseValues(fb.Charters);
+            N2Iso.UpdateBaseValues(fb.N2Iso);
+            H2Iso.UpdateBaseValues(fb.H2Iso);
+            O2Iso.UpdateBaseValues(fb.O2Iso);
+            HeIso.UpdateBaseValues(fb.HeIso);
+            Strontium.UpdateBaseValues(fb.Strontium);
+        }
+        
         public void SetCurrentFuelCosts(FuelBay fb)
         {
             decimal fCost;

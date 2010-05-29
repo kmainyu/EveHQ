@@ -61,6 +61,13 @@ namespace EveHQ.PosManager
             Extra = new ArrayList(ft.Extra);
         }
 
+        public void UpdateBaseValues(FuelType ft)
+        {
+            BaseVol = ft.BaseVol;
+            BaseQty = ft.BaseQty;
+            Cost = ft.Cost;
+        }
+
         public void SetFuelQtyForPeriod(decimal sov, decimal cap, decimal used, decimal period)
         {
             Qty = GetFuelQtyForPeriod(sov, cap, used) * period;

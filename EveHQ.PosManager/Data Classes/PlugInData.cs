@@ -27,7 +27,7 @@ namespace EveHQ.PosManager
         public string PoSBase_Path;
         public string PoSCache_Path;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.14.1.1283";
+        public string LastCacheRefresh = "1.15.2.25";
         public static ManualResetEvent[] resetEvents;
         SystemSovList SL = new SystemSovList();
         AllianceList AL = new AllianceList();
@@ -65,7 +65,7 @@ namespace EveHQ.PosManager
 
                     if (IsUpdateAvailable(cacheVers, LastCacheRefresh))
                     {
-                        Directory.Delete(PoSCache_Path,true);
+                        //Directory.Delete(PoSCache_Path,true);
                         UseSerializableData = false;
                     }
                     else
@@ -73,7 +73,7 @@ namespace EveHQ.PosManager
                 }
                 else
                 {
-                        Directory.Delete(PoSCache_Path,true);
+                        //Directory.Delete(PoSCache_Path,true);
                         UseSerializableData = false;
                 }
             }

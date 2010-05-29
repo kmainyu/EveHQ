@@ -210,7 +210,10 @@ namespace EveHQ.PosManager
 
                 // Scan Current POS List to see if this tower is already linked, if so - indicate
                 // Tower name and link
-                twrName = apid.towerName;
+                strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.moonID + ";";
+                locData = EveHQ.Core.DataFunctions.GetData(strSQL);
+                loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                twrName = apid.towerName + " < " + loc + " >";
 
                 foreach (POS pl in myData.POSList.Designs)
                 {
