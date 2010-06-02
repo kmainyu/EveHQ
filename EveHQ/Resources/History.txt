@@ -1,10 +1,20 @@
 EveHQ - Version History
 -----------------------
+
+1.15.2.1810 (29/05/2010)
+-----------
+Fixes & Improvements:
+- Core: Added options to mark all EveMails and Notifications as read
+- POS Manager: Update for new fuel volumes
+- POS Manager: Fix to prevent Tower Links from being lost during an update 
+
+
 1.15.1.1805 (28/05/2010)
 -----------
 Fixes & Improvements:
 - Item Browser: Fixed crashes due to non-existant items in the database
 - Prism: Fixed crash when filtering owned blueprints in the BPManager
+
 
 1.15.0.1800 (27/05/2010)
 -----------

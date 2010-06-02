@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQUpdate>
-	<lastUpdated>27/05/2010 20:00:00</lastUpdated>
+	<lastUpdated>29/05/2010 14:00:00</lastUpdated>
 	<files>
     <file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-      <version>1.15.0.1800</version>
+      <version>1.15.2.1810</version>
       <requires/>
       <hasDebug>True</hasDebug>
 			<description>EveHQ Executable</description>
@@ -13,7 +13,7 @@
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-      <version>1.15.0.1800</version>
+      <version>1.15.2.1810</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
@@ -21,7 +21,7 @@
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-      <version>1.15.0.1800</version>
+      <version>1.15.2.1810</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
@@ -109,7 +109,7 @@
     <file>
       <name>EveHQ.PosManager.dll</name>
       <type>Plug-in</type>
-      <version>1.15.0.1800</version>
+      <version>1.15.2.1810</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>POS Design and Management Plug-in</description>
