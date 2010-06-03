@@ -218,7 +218,10 @@ namespace EveHQ.PosManager
                                 {
                                     strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + aptd.locID + ";";
                                     locData = EveHQ.Core.DataFunctions.GetData(strSQL);
-                                    aptd.locName = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                                    if (locData.Tables[0].Rows.Count > 0)
+                                        aptd.locName = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                                    else
+                                        aptd.locName = "Unknown";
                                 }
                                 else
                                 {
@@ -362,7 +365,8 @@ namespace EveHQ.PosManager
                         }
                         catch
                         {
-                            DialogResult dr = MessageBox.Show("An Error was encountered while Parsing Tower API Data.", "PoSManager: API Error", MessageBoxButtons.OK);
+                            DialogResult dr = MessageBox.Show("An Error was encountered while Parsing Tower API Data.\n"
+                                          + " for Pilot [ " + selPilot.Name + " ]", "PoSManager: API Error", MessageBoxButtons.OK);
                         }
                     }
                 }
