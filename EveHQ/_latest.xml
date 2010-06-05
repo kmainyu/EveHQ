@@ -109,7 +109,7 @@
     <file>
       <name>EveHQ.PosManager.dll</name>
       <type>Plug-in</type>
-      <version>1.15.2.1810</version>
+      <version>1.15.2.1820</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>POS Design and Management Plug-in</description>
