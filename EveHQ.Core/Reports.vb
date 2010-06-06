@@ -1741,11 +1741,11 @@ Public Class Reports
                 strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.Isk, 2) & "</td>"
                 totalIsk += rPilot.Isk
                 If rPilot.Training = True Then
-                    currentSkill = CType(rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+                    Dim skillname As String = EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)
                     currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rPilot))
                     currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rPilot))
                     strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints + rPilot.TrainingCurrentSP, 0) & "</td>"
-                    strHTML &= "<td width=200px align=right>" & currentSkill.Name & "<br>" & currentTime & "</td>"
+                    strHTML &= "<td width=200px align=right>" & skillname & "<br>" & currentTime & "</td>"
                 Else
                     strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints, 0) & "</td>"
                     strHTML &= "<td width=200px align=right>n/a</td>"
