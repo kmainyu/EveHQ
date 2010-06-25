@@ -77,6 +77,7 @@ Public Class HQ
     Public Shared AllStandings As New SortedList
     Public Shared NextAutoMailAPITime As DateTime = Now
     Public Shared Event ShutDownEveHQ()
+    Public Shared APIUpdateInProgress As Boolean = False
 
     Shared Property StartShutdownEveHQ() As Boolean
         Get

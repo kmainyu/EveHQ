@@ -170,7 +170,9 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 newPilot.LastUpdate = Now.ToString
             End If
-            EveHQ.Core.HQ.EveHQSettings.Pilots.Add(newPilot, newPilot.Name)
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(newPilot.Name) = False Then
+                EveHQ.Core.HQ.EveHQSettings.Pilots.Add(newPilot, newPilot.Name)
+            End If
         Next
 
         ' Reload pilot specific data!!

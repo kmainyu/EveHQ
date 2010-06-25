@@ -893,10 +893,13 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub QueryMyEveServer()
-        tsbRetrieveData.Enabled = False
-        mnuToolsGetAccountInfo.Enabled = False
-        frmSettings.btnGetData.Enabled = False
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf StartCharacterAPIThread)
+        If EveHQ.Core.HQ.APIUpdateInProgress = False Then
+            EveHQ.Core.HQ.APIUpdateInProgress = True
+            tsbRetrieveData.Enabled = False
+            mnuToolsGetAccountInfo.Enabled = False
+            frmSettings.btnGetData.Enabled = False
+            Threading.ThreadPool.QueueUserWorkItem(AddressOf StartCharacterAPIThread)
+        End If
     End Sub
 
     Public Sub StartCharacterAPIThread(ByVal state As Object)
@@ -960,6 +963,8 @@ Public Class frmEveHQ
         Catch e As Exception
             Call CatchGeneralException(e)
         End Try
+        ' We've finished our update routine so we can now release the flag
+        EveHQ.Core.HQ.APIUpdateInProgress = False
     End Sub
 
     Public Sub ResetSettingsButton()
