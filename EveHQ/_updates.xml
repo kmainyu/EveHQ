@@ -26,7 +26,7 @@
     <file>
       <name>EveHQ.mdb.zip</name>
       <type>Required</type>
-      <version>1.15.0.0</version>
+      <version>1.15.0.1</version>
       <hasDebug>False</hasDebug>
       <description>EveHQ Access Database</description>
     </file>
