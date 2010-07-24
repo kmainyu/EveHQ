@@ -5525,6 +5525,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub chkShowOwnedBPs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowOwnedBPs.CheckedChanged
+        btnExportBPData.Enabled = chkShowOwnedBPs.Checked
         Call Me.UpdateBPList()
     End Sub
 
@@ -6347,6 +6348,38 @@ Public Class frmPrism
         End Try
     End Sub
 
+    Private Sub mnuExportBPDataCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportBPDataCSV.Click
+        Call Me.ExportBPData(clvBlueprints, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+    End Sub
+
+    Private Sub mnuExportBPDataTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportBPDataTSV.Click
+        Call Me.ExportBPData(clvBlueprints, ControlChars.Tab)
+    End Sub
+
+    Private Sub ExportBPData(ByVal sourceList As ContainerListView, ByVal sepChar As String)
+        Dim str As New StringBuilder
+        ' Add a line for the current build job
+        str.AppendLine("EveHQ BP Manager Owned Blueprint Export")
+        str.AppendLine("")
+        ' Add some headings
+        For c As Integer = 0 To sourceList.Columns.Count - 2
+            str.Append(sourceList.Columns(c).Text & sepChar)
+        Next
+        str.AppendLine(sourceList.Columns(sourceList.Columns.Count - 1).Text)
+        ' Add the details
+        For Each req As ContainerListViewItem In sourceList.Items
+            For c As Integer = 0 To sourceList.Columns.Count - 2
+                str.Append(req.SubItems(c).Text & sepChar)
+            Next
+            str.AppendLine(req.SubItems(sourceList.Columns.Count - 1).Text)
+        Next
+        ' Copy to the clipboard
+        Try
+            Clipboard.SetText(str.ToString)
+        Catch ex As Exception
+            MessageBox.Show("Unable to copy Resource Data to the clipboard.", "Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Sub
 End Class
 
 Public Enum PrismRepCodes As Integer

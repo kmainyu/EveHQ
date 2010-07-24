@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
@@ -319,6 +319,10 @@ Partial Class frmPrism
         Me.colMatPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colMatTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabBPManager = New System.Windows.Forms.TabPage
+        Me.btnExportBPData = New EveHQ.Core.SplitButton
+        Me.ctxBPManagerExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuExportBPDataCSV = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuExportBPDataTSV = New System.Windows.Forms.ToolStripMenuItem
         Me.cboCategoryFilter = New System.Windows.Forms.ComboBox
         Me.lblBPCatFilter = New System.Windows.Forms.Label
         Me.cboTypeFilter = New System.Windows.Forms.ComboBox
@@ -450,6 +454,7 @@ Partial Class frmPrism
         Me.ctxRecycleItem.SuspendLayout()
         Me.tabTotals.SuspendLayout()
         Me.tabBPManager.SuspendLayout()
+        Me.ctxBPManagerExport.SuspendLayout()
         CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1098,11 +1103,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup1.Header = "Corporation"
-        ListViewGroup1.Name = "grpCorporation"
-        ListViewGroup2.Header = "Personal"
-        ListViewGroup2.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Corporation"
+        ListViewGroup5.Name = "grpCorporation"
+        ListViewGroup6.Header = "Personal"
+        ListViewGroup6.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -3321,6 +3326,7 @@ Partial Class frmPrism
         '
         'tabBPManager
         '
+        Me.tabBPManager.Controls.Add(Me.btnExportBPData)
         Me.tabBPManager.Controls.Add(Me.cboCategoryFilter)
         Me.tabBPManager.Controls.Add(Me.lblBPCatFilter)
         Me.tabBPManager.Controls.Add(Me.cboTypeFilter)
@@ -3354,6 +3360,37 @@ Partial Class frmPrism
         Me.tabBPManager.TabIndex = 10
         Me.tabBPManager.Text = "BP Manager"
         Me.tabBPManager.UseVisualStyleBackColor = True
+        '
+        'btnExportBPData
+        '
+        Me.btnExportBPData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportBPData.AutoSize = True
+        Me.btnExportBPData.ContextMenuStrip = Me.ctxBPManagerExport
+        Me.btnExportBPData.Location = New System.Drawing.Point(1048, 218)
+        Me.btnExportBPData.Name = "btnExportBPData"
+        Me.btnExportBPData.Size = New System.Drawing.Size(80, 23)
+        Me.btnExportBPData.SplitMenu = Me.ctxBPManagerExport
+        Me.btnExportBPData.TabIndex = 63
+        Me.btnExportBPData.Text = "Export"
+        Me.btnExportBPData.UseVisualStyleBackColor = True
+        '
+        'ctxBPManagerExport
+        '
+        Me.ctxBPManagerExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExportBPDataCSV, Me.mnuExportBPDataTSV})
+        Me.ctxBPManagerExport.Name = "ctxResourceExport"
+        Me.ctxBPManagerExport.Size = New System.Drawing.Size(253, 48)
+        '
+        'mnuExportBPDataCSV
+        '
+        Me.mnuExportBPDataCSV.Name = "mnuExportBPDataCSV"
+        Me.mnuExportBPDataCSV.Size = New System.Drawing.Size(252, 22)
+        Me.mnuExportBPDataCSV.Text = "Export BP Data to Clipboard (CSV)"
+        '
+        'mnuExportBPDataTSV
+        '
+        Me.mnuExportBPDataTSV.Name = "mnuExportBPDataTSV"
+        Me.mnuExportBPDataTSV.Size = New System.Drawing.Size(252, 22)
+        Me.mnuExportBPDataTSV.Text = "Export BP Data to Clipboard (TSV)"
         '
         'cboCategoryFilter
         '
@@ -4173,6 +4210,7 @@ Partial Class frmPrism
         Me.tabTotals.ResumeLayout(False)
         Me.tabBPManager.ResumeLayout(False)
         Me.tabBPManager.PerformLayout()
+        Me.ctxBPManagerExport.ResumeLayout(False)
         CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4576,4 +4614,8 @@ Partial Class frmPrism
     Friend WithEvents mnuExportTotalsToCSV As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuExportTotalsToTSV As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents chkCorpHangarMode As System.Windows.Forms.CheckBox
+    Friend WithEvents btnExportBPData As EveHQ.Core.SplitButton
+    Friend WithEvents ctxBPManagerExport As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuExportBPDataCSV As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuExportBPDataTSV As System.Windows.Forms.ToolStripMenuItem
 End Class
