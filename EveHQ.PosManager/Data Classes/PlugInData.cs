@@ -31,6 +31,7 @@ namespace EveHQ.PosManager
         public static ManualResetEvent[] resetEvents;
         SystemSovList SL = new SystemSovList();
         AllianceList AL = new AllianceList();
+        public static FuelBay BFStats;
 
         public Boolean EveHQStartUp()
         {
@@ -52,6 +53,7 @@ namespace EveHQ.PosManager
             PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
+            BFStats = new FuelBay();
 
             // Check for cache folder
             if (Directory.Exists(PoSCache_Path))
@@ -121,10 +123,147 @@ namespace EveHQ.PosManager
                 PDL.UpdatePOSDesignData(TL);
                 PDL.SaveDesignListing();
             }
+            LoadBFStatsFromDB();
 
             endT = DateTime.Now;
             runT = endT.Subtract(startT);
             return true;
+        }
+
+        private void LoadBFStatsFromDB()
+        {
+            DataSet fuelData;
+            string strSQL;
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=44;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.EnrUran.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.EnrUran.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.EnrUran.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.EnrUran.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.EnrUran.itemID = "44";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=3683;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.Oxygen.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.Oxygen.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.Oxygen.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.Oxygen.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.Oxygen.itemID = "3683";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=3689;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.MechPart.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.MechPart.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.MechPart.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.MechPart.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.MechPart.itemID = "3689";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=9832;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.Coolant.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.Coolant.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.Coolant.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.Coolant.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.Coolant.itemID = "9832";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=9848;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.Robotics.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.Robotics.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.Robotics.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.Robotics.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.Robotics.itemID = "9848";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=16272;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.HvyWater.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.HvyWater.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.HvyWater.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.HvyWater.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.HvyWater.itemID = "16272";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=16273;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.LiqOzone.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.LiqOzone.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.LiqOzone.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.LiqOzone.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.LiqOzone.itemID = "16273";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=24592;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.Charters.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.Charters.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.Charters.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.Charters.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.Charters.itemID = "24592";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=17888;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.N2Iso.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.N2Iso.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.N2Iso.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.N2Iso.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.N2Iso.itemID = "17888";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=16274;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.HeIso.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.HeIso.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.HeIso.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.HeIso.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.HeIso.itemID = "16274";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=17889;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.H2Iso.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.H2Iso.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.H2Iso.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.H2Iso.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.H2Iso.itemID = "17889";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=17887;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.O2Iso.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.O2Iso.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.O2Iso.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.O2Iso.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.O2Iso.itemID = "17887";
+
+            // Get Table With Tower or Tower Item Information
+            strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=16275;"; // EU
+            fuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            BFStats.Strontium.Name = fuelData.Tables[0].Rows[0].ItemArray[10].ToString();
+            BFStats.Strontium.BaseVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[7]);
+            BFStats.Strontium.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
+            BFStats.Strontium.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
+            BFStats.Strontium.itemID = "16275";
         }
 
         public EveHQ.Core.PlugIn GetEveHQPlugInInfo()

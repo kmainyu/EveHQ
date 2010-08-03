@@ -304,23 +304,23 @@ namespace EveHQ.PosManager
         {
             FuelUsed = 0;
             // Calculate Fuel Bay Volume 
-            EnrUran.VolForQty = GetVolumeForFuel(EnrUran.Qty, EnrUran.BaseVol, EnrUran.QtyVol);
-            Oxygen.VolForQty = GetVolumeForFuel(Oxygen.Qty, Oxygen.BaseVol, Oxygen.QtyVol);
-            MechPart.VolForQty = GetVolumeForFuel(MechPart.Qty, MechPart.BaseVol, MechPart.QtyVol);
-            Coolant.VolForQty = GetVolumeForFuel(Coolant.Qty, Coolant.BaseVol, Coolant.QtyVol);
-            Robotics.VolForQty = GetVolumeForFuel(Robotics.Qty, Robotics.BaseVol, Robotics.QtyVol);
-            HvyWater.VolForQty = GetVolumeForFuel(HvyWater.Qty, HvyWater.BaseVol, HvyWater.QtyVol);
-            LiqOzone.VolForQty = GetVolumeForFuel(LiqOzone.Qty, LiqOzone.BaseVol, LiqOzone.QtyVol);
-            Charters.VolForQty = GetVolumeForFuel(Charters.Qty, Charters.BaseVol, Charters.QtyVol);
-            N2Iso.VolForQty = GetVolumeForFuel(N2Iso.Qty, N2Iso.BaseVol, N2Iso.QtyVol);
-            H2Iso.VolForQty = GetVolumeForFuel(H2Iso.Qty, H2Iso.BaseVol, H2Iso.QtyVol);
-            O2Iso.VolForQty = GetVolumeForFuel(O2Iso.Qty, O2Iso.BaseVol, O2Iso.QtyVol);
-            HeIso.VolForQty = GetVolumeForFuel(HeIso.Qty, HeIso.BaseVol, HeIso.QtyVol);
+            EnrUran.VolForQty = GetVolumeForFuel(EnrUran.Qty, PlugInData.BFStats.EnrUran.BaseVol, PlugInData.BFStats.EnrUran.QtyVol);
+            Oxygen.VolForQty = GetVolumeForFuel(Oxygen.Qty, PlugInData.BFStats.Oxygen.BaseVol, PlugInData.BFStats.Oxygen.QtyVol);
+            MechPart.VolForQty = GetVolumeForFuel(MechPart.Qty, PlugInData.BFStats.MechPart.BaseVol, PlugInData.BFStats.MechPart.QtyVol);
+            Coolant.VolForQty = GetVolumeForFuel(Coolant.Qty, PlugInData.BFStats.Coolant.BaseVol, PlugInData.BFStats.Coolant.QtyVol);
+            Robotics.VolForQty = GetVolumeForFuel(Robotics.Qty, PlugInData.BFStats.Robotics.BaseVol, PlugInData.BFStats.Robotics.QtyVol);
+            HvyWater.VolForQty = GetVolumeForFuel(HvyWater.Qty, PlugInData.BFStats.HvyWater.BaseVol, PlugInData.BFStats.HvyWater.QtyVol);
+            LiqOzone.VolForQty = GetVolumeForFuel(LiqOzone.Qty, PlugInData.BFStats.LiqOzone.BaseVol, PlugInData.BFStats.LiqOzone.QtyVol);
+            Charters.VolForQty = GetVolumeForFuel(Charters.Qty, PlugInData.BFStats.Charters.BaseVol, PlugInData.BFStats.Charters.QtyVol);
+            N2Iso.VolForQty = GetVolumeForFuel(N2Iso.Qty, PlugInData.BFStats.N2Iso.BaseVol, PlugInData.BFStats.N2Iso.QtyVol);
+            H2Iso.VolForQty = GetVolumeForFuel(H2Iso.Qty, PlugInData.BFStats.H2Iso.BaseVol, PlugInData.BFStats.H2Iso.QtyVol);
+            O2Iso.VolForQty = GetVolumeForFuel(O2Iso.Qty, PlugInData.BFStats.O2Iso.BaseVol, PlugInData.BFStats.O2Iso.QtyVol);
+            HeIso.VolForQty = GetVolumeForFuel(HeIso.Qty, PlugInData.BFStats.HeIso.BaseVol, PlugInData.BFStats.HeIso.QtyVol);
 
             if (Strontium.QtyVol > 0)
-                Strontium.VolForQty = ((Strontium.Qty / Strontium.QtyVol) * Strontium.BaseVol);
+                Strontium.VolForQty = ((Strontium.Qty / PlugInData.BFStats.Strontium.QtyVol) * PlugInData.BFStats.Strontium.BaseVol);
             else
-                Strontium.VolForQty = ((Strontium.Qty / 3) * Strontium.BaseVol);
+                Strontium.VolForQty = ((Strontium.Qty / 3) * PlugInData.BFStats.Strontium.BaseVol);
 
             StrontUsed = Strontium.VolForQty;
         }
