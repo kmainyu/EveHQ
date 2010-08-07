@@ -96,14 +96,14 @@
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.15.2.1979</version>
+      <version>1.15.2.2037</version>
       <hasDebug>True</hasDebug>
       <description>Science and Industry Plug-in</description>
     </file>
     <file>
       <name>EveHQ.PosManager.dll</name>
       <type>Plug-in</type>
-      <version>1.15.2.2003</version>
+      <version>1.15.2.2037</version>
       <hasDebug>True</hasDebug>
       <description>POS Design and Management Plug-in</description>
     </file>

@@ -5864,7 +5864,11 @@ Public Class frmPrism
                 If PlugInData.AssetItemNames.ContainsKey(containerID) = True Then
                     flagName = locationDetails & "/" & PlugInData.AssetItemNames(containerID)
                 Else
-                    flagName = locationDetails & "/" & EveHQ.Core.HQ.itemData(containerType).Name
+                    If EveHQ.Core.HQ.itemData.ContainsKey(containerType) = True Then
+                        flagName = locationDetails & "/" & EveHQ.Core.HQ.itemData(containerType).Name
+                    Else
+                        flagName = locationDetails & "/" & "Unknown ContainerID: " & containerType
+                    End If
                 End If
                 If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
                     Dim newBP As New BlueprintAsset
