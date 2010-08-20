@@ -261,7 +261,8 @@ Public Class BlueprintSelection
                 'End If
 
                 ' Calculate Waste - Mark II!
-                waste = CInt(Math.Round(BPWF * resource.BaseMaterial * MatMod, 0, MidpointRounding.AwayFromZero))
+                'waste = CInt(Int((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1))))
+                waste = CInt(Math.Round((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
 
                 ' Check if we have component iteration active
                 If ComponentIteration = True Then
