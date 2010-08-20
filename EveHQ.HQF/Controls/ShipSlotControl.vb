@@ -3988,7 +3988,12 @@ Public Class ShipSlotControl
         If cboWHEffect.SelectedIndex > 0 Then
             ' Clear the current effect
             currentShip.EnviroSlotCollection.Clear()
-            Dim modName As String = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+            Dim modName As String = ""
+            If cboWHEffect.SelectedItem.ToString = "Red Giant" Then
+                modName = cboWHEffect.SelectedItem.ToString & " Beacon Class " & cboWHClass.SelectedItem.ToString
+            Else
+                modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+            End If
             Dim modID As String = CStr(ModuleLists.moduleListName(modName))
             Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
             currentShip.EnviroSlotCollection.Add(eMod)
