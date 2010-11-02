@@ -475,15 +475,15 @@ Public Class PilotParseFunctions
             ' Get the Pilot name & charID in the character node
             With cPilot
                 ' Get the additional pilot data nodes
-                .Name = toon.ChildNodes.Item(1).InnerText
-                .Race = toon.ChildNodes.Item(2).InnerText
-                .Blood = toon.ChildNodes.Item(3).InnerText
-                .Gender = toon.ChildNodes.Item(4).InnerText
-                .Corp = toon.ChildNodes.Item(5).InnerText
-                .CorpID = toon.ChildNodes.Item(6).InnerText
-                .CloneName = toon.ChildNodes.Item(7).InnerText
-                .CloneSP = toon.ChildNodes.Item(8).InnerText
-                Dim isk As Double = Double.Parse(toon.ChildNodes.Item(9).InnerText, Globalization.NumberStyles.Number, culture)
+                .Name = CXMLDoc.GetElementsByTagName("name").Item(0).InnerText
+                .Race = CXMLDoc.GetElementsByTagName("race").Item(0).InnerText
+                .Blood = CXMLDoc.GetElementsByTagName("bloodLine").Item(0).InnerText
+                .Gender = CXMLDoc.GetElementsByTagName("gender").Item(0).InnerText
+                .Corp = CXMLDoc.GetElementsByTagName("corporationName").Item(0).InnerText
+                .CorpID = CXMLDoc.GetElementsByTagName("corporationID").Item(0).InnerText
+                .CloneName = CXMLDoc.GetElementsByTagName("cloneName").Item(0).InnerText
+                .CloneSP = CXMLDoc.GetElementsByTagName("cloneSkillPoints").Item(0).InnerText
+                Dim isk As Double = Double.Parse(CXMLDoc.GetElementsByTagName("balance").Item(0).InnerText, Globalization.NumberStyles.Number, culture)
                 .Isk = isk
                 ' Put cache info here??
             End With
