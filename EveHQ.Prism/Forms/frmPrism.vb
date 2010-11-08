@@ -4500,19 +4500,19 @@ Public Class frmPrism
             Case 18 ' Agents Temp
                 desc = "Agents Temporary" & misc
             Case 19 ' Insurance
-                If CInt(argName1) > 0 Then
-                    Dim itemName As String = ""
-                    If EveHQ.Core.HQ.itemData.ContainsKey(argName1) = True Then
-                        itemName = EveHQ.Core.HQ.itemData(argName1).Name
-                    Else
-                        itemName = "ship"
-                    End If
-                    desc = "Insurance paid by EVE Central Bank to " & owner1 & " covering loss of a " & itemName
-                End If
-                If CInt(argName1) < 0 Then
-                    Dim sid As Integer = -1 * CInt(argName1)
-                    desc = "Insurance paid by " & owner1 & " to " & owner2 & "(Insurance RefID:" & CStr(sid) & ")"
-                End If
+				If CLng(argName1) > 0 Then
+					Dim itemName As String = ""
+					If EveHQ.Core.HQ.itemData.ContainsKey(argName1) = True Then
+						itemName = EveHQ.Core.HQ.itemData(argName1).Name
+					Else
+						itemName = "ship"
+					End If
+					desc = "Insurance paid by EVE Central Bank to " & owner1 & " covering loss of a " & itemName
+				End If
+				If CLng(argName1) < 0 Then
+					Dim sid As Long = -1 * CLng(argName1)
+					desc = "Insurance paid by " & owner1 & " to " & owner2 & "(Insurance RefID:" & CStr(sid) & ")"
+				End If
             Case 20 'Mission Expiration
                 desc = "Mission Expiration" & misc
             Case 21 'Mission Completion

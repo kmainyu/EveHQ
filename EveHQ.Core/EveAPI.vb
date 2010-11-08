@@ -194,21 +194,21 @@ Public Class EveAPI
         Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Integer, ByVal ReturnMethod As Integer) As XmlDocument
-        Dim remoteURL As String = ""
-        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
-        Select Case Feature
-            Case EveHQ.Core.EveAPI.APIRequest.POSDetails
-                remoteURL = "/corp/StarbaseDetail.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-            Case Else
-                cLastAPIResult = APIResults.InvalidFeature
-                Return Nothing
-                Exit Function
-        End Select
-        ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID & "_" & itemID
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
-    End Function
+	Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Long, ByVal ReturnMethod As Integer) As XmlDocument
+		Dim remoteURL As String = ""
+		Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
+		Select Case Feature
+			Case EveHQ.Core.EveAPI.APIRequest.POSDetails
+				remoteURL = "/corp/StarbaseDetail.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+			Case Else
+				cLastAPIResult = APIResults.InvalidFeature
+				Return Nothing
+				Exit Function
+		End Select
+		' Determine filename of cache
+		Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID & "_" & itemID
+		Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
+	End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal BeforeRefID As String, ByVal ReturnMethod As Integer) As XmlDocument
         Dim remoteURL As String = ""
         Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID
