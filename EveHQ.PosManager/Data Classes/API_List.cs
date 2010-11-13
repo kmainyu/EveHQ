@@ -102,7 +102,7 @@ namespace EveHQ.PosManager
             }
         }
 
-        public APITowerData GetAPIDataMemberForTowerID(int itemID)
+        public APITowerData GetAPIDataMemberForTowerID(long itemID)
         {
             if (apiTower.ContainsKey(itemID))
                 return (APITowerData)apiTower.GetByIndex(apiTower.IndexOfKey(itemID));
@@ -120,7 +120,7 @@ namespace EveHQ.PosManager
             return false;
         }
 
-        private string GetTowerNameForTowerTypeID(int typeID, TowerListing TL)
+        private string GetTowerNameForTowerTypeID(long typeID, TowerListing TL)
         {
             foreach (Tower t in TL.Towers)
             {
@@ -206,7 +206,7 @@ namespace EveHQ.PosManager
                             foreach (XmlNode psN in posList)
                             {
                                 aptd = new APITowerData();
-                                aptd.itemID = Convert.ToInt32(psN.Attributes.GetNamedItem("itemID").Value.ToString());
+                                aptd.itemID = Convert.ToInt64(psN.Attributes.GetNamedItem("itemID").Value.ToString());
                                 aptd.towerID = Convert.ToInt32(psN.Attributes.GetNamedItem("typeID").Value.ToString());
                                 aptd.locID = Convert.ToInt32(psN.Attributes.GetNamedItem("locationID").Value.ToString());
                                 aptd.moonID = Convert.ToInt32(psN.Attributes.GetNamedItem("moonID").Value.ToString());

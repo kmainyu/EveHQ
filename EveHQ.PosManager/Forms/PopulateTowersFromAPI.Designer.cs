@@ -31,15 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopulateTowersFromAPI));
             this.label1 = new System.Windows.Forms.Label();
             this.clb_TowerListing = new System.Windows.Forms.CheckedListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rb_Reinforced = new System.Windows.Forms.RadioButton();
-            this.rb_Offline = new System.Windows.Forms.RadioButton();
-            this.rb_Online = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbx_Monitored = new System.Windows.Forms.CheckBox();
             this.b_Import = new System.Windows.Forms.Button();
             this.b_Cancel = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,53 +58,8 @@
             this.clb_TowerListing.FormattingEnabled = true;
             this.clb_TowerListing.Location = new System.Drawing.Point(3, 58);
             this.clb_TowerListing.Name = "clb_TowerListing";
-            this.clb_TowerListing.Size = new System.Drawing.Size(423, 199);
+            this.clb_TowerListing.Size = new System.Drawing.Size(423, 196);
             this.clb_TowerListing.TabIndex = 1;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.rb_Reinforced);
-            this.groupBox1.Controls.Add(this.rb_Offline);
-            this.groupBox1.Controls.Add(this.rb_Online);
-            this.groupBox1.Location = new System.Drawing.Point(22, 263);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(179, 96);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Set State for Towers To:";
-            // 
-            // rb_Reinforced
-            // 
-            this.rb_Reinforced.AutoSize = true;
-            this.rb_Reinforced.Location = new System.Drawing.Point(9, 65);
-            this.rb_Reinforced.Name = "rb_Reinforced";
-            this.rb_Reinforced.Size = new System.Drawing.Size(77, 17);
-            this.rb_Reinforced.TabIndex = 2;
-            this.rb_Reinforced.TabStop = true;
-            this.rb_Reinforced.Text = "Reinforced";
-            this.rb_Reinforced.UseVisualStyleBackColor = true;
-            // 
-            // rb_Offline
-            // 
-            this.rb_Offline.AutoSize = true;
-            this.rb_Offline.Location = new System.Drawing.Point(9, 42);
-            this.rb_Offline.Name = "rb_Offline";
-            this.rb_Offline.Size = new System.Drawing.Size(57, 17);
-            this.rb_Offline.TabIndex = 1;
-            this.rb_Offline.TabStop = true;
-            this.rb_Offline.Text = "Offline";
-            this.rb_Offline.UseVisualStyleBackColor = true;
-            // 
-            // rb_Online
-            // 
-            this.rb_Online.AutoSize = true;
-            this.rb_Online.Location = new System.Drawing.Point(9, 19);
-            this.rb_Online.Name = "rb_Online";
-            this.rb_Online.Size = new System.Drawing.Size(55, 17);
-            this.rb_Online.TabIndex = 0;
-            this.rb_Online.TabStop = true;
-            this.rb_Online.Text = "Online";
-            this.rb_Online.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -164,7 +114,6 @@
             this.Controls.Add(this.b_Cancel);
             this.Controls.Add(this.b_Import);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.clb_TowerListing);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -175,8 +124,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Populate Towers From API Listing";
             this.Load += new System.EventHandler(this.PopulateTowersFromAPI_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -187,10 +134,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckedListBox clb_TowerListing;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton rb_Reinforced;
-        private System.Windows.Forms.RadioButton rb_Offline;
-        private System.Windows.Forms.RadioButton rb_Online;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox cbx_Monitored;
         private System.Windows.Forms.Button b_Import;

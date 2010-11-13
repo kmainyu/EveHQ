@@ -23,7 +23,8 @@ namespace EveHQ.PosManager
         public ArrayList ReactionLinks;
 
         public string Name, System, CorpName, Moon;
-        public int itemID, locID, SovLevel, corpID;
+        public int SovLevel;
+        public long itemID, locID, corpID;
         public bool Monitored;
         public bool FillCheck;
         public bool UseChart;

@@ -24,7 +24,6 @@ namespace EveHQ.PosManager
             DataSet locData;
             APITowerData apid;
 
-            rb_Offline.Checked = true;
             cbx_Monitored.Checked = true;
 
             clb_TowerListing.Items.Clear();
@@ -44,11 +43,12 @@ namespace EveHQ.PosManager
                 if (!present)
                 {
                     // Get Table With Tower or Tower Item Information
+                    strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
+                    locData = EveHQ.Core.DataFunctions.GetData(strSQL);
+                    loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+
                     if (apid.locName == "Unknown")
                     {
-                        strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
-                        locData = EveHQ.Core.DataFunctions.GetData(strSQL);
-                        loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
                         apid.locName = loc;
                         myData.API_D.SaveAPIListing();
                     }
@@ -69,16 +69,9 @@ namespace EveHQ.PosManager
         {
             bool chkd;
             bool mon;
-            string st, tName;
+            string tName;
             POS APITower;
             APITowerData apid;
-
-            if (rb_Reinforced.Checked)
-                st = "Reinforced";
-            else if (rb_Online.Checked)
-                st = "Online";
-            else
-                st = "Offline";
 
             mon = cbx_Monitored.Checked;
 
@@ -117,7 +110,26 @@ namespace EveHQ.PosManager
                             // Need to set tower as Linked to the API by default
                             APITower.itemID = apid.itemID;
                             APITower.locID = apid.locID;
-                            APITower.PosTower.State = st;
+
+                            switch (apid.stateV)
+                            {
+                                case 0:
+                                    APITower.PosTower.State = "Unanchored";
+                                    break;
+                                case 1:
+                                    APITower.PosTower.State = "Offline";
+                                    break;
+                                case 2:
+                                    APITower.PosTower.State = "Onlining";
+                                    break;
+                                case 3:
+                                    APITower.PosTower.State = "Reinforced";
+                                    break;
+                                case 4:
+                                    APITower.PosTower.State = "Online";
+                                    break;
+                            }
+
                             APITower.PosTower.CPU_Used = APITower.PosTower.CPU;
                             APITower.PosTower.Power_Used = APITower.PosTower.Power;
 

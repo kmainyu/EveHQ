@@ -127,7 +127,7 @@ namespace EveHQ.PosManager
             TreeNode mtn, tn;
             APITowerData apid;
             string posName;
-            int itemID;
+            long itemID;
             int towerNum = 1;
 
             tv_PoSList.Nodes.Clear();

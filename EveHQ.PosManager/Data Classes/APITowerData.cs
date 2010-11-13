@@ -17,7 +17,7 @@ namespace EveHQ.PosManager
     public class APITowerData
     {
         public string corpName, towerName, locName;
-        public int itemID, towerID, locID, moonID, corpID;
+        public long itemID, towerID, locID, moonID, corpID;
         public int stateV; // AnchoredOrOffline = 1, Onlining = 2, Reinforced = 3, Online = 4
         public string curTime; // Time - data grabbed
         public string cacheUntil; // Time when next API Data grab is available

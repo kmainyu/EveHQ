@@ -2554,8 +2554,6 @@ namespace EveHQ.PosManager
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.sHrs].ValueType = typeof(decimal);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.sHrs].Value = p.PosTower.Fuel.Strontium.RunTime;
 
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = p.PosTower.State;
-
                     ref_TM = DateTime.Now;
                     if (p.itemID != 0)
                     {
@@ -2625,6 +2623,8 @@ namespace EveHQ.PosManager
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cache].Value = cache;
                     }
 
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = p.PosTower.State;
+                    
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.CPU].Value = String.Format("{0:#,0.#}", p.PosTower.CPU_Used) + " / " + String.Format("{0:#,0.#}", p.PosTower.CPU);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hCPU].ValueType = typeof(decimal);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hCPU].Value = p.PosTower.CPU_Used;
