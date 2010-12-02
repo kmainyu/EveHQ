@@ -61,7 +61,7 @@ namespace EveHQ.PosManager
         {
             TreeNode pos, api;
             POS pli;
-            int itemID;
+            long itemID;
             APITowerData apid;
 
             pos = tv_PoSList.SelectedNode;
@@ -98,7 +98,7 @@ namespace EveHQ.PosManager
 
             if (pli != null)
             {
-                itemID = Convert.ToInt32(api.Tag.ToString());
+                itemID = Convert.ToInt64(api.Tag.ToString());
                 apid = myData.API_D.GetAPIDataMemberForTowerID(itemID);
                 pli.itemID = itemID;
                 pli.locID = apid.locID;
