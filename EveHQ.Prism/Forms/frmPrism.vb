@@ -1470,17 +1470,28 @@ Public Class frmPrism
             ' Get the orders
             Dim orderCollection As MarketOrdersCollection = ParseMarketOrders(owner)
             ' Add the orders (outstanding ones only)
-            Dim category, group As String
+            Dim ItemName, category, group, meta, vol As String
             For Each ownerOrder As MarketOrder In orderCollection.MarketOrders
                 If ownerOrder.OrderState = MarketOrderState.Open Then
                     Dim orderNode As New ContainerListViewItem
                     orderNode.Tag = ownerOrder.TypeID
-                    Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ownerOrder.TypeID.ToString)
-                    category = EveHQ.Core.HQ.itemCats(orderItem.Category.ToString)
-                    group = EveHQ.Core.HQ.itemGroups(orderItem.Group.ToString)
+                    If EveHQ.Core.HQ.itemData.ContainsKey(ownerOrder.TypeID.ToString) = True Then
+                        Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ownerOrder.TypeID.ToString)
+                        ItemName = orderItem.Name
+                        category = EveHQ.Core.HQ.itemCats(orderItem.Category.ToString)
+                        group = EveHQ.Core.HQ.itemGroups(orderItem.Group.ToString)
+                        meta = orderItem.MetaLevel.ToString
+                        vol = orderItem.Volume.ToString
+                    Else
+                        ItemName = "ItemID: " & ownerOrder.TypeID.ToString
+                        category = "<Unknown>"
+                        group = "<Unknown>"
+                        meta = "0"
+                        vol = "1"
+                    End If
                     ' Check for search criteria
-                    If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And orderItem.Name.ToLower.Contains(searchText.ToLower) = False)) Then
-                        orderNode.Text = orderItem.Name
+                    If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And ItemName.ToLower.Contains(searchText.ToLower) = False)) Then
+                        orderNode.Text = ItemName
                         If ownerOrder.Bid = 0 Then
                             sellOrders.Items.Add(orderNode)
                             sellValue += ownerOrder.Price * ownerOrder.VolRemaining
@@ -1496,8 +1507,8 @@ Public Class frmPrism
                         Else
                             orderNode.SubItems(AssetColumn.Location).Text = "StationID: " & ownerOrder.StationID
                         End If
-                        orderNode.SubItems(AssetColumn.Meta).Text = FormatNumber(orderItem.MetaLevel.ToString, 0)
-                        orderNode.SubItems(AssetColumn.Volume).Text = FormatNumber(orderItem.Volume.ToString, 2)
+                        orderNode.SubItems(AssetColumn.Meta).Text = FormatNumber(meta, 0)
+                        orderNode.SubItems(AssetColumn.Volume).Text = FormatNumber(vol, 2)
                         orderNode.SubItems(AssetColumn.Quantity).Text = FormatNumber(ownerOrder.VolRemaining, 0)
                         orderNode.SubItems(AssetColumn.Price).Text = FormatNumber(ownerOrder.Price, 2)
                         orderNode.SubItems(AssetColumn.Value).Text = FormatNumber(ownerOrder.Price * ownerOrder.VolRemaining, 2)
