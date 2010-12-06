@@ -171,14 +171,11 @@ namespace EveHQ.PosManager
             int towerNum = 1;
             string loc, cName, strSQL, twrName;
             DataSet locData;
-            APITowerData apid;
 
             tv_APIList.Nodes.Clear();
 
-            for (int x = 0; x < myData.API_D.apiTower.Count; x++)
+            foreach (APITowerData apid in myData.API_D.apiTower.Values)
             {
-                apid = (APITowerData)myData.API_D.apiTower.GetByIndex(x);
-
                 cName = apid.corpName;
                 ctn = FindTreeNode(tv_APIList.Nodes, cName);
                 if (ctn == null)

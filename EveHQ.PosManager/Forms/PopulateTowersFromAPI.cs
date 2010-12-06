@@ -22,14 +22,12 @@ namespace EveHQ.PosManager
             string pos_name, strSQL, loc;
             bool present = false;
             DataSet locData;
-            APITowerData apid;
 
             cbx_Monitored.Checked = true;
 
             clb_TowerListing.Items.Clear();
-            for(int x=0; x < myData.API_D.apiTower.Count; x++)
+            foreach(APITowerData apid in myData.API_D.apiTower.Values)
             {
-                apid = (APITowerData)myData.API_D.apiTower.GetByIndex(x);
                 present = false;
                 foreach (POS p in myData.POSList.Designs)
                 {
@@ -71,7 +69,6 @@ namespace EveHQ.PosManager
             bool mon;
             string tName;
             POS APITower;
-            APITowerData apid;
 
             mon = cbx_Monitored.Checked;
 
@@ -84,9 +81,8 @@ namespace EveHQ.PosManager
                 {
                     tName = clb_TowerListing.Items[indx].ToString();
                     // Need to add this POS Tower to my listings
-                    for (int x = 0; x < myData.API_D.apiTower.Count; x++)
+                    foreach (APITowerData apid in myData.API_D.apiTower.Values)
                     {
-                        apid = (APITowerData)myData.API_D.apiTower.GetByIndex(x);
                         if (tName.Contains(apid.itemID.ToString()))
                         {
                             // Found the correct one, now add it

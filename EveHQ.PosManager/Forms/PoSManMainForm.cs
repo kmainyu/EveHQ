@@ -382,13 +382,11 @@ namespace EveHQ.PosManager
 
         private void PopulateCorpList()
         {
-            APITowerData atd;
             // Build corp selection listing
             cb_CorpName.Items.Clear();
             cb_CorpName.Items.Add("Undefined");
-            for (int x = 0; x < API_D.apiTower.Count; x++ )
+            foreach (APITowerData atd in API_D.apiTower.Values )
             {
-                atd = (APITowerData)API_D.apiTower.GetByIndex(x);
                 if (!cb_CorpName.Items.Contains(atd.corpName))
                     cb_CorpName.Items.Add(atd.corpName);
             }
@@ -2310,8 +2308,6 @@ namespace EveHQ.PosManager
 
         private void cb_CorpName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            APITowerData apid;
-
             if (Design.itemID != 0)
             {
                 cb_CorpName.Text = Design.CorpName;
@@ -2321,9 +2317,8 @@ namespace EveHQ.PosManager
             {
                 Design.CorpName = cb_CorpName.Text;
 
-                for (int x = 0; x < API_D.apiTower.Count; x++)
+                foreach (APITowerData apid in API_D.apiTower.Values)
                 {
-                    apid = (APITowerData)API_D.apiTower.GetByIndex(x);
                     if (apid.corpName == Design.CorpName)
                     {
                         if (Design.corpID != apid.corpID)

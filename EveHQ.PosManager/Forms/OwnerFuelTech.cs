@@ -25,7 +25,6 @@ namespace EveHQ.PosManager
 
         private void b_OK_Click(object sender, EventArgs e)
         {
-            APITowerData atd;
             string twrName;
 
             twrName = myData.selName;
@@ -39,9 +38,8 @@ namespace EveHQ.PosManager
 
                     if (rb_Corp.Checked)
                     {
-                        for (int x = 0; x < myData.API_D.apiTower.Count; x++)
+                        foreach (APITowerData atd in myData.API_D.apiTower.Values)
                         {
-                            atd = (APITowerData)myData.API_D.apiTower.GetByIndex(x);
                             if (atd.corpName == pl.Owner)
                             {
                                 pl.ownerID = atd.corpID;

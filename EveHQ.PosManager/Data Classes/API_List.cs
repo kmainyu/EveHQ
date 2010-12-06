@@ -19,13 +19,13 @@ namespace EveHQ.PosManager
     {
         //public ArrayList apid;
         //public ArrayList apic;
-        public SortedList apiTower;
+        public SortedList<long, APITowerData> apiTower;
 
         public API_List()
         {
             //apid = new ArrayList();
             //apic = new ArrayList();
-            apiTower = new SortedList();
+            apiTower = new SortedList<long, APITowerData>();
         }
 
         public void SaveAPIListing()
@@ -92,7 +92,7 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    apiTower = (SortedList)myBf.Deserialize(cStr);
+                    apiTower = (SortedList<long, APITowerData>)myBf.Deserialize(cStr);
                     cStr.Close();
                 }
                 catch
@@ -105,7 +105,7 @@ namespace EveHQ.PosManager
         public APITowerData GetAPIDataMemberForTowerID(long itemID)
         {
             if (apiTower.ContainsKey(itemID))
-                return (APITowerData)apiTower.GetByIndex(apiTower.IndexOfKey(itemID));
+                return apiTower[itemID];
             else
                 return null;
         }
