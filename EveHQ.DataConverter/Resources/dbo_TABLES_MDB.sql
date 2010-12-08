@@ -72,8 +72,6 @@ CREATE TABLE dbo.staOperationServices
 CREATE TABLE dbo.staStationTypes
 (
   stationTypeID           integer    NOT NULL,
-  dockingBayGraphicID     integer    NULL,
-  hangarGraphicID         integer    NULL,
   dockEntryX              double     NULL DEFAULT 0.0,
   dockEntryY              double     NULL DEFAULT 0.0,
   dockEntryZ              double     NULL DEFAULT 0.0,
@@ -350,9 +348,8 @@ CREATE TABLE dbo.mapLandmarks
   y                             double           NOT NULL DEFAULT 0.0,
   z                             double           NOT NULL DEFAULT 0.0,
   radius                        double           NOT NULL DEFAULT 0.0,
-  graphicID                     integer        NULL,
+  iconID                     integer        NULL,
   importance                    integer         NOT NULL DEFAULT 0,
-  url2d                         text(255)       NULL,
   CONSTRAINT pk_mapLandmarks PRIMARY KEY  (landmarkID)
 );
 
@@ -401,7 +398,7 @@ CREATE TABLE dbo.invCategories
   categoryID     integer         NOT NULL,
   categoryName   text(100)		NOT NULL,
   description    memo			NOT NULL,
-  graphicID      integer        NULL,
+  iconID         integer        NULL,
   published      integer		NOT NULL DEFAULT 0,
   CONSTRAINT pk_invCategories PRIMARY KEY  (categoryID)
 );
@@ -412,7 +409,7 @@ CREATE TABLE dbo.invGroups
   categoryID            integer         NOT NULL DEFAULT 0,
   groupName             text(100)   NOT NULL,
   description           memo   NOT NULL,
-  graphicID             integer        NULL,
+  iconID                integer        NULL,
   useBasePrice          integer             NOT NULL DEFAULT 0,
   allowManufacture      integer             NOT NULL DEFAULT 1,
   allowRecycler         integer             NOT NULL DEFAULT 1,
@@ -429,7 +426,7 @@ CREATE TABLE dbo.invMarketGroups
   parentGroupID    integer        NULL,
   marketGroupName  text(100)   NOT NULL,
   description      memo	  NOT NULL,
-  graphicID        integer        NULL,
+  iconID           integer        NULL,
   hasTypes         integer             NOT NULL DEFAULT 0,
   CONSTRAINT pk_invMarketGroups PRIMARY KEY  (marketGroupID)
 );
@@ -451,6 +448,7 @@ CREATE TABLE dbo.invTypes
   published            integer             NOT NULL DEFAULT 1,
   marketGroupID        integer        NULL,
   chanceOfDuplicating  double           NOT NULL DEFAULT 0.0,
+  iconID               integer        NULL,
   CONSTRAINT pk_invTypes PRIMARY KEY  (typeID)
 );
 
@@ -502,15 +500,23 @@ CREATE TABLE dbo.invContrabandTypes
 CREATE TABLE dbo.eveGraphics
 (
   graphicID                     integer        NOT NULL,
-  url3D                         text(100)    NOT NULL,
-  urlWeb                        text(100)    NOT NULL,
+  graphicFile                   memo   NOT NULL,
   description                   memo   NOT NULL,
-  published                     integer             NOT NULL DEFAULT 1,
   obsolete                      integer             NOT NULL DEFAULT 0,
-  icon                          text(100)    NOT NULL,
-  urlSound                      text(100)    NOT NULL,
-  explosionID                   integer        NULL,
+  graphicType                   text(100)    NULL,
+  collidable                    integer      NULL,
+  explosionID                   integer      NULL,
+  directoryID                   integer      NULL,
+  graphicName                   text(64)    NULL,
   CONSTRAINT pk_eveGraphics PRIMARY KEY  (graphicID)
+);
+
+CREATE TABLE dbo.eveIcons
+(
+  iconID                        integer        NOT NULL,
+  iconFile                      memo   NOT NULL,
+  description                   memo   NOT NULL,
+  CONSTRAINT pk_eveIcons PRIMARY KEY  (iconID)
 );
 
 CREATE TABLE dbo.eveNames
@@ -528,7 +534,7 @@ CREATE TABLE dbo.dgmAttributeTypes
   attributeID                   integer             NOT NULL,
   attributeName                 text(100)			NOT NULL,
   description                   memo				NOT NULL,
-  graphicID                     integer				NULL,
+  iconID                        integer				NULL,
   defaultValue                  integer             NOT NULL DEFAULT 0,
   published                     integer             NOT NULL DEFAULT 1,
   displayName                   text(100)			NOT NULL,
@@ -565,7 +571,7 @@ CREATE TABLE dbo.dgmEffects
   postExpression                  integer            NULL,
   description                     memo				 NULL,
   `guid`                          text(60)			 NULL,
-  graphicID                       integer		     NULL,
+  iconID                          integer		     NULL,
   isOffensive                     integer            NOT NULL DEFAULT 0,
   isAssistance                    integer            NOT NULL DEFAULT 0,
   durationAttributeID             integer            NULL,
@@ -631,7 +637,8 @@ CREATE TABLE dbo.crpNPCCorporations
   sizeFactor                    double           NOT NULL,
   stationCount                  integer        NOT NULL DEFAULT 0,
   stationSystemCount            integer        NOT NULL DEFAULT 0,
-  description					memo			NULL,			
+  description					memo			NULL,
+  iconID                        integer         NULL,			
   CONSTRAINT pk_crpNPCCorporations PRIMARY KEY  (corporationID)
 );
 
@@ -668,7 +675,7 @@ CREATE TABLE dbo.chrAttributes
   attributeID       integer         NOT NULL,
   attributeName     text(100)	    NOT NULL,
   description       memo   NOT NULL,
-  graphicID         integer        NULL,
+  iconID            integer        NULL,
   shortDescription  memo   NOT NULL,
   notes             memo   NOT NULL,
   CONSTRAINT pk_chrAttributes PRIMARY KEY  (attributeID)
@@ -679,7 +686,7 @@ CREATE TABLE dbo.chrRaces
   raceID             integer         NOT NULL,
   raceName           text(100)	   NOT NULL,
   description        memo  NOT NULL,
-  graphicID          integer        NULL,
+  iconID             integer        NULL,
   shortDescription   memo   NOT NULL,
   CONSTRAINT pk_chrRaces PRIMARY KEY  (raceID)
 );
@@ -699,7 +706,7 @@ CREATE TABLE dbo.chrBloodlines
   charisma                integer         NOT NULL DEFAULT 0,
   memory                  integer         NOT NULL DEFAULT 0,
   intelligence            integer         NOT NULL DEFAULT 0,
-  graphicID               integer        NULL,
+  iconID                  integer        NULL,
   shortDescription        memo   NOT NULL,
   shortMaleDescription    memo   NOT NULL,
   shortFemaleDescription  memo   NOT NULL,
@@ -717,7 +724,7 @@ CREATE TABLE dbo.chrAncestries
   charisma          integer         NOT NULL DEFAULT 0,
   memory            integer         NOT NULL DEFAULT 0,
   intelligence      integer         NOT NULL DEFAULT 0,
-  graphicID         integer        NULL,
+  iconID            integer        NULL,
   shortDescription  memo   NOT NULL,
   CONSTRAINT pk_chrAncestries PRIMARY KEY  (ancestryID)
 );
@@ -823,6 +830,7 @@ CREATE TABLE dbo.chrFactions
   stationCount  		integer			NOT NULL,
   stationSystemCount  	integer			NOT NULL,
   militiaCorporationID	integer			NULL,
+  iconID				integer			NULL,
   CONSTRAINT pk_chrFactions PRIMARY KEY  (factionID)
 );
 
@@ -848,7 +856,6 @@ CREATE TABLE dbo.invFlags
   flagID	  		integer			NOT NULL,
   flagName  		text(100)		NOT NULL,
   flagText			text(100)		NOT NULL,
-  flagType			text(100)		NULL,
   orderID			integer			NOT NULL,
   CONSTRAINT pk_invFlags PRIMARY KEY  (flagID)
 );
@@ -858,7 +865,7 @@ CREATE TABLE dbo.invMetaGroups
   metaGroupID  		integer			NOT NULL,
   metaGroupName  	text(100)		NOT NULL,
   description		memo	NULL,
-  graphicID			integer			NULL,
+  iconID			integer			NULL,
   CONSTRAINT pk_invMetaGroups PRIMARY KEY  (metaGroupID)
 );
 
