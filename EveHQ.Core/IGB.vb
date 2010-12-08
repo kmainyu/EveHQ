@@ -894,8 +894,8 @@ Public Class IGB
             Case 9
                 Return EveHQ.Core.ImageHandler.GetRawImageLocation(typeID, ImageHandler.ImageType.Blueprints)
             Case Else
-                Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveGraphics.icon FROM eveGraphics INNER JOIN invTypes ON eveGraphics.graphicID = invTypes.graphicID WHERE typeID=" & typeID & ";")
-                Return EveHQ.Core.ImageHandler.GetRawImageLocation(iconData.Tables(0).Rows(0).Item("icon").ToString, ImageHandler.ImageType.Icons)
+                Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID WHERE typeID=" & typeID & ";")
+                Return EveHQ.Core.ImageHandler.GetRawImageLocation(iconData.Tables(0).Rows(0).Item("iconFile").ToString, ImageHandler.ImageType.Icons)
         End Select
     End Function
 

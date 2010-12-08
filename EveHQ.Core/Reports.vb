@@ -1290,8 +1290,8 @@ Public Class Reports
         Dim strHTML As String = ""
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
+        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT iconFile FROM eveIcons WHERE invTypes.iconID=eveIcons.iconID) AS groupIcon, (SELECT (SELECT iconFile FROM eveIcons WHERE eveIcons.iconID=invTypes.iconID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
+        strSQL &= " FROM eveIcons INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveIcons.iconID=invTypes.iconID"
         strSQL &= " WHERE(invGroups.groupID = 355)"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -1434,8 +1434,8 @@ Public Class Reports
         Dim OreMetaTypes As Integer = 6
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
+        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT iconFile FROM eveIcons WHERE invTypes.iconID=eveIcons.iconID) AS groupIcon, (SELECT (SELECT iconFile FROM eveIcons WHERE eveIcons.iconID=invTypes.iconID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
+        strSQL &= " FROM eveIcons INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveIcons.iconID=invTypes.iconID"
         strSQL &= " WHERE(((invGroups.categoryID) = 25) And (invTypes.published=true) And ((invGroups.groupID) <> 465))"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
 
@@ -1576,8 +1576,8 @@ Public Class Reports
         Dim IceMetaTypes As Integer = 24
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
+        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT iconFile FROM eveIcons WHERE invTypes.iconID=eveIcons.iconID) AS groupIcon, (SELECT (SELECT iconFile FROM eveIcons WHERE eveIcons.iconID=invTypes.iconID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
+        strSQL &= " FROM eveIcons INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveIcons.iconID=invTypes.iconID"
         strSQL &= " WHERE(((invGroups.categoryID) = 25) And (invTypes.published=true) And ((invGroups.groupID) = 465))"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
