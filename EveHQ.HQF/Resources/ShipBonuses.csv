@@ -785,6 +785,11 @@
 17736,0,0,10014,4,569;573,0,0,0,100,15,Large Energy Turret Damage
 17736,1,3339,160,4,569;573,0,1,0,7.5,15,Large Energy Turret Tracking
 17736,1,3338,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
+# Noctis,,,,,,,,,,,
+2998,1,3184,73,2,650,0,1,0,-5,15,Tractor Beam Cycle Time
+2998,1,3184,73,1,25861;26983;30836,0,1,0,-5,15,Salvager Beam Cycle Time
+2998,1,3184,54,2,650,0,1,0,60,15,Tractor Beam Range
+2998,1,3184,1045,2,650,0,1,0,60,15,Tractor Beam Velocity
 # Nomad,,,,,,,,,,,
 28846,1,20528,10004,1,28846,0,1,0,5,15,Cargo Capacity
 28846,1,20528,70,1,28846,0,1,0,-5,15,Agility
