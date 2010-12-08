@@ -669,7 +669,7 @@ Public Class frmItemBrowser
 
         Dim strSQL As String = "SELECT * from invTypes where typeID=" & typeID
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveGraphics.icon FROM eveGraphics INNER JOIN invTypes ON eveGraphics.graphicID = invTypes.graphicID WHERE typeID=" & typeID & ";")
+        Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID WHERE typeID=" & typeID & ";")
 
         ' Load picture
         If iconData.Tables(0).Rows.Count > 0 Then
@@ -679,7 +679,7 @@ Public Class frmItemBrowser
                 Case 9
                     picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Blueprints)
                 Case Else
-                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(iconData.Tables(0).Rows(0).Item("icon").ToString, EveHQ.Core.ImageHandler.ImageType.Icons)
+                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(iconData.Tables(0).Rows(0).Item("iconFile").ToString, EveHQ.Core.ImageHandler.ImageType.Icons)
             End Select
         Else
             picItem.Image = My.Resources.noitem
