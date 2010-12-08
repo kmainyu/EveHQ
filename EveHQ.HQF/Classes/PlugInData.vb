@@ -270,7 +270,7 @@ Public Class PlugInData
     Private Function LoadAttributes() As Boolean
         Try
             Dim strSQL As String = ""
-            strSQL &= "SELECT dgmAttributeTypes.attributeID, dgmAttributeTypes.attributeName, dgmAttributeTypes.graphicID, dgmAttributeTypes.displayName AS dgmAttributeTypes_displayName, dgmAttributeTypes.unitID AS dgmAttributeTypes_unitID, dgmAttributeTypes.attributeGroup, eveUnits.unitName, eveUnits.displayName AS eveUnits_displayName"
+            strSQL &= "SELECT dgmAttributeTypes.attributeID, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName AS dgmAttributeTypes_displayName, dgmAttributeTypes.unitID AS dgmAttributeTypes_unitID, dgmAttributeTypes.attributeGroup, eveUnits.unitName, eveUnits.displayName AS eveUnits_displayName"
             strSQL &= " FROM eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID = dgmAttributeTypes.unitID"
             strSQL &= " ORDER BY dgmAttributeTypes.attributeID;"
             Dim attributeData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -283,7 +283,6 @@ Public Class PlugInData
                         attData.ID = row.Item("attributeID").ToString
                         attData.Name = row.Item("attributeName").ToString
                         attData.DisplayName = row.Item("dgmAttributeTypes_displayName").ToString
-                        attData.GraphicID = row.Item("graphicID").ToString
                         attData.UnitName = row.Item("eveUnits_displayName").ToString
                         attData.AttributeGroup = row.Item("attributeGroup").ToString
                         If attData.UnitName = "ms" Then
@@ -317,7 +316,6 @@ Public Class PlugInData
                 attData.ID = att(0)
                 attData.Name = att(1)
                 attData.DisplayName = att(2)
-                attData.GraphicID = att(3)
                 attData.UnitName = att(4)
                 attData.AttributeGroup = att(5)
                 Attributes.AttributeList.Add(attData.ID, attData)
@@ -668,8 +666,8 @@ Public Class PlugInData
     Private Function LoadModuleData() As Boolean
         Try
             Dim strSQL As String = ""
-            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.raceID, invTypes.marketGroupID, eveGraphics.icon"
-            strSQL &= " FROM eveGraphics INNER JOIN (invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID) ON (eveGraphics.graphicID = invTypes.graphicID)"
+            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.raceID, invTypes.marketGroupID, eveIcons.iconFile"
+            strSQL &= " FROM eveIcons RIGHT OUTER JOIN (invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID) ON (eveIcons.iconID = invTypes.iconID)"
             strSQL &= " WHERE (((invCategories.categoryID In (7,8,18,20,32)) or (invTypes.marketGroupID=379) or (invTypes.groupID=920)) AND (invTypes.published=1)) OR invTypes.groupID=1010"
             strSQL &= " ORDER BY invTypes.typeName;"
             PlugInData.moduleData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -777,6 +775,7 @@ Public Class PlugInData
         Try
             Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
             ModuleLists.moduleList.Clear()
+            ModuleLists.moduleListName.Clear()
             Implants.implantList.Clear()
             For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
                 Dim newModule As New ShipModule
@@ -796,7 +795,7 @@ Public Class PlugInData
                     newModule.RaceID = 0
                 End If
                 newModule.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
-                newModule.Icon = row.Item("icon").ToString
+                newModule.Icon = row.Item("iconFile").ToString
                 If IsDBNull(row.Item("marketGroupID")) = False Then
                     newModule.MarketGroup = row.Item("marketGroupID").ToString
                 Else
@@ -893,57 +892,61 @@ Public Class PlugInData
             Dim attValue As Double = 0
             For Each modRow As DataRow In PlugInData.moduleEffectData.Tables(0).Rows
                 Dim effMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
-                Select Case CInt(modRow.Item("effectID"))
-                    Case 11 ' Low slot
-                        effMod.SlotType = 2
-                    Case 12 ' High slot
-                        effMod.SlotType = 8
-                    Case 13 ' Mid slot
-                        effMod.SlotType = 4
-                    Case 2663 ' Rig slot
-                        effMod.SlotType = 1
-                    Case 3772 ' Sub slot
-                        effMod.SlotType = 16
-                    Case 40
-                        If effMod.DatabaseGroup <> "481" Then
-                            effMod.IsLauncher = True
+                If effMod IsNot Nothing Then
+                    Select Case CInt(modRow.Item("effectID"))
+                        Case 11 ' Low slot
+                            effMod.SlotType = 2
+                        Case 12 ' High slot
+                            effMod.SlotType = 8
+                        Case 13 ' Mid slot
+                            effMod.SlotType = 4
+                        Case 2663 ' Rig slot
+                            effMod.SlotType = 1
+                        Case 3772 ' Sub slot
+                            effMod.SlotType = 16
+                        Case 40
+                            If effMod.DatabaseGroup <> "481" Then
+                                effMod.IsLauncher = True
+                            End If
+                        Case 10, 34, 42
+                            effMod.IsTurret = True
+                    End Select
+                    ' Add custom attributes
+                    If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Or effMod.DatabaseGroup = "862" Then
+                        If effMod.Attributes.Contains("10017") = False Then
+                            effMod.Attributes.Add("10017", 0)
+                            effMod.Attributes.Add("10018", 0)
+                            effMod.Attributes.Add("10019", 0)
+                            effMod.Attributes.Add("10030", 0)
+                            effMod.Attributes.Add("10051", 0)
+                            effMod.Attributes.Add("10052", 0)
+                            effMod.Attributes.Add("10053", 0)
+                            effMod.Attributes.Add("10054", 0)
                         End If
-                    Case 10, 34, 42
-                        effMod.IsTurret = True
-                End Select
-                ' Add custom attributes
-                If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Or effMod.DatabaseGroup = "862" Then
-                    If effMod.Attributes.Contains("10017") = False Then
-                        effMod.Attributes.Add("10017", 0)
-                        effMod.Attributes.Add("10018", 0)
-                        effMod.Attributes.Add("10019", 0)
-                        effMod.Attributes.Add("10030", 0)
-                        effMod.Attributes.Add("10051", 0)
-                        effMod.Attributes.Add("10052", 0)
-                        effMod.Attributes.Add("10053", 0)
-                        effMod.Attributes.Add("10054", 0)
                     End If
+                    Select Case CInt(effMod.MarketGroup)
+                        Case 1038 ' Ice Miners
+                            If effMod.Attributes.Contains("10041") = False Then
+                                effMod.Attributes.Add("10041", 0)
+                            End If
+                        Case 1039, 1040 ' Ore Miners
+                            If effMod.Attributes.Contains("10039") = False Then
+                                effMod.Attributes.Add("10039", 0)
+                            End If
+                        Case 158 ' Mining Drones
+                            If effMod.Attributes.Contains("10040") = False Then
+                                effMod.Attributes.Add("10040", 0)
+                            End If
+                    End Select
+                    Select Case CInt(effMod.DatabaseGroup)
+                        Case 76
+                            If effMod.Attributes.Contains("6") = False Then
+                                effMod.Attributes.Add("6", 0)
+                            End If
+                    End Select
+                Else
+                    MessageBox.Show("Module: " & modRow.Item("typeID").ToString & " not found in the module list.", "Module Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
-                Select Case CInt(effMod.MarketGroup)
-                    Case 1038 ' Ice Miners
-                        If effMod.Attributes.Contains("10041") = False Then
-                            effMod.Attributes.Add("10041", 0)
-                        End If
-                    Case 1039, 1040 ' Ore Miners
-                        If effMod.Attributes.Contains("10039") = False Then
-                            effMod.Attributes.Add("10039", 0)
-                        End If
-                    Case 158 ' Mining Drones
-                        If effMod.Attributes.Contains("10040") = False Then
-                            effMod.Attributes.Add("10040", 0)
-                        End If
-                End Select
-                Select Case CInt(effMod.DatabaseGroup)
-                    Case 76
-                        If effMod.Attributes.Contains("6") = False Then
-                            effMod.Attributes.Add("6", 0)
-                        End If
-                End Select
             Next
             If BuildModuleAttributeData() = True Then
                 Return True
