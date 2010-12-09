@@ -24,7 +24,7 @@ namespace EveHQ.PosManager
         enum modA { grpID, grpName, typID, typDesc, typName, vol, cap, price, attID, valI, valF, attNm, dspNm, unID, unNm, unDNm };
         enum chgA { grpID, grpName, typID, typDesc, typName, mass, vol, cap, prtSz, price, attID, valI, valF, attNm, dspNm, unID, unNm, unDNm };
         enum minA { grpID, grpName, typID, typName, typDesc, grphID, mass, vol, pSize, bPrice, attID, vInt, vFlt, icon };
-        enum recA { reacID, inpt, inTypID, qty, grpID, catID, grpName, grpDesc, grGID, UBP, allMan, allRec, anch, cAnc, fNS, gPub, tTID, tGID, tName, tDesc, tGrID, tRad, tMass, tVol, tCap, tPrtSz, tRID, tBPrc, tPub, tMktG, tCoD, egID, egUrl, urlWeb, egDesc, egPub, egObs, icon };
+        enum recA { reacID, inpt, inTypID, qty, grpID, catID, grpName, grpDesc, grGID, UBP, allMan, allRec, anch, cAnc, fNS, gPub, tTID, tGID, tName, tDesc, tGrID, tRad, tMass, tVol, tCap, tPrtSz, tRID, tBPrc, tPub, tMktG, tCoD, egID, icon };
         enum silA { grpID, grpName, typID, typName, typDesc, grphID, mass, vol, pSize, bPrice, icon };
 
         public ModuleListing()
@@ -71,7 +71,7 @@ namespace EveHQ.PosManager
         public void PerformModuleAndChargeSQLQueries()
         {
             string strSQL;
-            
+
             // Module Attribute Data
             strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.volume, invTypes.capacity, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName, dgmAttributeTypes.unitID, eveUnits.unitName, eveUnits.displayName";
             strSQL += " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (eveUnits INNER JOIN (dgmAttributeTypes INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID) ON eveUnits.unitID = dgmAttributeTypes.unitID) ON invTypes.typeID = dgmTypeAttributes.typeID) ON invCategories.categoryID = invGroups.categoryID";
@@ -87,89 +87,89 @@ namespace EveHQ.PosManager
             chargeAttribData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Mineral Attribute Data
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=427) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             moonMinData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Refined Mineral Attribute Data
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=18) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             refMinData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=428) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             simpReactData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=429) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             compReactData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Other Silo Data
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=711) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             biochemData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=284) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             catalystData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=280) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             generalData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN ((invTypes INNER JOIN dgmTypeAttributes ON dgmTypeAttributes.typeID = invTypes.typeID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=712) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             hazChemData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.graphicID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveGraphics.icon";
-            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invGroups.groupID = invTypes.groupID";
+            strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, invTypes.description, invTypes.iconID, invTypes.mass, invTypes.volume, invTypes.portionSize, invTypes.basePrice, eveIcons.iconFile";
+            strSQL += " FROM invGroups INNER JOIN (invTypes INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invGroups.groupID = invTypes.groupID";
             strSQL += " WHERE (invGroups.groupID=974) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             hybPolyData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Reaction Data
             strSQL = "SELECT *";
-            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
             strSQL += " WHERE (invGroups.groupID=436) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             reactSimple = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             strSQL = "SELECT *";
-            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
             strSQL += " WHERE (invGroups.groupID=484) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             reactComplex = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             strSQL = "SELECT *";
-            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
             strSQL += " WHERE (invGroups.groupID=661) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             reactBioSimp = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             strSQL = "SELECT *";
-            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
             strSQL += " WHERE (invGroups.groupID=662) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             reactBioComp = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             strSQL = "SELECT *";
-            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveGraphics ON invTypes.graphicID=eveGraphics.graphicID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
+            strSQL += " FROM invTypeReactions INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN eveIcons ON invTypes.iconID=eveIcons.iconID) ON invTypeReactions.reactionTypeID=invTypes.typeID";
             strSQL += " WHERE (invGroups.groupID=977) AND (invTypes.published=1)";
             strSQL += " ORDER BY invTypes.typeName;";
             reactHybrid = EveHQ.Core.DataFunctions.GetData(strSQL);
