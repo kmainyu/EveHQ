@@ -82,7 +82,7 @@ Public Class PlugInData
                     s.Close()
                     For Each cShip As Ship In ShipLists.shipList.Values
                         ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
-                        ShipLists.shipListKeyID.Add(cShip.Name, cShip.ID)
+                        ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
                     Next
                 End If
                 If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin")) = True Then
@@ -658,7 +658,7 @@ Public Class PlugInData
         ShipLists.shipListKeyID.Clear()
         For Each baseShip As Ship In ShipLists.shipList.Values
             ShipLists.shipListKeyName.Add(baseShip.Name, baseShip.ID)
-            ShipLists.shipListKeyName.Add(baseShip.ID, baseShip.Name)
+            ShipLists.shipListKeyID.Add(baseShip.ID, baseShip.Name)
         Next
     End Sub
 

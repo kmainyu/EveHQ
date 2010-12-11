@@ -223,8 +223,8 @@ Public Class frmHQF
                     rNode.Nodes.Add(pathline, pathline)
                 Else
                     nodes = pathline.Split("\".ToCharArray)
-                    If nodes.Length = 3 And cboFlyable.SelectedIndex > 0 Then
-                        isFlyable = IsShipFlyable(nodes(2), cboFlyable.SelectedItem.ToString)
+                    If ShipLists.shipListKeyName.ContainsKey(nodes(nodes.Length - 1)) And cboFlyable.SelectedIndex > 0 Then
+                        isFlyable = IsShipFlyable(nodes(nodes.Length - 1), cboFlyable.SelectedItem.ToString)
                     Else
                         isFlyable = True
                     End If
@@ -239,27 +239,24 @@ Public Class frmHQF
             End If
         Next
         ' Remove any groups that have no children
-        Dim pNode As Integer = 0
-        Dim sNode As Integer = 0
-        Do
-            sNode = 0
+        Dim cNodeIdx As Integer = 0
+        Dim childNode As TreeNode
+        If rNode.Nodes.Count > 0 Then
             Do
-                If rNode.Nodes(pNode).Nodes(sNode).Nodes.Count = 0 Then
-                    rNode.Nodes(pNode).Nodes.RemoveAt(sNode)
-                    sNode -= 1
+                childNode = rNode.Nodes(cNodeIdx)
+                If childNode.Nodes.Count > 0 Then
+                    Call CheckShipNodes(childNode)
+                    If childNode.Nodes.Count = 0 Then
+                        rNode.Nodes.RemoveAt(cNodeIdx)
+                        cNodeIdx -= 1
+                    End If
+                Else
+                    rNode.Nodes.RemoveAt(cNodeIdx)
+                    cNodeIdx -= 1
                 End If
-                sNode += 1
-            Loop Until sNode = rNode.Nodes(pNode).Nodes.Count
-            pNode += 1
-        Loop Until pNode = rNode.Nodes.Count
-        pNode = 0
-        Do
-            If rNode.Nodes(pNode).Nodes.Count = 0 Then
-                rNode.Nodes.RemoveAt(pNode)
-                pNode -= 1
-            End If
-            pNode += 1
-        Loop Until pNode = rNode.Nodes.Count
+                cNodeIdx += 1
+            Loop Until cNodeIdx = rNode.Nodes.Count
+        End If
         ' Finalise and update the list
         tvwShips.BeginUpdate()
         tvwShips.Nodes.Clear()
@@ -268,6 +265,27 @@ Public Class frmHQF
         Next
         tvwShips.Sorted = True
         tvwShips.EndUpdate()
+    End Sub
+    Private Sub CheckShipNodes(ByVal pNode As TreeNode)
+        Dim cNodeIdx As Integer = 0
+        Dim cNode As TreeNode
+        Do
+            cNode = pNode.Nodes(cNodeIdx)
+            If cNode.Nodes.Count > 0 Then
+                Call CheckShipNodes(cNode)
+                If cNode.Nodes.Count = 0 Then
+                    pNode.Nodes.RemoveAt(cNodeIdx)
+                    cNodeIdx -= 1
+                End If
+            Else
+                If ShipLists.shipListKeyName.ContainsKey(cNode.Text) = False Then
+                    ' Remove the node
+                    pNode.Nodes.RemoveAt(cNodeIdx)
+                    cNodeIdx -= 1
+                End If
+            End If
+            cNodeIdx += 1
+        Loop Until cNodeIdx = pNode.Nodes.Count
     End Sub
     Private Sub ShowMarketGroups()
         Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ItemGroups.bin"))
