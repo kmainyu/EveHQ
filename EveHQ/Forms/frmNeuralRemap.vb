@@ -62,7 +62,7 @@
         nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.MAttT = iPilot.MAttT
 
         ' Check for the maximum allowable base units - API errors
-        If nPilot.IAtt > 15 Or nPilot.PAtt > 15 Or nPilot.CAtt > 15 Or nPilot.WAtt > 15 Or nPilot.MAtt > 15 Then
+        If nPilot.IAtt > MaxAtt Or nPilot.PAtt > MaxAtt Or nPilot.CAtt > MaxAtt Or nPilot.WAtt > MaxAtt Or nPilot.MAtt > MaxAtt Then
             MessageBox.Show("It would appear that your base attributes contain incorrect values. The Neural Remapper cannot continue until these have been resolved.", "Base Attributes Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
