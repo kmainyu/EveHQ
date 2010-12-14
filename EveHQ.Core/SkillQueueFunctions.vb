@@ -326,6 +326,16 @@ Public Class SkillQueueFunctions
                             qItem.SPTrained = "0"
                         End If
 
+                        ' Check for any training bonus and set the SP Rate
+                        
+                        If toLevel - fromLevel = 1 Then
+                            ' If just a single level
+                            qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill))
+                        Else
+                            ' If multiple levels, need to work out the correct bonus
+                            qItem.SPRate = CStr(Math.Round(CDbl(qItem.SPTrained) / CDbl(qItem.TrainTime) * 3600, 0))
+                        End If
+
                         arrQueue.Add(qItem)
                         totalSkills += 1
                         totalTime += cTime
