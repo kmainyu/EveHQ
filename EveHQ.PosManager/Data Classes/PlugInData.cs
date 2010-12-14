@@ -27,7 +27,7 @@ namespace EveHQ.PosManager
         public string PoSBase_Path;
         public string PoSCache_Path;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.15.2.1810";
+        public string LastCacheRefresh = "1.16.0.2570";
         public static ManualResetEvent[] resetEvents;
         SystemSovList SL = new SystemSovList();
         AllianceList AL = new AllianceList();

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQUpdate>
-	<lastUpdated>02/11/2010 16:00:00</lastUpdated>
+	<lastUpdated>15/12/2010 20:00:00</lastUpdated>
 	<files>
     <file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-      <version>1.15.2.2447</version>
+      <version>1.16.0.2570</version>
       <requires/>
       <hasDebug>True</hasDebug>
 			<description>EveHQ Executable</description>
@@ -13,7 +13,7 @@
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-			<version>1.15.2.2447</version>
+			<version>1.16.0.2570</version>
 			<requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
@@ -21,7 +21,7 @@
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-			<version>1.15.2.2447</version>
+			<version>1.16.0.2570</version>
 			<requires/>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
@@ -53,7 +53,7 @@
 		<file>
 			<name>EveHQ.Creation.dll</name>
 			<type>Plug-in</type>
-      <version>1.14.1.1283</version>
+      <version>1.16.0.2570</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Character Creation Plug-in</description>
@@ -61,7 +61,7 @@
 		<file_t>
 			<name>EveHQ.DataConverter.dll</name>
 			<type>Plug-in</type>
-      <version>1.14.1.1283</version>
+      <version>1.16.0.2570</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Data Converter Plug-in</description>
@@ -69,7 +69,7 @@
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-      <version>1.15.1.1805</version>
+      <version>1.16.0.2570</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Item Browser Plug-in</description>
@@ -93,7 +93,7 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-      <version>1.15.0.1800</version>
+      <version>1.16.0.2570</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
@@ -101,7 +101,7 @@
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-		<version>1.15.2.2517</version>
+		<version>1.16.0.2570</version>
 		<requires/>
       <hasDebug>True</hasDebug>
       <description>Science and Industry Plug-in</description>
@@ -109,7 +109,7 @@
     <file>
       <name>EveHQ.PosManager.dll</name>
       <type>Plug-in</type>
-      <version>1.15.2.2531</version>
+      <version>1.16.0.2570</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>POS Design and Management Plug-in</description>
@@ -124,7 +124,7 @@
     </file>
 	</files>
   <database>
-    <version>1.15.0.1</version>
+    <version>1.16.0.1</version>
     <description>EveHQ Access Database</description>
   </database>
 </eveHQUpdate>
