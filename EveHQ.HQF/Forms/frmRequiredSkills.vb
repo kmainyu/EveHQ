@@ -197,11 +197,8 @@ Public Class frmRequiredSkills
         ' Build the Queue
         Dim aQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, newQueue)
 
-        ' Now Let's optimize this queue, because it won't be optimal!
-        Dim optimalQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(nPilot, newQueue)
-
         ' Display the time results
-        lblQueueTime.Text = "Estimated Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(newQueue.QueueTime) & " (Optimal Time: " & EveHQ.Core.SkillFunctions.TimeToString(optimalQueue.QueueTime) & ")"
+        lblQueueTime.Text = "Estimated Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(newQueue.QueueTime)
 
     End Sub
 

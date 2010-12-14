@@ -36,7 +36,6 @@ Public Class frmTraining
     Dim endTime As DateTime
     Dim TrainingThreshold As Integer = 1600000
     Dim TrainingBonus As Double = 1
-    Dim suggestedQueues As New SortedList
     Dim usingFilter As Boolean = True
     Dim skillListNodes As New SortedList
     Dim certListNodes As New SortedList
@@ -45,11 +44,6 @@ Public Class frmTraining
     Dim cDisplayPilotName As String = ""
     Dim startup As Boolean = False
     Dim redrawingOptions As Boolean = False
-
-    Delegate Sub UpdateSuggestionUIDelegate(ByVal ActQueueName As String)
-    Private SetSuggUIToCalc As UpdateSuggestionUIDelegate = New UpdateSuggestionUIDelegate(AddressOf SetSuggestionUIToCalc)
-    Delegate Sub FinaliseSuggestionUIDelegate(ByVal ActQueueName As String, ByVal ActQueueTime As Double, ByVal sugQueueTime As Double)
-    Private SetSuggUIResult As FinaliseSuggestionUIDelegate = New FinaliseSuggestionUIDelegate(AddressOf SetSuggestionUIResult)
 
     Public Property DisplayPilotName() As String
         Get
@@ -181,9 +175,6 @@ Public Class frmTraining
             End If
         Next
 
-        ' Delete the Shared SuggestionStatus
-        suggestedQueues.Clear()
-
         Dim i As Integer = 1
         For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
             Dim newQTab As TabPage
@@ -210,7 +201,6 @@ Public Class frmTraining
 
                 Call Me.DrawColumns(tq.lvQueue)
 
-                AddHandler tq.newSuggestionPB.Click, AddressOf Me.SuggestionIconClick
                 tabQueues.TabPages.Insert(i, newQTab)
                 i = i + 1
             End If
@@ -370,7 +360,6 @@ Public Class frmTraining
 #Region "Training Refresh Routines"
     Public Sub RefreshAllTraining()
         If Me.IsHandleCreated = True Then
-            suggestedQueues.Clear()
             Call Me.SetupQueues()
             Call Me.RefreshAllTrainingQueues()
             Call Me.ResetQueueButtons()
@@ -672,10 +661,6 @@ Public Class frmTraining
             lvwQueue.ResumeLayout()
             Call EveHQ.Core.SkillQueueFunctions.TidyQueue(displayPilot, aq, arrQueue)
             Call Me.RedrawOptions()
-
-            ' Get a suggestion for a quicker skill queue
-            Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.MakeQueueSuggestions, aq)
-
         End If
     End Sub
     Private Sub AddUserColumns(ByVal newskill As ListViewItem, ByVal qitem As EveHQ.Core.SortedQueue, ByVal totalSP As Long)
@@ -2368,86 +2353,6 @@ Public Class frmTraining
         btnMergeQueues.Enabled = False
         btnSetPrimary.Enabled = False
     End Sub
-#End Region
-
-#Region "Skill Suggestion Functions"
-
-    Private Sub MakeQueueSuggestions(ByVal objActQueue As Object)
-        Dim ActQueue As EveHQ.Core.SkillQueue = CType(objActQueue, EveHQ.Core.SkillQueue)
-        'If ActQueue.QueueSkills > 0 Then
-        If displayPilot.TrainingQueues.ContainsKey(ActQueue.Name) = True Then
-            Me.Invoke(SetSuggUIToCalc, New Object() {ActQueue.Name})
-            Dim sugQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(displayPilot, CType(ActQueue.Clone, Core.SkillQueue))
-            If suggestedQueues.ContainsKey(ActQueue.Name) = False Then
-                suggestedQueues.Add(ActQueue.Name, sugQueue)
-            Else
-                suggestedQueues(ActQueue.Name) = sugQueue
-            End If
-            Try
-                Me.Invoke(SetSuggUIResult, New Object() {ActQueue.Name, ActQueue.QueueTime, sugQueue.QueueTime})
-            Catch
-                ' Window most likely closed during the suggestion calculation
-            End Try
-        Else
-            ' Pilot changed before thread processing began therefore disregard the queue routine entirely
-        End If
-    End Sub
-    Private Sub SetSuggestionUIToCalc(ByVal QueueName As String)
-        If Me.tabQueues.Controls.ContainsKey(QueueName) = True Then
-            Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(QueueName).Controls("TQ" & QueueName), TrainingQueue)
-            Dim activePB As PictureBox = tq.newSuggestionPB
-            Dim activeLabel As Label = tq.lblSuggestionLabel
-
-            activePB.Image = My.Resources.info_grey
-            activePB.Enabled = False
-            activePB.Visible = True
-            activeLabel.Text = "Calculating, Please Wait..."
-            activeLabel.Visible = True
-        End If
-    End Sub
-    Private Sub SetSuggestionUIResult(ByVal QueueName As String, ByVal ActQueueTime As Double, ByVal SugQueueTime As Double)
-        If Me.tabQueues.Controls.ContainsKey(QueueName) = True Then
-            Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(QueueName).Controls("TQ" & QueueName), TrainingQueue)
-            Dim activePB As PictureBox = tq.newSuggestionPB
-            Dim activeLabel As Label = tq.lblSuggestionLabel
-
-            If SugQueueTime < ActQueueTime - 10 Then
-                activePB.Image = My.Resources.info_icon
-                activePB.Enabled = True
-                activePB.Visible = True
-                activeLabel.Text = "EveHQ can help decrease your training time, click the icon for more details..."
-                activeLabel.Visible = True
-            Else
-                suggestedQueues.Remove(QueueName)
-                activePB.Visible = False
-                activeLabel.Visible = False
-            End If
-        End If
-    End Sub
-    Private Sub SuggestionIconClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim sugQueue As EveHQ.Core.SkillQueue = CType(suggestedQueues(activeQueueName), Core.SkillQueue)
-        If sugQueue.QueueTime < activeQueue.QueueTime Then
-            Dim newQueue As EveHQ.Core.SkillQueue = CType(sugQueue.Clone, Core.SkillQueue)
-            Dim msg As String = ""
-            msg &= "EveHQ can save you training time by adding learning skills to your current training queue." & ControlChars.CrLf
-            msg &= "Training time can be reduced from " & EveHQ.Core.SkillFunctions.TimeToString(activeQueue.QueueTime) & ControlChars.CrLf
-            msg &= " to " & EveHQ.Core.SkillFunctions.TimeToString(newQueue.QueueTime) & "." & ControlChars.CrLf
-            msg &= "This is a saving of " & EveHQ.Core.SkillFunctions.TimeToString(activeQueue.QueueTime - newQueue.QueueTime) & "." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Would you like to add these skills to your training queue?" & ControlChars.CrLf
-            Dim reply As Integer = MessageBox.Show(msg, "Time Savings Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
-            If reply = Windows.Forms.DialogResult.Yes Then
-                activeQueue = CType(newQueue.Clone, Core.SkillQueue)
-                displayPilot.ActiveQueue = activeQueue
-                displayPilot.TrainingQueues(activeQueue.Name) = activeQueue
-                Call Me.RefreshTraining(activeQueueName)
-
-                Dim tq As TrainingQueue = CType(Me.tabQueues.TabPages(activeQueueName).Controls("TQ" & activeQueueName), TrainingQueue)
-                tq.newSuggestionPB.Visible = False
-                tq.lblSuggestionLabel.Visible = False
-            End If
-        End If
-    End Sub
-
 #End Region
 
 #Region "Skill Toolbar Functions"

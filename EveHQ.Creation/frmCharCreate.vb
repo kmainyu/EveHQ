@@ -846,9 +846,6 @@ Public Class frmCharCreate
                 ' Build the Queue
                 Dim aQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, newQueue)
 
-                ' Now Let's optimize this queue, because it won't be optimal!
-                Dim optimalQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(nPilot, newQueue)
-
                 ' Add pilot to the list
                 Dim ttt As String = ""
                 For Each skill As EveHQ.Core.SortedQueue In aQueue
@@ -895,8 +892,8 @@ Public Class frmCharCreate
                 nLVIt.Name = CStr(newQueue.QueueTime)
                 nLVI.SubItems.Add(nLVIt)
                 Dim nLVIo As New ListViewItem.ListViewSubItem
-                nLVIo.Text = EveHQ.Core.SkillFunctions.TimeToString(optimalQueue.QueueTime)
-                nLVIo.Name = CStr(optimalQueue.QueueTime)
+                nLVIo.Text = EveHQ.Core.SkillFunctions.TimeToString(newQueue.QueueTime)
+                nLVIo.Name = CStr(newQueue.QueueTime)
                 nLVI.SubItems.Add(nLVIo)
                 lstChars.Items.Add(nLVI)
             Next
