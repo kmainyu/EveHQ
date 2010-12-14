@@ -224,46 +224,31 @@ Public Class frmPilot
                         Case ("Charisma")
                             msg = "Charisma Attribute Breakdown" & vbCrLf & vbCrLf
                             msg &= "Starting Attribute: " & displayPilot.CAtt & vbCrLf
-                            msg &= "Basic Learning: " & displayPilot.LCAtt & vbCrLf
-                            msg &= "Advanced Learning: " & displayPilot.ALCAtt & vbCrLf
                             msg &= "Implant: " & displayPilot.CImplant & vbCrLf
-                            msg &= "Learning Skill: " & displayPilot.LSCAtt & vbCrLf
                             msg &= "TOTAL: " & displayPilot.CAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Intelligence")
                             msg = "Intelligence Attribute Breakdown" & vbCrLf & vbCrLf
                             msg &= "Starting Attribute: " & displayPilot.IAtt & vbCrLf
-                            msg &= "Basic Learning: " & displayPilot.LIAtt & vbCrLf
-                            msg &= "Advanced Learning: " & displayPilot.ALIAtt & vbCrLf
                             msg &= "Implant: " & displayPilot.IImplant & vbCrLf
-                            msg &= "Learning Skill: " & displayPilot.LSIAtt & vbCrLf
                             msg &= "TOTAL: " & displayPilot.IAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Memory")
                             msg = "Memory Attribute Breakdown" & vbCrLf & vbCrLf
                             msg &= "Starting Attribute: " & displayPilot.MAtt & vbCrLf
-                            msg &= "Basic Learning: " & displayPilot.LMAtt & vbCrLf
-                            msg &= "Advanced Learning: " & displayPilot.ALMAtt & vbCrLf
                             msg &= "Implant: " & displayPilot.MImplant & vbCrLf
-                            msg &= "Learning Skill: " & displayPilot.LSMAtt & vbCrLf
                             msg &= "TOTAL: " & displayPilot.MAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Perception")
                             msg = "Perception Attribute Breakdown" & vbCrLf & vbCrLf
                             msg &= "Starting Attribute: " & displayPilot.PAtt & vbCrLf
-                            msg &= "Basic Learning: " & displayPilot.LPAtt & vbCrLf
-                            msg &= "Advanced Learning: " & displayPilot.ALPAtt & vbCrLf
                             msg &= "Implant: " & displayPilot.PImplant & vbCrLf
-                            msg &= "Learning Skill: " & displayPilot.LSPAtt & vbCrLf
                             msg &= "TOTAL: " & displayPilot.PAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Willpower")
                             msg = "Willpower Attribute Breakdown" & vbCrLf & vbCrLf
                             msg &= "Starting Attribute: " & displayPilot.WAtt & vbCrLf
-                            msg &= "Basic Learning: " & displayPilot.LWAtt & vbCrLf
-                            msg &= "Advanced Learning: " & displayPilot.ALWAtt & vbCrLf
                             msg &= "Implant: " & displayPilot.WImplant & vbCrLf
-                            msg &= "Learning Skill: " & displayPilot.LSWAtt & vbCrLf
                             msg &= "TOTAL: " & displayPilot.WAttT
                             lvAttributes.Items(a).ToolTipText = msg
                     End Select
@@ -472,7 +457,7 @@ Public Class frmPilot
                     TrainingSkill = newCLVItem
                     TrainingGroup = groupCLV
                 Else
-                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, EveHQ.Core.HQ.SkillListID(cSkill.ID), 0, , , TrainingBonus))
+                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, EveHQ.Core.HQ.SkillListID(cSkill.ID), 0, ))
                     TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(currentTime)
                 End If
                 If currentTime = 0 Then currentTime = 9999999999
@@ -790,42 +775,27 @@ Public Class frmPilot
         Select Case lvAttributes.SelectedItems(0).Text
             Case ("Charisma")
                 msg = "Starting Attribute: " & displayPilot.CAtt & vbCrLf
-                msg = msg & "Basic Learning: " & displayPilot.LCAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & displayPilot.ALCAtt & vbCrLf
                 msg = msg & "Implant: " & displayPilot.CImplant & vbCrLf
-                msg = msg & "Learning Skill: " & displayPilot.LSCAtt & vbCrLf
                 msg = msg & "TOTAL: " & displayPilot.CAttT
                 caption = "Charisma Attribute Breakdown"
             Case ("Intelligence")
                 msg = "Starting Attribute: " & displayPilot.IAtt & vbCrLf
-                msg = msg & "Basic Learning: " & displayPilot.LIAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & displayPilot.ALIAtt & vbCrLf
                 msg = msg & "Implant: " & displayPilot.IImplant & vbCrLf
-                msg = msg & "Learning Skill: " & displayPilot.LSIAtt & vbCrLf
                 msg = msg & "TOTAL: " & displayPilot.IAttT
                 caption = "Intelligence Attribute Breakdown"
             Case ("Memory")
                 msg = "Starting Attribute: " & displayPilot.MAtt & vbCrLf
-                msg = msg & "Basic Learning: " & displayPilot.LMAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & displayPilot.ALMAtt & vbCrLf
                 msg = msg & "Implant: " & displayPilot.MImplant & vbCrLf
-                msg = msg & "Learning Skill: " & displayPilot.LSMAtt & vbCrLf
                 msg = msg & "TOTAL: " & displayPilot.MAttT
                 caption = "Memory Attribute Breakdown"
             Case ("Perception")
                 msg = "Starting Attribute: " & displayPilot.PAtt & vbCrLf
-                msg = msg & "Basic Learning: " & displayPilot.LPAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & displayPilot.ALPAtt & vbCrLf
                 msg = msg & "Implant: " & displayPilot.PImplant & vbCrLf
-                msg = msg & "Learning Skill: " & displayPilot.LSPAtt & vbCrLf
                 msg = msg & "TOTAL: " & displayPilot.PAttT
                 caption = "Perception Attribute Breakdown"
             Case ("Willpower")
                 msg = "Starting Attribute: " & displayPilot.WAtt & vbCrLf
-                msg = msg & "Basic Learning: " & displayPilot.LWAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & displayPilot.ALWAtt & vbCrLf
                 msg = msg & "Implant: " & displayPilot.WImplant & vbCrLf
-                msg = msg & "Learning Skill: " & displayPilot.LSWAtt & vbCrLf
                 msg = msg & "TOTAL: " & displayPilot.WAttT
                 caption = "Willpower Attribute Breakdown"
         End Select

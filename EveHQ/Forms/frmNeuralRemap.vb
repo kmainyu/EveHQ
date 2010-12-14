@@ -39,25 +39,27 @@
     Private Sub InitialiseForm()
 
         UpdateAllBases = True
+        Dim MinAtt As Integer = 17
+        Dim MaxAtt As Integer = 27
 
         Me.Text = "Neural Remapping - " & iPilot.Name
         ' Create a dummy pilot with which to check new attributes & skill queues
 
         ' Reset NUDs
-        nudIBase.Value = 5
-        nudPBase.Value = 5
-        nudCBase.Value = 5
-        nudWBase.Value = 5
-        nudMBase.Value = 5
+        nudIBase.Minimum = MinAtt : nudIBase.Maximum = MaxAtt : nudIBase.Value = MinAtt
+        nudPBase.Minimum = MinAtt : nudPBase.Maximum = MaxAtt : nudPBase.Value = MinAtt
+        nudCBase.Minimum = MinAtt : nudCBase.Maximum = MaxAtt : nudCBase.Value = MinAtt
+        nudWBase.Minimum = MinAtt : nudWBase.Maximum = MaxAtt : nudWBase.Value = MinAtt
+        nudMBase.Minimum = MinAtt : nudMBase.Maximum = MaxAtt : nudMBase.Value = MinAtt
 
         nPilot.PilotSkills = iPilot.PilotSkills
         nPilot.SkillPoints = iPilot.SkillPoints
         EveHQ.Core.PilotParseFunctions.LoadKeySkillsForPilot(nPilot)
-        nPilot.IAtt = iPilot.IAtt : nPilot.IImplant = iPilot.IImplant : nPilot.LIAtt = iPilot.LIAtt : nPilot.ALIAtt = iPilot.ALIAtt : nPilot.LSIAtt = iPilot.LSIAtt : nPilot.IAttT = iPilot.IAttT
-        nPilot.PAtt = iPilot.PAtt : nPilot.PImplant = iPilot.PImplant : nPilot.LPAtt = iPilot.LPAtt : nPilot.ALPAtt = iPilot.ALPAtt : nPilot.LSPAtt = iPilot.LSPAtt : nPilot.PAttT = iPilot.PAttT
-        nPilot.CAtt = iPilot.CAtt : nPilot.CImplant = iPilot.CImplant : nPilot.LCAtt = iPilot.LCAtt : nPilot.ALCAtt = iPilot.ALCAtt : nPilot.LSCAtt = iPilot.LSCAtt : nPilot.CAttT = iPilot.CAttT
-        nPilot.WAtt = iPilot.WAtt : nPilot.WImplant = iPilot.WImplant : nPilot.LWAtt = iPilot.LWAtt : nPilot.ALWAtt = iPilot.ALWAtt : nPilot.LSWAtt = iPilot.LSWAtt : nPilot.WAttT = iPilot.WAttT
-        nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.LMAtt = iPilot.LMAtt : nPilot.ALMAtt = iPilot.ALMAtt : nPilot.LSMAtt = iPilot.LSMAtt : nPilot.MAttT = iPilot.MAttT
+        nPilot.IAtt = iPilot.IAtt : nPilot.IImplant = iPilot.IImplant : nPilot.IAttT = iPilot.IAttT
+        nPilot.PAtt = iPilot.PAtt : nPilot.PImplant = iPilot.PImplant : nPilot.PAttT = iPilot.PAttT
+        nPilot.CAtt = iPilot.CAtt : nPilot.CImplant = iPilot.CImplant : nPilot.CAttT = iPilot.CAttT
+        nPilot.WAtt = iPilot.WAtt : nPilot.WImplant = iPilot.WImplant : nPilot.WAttT = iPilot.WAttT
+        nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.MAttT = iPilot.MAttT
 
         ' Check for the maximum allowable base units - API errors
         If nPilot.IAtt > 15 Or nPilot.PAtt > 15 Or nPilot.CAtt > 15 Or nPilot.WAtt > 15 Or nPilot.MAtt > 15 Then
@@ -66,11 +68,11 @@
         End If
 
         ' Set the minimum allowable units
-        IMin = 5
-        PMin = 5
-        CMin = 5
-        WMin = 5
-        MMin = 5
+        IMin = MinAtt
+        PMin = MinAtt
+        CMin = MinAtt
+        WMin = MinAtt
+        MMin = MinAtt
 
         ' Set minimums on NUDs
         nudIBase.Minimum = IMin
@@ -81,75 +83,75 @@
 
         ' Check if any base attributes are less than 5 as this is not permitted under the remapping rules
         Unused = 0
-        If nPilot.IAtt < 5 Then
-            Unused += 5 - nPilot.IAtt
-            nPilot.IAtt = 5
+        If nPilot.IAtt < MinAtt Then
+            Unused += MinAtt - nPilot.IAtt
+            nPilot.IAtt = MinAtt
         End If
-        If nPilot.PAtt < 5 Then
-            Unused += 5 - nPilot.PAtt
-            nPilot.PAtt = 5
+        If nPilot.PAtt < MinAtt Then
+            Unused += MinAtt - nPilot.PAtt
+            nPilot.PAtt = MinAtt
         End If
-        If nPilot.CAtt < 5 Then
-            Unused += 5 - nPilot.CAtt
-            nPilot.CAtt = 5
+        If nPilot.CAtt < MinAtt Then
+            Unused += MinAtt - nPilot.CAtt
+            nPilot.CAtt = MinAtt
         End If
-        If nPilot.WAtt < 5 Then
-            Unused += 5 - nPilot.WAtt
-            nPilot.WAtt = 5
+        If nPilot.WAtt < MinAtt Then
+            Unused += MinAtt - nPilot.WAtt
+            nPilot.WAtt = MinAtt
         End If
-        If nPilot.MAtt < 5 Then
-            Unused += 5 - nPilot.MAtt
-            nPilot.MAtt = 5
+        If nPilot.MAtt < MinAtt Then
+            Unused += MinAtt - nPilot.MAtt
+            nPilot.MAtt = MinAtt
         End If
         ' Now reallocate the unused against larger items
         Dim available As Integer = 0
-        If Unused > 0 And nPilot.IAtt > 5 Then
-            available = nPilot.IAtt - 5
+        If Unused > 0 And nPilot.IAtt > MinAtt Then
+            available = nPilot.IAtt - MinAtt
             If available >= Unused Then
                 nPilot.IAtt = nPilot.IAtt - Unused
                 Unused = 0
             Else
-                nPilot.IAtt = 5
+                nPilot.IAtt = MinAtt
                 Unused = Unused - available
             End If
         End If
-        If Unused > 0 And nPilot.PAtt > 5 Then
-            available = nPilot.PAtt - 5
+        If Unused > 0 And nPilot.PAtt > MinAtt Then
+            available = nPilot.PAtt - MinAtt
             If available >= Unused Then
                 nPilot.PAtt = nPilot.PAtt - Unused
                 Unused = 0
             Else
-                nPilot.PAtt = 5
+                nPilot.PAtt = MinAtt
                 Unused = Unused - available
             End If
         End If
-        If Unused > 0 And nPilot.CAtt > 5 Then
-            available = nPilot.CAtt - 5
+        If Unused > 0 And nPilot.CAtt > MinAtt Then
+            available = nPilot.CAtt - MinAtt
             If available >= Unused Then
                 nPilot.CAtt = nPilot.CAtt - Unused
                 Unused = 0
             Else
-                nPilot.CAtt = 5
+                nPilot.CAtt = MinAtt
                 Unused = Unused - available
             End If
         End If
-        If Unused > 0 And nPilot.WAtt > 5 Then
-            available = nPilot.WAtt - 5
+        If Unused > 0 And nPilot.WAtt > MinAtt Then
+            available = nPilot.WAtt - MinAtt
             If available >= Unused Then
                 nPilot.WAtt = nPilot.WAtt - Unused
                 Unused = 0
             Else
-                nPilot.WAtt = 5
+                nPilot.WAtt = MinAtt
                 Unused = Unused - available
             End If
         End If
-        If Unused > 0 And nPilot.MAtt > 5 Then
-            available = nPilot.MAtt - 5
+        If Unused > 0 And nPilot.MAtt > MinAtt Then
+            available = nPilot.MAtt - MinAtt
             If available >= Unused Then
                 nPilot.MAtt = nPilot.MAtt - Unused
                 Unused = 0
             Else
-                nPilot.MAtt = 5
+                nPilot.MAtt = MinAtt
                 Unused = Unused - available
             End If
         End If
@@ -161,35 +163,13 @@
 
     End Sub
     Private Sub RecalcAttributes()
-        ' Get learning skill details
-        Dim learningFactor As Integer = 0
-        If nPilot.PilotSkills.Contains("Learning") = True Then
-            learningFactor = CType(nPilot.PilotSkills("Learning"), EveHQ.Core.PilotSkill).Level
-        End If
+        nPilot.WAttT = nPilot.WAtt + nPilot.WImplant
+        nPilot.CAttT = nPilot.CAtt + nPilot.CImplant
+        nPilot.IAttT = nPilot.IAtt + nPilot.IImplant
+        nPilot.MAttT = nPilot.MAtt + nPilot.MImplant
+        nPilot.PAttT = nPilot.PAtt + nPilot.PImplant
 
-        ' Calculate learning skill increase
-        Dim WT, CT, IT, MT, PT As Double
-        WT = nPilot.WAtt + nPilot.LWAtt + nPilot.ALWAtt + nPilot.WImplant
-        nPilot.LSWAtt = WT * (learningFactor / 50)
-        nPilot.WAttT = WT + nPilot.LSWAtt
-
-        CT = nPilot.CAtt + nPilot.LCAtt + nPilot.ALCAtt + nPilot.CImplant
-        nPilot.LSCAtt = CT * (learningFactor / 50)
-        nPilot.CAttT = CT + nPilot.LSCAtt
-
-        IT = nPilot.IAtt + nPilot.LIAtt + nPilot.ALIAtt + nPilot.IImplant
-        nPilot.LSIAtt = IT * (learningFactor / 50)
-        nPilot.IAttT = IT + nPilot.LSIAtt
-
-        MT = nPilot.MAtt + nPilot.LMAtt + nPilot.ALMAtt + nPilot.MImplant
-        nPilot.LSMAtt = MT * (learningFactor / 50)
-        nPilot.MAttT = MT + nPilot.LSMAtt
-
-        PT = nPilot.PAtt + nPilot.LPAtt + nPilot.ALPAtt + nPilot.PImplant
-        nPilot.LSPAtt = PT * (learningFactor / 50)
-        nPilot.PAttT = PT + nPilot.LSPAtt
-
-        Unused = 39 - (nPilot.IAtt + nPilot.PAtt + nPilot.CAtt + nPilot.WAtt + nPilot.MAtt)
+        Unused = 99 - (nPilot.IAtt + nPilot.PAtt + nPilot.CAtt + nPilot.WAtt + nPilot.MAtt)
 
     End Sub
     Private Sub DisplayAtributes()
@@ -197,35 +177,30 @@
         lblIntelligence.Text = "Intelligence (Default Base: " & iPilot.IAtt.ToString & ")"
         nudIBase.Value = nPilot.IAtt
         lblIImplant.Text = "Implant: " & nPilot.IImplant.ToString
-        lblISkills.Text = "Skills: " & (nPilot.LIAtt + nPilot.ALIAtt + nPilot.LSIAtt).ToString
         lblITotal.Text = "Total: " & nPilot.IAttT.ToString
 
         ' Display Perception Info
         lblPerception.Text = "Perception (Default Base: " & iPilot.PAtt.ToString & ")"
         nudPBase.Value = nPilot.PAtt
         lblPImplant.Text = "Implant: " & nPilot.PImplant.ToString
-        lblPSkills.Text = "Skills: " & (nPilot.LPAtt + nPilot.ALPAtt + nPilot.LSPAtt).ToString
         lblPTotal.Text = "Total: " & nPilot.PAttT.ToString
 
         ' Display Charisma Info
         lblCharisma.Text = "Charisma (Default Base: " & iPilot.CAtt.ToString & ")"
         nudCBase.Value = nPilot.CAtt
         lblCImplant.Text = "Implant: " & nPilot.CImplant.ToString
-        lblCSkills.Text = "Skills: " & (nPilot.LCAtt + nPilot.ALCAtt + nPilot.LSCAtt).ToString
         lblCTotal.Text = "Total: " & nPilot.CAttT.ToString
 
         ' Display Willpower Info
         lblWillpower.Text = "Willpower (Default Base: " & iPilot.WAtt.ToString & ")"
         nudWBase.Value = nPilot.WAtt
         lblWImplant.Text = "Implant: " & nPilot.WImplant.ToString
-        lblWSkills.Text = "Skills: " & (nPilot.LWAtt + nPilot.ALWAtt + nPilot.LSWAtt).ToString
         lblWTotal.Text = "Total: " & nPilot.WAttT.ToString
 
         ' Display Memory Info
         lblMemory.Text = "Memory (Default Base: " & iPilot.MAtt.ToString & ")"
         nudMBase.Value = nPilot.MAtt
         lblMImplant.Text = "Implant: " & nPilot.MImplant.ToString
-        lblMSkills.Text = "Skills: " & (nPilot.LMAtt + nPilot.ALMAtt + nPilot.LSMAtt).ToString
         lblMTotal.Text = "Total: " & nPilot.MAttT.ToString
 
         ' Display remaining attribute points

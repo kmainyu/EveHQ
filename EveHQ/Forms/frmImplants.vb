@@ -1,7 +1,6 @@
 ﻿Public Class frmImplants
     Dim iPilot As New EveHQ.Core.Pilot
     Dim nPilot As New EveHQ.Core.Pilot
-    Dim Unused As Integer = 0
     Dim cPilotName As String = ""
     Dim cQueueName As String = ""
     Dim SkillQueue As New EveHQ.Core.SkillQueue
@@ -42,81 +41,51 @@
         nPilot.PilotSkills = iPilot.PilotSkills
         nPilot.SkillPoints = iPilot.SkillPoints
         EveHQ.Core.PilotParseFunctions.LoadKeySkillsForPilot(nPilot)
-        nPilot.IAtt = iPilot.IAtt : nPilot.IImplant = iPilot.IImplant : nPilot.LIAtt = iPilot.LIAtt : nPilot.ALIAtt = iPilot.ALIAtt : nPilot.LSIAtt = iPilot.LSIAtt : nPilot.IAttT = iPilot.IAttT
-        nPilot.PAtt = iPilot.PAtt : nPilot.PImplant = iPilot.PImplant : nPilot.LPAtt = iPilot.LPAtt : nPilot.ALPAtt = iPilot.ALPAtt : nPilot.LSPAtt = iPilot.LSPAtt : nPilot.PAttT = iPilot.PAttT
-        nPilot.CAtt = iPilot.CAtt : nPilot.CImplant = iPilot.CImplant : nPilot.LCAtt = iPilot.LCAtt : nPilot.ALCAtt = iPilot.ALCAtt : nPilot.LSCAtt = iPilot.LSCAtt : nPilot.CAttT = iPilot.CAttT
-        nPilot.WAtt = iPilot.WAtt : nPilot.WImplant = iPilot.WImplant : nPilot.LWAtt = iPilot.LWAtt : nPilot.ALWAtt = iPilot.ALWAtt : nPilot.LSWAtt = iPilot.LSWAtt : nPilot.WAttT = iPilot.WAttT
-        nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.LMAtt = iPilot.LMAtt : nPilot.ALMAtt = iPilot.ALMAtt : nPilot.LSMAtt = iPilot.LSMAtt : nPilot.MAttT = iPilot.MAttT
+        nPilot.IAtt = iPilot.IAtt : nPilot.IImplant = iPilot.IImplant : nPilot.IAttT = iPilot.IAttT
+        nPilot.PAtt = iPilot.PAtt : nPilot.PImplant = iPilot.PImplant : nPilot.PAttT = iPilot.PAttT
+        nPilot.CAtt = iPilot.CAtt : nPilot.CImplant = iPilot.CImplant : nPilot.CAttT = iPilot.CAttT
+        nPilot.WAtt = iPilot.WAtt : nPilot.WImplant = iPilot.WImplant : nPilot.WAttT = iPilot.WAttT
+        nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.MAttT = iPilot.MAttT
 
         Call RecalcAttributes()
         Call DisplayAtributes()
     End Sub
     Private Sub RecalcAttributes()
-        ' Get learning skill details
-        Dim learningFactor As Integer = 0
-        If nPilot.PilotSkills.Contains("Learning") = True Then
-            learningFactor = CType(nPilot.PilotSkills("Learning"), EveHQ.Core.PilotSkill).Level
-        End If
-
-        ' Calculate learning skill increase
-        Dim WT, CT, IT, MT, PT As Double
-        WT = nPilot.WAtt + nPilot.LWAtt + nPilot.ALWAtt + nPilot.WImplant
-        nPilot.LSWAtt = WT * (learningFactor / 50)
-        nPilot.WAttT = WT + nPilot.LSWAtt
-
-        CT = nPilot.CAtt + nPilot.LCAtt + nPilot.ALCAtt + nPilot.CImplant
-        nPilot.LSCAtt = CT * (learningFactor / 50)
-        nPilot.CAttT = CT + nPilot.LSCAtt
-
-        IT = nPilot.IAtt + nPilot.LIAtt + nPilot.ALIAtt + nPilot.IImplant
-        nPilot.LSIAtt = IT * (learningFactor / 50)
-        nPilot.IAttT = IT + nPilot.LSIAtt
-
-        MT = nPilot.MAtt + nPilot.LMAtt + nPilot.ALMAtt + nPilot.MImplant
-        nPilot.LSMAtt = MT * (learningFactor / 50)
-        nPilot.MAttT = MT + nPilot.LSMAtt
-
-        PT = nPilot.PAtt + nPilot.LPAtt + nPilot.ALPAtt + nPilot.PImplant
-        nPilot.LSPAtt = PT * (learningFactor / 50)
-        nPilot.PAttT = PT + nPilot.LSPAtt
-
-        Unused = 39 - (nPilot.IAtt + nPilot.PAtt + nPilot.CAtt + nPilot.WAtt + nPilot.MAtt)
-
+        nPilot.WAttT = nPilot.WAtt + nPilot.WImplant
+        nPilot.CAttT = nPilot.CAtt + nPilot.CImplant
+        nPilot.IAttT = nPilot.IAtt + nPilot.IImplant
+        nPilot.MAttT = nPilot.MAtt + nPilot.MImplant
+        nPilot.PAttT = nPilot.PAtt + nPilot.PImplant
     End Sub
     Private Sub DisplayAtributes()
         ' Display Intelligence Info
         lblIBase.Text = nPilot.IAtt.ToString
         nudIImplant.Value = nPilot.IImplant
         lblIBase.Text = "Implant: " & nPilot.IImplant.ToString
-        lblISkills.Text = "Skills: " & (nPilot.LIAtt + nPilot.ALIAtt + nPilot.LSIAtt).ToString
         lblITotal.Text = "Total: " & nPilot.IAttT.ToString
 
         ' Display Perception Info
         nudPImplant.Value = nPilot.PImplant
         lblPBase.Text = nPilot.PAtt.ToString
         lblPBase.Text = "Implant: " & nPilot.PImplant.ToString
-        lblPSkills.Text = "Skills: " & (nPilot.LPAtt + nPilot.ALPAtt + nPilot.LSPAtt).ToString
         lblPTotal.Text = "Total: " & nPilot.PAttT.ToString
 
         ' Display Charisma Info
         nudCImplant.Value = nPilot.CImplant
         lblCBase.Text = nPilot.CAtt.ToString
         lblCBase.Text = "Implant: " & nPilot.CImplant.ToString
-        lblCSkills.Text = "Skills: " & (nPilot.LCAtt + nPilot.ALCAtt + nPilot.LSCAtt).ToString
         lblCTotal.Text = "Total: " & nPilot.CAttT.ToString
 
         ' Display Willpower Info
         nudWImplant.Value = nPilot.WImplant
         lblWBase.Text = nPilot.WAtt.ToString
         lblWBase.Text = "Implant: " & nPilot.WImplant.ToString
-        lblWSkills.Text = "Skills: " & (nPilot.LWAtt + nPilot.ALWAtt + nPilot.LSWAtt).ToString
         lblWTotal.Text = "Total: " & nPilot.WAttT.ToString
 
         ' Display Memory Info
         nudMImplant.Value = nPilot.MImplant
         lblMBase.Text = nPilot.MAtt.ToString
         lblMBase.Text = "Implant: " & nPilot.MImplant.ToString
-        lblMSkills.Text = "Skills: " & (nPilot.LMAtt + nPilot.ALMAtt + nPilot.LSMAtt).ToString
         lblMTotal.Text = "Total: " & nPilot.MAttT.ToString
 
     End Sub

@@ -840,7 +840,7 @@ Public Class frmCharCreate
                 nPilot.WAtt = startChar.Willpower - 1 + attW
 
                 ' Build the attribute data
-                EveHQ.Core.PilotParseFunctions.BuildAttributeData(nPilot)
+                'EveHQ.Core.PilotParseFunctions.BuildAttributeData(nPilot)
                 EveHQ.Core.PilotParseFunctions.LoadKeySkillsForPilot(nPilot)
 
                 ' Build the Queue

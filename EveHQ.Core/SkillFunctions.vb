@@ -477,51 +477,36 @@ Public Class SkillFunctions
             Exit Sub
         End Try
     End Sub
-    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Integer
+    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, Optional ByVal TrainingBonus As Double = 1) As Integer
         Dim PA, SA As Double
         Dim Rate As Integer
-
-        ' Work out attribute modifiers
-        Dim attModifiers(5) As Integer
-        For count As Integer = 0 To 5
-            attModifiers(count) = 0
-        Next
-        If IsNothing(modifiers) = False Then
-            For count As Integer = 0 To 5
-                attModifiers(count) = modifiers(count)
-            Next
-        End If
-
-        ' Calc learning skill modifier
-        Dim learningSkill As Integer = 0
-        learningSkill = CInt(CDbl(cPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Learning)) + attModifiers(5))
 
         ' Calculate the primary attribute
         Select Case cSkill.PA.Substring(0, 1)
             Case "C"
-                PA = (cPilot.CAttT - cPilot.LSCAtt + attModifiers(0)) * (1 + (0.02 * learningSkill))
+                PA = cPilot.CAttT
             Case "I"
-                PA = (cPilot.IAttT - cPilot.LSIAtt + attModifiers(1)) * (1 + (0.02 * learningSkill))
+                PA = cPilot.IAttT
             Case "M"
-                PA = (cPilot.MAttT - cPilot.LSMAtt + attModifiers(2)) * (1 + (0.02 * learningSkill))
+                PA = cPilot.MAttT
             Case "P"
-                PA = (cPilot.PAttT - cPilot.LSPAtt + attModifiers(3)) * (1 + (0.02 * learningSkill))
+                PA = cPilot.PAttT
             Case "W"
-                PA = (cPilot.WAttT - cPilot.LSWAtt + attModifiers(4)) * (1 + (0.02 * learningSkill))
+                PA = cPilot.WAttT
         End Select
 
         ' Calculate the secondary attribute
         Select Case cSkill.SA.Substring(0, 1)
             Case "C"
-                SA = (cPilot.CAttT - cPilot.LSCAtt + attModifiers(0)) * (1 + (0.02 * learningSkill))
+                SA = cPilot.CAttT
             Case "I"
-                SA = (cPilot.IAttT - cPilot.LSIAtt + attModifiers(1)) * (1 + (0.02 * learningSkill))
+                SA = cPilot.IAttT
             Case "M"
-                SA = (cPilot.MAttT - cPilot.LSMAtt + attModifiers(2)) * (1 + (0.02 * learningSkill))
+                SA = cPilot.MAttT
             Case "P"
-                SA = (cPilot.PAttT - cPilot.LSPAtt + attModifiers(3)) * (1 + (0.02 * learningSkill))
+                SA = cPilot.PAttT
             Case "W"
-                SA = (cPilot.WAttT - cPilot.LSWAtt + attModifiers(4)) * (1 + (0.02 * learningSkill))
+                SA = cPilot.WAttT
         End Select
 
         Rate = CInt(((60 * PA) + (30 * SA)) * TrainingBonus)
@@ -563,31 +548,13 @@ Public Class SkillFunctions
         Return SP
 
     End Function              'CalculateSP
-    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Double
+    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1) As Double
 
         'NB Level = 0 indicates to train to the next available level
 
         Dim PA, SA As Double
         Dim Rank, StartSP, EndSP As Double
         Dim sTime As Long
-
-        ' Work out attribute modifiers
-        Dim attModifiers(5) As Integer
-        For count As Integer = 0 To 5
-            attModifiers(count) = 0
-        Next
-        If IsNothing(modifiers) = False Then
-            For count As Integer = 0 To 5
-                attModifiers(count) = modifiers(count)
-            Next
-        End If
-
-        ' Decide whether we need to check for the mulitple learning skill issue!
-        Dim multiSkill As Boolean = False
-        Select Case cSkill.Name
-            Case "Analytical Mind", "Clarity", "Eidetic Memory", "Empathy", "Focus", "Instant Recall", "Iron Will", "Learning", "Logic", "Presence", "Spatial Awareness"
-                multiSkill = True
-        End Select
 
         ' Get the skill rank
         Rank = cSkill.Rank
@@ -624,71 +591,43 @@ Public Class SkillFunctions
             sLevel = toLevel
         End If
 
-        Dim learningSkill As Integer = 0
         For curLevel As Integer = startLevel + 1 To sLevel
             EndSP = EveHQ.Core.SkillFunctions.CalculateSPLevel(CInt(Rank), curLevel)
-            learningSkill = CInt(CDbl(cPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Learning)) + attModifiers(5))
-
             ' Calculate the primary attribute
             Select Case cSkill.PA.Substring(0, 1)
                 Case "C"
-                    PA = (cPilot.CAttT - cPilot.LSCAtt + attModifiers(0)) * (1 + (0.02 * learningSkill))
+                    PA = cPilot.CAttT
                 Case "I"
-                    PA = (cPilot.IAttT - cPilot.LSIAtt + attModifiers(1)) * (1 + (0.02 * learningSkill))
+                    PA = cPilot.IAttT
                 Case "M"
-                    PA = (cPilot.MAttT - cPilot.LSMAtt + attModifiers(2)) * (1 + (0.02 * learningSkill))
+                    PA = cPilot.MAttT
                 Case "P"
-                    PA = (cPilot.PAttT - cPilot.LSPAtt + attModifiers(3)) * (1 + (0.02 * learningSkill))
+                    PA = cPilot.PAttT
                 Case "W"
-                    PA = (cPilot.WAttT - cPilot.LSWAtt + attModifiers(4)) * (1 + (0.02 * learningSkill))
+                    PA = cPilot.WAttT
             End Select
 
             ' Calculate the secondary attribute
             Select Case cSkill.SA.Substring(0, 1)
                 Case "C"
-                    SA = (cPilot.CAttT - cPilot.LSCAtt + attModifiers(0)) * (1 + (0.02 * learningSkill))
+                    SA = cPilot.CAttT
                 Case "I"
-                    SA = (cPilot.IAttT - cPilot.LSIAtt + attModifiers(1)) * (1 + (0.02 * learningSkill))
+                    SA = cPilot.IAttT
                 Case "M"
-                    SA = (cPilot.MAttT - cPilot.LSMAtt + attModifiers(2)) * (1 + (0.02 * learningSkill))
+                    SA = cPilot.MAttT
                 Case "P"
-                    SA = (cPilot.PAttT - cPilot.LSPAtt + attModifiers(3)) * (1 + (0.02 * learningSkill))
+                    SA = cPilot.PAttT
                 Case "W"
-                    SA = (cPilot.WAttT - cPilot.LSWAtt + attModifiers(4)) * (1 + (0.02 * learningSkill))
+                    SA = cPilot.WAttT
             End Select
 
             If PA = 0 Or SA = 0 Then
                 sTime = 0
             Else
-                sTime = CLng(sTime + Int((EndSP - StartSP) / (PA + (SA / 2)) * 60 / TrainingBonus))
+                sTime = CLng(sTime + Int((EndSP - StartSP) / (PA + (SA / 2)) * 60))
             End If
 
             StartSP = EndSP
-            Select Case cSkill.Name
-                Case "Analytical Mind"      ' I
-                    attModifiers(1) += 1
-                Case "Clarity"              ' P
-                    attModifiers(3) += 1
-                Case "Eidetic Memory"       ' M
-                    attModifiers(2) += 1
-                Case "Empathy"              ' C
-                    attModifiers(0) += 1
-                Case "Focus"                ' W
-                    attModifiers(4) += 1
-                Case "Instant Recall"       ' M
-                    attModifiers(2) += 1
-                Case "Iron Will"            ' W
-                    attModifiers(4) += 1
-                Case "Learning"             ' L
-                    attModifiers(5) += 1
-                Case "Logic"                ' I
-                    attModifiers(1) += 1
-                Case "Presence"             ' C
-                    attModifiers(0) += 1
-                Case "Spatial Awareness"    ' P
-                    attModifiers(3) += 1
-            End Select
-
         Next
 
         Return sTime

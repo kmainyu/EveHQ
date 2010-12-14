@@ -47,93 +47,11 @@ Public Class PilotParseFunctions
     End Property
 
     Public Shared Sub BuildAttributeData(ByRef cpilot As EveHQ.Core.Pilot)
-        ' Learning Skill = 3374 = "Learning"
-        ' Basic Willpower = 3375 = "Iron Will"
-        ' Basic Charisma = 3376 = "Empathy"
-        ' Basic Intelligence = 3377 = "Analytical Mind"
-        ' Basic Memory = 3378 = "Instant Recall"
-        ' Basic Perception = 3379 = "Spatial Awareness"
-        ' Advanced Willpower = 12386 = "Focus"
-        ' Charisma = 12383 = "Presence"
-        ' Intelligence = 12376 = "Logic"
-        ' Memory = 12385 = "Eidetic Memory"
-        ' Perception = 12387 = "Clarity"
-
-        Dim basicSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-
-        ' Process Basic Learning Skills
-        If cpilot.PilotSkills.Contains("Iron Will") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Iron Will"), EveHQ.Core.PilotSkill)
-            cpilot.LWAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Empathy") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Empathy"), EveHQ.Core.PilotSkill)
-            cpilot.LCAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Analytical Mind") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Analytical Mind"), EveHQ.Core.PilotSkill)
-            cpilot.LIAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Instant Recall") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Instant Recall"), EveHQ.Core.PilotSkill)
-            cpilot.LMAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Spatial Awareness") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Spatial Awareness"), EveHQ.Core.PilotSkill)
-            cpilot.LPAtt = basicSkill.Level
-        End If
-
-        ' Process Advanced Learning Skills
-        If cpilot.PilotSkills.Contains("Focus") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Focus"), EveHQ.Core.PilotSkill)
-            cpilot.ALWAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Presence") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Presence"), EveHQ.Core.PilotSkill)
-            cpilot.ALCAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Logic") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Logic"), EveHQ.Core.PilotSkill)
-            cpilot.ALIAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Eidetic Memory") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Eidetic Memory"), EveHQ.Core.PilotSkill)
-            cpilot.ALMAtt = basicSkill.Level
-        End If
-        If cpilot.PilotSkills.Contains("Clarity") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Clarity"), EveHQ.Core.PilotSkill)
-            cpilot.ALPAtt = basicSkill.Level
-        End If
-
-        ' Get learning skill details
-        Dim learningFactor As Integer = 0
-        If cpilot.PilotSkills.Contains("Learning") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Learning"), EveHQ.Core.PilotSkill)
-            learningFactor = basicSkill.Level
-        End If
-
-        ' Calculate learning skill increase
-        Dim WT, CT, IT, MT, PT As Double
-        WT = cpilot.WAtt + cpilot.LWAtt + cpilot.ALWAtt + cpilot.WImplant
-        cpilot.LSWAtt = WT * (learningFactor / 50)
-        cpilot.WAttT = WT + cpilot.LSWAtt
-
-        CT = cpilot.CAtt + cpilot.LCAtt + cpilot.ALCAtt + cpilot.CImplant
-        cpilot.LSCAtt = CT * (learningFactor / 50)
-        cpilot.CAttT = CT + cpilot.LSCAtt
-
-        IT = cpilot.IAtt + cpilot.LIAtt + cpilot.ALIAtt + cpilot.IImplant
-        cpilot.LSIAtt = IT * (learningFactor / 50)
-        cpilot.IAttT = IT + cpilot.LSIAtt
-
-        MT = cpilot.MAtt + cpilot.LMAtt + cpilot.ALMAtt + cpilot.MImplant
-        cpilot.LSMAtt = MT * (learningFactor / 50)
-        cpilot.MAttT = MT + cpilot.LSMAtt
-
-        PT = cpilot.PAtt + cpilot.LPAtt + cpilot.ALPAtt + cpilot.PImplant
-        cpilot.LSPAtt = PT * (learningFactor / 50)
-        cpilot.PAttT = PT + cpilot.LSPAtt
-
+        cpilot.WAttT = cpilot.WAtt + cpilot.WImplant
+        cpilot.CAttT = cpilot.CAtt + cpilot.CImplant
+        cpilot.IAttT = cpilot.IAtt + cpilot.IImplant
+        cpilot.MAttT = cpilot.MAtt + cpilot.MImplant
+        cpilot.PAttT = cpilot.PAtt + cpilot.PImplant
     End Sub           'BuildAttributeData    
 
     Public Shared Sub CopyTempPilotsToMain()

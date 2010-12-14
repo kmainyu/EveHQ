@@ -25,19 +25,14 @@ Partial Class frmImplants
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmImplants))
         Me.lblDescription = New System.Windows.Forms.Label
         Me.lblIBase = New System.Windows.Forms.Label
-        Me.lblISkills = New System.Windows.Forms.Label
         Me.lblITotal = New System.Windows.Forms.Label
         Me.lblPTotal = New System.Windows.Forms.Label
-        Me.lblPSkills = New System.Windows.Forms.Label
         Me.lblPBase = New System.Windows.Forms.Label
         Me.lblCTotal = New System.Windows.Forms.Label
-        Me.lblCSkills = New System.Windows.Forms.Label
         Me.lblCBase = New System.Windows.Forms.Label
         Me.lblWTotal = New System.Windows.Forms.Label
-        Me.lblWSkills = New System.Windows.Forms.Label
         Me.lblWBase = New System.Windows.Forms.Label
         Me.lblMTotal = New System.Windows.Forms.Label
-        Me.lblMSkills = New System.Windows.Forms.Label
         Me.lblMBase = New System.Windows.Forms.Label
         Me.PictureBox6 = New System.Windows.Forms.PictureBox
         Me.lblSkillQueueAnalysis = New System.Windows.Forms.Label
@@ -110,19 +105,10 @@ Partial Class frmImplants
         Me.lblIBase.TabIndex = 14
         Me.lblIBase.Text = "Base:"
         '
-        'lblISkills
-        '
-        Me.lblISkills.AutoSize = True
-        Me.lblISkills.Location = New System.Drawing.Point(170, 69)
-        Me.lblISkills.Name = "lblISkills"
-        Me.lblISkills.Size = New System.Drawing.Size(33, 13)
-        Me.lblISkills.TabIndex = 15
-        Me.lblISkills.Text = "Skills:"
-        '
         'lblITotal
         '
         Me.lblITotal.AutoSize = True
-        Me.lblITotal.Location = New System.Drawing.Point(170, 82)
+        Me.lblITotal.Location = New System.Drawing.Point(170, 69)
         Me.lblITotal.Name = "lblITotal"
         Me.lblITotal.Size = New System.Drawing.Size(35, 13)
         Me.lblITotal.TabIndex = 16
@@ -131,20 +117,11 @@ Partial Class frmImplants
         'lblPTotal
         '
         Me.lblPTotal.AutoSize = True
-        Me.lblPTotal.Location = New System.Drawing.Point(170, 152)
+        Me.lblPTotal.Location = New System.Drawing.Point(170, 139)
         Me.lblPTotal.Name = "lblPTotal"
         Me.lblPTotal.Size = New System.Drawing.Size(35, 13)
         Me.lblPTotal.TabIndex = 21
         Me.lblPTotal.Text = "Total:"
-        '
-        'lblPSkills
-        '
-        Me.lblPSkills.AutoSize = True
-        Me.lblPSkills.Location = New System.Drawing.Point(170, 139)
-        Me.lblPSkills.Name = "lblPSkills"
-        Me.lblPSkills.Size = New System.Drawing.Size(33, 13)
-        Me.lblPSkills.TabIndex = 20
-        Me.lblPSkills.Text = "Skills:"
         '
         'lblPBase
         '
@@ -158,20 +135,11 @@ Partial Class frmImplants
         'lblCTotal
         '
         Me.lblCTotal.AutoSize = True
-        Me.lblCTotal.Location = New System.Drawing.Point(170, 222)
+        Me.lblCTotal.Location = New System.Drawing.Point(170, 209)
         Me.lblCTotal.Name = "lblCTotal"
         Me.lblCTotal.Size = New System.Drawing.Size(35, 13)
         Me.lblCTotal.TabIndex = 26
         Me.lblCTotal.Text = "Total:"
-        '
-        'lblCSkills
-        '
-        Me.lblCSkills.AutoSize = True
-        Me.lblCSkills.Location = New System.Drawing.Point(170, 209)
-        Me.lblCSkills.Name = "lblCSkills"
-        Me.lblCSkills.Size = New System.Drawing.Size(33, 13)
-        Me.lblCSkills.TabIndex = 25
-        Me.lblCSkills.Text = "Skills:"
         '
         'lblCBase
         '
@@ -185,20 +153,11 @@ Partial Class frmImplants
         'lblWTotal
         '
         Me.lblWTotal.AutoSize = True
-        Me.lblWTotal.Location = New System.Drawing.Point(170, 292)
+        Me.lblWTotal.Location = New System.Drawing.Point(170, 281)
         Me.lblWTotal.Name = "lblWTotal"
         Me.lblWTotal.Size = New System.Drawing.Size(35, 13)
         Me.lblWTotal.TabIndex = 31
         Me.lblWTotal.Text = "Total:"
-        '
-        'lblWSkills
-        '
-        Me.lblWSkills.AutoSize = True
-        Me.lblWSkills.Location = New System.Drawing.Point(170, 279)
-        Me.lblWSkills.Name = "lblWSkills"
-        Me.lblWSkills.Size = New System.Drawing.Size(33, 13)
-        Me.lblWSkills.TabIndex = 30
-        Me.lblWSkills.Text = "Skills:"
         '
         'lblWBase
         '
@@ -212,20 +171,11 @@ Partial Class frmImplants
         'lblMTotal
         '
         Me.lblMTotal.AutoSize = True
-        Me.lblMTotal.Location = New System.Drawing.Point(170, 362)
+        Me.lblMTotal.Location = New System.Drawing.Point(170, 349)
         Me.lblMTotal.Name = "lblMTotal"
         Me.lblMTotal.Size = New System.Drawing.Size(35, 13)
         Me.lblMTotal.TabIndex = 36
         Me.lblMTotal.Text = "Total:"
-        '
-        'lblMSkills
-        '
-        Me.lblMSkills.AutoSize = True
-        Me.lblMSkills.Location = New System.Drawing.Point(170, 349)
-        Me.lblMSkills.Name = "lblMSkills"
-        Me.lblMSkills.Size = New System.Drawing.Size(33, 13)
-        Me.lblMSkills.TabIndex = 35
-        Me.lblMSkills.Text = "Skills:"
         '
         'lblMBase
         '
@@ -567,21 +517,16 @@ Partial Class frmImplants
         Me.gbImplants.Controls.Add(Me.lblIntelligenceImplant)
         Me.gbImplants.Controls.Add(Me.nudIImplant)
         Me.gbImplants.Controls.Add(Me.lblIBase)
-        Me.gbImplants.Controls.Add(Me.lblISkills)
         Me.gbImplants.Controls.Add(Me.lblMemoryImplant)
         Me.gbImplants.Controls.Add(Me.lblITotal)
         Me.gbImplants.Controls.Add(Me.lblPerceptionImplant)
         Me.gbImplants.Controls.Add(Me.lblWillpowerImplant)
         Me.gbImplants.Controls.Add(Me.lblPBase)
         Me.gbImplants.Controls.Add(Me.lblCharismaImplant)
-        Me.gbImplants.Controls.Add(Me.lblPSkills)
         Me.gbImplants.Controls.Add(Me.lblMBase)
         Me.gbImplants.Controls.Add(Me.lblPTotal)
         Me.gbImplants.Controls.Add(Me.lblWTotal)
-        Me.gbImplants.Controls.Add(Me.lblMSkills)
         Me.gbImplants.Controls.Add(Me.lblCBase)
-        Me.gbImplants.Controls.Add(Me.lblWSkills)
-        Me.gbImplants.Controls.Add(Me.lblCSkills)
         Me.gbImplants.Controls.Add(Me.lblMTotal)
         Me.gbImplants.Controls.Add(Me.lblCTotal)
         Me.gbImplants.Controls.Add(Me.lblWBase)
@@ -655,19 +600,14 @@ Partial Class frmImplants
     End Sub
     Friend WithEvents lblDescription As System.Windows.Forms.Label
     Friend WithEvents lblIBase As System.Windows.Forms.Label
-    Friend WithEvents lblISkills As System.Windows.Forms.Label
     Friend WithEvents lblITotal As System.Windows.Forms.Label
     Friend WithEvents lblPTotal As System.Windows.Forms.Label
-    Friend WithEvents lblPSkills As System.Windows.Forms.Label
     Friend WithEvents lblPBase As System.Windows.Forms.Label
     Friend WithEvents lblCTotal As System.Windows.Forms.Label
-    Friend WithEvents lblCSkills As System.Windows.Forms.Label
     Friend WithEvents lblCBase As System.Windows.Forms.Label
     Friend WithEvents lblWTotal As System.Windows.Forms.Label
-    Friend WithEvents lblWSkills As System.Windows.Forms.Label
     Friend WithEvents lblWBase As System.Windows.Forms.Label
     Friend WithEvents lblMTotal As System.Windows.Forms.Label
-    Friend WithEvents lblMSkills As System.Windows.Forms.Label
     Friend WithEvents lblMBase As System.Windows.Forms.Label
     Friend WithEvents PictureBox6 As System.Windows.Forms.PictureBox
     Friend WithEvents lblSkillQueueAnalysis As System.Windows.Forms.Label
