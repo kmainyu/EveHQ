@@ -407,7 +407,7 @@
         Dim bestW As Integer = 0
         Dim bestM As Integer = 0
         Dim MaxAvailable As Integer = 14 ' Maximum distributable points (39 - (5 x 5))
-        Dim maxAtt As Integer = 15 ' Max = 15
+        Dim maxAtt As Integer = 27 ' Max = 15
 
         For IAtt As Integer = IMin To maxAtt
             nPilot.IAtt = IAtt
@@ -419,7 +419,7 @@
                         nPilot.WAtt = WAtt
                         For MAtt As Integer = PMin To maxAtt
                             nPilot.MAtt = MAtt
-                            If IAtt + PAtt + CAtt + WAtt + MAtt = 39 Then
+                            If IAtt + PAtt + CAtt + WAtt + MAtt = 99 Then
                                 Call RecalcAttributes()
                                 calcTime = EveHQ.Core.SkillQueueFunctions.GetQueueTime(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue))
                                 If calcTime <= bestTime Then

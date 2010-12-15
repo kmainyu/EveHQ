@@ -47,6 +47,8 @@ Public Class SkillQueueFunctions
 
         ' Try Queue Building
         Try
+            ' Check for invalid skills
+            Call CheckValidSkills(qPilot, bQueue)
             ' Check for partially trained skills
             Call CheckAlreadyTrained(qPilot, bQueue)
             ' Check the current skill being trained
@@ -327,7 +329,7 @@ Public Class SkillQueueFunctions
                         End If
 
                         ' Check for any training bonus and set the SP Rate
-                        
+
                         If toLevel - fromLevel = 1 Then
                             ' If just a single level
                             qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill))
@@ -424,6 +426,16 @@ Public Class SkillQueueFunctions
             Return HasPreReq
         End If
     End Function
+
+    Private Shared Sub CheckValidSkills(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
+        For Each curSkill As EveHQ.Core.SkillQueueItem In bQueue.Queue
+            If EveHQ.Core.HQ.SkillListName.ContainsKey(curSkill.Name) = False Then
+                ' Remove the skill entry
+                Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
+                bQueue.Queue.Remove(oldKey)
+            End If
+        Next
+    End Sub
 
     Private Shared Sub CheckAlreadyTrained(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
         Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
