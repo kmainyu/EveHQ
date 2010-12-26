@@ -669,21 +669,21 @@ Public Class frmItemBrowser
 
         Dim strSQL As String = "SELECT * from invTypes where typeID=" & typeID
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID WHERE typeID=" & typeID & ";")
 
         ' Load picture
-        If iconData.Tables(0).Rows.Count > 0 Then
-            Select Case pInfo(4)
-                Case 6, 18, 23
-                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Types)
-                Case 9
-                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Blueprints)
-                Case Else
+        Select Case pInfo(4)
+            Case 6, 18, 23
+                picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Types)
+            Case 9
+                picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Blueprints)
+            Case Else
+                Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID WHERE typeID=" & typeID & ";")
+                If iconData.Tables(0).Rows.Count > 0 Then
                     picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(iconData.Tables(0).Rows(0).Item("iconFile").ToString, EveHQ.Core.ImageHandler.ImageType.Icons)
-            End Select
-        Else
-            picItem.Image = My.Resources.noitem
-        End If
+                Else
+                    picItem.Image = My.Resources.noitem
+                End If
+        End Select
 
         ' Insert attribute 1 from tblTypes
         attNo += 1
