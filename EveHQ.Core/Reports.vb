@@ -43,7 +43,7 @@ Public Class Reports
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rpilot))
         End If
         strHTML &= "<table width=800px align=center border=0>"
-        strHTML &= "<tr><td width=150px align=center valign=middle><img src='http://img.eve.is/serv.asp?s=256&c=" & rpilot.ID & "' height=128 width=128 alt='" & rpilot.Name & "'></td>"
+        strHTML &= "<tr><td width=150px align=center valign=middle><img src='http://image.eveonline.com/Character/" & rpilot.ID & "_256.jpg' height=128 width=128 alt='" & rpilot.Name & "'></td>"
         strHTML &= "<td width=5px></td>"
         strHTML &= "<td width=350px>"
         strHTML &= "<table width=100%><tr><td class=thead align=center valign=middle colspan=2><b>Character Info</b></td></tr>"
@@ -1735,7 +1735,7 @@ Public Class Reports
         For Each rPilot In sortedPilots.Values
             If rPilot.Active = True Then
                 strHTML &= "<tr height=75px>"
-                strHTML &= "<td width=70px><img src='http://img.eve.is/serv.asp?s=64&c=" & rPilot.ID & "' style='border:0px;width:64px;height:64px;' alt='" & rPilot.Name & "'></td>"
+                strHTML &= "<td width=70px><img src='http://image.eveonline.com/Character/" & rPilot.ID & "_256.jpg' style='border:0px;width:64px;height:64px;' alt='" & rPilot.Name & "'></td>"
                 strHTML &= "<td width=165px>" & rPilot.Name & "</td>"
                 strHTML &= "<td width=165px>" & rPilot.Corp & "</td>"
                 strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.Isk, 2) & "</td>"

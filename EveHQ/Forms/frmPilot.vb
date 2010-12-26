@@ -837,7 +837,7 @@ Public Class frmPilot
 
     Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
         If displayPilot.ID <> "" Then
-            picPilot.ImageLocation = "http://img.eve.is/serv.asp?s=256&c=" & displayPilot.ID
+            picPilot.ImageLocation = "http://image.eveonline.com/Character/" & displayPilot.ID & "_256.jpg"
         End If
     End Sub
     Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
