@@ -1084,7 +1084,7 @@
 313,2,781,11,3,6,0,0,0,15,Ancilliary Current Router
 314,2,781,55,3,6,0,0,0,15,Capacitor Control Circuit
 317,2,781,6,2,67;71,0,0,0,15,Egress Port Maximizer
-310,2,781,50,5,3413,0,0,0,15,Powergrid Subroutine Maximizer
+310,2,781,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
 1079,2,781,482,3,6,0,0,0,15,Semiconductor Memory Cell
 # RIGS - ENERGY WEAPON,,,,,,,,,,
 1138,2,775,30,2,53,0,0,0,15,Energy Weapon Rig Drawback - PG Penalty
