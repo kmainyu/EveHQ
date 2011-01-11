@@ -188,7 +188,7 @@
 30134,1,30551,10013,4,575;578,0,1,0,-7.5,15,Medium Projectile Turret ROF
 30134,1,30551,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,-5,15,Missile Launcher ROF
 # Loki Offensive - Covert Reconfiguration,,,,,,,,,,,
-30135,1,30551,10013,4,575;578,0,1,0,-7.5,15,Medium Projectile Turret ROF
+30135,1,30551,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 30135,0,0,50,2,330,0,0,0,-100,15,Cloaking Device CPU
 # Proteus Offensive - Dissonic Encoding Platform,,,,,,,,,,,
 30127,1,30550,10015,4,562;565,0,1,0,10,15,Medium Hybrid Turret Damage
