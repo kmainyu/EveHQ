@@ -69,7 +69,7 @@
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-      <version>1.16.0.2594</version>
+      <version>1.16.0.2652</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Item Browser Plug-in</description>
@@ -93,7 +93,7 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-      <version>1.16.0.2570</version>
+      <version>1.16.0.2652</version>
       <requires/>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
