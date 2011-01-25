@@ -1380,37 +1380,54 @@ Public Class frmItemBrowser
 
         If displayPilot IsNot Nothing Then
             For Each skillID As String In itemSkills.Keys
-                skillsRequired = True
+                If EveHQ.Core.HQ.SkillListID.ContainsKey(skillID) = True Then
+                    skillsRequired = True
 
-                Dim level As Integer = 1
-                Dim pointer(20) As Integer
-                Dim parent(20) As Integer
-                Dim skillName(20) As String
-                Dim skillLevel(20) As String
-                pointer(level) = 1
-                parent(level) = skillID
+                    Dim level As Integer = 1
+                    Dim pointer(20) As Integer
+                    Dim parent(20) As Integer
+                    Dim skillName(20) As String
+                    Dim skillLevel(20) As String
+                    pointer(level) = 1
+                    parent(level) = skillID
 
-                Dim strTree As String = ""
-                Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
-                Dim curSkill As Integer = CInt(skillID)
-                Dim curLevel As Integer = itemSkills(skillID)
-                Dim counter As Integer = 0
-                Dim curNode As TreeNode = New TreeNode
-                curNode.Text = cSkill.Name & " (Level " & curLevel & ")"
+                    Dim strTree As String = ""
+                    Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
+                    Dim curSkill As Integer = CInt(skillID)
+                    Dim curLevel As Integer = itemSkills(skillID)
+                    Dim counter As Integer = 0
+                    Dim curNode As TreeNode = New TreeNode
+                    curNode.Text = cSkill.Name & " (Level " & curLevel & ")"
 
-                ' Write the skill we are querying as the first (parent) node
-                Dim skillTrained As Boolean = False
-                Dim myLevel As Integer = 0
-                skillTrained = False
-                If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-                    If displayPilot.PilotSkills.Contains(cSkill.Name) Then
-                        Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                        mySkill = displayPilot.PilotSkills(cSkill.Name)
-                        myLevel = CInt(mySkill.Level)
-                        If myLevel >= curLevel Then skillTrained = True
-                        If skillTrained = True Then
-                            curNode.ForeColor = Color.LimeGreen
-                            curNode.ToolTipText = "Already Trained"
+                    ' Write the skill we are querying as the first (parent) node
+                    Dim skillTrained As Boolean = False
+                    Dim myLevel As Integer = 0
+                    skillTrained = False
+                    If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                        If displayPilot.PilotSkills.Contains(cSkill.Name) Then
+                            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                            mySkill = displayPilot.PilotSkills(cSkill.Name)
+                            myLevel = CInt(mySkill.Level)
+                            If myLevel >= curLevel Then skillTrained = True
+                            If skillTrained = True Then
+                                curNode.ForeColor = Color.LimeGreen
+                                curNode.ToolTipText = "Already Trained"
+                            Else
+                                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
+                                If planLevel = 0 Then
+                                    curNode.ForeColor = Color.Red
+                                    curNode.ToolTipText = "Not trained & no planned training"
+                                Else
+                                    curNode.ToolTipText = "Planned training to Level " & planLevel
+                                    If planLevel >= curLevel Then
+                                        curNode.ForeColor = Color.Blue
+                                    Else
+                                        curNode.ForeColor = Color.Orange
+                                    End If
+                                End If
+                                skillsNeeded.Add(cSkill.Name & curLevel)
+                                ItemUsable = False
+                            End If
                         Else
                             Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                             If planLevel = 0 Then
@@ -1427,31 +1444,16 @@ Public Class frmItemBrowser
                             skillsNeeded.Add(cSkill.Name & curLevel)
                             ItemUsable = False
                         End If
-                    Else
-                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
-                        If planLevel = 0 Then
-                            curNode.ForeColor = Color.Red
-                            curNode.ToolTipText = "Not trained & no planned training"
-                        Else
-                            curNode.ToolTipText = "Planned training to Level " & planLevel
-                            If planLevel >= curLevel Then
-                                curNode.ForeColor = Color.Blue
-                            Else
-                                curNode.ForeColor = Color.Orange
-                            End If
-                        End If
-                        skillsNeeded.Add(cSkill.Name & curLevel)
-                        ItemUsable = False
                     End If
-                End If
-                tvwReqs.Nodes.Add(curNode)
+                    tvwReqs.Nodes.Add(curNode)
 
-                If cSkill.PreReqSkills.Count > 0 Then
-                    Dim subSkill As EveHQ.Core.EveSkill
-                    For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                        subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                        Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode, ItemUsable)
-                    Next
+                    If cSkill.PreReqSkills.Count > 0 Then
+                        Dim subSkill As EveHQ.Core.EveSkill
+                        For Each subSkillID As String In cSkill.PreReqSkills.Keys
+                            subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
+                            Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode, ItemUsable)
+                        Next
+                    End If
                 End If
             Next
 
