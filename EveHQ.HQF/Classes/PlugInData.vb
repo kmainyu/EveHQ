@@ -1080,26 +1080,32 @@ Public Class PlugInData
                     Case 1087 ' Slot Type For Boosters
                         attMod.BoosterSlot = CInt(attValue)
                     Case 182
-                        Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
-                        Dim nSkill As New ItemSkills
-                        nSkill.ID = pSkill.ID
-                        nSkill.Name = pSkill.Name
-                        pSkillName = pSkill.Name
-                        attMod.RequiredSkills.Add(nSkill.Name, nSkill)
+                        If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
+                            Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                            Dim nSkill As New ItemSkills
+                            nSkill.ID = pSkill.ID
+                            nSkill.Name = pSkill.Name
+                            pSkillName = pSkill.Name
+                            attMod.RequiredSkills.Add(nSkill.Name, nSkill)
+                        End If
                     Case 183
-                        Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
-                        Dim nSkill As New ItemSkills
-                        nSkill.ID = sSkill.ID
-                        nSkill.Name = sSkill.Name
-                        sSkillName = sSkill.Name
-                        attMod.RequiredSkills.Add(nSkill.Name, nSkill)
+                        If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
+                            Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                            Dim nSkill As New ItemSkills
+                            nSkill.ID = sSkill.ID
+                            nSkill.Name = sSkill.Name
+                            sSkillName = sSkill.Name
+                            attMod.RequiredSkills.Add(nSkill.Name, nSkill)
+                        End If
                     Case 184
-                        Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
-                        Dim nSkill As New ItemSkills
-                        nSkill.ID = tSkill.ID
-                        nSkill.Name = tSkill.Name
-                        tSkillName = tSkill.Name
-                        attMod.RequiredSkills.Add(nSkill.Name, nSkill)
+                        If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
+                            Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                            Dim nSkill As New ItemSkills
+                            nSkill.ID = tSkill.ID
+                            nSkill.Name = tSkill.Name
+                            tSkillName = tSkill.Name
+                            attMod.RequiredSkills.Add(nSkill.Name, nSkill)
+                        End If
                     Case 277
                         Dim cSkill As ItemSkills = CType(attMod.RequiredSkills(pSkillName), ItemSkills)
                         If cSkill IsNot Nothing Then
