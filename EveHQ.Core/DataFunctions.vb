@@ -1656,28 +1656,30 @@ Public Class DataFunctions
         Dim IDNode As XmlNode
         Dim eveID As Long = 0
         Dim eveName As String = ""
-        IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
-        If IDList.Count > 0 Then
-            For Each IDNode In IDList
-                eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
-                eveName = IDNode.Attributes.GetNamedItem("name").Value
-                If FinalIDs.ContainsKey(eveID) = False Then
-                    FinalIDs.Add(eveID, eveName)
+        If IDXML IsNot Nothing Then
+            IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
+            If IDList.Count > 0 Then
+                For Each IDNode In IDList
+                    eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
+                    eveName = IDNode.Attributes.GetNamedItem("name").Value
+                    If FinalIDs.ContainsKey(eveID) = False Then
+                        FinalIDs.Add(eveID, eveName)
+                    End If
+                Next
+            End If
+            ' Add all the data to the database
+            Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
+            For Each eveID In FinalIDs.Keys
+                eveName = FinalIDs(eveID)
+                Dim uSQL As New StringBuilder
+                uSQL.Append(strIDInsert)
+                uSQL.Append("(" & eveID & ", ")
+                uSQL.Append("'" & eveName & "');")
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                    'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             Next
         End If
-        ' Add all the data to the database
-        Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
-        For Each eveID In FinalIDs.Keys
-            eveName = FinalIDs(eveID)
-            Dim uSQL As New StringBuilder
-            uSQL.Append(strIDInsert)
-            uSQL.Append("(" & eveID & ", ")
-            uSQL.Append("'" & eveName & "');")
-            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End If
-        Next
     End Sub
 
     Public Shared Sub WriteMailingListIDsToDatabase(ByVal mPilot As EveHQ.Core.Pilot)
