@@ -625,6 +625,10 @@ Public Class PilotParseFunctions
                     For Each certNode As XmlNode In toon.ChildNodes
                         cPilot.Certificates.Add(certNode.Attributes.GetNamedItem("certificateID").Value)
                     Next
+                Case "corporationRoles"
+                    For Each roleNode As XmlNode In CharDetails(section).ChildNodes
+                        cPilot.CorpRoles.Add(CType(CLng(roleNode.Attributes.GetNamedItem("roleID").Value), CorporationRoles))
+                    Next
             End Select
         Next
 
