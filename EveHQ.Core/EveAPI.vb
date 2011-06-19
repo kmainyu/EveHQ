@@ -346,8 +346,6 @@ Public Class EveAPI
                     Else
                         ' No error codes so save, then return new XML file
                         cLastAPIResult = APIResults.ReturnedNew
-                        ' Update the incorrect cache data
-                        Call UpdateAPICacheTime(tmpAPIXML, feature)
                         tmpAPIXML.Save(fileLoc)
                         Return tmpAPIXML
                     End If
@@ -393,8 +391,6 @@ Public Class EveAPI
                                 Return Nothing
                             End Try
                         Else
-                            ' Update the incorrect cache data
-                            Call UpdateAPICacheTime(APIXML, feature)
                             ' Save the XML to disk
                             APIXML.Save(fileLoc)
                             cLastAPIResult = APIResults.ReturnedNew
@@ -495,17 +491,6 @@ Public Class EveAPI
         End Try
         Return APIXML
     End Function
-    Private Shared Sub UpdateAPICacheTime(ByRef cXML As XmlDocument, ByVal feature As Integer)
-        Dim cacheDetails As XmlNodeList = cXML.SelectNodes("/eveapi")
-        Dim APITime As DateTime = CDate(cacheDetails(0).ChildNodes(0).InnerText)
-        ' Set the cache times to the correct values (because CCP suck rhino balls)
-        Select Case feature
-            Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, EveHQ.Core.EveAPI.APIRequest.WalletTransChar, EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
-                cacheDetails(0).ChildNodes(2).InnerText = Format(APITime.AddSeconds(3630), "yyyy-MM-dd HH:mm:ss")
-            Case EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, EveHQ.Core.EveAPI.APIRequest.OrdersChar, EveHQ.Core.EveAPI.APIRequest.OrdersCorp
-                cacheDetails(0).ChildNodes(2).InnerText = Format(APITime.AddSeconds(930), "yyyy-MM-dd HH:mm:ss")
-        End Select
-    End Sub
 
     Public Shared Function APIRSHasHeartbeat() As Boolean
         Dim webdata As String = ""
