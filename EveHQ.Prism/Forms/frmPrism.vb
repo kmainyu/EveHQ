@@ -362,43 +362,55 @@ Public Class frmPrism
         If APIOwner IsNot Nothing Then
             ' Get the corp reps
             Dim CorpRep As SortedList = CType(PlugInData.CorpReps(Pos - 2), Collections.SortedList)
-            If apiXML IsNot Nothing Then
-                ' If we already have a corp rep, no sense in getting a new one!
-                If CorpRep.ContainsKey(Owner) = False Then
-                    APIOwner.ToolTipText &= [Enum].GetName(GetType(PrismRepCodes), Pos - 2) & " Rep: " & Primary & ControlChars.CrLf
-                    ' Check response string for any error codes?
-                    Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
-                    If errlist.Count <> 0 Then
-                        Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                        Dim errMsg As String = errNode.InnerText
-                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
-                        APIOwner.SubItems(Pos).Text = errCode
-                    Else
-                        Dim cache As Date = CacheDate(apiXML)
-                        If cache <= Now Then
-                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Blue
+
+            ' Check for role error - only needed for corp APIs
+            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Primary), EveHQ.Core.Pilot)
+            Dim HasRoles As Boolean = HasCorpRoles(Owner, cPilot, (Pos - 2))
+
+            If HasRoles = True Then
+
+                If apiXML IsNot Nothing Then
+                    ' If we already have a corp rep, no sense in getting a new one!
+                    If CorpRep.ContainsKey(Owner) = False Then
+                        APIOwner.ToolTipText &= [Enum].GetName(GetType(PrismRepCodes), Pos - 2) & " Rep: " & Primary & ControlChars.CrLf
+                        ' Check response string for any error codes?
+                        Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
+                        If errlist.Count <> 0 Then
+                            Dim errNode As XmlNode = errlist(0)
+                            ' Get error code
+                            Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                            Dim errMsg As String = errNode.InnerText
+                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
+                            APIOwner.SubItems(Pos).Text = errCode
                         Else
-                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
+                            Dim cache As Date = CacheDate(apiXML)
+                            If cache <= Now Then
+                                APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Blue
+                            Else
+                                APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
+                            End If
+                            APIOwner.SubItems(Pos).Text = FormatDateTime(cache, DateFormat.GeneralDate)
+                            CorpRep.Add(Owner, Primary)
                         End If
-                        APIOwner.SubItems(Pos).Text = FormatDateTime(cache, DateFormat.GeneralDate)
-                        CorpRep.Add(Owner, Primary)
+                    End If
+                Else
+                    If CorpRep.ContainsKey(Owner) = False Then
+                        APIOwner.ToolTipText &= [Enum].GetName(GetType(PrismRepCodes), Pos - 2) & " Rep: " & Primary & ControlChars.CrLf
+                        If Pos = 8 Then
+                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Black
+                            APIOwner.SubItems(Pos).Text = "n/a"
+                        Else
+                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
+                            APIOwner.SubItems(Pos).Text = "Missing"
+                        End If
                     End If
                 End If
             Else
-                If CorpRep.ContainsKey(Owner) = False Then
-                    APIOwner.ToolTipText &= [Enum].GetName(GetType(PrismRepCodes), Pos - 2) & " Rep: " & Primary & ControlChars.CrLf
-                    If Pos = 8 Then
-                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Black
-                        APIOwner.SubItems(Pos).Text = "n/a"
-                    Else
-                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
-                        APIOwner.SubItems(Pos).Text = "missing"
-                    End If
-                End If
+                APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
+                APIOwner.SubItems(Pos).Text = "No Roles"
             End If
         End If
+
         ProcessXMLCount += 1
         If ProcessXMLCount = ProcessXMLMax Then
             'cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
@@ -419,6 +431,42 @@ Public Class frmPrism
             End If
         End If
     End Sub
+    Private Function HasCorpRoles(ByVal Owner As String, ByVal cPilot As EveHQ.Core.Pilot, ByVal Pos As Integer) As Boolean
+        If cPilot.CorpID = Owner Then
+            ' Check for roles on rep type
+            Select Case Pos
+                Case 0
+                    If cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Director) Then
+                        Return True
+                    End If
+                Case 1
+                    If cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Director) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Accountant) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.JuniorAccountant) Then
+                        Return True
+                    End If
+                Case 6
+                    Return True
+                Case 2
+                    If cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Director) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.FactoryManager) Then
+                        Return True
+                    End If
+                Case 4
+                    If cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Director) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Accountant) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.JuniorAccountant) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Trader) Then
+                        Return True
+                    End If
+                Case 3
+                    If cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Director) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Accountant) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.JuniorAccountant) Then
+                        Return True
+                    End If
+                Case 5
+                    If cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Director) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Accountant) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.JuniorAccountant) Or cPilot.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Trader) Then
+                        Return True
+                    End If
+            End Select
+            Return False
+        Else
+            Return True
+        End If
+    End Function
     Private Sub GetCharAssets(ByVal State As Object)
         For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If selPilot.Active = True Then
@@ -448,7 +496,11 @@ Public Class frmPrism
 
                     ' Make a call to the EveHQ.Core.API to fetch the assets
                     Dim apiXML As New XmlDocument
-                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 0)
+
+                    ' Check has the right roles
+                    If HasCorpRoles(selPilot.CorpID, selPilot, 0) = True Then
+                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 0)
+                    End If
 
                     ' Update the display
                     If Me.IsHandleCreated = True Then
@@ -488,7 +540,11 @@ Public Class frmPrism
 
                     ' Make a call to the EveHQ.Core.API to fetch the assets
                     Dim apiXML As New XmlDocument
-                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 0)
+
+                    ' Check has the right roles
+                    If HasCorpRoles(selPilot.CorpID, selPilot, 1) = True Then
+                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 0)
+                    End If
 
                     ' Update the display
                     If Me.IsHandleCreated = True Then
@@ -528,7 +584,11 @@ Public Class frmPrism
 
                     ' Make a call to the EveHQ.Core.API to fetch the assets
                     Dim apiXML As New XmlDocument
-                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 0)
+
+                    ' Check has the right roles
+                    If HasCorpRoles(selPilot.CorpID, selPilot, 2) = True Then
+                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 0)
+                    End If
 
                     ' Update the display
                     If Me.IsHandleCreated = True Then
@@ -568,9 +628,13 @@ Public Class frmPrism
 
                     ' Make a call to the EveHQ.Core.API to fetch the assets
                     Dim apiXML As New XmlDocument
-                    For divID As Integer = 1006 To 1000 Step -1
-                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, divID, "", 0)
-                    Next
+
+                    ' Check has the right roles
+                    If HasCorpRoles(selPilot.CorpID, selPilot, 3) = True Then
+                        For divID As Integer = 1006 To 1000 Step -1
+                            apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, divID, "", 0)
+                        Next
+                    End If
 
                     ' Update the display
                     If Me.IsHandleCreated = True Then
@@ -610,7 +674,11 @@ Public Class frmPrism
 
                     ' Make a call to the EveHQ.Core.API to fetch the assets
                     Dim apiXML As New XmlDocument
-                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 0)
+
+                    ' Check has the right roles
+                    If HasCorpRoles(selPilot.CorpID, selPilot, 4) = True Then
+                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 0)
+                    End If
 
                     ' Update the display
                     If Me.IsHandleCreated = True Then
@@ -654,9 +722,13 @@ Public Class frmPrism
 
                     ' Make a call to the EveHQ.Core.API to fetch the assets
                     Dim apiXML As New XmlDocument
-                    For divID As Integer = 1006 To 1000 Step -1
-                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, divID, "", 0)
-                    Next
+
+                    ' Check has the right roles
+                    If HasCorpRoles(selPilot.CorpID, selPilot, 5) = True Then
+                        For divID As Integer = 1006 To 1000 Step -1
+                            apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, divID, "", 0)
+                        Next
+                    End If
 
                     ' Update the display
                     If Me.IsHandleCreated = True Then
