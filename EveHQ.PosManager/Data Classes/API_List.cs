@@ -161,6 +161,23 @@ namespace EveHQ.PosManager
                 return false;
         }
 
+        public bool IsPilotAllowedAccessToAPI(EveHQ.Core.Pilot plt)
+        {
+            string acct;
+
+            if (plt.CorpRoles == null)
+                return false;
+
+            if (!plt.CorpRoles.Contains(EveHQ.Core.CorporationRoles.Director))
+                return false;
+
+            acct = plt.Account;
+            if (!EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(acct))
+                return false;
+
+            return true;
+        }
+
         public void LoadPOSDataFromAPI(TowerListing TL)
         {
             XmlDocument apiPOSList, apiPOSDetails;
@@ -179,9 +196,9 @@ namespace EveHQ.PosManager
             {
                 if (selPilot.Active)
                 {
-                    acctName = selPilot.Account;
-                    if (EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(acctName))
+                    if (IsPilotAllowedAccessToAPI(selPilot))
                     {
+                        acctName = selPilot.Account;
                         pilotAccount = (Core.EveAccount)EveHQ.Core.HQ.EveHQSettings.Accounts[acctName];
 
                         // Get overall POS List associated with the given Pilot ID
@@ -189,13 +206,7 @@ namespace EveHQ.PosManager
                         apiPOSList = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
                         if (!CheckXML(apiPOSList))
                         {
-                            // Corrupted list, try again
-                            apiPOSList = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
-                            if (!CheckXML(apiPOSList))
-                            {
-                                // Corrupted list, good bye
-                                continue;
-                            }
+                            MessageBox.Show("POS Manager: POS Data API Error - Cannot Access API for: " + selPilot.Name);
                         }
                         if (apiPOSList == null)
                             continue;
