@@ -1,10 +1,5 @@
 ====== Version 2 Change Log ======
 
-Changes to: Revision 3239
-
-This page is subject to change for the final release
-
-
 ===== EveHQ Application Changes =====
 
 New Features & Critical Changes:

@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>03/09/2011 16:00:00</lastUpdated>
-  <title>HOURS TO GO</title>
+  <lastUpdated>03/09/2011 23:30:00</lastUpdated>
+  <title>WELCOME TO EVEHQ v2!</title>
   <allowIgnore>1</allowIgnore>
   <message>
   <![CDATA[
-If you're reading this then you've been switched over to the v2 update URL automagically!!<br /><br />
-<br /><br /><br /><br /><br /><br />
-- Vessper]]></message>
+Welcome to this new version of EveHQ!<br /><br />
+For the latest information, don't forget to keep an eye on the forums and on messages similar to these when starting EveHQ!<br /><br />
+Also, check the Wiki at <a href="http://wiki.indiceve.com/doku.php">http://wiki.indiceve.com/doku.php</a> for additional help and support.<br /><br /><br /><br /><br /><br />
+- The EveHQ Development Team]]></message>
   <disabledPlugins>
     <plugin name="Invention Calculator" version="3.5.0.0" />
   </disabledPlugins>
