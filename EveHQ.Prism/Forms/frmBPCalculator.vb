@@ -1,129 +1,360 @@
-﻿Imports System.Windows.Forms
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Imports System.Windows.Forms
 Imports System.Xml
-Imports DotNetLib.Windows.Forms
 Imports System.Text
+Imports DevComponents.AdvTree
 
 Public Class frmBPCalculator
 
 #Region "Class Variables"
     Dim BPPilot As EveHQ.Core.Pilot
     Dim UpdateBPInfo As Boolean = False
-    Dim StartUp As Boolean = True
-    Dim CurrentBP As New BlueprintSelection
-    Dim OwnedBP As BPAssetComboboxItem
+    Dim StartUp As Boolean = False
+    Dim InventionStartUp As Boolean = True
+	Dim CurrentBP As New BlueprintSelection
+	Dim CurrentInventionBP As New BlueprintSelection
+	Dim OwnedBP As BPAssetComboboxItem
     Dim currentJob As New ProductionJob
-    Dim ownedResources As New SortedList(Of String, Long)
-    Dim groupResources As New SortedList(Of String, Long)
-    Dim CurrentBPWF As Double
-    Dim ProductionRuns As Integer = 1
     Dim ProductionArray As AssemblyArray
-    Dim BatchSize As Integer
-    Dim UnitBuildTime As Double
-    Dim FactoryCosts As Double
-    Dim UnitMaterial As Double
-    Dim UnitWaste As Double
+    Dim CopyTimeMod As Double = 1.0
+
+    Dim StartMode As BPCalcStartMode = BPCalcStartMode.None
+    Dim InitialJob As ProductionJob = Nothing
+
+    ' Invention Specific Variables
+    Dim InventionBPID As Integer = 0
+    Dim InventionBaseChance As Double = 20
+    Dim InventionSkill1 As Integer = 0
+    Dim InventionSkill2 As Integer = 0
+    Dim InventionSkill3 As Integer = 0
+    Dim InventionMetaLevel As Integer = 0
+    Dim InventionMetaItemID As Integer = 0
+    Dim InventionDecryptorID As Integer = 0
+    Dim InventionDecryptorMod As Double = 1
+    Dim InventionChance As Double = 20
+    Dim InventionCost As Double = 0
+    Dim InventedBP As New BlueprintSelection
+    Dim InventionAttempts As Double = 0
+    Dim InventionSuccessCost As Double = 0
+
 #End Region
 
-#Region "Public Properties & Property Variables"
+#Region "Old Property Variables"
     Dim cBPName As String = ""
     Dim cBPOwnerName As String = ""
     Dim cUsingOwnedBPs As Boolean = False
     Dim cOwnedBPID As String = ""
+#End Region
 
-
-    Public Property BPName() As String
+#Region "Internal Properties"
+    Dim cProductionChanged As Boolean = False
+    Private Property ProductionChanged() As Boolean
         Get
-            Return cBPName
-        End Get
-        Set(ByVal value As String)
-            cBPName = value
-        End Set
-    End Property
-
-    Public Property BPOwnerName() As String
-        Get
-            Return cBPOwnerName
-        End Get
-        Set(ByVal value As String)
-            cBPOwnerName = value
-        End Set
-    End Property
-
-    Public Property UsingOwnedBPs() As Boolean
-        Get
-            Return cUsingOwnedBPs
+            Return cProductionChanged
         End Get
         Set(ByVal value As Boolean)
-            cUsingOwnedBPs = value
+            cProductionChanged = value
+            If Me.InitialJob IsNot Nothing Then
+                btnSaveProductionJob.Enabled = value
+            End If
         End Set
     End Property
+#End Region
 
-    Public Property OwnedBPID() As String
-        Get
-            Return cOwnedBPID
-        End Get
-        Set(ByVal value As String)
-            cOwnedBPID = value
-        End Set
-    End Property
+#Region "Constructors"
+
+    Public Sub New(ByVal UsingOwnedBPs As Boolean)
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' This is for a default blank BPCalc
+        cUsingOwnedBPs = UsingOwnedBPs
+        StartMode = BPCalcStartMode.None
+        cBPOwnerName = Settings.PrismSettings.DefaultBPOwner
+
+    End Sub
+
+    Public Sub New(ByVal BPName As String)
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' This is for a non-owned BP
+        cBPName = BPName
+        cUsingOwnedBPs = False
+        cBPOwnerName = Settings.PrismSettings.DefaultBPOwner
+        StartMode = BPCalcStartMode.StandardBP
+
+    End Sub
+
+    Public Sub New(ByVal BPOwner As String, ByVal BPAssetID As Long)
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' This is for a non-owned BP
+        cBPOwnerName = BPOwner
+        cOwnedBPID = CStr(BPAssetID)
+        cUsingOwnedBPs = True
+        StartMode = BPCalcStartMode.OwnerBP
+
+    End Sub
+
+    Public Sub New(ByVal ExistingJob As ProductionJob)
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        StartUp = True
+        Me.InitialJob = ExistingJob
+        currentJob = ExistingJob.Clone
+        CurrentBP = currentJob.CurrentBP
+        StartMode = BPCalcStartMode.ProductionJob
+        cBPOwnerName = ExistingJob.BPOwner
+        cOwnedBPID = CStr(CurrentBP.AssetID)
+        Me.Text = "BPCalc - Production Job: " & currentJob.JobName
+
+    End Sub
 
 #End Region
 
 #Region "Form Loading Routines"
+
+    Private Sub frmBPCalculator_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+
+        ' Check for changed production values
+        If Me.ProductionChanged = True Then
+            Dim reply As DialogResult = MessageBox.Show("There are unsaved changes to this Production Job. Would you like to save these now?", "Save Job Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            If reply = Windows.Forms.DialogResult.Cancel Then
+                e.Cancel = True
+            Else
+                If reply = Windows.Forms.DialogResult.Yes Then
+                    ' Save the current job before exiting
+                    Call Me.SaveCurrentProductionJob()
+                End If
+
+                ' Kill the event handlers from the PrismProductionResources controls
+                RemoveHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.DisplayInventionProfitInfo
+                RemoveHandler PPRProduction.ProductionResourcesChanged, AddressOf Me.ProductionResourcesChanged
+
+				' Remove handlers for the price modification controls
+				RemoveHandler PACUnitValue.PriceUpdated, AddressOf Me.CalculateInvention
+                RemoveHandler PACDecryptor.PriceUpdated, AddressOf Me.CalculateInvention
+                RemoveHandler PACMetaItem.PriceUpdated, AddressOf Me.CalculateInvention
+				RemoveHandler PACSalesPrice.PriceUpdated, AddressOf Me.CalculateInvention
+
+				RemoveHandler PACUnitValue.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
+				RemoveHandler PACSalesPrice.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
+
+            End If
+        End If
+    End Sub
     Private Sub frmBPCalculator_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        ' Set up the event handlers from the PrismProductionResources controls
+        AddHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.DisplayInventionProfitInfo
+        AddHandler PPRProduction.ProductionResourcesChanged, AddressOf Me.ProductionResourcesChanged
+
+		' Set up handlers for the price modification controls
+		AddHandler PACUnitValue.PriceUpdated, AddressOf Me.CalculateInvention
+        AddHandler PACDecryptor.PriceUpdated, AddressOf Me.CalculateInvention
+        AddHandler PACMetaItem.PriceUpdated, AddressOf Me.CalculateInvention
+		AddHandler PACSalesPrice.PriceUpdated, AddressOf Me.CalculateInvention
+
+		AddHandler PACUnitValue.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
+		AddHandler PACSalesPrice.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
 
         ' Set the implants
         cboResearchImplant.SelectedIndex = 0
         cboMetallurgyImplant.SelectedIndex = 0
         cboScienceImplant.SelectedIndex = 0
-        cboIndustyImplant.SelectedIndex = 0
+        cboIndustryImplant.SelectedIndex = 0
 
-        'Load the characters into the combobox
-        cboPilot.BeginUpdate()
-        cboPilot.Items.Clear()
+        ' Add the skill levels
+        cboResearchSkill.BeginUpdate()
+        cboMetallurgySkill.BeginUpdate()
+        cboScienceSkill.BeginUpdate()
+        cboIndustrySkill.BeginUpdate()
+        cboProdEffSkill.BeginUpdate()
+        For idx As Integer = 0 To 5
+            cboResearchSkill.Items.Add(idx.ToString)
+            cboMetallurgySkill.Items.Add(idx.ToString)
+            cboScienceSkill.Items.Add(idx.ToString)
+            cboIndustrySkill.Items.Add(idx.ToString)
+            cboProdEffSkill.Items.Add(idx.ToString)
+        Next
+        cboResearchSkill.EndUpdate()
+        cboMetallurgySkill.EndUpdate()
+        cboScienceSkill.EndUpdate()
+        cboIndustrySkill.EndUpdate()
+        cboProdEffSkill.EndUpdate()
+
+        'Load the characters into the comboboxes
+        cboPilot.BeginUpdate() : cboPilot.Items.Clear()
+        cboOwner.BeginUpdate() : cboOwner.Items.Clear()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Active = True Then
                 cboPilot.Items.Add(cPilot.Name)
+                cboOwner.Items.Add(cPilot.Name)
+                If cboOwner.Items.Contains(cPilot.Corp) = False Then
+                    cboOwner.Items.Add(cPilot.Corp)
+                End If
             End If
         Next
+        cboPilot.Sorted = True
+        cboOwner.Sorted = True
         cboPilot.EndUpdate()
+        cboOwner.EndUpdate()
 
-        ' Set the Prism pilot as selected owner
-        If cboPilot.Items.Contains(BPOwnerName) Then
-            cboPilot.SelectedItem = BPOwnerName
-        Else
-            If cboPilot.Items.Count > 0 Then
-                cboPilot.SelectedIndex = 0
-            End If
+        If cboOwner.Items.Contains(cBPOwnerName) = True Then
+            cboOwner.SelectedItem = cBPOwnerName
         End If
 
-        ' Update the list of Blueprints
-        If UsingOwnedBPs = True Then
-            chkOwnedBPOs.Checked = True
-        Else
-            Call Me.DisplayAllBlueprints()
+        If CType(PPRProduction.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items.ContainsKey(Settings.PrismSettings.DefaultBPCalcAssetOwner) = True Then
+            CType(PPRProduction.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items(Settings.PrismSettings.DefaultBPCalcAssetOwner).Checked = True
+        End If
+        If CType(PPRInvention.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items.ContainsKey(Settings.PrismSettings.DefaultBPCalcAssetOwner) = True Then
+            CType(PPRInvention.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items(Settings.PrismSettings.DefaultBPCalcAssetOwner).Checked = True
         End If
 
-        ' Set the AssetSelection box
-        cboAssetSelection.SelectedIndex = 0
+        ' Select data depending on our startup routine
+        Select Case StartMode
 
-        ' Check if we have anything in the BPName Property
-        If cBPName <> "" Then
-            If cboBPs.Items.Contains(cBPName) Then
-                cboBPs.SelectedItem = cBPName
-            End If
-        End If
+            Case BPCalcStartMode.None
 
-        If cUsingOwnedBPs = True Then
-            ' Check if we have anything in the OwnedBP Property
-            If OwnedBP IsNot Nothing Then
-                ' Set the details of the main Blueprint
-                cboBPs.SelectedItem = OwnedBP
-            End If
-        End If
+                ' Set the Prism pilot as selected owner
+                If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
+                    cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+                Else
+                    cboPilot.SelectedIndex = 0
+                End If
 
+                ' Update the list of Blueprints
+                If cUsingOwnedBPs = True Then
+                    chkOwnedBPOs.Checked = True
+                Else
+                    Call Me.DisplayAllBlueprints()
+                End If
+
+                ' Check if we have anything in the BPName Property
+                If cBPName <> "" Then
+                    If cboBPs.Items.Contains(cBPName) Then
+                        cboBPs.SelectedItem = cBPName
+                    End If
+                End If
+
+                If cUsingOwnedBPs = True Then
+                    ' Check if we have anything in the OwnedBP Property
+                    If OwnedBP IsNot Nothing Then
+                        ' Set the details of the main Blueprint
+                        cboBPs.SelectedItem = OwnedBP
+                    End If
+                End If
+
+
+            Case BPCalcStartMode.StandardBP
+
+                ' Set the Prism pilot as selected owner
+                If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
+                    cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+                Else
+                    cboPilot.SelectedIndex = 0
+                End If
+
+                ' Update the list of Blueprints
+                Call Me.DisplayAllBlueprints()
+
+                ' Check if we have anything in the BPName Property
+                If cBPName <> "" Then
+                    If cboBPs.Items.Contains(cBPName) Then
+                        cboBPs.SelectedItem = cBPName
+                    End If
+                End If
+
+            Case BPCalcStartMode.OwnerBP
+
+                ' Set the Prism pilot as selected owner
+                If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
+                    cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+                Else
+                    cboPilot.SelectedIndex = 0
+                End If
+
+                ' Update the list of Blueprints
+                chkOwnedBPOs.Checked = True
+
+                If cUsingOwnedBPs = True Then
+                    ' Check if we have anything in the OwnedBP Property
+                    If OwnedBP IsNot Nothing Then
+                        ' Set the details of the main Blueprint
+                        cboBPs.SelectedItem = OwnedBP
+                    End If
+                End If
+
+
+            Case BPCalcStartMode.ProductionJob
+
+                ' Set Manufacturer
+                If cboPilot.Items.Contains(currentJob.Manufacturer) Then
+                    cboPilot.SelectedItem = currentJob.Manufacturer
+                Else
+                    If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
+                        cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+                    Else
+                        cboPilot.SelectedIndex = 0
+                    End If
+                End If
+
+                ' Set BP values
+                If currentJob.OverridingME <> "" Then
+                    nudMELevel.Value = CInt(currentJob.OverridingME)
+                End If
+                If currentJob.OverridingPE <> "" Then
+                    nudPELevel.Value = CInt(currentJob.OverridingPE)
+                End If
+
+                If PlugInData.Blueprints.ContainsKey(CurrentBP.AssetID.ToString) Then
+                    ' This is a standard BP, not an owned one
+                    Call Me.DisplayAllBlueprints()
+                    cboBPs.SelectedItem = PlugInData.Blueprints(CurrentBP.AssetID.ToString).Name
+                Else
+                    ' This is an owned BP
+                    chkOwnedBPOs.Checked = True
+                    cboBPs.SelectedItem = OwnedBP
+                End If
+
+                nudRuns.Value = currentJob.Runs
+
+                PPRProduction.ProductionJob = currentJob
+
+            Case BPCalcStartMode.InventionJob
+
+        End Select
+
+    End Sub
+
+    Private Sub frmBPCalculator_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         StartUp = False
-
     End Sub
 
     Private Sub DisplayAllBlueprints()
@@ -133,8 +364,22 @@ Public Class frmBPCalculator
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
         For Each newBP As Blueprint In PlugInData.Blueprints.Values
-            cboBPs.Items.Add(newBP.Name)
-        Next
+			If chkInventBPOs.Checked = True Then
+				If btnToggleInvention.Value = True Then
+					' Use T1 data
+					If newBP.Inventions.Count > 0 Then
+						cboBPs.Items.Add(newBP.Name)
+					End If
+				Else
+					' Use T2 data
+					If newBP.InventFrom.Count > 0 Then
+						cboBPs.Items.Add(newBP.Name)
+					End If
+				End If
+			Else
+				cboBPs.Items.Add(newBP.Name)
+			End If
+		Next
         cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
@@ -151,30 +396,49 @@ Public Class frmBPCalculator
             ownerBPs = PlugInData.BlueprintAssets(cBPOwnerName)
         End If
         Dim BPData As New Blueprint
-        For Each BP As BlueprintAsset In ownerBPs.Values
+		For Each BP As BlueprintAsset In ownerBPs.Values
             Dim BPACBI As New BPAssetComboboxItem(PlugInData.Blueprints(BP.TypeID).Name, BP.AssetID, BP.MELevel, BP.PELevel, BP.Runs)
-            cboBPs.Items.Add(BPACBI)
-            ' Check if this matches the ownedBPID
-            If BPACBI.AssetID = cOwnedBPID Then
-                OwnedBP = BPACBI
-            End If
-        Next
-        cboBPs.Sorted = True
+
+            'Basic filter if inventable item filtering is on
+			If chkInventBPOs.Checked = True Then
+				If btnToggleInvention.Value = True Then
+					' Use T1 data
+					If PlugInData.Blueprints(BP.TypeID).Inventions.Count > 0 Then
+						cboBPs.Items.Add(BPACBI)
+					End If
+				Else
+					' Use T2 data
+					If PlugInData.Blueprints(BP.TypeID).InventFrom.Count > 0 Then
+						cboBPs.Items.Add(BPACBI)
+					End If
+				End If
+			Else
+				cboBPs.Items.Add(BPACBI)
+			End If
+
+			' Check if this matches the ownedBPID
+			If BPACBI.AssetID = cOwnedBPID Then
+				OwnedBP = BPACBI
+			End If
+		Next
+		cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
 
 #End Region
 
 #Region "Pilot Selection Routines"
+
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
         ' Set the pilot
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
             BPPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+            ' Update skills and stuff
+            currentJob.UpdateManufacturer(BPPilot.Name)
             Call Me.UpdatePilotSkills()
         End If
-        If StartUp = False And UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
+        If InventionStartUp = False Then
+            Call Me.UpdateInventionUI()
         End If
     End Sub
 
@@ -187,16 +451,19 @@ Public Class frmBPCalculator
         cboProdEffSkill.Enabled = chkOverrideSkills.Checked
         cboScienceSkill.Enabled = chkOverrideSkills.Checked
 
+        cboResearchImplant.Enabled = chkOverrideSkills.Checked
+        cboMetallurgyImplant.Enabled = chkOverrideSkills.Checked
+        cboIndustryImplant.Enabled = chkOverrideSkills.Checked
+        cboScienceImplant.Enabled = chkOverrideSkills.Checked
+
         ' Determine whether to change the skills or leave the existing ones
         If chkOverrideSkills.Checked = False Then
             ' Use pilot skills
             Call Me.UpdatePilotSkills()
+            ' Set change flag
+            Me.ProductionChanged = True
         Else
             ' Don't do anything here at present as we shall just use the default values for the last selected pilot
-        End If
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
         End If
 
     End Sub
@@ -236,6 +503,16 @@ Public Class frmBPCalculator
         End If
         ' Allow updating again
         UpdateBPInfo = True
+        If StartUp = False Then
+            ' Set skills for job etc
+            Dim ProdImplant As Integer = CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%")))
+            ' Update the job skills
+            currentJob.UpdateJobSkills(cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, ProdImplant)
+            ' Update the Blueprint information
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
+        End If
     End Sub
 
 
@@ -244,50 +521,72 @@ Public Class frmBPCalculator
 #Region "Blueprint Selection & Calculation Routines"
 
     Private Sub cboBPs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
-        ' Enable the various parts
-        gbSkills.Enabled = True
-        gbAddResearch.Enabled = True
-        gbProduction.Enabled = True
-        tabBPResources.Enabled = True
-        UpdateBPInfo = False
-        If TypeOf (cboBPs.SelectedItem) Is BPAssetComboboxItem Then
-            ' This is an owner bluepint!
-            Dim selBP As BPAssetComboboxItem = CType(cboBPs.SelectedItem, BPAssetComboboxItem)
-            Dim bpID As String = EveHQ.Core.HQ.itemList(selBP.Name)
-            CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
-            CurrentBP.MELevel = selBP.MELevel
-            CurrentBP.PELevel = selBP.PELevel
-            CurrentBP.Runs = selBP.Runs
-            ' Update the research boxes
-            nudMELevel.Minimum = CurrentBP.MELevel : nudMELevel.Value = CurrentBP.MELevel
-            nudPELevel.Minimum = CurrentBP.PELevel : nudPELevel.Value = CurrentBP.PELevel
-        Else
-            ' This is a standard blueprint
-            Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
-            CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
-            CurrentBP.MELevel = 0
-            CurrentBP.PELevel = 0
-            CurrentBP.Runs = -1
-            ' Update the research boxes
-            nudMELevel.Minimum = -10 : nudMELevel.Value = CurrentBP.MELevel
-            nudPELevel.Minimum = -10 : nudPELevel.Value = CurrentBP.PELevel
+        If StartUp = False Then
+            ' Enable the various parts
+            gpPilotSkills.Enabled = True
+            UpdateBPInfo = False
+            If TypeOf (cboBPs.SelectedItem) Is BPAssetComboboxItem Then
+                ' This is an owner blueprint!
+                Dim selBP As BPAssetComboboxItem = CType(cboBPs.SelectedItem, BPAssetComboboxItem)
+                Dim bpID As String = EveHQ.Core.HQ.itemList(selBP.Name)
+                CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
+                CurrentBP.MELevel = selBP.MELevel
+                CurrentBP.PELevel = selBP.PELevel
+                CurrentBP.Runs = selBP.Runs
+                CurrentBP.AssetID = CLng(selBP.AssetID)
+                ' Update the research boxes
+                nudMELevel.MinValue = CurrentBP.MELevel : nudMELevel.Value = CurrentBP.MELevel
+                nudPELevel.MinValue = CurrentBP.PELevel : nudPELevel.Value = CurrentBP.PELevel
+            Else
+                ' This is a standard blueprint
+                Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
+                CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
+                CurrentBP.MELevel = 0
+                CurrentBP.PELevel = 0
+                CurrentBP.Runs = -1
+                CurrentBP.AssetID = CLng(bpID)
+                ' Update the research boxes
+                nudMELevel.MinValue = -10 : nudMELevel.Value = CurrentBP.MELevel
+                nudPELevel.MinValue = -10 : nudPELevel.Value = CurrentBP.PELevel
+            End If
+            ' Set change flag
+            Me.ProductionChanged = True
         End If
-        ' Update the form title
-        Me.Text = "BPCalc - " & cboBPs.SelectedItem.ToString
+        ' Check if all the invention data is present
+        Call BlueprintSelection.CheckForInventionItems(CurrentBP)
+        ' Disable the invention tab if we have no inventable items
+		If CurrentBP.InventFrom.Count > 0 Then
+			' Populate invention data
+			Call Me.UpdateInventionUI()
+			tiInvention.Visible = True
+		Else
+			If CurrentBP.Inventions.Count > 0 Then
+				' Populate invention data
+				Call Me.UpdateInventionUI()
+				tiInvention.Visible = True
+			Else
+				tiInvention.Visible = False
+			End If
+		End If
+		' Update the form title
+        If Me.StartMode <> BPCalcStartMode.ProductionJob Then
+            Me.Text = "BPCalc - " & cboBPs.SelectedItem.ToString
+        End If
         ' First get the image
-        pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CStr(CurrentBP.ID), EveHQ.Core.ImageHandler.ImageType.Blueprints)
+        pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CurrentBP.ID.ToString)
         ' Update the standard BP Info
         lblBPME.Text = CurrentBP.MELevel.ToString
         lblBPPE.Text = CurrentBP.PELevel.ToString
         lblBPRuns.Text = CurrentBP.Runs.ToString
+        lblBPMaxRuns.Text = CurrentBP.MaxProdLimit.ToString("N0")
         ' Update the prices
         lblBPOMarketValue.Text = FormatNumber(CDbl(EveHQ.Core.HQ.BasePriceList(CurrentBP.ID.ToString)) * 0.9, 2) & " Isk"
         ' Update the limits on the Runs
-        nudCopyRuns.Maximum = CurrentBP.MaxProdLimit
+        nudCopyRuns.MaxValue = CurrentBP.MaxProdLimit
         If CurrentBP.Runs = -1 Then
-            nudRuns.Maximum = 1000000
+            nudRuns.MaxValue = 1000000
         Else
-            nudRuns.Maximum = Math.Min(CurrentBP.MaxProdLimit, CurrentBP.Runs)
+            nudRuns.MaxValue = Math.Min(CurrentBP.MaxProdLimit, CurrentBP.Runs)
         End If
         ToolTip1.SetToolTip(nudCopyRuns, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
         ToolTip1.SetToolTip(lblRunsPerCopy, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
@@ -295,41 +594,190 @@ Public Class frmBPCalculator
         ' Calculate what arrays we can use to manufacture this
         Call Me.CalculateAssemblyLocations()
         ' Calculate the remaining blueprint information
-        Call Me.SetBlueprintInformation()
-        ' Update Waste Factor
-        lblBPWF.Text = FormatNumber(CurrentBPWF * 100, 6) & "%"
+        Call Me.SetBlueprintInformation(StartUp)
     End Sub
 
-    Private Sub SetBlueprintInformation()
-        ' Calculate and display the waste factor
-        Call Me.CalculateWasteFactor()
-        ' Display the research times
-        Call Me.CalculateBlueprintTimes()
-        ' Display production times
-        Call Me.CalculateProductionDetails()
-        ' Get the required resources
-        Call Me.GetRequiredResources()
-        ' Get the owned Resources
-        Call Me.GetOwnedResources()
-        ' Display the Resources
-        Call Me.DisplayRequiredResources()
-        ' Display costs information
-        Call Me.DisplayCostInformation()
+    Private Sub UpdateInventionUI()
+
+		InventionStartUp = True
+
+		' Set the InventionBP based on selection
+		If CurrentBP.InventFrom.Count > 0 Then
+			CurrentInventionBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(CurrentBP.InventFrom(0)))
+		Else
+			CurrentInventionBP = BlueprintSelection.CopyFromBlueprint(CurrentBP)
+		End If
+
+		' Update the available inventions
+		cboInventions.BeginUpdate()
+		cboInventions.Items.Clear()
+		For Each BPID As String In CurrentInventionBP.Inventions
+			cboInventions.Items.Add(EveHQ.Core.HQ.itemData(BPID).Name)
+		Next
+		cboInventions.Sorted = True
+		cboInventions.EndUpdate()
+
+		Dim InventionSkills As New SortedList(Of String, Integer)
+
+		' Update the decryptors and get skills by looking at the resources and determining the type of interface used
+		Dim DecryptorGroupID As String = ""
+		For Each Resource As BlueprintResource In CurrentInventionBP.Resources.Values
+			If Resource.Activity = 8 = True Then
+				' Add the resource to the list
+				Dim IRPrice As Double = EveHQ.Core.DataFunctions.GetPrice(Resource.TypeID.ToString)
+				If Resource.TypeName.EndsWith("Interface") = True Then
+					Select Case Resource.TypeName.Substring(0, 1)
+						Case "O"
+							' Amarr
+							DecryptorGroupID = "728"
+							Dim SkillLevel As Integer = 0
+							If BPPilot.PilotSkills.Contains("Amarr Encryption Methods") = True Then
+								SkillLevel = CType(BPPilot.PilotSkills("Amarr Encryption Methods"), EveHQ.Core.PilotSkill).Level
+							End If
+							InventionSkills.Add("Amarr Encryption Methods", SkillLevel)
+						Case "C"
+							' Minmatar
+							DecryptorGroupID = "729"
+							Dim SkillLevel As Integer = 0
+							If BPPilot.PilotSkills.Contains("Minmatar Encryption Methods") = True Then
+								SkillLevel = CType(BPPilot.PilotSkills("Minmatar Encryption Methods"), EveHQ.Core.PilotSkill).Level
+							End If
+							InventionSkills.Add("Minmatar Encryption Methods", SkillLevel)
+						Case "I"
+							' Gallente
+							DecryptorGroupID = "730"
+							Dim SkillLevel As Integer = 0
+							If BPPilot.PilotSkills.Contains("Gallente Encryption Methods") = True Then
+								SkillLevel = CType(BPPilot.PilotSkills("Gallente Encryption Methods"), EveHQ.Core.PilotSkill).Level
+							End If
+							InventionSkills.Add("Gallente Encryption Methods", SkillLevel)
+						Case "E"
+							' Caldari
+							DecryptorGroupID = "731"
+							Dim SkillLevel As Integer = 0
+							If BPPilot.PilotSkills.Contains("Caldari Encryption Methods") = True Then
+								SkillLevel = CType(BPPilot.PilotSkills("Caldari Encryption Methods"), EveHQ.Core.PilotSkill).Level
+							End If
+							InventionSkills.Add("Caldari Encryption Methods", SkillLevel)
+					End Select
+					' Terminate early once we know
+				ElseIf Resource.TypeName.StartsWith("Datacore") = True Then
+					Dim SkillName As String = Resource.TypeName.TrimStart("Datacore - ".ToCharArray)
+					Dim SkillLevel As Integer = 0
+					If BPPilot.PilotSkills.Contains(SkillName) = True Then
+						SkillLevel = CType(BPPilot.PilotSkills(SkillName), EveHQ.Core.PilotSkill).Level
+					End If
+					InventionSkills.Add(SkillName, SkillLevel)
+				End If
+			End If
+		Next
+		' Update the invention resources with this BP
+		PPRInvention.InventionBP = CurrentInventionBP
+
+		' Load the decryptors
+		cboDecryptor.BeginUpdate()
+		cboDecryptor.Items.Clear()
+		cboDecryptor.Items.Add("<None>")
+		For Each Decrypt As Decryptor In PlugInData.Decryptors.Values
+			If Decrypt.GroupID = DecryptorGroupID Then
+				cboDecryptor.Items.Add(Decrypt.Name & " (" & Decrypt.ProbMod.ToString & "x, " & Decrypt.MEMod.ToString & "ME, " & Decrypt.PEMod.ToString & "PE, " & Decrypt.RunMod.ToString & "r)")
+			End If
+		Next
+		cboDecryptor.SelectedIndex = 0
+		cboDecryptor.EndUpdate()
+
+		' Display the skills - hopefully should be 3 :)
+		If InventionSkills.Count = 3 Then
+			lblInvSkill1.Text = "Skill 1: " & InventionSkills.Keys(0)
+			lblInvSkill1.Tag = InventionSkills.Keys(0)
+			nudInventionSkill1.Value = InventionSkills.Values(0)
+			InventionSkill1 = InventionSkills.Values(0)
+			lblInvSkill2.Text = "Skill 2: " & InventionSkills.Keys(1)
+			lblInvSkill2.Tag = InventionSkills.Keys(1)
+			nudInventionSkill2.Value = InventionSkills.Values(1)
+			InventionSkill2 = InventionSkills.Values(1)
+			lblInvSkill3.Text = "Skill 3: " & InventionSkills.Keys(2)
+			lblInvSkill3.Tag = InventionSkills.Keys(2)
+			nudInventionSkill3.Value = InventionSkills.Values(2)
+			InventionSkill3 = InventionSkills.Values(2)
+		Else
+			MessageBox.Show("Ooops! Seems to be more invention skills here than what we can use in the calculation!", "Invention Skills Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		End If
+
+		' Load the meta items
+		cboMetaItem.BeginUpdate()
+		cboMetaItem.Items.Clear()
+		cboMetaItem.Items.Add("<None>")
+		For Each MetaItem As String In CurrentInventionBP.InventionMetaItems.Keys
+			cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(MetaItem).MetaLevel & ": " & EveHQ.Core.HQ.itemData(MetaItem).Name)
+		Next
+		cboMetaItem.SelectedIndex = 0
+		cboMetaItem.EndUpdate()
+
+		' Work out Base Chance
+		Select Case EveHQ.Core.HQ.itemData(CurrentInventionBP.ProductID.ToString).Group
+			Case 27, 419
+				InventionBaseChance = 20
+			Case 26, 28
+				InventionBaseChance = 25
+			Case 25, 420, 513
+				InventionBaseChance = 30
+			Case Else
+				Select Case CurrentInventionBP.ID
+                    Case 17477
+                        InventionBaseChance = 20
+                    Case 17479
+                        InventionBaseChance = 25
+                    Case 17481
+                        InventionBaseChance = 30
+					Case Else
+						InventionBaseChance = 40
+				End Select
+		End Select
+		lblBaseChance.Text = "Base Invention Chance: " & InventionBaseChance.ToString & "%"
+
+		' Update the BPC Override Values
+		nudInventionBPCRuns.MaxValue = CurrentInventionBP.MaxProdLimit
+
+		InventionStartUp = False
+
+		If cboInventions.Items.Count > 0 Then
+			If cboInventions.Items.Contains(CurrentBP.Name) Then
+				cboInventions.SelectedItem = CurrentBP.Name
+			Else
+				cboInventions.SelectedIndex = 0
+			End If
+		End If
+
+	End Sub
+
+    Private Sub SetBlueprintInformation(ByVal RecalcOnly As Boolean)
+        ' Recalculate the required resources
+        If RecalcOnly = False Then
+            Call Me.CalculateProductionResources()
+        Else
+            Call currentJob.RecalculateResourceRequirements()
+            Call Me.DisplayProductionInformation()
+        End If
+    End Sub
+
+    Private Sub ProductionResourcesChanged()
+        If StartUp = False Then
+            ' Set change flag
+            Me.ProductionChanged = True
+            Call Me.UpdateBlueprintInformation()
+        End If
     End Sub
 
     Private Sub UpdateBlueprintInformation()
-        ' Calculate and display the waste factor
-        Call Me.CalculateWasteFactor()
-        ' Display the research times
-        Call Me.CalculateBlueprintTimes()
-        ' Display production times
-        Call Me.CalculateProductionDetails()
-        ' Get the required resources
-        Call Me.GetRequiredResources()
-        ' Display the Resources
-        Call Me.DisplayRequiredResources()
-        ' Display costs information
-        Call Me.DisplayCostInformation()
+        If CurrentBP.Name <> "" Then
+            ' Calculate and display the waste factor
+            Call Me.CalculateWasteFactor()
+            ' Display the research times
+            Call Me.CalculateBlueprintTimes()
+            ' Display production info
+            Call Me.DisplayProductionInformation()
+        End If
     End Sub
 
     Private Sub CalculateAssemblyLocations()
@@ -351,9 +799,8 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub CalculateWasteFactor()
-        If CurrentBP.WasteFactor = 0 Then
-            CurrentBPWF = 0
-        Else
+        Dim CurrentBPWF As Double = 0
+        If CurrentBP.WasteFactor <> 0 Then
             If nudMELevel.Value < 0 Then
                 ' This is for negative ME
                 CurrentBPWF = ((CurrentBP.WasteFactor / 100) * (1 - nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
@@ -369,27 +816,15 @@ Public Class frmBPCalculator
         Dim MEImplant As Double = 1 - (CDbl(cboMetallurgyImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
         Dim PEImplant As Double = 1 - (CDbl(cboResearchImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
         Dim CopyImplant As Double = 1 - (CDbl(cboScienceImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
-        Dim ProdImplant As Double = 1 - (CDbl(cboIndustyImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
+        Dim ProdImplant As Double = 1 - (CDbl(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
         Dim METime As Double = CurrentBP.ResearchMatTime * (1 - (0.05 * cboMetallurgySkill.SelectedIndex)) * MEImplant
         Dim PETime As Double = CurrentBP.ResearchProdTime * (1 - (0.05 * cboResearchSkill.SelectedIndex)) * PEImplant
         Dim CopyTime As Double = CurrentBP.ResearchCopyTime / CurrentBP.MaxProdLimit * 2 * (1 - (0.05 * cboScienceSkill.SelectedIndex)) * CopyImplant
         Dim prodTime As Double = CurrentBP.ProdTime * (1 - (0.04 * cboIndustrySkill.SelectedIndex)) * ProdImplant
-        ' Calculate the production time
-        If nudPELevel.Value >= 0 Then
-            prodTime *= (1 - (CurrentBP.ProdMod / CurrentBP.ProdTime) * nudPELevel.Value / (1 + nudPELevel.Value))
-        Else
-            prodTime *= (1 - (CurrentBP.ProdMod / CurrentBP.ProdTime) * (nudPELevel.Value - 1))
-        End If
-        If chkPOSProduction.Checked = True Then
-            If ProductionArray IsNot Nothing Then
-                prodTime *= ProductionArray.TimeMultiplier
-            End If
-        End If
-        UnitBuildTime = prodTime
         If chkResearchAtPOS.Checked = True Then
             METime *= 0.75
             PETime *= 0.75
-            CopyTime *= 0.75
+            CopyTime *= CopyTimeMod
         End If
         ' Display the ME Time
         If nudMELevel.Value > 0 Then
@@ -407,18 +842,7 @@ Public Class frmBPCalculator
         lblCopyTime.Text = EveHQ.Core.SkillFunctions.TimeToString(CopyTime * nudCopyRuns.Value, False)
     End Sub
 
-    Private Sub CalculateProductionDetails()
-        ' Calculate the batch size
-        Dim productID As String = CurrentBP.ProductID.ToString
-        Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(productID)
-        BatchSize = product.PortionSize
-        txtBatchSize.Text = FormatNumber(product.PortionSize, 0)
-        txtProdQuantity.Text = FormatNumber(product.PortionSize * ProductionRuns, 0)
-        ' Calculate the factory costs
-        FactoryCosts = Math.Round((nudRunningCost.Value / 3600 * UnitBuildTime * ProductionRuns) + nudInstallCost.Value, 2)
-    End Sub
-
-    Private Sub GetRequiredResources()
+    Private Sub CalculateProductionResources()
 
         ' Check for production array
         Dim arrayMod As Double = 1
@@ -426,431 +850,33 @@ Public Class frmBPCalculator
             If ProductionArray IsNot Nothing Then
                 arrayMod = ProductionArray.MaterialMultiplier
             End If
+        Else
+            ProductionArray = Nothing
         End If
 
         ' Set blueprint runs
-        Dim runs As Integer = CInt(nudRuns.Value)
+        Dim Runs As Integer = CInt(nudRuns.Value)
 
         ' Get resources
-        Dim ProdImplant As Integer = CInt(cboIndustyImplant.SelectedItem.ToString.TrimEnd(CChar("%")))
-        currentJob = CurrentBP.CalculateProductionJob(cBPOwnerName, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, ProdImplant, CurrentBPWF, runs, ProductionArray, Not (chkUseStandardBPCosting.Checked))
+        Dim ProdImplant As Integer = CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%")))
+        currentJob = CurrentBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, ProdImplant, nudMELevel.Value.ToString, nudPELevel.Value.ToString, Runs, ProductionArray, False)
+        PPRProduction.ProductionJob = currentJob
 
-        ' Add the resources required from the production job
-        groupResources = New SortedList(Of String, Long)
-        Call Me.GetResourcesFromJob(currentJob)
-
-    End Sub
-
-    Private Sub GetOwnedResources()
-
-        ' Establish a list of owners whose assets we are going to query
-        Dim ownerList As New ArrayList
-        Select Case cboAssetSelection.SelectedIndex
-            Case 0 ' Owner Only
-                ownerList.Add(cBPOwnerName)
-            Case 1 ' Owner + Corp
-                ownerList.Add(cBPOwnerName)
-                ' See if this is a pilot
-                If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cBPOwnerName) = True Then
-                    ' Insert pilot corp
-                    ownerList.Add(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cBPOwnerName), EveHQ.Core.Pilot).Corp)
-                End If
-            Case 2 ' Corp + Members
-                Dim Corp As String = ""
-                ' See if this is a pilot
-                If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cBPOwnerName) = True Then
-                    ' Insert pilot corp
-                    Corp = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cBPOwnerName), EveHQ.Core.Pilot).Corp
-                Else
-                    ' Assume a corp
-                    Corp = BPOwnerName
-                End If
-                ownerList.Add(Corp)
-                ' Go through each pilot and match the corp
-                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                    If cPilot.Corp = Corp Then
-                        ownerList.Add(cPilot.Name)
-                    End If
-                Next
-        End Select
-
-        ' Clear the current owned resources list
-        ownedResources.Clear()
-
-        ' Iterate through our list of owners
-        For Each Owner As String In ownerList
-
-            ' Fetch the resources owned
-            Dim IsCorp As Boolean = False
-            ' See if this owner is a corp
-            If PlugInData.CorpList.ContainsKey(Owner) = True Then
-                IsCorp = True
-                ' See if we have a representative
-                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
-                If CorpRep IsNot Nothing Then
-                    If CorpRep.ContainsKey(CStr(PlugInData.CorpList(Owner))) = True Then
-                        Owner = CStr(CorpRep(CStr(PlugInData.CorpList(Owner))))
-                    Else
-                        Owner = ""
-                    End If
-                Else
-                    Owner = ""
-                End If
-            End If
-
-            If Owner <> "" Then
-                ' Parse the Assets XML
-                Dim assetXML As New XmlDocument
-                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Owner), Core.Pilot)
-                Dim accountName As String = selPilot.Account
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-                If IsCorp = True Then
-                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
-                Else
-                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
-                End If
-                If assetXML IsNot Nothing Then
-
-                    Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                    If locList.Count > 0 Then
-                        ' Define what we want to obtain
-                        Dim categories, groups As New ArrayList
-                        For Each loc As XmlNode In locList
-                            Call GetAssetQuantitesFromNode(loc, categories, groups, ownedResources)
-                        Next
-                    End If
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub GetResourcesFromJob(ByVal pJob As ProductionJob)
-        For Each resource As Object In pJob.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
-                ' This is a resource so add it
-                If rResource.TypeCategory <> 16 Then
-                    If groupResources.ContainsKey(CStr(rResource.TypeID)) = False Then
-                        groupResources.Add(CStr(rResource.TypeID), CLng((rResource.PerfectUnits + rResource.WasteUnits) * pJob.Runs))
-                    Else
-                        groupResources(CStr(rResource.TypeID)) += CLng((rResource.PerfectUnits + rResource.WasteUnits) * pJob.Runs)
-                    End If
-                End If
-            Else
-                ' This is another production job
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
-                Call Me.GetResourcesFromJob(subJob)
-            End If
-        Next
-    End Sub
-
-    Private Sub DisplayRequiredResources()
-
-        clvResources.BeginUpdate() : clvOwnedResources.BeginUpdate()
-        clvResources.Items.Clear() : clvOwnedResources.Items.Clear()
-
-        Dim maxProducableUnits As Long = -1
-        UnitMaterial = 0 : UnitWaste = 0
-
-        For Each resource As Object In currentJob.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
-                ' This is a resource so add it
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
-                If rResource.TypeCategory <> 16 Or (rResource.TypeCategory = 16 And chkShowSkills.Checked = True) Then
-                    Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
-                    Dim waste As Integer = CInt(rResource.WasteUnits)
-                    Dim total As Integer = perfectRaw + waste
-                    Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
-                    Dim value As Double = total * price
-                    ' Add a new list view item
-                    If total > 0 Then
-                        Dim newRes As New ContainerListViewItem(rResource.TypeName)
-                        clvResources.Items.Add(newRes)
-                        ' Calculate costs
-                        If rResource.TypeCategory <> 16 Then
-                            ' Not a skill
-                            UnitMaterial += value
-                            UnitWaste += waste * price
-                        Else
-                            ' A skill
-                            newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(perfectRaw) & ")"
-                            ' Check for skill of recycler
-                            If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem), Core.Pilot), rResource.TypeName, perfectRaw) = True Then
-                                newRes.BackColor = Drawing.Color.LightGreen
-                            Else
-                                newRes.BackColor = Drawing.Color.LightCoral
-                            End If
-                            perfectRaw = 0 : waste = 0 : total = 0 : value = 0
-                        End If
-
-                        newRes.SubItems(1).Text = FormatNumber(perfectRaw * ProductionRuns, 0)
-                        newRes.SubItems(2).Text = FormatNumber(waste * ProductionRuns, 0)
-                        newRes.SubItems(3).Text = FormatNumber(total * ProductionRuns, 0)
-                        newRes.SubItems(4).Text = FormatNumber(price, 2)
-                        newRes.SubItems(5).Text = FormatNumber(value * ProductionRuns, 2)
-                        newRes.SubItems(6).Text = FormatNumber(Int(rResource.BaseUnits / CurrentBP.MatMod), 0)
-
-                        ' Add this into the required resources if necessary i.e. is not a skill
-                        'If rResource.TypeCategory <> 16 Then
-                        '    Dim reqd, owned, surplus As Long
-                        '    reqd = total * ProductionRuns
-                        '    If ownedResources.ContainsKey(rResource.TypeName) = True Then
-                        '        owned = ownedResources(rResource.TypeName)
-                        '        If maxProducableUnits = -1 Then
-                        '            maxProducableUnits = CLng(Int(owned / total))
-                        '        Else
-                        '            maxProducableUnits = Math.Min(maxProducableUnits, CLng(Int(owned / total)))
-                        '        End If
-                        '    Else
-                        '        owned = 0
-                        '        maxProducableUnits = 0
-                        '    End If
-                        '    surplus = owned - reqd
-                        '    Dim newORes As New ContainerListViewItem(rResource.TypeName)
-                        '    clvOwnedResources.Items.Add(newORes)
-                        '    newORes.SubItems(1).Text = FormatNumber(reqd, 0)
-                        '    newORes.SubItems(2).Text = FormatNumber(owned, 0)
-                        '    newORes.SubItems(3).Text = FormatNumber(surplus, 0)
-                        '    newORes.SubItems(3).Tag = surplus
-                        '    If surplus < 0 Then
-                        '        newORes.SubItems(3).ForeColor = Drawing.Color.Red
-                        '    Else
-                        '        newORes.SubItems(3).ForeColor = Drawing.Color.Green
-                        '    End If
-                        'End If
-                    End If
-                End If
-            Else
-                ' This is another production job
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
-                Dim newRes As New ContainerListViewItem(subJob.TypeName)
-                Dim perfectRaw As Integer = CInt(subJob.PerfectUnits)
-                Dim waste As Integer = CInt(subJob.WasteUnits)
-                Dim total As Integer = perfectRaw + waste
-                Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(subJob.TypeID))
-                Dim value As Double = total * price
-                clvResources.Items.Add(newRes)
-                newRes.SubItems(1).Text = FormatNumber(subJob.PerfectUnits * ProductionRuns, 0)
-                newRes.SubItems(2).Text = FormatNumber(subJob.WasteUnits * ProductionRuns, 0)
-                newRes.SubItems(3).Text = FormatNumber(total * ProductionRuns, 0)
-                newRes.SubItems(4).Text = FormatNumber(price, 2)
-                newRes.SubItems(5).Text = FormatNumber(value * ProductionRuns, 2)
-                newRes.SubItems(6).Text = FormatNumber(Int(subJob.PerfectUnits / CurrentBP.MatMod), 0)
-                Call DisplayJob(subJob, currentJob.Runs, newRes, maxProducableUnits)
-                ' Recalculate sub prices
-                Dim subprice As Double = 0
-                For Each subRes As ContainerListViewItem In newRes.Items
-                    subprice += CDbl(subRes.SubItems(5).Text)
-                Next
-                newRes.SubItems(5).Text = FormatNumber(subprice, 2)
-                newRes.SubItems(4).Text = FormatNumber(subprice / subJob.Runs, 2)
-            End If
-        Next
-
-        ' Display the resources owned
-        Dim ItemData As EveHQ.Core.EveItem
-        Dim reqd, owned, surplus As Long
-        For Each itemID As String In groupResources.Keys
-            reqd = groupResources(itemID)
-            If reqd > 0 Then
-                ItemData = EveHQ.Core.HQ.itemData(itemID)
-                Dim newORes As New ContainerListViewItem(ItemData.Name)
-                If ownedResources.ContainsKey(itemID) = True Then
-                    owned = ownedResources(itemID)
-                    If maxProducableUnits = -1 Then
-                        maxProducableUnits = CLng(Int(owned / reqd))
-                    Else
-                        maxProducableUnits = Math.Min(maxProducableUnits, CLng(Int(owned / reqd)))
-                    End If
-                Else
-                    owned = 0
-                    maxProducableUnits = 0
-                End If
-                surplus = owned - reqd
-                clvOwnedResources.Items.Add(newORes)
-                newORes.SubItems(1).Text = FormatNumber(reqd, 0)
-                newORes.SubItems(2).Text = FormatNumber(owned, 0)
-                newORes.SubItems(3).Text = FormatNumber(surplus, 0)
-                newORes.SubItems(3).Tag = surplus
-                If surplus < 0 Then
-                    newORes.SubItems(3).ForeColor = Drawing.Color.Red
-                Else
-                    newORes.SubItems(3).ForeColor = Drawing.Color.Green
-                End If
-            End If
-        Next
-
-        clvResources.Sort(3, SortOrder.Descending, False) : clvOwnedResources.Sort(1, SortOrder.Descending, False)
-        clvResources.EndUpdate() : clvOwnedResources.EndUpdate()
-        lblMaxUnits.Text = "Maximum Producable Units: " & FormatNumber(maxProducableUnits, 0)
-
-    End Sub
-
-    Private Sub DisplayJob(ByVal parentJob As ProductionJob, ByVal BaseRuns As Integer, ByVal parentRes As ContainerListViewItem, ByRef maxProducableUnits As Long)
-        For Each resource As Object In parentJob.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
-                ' This is a resource so add it
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
-                If rResource.TypeCategory <> 16 Or (rResource.TypeCategory = 16 And chkShowSkills.Checked = True) Then
-                    Dim perfectRaw As Integer = CInt(rResource.PerfectUnits) * parentJob.Runs
-                    Dim waste As Integer = CInt(rResource.WasteUnits) * parentJob.Runs
-                    Dim total As Integer = perfectRaw + waste
-                    Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
-                    Dim value As Double = total * price
-                    ' Add a new list view item
-                    Dim newRes As New ContainerListViewItem(rResource.TypeName)
-                    parentRes.Items.Add(newRes)
-                    ' Calculate costs
-                    If rResource.TypeCategory <> 16 Then
-                        ' Not a skill
-                        UnitMaterial += (value / BaseRuns)
-                        UnitWaste += (waste / BaseRuns) * price
-                    Else
-                        ' A skill
-                        newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(CInt(rResource.PerfectUnits)) & ")"
-                        ' Check for skill of recycler
-                        If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem), Core.Pilot), rResource.TypeName, CInt(rResource.PerfectUnits)) = True Then
-                            newRes.BackColor = Drawing.Color.LightGreen
-                        Else
-                            newRes.BackColor = Drawing.Color.LightCoral
-                        End If
-                        perfectRaw = 0 : waste = 0 : total = 0 : value = 0
-                    End If
-
-                    newRes.SubItems(1).Text = FormatNumber(perfectRaw, 0)
-                    newRes.SubItems(2).Text = FormatNumber(waste, 0)
-                    newRes.SubItems(3).Text = FormatNumber(total, 0)
-                    newRes.SubItems(4).Text = FormatNumber(price, 2)
-                    newRes.SubItems(5).Text = FormatNumber(value, 2)
-                    newRes.SubItems(6).Text = FormatNumber(Int(rResource.BaseUnits / CurrentBP.MatMod), 0)
-
-                    ' Add this into the required resources if necessary i.e. is not a skill
-                    'If rResource.TypeCategory <> 16 Then
-                    '    Dim reqd, owned, surplus As Long
-                    '    reqd = total * ProductionRuns
-                    '    If ownedResources.ContainsKey(rResource.TypeName) = True Then
-                    '        owned = ownedResources(rResource.TypeName)
-                    '        If maxProducableUnits = -1 Then
-                    '            maxProducableUnits = CLng(Int(owned / total))
-                    '        Else
-                    '            maxProducableUnits = Math.Min(maxProducableUnits, CLng(Int(owned / total)))
-                    '        End If
-                    '    Else
-                    '        owned = 0
-                    '        maxProducableUnits = 0
-                    '    End If
-                    '    surplus = owned - reqd
-                    '    Dim newORes As New ContainerListViewItem(rResource.TypeName)
-                    '    clvOwnedResources.Items.Add(newORes)
-                    '    newORes.SubItems(1).Text = FormatNumber(reqd, 0)
-                    '    newORes.SubItems(2).Text = FormatNumber(owned, 0)
-                    '    newORes.SubItems(3).Text = FormatNumber(surplus, 0)
-                    '    newORes.SubItems(3).Tag = surplus
-                    '    If surplus < 0 Then
-                    '        newORes.SubItems(3).ForeColor = Drawing.Color.Red
-                    '    Else
-                    '        newORes.SubItems(3).ForeColor = Drawing.Color.Green
-                    '    End If
-                    'End If
-
-                End If
-            Else
-                ' This is another production job
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
-                Dim newRes As New ContainerListViewItem(subJob.TypeName)
-                Dim perfectRaw As Integer = CInt(subJob.PerfectUnits)
-                Dim waste As Integer = CInt(subJob.WasteUnits)
-                Dim runs As Integer = subJob.Runs
-                Dim total As Integer = perfectRaw + waste
-                Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(subJob.TypeID))
-                Dim value As Double = total * price
-                parentRes.Items.Add(newRes)
-                newRes.SubItems(1).Text = FormatNumber(perfectRaw * runs, 0)
-                newRes.SubItems(2).Text = FormatNumber(waste * runs, 0)
-                newRes.SubItems(3).Text = FormatNumber(total * runs, 0)
-                newRes.SubItems(4).Text = FormatNumber(price, 2)
-                newRes.SubItems(5).Text = FormatNumber(value * runs, 2)
-                newRes.SubItems(6).Text = FormatNumber(Int(perfectRaw / CurrentBP.MatMod), 0)
-                Call DisplayJob(subJob, BaseRuns, newRes, maxProducableUnits)
-                ' Recalculate sub prices
-                Dim subprice As Double = 0
-                For Each subRes As ContainerListViewItem In newRes.Items
-                    subprice += CDbl(subRes.SubItems(5).Text)
-                Next
-                newRes.SubItems(5).Text = FormatNumber(subprice, 2)
-                newRes.SubItems(4).Text = FormatNumber(subprice / subJob.Runs, 2)
-            End If
-        Next
-    End Sub
-
-    Private Sub GetAssetQuantitesFromNode(ByVal item As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef Assets As SortedList(Of String, Long))
-        Dim ItemData As New EveHQ.Core.EveItem
-        Dim AssetID As String = ""
-        Dim itemID As String = ""
-        AssetID = item.Attributes.GetNamedItem("itemID").Value
-        itemID = item.Attributes.GetNamedItem("typeID").Value
-        If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-            ItemData = EveHQ.Core.HQ.itemData(itemID)
-            If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or groupResources.ContainsKey(CStr(ItemData.ID)) Then
-                ' Check if the item is in the list
-                If Assets.ContainsKey(CStr(ItemData.ID)) = False Then
-                    Assets.Add(CStr(ItemData.ID), CLng(item.Attributes.GetNamedItem("quantity").Value))
-                Else
-                    Assets(CStr(ItemData.ID)) = Assets(CStr(ItemData.ID)) + CLng(item.Attributes.GetNamedItem("quantity").Value)
-                End If
-            End If
-        End If
-        ' Check child items if they exist
-        If item.ChildNodes.Count > 0 Then
-            For Each subitem As XmlNode In item.ChildNodes(0).ChildNodes
-                Call GetAssetQuantitesFromNode(subitem, categories, groups, Assets)
-            Next
-        End If
-    End Sub
-
-    Private Sub DisplayCostInformation()
-        ' Display Build Time Information
-        lblUnitBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(UnitBuildTime, False)
-        lblTotalBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(UnitBuildTime * ProductionRuns, False)
-        ' Display Waste Cost Info
-        lblUnitWasteCost.Text = FormatNumber(UnitWaste, 2) & " isk"
-        lblTotalWasteCost.Text = FormatNumber(UnitWaste * ProductionRuns, 2) & " isk"
-        lblBPEfficiency.Text = FormatNumber((UnitMaterial - UnitWaste) / UnitMaterial * 100, 4) & "%"
-        ' Display Materials costs
-        lblUnitBuildCost.Text = FormatNumber(UnitMaterial, 2) & " isk"
-        lblTotalBuildCost.Text = FormatNumber(UnitMaterial * ProductionRuns, 2) & " isk"
-        ' Display Factory costs
-        lblFactoryCosts.Text = FormatNumber(FactoryCosts, 2) & " isk"
-        Dim totalCosts As Double = (UnitMaterial * ProductionRuns) + FactoryCosts
-        Dim unitcosts As Double = Math.Round(totalCosts / (ProductionRuns * BatchSize), 2)
-        Dim productID As String = CurrentBP.ProductID.ToString
-        Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(productID)
-        Dim profit As Double = value - unitcosts
-        lblTotalCosts.Text = FormatNumber(totalCosts, 2) & " isk"
-        lblUnitCost.Text = FormatNumber(unitcosts, 2) & " isk"
-        lblUnitValue.Text = FormatNumber(value, 2) & " isk"
-        If profit > 0 Then
-            lblUnitProfit.ForeColor = Drawing.Color.Green
-            lblUnitProfit.Text = FormatNumber(profit, 2) & " isk"
-        Else
-            If profit < 0 Then
-                lblUnitProfit.ForeColor = Drawing.Color.Red
-                lblUnitProfit.Text = FormatNumber(profit, 2) & " isk"
-            Else
-                lblUnitProfit.ForeColor = Drawing.Color.Black
-                lblUnitProfit.Text = FormatNumber(profit, 2) & " isk"
-            End If
-        End If
     End Sub
 
 #End Region
 
-#Region "UI Routines"
+#Region "Production UI Routines"
 
     Private Sub chkOwnedBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOwnedBPOs.CheckedChanged
+        cboOwner.Enabled = chkOwnedBPOs.Checked
         If chkOwnedBPOs.Checked = True Then
+            If cboOwner.SelectedItem IsNot Nothing Then
+                cBPOwnerName = cboOwner.SelectedItem.ToString
+            End If
             Call Me.DisplayOwnedBlueprints()
         Else
+            cBPOwnerName = ""
             Call Me.DisplayAllBlueprints()
         End If
     End Sub
@@ -858,169 +884,597 @@ Public Class frmBPCalculator
     Private Sub chkPOSProduction_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPOSProduction.CheckedChanged
         cboPOSArrays.Enabled = chkPOSProduction.Checked
         If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
+            If chkPOSProduction.Checked = True Then
+                If cboPOSArrays.SelectedItem IsNot Nothing Then
+                    ProductionArray = PlugInData.AssemblyArrays(cboPOSArrays.SelectedItem.ToString)
+                Else
+                    ProductionArray = Nothing
+                End If
+            Else
+                ProductionArray = Nothing
+            End If
+            currentJob.AssemblyArray = ProductionArray
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
         End If
     End Sub
+
     Private Sub cboPOSArrays_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPOSArrays.SelectedIndexChanged
         If UpdateBPInfo = True Then
             ProductionArray = PlugInData.AssemblyArrays(cboPOSArrays.SelectedItem.ToString)
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
+            currentJob.AssemblyArray = ProductionArray
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
         End If
     End Sub
 
     Private Sub nudMELevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMELevel.ValueChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
+        If StartUp = False And UpdateBPInfo = True Then
+            currentJob.OverridingME = CStr(nudMELevel.Value)
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
         End If
     End Sub
+
     Private Sub nudPELevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPELevel.ValueChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
+        If StartUp = False And UpdateBPInfo = True Then
+            currentJob.OverridingPE = CStr(nudPELevel.Value)
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
         End If
     End Sub
+
     Private Sub nudCopyRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCopyRuns.ValueChanged
-        If UpdateBPInfo = True Then
+        If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call Me.UpdateBlueprintInformation()
+            ' Set change flag
+            Me.ProductionChanged = True
         End If
     End Sub
+
     Private Sub chkResearchAtPOS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkResearchAtPOS.CheckedChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
+        chkAdvancedLab.Enabled = chkResearchAtPOS.Checked
+        If chkResearchAtPOS.Checked = True Then
+            If chkAdvancedLab.Checked = True Then
+                CopyTimeMod = 0.65
+            Else
+                CopyTimeMod = 0.75
+            End If
+        Else
+            CopyTimeMod = 1.0
         End If
-    End Sub
-    Private Sub nudRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudRuns.ValueChanged
         If UpdateBPInfo = True Then
-            ProductionRuns = CInt(nudRuns.Value)
             ' Update the Blueprint information
             Call Me.UpdateBlueprintInformation()
         End If
     End Sub
 
-    Private Sub nudInstallCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInstallCost.ValueChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub nudRunningCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudRunningCost.ValueChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
+    Private Sub nudRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudRuns.ValueChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            currentJob.Runs = CInt(nudRuns.Value)
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
         End If
     End Sub
 
     Private Sub cboResearchSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboResearchSkill.SelectedIndexChanged
-        If UpdateBPInfo = True Then
+        If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboMetallurgySkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetallurgySkill.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboScienceSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboScienceSkill.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboIndustrySkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboIndustrySkill.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboProdEffSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProdEffSkill.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboResearchImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboResearchImplant.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboMetallurgyImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetallurgyImplant.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboScienceImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboScienceImplant.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub cboIndustyImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboIndustyImplant.SelectedIndexChanged
-        If UpdateBPInfo = True Then
-            ' Update the Blueprint information
-            Call Me.UpdateBlueprintInformation()
-        End If
-    End Sub
-    Private Sub chkShowSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowSkills.CheckedChanged
-        Call Me.DisplayRequiredResources()
-    End Sub
-    Private Sub cboAssetSelection_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAssetSelection.SelectedIndexChanged
-        If StartUp = False Then
-            Call Me.GetRequiredResources()
-            Call Me.GetOwnedResources()
-            Call Me.DisplayRequiredResources()
-            Call Me.DisplayCostInformation()
-        End If
-    End Sub
-    Private Sub chkUseStandardBPCosting_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseStandardBPCosting.CheckedChanged
-        If StartUp = False Then
-            Call Me.GetRequiredResources()
-            Call Me.GetOwnedResources()
-            Call Me.DisplayRequiredResources()
-            Call Me.DisplayCostInformation()
         End If
     End Sub
 
-    Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
-        Call Me.ExportToClipboard("Resource Availability for " & currentJob.TypeName & " (" & currentJob.Runs & " runs)", clvOwnedResources, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+    Private Sub cboMetallurgySkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetallurgySkill.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Call Me.UpdateBlueprintInformation()
+        End If
     End Sub
-    Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
-        Call Me.ExportToClipboard("Resource Availability for " & currentJob.TypeName & " (" & currentJob.Runs & " runs)", clvOwnedResources, ControlChars.Tab)
+
+    Private Sub cboScienceSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboScienceSkill.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Call Me.UpdateBlueprintInformation()
+        End If
     End Sub
-    Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As ContainerListView, ByVal sepChar As String)
-        Dim str As New StringBuilder
-        ' Add a line for the current build job
-        str.AppendLine(title)
-        str.AppendLine("")
-        ' Add some headings
-        For c As Integer = 0 To sourceList.Columns.Count - 2
-            str.Append(sourceList.Columns(c).Text & sepChar)
-        Next
-        str.AppendLine(sourceList.Columns(sourceList.Columns.Count - 1).Text)
-        ' Add the details
-        For Each req As ContainerListViewItem In sourceList.Items
-            For c As Integer = 0 To sourceList.Columns.Count - 2
-                str.Append(req.SubItems(c).Text & sepChar)
-            Next
-            str.AppendLine(req.SubItems(sourceList.Columns.Count - 1).Text)
-        Next
-        ' Copy to the clipboard
-        Try
-            Clipboard.SetText(str.ToString)
-        Catch ex As Exception
-            MessageBox.Show("Unable to copy Resource Data to the clipboard.", "Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End Try
+
+    Private Sub cboIndustrySkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboIndustrySkill.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            currentJob.UpdateJobIndSkill(cboIndustrySkill.SelectedIndex)
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
+        End If
+    End Sub
+
+    Private Sub cboProdEffSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProdEffSkill.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            currentJob.UpdateJobPESkill(cboProdEffSkill.SelectedIndex)
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
+        End If
+    End Sub
+
+    Private Sub cboResearchImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboResearchImplant.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Call Me.UpdateBlueprintInformation()
+        End If
+    End Sub
+
+    Private Sub cboMetallurgyImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetallurgyImplant.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Call Me.UpdateBlueprintInformation()
+        End If
+    End Sub
+
+    Private Sub cboScienceImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboScienceImplant.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Call Me.UpdateBlueprintInformation()
+        End If
+    End Sub
+
+    Private Sub cboIndustryImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboIndustryImplant.SelectedIndexChanged
+        If StartUp = False And UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Dim ProdImplant As Integer = CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%")))
+            currentJob.UpdateJobProdImplant(ProdImplant)
+            PPRProduction.ProductionJob = currentJob
+            ' Set change flag
+            Me.ProductionChanged = True
+        End If
+    End Sub
+
+    Private Sub cboAssetSelection_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        If StartUp = False Then
+            Call Me.CalculateProductionResources()
+        End If
+    End Sub
+
+    Private Sub chkUseStandardBPCosting_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        If StartUp = False Then
+            Call Me.CalculateProductionResources()
+        End If
+    End Sub
+
+    Private Sub chkAdvancedLab_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAdvancedLab.CheckedChanged
+        If chkAdvancedLab.Checked = True Then
+            CopyTimeMod = 0.65
+        Else
+            CopyTimeMod = 0.75
+        End If
+        If UpdateBPInfo = True Then
+            ' Update the Blueprint information
+            Call Me.UpdateBlueprintInformation()
+        End If
+    End Sub
+
+    Private Sub DisplayProductionInformation()
+        ' Calculate the batch size
+        Dim productID As String = CurrentBP.ProductID.ToString
+        Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(productID)
+        lblBatchSize.Text = FormatNumber(product.PortionSize, 0)
+        lblProdQuantity.Text = FormatNumber(product.PortionSize * currentJob.Runs, 0)
+        ' Calculate the factory costs
+        Dim FactoryCosts As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
+        ' Display Build Time Information
+        lblUnitBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime / currentJob.Runs, False)
+        lblTotalBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime, False)
+        ' Display Materials costs
+        lblUnitBuildCost.Text = FormatNumber(currentJob.Cost / currentJob.Runs, 2) & " isk"
+        lblTotalBuildCost.Text = FormatNumber(currentJob.Cost, 2) & " isk"
+        ' Display Factory costs
+        lblFactoryCosts.Text = FormatNumber(FactoryCosts, 2) & " isk"
+        Dim totalCosts As Double = currentJob.Cost + FactoryCosts
+        Dim unitcosts As Double = Math.Round(totalCosts / (currentJob.Runs * product.PortionSize), 2)
+        Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(productID)
+        Dim profit As Double = value - unitcosts
+        PACUnitValue.TypeID = CLng(productID)
+        lblTotalCosts.Text = FormatNumber(totalCosts, 2) & " isk"
+        lblUnitCost.Text = FormatNumber(unitcosts, 2) & " isk"
+        lblUnitValue.Text = FormatNumber(value, 2) & " isk"
+        lblUnitProfit.Text = FormatNumber(profit, 2) & " isk"
+        lblProfitRate.Text = FormatNumber(profit / ((currentJob.RunTime / currentJob.Runs) / 3600), 2) & " isk"
+        lblProfitMargin.Text = CDbl(profit / value * 100).ToString("N2") & " %"
+        lblProfitMarkup.Text = CDbl(profit / unitcosts * 100).ToString("N2") & " %"
+        If profit > 0 Then
+            lblUnitProfit.ForeColor = Drawing.Color.Green
+            lblProfitRate.ForeColor = Drawing.Color.Green
+        Else
+            If profit < 0 Then
+                lblUnitProfit.ForeColor = Drawing.Color.Red
+                lblProfitRate.ForeColor = Drawing.Color.Red
+            Else
+                lblUnitProfit.ForeColor = Drawing.Color.Black
+                lblProfitRate.ForeColor = Drawing.Color.Black
+            End If
+        End If
     End Sub
 
 #End Region
 
-   
+#Region "Invention UI Routines"
+
+	Private Sub chkInventBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkInventBPOs.CheckedChanged
+		cboOwner.Enabled = chkOwnedBPOs.Checked
+		btnToggleInvention.Enabled = chkInventBPOs.Checked
+        If chkOwnedBPOs.Checked = True Then
+            Call Me.DisplayOwnedBlueprints()
+        Else
+            Call Me.DisplayAllBlueprints()
+        End If
+	End Sub
+
+	Private Sub btnToggleInvention_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnToggleInvention.ValueChanged
+		If chkOwnedBPOs.Checked = True Then
+			Call Me.DisplayOwnedBlueprints()
+		Else
+			Call Me.DisplayAllBlueprints()
+		End If
+	End Sub
+	
+    Private Sub cboInventions_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboInventions.SelectedIndexChanged
+        If InventionStartUp = False Then
+            InventionBPID = CInt(EveHQ.Core.HQ.itemList(Me.cboInventions.SelectedItem.ToString))
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDecryptor.SelectedIndexChanged
+        If InventionStartUp = False Then
+            If cboDecryptor.SelectedItem IsNot Nothing Then
+                Dim Didx As Integer = cboDecryptor.SelectedItem.ToString.IndexOf("(")
+                If Didx > 0 Then
+                    Dim DecryptorName As String = cboDecryptor.SelectedItem.ToString.Substring(0, Didx - 1).Trim
+                    If PlugInData.Decryptors.ContainsKey(DecryptorName) Then
+                        InventionDecryptorMod = PlugInData.Decryptors(DecryptorName).ProbMod
+                        InventionDecryptorID = CInt(PlugInData.Decryptors(DecryptorName).ID)
+                    Else
+                        InventionDecryptorMod = 1
+                        InventionDecryptorID = 0
+                    End If
+                Else
+                    InventionDecryptorMod = 1
+                    InventionDecryptorID = 0
+                End If
+            End If
+            PACDecryptor.TypeID = InventionDecryptorID
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub cboMetaItem_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetaItem.SelectedIndexChanged
+        If InventionStartUp = False Then
+            If cboMetaItem.SelectedItem IsNot Nothing Then
+                If cboMetaItem.SelectedItem.ToString <> "<None>" Then
+                    InventionMetaLevel = CInt(cboMetaItem.SelectedItem.ToString.Substring(0, 1))
+                    InventionMetaItemID = CInt(EveHQ.Core.HQ.itemList(cboMetaItem.SelectedItem.ToString.Remove(0, 3)))
+                Else
+                    InventionMetaLevel = 0
+                    InventionMetaItemID = 0
+                End If
+            End If
+            PACMetaItem.TypeID = InventionMetaItemID
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub nudInventionBPCRuns_LockUpdateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.LockUpdateChanged
+        If StartUp = False Then
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub nudInventionBPCRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ValueChanged
+        If StartUp = False Then
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub nudInventionBPCRuns_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ButtonCustomClick
+        nudInventionBPCRuns.Value = CurrentBP.MaxProdLimit
+    End Sub
+
+    Private Sub nudInventionBPCRuns_ButtonCustom2Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ButtonCustom2Click
+        nudInventionBPCRuns.Value = 1
+    End Sub
+
+    Private Sub lblFactoryCostsLbl_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblFactoryCostsLbl.LinkClicked
+        Dim NewSettingsForm As New frmPrismSettings
+        NewSettingsForm.Tag = "nodeCosts"
+        NewSettingsForm.ShowDialog()
+        Call Me.UpdateBlueprintInformation()
+        Call Me.CalculateInvention()
+        NewSettingsForm.Dispose()
+    End Sub
+
+    Private Sub lblInventionLabCostsLbl_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblInventionLabCostsLbl.LinkClicked
+        Dim NewSettingsForm As New frmPrismSettings
+        NewSettingsForm.Tag = "nodeCosts"
+        NewSettingsForm.ShowDialog()
+        Call Me.UpdateBlueprintInformation()
+        Call Me.CalculateInvention()
+        NewSettingsForm.Dispose()
+    End Sub
+
+    Private Sub lblInventionBPCCostLbl_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCostLbl.LinkClicked
+        Dim NewSettingsForm As New frmPrismSettings
+        NewSettingsForm.Tag = "nodeCosts"
+        NewSettingsForm.ShowDialog()
+        Call Me.UpdateBlueprintInformation()
+        Call Me.CalculateInvention()
+        NewSettingsForm.Dispose()
+    End Sub
+
+    Private Sub lblInventionBPCCost_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCost.LinkClicked
+        Dim PriceForm As New frmAddBPCPrice(CurrentBP.ID.ToString)
+        PriceForm.ShowDialog()
+        Call Me.UpdateBlueprintInformation()
+        Call Me.CalculateInvention()
+        PriceForm.Dispose()
+    End Sub
+
+    Private Sub nudInventionSkill1_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill1.ButtonCustomClick
+        If BPPilot.PilotSkills.Contains(lblInvSkill1.Tag.ToString) = True Then
+            nudInventionSkill1.Value = CType(BPPilot.PilotSkills(lblInvSkill1.Tag.ToString), EveHQ.Core.PilotSkill).Level
+        Else
+            nudInventionSkill1.Value = 0
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill1_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill1.ValueChanged
+        If StartUp = False Then
+            InventionSkill1 = nudInventionSkill1.Value
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill2_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill2.ButtonCustomClick
+        If BPPilot.PilotSkills.Contains(lblInvSkill2.Tag.ToString) = True Then
+            nudInventionSkill2.Value = CType(BPPilot.PilotSkills(lblInvSkill2.Tag.ToString), EveHQ.Core.PilotSkill).Level
+        Else
+            nudInventionSkill2.Value = 0
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill2_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill2.ValueChanged
+        If StartUp = False Then
+            InventionSkill2 = nudInventionSkill2.Value
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill3_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill3.ButtonCustomClick
+        If BPPilot.PilotSkills.Contains(lblInvSkill3.Tag.ToString) = True Then
+            nudInventionSkill3.Value = CType(BPPilot.PilotSkills(lblInvSkill3.Tag.ToString), EveHQ.Core.PilotSkill).Level
+        Else
+            nudInventionSkill3.Value = 0
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill3_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill3.ValueChanged
+        If StartUp = False Then
+            InventionSkill3 = nudInventionSkill3.Value
+            Call Me.CalculateInvention()
+        End If
+    End Sub
+
+    Private Sub CalculateInvention()
+
+        If InventionBPID <> 0 Then
+
+            ' Calculate Invention Chance
+            InventionChance = Invention.CalculateInventionChance(InventionBaseChance, InventionSkill1, InventionSkill2, InventionSkill3, InventionMetaLevel, InventionDecryptorMod)
+            lblInventionChance.Text = "Total Invention Chance: " & InventionChance.ToString("N2") & "%"
+
+            Dim BPCRuns As Integer = CurrentBP.Runs
+            If nudInventionBPCRuns.LockUpdateChecked = False Then
+                ' Use current BP Runs, replacing max for unlimited
+                If CurrentBP.Runs = -1 Then
+                    ' Use max runs
+                    BPCRuns = CurrentBP.MaxProdLimit
+                End If
+            Else
+                BPCRuns = nudInventionBPCRuns.Value
+            End If
+
+			InventionCost = CurrentInventionBP.CalculateInventionCost(InventionMetaItemID.ToString, InventionDecryptorID.ToString, BPCRuns)
+            Dim IDC As Double = EveHQ.Core.DataFunctions.GetPrice(InventionDecryptorID.ToString)
+            Dim IIC As Double = EveHQ.Core.DataFunctions.GetPrice(InventionMetaItemID.ToString)
+			Dim ILC As Double = Settings.PrismSettings.LabInstallCost + Math.Round(Settings.PrismSettings.LabRunningCost * (CurrentInventionBP.ResearchTechTime / 3600), 2)
+
+            Dim IRC As Double = 0
+			If Settings.PrismSettings.BPCCosts.ContainsKey(CurrentInventionBP.ID.ToString) Then
+				Dim pricerange As Double = Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MaxRunCost - Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MinRunCost
+				Dim runrange As Integer = CurrentInventionBP.MaxProdLimit - 1
+				If runrange = 0 Then
+					IRC += Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MinRunCost
+				Else
+					IRC += Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (BPCRuns - 1), 2)
+				End If
+			End If
+            Dim IBC As Double = InventionCost - IDC - IIC - ILC - IRC
+
+            lblInventionBaseCost.Text = IBC.ToString("N2") & " Isk"
+            lblInventionDecryptorCost.Text = IDC.ToString("N2") & " Isk"
+            lblInventionMetaItemCost.Text = IIC.ToString("N2") & " Isk"
+            lblInventionLabCosts.Text = ILC.ToString("N2") & " Isk"
+            lblInventionBPCCost.Text = IRC.ToString("N2") & " Isk"
+            lblInventionCost.Text = InventionCost.ToString("N2") & " Isk"
+
+            InventedBP = CurrentBP.CalculateInventedBPC(InventionBPID, InventionDecryptorID, BPCRuns)
+            InventionAttempts = Math.Max(Math.Round(100 / InventionChance, 4), 1)
+            InventionSuccessCost = InventionAttempts * InventionCost
+
+            lblInventedBP.Text = "ME:" & InventedBP.MELevel.ToString & "  PE:" & InventedBP.PELevel.ToString & "  Runs: " & InventedBP.Runs.ToString("N0")
+            lblInventionTime.Text = EveHQ.Core.SkillFunctions.TimeToString(CurrentInventionBP.ResearchTechTime, False)
+            lblAvgAttempts.Text = "Average Attempts Until Success: " & InventionAttempts.ToString("N4")
+            lblSuccessCost.Text = InventionSuccessCost.ToString("N2") & " Isk"
+            PACSalesPrice.TypeID = InventedBP.ProductID
+
+            ' Calculate and show Resources
+            PPRInvention.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
+
+        End If
+
+    End Sub
+
+    Private Sub DisplayInventionProfitInfo()
+		' Show Production Cost
+		Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
+		Dim AvgCost As Double = (Math.Round(InventionSuccessCost / InventedBP.Runs, 2) + PPRInvention.ProductionJob.Cost) / BatchQty
+        Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(InventedBP.ProductID.ToString)
+        Dim UnitProfit As Double = SalesPrice - AvgCost
+		Dim TotalProfit As Double = UnitProfit * InventedBP.Runs * BatchQty
+
+		lblBatchProductionCost.Text = PPRInvention.ProductionJob.Cost.ToString("N2") & " Isk"
+		lblBatchTotalCost.Text = (AvgCost * BatchQty).ToString("N2") & " Isk"
+        lblAvgInventionCost.Text = AvgCost.ToString("N2") & " Isk"
+        lblInventionSalesPrice.Text = SalesPrice.ToString("N2") & " Isk"
+        lblUnitInventionProfit.Text = UnitProfit.ToString("N2") & " Isk"
+        lblTotalInventionProfit.Text = TotalProfit.ToString("N2") & " Isk"
+
+        If UnitProfit >= 0 Then
+            lblUnitInventionProfitLbl.Text = "Profit per Unit:"
+            lblUnitInventionProfit.ForeColor = Drawing.Color.Green
+            lblTotalInventionProfitLbl.Text = "Total Profit:"
+            lblTotalInventionProfit.ForeColor = Drawing.Color.Green
+        Else
+            lblUnitInventionProfitLbl.Text = "Loss per Unit:"
+            lblUnitInventionProfit.ForeColor = Drawing.Color.Red
+            lblTotalInventionProfitLbl.Text = "Total Loss:"
+            lblTotalInventionProfit.ForeColor = Drawing.Color.Red
+        End If
+
+        Call Me.DisplayProfitTable()
+
+    End Sub
+
+    Private Sub DisplayProfitTable()
+
+        Dim DecryptorID As Integer = 0
+        Dim DecryptorMod As Double = 0
+
+        adtInventionProfits.BeginUpdate()
+        adtInventionProfits.Nodes.Clear()
+
+        For Each Decryptor As String In cboDecryptor.Items
+            Dim Didx As Integer = Decryptor.ToString.IndexOf("(")
+            If Didx > 0 Then
+                Dim DecryptorName As String = Decryptor.ToString.Substring(0, Didx - 1).Trim
+                If PlugInData.Decryptors.ContainsKey(DecryptorName) Then
+                    DecryptorMod = PlugInData.Decryptors(DecryptorName).ProbMod
+                    DecryptorID = CInt(PlugInData.Decryptors(DecryptorName).ID)
+                Else
+                    DecryptorMod = 1
+                    DecryptorID = 0
+                End If
+            Else
+                DecryptorMod = 1
+                DecryptorID = 0
+            End If
+
+            Dim BPCRuns As Integer = CurrentBP.Runs
+            If nudInventionBPCRuns.LockUpdateChecked = False Then
+                ' Use current BP Runs, replacing max for unlimited
+                Select Case EveHQ.Core.HQ.itemData(CurrentBP.ProductID.ToString).Category
+                    Case 6
+                        BPCRuns = 1
+                    Case Else
+                        If CurrentBP.Runs = -1 Then
+                            ' Use max runs
+                            BPCRuns = CurrentBP.MaxProdLimit
+                        End If
+                End Select
+            Else
+                BPCRuns = nudInventionBPCRuns.Value
+            End If
+
+            Dim IC As Double = Invention.CalculateInventionChance(InventionBaseChance, InventionSkill1, InventionSkill2, InventionSkill3, InventionMetaLevel, DecryptorMod)
+			Dim ICost As Double = CurrentInventionBP.CalculateInventionCost(InventionMetaItemID.ToString, DecryptorID.ToString, BPCRuns)
+            Dim IBP As BlueprintSelection = CurrentBP.CalculateInventedBPC(InventionBPID, DecryptorID, BPCRuns)
+            Dim IA As Double = Math.Max(Math.Round(100 / IC, 4), 1)
+            Dim ISC As Double = IA * ICost
+			Dim IJ As ProductionJob = IBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, PPRInvention.BuildResources)
+			Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
+			Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2) + IJ.Cost) / BatchQty
+            Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
+            Dim UnitProfit As Double = SalesPrice - AvgCost
+			Dim TotalProfit As Double = (UnitProfit * IBP.Runs) * BatchQty
+
+            Dim NewLine As New Node
+            NewLine.Text = DecryptorMod.ToString("N1") & "x (" & IBP.Runs.ToString & " runs)"
+            NewLine.Cells.Add(New Cell(UnitProfit.ToString("N2") & "<br />" & TotalProfit.ToString("N2")))
+            adtInventionProfits.Nodes.Add(NewLine)
+
+        Next
+        adtInventionProfits.EndUpdate()
+    End Sub
+
+#End Region
+
+    Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
+        If cboOwner.SelectedItem IsNot Nothing Then
+            cBPOwnerName = cboOwner.SelectedItem.ToString
+            Call Me.DisplayOwnedBlueprints()
+        End If
+    End Sub
+
+    Private Sub btnSaveProductionJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJob.Click
+        Call Me.SaveCurrentProductionJob()
+    End Sub
+
+    Private Sub SaveCurrentProductionJob()
+        If Me.InitialJob IsNot Nothing Then
+            ProductionJobs.Jobs(currentJob.JobName) = currentJob.Clone
+            Me.ProductionChanged = False
+            Me.InitialJob = currentJob.Clone
+            PrismEvents.StartUpdateProductionJobs()
+        Else
+            Dim NewJobName As New frmAddProductionJob
+            NewJobName.ShowDialog()
+            If NewJobName.DialogResult = DialogResult.OK Then
+                currentJob.JobName = NewJobName.JobName
+                ProductionJobs.Jobs.Add(NewJobName.JobName, currentJob.Clone)
+                Me.ProductionChanged = False
+                Me.InitialJob = currentJob.Clone
+                Me.Text = "BPCalc - Production Job: " & currentJob.JobName
+            End If
+            NewJobName.Dispose()
+            PrismEvents.StartUpdateProductionJobs()
+        End If
+    End Sub
+
+    Private Sub btnSaveProductionJobAs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJobAs.Click
+        Dim NewJobName As New frmAddProductionJob
+        NewJobName.ShowDialog()
+        If NewJobName.DialogResult = DialogResult.OK Then
+            currentJob.JobName = NewJobName.JobName
+            ProductionJobs.Jobs.Add(NewJobName.JobName, currentJob.Clone)
+            Me.ProductionChanged = False
+            Me.InitialJob = currentJob.Clone
+            Me.Text = "BPCalc - Production Job: " & currentJob.JobName
+        End If
+        NewJobName.Dispose()
+        PrismEvents.StartUpdateProductionJobs()
+    End Sub
+
 End Class
+
+Public Enum BPCalcStartMode
+    None = 0
+    StandardBP = 1
+    OwnerBP = 2
+    ProductionJob = 3
+    InventionJob = 4
+End Enum

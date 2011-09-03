@@ -117,10 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label1.Text" xml:space="preserve">
+  <metadata name="Highlighter1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="lblIntro.Text" xml:space="preserve">
+    <value>EveHQ is capable of using both the new style and old style API systems simultaneously. However, in order to process them correctly, you need to first specify which key type will be created.
+
+For old style UserID/APIKey combinations prior to 1st September 2011, use Version 1. For all new keys using the KeyID/vCode combination, use Version 2.
+</value>
+  </data>
+  <data name="lblV2Info.Text" xml:space="preserve">
+    <value>Please enter your Eve-Online Key ID and Verification Code in the boxes below. Please also enter a name by which you can identify this account (usually the name of the main character on the account).
+
+Warning: If you are concerned about giving your API details to a third-party application, please use one of the alternative methods of obtaining your character information.
+</value>
+  </data>
+  <data name="lblV1Info.Text" xml:space="preserve">
     <value>Please enter your Eve-Online userID and APIKey in the boxes below. Please also enter a name by which you can identify this account (usually the name of the main character on the account).
 
-Warning: If you are concerned about giving your APIKey to a third-party application, please use one of the alternative methods of obtaining your character information.
+Warning: If you are concerned about giving your API details to a third-party application, please use one of the alternative methods of obtaining your character information.
 </value>
   </data>
 </root>

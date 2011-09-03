@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmAbout
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -19,27 +19,43 @@ Partial Class frmAbout
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.lblCopyright = New System.Windows.Forms.Label
-        Me.lblDate = New System.Windows.Forms.Label
-        Me.lblVersion = New System.Windows.Forms.Label
-        Me.lblEveHQLink = New System.Windows.Forms.LinkLabel
-        Me.wbCredits = New System.Windows.Forms.WebBrowser
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblVersion = New DevComponents.DotNetBar.Controls.ReflectionLabel()
+        Me.lblCopyright = New System.Windows.Forms.Label()
+        Me.lblDate = New System.Windows.Forms.Label()
+        Me.lblEveHQLink = New System.Windows.Forms.LinkLabel()
+        Me.wbCredits = New System.Windows.Forms.WebBrowser()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Black
-        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.EveHQSplash1_14
+        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.EveHQSplash9
+        Me.Panel1.Controls.Add(Me.lblVersion)
         Me.Panel1.Controls.Add(Me.lblCopyright)
         Me.Panel1.Controls.Add(Me.lblDate)
-        Me.Panel1.Controls.Add(Me.lblVersion)
         Me.Panel1.Controls.Add(Me.lblEveHQLink)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(600, 400)
         Me.Panel1.TabIndex = 0
+        '
+        'lblVersion
+        '
+        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.lblVersion.BackgroundStyle.Class = ""
+        Me.lblVersion.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.Color.White
+        Me.lblVersion.Location = New System.Drawing.Point(256, 292)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(190, 31)
+        Me.lblVersion.TabIndex = 8
+        Me.lblVersion.Text = "Version"
         '
         'lblCopyright
         '
@@ -67,19 +83,6 @@ Partial Class frmAbout
         Me.lblDate.Text = "Date"
         Me.lblDate.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'lblVersion
-        '
-        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
-        Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
-        Me.lblVersion.ForeColor = System.Drawing.Color.White
-        Me.lblVersion.Location = New System.Drawing.Point(398, 359)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(200, 13)
-        Me.lblVersion.TabIndex = 5
-        Me.lblVersion.Text = "Version"
-        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
         'lblEveHQLink
         '
         Me.lblEveHQLink.ActiveLinkColor = System.Drawing.Color.DarkTurquoise
@@ -89,7 +92,7 @@ Partial Class frmAbout
         Me.lblEveHQLink.ForeColor = System.Drawing.Color.PaleTurquoise
         Me.lblEveHQLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
         Me.lblEveHQLink.LinkColor = System.Drawing.Color.PaleTurquoise
-        Me.lblEveHQLink.Location = New System.Drawing.Point(12, 365)
+        Me.lblEveHQLink.Location = New System.Drawing.Point(127, 9)
         Me.lblEveHQLink.Name = "lblEveHQLink"
         Me.lblEveHQLink.Size = New System.Drawing.Size(336, 13)
         Me.lblEveHQLink.TabIndex = 4
@@ -102,26 +105,27 @@ Partial Class frmAbout
         Me.wbCredits.AllowNavigation = False
         Me.wbCredits.AllowWebBrowserDrop = False
         Me.wbCredits.Dock = System.Windows.Forms.DockStyle.Right
-        Me.wbCredits.IsWebBrowserContextMenuEnabled = False
-        Me.wbCredits.Location = New System.Drawing.Point(603, 0)
+        Me.wbCredits.Location = New System.Drawing.Point(599, 0)
         Me.wbCredits.MinimumSize = New System.Drawing.Size(20, 20)
         Me.wbCredits.Name = "wbCredits"
         Me.wbCredits.ScriptErrorsSuppressed = True
         Me.wbCredits.ScrollBarsEnabled = False
-        Me.wbCredits.Size = New System.Drawing.Size(196, 399)
+        Me.wbCredits.Size = New System.Drawing.Size(195, 399)
         Me.wbCredits.TabIndex = 1
         '
         'frmAbout
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(799, 399)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
+        Me.ClientSize = New System.Drawing.Size(794, 399)
         Me.Controls.Add(Me.wbCredits)
         Me.Controls.Add(Me.Panel1)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmAbout"
+        Me.ShowIcon = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "About EveHQ"
@@ -135,5 +139,5 @@ Partial Class frmAbout
     Friend WithEvents wbCredits As System.Windows.Forms.WebBrowser
     Friend WithEvents lblCopyright As System.Windows.Forms.Label
     Friend WithEvents lblDate As System.Windows.Forms.Label
-    Friend WithEvents lblVersion As System.Windows.Forms.Label
+    Friend WithEvents lblVersion As DevComponents.DotNetBar.Controls.ReflectionLabel
 End Class

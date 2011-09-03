@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmTargetSpeed
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -23,19 +23,9 @@ Partial Class frmTargetSpeed
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.btnClose = New System.Windows.Forms.Button
         Me.zgcTargetSpeed = New ZedGraph.ZedGraphControl
+        Me.btnClose = New DevComponents.DotNetBar.ButtonX
         Me.SuspendLayout()
-        '
-        'btnClose
-        '
-        Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(660, 464)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(75, 23)
-        Me.btnClose.TabIndex = 12
-        Me.btnClose.Text = "Close"
-        Me.btnClose.UseVisualStyleBackColor = True
         '
         'zgcTargetSpeed
         '
@@ -54,13 +44,26 @@ Partial Class frmTargetSpeed
         Me.zgcTargetSpeed.Size = New System.Drawing.Size(723, 446)
         Me.zgcTargetSpeed.TabIndex = 14
         '
+        'btnClose
+        '
+        Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnClose.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnClose.Location = New System.Drawing.Point(660, 464)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(75, 23)
+        Me.btnClose.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnClose.TabIndex = 15
+        Me.btnClose.Text = "Close"
+        '
         'frmTargetSpeed
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(747, 499)
-        Me.Controls.Add(Me.zgcTargetSpeed)
         Me.Controls.Add(Me.btnClose)
+        Me.Controls.Add(Me.zgcTargetSpeed)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -71,6 +74,6 @@ Partial Class frmTargetSpeed
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents zgcTargetSpeed As ZedGraph.ZedGraphControl
+    Friend WithEvents btnClose As DevComponents.DotNetBar.ButtonX
 End Class

@@ -1,4 +1,24 @@
-﻿Imports System.Windows.Forms
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Reflection
 Imports System.Text
@@ -14,14 +34,16 @@ Public Class PlugInData
     Public Shared stations As New SortedList
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList
-    Public Shared PackedVolumes As New SortedList
+    Public Shared PackedVolumes As New SortedList(Of String, Double)
     Public Shared AssetItemNames As New SortedList(Of String, String)
     Public Shared Blueprints As New SortedList(Of String, Blueprint)
+    Public Shared Products As New SortedList(Of String, String)
     Public Shared AssemblyArrays As New SortedList(Of String, AssemblyArray)
     Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of String, BlueprintAsset))
     Public Shared CorpList As New SortedList
-    Public Shared CorpReps As New ArrayList
     Public Shared CategoryNames As New SortedList(Of String, String)
+    Public Shared Decryptors As New SortedList(Of String, Decryptor)
+    Public Shared PrismOwners As New SortedList(Of String, PrismOwner) ' Key = OwnerName i.e. Vessper, Indicium Technologies etc...
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -77,20 +99,24 @@ Public Class PlugInData
         Else
             ' Setup the Prism Folder
             If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-                PrismSettings.PrismFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Prism")
+                Settings.PrismFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Prism")
             Else
-                PrismSettings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
+                Settings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
             End If
-            If My.Computer.FileSystem.DirectoryExists(PrismSettings.PrismFolder) = False Then
-                My.Computer.FileSystem.CreateDirectory(PrismSettings.PrismFolder)
+            If My.Computer.FileSystem.DirectoryExists(Settings.PrismFolder) = False Then
+                My.Computer.FileSystem.CreateDirectory(Settings.PrismFolder)
             End If
-            Call Me.CheckDatabaseTables()
+            Call Prism.DataFunctions.CheckDatabaseTables()
             Call Me.LoadItemFlags()
             Call Me.LoadActivities()
             Call Me.LoadStatuses()
             Call Me.LoadPackedVolumes()
             Call Me.LoadAssetItemNames()
             If Blueprint.LoadBluePrintData = False Then
+                Return False
+                Exit Function
+            End If
+            If Invention.LoadInventionData = False Then
                 Return False
                 Exit Function
             End If
@@ -203,6 +229,8 @@ Public Class PlugInData
         Statuses.Add("3", "GM Aborted")
         Statuses.Add("4", "Unanchored")
         Statuses.Add("5", "Destroyed")
+        Statuses.Add("A", "In Progress")
+        Statuses.Add("B", "Finished but not Delivered")
     End Sub
     Private Function LoadStations() As Boolean
         ' Load the Station Data From the mapDenormalize table
@@ -297,30 +325,36 @@ Public Class PlugInData
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
             Dim fileName As String = ""
-            Dim refXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.RefTypes, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
-            If refXML IsNot Nothing Then
-                Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
-                If errlist.Count = 0 Then
-                    refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
-                    If refDetails IsNot Nothing Then
-                        RefTypes.Clear()
-                        For Each refNode In refDetails
-                            RefTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
-                        Next
-                    End If
-                Else
-                    Dim errNode As XmlNode = errlist(0)
-                    ' Get error code
-                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                    Dim errMsg As String = errNode.InnerText
-                    MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim refXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.RefTypes, EveAPI.APIReturnMethods.ReturnStandard)
+            If refXML Is Nothing Then
+                ' Problem with the API server so let's use our resources to populate it
+                Try
+                    refXML = New XmlDocument
+                    refXML.LoadXml(My.Resources.RefTypes.ToString)
+                Catch ex As Exception
+                    MessageBox.Show("There was an error loading the RefTypes API and it would appear there is a problem with the local copy. Please try again later.", "Prism RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Return False
+                End Try
+            End If
+            Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
+            If errlist.Count = 0 Then
+                refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
+                If refDetails IsNot Nothing Then
+                    RefTypes.Clear()
+                    For Each refNode In refDetails
+                        RefTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
+                    Next
                 End If
-                Return True
             Else
-                MessageBox.Show("There was an error loading the RefTypes API and it would appear there is a problem with the API server. Please try again later.", "Prism RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Dim errNode As XmlNode = errlist(0)
+                ' Get error code
+                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                Dim errMsg As String = errNode.InnerText
+                MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return False
             End If
+            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the RefTypes API. The error was: " & e.Message, "Prism RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -330,7 +364,8 @@ Public Class PlugInData
     Public Sub CheckForConqXMLFile()
         ' Check for the Conquerable XML file in the cache
         Dim stationXML As New XmlDocument
-        stationXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        stationXML = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard)
         If stationXML IsNot Nothing Then
             Call ParseConquerableXML(stationXML)
         End If
@@ -402,123 +437,9 @@ Public Class PlugInData
             Next
         End If
     End Sub
-    Private Function CheckDatabaseTables() As Boolean
-        If CheckAssetItemNameDBTable() = False Then
-            Return False
-        Else
-            Return True
-        End If
-    End Function
-    Private Function CheckWalletTransDBTable() As Boolean
-        Dim CreateTable As Boolean = False
-        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-        If tables IsNot Nothing Then
-            If tables.Contains("walletTransactions") = False Then
-                ' The DB exists but the table doesn't so we'll create this
-                CreateTable = True
-            Else
-                ' We have the Db and table so we can return a good result
-                Return True
-            End If
-        Else
-            ' Database doesn't exist?
-            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                CreateTable = True
-            End If
-        End If
-
-        ' Create the database table 
-        If CreateTable = True Then
-            Dim strSQL As New StringBuilder
-            strSQL.AppendLine("CREATE TABLE walletTransactions")
-            strSQL.AppendLine("(")
-            strSQL.AppendLine("  transID        int IDENTITY(1,1),")
-            strSQL.AppendLine("  transDate      datetime,")
-            strSQL.AppendLine("  transRef       int,")
-            strSQL.AppendLine("  quantity       float,")
-            strSQL.AppendLine("  typeID         int,")
-            strSQL.AppendLine("  price          float,")
-            strSQL.AppendLine("  clientID       int,")
-            strSQL.AppendLine("  clientName     nvarchar(100),")
-            strSQL.AppendLine("  charID         int,")
-            strSQL.AppendLine("  charName       nvarchar(100),")
-            strSQL.AppendLine("  ownerID        int,")
-            strSQL.AppendLine("  ownerName      nvarchar(100),")
-            strSQL.AppendLine("  stationID      int,")
-            strSQL.AppendLine("  transType      int,")  ' 1 = Buy, 2=Sell
-            strSQL.AppendLine("  transFor       int,")  ' 1 = Personal, 2 = Corporation
-            strSQL.AppendLine("  walletID       int,")
-            strSQL.AppendLine("  systemID       int,")
-            strSQL.AppendLine("  regionID       int,")
-            strSQL.AppendLine("  importDate     datetime,")
-            strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT walletTransactions_PK PRIMARY KEY (transID)")
-            strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-                Return True
-            Else
-                MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
-
-    End Function
-    Private Function CheckAssetItemNameDBTable() As Boolean
-        Dim CreateTable As Boolean = False
-        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-        If tables IsNot Nothing Then
-            If tables.Contains("assetItemNames") = False Then
-                ' The DB exists but the table doesn't so we'll create this
-                CreateTable = True
-            Else
-                ' We have the Db and table so we can return a good result
-                Return True
-            End If
-        Else
-            ' Database doesn't exist?
-            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                CreateTable = True
-            End If
-        End If
-
-        ' Create the database table 
-        If CreateTable = True Then
-            Dim strSQL As New StringBuilder
-            strSQL.AppendLine("CREATE TABLE assetItemNames")
-            strSQL.AppendLine("(")
-            strSQL.AppendLine("  itemID         int,")
-            strSQL.AppendLine("  itemName       nvarchar(100),")
-            strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT assetItemNames_PK PRIMARY KEY (itemID)")
-            strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-                Return True
-            Else
-                MessageBox.Show("There was an error creating the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
-
-    End Function
     Private Sub LoadOwnerBlueprints()
-        If My.Computer.FileSystem.FileExists(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
             PlugInData.BlueprintAssets = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
             s.Close()
@@ -526,4 +447,106 @@ Public Class PlugInData
     End Sub
 #End Region
 
+#Region "API Helper Routines"
+
+    Public Shared Function GetPilotForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.Pilot
+        If Owner.IsCorp = True Then
+            Select Case Owner.APIVersion
+                Case Core.APIKeySystems.Version1
+                    ' This is a corporation so we need to check determine the corp rep, key type and roles
+                    If Settings.PrismSettings.CorpReps.ContainsKey(Owner.Name) Then
+                        If Settings.PrismSettings.CorpReps(Owner.Name).ContainsKey(APIType) Then
+                            ' Get the corp rep responsible for this corp and API type
+                            Dim SelPilotName As String = Settings.PrismSettings.CorpReps(Owner.Name).Item(APIType)
+                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(SelPilotName) Then
+                                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(SelPilotName), Core.Pilot)
+                                Return selPilot
+                            Else
+                                Return Nothing
+                            End If
+                        Else
+                            Return Nothing
+                        End If
+                    Else
+                        Return Nothing
+                    End If
+                Case Core.APIKeySystems.Version2
+                    ' Not required for version 2 keys
+                    Return Nothing
+                Case Else
+                    Return Nothing
+            End Select
+        Else
+            Return Nothing
+        End If
+    End Function
+    Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.EveAccount
+        If Owner.IsCorp = True Then
+            Select Case Owner.APIVersion
+                Case Core.APIKeySystems.Version1
+                    ' This is a corporation so we need to check determine the corp rep, key type and roles
+                    If Settings.PrismSettings.CorpReps.ContainsKey(Owner.Name) Then
+                        If Settings.PrismSettings.CorpReps(Owner.Name).ContainsKey(APIType) Then
+                            ' Get the corp rep responsible for this corp and API type
+                            Dim SelPilotName As String = Settings.PrismSettings.CorpReps(Owner.Name).Item(APIType)
+                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(SelPilotName) Then
+                                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(SelPilotName), Core.Pilot)
+                                ' Corp rep established, now get the account
+                                If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(selPilot.Account) = True Then
+                                    Dim Account As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(selPilot.Account), Core.EveAccount)
+                                    Return Account
+                                Else
+                                    Return Nothing
+                                End If
+                            Else
+                                Return Nothing
+                            End If
+                        Else
+                            Return Nothing
+                        End If
+                    Else
+                        Return Nothing
+                    End If
+                Case Core.APIKeySystems.Version2
+                    Return Owner.Account
+                Case Else
+                    Return Nothing
+            End Select
+        Else
+            Return Owner.Account
+        End If
+    End Function
+    Public Shared Function GetAccountOwnerIDForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As String
+        If Owner.IsCorp = True Then
+            Select Case Owner.APIVersion
+                Case Core.APIKeySystems.Version1
+                    ' This is a corporation so we need to check determine the corp rep, key type and roles
+                    If Settings.PrismSettings.CorpReps.ContainsKey(Owner.Name) Then
+                        If Settings.PrismSettings.CorpReps(Owner.Name).ContainsKey(APIType) Then
+                            ' Get the corp rep responsible for this corp and API type
+                            Dim SelPilotName As String = Settings.PrismSettings.CorpReps(Owner.Name).Item(APIType)
+                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(SelPilotName) Then
+                                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(SelPilotName), Core.Pilot)
+                                Return selPilot.ID
+                            Else
+                                Return ""
+                            End If
+                        Else
+                            Return ""
+                        End If
+                    Else
+                        Return ""
+                    End If
+                Case Core.APIKeySystems.Version2
+                    Return Owner.ID
+                Case Else
+                    Return ""
+            End Select
+        Else
+            Return Owner.ID
+        End If
+    End Function
+
+#End Region
 End Class
+

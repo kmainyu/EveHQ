@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmBPOreCalculator
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -22,60 +22,66 @@ Partial Class frmBPOreCalculator
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.clvOwnedOre = New System.Windows.Forms.ListView
-        Me.colOROwnedOre = New System.Windows.Forms.ColumnHeader
-        Me.colORAmount = New System.Windows.Forms.ColumnHeader
-        Me.colORVolume = New System.Windows.Forms.ColumnHeader
-        Me.colORSystem = New System.Windows.Forms.ColumnHeader
-        Me.colORStation = New System.Windows.Forms.ColumnHeader
-        Me.colOROwner = New System.Windows.Forms.ColumnHeader
-        Me.clvExtraOre = New System.Windows.Forms.ListView
-        Me.colEOExtraOre = New System.Windows.Forms.ColumnHeader
-        Me.colEOOreUnits = New System.Windows.Forms.ColumnHeader
-        Me.colEOOreVolume = New System.Windows.Forms.ColumnHeader
-        Me.gbxOreTypes = New System.Windows.Forms.GroupBox
-        Me.chkMercoxit = New System.Windows.Forms.CheckBox
-        Me.chkArkonor = New System.Windows.Forms.CheckBox
-        Me.chkBistot = New System.Windows.Forms.CheckBox
-        Me.chkCrokite = New System.Windows.Forms.CheckBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.chkDarkOchre = New System.Windows.Forms.CheckBox
-        Me.chkSpodumain = New System.Windows.Forms.CheckBox
-        Me.chkHerbergite = New System.Windows.Forms.CheckBox
-        Me.chkGneiss = New System.Windows.Forms.CheckBox
-        Me.chkHemorphite = New System.Windows.Forms.CheckBox
-        Me.chkJaspet = New System.Windows.Forms.CheckBox
-        Me.chkKernite = New System.Windows.Forms.CheckBox
-        Me.chkOmber = New System.Windows.Forms.CheckBox
-        Me.chkPyroxeres = New System.Windows.Forms.CheckBox
-        Me.chkPlagioclase = New System.Windows.Forms.CheckBox
-        Me.chkScordite = New System.Windows.Forms.CheckBox
-        Me.chkVeldspar = New System.Windows.Forms.CheckBox
-        Me.chkMineAll = New System.Windows.Forms.CheckBox
-        Me.clvNeededVsMined = New System.Windows.Forms.ListView
-        Me.colNvMNeededMinerals = New System.Windows.Forms.ColumnHeader
-        Me.colNvMMineralsUnits1 = New System.Windows.Forms.ColumnHeader
-        Me.colNvMMinedMinerals = New System.Windows.Forms.ColumnHeader
-        Me.colNvMMineralsUnits2 = New System.Windows.Forms.ColumnHeader
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.chkMineExtraOre = New System.Windows.Forms.CheckBox
-        Me.lblDurationMining = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.btnSaveAndExit = New System.Windows.Forms.Button
-        Me.btnCancelAndExit = New System.Windows.Forms.Button
-        Me.gbxOreTypes.SuspendLayout()
+        Me.lvwOwnedOre = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colOROwnedOre = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colORAmount = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colORVolume = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colORSystem = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colORStation = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colOROwner = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lvwExtraOre = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colEOExtraOre = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colEOOreUnits = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colEOOreVolume = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.chkMercoxit = New System.Windows.Forms.CheckBox()
+        Me.chkArkonor = New System.Windows.Forms.CheckBox()
+        Me.chkBistot = New System.Windows.Forms.CheckBox()
+        Me.chkCrokite = New System.Windows.Forms.CheckBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.chkDarkOchre = New System.Windows.Forms.CheckBox()
+        Me.chkSpodumain = New System.Windows.Forms.CheckBox()
+        Me.chkHerbergite = New System.Windows.Forms.CheckBox()
+        Me.chkGneiss = New System.Windows.Forms.CheckBox()
+        Me.chkHemorphite = New System.Windows.Forms.CheckBox()
+        Me.chkJaspet = New System.Windows.Forms.CheckBox()
+        Me.chkKernite = New System.Windows.Forms.CheckBox()
+        Me.chkOmber = New System.Windows.Forms.CheckBox()
+        Me.chkPyroxeres = New System.Windows.Forms.CheckBox()
+        Me.chkPlagioclase = New System.Windows.Forms.CheckBox()
+        Me.chkScordite = New System.Windows.Forms.CheckBox()
+        Me.chkVeldspar = New System.Windows.Forms.CheckBox()
+        Me.lvwNeededVsMined = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colNvMNeededMinerals = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNvMMineralsUnits1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNvMMinedMinerals = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNvMMineralsUnits2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.lblDurationLbl = New System.Windows.Forms.Label()
+        Me.lblDuration = New System.Windows.Forms.Label()
+        Me.pnlOreCalc = New DevComponents.DotNetBar.PanelEx()
+        Me.chkMineAll = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkExtraOre = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.gpOreTypes = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.btnClose = New DevComponents.DotNetBar.ButtonX()
+        Me.pnlOreCalc.SuspendLayout()
+        Me.gpOreTypes.SuspendLayout()
         Me.SuspendLayout()
         '
-        'clvOwnedOre
+        'lvwOwnedOre
         '
-        Me.clvOwnedOre.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOROwnedOre, Me.colORAmount, Me.colORVolume, Me.colORSystem, Me.colORStation, Me.colOROwner})
-        Me.clvOwnedOre.GridLines = True
-        Me.clvOwnedOre.Location = New System.Drawing.Point(12, 12)
-        Me.clvOwnedOre.Name = "clvOwnedOre"
-        Me.clvOwnedOre.Size = New System.Drawing.Size(760, 132)
-        Me.clvOwnedOre.TabIndex = 3
-        Me.clvOwnedOre.UseCompatibleStateImageBehavior = False
-        Me.clvOwnedOre.View = System.Windows.Forms.View.Details
+        '
+        '
+        '
+        Me.lvwOwnedOre.Border.Class = "ListViewBorder"
+        Me.lvwOwnedOre.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lvwOwnedOre.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOROwnedOre, Me.colORAmount, Me.colORVolume, Me.colORSystem, Me.colORStation, Me.colOROwner})
+        Me.lvwOwnedOre.GridLines = True
+        Me.lvwOwnedOre.Location = New System.Drawing.Point(10, 13)
+        Me.lvwOwnedOre.Name = "lvwOwnedOre"
+        Me.lvwOwnedOre.Size = New System.Drawing.Size(760, 132)
+        Me.lvwOwnedOre.TabIndex = 3
+        Me.lvwOwnedOre.UseCompatibleStateImageBehavior = False
+        Me.lvwOwnedOre.View = System.Windows.Forms.View.Details
         '
         'colOROwnedOre
         '
@@ -110,16 +116,21 @@ Partial Class frmBPOreCalculator
         Me.colOROwner.Text = "Owner"
         Me.colOROwner.Width = 75
         '
-        'clvExtraOre
+        'lvwExtraOre
         '
-        Me.clvExtraOre.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colEOExtraOre, Me.colEOOreUnits, Me.colEOOreVolume})
-        Me.clvExtraOre.GridLines = True
-        Me.clvExtraOre.Location = New System.Drawing.Point(358, 150)
-        Me.clvExtraOre.Name = "clvExtraOre"
-        Me.clvExtraOre.Size = New System.Drawing.Size(414, 132)
-        Me.clvExtraOre.TabIndex = 4
-        Me.clvExtraOre.UseCompatibleStateImageBehavior = False
-        Me.clvExtraOre.View = System.Windows.Forms.View.Details
+        '
+        '
+        '
+        Me.lvwExtraOre.Border.Class = "ListViewBorder"
+        Me.lvwExtraOre.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lvwExtraOre.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colEOExtraOre, Me.colEOOreUnits, Me.colEOOreVolume})
+        Me.lvwExtraOre.GridLines = True
+        Me.lvwExtraOre.Location = New System.Drawing.Point(356, 151)
+        Me.lvwExtraOre.Name = "lvwExtraOre"
+        Me.lvwExtraOre.Size = New System.Drawing.Size(414, 132)
+        Me.lvwExtraOre.TabIndex = 4
+        Me.lvwExtraOre.UseCompatibleStateImageBehavior = False
+        Me.lvwExtraOre.View = System.Windows.Forms.View.Details
         '
         'colEOExtraOre
         '
@@ -138,36 +149,10 @@ Partial Class frmBPOreCalculator
         Me.colEOOreVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colEOOreVolume.Width = 100
         '
-        'gbxOreTypes
-        '
-        Me.gbxOreTypes.Controls.Add(Me.chkMercoxit)
-        Me.gbxOreTypes.Controls.Add(Me.chkArkonor)
-        Me.gbxOreTypes.Controls.Add(Me.chkBistot)
-        Me.gbxOreTypes.Controls.Add(Me.chkCrokite)
-        Me.gbxOreTypes.Controls.Add(Me.Label1)
-        Me.gbxOreTypes.Controls.Add(Me.chkDarkOchre)
-        Me.gbxOreTypes.Controls.Add(Me.chkSpodumain)
-        Me.gbxOreTypes.Controls.Add(Me.chkHerbergite)
-        Me.gbxOreTypes.Controls.Add(Me.chkGneiss)
-        Me.gbxOreTypes.Controls.Add(Me.chkHemorphite)
-        Me.gbxOreTypes.Controls.Add(Me.chkJaspet)
-        Me.gbxOreTypes.Controls.Add(Me.chkKernite)
-        Me.gbxOreTypes.Controls.Add(Me.chkOmber)
-        Me.gbxOreTypes.Controls.Add(Me.chkPyroxeres)
-        Me.gbxOreTypes.Controls.Add(Me.chkPlagioclase)
-        Me.gbxOreTypes.Controls.Add(Me.chkScordite)
-        Me.gbxOreTypes.Controls.Add(Me.chkVeldspar)
-        Me.gbxOreTypes.Location = New System.Drawing.Point(12, 173)
-        Me.gbxOreTypes.Name = "gbxOreTypes"
-        Me.gbxOreTypes.Size = New System.Drawing.Size(340, 141)
-        Me.gbxOreTypes.TabIndex = 5
-        Me.gbxOreTypes.TabStop = False
-        Me.gbxOreTypes.Text = "Ore types"
-        '
         'chkMercoxit
         '
         Me.chkMercoxit.AutoSize = True
-        Me.chkMercoxit.Location = New System.Drawing.Point(267, 109)
+        Me.chkMercoxit.Location = New System.Drawing.Point(264, 102)
         Me.chkMercoxit.Name = "chkMercoxit"
         Me.chkMercoxit.Size = New System.Drawing.Size(67, 17)
         Me.chkMercoxit.TabIndex = 16
@@ -177,7 +162,7 @@ Partial Class frmBPOreCalculator
         'chkArkonor
         '
         Me.chkArkonor.AutoSize = True
-        Me.chkArkonor.Location = New System.Drawing.Point(267, 86)
+        Me.chkArkonor.Location = New System.Drawing.Point(264, 79)
         Me.chkArkonor.Name = "chkArkonor"
         Me.chkArkonor.Size = New System.Drawing.Size(64, 17)
         Me.chkArkonor.TabIndex = 15
@@ -187,7 +172,7 @@ Partial Class frmBPOreCalculator
         'chkBistot
         '
         Me.chkBistot.AutoSize = True
-        Me.chkBistot.Location = New System.Drawing.Point(267, 63)
+        Me.chkBistot.Location = New System.Drawing.Point(264, 56)
         Me.chkBistot.Name = "chkBistot"
         Me.chkBistot.Size = New System.Drawing.Size(53, 17)
         Me.chkBistot.TabIndex = 14
@@ -197,7 +182,7 @@ Partial Class frmBPOreCalculator
         'chkCrokite
         '
         Me.chkCrokite.AutoSize = True
-        Me.chkCrokite.Location = New System.Drawing.Point(267, 40)
+        Me.chkCrokite.Location = New System.Drawing.Point(264, 33)
         Me.chkCrokite.Name = "chkCrokite"
         Me.chkCrokite.Size = New System.Drawing.Size(60, 17)
         Me.chkCrokite.TabIndex = 13
@@ -207,7 +192,7 @@ Partial Class frmBPOreCalculator
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 16)
+        Me.Label1.Location = New System.Drawing.Point(3, 9)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(204, 13)
         Me.Label1.TabIndex = 12
@@ -216,7 +201,7 @@ Partial Class frmBPOreCalculator
         'chkDarkOchre
         '
         Me.chkDarkOchre.AutoSize = True
-        Me.chkDarkOchre.Location = New System.Drawing.Point(180, 109)
+        Me.chkDarkOchre.Location = New System.Drawing.Point(177, 102)
         Me.chkDarkOchre.Name = "chkDarkOchre"
         Me.chkDarkOchre.Size = New System.Drawing.Size(80, 17)
         Me.chkDarkOchre.TabIndex = 11
@@ -226,7 +211,7 @@ Partial Class frmBPOreCalculator
         'chkSpodumain
         '
         Me.chkSpodumain.AutoSize = True
-        Me.chkSpodumain.Location = New System.Drawing.Point(180, 86)
+        Me.chkSpodumain.Location = New System.Drawing.Point(177, 79)
         Me.chkSpodumain.Name = "chkSpodumain"
         Me.chkSpodumain.Size = New System.Drawing.Size(78, 17)
         Me.chkSpodumain.TabIndex = 10
@@ -236,7 +221,7 @@ Partial Class frmBPOreCalculator
         'chkHerbergite
         '
         Me.chkHerbergite.AutoSize = True
-        Me.chkHerbergite.Location = New System.Drawing.Point(180, 63)
+        Me.chkHerbergite.Location = New System.Drawing.Point(177, 56)
         Me.chkHerbergite.Name = "chkHerbergite"
         Me.chkHerbergite.Size = New System.Drawing.Size(77, 17)
         Me.chkHerbergite.TabIndex = 9
@@ -246,7 +231,7 @@ Partial Class frmBPOreCalculator
         'chkGneiss
         '
         Me.chkGneiss.AutoSize = True
-        Me.chkGneiss.Location = New System.Drawing.Point(180, 40)
+        Me.chkGneiss.Location = New System.Drawing.Point(177, 33)
         Me.chkGneiss.Name = "chkGneiss"
         Me.chkGneiss.Size = New System.Drawing.Size(57, 17)
         Me.chkGneiss.TabIndex = 8
@@ -256,7 +241,7 @@ Partial Class frmBPOreCalculator
         'chkHemorphite
         '
         Me.chkHemorphite.AutoSize = True
-        Me.chkHemorphite.Location = New System.Drawing.Point(93, 109)
+        Me.chkHemorphite.Location = New System.Drawing.Point(90, 102)
         Me.chkHemorphite.Name = "chkHemorphite"
         Me.chkHemorphite.Size = New System.Drawing.Size(81, 17)
         Me.chkHemorphite.TabIndex = 7
@@ -266,7 +251,7 @@ Partial Class frmBPOreCalculator
         'chkJaspet
         '
         Me.chkJaspet.AutoSize = True
-        Me.chkJaspet.Location = New System.Drawing.Point(93, 86)
+        Me.chkJaspet.Location = New System.Drawing.Point(90, 79)
         Me.chkJaspet.Name = "chkJaspet"
         Me.chkJaspet.Size = New System.Drawing.Size(58, 17)
         Me.chkJaspet.TabIndex = 6
@@ -276,7 +261,7 @@ Partial Class frmBPOreCalculator
         'chkKernite
         '
         Me.chkKernite.AutoSize = True
-        Me.chkKernite.Location = New System.Drawing.Point(93, 63)
+        Me.chkKernite.Location = New System.Drawing.Point(90, 56)
         Me.chkKernite.Name = "chkKernite"
         Me.chkKernite.Size = New System.Drawing.Size(60, 17)
         Me.chkKernite.TabIndex = 5
@@ -286,7 +271,7 @@ Partial Class frmBPOreCalculator
         'chkOmber
         '
         Me.chkOmber.AutoSize = True
-        Me.chkOmber.Location = New System.Drawing.Point(93, 40)
+        Me.chkOmber.Location = New System.Drawing.Point(90, 33)
         Me.chkOmber.Name = "chkOmber"
         Me.chkOmber.Size = New System.Drawing.Size(58, 17)
         Me.chkOmber.TabIndex = 4
@@ -296,7 +281,7 @@ Partial Class frmBPOreCalculator
         'chkPyroxeres
         '
         Me.chkPyroxeres.AutoSize = True
-        Me.chkPyroxeres.Location = New System.Drawing.Point(6, 109)
+        Me.chkPyroxeres.Location = New System.Drawing.Point(3, 102)
         Me.chkPyroxeres.Name = "chkPyroxeres"
         Me.chkPyroxeres.Size = New System.Drawing.Size(75, 17)
         Me.chkPyroxeres.TabIndex = 3
@@ -306,7 +291,7 @@ Partial Class frmBPOreCalculator
         'chkPlagioclase
         '
         Me.chkPlagioclase.AutoSize = True
-        Me.chkPlagioclase.Location = New System.Drawing.Point(6, 86)
+        Me.chkPlagioclase.Location = New System.Drawing.Point(3, 79)
         Me.chkPlagioclase.Name = "chkPlagioclase"
         Me.chkPlagioclase.Size = New System.Drawing.Size(78, 17)
         Me.chkPlagioclase.TabIndex = 2
@@ -316,7 +301,7 @@ Partial Class frmBPOreCalculator
         'chkScordite
         '
         Me.chkScordite.AutoSize = True
-        Me.chkScordite.Location = New System.Drawing.Point(6, 63)
+        Me.chkScordite.Location = New System.Drawing.Point(3, 56)
         Me.chkScordite.Name = "chkScordite"
         Me.chkScordite.Size = New System.Drawing.Size(65, 17)
         Me.chkScordite.TabIndex = 1
@@ -326,33 +311,28 @@ Partial Class frmBPOreCalculator
         'chkVeldspar
         '
         Me.chkVeldspar.AutoSize = True
-        Me.chkVeldspar.Location = New System.Drawing.Point(6, 40)
+        Me.chkVeldspar.Location = New System.Drawing.Point(3, 33)
         Me.chkVeldspar.Name = "chkVeldspar"
         Me.chkVeldspar.Size = New System.Drawing.Size(67, 17)
         Me.chkVeldspar.TabIndex = 0
         Me.chkVeldspar.Text = "Veldspar"
         Me.chkVeldspar.UseVisualStyleBackColor = True
         '
-        'chkMineAll
+        'lvwNeededVsMined
         '
-        Me.chkMineAll.AutoSize = True
-        Me.chkMineAll.Location = New System.Drawing.Point(18, 320)
-        Me.chkMineAll.Name = "chkMineAll"
-        Me.chkMineAll.Size = New System.Drawing.Size(317, 17)
-        Me.chkMineAll.TabIndex = 6
-        Me.chkMineAll.Text = "I want to mine all the needed ore, without touching my stock"
-        Me.chkMineAll.UseVisualStyleBackColor = True
         '
-        'clvNeededVsMined
         '
-        Me.clvNeededVsMined.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNvMNeededMinerals, Me.colNvMMineralsUnits1, Me.colNvMMinedMinerals, Me.colNvMMineralsUnits2})
-        Me.clvNeededVsMined.GridLines = True
-        Me.clvNeededVsMined.Location = New System.Drawing.Point(358, 305)
-        Me.clvNeededVsMined.Name = "clvNeededVsMined"
-        Me.clvNeededVsMined.Size = New System.Drawing.Size(414, 132)
-        Me.clvNeededVsMined.TabIndex = 7
-        Me.clvNeededVsMined.UseCompatibleStateImageBehavior = False
-        Me.clvNeededVsMined.View = System.Windows.Forms.View.Details
+        '
+        Me.lvwNeededVsMined.Border.Class = "ListViewBorder"
+        Me.lvwNeededVsMined.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lvwNeededVsMined.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNvMNeededMinerals, Me.colNvMMineralsUnits1, Me.colNvMMinedMinerals, Me.colNvMMineralsUnits2})
+        Me.lvwNeededVsMined.GridLines = True
+        Me.lvwNeededVsMined.Location = New System.Drawing.Point(356, 306)
+        Me.lvwNeededVsMined.Name = "lvwNeededVsMined"
+        Me.lvwNeededVsMined.Size = New System.Drawing.Size(414, 132)
+        Me.lvwNeededVsMined.TabIndex = 7
+        Me.lvwNeededVsMined.UseCompatibleStateImageBehavior = False
+        Me.lvwNeededVsMined.View = System.Windows.Forms.View.Details
         '
         'colNvMNeededMinerals
         '
@@ -379,99 +359,188 @@ Partial Class frmBPOreCalculator
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(355, 289)
+        Me.Label2.Location = New System.Drawing.Point(353, 290)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(174, 13)
         Me.Label2.TabIndex = 8
         Me.Label2.Text = "When I refine the ore I (will) have:"
         '
-        'chkMineExtraOre
+        'lblDurationLbl
         '
-        Me.chkMineExtraOre.AutoSize = True
-        Me.chkMineExtraOre.Location = New System.Drawing.Point(18, 150)
-        Me.chkMineExtraOre.Name = "chkMineExtraOre"
-        Me.chkMineExtraOre.Size = New System.Drawing.Size(192, 17)
-        Me.chkMineExtraOre.TabIndex = 9
-        Me.chkMineExtraOre.Text = "Tell me how much ore I need extra"
-        Me.chkMineExtraOre.UseVisualStyleBackColor = True
+        Me.lblDurationLbl.AutoSize = True
+        Me.lblDurationLbl.Location = New System.Drawing.Point(10, 386)
+        Me.lblDurationLbl.Name = "lblDurationLbl"
+        Me.lblDurationLbl.Size = New System.Drawing.Size(185, 13)
+        Me.lblDurationLbl.TabIndex = 10
+        Me.lblDurationLbl.Text = "The extra time you'll need for mining:"
         '
-        'lblDurationMining
+        'lblDuration
         '
-        Me.lblDurationMining.AutoSize = True
-        Me.lblDurationMining.Location = New System.Drawing.Point(15, 354)
-        Me.lblDurationMining.Name = "lblDurationMining"
-        Me.lblDurationMining.Size = New System.Drawing.Size(185, 13)
-        Me.lblDurationMining.TabIndex = 10
-        Me.lblDurationMining.Text = "The extra time you'll need for mining:"
+        Me.lblDuration.AutoSize = True
+        Me.lblDuration.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDuration.Location = New System.Drawing.Point(194, 386)
+        Me.lblDuration.Name = "lblDuration"
+        Me.lblDuration.Size = New System.Drawing.Size(83, 13)
+        Me.lblDuration.TabIndex = 11
+        Me.lblDuration.Text = "0D 0H 0M 0S"
         '
-        'Label3
+        'pnlOreCalc
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(199, 354)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(83, 13)
-        Me.Label3.TabIndex = 11
-        Me.Label3.Text = "0D 0H 0M 0S"
+        Me.pnlOreCalc.CanvasColor = System.Drawing.SystemColors.Control
+        Me.pnlOreCalc.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlOreCalc.Controls.Add(Me.chkMineAll)
+        Me.pnlOreCalc.Controls.Add(Me.chkExtraOre)
+        Me.pnlOreCalc.Controls.Add(Me.gpOreTypes)
+        Me.pnlOreCalc.Controls.Add(Me.btnClose)
+        Me.pnlOreCalc.Controls.Add(Me.lvwOwnedOre)
+        Me.pnlOreCalc.Controls.Add(Me.lvwExtraOre)
+        Me.pnlOreCalc.Controls.Add(Me.lblDuration)
+        Me.pnlOreCalc.Controls.Add(Me.lvwNeededVsMined)
+        Me.pnlOreCalc.Controls.Add(Me.lblDurationLbl)
+        Me.pnlOreCalc.Controls.Add(Me.Label2)
+        Me.pnlOreCalc.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pnlOreCalc.Location = New System.Drawing.Point(0, 0)
+        Me.pnlOreCalc.Name = "pnlOreCalc"
+        Me.pnlOreCalc.Size = New System.Drawing.Size(780, 450)
+        Me.pnlOreCalc.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.pnlOreCalc.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.pnlOreCalc.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.pnlOreCalc.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.pnlOreCalc.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.pnlOreCalc.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.pnlOreCalc.Style.GradientAngle = 90
+        Me.pnlOreCalc.TabIndex = 14
         '
-        'btnSaveAndExit
+        'chkMineAll
         '
-        Me.btnSaveAndExit.Location = New System.Drawing.Point(12, 414)
-        Me.btnSaveAndExit.Name = "btnSaveAndExit"
-        Me.btnSaveAndExit.Size = New System.Drawing.Size(75, 23)
-        Me.btnSaveAndExit.TabIndex = 12
-        Me.btnSaveAndExit.Text = "Save && Exit"
-        Me.btnSaveAndExit.UseVisualStyleBackColor = True
+        Me.chkMineAll.AutoSize = True
         '
-        'btnCancelAndExit
         '
-        Me.btnCancelAndExit.Location = New System.Drawing.Point(105, 414)
-        Me.btnCancelAndExit.Name = "btnCancelAndExit"
-        Me.btnCancelAndExit.Size = New System.Drawing.Size(80, 23)
-        Me.btnCancelAndExit.TabIndex = 13
-        Me.btnCancelAndExit.Text = "Cancel && Exit"
-        Me.btnCancelAndExit.UseVisualStyleBackColor = True
+        '
+        Me.chkMineAll.BackgroundStyle.Class = ""
+        Me.chkMineAll.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkMineAll.Location = New System.Drawing.Point(10, 357)
+        Me.chkMineAll.Name = "chkMineAll"
+        Me.chkMineAll.Size = New System.Drawing.Size(187, 16)
+        Me.chkMineAll.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkMineAll.TabIndex = 17
+        Me.chkMineAll.Text = "I want to mine all the needed Ore"
+        '
+        'chkExtraOre
+        '
+        Me.chkExtraOre.AutoSize = True
+        '
+        '
+        '
+        Me.chkExtraOre.BackgroundStyle.Class = ""
+        Me.chkExtraOre.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkExtraOre.Location = New System.Drawing.Point(10, 151)
+        Me.chkExtraOre.Name = "chkExtraOre"
+        Me.chkExtraOre.Size = New System.Drawing.Size(166, 16)
+        Me.chkExtraOre.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkExtraOre.TabIndex = 16
+        Me.chkExtraOre.Text = "Tell me how extra Ore I need"
+        '
+        'gpOreTypes
+        '
+        Me.gpOreTypes.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpOreTypes.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpOreTypes.Controls.Add(Me.chkMercoxit)
+        Me.gpOreTypes.Controls.Add(Me.Label1)
+        Me.gpOreTypes.Controls.Add(Me.chkArkonor)
+        Me.gpOreTypes.Controls.Add(Me.chkVeldspar)
+        Me.gpOreTypes.Controls.Add(Me.chkBistot)
+        Me.gpOreTypes.Controls.Add(Me.chkScordite)
+        Me.gpOreTypes.Controls.Add(Me.chkCrokite)
+        Me.gpOreTypes.Controls.Add(Me.chkPlagioclase)
+        Me.gpOreTypes.Controls.Add(Me.chkPyroxeres)
+        Me.gpOreTypes.Controls.Add(Me.chkDarkOchre)
+        Me.gpOreTypes.Controls.Add(Me.chkOmber)
+        Me.gpOreTypes.Controls.Add(Me.chkSpodumain)
+        Me.gpOreTypes.Controls.Add(Me.chkKernite)
+        Me.gpOreTypes.Controls.Add(Me.chkHerbergite)
+        Me.gpOreTypes.Controls.Add(Me.chkJaspet)
+        Me.gpOreTypes.Controls.Add(Me.chkGneiss)
+        Me.gpOreTypes.Controls.Add(Me.chkHemorphite)
+        Me.gpOreTypes.Location = New System.Drawing.Point(10, 174)
+        Me.gpOreTypes.Name = "gpOreTypes"
+        Me.gpOreTypes.Size = New System.Drawing.Size(340, 152)
+        '
+        '
+        '
+        Me.gpOreTypes.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpOreTypes.Style.BackColorGradientAngle = 90
+        Me.gpOreTypes.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpOreTypes.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpOreTypes.Style.BorderBottomWidth = 1
+        Me.gpOreTypes.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpOreTypes.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpOreTypes.Style.BorderLeftWidth = 1
+        Me.gpOreTypes.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpOreTypes.Style.BorderRightWidth = 1
+        Me.gpOreTypes.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpOreTypes.Style.BorderTopWidth = 1
+        Me.gpOreTypes.Style.Class = ""
+        Me.gpOreTypes.Style.CornerDiameter = 4
+        Me.gpOreTypes.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpOreTypes.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpOreTypes.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpOreTypes.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpOreTypes.StyleMouseDown.Class = ""
+        Me.gpOreTypes.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpOreTypes.StyleMouseOver.Class = ""
+        Me.gpOreTypes.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpOreTypes.TabIndex = 15
+        Me.gpOreTypes.Text = "Ore Type Availability"
+        '
+        'btnClose
+        '
+        Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnClose.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnClose.Location = New System.Drawing.Point(16, 415)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(75, 23)
+        Me.btnClose.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnClose.TabIndex = 14
+        Me.btnClose.Text = "Close"
         '
         'frmBPOreCalculator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(784, 449)
-        Me.Controls.Add(Me.gbxOreTypes)
-        Me.Controls.Add(Me.btnCancelAndExit)
-        Me.Controls.Add(Me.btnSaveAndExit)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.lblDurationMining)
-        Me.Controls.Add(Me.chkMineExtraOre)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.clvNeededVsMined)
-        Me.Controls.Add(Me.chkMineAll)
-        Me.Controls.Add(Me.clvExtraOre)
-        Me.Controls.Add(Me.clvOwnedOre)
+        Me.ClientSize = New System.Drawing.Size(780, 450)
+        Me.Controls.Add(Me.pnlOreCalc)
+        Me.DoubleBuffered = True
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.Name = "frmBPOreCalculator"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "BPO Ore Calculator"
-        Me.gbxOreTypes.ResumeLayout(False)
-        Me.gbxOreTypes.PerformLayout()
+        Me.pnlOreCalc.ResumeLayout(False)
+        Me.pnlOreCalc.PerformLayout()
+        Me.gpOreTypes.ResumeLayout(False)
+        Me.gpOreTypes.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents clvOwnedOre As System.Windows.Forms.ListView
+    Friend WithEvents lvwOwnedOre As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colOROwnedOre As System.Windows.Forms.ColumnHeader
     Friend WithEvents colORAmount As System.Windows.Forms.ColumnHeader
     Friend WithEvents colORVolume As System.Windows.Forms.ColumnHeader
     Friend WithEvents colORSystem As System.Windows.Forms.ColumnHeader
     Friend WithEvents colORStation As System.Windows.Forms.ColumnHeader
     Friend WithEvents colOROwner As System.Windows.Forms.ColumnHeader
-    Friend WithEvents clvExtraOre As System.Windows.Forms.ListView
+    Friend WithEvents lvwExtraOre As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colEOExtraOre As System.Windows.Forms.ColumnHeader
     Friend WithEvents colEOOreUnits As System.Windows.Forms.ColumnHeader
     Friend WithEvents colEOOreVolume As System.Windows.Forms.ColumnHeader
-    Friend WithEvents gbxOreTypes As System.Windows.Forms.GroupBox
     Friend WithEvents chkHemorphite As System.Windows.Forms.CheckBox
     Friend WithEvents chkJaspet As System.Windows.Forms.CheckBox
     Friend WithEvents chkKernite As System.Windows.Forms.CheckBox
@@ -486,19 +555,20 @@ Partial Class frmBPOreCalculator
     Friend WithEvents chkHerbergite As System.Windows.Forms.CheckBox
     Friend WithEvents chkGneiss As System.Windows.Forms.CheckBox
     Friend WithEvents chkCrokite As System.Windows.Forms.CheckBox
-    Friend WithEvents chkMineAll As System.Windows.Forms.CheckBox
-    Friend WithEvents clvNeededVsMined As System.Windows.Forms.ListView
+    Friend WithEvents lvwNeededVsMined As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colNvMNeededMinerals As System.Windows.Forms.ColumnHeader
     Friend WithEvents colNvMMineralsUnits1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents colNvMMinedMinerals As System.Windows.Forms.ColumnHeader
     Friend WithEvents colNvMMineralsUnits2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents chkMineExtraOre As System.Windows.Forms.CheckBox
-    Friend WithEvents lblDurationMining As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents btnSaveAndExit As System.Windows.Forms.Button
-    Friend WithEvents btnCancelAndExit As System.Windows.Forms.Button
+    Friend WithEvents lblDurationLbl As System.Windows.Forms.Label
+    Friend WithEvents lblDuration As System.Windows.Forms.Label
     Friend WithEvents chkMercoxit As System.Windows.Forms.CheckBox
     Friend WithEvents chkArkonor As System.Windows.Forms.CheckBox
     Friend WithEvents chkBistot As System.Windows.Forms.CheckBox
+    Friend WithEvents pnlOreCalc As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents chkMineAll As DevComponents.DotNetBar.Controls.CheckBoxX
+    Friend WithEvents chkExtraOre As DevComponents.DotNetBar.Controls.CheckBoxX
+    Friend WithEvents gpOreTypes As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents btnClose As DevComponents.DotNetBar.ButtonX
 End Class

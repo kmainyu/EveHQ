@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -16,11 +35,13 @@ namespace EveHQ.PosManager
     [Serializable]
     public class SystemList
     {
-        public SortedList Systems;
+        public SortedList<string, Sov_Data> Systems;
+        public SortedList<long, string> SysNameConv;
 
         public SystemList()
         {
-            Systems = new SortedList();
+            Systems = new SortedList<string, Sov_Data>();
+            SysNameConv = new SortedList<long, string>();
         }
 
         public void PopulateSystemListing(Object st)
@@ -49,6 +70,7 @@ namespace EveHQ.PosManager
                     sDat.systemName = sysName;
 
                     Systems.Add(sysName, sDat);
+                    SysNameConv.Add(Convert.ToInt32(sysID), sysName);
                 }
             }
             SaveSystemListToDisk();
@@ -57,28 +79,11 @@ namespace EveHQ.PosManager
 
         public void LoadSystemListFromDisk()
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
             Stream cStr;
             BinaryFormatter myBf;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
-
-            if (!Directory.Exists(PoSManage_Path))
-                Directory.CreateDirectory(PoSManage_Path);
-
-            if (!Directory.Exists(PoSCache_Path))
-                Directory.CreateDirectory(PoSCache_Path);
-
-            fname = Path.Combine(PoSCache_Path, "System_List.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "System_List.bin");
 
             // Load the Data from Disk
             if (File.Exists(fname))
@@ -89,7 +94,27 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    Systems = (SortedList)myBf.Deserialize(cStr);
+                    Systems = (SortedList<string, Sov_Data>)myBf.Deserialize(cStr);
+                    cStr.Close();
+                }
+                catch
+                {
+                    cStr.Close();
+                }
+            }
+
+            fname = Path.Combine(PlugInData.PoSCache_Path, "SysNam_List.bin");
+
+            // Load the Data from Disk
+            if (File.Exists(fname))
+            {
+                // We have a configuration data file
+                cStr = File.OpenRead(fname);
+                myBf = new BinaryFormatter();
+
+                try
+                {
+                    SysNameConv = (SortedList<long, string>)myBf.Deserialize(cStr);
                     cStr.Close();
                 }
                 catch
@@ -101,31 +126,22 @@ namespace EveHQ.PosManager
 
         public void SaveSystemListToDisk()
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
-
-            if (!Directory.Exists(PoSManage_Path))
-                Directory.CreateDirectory(PoSManage_Path);
-
-            if (!Directory.Exists(PoSCache_Path))
-                Directory.CreateDirectory(PoSCache_Path);
-
-            fname = Path.Combine(PoSCache_Path, "System_List.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "System_List.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
             BinaryFormatter pBF = new BinaryFormatter();
             pBF.Serialize(pStream, Systems);
+            pStream.Close();
+
+            fname = Path.Combine(PlugInData.PoSCache_Path, "SysNam_List.bin");
+
+            // Save the Serialized data to Disk
+            pStream = File.Create(fname);
+            pBF = new BinaryFormatter();
+            pBF.Serialize(pStream, SysNameConv);
             pStream.Close();
         }
 

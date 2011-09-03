@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -23,6 +23,7 @@ Imports System.Drawing
 Imports System.Windows.Forms
 Imports System.Net
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports DevComponents.AdvTree
 
 Public Class frmHQFSettings
     Dim forceUpdate As Boolean = False
@@ -32,15 +33,22 @@ Public Class frmHQFSettings
 #Region "Form Opening & Closing"
 
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Save Widths
+        Dim Cols As New SortedList(Of String, UserSlotColumn)
+        For Each UserCol As UserSlotColumn In HQF.Settings.HQFSettings.UserSlotColumns
+            Cols.Add(UserCol.Name, UserCol)
+        Next
+
         ' Process the slot selection
         Settings.HQFSettings.UserSlotColumns.Clear()
         For Each slotItem As ListViewItem In lvwColumns.Items
-            If slotItem.Checked = False Then
-                Settings.HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
-            Else
-                Settings.HQFSettings.UserSlotColumns.Add(slotItem.Name & "1")
-            End If
+            Dim OldSlot As UserSlotColumn = Cols(slotItem.Name)
+            Settings.HQFSettings.UserSlotColumns.Add(New UserSlotColumn(OldSlot.Name, OldSlot.Description, OldSlot.Width, slotItem.Checked))
         Next
+
+        ' Save the profiles
+        Call DamageProfiles.SaveProfiles()
+
         ' Save the settings
         Call Settings.HQFSettings.SaveHQFSettings()
         If forceUpdate = True Then
@@ -54,7 +62,9 @@ Public Class frmHQFSettings
         Call Me.UpdateGeneralOptions()
         Call Me.UpdateSlotFormatOptions()
         Call Me.UpdateConstantsOptions()
-        Call Me.UpdateDataOptions()
+        Call Me.UpdateDamageProfileOptions()
+        Call Me.UpdateDefenceProfileOptions()
+        Call Me.UpdateAttributeColumns()
 
         forceUpdate = False
         redrawColumns = True
@@ -158,19 +168,11 @@ Public Class frmHQFSettings
         Dim newCol As New ListViewItem
         lvwColumns.BeginUpdate()
         lvwColumns.Items.Clear()
-        For Each slot As String In Settings.HQFSettings.UserSlotColumns
-            For Each stdSlot As ListViewItem In Settings.HQFSettings.StandardSlotColumns
-                If slot.Substring(0, Len(slot) - 1) = stdSlot.Name Then
-                    newCol = CType(stdSlot.Clone, ListViewItem)
-                    newCol.Name = stdSlot.Name
-                    If slot.EndsWith("0") = True Then
-                        newCol.Checked = False
-                    Else
-                        newCol.Checked = True
-                    End If
-                    lvwColumns.Items.Add(newCol)
-                End If
-            Next
+        For Each UserSlot As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+            newCol = New ListViewItem(UserSlot.Description)
+            newCol.Name = UserSlot.Name
+            newCol.Checked = UserSlot.Active
+            lvwColumns.Items.Add(newCol)
         Next
         lvwColumns.EndUpdate()
     End Sub
@@ -180,28 +182,22 @@ Public Class frmHQFSettings
             MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        ' Save the selected item
-        ' Get the slot name of the item selected
-        Dim slotName As String = lvwColumns.SelectedItems(0).Name
-        Dim selName As String = slotName
         ' Find the index in the user column list
-        Dim idx As Integer = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "0")
-        If idx = -1 Then
-            idx = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "1")
-        End If
-        ' Switch with the one above if the index is not zero
-        If idx <> 0 Then
-            slotName = CStr(Settings.HQFSettings.UserSlotColumns(idx - 1))
-            Settings.HQFSettings.UserSlotColumns(idx - 1) = Settings.HQFSettings.UserSlotColumns(idx)
-            Settings.HQFSettings.UserSlotColumns(idx) = slotName
+        Dim idx As Integer = lvwColumns.SelectedItems(0).Index
+        If idx > 0 Then
+            Dim ColToMove As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx)
+            Dim ColToSwitch As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx - 1)
+            Settings.HQFSettings.UserSlotColumns.Item(idx) = ColToSwitch
+            Settings.HQFSettings.UserSlotColumns.Item(idx - 1) = ColToMove
             ' Redraw the list
             redrawColumns = True
             Call Me.RedrawSlotColumnList()
             redrawColumns = False
-            lvwColumns.Items(selName).Selected = True
+            lvwColumns.Items(idx - 1).Selected = True
             lvwColumns.Select()
             forceUpdate = True
         End If
+
     End Sub
     Private Sub btnMoveDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveDown.Click
         ' Check we have something selected
@@ -209,42 +205,27 @@ Public Class frmHQFSettings
             MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        ' Get the slot name of the item selected
-        Dim slotName As String = lvwColumns.SelectedItems(0).Name
-        Dim selName As String = slotName
         ' Find the index in the user column list
-        Dim idx As Integer = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "0")
-        If idx = -1 Then
-            idx = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "1")
-        End If
-        ' Switch with the one above if the index is not the last
-        If idx <> Settings.HQFSettings.UserSlotColumns.Count - 1 Then
-            slotName = CStr(Settings.HQFSettings.UserSlotColumns(idx + 1))
-            Settings.HQFSettings.UserSlotColumns(idx + 1) = Settings.HQFSettings.UserSlotColumns(idx)
-            Settings.HQFSettings.UserSlotColumns(idx) = slotName
+        Dim idx As Integer = lvwColumns.SelectedItems(0).Index
+        If idx < lvwColumns.Items.Count - 1 Then
+            Dim ColToMove As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx)
+            Dim ColToSwitch As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx + 1)
+            Settings.HQFSettings.UserSlotColumns.Item(idx) = ColToSwitch
+            Settings.HQFSettings.UserSlotColumns.Item(idx + 1) = ColToMove
             ' Redraw the list
             redrawColumns = True
             Call Me.RedrawSlotColumnList()
             redrawColumns = False
-            lvwColumns.Items(selName).Selected = True
+            lvwColumns.Items(idx + 1).Selected = True
             lvwColumns.Select()
             forceUpdate = True
         End If
     End Sub
     Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
         If redrawColumns = False Then
-            ' Get the slot name of the ticked item
-            Dim slotName As String = e.Item.Name
             ' Find the index in the user column list
-            Dim idx As Integer = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "0")
-            If idx = -1 Then
-                idx = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "1")
-            End If
-            If e.Item.Checked = False Then
-                Settings.HQFSettings.UserSlotColumns(idx) = slotName & "0"
-            Else
-                Settings.HQFSettings.UserSlotColumns(idx) = slotName & "1"
-            End If
+            Dim idx As Integer = e.Item.Index
+            HQF.Settings.HQFSettings.UserSlotColumns.Item(idx).Active = e.Item.Checked
             forceUpdate = True
         End If
     End Sub
@@ -337,13 +318,13 @@ Public Class frmHQFSettings
         Dim nodeName As String = e.Node.Name
         Dim gbName As String = nodeName.TrimStart("node".ToCharArray)
         gbName = "gb" & gbName
-        For Each setControl As Control In Me.Controls
+        For Each setControl As Control In Me.pnlSettings.Controls
             If setControl.Name = "tvwSettings" Or setControl.Name = "btnClose" Or setControl.Name = gbName Then
-                Me.Controls(gbName).Top = 12
-                Me.Controls(gbName).Left = 195
-                Me.Controls(gbName).Width = 700
-                Me.Controls(gbName).Height = 500
-                Me.Controls(gbName).Visible = True
+                Me.pnlSettings.Controls(gbName).Top = 12
+                Me.pnlSettings.Controls(gbName).Left = 195
+                Me.pnlSettings.Controls(gbName).Width = 585
+                Me.pnlSettings.Controls(gbName).Height = 500
+                Me.pnlSettings.Controls(gbName).Visible = True
             Else
                 setControl.Visible = False
             End If
@@ -357,9 +338,6 @@ Public Class frmHQFSettings
 #End Region
 
 #Region "Data Cache Options"
-    Private Sub UpdateDataOptions()
-        Call Me.LoadShips()
-    End Sub
     Private Sub btnDeleteCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteCache.Click
         If My.Computer.FileSystem.DirectoryExists(Settings.HQFFolder) = True Then
             Try
@@ -380,7 +358,6 @@ Public Class frmHQFSettings
                         My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
                     Fittings.FittingList.Clear()
-                    Fittings.FittingTabList.Clear()
                     MessageBox.Show("All fittings successfully deleted", "All Fittings Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
                     MessageBox.Show("Unable to delete the fittings file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -507,7 +484,7 @@ Public Class frmHQFSettings
         sw2.Flush()
         sw2.Close()
 
-        MessageBox.Show("Total traversed items: " & itemCount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        MessageBox.Show("Total traversed items: " & itemcount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
     End Sub
 
@@ -678,33 +655,402 @@ Public Class frmHQFSettings
         Next
     End Sub
 
-    Private Sub LoadShips()
-        cboShipName.BeginUpdate()
-        cboShipName.Items.Clear()
-        For Each shipName As String In ShipLists.shipList.Keys
-            cboShipName.Items.Add(shipName)
+#Region "Data Checking From Main Form"
+
+    Private Sub ToolStripButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        ' Count number of items
+        Dim items As Integer = ModuleLists.moduleList.Count
+        ' Check MarketGroups
+        Dim marketError As Integer = 0
+        For Each item As ShipModule In ModuleLists.moduleList.Values
+            If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
+                marketError += 1
+                'MessageBox.Show(item.Name)
+            End If
         Next
-        cboShipName.EndUpdate()
+        ' Check MetaGroups
+        Dim metaError As Integer = 0
+        For Each item As ShipModule In ModuleLists.moduleList.Values
+            If ModuleLists.moduleMetaGroups.ContainsKey(item.ID) = False Then
+                metaError += 1
+                'MessageBox.Show(item.Name)
+            End If
+        Next
+
+        Dim msg As String = ""
+        msg &= "Total items: " & items & ControlChars.CrLf
+        msg &= "Orphaned market items: " & marketError & ControlChars.CrLf
+        msg &= "Orphaned meta items: " & metaError & ControlChars.CrLf
+        MessageBox.Show(msg)
+
+        ' Traverse the tree, looking for goodies!
+        Dim itemCount As Integer = 0
+        Dim dataCheckList As New SortedList
+        'For Each rootNode As TreeNode In frmHQF.tvwItems.Nodes
+        '    SearchChildNodes(rootNode, itemCount, dataCheckList)
+        'Next
+
+        ' Write missing items to a file
+        Dim sw As New IO.StreamWriter(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "missingItems.csv"))
+        For Each shipMod As ShipModule In ModuleLists.moduleList.Values
+            If dataCheckList.Contains(shipMod.ID) = False Then
+                sw.WriteLine(shipMod.ID & "," & shipMod.Name)
+                dataCheckList.Add(shipMod.ID, shipMod.Name)
+            End If
+        Next
+        sw.Flush()
+        sw.Close()
+
+        MessageBox.Show("Total traversed items: " & itemCount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
     End Sub
 
-    Private Sub cboShipName_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboShipName.SelectedIndexChanged
-        Dim aShip As Ship = CType(ShipLists.shipList(cboShipName.SelectedItem.ToString), Ship)
-        lvwBonuses.BeginUpdate()
-        lvwBonuses.Items.Clear()
-        If Engine.ShipBonusesMap.ContainsKey(aShip.ID) Then
-            Dim aShipBonuses As ArrayList = CType(Engine.ShipBonusesMap(aShip.ID), ArrayList)
-            For Each bonus As ShipEffect In aShipBonuses
-                Dim newItem As New ListViewItem
-                newItem.Text = bonus.AffectedAtt.ToString
-                newItem.SubItems.Add(bonus.Value.ToString("N4"))
-                newItem.SubItems.Add(bonus.IsPerLevel.ToString)
-                newItem.SubItems.Add(bonus.StackNerf.ToString)
-                newItem.SubItems.Add(bonus.CalcType.ToString)
-                lvwBonuses.Items.Add(newItem)
-            Next
-        End If
-        lvwBonuses.EndUpdate()
+    Private Sub SearchChildNodes(ByRef parentNode As TreeNode, ByVal itemcount As Integer, ByVal datachecklist As SortedList)
+
+        For Each childNode As TreeNode In parentNode.Nodes
+            If childNode.Nodes.Count > 0 Then
+                SearchChildNodes(childNode, itemcount, datachecklist)
+            Else
+                Dim groupID As String = childNode.Tag.ToString
+                For Each shipMod As ShipModule In ModuleLists.moduleList.Values
+                    If shipMod.MarketGroup = groupID Then
+                        itemcount += 1
+                        datachecklist.Add(shipMod.ID, shipMod.Name)
+                    End If
+                Next
+            End If
+        Next
     End Sub
+
+    Private Sub SearchChildNodes1(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
+        For Each childNode As TreeNode In parentNode.Nodes
+            If childNode.Nodes.Count > 0 Then
+                SearchChildNodes1(childNode, sw)
+            Else
+                sw.Write(childNode.FullPath & ControlChars.CrLf)
+            End If
+        Next
+    End Sub
+
+
+#End Region
+
+#Region "Damage Profile Options"
+
+    Private Sub UpdateDamageProfileOptions()
+        lvwProfiles.BeginUpdate()
+        lvwProfiles.Items.Clear()
+        Dim newItem As New ListViewItem
+        For Each newProfile As DamageProfile In DamageProfiles.ProfileList.Values
+            newItem = New ListViewItem
+            newItem.Name = newProfile.Name
+            newItem.Text = newProfile.Name
+            Select Case newProfile.Type
+                Case 0
+                    newItem.SubItems.Add("Manual")
+                Case 1
+                    newItem.SubItems.Add("Fitting")
+                Case 2
+                    newItem.SubItems.Add("NPC")
+            End Select
+            lvwProfiles.Items.Add(newItem)
+        Next
+        lvwProfiles.EndUpdate()
+    End Sub
+
+    Private Sub lvwProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwProfiles.SelectedIndexChanged
+        If lvwProfiles.SelectedItems.Count > 0 Then
+            Dim selProfile As DamageProfile = CType(DamageProfiles.ProfileList(lvwProfiles.SelectedItems(0).Name), DamageProfile)
+            lblProfileName.Text = selProfile.Name
+            Select Case selProfile.Type
+                Case 0
+                    lblProfileType.Text = "Manual"
+                    lblFittingName.Text = "n/a"
+                    lblPilotName.Text = "n/a"
+                    lblNPCName.Text = "n/a"
+                Case 1
+                    lblProfileType.Text = "Fitting"
+                    lblFittingName.Text = selProfile.Fitting
+                    lblPilotName.Text = selProfile.Pilot
+                    lblNPCName.Text = "n/a"
+                Case 2
+                    lblProfileType.Text = "NPC"
+                    lblFittingName.Text = "n/a"
+                    lblPilotName.Text = "n/a"
+                    lblNPCName.Text = ""
+                    For Each NPC As String In selProfile.NPCs
+                        lblNPCName.Text &= NPC & ", "
+                    Next
+            End Select
+            lblEMDamageAmount.Text = FormatNumber(selProfile.EM, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblEXDamageAmount.Text = FormatNumber(selProfile.Explosive, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblKIDamageAmount.Text = FormatNumber(selProfile.Kinetic, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblTHDamageAmount.Text = FormatNumber(selProfile.Thermal, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            Dim total As Double = selProfile.EM + selProfile.Explosive + selProfile.Kinetic + selProfile.Thermal
+            lblTotalDamageAmount.Text = FormatNumber(total, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblEMDamagePercentage.Text = "= " & FormatNumber(selProfile.EM / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblEXDamagePercentage.Text = "= " & FormatNumber(selProfile.Explosive / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblKIDamagePercentage.Text = "= " & FormatNumber(selProfile.Kinetic / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblTHDamagePercentage.Text = "= " & FormatNumber(selProfile.Thermal / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblDPS.Text = FormatNumber(selProfile.DPS, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            If gpProfile.Visible = False Then
+                gpProfile.Visible = True
+            End If
+        End If
+    End Sub
+
+    Private Sub btnDeleteProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteProfile.Click
+        If lvwProfiles.SelectedItems.Count > 0 Then
+            Dim profileName As String = lvwProfiles.SelectedItems(0).Name
+            If profileName = "<Omni-Damage>" Then
+                MessageBox.Show("You cannot delete this profile!", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                Dim reply As Integer = MessageBox.Show("Are you sure you want to delete the profile '" & profileName & "'?", "Confirm Profile Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = DialogResult.No Then
+                    Exit Sub
+                Else
+                    ' Delete the profile
+                    DamageProfiles.ProfileList.Remove(profileName)
+                    ' Save the profiles
+                    DamageProfiles.SaveProfiles()
+                    Call Me.UpdateDamageProfileOptions()
+                End If
+            End If
+        Else
+            MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub btnAddProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddProfile.Click
+        Dim ProfileForm As New frmAddDamageProfile
+        ProfileForm.Tag = "Add"
+        ProfileForm.btnAccept.Text = "Add Profile"
+        ProfileForm.ShowDialog()
+        Call Me.UpdateDamageProfileOptions()
+    End Sub
+
+    Private Sub btnEditProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditProfile.Click
+        If lvwProfiles.SelectedItems.Count > 0 Then
+            Dim profileName As String = lvwProfiles.SelectedItems(0).Name
+            If profileName = "<Omni-Damage>" Then
+                MessageBox.Show("You cannot edit this profile!", "Error Editing Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                Dim editProfile As DamageProfile = CType(DamageProfiles.ProfileList(profileName), DamageProfile)
+                Dim ProfileForm As New frmAddDamageProfile
+                ProfileForm.Tag = editProfile
+                ProfileForm.btnAccept.Text = "Edit Profile"
+                ProfileForm.ShowDialog()
+                Call Me.UpdateDamageProfileOptions()
+            End If
+        Else
+            MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub btnResetProfiles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetProfiles.Click
+        Dim response As Integer = MessageBox.Show("This will delete all your existing profiles and re-instate the defaults. Are you sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If response = Windows.Forms.DialogResult.Yes Then
+            Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If cResponse = Windows.Forms.DialogResult.Yes Then
+                Try
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin")) = True Then
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    End If
+                    DamageProfiles.ResetDamageProfiles()
+                    Call Me.UpdateDamageProfileOptions()
+                    MessageBox.Show("Profiles successfully reset", "Profile Reset Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show("Unable to delete the Damage Profiles file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                Exit Sub
+            End If
+        Else
+            Exit Sub
+        End If
+    End Sub
+
+#End Region
+
+#Region "Defence Profile Options"
+
+    Private Sub UpdateDefenceProfileOptions()
+        lvwDefenceProfiles.BeginUpdate()
+        lvwDefenceProfiles.Items.Clear()
+        Dim newItem As New ListViewItem
+        For Each newProfile As DefenceProfile In DefenceProfiles.ProfileList.Values
+            newItem = New ListViewItem
+            newItem.Name = newProfile.Name
+            newItem.Text = newProfile.Name
+            Select Case newProfile.Type
+                Case 0
+                    newItem.SubItems.Add("Manual")
+                Case 1
+                    newItem.SubItems.Add("Fitting")
+            End Select
+            lvwDefenceProfiles.Items.Add(newItem)
+        Next
+        lvwDefenceProfiles.EndUpdate()
+    End Sub
+
+    Private Sub lvwDefenceProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwDefenceProfiles.SelectedIndexChanged
+        If lvwDefenceProfiles.SelectedItems.Count > 0 Then
+            Dim selProfile As DefenceProfile = CType(DefenceProfiles.ProfileList(lvwDefenceProfiles.SelectedItems(0).Name), DefenceProfile)
+            lblDefProfileName.Text = selProfile.Name
+            Select Case selProfile.Type
+                Case 0
+                    lblDefProfileType.Text = "Manual"
+                Case 1
+                    lblDefProfileType.Text = "Fitting"
+            End Select
+            lblDefSEM.Text = selProfile.SEM.ToString("N2")
+            lblDefSEx.Text = selProfile.SExplosive.ToString("N2")
+            lblDefSKi.Text = selProfile.SKinetic.ToString("N2")
+            lblDefSTh.Text = selProfile.SThermal.ToString("N2")
+            lblDefAEM.Text = selProfile.AEM.ToString("N2")
+            lblDefAEx.Text = selProfile.AExplosive.ToString("N2")
+            lblDefAKi.Text = selProfile.AKinetic.ToString("N2")
+            lblDefATh.Text = selProfile.AThermal.ToString("N2")
+            lblDefHEM.Text = selProfile.HEM.ToString("N2")
+            lblDefHEx.Text = selProfile.HExplosive.ToString("N2")
+            lblDefHKi.Text = selProfile.HKinetic.ToString("N2")
+            lblDefHTh.Text = selProfile.HThermal.ToString("N2")
+            If gpDefenceProfile.Visible = False Then
+                gpDefenceProfile.Visible = True
+            End If
+        End If
+    End Sub
+
+    Private Sub btnDeleteDefenceProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteDefenceProfile.Click
+        If lvwDefenceProfiles.SelectedItems.Count > 0 Then
+            Dim profileName As String = lvwDefenceProfiles.SelectedItems(0).Name
+            Dim reply As Integer = MessageBox.Show("Are you sure you want to delete the profile '" & profileName & "'?", "Confirm Profile Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.No Then
+                Exit Sub
+            Else
+                ' Delete the profile
+                DefenceProfiles.ProfileList.Remove(profileName)
+                ' Save the profiles
+                DefenceProfiles.SaveProfiles()
+                Call Me.UpdateDefenceProfileOptions()
+            End If
+        Else
+            MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub btnAddDefenceProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddDefenceProfile.Click
+        Dim ProfileForm As New frmAddDefenceProfile
+        ProfileForm.Tag = "Add"
+        ProfileForm.btnAccept.Text = "Add Profile"
+        ProfileForm.ShowDialog()
+        Call Me.UpdateDefenceProfileOptions()
+    End Sub
+
+    Private Sub btnEditDefenceProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditDefenceProfile.Click
+        If lvwDefenceProfiles.SelectedItems.Count > 0 Then
+            Dim profileName As String = lvwDefenceProfiles.SelectedItems(0).Name
+            Dim editProfile As DefenceProfile = CType(DefenceProfiles.ProfileList(profileName), DefenceProfile)
+            Dim ProfileForm As New frmAddDefenceProfile()
+            ProfileForm.Tag = editProfile
+            ProfileForm.btnAccept.Text = "Edit Profile"
+            ProfileForm.ShowDialog()
+            Call Me.UpdateDefenceProfileOptions()
+        Else
+            MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub btnResetDefenceProfiles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetDefenceProfiles.Click
+        Dim response As Integer = MessageBox.Show("This will delete all your existing profiles and re-instate the defaults. Are you sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If response = Windows.Forms.DialogResult.Yes Then
+            Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If cResponse = Windows.Forms.DialogResult.Yes Then
+                Try
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    End If
+                    DefenceProfiles.ResetDefenceProfiles()
+                    Call Me.UpdateDefenceProfileOptions()
+                    MessageBox.Show("Profiles successfully reset", "Profile Reset Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show("Unable to delete the Defence Profiles file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                Exit Sub
+            End If
+        Else
+            Exit Sub
+        End If
+    End Sub
+
+#End Region
+
+    Private Sub btnGenerateIconList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateIconList.Click
+        Dim IconPath1 As String = "Z:\My Downloads\Incursion_1.4_imgs_Icons\Icons\items\32_32"
+        Dim IconPath2 As String = "Z:\_HQFIcons"
+        Dim IconList As New List(Of String)
+        For Each sMod As ShipModule In ModuleLists.moduleList.Values
+            If IconList.Contains(sMod.Icon) = False Then
+                IconList.Add(sMod.Icon)
+                Dim SourceFile As String = Path.Combine(IconPath1, "icon" & sMod.Icon & ".png")
+                If My.Computer.FileSystem.FileExists(SourceFile) = True Then
+                    Dim DestFile As String = Path.Combine(IconPath2, sMod.Icon & ".png")
+                    My.Computer.FileSystem.CopyFile(SourceFile, DestFile)
+                End If
+            End If
+        Next
+        MessageBox.Show(IconList.Count.ToString)
+    End Sub
+
+    Private Sub btnGetIconImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetIconImage.Click
+        pbIcon.Image = ImageHandler.IconImage24("02_02", 5)
+    End Sub
+
+#Region "Attribute Column Options"
+
+    Private Sub UpdateAttributeColumns()
+        adtAttributeColumns.BeginUpdate()
+        adtAttributeColumns.Nodes.Clear()
+        For Each attID As String In HQF.Settings.HQFSettings.IgnoredAttributeColumns
+            Dim NewNode As New Node
+            NewNode.Name = attID
+            NewNode.Text = attID
+            NewNode.Cells.Add(New Cell(CStr(Attributes.AttributeQuickList(attID))))
+            adtAttributeColumns.Nodes.Add(NewNode)
+        Next
+        EveHQ.Core.AdvTreeSorter.Sort(adtAttributeColumns, 1, False, True)
+        adtAttributeColumns.EndUpdate()
+    End Sub
+
+    Private Sub adtAttributeColumns_SelectionChanged(sender As Object, e As System.EventArgs) Handles adtAttributeColumns.SelectionChanged
+        If adtAttributeColumns.SelectedNodes.Count > 0 Then
+            btnRemoveAttribute.Enabled = True
+        Else
+            btnRemoveAttribute.Enabled = False
+        End If
+    End Sub
+
+    Private Sub btnRemoveAttribute_Click(sender As System.Object, e As System.EventArgs) Handles btnRemoveAttribute.Click
+        If adtAttributeColumns.SelectedNodes.Count > 0 Then
+            Dim attID As String = adtAttributeColumns.SelectedNodes(0).Name
+            If HQF.Settings.HQFSettings.IgnoredAttributeColumns.Contains(attID) = True Then
+                HQF.Settings.HQFSettings.IgnoredAttributeColumns.Remove(attID)
+                Call Me.UpdateAttributeColumns()
+            End If
+        End If
+    End Sub
+
+    Private Sub btnClearAttributes_Click(sender As System.Object, e As System.EventArgs) Handles btnClearAttributes.Click
+        Dim reply As DialogResult = MessageBox.Show("Are you sure you wish to clear all the ignored attribute columns?", "Confirm Clear Columns", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = Windows.Forms.DialogResult.Yes Then
+            HQF.Settings.HQFSettings.IgnoredAttributeColumns.Clear()
+            Call Me.UpdateAttributeColumns()
+        Else
+            Exit Sub
+        End If
+    End Sub
+#End Region
 
    
 End Class

@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2009  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -45,16 +45,17 @@ Public Class frmPatcher
         Me.Refresh()
         lblCurrentStatus.Text = "Confirming EveHQ Shutdown..."
         Me.Refresh()
-        Call KillEveHQ()
-        Call UpdateEveHQ()
-        If isLocal = False Then
-            Dim msg As String = "The EveHQ update is complete. Would you like to start EveHQ now?"
-            If MessageBox.Show(msg, "Start EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                Call StartEveHQ()
+        If KillEveHQ() = True Then
+            Call UpdateEveHQ()
+            If isLocal = False Then
+                Dim msg As String = "The EveHQ update is complete. Would you like to start EveHQ now?"
+                If MessageBox.Show(msg, "Start EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                    Call StartEveHQ()
+                End If
+            Else
+                Dim msg As String = "The EveHQ update is complete. Due to using the /local switch, please restart EveHQ manually."
+                MessageBox.Show(msg, "Manual Restart required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-        Else
-            Dim msg As String = "The EveHQ update is complete. Due to using the /local switch, please restart EveHQ manually."
-            MessageBox.Show(msg, "Manual Restart required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
         End
     End Sub
@@ -63,8 +64,29 @@ Public Class frmPatcher
 
         Try
             For Each proc As Process In System.Diagnostics.Process.GetProcessesByName("EveHQ")
+                'proc.CloseMainWindow()
+                'proc.WaitForExit()
+                Dim MaxAttempts As Integer = 10
+                Dim Attempts As Integer = 0
                 proc.CloseMainWindow()
-                proc.WaitForExit()
+                Do
+                    Attempts += 1
+                    lblCurrentStatus.Text = "Checking for EveHQ Shutdown...Attempt " & Attempts.ToString & " of " & MaxAttempts.ToString
+                    Me.Refresh()
+                    Application.DoEvents()
+                    Thread.Sleep(2000)
+                Loop Until proc.HasExited = True Or Attempts >= MaxAttempts
+                If proc.HasExited = False Then
+                    lblCurrentStatus.Text = "Killing EveHQ..?" & Attempts.ToString
+                    Me.Refresh()
+                    Dim reply As DialogResult = MessageBox.Show("EveHQ has failed to exit in a timely manner. Would you like to force EveHQ closed to continue the update?", "Confirm Kill Process", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If reply = Windows.Forms.DialogResult.Yes Then
+                        proc.Kill()
+                        proc.WaitForExit()
+                    Else
+                        Return False
+                    End If
+                End If
             Next
         Catch ex As Exception
             ' Process ended...move on!
@@ -102,8 +124,8 @@ Public Class frmPatcher
         ' Check for a database upgrade
         lblCurrentStatus.Text = "Checking for database upgrade..."
         Me.Refresh()
-        ' See if we have the EveHQ.mdb.zip file
-        Dim DBZipLocation As String = Path.Combine(updateFolder, "EveHQ.mdb.zip")
+        ' See if we have the EveHQ.sdf.zip file
+        Dim DBZipLocation As String = Path.Combine(updateFolder, "EveHQ.sdf.zip")
         If My.Computer.FileSystem.FileExists(DBZipLocation) = True Then
             ' We have the file, let's try extracting it
             lblCurrentStatus.Text = "Extracting new database..."
@@ -111,8 +133,8 @@ Public Class frmPatcher
             Try
                 Dim unzip As FastZip = New FastZip()
                 unzip.ExtractZip(DBZipLocation, updateFolder, "")
-                ' See if we have the EveHQ.mdb file
-                Dim DBLocation As String = Path.Combine(updateFolder, "EveHQ.mdb")
+                ' See if we have the EveHQ.sdf file
+                Dim DBLocation As String = Path.Combine(updateFolder, "EveHQ.sdf")
                 If My.Computer.FileSystem.FileExists(DBLocation) = True Then
                     ' Copy to existing DB Location
                     lblCurrentStatus.Text = "Copying new database..."

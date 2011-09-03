@@ -1,11 +1,37 @@
-﻿Public Class HQFEvents
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Public Class HQFEvents
     Public Shared Event FindModule(ByVal modData As ArrayList)
     Public Shared Event UpdateFitting()
     Public Shared Event UpdateFittingList()
     Public Shared Event UpdateModuleList()
+    Public Shared Event UpdateMRUModuleList(ByVal ModName As String)
     Public Shared Event UpdateShipInfo(ByVal pilotName As String)
     Public Shared Event UpdateAllImplantLists()
+    Public Shared Event ShowModuleMarketGroup(ByVal path As String)
 
+    Shared WriteOnly Property DisplayedMarketGroup() As String
+        Set(ByVal value As String)
+            RaiseEvent ShowModuleMarketGroup(value)
+        End Set
+    End Property
     Shared WriteOnly Property StartFindModule() As ArrayList
         Set(ByVal value As ArrayList)
             If value IsNot Nothing Then
@@ -41,7 +67,14 @@
             End If
         End Set
     End Property
-    Shared WriteOnly Property StartUpdateAllImplantLists() As Boolean
+    Shared WriteOnly Property StartUpdateMRUModuleList() As String
+        Set(ByVal value As String)
+            If value <> "" Then
+                RaiseEvent UpdateMRUModuleList(value)
+            End If
+        End Set
+    End Property
+    Shared WriteOnly Property StartUpdateImplantComboBox() As Boolean
         Set(ByVal value As Boolean)
             If value = True Then
                 RaiseEvent UpdateAllImplantLists()

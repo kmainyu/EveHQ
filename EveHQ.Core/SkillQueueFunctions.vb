@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -19,10 +19,13 @@
 '=========================================================================
 Imports System.Drawing
 Imports System.Windows.Forms
+Imports System.Text
 
 Public Class SkillQueueFunctions
 
     Public Shared Event RefreshQueue()
+    Public Shared SkillPrereqs As New SortedList(Of String, SortedList(Of String, Integer))
+    Public Shared SkillDepends As New SortedList(Of String, SortedList(Of String, Integer))
 
     Shared Property StartQueueRefresh() As Boolean
         Get
@@ -34,7 +37,7 @@ Public Class SkillQueueFunctions
         End Set
     End Property
 
-    Public Shared Function BuildQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, Optional ByVal QuickBuild As Boolean = False) As ArrayList
+    Public Shared Function BuildQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal QuickBuild As Boolean, ByVal UseAPIEndTime As Boolean) As ArrayList
         Dim bQueue As EveHQ.Core.SkillQueue = CType(qQueue.Clone, SkillQueue)
 
         Dim arrQueue As ArrayList = New ArrayList
@@ -76,41 +79,63 @@ Public Class SkillQueueFunctions
         Dim endtime As Date = Now
         Try
             If qPilot.Training = True And bQueue.IncCurrentTraining = True Then
-                'Dim mypos As Integer = 0
-                Dim mySkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(qPilot.TrainingSkillID)
-                Dim clevel As Integer = qPilot.TrainingSkillLevel
-                Dim cTime As Double = qPilot.TrainingCurrentTime
-                Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-                endtime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime)
+                If EveHQ.Core.HQ.SkillListID.ContainsKey(qPilot.TrainingSkillID) = True Then
+                    Dim mySkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(qPilot.TrainingSkillID)
+                    Dim clevel As Integer = qPilot.TrainingSkillLevel
+                    Dim cTime As Long = qPilot.TrainingCurrentTime
+                    Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
+                    If UseAPIEndTime = True Then
+                        endtime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime)
+                    Else
+                        cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, mySkill, qPilot.TrainingSkillLevel, -1))
+                        endtime = Now.AddSeconds(cTime)
+                    End If
 
-                Dim curLevel As Integer = 0
-                Dim percent As Integer = 0
-                Dim myCurSkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(mySkill.Name), EveHQ.Core.PilotSkill)
-                curLevel = myCurSkill.Level
-                percent = CInt((myCurSkill.SP + qPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100)
-                If (percent > 100) Then
-                    percent = 100
+                    Dim curLevel As Integer = 0
+                    Dim percent As Integer = 0
+                    Dim myCurSkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(mySkill.Name), EveHQ.Core.PilotSkill)
+                    curLevel = myCurSkill.Level
+                    percent = CInt((myCurSkill.SP + qPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100)
+                    If (percent > 100) Then
+                        percent = 100
+                    End If
+
+                    Dim qItem As New EveHQ.Core.SortedQueueItem
+                    qItem.IsTraining = True
+                    qItem.IsInjected = True
+                    qItem.Key = mySkill.Name & curLevel & clevel
+                    qItem.ID = mySkill.ID
+                    qItem.Name = mySkill.Name
+                    qItem.CurLevel = curLevel
+                    qItem.FromLevel = curLevel
+                    qItem.ToLevel = clevel
+                    qItem.Percent = percent
+                    qItem.TrainTime = cTime
+                    qItem.DateFinished = endtime
+                    qItem.Rank = mySkill.Rank
+                    qItem.PAtt = mySkill.PA
+                    qItem.SAtt = mySkill.SA
+                    qItem.SPTrained = qPilot.TrainingEndSP - qPilot.TrainingStartSP
+
+                    qItem.SPRate = EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, mySkill)
+                    totalSP += CLng(qItem.SPTrained)
+                    arrQueue.Add(qItem)
+
+                    If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime) < Now Then
+                        endtime = Now
+                    Else
+                        If UseAPIEndTime = True Then
+                            endtime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime)
+                        Else
+                            endtime = Now.AddSeconds(CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, mySkill, qPilot.TrainingSkillLevel, -1)))
+                        End If
+                    End If
+
+                Else
+                    endtime = Now
                 End If
-
-                Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
-                qItem.IsTraining = True
-                qItem.IsInjected = True
-                qItem.Key = mySkill.Name & curLevel & clevel
-                qItem.ID = mySkill.ID
-                qItem.Name = mySkill.Name
-                qItem.CurLevel = CStr(curLevel)
-                qItem.FromLevel = CStr(curLevel)
-                qItem.ToLevel = CStr(clevel)
-                qItem.Percent = CStr(percent)
-                qItem.TrainTime = CStr(cTime)
-                qItem.DateFinished = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime)
-                qItem.Rank = CStr(mySkill.Rank)
-                qItem.PAtt = mySkill.PA
-                qItem.SAtt = mySkill.SA
-                qItem.SPTrained = CStr(qPilot.TrainingEndSP - qPilot.TrainingStartSP)
-                qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, mySkill))
-                totalSP += CLng(qItem.SPTrained)
-                arrQueue.Add(qItem)
+            Else
+                endtime = Now
             End If
         Catch ex As Exception
             MessageBox.Show("Error occurred in adding the currently training skill", "BuildQueue Error")
@@ -118,26 +143,8 @@ Public Class SkillQueueFunctions
             Exit Function
         End Try
 
-
         If bQueue.Queue.Count > 0 Then
             Dim myTSkill As EveHQ.Core.SkillQueueItem
-            ' Get starting point of time
-            Try
-                If qPilot.Training = True And bQueue.IncCurrentTraining = True Then
-                    If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime) < Now Then
-                        endtime = Now
-                    Else
-                        endtime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime)
-                    End If
-                Else
-                    endtime = Now
-                End If
-            Catch ex As Exception
-                MessageBox.Show("Error getting starting point of time", "BuildQueue Error")
-                Return Nothing
-                Exit Function
-            End Try
-
 
             ' Iterate thru skill queue and display info
             ' Create array for sorting
@@ -156,7 +163,6 @@ Public Class SkillQueueFunctions
                 Exit Function
             End Try
 
-
             ' Create a tag array ready to sort the skill times
             Dim tagArray(bQueue.Queue.Count - 1) As Integer
             For a As Integer = 0 To bQueue.Queue.Count - 1
@@ -165,6 +171,22 @@ Public Class SkillQueueFunctions
             ' Initialize the comparer and sort
             Dim myComparer As New EveHQ.Core.Reports.RectangularComparer(skillArray)
             Array.Sort(tagArray, myComparer)
+
+            ' Get a list of the skill names in the queue and their level
+            Dim QueueReqs As New SortedList(Of String, Integer)
+            For i As Integer = 0 To tagArray.Length - 1
+                Dim frLvl As String = ""
+                Dim toLvl As String = ""
+                Dim specSkillName As String = ""
+                Dim specSkillID As String = ""
+                specSkillName = CStr(skillArray(tagArray(i), 0))
+                frLvl = specSkillName.Substring(specSkillName.Length - 2, 1)
+                toLvl = specSkillName.Substring(specSkillName.Length - 1, 1)
+                specSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(specSkillName.Substring(0, specSkillName.Length - 2))
+                If QueueReqs.ContainsKey(specSkillName) = False Then
+                    QueueReqs.Add(specSkillName, CInt(toLvl))
+                End If
+            Next
 
             ' Build the queue
             Dim skillPOS As Integer = 0
@@ -242,7 +264,7 @@ Public Class SkillQueueFunctions
 
                 ' Get the time taken to train to that level
                 Dim cTime As Integer
-                Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
+                Dim qItem As New EveHQ.Core.SortedQueueItem
                 qItem.IsInjected = qPilot.PilotSkills.Contains(myskill.Name)
 
                 Try
@@ -266,15 +288,13 @@ Public Class SkillQueueFunctions
                             cTime = 0
                         End If
                         ' Check if the skill is currently being trained and strike it out if it is!
-                        If qPilot.Training = True Then
+                        If qPilot.Training = True And bQueue.IncCurrentTraining = True Then
                             If myskill.ID = qPilot.TrainingSkillID Then
                                 ' Take account of whether the current training skill has been added to the queue
-                                If bQueue.IncCurrentTraining = True Then
-                                    If curLevel = fromLevel And qPilot.TrainingSkillLevel = toLevel Then
-                                        qItem.Done = True
-                                        percent = 100
-                                        cTime = 0
-                                    End If
+                                If curLevel = fromLevel And qPilot.TrainingSkillLevel = toLevel Then
+                                    qItem.Done = True
+                                    percent = 100
+                                    cTime = 0
                                 End If
                             End If
                         End If
@@ -285,72 +305,96 @@ Public Class SkillQueueFunctions
                         Exit Function
                     End Try
 
+
                     ' Check if the skill is a pre-requisite of another in the queue and highlight it if so
-                    Try
-                        Dim RequiredFor As String = IsPrerequisite(qPilot, bQueue, EveHQ.Core.SkillFunctions.SkillIDToName(specSkillID) & frLvl & toLvl)
-                        If RequiredFor <> "" Then
-                            qItem.IsPrereq = True
-                            qItem.Prereq = "Required for: " & RequiredFor
-                        End If
-                        Dim Requires As String = HasPrerequisite(qPilot, bQueue, EveHQ.Core.SkillFunctions.SkillIDToName(specSkillID) & frLvl & toLvl)
-                        If Requires <> "" Then
-                            qItem.HasPrereq = True
-                            qItem.Reqs = "Requires: " & Requires
-                        End If
-                        Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-                        qItem.Key = myskill.Name & fromLevel & toLevel
-                        qItem.ID = myskill.ID
-                        qItem.Name = myskill.Name
-                        qItem.Notes = notes
-                        qItem.Priority = priority
-                        qItem.CurLevel = CStr(curLevel)
-                        qItem.FromLevel = CStr(fromLevel)
-                        qItem.ToLevel = CStr(toLevel)
-                        qItem.Percent = CStr(Int(percent))
-                        If percent > 0 And percent < 100 Then
-                            qItem.PartTrained = True
-                        Else
-                            qItem.PartTrained = False
-                        End If
-                        qItem.TrainTime = CStr(cTime)
-                        qItem.DateFinished = endtime
-                        qItem.Rank = CStr(myskill.Rank)
-                        qItem.PAtt = myskill.PA
-                        qItem.SAtt = myskill.SA
-
-                        If qItem.Done = False Then
-                            If curLevel < fromLevel Then
-                                qItem.SPTrained = CStr(EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, fromLevel))
-                            Else
-                                qItem.SPTrained = CStr(EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, -1))
+                    'Try
+                    ' Check Depends
+                    If EveHQ.Core.SkillQueueFunctions.SkillDepends.ContainsKey(myskill.Name) Then
+                        For Each dependSkill As String In EveHQ.Core.SkillQueueFunctions.SkillDepends(myskill.Name).Keys
+                            If QueueReqs.ContainsKey(dependSkill) Then
+                                If EveHQ.Core.SkillFunctions.IsSkillTrained(qPilot, myskill.Name, EveHQ.Core.SkillQueueFunctions.SkillDepends(myskill.Name).Item(dependSkill)) = False Then
+                                    qItem.Prereq &= dependSkill & ", "
+                                End If
                             End If
-                        Else
-                            qItem.SPTrained = "0"
+                        Next
+                        If qItem.Prereq <> "" Then
+                            qItem.Prereq = qItem.Prereq.TrimEnd(", ".ToCharArray)
+                            qItem.Prereq = "Required for: " & qItem.Prereq
+                            qItem.IsPrereq = True
                         End If
-
-                        ' Check for any training bonus and set the SP Rate
-
-                        If toLevel - fromLevel = 1 Then
-                            ' If just a single level
-                            qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill))
-                        Else
-                            ' If multiple levels, need to work out the correct bonus
-                            qItem.SPRate = CStr(Math.Round(CDbl(qItem.SPTrained) / CDbl(qItem.TrainTime) * 3600, 0))
+                    End If
+                    ' Check Prereqs
+                    If EveHQ.Core.SkillQueueFunctions.SkillPrereqs.ContainsKey(myskill.Name) Then
+                        For Each preReqSkill As String In EveHQ.Core.SkillQueueFunctions.SkillPrereqs(myskill.Name).Keys
+                            If QueueReqs.ContainsKey(preReqSkill) Then
+                                If Not EveHQ.Core.SkillFunctions.IsSkillTrained(qPilot, preReqSkill, EveHQ.Core.SkillQueueFunctions.SkillPrereqs(myskill.Name).Item(preReqSkill)) Then
+                                    qItem.Reqs &= preReqSkill & " (Lvl " & EveHQ.Core.SkillQueueFunctions.SkillPrereqs(myskill.Name).Item(preReqSkill) & "), "
+                                End If
+                            End If
+                        Next
+                        If qItem.Reqs <> "" Then
+                            qItem.Reqs = qItem.Reqs.TrimEnd(", ".ToCharArray)
+                            qItem.Reqs = "Requires: " & qItem.Reqs
+                            qItem.HasPrereq = True
                         End If
+                    End If
 
-                        arrQueue.Add(qItem)
-                        totalSkills += 1
-                        totalTime += cTime
-                        totalSP += CLng(qItem.SPTrained)
-                    Catch ex As Exception
-                        MessageBox.Show("Error checking pre-requisite skills", "BuildQueue Error")
-                        Return Nothing
-                        Exit Function
-                    End Try
+                    qItem.Key = myskill.Name & fromLevel & toLevel
+                    qItem.ID = myskill.ID
+                    qItem.Name = myskill.Name
+                    qItem.Notes = notes
+                    qItem.Priority = priority
+                    qItem.CurLevel = curLevel
+                    qItem.FromLevel = fromLevel
+                    qItem.ToLevel = toLevel
+                    qItem.Percent = Int(percent)
+                    If percent > 0 And percent < 100 Then
+                        qItem.PartTrained = True
+                    Else
+                        qItem.PartTrained = False
+                    End If
+                    qItem.TrainTime = cTime
+                    qItem.DateFinished = endtime
+                    qItem.Rank = myskill.Rank
+                    qItem.PAtt = myskill.PA
+                    qItem.SAtt = myskill.SA
+
+                    If qItem.Done = False Then
+                        If curLevel < fromLevel Then
+                            qItem.SPTrained = EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, fromLevel)
+                        Else
+                            qItem.SPTrained = EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, -1)
+                        End If
+                    Else
+                        qItem.SPTrained = 0
+                    End If
+
+                    If toLevel - fromLevel = 1 Then
+                        ' If just a single level
+                        qItem.SPRate = EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill)
+                    Else
+                        ' If multiple levels, need to work out the correct bonus
+                        If qItem.TrainTime > 0 Then
+                            qItem.SPRate = CInt(Math.Round(qItem.SPTrained / qItem.TrainTime * 3600, 0))
+                        Else
+                            qItem.SPRate = EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill)
+                        End If
+                    End If
+
+                    arrQueue.Add(qItem)
+                    totalSkills += 1
+                    totalTime += cTime
+                    totalSP += qItem.SPTrained
+                    'Catch ex As Exception
+                    'MessageBox.Show("Error checking pre-requisite skills", "BuildQueue Error")
+                    'Return Nothing
+                    'Exit Function
+                    'End Try
                 Else
                     totalSkills += 1
                     totalTime += cTime
                 End If
+
             Next
             ' Add the totaltime and skills to the queue data
             qQueue.QueueTime = totalTime
@@ -361,70 +405,6 @@ Public Class SkillQueueFunctions
         End If
 
         Return arrQueue
-    End Function
-
-    Private Shared Function IsPrerequisite(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue, ByVal skillQueueKey As String) As String
-        Dim IsPreReq As String = ""
-        Dim curToLevel As String = skillQueueKey.Substring(skillQueueKey.Length - 1, 1)
-        Dim curFromLevel As String = skillQueueKey.Substring(skillQueueKey.Length - 2, 1)
-        Dim curSkillName As String = skillQueueKey.Substring(0, skillQueueKey.Length - 2)
-
-        Dim skill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        For Each skill In bQueue.Queue
-
-            Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(skill.Name))
-            Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
-            For Each preReq As String In preReqs
-                If preReq.Length <> 0 Then
-                    Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
-                    Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
-                    Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
-                    If reqSkill = curSkillName And curFromLevel < reqLevel Then
-                        ' Check if the skill is already listed
-                        If IsPreReq.Contains(skill.Name) = False Then
-                            IsPreReq &= skill.Name & ", "
-                        End If
-                    End If
-                End If
-            Next
-        Next
-        If IsPreReq <> "" Then
-            Return IsPreReq.Substring(0, IsPreReq.Length - 2)
-        Else
-            Return IsPreReq
-        End If
-    End Function
-
-    Private Shared Function HasPrerequisite(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue, ByVal skillQueueKey As String) As String
-        Dim HasPreReq As String = ""
-        Dim curToLevel As String = skillQueueKey.Substring(skillQueueKey.Length - 1, 1)
-        Dim curFromLevel As String = skillQueueKey.Substring(skillQueueKey.Length - 2, 1)
-        Dim curSkillName As String = skillQueueKey.Substring(0, skillQueueKey.Length - 2)
-
-        Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(curSkillName))
-        Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
-
-        Dim skill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        For Each skill In bQueue.Queue
-            For Each preReq As String In preReqs
-                If preReq.Length <> 0 Then
-                    Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
-                    Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
-                    Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
-                    If reqSkill = skill.Name And skill.ToLevel <= CDbl(reqLevel) Then
-                        ' Check if the skill is already listed
-                        If HasPreReq.Contains(skill.Name & " (Lvl " & reqLevel & ")") = False Then
-                            HasPreReq &= skill.Name & " (Lvl " & reqLevel & "), "
-                        End If
-                    End If
-                End If
-            Next
-        Next
-        If HasPreReq <> "" Then
-            Return HasPreReq.Substring(0, HasPreReq.Length - 2)
-        Else
-            Return HasPreReq
-        End If
     End Function
 
     Private Shared Sub CheckValidSkills(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
@@ -586,19 +566,35 @@ Public Class SkillQueueFunctions
                                     End If
                                 Else
                                     ' We have decreased the skill level? 
-                                    ' Increase the current one to match
-                                    Dim newKeyName As String = ""
-                                    Dim replaceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-                                    replaceSkill = CType(bQueue.Queue(nextKeyName), SkillQueueItem)
-                                    replaceSkill.FromLevel = CInt(curToLevel)
-                                    replaceSkill.Notes = curSkill.Notes
-                                    replaceSkill.Priority = curSkill.Priority
-                                    bQueue.Queue.Remove(nextKeyName)
-                                    mainCount -= 1
-                                    newKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
-                                    bQueue.Queue.Add(replaceSkill, newKeyName)
-                                    If replaceSkill.FromLevel = replaceSkill.ToLevel Then
-                                        skillsToRemove.Add(newKeyName)
+                                    ' Check if the next skill starts at our current skill level
+                                    If mySkill.Level = CInt(nextFromLevel) Then
+                                        Dim newKeyName As String = ""
+                                        Dim replaceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                                        replaceSkill = CType(bQueue.Queue(curKeyName), SkillQueueItem)
+                                        replaceSkill.ToLevel = mySkill.Level
+                                        replaceSkill.Notes = curSkill.Notes
+                                        replaceSkill.Priority = curSkill.Priority
+                                        bQueue.Queue.Remove(curKeyName)
+                                        mainCount -= 1
+                                        newKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
+                                        bQueue.Queue.Add(replaceSkill, newKeyName)
+                                        If replaceSkill.FromLevel = replaceSkill.ToLevel Then
+                                            skillsToRemove.Add(newKeyName)
+                                        End If
+                                    Else
+                                        Dim newKeyName As String = ""
+                                        Dim replaceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                                        replaceSkill = CType(bQueue.Queue(nextKeyName), SkillQueueItem)
+                                        replaceSkill.FromLevel = CInt(curToLevel)
+                                        replaceSkill.Notes = curSkill.Notes
+                                        replaceSkill.Priority = curSkill.Priority
+                                        bQueue.Queue.Remove(nextKeyName)
+                                        mainCount -= 1
+                                        newKeyName = replaceSkill.Name & replaceSkill.FromLevel & replaceSkill.ToLevel
+                                        bQueue.Queue.Add(replaceSkill, newKeyName)
+                                        If replaceSkill.FromLevel = replaceSkill.ToLevel Then
+                                            skillsToRemove.Add(newKeyName)
+                                        End If
                                     End If
                                 End If
                             End If
@@ -929,6 +925,24 @@ Public Class SkillQueueFunctions
 
     End Function
 
+    Public Shared Function GetImmediateSkillReqs(ByVal qPilot As EveHQ.Core.Pilot, ByVal skillID As String) As String
+        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
+        Dim strReqs As String = ""
+        Dim subSkill As EveHQ.Core.EveSkill
+        For Each subSkillID As String In cSkill.PreReqSkills.Keys
+            subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
+            strReqs &= subSkill.Name & cSkill.PreReqSkills(subSkillID)
+            If qPilot.PilotSkills.Contains(subSkill.Name) Then
+                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                strReqs &= CType(qPilot.PilotSkills(subSkill.Name), EveHQ.Core.PilotSkill).Level.ToString.Trim
+            Else
+                strReqs &= "0"
+            End If
+            strReqs &= ControlChars.CrLf
+        Next
+        Return strReqs.Trim
+    End Function
+
     Public Shared Function GetSkillReqs(ByVal qPilot As EveHQ.Core.Pilot, ByVal skillID As String) As String
         Dim strReqs As String = ""
 
@@ -994,24 +1008,6 @@ Public Class SkillQueueFunctions
         End If
     End Sub
 
-    Private Shared Function CalculateTrainingBonus(ByVal qpilot As EveHQ.Core.Pilot, ByVal myskill As EveHQ.Core.EveSkill, ByVal fromLevel As Integer, ByVal toLevel As Integer, ByVal totalSP As Long, ByVal trainingBonusLimit As Double, ByVal trainingBonus As Double) As Double
-        Dim BonusedSP As Double = 0
-        Dim SPTrained As Long = 0
-        Dim SPTotal As Double = 0
-        For curLevel As Integer = fromLevel To toLevel - 1
-            SPTrained = EveHQ.Core.SkillFunctions.CalculateSP(qpilot, myskill, curLevel + 1, curLevel)
-            If totalSP + SPTrained < trainingBonusLimit Then
-                BonusedSP += (SPTrained / 2)
-            Else
-                BonusedSP += SPTrained
-            End If
-            totalSP += SPTrained
-            SPTotal += SPTrained
-        Next
-        Return SPTotal / BonusedSP
-    End Function
-
-
     Public Shared Function IsPlanned(ByVal qPilot As EveHQ.Core.Pilot, ByVal skillName As String, ByVal level As Integer) As Integer
 
         ' Need to go through all the queues!
@@ -1076,20 +1072,20 @@ Public Class SkillQueueFunctions
         Dim nQueue As New Collection
         Dim count As Integer = 1
         If qList IsNot Nothing Then
-            For Each qItem As EveHQ.Core.SortedQueue In qList
+            For Each qItem As EveHQ.Core.SortedQueueItem In qList
                 If qItem.IsTraining = False Then
-                    If qItem.Done = False Then
-                        Dim newSkill As New EveHQ.Core.SkillQueueItem
-                        newSkill.FromLevel = CInt(qItem.FromLevel)
-                        newSkill.ToLevel = CInt(qItem.ToLevel)
-                        newSkill.Name = qItem.Name
-                        newSkill.Key = qItem.Key
-                        newSkill.Pos = count
-                        newSkill.Priority = qItem.Priority
-                        newSkill.Notes = qItem.Notes
-                        nQueue.Add(newSkill, newSkill.Key)
-                        count += 1
-                    End If
+                    'If qItem.Done = False Then
+                    Dim newSkill As New EveHQ.Core.SkillQueueItem
+                    newSkill.FromLevel = CInt(qItem.FromLevel)
+                    newSkill.ToLevel = CInt(qItem.ToLevel)
+                    newSkill.Name = qItem.Name
+                    newSkill.Key = qItem.Key
+                    newSkill.Pos = count
+                    newSkill.Priority = qItem.Priority
+                    newSkill.Notes = qItem.Notes
+                    nQueue.Add(newSkill, newSkill.Key)
+                    count += 1
+                    'End If
                 End If
             Next
             aQueue.Queue = nQueue
@@ -1106,6 +1102,7 @@ Public Class SkillQueueFunctions
             Dim myskill As New EveHQ.Core.EveSkill
             Dim fromLevel As Integer = 0
             Dim toLevel As Integer = 0
+            ' Declare variables for skill attribute modifications
             Dim myTSkill As EveHQ.Core.SkillQueueItem
 
             For i As Integer = 1 To qQueue.Queue.Count
@@ -1128,6 +1125,7 @@ Public Class SkillQueueFunctions
                 End If
 
                 totalTime += cTime
+
             Next
             ' Add the totaltime and skills to the queue data
             qQueue.QueueTime = totalTime
@@ -1138,72 +1136,3 @@ Public Class SkillQueueFunctions
 
 End Class
 
-<Serializable()> Public Class SkillQueueItem
-    Implements System.ICloneable
-    Public Key As String
-    Public Name As String
-    Public FromLevel As Integer
-    Public ToLevel As Integer
-    Public Pos As Integer
-    Public Priority As Integer
-    Public Notes As String
-    Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim R As SkillQueue = CType(Me.MemberwiseClone, SkillQueue)
-        Return R
-    End Function
-End Class
-Public Class SortedQueue
-    Public Done As Boolean
-    Public Key As String
-    Public ID As String
-    Public Name As String
-    Public CurLevel As String
-    Public FromLevel As String
-    Public ToLevel As String
-    Public PartTrained As Boolean
-    Public IsInjected As Boolean
-    Public Percent As String
-    Public TrainTime As String
-    Public DateFinished As Date
-    Public Rank As String
-    Public PAtt As String
-    Public SAtt As String
-    Public SPRate As String
-    Public SPTrained As String
-    Public IsTraining As Boolean
-    Public IsPrereq As Boolean
-    Public Prereq As String
-    Public HasPrereq As Boolean
-    Public Reqs As String
-    Public Priority As Integer
-    Public Notes As String
-End Class
-<Serializable()> Public Class SkillQueue
-    Implements System.ICloneable
-    Public Name As String
-    Public IncCurrentTraining As Boolean = True
-    Public Queue As New Collection
-    Public Primary As Boolean
-    Public QueueTime As Long
-    Public QueueSkills As Integer
-
-    Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim newQueue As SkillQueue = CType(Me.MemberwiseClone, SkillQueue)
-
-        Dim newQ As New Collection
-        For Each qItem As EveHQ.Core.SkillQueueItem In Me.Queue
-            Dim nItem As New EveHQ.Core.SkillQueueItem
-            nItem.ToLevel = qItem.ToLevel
-            nItem.FromLevel = qItem.FromLevel
-            nItem.Name = qItem.Name
-            nItem.Key = nItem.Name & nItem.FromLevel & nItem.ToLevel
-            nItem.Pos = qItem.Pos
-            nItem.Notes = qItem.Notes
-            nItem.Priority = qItem.Priority
-            newQ.Add(nItem, nItem.Key)
-        Next
-        newQueue.Queue = newQ
-        Return newQueue
-
-    End Function
-End Class

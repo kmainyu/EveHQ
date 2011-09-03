@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -36,17 +36,18 @@ Public Class frmItemBrowser
     Dim itemGroupName As String = ""
     Dim itemCatID As String = ""
     Dim itemCatName As String = ""
+    Dim itemPublished As Boolean = False
     Dim itemVariations(,) As String
     Dim itemSkills As New Dictionary(Of String, Integer)
     Dim itemFitting As New Collection
     Dim fittingAtts As New ArrayList
-    Dim tabPagesM(ActivityCount) As Windows.Forms.TabPage
-    Dim tabPagesC(ActivityCount) As Windows.Forms.TabPage
+	Dim tabPagesM(ActivityCount) As DevComponents.DotNetBar.TabItem
+	Dim tabPagesC(ActivityCount) As DevComponents.DotNetBar.TabItem
     Dim itemStart As DateTime
     Dim itemEnd As DateTime
     Dim itemTime As TimeSpan
     Dim oldNodeIndex As Integer = -1
-    Dim skillsNeeded As New ArrayList
+    Dim skillsNeeded As New List(Of String)
     Dim navigated As New SortedList
     Dim curNavigation As Integer = 0
     Dim compAtts As New SortedList
@@ -67,7 +68,8 @@ Public Class frmItemBrowser
     Dim BPWFM As Double = 0
     Dim BPWFPC As Double = 0
     Dim BPWFMC As Double = 0
-    Dim eveData As Data.DataSet
+    Dim BasicItemData As DataSet
+    Dim BasicItem As New EveHQ.Core.EveItem
 
     Private Sub LoadItemName(ByVal itemName As String)
         Dim strSQL As String = "SELECT * FROM invTypes WHERE typeName LIKE '" & itemName & "'"
@@ -78,123 +80,143 @@ Public Class frmItemBrowser
         Call LoadItem(strSQL)
     End Sub
     Private Sub LoadItem(ByVal strSQL As String)
-        itemStart = Now
-        ' Reset Item Skills
-        itemSkills.Clear()
-        Me.tabItem.TabPages.Remove(Me.tabSkills)
-        Me.tabItem.TabPages.Remove(Me.tabFitting)
-        Me.tabItem.TabPages.Remove(Me.tabMaterials)
-        Me.tabItem.TabPages.Remove(Me.tabComponent)
-        Me.tabItem.TabPages.Remove(Me.tabRecommended)
-        Me.tabItem.TabPages.Remove(Me.tabVariations)
-        Me.tabItem.TabPages.Remove(Me.tabDepends)
-        Me.tabItem.TabPages.Remove(Me.tabEveCentral)
-        Me.tabItem.TabPages.Remove(Me.tabInsurance)
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        If eveData IsNot Nothing Then
-            If eveData.Tables(0).Rows.Count > 0 Then
-                itemTypeID = eveData.Tables(0).Rows(0).Item("typeID")
-                itemTypeName = eveData.Tables(0).Rows(0).Item("typeName")
-                itemGroupID = eveData.Tables(0).Rows(0).Item("groupID")
+        Dim times(11) As DateTime
+        times(0) = Now
+		' Reset Item Skills
+		itemSkills.Clear()
+		'Me.tiSkills.Visible = False
+		'Me.tiFitting.Visible = False
+		'Me.tiMaterials.Visible = False
+		'Me.tiComponent.Visible = False
+		'Me.tiRecommended.Visible = False
+		'Me.tiVariations.Visible = False
+		'Me.tiDependencies.Visible = False
+		'Me.tiEveCentral.Visible = False
+        BasicItemData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        times(1) = Now
+        If BasicItemData IsNot Nothing Then
+            If BasicItemData.Tables(0).Rows.Count > 0 Then
+                itemTypeID = BasicItemData.Tables(0).Rows(0).Item("typeID")
+                BasicItem = EveHQ.Core.HQ.itemData(itemTypeID)
+                itemTypeName = BasicItemData.Tables(0).Rows(0).Item("typeName")
+                itemGroupID = BasicItemData.Tables(0).Rows(0).Item("groupID")
                 itemCatID = EveHQ.Core.HQ.groupCats(itemGroupID)
                 itemGroupName = EveHQ.Core.HQ.itemGroups(itemGroupID)
                 itemCatName = EveHQ.Core.HQ.itemCats(itemCatID)
+                itemPublished = CBool(BasicItemData.Tables(0).Rows(0).Item("published"))
                 lblItem.Text = itemTypeName
-                ssLblID.Text = "ID: " & itemCatID & "/" & itemGroupID & "/" & itemTypeID
-                lblDescription.Text = eveData.Tables(0).Rows(0).Item("description")
+				lblID.Text = "ID: " & itemCatID & "/" & itemGroupID & "/" & itemTypeID
+                lblDescription.Text = BasicItemData.Tables(0).Rows(0).Item("description")
+                times(2) = Now
                 Call GetAttributes(itemTypeID, itemTypeName)
+                Call GetEffects(itemTypeID, itemTypeName)
+                times(3) = Now
                 Call GenerateSkills(itemTypeID, itemTypeName)
+                times(4) = Now
                 Call GetVariations(itemTypeID, itemTypeName)
+                times(5) = Now
                 Call GenerateFitting()
+                times(6) = Now
                 If (itemCatName = "Ship") Then
                     Call GetRecommendations(itemTypeID, itemTypeName)
-                    Call GetInsurance(itemTypeID, itemTypeName)
                 End If
+                times(7) = Now
                 Call GetMaterials(itemTypeID, itemTypeName)
+                times(8) = Now
                 Call GetComponents(itemTypeID, itemTypeName)
+                times(9) = Now
                 Call GetDependencies(itemTypeID, itemTypeName)
+                times(10) = Now
                 System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetEveCentralData, itemTypeID)
-                ssDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
-                itemEnd = Now
-                itemTime = itemEnd - itemStart
-                ssLabel.Text = "Last Item retrieved in " & itemTime.TotalSeconds & "s"
+				lblDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
+                times(11) = Now
+                itemTime = times(11) - times(0)
+				lblStatus.Text = "Last Item retrieved in " & itemTime.TotalSeconds & "s"
+                btnRequisition.Enabled = itemPublished
+                Dim TimeMsg As String = ""
+                For t As Integer = 1 To 11
+                    TimeMsg &= "Stage " & t.ToString & ": " & (times(t) - times(t - 1)).TotalMilliseconds.ToString & "ms" & ControlChars.CrLf
+                Next
+                TimeMsg &= ControlChars.CrLf & "Final: " & (times(11) - times(0)).TotalMilliseconds & "ms" & ControlChars.CrLf
+
+                'MessageBox.Show(TimeMsg, "IB Timing", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 Dim msg As String = "There is an inconsistency in the Eve static data." & ControlChars.CrLf & ControlChars.CrLf
                 msg &= "There are references to a typeID which doesn't appear to be listed in the invTypes table. The SQL used to get this data was:" & ControlChars.CrLf & ControlChars.CrLf
                 msg &= strSQL
                 MessageBox.Show(msg, "Inconsistent Eve Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-        End If
+		End If
     End Sub
     Private Sub GetVariations(ByVal metaTypeID As Long, ByVal metaTypeName As String)
+        Dim eveData As DataSet
         Dim strSQL As String = ""
         strSQL &= "SELECT invMetaTypes.typeID, invMetaTypes.parentTypeID"
         strSQL &= " FROM invMetaTypes"
         strSQL &= " WHERE (((invMetaTypes.typeID)=" & metaTypeID & ") OR ((invMetaTypes.parentTypeID)=" & metaTypeID & "));"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        If eveData.Tables(0).Rows.Count = 0 Then
-            If Me.tabItem.TabPages.Contains(tabVariations) = True Then
-                Me.tabItem.TabPages.Remove(Me.tabVariations)
-            End If
-        Else
-            If Me.tabItem.TabPages.Contains(tabVariations) = False Then
-                Me.tabItem.TabPages.Add(Me.tabVariations)
-            End If
-            metaParentID = eveData.Tables(0).Rows(0).Item("parentTypeID")
-            strSQL = ""
-            strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invTypes.typeName, invMetaTypes.typeID AS invMetaTypes_typeID, invMetaTypes.parentTypeID, invMetaTypes.metaGroupID AS invMetaTypes_metaGroupID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID, invMetaGroups.metaGroupName"
-            strSQL &= " FROM invMetaGroups INNER JOIN (invTypes INNER JOIN invMetaTypes ON invTypes.typeID = invMetaTypes.typeID) ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID"
-            strSQL &= " WHERE (((invMetaTypes.parentTypeID)=" & metaParentID & "));"
-            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            metaItemCount = eveData.Tables(0).Rows.Count
-            ReDim itemVariations(2, metaItemCount)
-            For item As Integer = 0 To metaItemCount - 1
-                itemVariations(0, item + 1) = eveData.Tables(0).Rows(item).Item("invTypes_typeID").ToString
-                itemVariations(1, item + 1) = eveData.Tables(0).Rows(item).Item("typeName").ToString.Trim
-                itemVariations(2, item + 1) = eveData.Tables(0).Rows(item).Item("metaGroupName").ToString.Trim
-            Next
-            strSQL = "SELECT invTypes.typeID, invTypes.typeName FROM invTypes WHERE invTypes.typeID=" & metaParentID & ";"
-            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            itemVariations(0, 0) = eveData.Tables(0).Rows(0).Item("typeID").ToString.Trim
-            itemVariations(1, 0) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
-            itemVariations(2, 0) = "Tech I"
+		If eveData.Tables(0).Rows.Count = 0 Then
+			tiVariations.Visible = False
+		Else
+			tiVariations.Visible = True
+			metaParentID = eveData.Tables(0).Rows(0).Item("parentTypeID")
+			strSQL = ""
+			strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invTypes.typeName, invMetaTypes.typeID AS invMetaTypes_typeID, invMetaTypes.parentTypeID, invMetaTypes.metaGroupID AS invMetaTypes_metaGroupID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID, invMetaGroups.metaGroupName"
+			strSQL &= " FROM invMetaGroups INNER JOIN (invTypes INNER JOIN invMetaTypes ON invTypes.typeID = invMetaTypes.typeID) ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID"
+			strSQL &= " WHERE (((invMetaTypes.parentTypeID)=" & metaParentID & "));"
+			eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+			metaItemCount = eveData.Tables(0).Rows.Count
+			ReDim itemVariations(2, metaItemCount)
+			For item As Integer = 0 To metaItemCount - 1
+				itemVariations(0, item + 1) = eveData.Tables(0).Rows(item).Item("invTypes_typeID").ToString
+				itemVariations(1, item + 1) = eveData.Tables(0).Rows(item).Item("typeName").ToString.Trim
+				itemVariations(2, item + 1) = eveData.Tables(0).Rows(item).Item("metaGroupName").ToString.Trim
+			Next
+			itemVariations(0, 0) = EveHQ.Core.HQ.itemData(metaParentID).ID.ToString
+			itemVariations(1, 0) = EveHQ.Core.HQ.itemData(metaParentID).Name.ToString
+			itemVariations(2, 0) = "Tech I"
 
-            lstVariations.Items.Clear()
-            For item As Integer = 0 To metaItemCount
-                Dim lstItem As New ListViewItem
-                lstItem.Tag = itemVariations(0, item)
-                lstItem.Text = itemVariations(1, item)
-                lstItem.SubItems.Add(itemVariations(2, item))
-                lstVariations.Items.Add(lstItem)
-            Next
+			lstVariations.BeginUpdate()
+			lstVariations.Items.Clear()
+			For item As Integer = 0 To metaItemCount
+				Dim lstItem As New ListViewItem
+				lstItem.Tag = itemVariations(0, item)
+				lstItem.Text = itemVariations(1, item)
+				lstItem.SubItems.Add(itemVariations(2, item))
+				lstVariations.Items.Add(lstItem)
+			Next
+			lstVariations.EndUpdate()
 
-            ' Generate Comparisons
-            ' NB Attribute list is already generated in the generate attributes routine
-            compItems.Clear() : compMetas.Clear()
-            For item As Integer = 0 To metaItemCount
-                compItems.Add(itemVariations(0, item), itemVariations(1, item))
-                compMetas.Add(itemVariations(0, item), itemVariations(2, item))
-            Next
-            ' Get all the comparatives
-            Call Me.GetComparatives()
-            ' Put into a table
-            Call Me.DrawComparatives()
+			' Generate Comparisons
+			' NB Attribute list is already generated in the generate attributes routine
+			compItems.Clear() : compMetas.Clear()
+			For item As Integer = 0 To metaItemCount
+				compItems.Add(itemVariations(0, item), itemVariations(1, item))
+				compMetas.Add(itemVariations(0, item), itemVariations(2, item))
+			Next
+			' Get all the comparatives
+			Call Me.GetComparatives()
+			' Put into a table
+			Call Me.DrawComparatives()
 
-        End If
+		End If
     End Sub
     Private Sub GetComparatives()
+        Dim EveData As DataSet
         ' Define IN string
-        Dim strIn As String = ""
-        Dim item As String = ""
+        Dim strIn As New StringBuilder
+        Dim item As String
         For Each item In compItems.Keys
-            strIn &= item & ","
+            strIn.Append("," & item)
         Next
-        strIn = strIn.TrimEnd(",".ToCharArray)
+        If strIn.Length > 2 Then
+            strIn = strIn.Remove(0, 1)
+        End If
 
         ReDim CompMatrix(compItems.Count, compAtts.Count, 1)
 
         ' Get basic attributes
-        Dim strSQL As String = "SELECT * from invTypes WHERE typeID IN (" & strIn & ");"
+        Dim strSQL As String = "SELECT * from invTypes WHERE typeID IN (" & strIn.ToString & ");"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
             item = eveData.Tables(0).Rows(row).Item("typeID").ToString
@@ -211,12 +233,12 @@ Public Class frmItemBrowser
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("H"), 0) = "0"
             End If
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I1"), 0) = eveData.Tables(0).Rows(row).Item("basePrice").ToString
-            If EveHQ.Core.HQ.MarketPriceList.Contains(item) = True Then
+            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(item) = True Then
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = EveHQ.Core.HQ.MarketPriceList.Item(item)
             Else
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = 0
             End If
-            If EveHQ.Core.HQ.CustomPriceList.Contains(item) = True Then
+            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(item) = True Then
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I3"), 0) = EveHQ.Core.HQ.CustomPriceList.Item(item)
             Else
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I3"), 0) = 0
@@ -226,19 +248,14 @@ Public Class frmItemBrowser
         ' Get all other attributes
         strSQL = "SELECT dgmTypeAttributes.typeID, dgmAttributeTypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
         strSQL &= " FROM (eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID=dgmAttributeTypes.unitID) INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID=dgmTypeAttributes.attributeID"
-        strSQL &= " WHERE typeID IN (" & strIn & ") ORDER BY dgmTypeAttributes.attributeID;"
+        strSQL &= " WHERE typeID IN (" & strIn.ToString & ") ORDER BY dgmTypeAttributes.attributeID;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
             item = eveData.Tables(0).Rows(row).Item("typeID")
             Dim compAttID As String = ""
             Dim compValue As String = ""
             Dim compUnit As String = eveData.Tables(0).Rows(row).Item("unitDisplayName").ToString.Trim
-            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                Case 0
-                    compAttID = eveData.Tables(0).Rows(row).Item("dgmAttributeTypes.attributeID")
-                Case Else
-                    compAttID = eveData.Tables(0).Rows(row).Item("attributeID")
-            End Select
+            compAttID = eveData.Tables(0).Rows(row).Item("attributeID")
             If IsDBNull(eveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
                 compValue = eveData.Tables(0).Rows(row).Item("valueFloat")
             Else
@@ -272,6 +289,7 @@ Public Class frmItemBrowser
     End Sub
     Private Sub GetDependencies(ByVal typeID As Long, ByVal typeName As String)
         If itemCatID = 16 Then
+            lvwDepend.BeginUpdate()
             lvwDepend.Items.Clear()
             Dim groupID As String = ""
             Dim catID As String = ""
@@ -327,14 +345,11 @@ Public Class frmItemBrowser
                     Next
                 End If
             Next
-            If Me.tabItem.TabPages.Contains(Me.tabDepends) = False Then
-                Me.tabItem.TabPages.Add(Me.tabDepends)
-            End If
+			tiDependencies.Visible = True
+            lvwDepend.EndUpdate()
         Else
             ' Remove the relevant tab
-            If Me.tabItem.TabPages.Contains(Me.tabDepends) = True Then
-                Me.tabItem.TabPages.Remove(Me.tabDepends)
-            End If
+			tiDependencies.Visible = False
         End If
     End Sub
     Private Sub DrawComparatives()
@@ -390,18 +405,9 @@ Public Class frmItemBrowser
         Try
 
             Dim RemoteURL As String = "http://eve-central.com/home/marketstat_xml.html?typeid=" & itemTypeID
-            Dim request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
+            Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
             ' Setup proxy server (if required)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                    EveHQProxy.UseDefaultCredentials = True
-                Else
-                    EveHQProxy.UseDefaultCredentials = False
-                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                End If
-                request.Proxy = EveHQProxy
-            End If
+            Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
             ' Setup request parameters
             request.Method = "GET"
             request.ContentType = "application/x-www-form-urlencoded"
@@ -457,6 +463,10 @@ Public Class frmItemBrowser
         End Try
     End Sub
 
+    Private Sub frmItemBrowser_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        RemoveHandler PlugInData.PluginDataReceived, AddressOf PluginDataHandler
+    End Sub
+
     Private Sub frmItemBrowser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         ' Set the startup flag
@@ -466,18 +476,19 @@ Public Class frmItemBrowser
         AddHandler PlugInData.PluginDataReceived, AddressOf PluginDataHandler
 
         For activity As Integer = 1 To ActivityCount
-            tabPagesM(activity) = Me.tabMaterial.TabPages("tabM" & activity)
-            tabPagesC(activity) = Me.tabComponents.TabPages("tabC" & activity)
+			tabPagesM(activity) = Me.tcMaterials.Tabs("tiM" & activity)
+			tabPagesC(activity) = Me.tcComponents.Tabs("tiC" & activity)
         Next
         Call Me.LoadFittingAttributes()
-        Call Me.LoadShipCertRecommendations()
-        Me.tabItem.TabPages.Remove(Me.tabFitting)
-        Me.tabItem.TabPages.Remove(Me.tabVariations)
-        Me.tabItem.TabPages.Remove(Me.tabSkills)
-        Me.tabItem.TabPages.Remove(Me.tabMaterials)
-        Me.tabItem.TabPages.Remove(Me.tabComponent)
-        Me.tabItem.TabPages.Remove(Me.tabEveCentral)
-        Me.tabItem.TabPages.Remove(Me.tabInsurance)
+        Me.tiEffects.Visible = False
+		Me.tiSkills.Visible = False
+		Me.tiFitting.Visible = False
+		Me.tiMaterials.Visible = False
+		Me.tiComponent.Visible = False
+		Me.tiRecommended.Visible = False
+		Me.tiVariations.Visible = False
+		Me.tiDependencies.Visible = False
+		Me.tiEveCentral.Visible = False
         Me.lblUsable.Text = ""
         Me.lblUsableTime.Text = ""
 
@@ -487,9 +498,6 @@ Public Class frmItemBrowser
 
         ' Load the Pilots
         Call Me.UpdatePilots()
-
-        ' Load the Wanted List
-        Call Me.DrawWantedList()
 
         ' Load the attribute search combobox
         cboAttSearch.BeginUpdate()
@@ -501,6 +509,24 @@ Public Class frmItemBrowser
             cboAttSearch.Items.Add(att)
         Next
         cboAttSearch.EndUpdate()
+
+        ' Load the effect search combobox
+        cboEffectSearch.BeginUpdate()
+        cboEffectSearch.Items.Clear()
+        cboEffectSearch.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cboEffectSearch.AutoCompleteSource = AutoCompleteSource.CustomSource
+        For Each att As String In PlugInData.EffectList.GetKeyList
+            cboEffectSearch.AutoCompleteCustomSource.Add(att)
+            cboEffectSearch.Items.Add(att)
+        Next
+        cboEffectSearch.EndUpdate()
+
+        ' Add the category groups into the listview
+        lvwDepend.Groups.Clear()
+        For Each cat As String In EveHQ.Core.HQ.itemCats.Keys
+            lvwDepend.Groups.Add("Cat" & cat, EveHQ.Core.HQ.itemCats(cat))
+        Next
+        lvwDepend.Groups.Add("CatCerts", "Certificates")
 
         ' Reset the list of navigated items
         navigated.Clear()
@@ -571,68 +597,35 @@ Public Class frmItemBrowser
         Call Me.AddToNavigation(itemTypeName)
     End Sub
 
-    Private Sub GetInsurance(ByVal typeID As Long, ByVal typeName As String)
-        Me.tabItem.TabPages.Add(Me.tabInsurance)
-        lstInsurance.Items.Clear()
-        Dim strSQL As String = "SELECT * from invTypes where typeID=" & typeID
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Dim basePrice As Double = EveHQ.Core.HQ.BasePriceList(typeID.ToString)
-        Dim marketPrice As Double = EveHQ.Core.DataFunctions.GetPrice(typeID.ToString)
-        For counter As Integer = 5 To 30 Step 5
-            Dim newInsuranceItem As New ListViewItem
-            Select Case counter
-                Case 5
-                    newInsuranceItem.Text = "Basic"
-                Case 10
-                    newInsuranceItem.Text = "Standard"
-                Case 15
-                    newInsuranceItem.Text = "Bronze"
-                Case 20
-                    newInsuranceItem.Text = "Silver"
-                Case 25
-                    newInsuranceItem.Text = "Gold"
-                Case 30
-                    newInsuranceItem.Text = "Platinum"
-            End Select
-            Dim insuranceFee As Double = basePrice / 100 * counter
-            Dim insurancePayout As Double = basePrice / 100 * (40 + (2 * counter))
-            Dim insuranceProfit As Double = insurancePayout - marketPrice - insuranceFee
-            newInsuranceItem.SubItems.Add(insuranceFee.ToString("N02"))
-            newInsuranceItem.SubItems.Add(insurancePayout.ToString("N02"))
-            newInsuranceItem.SubItems.Add(marketPrice.ToString("N02"))
-            newInsuranceItem.SubItems.Add(insuranceProfit.ToString("N02"))
-            lstInsurance.Items.Add(newInsuranceItem)
-        Next
-    End Sub
-
     Private Sub GetRecommendations(ByVal typeID As Long, ByVal typeName As String)
         lvwRecommended.BeginUpdate()
         lvwRecommended.Items.Clear()
-        If ShipCerts.ContainsKey(CStr(typeID)) Then
-            Dim Certs As ArrayList = ShipCerts(CStr(typeID))
-            Dim dCerts As New SortedList(Of String, Integer)
-            For Each cert As String In Certs
-                Dim newCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(cert)
-                Dim certClass As EveHQ.Core.CertificateClass = EveHQ.Core.HQ.CertificateClasses(CStr(newCert.ClassID))
-                dCerts.Add(certClass.Name, newCert.Grade)
-            Next
-            For Each certName As String In dCerts.Keys
-                Dim newCert As New ListViewItem
-                newCert.Text = certName
-                newCert.ImageIndex = dCerts(certName)
-                Dim certGrade As String = CertGrades(dCerts(certName))
-                newCert.SubItems.Add(certGrade)
-                lvwRecommended.Items.Add(newCert)
-            Next
-            Me.tabItem.TabPages.Add(Me.tabRecommended)
+        ' Fetch the certs from the DB
+        Dim strSQL As String = "SELECT * FROM crtRecommendations WHERE shipTypeID =" & itemTypeID
+        Dim certData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+        If certData IsNot Nothing Then
+            If certData.Tables(0).Rows.Count > 0 Then
+                For Each certRow As DataRow In certData.Tables(0).Rows
+                    Dim cert As String = certRow.Item("certificateID").ToString
+                    Dim newCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(cert)
+                    Dim certClass As EveHQ.Core.CertificateClass = EveHQ.Core.HQ.CertificateClasses(CStr(newCert.ClassID))
+                    Dim newItem As New ListViewItem
+                    newItem.Text = certClass.Name
+                    newItem.ImageIndex = newCert.Grade
+                    Dim certGrade As String = CertGrades(newCert.Grade)
+                    newItem.SubItems.Add(certGrade)
+                    lvwRecommended.Items.Add(newItem)
+				Next
+				tiRecommended.Visible = True
+			Else
+				tiRecommended.Visible = False
+			End If
         End If
         lvwRecommended.EndUpdate()
     End Sub
     Private Sub GetAttributes(ByVal typeID As Long, ByVal typeName As String)
 
-        ' Get parent type info for later on!
-        Dim pInfo(5) As String
-        pInfo = EveHQ.Core.DataFunctions.GetTypeParentInfo(typeID)
+        Dim EveData As DataSet
 
         Dim attributes(150, 5) As String
         Dim attNo As Integer = 0
@@ -641,10 +634,10 @@ Public Class frmItemBrowser
 
         Dim bpTypeID As String = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
         ' Show additional information re blueprint or product
-        If pInfo(4) = 9 Then
+        If BasicItem.Category = 9 Then
             Dim typeID2 As String = EveHQ.Core.DataFunctions.GetTypeID(bpTypeID)
             If bpTypeID <> typeID2 Then
-                picBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation("27_01", EveHQ.Core.ImageHandler.ImageType.Icons)
+                picBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID2)
                 picBP.Tag = typeID2
                 ItemToolTip1.SetToolTip(Me.picBP, "Show Product Type")
                 picBP.Visible = True
@@ -653,7 +646,7 @@ Public Class frmItemBrowser
             End If
         Else
             If bpTypeID <> typeID Then
-                picBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(bpTypeID.ToString, EveHQ.Core.ImageHandler.ImageType.Blueprints)
+                picBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(bpTypeID.ToString)
                 picBP.Tag = bpTypeID
                 ItemToolTip1.SetToolTip(Me.picBP, "Show Blueprint")
                 picBP.Visible = True
@@ -667,36 +660,21 @@ Public Class frmItemBrowser
             End If
         End If
 
-        Dim strSQL As String = "SELECT * from invTypes where typeID=" & typeID
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-
         ' Load picture
-        Select Case pInfo(4)
-            Case 6, 18, 23
-                picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Types)
-            Case 9
-                picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Blueprints)
-            Case Else
-                Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID WHERE typeID=" & typeID & ";")
-                If iconData.Tables(0).Rows.Count > 0 Then
-                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(iconData.Tables(0).Rows(0).Item("iconFile").ToString, EveHQ.Core.ImageHandler.ImageType.Icons)
-                Else
-                    picItem.Image = My.Resources.noitem
-                End If
-        End Select
+        picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString)
 
         ' Insert attribute 1 from tblTypes
         attNo += 1
         attributes(attNo, 1) = "A"
         attributes(attNo, 2) = "Group ID"
-        attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("groupID")
+        attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("groupID")
         attributes(attNo, 4) = ""
         attributes(attNo, 5) = "0"
         ' Insert attribute 2 from tblTypes
         attNo += 1
         attributes(attNo, 1) = "B"
         attributes(attNo, 2) = "Description"
-        Dim desc As String = eveData.Tables(0).Rows(0).Item("description").ToString
+        Dim desc As String = BasicItemData.Tables(0).Rows(0).Item("description").ToString
         desc = System.Text.RegularExpressions.Regex.Replace(desc, "[\x00-\x1f]", "")
         attributes(attNo, 3) = desc
         attributes(attNo, 4) = ""
@@ -705,34 +683,34 @@ Public Class frmItemBrowser
         attNo += 1
         attributes(attNo, 1) = "C"
         attributes(attNo, 2) = "Radius"
-        attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("radius")
+        attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("radius")
         attributes(attNo, 4) = " m"
         attributes(attNo, 5) = "1"
         ' Insert attribute 4 from tblTypes
         attNo += 1
         attributes(attNo, 1) = "D"
         attributes(attNo, 2) = "Mass"
-        attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("mass")
+        attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("mass")
         attributes(attNo, 4) = " kg"
         attributes(attNo, 5) = "1"
         ' Insert attribute 5 from tblTypes
         attNo += 1
         attributes(attNo, 1) = "E"
         attributes(attNo, 2) = "Volume"
-        attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("volume")
+        attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("volume")
         attributes(attNo, 4) = " m3"
         attributes(attNo, 5) = "1"
         ' Insert attribute 6 from tblTypes
         attNo += 1
         attributes(attNo, 1) = "F"
         attributes(attNo, 2) = "Cargo Capacity"
-        attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("capacity")
+        attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("capacity")
         attributes(attNo, 4) = " m3"
         attributes(attNo, 5) = "1"
         ' Insert attribute 7 from tblTypes
         attNo += 1
         attributes(attNo, 1) = "G"
-        attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("portionSize")
+        attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("portionSize")
         attributes(attNo, 2) = "Portion Size"
         attributes(attNo, 4) = ""
         attributes(attNo, 5) = "0"
@@ -740,8 +718,8 @@ Public Class frmItemBrowser
         attNo += 1
         attributes(attNo, 1) = "H"
         attributes(attNo, 2) = "Race ID"
-        If IsDBNull(eveData.Tables(0).Rows(0).Item("raceID")) = False Then
-            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("raceID")
+        If IsDBNull(BasicItemData.Tables(0).Rows(0).Item("raceID")) = False Then
+            attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("raceID")
         Else
             attributes(attNo, 3) = "0"
         End If
@@ -751,14 +729,14 @@ Public Class frmItemBrowser
         attNo += 1
         attributes(attNo, 1) = "I1"
         attributes(attNo, 2) = "Base Price"
-        attributes(attNo, 3) = Math.Round(eveData.Tables(0).Rows(0).Item("basePrice"), 2, MidpointRounding.AwayFromZero)
+        attributes(attNo, 3) = Math.Round(BasicItemData.Tables(0).Rows(0).Item("basePrice"), 2, MidpointRounding.AwayFromZero)
         attributes(attNo, 4) = ""
         attributes(attNo, 5) = "0"
         ' Insert Market Price
         attNo += 1
         attributes(attNo, 1) = "I2"
         attributes(attNo, 2) = "Market Price"
-        If EveHQ.Core.HQ.MarketPriceList.Contains(CStr(itemTypeID)) = True Then
+        If EveHQ.Core.HQ.MarketPriceList.ContainsKey(CStr(itemTypeID)) = True Then
             attributes(attNo, 3) = Math.Round(CDbl(EveHQ.Core.HQ.MarketPriceList.Item(CStr(itemTypeID))), 2, MidpointRounding.AwayFromZero)
         Else
             attributes(attNo, 3) = 0
@@ -769,7 +747,7 @@ Public Class frmItemBrowser
         attNo += 1
         attributes(attNo, 1) = "I3"
         attributes(attNo, 2) = "Custom Price"
-        If EveHQ.Core.HQ.CustomPriceList.Contains(CStr(itemTypeID)) = True Then
+        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CStr(itemTypeID)) = True Then
             attributes(attNo, 3) = Math.Round(CDbl(EveHQ.Core.HQ.CustomPriceList.Item(CStr(itemTypeID))), 2, MidpointRounding.AwayFromZero)
         Else
             attributes(attNo, 3) = 0
@@ -780,7 +758,7 @@ Public Class frmItemBrowser
         attNo += 1
         attributes(attNo, 1) = "J"
         attributes(attNo, 2) = "Published"
-        If eveData.Tables(0).Rows(0).Item("published") = "0" Then
+        If BasicItemData.Tables(0).Rows(0).Item("published") = "0" Then
             attributes(attNo, 3) = "False"
         Else
             attributes(attNo, 3) = "True"
@@ -791,25 +769,24 @@ Public Class frmItemBrowser
         attNo += 1
         attributes(attNo, 1) = "K"
         attributes(attNo, 2) = "Market Group"
-        If IsDBNull(eveData.Tables(0).Rows(0).Item("marketGroupID")) = False Then
-            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("marketGroupID")
+        If IsDBNull(BasicItemData.Tables(0).Rows(0).Item("marketGroupID")) = False Then
+            attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("marketGroupID")
         Else
             attributes(attNo, 3) = "n/a"
         End If
         attributes(attNo, 4) = ""
         attributes(attNo, 5) = "0"
 
-        If pInfo(4) = 9 Then            ' If in the blueprint category
-            strSQL = "SELECT *"
-            strSQL &= " FROM invBlueprintTypes"
-            strSQL &= " WHERE blueprintTypeID=" & typeID & ";"
-            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If eveData.Tables(0).Rows.Count > 0 Then
-                For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
+        Dim strSQL As String = ""
+        If BasicItem.Category = 9 Then            ' If in the blueprint category
+            strSQL = "SELECT * FROM invBlueprintTypes WHERE blueprintTypeID=" & typeID & ";"
+            EveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If EveData.Tables(0).Rows.Count > 0 Then
+                For col As Integer = 3 To EveData.Tables(0).Columns.Count - 1
                     attNo += 1
                     attributes(attNo, 1) = "Z" & col - 2
-                    attributes(attNo, 2) = eveData.Tables(0).Columns(col).Caption
-                    attributes(attNo, 3) = Math.Round(eveData.Tables(0).Rows(0).Item(col))
+                    attributes(attNo, 2) = EveData.Tables(0).Columns(col).Caption
+                    attributes(attNo, 3) = Math.Round(EveData.Tables(0).Rows(0).Item(col))
                     attributes(attNo, 4) = ""
                     attributes(attNo, 5) = "15"
                     ' Check for BPWF
@@ -829,29 +806,24 @@ Public Class frmItemBrowser
             strSQL = "SELECT dgmAttributeTypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM (eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID=dgmAttributeTypes.unitID) INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID=dgmTypeAttributes.attributeID"
             strSQL &= " WHERE typeID=" & typeID & " ORDER BY dgmTypeAttributes.attributeID;"
-            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
+            EveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            For row As Integer = 0 To EveData.Tables(0).Rows.Count - 1
                 attNo += 1
-                Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                    Case 0
-                        attributes(attNo, 1) = eveData.Tables(0).Rows(row).Item("dgmAttributeTypes.attributeID")
-                    Case Else
-                        attributes(attNo, 1) = eveData.Tables(0).Rows(row).Item("attributeID")
-                End Select
-                If eveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim = "" Then
-                    attributes(attNo, 2) = eveData.Tables(0).Rows(row).Item("attributeName").ToString.Trim
+                attributes(attNo, 1) = EveData.Tables(0).Rows(row).Item("attributeID")
+                If EveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim = "" Then
+                    attributes(attNo, 2) = EveData.Tables(0).Rows(row).Item("attributeName").ToString.Trim
                 Else
-                    attributes(attNo, 2) = eveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim
+                    attributes(attNo, 2) = EveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim
                 End If
-                If IsDBNull(eveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
-                    attributes(attNo, 3) = eveData.Tables(0).Rows(row).Item("valueFloat")
+                If IsDBNull(EveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
+                    attributes(attNo, 3) = EveData.Tables(0).Rows(row).Item("valueFloat")
                 Else
-                    attributes(attNo, 3) = eveData.Tables(0).Rows(row).Item("valueInt")
+                    attributes(attNo, 3) = EveData.Tables(0).Rows(row).Item("valueInt")
                 End If
-                attributes(attNo, 4) = " " & eveData.Tables(0).Rows(row).Item("unitDisplayName").ToString.Trim
-                attributes(attNo, 5) = eveData.Tables(0).Rows(row).Item("attributeGroup").ToString.Trim
+                attributes(attNo, 4) = " " & EveData.Tables(0).Rows(row).Item("unitDisplayName").ToString.Trim
+                attributes(attNo, 5) = EveData.Tables(0).Rows(row).Item("attributeGroup").ToString.Trim
                 ' Do modifier calculations here!
-                Select Case eveData.Tables(0).Rows(row).Item("unitID")
+                Select Case EveData.Tables(0).Rows(row).Item("unitID")
                     Case "108"
                         attributes(attNo, 3) = Math.Round(100 - (CDbl(attributes(attNo, 3)) * 100), 2)
                     Case "109"
@@ -884,11 +856,12 @@ Public Class frmItemBrowser
 
         ' Do skill & fitting requirements adjustment & "math.rounding" here
         Dim skillLvl As String = "1"
+        Dim SourceItem As New EveHQ.Core.EveItem
         itemFitting.Clear()
         For att As Integer = 1 To attNo
             If attributes(att, 4) = " typeID" Then
                 attributes(att, 4) &= attributes(att, 3)
-                eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invTypes WHERE typeID=" & attributes(att, 3))
+                SourceItem = EveHQ.Core.HQ.itemData(attributes(att, 3))
 
                 Select Case attributes(att, 1)
                     Case "182"
@@ -899,8 +872,10 @@ Public Class frmItemBrowser
                                 Exit For
                             End If
                         Next
-                        itemSkills.Add(attributes(att, 3), skillLvl)
-                        attributes(att, 3) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+                        If itemSkills.ContainsKey(attributes(att, 3)) = False Then
+                            itemSkills.Add(attributes(att, 3), skillLvl)
+                        End If
+                        attributes(att, 3) = SourceItem.Name
                         If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                     Case "183"
                         For att2 As Integer = att To attNo
@@ -910,8 +885,10 @@ Public Class frmItemBrowser
                                 Exit For
                             End If
                         Next
-                        itemSkills.Add(attributes(att, 3), skillLvl)
-                        attributes(att, 3) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+                        If itemSkills.ContainsKey(attributes(att, 3)) = False Then
+                            itemSkills.Add(attributes(att, 3), skillLvl)
+                        End If
+                        attributes(att, 3) = SourceItem.Name
                         If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                     Case "184"
                         For att2 As Integer = att To attNo
@@ -921,8 +898,10 @@ Public Class frmItemBrowser
                                 Exit For
                             End If
                         Next
-                        itemSkills.Add(attributes(att, 3), skillLvl)
-                        attributes(att, 3) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+                        If itemSkills.ContainsKey(attributes(att, 3)) = False Then
+                            itemSkills.Add(attributes(att, 3), skillLvl)
+                        End If
+                        attributes(att, 3) = SourceItem.Name
                         If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                     Case "1285"
                         For att2 As Integer = att To attNo
@@ -932,8 +911,10 @@ Public Class frmItemBrowser
                                 Exit For
                             End If
                         Next
-                        itemSkills.Add(attributes(att, 3), skillLvl)
-                        attributes(att, 3) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+                        If itemSkills.ContainsKey(attributes(att, 3)) = False Then
+                            itemSkills.Add(attributes(att, 3), skillLvl)
+                        End If
+                        attributes(att, 3) = SourceItem.Name
                         If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                     Case "1289"
                         For att2 As Integer = att To attNo
@@ -943,8 +924,10 @@ Public Class frmItemBrowser
                                 Exit For
                             End If
                         Next
-                        itemSkills.Add(attributes(att, 3), skillLvl)
-                        attributes(att, 3) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+                        If itemSkills.ContainsKey(attributes(att, 3)) = False Then
+                            itemSkills.Add(attributes(att, 3), skillLvl)
+                        End If
+                        attributes(att, 3) = SourceItem.Name
                         If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                     Case "1290"
                         For att2 As Integer = att To attNo
@@ -954,11 +937,13 @@ Public Class frmItemBrowser
                                 Exit For
                             End If
                         Next
-                        itemSkills.Add(attributes(att, 3), skillLvl)
-                        attributes(att, 3) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+                        If itemSkills.ContainsKey(attributes(att, 3)) = False Then
+                            itemSkills.Add(attributes(att, 3), skillLvl)
+                        End If
+                        attributes(att, 3) = SourceItem.Name
                         If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                     Case Else
-                        attributes(att, 3) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+                        attributes(att, 3) = SourceItem.Name
                 End Select
 
                 'If attributes(att, 1) = "182" Or attributes(att, 1) = "183" Or attributes(att, 1) = "184" Then
@@ -999,6 +984,7 @@ Public Class frmItemBrowser
         attGroups(8) = "Fitting Requirements" : attGroups(9) = "Damage" : attGroups(10) = "Entity Targetting" : attGroups(11) = "Entity Kill"
         attGroups(12) = "Entity EWar" : attGroups(13) = "Usage" : attGroups(14) = "Skill Information" : attGroups(15) = "Blueprint Information"
 
+        lstAttributes.BeginUpdate()
         lstAttributes.Items.Clear()
         compAtts.Clear()
         For itemloop As Integer = 1 To attNo
@@ -1040,63 +1026,78 @@ Public Class frmItemBrowser
                 Next
             End If
         Next
+        lstAttributes.EndUpdate()
 
     End Sub
 
+    Private Sub GetEffects(ByVal typeID As Long, ByVal typeName As String)
+        Dim strSQL As String = "SELECT dgmTypeEffects.typeID, dgmEffects.effectName, dgmEffects.displayName, dgmEffects.isOffensive, dgmEffects.isAssistance, dgmEffects.description"
+        strSQL &= " FROM dgmEffects"
+        strSQL &= " INNER JOIN dgmTypeEffects ON dgmEffects.effectID = dgmTypeEffects.effectID"
+        strSQL &= " WHERE typeID=" & typeID
+        Dim EveData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+        If EveData.Tables(0).Rows.Count > 0 Then
+            lstEffects.BeginUpdate()
+            lstEffects.Items.Clear()
+            For Each EffectRow As DataRow In EveData.Tables(0).Rows
+                Dim EffectItem As New ListViewItem
+                EffectItem.Text = EffectRow.Item("effectName")
+                EffectItem.SubItems.Add(EffectRow.Item("description"))
+                lstEffects.Items.Add(EffectItem)
+            Next
+            lstEffects.EndUpdate()
+            tiEffects.Visible = True
+        Else
+            tiEffects.Visible = False
+        End If
+    End Sub
+
     Private Sub GetMaterials(ByVal typeID As Long, ByVal typeName As String)
+        Dim EveData As DataSet
         Dim bpTypeID As Long = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
 
         ' Select only the building activity (at the minute!)
-        Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invBuildMaterials ON invTypes.typeID = invBuildMaterials.requiredTypeID"
-        strSQL &= " WHERE (invBuildMaterials.typeID=" & bpTypeID & " OR invBuildMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        If eveData.Tables(0).Rows.Count > 0 Then
+        Dim strSQL As String = "SELECT * FROM invBuildMaterials WHERE (invBuildMaterials.typeID=" & bpTypeID & " OR invBuildMaterials.typeID=" & typeID & ");"
+        EveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        If EveData.Tables(0).Rows.Count > 0 Then
 
             ' Work out what activities we have in the list
             Dim activities(ActivityCount) As Boolean
             Dim strActivity As String = ""
-            For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                activities(Val(eveData.Tables(0).Rows(row).Item("activityID"))) = True
+            For row As Integer = 0 To EveData.Tables(0).Rows.Count - 1
+                activities(Val(EveData.Tables(0).Rows(row).Item("activityID"))) = True
             Next
             ' Then create sub tabs :)
-            If Me.tabMaterial.IsDisposed = False Then
-                Me.tabMaterial.TabPages.Clear()
-            End If
             For activity As Integer = 1 To ActivityCount
                 If activities(activity) = True Then
-                    Me.tabMaterial.TabPages.Add(tabPagesM(activity))
+                    tabPagesM(activity).Visible = True
+                Else
+                    tabPagesM(activity).Visible = False
                 End If
             Next
 
-            Dim materials(eveData.Tables(0).Rows.Count, 9)
-            With eveData.Tables(0)
+            Dim materials(EveData.Tables(0).Rows.Count, 9)
+            With EveData.Tables(0)
                 For row As Integer = 0 To .Rows.Count - 1
                     If Val(.Rows(row).Item("quantity")) > 0 Then
                         materials(row, 0) = "0"
                         materials(row, 1) = .Rows(row).Item("requiredTypeID").ToString.Trim
-                        materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
+                        materials(row, 2) = EveHQ.Core.HQ.itemData(materials(row, 1)).Name
                         materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
                         materials(row, 4) = .Rows(row).Item("damagePerJob").ToString.Trim
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0
-                                materials(row, 5) = .Rows(row).Item("invCategories.categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("invGroups.groupID").ToString.Trim
-                            Case Else
-                                materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
-                        End Select
-                        materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
-                        materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
+                        materials(row, 5) = EveHQ.Core.HQ.itemData(materials(row, 1)).Category.ToString
+                        materials(row, 6) = EveHQ.Core.HQ.itemCats(materials(row, 5))
+                        materials(row, 7) = EveHQ.Core.HQ.itemData(materials(row, 1)).Group.ToString
+                        materials(row, 8) = EveHQ.Core.HQ.itemGroups(materials(row, 7))
                         materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
                     End If
                 Next
             End With
 
-            Dim itemcount As Integer = eveData.Tables(0).Rows.Count - 1
+            Dim itemcount As Integer = EveData.Tables(0).Rows.Count - 1
             Dim matCatID, matCatName, matGroupID, matGroupName As String
             For act As Integer = 1 To ActivityCount
-                Dim materialsView As New ListView
+                Dim materialsView As New DevComponents.DotNetBar.Controls.ListViewEx
                 Select Case act
                     Case 1
                         materialsView = Me.lstM1
@@ -1117,8 +1118,8 @@ Public Class frmItemBrowser
                     Case 9
                         materialsView = Me.lstM9
                 End Select
-                materialsView.Items.Clear()
                 materialsView.BeginUpdate()
+                materialsView.Items.Clear()
                 For itemloop As Integer = 0 To itemcount
                     If materials(itemloop, 0) = "0" And materials(itemloop, 9) = act Then
                         matCatID = materials(itemloop, 5)
@@ -1155,16 +1156,11 @@ Public Class frmItemBrowser
                 Next
                 materialsView.EndUpdate()
             Next
-
             ' Add the relevant tab
-            If Me.tabItem.TabPages.Contains(Me.tabMaterials) = False Then
-                Me.tabItem.TabPages.Add(Me.tabMaterials)
-            End If
+            tiMaterials.Visible = True
         Else
             ' Remove the relevant tab
-            If Me.tabItem.TabPages.Contains(Me.tabMaterials) = True Then
-                Me.tabItem.TabPages.Remove(Me.tabMaterials)
-            End If
+            tiMaterials.Visible = False
         End If
 
         Call Me.GetRecyclingData(typeID.ToString)
@@ -1172,43 +1168,36 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub GetRecyclingData(ByVal typeID As String)
+        Dim EveData As DataSet
         ' Fetch the recycling information
-        Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invTypeMaterials ON invTypes.typeID = invTypeMaterials.materialTypeID"
-        strSQL &= " WHERE (invTypeMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Dim strSQL As String = "SELECT * FROM invTypeMaterials  WHERE (invTypeMaterials.typeID=" & typeID & ");"
+        EveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
-        If eveData.Tables(0).Rows.Count > 0 Then
-            Me.tabMaterial.TabPages.Add(tabPagesM(9))
-            Dim materials(eveData.Tables(0).Rows.Count, 9)
-            With eveData.Tables(0)
+        If EveData.Tables(0).Rows.Count > 0 Then
+            tabPagesM(9).Visible = True
+            Dim materials(EveData.Tables(0).Rows.Count, 9)
+            With EveData.Tables(0)
                 For row As Integer = 0 To .Rows.Count - 1
                     If Val(.Rows(row).Item("quantity")) > 0 Then
                         materials(row, 0) = "0"
                         materials(row, 1) = .Rows(row).Item("materialTypeID").ToString.Trim
-                        materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
+                        materials(row, 2) = EveHQ.Core.HQ.itemData(materials(row, 1)).Name
                         materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
                         materials(row, 4) = ""
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0
-                                materials(row, 5) = .Rows(row).Item("invCategories.categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("invGroups.groupID").ToString.Trim
-                            Case Else
-                                materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
-                        End Select
-                        materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
-                        materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
+                        materials(row, 5) = EveHQ.Core.HQ.itemData(materials(row, 1)).Category.ToString
+                        materials(row, 6) = EveHQ.Core.HQ.itemCats(materials(row, 5))
+                        materials(row, 7) = EveHQ.Core.HQ.itemData(materials(row, 1)).Group.ToString
+                        materials(row, 8) = EveHQ.Core.HQ.itemGroups(materials(row, 7))
                         materials(row, 9) = ""
                     End If
                 Next
             End With
 
-            Dim itemcount As Integer = eveData.Tables(0).Rows.Count - 1
+            Dim itemcount As Integer = EveData.Tables(0).Rows.Count - 1
             Dim matCatID, matCatName, matGroupID, matGroupName As String
             Dim materialsView As ListView = Me.lstM9
-            materialsView.Items.Clear()
             materialsView.BeginUpdate()
+            materialsView.Items.Clear()
             For itemloop As Integer = 0 To itemcount
                 If materials(itemloop, 0) = "0" Then
                     matCatID = materials(itemloop, 5)
@@ -1234,66 +1223,58 @@ Public Class frmItemBrowser
                 End If
             Next
             materialsView.EndUpdate()
+        Else
+            tabPagesM(9).Visible = False
         End If
     End Sub
 
     Private Sub GetComponents(ByVal typeID As Long, ByVal typeName As String)
 
+        Dim EveData As DataSet
         Dim bpTypeID As Long = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
-        Dim itemParents() As String = EveHQ.Core.DataFunctions.GetTypeParentInfo(typeID)
-        Dim itemCatID As String = itemParents(4)
-        Dim itemGroupID As String = itemParents(2)
 
         ' Select only the building activity (at the minute!)
-        Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.typeID"
-        strSQL &= " WHERE (ramTypeRequirements.requiredTypeID=" & bpTypeID & " OR ramTypeRequirements.requiredTypeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        If eveData.Tables(0).Rows.Count > 0 Then
+        Dim strSQL As String = "SELECT * FROM ramTypeRequirements WHERE (ramTypeRequirements.requiredTypeID=" & bpTypeID & " OR ramTypeRequirements.requiredTypeID=" & typeID & ");"
+        EveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        If EveData.Tables(0).Rows.Count > 0 Then
 
             ' Work out what activities we have in the list
             Dim activities(ActivityCount) As Boolean
             Dim strActivity As String = ""
-            For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                activities(Val(eveData.Tables(0).Rows(row).Item("activityID"))) = True
+            For row As Integer = 0 To EveData.Tables(0).Rows.Count - 1
+                activities(CInt(EveData.Tables(0).Rows(row).Item("activityID"))) = True
             Next
             ' Then create sub tabs :)
-            Me.tabComponents.TabPages.Clear()
             For activity As Integer = 1 To ActivityCount
                 If activities(activity) = True Then
-                    Me.tabComponents.TabPages.Add(tabPagesC(activity))
+                    tabPagesC(activity).Visible = True
+                Else
+                    tabPagesC(activity).Visible = False
                 End If
             Next
 
-            Dim materials(eveData.Tables(0).Rows.Count, 9)
-            With eveData.Tables(0)
+            Dim materials(EveData.Tables(0).Rows.Count, 9)
+            With EveData.Tables(0)
                 For row As Integer = 0 To .Rows.Count - 1
-                    If Val(.Rows(row).Item("quantity")) > 0 Then
+                    If CInt(.Rows(row).Item("quantity")) > 0 Then
                         materials(row, 0) = "0"
-                        materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
+                        materials(row, 1) = .Rows(row).Item("typeID").ToString.Trim
+                        materials(row, 2) = EveHQ.Core.HQ.itemData(materials(row, 1)).Name
                         materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
                         materials(row, 4) = .Rows(row).Item("damagePerJob").ToString.Trim
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0
-                                materials(row, 1) = .Rows(row).Item("invTypes.typeID").ToString.Trim
-                                materials(row, 5) = .Rows(row).Item("invCategories.categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("invGroups.groupID").ToString.Trim
-                            Case Else
-                                materials(row, 1) = .Rows(row).Item("typeID").ToString.Trim
-                                materials(row, 5) = .Rows(row).Item("categoryID").ToString.Trim
-                                materials(row, 7) = .Rows(row).Item("groupID").ToString.Trim
-                        End Select
-                        materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
-                        materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
+                        materials(row, 5) = EveHQ.Core.HQ.itemData(materials(row, 1)).Category.ToString
+                        materials(row, 6) = EveHQ.Core.HQ.itemCats(materials(row, 5))
+                        materials(row, 7) = EveHQ.Core.HQ.itemData(materials(row, 1)).Group.ToString
+                        materials(row, 8) = EveHQ.Core.HQ.itemGroups(materials(row, 7))
                         materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
                     End If
                 Next
             End With
 
-            Dim itemcount As Integer = eveData.Tables(0).Rows.Count - 1
+            Dim itemcount As Integer = EveData.Tables(0).Rows.Count - 1
             Dim matCatID, matCatName, matGroupID, matGroupName As String
             For act As Integer = 1 To ActivityCount
-                Dim materialsView As New ListView
+                Dim materialsView As New DevComponents.DotNetBar.Controls.ListViewEx
                 Select Case act
                     Case 1
                         materialsView = Me.lstC1
@@ -1314,8 +1295,8 @@ Public Class frmItemBrowser
                     Case 9
                         materialsView = Me.lstC9
                 End Select
-                materialsView.Items.Clear()
                 materialsView.BeginUpdate()
+                materialsView.Items.Clear()
                 For itemloop As Integer = 0 To itemcount
                     If materials(itemloop, 0) = "0" And materials(itemloop, 9) = act Then
                         matCatID = materials(itemloop, 5)
@@ -1356,16 +1337,11 @@ Public Class frmItemBrowser
                 Next
                 materialsView.EndUpdate()
             Next
-
             ' Add the relevant tab
-            If Me.tabItem.TabPages.Contains(Me.tabComponent) = False Then
-                Me.tabItem.TabPages.Add(Me.tabComponent)
-            End If
+            tiComponent.Visible = True
         Else
             ' Remove the relevant tab
-            If Me.tabItem.TabPages.Contains(Me.tabComponent) = True Then
-                Me.tabItem.TabPages.Remove(Me.tabComponent)
-            End If
+            tiComponent.Visible = False
         End If
 
     End Sub
@@ -1375,12 +1351,13 @@ Public Class frmItemBrowser
         Dim ItemUsable As Boolean = True
         skillsNeeded.Clear()
 
+        tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
         Dim skillsRequired As Boolean = False
 
         If displayPilot IsNot Nothing Then
             For Each skillID As String In itemSkills.Keys
-                If EveHQ.Core.HQ.SkillListID.ContainsKey(skillID) = True Then
+                If skillID > 0 Then
                     skillsRequired = True
 
                     Dim level As Integer = 1
@@ -1459,9 +1436,7 @@ Public Class frmItemBrowser
 
             If skillsRequired = True Then
                 tvwReqs.ExpandAll()
-                If Me.tabItem.TabPages.Contains(Me.tabSkills) = False Then
-                    Me.tabItem.TabPages.Add(Me.tabSkills)
-                End If
+                tiSkills.Visible = True
                 If displayPilot.Name <> "" Then
                     If ItemUsable = True Then
                         lblUsable.Text = displayPilot.Name & " has the skills to use this item."
@@ -1518,9 +1493,7 @@ Public Class frmItemBrowser
                     btnViewSkills.Enabled = False
                 End If
             Else
-                If Me.tabItem.TabPages.Contains(Me.tabSkills) = True Then
-                    Me.tabItem.TabPages.Remove(Me.tabSkills)
-                End If
+                tiSkills.Visible = False
                 lblUsable.Text = "No skills required for this item."
                 lblUsableTime.Text = ""
                 btnAddSkills.Enabled = False
@@ -1532,6 +1505,7 @@ Public Class frmItemBrowser
             btnAddSkills.Enabled = False
             btnViewSkills.Enabled = False
         End If
+        tvwReqs.EndUpdate()
 
     End Sub
 
@@ -1599,24 +1573,9 @@ Public Class frmItemBrowser
         fittingAtts.Add("1137")
     End Sub
 
-    Private Sub LoadShipCertRecommendations()
-        ' Parse the WHEffects resource
-        ShipCerts = New SortedList(Of String, ArrayList) ' ShipID, ArrayList of Certs
-        Dim Certs() As String = My.Resources.ShipCerts.Split((ControlChars.CrLf).ToCharArray)
-        For Each Cert As String In Certs
-            If Cert <> "" Then
-                Dim CertData() As String = Cert.Split(",".ToCharArray)
-                If ShipCerts.ContainsKey(CertData(0)) = False Then
-                    ShipCerts.Add(CertData(0), New ArrayList)
-                End If
-                Dim currentCerts As ArrayList = ShipCerts(CertData(0))
-                currentCerts.Add(CertData(1))
-            End If
-        Next
-    End Sub
-
     Private Sub GenerateFitting()
         If itemFitting.Count <> 0 Then
+            lstFitting.BeginUpdate()
             lstFitting.Items.Clear()
             For Each attributes() As String In itemFitting
                 Dim lstItem As New ListViewItem
@@ -1626,13 +1585,10 @@ Public Class frmItemBrowser
                 attributes(0) = "1"
                 lstFitting.Items.Add(lstItem)
             Next
-            If Me.tabItem.TabPages.Contains(Me.tabFitting) = False Then
-                Me.tabItem.TabPages.Add(Me.tabFitting)
-            End If
+            tiFitting.Visible = True
+            lstFitting.EndUpdate()
         Else
-            If Me.tabItem.TabPages.Contains(Me.tabFitting) = True Then
-                Me.tabItem.TabPages.Remove(Me.tabFitting)
-            End If
+            tiFitting.Visible = False
         End If
     End Sub
 
@@ -1690,11 +1646,7 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub AddNeededSkillsToQueue()
-        Dim selQ As New frmSelectQueue
-        selQ.itemTypeID = itemTypeID
-        selQ.itemTypeName = itemTypeName
-        selQ.skillsNeeded = skillsNeeded
-        selQ.DisplayPilotName = displayPilot.Name
+        Dim selQ As New EveHQ.Core.frmSelectQueue(displayPilot.Name, skillsNeeded)
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
         Call Me.GenerateSkills(itemTypeID, itemTypeName)
@@ -1880,7 +1832,7 @@ Public Class frmItemBrowser
         End Select
     End Sub
 
-    Private Sub ssLblID_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ssLblID.DoubleClick
+    Private Sub lblID_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblID.DoubleClick
         Dim goItemID As String
         goItemID = InputBox(ControlChars.CrLf & "Please enter the itemID to jump to...", "Jump to ItemID")
         If EveHQ.Core.HQ.itemList.ContainsValue(goItemID) = True Then
@@ -1890,14 +1842,14 @@ Public Class frmItemBrowser
         End If
     End Sub
 
-    Private Sub ssDBLocation_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ssDBLocation.DoubleClick
+    Private Sub lblDBLocation_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblDBLocation.DoubleClick
         If itemGroupID <> "" Then
             Me.tvwBrowse.Select()
             Me.tvwBrowse.CollapseAll()
             Dim selnode As TreeNode = tvwBrowse.Nodes(itemCatID).Nodes(itemGroupID)
             Me.tvwBrowse.SelectedNode = selnode
             Me.tvwBrowse.SelectedNode.Expand()
-            Me.tabBrowser.SelectTab(Me.tabBrowse)
+            Me.tabBrowser.SelectedTab = Me.tabBrowse
         End If
     End Sub
 
@@ -1978,36 +1930,44 @@ Public Class frmItemBrowser
     End Sub
     Private Sub DrawBackMenu()
         If navigated.Count > 1 Then
-            ctxBack.Items.Clear()
+            ' Clear handlers
+            For Each mnuItem As DevComponents.DotNetBar.ButtonItem In btnNavBack.SubItems
+                RemoveHandler mnuItem.Click, AddressOf Me.NavMenuClickHandler
+            Next
+            btnNavBack.SubItems.Clear()
             For menu As Integer = curNavigation - 1 To Math.Max(1, curNavigation - 10) Step -1
-                Dim mnuItem As New ToolStripMenuItem
+                Dim mnuItem As New DevComponents.DotNetBar.ButtonItem
                 mnuItem.Name = menu
                 mnuItem.Text = navigated.Item("n" & menu)
-                ctxBack.Items.Add(mnuItem)
+                btnNavBack.SubItems.Add(mnuItem)
                 AddHandler mnuItem.Click, AddressOf Me.NavMenuClickHandler
             Next
-            sbtnBack.Enabled = True
+            btnNavBack.Enabled = True
         Else
-            sbtnBack.Enabled = False
-            sbtnForward.Enabled = False
+            btnNavBack.Enabled = False
+            btnNavForward.Enabled = False
         End If
     End Sub
     Private Sub DrawForwardMenu()
         If navigated.Count > 1 Then
-            ctxForward.Items.Clear()
+            ' Clear handlers
+            For Each mnuItem As DevComponents.DotNetBar.ButtonItem In btnNavForward.SubItems
+                RemoveHandler mnuItem.Click, AddressOf Me.NavMenuClickHandler
+            Next
+            btnNavForward.SubItems.Clear()
             If curNavigation <> navigated.Count Then
                 For menu As Integer = curNavigation + 1 To Math.Min(navigated.Count, curNavigation + 10) Step 1
-                    Dim mnuItem As New ToolStripMenuItem
+                    Dim mnuItem As New DevComponents.DotNetBar.ButtonItem
                     mnuItem.Name = menu
                     mnuItem.Text = navigated.Item("n" & menu)
-                    ctxForward.Items.Add(mnuItem)
+                    btnNavForward.SubItems.Add(mnuItem)
                     AddHandler mnuItem.Click, AddressOf Me.NavMenuClickHandler
                 Next
-                sbtnForward.Enabled = True
+                btnNavForward.Enabled = True
             End If
         Else
-            sbtnBack.Enabled = False
-            sbtnForward.Enabled = False
+            btnNavBack.Enabled = False
+            btnNavForward.Enabled = False
         End If
     End Sub
     Private Sub DeleteNextItems()
@@ -2015,17 +1975,17 @@ Public Class frmItemBrowser
             For menu As Integer = curNavigation + 1 To navigated.Count Step 1
                 navigated.Remove("n" & menu)
             Next
-            sbtnForward.Enabled = False
+            btnNavForward.Enabled = False
         Else
-            sbtnBack.Enabled = False
-            sbtnForward.Enabled = False
+            btnNavBack.Enabled = False
+            btnNavForward.Enabled = False
         End If
     End Sub
-    Private Sub sbtnBack_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles sbtnBack.Click
+    Private Sub btnNavBack_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNavBack.Click
         curNavigation -= 1
         Call Me.GoNavigate()
     End Sub
-    Private Sub sbtnForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles sbtnForward.Click
+    Private Sub btnNavForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNavForward.Click
         curNavigation += 1
         Call Me.GoNavigate()
     End Sub
@@ -2036,50 +1996,55 @@ Public Class frmItemBrowser
         Call Me.DrawBackMenu()
         Call Me.DrawForwardMenu()
         If curNavigation <= 1 Then
-            sbtnBack.Enabled = False
+            btnNavBack.Enabled = False
         Else
-            sbtnBack.Enabled = True
+            btnNavBack.Enabled = True
         End If
         If curNavigation >= navigated.Count Then
-            sbtnForward.Enabled = False
+            btnNavForward.Enabled = False
         Else
-            sbtnForward.Enabled = True
+            btnNavForward.Enabled = True
         End If
     End Sub
     Private Sub NavMenuClickHandler(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim clickedItem As New ToolStripMenuItem
-        clickedItem = CType(sender, ToolStripMenuItem)
+        Dim clickedItem As DevComponents.DotNetBar.ButtonItem = CType(sender, DevComponents.DotNetBar.ButtonItem)
         curNavigation = CInt(clickedItem.Name)
         Call Me.GoNavigate()
     End Sub
 
 #End Region
 
+#Region "Attribute Search"
+
     Private Sub cboAttSearch_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAttSearch.SelectedIndexChanged
         ' Fetch attributeID
         Dim attID As String = PlugInData.AttributeList.Item(cboAttSearch.SelectedItem)
-        eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmTypeAttributes WHERE attributeID=" & attID & ";")
+        Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmTypeAttributes WHERE attributeID=" & attID & ";")
         Dim itemID As String = ""
         Dim itemName As String = ""
         Dim itemValue As Double = 0
-        lstAttSearch.Items.Clear()
         lstAttSearch.BeginUpdate()
+        lstAttSearch.Items.Clear()
         For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
             itemID = eveData.Tables(0).Rows(item).Item("typeID")
-            itemName = EveHQ.Core.HQ.itemData(itemID).Name
-            Dim lstItem As New ListViewItem
-            lstItem.Text = itemName
-            lstItem.Name = itemID
-            If IsDBNull(eveData.Tables(0).Rows(item).Item("valueFloat")) = False Then
-                itemValue = eveData.Tables(0).Rows(item).Item("valueFloat")
-            Else
-                itemValue = eveData.Tables(0).Rows(item).Item("valueInt")
+            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                itemName = EveHQ.Core.HQ.itemData(itemID).Name
+                Dim lstItem As New ListViewItem
+                lstItem.Text = itemName
+                lstItem.Name = itemID
+                If IsDBNull(eveData.Tables(0).Rows(item).Item("valueFloat")) = False Then
+                    itemValue = eveData.Tables(0).Rows(item).Item("valueFloat")
+                Else
+                    itemValue = eveData.Tables(0).Rows(item).Item("valueInt")
+                End If
+                lstItem.ToolTipText = itemName & " - " & itemValue
+                lstItem.SubItems.Add(itemValue)
+                lstAttSearch.Items.Add(lstItem)
             End If
-            lstItem.ToolTipText = itemName & " - " & itemValue
-            lstItem.SubItems.Add(itemValue)
-            lstAttSearch.Items.Add(lstItem)
         Next
         lstAttSearch.EndUpdate()
+        lstAttSearch.Sorting = SortOrder.Ascending
+        lstAttSearch.Sort()
         lblAttSearchCount.Text = lstAttSearch.Items.Count & " items found"
     End Sub
 
@@ -2105,6 +2070,61 @@ Public Class frmItemBrowser
             End If
         End If
     End Sub
+
+#End Region
+
+#Region "Effect Search"
+
+    Private Sub cboEffectSearch_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboEffectSearch.SelectedIndexChanged
+        ' Fetch attributeID
+        Dim effectID As String = PlugInData.EffectList.Item(cboEffectSearch.SelectedItem)
+        Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmTypeEffects WHERE effectID=" & effectID & ";")
+        Dim itemID As String = ""
+        Dim itemName As String = ""
+        lstEffectSearch.BeginUpdate()
+        lstEffectSearch.Items.Clear()
+        For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
+            itemID = eveData.Tables(0).Rows(item).Item("typeID")
+            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                itemName = EveHQ.Core.HQ.itemData(itemID).Name
+                Dim lstItem As New ListViewItem
+                lstItem.Text = itemName
+                lstItem.Name = itemID
+                lstItem.ToolTipText = itemName
+                lstEffectSearch.Items.Add(lstItem)
+            End If
+        Next
+        lstEffectSearch.EndUpdate()
+        lstEffectSearch.Sorting = SortOrder.Ascending
+        lstEffectSearch.Sort()
+        lblEffectSearchCount.Text = lstEffectSearch.Items.Count & " items found"
+    End Sub
+
+    Private Sub lstEffectSearch_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lstEffectSearch.ColumnClick
+        If lstEffectSearch.Tag = e.Column Then
+            Me.lstEffectSearch.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+            lstEffectSearch.Tag = -1
+        Else
+            Me.lstEffectSearch.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+            lstEffectSearch.Tag = e.Column
+        End If
+        ' Call the sort method to manually sort.
+        lstEffectSearch.Sort()
+    End Sub
+
+    Private Sub lstEffectSearch_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstEffectSearch.SelectedIndexChanged
+        If lstEffectSearch.SelectedItems.Count > 0 Then
+            Dim selItem As String = lstEffectSearch.SelectedItems(0).Text
+            If selItem <> "" Then
+                Call LoadItemID(EveHQ.Core.HQ.itemList(selItem))
+                ' Alter navigation
+                Call Me.AddToNavigation(itemTypeName)
+            End If
+        End If
+    End Sub
+
+#End Region
+   
 
     Private Sub lstComparisons_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lstComparisons.ColumnClick
         If lstComparisons.Tag = e.Column Then
@@ -2134,13 +2154,9 @@ Public Class frmItemBrowser
     End Property
     Private Sub SetEveCentralTab()
         If bEveCentralDataFound = True Then
-            If Me.tabItem.TabPages.Contains(Me.tabEveCentral) = False Then
-                Me.tabItem.TabPages.Add(Me.tabEveCentral)
-            End If
+            tiEveCentral.Visible = True
         Else
-            If Me.tabItem.TabPages.Contains(Me.tabEveCentral) = False Then
-                Me.tabItem.TabPages.Remove(Me.tabEveCentral)
-            End If
+            tiEveCentral.Visible = False
         End If
     End Sub
     Private Sub lstEveCentral_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstEveCentral.DoubleClick
@@ -2169,67 +2185,11 @@ Public Class frmItemBrowser
         Call Me.LoadBrowserGroups()
     End Sub
 
-#Region "Wanted List Routines"
-    Private Sub btnWantedAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWantedAdd.Click
-        If itemTypeName <> "" Then
-            If EveHQ.Core.HQ.EveHQSettings.WantedList.Contains(itemTypeName) = False Then
-                EveHQ.Core.HQ.EveHQSettings.WantedList.Add(itemTypeName, itemTypeName)
-                lvwWanted.Items.Add(itemTypeName, itemTypeName, 0)
-            End If
-        End If
+    Private Sub btnRequisition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRequisition.Click
+        Dim Orders As New SortedList(Of String, Integer)
+        Orders.Add(itemTypeName, 1)
+        Dim newReq As New EveHQ.Core.frmAddRequisition("Item Browser", Orders)
+        newReq.ShowDialog()
     End Sub
-    Private Sub btnClearWantedList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearWantedList.Click
-        Dim reply As Integer = MessageBox.Show("Are you sure you want to clear the Wanted List?", "Confirm Clear?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If reply = DialogResult.Yes Then
-            EveHQ.Core.HQ.EveHQSettings.WantedList.Clear()
-            lvwWanted.Items.Clear()
-        End If
-    End Sub
-    Private Sub btnRemoveWantedItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveWantedItem.Click
-        If lvwWanted.SelectedItems.Count = 0 Then
-            MessageBox.Show("You must select an item before you can remove it!", "Remove Item Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        Else
-            For Each item As ListViewItem In lvwWanted.SelectedItems
-                EveHQ.Core.HQ.EveHQSettings.WantedList.Remove(item.Text)
-            Next
-            Call Me.DrawWantedList()
-        End If
-    End Sub
-    Private Sub DrawWantedList()
-        lvwWanted.BeginUpdate()
-        lvwWanted.Items.Clear()
-        Dim UnknownItems As New ArrayList
-        For Each item As String In EveHQ.Core.HQ.EveHQSettings.WantedList.Keys
-            If EveHQ.Core.HQ.itemList.ContainsKey(item) = True Then
-                Dim newItem As New ListViewItem
-                newItem.Name = item
-                newItem.Text = item
-                newItem.SubItems.Add(FormatNumber(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(item)), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lvwWanted.Items.Add(newItem)
-            Else
-                MessageBox.Show(item & " does not appear to be a valid item and will be removed from the Wanted List.", "Unknown Item", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                UnknownItems.Add(item)
-            End If
-        Next
-        If UnknownItems.Count > 0 Then
-            For Each unknownItem As String In UnknownItems
-                EveHQ.Core.HQ.EveHQSettings.WantedList.Remove(unknownItem)
-            Next
-        End If
-        lvwWanted.EndUpdate()
-    End Sub
-    Private Sub lvwWanted_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwWanted.Click
-        Dim selItem As String = lvwWanted.SelectedItems(0).Text
-        If selItem <> "" Then
-            Call LoadItemID(EveHQ.Core.HQ.itemList(selItem))
-            ' Alter navigation
-            Call Me.AddToNavigation(itemTypeName)
-        End If
-    End Sub
-    Private Sub btnRefreshWantedList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefreshWantedList.Click
-        Call Me.DrawWantedList()
-    End Sub
-#End Region
 
 End Class

@@ -1,4 +1,23 @@
-﻿Public Class frmImplants
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Public Class frmImplants
     Dim iPilot As New EveHQ.Core.Pilot
     Dim nPilot As New EveHQ.Core.Pilot
     Dim cPilotName As String = ""
@@ -51,11 +70,17 @@
         Call DisplayAtributes()
     End Sub
     Private Sub RecalcAttributes()
+
         nPilot.WAttT = nPilot.WAtt + nPilot.WImplant
+
         nPilot.CAttT = nPilot.CAtt + nPilot.CImplant
+
         nPilot.IAttT = nPilot.IAtt + nPilot.IImplant
+
         nPilot.MAttT = nPilot.MAtt + nPilot.MImplant
+
         nPilot.PAttT = nPilot.PAtt + nPilot.PImplant
+
     End Sub
     Private Sub DisplayAtributes()
         ' Display Intelligence Info
@@ -96,7 +121,7 @@
             lblActiveSkillQueue.Text = "No Queue Selected"
             lblSkillQueuePointsAnalysis.Text = "Skill Queue Points Analysis"
             lblActiveSkillQueue.Text = SkillQueue.Name
-            Dim iQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(iPilot, CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue))
+            Dim iQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(iPilot, CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue), False, True)
             Dim iTime As Long = CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime
             If CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue).IncCurrentTraining = True Then
                 iTime += iPilot.TrainingCurrentTime
@@ -107,17 +132,29 @@
             End If
             Call Me.SyncTraining()
             ' Add the pilot training info!
-            Dim nQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue))
+            Dim nQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue), False, False)
             Dim nTime As Long = CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime
             If CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).IncCurrentTraining = True Then
-                nTime += nPilot.TrainingCurrentTime
+                If iPilot.CAttT = nPilot.CAttT And iPilot.IAttT = nPilot.IAttT And iPilot.MAttT = nPilot.MAttT And iPilot.PAttT = nPilot.PAttT And iPilot.WAttT = nPilot.WAttT Then
+                    nTime += nPilot.TrainingCurrentTime
+                Else
+                    If EveHQ.Core.HQ.SkillListID.ContainsKey(nPilot.TrainingSkillID) = True Then
+                        Dim mySkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(nPilot.TrainingSkillID)
+                        Dim ctime As Integer = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(nPilot, mySkill, nPilot.TrainingSkillLevel, -1))
+                        If Math.Abs(ctime - nPilot.TrainingCurrentTime) > 5 Then
+                            nTime += CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(nPilot, mySkill, nPilot.TrainingSkillLevel, -1))
+                        Else
+                            nTime += nPilot.TrainingCurrentTime
+                        End If
+                    End If
+                End If
             End If
             lblRevisedQueueTime.Text = "Revised Time: " & EveHQ.Core.SkillFunctions.TimeToString(nTime)
             Dim pointScores(4, 1) As Long
             For a As Integer = 0 To 4
                 pointScores(a, 0) = a
             Next
-            For Each skill As EveHQ.Core.SortedQueue In nQueue
+            For Each skill As EveHQ.Core.SortedQueueItem In nQueue
                 Select Case skill.PAtt
                     Case "Charisma"
                         pointScores(0, 1) += CLng(skill.SPTrained) * 2
@@ -156,17 +193,17 @@
             For att As Integer = 0 To 4
                 Select Case tagArray(att)
                     Case 0
-                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Charisma:"
+                        Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Charisma:"
                     Case 1
-                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Intelligence:"
+                        Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Intelligence:"
                     Case 2
-                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Memory:"
+                        Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Memory:"
                     Case 3
-                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Perception:"
+                        Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Perception:"
                     Case 4
-                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Willpower:"
+                        Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Willpower:"
                 End Select
-                Me.gbSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = FormatNumber(pointScores(tagArray(att), 1), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                Me.gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = FormatNumber(pointScores(tagArray(att), 1), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Next
             If nTime <= iTime Then
                 lblTimeSaving.Text = "Time Saving: " & EveHQ.Core.SkillFunctions.TimeToString(iTime - nTime, False)
@@ -178,8 +215,8 @@
                 lblActiveSkillQueue.Text = "No Queue Selected"
                 lblSkillQueuePointsAnalysis.Text = ""
                 For att As Integer = 0 To 4
-                    Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = ""
-                    Me.gbSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = ""
+                    Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = ""
+                    Me.gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = ""
                 Next
                 lblActiveQueueTime.Text = ""
                 lblRevisedQueueTime.Text = ""

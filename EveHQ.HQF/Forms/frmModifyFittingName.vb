@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -39,7 +39,7 @@ Public Class frmModifyFittingName
                 ' Add the account to the accounts collection
                 ' First check if the fitting already exists
                 Dim fittingKeyName As String = btnAccept.Tag.ToString & ", " & txtFittingName.Text
-                If Fittings.FittingList.Contains(fittingKeyName) Then
+                If Fittings.FittingList.ContainsKey(fittingKeyName) Then
                     Dim reply As Integer = MessageBox.Show("Fitting Name '" & txtFittingName.Text & "' already exists for this ship!" & ControlChars.CrLf & "Would you like to try another name?", "Error Creating Fitting", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -53,7 +53,7 @@ Public Class frmModifyFittingName
                 ' Add the account to the accounts collection
                 ' First check if the fitting already exists
                 Dim fittingKeyName As String = btnAccept.Tag.ToString & ", " & txtFittingName.Text
-                If Fittings.FittingList.Contains(fittingKeyName) Then
+                If Fittings.FittingList.ContainsKey(fittingKeyName) Then
                     Dim reply As Integer = MessageBox.Show("Fitting Name '" & txtFittingName.Text & "' already exists for this ship!" & ControlChars.CrLf & "Would you like to try another name?", "Error Copying Fitting", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -67,7 +67,7 @@ Public Class frmModifyFittingName
                 ' Add the account to the accounts collection
                 ' First check if the fitting already exists
                 Dim fittingKeyName As String = btnAccept.Tag.ToString & ", " & txtFittingName.Text
-                If Fittings.FittingList.Contains(fittingKeyName) Then
+                If Fittings.FittingList.ContainsKey(fittingKeyName) Then
                     Dim reply As Integer = MessageBox.Show("Fitting Name '" & txtFittingName.Text & "' already exists for this ship!" & ControlChars.CrLf & "Would you like to try another name?", "Error Editing Fitting Name", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub

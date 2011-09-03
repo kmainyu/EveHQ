@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmChartViewer
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -25,7 +25,9 @@ Partial Class frmChartViewer
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmChartViewer))
         Me.ZGC1 = New ZedGraph.ZedGraphControl
-        Me.lblGraphInfo = New System.Windows.Forms.Label
+        Me.pnlInfo = New DevComponents.DotNetBar.PanelEx
+        Me.lblGraphInfo = New DevComponents.DotNetBar.LabelX
+        Me.pnlInfo.SuspendLayout()
         Me.SuspendLayout()
         '
         'ZGC1
@@ -44,30 +46,56 @@ Partial Class frmChartViewer
         Me.ZGC1.Size = New System.Drawing.Size(753, 450)
         Me.ZGC1.TabIndex = 0
         '
+        'pnlInfo
+        '
+        Me.pnlInfo.CanvasColor = System.Drawing.SystemColors.Control
+        Me.pnlInfo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlInfo.Controls.Add(Me.lblGraphInfo)
+        Me.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pnlInfo.Location = New System.Drawing.Point(0, 450)
+        Me.pnlInfo.Name = "pnlInfo"
+        Me.pnlInfo.Size = New System.Drawing.Size(753, 49)
+        Me.pnlInfo.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.pnlInfo.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.pnlInfo.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.pnlInfo.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.pnlInfo.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.pnlInfo.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.pnlInfo.Style.GradientAngle = 90
+        Me.pnlInfo.TabIndex = 1
+        '
         'lblGraphInfo
         '
+        '
+        '
+        '
+        Me.lblGraphInfo.BackgroundStyle.Class = ""
+        Me.lblGraphInfo.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblGraphInfo.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblGraphInfo.Location = New System.Drawing.Point(0, 450)
+        Me.lblGraphInfo.Location = New System.Drawing.Point(0, 0)
         Me.lblGraphInfo.Name = "lblGraphInfo"
         Me.lblGraphInfo.Size = New System.Drawing.Size(753, 49)
-        Me.lblGraphInfo.TabIndex = 1
+        Me.lblGraphInfo.TabIndex = 0
         '
         'frmChartViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(753, 499)
-        Me.Controls.Add(Me.lblGraphInfo)
+        Me.Controls.Add(Me.pnlInfo)
         Me.Controls.Add(Me.ZGC1)
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmChartViewer"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "HQF Graph"
         Me.TopMost = True
+        Me.pnlInfo.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents ZGC1 As ZedGraph.ZedGraphControl
-    Friend WithEvents lblGraphInfo As System.Windows.Forms.Label
+    Friend WithEvents pnlInfo As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents lblGraphInfo As DevComponents.DotNetBar.LabelX
 End Class

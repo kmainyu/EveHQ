@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -52,7 +52,8 @@ Public Class EveServer
 
     Public Sub GetServerStatus()
         Try
-            Dim StatusXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.ServerStatus, EveHQ.Core.EveAPI.APIReturnMethod.ReturnActual)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim StatusXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.ServerStatus, EveAPI.APIReturnMethods.ReturnActual)
             If StatusXML IsNot Nothing Then
                 Dim StatusDetails As XmlNodeList = StatusXML.SelectNodes("/eveapi/result")
                 Dim ServerIsUp As Boolean = CBool(StatusDetails(0).ChildNodes(0).InnerText)

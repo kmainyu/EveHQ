@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmAddDamageProfile
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -25,17 +25,11 @@ Partial Class frmAddDamageProfile
         Me.lblProfileName = New System.Windows.Forms.Label
         Me.txtProfileName = New System.Windows.Forms.TextBox
         Me.lblProfileType = New System.Windows.Forms.Label
-        Me.cboProfileType = New System.Windows.Forms.ComboBox
-        Me.gbManualProfile = New System.Windows.Forms.GroupBox
-        Me.cboNPC = New System.Windows.Forms.ComboBox
-        Me.btnAddNPC = New System.Windows.Forms.Button
         Me.lblNPCs = New System.Windows.Forms.Label
         Me.lblDamageInfo = New System.Windows.Forms.Label
-        Me.lvwNPCs = New System.Windows.Forms.ListView
+        Me.lvwNPCs = New DevComponents.DotNetBar.Controls.ListViewEx
         Me.colNPCs = New System.Windows.Forms.ColumnHeader
-        Me.cboPilotName = New System.Windows.Forms.ComboBox
         Me.lblPilotName = New System.Windows.Forms.Label
-        Me.cboFittingName = New System.Windows.Forms.ComboBox
         Me.lblFittingName = New System.Windows.Forms.Label
         Me.txtEXDamage = New System.Windows.Forms.TextBox
         Me.lblEXDamage = New System.Windows.Forms.Label
@@ -47,15 +41,35 @@ Partial Class frmAddDamageProfile
         Me.lblDPS = New System.Windows.Forms.Label
         Me.txtEMDamage = New System.Windows.Forms.TextBox
         Me.lblEmDamage = New System.Windows.Forms.Label
-        Me.btnCancel = New System.Windows.Forms.Button
-        Me.btnAccept = New System.Windows.Forms.Button
-        Me.gbManualProfile.SuspendLayout()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
+        Me.cboProfileType = New DevComponents.DotNetBar.Controls.ComboBoxEx
+        Me.ComboItem1 = New DevComponents.Editors.ComboItem
+        Me.ComboItem2 = New DevComponents.Editors.ComboItem
+        Me.ComboItem3 = New DevComponents.Editors.ComboItem
+        Me.btnCancel = New DevComponents.DotNetBar.ButtonX
+        Me.btnAccept = New DevComponents.DotNetBar.ButtonX
+        Me.gpManualProfile = New DevComponents.DotNetBar.Controls.GroupPanel
+        Me.cboNPC = New DevComponents.DotNetBar.Controls.ComboBoxEx
+        Me.ComboItem11 = New DevComponents.Editors.ComboItem
+        Me.ComboItem10 = New DevComponents.Editors.ComboItem
+        Me.ComboItem12 = New DevComponents.Editors.ComboItem
+        Me.cboPilotName = New DevComponents.DotNetBar.Controls.ComboBoxEx
+        Me.ComboItem8 = New DevComponents.Editors.ComboItem
+        Me.ComboItem7 = New DevComponents.Editors.ComboItem
+        Me.ComboItem9 = New DevComponents.Editors.ComboItem
+        Me.cboFittingName = New DevComponents.DotNetBar.Controls.ComboBoxEx
+        Me.ComboItem5 = New DevComponents.Editors.ComboItem
+        Me.ComboItem4 = New DevComponents.Editors.ComboItem
+        Me.ComboItem6 = New DevComponents.Editors.ComboItem
+        Me.btnAddNPC = New DevComponents.DotNetBar.ButtonX
+        Me.PanelEx1.SuspendLayout()
+        Me.gpManualProfile.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblProfileName
         '
         Me.lblProfileName.AutoSize = True
-        Me.lblProfileName.Location = New System.Drawing.Point(13, 13)
+        Me.lblProfileName.Location = New System.Drawing.Point(12, 9)
         Me.lblProfileName.Name = "lblProfileName"
         Me.lblProfileName.Size = New System.Drawing.Size(71, 13)
         Me.lblProfileName.TabIndex = 0
@@ -63,7 +77,7 @@ Partial Class frmAddDamageProfile
         '
         'txtProfileName
         '
-        Me.txtProfileName.Location = New System.Drawing.Point(107, 10)
+        Me.txtProfileName.Location = New System.Drawing.Point(106, 6)
         Me.txtProfileName.Name = "txtProfileName"
         Me.txtProfileName.Size = New System.Drawing.Size(212, 21)
         Me.txtProfileName.TabIndex = 1
@@ -71,71 +85,16 @@ Partial Class frmAddDamageProfile
         'lblProfileType
         '
         Me.lblProfileType.AutoSize = True
-        Me.lblProfileType.Location = New System.Drawing.Point(13, 39)
+        Me.lblProfileType.Location = New System.Drawing.Point(12, 35)
         Me.lblProfileType.Name = "lblProfileType"
         Me.lblProfileType.Size = New System.Drawing.Size(68, 13)
         Me.lblProfileType.TabIndex = 2
         Me.lblProfileType.Text = "Profile Type:"
         '
-        'cboProfileType
-        '
-        Me.cboProfileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboProfileType.FormattingEnabled = True
-        Me.cboProfileType.Items.AddRange(New Object() {"Manual", "Fitting", "NPC"})
-        Me.cboProfileType.Location = New System.Drawing.Point(107, 36)
-        Me.cboProfileType.Name = "cboProfileType"
-        Me.cboProfileType.Size = New System.Drawing.Size(212, 21)
-        Me.cboProfileType.TabIndex = 3
-        '
-        'gbManualProfile
-        '
-        Me.gbManualProfile.Controls.Add(Me.cboNPC)
-        Me.gbManualProfile.Controls.Add(Me.btnAddNPC)
-        Me.gbManualProfile.Controls.Add(Me.lblNPCs)
-        Me.gbManualProfile.Controls.Add(Me.lblDamageInfo)
-        Me.gbManualProfile.Controls.Add(Me.lvwNPCs)
-        Me.gbManualProfile.Controls.Add(Me.cboPilotName)
-        Me.gbManualProfile.Controls.Add(Me.lblPilotName)
-        Me.gbManualProfile.Controls.Add(Me.cboFittingName)
-        Me.gbManualProfile.Controls.Add(Me.lblFittingName)
-        Me.gbManualProfile.Controls.Add(Me.txtEXDamage)
-        Me.gbManualProfile.Controls.Add(Me.lblEXDamage)
-        Me.gbManualProfile.Controls.Add(Me.txtKIDamage)
-        Me.gbManualProfile.Controls.Add(Me.lblKIDamage)
-        Me.gbManualProfile.Controls.Add(Me.txtTHDamage)
-        Me.gbManualProfile.Controls.Add(Me.lblTHDamage)
-        Me.gbManualProfile.Controls.Add(Me.txtDPS)
-        Me.gbManualProfile.Controls.Add(Me.lblDPS)
-        Me.gbManualProfile.Controls.Add(Me.txtEMDamage)
-        Me.gbManualProfile.Controls.Add(Me.lblEmDamage)
-        Me.gbManualProfile.Location = New System.Drawing.Point(12, 78)
-        Me.gbManualProfile.Name = "gbManualProfile"
-        Me.gbManualProfile.Size = New System.Drawing.Size(627, 353)
-        Me.gbManualProfile.TabIndex = 4
-        Me.gbManualProfile.TabStop = False
-        Me.gbManualProfile.Text = "Profile Information"
-        '
-        'cboNPC
-        '
-        Me.cboNPC.FormattingEnabled = True
-        Me.cboNPC.Location = New System.Drawing.Point(44, 317)
-        Me.cboNPC.Name = "cboNPC"
-        Me.cboNPC.Size = New System.Drawing.Size(263, 21)
-        Me.cboNPC.TabIndex = 19
-        '
-        'btnAddNPC
-        '
-        Me.btnAddNPC.Location = New System.Drawing.Point(310, 317)
-        Me.btnAddNPC.Name = "btnAddNPC"
-        Me.btnAddNPC.Size = New System.Drawing.Size(62, 23)
-        Me.btnAddNPC.TabIndex = 18
-        Me.btnAddNPC.Text = "Add NPC"
-        Me.btnAddNPC.UseVisualStyleBackColor = True
-        '
         'lblNPCs
         '
         Me.lblNPCs.AutoSize = True
-        Me.lblNPCs.Location = New System.Drawing.Point(25, 125)
+        Me.lblNPCs.Location = New System.Drawing.Point(15, 92)
         Me.lblNPCs.Name = "lblNPCs"
         Me.lblNPCs.Size = New System.Drawing.Size(77, 13)
         Me.lblNPCs.TabIndex = 16
@@ -144,7 +103,7 @@ Partial Class frmAddDamageProfile
         'lblDamageInfo
         '
         Me.lblDamageInfo.AutoSize = True
-        Me.lblDamageInfo.Location = New System.Drawing.Point(399, 44)
+        Me.lblDamageInfo.Location = New System.Drawing.Point(389, 11)
         Me.lblDamageInfo.Name = "lblDamageInfo"
         Me.lblDamageInfo.Size = New System.Drawing.Size(85, 13)
         Me.lblDamageInfo.TabIndex = 15
@@ -152,8 +111,13 @@ Partial Class frmAddDamageProfile
         '
         'lvwNPCs
         '
+        '
+        '
+        '
+        Me.lvwNPCs.Border.Class = "ListViewBorder"
+        Me.lvwNPCs.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwNPCs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNPCs})
-        Me.lvwNPCs.Location = New System.Drawing.Point(44, 147)
+        Me.lvwNPCs.Location = New System.Drawing.Point(34, 114)
         Me.lvwNPCs.Name = "lvwNPCs"
         Me.lvwNPCs.Size = New System.Drawing.Size(328, 167)
         Me.lvwNPCs.TabIndex = 14
@@ -165,37 +129,19 @@ Partial Class frmAddDamageProfile
         Me.colNPCs.Text = "NPC Name"
         Me.colNPCs.Width = 300
         '
-        'cboPilotName
-        '
-        Me.cboPilotName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboPilotName.FormattingEnabled = True
-        Me.cboPilotName.Location = New System.Drawing.Point(119, 69)
-        Me.cboPilotName.Name = "cboPilotName"
-        Me.cboPilotName.Size = New System.Drawing.Size(214, 21)
-        Me.cboPilotName.TabIndex = 13
-        '
         'lblPilotName
         '
         Me.lblPilotName.AutoSize = True
-        Me.lblPilotName.Location = New System.Drawing.Point(25, 72)
+        Me.lblPilotName.Location = New System.Drawing.Point(15, 39)
         Me.lblPilotName.Name = "lblPilotName"
         Me.lblPilotName.Size = New System.Drawing.Size(61, 13)
         Me.lblPilotName.TabIndex = 12
         Me.lblPilotName.Text = "Pilot Name:"
         '
-        'cboFittingName
-        '
-        Me.cboFittingName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFittingName.FormattingEnabled = True
-        Me.cboFittingName.Location = New System.Drawing.Point(119, 42)
-        Me.cboFittingName.Name = "cboFittingName"
-        Me.cboFittingName.Size = New System.Drawing.Size(214, 21)
-        Me.cboFittingName.TabIndex = 11
-        '
         'lblFittingName
         '
         Me.lblFittingName.AutoSize = True
-        Me.lblFittingName.Location = New System.Drawing.Point(25, 45)
+        Me.lblFittingName.Location = New System.Drawing.Point(15, 12)
         Me.lblFittingName.Name = "lblFittingName"
         Me.lblFittingName.Size = New System.Drawing.Size(71, 13)
         Me.lblFittingName.TabIndex = 10
@@ -203,7 +149,7 @@ Partial Class frmAddDamageProfile
         '
         'txtEXDamage
         '
-        Me.txtEXDamage.Location = New System.Drawing.Point(529, 91)
+        Me.txtEXDamage.Location = New System.Drawing.Point(519, 58)
         Me.txtEXDamage.Name = "txtEXDamage"
         Me.txtEXDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtEXDamage.TabIndex = 9
@@ -212,7 +158,7 @@ Partial Class frmAddDamageProfile
         'lblEXDamage
         '
         Me.lblEXDamage.AutoSize = True
-        Me.lblEXDamage.Location = New System.Drawing.Point(417, 94)
+        Me.lblEXDamage.Location = New System.Drawing.Point(407, 61)
         Me.lblEXDamage.Name = "lblEXDamage"
         Me.lblEXDamage.Size = New System.Drawing.Size(98, 13)
         Me.lblEXDamage.TabIndex = 8
@@ -220,7 +166,7 @@ Partial Class frmAddDamageProfile
         '
         'txtKIDamage
         '
-        Me.txtKIDamage.Location = New System.Drawing.Point(529, 117)
+        Me.txtKIDamage.Location = New System.Drawing.Point(519, 84)
         Me.txtKIDamage.Name = "txtKIDamage"
         Me.txtKIDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtKIDamage.TabIndex = 7
@@ -229,7 +175,7 @@ Partial Class frmAddDamageProfile
         'lblKIDamage
         '
         Me.lblKIDamage.AutoSize = True
-        Me.lblKIDamage.Location = New System.Drawing.Point(417, 120)
+        Me.lblKIDamage.Location = New System.Drawing.Point(407, 87)
         Me.lblKIDamage.Name = "lblKIDamage"
         Me.lblKIDamage.Size = New System.Drawing.Size(84, 13)
         Me.lblKIDamage.TabIndex = 6
@@ -237,7 +183,7 @@ Partial Class frmAddDamageProfile
         '
         'txtTHDamage
         '
-        Me.txtTHDamage.Location = New System.Drawing.Point(529, 143)
+        Me.txtTHDamage.Location = New System.Drawing.Point(519, 110)
         Me.txtTHDamage.Name = "txtTHDamage"
         Me.txtTHDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtTHDamage.TabIndex = 5
@@ -246,7 +192,7 @@ Partial Class frmAddDamageProfile
         'lblTHDamage
         '
         Me.lblTHDamage.AutoSize = True
-        Me.lblTHDamage.Location = New System.Drawing.Point(417, 146)
+        Me.lblTHDamage.Location = New System.Drawing.Point(407, 113)
         Me.lblTHDamage.Name = "lblTHDamage"
         Me.lblTHDamage.Size = New System.Drawing.Size(91, 13)
         Me.lblTHDamage.TabIndex = 4
@@ -254,7 +200,7 @@ Partial Class frmAddDamageProfile
         '
         'txtDPS
         '
-        Me.txtDPS.Location = New System.Drawing.Point(529, 169)
+        Me.txtDPS.Location = New System.Drawing.Point(519, 136)
         Me.txtDPS.Name = "txtDPS"
         Me.txtDPS.Size = New System.Drawing.Size(75, 21)
         Me.txtDPS.TabIndex = 3
@@ -263,7 +209,7 @@ Partial Class frmAddDamageProfile
         'lblDPS
         '
         Me.lblDPS.AutoSize = True
-        Me.lblDPS.Location = New System.Drawing.Point(417, 172)
+        Me.lblDPS.Location = New System.Drawing.Point(407, 139)
         Me.lblDPS.Name = "lblDPS"
         Me.lblDPS.Size = New System.Drawing.Size(30, 13)
         Me.lblDPS.TabIndex = 2
@@ -271,7 +217,7 @@ Partial Class frmAddDamageProfile
         '
         'txtEMDamage
         '
-        Me.txtEMDamage.Location = New System.Drawing.Point(529, 65)
+        Me.txtEMDamage.Location = New System.Drawing.Point(519, 32)
         Me.txtEMDamage.Name = "txtEMDamage"
         Me.txtEMDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtEMDamage.TabIndex = 1
@@ -280,45 +226,239 @@ Partial Class frmAddDamageProfile
         'lblEmDamage
         '
         Me.lblEmDamage.AutoSize = True
-        Me.lblEmDamage.Location = New System.Drawing.Point(417, 68)
+        Me.lblEmDamage.Location = New System.Drawing.Point(407, 35)
         Me.lblEmDamage.Name = "lblEmDamage"
         Me.lblEmDamage.Size = New System.Drawing.Size(67, 13)
         Me.lblEmDamage.TabIndex = 0
         Me.lblEmDamage.Text = "EM Damage:"
         '
+        'PanelEx1
+        '
+        Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
+        Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.cboProfileType)
+        Me.PanelEx1.Controls.Add(Me.btnCancel)
+        Me.PanelEx1.Controls.Add(Me.btnAccept)
+        Me.PanelEx1.Controls.Add(Me.gpManualProfile)
+        Me.PanelEx1.Controls.Add(Me.lblProfileName)
+        Me.PanelEx1.Controls.Add(Me.txtProfileName)
+        Me.PanelEx1.Controls.Add(Me.lblProfileType)
+        Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 0)
+        Me.PanelEx1.Name = "PanelEx1"
+        Me.PanelEx1.Size = New System.Drawing.Size(656, 453)
+        Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.PanelEx1.Style.GradientAngle = 90
+        Me.PanelEx1.TabIndex = 7
+        '
+        'cboProfileType
+        '
+        Me.cboProfileType.DisplayMember = "Text"
+        Me.cboProfileType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboProfileType.FormattingEnabled = True
+        Me.cboProfileType.ItemHeight = 15
+        Me.cboProfileType.Items.AddRange(New Object() {Me.ComboItem1, Me.ComboItem2, Me.ComboItem3})
+        Me.cboProfileType.Location = New System.Drawing.Point(106, 33)
+        Me.cboProfileType.Name = "cboProfileType"
+        Me.cboProfileType.Size = New System.Drawing.Size(212, 21)
+        Me.cboProfileType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboProfileType.TabIndex = 11
+        '
+        'ComboItem1
+        '
+        Me.ComboItem1.Text = "Manual"
+        '
+        'ComboItem2
+        '
+        Me.ComboItem2.Text = "Fitting"
+        '
+        'ComboItem3
+        '
+        Me.ComboItem3.Text = "NPC"
+        '
         'btnCancel
         '
-        Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(564, 437)
+        Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnCancel.Location = New System.Drawing.Point(563, 421)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.TabIndex = 5
+        Me.btnCancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnCancel.TabIndex = 9
         Me.btnCancel.Text = "Cancel"
-        Me.btnCancel.UseVisualStyleBackColor = True
         '
         'btnAccept
         '
-        Me.btnAccept.Location = New System.Drawing.Point(483, 437)
+        Me.btnAccept.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAccept.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAccept.Location = New System.Drawing.Point(482, 421)
         Me.btnAccept.Name = "btnAccept"
         Me.btnAccept.Size = New System.Drawing.Size(75, 23)
-        Me.btnAccept.TabIndex = 6
+        Me.btnAccept.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnAccept.TabIndex = 8
         Me.btnAccept.Text = "Accept"
-        Me.btnAccept.UseVisualStyleBackColor = True
+        '
+        'gpManualProfile
+        '
+        Me.gpManualProfile.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpManualProfile.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpManualProfile.Controls.Add(Me.cboNPC)
+        Me.gpManualProfile.Controls.Add(Me.cboPilotName)
+        Me.gpManualProfile.Controls.Add(Me.cboFittingName)
+        Me.gpManualProfile.Controls.Add(Me.btnAddNPC)
+        Me.gpManualProfile.Controls.Add(Me.lblFittingName)
+        Me.gpManualProfile.Controls.Add(Me.lblEmDamage)
+        Me.gpManualProfile.Controls.Add(Me.lblNPCs)
+        Me.gpManualProfile.Controls.Add(Me.txtEMDamage)
+        Me.gpManualProfile.Controls.Add(Me.lblDamageInfo)
+        Me.gpManualProfile.Controls.Add(Me.lblDPS)
+        Me.gpManualProfile.Controls.Add(Me.lvwNPCs)
+        Me.gpManualProfile.Controls.Add(Me.txtDPS)
+        Me.gpManualProfile.Controls.Add(Me.lblTHDamage)
+        Me.gpManualProfile.Controls.Add(Me.lblPilotName)
+        Me.gpManualProfile.Controls.Add(Me.txtTHDamage)
+        Me.gpManualProfile.Controls.Add(Me.lblKIDamage)
+        Me.gpManualProfile.Controls.Add(Me.txtKIDamage)
+        Me.gpManualProfile.Controls.Add(Me.txtEXDamage)
+        Me.gpManualProfile.Controls.Add(Me.lblEXDamage)
+        Me.gpManualProfile.Location = New System.Drawing.Point(11, 69)
+        Me.gpManualProfile.Name = "gpManualProfile"
+        Me.gpManualProfile.Size = New System.Drawing.Size(627, 346)
+        '
+        '
+        '
+        Me.gpManualProfile.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpManualProfile.Style.BackColorGradientAngle = 90
+        Me.gpManualProfile.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpManualProfile.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpManualProfile.Style.BorderBottomWidth = 1
+        Me.gpManualProfile.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpManualProfile.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpManualProfile.Style.BorderLeftWidth = 1
+        Me.gpManualProfile.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpManualProfile.Style.BorderRightWidth = 1
+        Me.gpManualProfile.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpManualProfile.Style.BorderTopWidth = 1
+        Me.gpManualProfile.Style.Class = ""
+        Me.gpManualProfile.Style.CornerDiameter = 4
+        Me.gpManualProfile.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpManualProfile.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpManualProfile.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpManualProfile.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpManualProfile.StyleMouseDown.Class = ""
+        Me.gpManualProfile.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpManualProfile.StyleMouseOver.Class = ""
+        Me.gpManualProfile.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpManualProfile.TabIndex = 7
+        Me.gpManualProfile.Text = "Profile Information"
+        '
+        'cboNPC
+        '
+        Me.cboNPC.DisplayMember = "Text"
+        Me.cboNPC.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboNPC.FormattingEnabled = True
+        Me.cboNPC.ItemHeight = 15
+        Me.cboNPC.Items.AddRange(New Object() {Me.ComboItem11, Me.ComboItem10, Me.ComboItem12})
+        Me.cboNPC.Location = New System.Drawing.Point(34, 284)
+        Me.cboNPC.Name = "cboNPC"
+        Me.cboNPC.Size = New System.Drawing.Size(262, 21)
+        Me.cboNPC.Sorted = True
+        Me.cboNPC.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboNPC.TabIndex = 23
+        '
+        'ComboItem11
+        '
+        Me.ComboItem11.Text = "Fitting"
+        '
+        'ComboItem10
+        '
+        Me.ComboItem10.Text = "Manual"
+        '
+        'ComboItem12
+        '
+        Me.ComboItem12.Text = "NPC"
+        '
+        'cboPilotName
+        '
+        Me.cboPilotName.DisplayMember = "Text"
+        Me.cboPilotName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboPilotName.FormattingEnabled = True
+        Me.cboPilotName.ItemHeight = 15
+        Me.cboPilotName.Items.AddRange(New Object() {Me.ComboItem8, Me.ComboItem7, Me.ComboItem9})
+        Me.cboPilotName.Location = New System.Drawing.Point(109, 36)
+        Me.cboPilotName.Name = "cboPilotName"
+        Me.cboPilotName.Size = New System.Drawing.Size(214, 21)
+        Me.cboPilotName.Sorted = True
+        Me.cboPilotName.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboPilotName.TabIndex = 22
+        '
+        'ComboItem8
+        '
+        Me.ComboItem8.Text = "Fitting"
+        '
+        'ComboItem7
+        '
+        Me.ComboItem7.Text = "Manual"
+        '
+        'ComboItem9
+        '
+        Me.ComboItem9.Text = "NPC"
+        '
+        'cboFittingName
+        '
+        Me.cboFittingName.DisplayMember = "Text"
+        Me.cboFittingName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboFittingName.FormattingEnabled = True
+        Me.cboFittingName.ItemHeight = 15
+        Me.cboFittingName.Items.AddRange(New Object() {Me.ComboItem5, Me.ComboItem4, Me.ComboItem6})
+        Me.cboFittingName.Location = New System.Drawing.Point(109, 9)
+        Me.cboFittingName.Name = "cboFittingName"
+        Me.cboFittingName.Size = New System.Drawing.Size(214, 21)
+        Me.cboFittingName.Sorted = True
+        Me.cboFittingName.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboFittingName.TabIndex = 21
+        '
+        'ComboItem5
+        '
+        Me.ComboItem5.Text = "Fitting"
+        '
+        'ComboItem4
+        '
+        Me.ComboItem4.Text = "Manual"
+        '
+        'ComboItem6
+        '
+        Me.ComboItem6.Text = "NPC"
+        '
+        'btnAddNPC
+        '
+        Me.btnAddNPC.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAddNPC.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAddNPC.Location = New System.Drawing.Point(302, 284)
+        Me.btnAddNPC.Name = "btnAddNPC"
+        Me.btnAddNPC.Size = New System.Drawing.Size(60, 21)
+        Me.btnAddNPC.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnAddNPC.TabIndex = 20
+        Me.btnAddNPC.Text = "Add NPC"
         '
         'frmAddDamageProfile
         '
-        Me.AcceptButton = Me.btnAccept
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(646, 468)
-        Me.Controls.Add(Me.btnAccept)
-        Me.Controls.Add(Me.btnCancel)
-        Me.Controls.Add(Me.gbManualProfile)
-        Me.Controls.Add(Me.cboProfileType)
-        Me.Controls.Add(Me.lblProfileType)
-        Me.Controls.Add(Me.txtProfileName)
-        Me.Controls.Add(Me.lblProfileName)
+        Me.ClientSize = New System.Drawing.Size(656, 453)
+        Me.Controls.Add(Me.PanelEx1)
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -326,17 +466,16 @@ Partial Class frmAddDamageProfile
         Me.Name = "frmAddDamageProfile"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Add Damage Profile"
-        Me.gbManualProfile.ResumeLayout(False)
-        Me.gbManualProfile.PerformLayout()
+        Me.PanelEx1.ResumeLayout(False)
+        Me.PanelEx1.PerformLayout()
+        Me.gpManualProfile.ResumeLayout(False)
+        Me.gpManualProfile.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents lblProfileName As System.Windows.Forms.Label
     Friend WithEvents txtProfileName As System.Windows.Forms.TextBox
     Friend WithEvents lblProfileType As System.Windows.Forms.Label
-    Friend WithEvents cboProfileType As System.Windows.Forms.ComboBox
-    Friend WithEvents gbManualProfile As System.Windows.Forms.GroupBox
     Friend WithEvents txtEMDamage As System.Windows.Forms.TextBox
     Friend WithEvents lblEmDamage As System.Windows.Forms.Label
     Friend WithEvents txtEXDamage As System.Windows.Forms.TextBox
@@ -347,16 +486,31 @@ Partial Class frmAddDamageProfile
     Friend WithEvents lblTHDamage As System.Windows.Forms.Label
     Friend WithEvents txtDPS As System.Windows.Forms.TextBox
     Friend WithEvents lblDPS As System.Windows.Forms.Label
-    Friend WithEvents lvwNPCs As System.Windows.Forms.ListView
-    Friend WithEvents cboPilotName As System.Windows.Forms.ComboBox
     Friend WithEvents lblPilotName As System.Windows.Forms.Label
-    Friend WithEvents cboFittingName As System.Windows.Forms.ComboBox
     Friend WithEvents lblFittingName As System.Windows.Forms.Label
     Friend WithEvents lblNPCs As System.Windows.Forms.Label
     Friend WithEvents lblDamageInfo As System.Windows.Forms.Label
-    Friend WithEvents btnAddNPC As System.Windows.Forms.Button
     Friend WithEvents colNPCs As System.Windows.Forms.ColumnHeader
-    Friend WithEvents btnCancel As System.Windows.Forms.Button
-    Friend WithEvents btnAccept As System.Windows.Forms.Button
-    Friend WithEvents cboNPC As System.Windows.Forms.ComboBox
+    Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents gpManualProfile As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents lvwNPCs As DevComponents.DotNetBar.Controls.ListViewEx
+    Friend WithEvents btnCancel As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnAccept As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnAddNPC As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents cboProfileType As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ComboItem1 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem2 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem3 As DevComponents.Editors.ComboItem
+    Friend WithEvents cboPilotName As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ComboItem7 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem8 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem9 As DevComponents.Editors.ComboItem
+    Friend WithEvents cboFittingName As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ComboItem4 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem5 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem6 As DevComponents.Editors.ComboItem
+    Friend WithEvents cboNPC As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ComboItem11 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem10 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem12 As DevComponents.Editors.ComboItem
 End Class

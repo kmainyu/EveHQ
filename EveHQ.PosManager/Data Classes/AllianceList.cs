@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +36,7 @@ namespace EveHQ.PosManager
     public class AllianceList
     {
         public SortedList alliances;
+        public bool GotError = false;
 
         public AllianceList()
         {
@@ -25,26 +45,9 @@ namespace EveHQ.PosManager
 
         public void SaveAllianceListing()
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path , "Cache");
-
-            if (!Directory.Exists(PoSManage_Path))
-                Directory.CreateDirectory(PoSManage_Path);
-
-            if (!Directory.Exists(PoSCache_Path))
-                Directory.CreateDirectory(PoSCache_Path);
-
-            fname = Path.Combine(PoSCache_Path , "API_Alliance.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "API_Alliance.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
@@ -63,28 +66,11 @@ namespace EveHQ.PosManager
 
         public void LoadAllianceListFromDisk()
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
             Stream cStr;
             BinaryFormatter myBf;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
-
-            if (!Directory.Exists(PoSManage_Path))
-                Directory.CreateDirectory(PoSManage_Path);
-
-            if (!Directory.Exists(PoSCache_Path))
-                Directory.CreateDirectory(PoSCache_Path);
-
-            fname = Path.Combine(PoSCache_Path, "API_Alliance.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "API_Alliance.bin");
 
             // Load the Data from Disk
             if (File.Exists(fname))
@@ -158,27 +144,41 @@ namespace EveHQ.PosManager
             allianceData = new XmlDocument();
             // When a tower gets linked to the API and vice versa, the towerItemID will be
             // stored in the POS data itself. This will allow for easy import of the fuel data.
-            allianceData = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.AllianceList, 0);
-
-            if (!CheckXML(allianceData))
-                return;
-
-            dateList = allianceData.SelectNodes("/eveapi");
-
-            allyList = allianceData.SelectNodes("/eveapi/result/rowset/row");
-
-            cacheDate = dateList[0].ChildNodes[0].InnerText;
-            cacheUntil = dateList[0].ChildNodes[2].InnerText;
-
-            if(IsAllianceDataTimestampCurrent(cacheUntil))
-            {
-                // Nothing new to load at all
-                return;
-            }
-            alliances.Clear();
-
             try
             {
+                EveAPI.EveAPIRequest APIReq;
+                APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
+                allianceData = APIReq.GetAPIXML(EveAPI.APITypes.AllianceList, EveAPI.APIReturnMethods.ReturnStandard);
+
+                if (APIReq.LastAPIError != 0)
+                {
+                    if (!PlugInData.ThrottleList.ContainsKey("AllianceList"))
+                    {
+                        PlugInData.ThrottleList.Add("AllianceList", new PlugInData.throttlePlayer(1));
+                    }
+                    else
+                    {
+                        PlugInData.ThrottleList["AllianceList"].IncCount();
+                    }
+                    PlugInData.LogAPIError(APIReq.LastAPIError, APIReq.LastAPIErrorText, "AllianceList");
+                }
+
+                if (!CheckXML(allianceData))
+                    return;
+
+                dateList = allianceData.SelectNodes("/eveapi");
+
+                allyList = allianceData.SelectNodes("/eveapi/result/rowset/row");
+
+                cacheDate = dateList[0].ChildNodes[0].InnerText;
+                cacheUntil = dateList[0].ChildNodes[2].InnerText;
+
+                if (IsAllianceDataTimestampCurrent(cacheUntil))
+                {
+                    // Nothing new to load at all
+                    return;
+                }
+                alliances.Clear();
 
                 foreach (XmlNode ally in allyList)
                 {
@@ -203,12 +203,15 @@ namespace EveHQ.PosManager
                         ad.corps.Add(corpID);
                         alliances.Add(corpID, ad);
                     }
-
                 }
             }
             catch
             {
-                DialogResult dr = MessageBox.Show("An Error was encountered while Parsing Alliance API Data.", "PoSManager: API Error", MessageBoxButtons.OK);
+                if (!GotError)
+                {
+                    DialogResult dr = MessageBox.Show("An Error was encountered while Parsing Alliance API Data.", "PoSManager: API Error", MessageBoxButtons.OK);
+                    GotError = true;
+                }
             }
         }
 

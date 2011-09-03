@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +27,7 @@ using System.Windows.Forms;
 
 namespace EveHQ.PosManager
 {
-    public partial class AddPlayer : Form
+    public partial class AddPlayer : DevComponents.DotNetBar.Office2007Form
     {
         public PoSManMainForm myData;
 
@@ -23,8 +42,8 @@ namespace EveHQ.PosManager
 
             if (pl != "")
             {
-                // Get player information and place into the form
-                foreach (Player p in myData.PL.Players)
+                // Get player information and place longo the form
+                foreach (Player p in PlugInData.PL.Players)
                 {
                     if (p.Name == pl)
                     {
@@ -54,8 +73,8 @@ namespace EveHQ.PosManager
         {
             bool foundPlayer = false;
 
-            // Get player, and put form information into the player
-            foreach (Player p in myData.PL.Players)
+            // Get player, and put form information longo the player
+            foreach (Player p in PlugInData.PL.Players)
             {
                 if (p.Name == tb_Name.Text)
                 {
@@ -69,10 +88,10 @@ namespace EveHQ.PosManager
 
             if (!foundPlayer)
             {
-                myData.PL.Players.Add(new Player(tb_Name.Text, tb_Email1.Text, tb_Email2.Text, tb_Email3.Text));
+                PlugInData.PL.Players.Add(new Player(tb_Name.Text, tb_Email1.Text, tb_Email2.Text, tb_Email3.Text));
             }
 
-            myData.PL.SavePlayerList();
+            PlugInData.PL.SavePlayerList();
 
             this.Dispose();
         }
@@ -81,5 +100,6 @@ namespace EveHQ.PosManager
         {
             this.Dispose();
         }
+
     }
 }

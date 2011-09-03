@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -22,6 +41,7 @@ namespace EveHQ.PosManager
         public decimal Qty, BaseQty, PeriodQty, RunTime, LastQty, APIPerQty;
         public decimal VolForQty, CostForQty;
         public ArrayList Extra;
+        public bool FuelRetry;
 
         public FuelType()
         {
@@ -40,6 +60,7 @@ namespace EveHQ.PosManager
             LastQty = 0;
             APIPerQty = 0;
             Extra = new ArrayList();
+            FuelRetry = false;
         }
 
         public FuelType(FuelType ft)
@@ -59,6 +80,7 @@ namespace EveHQ.PosManager
             LastQty = ft.LastQty;
             APIPerQty = ft.APIPerQty;
             Extra = new ArrayList(ft.Extra);
+            FuelRetry = ft.FuelRetry;
         }
 
         public void UpdateBaseValues(FuelType ft)
@@ -66,6 +88,7 @@ namespace EveHQ.PosManager
             BaseVol = ft.BaseVol;
             BaseQty = ft.BaseQty;
             Cost = ft.Cost;
+            FuelRetry = false;
         }
 
         public void SetFuelQtyForPeriod(decimal sov, decimal cap, decimal used, decimal period)
@@ -95,49 +118,104 @@ namespace EveHQ.PosManager
 
         public decimal GetFuelQtyForPeriod(decimal sov, decimal cap, decimal used)
         {
-            decimal ret, pcMult, pQty, tMult;
-            bool useAPI = false;
+            decimal ret, pcMult, pQty, baseMax, tMult;
+            decimal mulT = 1;
 
-            if (PeriodQty == 0)
-            {
-                pQty = APIPerQty;
-            }
-            else if ((PeriodQty != 0) && (PeriodQty != APIPerQty) && (APIPerQty != 0))
-            {
-                pQty = APIPerQty;
-                useAPI = true;
-            }
-            else
-                pQty = PeriodQty;
+            baseMax = Math.Ceiling(sov * BaseQty); // Max possible fuel use based on SOV alone.
 
-            if (useAPI) 
+            if ((APIPerQty <= baseMax) && (APIPerQty != 0) && (mulT <= 1))
             {
-                ret = pQty;
+                return APIPerQty;
             }
-            else if ((cap == 1) && (used == 1))
+
+            pQty = PeriodQty;
+
+            if ((cap == 1) && (used == 1))
             {
                 ret = Math.Ceiling(sov * pQty);
             }
             else
             {
-                if(cap > 0)
+                if (cap > 0)
                     pcMult = (used / cap);
                 else
                     pcMult = 1;
 
-                if ((PeriodQty == 0) || ((PeriodQty != 0) && (PeriodQty != APIPerQty) && (APIPerQty != 0)))
-                    ret = APIPerQty;
-                else
+                if (used > 0)
                 {
-                    if (used > 0)
-                    {
-                        tMult = pcMult * sov * pQty;
-                        tMult = Math.Round(tMult, 2);
-                        ret = Math.Ceiling(tMult);
-                    }
-                    else
-                        ret = Math.Floor(pcMult * sov * pQty);
+                    tMult = pcMult * sov * pQty;
+                    tMult = Math.Round(tMult, 2);
+                    ret = Math.Ceiling(tMult);
                 }
+                else
+                    ret = Math.Floor(pcMult * sov * pQty);
+            }
+
+            if (ret < 0)
+                ret = PeriodQty;
+            
+            return ret;
+        }
+
+        public void SetAPIFuelUse(decimal sov)
+        {
+            decimal fuelUsed, mult;
+            decimal BaseUse;
+
+            // Check against max possible for tower with current SoV value
+            BaseUse = GetBaseFuelQtyForPeriod(sov, 1, 1);
+            fuelUsed = LastQty - Qty;
+
+            // Negative or zero fuel usage. Either tower is not using it, or someone put fuel longo the tower
+            if (fuelUsed <= 0)
+                return;
+
+            // Definitely a Bogus situation, should not ever happen, but - hehe
+            if (fuelUsed > BaseUse)
+                return;
+    
+            // If there is a current API Qty stored, then do some mild filter checking for obvious BAD readings
+            if (APIPerQty != 0)
+            {
+                mult = APIPerQty / fuelUsed;
+                if ((mult > 1) && (!FuelRetry))
+                {
+                    // Fuel use not constant from last valid update. Either a bad read, module state change, etc...
+                    // So, make the system wait until the next read comes in. If still out then, go ahead and update
+                    // the fuel usage.
+                    FuelRetry = true;
+                    return;
+                }
+            }
+
+            // If we get here, we have filtered the garbage - so, update the fuel usage please.
+            APIPerQty = fuelUsed;
+            FuelRetry = false;
+        }
+
+        public decimal GetBaseFuelQtyForPeriod(decimal sov, decimal cap, decimal used)
+        {
+            decimal ret, pcMult, pQty;
+
+            pQty = PeriodQty;
+
+            ret = pQty;
+
+            if ((cap == 1) && (used == 1))
+            {
+                ret = Math.Ceiling(sov * pQty);
+            }
+            else
+            {
+                if (cap > 0)
+                    pcMult = (used / cap);
+                else
+                    pcMult = 1;
+
+                if (used > 0)
+                    ret = Math.Ceiling(pcMult * sov * pQty);
+                else
+                    ret = Math.Floor(pcMult * sov * pQty);
             }
 
             if (ret < 0)
@@ -186,6 +264,14 @@ namespace EveHQ.PosManager
             retVal.Add(Name);
 
             return retVal;
+        }
+
+        public void SubtractZeroMin(decimal qt)
+        {
+            Qty -= qt;
+
+            if (Qty < 0)
+                Qty = 0;
         }
 
 

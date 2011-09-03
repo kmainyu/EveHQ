@@ -79,4 +79,8 @@
 10068,TotalRecharge,Total Recharge,0,HP/s,0
 # Passive Defence Values
 10069,PassiveDefence,Passive Defence,0,HP/s,0
-
+# DPS Damage Split
+10070,EMDPS,EM DPS,0,HP,0
+10071,ExplosiveDPS,Explosive DPS,0,HP,0
+10072,KineticDPS,Kinetic DPS,0,HP,0
+10073,ThermalDPS,Thermal DPS,0,HP,0

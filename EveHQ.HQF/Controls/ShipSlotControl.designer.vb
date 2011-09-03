@@ -24,301 +24,260 @@ Partial Class ShipSlotControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystem Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Me.lblFittingMarketPrice = New System.Windows.Forms.Label
-        Me.lblShipMarketPrice = New System.Windows.Forms.Label
-        Me.lblTurretSlots = New System.Windows.Forms.Label
-        Me.lblLauncherSlots = New System.Windows.Forms.Label
-        Me.lblRigSlots = New System.Windows.Forms.Label
-        Me.lblLowSlots = New System.Windows.Forms.Label
-        Me.lblMidSlots = New System.Windows.Forms.Label
-        Me.lblHighSlots = New System.Windows.Forms.Label
-        Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgState = New System.Windows.Forms.ImageList(Me.components)
-        Me.ctxBays = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ctxRemoveItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.ctxAlterQuantity = New System.Windows.Forms.ToolStripMenuItem
-        Me.ctxSplitBatch = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
-        Me.ctxShowBayInfoItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ctxRemoteFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.RemoveFittingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.pbShip = New System.Windows.Forms.PictureBox
-        Me.ctxShipSkills = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuAlterRelevantSkills = New System.Windows.Forms.ToolStripMenuItem
-        Me.panelFunctions = New System.Windows.Forms.Panel
-        Me.lblSubSlots = New System.Windows.Forms.Label
-        Me.pbShipInfo = New System.Windows.Forms.PictureBox
-        Me.tabStorage = New System.Windows.Forms.TabControl
-        Me.tabDroneBay = New System.Windows.Forms.TabPage
-        Me.panelDrone = New System.Windows.Forms.Panel
-        Me.pbDroneBay = New VistaStyleProgressBar.ProgressBar
-        Me.lblDroneBay = New System.Windows.Forms.Label
-        Me.btnMergeDrones = New System.Windows.Forms.Button
-        Me.lvwDroneBay = New System.Windows.Forms.ListView
-        Me.colDroneBayType = New System.Windows.Forms.ColumnHeader
-        Me.colDroneBayQty = New System.Windows.Forms.ColumnHeader
-        Me.tabCargoBay = New System.Windows.Forms.TabPage
-        Me.panelCargo = New System.Windows.Forms.Panel
-        Me.pbCargoBay = New VistaStyleProgressBar.ProgressBar
-        Me.lblCargoBay = New System.Windows.Forms.Label
-        Me.btnMergeCargo = New System.Windows.Forms.Button
-        Me.lvwCargoBay = New System.Windows.Forms.ListView
-        Me.colCargoBayType = New System.Windows.Forms.ColumnHeader
-        Me.colCargoBayQty = New System.Windows.Forms.ColumnHeader
-        Me.tabRemote = New System.Windows.Forms.TabPage
-        Me.panelRemote = New System.Windows.Forms.Panel
-        Me.cboFitting = New System.Windows.Forms.ComboBox
-        Me.btnAddRemoteFitting = New System.Windows.Forms.Button
-        Me.lblFitting = New System.Windows.Forms.Label
-        Me.lvwRemoteFittings = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.lblPilot = New System.Windows.Forms.Label
-        Me.lvwRemoteEffects = New System.Windows.Forms.ListView
-        Me.colModule = New System.Windows.Forms.ColumnHeader
-        Me.cboPilot = New System.Windows.Forms.ComboBox
-        Me.btnUpdateRemoteEffects = New System.Windows.Forms.Button
-        Me.tabFleet = New System.Windows.Forms.TabPage
-        Me.panelFleet = New System.Windows.Forms.Panel
-        Me.chkFCActive = New System.Windows.Forms.CheckBox
-        Me.chkWCActive = New System.Windows.Forms.CheckBox
-        Me.chkSCActive = New System.Windows.Forms.CheckBox
-        Me.cboSCShip = New System.Windows.Forms.ComboBox
-        Me.cboFCPilot = New System.Windows.Forms.ComboBox
-        Me.cboWCPilot = New System.Windows.Forms.ComboBox
-        Me.lblSCShip = New System.Windows.Forms.Label
-        Me.lblWC = New System.Windows.Forms.Label
-        Me.btnLeaveFleet = New System.Windows.Forms.Button
-        Me.lblFC = New System.Windows.Forms.Label
-        Me.lblFCShip = New System.Windows.Forms.Label
-        Me.lblSC = New System.Windows.Forms.Label
-        Me.cboSCPilot = New System.Windows.Forms.ComboBox
-        Me.lblFleetStatus = New System.Windows.Forms.Label
-        Me.lblWCShip = New System.Windows.Forms.Label
-        Me.lblFleetStatusLabel = New System.Windows.Forms.Label
-        Me.cboWCShip = New System.Windows.Forms.ComboBox
-        Me.cboFCShip = New System.Windows.Forms.ComboBox
-        Me.tabBoosters = New System.Windows.Forms.TabPage
-        Me.panelBoosters = New System.Windows.Forms.Panel
-        Me.lblBoosterPenalties3 = New System.Windows.Forms.Label
-        Me.lblBoosterPenalties2 = New System.Windows.Forms.Label
-        Me.lblBoosterPenalties1 = New System.Windows.Forms.Label
-        Me.lblBoosterSlot3 = New System.Windows.Forms.Label
-        Me.cboBoosterSlot3 = New System.Windows.Forms.ComboBox
-        Me.ctxBoosters = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShowBoosterInfo = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuBoosterPenalty1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuBoosterPenalty2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuBoosterPenalty3 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuBoosterPenalty4 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuSepPenalties = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuRandomSideEffects = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuAlterBoosterSkills = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuRemoveBooster = New System.Windows.Forms.ToolStripMenuItem
-        Me.lblBoosterSlot2 = New System.Windows.Forms.Label
-        Me.cboBoosterSlot2 = New System.Windows.Forms.ComboBox
-        Me.lblBoosterSlot1 = New System.Windows.Forms.Label
-        Me.cboBoosterSlot1 = New System.Windows.Forms.ComboBox
-        Me.tabEnvironment = New System.Windows.Forms.TabPage
-        Me.panelWH = New System.Windows.Forms.Panel
-        Me.lblWHClass = New System.Windows.Forms.Label
-        Me.cboWHClass = New System.Windows.Forms.ComboBox
-        Me.lblWHEffect = New System.Windows.Forms.Label
-        Me.cboWHEffect = New System.Windows.Forms.ComboBox
-        Me.tabShipBay = New System.Windows.Forms.TabPage
-        Me.panelShipBay = New System.Windows.Forms.Panel
-        Me.pbShipBay = New VistaStyleProgressBar.ProgressBar
-        Me.lblShipBay = New System.Windows.Forms.Label
-        Me.lvwShipBay = New System.Windows.Forms.ListView
-        Me.colShipBayShip = New System.Windows.Forms.ColumnHeader
-        Me.colShipBayQuantity = New System.Windows.Forms.ColumnHeader
-        Me.colShipBayVolume = New System.Windows.Forms.ColumnHeader
-        Me.colShipBayTotalVolume = New System.Windows.Forms.ColumnHeader
-        Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.lblFittingMarketPrice = New System.Windows.Forms.Label()
+        Me.lblShipMarketPrice = New System.Windows.Forms.Label()
+        Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip()
+        Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ctxBays = New System.Windows.Forms.ContextMenuStrip()
+        Me.ctxRemoveItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ctxAlterQuantity = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ctxSplitBatch = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ctxShowBayInfoItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ctxRemoteFittings = New System.Windows.Forms.ContextMenuStrip()
+        Me.RemoveFittingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip()
+        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+        Me.pbShip = New System.Windows.Forms.PictureBox()
+        Me.ctxShipSkills = New System.Windows.Forms.ContextMenuStrip()
+        Me.mnuAlterRelevantSkills = New System.Windows.Forms.ToolStripMenuItem()
+        Me.pbShipInfo = New System.Windows.Forms.PictureBox()
+        Me.pbDroneBay = New DevComponents.DotNetBar.Controls.ProgressBarX()
+        Me.lblDroneBay = New System.Windows.Forms.Label()
+        Me.lvwDroneBay = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colDroneBayType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colDroneBayQty = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.pbCargoBay = New DevComponents.DotNetBar.Controls.ProgressBarX()
+        Me.lblCargoBay = New System.Windows.Forms.Label()
+        Me.lvwCargoBay = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colCargoBayType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCargoBayQty = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lblFitting = New System.Windows.Forms.Label()
+        Me.lvwRemoteFittings = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lblPilot = New System.Windows.Forms.Label()
+        Me.lvwRemoteEffects = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colModule = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.chkFCActive = New System.Windows.Forms.CheckBox()
+        Me.chkWCActive = New System.Windows.Forms.CheckBox()
+        Me.chkSCActive = New System.Windows.Forms.CheckBox()
+        Me.lblSCShip = New System.Windows.Forms.Label()
+        Me.lblWC = New System.Windows.Forms.Label()
+        Me.lblFC = New System.Windows.Forms.Label()
+        Me.lblFCShip = New System.Windows.Forms.Label()
+        Me.lblSC = New System.Windows.Forms.Label()
+        Me.lblFleetStatus = New System.Windows.Forms.Label()
+        Me.lblWCShip = New System.Windows.Forms.Label()
+        Me.lblFleetStatusLabel = New System.Windows.Forms.Label()
+        Me.lblBoosterPenalties3 = New System.Windows.Forms.Label()
+        Me.lblBoosterPenalties2 = New System.Windows.Forms.Label()
+        Me.lblBoosterPenalties1 = New System.Windows.Forms.Label()
+        Me.lblBoosterSlot3 = New System.Windows.Forms.Label()
+        Me.ctxBoosters = New System.Windows.Forms.ContextMenuStrip()
+        Me.mnuShowBoosterInfo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuBoosterPenalty1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuBoosterPenalty2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuBoosterPenalty3 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuBoosterPenalty4 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSepPenalties = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuRandomSideEffects = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuAlterBoosterSkills = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuRemoveBooster = New System.Windows.Forms.ToolStripMenuItem()
+        Me.lblBoosterSlot2 = New System.Windows.Forms.Label()
+        Me.lblBoosterSlot1 = New System.Windows.Forms.Label()
+        Me.lblWHClass = New System.Windows.Forms.Label()
+        Me.lblWHEffect = New System.Windows.Forms.Label()
+        Me.pbShipBay = New DevComponents.DotNetBar.Controls.ProgressBarX()
+        Me.lblShipBay = New System.Windows.Forms.Label()
+        Me.lvwShipBay = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colShipBayShip = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colShipBayQuantity = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colShipBayVolume = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colShipBayTotalVolume = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lvwHistory = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colTransaction = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colSlotType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colOldSlotNo = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colOldModName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colOldChargeName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNewSlotNo = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNewModName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNewChargeName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colChargeOnly = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.tcStorage = New DevComponents.DotNetBar.TabControl()
+        Me.tcpDroneBay = New DevComponents.DotNetBar.TabControlPanel()
+        Me.btnMergeDrones = New DevComponents.DotNetBar.ButtonX()
+        Me.tiDroneBay = New DevComponents.DotNetBar.TabItem()
+        Me.tcpRemoteEffects = New DevComponents.DotNetBar.TabControlPanel()
+        Me.cboPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.btnUpdateRemoteEffects = New DevComponents.DotNetBar.ButtonX()
+        Me.btnAddRemoteFitting = New DevComponents.DotNetBar.ButtonX()
+        Me.tiRemoteEffects = New DevComponents.DotNetBar.TabItem()
+        Me.tcpBoosters = New DevComponents.DotNetBar.TabControlPanel()
+        Me.cboBoosterSlot2 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboBoosterSlot3 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboBoosterSlot1 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.tiBoosters = New DevComponents.DotNetBar.TabItem()
+        Me.tcpHistory = New DevComponents.DotNetBar.TabControlPanel()
+        Me.tiHistory = New DevComponents.DotNetBar.TabItem()
+        Me.tcpShipBay = New DevComponents.DotNetBar.TabControlPanel()
+        Me.tiShipBay = New DevComponents.DotNetBar.TabItem()
+        Me.tcpCargoBay = New DevComponents.DotNetBar.TabControlPanel()
+        Me.btnMergeCargo = New DevComponents.DotNetBar.ButtonX()
+        Me.tiCargoBay = New DevComponents.DotNetBar.TabItem()
+        Me.tcpFleetEffects = New DevComponents.DotNetBar.TabControlPanel()
+        Me.cboFCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboWCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboSCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboFCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboWCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboSCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.btnLeaveFleet = New DevComponents.DotNetBar.ButtonX()
+        Me.tiFleetEffects = New DevComponents.DotNetBar.TabItem()
+        Me.tcpWHEffects = New DevComponents.DotNetBar.TabControlPanel()
+        Me.cboWHClass = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem1 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem2 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem3 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem4 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem5 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem6 = New DevComponents.Editors.ComboItem()
+        Me.cboWHEffect = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem7 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem8 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem9 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem10 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem11 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem12 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem13 = New DevComponents.Editors.ComboItem()
+        Me.tiWHEffects = New DevComponents.DotNetBar.TabItem()
+        Me.panelFunctions = New DevComponents.DotNetBar.PanelEx()
+        Me.btnRedo = New DevComponents.DotNetBar.ButtonX()
+        Me.btnUndo = New DevComponents.DotNetBar.ButtonX()
+        Me.adtSlots = New DevComponents.AdvTree.AdvTree()
+        Me.colTestHeader1 = New DevComponents.AdvTree.ColumnHeader()
+        Me.Node1 = New DevComponents.AdvTree.Node()
+        Me.Node2 = New DevComponents.AdvTree.Node()
+        Me.Cell2 = New DevComponents.AdvTree.Cell()
+        Me.Cell3 = New DevComponents.AdvTree.Cell()
+        Me.Cell4 = New DevComponents.AdvTree.Cell()
+        Me.SlotStyle = New DevComponents.DotNetBar.ElementStyle()
+        Me.HeaderStyle = New DevComponents.DotNetBar.ElementStyle()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.Cell7 = New DevComponents.AdvTree.Cell()
+        Me.Cell8 = New DevComponents.AdvTree.Cell()
+        Me.Cell9 = New DevComponents.AdvTree.Cell()
+        Me.Cell13 = New DevComponents.AdvTree.Cell()
+        Me.Cell14 = New DevComponents.AdvTree.Cell()
+        Me.Cell15 = New DevComponents.AdvTree.Cell()
+        Me.Cell1 = New DevComponents.AdvTree.Cell()
+        Me.Cell5 = New DevComponents.AdvTree.Cell()
+        Me.Cell6 = New DevComponents.AdvTree.Cell()
+        Me.Cell10 = New DevComponents.AdvTree.Cell()
+        Me.Cell11 = New DevComponents.AdvTree.Cell()
+        Me.Cell12 = New DevComponents.AdvTree.Cell()
+        Me.SlotTip = New DevComponents.DotNetBar.SuperTooltip()
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
         Me.ctxRemoteModule.SuspendLayout()
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxShipSkills.SuspendLayout()
-        Me.panelFunctions.SuspendLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tabStorage.SuspendLayout()
-        Me.tabDroneBay.SuspendLayout()
-        Me.panelDrone.SuspendLayout()
-        Me.tabCargoBay.SuspendLayout()
-        Me.panelCargo.SuspendLayout()
-        Me.tabRemote.SuspendLayout()
-        Me.panelRemote.SuspendLayout()
-        Me.tabFleet.SuspendLayout()
-        Me.panelFleet.SuspendLayout()
-        Me.tabBoosters.SuspendLayout()
-        Me.panelBoosters.SuspendLayout()
         Me.ctxBoosters.SuspendLayout()
-        Me.tabEnvironment.SuspendLayout()
-        Me.panelWH.SuspendLayout()
-        Me.tabShipBay.SuspendLayout()
-        Me.panelShipBay.SuspendLayout()
+        CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tcStorage.SuspendLayout()
+        Me.tcpDroneBay.SuspendLayout()
+        Me.tcpRemoteEffects.SuspendLayout()
+        Me.tcpBoosters.SuspendLayout()
+        Me.tcpHistory.SuspendLayout()
+        Me.tcpShipBay.SuspendLayout()
+        Me.tcpCargoBay.SuspendLayout()
+        Me.tcpFleetEffects.SuspendLayout()
+        Me.tcpWHEffects.SuspendLayout()
+        Me.panelFunctions.SuspendLayout()
+        CType(Me.adtSlots, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblFittingMarketPrice
         '
         Me.lblFittingMarketPrice.AutoSize = True
         Me.lblFittingMarketPrice.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFittingMarketPrice.Location = New System.Drawing.Point(78, 17)
+        Me.lblFittingMarketPrice.Location = New System.Drawing.Point(76, 19)
         Me.lblFittingMarketPrice.Name = "lblFittingMarketPrice"
-        Me.lblFittingMarketPrice.Size = New System.Drawing.Size(213, 13)
+        Me.lblFittingMarketPrice.Size = New System.Drawing.Size(171, 13)
         Me.lblFittingMarketPrice.TabIndex = 10
-        Me.lblFittingMarketPrice.Text = "Fitting Market Price: 0,000,000,000.00 ISK"
+        Me.lblFittingMarketPrice.Text = "Total Price: 0,000,000,000.00 ISK"
         '
         'lblShipMarketPrice
         '
         Me.lblShipMarketPrice.AutoSize = True
         Me.lblShipMarketPrice.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShipMarketPrice.Location = New System.Drawing.Point(292, 17)
+        Me.lblShipMarketPrice.Location = New System.Drawing.Point(76, 6)
         Me.lblShipMarketPrice.Name = "lblShipMarketPrice"
-        Me.lblShipMarketPrice.Size = New System.Drawing.Size(203, 13)
+        Me.lblShipMarketPrice.Size = New System.Drawing.Size(167, 13)
         Me.lblShipMarketPrice.TabIndex = 8
-        Me.lblShipMarketPrice.Text = "Ship Market Price: 0,000,000,000.00 ISK"
-        '
-        'lblTurretSlots
-        '
-        Me.lblTurretSlots.AutoSize = True
-        Me.lblTurretSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTurretSlots.Location = New System.Drawing.Point(423, 4)
-        Me.lblTurretSlots.Name = "lblTurretSlots"
-        Me.lblTurretSlots.Size = New System.Drawing.Size(65, 13)
-        Me.lblTurretSlots.TabIndex = 6
-        Me.lblTurretSlots.Text = "Turrets: 0/0"
-        '
-        'lblLauncherSlots
-        '
-        Me.lblLauncherSlots.AutoSize = True
-        Me.lblLauncherSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLauncherSlots.Location = New System.Drawing.Point(337, 4)
-        Me.lblLauncherSlots.Name = "lblLauncherSlots"
-        Me.lblLauncherSlots.Size = New System.Drawing.Size(79, 13)
-        Me.lblLauncherSlots.TabIndex = 5
-        Me.lblLauncherSlots.Text = "Launchers: 0/0"
-        '
-        'lblRigSlots
-        '
-        Me.lblRigSlots.AutoSize = True
-        Me.lblRigSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRigSlots.Location = New System.Drawing.Point(233, 4)
-        Me.lblRigSlots.Name = "lblRigSlots"
-        Me.lblRigSlots.Size = New System.Drawing.Size(45, 13)
-        Me.lblRigSlots.TabIndex = 4
-        Me.lblRigSlots.Text = "Rig: 0/0"
-        '
-        'lblLowSlots
-        '
-        Me.lblLowSlots.AutoSize = True
-        Me.lblLowSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLowSlots.Location = New System.Drawing.Point(177, 4)
-        Me.lblLowSlots.Name = "lblLowSlots"
-        Me.lblLowSlots.Size = New System.Drawing.Size(49, 13)
-        Me.lblLowSlots.TabIndex = 3
-        Me.lblLowSlots.Text = "Low: 0/0"
-        '
-        'lblMidSlots
-        '
-        Me.lblMidSlots.AutoSize = True
-        Me.lblMidSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMidSlots.Location = New System.Drawing.Point(124, 4)
-        Me.lblMidSlots.Name = "lblMidSlots"
-        Me.lblMidSlots.Size = New System.Drawing.Size(46, 13)
-        Me.lblMidSlots.TabIndex = 2
-        Me.lblMidSlots.Text = "Mid: 0/0"
-        '
-        'lblHighSlots
-        '
-        Me.lblHighSlots.AutoSize = True
-        Me.lblHighSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHighSlots.Location = New System.Drawing.Point(78, 4)
-        Me.lblHighSlots.Name = "lblHighSlots"
-        Me.lblHighSlots.Size = New System.Drawing.Size(39, 13)
-        Me.lblHighSlots.TabIndex = 1
-        Me.lblHighSlots.Text = "Hi: 0/0"
+        Me.lblShipMarketPrice.Text = "Ship Price: 0,000,000,000.00 ISK"
         '
         'ctxSlots
         '
         Me.ctxSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(124, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
-        '
-        'imgState
-        '
-        Me.imgState.ImageStream = CType(resources.GetObject("imgState.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgState.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgState.Images.SetKeyName(0, "Status_grey2.gif")
-        Me.imgState.Images.SetKeyName(1, "Status_yellow.gif")
-        Me.imgState.Images.SetKeyName(2, "Status_green.gif")
-        Me.imgState.Images.SetKeyName(3, "icon22_10.png")
-        Me.imgState.Images.SetKeyName(4, "Status_red.gif")
-        Me.imgState.Images.SetKeyName(5, "Status_grey.gif")
         '
         'ctxBays
         '
         Me.ctxBays.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(156, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(155, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(152, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(155, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(155, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(152, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(155, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'ctxRemoteFittings
@@ -326,13 +285,13 @@ Partial Class ShipSlotControl
         Me.ctxRemoteFittings.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
         Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
-        Me.ctxRemoteFittings.Size = New System.Drawing.Size(180, 26)
+        Me.ctxRemoteFittings.Size = New System.Drawing.Size(169, 26)
         '
         'RemoveFittingToolStripMenuItem
         '
         Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
         Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
         '
         'ctxRemoteModule
@@ -340,12 +299,12 @@ Partial Class ShipSlotControl
         Me.ctxRemoteModule.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
         Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(135, 26)
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(124, 26)
         '
         'mnuShowRemoteModInfo
         '
         Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(134, 22)
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(123, 22)
         Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'ToolTip1
@@ -356,7 +315,7 @@ Partial Class ShipSlotControl
         '
         Me.pbShip.ContextMenuStrip = Me.ctxShipSkills
         Me.pbShip.InitialImage = Global.EveHQ.HQF.My.Resources.Resources.imgInfo2
-        Me.pbShip.Location = New System.Drawing.Point(3, 2)
+        Me.pbShip.Location = New System.Drawing.Point(3, 3)
         Me.pbShip.Name = "pbShip"
         Me.pbShip.Size = New System.Drawing.Size(32, 32)
         Me.pbShip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -369,130 +328,49 @@ Partial Class ShipSlotControl
         Me.ctxShipSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxShipSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRelevantSkills})
         Me.ctxShipSkills.Name = "ctxShipSkills"
-        Me.ctxShipSkills.Size = New System.Drawing.Size(180, 26)
+        Me.ctxShipSkills.Size = New System.Drawing.Size(169, 26)
         '
         'mnuAlterRelevantSkills
         '
         Me.mnuAlterRelevantSkills.Name = "mnuAlterRelevantSkills"
-        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(179, 22)
+        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(168, 22)
         Me.mnuAlterRelevantSkills.Text = "Alter Relevant Skills"
-        '
-        'panelFunctions
-        '
-        Me.panelFunctions.BackColor = System.Drawing.Color.Transparent
-        Me.panelFunctions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.panelFunctions.Controls.Add(Me.pbShip)
-        Me.panelFunctions.Controls.Add(Me.lblSubSlots)
-        Me.panelFunctions.Controls.Add(Me.lblFittingMarketPrice)
-        Me.panelFunctions.Controls.Add(Me.pbShipInfo)
-        Me.panelFunctions.Controls.Add(Me.lblShipMarketPrice)
-        Me.panelFunctions.Controls.Add(Me.lblTurretSlots)
-        Me.panelFunctions.Controls.Add(Me.lblMidSlots)
-        Me.panelFunctions.Controls.Add(Me.lblLauncherSlots)
-        Me.panelFunctions.Controls.Add(Me.lblHighSlots)
-        Me.panelFunctions.Controls.Add(Me.lblRigSlots)
-        Me.panelFunctions.Controls.Add(Me.lblLowSlots)
-        Me.panelFunctions.Dock = System.Windows.Forms.DockStyle.Top
-        Me.panelFunctions.Location = New System.Drawing.Point(0, 0)
-        Me.panelFunctions.Name = "panelFunctions"
-        Me.panelFunctions.Size = New System.Drawing.Size(676, 38)
-        Me.panelFunctions.TabIndex = 2
-        '
-        'lblSubSlots
-        '
-        Me.lblSubSlots.AutoSize = True
-        Me.lblSubSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSubSlots.Location = New System.Drawing.Point(285, 4)
-        Me.lblSubSlots.Name = "lblSubSlots"
-        Me.lblSubSlots.Size = New System.Drawing.Size(45, 13)
-        Me.lblSubSlots.TabIndex = 12
-        Me.lblSubSlots.Text = "Rig: 0/0"
         '
         'pbShipInfo
         '
         Me.pbShipInfo.ContextMenuStrip = Me.ctxShipSkills
         Me.pbShipInfo.Image = Global.EveHQ.HQF.My.Resources.Resources.imgInfo1
-        Me.pbShipInfo.Location = New System.Drawing.Point(41, 2)
+        Me.pbShipInfo.Location = New System.Drawing.Point(38, 3)
         Me.pbShipInfo.Name = "pbShipInfo"
         Me.pbShipInfo.Size = New System.Drawing.Size(32, 32)
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
         '
-        'tabStorage
-        '
-        Me.tabStorage.Controls.Add(Me.tabDroneBay)
-        Me.tabStorage.Controls.Add(Me.tabCargoBay)
-        Me.tabStorage.Controls.Add(Me.tabRemote)
-        Me.tabStorage.Controls.Add(Me.tabFleet)
-        Me.tabStorage.Controls.Add(Me.tabBoosters)
-        Me.tabStorage.Controls.Add(Me.tabEnvironment)
-        Me.tabStorage.Controls.Add(Me.tabShipBay)
-        Me.tabStorage.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.tabStorage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tabStorage.Location = New System.Drawing.Point(0, 363)
-        Me.tabStorage.Multiline = True
-        Me.tabStorage.Name = "tabStorage"
-        Me.tabStorage.SelectedIndex = 0
-        Me.tabStorage.Size = New System.Drawing.Size(676, 200)
-        Me.tabStorage.TabIndex = 0
-        '
-        'tabDroneBay
-        '
-        Me.tabDroneBay.Controls.Add(Me.panelDrone)
-        Me.tabDroneBay.Location = New System.Drawing.Point(4, 22)
-        Me.tabDroneBay.Name = "tabDroneBay"
-        Me.tabDroneBay.Size = New System.Drawing.Size(668, 174)
-        Me.tabDroneBay.TabIndex = 0
-        Me.tabDroneBay.Text = "Drone Bay"
-        Me.tabDroneBay.UseVisualStyleBackColor = True
-        '
-        'panelDrone
-        '
-        Me.panelDrone.BackColor = System.Drawing.SystemColors.Control
-        Me.panelDrone.Controls.Add(Me.pbDroneBay)
-        Me.panelDrone.Controls.Add(Me.lblDroneBay)
-        Me.panelDrone.Controls.Add(Me.btnMergeDrones)
-        Me.panelDrone.Controls.Add(Me.lvwDroneBay)
-        Me.panelDrone.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelDrone.Location = New System.Drawing.Point(0, 0)
-        Me.panelDrone.Name = "panelDrone"
-        Me.panelDrone.Size = New System.Drawing.Size(668, 174)
-        Me.panelDrone.TabIndex = 32
-        '
         'pbDroneBay
         '
         Me.pbDroneBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbDroneBay.BackColor = System.Drawing.Color.Transparent
-        Me.pbDroneBay.EndColor = System.Drawing.Color.LimeGreen
-        Me.pbDroneBay.GlowColor = System.Drawing.Color.LightGreen
-        Me.pbDroneBay.Location = New System.Drawing.Point(3, 21)
+        '
+        '
+        '
+        Me.pbDroneBay.BackgroundStyle.Class = ""
+        Me.pbDroneBay.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.pbDroneBay.Location = New System.Drawing.Point(4, 17)
         Me.pbDroneBay.Name = "pbDroneBay"
-        Me.pbDroneBay.Size = New System.Drawing.Size(566, 10)
-        Me.pbDroneBay.StartColor = System.Drawing.Color.LimeGreen
-        Me.pbDroneBay.TabIndex = 31
-        Me.pbDroneBay.TextColor = System.Drawing.Color.Black
-        Me.pbDroneBay.TextOverlay = ""
+        Me.pbDroneBay.Size = New System.Drawing.Size(967, 10)
+        Me.pbDroneBay.TabIndex = 4
+        Me.pbDroneBay.Text = "ProgressBarX1"
         Me.pbDroneBay.Value = 50
         '
         'lblDroneBay
         '
         Me.lblDroneBay.AutoSize = True
-        Me.lblDroneBay.Location = New System.Drawing.Point(3, 5)
+        Me.lblDroneBay.BackColor = System.Drawing.Color.Transparent
+        Me.lblDroneBay.Location = New System.Drawing.Point(4, 1)
         Me.lblDroneBay.Name = "lblDroneBay"
         Me.lblDroneBay.Size = New System.Drawing.Size(89, 13)
         Me.lblDroneBay.TabIndex = 0
         Me.lblDroneBay.Text = "0.00 / 000.00 m³"
-        '
-        'btnMergeDrones
-        '
-        Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeDrones.Location = New System.Drawing.Point(575, 8)
-        Me.btnMergeDrones.Name = "btnMergeDrones"
-        Me.btnMergeDrones.Size = New System.Drawing.Size(90, 23)
-        Me.btnMergeDrones.TabIndex = 3
-        Me.btnMergeDrones.Text = "Merge Drones"
-        Me.btnMergeDrones.UseVisualStyleBackColor = True
         '
         'lvwDroneBay
         '
@@ -500,14 +378,19 @@ Partial Class ShipSlotControl
         Me.lvwDroneBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.lvwDroneBay.Border.Class = "ListViewBorder"
+        Me.lvwDroneBay.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwDroneBay.CheckBoxes = True
         Me.lvwDroneBay.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colDroneBayType, Me.colDroneBayQty})
         Me.lvwDroneBay.ContextMenuStrip = Me.ctxBays
         Me.lvwDroneBay.FullRowSelect = True
         Me.lvwDroneBay.GridLines = True
-        Me.lvwDroneBay.Location = New System.Drawing.Point(3, 35)
+        Me.lvwDroneBay.Location = New System.Drawing.Point(4, 31)
         Me.lvwDroneBay.Name = "lvwDroneBay"
-        Me.lvwDroneBay.Size = New System.Drawing.Size(662, 133)
+        Me.lvwDroneBay.Size = New System.Drawing.Size(1053, 200)
         Me.lvwDroneBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDroneBay.TabIndex = 2
         Me.lvwDroneBay.UseCompatibleStateImageBehavior = False
@@ -524,63 +407,31 @@ Partial Class ShipSlotControl
         Me.colDroneBayQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.colDroneBayQty.Width = 50
         '
-        'tabCargoBay
-        '
-        Me.tabCargoBay.Controls.Add(Me.panelCargo)
-        Me.tabCargoBay.Location = New System.Drawing.Point(4, 22)
-        Me.tabCargoBay.Name = "tabCargoBay"
-        Me.tabCargoBay.Size = New System.Drawing.Size(668, 174)
-        Me.tabCargoBay.TabIndex = 1
-        Me.tabCargoBay.Text = "CargoBay"
-        Me.tabCargoBay.UseVisualStyleBackColor = True
-        '
-        'panelCargo
-        '
-        Me.panelCargo.BackColor = System.Drawing.SystemColors.Control
-        Me.panelCargo.Controls.Add(Me.pbCargoBay)
-        Me.panelCargo.Controls.Add(Me.lblCargoBay)
-        Me.panelCargo.Controls.Add(Me.btnMergeCargo)
-        Me.panelCargo.Controls.Add(Me.lvwCargoBay)
-        Me.panelCargo.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelCargo.Location = New System.Drawing.Point(0, 0)
-        Me.panelCargo.Name = "panelCargo"
-        Me.panelCargo.Size = New System.Drawing.Size(668, 174)
-        Me.panelCargo.TabIndex = 33
-        '
         'pbCargoBay
         '
         Me.pbCargoBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbCargoBay.BackColor = System.Drawing.Color.Transparent
-        Me.pbCargoBay.EndColor = System.Drawing.Color.LimeGreen
-        Me.pbCargoBay.GlowColor = System.Drawing.Color.LightGreen
-        Me.pbCargoBay.Location = New System.Drawing.Point(3, 21)
+        '
+        '
+        '
+        Me.pbCargoBay.BackgroundStyle.Class = ""
+        Me.pbCargoBay.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.pbCargoBay.Location = New System.Drawing.Point(4, 17)
         Me.pbCargoBay.Name = "pbCargoBay"
-        Me.pbCargoBay.Size = New System.Drawing.Size(566, 10)
-        Me.pbCargoBay.StartColor = System.Drawing.Color.LimeGreen
-        Me.pbCargoBay.TabIndex = 32
-        Me.pbCargoBay.TextColor = System.Drawing.Color.Black
-        Me.pbCargoBay.TextOverlay = ""
+        Me.pbCargoBay.Size = New System.Drawing.Size(967, 10)
+        Me.pbCargoBay.TabIndex = 7
+        Me.pbCargoBay.Text = "ProgressBarX1"
         Me.pbCargoBay.Value = 50
         '
         'lblCargoBay
         '
         Me.lblCargoBay.AutoSize = True
-        Me.lblCargoBay.Location = New System.Drawing.Point(3, 5)
+        Me.lblCargoBay.BackColor = System.Drawing.Color.Transparent
+        Me.lblCargoBay.Location = New System.Drawing.Point(4, 1)
         Me.lblCargoBay.Name = "lblCargoBay"
         Me.lblCargoBay.Size = New System.Drawing.Size(89, 13)
         Me.lblCargoBay.TabIndex = 3
         Me.lblCargoBay.Text = "0.00 / 000.00 m³"
-        '
-        'btnMergeCargo
-        '
-        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeCargo.Location = New System.Drawing.Point(575, 8)
-        Me.btnMergeCargo.Name = "btnMergeCargo"
-        Me.btnMergeCargo.Size = New System.Drawing.Size(90, 23)
-        Me.btnMergeCargo.TabIndex = 6
-        Me.btnMergeCargo.Text = "Merge Cargo"
-        Me.btnMergeCargo.UseVisualStyleBackColor = True
         '
         'lvwCargoBay
         '
@@ -588,13 +439,18 @@ Partial Class ShipSlotControl
         Me.lvwCargoBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.lvwCargoBay.Border.Class = "ListViewBorder"
+        Me.lvwCargoBay.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwCargoBay.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colCargoBayType, Me.colCargoBayQty})
         Me.lvwCargoBay.ContextMenuStrip = Me.ctxBays
         Me.lvwCargoBay.FullRowSelect = True
         Me.lvwCargoBay.GridLines = True
-        Me.lvwCargoBay.Location = New System.Drawing.Point(3, 35)
+        Me.lvwCargoBay.Location = New System.Drawing.Point(4, 31)
         Me.lvwCargoBay.Name = "lvwCargoBay"
-        Me.lvwCargoBay.Size = New System.Drawing.Size(662, 136)
+        Me.lvwCargoBay.Size = New System.Drawing.Size(1053, 200)
         Me.lvwCargoBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwCargoBay.TabIndex = 5
         Me.lvwCargoBay.UseCompatibleStateImageBehavior = False
@@ -611,55 +467,11 @@ Partial Class ShipSlotControl
         Me.colCargoBayQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.colCargoBayQty.Width = 50
         '
-        'tabRemote
-        '
-        Me.tabRemote.Controls.Add(Me.panelRemote)
-        Me.tabRemote.Location = New System.Drawing.Point(4, 22)
-        Me.tabRemote.Name = "tabRemote"
-        Me.tabRemote.Size = New System.Drawing.Size(668, 174)
-        Me.tabRemote.TabIndex = 2
-        Me.tabRemote.Text = "Remote Effects"
-        Me.tabRemote.UseVisualStyleBackColor = True
-        '
-        'panelRemote
-        '
-        Me.panelRemote.BackColor = System.Drawing.SystemColors.Control
-        Me.panelRemote.Controls.Add(Me.cboFitting)
-        Me.panelRemote.Controls.Add(Me.btnAddRemoteFitting)
-        Me.panelRemote.Controls.Add(Me.lblFitting)
-        Me.panelRemote.Controls.Add(Me.lvwRemoteFittings)
-        Me.panelRemote.Controls.Add(Me.lblPilot)
-        Me.panelRemote.Controls.Add(Me.lvwRemoteEffects)
-        Me.panelRemote.Controls.Add(Me.cboPilot)
-        Me.panelRemote.Controls.Add(Me.btnUpdateRemoteEffects)
-        Me.panelRemote.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelRemote.Location = New System.Drawing.Point(0, 0)
-        Me.panelRemote.Name = "panelRemote"
-        Me.panelRemote.Size = New System.Drawing.Size(668, 174)
-        Me.panelRemote.TabIndex = 9
-        '
-        'cboFitting
-        '
-        Me.cboFitting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFitting.FormattingEnabled = True
-        Me.cboFitting.Location = New System.Drawing.Point(55, 9)
-        Me.cboFitting.Name = "cboFitting"
-        Me.cboFitting.Size = New System.Drawing.Size(187, 21)
-        Me.cboFitting.TabIndex = 1
-        '
-        'btnAddRemoteFitting
-        '
-        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(438, 7)
-        Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
-        Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
-        Me.btnAddRemoteFitting.TabIndex = 8
-        Me.btnAddRemoteFitting.Text = "Add"
-        Me.btnAddRemoteFitting.UseVisualStyleBackColor = True
-        '
         'lblFitting
         '
         Me.lblFitting.AutoSize = True
-        Me.lblFitting.Location = New System.Drawing.Point(11, 12)
+        Me.lblFitting.BackColor = System.Drawing.Color.Transparent
+        Me.lblFitting.Location = New System.Drawing.Point(12, 7)
         Me.lblFitting.Name = "lblFitting"
         Me.lblFitting.Size = New System.Drawing.Size(41, 13)
         Me.lblFitting.TabIndex = 0
@@ -669,14 +481,19 @@ Partial Class ShipSlotControl
         '
         Me.lvwRemoteFittings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.lvwRemoteFittings.Border.Class = "ListViewBorder"
+        Me.lvwRemoteFittings.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwRemoteFittings.CheckBoxes = True
         Me.lvwRemoteFittings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.lvwRemoteFittings.ContextMenuStrip = Me.ctxRemoteFittings
         Me.lvwRemoteFittings.FullRowSelect = True
         Me.lvwRemoteFittings.GridLines = True
-        Me.lvwRemoteFittings.Location = New System.Drawing.Point(6, 36)
+        Me.lvwRemoteFittings.Location = New System.Drawing.Point(7, 31)
         Me.lvwRemoteFittings.Name = "lvwRemoteFittings"
-        Me.lvwRemoteFittings.Size = New System.Drawing.Size(319, 135)
+        Me.lvwRemoteFittings.Size = New System.Drawing.Size(319, 200)
         Me.lvwRemoteFittings.TabIndex = 7
         Me.lvwRemoteFittings.UseCompatibleStateImageBehavior = False
         Me.lvwRemoteFittings.View = System.Windows.Forms.View.Details
@@ -689,7 +506,8 @@ Partial Class ShipSlotControl
         'lblPilot
         '
         Me.lblPilot.AutoSize = True
-        Me.lblPilot.Location = New System.Drawing.Point(248, 12)
+        Me.lblPilot.BackColor = System.Drawing.Color.Transparent
+        Me.lblPilot.Location = New System.Drawing.Point(252, 7)
         Me.lblPilot.Name = "lblPilot"
         Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 2
@@ -700,14 +518,19 @@ Partial Class ShipSlotControl
         Me.lvwRemoteEffects.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.lvwRemoteEffects.Border.Class = "ListViewBorder"
+        Me.lvwRemoteEffects.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwRemoteEffects.CheckBoxes = True
         Me.lvwRemoteEffects.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModule})
         Me.lvwRemoteEffects.ContextMenuStrip = Me.ctxRemoteModule
         Me.lvwRemoteEffects.FullRowSelect = True
         Me.lvwRemoteEffects.GridLines = True
-        Me.lvwRemoteEffects.Location = New System.Drawing.Point(331, 36)
+        Me.lvwRemoteEffects.Location = New System.Drawing.Point(332, 33)
         Me.lvwRemoteEffects.Name = "lvwRemoteEffects"
-        Me.lvwRemoteEffects.Size = New System.Drawing.Size(386, 135)
+        Me.lvwRemoteEffects.Size = New System.Drawing.Size(725, 198)
         Me.lvwRemoteEffects.TabIndex = 5
         Me.lvwRemoteEffects.UseCompatibleStateImageBehavior = False
         Me.lvwRemoteEffects.View = System.Windows.Forms.View.Details
@@ -717,130 +540,50 @@ Partial Class ShipSlotControl
         Me.colModule.Text = "Remote Modules"
         Me.colModule.Width = 300
         '
-        'cboPilot
-        '
-        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboPilot.FormattingEnabled = True
-        Me.cboPilot.Location = New System.Drawing.Point(284, 9)
-        Me.cboPilot.Name = "cboPilot"
-        Me.cboPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboPilot.TabIndex = 3
-        '
-        'btnUpdateRemoteEffects
-        '
-        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(519, 7)
-        Me.btnUpdateRemoteEffects.Name = "btnUpdateRemoteEffects"
-        Me.btnUpdateRemoteEffects.Size = New System.Drawing.Size(75, 23)
-        Me.btnUpdateRemoteEffects.TabIndex = 4
-        Me.btnUpdateRemoteEffects.Text = "Update"
-        Me.btnUpdateRemoteEffects.UseVisualStyleBackColor = True
-        Me.btnUpdateRemoteEffects.Visible = False
-        '
-        'tabFleet
-        '
-        Me.tabFleet.Controls.Add(Me.panelFleet)
-        Me.tabFleet.Location = New System.Drawing.Point(4, 22)
-        Me.tabFleet.Name = "tabFleet"
-        Me.tabFleet.Size = New System.Drawing.Size(668, 174)
-        Me.tabFleet.TabIndex = 3
-        Me.tabFleet.Text = "Fleet Effects"
-        Me.tabFleet.UseVisualStyleBackColor = True
-        '
-        'panelFleet
-        '
-        Me.panelFleet.BackColor = System.Drawing.SystemColors.Control
-        Me.panelFleet.Controls.Add(Me.chkFCActive)
-        Me.panelFleet.Controls.Add(Me.chkWCActive)
-        Me.panelFleet.Controls.Add(Me.chkSCActive)
-        Me.panelFleet.Controls.Add(Me.cboSCShip)
-        Me.panelFleet.Controls.Add(Me.cboFCPilot)
-        Me.panelFleet.Controls.Add(Me.cboWCPilot)
-        Me.panelFleet.Controls.Add(Me.lblSCShip)
-        Me.panelFleet.Controls.Add(Me.lblWC)
-        Me.panelFleet.Controls.Add(Me.btnLeaveFleet)
-        Me.panelFleet.Controls.Add(Me.lblFC)
-        Me.panelFleet.Controls.Add(Me.lblFCShip)
-        Me.panelFleet.Controls.Add(Me.lblSC)
-        Me.panelFleet.Controls.Add(Me.cboSCPilot)
-        Me.panelFleet.Controls.Add(Me.lblFleetStatus)
-        Me.panelFleet.Controls.Add(Me.lblWCShip)
-        Me.panelFleet.Controls.Add(Me.lblFleetStatusLabel)
-        Me.panelFleet.Controls.Add(Me.cboWCShip)
-        Me.panelFleet.Controls.Add(Me.cboFCShip)
-        Me.panelFleet.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelFleet.Location = New System.Drawing.Point(0, 0)
-        Me.panelFleet.Name = "panelFleet"
-        Me.panelFleet.Size = New System.Drawing.Size(668, 174)
-        Me.panelFleet.TabIndex = 25
-        '
         'chkFCActive
         '
         Me.chkFCActive.AutoSize = True
+        Me.chkFCActive.BackColor = System.Drawing.Color.Transparent
         Me.chkFCActive.Checked = True
         Me.chkFCActive.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFCActive.Location = New System.Drawing.Point(480, 68)
+        Me.chkFCActive.Location = New System.Drawing.Point(483, 66)
         Me.chkFCActive.Name = "chkFCActive"
         Me.chkFCActive.Size = New System.Drawing.Size(61, 17)
         Me.chkFCActive.TabIndex = 26
         Me.chkFCActive.Text = "Active?"
-        Me.chkFCActive.UseVisualStyleBackColor = True
+        Me.chkFCActive.UseVisualStyleBackColor = False
         '
         'chkWCActive
         '
         Me.chkWCActive.AutoSize = True
+        Me.chkWCActive.BackColor = System.Drawing.Color.Transparent
         Me.chkWCActive.Checked = True
         Me.chkWCActive.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkWCActive.Location = New System.Drawing.Point(480, 41)
+        Me.chkWCActive.Location = New System.Drawing.Point(483, 39)
         Me.chkWCActive.Name = "chkWCActive"
         Me.chkWCActive.Size = New System.Drawing.Size(61, 17)
         Me.chkWCActive.TabIndex = 25
         Me.chkWCActive.Text = "Active?"
-        Me.chkWCActive.UseVisualStyleBackColor = True
+        Me.chkWCActive.UseVisualStyleBackColor = False
         '
         'chkSCActive
         '
         Me.chkSCActive.AutoSize = True
+        Me.chkSCActive.BackColor = System.Drawing.Color.Transparent
         Me.chkSCActive.Checked = True
         Me.chkSCActive.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkSCActive.Location = New System.Drawing.Point(480, 14)
+        Me.chkSCActive.Location = New System.Drawing.Point(483, 12)
         Me.chkSCActive.Name = "chkSCActive"
         Me.chkSCActive.Size = New System.Drawing.Size(61, 17)
         Me.chkSCActive.TabIndex = 24
         Me.chkSCActive.Text = "Active?"
-        Me.chkSCActive.UseVisualStyleBackColor = True
-        '
-        'cboSCShip
-        '
-        Me.cboSCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboSCShip.Enabled = False
-        Me.cboSCShip.FormattingEnabled = True
-        Me.cboSCShip.Location = New System.Drawing.Point(287, 12)
-        Me.cboSCShip.Name = "cboSCShip"
-        Me.cboSCShip.Size = New System.Drawing.Size(187, 21)
-        Me.cboSCShip.TabIndex = 8
-        '
-        'cboFCPilot
-        '
-        Me.cboFCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFCPilot.FormattingEnabled = True
-        Me.cboFCPilot.Location = New System.Drawing.Point(96, 66)
-        Me.cboFCPilot.Name = "cboFCPilot"
-        Me.cboFCPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboFCPilot.TabIndex = 16
-        '
-        'cboWCPilot
-        '
-        Me.cboWCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWCPilot.FormattingEnabled = True
-        Me.cboWCPilot.Location = New System.Drawing.Point(96, 39)
-        Me.cboWCPilot.Name = "cboWCPilot"
-        Me.cboWCPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboWCPilot.TabIndex = 15
+        Me.chkSCActive.UseVisualStyleBackColor = False
         '
         'lblSCShip
         '
         Me.lblSCShip.AutoSize = True
-        Me.lblSCShip.Location = New System.Drawing.Point(250, 15)
+        Me.lblSCShip.BackColor = System.Drawing.Color.Transparent
+        Me.lblSCShip.Location = New System.Drawing.Point(253, 13)
         Me.lblSCShip.Name = "lblSCShip"
         Me.lblSCShip.Size = New System.Drawing.Size(31, 13)
         Me.lblSCShip.TabIndex = 9
@@ -849,26 +592,18 @@ Partial Class ShipSlotControl
         'lblWC
         '
         Me.lblWC.AutoSize = True
-        Me.lblWC.Location = New System.Drawing.Point(10, 42)
+        Me.lblWC.BackColor = System.Drawing.Color.Transparent
+        Me.lblWC.Location = New System.Drawing.Point(13, 40)
         Me.lblWC.Name = "lblWC"
         Me.lblWC.Size = New System.Drawing.Size(75, 13)
         Me.lblWC.TabIndex = 14
         Me.lblWC.Text = "Wing Booster:"
         '
-        'btnLeaveFleet
-        '
-        Me.btnLeaveFleet.Enabled = False
-        Me.btnLeaveFleet.Location = New System.Drawing.Point(189, 93)
-        Me.btnLeaveFleet.Name = "btnLeaveFleet"
-        Me.btnLeaveFleet.Size = New System.Drawing.Size(75, 23)
-        Me.btnLeaveFleet.TabIndex = 23
-        Me.btnLeaveFleet.Text = "Leave Fleet"
-        Me.btnLeaveFleet.UseVisualStyleBackColor = True
-        '
         'lblFC
         '
         Me.lblFC.AutoSize = True
-        Me.lblFC.Location = New System.Drawing.Point(10, 69)
+        Me.lblFC.BackColor = System.Drawing.Color.Transparent
+        Me.lblFC.Location = New System.Drawing.Point(13, 67)
         Me.lblFC.Name = "lblFC"
         Me.lblFC.Size = New System.Drawing.Size(75, 13)
         Me.lblFC.TabIndex = 13
@@ -877,7 +612,8 @@ Partial Class ShipSlotControl
         'lblFCShip
         '
         Me.lblFCShip.AutoSize = True
-        Me.lblFCShip.Location = New System.Drawing.Point(250, 69)
+        Me.lblFCShip.BackColor = System.Drawing.Color.Transparent
+        Me.lblFCShip.Location = New System.Drawing.Point(253, 67)
         Me.lblFCShip.Name = "lblFCShip"
         Me.lblFCShip.Size = New System.Drawing.Size(31, 13)
         Me.lblFCShip.TabIndex = 17
@@ -886,25 +622,18 @@ Partial Class ShipSlotControl
         'lblSC
         '
         Me.lblSC.AutoSize = True
-        Me.lblSC.Location = New System.Drawing.Point(10, 15)
+        Me.lblSC.BackColor = System.Drawing.Color.Transparent
+        Me.lblSC.Location = New System.Drawing.Point(13, 13)
         Me.lblSC.Name = "lblSC"
         Me.lblSC.Size = New System.Drawing.Size(81, 13)
         Me.lblSC.TabIndex = 12
         Me.lblSC.Text = "Squad Booster:"
         '
-        'cboSCPilot
-        '
-        Me.cboSCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboSCPilot.FormattingEnabled = True
-        Me.cboSCPilot.Location = New System.Drawing.Point(96, 12)
-        Me.cboSCPilot.Name = "cboSCPilot"
-        Me.cboSCPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboSCPilot.TabIndex = 10
-        '
         'lblFleetStatus
         '
         Me.lblFleetStatus.AutoSize = True
-        Me.lblFleetStatus.Location = New System.Drawing.Point(82, 98)
+        Me.lblFleetStatus.BackColor = System.Drawing.Color.Transparent
+        Me.lblFleetStatus.Location = New System.Drawing.Point(85, 96)
         Me.lblFleetStatus.Name = "lblFleetStatus"
         Me.lblFleetStatus.Size = New System.Drawing.Size(46, 13)
         Me.lblFleetStatus.TabIndex = 22
@@ -913,7 +642,8 @@ Partial Class ShipSlotControl
         'lblWCShip
         '
         Me.lblWCShip.AutoSize = True
-        Me.lblWCShip.Location = New System.Drawing.Point(250, 42)
+        Me.lblWCShip.BackColor = System.Drawing.Color.Transparent
+        Me.lblWCShip.Location = New System.Drawing.Point(253, 40)
         Me.lblWCShip.Name = "lblWCShip"
         Me.lblWCShip.Size = New System.Drawing.Size(31, 13)
         Me.lblWCShip.TabIndex = 18
@@ -922,64 +652,18 @@ Partial Class ShipSlotControl
         'lblFleetStatusLabel
         '
         Me.lblFleetStatusLabel.AutoSize = True
-        Me.lblFleetStatusLabel.Location = New System.Drawing.Point(10, 98)
+        Me.lblFleetStatusLabel.BackColor = System.Drawing.Color.Transparent
+        Me.lblFleetStatusLabel.Location = New System.Drawing.Point(13, 96)
         Me.lblFleetStatusLabel.Name = "lblFleetStatusLabel"
         Me.lblFleetStatusLabel.Size = New System.Drawing.Size(69, 13)
         Me.lblFleetStatusLabel.TabIndex = 21
         Me.lblFleetStatusLabel.Text = "Fleet Status:"
         '
-        'cboWCShip
-        '
-        Me.cboWCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWCShip.Enabled = False
-        Me.cboWCShip.FormattingEnabled = True
-        Me.cboWCShip.Location = New System.Drawing.Point(287, 39)
-        Me.cboWCShip.Name = "cboWCShip"
-        Me.cboWCShip.Size = New System.Drawing.Size(187, 21)
-        Me.cboWCShip.TabIndex = 19
-        '
-        'cboFCShip
-        '
-        Me.cboFCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFCShip.Enabled = False
-        Me.cboFCShip.FormattingEnabled = True
-        Me.cboFCShip.Location = New System.Drawing.Point(287, 66)
-        Me.cboFCShip.Name = "cboFCShip"
-        Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
-        Me.cboFCShip.TabIndex = 20
-        '
-        'tabBoosters
-        '
-        Me.tabBoosters.Controls.Add(Me.panelBoosters)
-        Me.tabBoosters.Location = New System.Drawing.Point(4, 22)
-        Me.tabBoosters.Name = "tabBoosters"
-        Me.tabBoosters.Size = New System.Drawing.Size(668, 174)
-        Me.tabBoosters.TabIndex = 6
-        Me.tabBoosters.Text = "Boosters"
-        Me.tabBoosters.UseVisualStyleBackColor = True
-        '
-        'panelBoosters
-        '
-        Me.panelBoosters.BackColor = System.Drawing.SystemColors.Control
-        Me.panelBoosters.Controls.Add(Me.lblBoosterPenalties3)
-        Me.panelBoosters.Controls.Add(Me.lblBoosterPenalties2)
-        Me.panelBoosters.Controls.Add(Me.lblBoosterPenalties1)
-        Me.panelBoosters.Controls.Add(Me.lblBoosterSlot3)
-        Me.panelBoosters.Controls.Add(Me.cboBoosterSlot3)
-        Me.panelBoosters.Controls.Add(Me.lblBoosterSlot2)
-        Me.panelBoosters.Controls.Add(Me.cboBoosterSlot2)
-        Me.panelBoosters.Controls.Add(Me.lblBoosterSlot1)
-        Me.panelBoosters.Controls.Add(Me.cboBoosterSlot1)
-        Me.panelBoosters.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelBoosters.Location = New System.Drawing.Point(0, 0)
-        Me.panelBoosters.Name = "panelBoosters"
-        Me.panelBoosters.Size = New System.Drawing.Size(668, 174)
-        Me.panelBoosters.TabIndex = 27
-        '
         'lblBoosterPenalties3
         '
         Me.lblBoosterPenalties3.AutoSize = True
-        Me.lblBoosterPenalties3.Location = New System.Drawing.Point(55, 136)
+        Me.lblBoosterPenalties3.BackColor = System.Drawing.Color.Transparent
+        Me.lblBoosterPenalties3.Location = New System.Drawing.Point(62, 140)
         Me.lblBoosterPenalties3.Name = "lblBoosterPenalties3"
         Me.lblBoosterPenalties3.Size = New System.Drawing.Size(54, 13)
         Me.lblBoosterPenalties3.TabIndex = 8
@@ -988,7 +672,8 @@ Partial Class ShipSlotControl
         'lblBoosterPenalties2
         '
         Me.lblBoosterPenalties2.AutoSize = True
-        Me.lblBoosterPenalties2.Location = New System.Drawing.Point(55, 87)
+        Me.lblBoosterPenalties2.BackColor = System.Drawing.Color.Transparent
+        Me.lblBoosterPenalties2.Location = New System.Drawing.Point(62, 91)
         Me.lblBoosterPenalties2.Name = "lblBoosterPenalties2"
         Me.lblBoosterPenalties2.Size = New System.Drawing.Size(54, 13)
         Me.lblBoosterPenalties2.TabIndex = 7
@@ -997,7 +682,8 @@ Partial Class ShipSlotControl
         'lblBoosterPenalties1
         '
         Me.lblBoosterPenalties1.AutoSize = True
-        Me.lblBoosterPenalties1.Location = New System.Drawing.Point(55, 38)
+        Me.lblBoosterPenalties1.BackColor = System.Drawing.Color.Transparent
+        Me.lblBoosterPenalties1.Location = New System.Drawing.Point(62, 42)
         Me.lblBoosterPenalties1.Name = "lblBoosterPenalties1"
         Me.lblBoosterPenalties1.Size = New System.Drawing.Size(54, 13)
         Me.lblBoosterPenalties1.TabIndex = 6
@@ -1006,240 +692,148 @@ Partial Class ShipSlotControl
         'lblBoosterSlot3
         '
         Me.lblBoosterSlot3.AutoSize = True
-        Me.lblBoosterSlot3.Location = New System.Drawing.Point(14, 115)
+        Me.lblBoosterSlot3.BackColor = System.Drawing.Color.Transparent
+        Me.lblBoosterSlot3.Location = New System.Drawing.Point(21, 119)
         Me.lblBoosterSlot3.Name = "lblBoosterSlot3"
         Me.lblBoosterSlot3.Size = New System.Drawing.Size(38, 13)
         Me.lblBoosterSlot3.TabIndex = 5
         Me.lblBoosterSlot3.Text = "Slot 3:"
-        '
-        'cboBoosterSlot3
-        '
-        Me.cboBoosterSlot3.ContextMenuStrip = Me.ctxBoosters
-        Me.cboBoosterSlot3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBoosterSlot3.FormattingEnabled = True
-        Me.cboBoosterSlot3.Location = New System.Drawing.Point(58, 112)
-        Me.cboBoosterSlot3.Name = "cboBoosterSlot3"
-        Me.cboBoosterSlot3.Size = New System.Drawing.Size(163, 21)
-        Me.cboBoosterSlot3.Sorted = True
-        Me.cboBoosterSlot3.TabIndex = 4
         '
         'ctxBoosters
         '
         Me.ctxBoosters.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxBoosters.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowBoosterInfo, Me.ToolStripMenuItem3, Me.mnuBoosterPenalty1, Me.mnuBoosterPenalty2, Me.mnuBoosterPenalty3, Me.mnuBoosterPenalty4, Me.mnuSepPenalties, Me.mnuRandomSideEffects, Me.mnuAlterBoosterSkills, Me.ToolStripMenuItem4, Me.mnuRemoveBooster})
         Me.ctxBoosters.Name = "ctx"
-        Me.ctxBoosters.Size = New System.Drawing.Size(185, 198)
+        Me.ctxBoosters.Size = New System.Drawing.Size(174, 198)
         '
         'mnuShowBoosterInfo
         '
         Me.mnuShowBoosterInfo.Name = "mnuShowBoosterInfo"
-        Me.mnuShowBoosterInfo.Size = New System.Drawing.Size(184, 22)
+        Me.mnuShowBoosterInfo.Size = New System.Drawing.Size(173, 22)
         Me.mnuShowBoosterInfo.Text = "Show Info"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(181, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(170, 6)
         '
         'mnuBoosterPenalty1
         '
         Me.mnuBoosterPenalty1.CheckOnClick = True
         Me.mnuBoosterPenalty1.Name = "mnuBoosterPenalty1"
-        Me.mnuBoosterPenalty1.Size = New System.Drawing.Size(184, 22)
+        Me.mnuBoosterPenalty1.Size = New System.Drawing.Size(173, 22)
         Me.mnuBoosterPenalty1.Text = "Penalty1"
         '
         'mnuBoosterPenalty2
         '
         Me.mnuBoosterPenalty2.CheckOnClick = True
         Me.mnuBoosterPenalty2.Name = "mnuBoosterPenalty2"
-        Me.mnuBoosterPenalty2.Size = New System.Drawing.Size(184, 22)
+        Me.mnuBoosterPenalty2.Size = New System.Drawing.Size(173, 22)
         Me.mnuBoosterPenalty2.Text = "Penalty2"
         '
         'mnuBoosterPenalty3
         '
         Me.mnuBoosterPenalty3.CheckOnClick = True
         Me.mnuBoosterPenalty3.Name = "mnuBoosterPenalty3"
-        Me.mnuBoosterPenalty3.Size = New System.Drawing.Size(184, 22)
+        Me.mnuBoosterPenalty3.Size = New System.Drawing.Size(173, 22)
         Me.mnuBoosterPenalty3.Text = "Penalty3"
         '
         'mnuBoosterPenalty4
         '
         Me.mnuBoosterPenalty4.CheckOnClick = True
         Me.mnuBoosterPenalty4.Name = "mnuBoosterPenalty4"
-        Me.mnuBoosterPenalty4.Size = New System.Drawing.Size(184, 22)
+        Me.mnuBoosterPenalty4.Size = New System.Drawing.Size(173, 22)
         Me.mnuBoosterPenalty4.Text = "Penalty4"
         '
         'mnuSepPenalties
         '
         Me.mnuSepPenalties.Name = "mnuSepPenalties"
-        Me.mnuSepPenalties.Size = New System.Drawing.Size(181, 6)
+        Me.mnuSepPenalties.Size = New System.Drawing.Size(170, 6)
         '
         'mnuRandomSideEffects
         '
         Me.mnuRandomSideEffects.Name = "mnuRandomSideEffects"
-        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(184, 22)
+        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(173, 22)
         Me.mnuRandomSideEffects.Text = "Random Side Effects"
         '
         'mnuAlterBoosterSkills
         '
         Me.mnuAlterBoosterSkills.Name = "mnuAlterBoosterSkills"
-        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(184, 22)
+        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(173, 22)
         Me.mnuAlterBoosterSkills.Text = "Alter Relevant Skills"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(181, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(170, 6)
         '
         'mnuRemoveBooster
         '
         Me.mnuRemoveBooster.Name = "mnuRemoveBooster"
-        Me.mnuRemoveBooster.Size = New System.Drawing.Size(184, 22)
+        Me.mnuRemoveBooster.Size = New System.Drawing.Size(173, 22)
         Me.mnuRemoveBooster.Text = "Remove Booster"
         '
         'lblBoosterSlot2
         '
         Me.lblBoosterSlot2.AutoSize = True
-        Me.lblBoosterSlot2.Location = New System.Drawing.Point(15, 66)
+        Me.lblBoosterSlot2.BackColor = System.Drawing.Color.Transparent
+        Me.lblBoosterSlot2.Location = New System.Drawing.Point(22, 70)
         Me.lblBoosterSlot2.Name = "lblBoosterSlot2"
         Me.lblBoosterSlot2.Size = New System.Drawing.Size(38, 13)
         Me.lblBoosterSlot2.TabIndex = 3
         Me.lblBoosterSlot2.Text = "Slot 2:"
         '
-        'cboBoosterSlot2
-        '
-        Me.cboBoosterSlot2.ContextMenuStrip = Me.ctxBoosters
-        Me.cboBoosterSlot2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBoosterSlot2.FormattingEnabled = True
-        Me.cboBoosterSlot2.Location = New System.Drawing.Point(58, 63)
-        Me.cboBoosterSlot2.Name = "cboBoosterSlot2"
-        Me.cboBoosterSlot2.Size = New System.Drawing.Size(163, 21)
-        Me.cboBoosterSlot2.Sorted = True
-        Me.cboBoosterSlot2.TabIndex = 2
-        '
         'lblBoosterSlot1
         '
         Me.lblBoosterSlot1.AutoSize = True
-        Me.lblBoosterSlot1.Location = New System.Drawing.Point(15, 17)
+        Me.lblBoosterSlot1.BackColor = System.Drawing.Color.Transparent
+        Me.lblBoosterSlot1.Location = New System.Drawing.Point(22, 21)
         Me.lblBoosterSlot1.Name = "lblBoosterSlot1"
         Me.lblBoosterSlot1.Size = New System.Drawing.Size(38, 13)
         Me.lblBoosterSlot1.TabIndex = 1
         Me.lblBoosterSlot1.Text = "Slot 1:"
         '
-        'cboBoosterSlot1
-        '
-        Me.cboBoosterSlot1.ContextMenuStrip = Me.ctxBoosters
-        Me.cboBoosterSlot1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBoosterSlot1.FormattingEnabled = True
-        Me.cboBoosterSlot1.Location = New System.Drawing.Point(58, 14)
-        Me.cboBoosterSlot1.Name = "cboBoosterSlot1"
-        Me.cboBoosterSlot1.Size = New System.Drawing.Size(163, 21)
-        Me.cboBoosterSlot1.Sorted = True
-        Me.cboBoosterSlot1.TabIndex = 0
-        '
-        'tabEnvironment
-        '
-        Me.tabEnvironment.Controls.Add(Me.panelWH)
-        Me.tabEnvironment.Location = New System.Drawing.Point(4, 22)
-        Me.tabEnvironment.Name = "tabEnvironment"
-        Me.tabEnvironment.Size = New System.Drawing.Size(668, 174)
-        Me.tabEnvironment.TabIndex = 5
-        Me.tabEnvironment.Text = "WH Effects"
-        Me.tabEnvironment.UseVisualStyleBackColor = True
-        '
-        'panelWH
-        '
-        Me.panelWH.BackColor = System.Drawing.SystemColors.Control
-        Me.panelWH.Controls.Add(Me.lblWHClass)
-        Me.panelWH.Controls.Add(Me.cboWHClass)
-        Me.panelWH.Controls.Add(Me.lblWHEffect)
-        Me.panelWH.Controls.Add(Me.cboWHEffect)
-        Me.panelWH.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelWH.Location = New System.Drawing.Point(0, 0)
-        Me.panelWH.Name = "panelWH"
-        Me.panelWH.Size = New System.Drawing.Size(668, 174)
-        Me.panelWH.TabIndex = 26
-        '
         'lblWHClass
         '
         Me.lblWHClass.AutoSize = True
-        Me.lblWHClass.Location = New System.Drawing.Point(286, 15)
+        Me.lblWHClass.BackColor = System.Drawing.Color.Transparent
+        Me.lblWHClass.Location = New System.Drawing.Point(302, 24)
         Me.lblWHClass.Name = "lblWHClass"
         Me.lblWHClass.Size = New System.Drawing.Size(87, 13)
         Me.lblWHClass.TabIndex = 14
         Me.lblWHClass.Text = "Wormhole Class:"
         '
-        'cboWHClass
-        '
-        Me.cboWHClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWHClass.FormattingEnabled = True
-        Me.cboWHClass.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6"})
-        Me.cboWHClass.Location = New System.Drawing.Point(374, 12)
-        Me.cboWHClass.Name = "cboWHClass"
-        Me.cboWHClass.Size = New System.Drawing.Size(59, 21)
-        Me.cboWHClass.TabIndex = 13
-        '
         'lblWHEffect
         '
         Me.lblWHEffect.AutoSize = True
-        Me.lblWHEffect.Location = New System.Drawing.Point(10, 15)
+        Me.lblWHEffect.BackColor = System.Drawing.Color.Transparent
+        Me.lblWHEffect.Location = New System.Drawing.Point(26, 24)
         Me.lblWHEffect.Name = "lblWHEffect"
         Me.lblWHEffect.Size = New System.Drawing.Size(91, 13)
         Me.lblWHEffect.TabIndex = 12
         Me.lblWHEffect.Text = "Wormhole Effect:"
         '
-        'cboWHEffect
-        '
-        Me.cboWHEffect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWHEffect.FormattingEnabled = True
-        Me.cboWHEffect.Items.AddRange(New Object() {"<None>", "Black Hole", "Cataclysmic Variable", "Magnetar", "Pulsar", "Red Giant", "Wolf Rayet"})
-        Me.cboWHEffect.Location = New System.Drawing.Point(105, 12)
-        Me.cboWHEffect.Name = "cboWHEffect"
-        Me.cboWHEffect.Size = New System.Drawing.Size(148, 21)
-        Me.cboWHEffect.TabIndex = 10
-        '
-        'tabShipBay
-        '
-        Me.tabShipBay.Controls.Add(Me.panelShipBay)
-        Me.tabShipBay.Location = New System.Drawing.Point(4, 22)
-        Me.tabShipBay.Name = "tabShipBay"
-        Me.tabShipBay.Size = New System.Drawing.Size(668, 174)
-        Me.tabShipBay.TabIndex = 4
-        Me.tabShipBay.Text = "Ship Maintenance Bay"
-        Me.tabShipBay.UseVisualStyleBackColor = True
-        '
-        'panelShipBay
-        '
-        Me.panelShipBay.BackColor = System.Drawing.SystemColors.Control
-        Me.panelShipBay.Controls.Add(Me.pbShipBay)
-        Me.panelShipBay.Controls.Add(Me.lblShipBay)
-        Me.panelShipBay.Controls.Add(Me.lvwShipBay)
-        Me.panelShipBay.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelShipBay.Location = New System.Drawing.Point(0, 0)
-        Me.panelShipBay.Name = "panelShipBay"
-        Me.panelShipBay.Size = New System.Drawing.Size(668, 174)
-        Me.panelShipBay.TabIndex = 34
-        '
         'pbShipBay
         '
         Me.pbShipBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbShipBay.BackColor = System.Drawing.Color.Transparent
-        Me.pbShipBay.EndColor = System.Drawing.Color.LimeGreen
-        Me.pbShipBay.GlowColor = System.Drawing.Color.LightGreen
-        Me.pbShipBay.Location = New System.Drawing.Point(3, 21)
+        '
+        '
+        '
+        Me.pbShipBay.BackgroundStyle.Class = ""
+        Me.pbShipBay.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.pbShipBay.Location = New System.Drawing.Point(4, 17)
         Me.pbShipBay.Name = "pbShipBay"
-        Me.pbShipBay.Size = New System.Drawing.Size(635, 10)
-        Me.pbShipBay.StartColor = System.Drawing.Color.LimeGreen
-        Me.pbShipBay.TabIndex = 32
-        Me.pbShipBay.TextColor = System.Drawing.Color.Black
-        Me.pbShipBay.TextOverlay = ""
+        Me.pbShipBay.Size = New System.Drawing.Size(1047, 10)
+        Me.pbShipBay.TabIndex = 6
+        Me.pbShipBay.Text = "ProgressBarX1"
         Me.pbShipBay.Value = 50
         '
         'lblShipBay
         '
         Me.lblShipBay.AutoSize = True
-        Me.lblShipBay.Location = New System.Drawing.Point(3, 5)
+        Me.lblShipBay.BackColor = System.Drawing.Color.Transparent
+        Me.lblShipBay.Location = New System.Drawing.Point(4, 1)
         Me.lblShipBay.Name = "lblShipBay"
         Me.lblShipBay.Size = New System.Drawing.Size(89, 13)
         Me.lblShipBay.TabIndex = 3
@@ -1251,13 +845,18 @@ Partial Class ShipSlotControl
         Me.lvwShipBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.lvwShipBay.Border.Class = "ListViewBorder"
+        Me.lvwShipBay.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwShipBay.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colShipBayShip, Me.colShipBayQuantity, Me.colShipBayVolume, Me.colShipBayTotalVolume})
         Me.lvwShipBay.ContextMenuStrip = Me.ctxBays
         Me.lvwShipBay.FullRowSelect = True
         Me.lvwShipBay.GridLines = True
-        Me.lvwShipBay.Location = New System.Drawing.Point(3, 35)
+        Me.lvwShipBay.Location = New System.Drawing.Point(4, 31)
         Me.lvwShipBay.Name = "lvwShipBay"
-        Me.lvwShipBay.Size = New System.Drawing.Size(662, 136)
+        Me.lvwShipBay.Size = New System.Drawing.Size(1053, 200)
         Me.lvwShipBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwShipBay.TabIndex = 5
         Me.lvwShipBay.UseCompatibleStateImageBehavior = False
@@ -1286,263 +885,1104 @@ Partial Class ShipSlotControl
         Me.colShipBayTotalVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colShipBayTotalVolume.Width = 100
         '
-        'CollapsibleSplitter1
+        'lvwHistory
         '
-        Me.CollapsibleSplitter1.AnimationDelay = 20
-        Me.CollapsibleSplitter1.AnimationStep = 20
-        Me.CollapsibleSplitter1.BackColor = System.Drawing.SystemColors.Control
-        Me.CollapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.RaisedOuter
-        Me.CollapsibleSplitter1.ControlToHide = Me.tabStorage
-        Me.CollapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.CollapsibleSplitter1.ExpandParentForm = False
-        Me.CollapsibleSplitter1.Location = New System.Drawing.Point(0, 355)
-        Me.CollapsibleSplitter1.Name = "CollapsibleSplitter1"
-        Me.CollapsibleSplitter1.TabIndex = 6
-        Me.CollapsibleSplitter1.TabStop = False
-        Me.CollapsibleSplitter1.UseAnimations = False
-        Me.CollapsibleSplitter1.VisualStyle = NJFLib.Controls.VisualStyles.XP
         '
-        'lvwSlots
         '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        ListViewGroup5.Header = "Subsystem Slots"
-        ListViewGroup5.Name = "lvwgSubSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 38)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.ShowItemToolTips = True
-        Me.lvwSlots.Size = New System.Drawing.Size(676, 317)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
+        Me.lvwHistory.Border.Class = "ListViewBorder"
+        Me.lvwHistory.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lvwHistory.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colTransaction, Me.colSlotType, Me.colOldSlotNo, Me.colOldModName, Me.colOldChargeName, Me.colNewSlotNo, Me.colNewModName, Me.colNewChargeName, Me.colChargeOnly})
+        Me.lvwHistory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwHistory.Location = New System.Drawing.Point(1, 1)
+        Me.lvwHistory.Name = "lvwHistory"
+        Me.lvwHistory.Size = New System.Drawing.Size(1059, 233)
+        Me.lvwHistory.TabIndex = 0
+        Me.lvwHistory.UseCompatibleStateImageBehavior = False
+        Me.lvwHistory.View = System.Windows.Forms.View.Details
+        '
+        'colTransaction
+        '
+        Me.colTransaction.Text = "Transaction"
+        Me.colTransaction.Width = 100
+        '
+        'colSlotType
+        '
+        Me.colSlotType.Text = "Type"
+        '
+        'colOldSlotNo
+        '
+        Me.colOldSlotNo.Text = "Old Slot"
+        '
+        'colOldModName
+        '
+        Me.colOldModName.Text = "Old Module"
+        '
+        'colOldChargeName
+        '
+        Me.colOldChargeName.Text = "Old Charge"
+        '
+        'colNewSlotNo
+        '
+        Me.colNewSlotNo.Text = "New Slot"
+        '
+        'colNewModName
+        '
+        Me.colNewModName.Text = "New Module"
+        '
+        'colNewChargeName
+        '
+        Me.colNewChargeName.Text = "New Charge"
+        '
+        'colChargeOnly
+        '
+        Me.colChargeOnly.Text = "Chg Only?"
+        '
+        'ExpandableSplitter1
+        '
+        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ExpandableSplitter1.ExpandableControl = Me.tcStorage
+        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter1.Location = New System.Drawing.Point(0, 400)
+        Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
+        Me.ExpandableSplitter1.Size = New System.Drawing.Size(1061, 6)
+        Me.ExpandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.ExpandableSplitter1.TabIndex = 6
+        Me.ExpandableSplitter1.TabStop = False
+        '
+        'tcStorage
+        '
+        Me.tcStorage.CanReorderTabs = True
+        Me.tcStorage.Controls.Add(Me.tcpCargoBay)
+        Me.tcStorage.Controls.Add(Me.tcpDroneBay)
+        Me.tcStorage.Controls.Add(Me.tcpRemoteEffects)
+        Me.tcStorage.Controls.Add(Me.tcpBoosters)
+        Me.tcStorage.Controls.Add(Me.tcpHistory)
+        Me.tcStorage.Controls.Add(Me.tcpShipBay)
+        Me.tcStorage.Controls.Add(Me.tcpFleetEffects)
+        Me.tcStorage.Controls.Add(Me.tcpWHEffects)
+        Me.tcStorage.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.tcStorage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tcStorage.Location = New System.Drawing.Point(0, 406)
+        Me.tcStorage.Name = "tcStorage"
+        Me.tcStorage.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.tcStorage.SelectedTabIndex = 0
+        Me.tcStorage.Size = New System.Drawing.Size(1061, 258)
+        Me.tcStorage.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
+        Me.tcStorage.TabIndex = 9
+        Me.tcStorage.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
+        Me.tcStorage.Tabs.Add(Me.tiDroneBay)
+        Me.tcStorage.Tabs.Add(Me.tiCargoBay)
+        Me.tcStorage.Tabs.Add(Me.tiRemoteEffects)
+        Me.tcStorage.Tabs.Add(Me.tiFleetEffects)
+        Me.tcStorage.Tabs.Add(Me.tiBoosters)
+        Me.tcStorage.Tabs.Add(Me.tiWHEffects)
+        Me.tcStorage.Tabs.Add(Me.tiShipBay)
+        Me.tcStorage.Tabs.Add(Me.tiHistory)
+        Me.tcStorage.Text = "TabControl1"
+        '
+        'tcpDroneBay
+        '
+        Me.tcpDroneBay.Controls.Add(Me.btnMergeDrones)
+        Me.tcpDroneBay.Controls.Add(Me.pbDroneBay)
+        Me.tcpDroneBay.Controls.Add(Me.lblDroneBay)
+        Me.tcpDroneBay.Controls.Add(Me.lvwDroneBay)
+        Me.tcpDroneBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpDroneBay.Location = New System.Drawing.Point(0, 23)
+        Me.tcpDroneBay.Name = "tcpDroneBay"
+        Me.tcpDroneBay.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpDroneBay.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpDroneBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpDroneBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpDroneBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpDroneBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpDroneBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpDroneBay.Style.GradientAngle = 90
+        Me.tcpDroneBay.TabIndex = 1
+        Me.tcpDroneBay.TabItem = Me.tiDroneBay
+        '
+        'btnMergeDrones
+        '
+        Me.btnMergeDrones.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeDrones.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnMergeDrones.Location = New System.Drawing.Point(977, 7)
+        Me.btnMergeDrones.Name = "btnMergeDrones"
+        Me.btnMergeDrones.Size = New System.Drawing.Size(80, 20)
+        Me.btnMergeDrones.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnMergeDrones.TabIndex = 5
+        Me.btnMergeDrones.Text = "Merge Drones"
+        '
+        'tiDroneBay
+        '
+        Me.tiDroneBay.AttachedControl = Me.tcpDroneBay
+        Me.tiDroneBay.Name = "tiDroneBay"
+        Me.tiDroneBay.Text = "Drone Bay"
+        '
+        'tcpRemoteEffects
+        '
+        Me.tcpRemoteEffects.Controls.Add(Me.cboPilot)
+        Me.tcpRemoteEffects.Controls.Add(Me.cboFitting)
+        Me.tcpRemoteEffects.Controls.Add(Me.btnUpdateRemoteEffects)
+        Me.tcpRemoteEffects.Controls.Add(Me.btnAddRemoteFitting)
+        Me.tcpRemoteEffects.Controls.Add(Me.lblFitting)
+        Me.tcpRemoteEffects.Controls.Add(Me.lvwRemoteFittings)
+        Me.tcpRemoteEffects.Controls.Add(Me.lvwRemoteEffects)
+        Me.tcpRemoteEffects.Controls.Add(Me.lblPilot)
+        Me.tcpRemoteEffects.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpRemoteEffects.Location = New System.Drawing.Point(0, 23)
+        Me.tcpRemoteEffects.Name = "tcpRemoteEffects"
+        Me.tcpRemoteEffects.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpRemoteEffects.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpRemoteEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpRemoteEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpRemoteEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpRemoteEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpRemoteEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpRemoteEffects.Style.GradientAngle = 90
+        Me.tcpRemoteEffects.TabIndex = 3
+        Me.tcpRemoteEffects.TabItem = Me.tiRemoteEffects
+        '
+        'cboPilot
+        '
+        Me.cboPilot.DisplayMember = "Text"
+        Me.cboPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPilot.FormattingEnabled = True
+        Me.cboPilot.ItemHeight = 15
+        Me.cboPilot.Location = New System.Drawing.Point(289, 4)
+        Me.cboPilot.Name = "cboPilot"
+        Me.cboPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboPilot.TabIndex = 12
+        '
+        'cboFitting
+        '
+        Me.cboFitting.DisplayMember = "Text"
+        Me.cboFitting.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboFitting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFitting.FormattingEnabled = True
+        Me.cboFitting.ItemHeight = 15
+        Me.cboFitting.Location = New System.Drawing.Point(59, 4)
+        Me.cboFitting.Name = "cboFitting"
+        Me.cboFitting.Size = New System.Drawing.Size(187, 21)
+        Me.cboFitting.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboFitting.TabIndex = 11
+        '
+        'btnUpdateRemoteEffects
+        '
+        Me.btnUpdateRemoteEffects.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnUpdateRemoteEffects.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(552, 4)
+        Me.btnUpdateRemoteEffects.Name = "btnUpdateRemoteEffects"
+        Me.btnUpdateRemoteEffects.Size = New System.Drawing.Size(75, 23)
+        Me.btnUpdateRemoteEffects.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnUpdateRemoteEffects.TabIndex = 10
+        Me.btnUpdateRemoteEffects.Text = "Update"
+        '
+        'btnAddRemoteFitting
+        '
+        Me.btnAddRemoteFitting.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAddRemoteFitting.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(471, 4)
+        Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
+        Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddRemoteFitting.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnAddRemoteFitting.TabIndex = 9
+        Me.btnAddRemoteFitting.Text = "Add"
+        '
+        'tiRemoteEffects
+        '
+        Me.tiRemoteEffects.AttachedControl = Me.tcpRemoteEffects
+        Me.tiRemoteEffects.Name = "tiRemoteEffects"
+        Me.tiRemoteEffects.Text = "Remote Effects"
+        '
+        'tcpBoosters
+        '
+        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot2)
+        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot3)
+        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot1)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties3)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot1)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties2)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties1)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot3)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot2)
+        Me.tcpBoosters.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpBoosters.Location = New System.Drawing.Point(0, 23)
+        Me.tcpBoosters.Name = "tcpBoosters"
+        Me.tcpBoosters.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpBoosters.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpBoosters.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpBoosters.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpBoosters.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpBoosters.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpBoosters.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpBoosters.Style.GradientAngle = 90
+        Me.tcpBoosters.TabIndex = 5
+        Me.tcpBoosters.TabItem = Me.tiBoosters
+        '
+        'cboBoosterSlot2
+        '
+        Me.cboBoosterSlot2.ContextMenuStrip = Me.ctxBoosters
+        Me.cboBoosterSlot2.DisplayMember = "Text"
+        Me.cboBoosterSlot2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBoosterSlot2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot2.FormattingEnabled = True
+        Me.cboBoosterSlot2.ItemHeight = 15
+        Me.cboBoosterSlot2.Location = New System.Drawing.Point(66, 67)
+        Me.cboBoosterSlot2.Name = "cboBoosterSlot2"
+        Me.cboBoosterSlot2.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBoosterSlot2.TabIndex = 11
+        '
+        'cboBoosterSlot3
+        '
+        Me.cboBoosterSlot3.ContextMenuStrip = Me.ctxBoosters
+        Me.cboBoosterSlot3.DisplayMember = "Text"
+        Me.cboBoosterSlot3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBoosterSlot3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot3.FormattingEnabled = True
+        Me.cboBoosterSlot3.ItemHeight = 15
+        Me.cboBoosterSlot3.Location = New System.Drawing.Point(65, 116)
+        Me.cboBoosterSlot3.Name = "cboBoosterSlot3"
+        Me.cboBoosterSlot3.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBoosterSlot3.TabIndex = 10
+        '
+        'cboBoosterSlot1
+        '
+        Me.cboBoosterSlot1.ContextMenuStrip = Me.ctxBoosters
+        Me.cboBoosterSlot1.DisplayMember = "Text"
+        Me.cboBoosterSlot1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBoosterSlot1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot1.FormattingEnabled = True
+        Me.cboBoosterSlot1.ItemHeight = 15
+        Me.cboBoosterSlot1.Location = New System.Drawing.Point(66, 18)
+        Me.cboBoosterSlot1.Name = "cboBoosterSlot1"
+        Me.cboBoosterSlot1.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBoosterSlot1.TabIndex = 9
+        '
+        'tiBoosters
+        '
+        Me.tiBoosters.AttachedControl = Me.tcpBoosters
+        Me.tiBoosters.Name = "tiBoosters"
+        Me.tiBoosters.Text = "Boosters"
+        '
+        'tcpHistory
+        '
+        Me.tcpHistory.Controls.Add(Me.lvwHistory)
+        Me.tcpHistory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpHistory.Location = New System.Drawing.Point(0, 23)
+        Me.tcpHistory.Name = "tcpHistory"
+        Me.tcpHistory.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpHistory.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpHistory.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpHistory.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpHistory.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpHistory.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpHistory.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpHistory.Style.GradientAngle = 90
+        Me.tcpHistory.TabIndex = 8
+        Me.tcpHistory.TabItem = Me.tiHistory
+        '
+        'tiHistory
+        '
+        Me.tiHistory.AttachedControl = Me.tcpHistory
+        Me.tiHistory.Name = "tiHistory"
+        Me.tiHistory.Text = "History"
+        '
+        'tcpShipBay
+        '
+        Me.tcpShipBay.Controls.Add(Me.pbShipBay)
+        Me.tcpShipBay.Controls.Add(Me.lblShipBay)
+        Me.tcpShipBay.Controls.Add(Me.lvwShipBay)
+        Me.tcpShipBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpShipBay.Location = New System.Drawing.Point(0, 23)
+        Me.tcpShipBay.Name = "tcpShipBay"
+        Me.tcpShipBay.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpShipBay.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpShipBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpShipBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpShipBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpShipBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpShipBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpShipBay.Style.GradientAngle = 90
+        Me.tcpShipBay.TabIndex = 7
+        Me.tcpShipBay.TabItem = Me.tiShipBay
+        '
+        'tiShipBay
+        '
+        Me.tiShipBay.AttachedControl = Me.tcpShipBay
+        Me.tiShipBay.Name = "tiShipBay"
+        Me.tiShipBay.Text = "Ship Maintenance Bay"
+        '
+        'tcpCargoBay
+        '
+        Me.tcpCargoBay.Controls.Add(Me.btnMergeCargo)
+        Me.tcpCargoBay.Controls.Add(Me.pbCargoBay)
+        Me.tcpCargoBay.Controls.Add(Me.lblCargoBay)
+        Me.tcpCargoBay.Controls.Add(Me.lvwCargoBay)
+        Me.tcpCargoBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpCargoBay.Location = New System.Drawing.Point(0, 23)
+        Me.tcpCargoBay.Name = "tcpCargoBay"
+        Me.tcpCargoBay.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpCargoBay.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpCargoBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpCargoBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpCargoBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpCargoBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpCargoBay.Style.GradientAngle = 90
+        Me.tcpCargoBay.TabIndex = 2
+        Me.tcpCargoBay.TabItem = Me.tiCargoBay
+        '
+        'btnMergeCargo
+        '
+        Me.btnMergeCargo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeCargo.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnMergeCargo.Location = New System.Drawing.Point(977, 7)
+        Me.btnMergeCargo.Name = "btnMergeCargo"
+        Me.btnMergeCargo.Size = New System.Drawing.Size(80, 20)
+        Me.btnMergeCargo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnMergeCargo.TabIndex = 8
+        Me.btnMergeCargo.Text = "Merge Cargo"
+        '
+        'tiCargoBay
+        '
+        Me.tiCargoBay.AttachedControl = Me.tcpCargoBay
+        Me.tiCargoBay.Name = "tiCargoBay"
+        Me.tiCargoBay.Text = "Cargo Bay"
+        '
+        'tcpFleetEffects
+        '
+        Me.tcpFleetEffects.Controls.Add(Me.cboFCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.cboWCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.cboSCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.cboFCPilot)
+        Me.tcpFleetEffects.Controls.Add(Me.cboWCPilot)
+        Me.tcpFleetEffects.Controls.Add(Me.cboSCPilot)
+        Me.tcpFleetEffects.Controls.Add(Me.btnLeaveFleet)
+        Me.tcpFleetEffects.Controls.Add(Me.chkFCActive)
+        Me.tcpFleetEffects.Controls.Add(Me.lblSC)
+        Me.tcpFleetEffects.Controls.Add(Me.chkWCActive)
+        Me.tcpFleetEffects.Controls.Add(Me.chkSCActive)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFleetStatusLabel)
+        Me.tcpFleetEffects.Controls.Add(Me.lblWCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFleetStatus)
+        Me.tcpFleetEffects.Controls.Add(Me.lblSCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.lblWC)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFC)
+        Me.tcpFleetEffects.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpFleetEffects.Location = New System.Drawing.Point(0, 23)
+        Me.tcpFleetEffects.Name = "tcpFleetEffects"
+        Me.tcpFleetEffects.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpFleetEffects.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpFleetEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpFleetEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpFleetEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpFleetEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpFleetEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpFleetEffects.Style.GradientAngle = 90
+        Me.tcpFleetEffects.TabIndex = 4
+        Me.tcpFleetEffects.TabItem = Me.tiFleetEffects
+        '
+        'cboFCShip
+        '
+        Me.cboFCShip.DisplayMember = "Text"
+        Me.cboFCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboFCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFCShip.FormattingEnabled = True
+        Me.cboFCShip.ItemHeight = 15
+        Me.cboFCShip.Location = New System.Drawing.Point(290, 64)
+        Me.cboFCShip.Name = "cboFCShip"
+        Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboFCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboFCShip.TabIndex = 33
+        '
+        'cboWCShip
+        '
+        Me.cboWCShip.DisplayMember = "Text"
+        Me.cboWCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboWCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWCShip.FormattingEnabled = True
+        Me.cboWCShip.ItemHeight = 15
+        Me.cboWCShip.Location = New System.Drawing.Point(290, 37)
+        Me.cboWCShip.Name = "cboWCShip"
+        Me.cboWCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboWCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboWCShip.TabIndex = 32
+        '
+        'cboSCShip
+        '
+        Me.cboSCShip.DisplayMember = "Text"
+        Me.cboSCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboSCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSCShip.FormattingEnabled = True
+        Me.cboSCShip.ItemHeight = 15
+        Me.cboSCShip.Location = New System.Drawing.Point(290, 10)
+        Me.cboSCShip.Name = "cboSCShip"
+        Me.cboSCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboSCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboSCShip.TabIndex = 31
+        '
+        'cboFCPilot
+        '
+        Me.cboFCPilot.DisplayMember = "Text"
+        Me.cboFCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboFCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFCPilot.FormattingEnabled = True
+        Me.cboFCPilot.ItemHeight = 15
+        Me.cboFCPilot.Location = New System.Drawing.Point(100, 64)
+        Me.cboFCPilot.Name = "cboFCPilot"
+        Me.cboFCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboFCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboFCPilot.TabIndex = 30
+        '
+        'cboWCPilot
+        '
+        Me.cboWCPilot.DisplayMember = "Text"
+        Me.cboWCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboWCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWCPilot.FormattingEnabled = True
+        Me.cboWCPilot.ItemHeight = 15
+        Me.cboWCPilot.Location = New System.Drawing.Point(100, 37)
+        Me.cboWCPilot.Name = "cboWCPilot"
+        Me.cboWCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboWCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboWCPilot.TabIndex = 29
+        '
+        'cboSCPilot
+        '
+        Me.cboSCPilot.DisplayMember = "Text"
+        Me.cboSCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboSCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSCPilot.FormattingEnabled = True
+        Me.cboSCPilot.ItemHeight = 15
+        Me.cboSCPilot.Location = New System.Drawing.Point(100, 10)
+        Me.cboSCPilot.Name = "cboSCPilot"
+        Me.cboSCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboSCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboSCPilot.TabIndex = 28
+        '
+        'btnLeaveFleet
+        '
+        Me.btnLeaveFleet.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnLeaveFleet.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnLeaveFleet.Location = New System.Drawing.Point(172, 91)
+        Me.btnLeaveFleet.Name = "btnLeaveFleet"
+        Me.btnLeaveFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnLeaveFleet.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnLeaveFleet.TabIndex = 27
+        Me.btnLeaveFleet.Text = "Leave Fleet"
+        '
+        'tiFleetEffects
+        '
+        Me.tiFleetEffects.AttachedControl = Me.tcpFleetEffects
+        Me.tiFleetEffects.Name = "tiFleetEffects"
+        Me.tiFleetEffects.Text = "Fleet Effects"
+        '
+        'tcpWHEffects
+        '
+        Me.tcpWHEffects.Controls.Add(Me.cboWHClass)
+        Me.tcpWHEffects.Controls.Add(Me.cboWHEffect)
+        Me.tcpWHEffects.Controls.Add(Me.lblWHClass)
+        Me.tcpWHEffects.Controls.Add(Me.lblWHEffect)
+        Me.tcpWHEffects.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpWHEffects.Location = New System.Drawing.Point(0, 23)
+        Me.tcpWHEffects.Name = "tcpWHEffects"
+        Me.tcpWHEffects.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpWHEffects.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpWHEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpWHEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpWHEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpWHEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpWHEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpWHEffects.Style.GradientAngle = 90
+        Me.tcpWHEffects.TabIndex = 6
+        Me.tcpWHEffects.TabItem = Me.tiWHEffects
+        '
+        'cboWHClass
+        '
+        Me.cboWHClass.DisplayMember = "Text"
+        Me.cboWHClass.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboWHClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWHClass.FormattingEnabled = True
+        Me.cboWHClass.ItemHeight = 15
+        Me.cboWHClass.Items.AddRange(New Object() {Me.ComboItem1, Me.ComboItem2, Me.ComboItem3, Me.ComboItem4, Me.ComboItem5, Me.ComboItem6})
+        Me.cboWHClass.Location = New System.Drawing.Point(395, 21)
+        Me.cboWHClass.Name = "cboWHClass"
+        Me.cboWHClass.Size = New System.Drawing.Size(59, 21)
+        Me.cboWHClass.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboWHClass.TabIndex = 16
+        '
+        'ComboItem1
+        '
+        Me.ComboItem1.Text = "1"
+        '
+        'ComboItem2
+        '
+        Me.ComboItem2.Text = "2"
+        '
+        'ComboItem3
+        '
+        Me.ComboItem3.Text = "3"
+        '
+        'ComboItem4
+        '
+        Me.ComboItem4.Text = "4"
+        '
+        'ComboItem5
+        '
+        Me.ComboItem5.Text = "5"
+        '
+        'ComboItem6
+        '
+        Me.ComboItem6.Text = "6"
+        '
+        'cboWHEffect
+        '
+        Me.cboWHEffect.DisplayMember = "Text"
+        Me.cboWHEffect.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboWHEffect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWHEffect.FormattingEnabled = True
+        Me.cboWHEffect.ItemHeight = 15
+        Me.cboWHEffect.Items.AddRange(New Object() {Me.ComboItem7, Me.ComboItem8, Me.ComboItem9, Me.ComboItem10, Me.ComboItem11, Me.ComboItem12, Me.ComboItem13})
+        Me.cboWHEffect.Location = New System.Drawing.Point(123, 21)
+        Me.cboWHEffect.Name = "cboWHEffect"
+        Me.cboWHEffect.Size = New System.Drawing.Size(148, 21)
+        Me.cboWHEffect.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboWHEffect.TabIndex = 15
+        '
+        'ComboItem7
+        '
+        Me.ComboItem7.Text = "<None>"
+        '
+        'ComboItem8
+        '
+        Me.ComboItem8.Text = "Black Hole"
+        '
+        'ComboItem9
+        '
+        Me.ComboItem9.Text = "Cataclysmic Variable"
+        '
+        'ComboItem10
+        '
+        Me.ComboItem10.Text = "Magnetar"
+        '
+        'ComboItem11
+        '
+        Me.ComboItem11.Text = "Pulsar"
+        '
+        'ComboItem12
+        '
+        Me.ComboItem12.Text = "Red Giant"
+        '
+        'ComboItem13
+        '
+        Me.ComboItem13.Text = "Wolf Rayet"
+        '
+        'tiWHEffects
+        '
+        Me.tiWHEffects.AttachedControl = Me.tcpWHEffects
+        Me.tiWHEffects.Name = "tiWHEffects"
+        Me.tiWHEffects.Text = "WH Effects"
+        '
+        'panelFunctions
+        '
+        Me.panelFunctions.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelFunctions.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelFunctions.Controls.Add(Me.btnRedo)
+        Me.panelFunctions.Controls.Add(Me.btnUndo)
+        Me.panelFunctions.Controls.Add(Me.pbShip)
+        Me.panelFunctions.Controls.Add(Me.lblFittingMarketPrice)
+        Me.panelFunctions.Controls.Add(Me.pbShipInfo)
+        Me.panelFunctions.Controls.Add(Me.lblShipMarketPrice)
+        Me.panelFunctions.Dock = System.Windows.Forms.DockStyle.Top
+        Me.panelFunctions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.panelFunctions.Location = New System.Drawing.Point(0, 0)
+        Me.panelFunctions.Name = "panelFunctions"
+        Me.panelFunctions.Size = New System.Drawing.Size(1061, 38)
+        Me.panelFunctions.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelFunctions.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelFunctions.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelFunctions.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelFunctions.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelFunctions.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelFunctions.Style.GradientAngle = 90
+        Me.panelFunctions.TabIndex = 7
+        '
+        'btnRedo
+        '
+        Me.btnRedo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnRedo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRedo.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnRedo.FocusCuesEnabled = False
+        Me.btnRedo.Image = Global.EveHQ.HQF.My.Resources.Resources.redo
+        Me.btnRedo.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnRedo.Location = New System.Drawing.Point(1009, 3)
+        Me.btnRedo.Name = "btnRedo"
+        Me.btnRedo.Size = New System.Drawing.Size(48, 32)
+        Me.btnRedo.SplitButton = True
+        Me.btnRedo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.SlotTip.SetSuperTooltip(Me.btnRedo, New DevComponents.DotNetBar.SuperTooltipInfo("", "Redo Operation", "This button will redo the most recent changes undone." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to " & _
+                    "undo multiple operations at once.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.redo, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnRedo.TabIndex = 15
+        '
+        'btnUndo
+        '
+        Me.btnUndo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnUndo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnUndo.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnUndo.FocusCuesEnabled = False
+        Me.btnUndo.Image = Global.EveHQ.HQF.My.Resources.Resources.undo
+        Me.btnUndo.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnUndo.Location = New System.Drawing.Point(955, 3)
+        Me.btnUndo.Name = "btnUndo"
+        Me.btnUndo.Size = New System.Drawing.Size(48, 32)
+        Me.btnUndo.SplitButton = True
+        Me.btnUndo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.SlotTip.SetSuperTooltip(Me.btnUndo, New DevComponents.DotNetBar.SuperTooltipInfo("", "Undo Operation", "This button will undo the most recent loading or unloading of a module or charge." & _
+                    "" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to undo multiple operations at once." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Nothing, Global.EveHQ.HQF.My.Resources.Resources.undo, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnUndo.TabIndex = 14
+        '
+        'adtSlots
+        '
+        Me.adtSlots.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtSlots.AllowDrop = True
+        Me.adtSlots.AllowUserToReorderColumns = True
+        Me.adtSlots.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtSlots.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtSlots.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtSlots.Columns.Add(Me.colTestHeader1)
+        Me.adtSlots.ContextMenuStrip = Me.ctxSlots
+        Me.adtSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.adtSlots.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Ellipse
+        Me.adtSlots.ExpandWidth = 8
+        Me.adtSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.adtSlots.Indent = 2
+        Me.adtSlots.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtSlots.Location = New System.Drawing.Point(0, 38)
+        Me.adtSlots.MultiSelect = True
+        Me.adtSlots.Name = "adtSlots"
+        Me.adtSlots.Nodes.AddRange(New DevComponents.AdvTree.Node() {Me.Node1})
+        Me.adtSlots.NodesConnector = Me.NodeConnector1
+        Me.adtSlots.NodeSpacing = 2
+        Me.adtSlots.PathSeparator = ";"
+        Me.adtSlots.SelectionBox = False
+        Me.adtSlots.Size = New System.Drawing.Size(1061, 362)
+        Me.adtSlots.Styles.Add(Me.SlotStyle)
+        Me.adtSlots.Styles.Add(Me.HeaderStyle)
+        Me.adtSlots.TabIndex = 8
+        Me.adtSlots.Text = "AdvTree1"
+        '
+        'colTestHeader1
+        '
+        Me.colTestHeader1.Name = "colTestHeader1"
+        Me.colTestHeader1.Text = "Module Name"
+        Me.colTestHeader1.Width.Absolute = 150
+        Me.colTestHeader1.Width.AutoSizeMinHeader = True
+        '
+        'Node1
+        '
+        Me.Node1.Expanded = True
+        Me.Node1.FullRowBackground = True
+        Me.Node1.Name = "Node1"
+        Me.Node1.Nodes.AddRange(New DevComponents.AdvTree.Node() {Me.Node2})
+        Me.Node1.Style = Me.HeaderStyle
+        Me.Node1.Text = "High Slots"
+        '
+        'Node2
+        '
+        Me.Node2.Cells.Add(Me.Cell2)
+        Me.Node2.Cells.Add(Me.Cell3)
+        Me.Node2.Cells.Add(Me.Cell4)
+        Me.Node2.Expanded = True
+        Me.Node2.Image = Global.EveHQ.HQF.My.Resources.Resources.Mod04
+        Me.Node2.Name = "Node2"
+        Me.Node2.Style = Me.SlotStyle
+        Me.Node2.Text = "Cruise Missile Launcher II"
+        '
+        'Cell2
+        '
+        Me.Cell2.Name = "Cell2"
+        Me.Cell2.StyleMouseOver = Nothing
+        Me.Cell2.Text = "Paradise Fury Cruise Missile"
+        '
+        'Cell3
+        '
+        Me.Cell3.Name = "Cell3"
+        Me.Cell3.StyleMouseOver = Nothing
+        Me.Cell3.Text = "80"
+        '
+        'Cell4
+        '
+        Me.Cell4.Name = "Cell4"
+        Me.Cell4.StyleMouseOver = Nothing
+        Me.Cell4.Text = "1800"
+        '
+        'SlotStyle
+        '
+        Me.SlotStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(243, Byte), Integer))
+        Me.SlotStyle.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(155, Byte), Integer), CType(CType(187, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.SlotStyle.BackColorGradientAngle = 90
+        Me.SlotStyle.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.SlotStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.SlotStyle.BorderBottomWidth = 1
+        Me.SlotStyle.BorderColor = System.Drawing.Color.DarkGray
+        Me.SlotStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.SlotStyle.BorderLeftWidth = 1
+        Me.SlotStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.SlotStyle.BorderRightWidth = 1
+        Me.SlotStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.SlotStyle.BorderTopWidth = 1
+        Me.SlotStyle.Class = ""
+        Me.SlotStyle.CornerDiameter = 4
+        Me.SlotStyle.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.SlotStyle.Description = "BlueMist"
+        Me.SlotStyle.Name = "SlotStyle"
+        Me.SlotStyle.TextColor = System.Drawing.Color.Black
+        '
+        'HeaderStyle
+        '
+        Me.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(225, Byte), Integer), CType(CType(225, Byte), Integer), CType(CType(232, Byte), Integer))
+        Me.HeaderStyle.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(149, Byte), Integer), CType(CType(149, Byte), Integer), CType(CType(170, Byte), Integer))
+        Me.HeaderStyle.BackColorGradientAngle = 90
+        Me.HeaderStyle.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.HeaderStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.HeaderStyle.BorderBottomWidth = 1
+        Me.HeaderStyle.BorderColor = System.Drawing.Color.DarkGray
+        Me.HeaderStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.HeaderStyle.BorderLeftWidth = 1
+        Me.HeaderStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.HeaderStyle.BorderRightWidth = 1
+        Me.HeaderStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.HeaderStyle.BorderTopWidth = 1
+        Me.HeaderStyle.Class = ""
+        Me.HeaderStyle.CornerDiameter = 4
+        Me.HeaderStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.HeaderStyle.Description = "Silver"
+        Me.HeaderStyle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.HeaderStyle.Name = "HeaderStyle"
+        Me.HeaderStyle.TextColor = System.Drawing.Color.Black
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        Me.NodeConnector1.LineWidth = 0
+        '
+        'Cell7
+        '
+        Me.Cell7.Name = "Cell7"
+        Me.Cell7.StyleMouseOver = Nothing
+        Me.Cell7.Text = "Wrath Fury Cruise Missile"
+        '
+        'Cell8
+        '
+        Me.Cell8.Name = "Cell8"
+        Me.Cell8.StyleMouseOver = Nothing
+        Me.Cell8.Text = "80"
+        '
+        'Cell9
+        '
+        Me.Cell9.Name = "Cell9"
+        Me.Cell9.StyleMouseOver = Nothing
+        Me.Cell9.Text = "1800"
+        '
+        'Cell13
+        '
+        Me.Cell13.Name = "Cell13"
+        Me.Cell13.StyleMouseOver = Nothing
+        Me.Cell13.Text = "Cataclysm Fury Cruise Missile"
+        '
+        'Cell14
+        '
+        Me.Cell14.Name = "Cell14"
+        Me.Cell14.StyleMouseOver = Nothing
+        Me.Cell14.Text = "80"
+        '
+        'Cell15
+        '
+        Me.Cell15.Name = "Cell15"
+        Me.Cell15.StyleMouseOver = Nothing
+        Me.Cell15.Text = "1800"
+        '
+        'Cell1
+        '
+        Me.Cell1.Name = "Cell1"
+        Me.Cell1.StyleMouseOver = Nothing
+        Me.Cell1.Text = "Wrath Fury Cruise Missile"
+        '
+        'Cell5
+        '
+        Me.Cell5.Name = "Cell5"
+        Me.Cell5.StyleMouseOver = Nothing
+        Me.Cell5.Text = "80"
+        '
+        'Cell6
+        '
+        Me.Cell6.Name = "Cell6"
+        Me.Cell6.StyleMouseOver = Nothing
+        Me.Cell6.Text = "1800"
+        '
+        'Cell10
+        '
+        Me.Cell10.Name = "Cell10"
+        Me.Cell10.StyleMouseOver = Nothing
+        Me.Cell10.Text = "Cataclysm Fury Cruise Missile"
+        '
+        'Cell11
+        '
+        Me.Cell11.Name = "Cell11"
+        Me.Cell11.StyleMouseOver = Nothing
+        Me.Cell11.Text = "80"
+        '
+        'Cell12
+        '
+        Me.Cell12.Name = "Cell12"
+        Me.Cell12.StyleMouseOver = Nothing
+        Me.Cell12.Text = "1800"
+        '
+        'SlotTip
+        '
+        Me.SlotTip.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SlotTip.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.SlotTip.PositionBelowControl = False
         '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.lvwSlots)
-        Me.Controls.Add(Me.CollapsibleSplitter1)
-        Me.Controls.Add(Me.tabStorage)
+        Me.Controls.Add(Me.adtSlots)
         Me.Controls.Add(Me.panelFunctions)
+        Me.Controls.Add(Me.ExpandableSplitter1)
+        Me.Controls.Add(Me.tcStorage)
         Me.Name = "ShipSlotControl"
-        Me.Size = New System.Drawing.Size(676, 563)
+        Me.Size = New System.Drawing.Size(1061, 664)
         Me.ctxSlots.ResumeLayout(False)
         Me.ctxBays.ResumeLayout(False)
         Me.ctxRemoteFittings.ResumeLayout(False)
         Me.ctxRemoteModule.ResumeLayout(False)
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxShipSkills.ResumeLayout(False)
+        CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ctxBoosters.ResumeLayout(False)
+        CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tcStorage.ResumeLayout(False)
+        Me.tcpDroneBay.ResumeLayout(False)
+        Me.tcpDroneBay.PerformLayout()
+        Me.tcpRemoteEffects.ResumeLayout(False)
+        Me.tcpRemoteEffects.PerformLayout()
+        Me.tcpBoosters.ResumeLayout(False)
+        Me.tcpBoosters.PerformLayout()
+        Me.tcpHistory.ResumeLayout(False)
+        Me.tcpShipBay.ResumeLayout(False)
+        Me.tcpShipBay.PerformLayout()
+        Me.tcpCargoBay.ResumeLayout(False)
+        Me.tcpCargoBay.PerformLayout()
+        Me.tcpFleetEffects.ResumeLayout(False)
+        Me.tcpFleetEffects.PerformLayout()
+        Me.tcpWHEffects.ResumeLayout(False)
+        Me.tcpWHEffects.PerformLayout()
         Me.panelFunctions.ResumeLayout(False)
         Me.panelFunctions.PerformLayout()
-        CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tabStorage.ResumeLayout(False)
-        Me.tabDroneBay.ResumeLayout(False)
-        Me.panelDrone.ResumeLayout(False)
-        Me.panelDrone.PerformLayout()
-        Me.tabCargoBay.ResumeLayout(False)
-        Me.panelCargo.ResumeLayout(False)
-        Me.panelCargo.PerformLayout()
-        Me.tabRemote.ResumeLayout(False)
-        Me.panelRemote.ResumeLayout(False)
-        Me.panelRemote.PerformLayout()
-        Me.tabFleet.ResumeLayout(False)
-        Me.panelFleet.ResumeLayout(False)
-        Me.panelFleet.PerformLayout()
-        Me.tabBoosters.ResumeLayout(False)
-        Me.panelBoosters.ResumeLayout(False)
-        Me.panelBoosters.PerformLayout()
-        Me.ctxBoosters.ResumeLayout(False)
-        Me.tabEnvironment.ResumeLayout(False)
-        Me.panelWH.ResumeLayout(False)
-        Me.panelWH.PerformLayout()
-        Me.tabShipBay.ResumeLayout(False)
-        Me.panelShipBay.ResumeLayout(False)
-        Me.panelShipBay.PerformLayout()
+        CType(Me.adtSlots, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents lvwSlots As EveHQ.HQF.ListViewNoFlicker
-    Friend WithEvents lblMidSlots As System.Windows.Forms.Label
-    Friend WithEvents lblHighSlots As System.Windows.Forms.Label
-    Friend WithEvents lblRigSlots As System.Windows.Forms.Label
-    Friend WithEvents lblLowSlots As System.Windows.Forms.Label
-    Friend WithEvents lblTurretSlots As System.Windows.Forms.Label
-    Friend WithEvents lblLauncherSlots As System.Windows.Forms.Label
-    Friend WithEvents lblFittingMarketPrice As System.Windows.Forms.Label
-    Friend WithEvents lblShipMarketPrice As System.Windows.Forms.Label
-    Friend WithEvents ctxSlots As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ShowInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tabStorage As System.Windows.Forms.TabControl
-    Friend WithEvents tabDroneBay As System.Windows.Forms.TabPage
-    Friend WithEvents tabCargoBay As System.Windows.Forms.TabPage
-    Friend WithEvents lblDroneBay As System.Windows.Forms.Label
-    Friend WithEvents lvwDroneBay As System.Windows.Forms.ListView
-    Friend WithEvents lblCargoBay As System.Windows.Forms.Label
-    Friend WithEvents colDroneBayType As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colDroneBayQty As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvwCargoBay As System.Windows.Forms.ListView
-    Friend WithEvents colCargoBayType As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCargoBayQty As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents ctxBays As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ctxRemoveItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ctxAlterQuantity As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ctxSplitBatch As System.Windows.Forms.ToolStripMenuItem
-
-    Public Sub New()
-
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
-
-        ' Add any initialization after the InitializeComponent() call.
-        tabStorage.Height = HQF.Settings.HQFSettings.StorageBayHeight
-        rigGroups.Add(773)
-        rigGroups.Add(782)
-        rigGroups.Add(778)
-        rigGroups.Add(780)
-        rigGroups.Add(786)
-        rigGroups.Add(781)
-        rigGroups.Add(775)
-        rigGroups.Add(776)
-        rigGroups.Add(779)
-        rigGroups.Add(904)
-        rigGroups.Add(777)
-        rigGroups.Add(896)
-        rigGroups.Add(774)
-        remoteGroups.Add(41)
-        remoteGroups.Add(325)
-        remoteGroups.Add(585)
-        remoteGroups.Add(67)
-        remoteGroups.Add(65)
-        remoteGroups.Add(68)
-        remoteGroups.Add(71)
-        remoteGroups.Add(291)
-        remoteGroups.Add(209)
-        remoteGroups.Add(289)
-        remoteGroups.Add(290)
-        remoteGroups.Add(208)
-        remoteGroups.Add(379)
-        remoteGroups.Add(544)
-        remoteGroups.Add(641)
-        remoteGroups.Add(640)
-        remoteGroups.Add(639)
-        fleetGroups.Add(316)
-        fleetSkills.Add("Armored Warfare")
-        fleetSkills.Add("Information Warfare")
-        fleetSkills.Add("Leadership")
-        fleetSkills.Add("Mining Foreman")
-        fleetSkills.Add("Siege Warfare")
-        fleetSkills.Add("Skirmish Warfare")
-
-        ' Load the remote and fleet info
-        Call LoadRemoteFleetInfo()
-
-        ' Load the Booster info
-        Call LoadBoosterInfo()
-
-    End Sub
-    Friend WithEvents imgState As System.Windows.Forms.ImageList
-    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ctxShowBayInfoItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents panelFunctions As System.Windows.Forms.Panel
-    Friend WithEvents pbShipInfo As System.Windows.Forms.PictureBox
-    Friend WithEvents btnMergeDrones As System.Windows.Forms.Button
-    Friend WithEvents btnMergeCargo As System.Windows.Forms.Button
-    Friend WithEvents tabRemote As System.Windows.Forms.TabPage
-    Friend WithEvents lvwRemoteEffects As System.Windows.Forms.ListView
-    Friend WithEvents btnUpdateRemoteEffects As System.Windows.Forms.Button
-    Friend WithEvents cboPilot As System.Windows.Forms.ComboBox
-    Friend WithEvents lblPilot As System.Windows.Forms.Label
-    Friend WithEvents cboFitting As System.Windows.Forms.ComboBox
-    Friend WithEvents lblFitting As System.Windows.Forms.Label
-    Friend WithEvents colModule As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ctxRemoteModule As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents mnuShowRemoteModInfo As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents btnAddRemoteFitting As System.Windows.Forms.Button
-    Friend WithEvents lvwRemoteFittings As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents pbDroneBay As VistaStyleProgressBar.ProgressBar
-    Friend WithEvents pbCargoBay As VistaStyleProgressBar.ProgressBar
-    Friend WithEvents ctxRemoteFittings As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents RemoveFittingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tabFleet As System.Windows.Forms.TabPage
-    Friend WithEvents lblWC As System.Windows.Forms.Label
-    Friend WithEvents lblFC As System.Windows.Forms.Label
-    Friend WithEvents lblSC As System.Windows.Forms.Label
-    Friend WithEvents cboSCPilot As System.Windows.Forms.ComboBox
-    Friend WithEvents lblSCShip As System.Windows.Forms.Label
-    Friend WithEvents cboSCShip As System.Windows.Forms.ComboBox
-    Friend WithEvents cboFCPilot As System.Windows.Forms.ComboBox
-    Friend WithEvents cboWCPilot As System.Windows.Forms.ComboBox
-    Friend WithEvents lblWCShip As System.Windows.Forms.Label
-    Friend WithEvents lblFCShip As System.Windows.Forms.Label
-    Friend WithEvents cboFCShip As System.Windows.Forms.ComboBox
-    Friend WithEvents cboWCShip As System.Windows.Forms.ComboBox
-    Friend WithEvents lblFleetStatus As System.Windows.Forms.Label
-    Friend WithEvents lblFleetStatusLabel As System.Windows.Forms.Label
-    Friend WithEvents btnLeaveFleet As System.Windows.Forms.Button
-    Friend WithEvents panelFleet As System.Windows.Forms.Panel
-    Friend WithEvents panelRemote As System.Windows.Forms.Panel
-    Friend WithEvents panelDrone As System.Windows.Forms.Panel
-    Friend WithEvents panelCargo As System.Windows.Forms.Panel
-    Friend WithEvents chkFCActive As System.Windows.Forms.CheckBox
-    Friend WithEvents chkWCActive As System.Windows.Forms.CheckBox
-    Friend WithEvents chkSCActive As System.Windows.Forms.CheckBox
-    Friend WithEvents lblSubSlots As System.Windows.Forms.Label
-    Friend WithEvents pbShip As System.Windows.Forms.PictureBox
-    Friend WithEvents ctxShipSkills As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents mnuAlterRelevantSkills As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tabShipBay As System.Windows.Forms.TabPage
-    Friend WithEvents panelShipBay As System.Windows.Forms.Panel
-    Friend WithEvents pbShipBay As VistaStyleProgressBar.ProgressBar
-    Friend WithEvents lblShipBay As System.Windows.Forms.Label
-    Friend WithEvents lvwShipBay As System.Windows.Forms.ListView
-    Friend WithEvents colShipBayShip As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colShipBayQuantity As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colShipBayVolume As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colShipBayTotalVolume As System.Windows.Forms.ColumnHeader
-    Friend WithEvents tabEnvironment As System.Windows.Forms.TabPage
-    Friend WithEvents panelWH As System.Windows.Forms.Panel
-    Friend WithEvents lblWHClass As System.Windows.Forms.Label
-    Friend WithEvents cboWHClass As System.Windows.Forms.ComboBox
-    Friend WithEvents lblWHEffect As System.Windows.Forms.Label
-    Friend WithEvents cboWHEffect As System.Windows.Forms.ComboBox
-    Friend WithEvents tabBoosters As System.Windows.Forms.TabPage
-    Friend WithEvents panelBoosters As System.Windows.Forms.Panel
-    Friend WithEvents lblBoosterSlot3 As System.Windows.Forms.Label
-    Friend WithEvents cboBoosterSlot3 As System.Windows.Forms.ComboBox
-    Friend WithEvents lblBoosterSlot2 As System.Windows.Forms.Label
-    Friend WithEvents cboBoosterSlot2 As System.Windows.Forms.ComboBox
-    Friend WithEvents lblBoosterSlot1 As System.Windows.Forms.Label
-    Friend WithEvents cboBoosterSlot1 As System.Windows.Forms.ComboBox
-    Friend WithEvents lblBoosterPenalties1 As System.Windows.Forms.Label
-    Friend WithEvents ctxBoosters As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents mnuBoosterPenalty1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuBoosterPenalty2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuBoosterPenalty3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuBoosterPenalty4 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lblBoosterPenalties3 As System.Windows.Forms.Label
-    Friend WithEvents lblBoosterPenalties2 As System.Windows.Forms.Label
-    Friend WithEvents mnuShowBoosterInfo As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents mnuRemoveBooster As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuSepPenalties As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents mnuRandomSideEffects As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuAlterBoosterSkills As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
+	Friend WithEvents lblFittingMarketPrice As System.Windows.Forms.Label
+	Friend WithEvents lblShipMarketPrice As System.Windows.Forms.Label
+	Friend WithEvents ctxSlots As System.Windows.Forms.ContextMenuStrip
+	Friend WithEvents ShowInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents lblDroneBay As System.Windows.Forms.Label
+	Friend WithEvents lvwDroneBay As DevComponents.DotNetBar.Controls.ListViewEx
+	Friend WithEvents lblCargoBay As System.Windows.Forms.Label
+	Friend WithEvents colDroneBayType As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colDroneBayQty As System.Windows.Forms.ColumnHeader
+	Friend WithEvents lvwCargoBay As DevComponents.DotNetBar.Controls.ListViewEx
+	Friend WithEvents colCargoBayType As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colCargoBayQty As System.Windows.Forms.ColumnHeader
+	Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+	Friend WithEvents ctxBays As System.Windows.Forms.ContextMenuStrip
+	Friend WithEvents ctxRemoveItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+	Friend WithEvents ctxAlterQuantity As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ctxSplitBatch As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
+	Friend WithEvents ctxShowBayInfoItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents pbShipInfo As System.Windows.Forms.PictureBox
+	Friend WithEvents lvwRemoteEffects As DevComponents.DotNetBar.Controls.ListViewEx
+	Friend WithEvents lblPilot As System.Windows.Forms.Label
+	Friend WithEvents lblFitting As System.Windows.Forms.Label
+	Friend WithEvents colModule As System.Windows.Forms.ColumnHeader
+	Friend WithEvents ctxRemoteModule As System.Windows.Forms.ContextMenuStrip
+	Friend WithEvents mnuShowRemoteModInfo As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents lvwRemoteFittings As DevComponents.DotNetBar.Controls.ListViewEx
+	Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+	Friend WithEvents ctxRemoteFittings As System.Windows.Forms.ContextMenuStrip
+	Friend WithEvents RemoveFittingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents lblWC As System.Windows.Forms.Label
+	Friend WithEvents lblFC As System.Windows.Forms.Label
+	Friend WithEvents lblSC As System.Windows.Forms.Label
+	Friend WithEvents lblSCShip As System.Windows.Forms.Label
+	Friend WithEvents lblWCShip As System.Windows.Forms.Label
+	Friend WithEvents lblFCShip As System.Windows.Forms.Label
+	Friend WithEvents lblFleetStatus As System.Windows.Forms.Label
+	Friend WithEvents lblFleetStatusLabel As System.Windows.Forms.Label
+	Friend WithEvents chkFCActive As System.Windows.Forms.CheckBox
+	Friend WithEvents chkWCActive As System.Windows.Forms.CheckBox
+	Friend WithEvents chkSCActive As System.Windows.Forms.CheckBox
+	Friend WithEvents pbShip As System.Windows.Forms.PictureBox
+	Friend WithEvents ctxShipSkills As System.Windows.Forms.ContextMenuStrip
+	Friend WithEvents mnuAlterRelevantSkills As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents lblShipBay As System.Windows.Forms.Label
+	Friend WithEvents lvwShipBay As DevComponents.DotNetBar.Controls.ListViewEx
+	Friend WithEvents colShipBayShip As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colShipBayQuantity As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colShipBayVolume As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colShipBayTotalVolume As System.Windows.Forms.ColumnHeader
+	Friend WithEvents lblWHClass As System.Windows.Forms.Label
+	Friend WithEvents lblWHEffect As System.Windows.Forms.Label
+	Friend WithEvents lblBoosterSlot3 As System.Windows.Forms.Label
+	Friend WithEvents lblBoosterSlot2 As System.Windows.Forms.Label
+	Friend WithEvents lblBoosterSlot1 As System.Windows.Forms.Label
+	Friend WithEvents lblBoosterPenalties1 As System.Windows.Forms.Label
+	Friend WithEvents ctxBoosters As System.Windows.Forms.ContextMenuStrip
+	Friend WithEvents mnuBoosterPenalty1 As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents mnuBoosterPenalty2 As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents mnuBoosterPenalty3 As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents mnuBoosterPenalty4 As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents lblBoosterPenalties3 As System.Windows.Forms.Label
+	Friend WithEvents lblBoosterPenalties2 As System.Windows.Forms.Label
+	Friend WithEvents mnuShowBoosterInfo As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
+	Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
+	Friend WithEvents mnuRemoveBooster As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents mnuSepPenalties As System.Windows.Forms.ToolStripSeparator
+	Friend WithEvents mnuRandomSideEffects As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents mnuAlterBoosterSkills As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ExpandableSplitter1 As DevComponents.DotNetBar.ExpandableSplitter
+	Friend WithEvents panelFunctions As DevComponents.DotNetBar.PanelEx
+	Friend WithEvents adtSlots As DevComponents.AdvTree.AdvTree
+	Friend WithEvents Node1 As DevComponents.AdvTree.Node
+	Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+	Friend WithEvents colTestHeader1 As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents Cell2 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell1 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell3 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell4 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell5 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell6 As DevComponents.AdvTree.Cell
+	Friend WithEvents SlotStyle As DevComponents.DotNetBar.ElementStyle
+	Friend WithEvents Cell7 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell8 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell9 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell10 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell11 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell12 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell13 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell14 As DevComponents.AdvTree.Cell
+	Friend WithEvents Cell15 As DevComponents.AdvTree.Cell
+	Friend WithEvents HeaderStyle As DevComponents.DotNetBar.ElementStyle
+	Friend WithEvents SlotTip As DevComponents.DotNetBar.SuperTooltip
+	Friend WithEvents lvwHistory As DevComponents.DotNetBar.Controls.ListViewEx
+	Friend WithEvents colTransaction As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colSlotType As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colOldSlotNo As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colOldModName As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colOldChargeName As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colNewSlotNo As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colNewModName As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colNewChargeName As System.Windows.Forms.ColumnHeader
+	Friend WithEvents colChargeOnly As System.Windows.Forms.ColumnHeader
+	Friend WithEvents btnUndo As DevComponents.DotNetBar.ButtonX
+	Friend WithEvents btnRedo As DevComponents.DotNetBar.ButtonX
+	Friend WithEvents pbDroneBay As DevComponents.DotNetBar.Controls.ProgressBarX
+	Friend WithEvents pbCargoBay As DevComponents.DotNetBar.Controls.ProgressBarX
+	Friend WithEvents pbShipBay As DevComponents.DotNetBar.Controls.ProgressBarX
+	Friend WithEvents tcStorage As DevComponents.DotNetBar.TabControl
+	Friend WithEvents tcpCargoBay As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiCargoBay As DevComponents.DotNetBar.TabItem
+	Friend WithEvents tcpDroneBay As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiDroneBay As DevComponents.DotNetBar.TabItem
+	Friend WithEvents tcpRemoteEffects As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiRemoteEffects As DevComponents.DotNetBar.TabItem
+	Friend WithEvents tcpFleetEffects As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiFleetEffects As DevComponents.DotNetBar.TabItem
+	Friend WithEvents tcpBoosters As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiBoosters As DevComponents.DotNetBar.TabItem
+	Friend WithEvents tcpWHEffects As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiWHEffects As DevComponents.DotNetBar.TabItem
+	Friend WithEvents tcpShipBay As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiShipBay As DevComponents.DotNetBar.TabItem
+	Friend WithEvents tcpHistory As DevComponents.DotNetBar.TabControlPanel
+	Friend WithEvents tiHistory As DevComponents.DotNetBar.TabItem
+	Friend WithEvents btnMergeCargo As DevComponents.DotNetBar.ButtonX
+	Friend WithEvents btnMergeDrones As DevComponents.DotNetBar.ButtonX
+	Friend WithEvents cboPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboFitting As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents btnUpdateRemoteEffects As DevComponents.DotNetBar.ButtonX
+	Friend WithEvents btnAddRemoteFitting As DevComponents.DotNetBar.ButtonX
+	Friend WithEvents cboBoosterSlot2 As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboBoosterSlot3 As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboBoosterSlot1 As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboFCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboWCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboSCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboFCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboWCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents cboSCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents btnLeaveFleet As DevComponents.DotNetBar.ButtonX
+	Friend WithEvents cboWHClass As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents ComboItem1 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem2 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem3 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem4 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem5 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem6 As DevComponents.Editors.ComboItem
+	Friend WithEvents cboWHEffect As DevComponents.DotNetBar.Controls.ComboBoxEx
+	Friend WithEvents ComboItem7 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem8 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem9 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem10 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem11 As DevComponents.Editors.ComboItem
+	Friend WithEvents ComboItem12 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem13 As DevComponents.Editors.ComboItem
+    Friend WithEvents Node2 As DevComponents.AdvTree.Node
 End Class

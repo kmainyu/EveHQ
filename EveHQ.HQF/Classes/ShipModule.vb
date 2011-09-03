@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -23,13 +23,6 @@ Imports System.Runtime.Serialization
 
 <Serializable()> Public Class ShipModule
 
-    Public Shared Event ShowModuleMarketGroup(ByVal path As String)
-    Shared WriteOnly Property DisplayedMarketGroup() As String
-        Set(ByVal value As String)
-            RaiseEvent ShowModuleMarketGroup(value)
-        End Set
-    End Property
-
 #Region "Property Variables"
 
     ' Name and Classification
@@ -44,10 +37,10 @@ Imports System.Runtime.Serialization
     Private cMetaType As Integer
     Private cMetaLevel As Integer
     Private cRaceID As Integer
-    Private cIcon As String
+	Private cIcon As String
 
     ' Fitting Details
-    Private cSlotType As Integer ' 1=Rig, 2=Low, 4=Mid, 8=High, 16=Subsystem
+    Private cSlotType As SlotTypes ' 1=Rig, 2=Low, 4=Mid, 8=High, 16=Subsystem
     Private cSlotNo As Integer
     Private cImplantSlot As Integer
     Private cBoosterSlot As Integer
@@ -75,7 +68,7 @@ Imports System.Runtime.Serialization
     Private cChargeSize As Integer
 
     ' Attributes
-    Private cAttributes As New SortedList
+    Private cAttributes As New SortedList(Of String, Double)
 
     ' Charges
     Private cCharges As New ArrayList
@@ -85,7 +78,7 @@ Imports System.Runtime.Serialization
     Private cAuditLog As New ArrayList
 
     ' Module State
-    Private cModuleState As Integer = 4 ' Default to 4 = Active
+    Private cModuleState As ModuleStates = ModuleStates.Active ' Default to Active
 
     ' Implant Groups
     Private cImplantGroups As New ArrayList
@@ -193,14 +186,14 @@ Imports System.Runtime.Serialization
         Set(ByVal value As String)
             cIcon = value
         End Set
-    End Property
+	End Property
 
     ' Fitting Details
-    Public Property SlotType() As Integer
+    Public Property SlotType() As SlotTypes
         Get
             Return cSlotType
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As SlotTypes)
             cSlotType = value
         End Set
     End Property
@@ -378,11 +371,11 @@ Imports System.Runtime.Serialization
     End Property
 
     ' Attributes
-    Public Property Attributes() As SortedList
+    Public Property Attributes() As SortedList(Of String, Double)
         Get
             Return cAttributes
         End Get
-        Set(ByVal value As SortedList)
+        Set(ByVal value As SortedList(Of String, Double))
             cAttributes = value
         End Set
     End Property
@@ -416,11 +409,11 @@ Imports System.Runtime.Serialization
     End Property
 
     ' Module State
-    Public Property ModuleState() As Integer
+    Public Property ModuleState() As ModuleStates
         Get
             Return cModuleState
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As ModuleStates)
             cModuleState = value
         End Set
     End Property
@@ -461,7 +454,6 @@ Imports System.Runtime.Serialization
 
 #Region "Map Attributes to Properties"
     Public Shared Sub MapModuleAttributes(ByVal newModule As ShipModule)
-        Dim att As String
         Dim attValue As Double = 0
         ' Amend for remote effects capacitor use
         If (newModule.ModuleState And 16) = 16 Then
@@ -475,12 +467,11 @@ Imports System.Runtime.Serialization
                 Case "544" ' Energy Neutraliser Drones
                     newModule.Attributes("6") = CDbl(newModule.Attributes("90"))
                 Case Else
-                    newModule.Attributes("6") = "0"
+                    newModule.Attributes("6") = 0
             End Select
         End If
         ' Parse values
-        For attNo As Integer = 0 To newModule.Attributes.Keys.Count - 1
-            att = CStr(newModule.Attributes.GetKey(attNo))
+        For Each att As String In newModule.Attributes.Keys
             attValue = CDbl(newModule.Attributes(att))
             Select Case CInt(att)
                 Case 6
@@ -495,21 +486,21 @@ Imports System.Runtime.Serialization
                     newModule.Calibration = CInt(attValue)
             End Select
         Next
-        If newModule.Attributes.Contains("10032") = True Then
-            If newModule.Attributes.Contains("51") = True Then
+        If newModule.Attributes.ContainsKey("10032") = True Then
+            If newModule.Attributes.ContainsKey("51") = True Then
                 newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("51"))
-            ElseIf newModule.Attributes.Contains("10011") = True Then
+            ElseIf newModule.Attributes.ContainsKey("10011") = True Then
                 newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10011"))
-            ElseIf newModule.Attributes.Contains("10012") = True Then
+            ElseIf newModule.Attributes.ContainsKey("10012") = True Then
                 newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10012"))
-            ElseIf newModule.Attributes.Contains("10013") = True Then
+            ElseIf newModule.Attributes.ContainsKey("10013") = True Then
                 newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10013"))
             Else
                 newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
             End If
             newModule.CapUsageRate = CDbl(newModule.Attributes("10032"))
         End If
-        If newModule.Attributes.Contains("77") = True Then
+        If newModule.Attributes.ContainsKey("77") = True Then
             Select Case CInt(newModule.MarketGroup)
                 Case 1038 ' Ice Mining
                     newModule.Attributes("10041") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
@@ -531,10 +522,5 @@ End Class
     Public Shared moduleListName As New SortedList ' Key = moduleName, Value = ID (for quick name to ID conversions)
 End Class
 
-Public Enum ModuleStates
-    Offline = 1
-    Inactive = 2
-    Active = 4
-    Overloaded = 8
-End Enum
+
 

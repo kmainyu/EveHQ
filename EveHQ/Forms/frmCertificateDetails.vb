@@ -1,4 +1,23 @@
-﻿Imports System.Text
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.Text
 
 Public Class frmCertificateDetails
 
@@ -17,8 +36,8 @@ Public Class frmCertificateDetails
 
     Public Sub ShowCertDetails(ByVal certID As String)
 
-        Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
-        Me.Text = CType(EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name & " (" & CertGrades(cCert.Grade) & ")"
+        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
+        Me.Text = EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString).Name & " (" & CertGrades(cCert.Grade) & ")"
         Call Me.PrepareDescription(certID)
         Call Me.PrepareTree(certID)
         Call Me.PrepareCerts(certID)
@@ -33,20 +52,20 @@ Public Class frmCertificateDetails
     End Sub
 
     Private Sub PrepareDescription(ByVal certID As String)
-        Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
+        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
         Me.lblDescription.Text = cCert.Description
     End Sub
 
     Private Sub PrepareCerts(ByVal certID As String)
-        Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
+        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
         Dim cRCert As EveHQ.Core.Certificate
         Dim newCert As New ListViewItem
         lvwCerts.BeginUpdate()
         lvwCerts.Items.Clear()
         For Each cReqCert As String In cCert.RequiredCerts.Keys
-            cRCert = CType(EveHQ.Core.HQ.Certificates(cReqCert), Core.Certificate)
+            cRCert = EveHQ.Core.HQ.Certificates(cReqCert)
             newCert = New ListViewItem
-            newCert.Text = CType(EveHQ.Core.HQ.CertificateClasses(cRCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+            newCert.Text = EveHQ.Core.HQ.CertificateClasses(cRCert.ClassID.ToString).Name
             newCert.Name = cRCert.ID.ToString
             newCert.SubItems.Add(CertGrades(cRCert.Grade))
             If displayPilot.Certificates.Contains(cRCert.ID.ToString) = True Then
@@ -60,7 +79,7 @@ Public Class frmCertificateDetails
     End Sub
 
     Private Sub PrepareTree(ByVal certID As String)
-        Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
+        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
         tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
 
@@ -196,13 +215,13 @@ Public Class frmCertificateDetails
                     Dim newItem As New ListViewItem
                     Dim toolTipText As New StringBuilder
                     newItem.Group = lvwDepend.Groups("CatCerts")
-                    Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
-                    Dim certName As String = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                    Dim cert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(item)
+                    Dim certName As String = EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString).Name
                     Dim certGrade As String = CertGrades(cert.Grade)
                     For Each reqCertID As String In cert.RequiredCerts.Keys
-                        Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
+                        Dim reqCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(reqCertID)
                         If reqCert.ID.ToString <> certID Then
-                            toolTipText.Append(CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name)
+                            toolTipText.Append(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString).Name)
                             toolTipText.Append(" (")
                             toolTipText.Append(CertGrades(reqCert.Grade))
                             toolTipText.Append("), ")
@@ -275,8 +294,8 @@ Public Class frmCertificateDetails
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuCertName.Tag.ToString
-        Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
-        Me.Text = CType(EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name & " (" & CertGrades(cCert.Grade) & ")"
+        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
+        Me.Text = EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString).Name & " (" & CertGrades(cCert.Grade) & ")"
         Call Me.PrepareDescription(certID)
         Call Me.PrepareTree(certID)
         Call Me.PrepareCerts(certID)

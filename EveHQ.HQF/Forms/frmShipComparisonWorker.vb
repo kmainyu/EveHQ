@@ -1,4 +1,24 @@
-﻿Public Class frmShipComparisonWorker
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Public Class frmShipComparisonWorker
 
     Dim pPilot As HQFPilot
     Dim pProfile As DamageProfile
@@ -42,23 +62,25 @@
     Public Sub GenerateShipData()
         For Each shipFit As String In pShipList.Keys
             ' Let's try and generate a fitting and get some damage info
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            pShip.DamageProfile = pProfile
-            Dim profileShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+            Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+            NewFit.UpdateBaseShipFromFitting()
+            NewFit.BaseShip.DamageProfile = pProfile
+            NewFit.PilotName = pPilot.PilotName
+            NewFit.ApplyFitting(BuildType.BuildEverything)
+            Dim profileShip As Ship = NewFit.FittedShip
+
             ' Place details of the ship into the Ship Data class
             Dim newShip As New ShipData
-            newShip.Ship = shipName
-            newShip.Fitting = fittingName
+            newShip.Ship = NewFit.ShipName
+            newShip.Fitting = NewFit.FittingName
             newShip.Modules = CopyForForums(profileShip)
             newShip.EHP = profileShip.EffectiveHP
             newShip.Tank = CDbl(profileShip.Attributes("10062"))
-            newShip.Capacitor = Engine.CalculateCapStatistics(profileShip)
-            If newShip.Capacitor > 0 Then
-                newShip.Capacitor = newShip.Capacitor / profileShip.CapCapacity * 100
+            Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(profileShip, False)
+            If csr.CapIsDrained = False Then
+                newShip.Capacitor = csr.MinimumCap / profileShip.CapCapacity * 100
+            Else
+                newShip.Capacitor = -csr.TimeToDrain
             End If
             newShip.Volley = CDbl(profileShip.Attributes("10028"))
             newShip.DPS = CDbl(profileShip.Attributes("10029"))
@@ -97,25 +119,25 @@
         Dim fitting As New System.Text.StringBuilder
 
         slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentship.HiSlots
-            If currentship.HiSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.HiSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.HiSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")") = True Then
+        For slot As Integer = 1 To currentShip.HiSlots
+            If currentShip.HiSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.HiSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")") = True Then
                         ' Get the dictionary item
-                        slotCount = slots(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        slotCount = slots(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
                     Else
-                        slotList.Add(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")", 1)
+                        slotList.Add(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")", 1)
                     End If
                 Else
-                    If slotList.Contains(currentship.HiSlot(slot).Name) = True Then
-                        slotCount = slots(currentship.HiSlot(slot).Name)
-                        slots(currentship.HiSlot(slot).Name) = slotCount + 1
+                    If slotList.Contains(currentShip.HiSlot(slot).Name) = True Then
+                        slotCount = slots(currentShip.HiSlot(slot).Name)
+                        slots(currentShip.HiSlot(slot).Name) = slotCount + 1
                     Else
-                        slotList.Add(currentship.HiSlot(slot).Name)
-                        slots.Add(currentship.HiSlot(slot).Name, 1)
+                        slotList.Add(currentShip.HiSlot(slot).Name)
+                        slots.Add(currentShip.HiSlot(slot).Name, 1)
                     End If
                 End If
             End If
@@ -131,25 +153,25 @@
         End If
 
         slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentship.MidSlots
-            If currentship.MidSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.MidSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.MidSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")") = True Then
+        For slot As Integer = 1 To currentShip.MidSlots
+            If currentShip.MidSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.MidSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")") = True Then
                         ' Get the dictionary item
-                        slotCount = slots(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        slotCount = slots(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
                     Else
-                        slotList.Add(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")", 1)
+                        slotList.Add(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")", 1)
                     End If
                 Else
-                    If slotList.Contains(currentship.MidSlot(slot).Name) = True Then
-                        slotCount = slots(currentship.MidSlot(slot).Name)
-                        slots(currentship.MidSlot(slot).Name) = slotCount + 1
+                    If slotList.Contains(currentShip.MidSlot(slot).Name) = True Then
+                        slotCount = slots(currentShip.MidSlot(slot).Name)
+                        slots(currentShip.MidSlot(slot).Name) = slotCount + 1
                     Else
-                        slotList.Add(currentship.MidSlot(slot).Name)
-                        slots.Add(currentship.MidSlot(slot).Name, 1)
+                        slotList.Add(currentShip.MidSlot(slot).Name)
+                        slots.Add(currentShip.MidSlot(slot).Name, 1)
                     End If
                 End If
             End If
@@ -166,25 +188,25 @@
         End If
 
         slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentship.LowSlots
-            If currentship.LowSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.LowSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.LowSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")") = True Then
+        For slot As Integer = 1 To currentShip.LowSlots
+            If currentShip.LowSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.LowSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")") = True Then
                         ' Get the dictionary item
-                        slotCount = slots(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        slotCount = slots(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
                     Else
-                        slotList.Add(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")", 1)
+                        slotList.Add(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")", 1)
                     End If
                 Else
-                    If slotList.Contains(currentship.LowSlot(slot).Name) = True Then
-                        slotCount = slots(currentship.LowSlot(slot).Name)
-                        slots(currentship.LowSlot(slot).Name) = slotCount + 1
+                    If slotList.Contains(currentShip.LowSlot(slot).Name) = True Then
+                        slotCount = slots(currentShip.LowSlot(slot).Name)
+                        slots(currentShip.LowSlot(slot).Name) = slotCount + 1
                     Else
-                        slotList.Add(currentship.LowSlot(slot).Name)
-                        slots.Add(currentship.LowSlot(slot).Name, 1)
+                        slotList.Add(currentShip.LowSlot(slot).Name)
+                        slots.Add(currentShip.LowSlot(slot).Name, 1)
                     End If
                 End If
             End If
@@ -202,25 +224,25 @@
 
 
         slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentship.RigSlots
-            If currentship.RigSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.RigSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.RigSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")") = True Then
+        For slot As Integer = 1 To currentShip.RigSlots
+            If currentShip.RigSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.RigSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")") = True Then
                         ' Get the dictionary item
-                        slotCount = slots(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        slotCount = slots(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
                     Else
-                        slotList.Add(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")", 1)
+                        slotList.Add(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")", 1)
                     End If
                 Else
-                    If slotList.Contains(currentship.RigSlot(slot).Name) = True Then
-                        slotCount = slots(currentship.RigSlot(slot).Name)
-                        slots(currentship.RigSlot(slot).Name) = slotCount + 1
+                    If slotList.Contains(currentShip.RigSlot(slot).Name) = True Then
+                        slotCount = slots(currentShip.RigSlot(slot).Name)
+                        slots(currentShip.RigSlot(slot).Name) = slotCount + 1
                     Else
-                        slotList.Add(currentship.RigSlot(slot).Name)
-                        slots.Add(currentship.RigSlot(slot).Name, 1)
+                        slotList.Add(currentShip.RigSlot(slot).Name)
+                        slots.Add(currentShip.RigSlot(slot).Name, 1)
                     End If
                 End If
             End If
@@ -236,16 +258,16 @@
             Next
         End If
 
-        If currentship.DroneBayItems.Count > 0 Then
+        If currentShip.DroneBayItems.Count > 0 Then
             fitting.AppendLine("")
-            For Each drone As DroneBayItem In currentship.DroneBayItems.Values
+            For Each drone As DroneBayItem In currentShip.DroneBayItems.Values
                 fitting.AppendLine(drone.Quantity & "x " & drone.DroneType.Name)
             Next
         End If
 
-        If currentship.CargoBayItems.Count > 0 Then
+        If currentShip.CargoBayItems.Count > 0 Then
             fitting.AppendLine("")
-            For Each cargo As CargoBayItem In currentship.CargoBayItems.Values
+            For Each cargo As CargoBayItem In currentShip.CargoBayItems.Values
                 fitting.AppendLine(cargo.Quantity & "x " & cargo.ItemType.Name & " (cargo)")
             Next
         End If

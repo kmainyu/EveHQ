@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -19,37 +19,37 @@
 '=========================================================================
 Imports Microsoft.Win32
 Imports System.Data
-Imports System.Data.OleDb
-Imports System.Data.Odbc
-Imports System.Data.SqlClient
 Imports System.Xml
 Imports System.IO
 Imports System.Net
+Imports DevComponents.AdvTree
+Imports DevComponents.DotNetBar
+Imports System.Text
 
 Public Class frmSettings
     Dim redrawColumns As Boolean = False
     Dim startup As Boolean = True
+    Public Property DoNotRecalculatePilots As Boolean = False
 
 #Region "Form Opening & Closing"
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
-        If frmTraining.IsHandleCreated = True And redrawColumns = True Then
-            redrawColumns = False
-            Call frmTraining.RefreshAllTrainingQueues()
+        If DoNotRecalculatePilots = False Then
+            If frmTraining.IsHandleCreated = True And redrawColumns = True Then
+                redrawColumns = False
+                Call frmTraining.RefreshAllTrainingQueues()
+            End If
+            Call frmEveHQ.UpdatePilotInfo()
         End If
-        Call frmEveHQ.UpdatePilotInfo()
     End Sub
+
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+
     Private Sub frmSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Set the startup flag
         startup = True
-
-        ' Reset the autosize of the training bar items to avoid repositioning issues
-        For Each ss As ToolStripStatusLabel In frmEveHQ.ssTraining.Items
-            ss.AutoSize = True
-        Next
 
         Call Me.UpdateGeneralSettings()
         Call Me.UpdateColourOptions()
@@ -58,7 +58,6 @@ Public Class frmSettings
         Call Me.UpdateAccounts()
         Call Me.UpdatePilots()
         Call Me.UpdateEveFolderOptions()
-        Call Me.UpdateFTPAccounts()
         Call Me.UpdateViewPilots()
         Call Me.UpdateProxyOptions()
         Call Me.UpdatePlugIns()
@@ -97,13 +96,13 @@ Public Class frmSettings
         Dim nodeName As String = e.Node.Name
         Dim gbName As String = nodeName.TrimStart("node".ToCharArray)
         gbName = "gb" & gbName
-        For Each setControl As Control In Me.Controls
-            If setControl.Name = "tvwSettings" Or setControl.Name = "btnClose" Or setControl.Name = gbName Then
-                Me.Controls(gbName).Top = 12
-                Me.Controls(gbName).Left = 195
-                Me.Controls(gbName).Width = 700
-                Me.Controls(gbName).Height = 500
-                Me.Controls(gbName).Visible = True
+        For Each setControl As Control In Me.panelSettings.Controls
+            If setControl.Name = "gpNav" Or setControl.Name = "tvwSettings" Or setControl.Name = "btnClose" Or setControl.Name = gbName Then
+                Me.panelSettings.Controls(gbName).Top = 12
+                Me.panelSettings.Controls(gbName).Left = 195
+                Me.panelSettings.Controls(gbName).Width = 700
+                Me.panelSettings.Controls(gbName).Height = 500
+                Me.panelSettings.Controls(gbName).Visible = True
             Else
                 setControl.Visible = False
             End If
@@ -117,13 +116,12 @@ Public Class frmSettings
 #Region "General Settings"
 
     Private Sub UpdateGeneralSettings()
-        chkEncryptSettings.Checked = EveHQ.Core.HQ.EveHQSettings.EncryptSettings
-        cboMDITabStyle.SelectedIndex = EveHQ.Core.HQ.EveHQSettings.MDITabStyle
         chkAutoHide.Checked = EveHQ.Core.HQ.EveHQSettings.AutoHide
         chkAutoRun.Checked = EveHQ.Core.HQ.EveHQSettings.AutoStart
         chkAutoMinimise.Checked = EveHQ.Core.HQ.EveHQSettings.AutoMinimise
         chkMinimiseOnExit.Checked = EveHQ.Core.HQ.EveHQSettings.MinimiseExit
         chkDisableAutoConnections.Checked = EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections
+        chkDisableTrainingBar.Checked = EveHQ.Core.HQ.EveHQSettings.DisableTrainingBar
         If cboStartupView.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupView) = True Then
             cboStartupView.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupView
         Else
@@ -139,30 +137,20 @@ Public Class frmSettings
         Else
             cboMDITabPosition.SelectedItem = "Top"
         End If
-        If EveHQ.Core.HQ.EveHQSettings.ToolbarPosition IsNot Nothing Then
-            cboToolbarPosition.SelectedItem = EveHQ.Core.HQ.EveHQSettings.ToolbarPosition
-        Else
-            cboToolbarPosition.SelectedItem = "Left"
-        End If
-        If EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition IsNot Nothing Then
-            cboTrainingBarPosition.SelectedItem = EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition
-        Else
-            cboTrainingBarPosition.SelectedItem = "Bottom"
-        End If
     End Sub
 
     Private Sub chkAutoHide_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAutoHide.CheckedChanged
-        If chkAutoHide.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.AutoHide = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.AutoHide = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.AutoHide = chkAutoHide.Checked
     End Sub
 
     Private Sub chkAutoRun_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAutoRun.CheckedChanged
         If chkAutoRun.Checked = True Then
             Dim RegKey As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", True)
-            RegKey.SetValue(Application.ProductName, Application.ExecutablePath.ToString)
+            If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
+                RegKey.SetValue(Application.ProductName, """" & Application.ExecutablePath.ToString & """")
+            Else
+                RegKey.SetValue(Application.ProductName, """" & Application.ExecutablePath.ToString & """" & " /local")
+            End If
             EveHQ.Core.HQ.EveHQSettings.AutoStart = True
         Else
             Dim RegKey As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", True)
@@ -172,35 +160,47 @@ Public Class frmSettings
     End Sub
 
     Private Sub chkAutoMinimise_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoMinimise.CheckedChanged
-        If chkAutoMinimise.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.AutoMinimise = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.AutoMinimise = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.AutoMinimise = chkAutoMinimise.Checked
     End Sub
 
     Private Sub chkMinimiseOnExit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMinimiseOnExit.CheckedChanged
-        If chkMinimiseOnExit.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.MinimiseExit = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.MinimiseExit = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.MinimiseExit = chkMinimiseOnExit.Checked
     End Sub
 
-    Private Sub chkEncryptSettings_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEncryptSettings.CheckedChanged
-        If chkEncryptSettings.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.EncryptSettings = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.EncryptSettings = False
-        End If
-    End Sub
     Private Sub chkDisableAutoConnections_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDisableAutoConnections.CheckedChanged
         EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = chkDisableAutoConnections.Checked
         If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = True Then
-            chkAutoAPI.Enabled = False
             chkAutoAPI.Checked = False
+            chkAutoAPI.Enabled = False
+            chkAutoMailAPI.Checked = False
+            chkAutoMailAPI.Enabled = False
         Else
             chkAutoAPI.Enabled = True
+            chkAutoMailAPI.Enabled = True
+        End If
+    End Sub
+
+    Private Sub chkDisableTrainingBar_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDisableTrainingBar.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.DisableTrainingBar = chkDisableTrainingBar.Checked
+        If EveHQ.Core.HQ.EveHQSettings.DisableTrainingBar = False Then
+            If EveHQ.Core.HQ.EveHQSettings.TrainingBarDockPosition = DevComponents.DotNetBar.eDockSide.None Then
+                EveHQ.Core.HQ.EveHQSettings.TrainingBarDockPosition = DevComponents.DotNetBar.eDockSide.Bottom
+            End If
+            frmEveHQ.Bar1.DockSide = CType(EveHQ.Core.HQ.EveHQSettings.TrainingBarDockPosition, DevComponents.DotNetBar.eDockSide)
+            frmEveHQ.DockContainerItem1.Height = EveHQ.Core.HQ.EveHQSettings.TrainingBarHeight
+            frmEveHQ.DockContainerItem1.Width = EveHQ.Core.HQ.EveHQSettings.TrainingBarWidth
+        Else
+            frmEveHQ.Bar1.Visible = False
+            ' Clear old event handlers and controls
+            For c As Integer = frmEveHQ.pdc1.Controls.Count - 1 To 0 Step -1
+                Dim cb As CharacterTrainingBlock = CType(frmEveHQ.pdc1.Controls(c), CharacterTrainingBlock)
+                RemoveHandler cb.lblSkill.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
+                RemoveHandler cb.lblTime.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
+                RemoveHandler cb.lblQueue.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
+                cb.Dispose()
+            Next
+            ' Clear items - just to make sure
+            frmEveHQ.pdc1.Controls.Clear()
         End If
     End Sub
 
@@ -210,18 +210,6 @@ Public Class frmSettings
 
     Private Sub cboStartupPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStartupPilot.SelectedIndexChanged
         EveHQ.Core.HQ.EveHQSettings.StartupPilot = CStr(cboStartupPilot.SelectedItem)
-    End Sub
-
-    Private Sub cboMDITabStyle_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMDITabStyle.SelectedIndexChanged
-        Select Case cboMDITabStyle.SelectedIndex
-            Case 0
-                frmEveHQ.tabMDI.Appearance = TabAppearance.FlatButtons
-            Case 1
-                frmEveHQ.tabMDI.Appearance = TabAppearance.Buttons
-            Case 2
-                frmEveHQ.tabMDI.Appearance = TabAppearance.Normal
-        End Select
-        EveHQ.Core.HQ.EveHQSettings.MDITabStyle = cboMDITabStyle.SelectedIndex
     End Sub
 
     Private Sub UpdateViewPilots()
@@ -276,52 +264,11 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.MDITabPosition = cboMDITabPosition.SelectedItem.ToString
         Select Case EveHQ.Core.HQ.EveHQSettings.MDITabPosition
             Case "Top"
-                frmEveHQ.tabMDI.Dock = DockStyle.Top
+                frmEveHQ.tabEveHQMDI.Dock = DockStyle.Top
+                frmEveHQ.tabEveHQMDI.TabAlignment = DevComponents.DotNetBar.eTabStripAlignment.Top
             Case "Bottom"
-                frmEveHQ.tabMDI.Dock = DockStyle.Bottom
-        End Select
-    End Sub
-
-    Private Sub cboToolbarPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboToolbarPosition.SelectedIndexChanged
-        EveHQ.Core.HQ.EveHQSettings.ToolbarPosition = cboToolbarPosition.SelectedItem.ToString
-        Select Case EveHQ.Core.HQ.EveHQSettings.ToolbarPosition
-            Case "Top"
-                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Top
-            Case "Bottom"
-                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Bottom
-            Case "Left"
-                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Left
-            Case "Right"
-                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Right
-        End Select
-    End Sub
-
-    Private Sub cboTrainingBarPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTrainingBarPosition.SelectedIndexChanged
-        EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition = cboTrainingBarPosition.SelectedItem.ToString
-        Select Case EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition
-            Case "Top"
-                frmEveHQ.panelTrainingStatus.Visible = True
-                frmEveHQ.ssTraining.Visible = True
-                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Top
-                frmEveHQ.ssTraining.Dock = DockStyle.Top
-            Case "Bottom"
-                frmEveHQ.panelTrainingStatus.Visible = True
-                frmEveHQ.ssTraining.Visible = True
-                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Bottom
-                frmEveHQ.ssTraining.Dock = DockStyle.Bottom
-            Case "Left"
-                frmEveHQ.panelTrainingStatus.Visible = True
-                frmEveHQ.ssTraining.Visible = True
-                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Left
-                frmEveHQ.ssTraining.Dock = DockStyle.Left
-            Case "Right"
-                frmEveHQ.panelTrainingStatus.Visible = True
-                frmEveHQ.ssTraining.Visible = True
-                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Right
-                frmEveHQ.ssTraining.Dock = DockStyle.Right
-            Case "None"
-                frmEveHQ.panelTrainingStatus.Visible = False
-                frmEveHQ.ssTraining.Visible = False
+                frmEveHQ.tabEveHQMDI.Dock = DockStyle.Bottom
+                frmEveHQ.tabEveHQMDI.TabAlignment = DevComponents.DotNetBar.eTabStripAlignment.Bottom
         End Select
     End Sub
 
@@ -396,7 +343,7 @@ Public Class frmSettings
                     EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor = cd1.Color.ToArgb
             End Select
             ' Update the colours
-            frmPilot.clvSkills.Refresh()
+            frmPilot.adtSkills.Refresh()
         End If
     End Sub
 
@@ -411,7 +358,7 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor = System.Drawing.Color.Black.ToArgb
         EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor = System.Drawing.Color.DodgerBlue.ToArgb
         ' Update the colours
-        frmPilot.clvSkills.Refresh()
+        frmPilot.adtSkills.Refresh()
         ' Update the PBPilot Colours
         Call Me.UpdatePBPilotColours()
     End Sub
@@ -431,15 +378,16 @@ Public Class frmSettings
 #End Region
 
 #Region "Eve Accounts Settings"
+
     Private Sub btnAddAccount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddAccount.Click
         ' Clear the text boxes
         Dim myAccounts As frmModifyEveAccounts = New frmModifyEveAccounts
         With myAccounts
             .Tag = "Add"
-            .txtUserID.Text = "" : .txtUserID.Enabled = True
-            .txtAPIKey.Text = "" : .txtAPIKey.Enabled = True
-            .txtAccountName.Text = "" : .txtAccountName.Enabled = True
-            .btnAccept.Text = "OK"
+            .txtUserIDV1.Text = "" : .txtUserIDV1.Enabled = True
+            .txtAPIKeyV1.Text = "" : .txtAPIKeyV1.Enabled = True
+            .txtAccountNameV1.Text = "" : .txtAccountNameV1.Enabled = True
+            .btnAcceptV1.Text = "OK"
             .Text = "Add New Account"
             .ShowDialog()
         End With
@@ -452,19 +400,38 @@ Public Class frmSettings
 
     Private Sub EditAccount()
         ' Check for some selection on the listview
-        If lvAccounts.SelectedItems.Count = 0 Then
+        If adtAccounts.SelectedNodes.Count = 0 Then
             MessageBox.Show("Please select an account to edit!", "Cannot Edit", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            lvAccounts.Select()
+            adtAccounts.Select()
         Else
             Dim myAccounts As frmModifyEveAccounts = New frmModifyEveAccounts
             With myAccounts
                 ' Load the account details into the text boxes
-                Dim selAccount As New EveHQ.Core.EveAccount
-                selAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(lvAccounts.SelectedItems(0).Name), Core.EveAccount)
-                .txtUserID.Text = selAccount.userID : .txtUserID.Enabled = False
-                .txtAPIKey.Text = selAccount.APIKey : .txtAPIKey.Enabled = True
-                .txtAccountName.Text = selAccount.FriendlyName : .txtAccountName.Enabled = True
-                .btnAccept.Text = "OK" : .Tag = "Edit"
+                Dim selAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(adtAccounts.SelectedNodes(0).Name), Core.EveAccount)
+                Select Case selAccount.APIKeySystem
+                    Case Core.APIKeySystems.Version1, Core.APIKeySystems.Unknown
+                        Dim msg As New StringBuilder
+                        msg.AppendLine("Keys under the old API system can no longer be edited. If you need to update a key, please use the new CAK system.")
+                        MessageBox.Show(msg.ToString, "Cannot Edit Old API Key", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                        '.tiV1.Visible = True : .tiV2.Visible = False
+                        '.radVersion1.Checked = True : .radVersion1.Enabled = False : .radVersion2.Enabled = False
+                        '.txtUserIDV1.Text = selAccount.userID : .txtUserIDV1.Enabled = False
+                        '.txtAPIKeyV1.Text = selAccount.APIKey : .txtAPIKeyV1.Enabled = True
+                        '.txtAccountNameV1.Text = selAccount.FriendlyName : .txtAccountNameV1.Enabled = True
+                        '.lblAPIKeyTypeV1.Text = selAccount.APIKeyType.ToString
+                        '.btnAcceptV1.Text = "OK"
+                    Case Core.APIKeySystems.Version2
+                        .tiV1.Visible = False : .tiV2.Visible = True
+                        .radVersion2.Checked = True : .radVersion1.Enabled = False : .radVersion2.Enabled = False
+                        .txtUserIDV2.Text = selAccount.userID : .txtUserIDV2.Enabled = False
+                        .txtAPIKeyV2.Text = selAccount.APIKey : .txtAPIKeyV2.Enabled = True
+                        .txtAccountNameV2.Text = selAccount.FriendlyName : .txtAccountNameV2.Enabled = True
+                        .lblAPIKeyTypeV2.Text = selAccount.APIKeyType.ToString
+                        .lblAPIAccessMask.Text = selAccount.AccessMask.ToString
+                        .btnAcceptV2.Text = "OK"
+                End Select
+                .Tag = "Edit"
                 .Text = "Edit '" & selAccount.FriendlyName & "' Account Details"
                 ' Disable the username text box (cannot edit this by design!!)
                 .ShowDialog()
@@ -475,12 +442,12 @@ Public Class frmSettings
 
     Private Sub btnDeleteAccount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteAccount.Click
         ' Check for some selection on the listview
-        If lvAccounts.SelectedItems.Count = 0 Then
+        If adtAccounts.SelectedNodes.Count = 0 Then
             MessageBox.Show("Please select an account to delete!", "Cannot Delete Account", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            lvAccounts.Select()
+            adtAccounts.Select()
         Else
-            Dim selAccount As String = lvAccounts.SelectedItems(0).Name
-            Dim selAccountName As String = lvAccounts.SelectedItems(0).Text
+            Dim selAccount As String = adtAccounts.SelectedNodes(0).Name
+            Dim selAccountName As String = adtAccounts.SelectedNodes(0).Text
             ' Get the list of pilots that are affected
             Dim dPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
             Dim strPilots As String = ""
@@ -501,9 +468,9 @@ Public Class frmSettings
             Dim confirm As Integer = MessageBox.Show(msg, "Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If confirm = vbYes Then
                 ' Delete the account from the accounts collection
-                EveHQ.Core.HQ.EveHQSettings.Accounts.Remove(lvAccounts.SelectedItems(0).Name)
+                EveHQ.Core.HQ.EveHQSettings.Accounts.Remove(adtAccounts.SelectedNodes(0).Name)
                 ' Remove the item from the list
-                lvAccounts.Items.Remove(lvAccounts.SelectedItems(0))
+                adtAccounts.Nodes.Remove(adtAccounts.SelectedNodes(0))
                 ' Remove the pilots
                 For Each dPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                     If dPilot.Account = selAccount Then
@@ -513,9 +480,30 @@ Public Class frmSettings
                 Call frmEveHQ.UpdatePilotInfo()
                 Call Me.UpdatePilots()
             Else
-                lvAccounts.Select()
+                adtAccounts.Select()
                 Exit Sub
             End If
+        End If
+    End Sub
+
+    Private Sub btnDisableAccount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDisableAccount.Click
+        ' Check for some selection on the listview
+        If adtAccounts.SelectedNodes.Count = 0 Then
+            MessageBox.Show("Please select an account to toggle the status of!", "Cannot Set Account Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            adtAccounts.Select()
+        Else
+            Dim SI As Node = adtAccounts.SelectedNodes(0)
+            Dim UserID As String = SI.Name
+            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(UserID), Core.EveAccount)
+            Select Case cAccount.APIAccountStatus
+                Case Core.APIAccountStatuses.Active, Core.APIAccountStatuses.Disabled
+                    cAccount.APIAccountStatus = Core.APIAccountStatuses.ManualDisabled
+                    btnDisableAccount.Text = "Enable Account"
+                Case Core.APIAccountStatuses.ManualDisabled
+                    cAccount.APIAccountStatus = Core.APIAccountStatuses.Active
+                    btnDisableAccount.Text = "Disable Account"
+            End Select
+            SI.Cells(4).Text = cAccount.APIAccountStatus.ToString
         End If
     End Sub
 
@@ -524,36 +512,74 @@ Public Class frmSettings
     End Sub
 
     Public Sub UpdateAccounts()
-        lvAccounts.Items.Clear()
+        adtAccounts.BeginUpdate()
+        adtAccounts.Nodes.Clear()
         Dim newAccount As EveHQ.Core.EveAccount = New EveHQ.Core.EveAccount
         For Each newAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-            Dim newLine As New ListViewItem
+            Dim newLine As New Node
             newLine.Name = newAccount.userID
             newLine.Text = newAccount.FriendlyName
-            newLine.SubItems.Add(newAccount.userID)
-            lvAccounts.Items.Add(newLine)
+            newLine.Cells.Add(New Cell(newAccount.APIKeySystem.ToString))
+            newLine.Cells.Add(New Cell(newAccount.userID))
+            newLine.Cells.Add(New Cell(newAccount.APIKeyType.ToString))
+            newLine.Cells.Add(New Cell(newAccount.APIAccountStatus.ToString))
+            Select Case newAccount.APIKeyType
+                Case Core.APIKeyTypes.Unknown, Core.APIKeyTypes.Limited
+                    Dim TTT As String = ""
+                    TTT &= "Account Creation Date: <Unknown>" & ControlChars.CrLf
+                    TTT &= "Account Expiry Date: <Unknown>" & ControlChars.CrLf
+                    TTT &= "Logon Count: <Unknown>" & ControlChars.CrLf
+                    TTT &= "Time Online: <Unknown>"
+                    Dim STI As New SuperTooltipInfo("Account Name: " & newAccount.FriendlyName, "Eve API Account Information", TTT, Nothing, My.Resources.Info32, eTooltipColor.Yellow)
+                    STT.SetSuperTooltip(newLine, STI)
+                Case Core.APIKeyTypes.Full, Core.APIKeyTypes.Character, Core.APIKeyTypes.Corporation
+                    Dim TTT As String = ""
+                    TTT &= "Account Creation Date: " & FormatDateTime(newAccount.CreateDate, DateFormat.GeneralDate) & ControlChars.CrLf
+                    TTT &= "Account Expiry Date: " & FormatDateTime(newAccount.PaidUntil, DateFormat.GeneralDate) & ControlChars.CrLf
+                    TTT &= "Logon Count: " & newAccount.LogonCount.ToString("N0") & ControlChars.CrLf
+                    TTT &= "Time Online: " & EveHQ.Core.SkillFunctions.TimeToString(newAccount.LogonMinutes * 60, False)
+                    Dim STI As New SuperTooltipInfo("Account Name: " & newAccount.FriendlyName, "Eve API Account Information", TTT, Nothing, My.Resources.Info32, eTooltipColor.Yellow)
+                    STT.SetSuperTooltip(newLine, STI)
+            End Select
+            adtAccounts.Nodes.Add(newLine)
         Next
+        adtAccounts.EndUpdate()
         If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 Then
-            frmEveHQ.mnuToolsGetAccountInfo.Enabled = False
+            frmEveHQ.btnQueryAPI.Enabled = False
         Else
-            frmEveHQ.mnuToolsGetAccountInfo.Enabled = True
+            frmEveHQ.btnQueryAPI.Enabled = True
         End If
     End Sub
 
-    Private Sub lvAccounts_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvAccounts.ColumnClick
-        If CInt(lvAccounts.Tag) = e.Column Then
-            Me.lvAccounts.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, Windows.Forms.SortOrder.Ascending)
-            lvAccounts.Tag = -1
-        Else
-            Me.lvAccounts.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, Windows.Forms.SortOrder.Descending)
-            lvAccounts.Tag = e.Column
-        End If
-        ' Call the sort method to manually sort.
-        lvAccounts.Sort()
+    Private Sub btnCheckAPIKeys_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckAPIKeys.Click
+        ' Checks the API keys types by reference to the account status API
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+            Call cAccount.CheckAPIKey()
+        Next
+        Call Me.UpdateAccounts()
     End Sub
 
-    Private Sub lvAccounts_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvAccounts.DoubleClick
+    Private Sub adtAccounts_NodeDoubleClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtAccounts.NodeDoubleClick
         Call EditAccount()
+    End Sub
+
+    Private Sub adtAccounts_SelectionChanged(sender As Object, e As System.EventArgs) Handles adtAccounts.SelectionChanged
+        If adtAccounts.SelectedNodes.Count = 1 Then
+            Dim SI As Node = adtAccounts.SelectedNodes(0)
+            Dim UserID As String = SI.Name
+            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(UserID), Core.EveAccount)
+            Select Case cAccount.APIAccountStatus
+                Case Core.APIAccountStatuses.Active, Core.APIAccountStatuses.Disabled
+                    btnDisableAccount.Text = "Disable Account"
+                    btnDisableAccount.Enabled = True
+                Case Core.APIAccountStatuses.ManualDisabled
+                    btnDisableAccount.Text = "Enable Account"
+                    btnDisableAccount.Enabled = True
+            End Select
+        Else
+            btnDisableAccount.Text = "Disable Account"
+            btnDisableAccount.Enabled = False
+        End If
     End Sub
 
 #End Region
@@ -646,6 +672,13 @@ Public Class frmSettings
         Call Me.UpdatePilots()
     End Sub
 
+    Private Sub btnCreateBlankPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateBlankPilot.Click
+        Dim newCharForm As New frmCharCreate
+        newCharForm.ShowDialog()
+        Call Me.UpdatePilots()
+        newCharForm.Dispose()
+    End Sub
+
     Public Sub UpdatePilots()
         lvwPilots.Items.Clear()
         Dim newPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
@@ -667,7 +700,7 @@ Public Class frmSettings
         ' Check for some selection on the listview
         If lvwPilots.SelectedItems.Count = 0 Then
             MessageBox.Show("Please select a pilot to delete!", "Cannot Delete Pilot", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            lvAccounts.Select()
+            lvwPilots.Select()
         Else
             Dim selPilot As String = lvwPilots.SelectedItems(0).Text
             Dim selAccount As String = lvwPilots.SelectedItems(0).SubItems(2).Text
@@ -689,7 +722,7 @@ Public Class frmSettings
                 ' Update the list of pilots in the main form
                 Call frmEveHQ.UpdatePilotInfo()
             Else
-                lvAccounts.Select()
+                lvwPilots.Select()
                 Exit Sub
             End If
         End If
@@ -723,8 +756,34 @@ Public Class frmSettings
 #Region "IGB Settings"
 
     Private Sub UpdateIGBSettings()
+        Dim sp As Boolean = False
+
         nudIGBPort.Value = EveHQ.Core.HQ.EveHQSettings.IGBPort
         chkStartIGBonLoad.Checked = EveHQ.Core.HQ.EveHQSettings.IGBAutoStart
+        Call EveHQ.Core.IGB.CheckAllIGBAccessRights()
+
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode = False Then
+            rb_IGBCfgAccessMode.Checked = True
+        Else
+            rb_IGBFullAccessMode.Checked = True
+        End If
+
+        ' Cycle plug-ins
+        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+            If PlugInInfo.RunInIGB = True Then
+                ' If the Plug-In is not part of the List, then add it, default to enabled
+                If Not EveHQ.Core.HQ.EveHQSettings.IGBAllowedData.ContainsKey(PlugInInfo.Name) Then
+                    EveHQ.Core.HQ.EveHQSettings.IGBAllowedData.Add(PlugInInfo.Name, True)
+                End If
+            End If
+        Next
+
+        clb_IGBAllowedDisplay.Items.Clear()
+        For Each allowed As String In EveHQ.Core.HQ.EveHQSettings.IGBAllowedData.Keys
+            sp = EveHQ.Core.HQ.EveHQSettings.IGBAllowedData(allowed)
+            clb_IGBAllowedDisplay.Items.Add(allowed, sp)
+        Next
+
     End Sub
 
     Private Sub nudIGBPort_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudIGBPort.Click
@@ -748,102 +807,17 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.IGBAutoStart = False
         End If
     End Sub
-#End Region
 
-#Region "FTP Settings"
-    Private Sub btnAddFTP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddFTP.Click
-        ' Clear the text boxes
-        Dim myFTPAccounts As frmModifyFTPAccounts = New frmModifyFTPAccounts
-        With myFTPAccounts
-            .txtFTPName.Text = "" : .txtFTPName.Enabled = True
-            .txtServer.Text = "" : .txtServer.Enabled = True
-            .txtPort.Value = 21 : .txtPort.Enabled = True
-            .txtPath.Text = "" : .txtPath.Enabled = True
-            .txtUsername.Text = "" : .txtUsername.Enabled = True
-            .txtPassword.Text = "" : .txtPassword.Enabled = True
-            .btnAccept.Text = "Add"
-            .Text = "Add New FTP Account"
-            .ShowDialog()
-        End With
-        Me.UpdateFTPAccounts()
-    End Sub
-
-    Private Sub btnEditFTP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditFTP.Click
-        ' Check for some selection on the listview
-        If lvwFTP.SelectedItems.Count = 0 Then
-            lvwFTP.Select()
-            MessageBox.Show("Please select an FTP account to edit!", "Cannot Edit", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        Else
-            Dim myFTPAccounts As frmModifyFTPAccounts = New frmModifyFTPAccounts
-            With myFTPAccounts
-                ' Load the account details into the text boxes
-                Dim selAccount As New EveHQ.Core.FTPAccount
-                selAccount = CType(EveHQ.Core.HQ.EveHQSettings.FTPAccounts(lvwFTP.SelectedItems(0).Text), Core.FTPAccount)
-                .txtFTPName.Text = selAccount.FTPName : .txtFTPName.Enabled = False
-                .txtServer.Text = selAccount.Server : .txtServer.Enabled = True
-                .txtPort.Value = selAccount.Port : .txtPort.Enabled = True
-                .txtPath.Text = selAccount.Path : .txtPath.Enabled = True
-                .txtUsername.Text = selAccount.Username : .txtUsername.Enabled = True
-                .txtPassword.Text = selAccount.Password : .txtPassword.Enabled = True
-                .btnAccept.Text = "Edit"
-                .Text = "Edit '" & selAccount.FTPName & "' FTP Account Details"
-                ' Disable the FTPName text box (cannot edit this by design!!)
-                .ShowDialog()
-            End With
-            Me.UpdateFTPAccounts()
-        End If
-    End Sub
-
-    Private Sub btnDeleteFTP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteFTP.Click
-        ' Check for some selection on the listview
-        If lvwFTP.SelectedItems.Count = 0 Then
-            MessageBox.Show("Please select an FTP account to delete!", "Cannot Delete Account", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            lvAccounts.Select()
-        Else
-            Dim selAccount As String = lvwFTP.SelectedItems(0).Text
-            ' Confirm deletion
-            Dim msg As String = ""
-            msg &= "Are you sure you wish to delete the account '" & selAccount & "'?"
-            Dim confirm As Integer = MessageBox.Show(msg, "Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If confirm = vbYes Then
-                ' Delete the account from the accounts collection
-                EveHQ.Core.HQ.EveHQSettings.FTPAccounts.Remove(lvwFTP.SelectedItems(0).Text)
-                ' Remove the item from the list
-                lvwFTP.Items.Remove(lvwFTP.SelectedItems(0))
+    Private Sub rb_IGBInPublicMode_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rb_IGBCfgAccessMode.CheckedChanged, rb_IGBFullAccessMode.CheckedChanged
+        If startup = False Then
+            If rb_IGBCfgAccessMode.Checked = True Then
+                EveHQ.Core.HQ.EveHQSettings.IGBFullMode = False
             Else
-                lvwFTP.Select()
-                Exit Sub
+                EveHQ.Core.HQ.EveHQSettings.IGBFullMode = True
             End If
         End If
     End Sub
 
-    Public Sub UpdateFTPAccounts()
-        lvwFTP.Items.Clear()
-        Dim newAccount As EveHQ.Core.FTPAccount = New EveHQ.Core.FTPAccount
-        For Each newAccount In EveHQ.Core.HQ.EveHQSettings.FTPAccounts
-            Dim newFTP As ListViewItem = New ListViewItem
-            newFTP.Text = newAccount.FTPName
-            newFTP.SubItems.Add(newAccount.Server)
-            lvwFTP.Items.Add(newFTP)
-        Next
-    End Sub
-
-    Private Sub btnTestUpload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestUpload.Click
-        If lvwFTP.SelectedItems.Count = 0 Then
-            MessageBox.Show("You need to select an FTP account first", "Upload Error!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-
-        ' Load the account details into the text boxes
-        Dim selAccount As New EveHQ.Core.FTPAccount
-        selAccount = CType(EveHQ.Core.HQ.EveHQSettings.FTPAccounts(lvwFTP.SelectedItems(0).Text), Core.FTPAccount)
-
-        Dim fileName As String = "CharSheet (Vessper).html"
-        Dim localPath As String = EveHQ.Core.HQ.reportFolder
-
-        Dim myFTP As EveFTP = New EveFTP
-        myFTP.UploadFile(Path.Combine(localPath, fileName), selAccount.Server, selAccount.Path)
-    End Sub
 #End Region
 
 #Region "Training Queue Options"
@@ -870,11 +844,16 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.DeleteSkills = chkDeleteCompletedSkills.Checked
     End Sub
 
+    Private Sub chkStartWithPrimaryQueue_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkStartWithPrimaryQueue.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.StartWithPrimaryQueue = chkStartWithPrimaryQueue.Checked
+    End Sub
+
     Private Sub UpdateTrainingQueueOptions()
         ' Add the Queue columns
         Call Me.RedrawQueueColumnList()
         Me.chkDeleteCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.DeleteSkills
         Me.chkShowCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills
+        Me.chkStartWithPrimaryQueue.Checked = EveHQ.Core.HQ.EveHQSettings.StartWithPrimaryQueue
         Dim IColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
         Me.pbIsPreReqColour.BackColor = IColor
         Dim HColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.HasPreReqColor))
@@ -1036,10 +1015,10 @@ Public Class frmSettings
 
     Private Sub btnBrowseMDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBrowseMDB.Click
         With ofd1
-            .Title = "Select Access Data file"
+            .Title = "Select SQL CE Data file"
             .FileName = ""
             .InitialDirectory = EveHQ.Core.HQ.appFolder
-            .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
+            .Filter = "SQL Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
             .FilterIndex = 1
             .RestoreDirectory = True
             If .ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -1093,50 +1072,7 @@ Public Class frmSettings
     End Sub
 
     Private Sub btnTestDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestDB.Click
-        Dim strConnection As String = ""
-        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0
-                strConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBFilename & ";"
-                Dim connection As New OleDbConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    MessageBox.Show("Connected successfully to Access database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Catch ex As Exception
-                    MessageBox.Show(ex.Message, "Error Opening Access Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-            Case 1
-                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
-                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Else
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; Integrated Security = SSPI;"
-                End If
-                Dim connection As New SqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    MessageBox.Show("Connected successfully to MS SQL database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                Catch ex As Exception
-                    MessageBox.Show(ex.Message, "Error Opening MS SQL Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-            Case 2
-                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
-                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Else
-                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; Integrated Security = SSPI;"
-                End If
-                Dim connection As New SqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    MessageBox.Show("Connected successfully to MS SQL EXPRESS database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Catch ex As Exception
-                    MessageBox.Show(ex.Message, "Error Opening MS SQL EXPRESS Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-        End Select
+        Call EveHQ.Core.DataFunctions.CheckDatabaseConnection(False)
     End Sub
 
     Private Sub chkUseAppDirForDB_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseAppDirForDB.CheckedChanged
@@ -1148,11 +1084,7 @@ Public Class frmSettings
 #Region "Proxy Server Options"
 
     Private Sub UpdateProxyOptions()
-        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-            chkUseProxy.Checked = True
-        Else
-            chkUseProxy.Checked = False
-        End If
+        chkUseProxy.Checked = EveHQ.Core.HQ.EveHQSettings.ProxyRequired
         txtProxyUsername.Text = EveHQ.Core.HQ.EveHQSettings.ProxyUsername
         txtProxyPassword.Text = EveHQ.Core.HQ.EveHQSettings.ProxyPassword
         txtProxyServer.Text = EveHQ.Core.HQ.EveHQSettings.ProxyServer
@@ -1161,6 +1093,7 @@ Public Class frmSettings
         Else
             radUseSpecifiedCreds.Checked = True
         End If
+        chkProxyUseBasic.Checked = EveHQ.Core.HQ.EveHQSettings.ProxyUseBasic
     End Sub
     Private Sub chkUseProxy_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseProxy.CheckedChanged
         If chkUseProxy.Checked = True Then
@@ -1171,25 +1104,28 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.ProxyRequired = False
         End If
     End Sub
+    Private Sub chkProxyUseBasic_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkProxyUseBasic.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.ProxyUseBasic = chkProxyUseBasic.Checked
+    End Sub
     Private Sub radUseDefaultCreds_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radUseDefaultCreds.CheckedChanged
-
         If radUseDefaultCreds.Checked = True Then
             lblProxyUsername.Enabled = False
             lblProxyPassword.Enabled = False
             txtProxyUsername.Enabled = False
             txtProxyPassword.Enabled = False
+            chkProxyUseBasic.Enabled = False
             If startup = False Then
                 EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True
             End If
         End If
     End Sub
     Private Sub radUseSpecifiedCreds_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radUseSpecifiedCreds.CheckedChanged
-
         If radUseSpecifiedCreds.Checked = True Then
             lblProxyUsername.Enabled = True
             lblProxyPassword.Enabled = True
             txtProxyUsername.Enabled = True
             txtProxyPassword.Enabled = True
+            chkProxyUseBasic.Enabled = True
             If startup = False Then
                 EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = False
             End If
@@ -1210,7 +1146,6 @@ Public Class frmSettings
 
     Private Sub UpdateEveServerSettings()
         chkEnableEveStatus.Checked = EveHQ.Core.HQ.EveHQSettings.EnableEveStatus
-        trackServerOffset.Value = EveHQ.Core.HQ.EveHQSettings.ServerOffset
         chkAutoAPI.Checked = EveHQ.Core.HQ.EveHQSettings.AutoAPI
         chkAutoMailAPI.Checked = EveHQ.Core.HQ.EveHQSettings.AutoMailAPI
         If System.Net.HttpListener.IsSupported Then
@@ -1237,6 +1172,18 @@ Public Class frmSettings
             txtAPIRSServer.Enabled = True
         End If
         txtAPIFileExtension.Text = EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+        If EveHQ.Core.HQ.myAPIRS IsNot Nothing Then
+            If EveHQ.Core.HQ.myAPIRS.IsActive = True Then
+                lblAPIRSStatus.Text = "API Relay Server Status: Active"
+            Else
+                lblAPIRSStatus.Text = "API Relay Server Status: Inactive"
+            End If
+        Else
+            lblAPIRSStatus.Text = "API Relay Server Status: Uninitialised"
+        End If
+        trackServerOffset.Value = EveHQ.Core.HQ.EveHQSettings.ServerOffset
+        Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+        lblCurrentOffset.Text = "Current Offset: " & offset
     End Sub
     Private Sub trackServerOffset_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles trackServerOffset.ValueChanged
         EveHQ.Core.HQ.EveHQSettings.ServerOffset = trackServerOffset.Value
@@ -1249,6 +1196,7 @@ Public Class frmSettings
     End Sub
     Private Sub chkEnableEveStatus_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableEveStatus.CheckedChanged
         If chkEnableEveStatus.Checked = True Then
+            frmEveHQ.lblTQStatus.Text = "Tranquility Status: Unknown"
             EveHQ.Core.HQ.EveHQSettings.EnableEveStatus = True
             frmEveHQ.tmrEve.Interval = 100
             frmEveHQ.tmrEve.Enabled = True
@@ -1257,7 +1205,7 @@ Public Class frmSettings
             frmEveHQ.EveStatusIcon.Icon = My.Resources.EveHQ
             frmEveHQ.EveStatusIcon.Text = "EveHQ"
             frmEveHQ.tmrEve.Enabled = False
-            frmEveHQ.tsTQStatus.Text = "Tranquility Status: Unknown"
+            frmEveHQ.lblTQStatus.Text = "Tranquility Status: Updates Disabled"
         End If
     End Sub
     Private Sub chkAutoAPI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoAPI.CheckedChanged
@@ -1277,22 +1225,13 @@ Public Class frmSettings
     End Sub
     Private Sub chkActivateAPIRS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkActivateAPIRS.CheckedChanged
         If chkActivateAPIRS.Checked = True Then
-            If EveHQ.Core.HQ.APIRSActive = False Then
-                If frmEveHQ.APIRSWorker.CancellationPending = True Then
-                    MessageBox.Show("The API Relay Server is still shutting down. Please wait a few moments", "API Relay Server Busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    frmEveHQ.APIRSWorker.Dispose()
-                    frmEveHQ.APIRSWorker = New System.ComponentModel.BackgroundWorker
-                    frmEveHQ.APIRSWorker.WorkerSupportsCancellation = True
-                Else
-                    frmEveHQ.APIRSWorker = New System.ComponentModel.BackgroundWorker
-                    frmEveHQ.APIRSWorker.WorkerSupportsCancellation = True
-                    frmEveHQ.APIRSWorker.RunWorkerAsync()
-                    EveHQ.Core.HQ.APIRSActive = True
-                End If
+            If EveHQ.Core.HQ.myAPIRS.IsActive = False Then
+                EveHQ.Core.HQ.myAPIRS.StartServer()
+                lblAPIRSStatus.Text = "API Relay Server Status: Active"
             End If
         Else
-            frmEveHQ.APIRSWorker.CancelAsync()
-            EveHQ.Core.HQ.APIRSActive = False
+            EveHQ.Core.HQ.myAPIRS.StopServer()
+            lblAPIRSStatus.Text = "API Relay Server Status: Inactive"
         End If
     End Sub
     Private Sub nudAPIRSPort_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAPIRSPort.Click
@@ -1371,16 +1310,21 @@ Public Class frmSettings
             lblEmailUsername.Enabled = False : lblEmailPassword.Enabled = False
             txtEmailUsername.Enabled = False : txtEmailPassword.Enabled = False
         End If
+        Me.chkUseSSL.Checked = EveHQ.Core.HQ.EveHQSettings.UseSSL
         Me.txtSMTPServer.Text = EveHQ.Core.HQ.EveHQSettings.EMailServer
         Me.txtSMTPPort.Text = CStr(EveHQ.Core.HQ.EveHQSettings.EMailPort)
         Me.txtEmailAddress.Text = EveHQ.Core.HQ.EveHQSettings.EMailAddress
         Me.txtEmailUsername.Text = EveHQ.Core.HQ.EveHQSettings.EMailUsername
         Me.txtEmailPassword.Text = EveHQ.Core.HQ.EveHQSettings.EMailPassword
         Me.txtSenderAddress.Text = EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress
-        Me.trackNotifyOffset.Value = EveHQ.Core.HQ.EveHQSettings.NotifyOffset
-        Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(trackNotifyOffset.Value)
+        Me.sldNotifyOffset.Value = EveHQ.Core.HQ.EveHQSettings.NotifyOffset
+        Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(sldNotifyOffset.Value)
         lblNotifyOffset.Text = "Early Notification Offset: " & offset
         Me.nudShutdownNotifyPeriod.Value = EveHQ.Core.HQ.EveHQSettings.ShutdownNotifyPeriod
+        Me.chkIgnoreLastMessage.Checked = EveHQ.Core.HQ.EveHQSettings.IgnoreLastMessage
+        Me.chkNotifyAccountTime.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime
+        Me.nudAccountTimeLimit.Enabled = EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime
+        Me.nudAccountTimeLimit.Value = EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit
     End Sub
 
     Private Sub chkShutdownNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShutdownNotify.CheckedChanged
@@ -1443,9 +1387,9 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.NotifyEveNotification = chkNotifyNotification.Checked
     End Sub
 
-    Private Sub trackNotifyOffset_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles trackNotifyOffset.ValueChanged
-        EveHQ.Core.HQ.EveHQSettings.NotifyOffset = trackNotifyOffset.Value
-        Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(trackNotifyOffset.Value)
+    Private Sub sldNotifyOffset_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles sldNotifyOffset.ValueChanged
+        EveHQ.Core.HQ.EveHQSettings.NotifyOffset = sldNotifyOffset.Value
+        Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(sldNotifyOffset.Value)
         lblNotifyOffset.Text = "Early Notification Offset: " & offset
     End Sub
 
@@ -1459,6 +1403,10 @@ Public Class frmSettings
             lblEmailUsername.Enabled = False : lblEmailPassword.Enabled = False
             txtEmailUsername.Enabled = False : txtEmailPassword.Enabled = False
         End If
+    End Sub
+
+    Private Sub chkUseSSL_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseSSL.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.UseSSL = chkUseSSL.Checked
     End Sub
 
     Private Sub txtSMTPServer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSMTPServer.TextChanged
@@ -1509,14 +1457,14 @@ Public Class frmSettings
                         notifyText &= ControlChars.CrLf
                         notifyText &= "EveHQ Skill Queue Info: " & ControlChars.CrLf
                         For Each sq As EveHQ.Core.SkillQueue In cPilot.TrainingQueues.Values
-                            Dim nq As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, sq, )
+                            Dim nq As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, sq, False, True)
                             If sq.IncCurrentTraining = True Then
                                 If nq.Count > 1 Then
                                     For q As Integer = 1 To nq.Count - 1
-                                        If CType(nq(1), EveHQ.Core.SortedQueue).Done = False Then
-                                            notifyText &= sq.Name & ": " & CType(nq(q), EveHQ.Core.SortedQueue).Name
-                                            notifyText &= " (" & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel))
-                                            notifyText &= " to " & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel) + 1) & ")" & ControlChars.CrLf
+                                        If CType(nq(q), EveHQ.Core.SortedQueueItem).Done = False Then
+                                            notifyText &= sq.Name & ": " & CType(nq(q), EveHQ.Core.SortedQueueItem).Name
+                                            notifyText &= " (" & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueueItem).FromLevel))
+                                            notifyText &= " to " & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueueItem).FromLevel) + 1) & ")" & ControlChars.CrLf
                                             Exit For
                                         End If
                                     Next
@@ -1524,10 +1472,10 @@ Public Class frmSettings
                             Else
                                 If nq.Count > 0 Then
                                     For q As Integer = 0 To nq.Count - 1
-                                        If CType(nq(1), EveHQ.Core.SortedQueue).Done = False Then
-                                            notifyText &= sq.Name & ": " & CType(nq(q), EveHQ.Core.SortedQueue).Name
-                                            notifyText &= " (" & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel))
-                                            notifyText &= " to " & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel) + 1) & ")" & ControlChars.CrLf
+                                        If CType(nq(q), EveHQ.Core.SortedQueueItem).Done = False Then
+                                            notifyText &= sq.Name & ": " & CType(nq(q), EveHQ.Core.SortedQueueItem).Name
+                                            notifyText &= " (" & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueueItem).FromLevel))
+                                            notifyText &= " to " & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueueItem).FromLevel) + 1) & ")" & ControlChars.CrLf
                                             Exit For
                                         End If
                                     Next
@@ -1539,6 +1487,7 @@ Public Class frmSettings
                     Try
                         eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
                         eveHQMail.Port = EveHQ.Core.HQ.EveHQSettings.EMailPort
+                        eveHQMail.EnableSsl = EveHQ.Core.HQ.EveHQSettings.UseSSL
                         If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
                             Dim newCredentials As New System.Net.NetworkCredential
                             newCredentials.UserName = EveHQ.Core.HQ.EveHQSettings.EMailUsername
@@ -1587,7 +1536,32 @@ Public Class frmSettings
     End Sub
 
     Private Sub txtSMTPPort_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSMTPPort.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.EMailPort = CInt(txtSMTPPort.Text)
+        If IsNumeric(txtSMTPPort.Text) = True Then
+            EveHQ.Core.HQ.EveHQSettings.EMailPort = CInt(txtSMTPPort.Text)
+        Else
+            EveHQ.Core.HQ.EveHQSettings.EMailPort = 0
+        End If
+    End Sub
+
+    Private Sub chkIgnoreLastMessage_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIgnoreLastMessage.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.IgnoreLastMessage = chkIgnoreLastMessage.Checked
+    End Sub
+
+    Private Sub chkNotifyAccountTime_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyAccountTime.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = chkNotifyAccountTime.Checked
+        nudAccountTimeLimit.Enabled = chkNotifyAccountTime.Checked
+    End Sub
+
+    Private Sub nudAccountTimeLimit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAccountTimeLimit.Click
+        EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit = CInt(nudAccountTimeLimit.Value)
+    End Sub
+
+    Private Sub nudAccountTimeLimit_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAccountTimeLimit.HandleDestroyed
+        EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit = CInt(nudAccountTimeLimit.Value)
+    End Sub
+
+    Private Sub nudAccountTimeLimit_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles nudAccountTimeLimit.KeyUp
+        EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit = CInt(nudAccountTimeLimit.Value)
     End Sub
 
 #End Region
@@ -1612,46 +1586,48 @@ Public Class frmSettings
             If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = False Then
                 EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True
                 'Init the LCD
-                EveHQ.Core.HQ.EveHQLCD.InitLCD("EveHQ LCD Display")
-                If EveHQ.Core.HQ.IsG15LCDActive = False Then
-                    MessageBox.Show("Unable to start G15 Display. Please ensure you have the keyboard and drivers correctly installed.", "Error Starting G15", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    chkActivateG15.Checked = False
-                Else
-                    'With the LCD initialised, draw the opening screen
-                    EveHQ.Core.HQ.EveHQLCD.DrawIntroScreen()
+                Try
+                    Core.G15LCDv2.InitLCD()
                     ' Check if the LCD will cycle chars
-                    If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
-                        EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
-                        EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
+                    If EveHQ.Core.HQ.IsG15LCDActive = True And EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
+                        Core.G15LCDv2.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
+                        Core.G15LCDv2.tmrLCDChar.Enabled = True
                     End If
-                End If
+                Catch ex As Exception
+                    MessageBox.Show("Unable to start G15 Display. Please ensure you have the keyboard and drivers correctly installed. The error was: " & ex.Message, "Error Starting G15", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    chkActivateG15.Checked = False
+                End Try
             End If
         Else
             If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True Then
                 EveHQ.Core.HQ.EveHQSettings.ActivateG15 = False
                 ' Close the LCD
-                EveHQ.Core.HQ.EveHQLCD.CloseLCD()
+                Try
+                    Core.G15LCDv2.CloseLCD()
+                Catch ex As Exception
+                    MessageBox.Show("Unable to close G15 Display: " & ex.Message, "Error Closing G15", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Try
             End If
         End If
     End Sub
     Private Sub chkCyclePilots_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCyclePilots.CheckedChanged
         If chkCyclePilots.Checked = True Then
             EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True
-            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
+            Core.G15LCDv2.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
             If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True Then
-                EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
+                Core.G15LCDv2.tmrLCDChar.Enabled = True
             End If
         Else
             EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False
-            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = False
+            Core.G15LCDv2.tmrLCDChar.Enabled = False
         End If
     End Sub
     Private Sub nudCycleTime_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCycleTime.ValueChanged
         EveHQ.Core.HQ.EveHQSettings.CycleG15Time = CInt(nudCycleTime.Value)
         If EveHQ.Core.HQ.EveHQSettings.CycleG15Time > 0 Then
-            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = CInt((nudCycleTime.Value * 1000))
+            Core.G15LCDv2.tmrLCDChar.Interval = CInt((nudCycleTime.Value * 1000))
         Else
-            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = CInt(1000)
+            Core.G15LCDv2.tmrLCDChar.Interval = CInt(1000)
         End If
     End Sub
 #End Region
@@ -1771,7 +1747,10 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = False
             ' Check the application directory for the user
             If startup = False Then
-                Dim eveDir As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "Eve")
+                Dim EveAppFolder As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)
+                EveAppFolder = EveAppFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower
+                EveAppFolder &= "_tranquility"
+                Dim eveDir As String = Path.Combine(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "Eve"), EveAppFolder)
                 Dim cacheDir As String = Path.Combine(eveDir, "cache")
                 Dim settingsDir As String = Path.Combine(eveDir, "settings")
                 Dim prefsFile As String = Path.Combine(settingsDir, "prefs.ini")
@@ -1871,37 +1850,31 @@ Public Class frmSettings
 #Region "Dashboard Options"
     Private Sub UpdateDashboardOptions()
         ' Update the dashboard colours
-        Call Me.UpdateDBColours()
+        Call Me.UpdateWidgetNames()
         Call Me.UpdateWidgets()
         Call Me.UpdateDBOptions()
     End Sub
 
-    Private Sub UpdateDBColours()
-        pbDBColor.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
-        pbWidgetBorder.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
-        pbWidgetHeader1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
-        pbWidgetHeader2.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
-        pbWidgetMain1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
-        pbWidgetMain2.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
+    Private Sub UpdateWidgetNames()
+        cboWidgets.BeginUpdate()
+        cboWidgets.Items.Clear()
+        For Each cWidget As String In EveHQ.Core.HQ.Widgets.Keys
+            cboWidgets.Items.Add(cWidget)
+        Next
+        cboWidgets.EndUpdate()
     End Sub
 
     Private Sub UpdateWidgets()
         lvWidgets.BeginUpdate()
         lvWidgets.Items.Clear()
         For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration
+            If config.ContainsKey("ControlConfigInfo") = False Then
+                config.Add("ControlConfigInfo", "<Not Configurable>")
+            End If
             Try
                 Dim newWidgetLVI As New ListViewItem
                 newWidgetLVI.Text = CStr(config("ControlName"))
-                Select Case CStr(config("ControlName"))
-                    Case "Pilot Information"
-                        newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")))
-                    Case "Skill Queue Information"
-                        If CBool(config("EveQueue")) = True Then
-                            newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", Eve Queue")
-                        Else
-                            newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")) & ", EveHQ Queue (" & CStr(config("DefaultQueueName")) & ")")
-                        End If
-                End Select
+                newWidgetLVI.SubItems.Add(CStr(config("ControlConfigInfo")))
                 lvWidgets.Items.Add(newWidgetLVI)
             Catch e As Exception
                 ' presumably it's an old Widget, therefore discount it
@@ -1918,105 +1891,44 @@ Public Class frmSettings
         cboTickerLocation.SelectedItem = EveHQ.Core.HQ.EveHQSettings.DBTickerLocation
     End Sub
 
-    Private Sub btnResetDBColors_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetDBColors.Click
-        ' Resets the panel colours to the default values
-        EveHQ.Core.HQ.EveHQSettings.DBColor = System.Drawing.Color.LightSteelBlue.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.DBCBorderColor = System.Drawing.Color.Black.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1 = System.Drawing.Color.DimGray.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2 = System.Drawing.Color.LightGray.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.DBCMainColor1 = System.Drawing.Color.White.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.DBCMainColor2 = System.Drawing.Color.LightSteelBlue.ToArgb
-        ' Update the dashboard
-        frmDashboard.UpdateDashboardColours()
-        ' Update the DB Colours
-        Call Me.UpdateDBColours()
-    End Sub
-
-    Private Sub pbDBColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbDBColor.Click, pbWidgetBorder.Click, pbWidgetHeader1.Click, pbWidgetHeader2.Click, pbWidgetMain1.Click, pbWidgetMain2.Click
-        Dim thisPB As PictureBox = CType(sender, PictureBox)
-        Dim dlgResult As Integer = 0
-        With cd1
-            .AllowFullOpen = True
-            .AnyColor = True
-            .FullOpen = True
-            Select Case thisPB.Name
-                Case "pbDBColor"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
-                Case "pbWidgetBorder"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
-                Case "pbWidgetHeader1"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
-                Case "pbWidgetHeader2"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
-                Case "pbWidgetMain1"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
-                Case "pbWidgetMain2"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
-            End Select
-            dlgResult = .ShowDialog()
-        End With
-        If dlgResult = Windows.Forms.DialogResult.Cancel Then
-            Exit Sub
-        Else
-            thisPB.BackColor = cd1.Color
-            Select Case thisPB.Name
-                Case "pbDBColor"
-                    EveHQ.Core.HQ.EveHQSettings.DBColor = cd1.Color.ToArgb
-                Case "pbWidgetBorder"
-                    EveHQ.Core.HQ.EveHQSettings.DBCBorderColor = cd1.Color.ToArgb
-                Case "pbWidgetHeader1"
-                    EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1 = cd1.Color.ToArgb
-                Case "pbWidgetHeader2"
-                    EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2 = cd1.Color.ToArgb
-                Case "pbWidgetMain1"
-                    EveHQ.Core.HQ.EveHQSettings.DBCMainColor1 = cd1.Color.ToArgb
-                Case "pbWidgetMain2"
-                    EveHQ.Core.HQ.EveHQSettings.DBCMainColor2 = cd1.Color.ToArgb
-            End Select
-            ' Update the dashboard
-            frmDashboard.UpdateDashboardColours()
-        End If
-    End Sub
-
     Private Sub btnAddWidget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddWidget.Click
         ' Check we have a selected widget type
         If cboWidgets.SelectedItem IsNot Nothing Then
             Dim WidgetName As String = cboWidgets.SelectedItem.ToString
             ' Determine the type of control to add
-            Select Case WidgetName
-                Case "Pilot Information"
-                    Dim newWidget As New DBCPilotInfo
-                    Dim newWidgetConfig As New DBCPilotInfoConfig
-                    newWidgetConfig.DBWidget = newWidget
-                    newWidgetConfig.ShowDialog()
-                    If newWidgetConfig.DialogResult = Windows.Forms.DialogResult.OK Then
-                        ' Save the Widget
-                        newWidget.ControlPosition = EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Count
-                        EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Add(newWidget.ControlConfiguration)
-                        Call Me.UpdateWidgets()
-                        ' Update the dashboard
-                        frmDashboard.UpdateWidgets()
-                    Else
-                        ' Process Aborted
-                        MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                Case "Skill Queue Information"
-                    Dim newWidget As New DBCSkillQueueInfo
-                    Dim newWidgetConfig As New DBCSkillQueueInfoConfig
-                    newWidgetConfig.DBWidget = newWidget
-                    newWidgetConfig.ShowDialog()
-                    If newWidgetConfig.DialogResult = Windows.Forms.DialogResult.OK Then
-                        ' Save the Widget
-                        newWidget.ControlPosition = EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Count
-                        EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Add(newWidget.ControlConfiguration)
-                        Call Me.UpdateWidgets()
-                        ' Update the dashboard
-                        frmDashboard.UpdateWidgets()
-                    Else
-                        ' Process Aborted
-                        MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-            End Select
+            Dim ClassName As String = EveHQ.Core.HQ.Widgets(WidgetName)
+            Dim myType As Type = Reflection.Assembly.GetExecutingAssembly.GetType(ClassName)
+            Dim newWidget As Object = Activator.CreateInstance(myType)
+            Dim pi As System.Reflection.PropertyInfo = myType.GetProperty("ControlConfigForm")
+            Dim myConfigFormName As String = pi.GetValue(newWidget, Nothing).ToString
+            If myConfigFormName <> "" Then
+                Dim ConfigType As Type = Reflection.Assembly.GetExecutingAssembly.GetType(myConfigFormName)
+                Dim ConfigForm As Form = CType(Activator.CreateInstance(ConfigType), Form)
+                Dim fi As System.Reflection.PropertyInfo = ConfigForm.GetType().GetProperty("DBWidget")
+                fi.SetValue(ConfigForm, newWidget, Nothing)
+                ConfigForm.ShowDialog()
+                If ConfigForm.DialogResult = Windows.Forms.DialogResult.OK Then
+                    ' Save the Widget
+                    Dim ci As System.Reflection.PropertyInfo = myType.GetProperty("ControlConfiguration")
+                    Dim myConfig As SortedList(Of String, Object) = CType(ci.GetValue(newWidget, Nothing), Global.System.Collections.Generic.SortedList(Of String, Object))
+                    EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Add(myConfig)
+                    Call Me.UpdateWidgets()
+                    ' Update the dashboard
+                    frmDashboard.UpdateWidgets()
+                Else
+                    ' Process Aborted
+                    MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+                ConfigForm.Dispose()
+            Else
+                ' Save the Widget
+                Dim ci As System.Reflection.PropertyInfo = myType.GetProperty("ControlConfiguration")
+                Dim myConfig As SortedList(Of String, Object) = CType(ci.GetValue(newWidget, Nothing), Global.System.Collections.Generic.SortedList(Of String, Object))
+                EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Add(myConfig)
+                Call Me.UpdateWidgets()
+                ' Update the dashboard
+                frmDashboard.UpdateWidgets()
+            End If
         Else
             ' Need a widget type before proceeding
             MessageBox.Show("Please select a Widget type before proceeding.", "Widget Type Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2030,25 +1942,12 @@ Public Class frmSettings
             Dim index As Integer = lvWidgets.SelectedItems(0).Index
             EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.RemoveAt(index)
             lvWidgets.SelectedItems(0).Remove()
-            Call ReorderWidgets()
             ' Update the dashboard
             frmDashboard.UpdateWidgets()
         Else
             MessageBox.Show("Please select a Widget to remove before proceeding.", "Widget Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-    End Sub
-
-    Private Sub ReorderWidgets()
-        Dim index As Integer = 0
-        For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration
-            If config.ContainsKey("ControlPosition") = True Then
-                config("ControlPosition") = index
-                index += 1
-            Else
-                config.Add("ControlPosition", index)
-            End If
-        Next
     End Sub
 
     Private Sub lvWidgets_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvWidgets.DoubleClick
@@ -2199,8 +2098,19 @@ Public Class frmSettings
         Call Me.UpdatePilots()
     End Sub
 
-    Private Sub lblMSSQLDatabase2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub clb_IGBAllowedDisplay_ItemCheck(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles clb_IGBAllowedDisplay.ItemCheck
+        If startup = False Then
+            Dim cbx As String = clb_IGBAllowedDisplay.SelectedItem.ToString()
+            Dim chkSt As Boolean
 
+            If (e.NewValue = System.Windows.Forms.CheckState.Checked) Then
+                chkSt = True
+            Else
+                chkSt = False
+            End If
+
+            EveHQ.Core.HQ.EveHQSettings.IGBAllowedData(cbx) = chkSt
+        End If
     End Sub
 
 End Class

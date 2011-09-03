@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -17,7 +36,7 @@ namespace EveHQ.PosManager
     [Serializable]
     public class ModuleListing
     {
-        public ArrayList Modules;
+        public SortedList<long, Module> Modules;
         public DataSet modAttribData, chargeAttribData, moonMinData, simpReactData, compReactData;
         public DataSet reactSimple, reactComplex, reactBioSimp, reactBioComp, reactHybrid;
         public DataSet biochemData, catalystData, generalData, hazChemData, hybPolyData, refMinData;
@@ -29,14 +48,14 @@ namespace EveHQ.PosManager
 
         public ModuleListing()
         {
-            Modules = new ArrayList();
+            Modules = new SortedList<long, Module>();
         }
 
-        private void GetItemData(int typeID, int groupID)
+        private void GetItemData(long typeID, long groupID)
         {
         }
 
-        private double GetDoubleFromVariableIA(DataRow dr, int aI_1, int aI_2)
+        private double GetDoubleFromVariableIA(DataRow dr, long aI_1, long aI_2)
         {
             double retVal = -1;
 
@@ -52,7 +71,7 @@ namespace EveHQ.PosManager
             return retVal;
         }
 
-        private decimal GetDecimalFromVariableIA(DataRow dr, int aI_1, int aI_2)
+        private decimal GetDecimalFromVariableIA(DataRow dr, long aI_1, long aI_2)
         {
             decimal retVal = 0;
 
@@ -71,7 +90,7 @@ namespace EveHQ.PosManager
         public void PerformModuleAndChargeSQLQueries()
         {
             string strSQL;
-
+            
             // Module Attribute Data
             strSQL = "SELECT invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.volume, invTypes.capacity, invTypes.basePrice, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName, dgmAttributeTypes.unitID, eveUnits.unitName, eveUnits.displayName";
             strSQL += " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (eveUnits INNER JOIN (dgmAttributeTypes INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID) ON eveUnits.unitID = dgmAttributeTypes.unitID) ON invTypes.typeID = dgmTypeAttributes.typeID) ON invCategories.categoryID = invGroups.categoryID";
@@ -178,33 +197,33 @@ namespace EveHQ.PosManager
         public void GetMineralAndReactIcons()
         {
             foreach (DataRow row in moonMinData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.typID]).ToString());
             foreach (DataRow row in simpReactData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.typID]).ToString());
             foreach (DataRow row in compReactData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.typID]).ToString());
             foreach (DataRow row in reactSimple.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.inTypID]).ToString());
             foreach (DataRow row in reactComplex.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.inTypID]).ToString());
             foreach (DataRow row in reactBioSimp.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.inTypID]).ToString());
             foreach (DataRow row in reactBioComp.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.inTypID]).ToString());
             foreach (DataRow row in reactHybrid.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)recA.inTypID]).ToString());
             foreach (DataRow row in hazChemData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)minA.typID]).ToString());
             foreach (DataRow row in biochemData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.typID]).ToString());
             foreach (DataRow row in catalystData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.typID]).ToString());
             foreach (DataRow row in generalData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.typID]).ToString());
             foreach (DataRow row in hybPolyData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.typID]).ToString());
             foreach (DataRow row in refMinData.Tables[0].Rows)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.icon]).ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetIcon), (row.ItemArray[(int)silA.typID]).ToString());
         }
 
         public void PopulateModuleMineralData(Module nt)
@@ -545,7 +564,7 @@ namespace EveHQ.PosManager
                     break;
             }
 
-            Modules.Add(nt);
+            Modules.Add(nt.typeID, nt);
         }
 
         public void PopulateModuleReactionData(Module nt)
@@ -1084,13 +1103,13 @@ namespace EveHQ.PosManager
                 }
                 nt.ReactList.Add(nr);
             }
-            Modules.Add(nt);
+            Modules.Add(nt.typeID, nt);
         }
 
         public void PopulateModuleChargeData(Module nt)
         {
             string oVal;
-            int curTID = 0, typeID = 0, skpID = 0;
+            long curTID = 0, typeID = 0, skpID = 0;
             bool first = true;
             Charge ch;
 
@@ -1120,6 +1139,7 @@ namespace EveHQ.PosManager
                         skpID = 0;
                     }
                     ch.typeID = Convert.ToInt32(row.ItemArray[(int)chgA.typID]);
+                    ch.ChargeVolume = Convert.ToDecimal(row.ItemArray[(int)(chgA.vol)]);
                     curTID = ch.typeID;
                     ch.Name = row.ItemArray[(int)chgA.typName].ToString();
                     first = false;
@@ -1199,14 +1219,14 @@ namespace EveHQ.PosManager
                 nt.ChargeList.Add(ch.Name);
             }
 
-            Modules.Add(nt);
+            Modules.Add(nt.typeID, nt);
         }
 
         public void PopulateModuleData()
         {
             decimal timVal;
             string extT = "", extV = "";
-            int curTID = 0, typeID = 0;
+            long curTID = 0, typeID = 0;
             bool first = true;
             Module nt;
 
@@ -1242,7 +1262,7 @@ namespace EveHQ.PosManager
                         else
                         {
                             ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
-                            Modules.Add(nt);
+                            Modules.Add(nt.typeID, nt);
                         }
 
                         nt = new Module();
@@ -1250,7 +1270,7 @@ namespace EveHQ.PosManager
                     curTID = typeID;
                     // Get item specific information - ie: first row data
 
-                    // Place data into the data table
+                    // Place data longo the data table
                     nt.Name = row.ItemArray[(int)modA.typName].ToString();
                     nt.Desc = row.ItemArray[(int)modA.typDesc].ToString();
                     nt.typeID = typeID;
@@ -1262,7 +1282,7 @@ namespace EveHQ.PosManager
                     first = false;
                 }
 
-                // Now there are many rows with the same ID that just correspond to other data points
+                // Now there are many rows with the same ID that just correspond to other data polongs
                 switch (Convert.ToInt32(row.ItemArray[(int)modA.attID]))
                 {
                     case 9:             // Structure HP - dec
@@ -1582,7 +1602,7 @@ namespace EveHQ.PosManager
             else
             {
                 ThreadPool.QueueUserWorkItem(new WaitCallback(GetImage), nt.typeID);
-                Modules.Add(nt);
+                Modules.Add(nt.typeID, nt);
             }
         }
 
@@ -1597,64 +1617,29 @@ namespace EveHQ.PosManager
 
         public void GetImage(Object o)
         {
-            Bitmap bmp;
-            string imgLoc, imgId;
+            Image img;
+            string imgId;
 
             imgId = o.ToString();
 
-            imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(imgId, Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Types));
-
-            try
-            {
-                bmp = new Bitmap(Image.FromFile(imgLoc));
-            }
-            catch
-            {
-            }
-
+            img = EveHQ.Core.ImageHandler.GetImage(imgId);
         }
 
         public void GetIcon(Object o)
         {
-            Bitmap bmp;
-            string imgLoc, imgId;
+            Image img;
+            string imgId;
 
             imgId = o.ToString();
 
-            imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(imgId, Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Icons));
-
-            try
-            {
-                bmp = new Bitmap(Image.FromFile(imgLoc));
-            }
-            catch
-            {
-            }
-
+            img = EveHQ.Core.ImageHandler.GetImage(imgId);
         }
 
         public void SaveModuleListing()
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path , "Cache");
-
-            if (!Directory.Exists(PoSManage_Path))
-                Directory.CreateDirectory(PoSManage_Path);
-
-            if (!Directory.Exists(PoSCache_Path))
-                Directory.CreateDirectory(PoSCache_Path);
-
-            fname = Path.Combine(PoSCache_Path , "Module_List.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "Module_List.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
@@ -1665,27 +1650,11 @@ namespace EveHQ.PosManager
 
         public void LoadModuleListing()
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
             Stream cStr;
             BinaryFormatter myBf;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
-
-            if (!Directory.Exists(PoSManage_Path))
-                return;
-            if (!Directory.Exists(PoSCache_Path))
-                return;
-
-            fname = Path.Combine(PoSCache_Path, "Module_List.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "Module_List.bin");
             // Load the Data from Disk
             if (File.Exists(fname))
             {
@@ -1695,7 +1664,7 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    Modules = (ArrayList)myBf.Deserialize(cStr);
+                    Modules = (SortedList<long, Module>)myBf.Deserialize(cStr);
                     cStr.Close();
                 }
                 catch

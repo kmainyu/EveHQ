@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmAPIChecker
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -32,10 +32,11 @@ Partial Class frmAPIChecker
         Me.lblOtherInfo = New System.Windows.Forms.Label
         Me.txtOtherInfo = New System.Windows.Forms.TextBox
         Me.wbAPI = New System.Windows.Forms.WebBrowser
-        Me.btnGetAPI = New System.Windows.Forms.Button
         Me.lblCurrentlyViewing = New System.Windows.Forms.Label
         Me.lblFileLocation = New System.Windows.Forms.Label
-        Me.chkReturnCached = New System.Windows.Forms.CheckBox
+        Me.btnFetchAPI = New DevComponents.DotNetBar.ButtonX
+        Me.chkReturnCachedXML = New DevComponents.DotNetBar.Controls.CheckBoxX
+        Me.chkReturnActualXML = New DevComponents.DotNetBar.Controls.CheckBoxX
         Me.SuspendLayout()
         '
         'lblCharacter
@@ -131,15 +132,6 @@ Partial Class frmAPIChecker
         Me.wbAPI.TabIndex = 8
         Me.wbAPI.WebBrowserShortcutsEnabled = False
         '
-        'btnGetAPI
-        '
-        Me.btnGetAPI.Location = New System.Drawing.Point(16, 62)
-        Me.btnGetAPI.Name = "btnGetAPI"
-        Me.btnGetAPI.Size = New System.Drawing.Size(75, 23)
-        Me.btnGetAPI.TabIndex = 9
-        Me.btnGetAPI.Text = "Get API"
-        Me.btnGetAPI.UseVisualStyleBackColor = True
-        '
         'lblCurrentlyViewing
         '
         Me.lblCurrentlyViewing.AutoSize = True
@@ -158,25 +150,59 @@ Partial Class frmAPIChecker
         Me.lblFileLocation.TabIndex = 11
         Me.lblFileLocation.Text = "Cache File Location: n/a"
         '
-        'chkReturnCached
+        'btnFetchAPI
         '
-        Me.chkReturnCached.AutoSize = True
-        Me.chkReturnCached.Location = New System.Drawing.Point(85, 35)
-        Me.chkReturnCached.Name = "chkReturnCached"
-        Me.chkReturnCached.Size = New System.Drawing.Size(145, 17)
-        Me.chkReturnCached.TabIndex = 12
-        Me.chkReturnCached.Text = "Return Cached XML Only"
-        Me.chkReturnCached.UseVisualStyleBackColor = True
+        Me.btnFetchAPI.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnFetchAPI.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnFetchAPI.Location = New System.Drawing.Point(16, 67)
+        Me.btnFetchAPI.Name = "btnFetchAPI"
+        Me.btnFetchAPI.Size = New System.Drawing.Size(75, 23)
+        Me.btnFetchAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnFetchAPI.TabIndex = 13
+        Me.btnFetchAPI.Text = "Get API"
+        '
+        'chkReturnCachedXML
+        '
+        Me.chkReturnCachedXML.AutoSize = True
+        '
+        '
+        '
+        Me.chkReturnCachedXML.BackgroundStyle.Class = ""
+        Me.chkReturnCachedXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkReturnCachedXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkReturnCachedXML.Location = New System.Drawing.Point(16, 37)
+        Me.chkReturnCachedXML.Name = "chkReturnCachedXML"
+        Me.chkReturnCachedXML.Size = New System.Drawing.Size(143, 16)
+        Me.chkReturnCachedXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkReturnCachedXML.TabIndex = 14
+        Me.chkReturnCachedXML.Text = "Return Cached XML Only"
+        '
+        'chkReturnActualXML
+        '
+        Me.chkReturnActualXML.AutoSize = True
+        '
+        '
+        '
+        Me.chkReturnActualXML.BackgroundStyle.Class = ""
+        Me.chkReturnActualXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkReturnActualXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkReturnActualXML.Location = New System.Drawing.Point(165, 37)
+        Me.chkReturnActualXML.Name = "chkReturnActualXML"
+        Me.chkReturnActualXML.Size = New System.Drawing.Size(112, 16)
+        Me.chkReturnActualXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkReturnActualXML.TabIndex = 15
+        Me.chkReturnActualXML.Text = "Return Actual XML"
         '
         'frmAPIChecker
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(889, 686)
-        Me.Controls.Add(Me.chkReturnCached)
+        Me.Controls.Add(Me.chkReturnActualXML)
+        Me.Controls.Add(Me.chkReturnCachedXML)
+        Me.Controls.Add(Me.btnFetchAPI)
         Me.Controls.Add(Me.lblFileLocation)
         Me.Controls.Add(Me.lblCurrentlyViewing)
-        Me.Controls.Add(Me.btnGetAPI)
         Me.Controls.Add(Me.wbAPI)
         Me.Controls.Add(Me.txtOtherInfo)
         Me.Controls.Add(Me.lblOtherInfo)
@@ -191,6 +217,7 @@ Partial Class frmAPIChecker
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmAPIChecker"
         Me.Text = "API Checker"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -204,8 +231,9 @@ Partial Class frmAPIChecker
     Friend WithEvents lblOtherInfo As System.Windows.Forms.Label
     Friend WithEvents txtOtherInfo As System.Windows.Forms.TextBox
     Friend WithEvents wbAPI As System.Windows.Forms.WebBrowser
-    Friend WithEvents btnGetAPI As System.Windows.Forms.Button
     Friend WithEvents lblCurrentlyViewing As System.Windows.Forms.Label
     Friend WithEvents lblFileLocation As System.Windows.Forms.Label
-    Friend WithEvents chkReturnCached As System.Windows.Forms.CheckBox
+    Friend WithEvents btnFetchAPI As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents chkReturnCachedXML As DevComponents.DotNetBar.Controls.CheckBoxX
+    Friend WithEvents chkReturnActualXML As DevComponents.DotNetBar.Controls.CheckBoxX
 End Class

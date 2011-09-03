@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -16,10 +35,12 @@ namespace EveHQ.PosManager
     [Serializable]
     public class Module
     {
+        // For NEW data variable additions, go to: UpdatePOSDesignData in POSDesigns.cs for load time addition and setup
+
         public Defense Armor, Shield, Struct;
         public string State, Name, Desc, OtherInfo;
-        public string Location, Category, Charge;
-        public int typeID, groupID, ChargeGroup, React1, React2;
+        public string Location, Category, Charge, curTS;
+        public long typeID, groupID, ChargeGroup, React1, React2, modID;
         public decimal Qty, SovLevel, ScanRes, SigRad, ChargeSize;
         public decimal CPU, Power, CPU_Used, Power_Used, Optimal, FallOff;
         public decimal Anchor_Time, Online_Time, UnAnchor_Time;
@@ -35,7 +56,9 @@ namespace EveHQ.PosManager
         public ArrayList Charges;
         public ArrayList ChargeList;
         public MT_Bonus Bonuses;
-        public ArrayList Extra;
+
+
+        public ArrayList Extra;         // Used for extra module text information
 
         // Variables for Reactions, Mining, Etc..
         public ArrayList MSRList;       // Possible Minerals
@@ -70,6 +93,8 @@ namespace EveHQ.PosManager
             CapVol = 0;
             CapQty = 0;
             MaxQty = 0;
+            modID = 0;
+            curTS = "";
             FillEmptyTime = 0;
             WarnOn = 0;
             Armor = new Defense(0, 0, 0, 0, 0);
@@ -228,6 +253,27 @@ namespace EveHQ.PosManager
             OutputList = new ArrayList(m.OutputList);
             Extra = new ArrayList(m.Extra);
         }
+
+        public void CopyMissingReactData()
+        {
+            if (PlugInData.ML.Modules.ContainsKey(typeID))
+            {
+                ReactList = new ArrayList(PlugInData.ML.Modules[typeID].ReactList);
+                MSRList = new ArrayList(PlugInData.ML.Modules[typeID].MSRList);
+                InputList = new ArrayList(PlugInData.ML.Modules[typeID].InputList);
+                OutputList = new ArrayList(PlugInData.ML.Modules[typeID].OutputList);
+                selReact = new Reaction();
+                selMineral = new MoonSiloReactMineral();
+                ModuleID = 0;
+                ModType = 0;
+                CapVol = 0;
+                CapQty = 0;
+                MaxQty = 0;
+                FillEmptyTime = 0;
+                WarnOn = 0;
+            }
+        }
+
 
     }
 }

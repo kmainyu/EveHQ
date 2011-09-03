@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -21,5 +21,8 @@ Public Class Market
 
     Public Shared MarketGroupList As New SortedList
     Public Shared MarketGroupPath As New SortedList
+    Public Shared MarketNodeList As New List(Of DevComponents.AdvTree.Node)
+    Public Shared MarketShipList As New List(Of String)
+    Public Shared ShipClasses As New SortedList(Of String, String)
 
 End Class

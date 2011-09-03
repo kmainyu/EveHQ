@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmModifyQueues
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -27,11 +27,14 @@ Partial Class frmModifyQueues
         Me.btnAccept = New System.Windows.Forms.Button
         Me.txtQueueName = New System.Windows.Forms.TextBox
         Me.lblQueueName = New System.Windows.Forms.Label
+        Me.Highlighter1 = New DevComponents.DotNetBar.Validator.Highlighter
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
+        Me.PanelEx1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblDescription
         '
-        Me.lblDescription.Location = New System.Drawing.Point(12, 9)
+        Me.lblDescription.Location = New System.Drawing.Point(3, 9)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(259, 23)
         Me.lblDescription.TabIndex = 13
@@ -41,37 +44,68 @@ Partial Class frmModifyQueues
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(204, 88)
+        Me.Highlighter1.SetHighlightOnFocus(Me.btnCancel, True)
+        Me.btnCancel.Location = New System.Drawing.Point(195, 88)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.TabIndex = 12
+        Me.btnCancel.TabIndex = 2
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
         'btnAccept
         '
-        Me.btnAccept.Location = New System.Drawing.Point(123, 88)
+        Me.Highlighter1.SetHighlightOnFocus(Me.btnAccept, True)
+        Me.btnAccept.Location = New System.Drawing.Point(114, 88)
         Me.btnAccept.Name = "btnAccept"
         Me.btnAccept.Size = New System.Drawing.Size(75, 23)
-        Me.btnAccept.TabIndex = 11
+        Me.btnAccept.TabIndex = 1
         Me.btnAccept.Text = "Add"
         Me.btnAccept.UseVisualStyleBackColor = True
         '
         'txtQueueName
         '
-        Me.txtQueueName.Location = New System.Drawing.Point(91, 47)
+        Me.Highlighter1.SetHighlightOnFocus(Me.txtQueueName, True)
+        Me.txtQueueName.Location = New System.Drawing.Point(82, 47)
         Me.txtQueueName.Name = "txtQueueName"
         Me.txtQueueName.Size = New System.Drawing.Size(188, 21)
-        Me.txtQueueName.TabIndex = 8
+        Me.txtQueueName.TabIndex = 0
         '
         'lblQueueName
         '
         Me.lblQueueName.AutoSize = True
-        Me.lblQueueName.Location = New System.Drawing.Point(12, 50)
+        Me.lblQueueName.Location = New System.Drawing.Point(3, 50)
         Me.lblQueueName.Name = "lblQueueName"
         Me.lblQueueName.Size = New System.Drawing.Size(73, 13)
         Me.lblQueueName.TabIndex = 9
         Me.lblQueueName.Text = "Queue Name:"
+        '
+        'Highlighter1
+        '
+        Me.Highlighter1.ContainerControl = Me
+        Me.Highlighter1.FocusHighlightColor = DevComponents.DotNetBar.Validator.eHighlightColor.Green
+        Me.Highlighter1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        '
+        'PanelEx1
+        '
+        Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
+        Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.lblDescription)
+        Me.PanelEx1.Controls.Add(Me.lblQueueName)
+        Me.PanelEx1.Controls.Add(Me.btnCancel)
+        Me.PanelEx1.Controls.Add(Me.txtQueueName)
+        Me.PanelEx1.Controls.Add(Me.btnAccept)
+        Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 0)
+        Me.PanelEx1.Name = "PanelEx1"
+        Me.PanelEx1.Size = New System.Drawing.Size(284, 123)
+        Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.PanelEx1.Style.GradientAngle = 90
+        Me.PanelEx1.TabIndex = 14
         '
         'frmModifyQueues
         '
@@ -79,12 +113,10 @@ Partial Class frmModifyQueues
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(289, 121)
-        Me.Controls.Add(Me.lblDescription)
-        Me.Controls.Add(Me.btnCancel)
-        Me.Controls.Add(Me.btnAccept)
-        Me.Controls.Add(Me.txtQueueName)
-        Me.Controls.Add(Me.lblQueueName)
+        Me.ClientSize = New System.Drawing.Size(284, 123)
+        Me.Controls.Add(Me.PanelEx1)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -92,8 +124,9 @@ Partial Class frmModifyQueues
         Me.Name = "frmModifyQueues"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Add a Skill Queue"
+        Me.PanelEx1.ResumeLayout(False)
+        Me.PanelEx1.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents lblDescription As System.Windows.Forms.Label
@@ -101,4 +134,6 @@ Partial Class frmModifyQueues
     Friend WithEvents btnAccept As System.Windows.Forms.Button
     Friend WithEvents txtQueueName As System.Windows.Forms.TextBox
     Friend WithEvents lblQueueName As System.Windows.Forms.Label
+    Friend WithEvents Highlighter1 As DevComponents.DotNetBar.Validator.Highlighter
+    Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
 End Class

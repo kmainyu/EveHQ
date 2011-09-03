@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2009  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -25,9 +25,10 @@ Public Class HQ
 
     Public Shared MainForm As Form
     Public Shared TPilots As New SortedList(Of String, EveHQ.Core.Pilot)
+    Public Shared TCorps As New SortedList(Of String, EveHQ.Core.Corporation)
     Public Shared EveHQSettings As New EveSettings
     Public Shared myIGB As New IGB
-    Public Shared myAPIRS As New APIRS
+    Public Shared myAPIRS As EveAPI.EveAPIProxy
     Public Shared myTQServer As EveServer = New EveServer
     Public Shared SkillListName As New SortedList(Of String, EveHQ.Core.EveSkill)
     Public Shared SkillListID As New SortedList(Of String, EveHQ.Core.EveSkill)
@@ -61,23 +62,34 @@ Public Class HQ
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared NextAutoAPITime As DateTime = Now.AddMinutes(60)
     Public Shared AutoRetryAPITime As DateTime = Now.AddMinutes(5) ' Minimum retry time if an error occurs
-    Public Shared EveHQLCD As New G15LCD(AddressOf EveHQ.Core.G15LCDB.ButtonPress, AddressOf EveHQ.Core.G15LCDB.ConfigureOptions)
+    Public Shared EveHQLCD As New G15LCDv2
     Public Shared IsG15LCDActive As Boolean = False
     Public Shared lcdPilot As String = ""
     Public Shared lcdCharMode As Integer = 0
-    Public Shared BasePriceList As New SortedList
-    Public Shared MarketPriceList As New SortedList
-    Public Shared CustomPriceList As New SortedList
+    Public Shared BasePriceList As New SortedList(Of String, Double) ' TypeID, Price
+    Public Shared MarketPriceList As New SortedList(Of String, Double) ' TypeID, Price
+    Public Shared CustomPriceList As New SortedList(Of String, Double) ' TypeID, Price
     Public Shared APIUpdateAvailable As Boolean = False
     Public Shared AppUpdateAvailable As Boolean = False
-    Public Shared CertificateCategories As New SortedList
-    Public Shared CertificateClasses As New SortedList
-    Public Shared Certificates As New SortedList
+    Public Shared CertificateCategories As New SortedList(Of String, EveHQ.Core.CertificateCategory)
+    Public Shared CertificateClasses As New SortedList(Of String, EveHQ.Core.CertificateClass)
+    Public Shared Certificates As New SortedList(Of String, EveHQ.Core.Certificate)
     Public Shared FittingProtocol As String = "fitting"
-    Public Shared AllStandings As New SortedList
     Public Shared NextAutoMailAPITime As DateTime = Now
+    Public Shared Widgets As New SortedList(Of String, String)
     Public Shared Event ShutDownEveHQ()
+    Public Shared UpdateShutDownRequest As Boolean = False
+    Public Shared RemoteProxy As New EveHQ.EveAPI.RemoteProxyServer
+    Public Shared EveHQLogTimer As New Stopwatch
+    Public Shared EveHQLogFile As IO.StreamWriter
+    Public Shared Stations As New SortedList(Of String, EveHQ.Core.Station)
+    Public Shared SolarSystems As New SortedList(Of String, EveHQ.Core.SolarSystem)
     Public Shared APIUpdateInProgress As Boolean = False
+    Public Shared EveHQServerMessage As EveHQ.Core.EveHQMessage
+    Public Shared RestoredSettings As Boolean = False
+    Public Shared BCAppKey As String = "B23079B49E1FCBB9C224C9D9CC591DF9904C193F"
+    Public Shared EveHQAPIServerInfo As New EveHQ.EveAPI.APIServerInfo
+    Public Shared EveHQIsUpdating As Boolean = False
 
     Shared Property StartShutdownEveHQ() As Boolean
         Get
@@ -90,10 +102,8 @@ Public Class HQ
     End Property
 
     Public Enum DBFormat As Integer
-        Access = 0
+        SQLCE = 0
         MSSQL = 1
-        MSSQLE = 2
-        MySQL = 3
     End Enum
 
     Public Shared Sub ReduceMemory()
@@ -107,6 +117,28 @@ Public Class HQ
             ' Catch potential errors from remote loading routines
         End Try
     End Sub
+
+    Public Shared Sub WriteLogEvent(ByVal EventText As String)
+        Dim ts As TimeSpan = EveHQLogTimer.Elapsed
+        ' Format and display the TimeSpan value.
+        Dim elapsedTime As String = String.Format("{0:00}:{1:00}:{2:00}.{3:000}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds)
+        Try
+            EveHQ.Core.HQ.EveHQLogFile.WriteLine("[" & elapsedTime & "]" & " " & EventText)
+            EveHQ.Core.HQ.EveHQLogFile.Flush()
+        Catch e As Exception
+            ' Don't bother reporting this
+        End Try
+    End Sub
+
+    Public Shared Function GetMDITab(ByVal TabName As String) As DevComponents.DotNetBar.TabItem
+        Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+        For Each tp As DevComponents.DotNetBar.TabItem In mainTab.Tabs
+            If tp.Text = TabName Then
+                Return tp
+            End If
+        Next
+        Return Nothing
+    End Function
 
 End Class
 Class ListViewItemComparerA

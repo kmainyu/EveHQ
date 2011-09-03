@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -61,9 +61,10 @@ Namespace My
                     Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
                     myPlugIn.PostStartupData = param
                     If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
-                        Dim mainTab As TabControl = CType(EveHQ.Core.HQ.MainForm.Controls("tabMDI"), TabControl)
-                        If mainTab.TabPages.ContainsKey(PluginName) = True Then
-                            mainTab.SelectTab(PluginName)
+                        Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+                        Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+                        If tp IsNot Nothing Then
+                            mainTab.SelectedTab = tp
                         Else
                             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
                             plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
@@ -85,35 +86,39 @@ Namespace My
         End Sub
 
         Private Sub MyApplication_UnhandledException(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs) Handles Me.UnhandledException
-            Dim myException As New frmException
-            myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
-            myException.lblError.Text = e.Exception.Message
-            Dim trace As New System.Text.StringBuilder
-            trace.AppendLine(e.Exception.StackTrace.ToString)
-            trace.AppendLine("")
-            trace.AppendLine("========== Plug-ins ==========")
-            trace.AppendLine("")
-            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.PlugIns.Values
-                If myPlugIn.ShortFileName IsNot Nothing Then
-                    trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
+            Try
+                Dim myException As New frmException
+                myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
+                myException.lblError.Text = e.Exception.Message
+                Dim trace As New System.Text.StringBuilder
+                trace.AppendLine(e.Exception.StackTrace.ToString)
+                trace.AppendLine("")
+                trace.AppendLine("========== Plug-ins ==========")
+                trace.AppendLine("")
+                For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+                    If myPlugIn.ShortFileName IsNot Nothing Then
+                        trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
+                    End If
+                Next
+                trace.AppendLine("")
+                trace.AppendLine("")
+                trace.AppendLine("========= System Info =========")
+                trace.AppendLine("")
+                trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
+                trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
+                trace.AppendLine("EveHQ Location: " & EveHQ.Core.HQ.appFolder)
+                trace.AppendLine("EveHQ Cache Locations: " & EveHQ.Core.HQ.appDataFolder)
+                myException.txtStackTrace.Text = trace.ToString
+                Dim result As Integer = myException.ShowDialog()
+                If result = DialogResult.Ignore Then
+                    e.ExitApplication = False
+                Else
+                    Call frmEveHQ.ShutdownRoutine()
+                    e.ExitApplication = True
                 End If
-            Next
-            trace.AppendLine("")
-            trace.AppendLine("")
-            trace.AppendLine("========= System Info =========")
-            trace.AppendLine("")
-            trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
-            trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
-            trace.AppendLine("EveHQ Location: " & EveHQ.Core.HQ.appFolder)
-            trace.AppendLine("EveHQ Cache Locations: " & EveHQ.Core.HQ.appDataFolder)
-            myException.txtStackTrace.Text = trace.ToString
-            Dim result As Integer = myException.ShowDialog()
-            If result = DialogResult.Ignore Then
-                e.ExitApplication = False
-            Else
-                Call frmEveHQ.ShutdownRoutine()
-                e.ExitApplication = True
-            End If
+            Catch ex As Exception
+                MessageBox.Show("The Professor is on leave trying to sell his atom of Jumbonium. He will no doubt be back later!", "Farnsworth is busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
         End Sub
     End Class
 

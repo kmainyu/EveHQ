@@ -1,15 +1,36 @@
-﻿Imports System.Drawing
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Imports System.Drawing
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Net
 Imports System.Text
 Imports System.IO
-Imports DotNetLib.Windows.Forms
+Imports DevComponents.AdvTree
 
 Public Class frmBCBrowser
 
     Dim currentShip As Ship
     Dim currentFit As New ArrayList
+    Dim currentFitting As Fitting
     Dim BCLoadoutCache As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "BCLoadoutCache")
     Dim SourceURL As String = ""
 
@@ -63,7 +84,7 @@ Public Class frmBCBrowser
         End Get
         Set(ByVal value As Ship)
             currentShip = value
-            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID)
             Call GetBCShipLoadouts()
         End Set
     End Property
@@ -101,16 +122,7 @@ Public Class frmBCBrowser
                 Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
                 Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
                 ' Setup proxy server (if required)
-                If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                    Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                    If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                        EveHQProxy.UseDefaultCredentials = True
-                    Else
-                        EveHQProxy.UseDefaultCredentials = False
-                        EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                    End If
-                    request.Proxy = EveHQProxy
-                End If
+                Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
                 ' Setup request parameters
                 request.Method = "POST"
                 request.ContentType = "application/x-www-form-urlencoded"
@@ -129,22 +141,23 @@ Public Class frmBCBrowser
 
         Dim loadoutList As XmlNodeList = loadoutXML.SelectNodes("/loadouts/race/ship/loadout")
         If loadoutList.Count > 0 Then
-            clvLoadouts.BeginUpdate()
-            clvLoadouts.Items.Clear()
+            adtLoadouts.BeginUpdate()
+            adtLoadouts.Nodes.Clear()
             For Each loadout As XmlNode In loadoutList
-                Dim nLoadout As New ContainerListViewItem
+                Dim nLoadout As New Node
                 nLoadout.Text = loadout.Attributes("name").Value
                 nLoadout.Tag = loadout.Attributes("loadoutID").Value
-                clvLoadouts.Items.Add(nLoadout)
-                nLoadout.SubItems(1).Text = loadout.Attributes("Author").Value
-                nLoadout.SubItems(1).Tag = loadout.Attributes("topic").Value
-                nLoadout.SubItems(2).Text = loadout.Attributes("rating").Value
-                nLoadout.SubItems(3).Text = FormatDateTime(DateTime.Parse(loadout.Attributes("date").Value), DateFormat.ShortDate)
+                adtLoadouts.Nodes.Add(nLoadout)
+                nLoadout.Cells.Add(New Cell(loadout.Attributes("Author").Value))
+                nLoadout.Cells(1).Tag = loadout.Attributes("topic").Value
+                nLoadout.Cells.Add(New Cell(loadout.Attributes("rating").Value))
+                nLoadout.Cells.Add(New Cell(FormatDateTime(DateTime.Parse(loadout.Attributes("date").Value), DateFormat.ShortDate)))
             Next
-            clvLoadouts.EndUpdate()
+            EveHQ.Core.AdvTreeSorter.Sort(adtLoadouts, 1, True, True)
+            adtLoadouts.EndUpdate()
             lblShipType.Text = currentShip.Name
             lblBCStatus.Text = "Update of loudouts completed!"
-            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID)
             ' Save the XML into the cache
             If UseCacheFile = False Then
                 loadoutXML.Save(Path.Combine(BCLoadoutCache, currentShip.ID & ".xml"))
@@ -155,13 +168,13 @@ Public Class frmBCBrowser
 
     End Sub
 
-    Private Sub GetBCShipLoadout(ByVal cLoadout As ContainerListViewItem)
+    Private Sub GetBCShipLoadout(ByVal cLoadout As Node)
         Dim LoadoutName As String = cLoadout.Text
         Dim LoadoutID As String = cLoadout.Tag.ToString
-        Dim LoadoutAuthor As String = cLoadout.SubItems(1).Text
-        Dim LoadoutTopic As String = cLoadout.SubItems(1).Tag.ToString
-        Dim LoadoutScore As String = cLoadout.SubItems(2).Text
-        Dim LoadoutDate As String = cLoadout.SubItems(3).Text
+        Dim LoadoutAuthor As String = cLoadout.Cells(1).Text
+        Dim LoadoutTopic As String = cLoadout.Cells(1).Tag.ToString
+        Dim LoadoutScore As String = cLoadout.Cells(2).Text
+        Dim LoadoutDate As String = cLoadout.Cells(3).Text
 
         ' Check if the fitting is in the cache
         lblBCStatus.Text = "Checking Loadout Cache..." : StatusStrip1.Refresh()
@@ -192,16 +205,7 @@ Public Class frmBCBrowser
                 Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
                 Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
                 ' Setup proxy server (if required)
-                If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                    Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                    If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                        EveHQProxy.UseDefaultCredentials = True
-                    Else
-                        EveHQProxy.UseDefaultCredentials = False
-                        EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                    End If
-                    request.Proxy = EveHQProxy
-                End If
+                Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
                 ' Setup request parameters
                 request.Method = "POST"
                 request.ContentType = "application/x-www-form-urlencoded"
@@ -254,7 +258,6 @@ Public Class frmBCBrowser
                     End If
                 End If
             Next
-            Call Me.ReorderModules()
             lblLoadoutName.Text = LoadoutName : lblLoadoutName.Visible = True : lblLoadoutNameLbl.Visible = True
             lblLoadoutAuthor.Text = LoadoutAuthor : lblLoadoutAuthor.Visible = True : lblLoadoutAuthorLbl.Visible = True
             lblLoadoutScore.Text = LoadoutScore : lblLoadoutScore.Visible = True : lblLoadoutScoreLbl.Visible = True
@@ -268,10 +271,15 @@ Public Class frmBCBrowser
             If UseCacheFile = False Then
                 loadoutXML.Save(Path.Combine(BCLoadoutCache, currentShip.ID.ToString & "-" & LoadoutID & ".xml"))
             End If
-            currentShip = Engine.UpdateShipDataFromFittingList(currentShip, currentFit)
+            Dim shipName As String = lblShipType.Text
+            Dim fittingName As String = lblLoadoutName.Text
+            currentFitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
+            currentFitting.PilotName = cboPilots.SelectedItem.ToString
+            currentFitting.UpdateBaseShipFromFitting()
+            currentShip = currentFitting.BaseShip
             ' Generate fitting data
             Call Me.GenerateFittingData()
-            gbStatistics.Visible = True
+            gpStatistics.Visible = True
         Else
             lblBCStatus.Text = "There seems to be no fittings for this loadout!" : StatusStrip1.Refresh()
         End If
@@ -392,55 +400,58 @@ Public Class frmBCBrowser
     Private Sub GenerateFittingData()
         ' Let's try and generate a fitting and get some damage info
         If currentShip IsNot Nothing Then
-            If cboPilots.SelectedItem IsNot Nothing Then
-                gbStatistics.Enabled = True
-                Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
-                Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
+            If currentFitting IsNot Nothing Then
+                If cboPilots.SelectedItem IsNot Nothing Then
+                    gpStatistics.Enabled = True
+                    Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
+                    Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
 
-                currentShip.DamageProfile = loadoutProfile
-                Dim loadoutShip As Ship = Engine.ApplyFitting(currentShip, loadoutPilot)
+                    currentFitting.PilotName = loadoutPilot.PilotName
+                    currentFitting.BaseShip.DamageProfile = loadoutProfile
+                    currentFitting.ApplyFitting()
+                    Dim loadoutShip As Ship = currentFitting.FittedShip
 
-                lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
-                lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
-                lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
-                Dim cap As Double = Engine.CalculateCapStatistics(loadoutShip)
-                If cap > 0 Then
-                    cap = cap / loadoutShip.CapCapacity * 100
-                    lblCapacitor.Text = "Stable at " & FormatNumber(cap, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                Else
-                    lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-cap, False)
-                End If
-                lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
-                lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
-                Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
-                lblCPU.Text = FormatNumber(CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                If CPU > 100 Then
-                    lblCPU.ForeColor = Color.Red
-                Else
-                    lblCPU.ForeColor = Color.Black
-                End If
-                Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
-                lblPG.Text = FormatNumber(PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                If PG > 100 Then
-                    lblPG.ForeColor = Color.Red
-                Else
-                    lblPG.ForeColor = Color.Black
-                End If
-                Dim maxOpt As Double = 0
-                For slot As Integer = 1 To loadoutShip.HiSlots
-                    Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
-                    If shipMod IsNot Nothing Then
-                        If shipMod.Attributes.Contains("54") Then
-                            maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
-                        End If
+                    lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                    lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " DPS"
+                    lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                    lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                    lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
+                    lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
+                    Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(loadoutShip, False)
+                    If csr.CapIsDrained = False Then
+                        lblCapacitor.Text = "Stable at " & FormatNumber(csr.MinimumCap / loadoutShip.CapCapacity * 100, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                    Else
+                        lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False)
                     End If
-                Next
-                lblOptimalRange.Text = FormatNumber(maxOpt, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
-            Else
-                gbStatistics.Enabled = False
+                    lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " m/s"
+                    lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "m"
+                    Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
+                    lblCPU.Text = FormatNumber(CPU, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                    If CPU > 100 Then
+                        lblCPU.ForeColor = Color.Red
+                    Else
+                        lblCPU.ForeColor = Color.Black
+                    End If
+                    Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
+                    lblPG.Text = FormatNumber(PG, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                    If PG > 100 Then
+                        lblPG.ForeColor = Color.Red
+                    Else
+                        lblPG.ForeColor = Color.Black
+                    End If
+                    Dim maxOpt As Double = 0
+                    For slot As Integer = 1 To loadoutShip.HiSlots
+                        Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
+                        If shipMod IsNot Nothing Then
+                            If shipMod.Attributes.ContainsKey("54") Then
+                                maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
+                            End If
+                        End If
+                    Next
+                    lblOptimalRange.Text = FormatNumber(maxOpt, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "m"
+                Else
+                    gpStatistics.Enabled = False
+                End If
             End If
         End If
 
@@ -474,7 +485,8 @@ Public Class frmBCBrowser
             End If
         End If
         ' Lets create the fitting
-        Fittings.FittingList.Add(shipName & ", " & fittingName, currentFit)
+        Dim NewFit As Fitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
+        Fittings.FittingList.Add(NewFit.KeyName, NewFit)
         HQFEvents.StartUpdateFittingList = True
     End Sub
 
@@ -508,7 +520,7 @@ Public Class frmBCBrowser
 #Region "UI Routines"
 
     Private Sub mnuViewLoadout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewLoadout.Click
-        Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
+        Dim cLoadout As Node = adtLoadouts.SelectedNodes(0)
         Call GetBCShipLoadout(cLoadout)
     End Sub
     Private Sub lblLoadoutTopic_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblLoadoutTopic.LinkClicked
@@ -528,7 +540,7 @@ Public Class frmBCBrowser
     End Sub
 
     Private Sub mnuCopyURL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyURL.Click
-        Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
+        Dim cLoadout As Node = adtLoadouts.SelectedNodes(0)
         Try
             Clipboard.SetText(SourceURL)
         Catch ex As Exception
@@ -536,17 +548,59 @@ Public Class frmBCBrowser
         End Try
     End Sub
 
-    Private Sub clvLoadouts_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvLoadouts.MouseDoubleClick
-        If clvLoadouts.SelectedItems.Count > 0 Then
-            Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
+    Private Sub adtLoadouts_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtLoadouts.ColumnHeaderMouseDown
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+    End Sub
+
+    Private Sub adtLoadouts_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtLoadouts.NodeDoubleClick
+        If adtLoadouts.SelectedNodes.Count > 0 Then
+            Dim cLoadout As Node = adtLoadouts.SelectedNodes(0)
             Call GetBCShipLoadout(cLoadout)
         End If
     End Sub
 
 #End Region
 
-    Private Sub clvLoadouts_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvLoadouts.SelectedItemsChanged
+#Region "Context Menu Routines"
 
+    Private Sub ctxSlots_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSlots.Opening
+        If lvwSlots.SelectedItems.Count <> 1 Then
+            e.Cancel = True
+        End If
     End Sub
+
+    Private Sub mnuShowInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowInfo.Click
+        Dim selectedSlot As ListViewItem = lvwSlots.SelectedItems(0)
+        Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
+        Dim sModule As New ShipModule
+        Select Case CInt(slotInfo(0))
+            Case 1 ' Rig
+                sModule = currentFitting.FittedShip.RigSlot(CInt(slotInfo(1)))
+            Case 2 ' Low
+                sModule = currentFitting.FittedShip.LowSlot(CInt(slotInfo(1)))
+            Case 4 ' Mid
+                sModule = currentFitting.FittedShip.MidSlot(CInt(slotInfo(1)))
+            Case 8 ' High
+                sModule = currentFitting.FittedShip.HiSlot(CInt(slotInfo(1)))
+            Case 16 ' Subsystem
+                sModule = currentFitting.FittedShip.SubSlot(CInt(slotInfo(1)))
+        End Select
+        Dim showInfo As New frmShowInfo
+        Dim hPilot As EveHQ.Core.Pilot
+        If cboPilots.SelectedItem IsNot Nothing Then
+            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem), Core.Pilot)
+        Else
+            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            Else
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot)
+            End If
+        End If
+        showInfo.ShowItemDetails(sModule, hPilot)
+    End Sub
+
+#End Region
+
 End Class
 

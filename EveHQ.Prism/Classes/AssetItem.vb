@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -20,11 +20,16 @@
 Public Class AssetItem
     Public itemID As String
     Public system As String
+    Public constellation As String
+    Public region As String
+    Public systemsec As String
     Public typeID As String
     Public typeName As String
     Public owner As String
     Public group As String
     Public category As String
+    Public meta As String
+    Public volume As String
     Public location As String
     Public quantity As Long
     Public price As Double

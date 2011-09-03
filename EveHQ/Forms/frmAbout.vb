@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,9 +17,11 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+
 Public Class frmAbout
 
     Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         ' Insert the version number to the splash screen
         lblVersion.Text = "Version " & My.Application.Info.Version.ToString
         lblCopyright.Text = My.Application.Info.Copyright
@@ -27,22 +29,17 @@ Public Class frmAbout
         ' Add the credits to the WBControl
         Dim credits As New System.Text.StringBuilder
         credits.Append("<html><body>")
-        credits.Append("<table style='font-family: Arial; font-size: 10px;'>")
-        credits.Append("<tr><td colspan=2 style='font-family: Arial; font-size: 12px;'><b><u>EveHQ Credits</u></b></td><tr>")
+        credits.Append("<table style='font-family: Tahoma; font-size: 10px;'>")
+        credits.Append("<tr><td colspan=2 style='font-family: Tahoma; font-size: 12px;'><b><u>EveHQ Credits</u></b></td></tr>")
         credits.Append("<tr><td>Lead Developer</td><td align='right'>Vessper</td></tr>")
-        credits.Append("<tr><td>POS Manager Development</td><td align='right'>Sherkhan</td></tr>")
-        credits.Append("<tr><td>Other Development</td><td align='right'>Darkwolf</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>Darmed Khan</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>Eowarian</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>farlin</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>geniusfreak</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>Mdram</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>Modescond</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>MoWe79</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>MrCue</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>Nauvus3x7</td></tr>")
-        credits.Append("<tr><td></td><td align='right'>Saulvin</td></tr>")
-        credits.Append("<tr><td>Images</td><td align='right'><a href='http://jadeo.hexium.net' target='_blank'>JadeO</a></td></tr>")
+        credits.Append("<tr><td>Plug-in Development</td><td align='right'>Sherkhan</td></tr>")
+        credits.Append("<tr><td colspan=2>Other Development:</td></tr>")
+        credits.Append("<tr><td align='right' colspan=2>Arkan5, Darkwolf, Darmed Khan, Eowarian, farlin, geniusfreak, Mdram, Modescond, MoWe79, MrCue, Nauvus3x7, Saulvin, Thorien</td></tr>")
+        credits.Append("<tr><td colspan=2><br /></td></tr>")
+        credits.Append("<tr><td>Artwork</td><td align='right'><a href='http://foxgguy2001.deviantart.com' target='_blank'>Foxgguy2001</a></td></tr>")
+        credits.Append("<tr><td colspan=2><br /></td></tr>")
+        credits.Append("<tr><td colspan=2>Special thanks to <a href='http://www.battleclinic.com' target='_blank'>BattleClinic</a> for providing hosting, development and support tools for EveHQ.<br /><br /></td></tr>")
+        credits.Append("<tr><td colspan=2>Isk donations to Vessper gratefully accepted! Alternatively, help to fund EveHQ hosting by <a href='https://shop.battleclinic.com/index.php?ref=33&affiliate_banner_id=14' target='_blank'>buying your Eve game time from our hosts</a>.</td></tr>")
         credits.Append("</table></body></html>")
         wbCredits.DocumentText = credits.ToString
     End Sub

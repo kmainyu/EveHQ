@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmEFTImport
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -22,25 +22,16 @@ Partial Class frmEFTImport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnScan = New System.Windows.Forms.Button
         Me.lblScan = New System.Windows.Forms.Label
         Me.lblStartDir = New System.Windows.Forms.Label
         Me.txtStartDir = New System.Windows.Forms.TextBox
-        Me.btnBrowse = New System.Windows.Forms.Button
         Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog
-        Me.lvwFiles = New System.Windows.Forms.ListView
+        Me.lvwFiles = New DevComponents.DotNetBar.Controls.ListViewEx
         Me.colFileName = New System.Windows.Forms.ColumnHeader
         Me.colSetups = New System.Windows.Forms.ColumnHeader
+        Me.btnScan = New DevComponents.DotNetBar.ButtonX
+        Me.btnBrowse = New DevComponents.DotNetBar.ButtonX
         Me.SuspendLayout()
-        '
-        'btnScan
-        '
-        Me.btnScan.Location = New System.Drawing.Point(12, 39)
-        Me.btnScan.Name = "btnScan"
-        Me.btnScan.Size = New System.Drawing.Size(75, 23)
-        Me.btnScan.TabIndex = 0
-        Me.btnScan.Text = "Import"
-        Me.btnScan.UseVisualStyleBackColor = True
         '
         'lblScan
         '
@@ -67,17 +58,13 @@ Partial Class frmEFTImport
         Me.txtStartDir.Size = New System.Drawing.Size(462, 21)
         Me.txtStartDir.TabIndex = 3
         '
-        'btnBrowse
-        '
-        Me.btnBrowse.Location = New System.Drawing.Point(564, 8)
-        Me.btnBrowse.Name = "btnBrowse"
-        Me.btnBrowse.Size = New System.Drawing.Size(75, 23)
-        Me.btnBrowse.TabIndex = 4
-        Me.btnBrowse.Text = "Browse"
-        Me.btnBrowse.UseVisualStyleBackColor = True
-        '
         'lvwFiles
         '
+        '
+        '
+        '
+        Me.lvwFiles.Border.Class = "ListViewBorder"
+        Me.lvwFiles.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwFiles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colFileName, Me.colSetups})
         Me.lvwFiles.FullRowSelect = True
         Me.lvwFiles.GridLines = True
@@ -98,17 +85,41 @@ Partial Class frmEFTImport
         Me.colSetups.Text = "Setups"
         Me.colSetups.Width = 50
         '
+        'btnScan
+        '
+        Me.btnScan.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnScan.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnScan.Location = New System.Drawing.Point(12, 48)
+        Me.btnScan.Name = "btnScan"
+        Me.btnScan.Size = New System.Drawing.Size(75, 23)
+        Me.btnScan.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnScan.TabIndex = 6
+        Me.btnScan.Text = "Import"
+        '
+        'btnBrowse
+        '
+        Me.btnBrowse.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnBrowse.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnBrowse.Location = New System.Drawing.Point(564, 10)
+        Me.btnBrowse.Name = "btnBrowse"
+        Me.btnBrowse.Size = New System.Drawing.Size(75, 21)
+        Me.btnBrowse.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnBrowse.TabIndex = 7
+        Me.btnBrowse.Text = "Browse"
+        '
         'frmEFTImport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(650, 520)
-        Me.Controls.Add(Me.lvwFiles)
         Me.Controls.Add(Me.btnBrowse)
+        Me.Controls.Add(Me.btnScan)
+        Me.Controls.Add(Me.lvwFiles)
         Me.Controls.Add(Me.txtStartDir)
         Me.Controls.Add(Me.lblStartDir)
         Me.Controls.Add(Me.lblScan)
-        Me.Controls.Add(Me.btnScan)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -120,13 +131,13 @@ Partial Class frmEFTImport
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents btnScan As System.Windows.Forms.Button
     Friend WithEvents lblScan As System.Windows.Forms.Label
     Friend WithEvents lblStartDir As System.Windows.Forms.Label
     Friend WithEvents txtStartDir As System.Windows.Forms.TextBox
-    Friend WithEvents btnBrowse As System.Windows.Forms.Button
     Friend WithEvents fbd1 As System.Windows.Forms.FolderBrowserDialog
-    Friend WithEvents lvwFiles As System.Windows.Forms.ListView
+    Friend WithEvents lvwFiles As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colFileName As System.Windows.Forms.ColumnHeader
     Friend WithEvents colSetups As System.Windows.Forms.ColumnHeader
+    Friend WithEvents btnScan As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnBrowse As DevComponents.DotNetBar.ButtonX
 End Class

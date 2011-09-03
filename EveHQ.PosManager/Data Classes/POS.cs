@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +35,7 @@ namespace EveHQ.PosManager
     [Serializable]
     public class POS
     {
+        // For NEW data variable additions, go to: UpdatePOSDesignData in POSDesigns.cs for load time addition and setup
         public Tower PosTower;
         public ArrayList Modules;
         public DateTime Fuel_TS, Stront_TS, API_TS, React_TS;
@@ -23,8 +43,8 @@ namespace EveHQ.PosManager
         public ArrayList ReactionLinks;
 
         public string Name, System, CorpName, Moon;
-        public int SovLevel;
         public long itemID, locID, corpID;
+        public int SovLevel;
         public bool Monitored;
         public bool FillCheck;
         public bool UseChart;
@@ -235,6 +255,45 @@ namespace EveHQ.PosManager
                 ReactionLinks = new ArrayList();
         }
 
+        // Copy over new data and information, but do not copy over link or monitor state information.
+        public void ImportPOSData(POS p)
+        {
+            PosTower = new Tower(p.PosTower);
+            System = p.System;
+            CorpName = p.CorpName;
+            Moon = p.Moon;
+            locID = p.locID;
+            corpID = p.corpID;
+            SovLevel = p.SovLevel;
+            Owner = p.Owner;
+            FuelTech = p.FuelTech;
+            ownerID = p.ownerID;
+            fuelTechID = p.fuelTechID;
+
+            Modules = new ArrayList();
+            foreach (Module m in p.Modules)
+                Modules.Add(new Module(m));
+
+            Fuel_TS = p.Fuel_TS;
+            Stront_TS = p.Stront_TS;
+            API_TS = p.API_TS;
+            React_TS = p.React_TS;
+            Extra = new ArrayList();
+            foreach (Object o in p.Extra)
+                Extra.Add(o);
+
+            FillCheck = p.FillCheck;
+            UseChart = p.UseChart;
+            if (p.ReactionLinks != null)
+            {
+                ReactionLinks = new ArrayList();
+                foreach (ReactionLink rl in p.ReactionLinks)
+                    ReactionLinks.Add(new ReactionLink(rl));
+            }
+            else
+                ReactionLinks = new ArrayList();
+        }
+
         public void RemoveModuleFromPOS(int rowIndex)
         {
             Module m;
@@ -264,9 +323,9 @@ namespace EveHQ.PosManager
         {
             decimal sov_mult;
 
-            // Note: After Dominion patch, this will be either 1.0 or 0.9
+            // Note: After Dominion patch, this will be either 1.0 or 0.75
             if (SovLevel == 5)
-                sov_mult = 0.7M;
+                sov_mult = 0.75M;
             else if (SovLevel == 0)
                 sov_mult = 1.0M;
             else
@@ -284,8 +343,8 @@ namespace EveHQ.PosManager
             APITowerData apid = new APITowerData();
             FuelBay fb = new FuelBay(PosTower.Fuel);
             ArrayList shortRun;
-            int F_HourDiff = 0, S_HourDiff = 0;
-            int F_DayDiff = 0, F_MinDiff = 0, S_DayDiff = 0, S_MinDiff = 0;
+            long F_HourDiff = 0, S_HourDiff = 0;
+            long F_DayDiff = 0, F_MinDiff = 0, S_DayDiff = 0, S_MinDiff = 0;
             decimal sov_mult;
 
             sov_mult = GetSovMultiple();
@@ -338,7 +397,21 @@ namespace EveHQ.PosManager
                     }
                     else
                     {
-                        PosTower.Fuel.SetAPIFuelUsage(API_TimeSpan.Hours + (API_TimeSpan.Days*24));
+                        if ((API_TimeSpan.Hours > 1) || ((API_TimeSpan.Days > 0)))
+                        {
+                            // We have a data time difference of greater than 1 hour - just leave it alone
+                            // and do not update the values.
+                        }
+                        else if ((API_TimeSpan.Hours == 1) && (API_TimeSpan.Minutes < 5))
+                        {
+                            // We only want to apply new data if it is reasonably close to 1 hour apart.
+                            PosTower.Fuel.SetAPIFuelUsage(sov_mult);
+                        }
+                        else if ((API_TimeSpan.Minutes > 50) && (API_TimeSpan.Hours == 0))
+                        {
+                            // We only want to apply new data if it is reasonably close to 1 hour apart.
+                            PosTower.Fuel.SetAPIFuelUsage(sov_mult);
+                        }
                         PosTower.Fuel.SetLastFuelRead();
                     }
                     PosTower.T_Fuel.CopyLastAndAPI(PosTower.Fuel);
@@ -372,7 +445,9 @@ namespace EveHQ.PosManager
                     Stront_TS = C_TimeStamp.Subtract(TimeSpan.FromMinutes(S_MinDiff));
                 }
                 // Tower is in Reinforced mode, Compute Strontium Run Time
-                PosTower.Fuel.DecrementStrontQtyForPeriod(S_HourDiff, sov_mult);
+                // A reinforced tower consumes ALL stront for reinforce time at the moment it enters
+                // reinforced mode.
+                // PosTower.Fuel.DecrementStrontQtyForPeriod(S_HourDiff, sov_mult);
             }
 
             Fuel_TS = F_TimeStamp;
@@ -555,7 +630,41 @@ namespace EveHQ.PosManager
             return (period - 1);
         }
 
-        public decimal ComputePosFuelUsageForFillTracking(int period, decimal value, FuelBay fb)
+        public FuelBay ComputeMaxPosRunForVolume(decimal vol)
+        {
+            decimal fuel_use = 0, fuel_cap = 0;
+            decimal period = 0;
+            decimal sov_mult;
+            FuelBay fb = new FuelBay(PosTower.D_Fuel);
+            FuelBay retFB = new FuelBay();
+
+            sov_mult = GetSovMultiple();
+
+            fuel_cap = PosTower.D_Fuel.FuelCap;
+
+            while (fuel_use < vol)
+            {
+                period++;
+
+                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+                fb.SubtractZeroMin(PosTower.Fuel);
+                fb.SetCurrentFuelVolumes();
+
+                // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
+                fuel_use = fb.FuelUsed;
+
+                if (fuel_use <= vol)
+                {
+                    retFB = new FuelBay(fb);
+                    retFB.Extra = new ArrayList();
+                    retFB.Extra.Add(period);
+                }
+            }
+
+            return retFB;
+        }
+
+        public decimal ComputePosFuelUsageForFillTracking(long period, decimal value, FuelBay fb)
         {
             decimal run_time, run_perd;
             decimal sov_mult;
@@ -609,7 +718,7 @@ namespace EveHQ.PosManager
             return run_time;
         }
 
-        public decimal ComputePosFuelNeedForFillTracking(int period, decimal value, FuelBay fb)
+        public decimal ComputePosFuelNeedForFillTracking(long period, decimal value, FuelBay fb)
         {
             decimal run_time, run_perd;
             decimal sov_mult;
@@ -758,7 +867,7 @@ namespace EveHQ.PosManager
             return false;
         }
 
-        public bool IsModuleReactionType(int mType)
+        public bool IsModuleReactionType(long mType)
         {
             switch (mType)
             {
@@ -773,7 +882,7 @@ namespace EveHQ.PosManager
             }
         }
 
-        public bool IsModuleHarvestorType(int mType)
+        public bool IsModuleHarvestorType(long mType)
         {
             switch (mType)
             {
@@ -793,10 +902,13 @@ namespace EveHQ.PosManager
         {
             DateTime C_TimeStamp;
             TimeSpan D_TimeStamp;
-            int hours;
+            long hours;
             bool changed = false;
             bool reacIn = false;
             bool reacOut = false;
+
+            // I now have some additional info possible from a link
+            // Check for linked module, and if linked use the module link timestamp instead
 
             C_TimeStamp = DateTime.Now;
             D_TimeStamp = C_TimeStamp.Subtract(React_TS);
@@ -808,7 +920,7 @@ namespace EveHQ.PosManager
                 hours = D_TimeStamp.Hours;
                 hours += (D_TimeStamp.Days * 24);
 
-                // Set current React_TS to the correct new value
+                // Set current React_TS to the correct new value (ie: pull hours, keep minutes and seconds)
                 React_TS = DateTime.Now.Subtract(new TimeSpan(0, D_TimeStamp.Minutes, D_TimeStamp.Seconds));
 
                 // For each hour of expired time, do:
@@ -822,6 +934,10 @@ namespace EveHQ.PosManager
                             // Junction, need to move materials from here to downstream Silo/Etc if present and has room
                             if (m.State == "Online")
                             {
+                                if (m.Extra.Count > 0)
+                                {
+                                    // Linked to API
+                                }
                                 // Search ReactionLinks for this module being the input ID (only 1 is valid)
                                 foreach (ReactionLink rl in ReactionLinks)
                                 {

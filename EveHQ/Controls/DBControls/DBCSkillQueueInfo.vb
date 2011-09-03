@@ -1,153 +1,32 @@
-﻿Public Class DBCSkillQueueInfo
-
-#Region "Control Variables"
-    Dim cPilot As EveHQ.Core.Pilot
-    Dim ReadConfig As Boolean = False
-#End Region
-
-#Region "Control Properties"
-
-    Public ReadOnly Property ControlName() As String
-        Get
-            Return "Skill Queue Information"
-        End Get
-    End Property
-
-    Dim cDefaultPilotName As String = ""
-    Public Property DefaultPilotName() As String
-        Get
-            Return cDefaultPilotName
-        End Get
-        Set(ByVal value As String)
-            cDefaultPilotName = value
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
-            End If
-            If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
-            If ReadConfig = False Then
-                Me.SetConfig("DefaultPilotName", value)
-            End If
-        End Set
-    End Property
-
-    Dim cDefaultQueueName As String = ""
-    Public Property DefaultQueueName() As String
-        Get
-            Return cDefaultQueueName
-        End Get
-        Set(ByVal value As String)
-            cDefaultQueueName = value
-            If cboSkillQueue.Items.Contains(DefaultQueueName) = True Then cboSkillQueue.SelectedItem = DefaultQueueName
-            If ReadConfig = False Then
-                Me.SetConfig("DefaultQueueName", value)
-            End If
-        End Set
-    End Property
-
-    Dim cEveQueue As Boolean = True
-    Public Property EveQueue() As Boolean
-        Get
-            Return cEveQueue
-        End Get
-        Set(ByVal value As Boolean)
-            cEveQueue = value
-            If value = True Then
-                radEveQueue.Checked = True
-            Else
-                radEveHQQueue.Checked = True
-            End If
-            If ReadConfig = False Then
-                Me.SetConfig("EveQueue", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlWidth As Integer = 300
-    Public Property ControlWidth() As Integer
-        Get
-            Return cControlWidth
-        End Get
-        Set(ByVal value As Integer)
-            cControlWidth = value
-            Me.Width = cControlWidth
-            If ReadConfig = False Then
-                Me.SetConfig("ControlWidth", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlHeight As Integer = 220
-    Public Property ControlHeight() As Integer
-        Get
-            Return cControlHeight
-        End Get
-        Set(ByVal value As Integer)
-            cControlHeight = value
-            Me.Height = cControlHeight
-            If ReadConfig = False Then
-                Me.SetConfig("ControlHeight", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlPosition As Integer
-    Public Property ControlPosition() As Integer
-        Get
-            Return cControlPosition
-        End Get
-        Set(ByVal value As Integer)
-            cControlPosition = value
-            If ReadConfig = False Then
-                Me.SetConfig("ControlPosition", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlConfig As New SortedList(Of String, Object)
-    Public Property ControlConfiguration() As SortedList(Of String, Object)
-        Get
-            ' Check for ControlName
-            Call Me.SetConfig("ControlName", ControlName)
-            Return cControlConfig
-        End Get
-        Set(ByVal value As SortedList(Of String, Object))
-            cControlConfig = value
-            Call Me.ReadFromConfig()
-        End Set
-    End Property
-
-#End Region
-
-#Region "Control Configuration"
-    Private Sub ReadFromConfig()
-        ReadConfig = True
-        For Each ConfigProperty As String In cControlConfig.Keys
-            Dim pi As System.Reflection.PropertyInfo = Me.GetType().GetProperty(ConfigProperty)
-            If ConfigProperty <> "ControlName" Then
-                Try
-                    pi.SetValue(Me, Convert.ChangeType(cControlConfig(ConfigProperty), pi.PropertyType, Globalization.CultureInfo.InvariantCulture), Nothing)
-                Catch e As Exception
-                End Try
-            End If
-        Next
-        ReadConfig = False
-    End Sub
-    Private Sub SetConfig(ByVal ConfigProperty As String, ByVal ConfigData As Object)
-        If cControlConfig.ContainsKey(ConfigProperty) = False Then
-            cControlConfig.Add(ConfigProperty, ConfigData)
-        Else
-            cControlConfig(ConfigProperty) = ConfigData
-        End If
-    End Sub
-#End Region
-
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Public Class DBCSkillQueueInfo
     Public Sub New()
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        ' Update the AGPs with the configured details
-        Call Me.UpdateColours()
+        ' Add any initialization after the InitializeComponent() call.
+
+        ' Initialise configuration form name
+        Me.ControlConfigForm = "EveHQ.DBCSkillQueueInfoConfig"
 
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
@@ -161,17 +40,92 @@
 
     End Sub
 
-    Public Sub UpdateColours()
-        AGPHeader.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
-        AGPHeader.CornerRadius = 10
-        AGPSkillInfo.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
-        AGPSkillInfo.CornerRadius = 10
-        AGPSkillInfo.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
-        AGPSkillInfo.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
-        AGPHeader.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
-        AGPHeader.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
-    End Sub
+#Region "Interface Properties"
 
+    Public Overrides ReadOnly Property ControlName() As String
+        Get
+            Return "Skill Queue Information"
+        End Get
+    End Property
+
+#End Region
+
+#Region "Custom Control Properties"
+
+    Public Property DefaultPilotName() As String
+        Get
+            Return cDefaultPilotName
+        End Get
+        Set(ByVal value As String)
+            cDefaultPilotName = value
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(DefaultPilotName) Then
+                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
+            End If
+            If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
+            If ReadConfig = False Then
+                Me.SetConfig("DefaultPilotName", value)
+                If Me.EveQueue = True Then
+                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName & ", Eve Queue")
+                Else
+                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName & ", EveHQ Queue (" & Me.DefaultQueueName & ")")
+                End If
+            End If
+        End Set
+    End Property
+
+    Public Property DefaultQueueName() As String
+        Get
+            Return cDefaultQueueName
+        End Get
+        Set(ByVal value As String)
+            cDefaultQueueName = value
+            If cboSkillQueue.Items.Contains(DefaultQueueName) = True Then cboSkillQueue.SelectedItem = DefaultQueueName
+            If ReadConfig = False Then
+                Me.SetConfig("DefaultQueueName", value)
+                If Me.EveQueue = True Then
+                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName & ", Eve Queue")
+                Else
+                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName & ", EveHQ Queue (" & Me.DefaultQueueName & ")")
+                End If
+            End If
+        End Set
+    End Property
+
+    Public Property EveQueue() As Boolean
+        Get
+            Return cEveQueue
+        End Get
+        Set(ByVal value As Boolean)
+            cEveQueue = value
+            If value = True Then
+                radEveQueue.Checked = True
+            Else
+                radEveHQQueue.Checked = True
+            End If
+            If ReadConfig = False Then
+                Me.SetConfig("EveQueue", value)
+                If value = True Then
+                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName & ", Eve Queue")
+                Else
+                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName & ", EveHQ Queue (" & Me.DefaultQueueName & ")")
+                End If
+            End If
+        End Set
+    End Property
+
+#End Region
+
+#Region "Custom Control Variables"
+    Dim cDefaultPilotName As String = ""
+    Dim cDefaultQueueName As String = ""
+    Dim cEveQueue As Boolean = True
+#End Region
+
+#Region "Class Variables"
+    Dim cPilot As EveHQ.Core.Pilot
+#End Region
+
+#Region "Private Methods"
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
             cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
@@ -213,43 +167,45 @@
     End Sub
 
     Private Sub UpdateQueueInfo()
-        If radEveQueue.Checked = True Then
-            ' Draw Eve skill queue
-            lvwSkills.BeginUpdate()
-            lvwSkills.Items.Clear()
-            If cPilot.QueuedSkills IsNot Nothing Then
-                For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In cPilot.QueuedSkills.Values
-                    Dim newitem As New ListViewItem
-                    newitem.Text = EveHQ.Core.SkillFunctions.SkillIDToName(QueuedSkill.SkillID.ToString) & " (Lvl " & EveHQ.Core.SkillFunctions.Roman(QueuedSkill.Level) & ")"
-                    Dim enddate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime)
-                    newitem.ToolTipText = "Skill ends: " & Format(enddate, "ddd") & " " & enddate
-                    newitem.Name = QueuedSkill.SkillID.ToString
-                    lvwSkills.Items.Add(newitem)
-                    'newitem.SubItems.Add(QueuedSkill.Level.ToString)
-                Next
-            End If
-            lvwSkills.EndUpdate()
-        Else
-            ' Draw an EveHQ skill queue
-            lvwSkills.BeginUpdate()
-            lvwSkills.Items.Clear()
-            If cboSkillQueue.SelectedItem IsNot Nothing Then
-                If cPilot.TrainingQueues.ContainsKey(cboSkillQueue.SelectedItem.ToString) = True Then
-                    Dim cQueue As EveHQ.Core.SkillQueue = CType(cPilot.TrainingQueues(cboSkillQueue.SelectedItem.ToString), Core.SkillQueue)
-                    Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, cQueue)
-                    For skill As Integer = 0 To arrQueue.Count - 1
-                        Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), EveHQ.Core.SortedQueue)
-                        If qItem.Done = False Then
-                            Dim newitem As New ListViewItem
-                            newitem.Text = qItem.Name & " (" & EveHQ.Core.SkillFunctions.Roman(CInt(qItem.FromLevel)) & " -> " & EveHQ.Core.SkillFunctions.Roman(CInt(qItem.ToLevel)) & ")"
-                            newitem.Name = qItem.ID
-                            lvwSkills.Items.Add(newitem)
-                            newitem.ToolTipText = "Skill ends: " & Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
-                        End If
+        If cPilot IsNot Nothing Then
+            If radEveQueue.Checked = True Then
+                ' Draw Eve skill queue
+                lvwSkills.BeginUpdate()
+                lvwSkills.Items.Clear()
+                If cPilot.QueuedSkills IsNot Nothing Then
+                    For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In cPilot.QueuedSkills.Values
+                        Dim newitem As New ListViewItem
+                        newitem.Text = EveHQ.Core.SkillFunctions.SkillIDToName(QueuedSkill.SkillID.ToString) & " (Lvl " & EveHQ.Core.SkillFunctions.Roman(QueuedSkill.Level) & ")"
+                        Dim enddate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime)
+                        newitem.ToolTipText = "Skill ends: " & Format(enddate, "ddd") & " " & enddate
+                        newitem.Name = QueuedSkill.SkillID.ToString
+                        lvwSkills.Items.Add(newitem)
+                        'newitem.SubItems.Add(QueuedSkill.Level.ToString)
                     Next
                 End If
+                lvwSkills.EndUpdate()
+            Else
+                ' Draw an EveHQ skill queue
+                lvwSkills.BeginUpdate()
+                lvwSkills.Items.Clear()
+                If cboSkillQueue.SelectedItem IsNot Nothing Then
+                    If cPilot.TrainingQueues.ContainsKey(cboSkillQueue.SelectedItem.ToString) = True Then
+                        Dim cQueue As EveHQ.Core.SkillQueue = CType(cPilot.TrainingQueues(cboSkillQueue.SelectedItem.ToString), Core.SkillQueue)
+                        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, cQueue, False, True)
+                        For skill As Integer = 0 To arrQueue.Count - 1
+                            Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), EveHQ.Core.SortedQueueItem)
+                            If qItem.Done = False Then
+                                Dim newitem As New ListViewItem
+                                newitem.Text = qItem.Name & " (" & EveHQ.Core.SkillFunctions.Roman(CInt(qItem.FromLevel)) & " -> " & EveHQ.Core.SkillFunctions.Roman(CInt(qItem.ToLevel)) & ")"
+                                newitem.Name = qItem.ID
+                                lvwSkills.Items.Add(newitem)
+                                newitem.ToolTipText = "Skill ends: " & Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
+                            End If
+                        Next
+                    End If
+                End If
+                lvwSkills.EndUpdate()
             End If
-            lvwSkills.EndUpdate()
         End If
     End Sub
 
@@ -258,15 +214,10 @@
         frmEveHQ.OpenPilotInfoForm()
     End Sub
 
-    Private Sub pbConfig_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbConfig.MouseDoubleClick
-        ' Initialise the configuration form
-        Dim newConfigForm As New DBCSkillQueueInfoConfig
-        newConfigForm.DBWidget = Me
-        newConfigForm.ShowDialog()
-    End Sub
-
     Private Sub lvwSkills_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwSkills.Resize
         ' Alter the column size to reflect the new listview size
         lvwSkills.Columns(0).Width = lvwSkills.Width - 30
     End Sub
+#End Region
+
 End Class

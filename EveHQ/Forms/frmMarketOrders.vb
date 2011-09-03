@@ -1,6 +1,25 @@
-﻿Imports System.IO
-Imports DotNetLib.Windows.Forms
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.IO
 Imports ZedGraph
+Imports DevComponents.AdvTree
 
 Public Class frmMarketOrders
     Dim cOrdersFile As String = ""
@@ -124,24 +143,24 @@ Public Class frmMarketOrders
         valBuy = 0 : valSell = 0 : valAll = 0
         devBuy = 0 : devSell = 0 : devAll = 0
 
-        clvSellers.BeginUpdate()
-        clvSellers.Items.Clear()
+        adtSellers.BeginUpdate() : adtBuyers.BeginUpdate()
+        adtSellers.Nodes.Clear() : adtBuyers.Nodes.Clear()
         For Each order As String In orderList
             orderDetails = order.Split(",".ToCharArray)
             oPrice = Double.Parse(orderDetails(0).Trim, Globalization.NumberStyles.Number, culture)
-            oVol = CLng(orderDetails(1).Trim)
-            oTypeID = CLng(orderDetails(2).Trim)
-            oRange = CLng(orderDetails(3).Trim)
-            oID = CLng(orderDetails(4).Trim)
-            oVolEntered = CLng(orderDetails(5).Trim)
-            oMinVol = CLng(orderDetails(6).Trim)
+            oVol = Long.Parse(orderDetails(1).Trim, Globalization.NumberStyles.Number, culture)
+            oTypeID = Long.Parse(orderDetails(2).Trim, Globalization.NumberStyles.Number, culture)
+            oRange = Long.Parse(orderDetails(3).Trim, Globalization.NumberStyles.Number, culture)
+            oID = Long.Parse(orderDetails(4).Trim, Globalization.NumberStyles.Number, culture)
+            oVolEntered = Long.Parse(orderDetails(5).Trim, Globalization.NumberStyles.Number, culture)
+            oMinVol = Long.Parse(orderDetails(6).Trim, Globalization.NumberStyles.Number, culture)
             oType = Math.Abs(CLng(CBool(orderDetails(7).Trim)))
-            oDate = CStr(orderDetails(8).Trim)
-            oDuration = CInt(orderDetails(9).Trim)
-            oStation = CLng(orderDetails(10).Trim)
-            oReg = CLng(orderDetails(11).Trim)
-            oSys = CLng(orderDetails(12).Trim)
-            oJumps = CInt(orderDetails(13).Trim)
+            oDate = CStr(orderDetails(8))
+            oDuration = Integer.Parse(orderDetails(9).Trim, Globalization.NumberStyles.Number, culture)
+            oStation = Long.Parse(orderDetails(10).Trim, Globalization.NumberStyles.Number, culture)
+            oReg = Long.Parse(orderDetails(11).Trim, Globalization.NumberStyles.Number, culture)
+            oSys = Long.Parse(orderDetails(12).Trim, Globalization.NumberStyles.Number, culture)
+            oJumps = Integer.Parse(orderDetails(13).Trim, Globalization.NumberStyles.Number, culture)
 
             ' Display the order (irrespective of whether we process it)
             If DateTime.TryParseExact(oDate, TimeFormat, Nothing, Globalization.DateTimeStyles.None, issueDate) = False Then
@@ -154,23 +173,23 @@ Public Class frmMarketOrders
             Else
                 orderExpiry = EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False)
             End If
-            Dim newOrder As New ContainerListViewItem
+            Dim newOrder As New Node
             If IndustryPluginAvailable = True Then
                 newOrder.Text = CStr(Industry.Instance.GetPlugInData(oStation, 0))
             Else
                 newOrder.Text = oStation.ToString
             End If
+            newOrder.Cells.Add(New Cell(FormatNumber(oVol, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+            newOrder.Cells.Add(New Cell(FormatNumber(oPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+            newOrder.Cells.Add(New Cell(orderExpiry))
+            newOrder.Cells(3).Tag = orderExpires.TotalSeconds
             If oType = 0 Then
                 ' Sell Order
-                clvSellers.Items.Add(newOrder)
+                adtSellers.Nodes.Add(newOrder)
             Else
                 ' Buy Order
-                clvBuyers.Items.Add(newOrder)
+                adtBuyers.Nodes.Add(newOrder)
             End If
-            newOrder.SubItems(1).Text = FormatNumber(oVol, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newOrder.SubItems(2).Text = FormatNumber(oPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newOrder.SubItems(3).Tag = orderExpires.TotalSeconds
-            newOrder.SubItems(3).Text = orderExpiry
 
             ' Check if we process this
             ProcessOrder = True
@@ -240,7 +259,9 @@ Public Class frmMarketOrders
                 End Select
             End If
         Next
-        clvSellers.EndUpdate()
+        EveHQ.Core.AdvTreeSorter.Sort(adtSellers, 1, True, True)
+        EveHQ.Core.AdvTreeSorter.Sort(adtBuyers, 1, True, True)
+        adtSellers.EndUpdate() : adtBuyers.EndUpdate()
 
         ' Calculate Averages, Standard Deviations & Medians
         If volAll > 0 Then
@@ -285,12 +306,6 @@ Public Class frmMarketOrders
         Else
             avgBuy = 0 : stdBuy = 0 : medBuy = 0
         End If
-
-        ' Write data to the database
-        'strSQL = insertStat & "VALUES (" & orderDate.ToOADate - 2 & ", " & oTypeID.ToString & ", " & oReg.ToString & ", " & oSys.ToString & ", " & volAll & ", " & avgAll & ", " & maxAll & ", " & minAll & ", " & stdAll & ", " & medAll & ", " & volBuy & ", " & avgBuy & ", " & maxBuy & ", " & minBuy & ", " & stdBuy & ", " & medBuy & ", " & volSell & ", " & avgSell & ", " & maxSell & ", " & minSell & ", " & stdSell & ", " & medSell & ");"
-        'If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
-        '    MessageBox.Show("There was an error writing data to the marketStats database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Market Stats", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        'End If
 
         ' Show the order data
         LblSellOrderVol.Text = FormatNumber(volSell, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -430,4 +445,15 @@ Public Class frmMarketOrders
         Call EveHQ.Core.DataFunctions.SetCustomPrice(typeID, UserPrice, False)
         lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
+
+    Private Sub adtBuyers_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtBuyers.ColumnHeaderMouseDown
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+    End Sub
+
+    Private Sub adtSellers_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtSellers.ColumnHeaderMouseDown
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+    End Sub
+
 End Class

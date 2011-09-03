@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,10 +17,15 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports DotNetLib.Windows.Forms
 Imports System.Windows.Forms
+Imports DevComponents.AdvTree
+Imports DevComponents.DotNetBar
 
 Public Class frmRequiredSkills
+
+    Dim TrainedSkillStyle As ElementStyle
+    Dim HQFSkillStyle As ElementStyle
+    Dim NotTrainedSkillStyle As ElementStyle
 
 #Region "Property Variables"
     Private reqSkills As New ArrayList
@@ -62,6 +67,24 @@ Public Class frmRequiredSkills
 
 #End Region
 
+#Region "Form Constructor"
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Set Styles
+        TrainedSkillStyle = adtSkills.Styles("Skill").Copy
+        HQFSkillStyle = adtSkills.Styles("Skill").Copy
+        NotTrainedSkillStyle = adtSkills.Styles("Skill").Copy
+        TrainedSkillStyle.TextColor = Drawing.Color.LimeGreen
+        HQFSkillStyle.TextColor = Drawing.Color.Orange
+        NotTrainedSkillStyle.TextColor = Drawing.Color.Red
+    End Sub
+
+#End Region
+
 #Region "Skill Display Routines"
 
     Private Sub DrawSkillsTable()
@@ -78,13 +101,12 @@ Public Class frmRequiredSkills
         Next
 
         ' Draw the list
-        clvSkills.BeginUpdate()
-        clvSkills.Items.Clear()
+        adtSkills.BeginUpdate()
+        adtSkills.Nodes.Clear()
         For Each rSkill As ReqSkill In newSkills.Values
-            Dim newSkill As New ContainerListViewItem
-            clvSkills.Items.Add(newSkill)
+            Dim newSkill As New Node
             newSkill.Text = rSkill.Name
-            newSkill.SubItems(1).Text = rSkill.ReqLevel.ToString
+            newSkill.Cells.Add(New Cell(rSkill.ReqLevel.ToString))
             If SkillList.ContainsKey(rSkill.Name) = False Then
                 SkillList.Add(rSkill.Name, rSkill.ReqLevel)
             Else
@@ -94,51 +116,51 @@ Public Class frmRequiredSkills
             End If
             If reqPilot.PilotSkills.Contains(rSkill.Name) = True Then
                 aSkill = CType(reqPilot.PilotSkills(rSkill.Name), Core.PilotSkill)
-                newSkill.SubItems(2).Text = aSkill.Level.ToString
+                newSkill.Cells.Add(New Cell(aSkill.Level.ToString))
             Else
-                newSkill.SubItems(2).Text = "0"
+                newSkill.Cells.Add(New Cell("0"))
             End If
             If reqHPilot.SkillSet.Contains(rSkill.Name) = True Then
                 hSkill = CType(reqHPilot.SkillSet(rSkill.Name), HQFSkill)
-                newSkill.SubItems(3).Text = hSkill.Level.ToString
+                newSkill.Cells.Add(New Cell(hSkill.Level.ToString))
             Else
-                newSkill.SubItems(3).Text = "0"
+                newSkill.Cells.Add(New Cell("0"))
             End If
-            newSkill.SubItems(4).Text = rSkill.NeededFor
-            Dim reqLevel As Integer = CInt(newSkill.SubItems(1).Text)
-            Dim actLevel As Integer = CInt(newSkill.SubItems(2).Text)
-            Dim hqfLevel As Integer = CInt(newSkill.SubItems(3).Text)
+            newSkill.Cells.Add(New Cell(rSkill.NeededFor))
+            Dim reqLevel As Integer = CInt(newSkill.Cells(1).Text)
+            Dim actLevel As Integer = CInt(newSkill.Cells(2).Text)
+            Dim hqfLevel As Integer = CInt(newSkill.Cells(3).Text)
             If actLevel >= reqLevel And hqfLevel >= reqLevel Then
-                newSkill.ForeColor = Drawing.Color.LimeGreen
+                newSkill.Style = TrainedSkillStyle
             Else
                 If hqfLevel >= reqLevel Then
-                    newSkill.ForeColor = Drawing.Color.Orange
+                    newSkill.Style = HQFSkillStyle
                 Else
-                    newSkill.ForeColor = Drawing.Color.Red
+                    newSkill.Style = NotTrainedSkillStyle
                 End If
             End If
+            adtSkills.Nodes.Add(newSkill)
             ' Check for sub skills
             Call Me.DisplaySubSkills(newSkill, rSkill.ID)
         Next
-        clvSkills.EndUpdate()
+        adtSkills.EndUpdate()
 
         ' Calculate the Queue Time
         Call Me.CalculateQueueTime()
 
     End Sub
 
-    Private Sub DisplaySubSkills(ByVal parentSkill As ContainerListViewItem, ByVal pSkillID As String)
+    Private Sub DisplaySubSkills(ByVal parentSkill As Node, ByVal pSkillID As String)
         Dim aSkill As EveHQ.Core.PilotSkill
         Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(pSkillID)
 
         If pSkill.PreReqSkills.Count > 0 Then
             For Each preReqSkill As String In pSkill.PreReqSkills.Keys
                 If EveHQ.Core.HQ.SkillListID.ContainsKey(preReqSkill) Then
-                    Dim newSkill As New ContainerListViewItem
-                    parentSkill.Items.Add(newSkill)
+                    Dim newSkill As New Node
                     newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(preReqSkill)
                     Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
-                    newSkill.SubItems(1).Text = pSkill.PreReqSkills(preReqSkill).ToString
+                    newSkill.Cells.Add(New Cell(pSkill.PreReqSkills(preReqSkill).ToString))
                     If SkillList.ContainsKey(newSkill.Text) = False Then
                         SkillList.Add(newSkill.Text, pSkill.PreReqSkills(preReqSkill))
                     Else
@@ -148,23 +170,24 @@ Public Class frmRequiredSkills
                     End If
                     If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
                         aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.PilotSkill)
-                        newSkill.SubItems(2).Text = aSkill.Level.ToString
+                        newSkill.Cells.Add(New Cell(aSkill.Level.ToString))
                     Else
-                        newSkill.SubItems(2).Text = "0"
+                        newSkill.Cells.Add(New Cell("0"))
                     End If
-                    newSkill.SubItems(3).Text = rSkill.Level.ToString
-                    Dim reqLevel As Integer = CInt(newSkill.SubItems(1).Text)
-                    Dim actLevel As Integer = CInt(newSkill.SubItems(2).Text)
-                    Dim hqfLevel As Integer = CInt(newSkill.SubItems(3).Text)
+                    newSkill.Cells.Add(New Cell(rSkill.Level.ToString))
+                    Dim reqLevel As Integer = CInt(newSkill.Cells(1).Text)
+                    Dim actLevel As Integer = CInt(newSkill.Cells(2).Text)
+                    Dim hqfLevel As Integer = CInt(newSkill.Cells(3).Text)
                     If actLevel >= reqLevel And hqfLevel >= reqLevel Then
-                        newSkill.ForeColor = Drawing.Color.LimeGreen
+                        newSkill.Style = TrainedSkillStyle
                     Else
                         If hqfLevel >= reqLevel Then
-                            newSkill.ForeColor = Drawing.Color.Orange
+                            newSkill.Style = HQFSkillStyle
                         Else
-                            newSkill.ForeColor = Drawing.Color.Red
+                            newSkill.Style = NotTrainedSkillStyle
                         End If
                     End If
+                    parentSkill.Nodes.Add(newSkill)
                     Call Me.DisplaySubSkills(newSkill, preReqSkill)
                 End If
 
@@ -195,7 +218,7 @@ Public Class frmRequiredSkills
         Next
 
         ' Build the Queue
-        Dim aQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, newQueue)
+        Dim aQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, newQueue, False, True)
 
         ' Display the time results
         lblQueueTime.Text = "Estimated Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(newQueue.QueueTime)
@@ -215,9 +238,11 @@ Public Class frmRequiredSkills
     End Sub
 
     Private Sub AddNeededSkillsToQueue()
-        Dim selQ As New frmSelectQueue
-        selQ.rPilot = reqPilot
-        selQ.skillsNeeded = reqSkills
+        Dim NeededSkills As New List(Of String)
+        For Each NeededSkill As HQF.ReqSkill In reqSkills
+            NeededSkills.Add(NeededSkill.Name & NeededSkill.ReqLevel)
+        Next
+        Dim selQ As New EveHQ.Core.frmSelectQueue(reqPilot.Name, NeededSkills)
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
     End Sub
@@ -244,5 +269,4 @@ Public Class frmRequiredSkills
 
 #End Region
 
-    
 End Class

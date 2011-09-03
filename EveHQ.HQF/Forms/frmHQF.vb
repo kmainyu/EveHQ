@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2010  EveHQ Development Team
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -23,17 +23,15 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 Imports System.Xml
-Imports DotNetLib.Windows.Forms
 Imports Microsoft.Win32
+Imports DevComponents.AdvTree
 
 Public Class frmHQF
 
-    Dim dataCheckList As New SortedList
-    Dim currentShipSlot As ShipSlotControl
-    Dim currentShipInfo As ShipInfoControl
+    Dim cActiveFitting As Fitting
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
-    Dim myFleetManager As New frmFleetManager
+    Dim ModuleListItems As New ArrayList
     Dim myPilotManager As New frmPilotManager
     Dim myBCBrowser As New frmBCBrowser
     Dim myEveImport As New frmEveImport
@@ -43,7 +41,6 @@ Public Class frmHQF
 
 #Region "Class Wide Variables"
 
-    Dim itemCount As Integer = 0
     Dim startUp As Boolean = False
 
     Dim cModuleDisplay As String = ""
@@ -56,11 +53,42 @@ Public Class frmHQF
         End Set
     End Property
 
+    Private Property ActiveFitting() As Fitting
+        Get
+            Return cActiveFitting
+        End Get
+        Set(ByVal value As Fitting)
+            cActiveFitting = value
+            If cActiveFitting IsNot Nothing Then
+                btnExportEve.Enabled = True
+                btnExportFitting.Enabled = True
+                btnExportDetails.Enabled = True
+                btnScreenGrab.Enabled = True
+                btnExportReq.Enabled = True
+            Else
+                btnExportEve.Enabled = False
+                btnExportFitting.Enabled = False
+                btnExportDetails.Enabled = False
+                btnScreenGrab.Enabled = False
+                btnExportReq.Enabled = False
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Form Initialisation & Closing Routines"
 
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+
+        ' Remove events
+        RemoveHandler HQFEvents.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
+        RemoveHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
+        RemoveHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
+        RemoveHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateShipFittings
+        RemoveHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
+        RemoveHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
+        RemoveHandler HQFEvents.UpdateAllImplantLists, AddressOf Me.UpdateAllImplantLists
 
         If shutdownComplete = False Then
             ' Close any open windows
@@ -68,10 +96,10 @@ Public Class frmHQF
             If myBCBrowser.IsHandleCreated Then myBCBrowser.Close()
 
             ' Save the panel widths
-            Settings.HQFSettings.ShipPanelWidth = SplitContainerShip.Width
-            Settings.HQFSettings.ModPanelWidth = SplitContainerMod.Width
-            Settings.HQFSettings.ShipSplitterWidth = SplitContainerShip.SplitterDistance
-            Settings.HQFSettings.ModSplitterWidth = SplitContainerMod.SplitterDistance
+            Settings.HQFSettings.ShipPanelWidth = panelShips.Width
+            Settings.HQFSettings.ModPanelWidth = panelModules.Width
+            Settings.HQFSettings.ShipSplitterWidth = panelFittings.Height
+            Settings.HQFSettings.ModSplitterWidth = panelModFilters.Height
 
             ' Save fittings
             'MessageBox.Show("HQF is about to enter the routine to save the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -87,33 +115,37 @@ Public Class frmHQF
         End If
 
     End Sub
+
     Private Sub frmHQF_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         startUp = True
         ModuleDisplay = ""
         LastModuleResults.Clear()
 
+        Me.SuspendLayout()
+
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
 
         ' Clear tabs and fitted ship lists, results list
         ShipLists.fittedShipList.Clear()
-        Fittings.FittingTabList.Clear()
         LastModuleResults.Clear()
-        tabHQF.TabPages.Clear()
+        tabHQF.Dock = DockStyle.Fill ' Maximize the tab control after allowing for the ribbon merge container
+        tabHQF.Tabs.Clear()
         Me.Show()
         Me.Refresh()
 
-        AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
+        AddHandler HQFEvents.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
         AddHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateShipFittings
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
         AddHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
         AddHandler HQFEvents.UpdateAllImplantLists, AddressOf Me.UpdateAllImplantLists
-       
-        ' Load the Profiles - stored separately from settings for distibution!
-        Call Settings.HQFSettings.LoadProfiles()
+
+        ' Load the Profiles - stored separately from settings for distribution!
+        Call DamageProfiles.LoadProfiles()
+        Call DefenceProfiles.LoadProfiles()
 
         ' Load up a collection of pilots from the EveHQ Core
         Call Me.LoadPilots()
@@ -123,6 +155,30 @@ Public Class frmHQF
 
         ' Set the MetaType Filter
         Call Me.SetMetaTypeFilters()
+
+        ' Create Image Cache
+        ImageHandler.BaseIcons.Clear()
+        Dim IconList As New List(Of String)
+        For Each sMod As ShipModule In ModuleLists.moduleList.Values
+            If sMod.Icon <> "" Then
+                If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
+                    Dim OI As Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Bitmap)
+                    If OI IsNot Nothing Then
+                        ImageHandler.BaseIcons.Add(sMod.Icon, OI)
+                    End If
+                End If
+            End If
+        Next
+        ImageHandler.MetaIcons.Clear()
+        For idx As Integer = 0 To 32
+            Dim OI As Bitmap = CType(My.Resources.ResourceManager.GetObject("Meta" & (2 ^ idx).ToString), Bitmap)
+            If OI IsNot Nothing Then
+                ImageHandler.MetaIcons.Add((2 ^ idx).ToString, OI)
+            End If
+        Next
+        ' Combine the images
+        Call ImageHandler.CombineIcons24()
+        Call ImageHandler.CombineIcons48()
 
         ' Show the groups
         Call Me.ShowShipGroups()
@@ -135,145 +191,169 @@ Public Class frmHQF
 
         ' Check if we need to restore tabs from the previous setup
         If HQF.Settings.HQFSettings.RestoreLastSession = True Then
-            For Each shipFit As String In HQF.Settings.HQFSettings.OpenFittingList
-                If Fittings.FittingList.ContainsKey(shipFit) = True Then
+            For Each FitKey As String In HQF.Settings.HQFSettings.OpenFittingList
+                If Fittings.FittingList.ContainsKey(FitKey) = True Then
                     ' Create the tab and display
-                    If Fittings.FittingTabList.Contains(shipFit) = False Then
-                        If Me.CreateFittingTabPage(shipFit) = False Then
-                            Continue For
-                        End If
-                        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-                        Call UpdateSelectedTab()
-                        currentShipSlot.UpdateEverything()
-                    End If
+                    Dim newfit As Fitting = Fittings.FittingList(FitKey)
+                    Call Me.CreateNewFittingTab(newfit)
+                    newfit.ShipSlotCtrl.UpdateEverything()
                 End If
             Next
+            tabHQF.SelectedTabIndex = 0
         End If
 
+        ' Set default widths of module list
+        Dim ModuleListColumns As Integer = 5
+        If HQF.Settings.HQFSettings.ModuleListColWidths.Count <> ModuleListColumns Then
+            HQF.Settings.HQFSettings.ModuleListColWidths.Clear()
+            HQF.Settings.HQFSettings.ModuleListColWidths.Add(0, 150)
+            HQF.Settings.HQFSettings.ModuleListColWidths.Add(1, 40)
+            HQF.Settings.HQFSettings.ModuleListColWidths.Add(2, 40)
+            HQF.Settings.HQFSettings.ModuleListColWidths.Add(3, 40)
+            HQF.Settings.HQFSettings.ModuleListColWidths.Add(4, 80)
+        End If
+        For col As Integer = 0 To ModuleListColumns - 1
+            tvwModules.Columns(col).Width.Absolute = HQF.Settings.HQFSettings.ModuleListColWidths(CLng(col))
+        Next
+
         ' Set the panel widths
-        SplitContainerShip.Width = Settings.HQFSettings.ShipPanelWidth
-        SplitContainerMod.Width = Settings.HQFSettings.ModPanelWidth
-        SplitContainerShip.SplitterDistance = Settings.HQFSettings.ShipSplitterWidth
-        SplitContainerMod.SplitterDistance = Settings.HQFSettings.ModSplitterWidth
+        panelShips.Width = Settings.HQFSettings.ShipPanelWidth
+        panelModules.Width = Settings.HQFSettings.ModPanelWidth
+        panelFittings.Height = Settings.HQFSettings.ShipSplitterWidth
+        panelModFilters.Height = Settings.HQFSettings.ModSplitterWidth
 
         HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
 
+        Me.ResumeLayout()
+
     End Sub
     Private Sub LoadFittings()
-        Fittings.FittingList.Clear()
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            Fittings.FittingList = CType(f.Deserialize(s), SortedList)
-            s.Close()
-        End If
-        ' Update Fitting Names
-        Dim updateList As New SortedList(Of String, String)
-        For Each fitting As String In Fittings.FittingList.Keys
-            If fitting.Contains("Amarr Navy Slicer") Then
-                Dim newFit As String = fitting.Replace("Amarr Navy Slicer", "Imperial Navy Slicer")
-                updateList.Add(fitting, newFit)
-            End If
-            If fitting.Contains("Gallente Navy Comet") Then
-                Dim newFit As String = fitting.Replace("Gallente Navy Comet", "Federation Navy Comet")
-                updateList.Add(fitting, newFit)
-            End If
-        Next
-        For Each fitting As String In updateList.Keys
-            If Fittings.FittingList.ContainsKey(updateList(fitting)) = False Then
-                Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
-            End If
-            If Fittings.FittingList.ContainsKey(fitting) = False Then
-                Fittings.FittingList.Remove(fitting)
-            End If
-        Next
-        ' Update Modules
-        For Each fitting As ArrayList In Fittings.FittingList.Values
-            For idx As Integer = 0 To fitting.Count - 1
-                fitting(idx) = fitting(idx).ToString.Replace("Amarr Navy", "Imperial Navy")
-                fitting(idx) = fitting(idx).ToString.Replace("Gallente Navy", "Federation Navy")
-            Next
-        Next
+        Call SavedFittings.LoadFittings()
+        'Fittings.FittingList.Clear()
+        'If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
+        '    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Open)
+        '    Dim f As BinaryFormatter = New BinaryFormatter
+        '    Fittings.FittingList = CType(f.Deserialize(s), SortedList)
+        '    s.Close()
+        'End If
+        '' Update Fitting Names
+        'Dim updateList As New SortedList(Of String, String)
+        'For Each fitting As String In Fittings.FittingList.Keys
+        '    If fitting.Contains("Amarr Navy Slicer") Then
+        '        Dim newFit As String = fitting.Replace("Amarr Navy Slicer", "Imperial Navy Slicer")
+        '        updateList.Add(fitting, newFit)
+        '    End If
+        '    If fitting.Contains("Gallente Navy Comet") Then
+        '        Dim newFit As String = fitting.Replace("Gallente Navy Comet", "Federation Navy Comet")
+        '        updateList.Add(fitting, newFit)
+        '    End If
+        'Next
+        'For Each fitting As String In updateList.Keys
+        '    If Fittings.FittingList.ContainsKey(updateList(fitting)) = False Then
+        '        Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
+        '    End If
+        '    If Fittings.FittingList.ContainsKey(fitting) = False Then
+        '        Fittings.FittingList.Remove(fitting)
+        '    End If
+        'Next
+        '' Update Modules
+        'For Each fitting As ArrayList In Fittings.FittingList.Values
+        '    For idx As Integer = 0 To fitting.Count - 1
+        '        fitting(idx) = fitting(idx).ToString.Replace("Amarr Navy", "Imperial Navy")
+        '        fitting(idx) = fitting(idx).ToString.Replace("Gallente Navy", "Federation Navy")
+        '    Next
+        'Next
         Call Me.UpdateFittingsTree(True)
     End Sub
     Private Sub SaveFittings()
-        Try
-            ' Save ships
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Create)
-            Dim f As New BinaryFormatter
-            f.Serialize(s, Fittings.FittingList)
-            s.Flush()
-            s.Close()
-        Catch ex As Exception
-            MessageBox.Show("There was an error saving the fittings file. The error was: " & ex.Message, "Save Fittings Failed :(", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
+        Call SavedFittings.SaveFittings()
+        'Try
+        '    ' Save ships
+        '    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Create)
+        '    Dim f As New BinaryFormatter
+        '    f.Serialize(s, Fittings.FittingList)
+        '    s.Flush()
+        '    s.Close()
+        'Catch ex As Exception
+        '    MessageBox.Show("There was an error saving the fittings file. The error was: " & ex.Message, "Save Fittings Failed :(", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'End Try
     End Sub
     Private Sub ShowShipGroups()
         Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ShipGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
-        Dim cNode As New TreeNode
-        Dim rNode As New TreeNode
+        Dim cNode As New DevComponents.AdvTree.Node
         Dim isFlyable As Boolean = True
         sr.Close()
+        tvwShips.BeginUpdate()
+        tvwShips.Nodes.Clear()
         For Each pathline As String In PathLines
-            If pathline <> "" Then
+            If pathline.Trim <> "" Then
                 If pathline.Contains("\") = False Then
-                    rNode.Nodes.Add(pathline, pathline)
+                    Dim nNode As New DevComponents.AdvTree.Node
+                    nNode.Name = pathline
+                    nNode.Text = pathline
+                    tvwShips.Nodes.Add(nNode)
                 Else
                     nodes = pathline.Split("\".ToCharArray)
                     If ShipLists.shipListKeyName.ContainsKey(nodes(nodes.Length - 1)) And cboFlyable.SelectedIndex > 0 Then
+                        'If nodes.Length = 5 And cboFlyable.SelectedIndex > 0 Then
                         isFlyable = IsShipFlyable(nodes(nodes.Length - 1), cboFlyable.SelectedItem.ToString)
                     Else
                         isFlyable = True
                     End If
                     If isFlyable = True Then
-                        cNode = rNode.Nodes(nodes(0))
-                        For node As Integer = 1 To nodes.GetUpperBound(0) - 1
-                            cNode = cNode.Nodes(nodes(node))
-                        Next
-                        cNode.Nodes.Add(nodes(nodes.GetUpperBound(0)), nodes(nodes.GetUpperBound(0)))
+                        Dim parent As String = nodes(0)
+                        If nodes.Length > 2 Then
+                            For node As Integer = 1 To nodes.GetUpperBound(0) - 1
+                                parent &= "\" & nodes(node)
+                            Next
+                        End If
+                        cNode = tvwShips.FindNodeByName(parent)
+                        Dim nNode As New DevComponents.AdvTree.Node
+                        nNode.Text = nodes(nodes.GetUpperBound(0))
+                        nNode.Name = pathline
+                        cNode.Nodes.Add(nNode)
                     End If
                 End If
             End If
         Next
         ' Remove any groups that have no children
         Dim cNodeIdx As Integer = 0
-        Dim childNode As TreeNode
-        If rNode.Nodes.Count > 0 Then
-            Do
-                childNode = rNode.Nodes(cNodeIdx)
-                If childNode.Nodes.Count > 0 Then
-                    Call CheckShipNodes(childNode)
-                    If childNode.Nodes.Count = 0 Then
-                        rNode.Nodes.RemoveAt(cNodeIdx)
-                        cNodeIdx -= 1
-                    End If
-                Else
-                    rNode.Nodes.RemoveAt(cNodeIdx)
+        Dim childNode As Node
+        Do
+            childNode = tvwShips.Nodes(cNodeIdx)
+            If childNode.HasChildNodes Then
+                Call CheckShipNodes(childNode)
+                If childNode.HasChildNodes = False Then
+                    tvwShips.Nodes.RemoveAt(cNodeIdx)
                     cNodeIdx -= 1
                 End If
-                cNodeIdx += 1
-            Loop Until cNodeIdx = rNode.Nodes.Count
-        End If
+            Else
+                tvwShips.Nodes.RemoveAt(cNodeIdx)
+                cNodeIdx -= 1
+            End If
+            cNodeIdx += 1
+        Loop Until cNodeIdx = tvwShips.Nodes.Count
         ' Finalise and update the list
-        tvwShips.BeginUpdate()
-        tvwShips.Nodes.Clear()
-        For Each cNode In rNode.Nodes
-            tvwShips.Nodes.Add(cNode)
-        Next
-        tvwShips.Sorted = True
         tvwShips.EndUpdate()
+        ' Put the root nodes into a ship list for later reference
+        Market.MarketShipList.Clear()
+        For Each ShipNode As Node In tvwShips.Nodes
+            If Market.MarketShipList.Contains(ShipNode.Text) = False Then
+                Market.MarketShipList.Add(ShipNode.Text)
+            End If
+        Next
     End Sub
-    Private Sub CheckShipNodes(ByVal pNode As TreeNode)
+    Private Sub CheckShipNodes(ByVal pNode As Node)
         Dim cNodeIdx As Integer = 0
-        Dim cNode As TreeNode
+        Dim cNode As Node
         Do
             cNode = pNode.Nodes(cNodeIdx)
-            If cNode.Nodes.Count > 0 Then
+            If cNode.HasChildNodes Then
                 Call CheckShipNodes(cNode)
-                If cNode.Nodes.Count = 0 Then
+                If cNode.HasChildNodes = False Then
                     pNode.Nodes.RemoveAt(cNodeIdx)
                     cNodeIdx -= 1
                 End If
@@ -293,8 +373,8 @@ Public Class frmHQF
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
         Dim nodeData() As String
-        Dim cNode As New TreeNode
-        Dim newNode As New TreeNode
+        Dim cNode As New Node
+        Dim newNode As New Node
         sr.Close()
         tvwItems.BeginUpdate()
         tvwItems.Nodes.Clear()
@@ -304,51 +384,57 @@ Public Class frmHQF
             If pathline <> "" Then
                 If pathline.Contains("\") = False Then
                     nodeData = pathline.Split(",".ToCharArray)
-                    tvwItems.Nodes.Add(nodeData(1), nodeData(1))
+                    Dim n As New Node(nodeData(1))
+                    n.Name = nodeData(1)
+                    n.Tag = nodeData(0)
+                    tvwItems.Nodes.Add(n)
                 Else
                     nodeData = pathline.Split(",".ToCharArray)
                     nodes = nodeData(1).Split("\".ToCharArray)
-                    cNode = tvwItems.Nodes(nodes(0))
-                    For node As Integer = 1 To nodes.GetUpperBound(0) - 1
-                        cNode = cNode.Nodes(nodes(node))
-                    Next
-                    newNode = New TreeNode()
-                    newNode.Name = nodes(nodes.GetUpperBound(0))
+                    Dim parent As String = nodes(0)
+                    If nodes.Length > 2 Then
+                        For node As Integer = 1 To nodes.GetUpperBound(0) - 1
+                            parent &= "\" & nodes(node)
+                        Next
+                    End If
+                    cNode = tvwItems.FindNodeByName(parent)
+                    newNode = New Node
+                    newNode.Name = nodeData(1)
                     newNode.Text = nodes(nodes.GetUpperBound(0))
                     newNode.Tag = nodeData(0)
                     cNode.Nodes.Add(newNode)
                     If newNode.Tag.ToString <> "0" Then
-                        Market.MarketGroupList.Add(newNode.Tag.ToString, newNode.Name)
+                        Market.MarketGroupList.Add(newNode.Tag.ToString, newNode.Text)
                         Market.MarketGroupPath.Add(newNode.Tag.ToString, nodeData(1))
                     End If
                 End If
             End If
         Next
         tvwItems.EndUpdate()
+        ' Copy these to the market node list
+        Market.MarketNodeList.Clear()
+        For Each newNode In tvwItems.Nodes
+            Market.MarketNodeList.Add(newNode)
+        Next
     End Sub
     Private Sub UpdateMarketGroup(ByVal path As String)
+        Dim cNode As New Node
         Dim nodes() As String = path.Split("\".ToCharArray)
-        Dim cNode As New TreeNode
-        cNode = tvwItems.Nodes(nodes(0))
-        For node As Integer = 1 To nodes.GetUpperBound(0)
-            cNode = cNode.Nodes(nodes(node))
-        Next
-        tvwItems.SelectedNode = cNode
+        Dim parent As String = nodes(0)
+        If nodes.Length >= 2 Then
+            For node As Integer = 1 To nodes.GetUpperBound(0)
+                parent &= "\" & nodes(node)
+            Next
+        End If
+        cNode = tvwItems.FindNodeByName(parent)
+        If cNode.IsSelected Then
+            Call CalculateFilteredModules(cNode)
+        Else
+            tvwItems.SelectedNode = cNode
+        End If
         tvwItems.Select()
     End Sub
 
-    Private Sub SplitContainerShip_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplitContainerShip.Resize
-        Try
-            SplitContainerShip.SplitterDistance = Settings.HQFSettings.ShipSplitterWidth
-        Catch ex As Exception
-        End Try
-    End Sub
-    Private Sub SplitContainerMod_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplitContainerMod.Resize
-        Try
-            SplitContainerMod.SplitterDistance = Settings.HQFSettings.ModSplitterWidth
-        Catch ex As Exception
-        End Try
-    End Sub
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
         ' Check for a valid HQFPilotSettings.xml file
@@ -415,6 +501,7 @@ Public Class frmHQF
 
         If HQFPilotCollection.HQFPilots.Count > 0 Then
             btnPilotManager.Enabled = True
+            btnImplantManager.Enabled = True
         End If
 
         ' Update the ship filter
@@ -436,7 +523,7 @@ Public Class frmHQF
     Private Sub SetMetaTypeFilters()
         Dim filters() As Integer = {1, 2, 4, 8, 16, 32, 8192}
         For Each filter As Integer In filters
-            Dim chkBox As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls.Item("chkFilter" & filter.ToString), CheckBox)
+            Dim chkBox As CheckBox = CType(Me.panelModFilters.Controls.Item("chkFilter" & filter.ToString), CheckBox)
             If (HQF.Settings.HQFSettings.ModuleFilter And filter) = filter Then
                 chkBox.Checked = True
             Else
@@ -447,12 +534,12 @@ Public Class frmHQF
 #End Region
 
 #Region "Ship Browser Routines"
-    Private Sub tvwShips_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwShips.NodeMouseClick
+    Private Sub tvwShips_NodeMouseClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwShips.NodeClick
         tvwShips.SelectedNode = e.Node
     End Sub
-    Private Sub tvwShips_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwShips.NodeMouseDoubleClick
+    Private Sub tvwShips_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwShips.NodeDoubleClick
         tvwShips.SelectedNode = e.Node
-        Dim curNode As TreeNode = tvwShips.SelectedNode
+        Dim curNode As DevComponents.AdvTree.Node = tvwShips.SelectedNode
         If curNode IsNot Nothing Then
             If curNode.Nodes.Count = 0 Then ' If has no child nodes, therefore a ship not group
                 Dim shipName As String = curNode.Text
@@ -462,15 +549,19 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub ctxShipBrowser_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxShipBrowser.Opening
-        Dim curNode As TreeNode = tvwShips.SelectedNode
+        Dim curNode As DevComponents.AdvTree.Node = tvwShips.SelectedNode
         If curNode IsNot Nothing Then
             If curNode.Nodes.Count = 0 Then ' If has no child nodes, therefore a ship not group
                 Dim shipName As String = curNode.Text
                 mnuShipBrowserShipName.Text = shipName
                 ' Check for a current ship and whether there is a ship bay
-                If currentShipSlot IsNot Nothing Then
-                    If currentShipSlot.ShipFitted.ShipBay > 0 Then
-                        mnuAddToShipBay.Enabled = True
+                If ActiveFitting IsNot Nothing Then
+                    If ActiveFitting.ShipSlotCtrl IsNot Nothing Then
+                        If ActiveFitting.FittedShip.ShipBay > 0 Then
+                            mnuAddToShipBay.Enabled = True
+                        Else
+                            mnuAddToShipBay.Enabled = False
+                        End If
                     Else
                         mnuAddToShipBay.Enabled = False
                     End If
@@ -492,7 +583,18 @@ Public Class frmHQF
     Private Sub mnuPreviewShip_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip.Click
         Dim shipName As String = mnuShipBrowserShipName.Text
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-        Call DisplayShipPreview(selShip)
+        Dim showInfo As New frmShowInfo
+        Dim hPilot As EveHQ.Core.Pilot
+        If ActiveFitting IsNot Nothing Then
+            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), Core.Pilot)
+        Else
+            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            Else
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot)
+            End If
+        End If
+        showInfo.ShowItemDetails(selShip, hPilot)
     End Sub
     Private Sub mnuBattleClinicBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBattleClinicBrowser.Click
         Dim shipName As String = mnuShipBrowserShipName.Text
@@ -505,64 +607,6 @@ Public Class frmHQF
             myBCBrowser.ShipType = bShip
             myBCBrowser.Show()
         End If
-    End Sub
-    Private Sub DisplayShipPreview(ByVal selShip As Ship)
-        Ship.MapShipAttributes(selShip)
-        pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(selShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
-        lblShipType.Text = selShip.Name
-        txtShipDescription.Text = selShip.Description
-        lblShieldHP.Text = FormatNumber(selShip.ShieldCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP"
-        lblShieldEM.Text = FormatNumber(selShip.ShieldEMResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblShieldEx.Text = FormatNumber(selShip.ShieldExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblShieldKi.Text = FormatNumber(selShip.ShieldKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblShieldTh.Text = FormatNumber(selShip.ShieldThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblShieldRecharge.Text = "Recharge Rate: " & FormatNumber(selShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
-        lblArmorHP.Text = FormatNumber(selShip.ArmorCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP"
-        lblArmorEM.Text = FormatNumber(selShip.ArmorEMResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblArmorEx.Text = FormatNumber(selShip.ArmorExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblArmorKi.Text = FormatNumber(selShip.ArmorKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblArmorTh.Text = FormatNumber(selShip.ArmorThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblStructureHP.Text = FormatNumber(selShip.StructureCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP"
-        lblStructureEM.Text = FormatNumber(selShip.StructureEMResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblStructureEx.Text = FormatNumber(selShip.StructureExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblStructureKi.Text = FormatNumber(selShip.StructureKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblStructureTh.Text = FormatNumber(selShip.StructureThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " %"
-        lblCapacitor.Text = "Capacitor: " & FormatNumber(selShip.CapCapacity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblCapRecharge.Text = "Recharge Rate: " & FormatNumber(selShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
-        lblSpeed.Text = "Max Velocity: " & FormatNumber(selShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
-        lblInertia.Text = "Inertia: " & FormatNumber(selShip.Inertia, 6, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblCargohold.Text = "Cargo: " & FormatNumber(selShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
-        lblDroneBay.Text = "Drone Bay: " & FormatNumber(selShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
-        lblDroneBandwidth.Text = "Bandwidth: " & FormatNumber(selShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " Mb/s"
-
-        lblCPU.Text = "CPU: " & FormatNumber(selShip.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblPG.Text = "Powergrid: " & FormatNumber(selShip.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblCalibration.Text = "Calibration: " & FormatNumber(selShip.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-
-        lblLowSlots.Text = "Low Slots: " & FormatNumber(selShip.LowSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblMedSlots.Text = "Med Slots: " & FormatNumber(selShip.MidSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblHiSlots.Text = "High Slots: " & FormatNumber(selShip.HiSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblRigSlots.Text = "Rig Slots: " & FormatNumber(selShip.RigSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblTurretSlots.Text = "Turret Slots: " & FormatNumber(selShip.TurretSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblLauncherSlots.Text = "Launcher Slots: " & FormatNumber(selShip.LauncherSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-
-        lblWarpSpeed.Text = "Warp Speed: " & FormatNumber(selShip.WarpSpeed, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au/s"
-
-        ' Add Required Skill into the Description
-        txtShipDescription.Text &= ControlChars.CrLf & ControlChars.CrLf & "Required Skills" & ControlChars.CrLf
-        For Each cSkill As ItemSkills In selShip.RequiredSkills.Values
-            txtShipDescription.Text &= cSkill.Name & " (Lvl " & EveHQ.Core.SkillFunctions.Roman(cSkill.Level) & ")" & ControlChars.CrLf
-        Next
-
-        ' Add the tab if it's not available
-        If tabShipPreview IsNot Nothing Then
-        End If
-        If tabHQF.TabPages.Contains(tabShipPreview) = False Then
-            tabHQF.TabPages.Add(tabShipPreview)
-        End If
-        ' Bring the Preview tab to the front
-        tabHQF.SelectedTab = tabShipPreview
-
     End Sub
     Private Sub DisplayBCBrowser(ByVal bShip As Ship)
         Dim URI As String = "http://eve.battleclinic.com/ship_loadout_feed.php?typeID=" & bShip.ID
@@ -586,15 +630,15 @@ Public Class frmHQF
                 MessageBox.Show("Create New Fitting has been cancelled!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If fittingName <> "" Then
-                    Dim fittingKeyName As String = shipName & ", " & fittingName
-                    Fittings.FittingList.Add(fittingKeyName, New ArrayList)
-                    If Me.CreateFittingTabPage(fittingKeyName) = True Then
+                    Dim NewFit As New Fitting(shipName, fittingName, HQF.Settings.HQFSettings.DefaultPilot)
+                    Fittings.FittingList.Add(NewFit.KeyName, NewFit)
+                    If Me.CreateNewFittingTab(NewFit) = True Then
                         Call Me.UpdateFilteredShips()
-                        tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
-                        If tabHQF.TabPages.Count = 1 Then
+                        tabHQF.SelectedTab = tabHQF.Tabs(NewFit.KeyName)
+                        If tabHQF.Tabs.Count = 1 Then
                             Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
                         End If
-                        currentShipSlot.UpdateEverything()
+                        ActiveFitting.ShipSlotCtrl.UpdateEverything()
                     End If
                 Else
                     MessageBox.Show("Unable to create new fitting due to insufficient data!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -634,7 +678,7 @@ Public Class frmHQF
             tvwShips.BeginUpdate()
             tvwShips.Nodes.Clear()
             For Each item As String In shipResults.Values
-                Dim shipNode As TreeNode = New TreeNode
+                Dim shipNode As New DevComponents.AdvTree.Node
                 shipNode.Text = item
                 shipNode.Name = item
                 tvwShips.Nodes.Add(shipNode)
@@ -664,40 +708,38 @@ Public Class frmHQF
 
             ' Get Current List of "open" nodes
             Dim openNodes As New ArrayList
-            For Each shipNode As ContainerListViewItem In clvFittings.Items
+            For Each shipNode As Node In tvwFittings.Nodes
                 If shipNode.Expanded = True Then
                     openNodes.Add(shipNode.Text)
                 End If
             Next
-            clvFittings.BeginUpdate()
-            clvFittings.SelectedItems.Clear()
-            clvFittings.Items.Clear()
+            tvwFittings.BeginUpdate()
+            tvwFittings.Nodes.Clear()
             For Each item As String In fitResults.Values
                 fittingSep = item.IndexOf(", ")
                 shipName = item.Substring(0, fittingSep)
                 fittingName = item.Substring(fittingSep + 2)
                 ' Create the ship node if it's not already present
-                Dim containsShip As New ContainerListViewItem
-                For Each ship As ContainerListViewItem In clvFittings.Items
+                Dim containsShip As New Node
+                For Each ship As Node In tvwFittings.Nodes
                     If ship.Text = shipName Then
                         containsShip = ship
                     End If
                 Next
                 If containsShip.Text = "" Then
                     containsShip.Text = shipName
-                    clvFittings.Items.Add(containsShip)
+                    tvwFittings.Nodes.Add(containsShip)
                 End If
                 ' Add the details to the Node, checking for duplicates
-                containsShip.Items.Add(New ContainerListViewItem(fittingName))
+                containsShip.Nodes.Add(New Node(fittingName))
             Next
             ' Open the previously opened nodes
-            For Each shipNode As ContainerListViewItem In clvFittings.Items
+            For Each shipNode As Node In tvwFittings.Nodes
                 If openNodes.Contains(shipNode.Text) Then
                     shipNode.Expand()
                 End If
             Next
-            clvFittings.EndUpdate()
-            Call Me.UpdateFittingsCombo()
+            tvwFittings.EndUpdate()
         Else
             txtShipSearch.Text = ""
             Call Me.ShowShipGroups()
@@ -717,14 +759,13 @@ Public Class frmHQF
             Next
             ' Get Current List of "open" nodes
             Dim openNodes As New ArrayList
-            For Each shipNode As ContainerListViewItem In clvFittings.Items
+            For Each shipNode As Node In tvwFittings.Nodes
                 If shipNode.Expanded = True Then
                     openNodes.Add(shipNode.Text)
                 End If
             Next
-            clvFittings.BeginUpdate()
-            clvFittings.SelectedItems.Clear()
-            clvFittings.Items.Clear()
+            tvwFittings.BeginUpdate()
+            tvwFittings.Nodes.Clear()
             Dim shipName As String = ""
             Dim fittingName As String = ""
             Dim fittingSep As Integer = 0
@@ -733,27 +774,26 @@ Public Class frmHQF
                 shipName = item.Substring(0, fittingSep)
                 fittingName = item.Substring(fittingSep + 2)
                 ' Create the ship node if it's not already present
-                Dim containsShip As New ContainerListViewItem
-                For Each ship As ContainerListViewItem In clvFittings.Items
+                Dim containsShip As New Node
+                For Each ship As Node In tvwFittings.Nodes
                     If ship.Text = shipName Then
                         containsShip = ship
                     End If
                 Next
                 If containsShip.Text = "" Then
                     containsShip.Text = shipName
-                    clvFittings.Items.Add(containsShip)
+                    tvwFittings.Nodes.Add(containsShip)
                 End If
                 ' Add the details to the Node, checking for duplicates
-                containsShip.Items.Add(New ContainerListViewItem(fittingName))
+                containsShip.Nodes.Add(New Node(fittingName))
             Next
             ' Open the previously opened nodes
-            For Each shipNode As ContainerListViewItem In clvFittings.Items
+            For Each shipNode As Node In tvwFittings.Nodes
                 If openNodes.Contains(shipNode.Text) Then
                     shipNode.Expand()
                 End If
             Next
-            clvFittings.EndUpdate()
-            Call Me.UpdateFittingsCombo()
+            tvwFittings.EndUpdate()
         Else
             Call Me.UpdateFittingsTree(False)
         End If
@@ -778,24 +818,23 @@ Public Class frmHQF
         End If
     End Function
     Private Sub mnuAddToShipBay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToShipBay.Click
-        If currentShipSlot IsNot Nothing Then
+        If ActiveFitting.ShipSlotCtrl IsNot Nothing Then
             Dim shipName As String = mnuShipBrowserShipName.Text
             ' Add the ship to the maintenance bay
             Dim shipType As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            currentShipSlot.AddShip(shipType, 1)
+            ActiveFitting.AddShip(shipType, 1, False)
         End If
     End Sub
 
 #End Region
 
 #Region "Module Display, Filter and Search Options"
-    Private Sub tvwItems_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwItems.NodeMouseClick
-        tvwItems.SelectedNode = e.Node
+
+    Private Sub tvwItems_AfterNodeSelect(ByVal sender As Object, ByVal e As DevComponents.AdvTree.AdvTreeNodeEventArgs) Handles tvwItems.AfterNodeSelect
+        Call Me.CalculateFilteredModules(e.Node)
     End Sub
-    Private Sub tvwItems_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwItems.AfterSelect
-        If e.Node.Nodes.Count = 0 Then
-            Call Me.CalculateFilteredModules(e.Node)
-        End If
+    Private Sub tvwItems_NodeClick1(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwItems.NodeClick
+        tvwItems.SelectedNode = e.Node
     End Sub
     Private Sub MetaFilterChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFilter1.CheckedChanged, chkFilter2.CheckedChanged, chkFilter4.CheckedChanged, chkFilter8.CheckedChanged, chkFilter16.CheckedChanged, chkFilter32.CheckedChanged, chkFilter8192.CheckedChanged
         If startUp = False Then
@@ -843,7 +882,7 @@ Public Class frmHQF
             End If
         End If
     End Sub
-    Private Sub CalculateFilteredModules(ByVal groupNode As TreeNode)
+    Private Sub CalculateFilteredModules(ByVal groupNode As Node)
         Me.Cursor = Cursors.WaitCursor
         Dim sMod As New ShipModule
         Dim groupID As String
@@ -852,16 +891,19 @@ Public Class frmHQF
             ModuleDisplay = "Favourites"
             For Each modName As String In Settings.HQFSettings.Favourites
                 If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
-                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
+					sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
                     ' Add results in by name, module
-                    If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(sMod, True)
+                    If ActiveFitting IsNot Nothing Then
+						If chkApplySkills.Checked = True Then
+							sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
+							ActiveFitting.ApplySkillEffectsToModule(sMod, True)
+						End If
                     End If
-                    If currentShipInfo IsNot Nothing Then
+                    If ActiveFitting IsNot Nothing Then
                         If chkOnlyShowUsable.Checked = True Then
-                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
-                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                    If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
                                         results.Add(sMod.Name, sMod)
                                     End If
                                 Else
@@ -870,7 +912,7 @@ Public Class frmHQF
                             End If
                         Else
                             If chkOnlyShowFittable.Checked = True Then
-                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
                                     results.Add(sMod.Name, sMod)
                                 End If
                             Else
@@ -883,20 +925,24 @@ Public Class frmHQF
                 End If
             Next
             lblModuleDisplayType.Tag = "Displaying: Favourites"
+            LastModuleResults = results
         ElseIf groupNode.Name = "Recently Used" Then
             ModuleDisplay = "Recently Used"
             For Each modName As String In Settings.HQFSettings.MRUModules
                 If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
-                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
+					sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
                     ' Add results in by name, module
-                    If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(sMod, True)
+                    If ActiveFitting IsNot Nothing Then
+						If chkApplySkills.Checked = True Then
+							sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
+							ActiveFitting.ApplySkillEffectsToModule(sMod, True)
+						End If
                     End If
-                    If currentShipInfo IsNot Nothing Then
+                    If ActiveFitting IsNot Nothing Then
                         If chkOnlyShowUsable.Checked = True Then
-                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
-                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                    If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
                                         results.Add(sMod.Name, sMod)
                                     End If
                                 Else
@@ -905,7 +951,7 @@ Public Class frmHQF
                             End If
                         Else
                             If chkOnlyShowFittable.Checked = True Then
-                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
                                     results.Add(sMod.Name, sMod)
                                 End If
                             Else
@@ -918,229 +964,128 @@ Public Class frmHQF
                 End If
             Next
             lblModuleDisplayType.Tag = "Displaying: Recently Used"
+            LastModuleResults = results
         Else
             If groupNode.Nodes.Count = 0 Then
                 groupID = groupNode.Tag.ToString
+                ModuleDisplay = groupID
+                Call Me.AddGroupResults(HQF.ModuleLists.moduleList, groupID, results)
+                lblModuleDisplayType.Tag = Market.MarketGroupList(groupID).ToString
+                lblModuleDisplayType.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
+                LastModuleResults = results
             Else
-                groupID = ModuleDisplay
-            End If
-            ModuleDisplay = groupID
-            lblModuleDisplayType.Tag = Market.MarketGroupList(groupID).ToString
-            For Each shipMod As ShipModule In HQF.ModuleLists.moduleList.Values
-                If shipMod.MarketGroup = groupID Then
-                    ' Add results in by name, module
-                    sMod = shipMod.Clone
-                    If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(sMod, True)
-                    End If
-                    If currentShipInfo IsNot Nothing Then
-                        If chkOnlyShowUsable.Checked = True Then
-                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                                If chkOnlyShowFittable.Checked = True Then
-                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                        results.Add(sMod.Name, sMod)
-                                    End If
-                                Else
-                                    results.Add(sMod.Name, sMod)
-                                End If
-                            End If
-                        Else
-                            If chkOnlyShowFittable.Checked = True Then
-                                If currentShipSlot IsNot Nothing Then
-                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                        results.Add(sMod.Name, sMod)
-                                    End If
-                                Else
-                                    results.Add(sMod.Name, sMod)
-                                End If
-                            Else
-                                results.Add(sMod.Name, sMod)
-                            End If
-                        End If
-                    Else
-                        results.Add(sMod.Name, sMod)
-                    End If
+                ' Check on the last results
+                If LastModuleResults.Count > 0 Then
+                    groupID = CType(LastModuleResults.GetByIndex(0), ShipModule).MarketGroup
+                Else
+                    groupID = "0"
                 End If
-            Next
-            lblModuleDisplayType.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
+                Call Me.AddGroupResults(LastModuleResults, groupID, results)
+                LastModuleResults = results
+            End If
         End If
-        LastModuleResults = results
         Call Me.ShowFilteredModules()
         Me.Cursor = Cursors.Default
     End Sub
-    Private Sub ShowFilteredModules()
-
-        Dim groupID As String = ""
-        ' Reset checkbox colours
-        chkFilter1.ForeColor = Color.Red
-        chkFilter2.ForeColor = Color.Red
-        chkFilter4.ForeColor = Color.Red
-        chkFilter8.ForeColor = Color.Red
-        chkFilter16.ForeColor = Color.Red
-        chkFilter32.ForeColor = Color.Red
-        chkFilter8192.ForeColor = Color.Red
-
-        lvwItems.BeginUpdate()
-        lvwItems.Items.Clear()
-        For Each shipMod As ShipModule In LastModuleResults.Values
-            If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
-                Dim newModule As New ListViewItem
-                newModule.Name = shipMod.ID
-                groupID = shipMod.MarketGroup
-                newModule.Text = shipMod.Name
-                newModule.ToolTipText = shipMod.Name
-                newModule.SubItems.Add(shipMod.MetaLevel.ToString)
-                newModule.SubItems.Add(shipMod.CPU.ToString)
-                newModule.SubItems.Add(shipMod.PG.ToString)
-                newModule.SubItems.Add(EveHQ.Core.DataFunctions.GetPrice(shipMod.ID).ToString("N2"))
-                Select Case shipMod.SlotType
-                    Case 16 ' Subsystem
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
-                        'newModule.ImageKey = "subSlot"
-                    Case 8 ' High
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                        'newModule.ImageKey = "hiSlot"
-                    Case 4 ' Mid
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                        'newModule.ImageKey = "midSlot"
-                    Case 2 ' Low
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                        'newModule.ImageKey = "lowSlot"
-                    Case 1 ' Rig
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                        'newModule.ImageKey = "rigSlot"
-                End Select
-                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                If chkFilter IsNot Nothing Then
-                    chkFilter.ForeColor = Color.Black
+    Private Sub AddGroupResults(ByVal ModuleList As SortedList, ByVal groupID As String, ByRef Results As SortedList)
+        Dim sMod As New ShipModule
+        For Each shipMod As ShipModule In ModuleList.Values
+            If shipMod.MarketGroup = groupID Then
+                ' Add results in by name, module
+				sMod = CType(HQF.ModuleLists.moduleList(shipMod.ID), ShipModule)
+                If ActiveFitting IsNot Nothing Then
+					If chkApplySkills.Checked = True Then
+						sMod = CType(HQF.ModuleLists.moduleList(shipMod.ID), ShipModule).Clone
+						ActiveFitting.ApplySkillEffectsToModule(sMod, True)
+					End If
                 End If
-                lvwItems.Items.Add(newModule)
-            Else
-                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                If chkFilter IsNot Nothing Then
-                    chkFilter.ForeColor = Color.LimeGreen
+                If ActiveFitting IsNot Nothing Then
+                    If chkOnlyShowUsable.Checked = True Then
+                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            If chkOnlyShowFittable.Checked = True Then
+                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                    Results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                Results.Add(sMod.Name, sMod)
+                            End If
+                        End If
+                    Else
+                        If chkOnlyShowFittable.Checked = True Then
+                            If ActiveFitting IsNot Nothing Then
+                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                    Results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                Results.Add(sMod.Name, sMod)
+                            End If
+                        Else
+                            Results.Add(sMod.Name, sMod)
+                        End If
+                    End If
+                Else
+                    Results.Add(sMod.Name, sMod)
                 End If
             End If
         Next
-        If lvwItems.Items.Count = 0 Then
-            lvwItems.Items.Add("<Empty - Please check filters>")
-            lvwItems.Enabled = False
-            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (0 items)"
-        Else
-            lvwItems.Enabled = True
-            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
-        End If
-        lvwItems.EndUpdate()
-
+    End Sub
+    Private Sub ShowFilteredModules()
+        Call DisplaySelectedModules()
+        ModuleDisplay = "Filter"
     End Sub
     Private Sub CalculateSearchedModules()
-        Me.Cursor = Cursors.WaitCursor
-        Dim sMod As New ShipModule
-        If Len(txtSearchModules.Text) > 2 Then
-            Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
-            Dim results As New SortedList
-            For Each item As String In HQF.ModuleLists.moduleListName.Keys
-                If item.ToLower.Contains(strSearch) Then
-                    ' Add results in by name, module
-                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(item)), ShipModule).Clone
-                    If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(sMod, True)
-                    End If
-                    If currentShipInfo IsNot Nothing Then
-                        If currentShipInfo.cboPilots.SelectedItem IsNot Nothing Then
-                            If chkOnlyShowUsable.Checked = True Then
-                                If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                                    If chkOnlyShowFittable.Checked = True Then
-                                        If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                            results.Add(sMod.Name, sMod)
-                                        End If
-                                    Else
-                                        results.Add(sMod.Name, sMod)
-                                    End If
-                                End If
-                            Else
-                                If chkOnlyShowFittable.Checked = True Then
-                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                        results.Add(sMod.Name, sMod)
-                                    End If
-                                Else
-                                    results.Add(sMod.Name, sMod)
-                                End If
-                            End If
-                        Else
-                            results.Add(sMod.Name, sMod)
-                        End If
-                    Else
-                        results.Add(sMod.Name, sMod)
-                    End If
-                End If
-            Next
-            LastModuleResults = results
-            lblModuleDisplayType.Tag = "Displaying: Matching *" & txtSearchModules.Text & "*"
-            Call Me.ShowSearchedModules()
-        End If
+		Me.Cursor = Cursors.WaitCursor
+		Dim sMod As New ShipModule
+		If Len(txtSearchModules.Text) > 2 Then
+			Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
+			Dim results As New SortedList
+			For Each item As String In HQF.ModuleLists.moduleListName.Keys
+				If item.ToLower.Contains(strSearch) Then
+					' Add results in by name, module
+					sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(item)), ShipModule)
+					If ActiveFitting IsNot Nothing Then
+						If chkApplySkills.Checked = True Then
+							sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(item)), ShipModule).Clone
+							ActiveFitting.ApplySkillEffectsToModule(sMod, True)
+						End If
+					End If
+					If ActiveFitting IsNot Nothing Then
+						If ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem IsNot Nothing Then
+							If chkOnlyShowUsable.Checked = True Then
+								If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+									If chkOnlyShowFittable.Checked = True Then
+										If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+											results.Add(sMod.Name, sMod)
+										End If
+									Else
+										results.Add(sMod.Name, sMod)
+									End If
+								End If
+							Else
+								If chkOnlyShowFittable.Checked = True Then
+									If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+										results.Add(sMod.Name, sMod)
+									End If
+								Else
+									results.Add(sMod.Name, sMod)
+								End If
+							End If
+						Else
+							results.Add(sMod.Name, sMod)
+						End If
+					Else
+						results.Add(sMod.Name, sMod)
+					End If
+				End If
+			Next
+			LastModuleResults = results
+			lblModuleDisplayType.Tag = "Displaying: Matching *" & txtSearchModules.Text & "*"
+			Call Me.ShowSearchedModules()
+		End If
         Me.Cursor = Cursors.Default
     End Sub
     Private Sub ShowSearchedModules()
-
-        ' Reset checkbox colours
-        chkFilter1.ForeColor = Color.Red
-        chkFilter2.ForeColor = Color.Red
-        chkFilter4.ForeColor = Color.Red
-        chkFilter8.ForeColor = Color.Red
-        chkFilter16.ForeColor = Color.Red
-        chkFilter32.ForeColor = Color.Red
-        chkFilter8192.ForeColor = Color.Red
-
-        lvwItems.BeginUpdate()
-        lvwItems.Items.Clear()
-        lvwItems.Enabled = True
-        For Each shipMod As ShipModule In LastModuleResults.Values
-            If ModuleLists.moduleList.Contains(shipMod.ID) = True And Implants.implantList.ContainsKey(shipMod.ID) = False Then
-                If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
-                    Dim newModule As New ListViewItem
-                    newModule.Name = shipMod.ID
-                    newModule.Text = shipMod.Name
-                    newModule.ToolTipText = shipMod.Name
-                    newModule.SubItems.Add(shipMod.MetaLevel.ToString)
-                    newModule.SubItems.Add(shipMod.CPU.ToString)
-                    newModule.SubItems.Add(shipMod.PG.ToString)
-                    newModule.SubItems.Add(EveHQ.Core.DataFunctions.GetPrice(shipMod.ID).ToString("N2"))
-                    Select Case shipMod.SlotType
-                        Case 16 ' Subsystem
-                            newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
-                            'newModule.ImageKey = "subSlot"
-                        Case 8 ' High
-                            newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                            'newModule.ImageKey = "hiSlot"
-                        Case 4 ' Mid
-                            newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                            'newModule.ImageKey = "midSlot"
-                        Case 2 ' Low
-                            newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                            'newModule.ImageKey = "lowSlot"
-                        Case 1 ' Rig
-                            newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                            'newModule.ImageKey = "rigSlot"
-                    End Select
-                    Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                    chkFilter.ForeColor = Color.Black
-                    lvwItems.Items.Add(newModule)
-                Else
-                    Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                    chkFilter.ForeColor = Color.LimeGreen
-                End If
-            End If
-        Next
-        If lvwItems.Items.Count = 0 Then
-            lvwItems.Items.Add("<Empty - no matches found>")
-            lvwItems.Enabled = False
-            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (0 items)"
-        Else
-            lvwItems.Enabled = True
-            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
-        End If
-        lvwItems.EndUpdate()
+        Call DisplaySelectedModules()
         ModuleDisplay = "Search"
     End Sub
     Private Sub UpdateModulesThatWillFit(ByVal modData As ArrayList)
@@ -1161,17 +1106,20 @@ Public Class frmHQF
         Dim results As New SortedList
         Dim sMod As New ShipModule
         For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
-            sMod = cMod.Clone
-            If chkApplySkills.Checked = True Then
-                Engine.ApplySkillEffectsToModule(sMod, True)
+			sMod = cMod
+            If ActiveFitting IsNot Nothing Then
+				If chkApplySkills.Checked = True Then
+					sMod = cMod.Clone
+					ActiveFitting.ApplySkillEffectsToModule(sMod, True)
+				End If
             End If
-            If currentShipSlot IsNot Nothing Then
+            If ActiveFitting.ShipSlotCtrl IsNot Nothing Then
                 If sMod.SlotType = slotType Then
                     Select Case slotType
                         Case 16 ' Subsystem Slot
-                            If CStr(Int(sMod.Attributes("1380"))) = CStr(currentShipSlot.ShipCurrent.ID) Then
+                            If CStr(Int(sMod.Attributes("1380"))) = CStr(ActiveFitting.BaseShip.ID) Then
                                 If chkOnlyShowUsable.Checked = True Then
-                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                         results.Add(sMod.Name, sMod)
                                     End If
                                 Else
@@ -1179,20 +1127,24 @@ Public Class frmHQF
                                 End If
                             End If
                         Case 1 ' Rig Slot
-                            If sMod.Calibration <= Calibration Then
-                                If chkOnlyShowUsable.Checked = True Then
-                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                                        results.Add(sMod.Name, sMod)
+                            If ActiveFitting.BaseShip.Attributes("1547") = sMod.Attributes("1547") Then
+                                If sMod.Calibration <= Calibration Then
+                                    If chkOnlyShowUsable.Checked = True Then
+                                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                            results.Add(sMod.Name, sMod)
+                                        End If
+                                    Else
+                                        If ActiveFitting.BaseShip.Attributes("1547") = sMod.Attributes("1547") Then
+                                            results.Add(sMod.Name, sMod)
+                                        End If
                                     End If
-                                Else
-                                    results.Add(sMod.Name, sMod)
                                 End If
                             End If
                         Case 2, 4 ' Low & Mid Slot
                             If sMod.CPU <= CPU Then
                                 If sMod.PG <= PG Then
                                     If chkOnlyShowUsable.Checked = True Then
-                                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                             results.Add(sMod.Name, sMod)
                                         End If
                                     Else
@@ -1206,7 +1158,7 @@ Public Class frmHQF
                                     If LauncherSlots >= Math.Abs(CInt(sMod.IsLauncher)) Then
                                         If TurretSlots >= Math.Abs(CInt(sMod.IsTurret)) Then
                                             If chkOnlyShowUsable.Checked = True Then
-                                                If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                                If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                                     results.Add(sMod.Name, sMod)
                                                 End If
                                             Else
@@ -1226,112 +1178,129 @@ Public Class frmHQF
         Me.Cursor = Cursors.Default
     End Sub
     Private Sub ShowModulesThatWillFit()
-
-        ' Reset checkbox colours
-        chkFilter1.ForeColor = Color.Red
-        chkFilter2.ForeColor = Color.Red
-        chkFilter4.ForeColor = Color.Red
-        chkFilter8.ForeColor = Color.Red
-        chkFilter16.ForeColor = Color.Red
-        chkFilter32.ForeColor = Color.Red
-        chkFilter8192.ForeColor = Color.Red
-
-        lvwItems.BeginUpdate()
-        lvwItems.Items.Clear()
-        For Each shipMod As ShipModule In LastModuleResults.Values
-            If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
-                Dim newModule As New ListViewItem
-                newModule.Name = shipMod.ID
-                newModule.Text = shipMod.Name
-                newModule.ToolTipText = shipMod.Name
-                newModule.SubItems.Add(shipMod.MetaLevel.ToString)
-                newModule.SubItems.Add(shipMod.CPU.ToString)
-                newModule.SubItems.Add(shipMod.PG.ToString)
-                newModule.SubItems.Add(EveHQ.Core.DataFunctions.GetPrice(shipMod.ID).ToString("N2"))
-                Select Case shipMod.SlotType
-                    Case 16 ' Subsystem
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
-                        'newModule.ImageKey = "subSlot"
-                    Case 8 ' High
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                        'newModule.ImageKey = "hiSlot"
-                    Case 4 ' Mid
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                        'newModule.ImageKey = "midSlot"
-                    Case 2 ' Low
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                        'newModule.ImageKey = "lowSlot"
-                    Case 1 ' Rig
-                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                        'newModule.ImageKey = "rigSlot"
-                End Select
-                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                If chkFilter IsNot Nothing Then
-                    chkFilter.ForeColor = Color.Black
-                End If
-                lvwItems.Items.Add(newModule)
-            Else
-                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                If chkFilter IsNot Nothing Then
-                    chkFilter.ForeColor = Color.LimeGreen
-                End If
-            End If
-        Next
-        If lvwItems.Items.Count = 0 Then
-            lvwItems.Items.Add("<Empty - no matches found>")
-            lvwItems.Enabled = False
-            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (0 items)"
-        Else
-            lvwItems.Enabled = True
-            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
-        End If
-        lvwItems.EndUpdate()
+        Call DisplaySelectedModules()
         ModuleDisplay = "Fitted"
-        lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
-    End Sub
-    Private Sub txtSearchModules_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModules.GotFocus
-        Call CalculateSearchedModules()
     End Sub
     Private Sub txtSearchModules_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModules.TextChanged
         Call CalculateSearchedModules()
+    End Sub
+	Private Sub DisplaySelectedModules()
+
+		'Dim startTime, endTime As DateTime
+		'startTime = Now
+		' Reset checkbox colours
+		chkFilter1.ForeColor = Color.Red
+		chkFilter2.ForeColor = Color.Red
+		chkFilter4.ForeColor = Color.Red
+		chkFilter8.ForeColor = Color.Red
+		chkFilter16.ForeColor = Color.Red
+		chkFilter32.ForeColor = Color.Red
+		chkFilter8192.ForeColor = Color.Red
+
+		tvwModules.BeginUpdate()
+		tvwModules.Nodes.Clear()
+        For Each shipmod As ShipModule In LastModuleResults.Values
+            If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
+                If (shipmod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
+                    Dim newModule As New Node
+                    newModule.Name = shipmod.ID
+                    newModule.Text = shipmod.Name
+                    newModule.Cells.Add(New Cell(shipmod.MetaLevel.ToString))
+                    newModule.Cells.Add(New Cell(shipmod.CPU.ToString))
+                    newModule.Cells.Add(New Cell(shipmod.PG.ToString))
+                    newModule.Cells.Add(New Cell(CStr(EveHQ.Core.DataFunctions.GetPrice(shipmod.ID))))
+                    newModule.Cells(4).TextDisplayFormat = "N2"
+                    newModule.Style = New DevComponents.DotNetBar.ElementStyle
+                    newModule.Style.Font = Me.Font
+                    newModule.Image = ImageHandler.IconImage24(shipmod.Icon, shipmod.MetaType)
+                    Dim stt As New DevComponents.DotNetBar.SuperTooltipInfo
+                    stt.HeaderText = shipmod.Name
+                    stt.FooterText = "Module Info"
+                    stt.BodyText = ""
+                    If shipmod.SlotType = SlotTypes.Subsystem Then
+                        stt.BodyText &= "Slot Modifiers - High: " & shipmod.Attributes("1374") & ", Mid: " & shipmod.Attributes("1375") & ", Low: " & shipmod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+                    End If
+                    stt.BodyText &= shipmod.Description
+                    stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+                    'stt.FooterImage = CType(My.Resources.imgInfo1, Image)
+                    stt.BodyImage = ImageHandler.IconImage48(shipmod.Icon, shipmod.MetaType)
+                    SuperTooltip1.SetSuperTooltip(newModule, stt)
+                    Select Case shipmod.SlotType
+                        Case SlotTypes.Subsystem  ' Subsystem
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                        Case SlotTypes.High  ' High
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                        Case SlotTypes.Mid  ' Mid
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                        Case SlotTypes.Low  ' Low
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                        Case SlotTypes.Rig  ' Rig
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
+                    End Select
+                    Dim chkFilter As CheckBox = CType(Me.panelModFilters.Controls("chkFilter" & shipmod.MetaType), CheckBox)
+                    If chkFilter IsNot Nothing Then
+                        chkFilter.ForeColor = Color.Black
+                    End If
+                    tvwModules.Nodes.Add(newModule)
+                Else
+                    Dim chkFilter As CheckBox = CType(Me.panelModFilters.Controls("chkFilter" & shipmod.MetaType), CheckBox)
+                    If chkFilter IsNot Nothing Then
+                        chkFilter.ForeColor = Color.LimeGreen
+                    End If
+                End If
+            End If
+        Next
+		If tvwModules.Nodes.Count = 0 Then
+			tvwModules.Nodes.Add(New Node("<Empty - Please check filters>"))
+            tvwModules.Enabled = False
+            If lblModuleDisplayType.Tag IsNot Nothing Then
+                lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (0 items)"
+            End If
+        Else
+            tvwModules.Enabled = True
+            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & tvwModules.Nodes.Count & " items)"
+        End If
+        tvwModules.EndUpdate()
+        'endTime = Now
+        'MessageBox.Show((endTime - startTime).TotalMilliseconds.ToString & "ms", "DisplayModules Time", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
 #End Region
 
 #Region "Module List Routines"
-    Private Sub lvwItems_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwItems.ColumnClick
-        If CInt(lvwItems.Tag) = e.Column Then
-            lvwItems.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
-            lvwItems.Tag = -1
-        Else
-            lvwItems.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
-            lvwItems.Tag = e.Column
-        End If
-        ' Call the sort method to manually sort.
-        lvwItems.Sort()
+
+    Private Sub tvwModules_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tvwModules.ColumnHeaderMouseUp
+        CType(sender, DevComponents.AdvTree.ColumnHeader).Sort()
     End Sub
-    Private Sub lvwItems_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwItems.DoubleClick
-        If currentShipSlot IsNot Nothing Then
-            If lvwItems.SelectedItems.Count > 0 Then
-                Dim moduleID As String = lvwItems.SelectedItems(0).Name
-                Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
-                If shipMod.IsDrone = True Then
-                    Dim active As Boolean = False
-                    Call currentShipSlot.AddDrone(shipMod, 1, False)
-                Else
-                    ' Check if module is a charge
-                    If shipMod.IsCharge = True Or shipMod.IsContainer Then
-                        currentShipSlot.AddItem(shipMod, 1)
-                    Else
-                        ' Must be a proper module then!
-                        Call currentShipSlot.AddModule(shipMod, 0, True, Nothing)
-                        ' Add it to the MRU
-                        Call Me.UpdateMRUModules(shipMod.Name)
-                    End If
-                End If
-            End If
-        End If
+    Private Sub tvwModules_ColumnResized(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvwModules.ColumnResized
+        Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        Dim idx As Integer = ch.DisplayIndex
+        HQF.Settings.HQFSettings.ModuleListColWidths(CLng(idx)) = ch.Width.Absolute
     End Sub
+	Private Sub tvwModules_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwModules.NodeDoubleClick
+		If ActiveFitting IsNot Nothing Then
+			If ActiveFitting.ShipSlotCtrl IsNot Nothing Then
+				If tvwModules.SelectedNodes.Count > 0 Then
+					Dim moduleID As String = e.Node.Name
+					Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
+					If shipMod.IsDrone = True Then
+						Dim active As Boolean = False
+						Call ActiveFitting.AddDrone(shipMod, 1, False, False)
+					Else
+						' Check if module is a charge
+						If shipMod.IsCharge = True Or shipMod.IsContainer Then
+							ActiveFitting.AddItem(shipMod, 1, False)
+						Else
+							' Must be a proper module then!
+                            ActiveFitting.AddModule(shipMod, 0, True, False, Nothing, False, False)
+							' Add it to the MRU
+							Call Me.UpdateMRUModules(shipMod.Name)
+						End If
+					End If
+				End If
+			End If
+		End If
+	End Sub
     Private Sub UpdateMRUModules(ByVal modName As String)
         If HQF.Settings.HQFSettings.MRUModules.Count < HQF.Settings.HQFSettings.MRULimit Then
             ' If the MRU list isn't full
@@ -1362,31 +1331,19 @@ Public Class frmHQF
     Public Sub UpdateFittings()
         Me.Cursor = Cursors.WaitCursor
         ' Updates all the open fittings
-        For Each openTab As String In Fittings.FittingTabList
-            Dim thisTab As TabPage = tabHQF.TabPages(openTab)
-            If thisTab IsNot Nothing Then
-                If thisTab.Controls.Count > 0 Then
-                    Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
-                    Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
-                    thisShipSlotControl.UpdateEverything()
-                End If
-            End If
+        For Each thisTab As DevComponents.DotNetBar.TabItem In tabHQF.Tabs
+            Dim thisFit As Fitting = Fittings.FittingList(thisTab.Text)
+            thisFit.ShipSlotCtrl.UpdateEverything()
         Next
         Me.Cursor = Cursors.Default
     End Sub
 
     Public Sub UpdateAllImplantLists()
         Me.Cursor = Cursors.WaitCursor
-        ' Updates all the open fittings
-        For Each openTab As String In Fittings.FittingTabList
-            Dim thisTab As TabPage = tabHQF.TabPages(openTab)
-            If thisTab IsNot Nothing Then
-                If thisTab.Controls.Count > 0 Then
-                    Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
-                    Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
-                    thisShipInfoControl.UpdateImplantList()
-                End If
-            End If
+        ' Updates all implant lists in the open fittings
+        For Each thisTab As DevComponents.DotNetBar.TabItem In tabHQF.Tabs
+            Dim thisFit As Fitting = Fittings.FittingList(thisTab.Text)
+            thisFit.ShipInfoCtrl.UpdateImplantList()
         Next
         Me.Cursor = Cursors.Default
     End Sub
@@ -1394,12 +1351,11 @@ Public Class frmHQF
     Public Sub UpdateShipInfo(ByVal pilotName As String)
         Me.Cursor = Cursors.WaitCursor
         ' Updates all the open fittings
-        For Each openTab As String In Fittings.FittingTabList
-            Dim thisTab As TabPage = tabHQF.TabPages(openTab)
+        For Each thisTab As DevComponents.DotNetBar.TabItem In tabHQF.Tabs
             If thisTab IsNot Nothing Then
-                If thisTab.Controls.Count > 0 Then
-                    Dim shipSlots As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
-                    Dim shipInfo As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
+                If thisTab.AttachedControl IsNot Nothing Then
+                    Dim shipSlots As ShipSlotControl = CType(thisTab.AttachedControl.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
+                    Dim shipInfo As ShipInfoControl = CType(thisTab.AttachedControl.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
                     If pilotName = shipInfo.cboPilots.SelectedItem.ToString Then
                         ' Build the Affections data for this pilot
                         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(shipInfo.cboPilots.SelectedItem), HQFPilot)
@@ -1412,7 +1368,7 @@ Public Class frmHQF
                             shipInfo.cboImplants.SelectedItem = shipPilot.ImplantName(0)
                         End If
                         shipInfo.cboImplants.Tag = Nothing
-                        shipInfo.BuildMethod = BuildType.BuildEverything
+                        shipInfo.ParentFitting.ApplyFitting(BuildType.BuildEverything)
                         If shipSlots IsNot Nothing Then
                             shipSlots.UpdateAllSlots = False
                         End If
@@ -1421,179 +1377,25 @@ Public Class frmHQF
             End If
         Next
         Me.Cursor = Cursors.Default
-        If currentShipInfo IsNot Nothing Then
-            currentShipInfo.BuildMethod = BuildType.BuildEffectsMaps
-        End If
         HQFEvents.StartUpdateModuleList = True
     End Sub
 
-    Private Sub ToolStripButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton3.Click
-        ' Count number of items
-        Dim items As Integer = ModuleLists.moduleList.Count
-        ' Check MarketGroups
-        Dim marketError As Integer = 0
-        For Each item As ShipModule In ModuleLists.moduleList.Values
-            If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
-                marketError += 1
-                'MessageBox.Show(item.Name)
-            End If
-        Next
-        ' Check MetaGroups
-        Dim metaError As Integer = 0
-        For Each item As ShipModule In ModuleLists.moduleList.Values
-            If ModuleLists.moduleMetaGroups.ContainsKey(item.ID) = False Then
-                metaError += 1
-                'MessageBox.Show(item.Name)
-            End If
-        Next
-
-        Dim msg As String = ""
-        msg &= "Total items: " & items & ControlChars.CrLf
-        msg &= "Orphaned market items: " & marketError & ControlChars.CrLf
-        msg &= "Orphaned meta items: " & metaError & ControlChars.CrLf
-        MessageBox.Show(msg)
-
-        ' Traverse the tree, looking for goodies!
-        itemCount = 0
-        dataCheckList.Clear()
-        For Each rootNode As TreeNode In tvwItems.Nodes
-            SearchChildNodes(rootNode)
-        Next
-
-        ' Write missing items to a file
-        Dim sw As New IO.StreamWriter(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "missingItems.csv"))
-        For Each shipMod As ShipModule In ModuleLists.moduleList.Values
-            If dataCheckList.Contains(shipMod.ID) = False Then
-                sw.WriteLine(shipMod.ID & "," & shipMod.Name)
-                dataCheckList.Add(shipMod.ID, shipMod.Name)
-            End If
-        Next
-        sw.Flush()
-        sw.Close()
-
-        MessageBox.Show("Total traversed items: " & itemCount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-    End Sub
-
-    Private Sub SearchChildNodes(ByRef parentNode As TreeNode)
-
-        For Each childNode As TreeNode In parentNode.Nodes
-            If childNode.Nodes.Count > 0 Then
-                SearchChildNodes(childNode)
-            Else
-                Dim groupID As String = childNode.Tag.ToString
-                For Each shipMod As ShipModule In ModuleLists.moduleList.Values
-                    If shipMod.MarketGroup = groupID Then
-                        itemCount += 1
-                        dataCheckList.Add(shipMod.ID, shipMod.Name)
-                    End If
-                Next
-            End If
-        Next
-    End Sub
-
-    Private Sub SearchChildNodes1(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
-        For Each childNode As TreeNode In parentNode.Nodes
-            If childNode.Nodes.Count > 0 Then
-                SearchChildNodes1(childNode, sw)
-            Else
-                sw.Write(childNode.FullPath & ControlChars.CrLf)
-            End If
-        Next
-    End Sub
 
 #Region "TabHQF Selection and Context Menu Routines"
 
-    Private Sub tabHQF_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabHQF.SelectedIndexChanged
+    Private Sub tabHQF_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabHQF.SelectedTabChanged
         Call Me.UpdateSelectedTab()
     End Sub
     Private Sub UpdateSelectedTab()
         If tabHQF.SelectedTab IsNot Nothing Then
-            If Fittings.FittingTabList.Contains(tabHQF.SelectedTab.Text) Then
-                ' Get the controls on the existing tab
-                Dim thisShipSlotControl As ShipSlotControl = CType(tabHQF.SelectedTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
-                Dim thisShipInfoControl As ShipInfoControl = CType(tabHQF.SelectedTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
-                currentShipSlot = thisShipSlotControl
-                currentShipInfo = thisShipInfoControl
-                currentShipSlot.ShipFit = tabHQF.SelectedTab.Text
-                currentShipSlot.ShipInfo = currentShipInfo
-                currentShipInfo.BuildMethod = BuildType.BuildEffectsMaps
-            End If
-            tabHQF.Tag = tabHQF.SelectedIndex
-            btnCopy.Enabled = True
-            btnScreenshot.Enabled = True
-        Else
-            btnCopy.Enabled = False
-            btnScreenshot.Enabled = False
-        End If
-    End Sub
-    Private Function TabControlHitTest(ByVal TabCtrl As TabControl, ByVal pt As Point) As Integer
-        ' Test each tabs rectangle to see if our point is contained within it.
-        For x As Integer = 0 To TabCtrl.TabPages.Count - 1
-            ' If tab contians our rectangle return it's index.
-            If TabCtrl.GetTabRect(x).Contains(pt) Then Return x
-        Next
-        ' A tab was not located at specified point.
-        Return -1
-    End Function
-    Private Sub TabHQF_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tabHQF.MouseDown
-        Select Case e.Button
-            Case Windows.Forms.MouseButtons.Right
-                Dim TabIndex As Integer
-                ' Get index of tab clicked
-                TabIndex = TabControlHitTest(tabHQF, e.Location)
-                ' If a tab was clicked display it's index
-                If TabIndex >= 0 Then
-                    tabHQF.Tag = TabIndex
-                    Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-                    mnuCloseHQFTab.Text = "Close " & tp.Text
-                Else
-                    mnuCloseHQFTab.Text = "Not Valid"
-                End If
-            Case Windows.Forms.MouseButtons.Middle
-                Dim TabIndex As Integer
-                ' Get index of tab clicked
-                TabIndex = TabControlHitTest(tabHQF, e.Location)
-                ' If a tab was clicked display it's index
-                If TabIndex >= 0 Then
-                    tabHQF.Tag = TabIndex
-                    Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-                    Fittings.FittingTabList.Remove(tp.Text)
-                    ShipLists.fittedShipList.Remove(tp.Text)
-                    tabHQF.TabPages.Remove(tp)
-                    If Fittings.FittingTabList.Count = 0 Then
-                        currentShipInfo = Nothing
-                        currentShipSlot = Nothing
-                    End If
-                End If
-        End Select
-    End Sub
-    Private Sub ctxTabHQF_Closed(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs) Handles ctxTabHQF.Closed
-        mnuCloseHQFTab.Text = "Not Valid"
-    End Sub
-    Private Sub ctxTabHQF_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxTabHQF.Opening
-        If mnuCloseHQFTab.Text = "Not Valid" Then
-            e.Cancel = True
-        End If
-    End Sub
-    Private Sub mnuCloseMDITab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCloseHQFTab.Click
-        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        Fittings.FittingTabList.Remove(tp.Text)
-        ShipLists.fittedShipList.Remove(tp.Text)
-        tabHQF.TabPages.Remove(tp)
-        If Not (tp.Equals(tabShipPreview)) Then
-            tp.Dispose()
-        End If
-        If Fittings.FittingTabList.Count = 0 Then
-            currentShipInfo = Nothing
-            currentShipSlot = Nothing
+            ActiveFitting = Fittings.FittingList(tabHQF.SelectedTab.Text)
         End If
     End Sub
 #End Region
 
 #Region "Clipboard Paste Routines (incl Timer)"
     Private Sub tmrClipboard_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrClipboard.Tick
-        ' Checks the clipboard for any compatible fixes!
+        ' Checks the clipboard for any compatible items!
         Try
             If Clipboard.GetDataObject IsNot Nothing Then
                 Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
@@ -1602,106 +1404,60 @@ Public Class frmHQF
                     If fittingMatch.Success = True Then
                         ' Appears to be a match so lets check the ship type
                         If ShipLists.shipList.Contains(fittingMatch.Groups.Item("ShipName").Value) = True Then
-                            btnClipboardPaste.Enabled = True
+                            btnImport.Enabled = True
                         Else
-                            btnClipboardPaste.Enabled = False
+                            btnImport.Enabled = False
                         End If
                     Else
-                        btnClipboardPaste.Enabled = False
+                        btnImport.Enabled = False
                     End If
                 Else
-                    btnClipboardPaste.Enabled = False
+                    btnImport.Enabled = False
                 End If
             Else
-                btnClipboardPaste.Enabled = False
+                btnImport.Enabled = False
             End If
         Catch ex As Exception
-            btnClipboardPaste.Enabled = False
+            btnImport.Enabled = False
         End Try
     End Sub
-    Private Sub btnClipboardPaste_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClipboardPaste.Click
-        ' Pick the text up from the clipboard
-        Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
-        ' Use Regex to get the data - No checking as this is done in the tmrClipboard_Tick sub
-        Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>[^,]*)\]|\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
-        Dim shipName As String = fittingMatch.Groups.Item("ShipName").Value
-        Dim fittingName As String = ""
-        If fittingMatch.Groups.Item("FittingName").Value <> "" Then
-            fittingName = fittingMatch.Groups.Item("FittingName").Value
-        Else
-            fittingName = "Imported Fit"
-        End If
-        ' If the fitting exists, add a number onto the end
-        If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
-            Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If response = Windows.Forms.DialogResult.Yes Then
-                Dim newFittingName As String = ""
-                Dim revision As Integer = 1
-                Do
-                    revision += 1
-                    newFittingName = fittingName & " " & revision.ToString
-                Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
-                fittingName = newFittingName
-                MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                Exit Sub
-            End If
-        End If
-        ' Lets create the fitting
-        Dim mods() As String = fileText.Split(ControlChars.CrLf.ToCharArray)
-        Dim newFit As New ArrayList
-        For Each ShipMod As String In mods
-            If ShipMod.StartsWith("[") = False And ShipMod <> "" Then
-                ' Check for "Drones_" label
-                If ShipMod.StartsWith("Drones_") Then
-                    ShipMod = ShipMod.TrimStart("Drones_Active=".ToCharArray)
-                    ShipMod = ShipMod.TrimStart("Drones_Inactive=".ToCharArray)
-                End If
-                newFit.Add(ShipMod)
-            End If
-        Next
-        Fittings.FittingList.Add(shipName & ", " & fittingName, newFit)
-        Call Me.UpdateFittingsTree(False)
-    End Sub
+
 #End Region
 
 #Region "Fitting Panel Routines"
 
     Private Sub UpdateFittingsTree(ByVal CollapseAllNodes As Boolean)
-        clvFittings.BeginUpdate()
+        tvwFittings.BeginUpdate()
         ' Get current list of "open" nodes if we need the feature
         Dim openNodes As New ArrayList
         If CollapseAllNodes = False Then
-            For Each shipNode As ContainerListViewItem In clvFittings.Items
+            For Each shipNode As Node In tvwFittings.Nodes
                 If shipNode.Expanded = True Then
                     openNodes.Add(shipNode.Text)
                 End If
             Next
         End If
         ' Redraw the tree
-        clvFittings.SelectedItems.Clear()
-        clvFittings.Items.Clear()
+        tvwFittings.Nodes.Clear()
         Dim shipName As String = ""
         Dim fittingName As String = ""
-        Dim fittingSep As Integer = 0
         Dim isFlyable As Boolean = True
 
         If Fittings.FittingList.Count > 0 Then
             For Each fitting As String In Fittings.FittingList.Keys
-                fittingSep = fitting.IndexOf(", ")
-                shipName = fitting.Substring(0, fittingSep)
-                fittingName = fitting.Substring(fittingSep + 2)
+                shipName = Fittings.FittingList(fitting).ShipName
+                fittingName = Fittings.FittingList(fitting).FittingName
 
                 ' Create the ship node if it's not already present
-                Dim containsShip As New ContainerListViewItem
-                For Each ship As ContainerListViewItem In clvFittings.Items
+                Dim containsShip As New Node
+                For Each ship As Node In tvwFittings.Nodes
                     If ship.Text = shipName Then
                         containsShip = ship
                     End If
                 Next
                 If containsShip.Text = "" Then
                     containsShip.Text = shipName
-                    clvFittings.Items.Add(containsShip)
+                    tvwFittings.Nodes.Add(containsShip)
                 End If
 
                 ' Add the details to the Node, checking for duplicates
@@ -1711,8 +1467,8 @@ Public Class frmHQF
                     isFlyable = True
                 End If
                 If isFlyable = True Then
-                    Dim containsFitting As New ContainerListViewItem
-                    For Each fit As ContainerListViewItem In containsShip.Items
+                    Dim containsFitting As New Node
+                    For Each fit As Node In containsShip.Nodes
                         If fit.Text = fittingName Then
                             MessageBox.Show("Duplicate fitting found for " & shipName & ", and omitted", "Duplicate Fitting Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             containsFitting = Nothing
@@ -1721,59 +1477,44 @@ Public Class frmHQF
                     Next
                     If containsFitting IsNot Nothing Then
                         containsFitting.Text = fittingName
-                        containsShip.Items.Add(containsFitting)
+                        containsShip.Nodes.Add(containsFitting)
                     End If
                 End If
             Next
             ' Remove any parent nodes with no children
             Dim fNodeID As Integer = 0
             Do
-                If clvFittings.Items(fNodeID).Items.Count = 0 Then
-                    clvFittings.Items.Remove(clvFittings.Items(fNodeID))
+                If tvwFittings.Nodes(fNodeID).Nodes.Count = 0 Then
+                    tvwFittings.Nodes.Remove(tvwFittings.Nodes(fNodeID))
                     fNodeID -= 1
                 End If
                 fNodeID += 1
-            Loop Until fNodeID = clvFittings.Items.Count
+            Loop Until fNodeID = tvwFittings.Nodes.Count
             ' Open the previously opened nodes
             If CollapseAllNodes = False Then
-                For Each shipNode As ContainerListViewItem In clvFittings.Items
+                For Each shipNode As Node In tvwFittings.Nodes
                     If openNodes.Contains(shipNode.Text) Then
                         shipNode.Expand()
                     End If
                 Next
             End If
         End If
-        clvFittings.EndUpdate()
-        Call Me.UpdateFittingsCombo()
-    End Sub
-    Private Sub UpdateFittingsCombo()
-        If cboFittings.IsDisposed Then ' Required due to some obscure bug when updating fittings from the BCBrowser
-            cboFittings = New ToolStripComboBox
-        End If
-        cboFittings.BeginUpdate()
-        cboFittings.Items.Clear()
-        For Each fitting As String In Fittings.FittingList.Keys
-            cboFittings.Items.Add(fitting)
-        Next
-        cboFittings.EndUpdate()
+        tvwFittings.EndUpdate()
     End Sub
 
-    Private Function CreateFittingTabPage(ByVal shipFit As String) As Boolean
-        Dim fittingSep As Integer = shipFit.IndexOf(", ")
-        Dim shipName As String = shipFit.Substring(0, fittingSep)
-        Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-        If ShipLists.shipList.ContainsKey(shipName) = True Then
-            Dim curShip As Ship = CType(CType(ShipLists.shipList(shipName), Ship).Clone, Ship)
-            curShip.DamageProfile = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
-            ShipLists.fittedShipList.Add(shipFit, curShip)
+    Private Function CreateNewFittingTab(ByVal NewFit As Fitting) As Boolean
+        If ShipLists.shipList.ContainsKey(NewFit.ShipName) = True Then
+            NewFit.BaseShip.DamageProfile = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
+            ShipLists.fittedShipList.Add(NewFit.KeyName, NewFit.BaseShip)
 
-            Dim tp As New TabPage(shipFit)
-            tp.Tag = shipFit
-            tp.Name = shipFit
+            tabHQF.SuspendLayout()
 
-            tabHQF.TabPages.Add(tp)
-            tp.Parent = Me.tabHQF
+            ' Create the tab page
+            Dim tp As DevComponents.DotNetBar.TabItem = tabHQF.CreateTab(NewFit.KeyName)
+            tp.Tag = NewFit.KeyName
+            tp.Name = NewFit.KeyName
 
+            ' Create the Ship Slot panel
             Dim pSS As New Panel
             pSS.BorderStyle = BorderStyle.Fixed3D
             pSS.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1782,6 +1523,7 @@ Public Class frmHQF
             pSS.Size = New System.Drawing.Size(414, 600)
             pSS.TabIndex = 1
 
+            ' Create the Ship Info Panel
             Dim pSI As New Panel
             pSI.Dock = System.Windows.Forms.DockStyle.Left
             pSI.Location = New System.Drawing.Point(0, 384)
@@ -1789,57 +1531,67 @@ Public Class frmHQF
             pSI.Size = New System.Drawing.Size(270, 600)
             pSI.TabIndex = 0
 
-            tp.Controls.Add(pSS)
-            tp.Controls.Add(pSI)
-            tp.Location = New System.Drawing.Point(4, 22)
-            tp.Size = New System.Drawing.Size(414, 666)
-            tp.UseVisualStyleBackColor = True
+            ' Attach the panels to the tab page
+            tp.AttachedControl.Controls.Add(pSS)
+            tp.AttachedControl.Controls.Add(pSI)
 
-            Dim shipSlot As New ShipSlotControl
+            ' Create a new Ship Slot Control
+            Dim shipSlot As New ShipSlotControl(NewFit)
             shipSlot.Name = "shipSlot"
             shipSlot.Location = New Point(0, 0)
             shipSlot.Dock = DockStyle.Fill
             pSS.Controls.Add(shipSlot)
-            shipSlot.pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(curShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+            ' TODO: Check if a custom ship - this should be done in the constructor of the SSC
+            Dim baseID As String = ""
+            If CustomHQFClasses.CustomShipIDs.ContainsKey(NewFit.BaseShip.ID) Then
+                baseID = ShipLists.shipListKeyName(CustomHQFClasses.CustomShips(NewFit.BaseShip.Name).BaseShipName)
+            Else
+                baseID = NewFit.BaseShip.ID
+            End If
+            shipSlot.pbShip.Image = EveHQ.Core.ImageHandler.GetImage(baseID, 32)
 
-            Dim shipInfo As New ShipInfoControl(shipFit)
+            ' Create a new Ship Info Control
+            Dim shipInfo As New ShipInfoControl(NewFit)
             shipInfo.Name = "shipInfo"
             shipInfo.Location = New Point(0, 0)
             shipInfo.Dock = DockStyle.Fill
             pSI.Controls.Add(shipInfo)
 
-            shipInfo.ShipSlot = shipSlot
-            shipSlot.ShipInfo = shipInfo
-            shipSlot.ShipFit = shipFit
+            ' Set the ship controls to the fitting
+            NewFit.ShipInfoCtrl = shipInfo
+            NewFit.ShipSlotCtrl = shipSlot
 
-            Fittings.FittingTabList.Add(shipFit)
+            tabHQF.ResumeLayout()
             Return True
         Else
-            Dim msg As String = shipName & " is no longer a valid ship type."
+            Dim msg As String = NewFit.ShipName & " is no longer a valid ship type."
             MessageBox.Show(msg, "Unknown Ship Type", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return False
         End If
     End Function
+
     Private Sub ctxFittings_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFittings.Opening
-        If clvFittings.SelectedItems.Count < 2 Then
-            If clvFittings.SelectedItems.Count = 0 Then
+        If tvwFittings.SelectedNodes.Count < 2 Then
+            If tvwFittings.SelectedNodes.Count = 0 Then
                 e.Cancel = True
             Else
-                Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+                Dim curNode As Node = tvwFittings.SelectedNodes(0)
                 If curNode IsNot Nothing Then
-                    If curNode.Items.Count = 0 Then
-                        Dim parentNode As ContainerListViewItem = curNode.ParentItem
+                    If curNode.Nodes.Count = 0 Then
+                        Dim parentNode As Node = curNode.Parent
                         mnuFittingsFittingName.Text = parentNode.Text & ", " & curNode.Text
                         mnuFittingsFittingName.Tag = parentNode.Text
                         mnuFittingsCreateFitting.Text = "Create New " & parentNode.Text & " Fitting"
                         mnuFittingsCreateFitting.Enabled = True
                         mnuFittingsBCBrowser.Enabled = True
                         mnuFittingsCopyFitting.Enabled = True
+                        mnuFittingsDeleteFitting.Text = "Delete Fitting"
                         mnuFittingsDeleteFitting.Enabled = True
                         mnuFittingsRenameFitting.Enabled = True
                         mnuFittingsShowFitting.Enabled = True
                         mnuPreviewShip2.Enabled = True
-                        mnuExportToEve.Enabled = True
+						mnuExportToEve.Enabled = True
+						mnuExportToRequisitions.Enabled = True
                     Else
                         mnuFittingsFittingName.Text = curNode.Text
                         mnuFittingsFittingName.Tag = curNode.Text
@@ -1847,11 +1599,13 @@ Public Class frmHQF
                         mnuFittingsCreateFitting.Enabled = True
                         mnuFittingsBCBrowser.Enabled = True
                         mnuFittingsCopyFitting.Enabled = False
-                        mnuFittingsDeleteFitting.Enabled = False
+                        mnuFittingsDeleteFitting.Text = "Delete All Ship Fittings"
+                        mnuFittingsDeleteFitting.Enabled = True
                         mnuFittingsRenameFitting.Enabled = False
                         mnuFittingsShowFitting.Enabled = False
                         mnuPreviewShip2.Enabled = True
-                        mnuExportToEve.Enabled = True
+						mnuExportToEve.Enabled = True
+						mnuExportToRequisitions.Enabled = True
                     End If
                 Else
                     e.Cancel = True
@@ -1864,26 +1618,28 @@ Public Class frmHQF
             mnuFittingsCreateFitting.Enabled = False
             mnuFittingsBCBrowser.Enabled = False
             mnuFittingsCopyFitting.Enabled = False
+            mnuFittingsDeleteFitting.Text = "Delete Mulitple Fittings"
             mnuFittingsDeleteFitting.Enabled = True
             mnuFittingsRenameFitting.Enabled = False
             mnuFittingsShowFitting.Enabled = False
             mnuPreviewShip2.Enabled = False
-            mnuExportToEve.Enabled = True
+			mnuExportToEve.Enabled = True
+			mnuExportToRequisitions.Enabled = True
         End If
     End Sub
     Private Sub mnuFittingsShowFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsShowFitting.Click
         ' Get the node details
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
-        Call Me.ShowFitting(curNode)
+        Dim fittingnode As Node = tvwFittings.SelectedNodes(0)
+        Call Me.ShowFitting(fittingnode)
     End Sub
     Private Sub mnuFittingsRenameFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsRenameFitting.Click
         ' Get the node details
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
-        Dim parentnode As ContainerListViewItem = curNode.ParentItem
+        Dim curNode As Node = tvwFittings.SelectedNodes(0)
+        Dim parentnode As Node = curNode.Parent
         Dim shipName As String = parentnode.Text
         Dim fitName As String = curNode.Text
         Dim oldKeyName As String = shipName & ", " & fitName
-        Dim FitToCopy As ArrayList = CType(Fittings.FittingList(oldKeyName), ArrayList)
+        Dim FitToCopy As Fitting = Fittings.FittingList(oldKeyName)
 
         ' Clear the text boxes
         Dim myNewFitting As New frmModifyFittingName
@@ -1901,20 +1657,19 @@ Public Class frmHQF
             MessageBox.Show("Rename Fitting has been cancelled!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             If fittingName <> "" Then
-                Dim fittingKeyName As String = shipName & ", " & fittingName
                 Fittings.FittingList.Remove(oldKeyName)
-                Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
+                Dim NewFit As Fitting = FitToCopy.Clone
+                NewFit.FittingName = fittingName
+                Fittings.FittingList.Add(NewFit.KeyName, NewFit)
                 ' Amend it in the tabs if it's there!
-                Dim tp As TabPage = tabHQF.TabPages(oldKeyName)
+                Dim tp As DevComponents.DotNetBar.TabItem = tabHQF.Tabs(oldKeyName)
                 If tp IsNot Nothing Then
-                    Fittings.FittingTabList.Remove(oldKeyName)
-                    Fittings.FittingTabList.Add(fittingKeyName)
                     Dim copyShip As Ship = CType(ShipLists.fittedShipList(oldKeyName), Ship).Clone
                     ShipLists.fittedShipList.Remove(oldKeyName)
-                    ShipLists.fittedShipList.Add(fittingKeyName, copyShip)
-                    tp.Name = fittingKeyName
-                    tp.Tag = fittingKeyName
-                    tp.Text = fittingKeyName
+                    ShipLists.fittedShipList.Add(NewFit.KeyName, copyShip)
+                    tp.Name = NewFit.KeyName
+                    tp.Tag = NewFit.KeyName
+                    tp.Text = NewFit.KeyName
                 End If
                 Call Me.UpdateFilteredShips()
             Else
@@ -1925,12 +1680,12 @@ Public Class frmHQF
     End Sub
     Private Sub mnuFittingsCopyFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsCopyFitting.Click
         ' Get the node details
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
-        Dim parentnode As ContainerListViewItem = curNode.ParentItem
+        Dim curNode As Node = tvwFittings.SelectedNodes(0)
+        Dim parentnode As Node = curNode.Parent
         Dim shipName As String = parentnode.Text
         Dim fitName As String = curNode.Text
         Dim fitKeyName As String = shipName & ", " & fitName
-        Dim FitToCopy As ArrayList = CType(Fittings.FittingList(fitKeyName), ArrayList)
+        Dim FitToCopy As Fitting = Fittings.FittingList(fitKeyName)
 
         ' Clear the text boxes
         Dim myNewFitting As New frmModifyFittingName
@@ -1947,8 +1702,9 @@ Public Class frmHQF
             MessageBox.Show("Copy Fitting has been cancelled!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             If fittingName <> "" Then
-                Dim fittingKeyName As String = shipName & ", " & fittingName
-                Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
+                Dim NewFit As Fitting = FitToCopy.Clone
+                NewFit.FittingName = fittingName
+                Fittings.FittingList.Add(NewFit.KeyName, NewFit)
                 Call Me.UpdateFilteredShips()
             Else
                 MessageBox.Show("Unable to copy fitting due to insufficient data!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1959,29 +1715,58 @@ Public Class frmHQF
     Private Sub mnuFittingsDeleteFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsDeleteFitting.Click
         ' Get the node details
         Dim response As Integer = 0
-        If clvFittings.SelectedItems.Count = 1 Then
-            Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
-            Dim parentnode As ContainerListViewItem = curNode.ParentItem
-            Dim shipName As String = parentnode.Text
-            Dim fitName As String = curNode.Text
-            response = MessageBox.Show("Are you sure you wish to delete the '" & fitName & "' Fitting for the " & shipName & "?", "Confirm Fitting Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If tvwFittings.SelectedNodes.Count = 1 Then
+            Dim curNode As Node = tvwFittings.SelectedNodes(0)
+            If curNode.Level = 0 Then
+                ' Ship parent node
+                Dim shipName As String = curNode.Text
+                response = MessageBox.Show("Are you sure you wish to delete all the fittings for the " & shipName & "?", "Confirm Fitting Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Else
+                ' Fitting node
+                Dim parentnode As Node = curNode.Parent
+                Dim shipName As String = parentnode.Text
+                Dim fitName As String = curNode.Text
+                response = MessageBox.Show("Are you sure you wish to delete the '" & fitName & "' Fitting for the " & shipName & "?", "Confirm Fitting Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            End If
         Else
             response = MessageBox.Show("Are you sure you wish to delete these multiple fittings?", "Confirm Fitting Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         End If
         ' Get confirmation of deletion
         If response = Windows.Forms.DialogResult.Yes Then
-            For Each curNode As ContainerListViewItem In clvFittings.SelectedItems
-                Dim parentnode As ContainerListViewItem = curNode.ParentItem
-                Dim shipName As String = parentnode.Text
-                Dim fitName As String = curNode.Text
+            For Each curNode As Node In tvwFittings.SelectedNodes
+                Dim fittingKeyName As String = ""
+                Select Case curNode.Level
+                    Case 0 ' Ship Level
+                        For Each subNode As Node In curNode.Nodes
+                            Dim parentnode As Node = subNode.Parent
+                            Dim shipName As String = parentnode.Text
+                            Dim fitName As String = subNode.Text
+                            fittingKeyName = shipName & ", " & fitName
+                            ' Remove the fit from the list
+                            If Fittings.FittingList.ContainsKey(fittingKeyName) Then
+                                Fittings.FittingList.Remove(fittingKeyName)
+                            End If
+                            ' Delete it from the tabs if it's there!
+                            Dim ti As DevComponents.DotNetBar.TabItem = tabHQF.Tabs(fittingKeyName)
+                            If ti IsNot Nothing Then
+                                tabHQF.Tabs.Remove(ti)
+                                ShipLists.fittedShipList.Remove(ti.Text)
+                            End If
+                        Next
+                    Case 1 ' Fitting Level
+                        Dim parentnode As Node = curNode.Parent
+                        Dim shipName As String = parentnode.Text
+                        Dim fitName As String = curNode.Text
+                        fittingKeyName = shipName & ", " & fitName
+                End Select
                 ' Remove the fit from the list
-                Dim fittingKeyName As String = shipName & ", " & fitName
-                Fittings.FittingList.Remove(fittingKeyName)
+                If Fittings.FittingList.ContainsKey(fittingKeyName) Then
+                    Fittings.FittingList.Remove(fittingKeyName)
+                End If
                 ' Delete it from the tabs if it's there!
-                Dim tp As TabPage = tabHQF.TabPages(fittingKeyName)
+                Dim tp As DevComponents.DotNetBar.TabItem = tabHQF.Tabs(fittingKeyName)
                 If tp IsNot Nothing Then
-                    Fittings.FittingTabList.Remove(tp.Text)
-                    tabHQF.TabPages.Remove(tp)
+                    tabHQF.Tabs.Remove(tp)
                     ShipLists.fittedShipList.Remove(tp.Text)
                 End If
             Next
@@ -1991,7 +1776,7 @@ Public Class frmHQF
     End Sub
     Private Sub mnuFittingsCreateFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsCreateFitting.Click
         ' Get the node details
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+        Dim curNode As Node = tvwFittings.SelectedNodes(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
 
         ' Clear the text boxes
@@ -2009,56 +1794,70 @@ Public Class frmHQF
 
         ' Add the Fitting
         If fittingName <> "" Then
-            Dim fittingKeyName As String = shipName & ", " & fittingName
-            Fittings.FittingList.Add(fittingKeyName, New ArrayList)
-            If Me.CreateFittingTabPage(fittingKeyName) = True Then
+            Dim NewFit As New Fitting(shipName, fittingName, HQF.Settings.HQFSettings.DefaultPilot)
+            Fittings.FittingList.Add(NewFit.KeyName, NewFit)
+            If Me.CreateNewFittingTab(NewFit) = True Then
                 Call Me.UpdateFilteredShips()
-                tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
-                If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-                currentShipSlot.UpdateEverything()
+                tabHQF.SelectedTab = tabHQF.Tabs(NewFit.KeyName)
+                If tabHQF.SelectedTabIndex = 0 Then Call Me.UpdateSelectedTab()
+                ActiveFitting.ShipSlotCtrl.UpdateEverything()
             End If
         Else
             MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
     Private Sub mnuPreviewShip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip2.Click
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+        Dim curNode As Node = tvwFittings.SelectedNodes(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship)
-        Call DisplayShipPreview(selShip)
+        Dim showInfo As New frmShowInfo
+        Dim hPilot As EveHQ.Core.Pilot
+        If ActiveFitting IsNot Nothing Then
+            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), Core.Pilot)
+        Else
+            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            Else
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot)
+            End If
+        End If
+        showInfo.ShowItemDetails(selShip, hPilot)
     End Sub
-    Private Sub ShowFitting(ByVal fittingNode As ContainerListViewItem)
+    Private Sub ShowFitting(ByVal fittingNode As Node)
         ' Check we have some valid characters
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 Then
             ' Get the ship details
-            If fittingNode.ParentItem IsNot Nothing Then
-                Dim shipName As String = fittingNode.ParentItem.Text
-                Dim shipFit As String = fittingNode.ParentItem.Text & ", " & fittingNode.Text
-                If Fittings.FittingList.Contains(shipFit) = True Then
-                    ' Create the tab and display
-                    If Fittings.FittingTabList.Contains(shipFit) = False Then
-                        If Me.CreateFittingTabPage(shipFit) = False Then
-                            Exit Sub
-                        End If
-                        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-                        If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-                        currentShipSlot.UpdateEverything()
+            If fittingNode.Parent IsNot Nothing Then
+                Dim ShipName As String = fittingNode.Parent.Text
+                Dim FitName As String = fittingNode.Text
+                Dim FitKey As String = fittingNode.Parent.Text & ", " & fittingNode.Text
+
+                If Me.OpenFittingsContains(FitKey) = False Then
+                    If Fittings.FittingList.ContainsKey(FitKey) = True Then
+                        Dim newfit As Fitting = Fittings.FittingList(FitKey)
+                        Call Me.CreateNewFittingTab(newfit)
+                        newfit.ShipSlotCtrl.UpdateEverything()
+
+                        ' Set the newly opened fitting
+                        ' NB: Doesn't trigger the event if this is the first tab open
+                        ActiveFitting = newfit
+                        tabHQF.SelectedTab = tabHQF.Tabs(FitKey)
                     Else
-                        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                        MessageBox.Show("Can't load the '" & FitKey & "' fitting as it's not there!!", "Error locating fitting details", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                 Else
-                    'MessageBox.Show("Can't load the '" & shipFit & "' fitting as it's not there!!", "Error locating fitting details", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    tabHQF.SelectedTab = tabHQF.Tabs(FitKey)
                 End If
             End If
             ' Check for user columns only being the default "Module Name"
             Dim colCount As Integer = 0
-            For Each col As String In Settings.HQFSettings.UserSlotColumns
-                If col.EndsWith("1") = True Then
+            For Each UserCol As UserSlotColumn In HQF.Settings.HQFSettings.UserSlotColumns
+                If UserCol.Active = True Then
                     colCount += 1
                 End If
             Next
             If colCount = 0 Then
-                Dim msg As String = "HQF has detected you are using the old default column settings which will limit the amount of information displayed by HQF." & ControlChars.CrLf
+                Dim msg As String = "HQF has detected you may be using the old default column settings which will limit the amount of information displayed by HQF." & ControlChars.CrLf
                 msg &= "HQF can display much more module data if the columns are configured prior to displaying a fitting." & ControlChars.CrLf & ControlChars.CrLf
                 msg &= "Would you like to configure the displayed columns now?"
                 Dim reply As Integer = MessageBox.Show(msg, "Configure Slot Columns?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -2071,7 +1870,6 @@ Public Class frmHQF
                     mySettings.ShowDialog()
                     mySettings = Nothing
                     Call Me.UpdateFittingsTree(False)
-                    Call Me.CheckOpenTabs()
                 End If
             End If
         Else
@@ -2080,23 +1878,19 @@ Public Class frmHQF
             MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
-    Public Sub RemoteShowFitting(ByVal shipFit As String)
-        If Fittings.FittingList.Contains(shipFit) = True Then
+    Public Sub RemoteShowFitting(ByVal FitKey As String)
+        If Fittings.FittingList.ContainsKey(FitKey) = True Then
             ' Create the tab and display
-            If Fittings.FittingTabList.Contains(shipFit) = False Then
-                If Me.CreateFittingTabPage(shipFit) = False Then
-                    Exit Sub
-                End If
-                tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-                If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-                currentShipSlot.UpdateEverything()
-            Else
-                tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+            If Me.OpenFittingsContains(FitKey) = False Then
+                Dim newfit As Fitting = Fittings.FittingList(FitKey)
+                Call Me.CreateNewFittingTab(newfit)
+                newfit.ShipSlotCtrl.UpdateEverything()
             End If
+            tabHQF.SelectedTab = tabHQF.Tabs(FitKey)
         End If
     End Sub
     Private Sub mnuFittingsBCBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsBCBrowser.Click
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+        Dim curNode As Node = tvwFittings.SelectedNodes(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
         Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
         If myBCBrowser.IsHandleCreated = True Then
@@ -2110,25 +1904,24 @@ Public Class frmHQF
     End Sub
     Private Sub mnuExportToEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToEve.Click
         Call Me.ExportFittingsToEve()
-    End Sub
-    Private Sub clvFittings_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvFittings.MouseDoubleClick
-        If clvFittings.SelectedItems.Count > 0 Then
-            If clvFittings.SelectedItems(0).Items.Count = 0 Then
-                Call Me.ShowFitting(clvFittings.SelectedItems(0))
+	End Sub
+	Private Sub mnuExportToRequisitions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToRequisitions.Click
+		Call Me.ExportRequisitions()
+	End Sub
+    Private Sub tvwfittings_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tvwFittings.MouseDoubleClick
+        If tvwFittings.SelectedNodes.Count > 0 Then
+            If tvwFittings.SelectedNodes(0).Nodes.Count = 0 Then
+                Call Me.ShowFitting(tvwFittings.SelectedNodes(0))
             End If
         End If
     End Sub
 
-    Private Sub clvFittings_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvFittings.Resize
-        clvFittings.Columns(0).Width = clvFittings.Width - 30
-    End Sub
-
-    Private Sub clvFittings_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFittings.SelectedItemsChanged
-        If clvFittings.SelectedItems.Count > 1 Then
+    Private Sub tvwFittings_SelecttionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tvwFittings.SelectionChanged
+        If tvwFittings.SelectedNodes.Count > 1 Then
             mnuCompareFittings.Enabled = True
         Else
-            If clvFittings.SelectedItems.Count = 1 Then
-                If clvFittings.SelectedItems(0).Items.Count > 1 Then
+            If tvwFittings.SelectedNodes.Count = 1 Then
+                If tvwFittings.SelectedNodes(0).Nodes.Count > 1 Then
                     mnuCompareFittings.Enabled = True
                 Else
                     mnuCompareFittings.Enabled = False
@@ -2139,10 +1932,6 @@ Public Class frmHQF
         End If
     End Sub
 
-    Private Sub mnuCompareShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Call Me.CompareShips()
-    End Sub
-
     Private Sub mnuCompareFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCompareFittings.Click
         Call Me.CompareShips()
     End Sub
@@ -2150,17 +1939,17 @@ Public Class frmHQF
     Private Sub CompareShips()
         ' Establish which fittings we will be comparing
         Dim Fittings As New SortedList
-        For Each fitting As ContainerListViewItem In clvFittings.SelectedItems
-            If fitting.Items.Count = 0 Then
+        For Each fitting As Node In tvwFittings.SelectedNodes
+            If fitting.Nodes.Count = 0 Then
                 ' If we have highlighted an item
-                If Fittings.Contains(fitting.ParentItem.Text & ", " & fitting.Text) = False Then
-                    Fittings.Add(fitting.ParentItem.Text & ", " & fitting.Text, "")
+                If Fittings.Contains(fitting.Parent.Text & ", " & fitting.Text) = False Then
+                    Fittings.Add(fitting.Parent.Text & ", " & fitting.Text, "")
                 End If
             Else
                 ' If we have highlighted a group
-                For Each subFit As ContainerListViewItem In fitting.Items
-                    If Fittings.Contains(subFit.ParentItem.Text & ", " & subFit.Text) = False Then
-                        Fittings.Add(subFit.ParentItem.Text & ", " & subFit.Text, "")
+                For Each subFit As Node In fitting.Nodes
+                    If Fittings.Contains(subFit.Parent.Text & ", " & subFit.Text) = False Then
+                        Fittings.Add(subFit.Parent.Text & ", " & subFit.Text, "")
                     End If
                 Next
             End If
@@ -2172,26 +1961,11 @@ Public Class frmHQF
     End Sub
 #End Region
 
-#Region "Fittings Combo Routines"
-    Private Sub cboFittings_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboFittings.SelectedIndexChanged
-        Dim shipFit As String = cboFittings.SelectedItem.ToString
-        ' Create the tab and display
-        If Fittings.FittingTabList.Contains(shipFit) = False Then
-            If Me.CreateFittingTabPage(shipFit) = False Then
-                Exit Sub
-            End If
-        End If
-        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-        If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-        currentShipSlot.UpdateEverything()
-    End Sub
-#End Region
-
 #Region "Module List Context Menu Routines"
 
     Private Sub ctxModuleList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxModuleList.Opening
-        If lvwItems.SelectedItems.Count > 0 Then
-            Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        If tvwModules.SelectedNodes.Count > 0 Then
+            Dim moduleID As String = tvwModules.SelectedNodes(0).Name
             Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
             If ModuleDisplay = "Favourites" Then
                 mnuAddToFavourites_List.Visible = False
@@ -2218,24 +1992,32 @@ Public Class frmHQF
     End Sub
 
     Private Sub mnuShowModuleInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowModuleInfo.Click
-        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
-        If currentShipInfo IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentShipInfo.cboPilots.SelectedItem), Core.Pilot)
+        If ActiveFitting IsNot Nothing Then
+            If ActiveFitting.ShipInfoCtrl IsNot Nothing Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), Core.Pilot)
+            Else
+                If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                    hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+                Else
+                    hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot)
+                End If
+            End If
         Else
             If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
                 hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
             Else
-                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot)
             End If
         End If
         showInfo.ShowItemDetails(cModule, hPilot)
     End Sub
 
     Private Sub mnuAddToFavourites_List_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToFavourites_List.Click
-        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         If Settings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
             Settings.HQFSettings.Favourites.Add(cModule.Name)
@@ -2243,7 +2025,7 @@ Public Class frmHQF
     End Sub
 
     Private Sub mnuRemoveFromFavourites_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveFromFavourites.Click
-        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
             Settings.HQFSettings.Favourites.Remove(cModule.Name)
@@ -2252,11 +2034,11 @@ Public Class frmHQF
     End Sub
 
     Private Sub mnuShowModuleMarketGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowModuleMarketGroup.Click
-        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
         If pathLine IsNot Nothing Then
-            ShipModule.DisplayedMarketGroup = pathLine
+            HQFEvents.DisplayedMarketGroup = pathLine
         Else
             MessageBox.Show("Unable to display Market Group due to absence of Market Group information in HQF.", "Unable to Show Market Group", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -2266,18 +2048,196 @@ Public Class frmHQF
 
 #Region "Menu & Button Routines"
 
-    Private Sub btnScreenshot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnScreenshot.Click
+    Private Sub OpenSettingsForm()
+        ' Open options form
+        Dim mySettings As New frmHQFSettings
+        mySettings.ShowDialog()
+        mySettings = Nothing
+        Call Me.UpdateFittingsTree(False)
+    End Sub
+
+#End Region
+
+#Region "Export to Eve Routines"
+
+    Private Sub ExportFittingsToEve()
+        Dim Fittings As ArrayList = Me.GetExportFittingsCollection()
+        Dim myEveExport As New frmEveExport
+		myEveExport.FittingList = Fittings
+		myEveExport.UpdateRequired = True
+        myEveExport.ShowDialog()
+        myEveExport.Dispose()
+    End Sub
+
+    Private Sub ExportMainFittingToEve()
+        Dim Fittings As New ArrayList
+        Fittings.Add(ActiveFitting.KeyName)
+        Dim myEveExport As New frmEveExport
+		myEveExport.FittingList = Fittings
+        myEveExport.UpdateRequired = True
+        myEveExport.ShowDialog()
+        myEveExport.Dispose()
+    End Sub
+
+    Private Function GetExportFittingsCollection() As ArrayList
+        Dim Fittings As New ArrayList
+        For Each fitting As Node In tvwFittings.SelectedNodes
+            If fitting.Nodes.Count = 0 Then
+                ' If we have highlighted an item
+                If Fittings.Contains(fitting.Parent.Text & ", " & fitting.Text) = False Then
+                    Fittings.Add(fitting.Parent.Text & ", " & fitting.Text)
+                End If
+            Else
+                ' If we have highlighted a group
+                For Each subFit As Node In fitting.Nodes
+                    If Fittings.Contains(subFit.Parent.Text & ", " & subFit.Text) = False Then
+                        Fittings.Add(subFit.Parent.Text & ", " & subFit.Text)
+                    End If
+                Next
+            End If
+        Next
+        Fittings.Sort()
+        Return Fittings
+    End Function
+
+#End Region
+
+#Region "Export To Requisitions Routines"
+
+	Private Sub ExportRequisitions()
+		' Establish which fittings we will be comparing
+		Dim ShipFits As New SortedList
+		For Each fitting As Node In tvwFittings.SelectedNodes
+			If fitting.Nodes.Count = 0 Then
+				' If we have highlighted an item
+				If ShipFits.Contains(fitting.Parent.Text & ", " & fitting.Text) = False Then
+					ShipFits.Add(fitting.Parent.Text & ", " & fitting.Text, "")
+				End If
+			Else
+				' If we have highlighted a group
+				For Each subFit As Node In fitting.Nodes
+					If ShipFits.Contains(subFit.Parent.Text & ", " & subFit.Text) = False Then
+						ShipFits.Add(subFit.Parent.Text & ", " & subFit.Text, "")
+					End If
+				Next
+			End If
+		Next
+
+		If ShipFits.Count > 0 Then
+
+			' Set up a new Sortedlist to store the required items
+			Dim Orders As New SortedList(Of String, Integer)
+
+			For Each ShipFit As String In ShipFits.Keys
+				Dim currentFit As Fitting = Fittings.FittingList.Item(ShipFit)
+				currentFit.UpdateBaseShipFromFitting()
+
+				' Collect the orders
+				CollectModulesForExport(Orders, currentFit)
+				' Add the current ship
+				If Orders.ContainsKey(currentFit.BaseShip.Name) = False Then
+					Orders.Add(currentFit.BaseShip.Name, 1)
+				Else
+					Orders(currentFit.BaseShip.Name) += 1
+				End If
+
+			Next
+
+			Dim newReq As New EveHQ.Core.frmAddRequisition("HQF", Orders)
+			newReq.ShowDialog()
+
+		End If
+	End Sub
+
+#End Region
+
+#Region "Meta Variations Code"
+
+    Private Sub mnuShowMetaVariations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowMetaVariations.Click
+        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim newComparison As New frmMetaVariations(ActiveFitting, cModule)
+        newComparison.Size = HQF.Settings.HQFSettings.MetaVariationsFormSize
+		newComparison.ShowDialog()
+    End Sub
+
+#End Region
+
+    Private Sub tabHQF_TabRemoved(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabHQF.TabRemoved
+
+        ' Get name of closed tab - DNB refuses to expose this information to us
+        Dim ClosedTabName As String = ""
+        Dim tp As New DevComponents.DotNetBar.TabItem
+        For Each fitting As String In ShipLists.fittedShipList.Keys
+            tp = tabHQF.Tabs(fitting)
+            If tp Is Nothing Then
+                ClosedTabName = fitting
+                Exit For
+            End If
+        Next
+        If ClosedTabName <> "" Then
+            ' Remove data
+            ShipLists.fittedShipList.Remove(ClosedTabName)
+            ActiveFitting.ShipInfoCtrl = Nothing
+            ActiveFitting.ShipSlotCtrl = Nothing
+        End If
+        ' Check for last fitting closure to remove the Active Fitting
+        If tabHQF.Tabs.Count = 0 Then
+            ActiveFitting = Nothing
+        End If
+    End Sub
+
+#Region "HQF Ribbon UI Functions"
+
+
+#End Region
+
+    Private Sub btnOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptions.Click
+        Call Me.OpenSettingsForm()
+    End Sub
+
+    Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
+        Call Me.OpenPilotManagerForm(0)
+    End Sub
+
+    Private Sub btnImplantManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImplantManager.Click
+        Call Me.OpenPilotManagerForm(2)
+    End Sub
+
+    Private Sub OpenPilotManagerForm(ByVal TabIndex As Integer)
+        If myPilotManager.IsHandleCreated = False Then
+            myPilotManager = New frmPilotManager
+            If ActiveFitting IsNot Nothing Then
+                myPilotManager.pilotName = ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString
+            Else
+                If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot).Name
+                Else
+                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot).Name
+                End If
+            End If
+            myPilotManager.Show()
+            myPilotManager.tabControlPM.SelectedTabIndex = TabIndex
+        Else
+            If myPilotManager.WindowState = FormWindowState.Minimized Then
+                myPilotManager.WindowState = FormWindowState.Normal
+            End If
+            myPilotManager.Show()
+            myPilotManager.BringToFront()
+        End If
+    End Sub
+
+    Private Sub btnScreenGrab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnScreenGrab.Click
         ' Determine co-ords of current main panel
         Try
-            Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-            Dim xy As Point = tp.PointToScreen(New Point(0, 0))
+            Dim xy As Point = tabHQF.PointToScreen(New Point(0, 0))
             Dim sx As Integer = xy.X
             Dim sy As Integer = xy.Y
-            Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tp.Width, tp.Height))
+            Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tabHQF.Width, tabHQF.Height))
             Clipboard.SetDataObject(fittingImage)
             Dim rgPattern As String = "[\\\/:\*\?""'<>|]"
             Dim objRegEx As New System.Text.RegularExpressions.Regex(rgPattern)
-            Dim fittingName As String = objRegEx.Replace(tp.Text, "_")
+            Dim fittingName As String = objRegEx.Replace(ActiveFitting.KeyName, "_")
             Dim filename As String = "HQF_" & fittingName & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
             fittingImage.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, filename), System.Drawing.Imaging.ImageFormat.Png)
         Catch ex As Exception
@@ -2285,14 +2245,22 @@ Public Class frmHQF
         End Try
     End Sub
 
-    Private Sub mnuCopyForHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForHQF.Click
-        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        Dim currentShip As Ship = currentShipSlot.ShipCurrent
-        Dim fittedShip As Ship = currentShipSlot.ShipFitted
+    Private Sub btnExportEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportEve.Click
+        If ActiveFitting Is Nothing Then
+            Dim msg As String = "Please make sure you have a fit open and active before exporting to Eve."
+            MessageBox.Show(msg, "Open Fitting Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            Call Me.ExportMainFittingToEve()
+        End If
+    End Sub
+
+    Private Sub btnExportHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportHQF.Click
+		Dim currentShip As Ship = ActiveFitting.BaseShip
+        Dim fittedShip As Ship = ActiveFitting.FittedShip
         Dim cModule As New ShipModule
         Dim state As Integer
         Dim fitting As New System.Text.StringBuilder
-        fitting.AppendLine("[" & tp.Text & "]")
+		fitting.AppendLine("[" & ActiveFitting.KeyName & "]")
         For slot As Integer = 1 To currentShip.SubSlots
             If currentShip.SubSlot(slot) IsNot Nothing Then
                 state = CInt(Math.Log(currentShip.SubSlot(slot).ModuleState) / Math.Log(2))
@@ -2366,12 +2334,11 @@ Public Class frmHQF
         End Try
     End Sub
 
-    Private Sub mnuCopyForEFT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForEFT.Click
-        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        Dim currentship As Ship = currentShipSlot.ShipFitted
+    Private Sub btnExportEFT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportEFT.Click
+		Dim currentship As Ship = ActiveFitting.FittedShip
         Dim cModule As New ShipModule
         Dim fitting As New System.Text.StringBuilder
-        fitting.AppendLine("[" & tp.Text & "]")
+		fitting.AppendLine("[" & ActiveFitting.KeyName & "]")
         For slot As Integer = 1 To currentship.SubSlots
             If currentship.SubSlot(slot) IsNot Nothing Then
                 If currentship.SubSlot(slot).LoadedCharge IsNot Nothing Then
@@ -2430,19 +2397,17 @@ Public Class frmHQF
         Catch ex As Exception
             MessageBox.Show("There was an error writing data to the clipboard. Please wait a couple of seconds and try again.", "Copy For EFT Error")
         End Try
-
     End Sub
 
-    Private Sub mnuCopyForForums_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForForums.Click
-        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        Dim currentship As Ship = currentShipSlot.ShipFitted
+    Private Sub btnExportForums_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportForums.Click
+		Dim currentship As Ship = ActiveFitting.FittedShip
         Dim slots As Dictionary(Of String, Integer)
         Dim slotList As New ArrayList
         Dim slotCount As Integer = 0
         Dim cModule As New ShipModule
         Dim state As Integer
         Dim fitting As New System.Text.StringBuilder
-        fitting.AppendLine("[" & tp.Text & "]")
+		fitting.AppendLine("[" & ActiveFitting.KeyName & "]")
 
         slots = New Dictionary(Of String, Integer)
         For slot As Integer = 1 To currentship.SubSlots
@@ -2629,7 +2594,7 @@ Public Class frmHQF
         If currentship.CargoBayItems.Count > 0 Then
             fitting.AppendLine("")
             For Each cargo As CargoBayItem In currentship.CargoBayItems.Values
-                fitting.AppendLine(cargo.Quantity & "x " & cargo.ItemType.Name & " (cargo)")
+                fitting.AppendLine(cargo.Quantity & "x " & cargo.ItemType.Name)
             Next
         End If
         Try
@@ -2639,18 +2604,18 @@ Public Class frmHQF
         End Try
     End Sub
 
-    Private Sub mnuShipStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShipStats.Click
-        Dim currentship As Ship = currentShipSlot.ShipFitted
+    Private Sub btnExportStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportStats.Click
+        Dim currentship As Ship = ActiveFitting.FittedShip
         Dim stats As New System.Text.StringBuilder
-        stats.AppendLine("[Statistics - " & currentShipInfo.cboPilots.SelectedItem.ToString & "]")
+        stats.AppendLine("[Statistics - " & ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString & "]")
         stats.AppendLine("")
-        stats.AppendLine(currentShipInfo.lblEffectiveHP.Text)
-        stats.AppendLine(currentShipInfo.lblTankAbility.Text)
+        stats.AppendLine(ActiveFitting.ShipInfoCtrl.lblEffectiveHP.Text)
+        stats.AppendLine(ActiveFitting.ShipInfoCtrl.lblTankAbility.Text)
         stats.AppendLine("Damage Profile - " & currentship.DamageProfile.Name & " (EM: " & FormatNumber(currentship.DamageProfileEM * 100, 2) & "%, Ex: " & FormatNumber(currentship.DamageProfileEX * 100, 2) & "%, Ki: " & FormatNumber(currentship.DamageProfileKI * 100, 2) & "%, Th: " & FormatNumber(currentship.DamageProfileTH * 100, 2) & "%)")
-        stats.AppendLine("Shield Resists - EM: " & currentShipInfo.lblShieldEM.Text & ", Ex: " & currentShipInfo.lblShieldExplosive.Text & ", Ki: " & currentShipInfo.lblShieldKinetic.Text & ", Th: " & currentShipInfo.lblShieldThermal.Text)
-        stats.AppendLine("Armor Resists - EM: " & currentShipInfo.lblArmorEM.Text & ", Ex: " & currentShipInfo.lblArmorExplosive.Text & ", Ki: " & currentShipInfo.lblArmorKinetic.Text & ", Th: " & currentShipInfo.lblArmorThermal.Text)
+        stats.AppendLine("Shield Resists - EM: " & ActiveFitting.ShipInfoCtrl.lblShieldEM.Text & ", Ex: " & ActiveFitting.ShipInfoCtrl.lblShieldExplosive.Text & ", Ki: " & ActiveFitting.ShipInfoCtrl.lblShieldKinetic.Text & ", Th: " & ActiveFitting.ShipInfoCtrl.lblShieldThermal.Text)
+        stats.AppendLine("Armor Resists - EM: " & ActiveFitting.ShipInfoCtrl.lblArmorEM.Text & ", Ex: " & ActiveFitting.ShipInfoCtrl.lblArmorExplosive.Text & ", Ki: " & ActiveFitting.ShipInfoCtrl.lblArmorKinetic.Text & ", Th: " & ActiveFitting.ShipInfoCtrl.lblArmorThermal.Text)
         stats.AppendLine("")
-        stats.AppendLine(currentShipInfo.gbCapacitor.Text)
+        stats.AppendLine(ActiveFitting.ShipInfoCtrl.epCapacitor.TitleText)
         stats.AppendLine("")
         stats.AppendLine("Volley Damage: " & FormatNumber(currentship.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         stats.AppendLine("DPS: " & FormatNumber(currentship.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
@@ -2661,10 +2626,10 @@ Public Class frmHQF
         End Try
     End Sub
 
-    Private Sub mnuCopyImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyImplants.Click
-        Dim implantSetName As String = currentShipInfo.cboImplants.SelectedItem.ToString
-        If Implants.implantGroups.ContainsKey(implantSetName) = True Then
-            Dim implantSet As ImplantGroup = CType(Implants.implantGroups(implantSetName), ImplantGroup)
+    Private Sub btnExportImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportImplants.Click
+        Dim implantSetName As String = ActiveFitting.ShipInfoCtrl.cboImplants.SelectedItem.ToString
+        If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(implantSetName) = True Then
+            Dim implantSet As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(implantSetName), ImplantGroup)
             Dim stats As New System.Text.StringBuilder
             stats.AppendLine("[Implants - " & implantSet.GroupName & "]")
             stats.AppendLine("")
@@ -2683,155 +2648,237 @@ Public Class frmHQF
         End If
     End Sub
 
-    Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
-        If myPilotManager.IsHandleCreated = False Then
-            myPilotManager = New frmPilotManager
-            If currentShipInfo IsNot Nothing Then
-                myPilotManager.pilotName = currentShipInfo.cboPilots.SelectedItem.ToString
+    Private Sub btnExportReq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportReq.Click
+        ' Set up a new Sortedlist to store the required items
+		Dim Orders As New SortedList(Of String, Integer)
+		CollectModulesForExport(Orders, ActiveFitting)
+        ' Add the current ship
+        Orders.Add(ActiveFitting.BaseShip.Name, 1)
+        ' Setup the Requisition form for HQF and open it
+        Dim newReq As New EveHQ.Core.frmAddRequisition("HQF", Orders)
+        newReq.ShowDialog()
+    End Sub
+
+	Private Function CollectModulesForExport(ByRef ModList As SortedList(Of String, Integer), ByVal ShipFitting As Fitting) As SortedList(Of String, Integer)
+
+		Dim currentship As Ship = ShipFitting.BaseShip
+
+		' Parse HiSlots
+		For slot As Integer = 1 To currentship.HiSlots
+			If currentship.HiSlot(slot) IsNot Nothing Then
+				If ModList.ContainsKey(currentship.HiSlot(slot).Name) = True Then
+					ModList(currentship.HiSlot(slot).Name) += 1
+				Else
+					ModList.Add(currentship.HiSlot(slot).Name, 1)
+				End If
+			End If
+		Next
+
+		' Parse MidSlots
+		For slot As Integer = 1 To currentship.MidSlots
+			If currentship.MidSlot(slot) IsNot Nothing Then
+				If ModList.ContainsKey(currentship.MidSlot(slot).Name) = True Then
+					ModList(currentship.MidSlot(slot).Name) += 1
+				Else
+					ModList.Add(currentship.MidSlot(slot).Name, 1)
+				End If
+			End If
+		Next
+
+		' Parse LowSlots
+		For slot As Integer = 1 To currentship.LowSlots
+			If currentship.LowSlot(slot) IsNot Nothing Then
+				If ModList.ContainsKey(currentship.LowSlot(slot).Name) = True Then
+					ModList(currentship.LowSlot(slot).Name) += 1
+				Else
+					ModList.Add(currentship.LowSlot(slot).Name, 1)
+				End If
+			End If
+		Next
+
+		' Parse RigSlots
+		For slot As Integer = 1 To currentship.RigSlots
+			If currentship.RigSlot(slot) IsNot Nothing Then
+				If ModList.ContainsKey(currentship.RigSlot(slot).Name) = True Then
+					ModList(currentship.RigSlot(slot).Name) += 1
+				Else
+					ModList.Add(currentship.RigSlot(slot).Name, 1)
+				End If
+			End If
+		Next
+
+		' Parse subslots
+		For slot As Integer = 1 To currentship.SubSlots
+			If currentship.SubSlot(slot) IsNot Nothing Then
+				If ModList.ContainsKey(currentship.SubSlot(slot).Name) = True Then
+					ModList(currentship.SubSlot(slot).Name) += 1
+				Else
+					ModList.Add(currentship.SubSlot(slot).Name, 1)
+				End If
+			End If
+		Next
+
+		' Parse drones
+		If currentship.DroneBayItems.Count > 0 Then
+			For Each drone As DroneBayItem In currentship.DroneBayItems.Values
+				If ModList.ContainsKey(drone.DroneType.Name) = True Then
+					ModList(drone.DroneType.Name) += drone.Quantity
+				Else
+					ModList.Add(drone.DroneType.Name, drone.Quantity)
+				End If
+			Next
+		End If
+
+		' Send list back to the caller
+		Return ModList
+
+	End Function
+
+    Private Sub btnImportEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportEve.Click
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count = 0 Then
+            Dim msg As String = "There are no pilots or accounts created in EveHQ." & ControlChars.CrLf
+            msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
+            MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            If myEveImport.IsHandleCreated = True Then
+                myEveImport.BringToFront()
             Else
-                If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
-                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot).Name
-                Else
-                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot).Name
-                End If
+                myEveImport = New frmEveImport
+                myEveImport.Show()
             End If
-            myPilotManager.Show()
-        Else
-            If myPilotManager.WindowState = FormWindowState.Minimized Then
-                myPilotManager.WindowState = FormWindowState.Normal
-            End If
-            myPilotManager.BringToFront()
-            myPilotManager.Show()
         End If
     End Sub
 
-    Private Sub tsbFleetManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbFleetManager.Click
-        If myFleetManager.IsHandleCreated = False Then
-            myFleetManager = New frmFleetManager
-            AddHandler myFleetManager.OpenFitting, AddressOf Me.RemoteShowFitting
-            myFleetManager.Show()
-        Else
-            If myFleetManager.WindowState = FormWindowState.Minimized Then
-                myFleetManager.WindowState = FormWindowState.Normal
-            End If
-            myFleetManager.BringToFront()
-            myFleetManager.Show()
-        End If
-    End Sub
-
-    Private Sub btnImportFittings_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportFittings.ButtonClick
-        btnImportFittings.ShowDropDown()
-    End Sub
-
-    Private Sub mnuImportEveFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEveFittings.Click
-        If myEveImport.IsHandleCreated = True Then
-            myEveImport.BringToFront()
-        Else
-            myEveImport = New frmEveImport
-            myEveImport.Show()
-        End If
-    End Sub
-
-    Private Sub mnuImportEFTFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEFTFittings.Click
+    Private Sub btnImportEFT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportEFT.Click
         Dim myEFTImport As New frmEFTImport
         myEFTImport.ShowDialog()
         myEFTImport = Nothing
         Call Me.UpdateFittingsTree(False)
     End Sub
 
-    Private Sub tsbOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOptions.Click
-        Call Me.OpenSettingsForm()
-    End Sub
-
-    Private Sub OpenSettingsForm()
-        ' Open options form
-        Dim mySettings As New frmHQFSettings
-        mySettings.ShowDialog()
-        mySettings = Nothing
-        Call Me.UpdateFittingsTree(False)
-        Call Me.CheckOpenTabs()
-    End Sub
-
-    Private Sub CheckOpenTabs()
-        ' Checks whether the open tabs are still valid fittings
-        For Each tp As TabPage In tabHQF.TabPages
-            If Fittings.FittingTabList.Contains(tp.Text) = False Then
-                ShipLists.fittedShipList.Remove(tp.Text)
-                tabHQF.TabPages.Remove(tp)
-            End If
-        Next
-    End Sub
-
-    Private Sub btnCopy_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopy.ButtonClick
-        btnCopy.ShowDropDown()
-    End Sub
-
-#End Region
-
-#Region "Export to Eve Routines"
-
-    Private Sub ExportFittingsToEve()
-        Dim Fittings As ArrayList = Me.GetExportFittingsCollection()
-        Dim myEveExport As New frmEveExport
-        myEveExport.FittingList = Fittings
-        myEveExport.ShowDialog()
-        myEveExport.Dispose()
-    End Sub
-
-    Private Sub ExportMainFittingToEve()
-        Dim Fittings As New ArrayList
-        Fittings.Add(currentShipSlot.ShipFit)
-        Dim myEveExport As New frmEveExport
-        myEveExport.FittingList = Fittings
-        myEveExport.ShowDialog()
-        myEveExport.Dispose()
-    End Sub
-
-    Private Function GetExportFittingsCollection() As ArrayList
-        Dim Fittings As New ArrayList
-        For Each fitting As ContainerListViewItem In clvFittings.SelectedItems
-            If fitting.Items.Count = 0 Then
-                ' If we have highlighted an item
-                If Fittings.Contains(fitting.ParentItem.Text & ", " & fitting.Text) = False Then
-                    Fittings.Add(fitting.ParentItem.Text & ", " & fitting.Text)
-                End If
+    Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
+        ' Pick the text up from the clipboard
+        Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
+        ' Use Regex to get the data - No checking as this is done in the tmrClipboard_Tick sub
+        Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>[^,]*)\]|\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
+        Dim shipName As String = fittingMatch.Groups.Item("ShipName").Value
+        Dim fittingName As String = ""
+        If fittingMatch.Groups.Item("FittingName").Value <> "" Then
+            fittingName = fittingMatch.Groups.Item("FittingName").Value
+        Else
+            fittingName = "Imported Fit"
+        End If
+        ' If the fitting exists, add a number onto the end
+        If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
+            Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If response = Windows.Forms.DialogResult.Yes Then
+                Dim newFittingName As String = ""
+                Dim revision As Integer = 1
+                Do
+                    revision += 1
+                    newFittingName = fittingName & " " & revision.ToString
+                Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
+                fittingName = newFittingName
+                MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                ' If we have highlighted a group
-                For Each subFit As ContainerListViewItem In fitting.Items
-                    If Fittings.Contains(subFit.ParentItem.Text & ", " & subFit.Text) = False Then
-                        Fittings.Add(subFit.ParentItem.Text & ", " & subFit.Text)
+                Exit Sub
+            End If
+        End If
+        ' Lets create the fitting
+        Dim mods() As String = fileText.Split(ControlChars.CrLf.ToCharArray)
+        Dim newFit As New ArrayList
+        For Each ShipMod As String In mods
+            ShipMod = ShipMod.Trim
+            If ShipMod.StartsWith("[") = False And ShipMod <> "" Then
+                ' Check for "Drones_" label
+                If ShipMod.StartsWith("Drones_") Then
+                    ShipMod = ShipMod.TrimStart("Drones_Active=".ToCharArray)
+                    ShipMod = ShipMod.TrimStart("Drones_Inactive=".ToCharArray)
+                End If
+                ' Check for forum format (to shut the fucking whiners up)
+                Dim ModuleMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(ShipMod, "(?<quantity>\d)*x\s(?<module>.+)\s\((?<charge>.+)\)|(?<quantity>\d)*x\s(?<module>.+)")
+                If ModuleMatch.Success = True Then
+                    Dim ModName As String = ModuleMatch.Groups.Item("module").Value
+                    Dim ChargeName As String = ModuleMatch.Groups.Item("charge").Value
+                    Dim Quantity As String = ModuleMatch.Groups.Item("quantity").Value
+                    If IsNumeric(Quantity) = True Then
+                        If ModuleLists.moduleListName.ContainsKey(ModName) = True Then
+                            Dim TestMod As ShipModule = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(ModName)), ShipModule).Clone
+                            If TestMod.IsDrone = True Then
+                                newFit.Add(ModName & ", " & Quantity)
+                            Else
+                                For ModCount As Integer = 1 To CInt(Quantity)
+                                    If ChargeName <> "" Then
+                                        newFit.Add(ModName & ", " & ChargeName)
+                                    Else
+                                        newFit.Add(ModName)
+                                    End If
+                                Next
+                            End If
+                        End If
                     End If
-                Next
+                Else
+                    Dim DroneMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(ShipMod, "(?<module>.+)\sx(?<quantity>\d+)|(?<module>.+)")
+                    If DroneMatch.Success = True Then
+                        Dim ModName As String = DroneMatch.Groups.Item("module").Value
+                        Dim Quantity As String = DroneMatch.Groups.Item("quantity").Value
+                        If IsNumeric(Quantity) = True Then
+                            If ModuleLists.moduleListName.ContainsKey(ModName) = True Then
+                                Dim TestMod As ShipModule = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(ModName)), ShipModule).Clone
+                                If TestMod.IsDrone = True Then
+                                    newFit.Add(ModName & ", " & Quantity)
+                                Else
+                                    For ModCount As Integer = 1 To CInt(Quantity)
+                                        newFit.Add(ModName)
+                                    Next
+                                End If
+                            End If
+                        Else
+                            newFit.Add(ShipMod)
+                        End If
+                    Else
+                        newFit.Add(ShipMod)
+                    End If
+                End If
             End If
         Next
-        Fittings.Sort()
-        Return Fittings
+        Dim NewFitting As Fitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, newFit)
+        Fittings.FittingList.Add(NewFitting.KeyName, NewFitting)
+        Call Me.UpdateFittingsTree(False)
+    End Sub
+
+    Private Sub btnEditor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditor.Click
+        Dim newShipEditor As New frmShipEditor
+        newShipEditor.ShowDialog()
+    End Sub
+
+    Private Function OpenFittingsContains(ByVal FitKey As String) As Boolean
+        For Each FitTab As DevComponents.DotNetBar.TabItem In tabHQF.Tabs
+            If FitTab.Text = FitKey Then
+                Return True
+            End If
+        Next
+        Return False
     End Function
 
-#End Region
+#Region "Undo & Redo Code"
 
-#Region "Meta Variations Code"
+    Private Sub frmHQF_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
 
-    Private Sub mnuShowMetaVariations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowMetaVariations.Click
-        Dim moduleID As String = lvwItems.SelectedItems(0).Name
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
-        Dim newComparison As New frmMetaVariations
-        newComparison.BaseModule = cModule
-        newComparison.ShowDialog()
-    End Sub
-
-#End Region
-
-    Private Sub CollapsibleSplitter1_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles CollapsibleSplitter1.MouseClick
-        cboFittings.Visible = CollapsibleSplitter1.IsCollapsed
-    End Sub
-
-    Private Sub mnuMainExportToEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMainExportToEve.Click
-        If clvFittings.SelectedItems.Count = 0 Then
-            Dim msg As String = "Please make sure you have selected the relevant fittings in the fitting panel before exporting to Eve."
-            MessageBox.Show(msg, "Fittings Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Else
-            Call Me.ExportMainFittingToEve()
+        If e.KeyCode = Keys.Z And e.Control = True Then
+            If ActiveFitting IsNot Nothing Then
+                Call ActiveFitting.ShipSlotCtrl.PerformUndo(1)
+            End If
         End If
+
+        If e.KeyCode = Keys.Y And e.Control = True Then
+            If ActiveFitting IsNot Nothing Then
+                Call ActiveFitting.ShipSlotCtrl.PerformRedo(1)
+            End If
+        End If
+
     End Sub
+
+#End Region
+
 End Class

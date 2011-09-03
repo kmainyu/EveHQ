@@ -1,0 +1,45 @@
+146,2,920,263,3,6,0,0,0,15,Shield HP Bonus
+169,2,920,70,3,6,0,0,5,15,Inertia Modifer
+237,2,920,76,3,6,0,0,0,15,Targeting Range Bonus
+243,2,920,76,3,6,0,0,5,15,Max Range Multiplier
+244,2,920,160,2,53;55;74,0,0,5,15,Tracking Speed Multiplier
+517,2,920,158,2,53;55;74,0,0,5,15,Falloff Modifer
+652,2,920,552,3,6,0,0,0,15,Signature Penalty
+1465,2,920,267,3,6,0,0,2,15,Armor EM Resistance Bonus
+1466,2,920,269,3,6,0,0,2,15,Armor Kin Resistance Bonus
+1467,2,920,270,3,6,0,0,2,15,Armor Therm Resistance Bonus
+1468,2,920,268,3,6,0,0,2,15,Armor Exp Resistance Bonus
+1469,2,920,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,5,15,Missile Velocity Multiplier
+1470,2,920,37,3,6,0,0,5,15,Maximum Velocity Multiplier
+1472,2,920,10007,3,6,0,0,5,15,Drone Control Range Multiplier
+1473,2,920,238,2,201,0,0,5,15,Grav Strength Multiplier
+1474,2,920,239,2,201,0,0,5,15,Ladar Strength Multiplier
+1475,2,920,240,2,201,0,0,5,15,Mag Strength Multiplier
+1476,2,920,241,2,201,0,0,5,15,Radar Strength Multiplier
+1477,2,920,554,2,379,0,0,5,15,Target Painter Multiplier
+1478,2,920,309,2,208,0,0,5,15,Dampening Range Reduction Multiplier
+1479,2,920,566,2,208,0,0,5,15,Scan Resolution Reduction Multiplier
+1480,2,920,767,2,291,0,0,5,15,Tracking Penalty Multiplier
+1481,2,920,351,2,291,0,0,5,15,Optimal Range Penalty Multiplier
+1482,2,920,64,2,53;55;74,0,0,5,15,Damage Multiplier Multiplier
+1483,2,920,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,5,15,AOE Velocity Multiplier
+1484,2,920,37,3,18,0,0,5,15,Drone Velocity Multiplier
+1485,2,920,1211,7,1211,0,0,5,15,Heat Damage Multiplier
+1486,2,920,1205,7,1205,0,0,5,15,Overload Bonus Multiplier
+1487,2,920,99,2,72,0,0,5,15,Smartbomb Range Multiplier
+1488,2,920,114,2,72,0,0,5,15,Smartbomb Damage Multiplier
+1488,2,920,116,2,72,0,0,5,15,Smartbomb Damage Multiplier
+1488,2,920,117,2,72,0,0,5,15,Smartbomb Damage Multiplier
+1488,2,920,118,2,72,0,0,5,15,Smartbomb Damage Multiplier
+1489,2,920,271,3,6,0,0,2,15,Shield EM Resist Bonus
+1490,2,920,272,3,6,0,0,2,15,Shield Exp Resist Bonus
+1491,2,920,273,3,6,0,0,2,15,Shield Kin Resist Bonus
+1492,2,920,274,3,6,0,0,2,15,Shield Therm Resist Bonus
+1493,2,920,64,4,561;564;567;570;574;577,0,0,5,15,Small Weapon Damage Multiplier
+1494,2,920,64,4,562;565;568;572;575;578,0,0,5,15,Medium Weapon Damage Multiplier
+1495,2,920,84,2,62,0,0,5,15,Repair Amount Multiplier
+1496,2,920,68,2,40,0,0,5,15,Shield Repair Multiplier
+1497,2,920,68,2,41,0,0,5,15,Shield Transfer Amount Multiplier
+1498,2,920,84,2,325,0,0,5,15,Remote Repair Amount Multiplier
+1499,2,920,482,3,6,0,0,5,15,Capacitor Capacity Multiplier
+1500,2,920,55,3,6,0,0,5,15,Capacitor Recharge Multiplier

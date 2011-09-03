@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,6 +17,9 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.IO
+
 <Serializable()> Public Class DamageProfile
     Public Name As String
     Public Type As Integer ' = DamageProfileTypes
@@ -32,6 +35,53 @@ End Class
 
 <Serializable()> Public Class DamageProfiles
     Public Shared ProfileList As New SortedList
+
+    Public Shared Sub ResetDamageProfiles()
+        DamageProfiles.ProfileList.Clear()
+        Dim ProfileList As String = My.Resources.DamageProfiles.ToString
+        Dim Profiles() As String = ProfileList.Split(ControlChars.CrLf.ToCharArray)
+        Dim ProfileData() As String
+        For Each Profile As String In Profiles
+            If Profile.Trim <> "" Then
+                ProfileData = Profile.Split(",".ToCharArray)
+                Dim newProfile As New DamageProfile
+                newProfile.Name = ProfileData(0)
+                newProfile.Type = 0
+                newProfile.EM = CDbl(ProfileData(1)) / 100
+                newProfile.Explosive = CDbl(ProfileData(2)) / 100
+                newProfile.Kinetic = CDbl(ProfileData(3)) / 100
+                newProfile.Thermal = CDbl(ProfileData(4)) / 100
+                newProfile.DPS = 0
+                newProfile.Fitting = ""
+                newProfile.Pilot = ""
+                newProfile.NPCs.Clear()
+                DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
+            End If
+        Next
+        DamageProfiles.SaveProfiles()
+    End Sub
+
+    Public Shared Sub LoadProfiles()
+        ' Check for the profiles file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            DamageProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
+            s.Close()
+        Else
+            ' Need to create the profiles file and the standard custom profile (omni-damage)
+            Call DamageProfiles.ResetDamageProfiles()
+        End If
+    End Sub
+
+    Public Shared Sub SaveProfiles()
+        ' Save the Profiles
+        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, DamageProfiles.ProfileList)
+        s.Flush()
+        s.Close()
+    End Sub
 End Class
 
 Public Enum DamageProfileTypes

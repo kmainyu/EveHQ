@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -14,9 +14,26 @@
     <OptionCompare>Binary</OptionCompare>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
+    <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,11 +42,11 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
     <DocumentationFile>EveHQ.Core.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn>42353,42354,42355</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <Optimize>false</Optimize>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,20 +55,37 @@
     <Optimize>true</Optimize>
     <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
     <DocumentationFile>EveHQ.Core.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn>42353,42354,42355</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LgLcd.NET, Version=1.0.2182.20042, Culture=neutral" />
+    <Reference Include="DevComponents.DotNetBar2, Version=8.4.0.7, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GammaJul.LgLcd">
+      <HintPath>ExternalLibs\GammaJul.LgLcd.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalLibs\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -60,25 +94,28 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlphaGradientPanel\AlphaGradientPanel.vb">
-      <SubType>Component</SubType>
+    <Compile Include="AdvTreeSorter.vb" />
+    <Compile Include="Corporation.vb" />
+    <Compile Include="frmModifyPrices.Designer.vb">
+      <DependentUpon>frmModifyPrices.vb</DependentUpon>
     </Compile>
-    <Compile Include="AlphaGradientPanel\ColorWithAlpha.vb">
-      <SubType>Component</SubType>
+    <Compile Include="frmModifyPrices.vb">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AlphaGradientPanel\ColorWithAlphaCollection.vb" />
-    <Compile Include="AlphaGradientPanel\ColorWithAlphaCollectionConverter.vb" />
-    <Compile Include="AlphaGradientPanel\ColorWithAlphaCollectionEditor.vb" />
-    <Compile Include="AlphaGradientPanel\ColorWithAlphaCollectionPropertyDescriptor.vb" />
-    <Compile Include="AlphaGradientPanel\ColorWithAlphaConverter.vb" />
-    <Compile Include="AlphaGradientPanel\DrawingHelper.vb" />
-    <Compile Include="APIRS.vb" />
+    <Compile Include="frmUpgradeMDB.Designer.vb">
+      <DependentUpon>frmUpgradeMDB.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUpgradeMDB.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EveHQBackup.vb" />
     <Compile Include="Certificates.vb" />
+    <Compile Include="ClassSorter.vb" />
     <Compile Include="DataFunctions.vb" />
     <Compile Include="EveAccount.vb" />
-    <Compile Include="EveAPI.vb" />
     <Compile Include="EveAPIStatusForm.Designer.vb">
       <DependentUpon>EveAPIStatusForm.vb</DependentUpon>
     </Compile>
@@ -97,17 +134,37 @@
     <Compile Include="EveHQIconToolTipForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="EveHQMessage.vb" />
     <Compile Include="EveItem.vb" />
     <Compile Include="EveMail.vb" />
     <Compile Include="EveServer.vb" />
     <Compile Include="EveSettings.vb" />
-    <Compile Include="FTPAccount.vb" />
+    <Compile Include="frmModifyPrice.designer.vb">
+      <DependentUpon>frmModifyPrice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmModifyPrice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSelectQueue.Designer.vb">
+      <DependentUpon>frmSelectQueue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectQueue.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUpdatePricesDB.Designer.vb">
+      <DependentUpon>frmUpdatePricesDB.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUpdatePricesDB.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="G15LCD.vb" />
     <Compile Include="G15LCDB.vb" />
+    <Compile Include="G15LCDv2.vb" />
     <Compile Include="HQ.vb" />
     <Compile Include="IEveHQPlugIn.vb" />
     <Compile Include="IGB.vb" />
     <Compile Include="ImageHandler.vb" />
+    <Compile Include="Market.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -126,34 +183,71 @@
     <Compile Include="Pilot.vb" />
     <Compile Include="PilotParseFunctions.vb" />
     <Compile Include="PlugIn.vb" />
-    <Compile Include="PropertyGridEx\BrowsableTypeConverter.vb" />
-    <Compile Include="PropertyGridEx\CustomChoices.vb" />
-    <Compile Include="PropertyGridEx\CustomColorScheme.vb" />
-    <Compile Include="PropertyGridEx\CustomProperty.vb" />
-    <Compile Include="PropertyGridEx\CustomPropertyCollection.vb" />
-    <Compile Include="PropertyGridEx\CustomPropertyCollectionSet.vb" />
-    <Compile Include="PropertyGridEx\PropertyGridEx.Designer.vb">
-      <DependentUpon>PropertyGridEx.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PropertyGridEx\PropertyGridEx.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PropertyGridEx\UICustomEventEditor.vb" />
-    <Compile Include="PropertyGridEx\UIFilenameEditor.vb" />
-    <Compile Include="PropertyGridEx\UIListboxEditor.vb" />
+    <Compile Include="PriceGroup.vb" />
+    <Compile Include="ProxyServerFunctions.vb" />
     <Compile Include="Reports.vb" />
-    <Compile Include="ScrollingMarquee.designer.vb">
-      <DependentUpon>ScrollingMarquee.vb</DependentUpon>
+    <Compile Include="Requisitions\frmMergeRequisitions.Designer.vb">
+      <DependentUpon>frmMergeRequisitions.vb</DependentUpon>
     </Compile>
-    <Compile Include="ScrollingMarquee.vb">
+    <Compile Include="Requisitions\frmMergeRequisitions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Requisitions\frmAddRequisition.Designer.vb">
+      <DependentUpon>frmAddRequisition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Requisitions\frmAddRequisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Requisitions\frmAddRequisitionItem.Designer.vb">
+      <DependentUpon>frmAddRequisitionItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Requisitions\frmAddRequisitionItem.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Requisitions\frmEditRequisition.Designer.vb">
+      <DependentUpon>frmEditRequisition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Requisitions\frmEditRequisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Requisitions\frmRequisitions.Designer.vb">
+      <DependentUpon>frmRequisitions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Requisitions\frmRequisitions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Requisitions\Requisition.vb" />
+    <Compile Include="Requisitions\RequisitionAsset.vb" />
+    <Compile Include="Requisitions\RequisitionDataFunctions.vb" />
+    <Compile Include="Requisitions\RequisitionIGB.vb" />
+    <Compile Include="Requisitions\RequisitionOrder.vb" />
+    <Compile Include="RSSFeed.vb" />
+    <Compile Include="SkillFunctions.vb" />
+    <Compile Include="SkillQueue.vb" />
+    <Compile Include="SkillQueueControl\SkillQueueBlock.Designer.vb">
+      <DependentUpon>SkillQueueBlock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SkillQueueControl\SkillQueueBlock.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SkillFunctions.vb" />
-    <Compile Include="SkillQueueFunctions.vb" />
-    <Compile Include="SplitButton.vb">
-      <SubType>Component</SubType>
+    <Compile Include="SkillQueueControl\SkillQueueControl.Designer.vb">
+      <DependentUpon>SkillQueueControl.vb</DependentUpon>
     </Compile>
-    <Compile Include="StandingsCacheDecoder.vb" />
+    <Compile Include="SkillQueueControl\SkillQueueControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SkillQueueFunctions.vb" />
+    <Compile Include="SkillQueueItem.vb" />
+    <Compile Include="SkillQueueControl\SkillQueueTimeControl.Designer.vb">
+      <DependentUpon>SkillQueueTimeControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SkillQueueControl\SkillQueueTimeControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SolarSystem.vb" />
+    <Compile Include="SortedQueueItem.vb" />
+    <Compile Include="Standings.vb" />
+    <Compile Include="Station.vb" />
     <Compile Include="Ticker.Designer.vb">
       <DependentUpon>Ticker.vb</DependentUpon>
     </Compile>
@@ -162,12 +256,32 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmModifyPrices.resx">
+      <DependentUpon>frmModifyPrices.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUpgradeMDB.resx">
+      <DependentUpon>frmUpgradeMDB.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="EveAPIStatusForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EveAPIStatusForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EveHQIconToolTipForm.resx">
       <DependentUpon>EveHQIconToolTipForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmModifyPrice.resx">
+      <DependentUpon>frmModifyPrice.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSelectQueue.resx">
+      <DependentUpon>frmSelectQueue.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUpdatePricesDB.resx">
+      <DependentUpon>frmUpdatePricesDB.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -175,8 +289,40 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Requisitions\frmMergeRequisitions.resx">
+      <DependentUpon>frmMergeRequisitions.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Requisitions\frmAddRequisition.resx">
+      <DependentUpon>frmAddRequisition.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Requisitions\frmAddRequisitionItem.resx">
+      <DependentUpon>frmAddRequisitionItem.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Requisitions\frmEditRequisition.resx">
+      <DependentUpon>frmEditRequisition.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Requisitions\frmRequisitions.resx">
+      <DependentUpon>frmRequisitions.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SkillQueueControl\SkillQueueBlock.resx">
+      <DependentUpon>SkillQueueBlock.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SkillQueueControl\SkillQueueControl.resx">
+      <DependentUpon>SkillQueueControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SkillQueueControl\SkillQueueTimeControl.resx">
+      <DependentUpon>SkillQueueTimeControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ticker.resx">
       <DependentUpon>Ticker.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -200,15 +346,25 @@
     <None Include="Resources\EveHQ_LCDLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LgLcd.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LgLcd.NET.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="ExternalLibs\DevComponents.DotNetBar2.dll" />
+    <Content Include="ExternalLibs\GammaJul.LgLcd.dll" />
+    <Content Include="ExternalLibs\GammaJul.LgLcd.Native32.dll" />
+    <Content Include="ExternalLibs\GammaJul.LgLcd.Native64.dll" />
+    <Content Include="ExternalLibs\System.Data.SqlServerCe.dll" />
+    <None Include="Resources\ArrowDown.png" />
+    <None Include="Resources\ArrowUp.png" />
+    <Content Include="Resources\nochar.jpg" />
+    <None Include="Resources\IGBAccess.csv" />
+    <None Include="Resources\Orders321.png" />
+    <None Include="Resources\SkillBookClosed32.png" />
+    <None Include="Resources\level5_act.gif" />
+    <None Include="Resources\level4_act.gif" />
+    <None Include="Resources\level3_act.gif" />
+    <None Include="Resources\level2_act.gif" />
+    <None Include="Resources\level1_act.gif" />
+    <None Include="Resources\SkillBook32.png" />
     <None Include="Resources\SQLQueries.txt" />
     <None Include="Resources\Strings.txt" />
-    <None Include="Resources\EveHQDataDB.mdb" />
     <None Include="Resources\attributeGroups.csv" />
     <None Include="Resources\EveHQ_IGBLogo.jpg" />
   </ItemGroup>
@@ -217,6 +373,30 @@
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
+      <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
+      <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -226,4 +406,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

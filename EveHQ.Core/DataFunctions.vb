@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -25,58 +25,44 @@ Imports System.IO
 Imports System.Text
 Imports System.Windows.Forms
 Imports System.Xml
+Imports System.Data.SqlServerCe
 
 Public Class DataFunctions
 
-    Shared customMDBConnection As New OleDbConnection
+    Shared customSQLCEConnection As New SqlCeConnection
     Shared customSQLConnection As New SqlConnection
+    Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-
+    
     Public Shared Function CreateEveHQDataDB() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
-                ' Get the directory of the existing Access database to write the new one there
+            Case 0 ' SQL CE
+                ' Get the directory of the existing SQL CE database to write the new one there
                 Dim outputFile As String = ""
                 outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
-                MessageBox.Show("Creating database using path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                ' Try to create a new access db from resources
-                Dim fs As New FileStream(outputFile, FileMode.Create)
-                Dim bw As New BinaryWriter(fs)
+                'MessageBox.Show("Creating database using path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ' Try to create a new SQL CE DB
+                Dim strConnection As String = "Data Source = '" & outputFile & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
                 Try
-                    bw.Write(My.Resources.EveHQDataDB)
-                    bw.Close()
-                    fs.Close()
+                    Dim SQLCE As New SqlCeEngine(strConnection)
+                    SQLCE.CreateDatabase()
                     EveHQ.Core.HQ.EveHQSettings.DBDataFilename = outputFile
-                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & outputFile
+                    EveHQ.Core.HQ.EveHQDataConnectionString = strConnection
                     Return True
                 Catch e As Exception
-                    EveHQ.Core.HQ.dataError = "Unable to create Access database in " & outputFile & ControlChars.CrLf & ControlChars.CrLf & e.Message
+                    EveHQ.Core.HQ.dataError = "Unable to create SQL CE database in " & outputFile & ControlChars.CrLf & ControlChars.CrLf & e.Message
                     Return False
-                Finally
-                    fs.Dispose()
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Dim strSQL As String = "CREATE DATABASE EveHQData;"
                 Dim oldStrConn As String = EveHQ.Core.HQ.EveHQDataConnectionString
                 ' Set new database connection string
-                Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                    Case 1
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
-                        If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                            EveHQ.Core.HQ.EveHQDataConnectionString += "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                        Else
-                            EveHQ.Core.HQ.EveHQDataConnectionString += "; Integrated Security = SSPI;"
-                        End If
-                    Case 2
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
-                        If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                            EveHQ.Core.HQ.EveHQDataConnectionString += "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                        Else
-                            EveHQ.Core.HQ.EveHQDataConnectionString += "; Integrated Security = SSPI;"
-                        End If
-                    Case 3
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";User Id=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                End Select
+                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Integrated Security = SSPI;"
+                End If
                 If EveHQ.Core.DataFunctions.SetData(strSQL) = True Then
                     EveHQ.Core.HQ.EveHQSettings.DBDataName = "EveHQData"
                     EveHQ.Core.HQ.EveHQDataConnectionString = oldStrConn
@@ -90,16 +76,15 @@ Public Class DataFunctions
     Public Shared Function GetDatabaseTables() As ArrayList
         Dim DBTables As New ArrayList
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
-                Dim conn As New OleDbConnection
+            Case 0 ' SQL CE
+                Dim conn As New SqlCeConnection
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
                     conn.Open()
-                    Dim SchemaTable As DataTable = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, New Object() {Nothing, Nothing, Nothing, Nothing})
-                    For table As Integer = 0 To SchemaTable.Rows.Count - 1
-                        If SchemaTable.Rows(table)!TABLE_TYPE.ToString = "TABLE" Then
-                            DBTables.Add(SchemaTable.Rows(table)!TABLE_NAME.ToString())
-                        End If
+                    'Dim SchemaTable As DataTable = conn.GetSchema()
+                    Dim schemaTable As DataSet = EveHQ.Core.DataFunctions.GetCustomData("SELECT * FROM INFORMATION_SCHEMA.TABLES")
+                    For table As Integer = 0 To schemaTable.Tables(0).Rows.Count - 1
+                        DBTables.Add(schemaTable.Tables(0).Rows(table).Item("TABLE_NAME").ToString)
                     Next
                     Return DBTables
                 Catch e As Exception
@@ -110,7 +95,7 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Dim conn As New SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
@@ -134,98 +119,66 @@ Public Class DataFunctions
         End Select
     End Function
     Public Shared Function SetEveHQConnectionString() As Boolean
-
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0
+            Case 0 ' SQL CE
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
-                    EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                    EveHQ.Core.HQ.itemDBConnectionString = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBFilename & "';" & "Max Database Size = 512; ; Max Buffer Size = 2048;"
                 Else
                     Try
                         Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                        EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name)
+                        EveHQ.Core.HQ.itemDBConnectionString = "Data Source = '" & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name) & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
                     Catch e As Exception
                         MessageBox.Show("There was an error setting the EveHQ connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Return False
                     End Try
                 End If
-            Case 1
+            Case 1 ' SQL
                 EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
                     EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
                 Else
                     EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
                 End If
-            Case 2
-                EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
-                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Else
-                    EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
-                End If
-            Case 3
-                EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
         End Select
         Return True
-
     End Function
     Public Shared Function SetEveHQDataConnectionString() As Boolean
-
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0
-                Try
-                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
-                Catch e As Exception
-                    Dim msg As String = "There was an error setting the EveHQData connection string. Relevant data is as follows:" & ControlChars.CrLf & ControlChars.CrLf
-                    msg &= "Error: " & e.Message & ControlChars.CrLf
-                    msg &= "DBDataFilename: " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & ControlChars.CrLf
-                    MessageBox.Show(msg, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End Try
-                'If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
-                '    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
-                'Else
-                '    Try
-                '        Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
-                '        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name)
-                '    Catch e As Exception
-                '        Dim msg As String = "There was an error setting the EveHQData connection string. Relevant data is as follows:" & ControlChars.CrLf & ControlChars.CrLf
-                '        msg &= "AppFolder: " & EveHQ.Core.HQ.appFolder
-                '        MessageBox.Show("There was an error setting the EveHQData connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                '        Return False
-                '    End Try
-                'End If
-            Case 1
+            Case 0 ' SQL CE
+                If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
+                    EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                Else
+                    Try
+                        Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source = '" & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name) & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                    Catch e As Exception
+                        MessageBox.Show("There was an error setting the EveHQData connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Return False
+                    End Try
+                End If
+            Case 1 ' SQL
                 EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
                     EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
                 Else
                     EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; Integrated Security = SSPI;"
                 End If
-            Case 2
-                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
-                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Else
-                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; Integrated Security = SSPI;"
-                End If
-            Case 3
-                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
         End Select
         Return True
-
     End Function
     Public Shared Function OpenCustomDatabase() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
-                customMDBConnection = New OleDbConnection
-                customMDBConnection.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+            Case 0 ' SQL CE
+                customSQLCEConnection = New SqlCeConnection
+                customSQLCEConnection.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
-                    customMDBConnection.Open()
+                    customSQLCEConnection.Open()
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
                     Return False
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 customSQLConnection = New SqlConnection
                 customSQLConnection.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
@@ -242,16 +195,16 @@ Public Class DataFunctions
     End Function
     Public Shared Function CloseCustomDatabase() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
+            Case 0 ' SQL CE
                 Try
-                    If customMDBConnection.State = ConnectionState.Open Then
-                        customMDBConnection.Close()
+                    If customSQLCEConnection.State = ConnectionState.Open Then
+                        customSQLCEConnection.Close()
                     End If
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
                     Return False
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Try
                     If customSQLConnection.State = ConnectionState.Open Then
                         customSQLConnection.Close()
@@ -266,14 +219,18 @@ Public Class DataFunctions
         End Select
     End Function
     Public Shared Function SetStaticData(ByVal strSQL As String) As Boolean
+        If strSQL.Contains(" LIKE ") = False Then
+            strSQL = strSQL.Replace("'", "''")
+            strSQL = strSQL.Replace(ControlChars.Quote, "'")
+            strSQL = strSQL.Replace("=true", "=1")
+        End If
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
-                Dim conn As New OleDbConnection
+            Case 0 ' SQL CE
+                Dim conn As New SqlCeConnection
                 conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 Try
                     conn.Open()
-                    Dim keyCommand As New OleDbCommand(strSQL, conn)
-                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    Dim keyCommand As New SqlCeCommand(strSQL, conn)
                     keyCommand.ExecuteNonQuery()
                     Return True
                 Catch e As Exception
@@ -284,16 +241,11 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Dim conn As New SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 Try
                     conn.Open()
-                    If strSQL.Contains(" LIKE ") = False Then
-                        strSQL = strSQL.Replace("'", "''")
-                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
-                        strSQL = strSQL.Replace("=true", "=1")
-                    End If
                     Dim keyCommand As New SqlCommand(strSQL, conn)
                     keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     keyCommand.ExecuteNonQuery()
@@ -313,13 +265,12 @@ Public Class DataFunctions
     End Function
     Public Shared Function SetData(ByVal strSQL As String) As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
-                Dim conn As New OleDbConnection
+            Case 0 ' SQL CE
+                Dim conn As New SqlCeConnection
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
                     conn.Open()
-                    Dim keyCommand As New OleDbCommand(strSQL, conn)
-                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    Dim keyCommand As New SqlCeCommand(strSQL, conn)
                     keyCommand.ExecuteNonQuery()
                     Return True
                 Catch e As Exception
@@ -330,7 +281,7 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Dim conn As New SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
@@ -354,17 +305,16 @@ Public Class DataFunctions
     End Function
     Public Shared Function SetDataOnly(ByVal strSQL As String) As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
+            Case 0 ' SQL CE
                 Try
-                    Dim keyCommand As New OleDbCommand(strSQL, customMDBConnection)
-                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    Dim keyCommand As New SqlCeCommand(strSQL, customSQLCEConnection)
                     keyCommand.ExecuteNonQuery()
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
                     Return False
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Try
                     Dim keyCommand As New SqlCommand(strSQL, customSQLConnection)
                     keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
@@ -379,21 +329,25 @@ Public Class DataFunctions
                 Return Nothing
         End Select
     End Function
-
     Public Shared Function GetData(ByVal strSQL As String) As DataSet
 
         Dim EveHQData As New DataSet
         EveHQData.Clear()
         EveHQData.Tables.Clear()
 
+        If strSQL.Contains(" LIKE ") = False And strSQL.Contains(" IN ") = False Then
+            strSQL = strSQL.Replace("'", "''")
+            strSQL = strSQL.Replace(ControlChars.Quote, "'")
+            strSQL = strSQL.Replace("=true", "=1")
+        End If
+
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
-                Dim conn As New OleDbConnection
+            Case 0 ' SQL CE
+                Dim conn As New SqlCeConnection
                 conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 Try
                     conn.Open()
-                    Dim da As New OleDbDataAdapter(strSQL, conn)
-                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    Dim da As New SqlCeDataAdapter(strSQL, conn)
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData
@@ -415,16 +369,11 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Dim conn As New SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 Try
                     conn.Open()
-                    If strSQL.Contains(" LIKE ") = False Then
-                        strSQL = strSQL.Replace("'", "''")
-                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
-                        strSQL = strSQL.Replace("=true", "=1")
-                    End If
                     Dim da As New SqlDataAdapter(strSQL, conn)
                     da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
@@ -450,13 +399,12 @@ Public Class DataFunctions
         EveHQData.Tables.Clear()
 
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0 ' Access
-                Dim conn As New OleDbConnection
+            Case 0 ' SQL CE
+                Dim conn As New SqlCeConnection
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
                     conn.Open()
-                    Dim da As New OleDbDataAdapter(strSQL, conn)
-                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    Dim da As New SqlCeDataAdapter(strSQL, conn)
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData
@@ -468,16 +416,11 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 1, 2 ' MSSQL, MSSQL Express
+            Case 1 ' MSSQL
                 Dim conn As New SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
                     conn.Open()
-                    If strSQL.Contains(" LIKE ") = False And strSQL.Contains(" IN ") = False Then
-                        strSQL = strSQL.Replace("'", "''")
-                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
-                        strSQL = strSQL.Replace("=true", "=1")
-                    End If
                     Dim da As New SqlDataAdapter(strSQL, conn)
                     da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
@@ -514,20 +457,6 @@ Public Class DataFunctions
             Return bpTypeID
         End If
     End Function
-    Public Shared Function GetTypeParentInfo(ByVal typeID As String) As String()
-        Dim info(5) As String
-        Dim strSQL As String = "SELECT invTypes.typeID, invTypes.typeName, invGroups.groupID, invGroups.groupName, invCategories.categoryID, invCategories.categoryName"
-        strSQL &= " FROM (invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID"
-        strSQL &= " WHERE invTypes.typeID=" & typeID & ";"
-        Dim ds As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        info(0) = ds.Tables(0).Rows(0).Item("typeID").ToString.Trim
-        info(1) = ds.Tables(0).Rows(0).Item("typeName").ToString.Trim
-        info(2) = ds.Tables(0).Rows(0).Item("groupID").ToString.Trim
-        info(4) = ds.Tables(0).Rows(0).Item("categoryID").ToString.Trim
-        info(3) = ds.Tables(0).Rows(0).Item("groupName").ToString.Trim
-        info(5) = ds.Tables(0).Rows(0).Item("categoryName").ToString.Trim
-        Return info
-    End Function
     Public Shared Function GetBPWF(ByVal typeID As String) As Double
         Dim BPWF As Double = 0
         Dim strSQL As String = "SELECT *"
@@ -557,12 +486,16 @@ Public Class DataFunctions
             Return data
         End If
     End Function
+
     Public Shared Function LoadItemData() As Boolean
         Dim itemData As New DataSet
         Try
             EveHQ.Core.HQ.itemData.Clear()
+            ' Get type data
             Dim strSQL As String = "SELECT invGroups.categoryID, invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.volume, invTypes.portionSize, invTypes.published, invTypes.marketGroupID FROM invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID;"
             itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            ' Get meta data
+            strSQL = ""
             Dim newItem As New EveItem
             If itemData IsNot Nothing Then
                 If itemData.Tables(0).Rows.Count > 0 Then
@@ -570,14 +503,8 @@ Public Class DataFunctions
                         newItem = New EveItem
                         newItem.ID = CLng(itemRow.Item("typeID"))
                         newItem.Name = CStr(itemRow.Item("typeName"))
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0, 3 ' Access & MySQL
-                                newItem.Group = CInt(itemRow.Item("groupID"))
-                                newItem.Published = CBool(itemRow.Item("published"))
-                            Case 1, 2 ' SQL
-                                newItem.Group = CInt(itemRow.Item("groupID"))
-                                newItem.Published = CBool(itemRow.Item("published"))
-                        End Select
+                        newItem.Group = CInt(itemRow.Item("groupID"))
+                        newItem.Published = CBool(itemRow.Item("published"))
                         newItem.Category = CInt(itemRow.Item("categoryID"))
                         If IsDBNull(itemRow.Item("marketGroupID")) = False Then
                             newItem.MarketGroup = CInt(itemRow.Item("marketGroupID"))
@@ -602,34 +529,38 @@ Public Class DataFunctions
                                 End If
                             End If
                         Next
-                        If itemData IsNot Nothing Then
-                            itemData.Dispose()
+                        ' Get the icon data
+                        strSQL = "SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID;"
+                        itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
+                        If itemData.Tables(0).Rows.Count > 0 Then
+                            For Each itemRow As DataRow In itemData.Tables(0).Rows
+                                If EveHQ.Core.HQ.itemData.ContainsKey(CStr(itemRow.Item("typeID"))) Then
+                                    newItem = EveHQ.Core.HQ.itemData(CStr(itemRow.Item("typeID")))
+                                    If IsDBNull(itemRow.Item("iconFile")) = False Then
+                                        newItem.Icon = CStr(itemRow.Item("iconFile"))
+                                    End If
+                                End If
+                            Next
                         End If
+                        itemData.Dispose()
                         GC.Collect()
                         Return True
                     Else
-                        If itemData IsNot Nothing Then
-                            itemData.Dispose()
-                        End If
+                        itemData.Dispose()
                         Return False
                     End If
                 Else
-                    If itemData IsNot Nothing Then
-                        itemData.Dispose()
-                    End If
+                    itemData.Dispose()
                     Return False
                 End If
             Else
-                If itemData IsNot Nothing Then
-                    itemData.Dispose()
-                End If
                 Return False
             End If
         Catch ex As Exception
             If itemData IsNot Nothing Then
                 itemData.Dispose()
             End If
-            MessageBox.Show("Error Loading Item Data for Assets Plugin" & ControlChars.CrLf & ex.Message, "Assets Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error Loading Item Data:" & ControlChars.CrLf & ex.Message, "Load Items Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -644,6 +575,7 @@ Public Class DataFunctions
         EveHQ.Core.HQ.groupCats.Clear()
         Dim eveData As New DataSet
         Try
+
             Dim iKey As String = ""
             Dim iValue As String = ""
             Dim iParent As String = ""
@@ -676,22 +608,32 @@ Public Class DataFunctions
                 If EveHQ.Core.HQ.itemList.ContainsKey(iKey) = False Then
                     EveHQ.Core.HQ.itemList.Add(iKey, iValue)
                 End If
-                If EveHQ.Core.HQ.BasePriceList.Contains(iValue) = False Then
-                    EveHQ.Core.HQ.BasePriceList.Add(iValue, iBasePrice)
+                If EveHQ.Core.HQ.BasePriceList.ContainsKey(iValue) = False Then
+                    EveHQ.Core.HQ.BasePriceList.Add(iValue, CDbl(iBasePrice))
                 End If
             Next
+            ' Load Certificate data
+            Call EveHQ.Core.DataFunctions.LoadCertCategories()
+            Call EveHQ.Core.DataFunctions.LoadCertClasses()
+            Call EveHQ.Core.DataFunctions.LoadCerts()
+            Call EveHQ.Core.DataFunctions.LoadCertReqs()
+            ' Load the "unlock" (dependancy) data
             If EveHQ.Core.DataFunctions.LoadUnlocks = False Then
                 If eveData IsNot Nothing Then
                     eveData.Dispose()
                 End If
                 Return False
             End If
+            ' Load price data
             EveHQ.Core.DataFunctions.LoadMarketPricesFromDB()
             EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
+
             If eveData IsNot Nothing Then
                 eveData.Dispose()
             End If
+
             Return True
+
         Catch e As Exception
             If eveData IsNot Nothing Then
                 eveData.Dispose()
@@ -708,7 +650,7 @@ Public Class DataFunctions
             Dim strSQL As String = ""
             strSQL &= "SELECT invTypes.typeID AS invTypeID, invTypes.groupID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, invTypes.published"
             strSQL &= " FROM invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID"
-            strSQL &= " WHERE (((dgmTypeAttributes.attributeID) IN (182,183,184,277,278,279,1285,1286,1287,1288,1289,1290)) AND ((invTypes.published)=true))"
+            strSQL &= " WHERE (((dgmTypeAttributes.attributeID) IN (182,183,184,277,278,279,1285,1286,1287,1288,1289,1290)) AND (invTypes.published=1))"
             strSQL &= " ORDER BY invTypes.typeID, dgmTypeAttributes.attributeID;"
             Dim attData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             Dim lastAtt As String = "0"
@@ -828,47 +770,6 @@ Public Class DataFunctions
             Exit Function
         End Try
     End Function
-    'Public Shared Function LoadMarketPrices() As Boolean
-    '    Try
-    '        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-    '        EveHQ.Core.HQ.MarketPriceList.Clear()
-    '        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt") = True Then
-    '            Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt")
-    '            Dim marketLine As String = ""
-    '            Dim price As Double
-    '            Do
-    '                marketLine = sr.ReadLine()
-    '                Dim marketData() As String = marketLine.Split(",".ToCharArray)
-    '                price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
-    '                EveHQ.Core.HQ.MarketPriceList.Add(marketData(0), price)
-    '            Loop Until sr.EndOfStream
-    '        End If
-    '    Catch ex As Exception
-    '    End Try
-    '    Return True
-    'End Function
-    'Public Shared Function LoadCustomPrices() As Boolean
-    '    Try
-    '        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-    '        EveHQ.Core.HQ.CustomPriceList.Clear()
-    '        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt") = True Then
-    '            Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt")
-    '            Dim marketLine As String = ""
-    '            Dim price As Double
-    '            Do
-    '                marketLine = sr.ReadLine()
-    '                If marketLine IsNot Nothing Then
-    '                    Dim marketData() As String = marketLine.Split(",".ToCharArray)
-    '                    price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
-    '                    EveHQ.Core.HQ.CustomPriceList.Add(marketData(0), price)
-    '                End If
-    '            Loop Until sr.EndOfStream
-    '        End If
-    '    Catch ex As Exception
-    '    End Try
-    '    Call LoadCustomPricesFromDB()
-    '    Return True
-    'End Function
     Public Shared Function GetPrice(ByVal itemID As String) As Double
         If itemID IsNot Nothing Then
             Try
@@ -967,101 +868,101 @@ Public Class DataFunctions
             End If
         End Try
     End Function
-    Private Shared Function CreateCustomPricesTable() As Boolean
-        Dim CreateTable As Boolean = False
-        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-        If tables IsNot Nothing Then
-            If tables.Contains("customPrices") = False Then
-                ' The DB exists but the table doesn't so we'll create this
-                CreateTable = True
-            Else
-                ' We have the Db and table so we can return a good result
-                Return True
-            End If
-        Else
-            ' Database doesn't exist?
-            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                CreateTable = True
-            End If
-        End If
+	Public Shared Function CreateCustomPricesTable() As Boolean
+		Dim CreateTable As Boolean = False
+		Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+		If tables IsNot Nothing Then
+			If tables.Contains("customPrices") = False Then
+				' The DB exists but the table doesn't so we'll create this
+				CreateTable = True
+			Else
+				' We have the Db and table so we can return a good result
+				Return True
+			End If
+		Else
+			' Database doesn't exist?
+			Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+			msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+			msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+			MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+				MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Return False
+			Else
+				MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+				CreateTable = True
+			End If
+		End If
 
-        ' Create the database table 
-        If CreateTable = True Then
-            Dim strSQL As New StringBuilder
-            strSQL.AppendLine("CREATE TABLE customPrices")
-            strSQL.AppendLine("(")
-            strSQL.AppendLine("  typeID         int,")
-            strSQL.AppendLine("  price          float,")
-            strSQL.AppendLine("  priceDate      datetime,")
-            strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT customPrices_PK PRIMARY KEY CLUSTERED (typeID)")
-            strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-                Return True
-            Else
-                MessageBox.Show("There was an error creating the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
+		' Create the database table 
+		If CreateTable = True Then
+			Dim strSQL As New StringBuilder
+			strSQL.AppendLine("CREATE TABLE customPrices")
+			strSQL.AppendLine("(")
+			strSQL.AppendLine("  typeID         int,")
+			strSQL.AppendLine("  price          float,")
+			strSQL.AppendLine("  priceDate      datetime,")
+			strSQL.AppendLine("")
+			strSQL.AppendLine("  CONSTRAINT customPrices_PK PRIMARY KEY (typeID)")
+			strSQL.AppendLine(")")
+			If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+				Return True
+			Else
+				MessageBox.Show("There was an error creating the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Return False
+			End If
+		End If
 
-    End Function
-    Private Shared Function CreateMarketPricesTable() As Boolean
-        Dim CreateTable As Boolean = False
-        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-        If tables IsNot Nothing Then
-            If tables.Contains("marketPrices") = False Then
-                ' The DB exists but the table doesn't so we'll create this
-                CreateTable = True
-            Else
-                ' We have the Db and table so we can return a good result
-                Return True
-            End If
-        Else
-            ' Database doesn't exist?
-            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                CreateTable = True
-            End If
-        End If
+	End Function
+	Public Shared Function CreateMarketPricesTable() As Boolean
+		Dim CreateTable As Boolean = False
+		Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+		If tables IsNot Nothing Then
+			If tables.Contains("marketPrices") = False Then
+				' The DB exists but the table doesn't so we'll create this
+				CreateTable = True
+			Else
+				' We have the Db and table so we can return a good result
+				Return True
+			End If
+		Else
+			' Database doesn't exist?
+			Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+			msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+			msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+			MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+				MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Return False
+			Else
+				MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+				CreateTable = True
+			End If
+		End If
 
-        ' Create the database table 
-        If CreateTable = True Then
-            Dim strSQL As New StringBuilder
-            strSQL.AppendLine("CREATE TABLE marketPrices")
-            strSQL.AppendLine("(")
-            strSQL.AppendLine("  typeID         int,")
-            strSQL.AppendLine("  price          float,")
-            strSQL.AppendLine("  priceDate      datetime,")
-            strSQL.AppendLine("")
-            strSQL.AppendLine("  CONSTRAINT marketPrices_PK PRIMARY KEY CLUSTERED (typeID)")
-            strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-                Return True
-            Else
-                MessageBox.Show("There was an error creating the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
+		' Create the database table 
+		If CreateTable = True Then
+			Dim strSQL As New StringBuilder
+			strSQL.AppendLine("CREATE TABLE marketPrices")
+			strSQL.AppendLine("(")
+			strSQL.AppendLine("  typeID         int,")
+			strSQL.AppendLine("  price          float,")
+			strSQL.AppendLine("  priceDate      datetime,")
+			strSQL.AppendLine("")
+			strSQL.AppendLine("  CONSTRAINT marketPrices_PK PRIMARY KEY (typeID)")
+			strSQL.AppendLine(")")
+			If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+				Return True
+			Else
+				MessageBox.Show("There was an error creating the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Return False
+			End If
+		End If
 
-    End Function
+	End Function
     Public Shared Function SetCustomPrice(ByVal typeID As Long, ByVal UserPrice As Double, ByVal DBOpen As Boolean) As Boolean
         ' Store the user's price in the database
-        If EveHQ.Core.HQ.CustomPriceList.Contains(typeID.ToString) = False Then
+        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(typeID.ToString) = False Then
             ' Add the data
             If EveHQ.Core.DataFunctions.AddCustomPrice(typeID.ToString, UserPrice, DBOpen) = True Then
                 Return True
@@ -1079,7 +980,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function AddCustomPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.CustomPriceList(itemID) = price
-        Dim priceSQL As String = "INSERT INTO customPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "');"
+        Dim priceSQL As String = "INSERT INTO customPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(IndustryTimeFormat, culture) & "');"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1098,7 +999,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function EditCustomPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.CustomPriceList(itemID) = price
-        Dim priceSQL As String = "UPDATE customPrices SET price=" & price.ToString(culture) & ", priceDate='" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "' WHERE typeID=" & itemID & ";"
+        Dim priceSQL As String = "UPDATE customPrices SET price=" & price.ToString(culture) & ", priceDate='" & Now.ToString(IndustryTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1117,7 +1018,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function DeleteCustomPrice(ByVal itemID As String) As Boolean
         ' Double check it exists and delete it
-        If EveHQ.Core.HQ.CustomPriceList.Contains(itemID) = True Then
+        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) = True Then
             EveHQ.Core.HQ.CustomPriceList.Remove(itemID)
         End If
         Dim priceSQL As String = "DELETE FROM customPrices WHERE typeID=" & itemID & ";"
@@ -1130,7 +1031,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function SetMarketPrice(ByVal typeID As Long, ByVal UserPrice As Double, ByVal DBOpen As Boolean) As Boolean
         ' Store the user's price in the database
-        If EveHQ.Core.HQ.MarketPriceList.Contains(typeID.ToString) = False Then
+        If EveHQ.Core.HQ.MarketPriceList.ContainsKey(typeID.ToString) = False Then
             ' Add the data
             If EveHQ.Core.DataFunctions.AddMarketPrice(typeID.ToString, UserPrice, DBOpen) = True Then
                 Return True
@@ -1148,7 +1049,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function AddMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
-        Dim priceSQL As String = "INSERT INTO marketPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "');"
+        Dim priceSQL As String = "INSERT INTO marketPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(IndustryTimeFormat, culture) & "');"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1167,7 +1068,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function EditMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
-        Dim priceSQL As String = "UPDATE marketPrices SET price=" & price.ToString(culture) & ", priceDate = '" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "' WHERE typeID=" & itemID & ";"
+        Dim priceSQL As String = "UPDATE marketPrices SET price=" & price.ToString(culture) & ", priceDate = '" & Now.ToString(IndustryTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1186,7 +1087,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function DeleteMarketPrice(ByVal itemID As String) As Boolean
         ' Double check it exists and delete it
-        If EveHQ.Core.HQ.MarketPriceList.Contains(itemID) = True Then
+        If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) = True Then
             EveHQ.Core.HQ.MarketPriceList.Remove(itemID)
         End If
         Dim priceSQL As String = "DELETE FROM marketPrices WHERE typeID=" & itemID & ";"
@@ -1216,7 +1117,7 @@ Public Class DataFunctions
         Loop Until FileInUse = False
         Dim header As String = sr.ReadLine()
 
-        If header <> "price,volRemaining,typeID,range,orderID,volEntered,minVolume,bid,issued,duration,stationID,regionID,solarSystemID,jumps," Then
+        If header <> "price,volRemaining,typeID,range,orderID,volEntered,minVolume,bid,issueDate,duration,stationID,regionID,solarSystemID,jumps," Then
             MessageBox.Show("File is not a valid Eve Market Export file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return Nothing
         Else
@@ -1468,24 +1369,13 @@ Public Class DataFunctions
         ' Create the database table 
         If CreateTable = True Then
             Dim strSQL As New StringBuilder
-            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                Case 0
-                    strSQL.AppendLine("CREATE TABLE eveIDToName")
-                    strSQL.AppendLine("(")
-                    strSQL.AppendLine("  eveID      long NOT NULL,")
-                    strSQL.AppendLine("  eveName    text(255) NOT NULL,")
-                    strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveIDToName_PK PRIMARY KEY CLUSTERED (eveID)")
-                    strSQL.AppendLine(")")
-                Case Else
-                    strSQL.AppendLine("CREATE TABLE eveIDToName")
-                    strSQL.AppendLine("(")
-                    strSQL.AppendLine("  eveID      bigint NOT NULL,")
-                    strSQL.AppendLine("  eveName    nvarchar(255) NOT NULL,")
-                    strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveIDToName_PK PRIMARY KEY CLUSTERED (eveID)")
-                    strSQL.AppendLine(")")
-            End Select
+            strSQL.AppendLine("CREATE TABLE eveIDToName")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  eveID      bigint NOT NULL,")
+            strSQL.AppendLine("  eveName    nvarchar(255) NOT NULL,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT eveIDToName_PK PRIMARY KEY (eveID)")
+            strSQL.AppendLine(")")
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
             Else
@@ -1502,8 +1392,8 @@ Public Class DataFunctions
                 ' The DB exists but the table doesn't so we'll create this
                 CreateTable = True
             Else
-                ' We have the DB and table so we can return a good result
-                Return True
+                ' We have the DB and table so we can check the existence of the messagebody field
+				Return CheckForEveMailBodyColumn()
             End If
         Else
             ' Database doesn't exist?
@@ -1523,40 +1413,22 @@ Public Class DataFunctions
         ' Create the database table 
         If CreateTable = True Then
             Dim strSQL As New StringBuilder
-            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                Case 0
-                    strSQL.AppendLine("CREATE TABLE eveMail")
-                    strSQL.AppendLine("(")
-                    strSQL.AppendLine("  messageKey           text(30) NOT NULL,")
-                    strSQL.AppendLine("  messageID            long NOT NULL,")
-                    strSQL.AppendLine("  originatorID         long NOT NULL,")
-                    strSQL.AppendLine("  senderID             long NOT NULL,")
-                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
-                    strSQL.AppendLine("  title                memo NOT NULL,")
-                    strSQL.AppendLine("  toCorpOrAllianceID   memo NULL,")
-                    strSQL.AppendLine("  toCharacterIDs       memo NULL,")
-                    strSQL.AppendLine("  toListIDs            memo NULL,")
-                    strSQL.AppendLine("  readMail             integer NOT NULL,")
-                    strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageKey)")
-                    strSQL.AppendLine(")")
-                Case Else
-                    strSQL.AppendLine("CREATE TABLE eveMail")
-                    strSQL.AppendLine("(")
-                    strSQL.AppendLine("  messageKey           nvarchar(30) NOT NULL,")
-                    strSQL.AppendLine("  messageID            bigint NOT NULL,")
-                    strSQL.AppendLine("  originatorID         bigint NOT NULL,")
-                    strSQL.AppendLine("  senderID             bigint NOT NULL,")
-                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
-                    strSQL.AppendLine("  title                nvarchar(1000) NOT NULL,")
-                    strSQL.AppendLine("  toCorpOrAllianceID   nvarchar(1000) NULL,")
-                    strSQL.AppendLine("  toCharacterIDs       nvarchar(1000) NULL,")
-                    strSQL.AppendLine("  toListIDs            nvarchar(1000) NULL,")
-                    strSQL.AppendLine("  readMail             bit NOT NULL,")
-                    strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY CLUSTERED (messageKey)")
-                    strSQL.AppendLine(")")
-            End Select
+            strSQL.AppendLine("CREATE TABLE eveMail")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  messageKey           nvarchar(30) NOT NULL,")
+            strSQL.AppendLine("  messageID            bigint NOT NULL,")
+            strSQL.AppendLine("  originatorID         bigint NOT NULL,")
+            strSQL.AppendLine("  senderID             bigint NOT NULL,")
+            strSQL.AppendLine("  sentDate             datetime NOT NULL,")
+            strSQL.AppendLine("  title                nvarchar(1000) NOT NULL,")
+            strSQL.AppendLine("  toCorpOrAllianceID   nvarchar(1000) NULL,")
+            strSQL.AppendLine("  toCharacterIDs       nvarchar(1000) NULL,")
+            strSQL.AppendLine("  toListIDs            nvarchar(1000) NULL,")
+			strSQL.AppendLine("  readMail             bit NOT NULL,")
+			strSQL.AppendLine("  messageBody          ntext NULL,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY (messageKey)")
+            strSQL.AppendLine(")")
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
             Else
@@ -1573,8 +1445,8 @@ Public Class DataFunctions
                 ' The DB exists but the table doesn't so we'll create this
                 CreateTable = True
             Else
-                ' We have the DB and table so we can return a good result
-                Return True
+                ' We have the DB and table so we can check the existence of the messagebody field
+                Return CheckForEveNotificationBodyColumn()
             End If
         Else
             ' Database doesn't exist?
@@ -1594,34 +1466,19 @@ Public Class DataFunctions
         ' Create the database table 
         If CreateTable = True Then
             Dim strSQL As New StringBuilder
-            Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                Case 0
-                    strSQL.AppendLine("CREATE TABLE eveNotifications")
-                    strSQL.AppendLine("(")
-                    strSQL.AppendLine("  messageKey           text(30) NOT NULL,")
-                    strSQL.AppendLine("  messageID            long NOT NULL,")
-                    strSQL.AppendLine("  typeID               long NOT NULL,")
-                    strSQL.AppendLine("  originatorID         long NOT NULL,")
-                    strSQL.AppendLine("  senderID             long NOT NULL,")
-                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
-                    strSQL.AppendLine("  readMail             integer NOT NULL,")
-                    strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveNotifications_PK PRIMARY KEY CLUSTERED (messageKey)")
-                    strSQL.AppendLine(")")
-                Case Else
-                    strSQL.AppendLine("CREATE TABLE eveNotifications")
-                    strSQL.AppendLine("(")
-                    strSQL.AppendLine("  messageKey           nvarchar(30) NOT NULL,")
-                    strSQL.AppendLine("  messageID            bigint NOT NULL,")
-                    strSQL.AppendLine("  typeID               bigint NOT NULL,")
-                    strSQL.AppendLine("  originatorID         bigint NOT NULL,")
-                    strSQL.AppendLine("  senderID             bigint NOT NULL,")
-                    strSQL.AppendLine("  sentDate             datetime NOT NULL,")
-                    strSQL.AppendLine("  readMail             bit NOT NULL,")
-                    strSQL.AppendLine("")
-                    strSQL.AppendLine("  CONSTRAINT eveNotifications_PK PRIMARY KEY CLUSTERED (messageKey)")
-                    strSQL.AppendLine(")")
-            End Select
+            strSQL.AppendLine("CREATE TABLE eveNotifications")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  messageKey           nvarchar(30) NOT NULL,")
+            strSQL.AppendLine("  messageID            bigint NOT NULL,")
+            strSQL.AppendLine("  typeID               bigint NOT NULL,")
+            strSQL.AppendLine("  originatorID         bigint NOT NULL,")
+            strSQL.AppendLine("  senderID             bigint NOT NULL,")
+            strSQL.AppendLine("  sentDate             datetime NOT NULL,")
+            strSQL.AppendLine("  readMail             bit NOT NULL,")
+            strSQL.AppendLine("  messageBody          ntext NULL,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT eveNotifications_PK PRIMARY KEY (messageKey)")
+            strSQL.AppendLine(")")
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
             Else
@@ -1631,7 +1488,42 @@ Public Class DataFunctions
         End If
     End Function
 
-    Public Shared Sub ParseIDs(ByRef IDs As ArrayList, ByVal strID As String)
+	Public Shared Function CheckForEveMailBodyColumn() As Boolean
+		Dim strSQL As String = "SELECT * FROM eveMail;"
+		Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+
+		' Get the index of the field name
+		Dim i As Integer = ColData.Tables(0).Columns.IndexOf("messageBody")
+
+		If i = -1 Then
+			'Field is missing
+			Dim MailSQL As String = "ALTER TABLE eveMail ADD messageBody ntext NULL;"
+			Return (EveHQ.Core.DataFunctions.SetData(MailSQL))
+		Else
+			Return True
+		End If
+
+	End Function
+
+    Public Shared Function CheckForEveNotificationBodyColumn() As Boolean
+        Dim strSQL As String = "SELECT * FROM eveNotifications;"
+        Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+
+        ' Get the index of the field name
+        Dim i As Integer = ColData.Tables(0).Columns.IndexOf("messageBody")
+
+        If i = -1 Then
+            'Field is missing
+            Dim MailSQL As String = "ALTER TABLE eveNotifications ADD messageBody ntext NULL;"
+            Return (EveHQ.Core.DataFunctions.SetData(MailSQL))
+        Else
+            Return True
+        End If
+
+    End Function
+  
+
+    Public Shared Sub ParseIDs(ByRef IDs As List(Of String), ByVal strID As String)
         Dim strIDs() As String = strID.Split(",".ToCharArray)
         For Each ID As String In strIDs
             If ID.Trim <> "" Then
@@ -1642,43 +1534,77 @@ Public Class DataFunctions
         Next
     End Sub
 
-    Public Shared Sub WriteEveIDsToDatabase(ByVal IDs As ArrayList)
-        Dim strID As New StringBuilder
+    Public Shared Sub WriteEveIDsToDatabase(ByVal IDs As List(Of String))
+
+        Dim MainIDList As New List(Of String)
         For Each ID As String In IDs
-            strID.Append(ID & ",")
+            MainIDList.Add(ID)
         Next
-        strID.Append("0")
-        ' Send this to the API
-        Dim IDXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, strID.ToString, EveHQ.Core.EveAPI.APIReturnMethod.ReturnActual)
-        ' Parse this XML
-        Dim FinalIDs As New SortedList(Of Long, String)
-        Dim IDList As XmlNodeList
-        Dim IDNode As XmlNode
-        Dim eveID As Long = 0
-        Dim eveName As String = ""
-        If IDXML IsNot Nothing Then
-            IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
-            If IDList.Count > 0 Then
-                For Each IDNode In IDList
-                    eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
-                    eveName = IDNode.Attributes.GetNamedItem("name").Value
-                    If FinalIDs.ContainsKey(eveID) = False Then
-                        FinalIDs.Add(eveID, eveName)
-                    End If
+
+        If MainIDList.Count > 0 Then
+            Do
+
+                ' Break the ID list into groups of 200
+                Dim MaxIDs As Integer = 200
+                Dim ReqIDList As New List(Of String)
+                For idx As Integer = 0 To Math.Min(MainIDList.Count, MaxIDs) - 1
+                    ReqIDList.Add(MainIDList.Item(0))
+                    MainIDList.RemoveAt(0)
                 Next
-            End If
-            ' Add all the data to the database
-            Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
-            For Each eveID In FinalIDs.Keys
-                eveName = FinalIDs(eveID)
-                Dim uSQL As New StringBuilder
-                uSQL.Append(strIDInsert)
-                uSQL.Append("(" & eveID & ", ")
-                uSQL.Append("'" & eveName & "');")
-                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                    'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+                Dim strID As New StringBuilder
+                For Each ID As String In ReqIDList
+                    strID.Append("," & ID)
+                Next
+                strID.Remove(0, 1)
+
+                ' Send this to the API
+                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                Dim IDXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.IDToName, strID.ToString, EveAPI.APIReturnMethods.ReturnActual)
+                ' Parse this XML
+                Dim FinalIDs As New SortedList(Of Long, String)
+                Dim IDList As XmlNodeList
+                Dim IDNode As XmlNode
+                Dim eveID As Long = 0
+                Dim eveName As String = ""
+                If IDXML IsNot Nothing Then
+                    IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
+                    If IDList.Count > 0 Then
+                        For Each IDNode In IDList
+                            eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
+                            eveName = IDNode.Attributes.GetNamedItem("name").Value
+                            If FinalIDs.ContainsKey(eveID) = False Then
+                                FinalIDs.Add(eveID, eveName)
+                            End If
+                        Next
+                    End If
+                    ' Get a list of everything we already have
+                    Dim ExistingIDs As New List(Of String)
+                    Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
+                    Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                    If IDData IsNot Nothing Then
+                        If IDData.Tables(0).Rows.Count > 0 Then
+                            For Each IDRow As DataRow In IDData.Tables(0).Rows
+                                ExistingIDs.Add(CStr(IDRow.Item("eveID")))
+                            Next
+                        End If
+                    End If
+                    ' Add all the data to the database
+                    Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
+                    For Each eveID In FinalIDs.Keys
+                        If ExistingIDs.Contains(eveID.ToString) = False Then
+                            eveName = FinalIDs(eveID)
+                            Dim uSQL As New StringBuilder
+                            uSQL.Append(strIDInsert)
+                            uSQL.Append("(" & eveID & ", ")
+                            uSQL.Append("'" & eveName.Replace("'", "''") & "');")
+                            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                                'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            End If
+                        End If
+                    Next
                 End If
-            Next
+            Loop Until MainIDList.Count = 0
         End If
     End Sub
 
@@ -1686,7 +1612,8 @@ Public Class DataFunctions
         Dim accountName As String = mPilot.Account
         Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
         ' Send this to the API
-        Dim IDXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.MailingLists, mAccount, mPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim IDXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.MailingLists, mAccount.ToAPIAccount, mPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
         ' Parse this XML
         Dim FinalIDs As New SortedList(Of Long, String)
         Dim IDList As XmlNodeList
@@ -1717,4 +1644,349 @@ Public Class DataFunctions
         Next
     End Sub
 
+    Public Shared Function CheckDatabaseConnection(ByVal silentResponse As Boolean) As Boolean
+        Dim strConnection As String = ""
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' SQL CE
+                strConnection = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBFilename & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                Dim connection As New SqlCeConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    If silentResponse = False Then
+                        MessageBox.Show("Connected successfully to SQL CE database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                    Return True
+                Catch ex As Exception
+                    If silentResponse = False Then
+                        MessageBox.Show(ex.Message, "Error Opening SQL CE Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End If
+                    Return False
+                End Try
+            Case 1 ' SQL
+                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName & "; Integrated Security = SSPI;"
+                End If
+                Dim connection As New SqlConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    If silentResponse = False Then
+                        MessageBox.Show("Connected successfully to MS SQL database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                    Return True
+                Catch ex As Exception
+                    If silentResponse = False Then
+                        MessageBox.Show(ex.Message, "Error Opening MS SQL Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End If
+                    Return False
+                End Try
+        End Select
+    End Function
+
+    Public Shared Function CheckDataDatabaseConnection(ByVal silentResponse As Boolean) As Boolean
+        Dim strConnection As String = ""
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' SQL CE
+                strConnection = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                Dim connection As New SqlCeConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    If silentResponse = False Then
+                        MessageBox.Show("Connected successfully to SQL CE database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                    Return True
+                Catch ex As Exception
+                    If silentResponse = False Then
+                        MessageBox.Show(ex.Message, "Error Opening SQL CE Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End If
+                    Return False
+                End Try
+            Case 1 ' SQL
+                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; Integrated Security = SSPI;"
+                End If
+                Dim connection As New SqlConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    If silentResponse = False Then
+                        MessageBox.Show("Connected successfully to MS SQL database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                    Return True
+                Catch ex As Exception
+                    If silentResponse = False Then
+                        MessageBox.Show(ex.Message, "Error Opening MS SQL Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End If
+                    Return False
+                End Try
+        End Select
+    End Function
+
+#Region "Solar System & Station Data Routines"
+
+    Public Shared Function LoadSolarSystems() As Boolean
+        Dim strSQL As String = "SELECT mapSolarSystems.regionID AS mapSolarSystems_regionID, mapSolarSystems.constellationID AS mapSolarSystems_constellationID, mapSolarSystems.solarSystemID, mapSolarSystems.solarSystemName, mapSolarSystems.x, mapSolarSystems.y, mapSolarSystems.z, mapSolarSystems.xMin, mapSolarSystems.xMax, mapSolarSystems.yMin, mapSolarSystems.yMax, mapSolarSystems.zMin, mapSolarSystems.zMax, mapSolarSystems.luminosity, mapSolarSystems.border, mapSolarSystems.fringe, mapSolarSystems.corridor, mapSolarSystems.hub, mapSolarSystems.international, mapSolarSystems.regional, mapSolarSystems.constellation, mapSolarSystems.security, mapSolarSystems.factionID, mapSolarSystems.radius, mapSolarSystems.sunTypeID, mapSolarSystems.securityClass, mapRegions.regionID AS mapRegions_regionID, mapRegions.regionName, mapConstellations.constellationID AS mapConstellations_constellationID, mapConstellations.constellationName"
+        strSQL &= " FROM (mapRegions INNER JOIN mapConstellations ON mapRegions.regionID = mapConstellations.regionID) INNER JOIN mapSolarSystems ON mapConstellations.constellationID = mapSolarSystems.constellationID;"
+        Dim systemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Try
+            If systemData IsNot Nothing Then
+                If systemData.Tables(0).Rows.Count > 0 Then
+                    Dim cSystem As SolarSystem = New SolarSystem
+                    For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
+                        cSystem = New SolarSystem
+                        cSystem.ID = CInt(systemData.Tables(0).Rows(solar).Item("solarSystemID"))
+                        cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
+                        cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionName"))
+                        cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationName"))
+                        cSystem.Security = CDbl(systemData.Tables(0).Rows(solar).Item("security"))
+                        EveHQ.Core.HQ.SolarSystems.Add(CStr(cSystem.ID), cSystem)
+                    Next
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error Loading System Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
+    End Function
+
+    Public Shared Function LoadStations() As Boolean
+        ' Load the Station Data
+        Try
+            Dim strSQL As String = "SELECT * FROM staStations;"
+            Dim locationData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If locationData IsNot Nothing Then
+                If locationData.Tables(0).Rows.Count > 0 Then
+                    EveHQ.Core.HQ.Stations.Clear()
+                    For Each locationRow As DataRow In locationData.Tables(0).Rows
+                        Dim newStation As New Station
+                        newStation.stationID = CLng(locationRow.Item("stationID"))
+                        newStation.stationName = CStr(locationRow.Item("stationName"))
+                        newStation.systemID = CLng(locationRow.Item("solarSystemID"))
+                        newStation.constID = CLng(locationRow.Item("constellationID"))
+                        newStation.regionID = CLng(locationRow.Item("regionID"))
+                        newStation.corpID = CLng(locationRow.Item("corporationID"))
+                        newStation.refiningEff = CDbl(locationRow.Item("reprocessingEfficiency"))
+                        EveHQ.Core.HQ.Stations.Add(newStation.stationID.ToString, newStation)
+                    Next
+                    Return CheckForConqXMLFile()
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error Loading Station Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
+    End Function
+
+    Private Shared Function CheckForConqXMLFile() As Boolean
+        ' Check for the Conquerable XML file in the cache
+        Dim stationXML As New XmlDocument
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        stationXML = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard)
+        If stationXML IsNot Nothing Then
+            Return ParseConquerableXML(stationXML)
+        Else
+            Return False
+        End If
+    End Function
+
+    Private Shared Function ParseConquerableXML(ByVal stationXML As XmlDocument) As Boolean
+        Dim locList As XmlNodeList
+        Dim loc As XmlNode
+        Dim stationID As String = ""
+        locList = stationXML.SelectNodes("/eveapi/result/rowset/row")
+        If locList.Count > 0 Then
+            For Each loc In locList
+                stationID = (loc.Attributes.GetNamedItem("stationID").Value)
+                ' This is an outpost so needs adding to the station list if it's not there
+                If EveHQ.Core.HQ.Stations.ContainsKey(stationID) = False Then
+                    Dim cStation As New EveHQ.Core.Station
+                    cStation.stationID = CLng(stationID)
+                    cStation.stationName = (loc.Attributes.GetNamedItem("stationName").Value)
+                    cStation.systemID = CLng(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As EveHQ.Core.SolarSystem = EveHQ.Core.HQ.SolarSystems(cStation.systemID.ToString)
+                    cStation.stationName &= " (" & system.Name & ", " & system.Region & ")"
+                    cStation.corpID = CLng(loc.Attributes.GetNamedItem("corporationID").Value)
+                    EveHQ.Core.HQ.Stations.Add(cStation.stationID.ToString, cStation)
+                Else
+                    Dim cStation As Station = CType(EveHQ.Core.HQ.Stations(stationID), EveHQ.Core.Station)
+                    cStation.systemID = CLng(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As EveHQ.Core.SolarSystem = EveHQ.Core.HQ.SolarSystems(cStation.systemID.ToString)
+                    cStation.stationName &= " (" & system.Name & ", " & system.Region & ")"
+                    cStation.corpID = CLng(loc.Attributes.GetNamedItem("corporationID").Value)
+                End If
+            Next
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    Public Shared Function GetLocationName(ByVal LocationID As String) As String
+        If CDbl(LocationID) >= 66000000 Then
+            If CDbl(LocationID) < 66014933 Then
+                LocationID = (CDbl(LocationID) - 6000001).ToString
+            Else
+                LocationID = (CDbl(LocationID) - 6000000).ToString
+            End If
+        End If
+        If CDbl(LocationID) >= 61000000 And CDbl(LocationID) <= 61999999 Then
+            If EveHQ.Core.HQ.Stations.ContainsKey(LocationID) = True Then
+                ' Known Outpost
+                Return EveHQ.Core.HQ.Stations(LocationID).stationName
+            Else
+                ' Unknown outpost!
+                Return "Unknown Outpost"
+            End If
+        Else
+            If CDbl(LocationID) < 60000000 Then
+                If EveHQ.Core.HQ.SolarSystems.ContainsKey(LocationID) Then
+                    ' Known solar system
+                    Return EveHQ.Core.HQ.SolarSystems(LocationID).Name
+                Else
+                    ' Unknown solar system
+                    Return "Unknown System"
+                End If
+            Else
+                If EveHQ.Core.HQ.Stations.ContainsKey(LocationID) Then
+                    ' Known station
+                    Return EveHQ.Core.HQ.Stations(LocationID).stationName
+                Else
+                    ' Unknown station
+                    Return "Unknown Station"
+                End If
+            End If
+        End If
+    End Function
+#End Region
+
+#Region "Certificate Load Routines"
+    Public Shared Function LoadCertCategories() As Boolean
+        Dim strSQL As String = "SELECT * FROM crtCategories;"
+        Dim CertData As DataSet = GetData(strSQL)
+        If CertData IsNot Nothing Then
+            If CertData.Tables(0).Rows.Count > 0 Then
+                EveHQ.Core.HQ.CertificateCategories.Clear()
+                For Each CertRow As DataRow In CertData.Tables(0).Rows
+                    Dim NewCat As New EveHQ.Core.CertificateCategory
+                    NewCat.ID = CInt(CertRow.Item("categoryID"))
+                    NewCat.Name = CertRow.Item("categoryName").ToString
+                    EveHQ.Core.HQ.CertificateCategories.Add(NewCat.ID.ToString, NewCat)
+                Next
+                CertData.Dispose()
+                Return True
+            Else
+                CertData.Dispose()
+                Return False
+            End If
+        Else
+            CertData.Dispose()
+            Return False
+        End If
+    End Function
+
+    Public Shared Function LoadCertClasses() As Boolean
+        Dim strSQL As String = "SELECT * FROM crtClasses;"
+        Dim CertData As DataSet = GetData(strSQL)
+        If CertData IsNot Nothing Then
+            If CertData.Tables(0).Rows.Count > 0 Then
+                EveHQ.Core.HQ.CertificateClasses.Clear()
+                For Each CertRow As DataRow In CertData.Tables(0).Rows
+                    Dim NewClass As New EveHQ.Core.CertificateClass
+                    NewClass.ID = CInt(CertRow.Item("classID"))
+                    NewClass.Name = CertRow.Item("className").ToString
+                    EveHQ.Core.HQ.CertificateClasses.Add(NewClass.ID.ToString, NewClass)
+                Next
+                CertData.Dispose()
+                Return True
+            Else
+                CertData.Dispose()
+                Return False
+            End If
+        Else
+            CertData.Dispose()
+            Return False
+        End If
+    End Function
+
+    Public Shared Function LoadCerts() As Boolean
+        Dim strSQL As String = "SELECT * FROM crtCertificates;"
+        Dim CertData As DataSet = GetData(strSQL)
+        If CertData IsNot Nothing Then
+            If CertData.Tables(0).Rows.Count > 0 Then
+                EveHQ.Core.HQ.Certificates.Clear()
+                For Each CertRow As DataRow In CertData.Tables(0).Rows
+                    Dim NewCert As New EveHQ.Core.Certificate
+                    NewCert.ID = CInt(CertRow.Item("certificateID"))
+                    NewCert.CategoryID = CInt(CertRow.Item("categoryID"))
+                    NewCert.ClassID = CInt(CertRow.Item("classID"))
+                    NewCert.Description = CStr(CertRow.Item("description"))
+                    NewCert.Grade = CInt(CertRow.Item("grade"))
+                    NewCert.CorpID = CInt(CertRow.Item("corpID"))
+                    EveHQ.Core.HQ.Certificates.Add(NewCert.ID.ToString, NewCert)
+                Next
+                CertData.Dispose()
+                Return True
+            Else
+                CertData.Dispose()
+                Return False
+            End If
+        Else
+            CertData.Dispose()
+            Return False
+        End If
+    End Function
+
+    Public Shared Function LoadCertReqs() As Boolean
+        Dim strSQL As String = "SELECT * FROM crtRelationships;"
+        Dim CertData As DataSet = GetData(strSQL)
+        If CertData IsNot Nothing Then
+            If CertData.Tables(0).Rows.Count > 0 Then
+                For Each CertRow As DataRow In CertData.Tables(0).Rows
+                    Dim certID As String = CertRow.Item("childID").ToString
+                    If EveHQ.Core.HQ.Certificates.ContainsKey(certID) = True Then
+                        Dim NewCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
+                        If IsDBNull(CertRow.Item("parentID")) Then
+                            ' This is a skill ID
+                            NewCert.RequiredSkills.Add(CertRow.Item("parentTypeID").ToString, CInt(CertRow.Item("parentLevel")))
+                        Else
+                            ' This is a certID
+                            NewCert.RequiredCerts.Add(CertRow.Item("parentID").ToString, 1)
+                        End If
+                    End If
+                Next
+                CertData.Dispose()
+                Return True
+            Else
+                CertData.Dispose()
+                Return False
+            End If
+        Else
+            CertData.Dispose()
+            Return False
+        End If
+    End Function
+#End Region
+
 End Class
+
+Public Enum DatabaseFormat
+	SQLCE = 0
+	SQL = 1
+End Enum

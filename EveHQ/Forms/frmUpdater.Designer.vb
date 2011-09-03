@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmUpdater
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -22,96 +22,45 @@ Partial Class frmUpdater
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUpdater))
-        Me.lblUpdateStatus = New System.Windows.Forms.Label
-        Me.clvUpdates = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colComponent = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colFunction = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colVersion = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colAvailable = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colDownload = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colProgress = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.btnStartUpdate = New System.Windows.Forms.Button
+        Me.lblUpdateStatus = New System.Windows.Forms.Label()
+        Me.btnStartUpdate = New System.Windows.Forms.Button()
         Me.tmrUpdate = New System.Windows.Forms.Timer(Me.components)
-        Me.btnRecheckUpdates = New System.Windows.Forms.Button
+        Me.btnRecheckUpdates = New System.Windows.Forms.Button()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.adtUpdates = New DevComponents.AdvTree.AdvTree()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.Log = New DevComponents.DotNetBar.ElementStyle()
+        Me.colComponent = New DevComponents.AdvTree.ColumnHeader()
+        Me.colFunction = New DevComponents.AdvTree.ColumnHeader()
+        Me.colVersion = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAvailable = New DevComponents.AdvTree.ColumnHeader()
+        Me.colDownload = New DevComponents.AdvTree.ColumnHeader()
+        Me.colProgress = New DevComponents.AdvTree.ColumnHeader()
+        Me.LogCentre = New DevComponents.DotNetBar.ElementStyle()
+        Me.Centre = New DevComponents.DotNetBar.ElementStyle()
+        Me.Cell1 = New DevComponents.AdvTree.Cell()
+        Me.CheckBoxItem1 = New DevComponents.DotNetBar.CheckBoxItem()
+        Me.PanelEx1.SuspendLayout()
+        CType(Me.adtUpdates, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblUpdateStatus
         '
         Me.lblUpdateStatus.AutoSize = True
         Me.lblUpdateStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUpdateStatus.Location = New System.Drawing.Point(13, 13)
+        Me.lblUpdateStatus.Location = New System.Drawing.Point(12, 10)
         Me.lblUpdateStatus.Name = "lblUpdateStatus"
         Me.lblUpdateStatus.Size = New System.Drawing.Size(210, 13)
         Me.lblUpdateStatus.TabIndex = 0
         Me.lblUpdateStatus.Text = "Status: Attempting to obtain update file..."
         '
-        'clvUpdates
-        '
-        Me.clvUpdates.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvUpdates.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colComponent, Me.colFunction, Me.colVersion, Me.colAvailable, Me.colDownload, Me.colProgress})
-        Me.clvUpdates.DefaultItemHeight = 20
-        Me.clvUpdates.Location = New System.Drawing.Point(12, 30)
-        Me.clvUpdates.Name = "clvUpdates"
-        Me.clvUpdates.Size = New System.Drawing.Size(770, 554)
-        Me.clvUpdates.TabIndex = 4
-        '
-        'colComponent
-        '
-        Me.colComponent.CustomSortTag = Nothing
-        Me.colComponent.Tag = Nothing
-        Me.colComponent.Text = "Component"
-        Me.colComponent.Width = 200
-        '
-        'colFunction
-        '
-        Me.colFunction.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colFunction.CustomSortTag = Nothing
-        Me.colFunction.DisplayIndex = 1
-        Me.colFunction.Tag = Nothing
-        Me.colFunction.Text = "Function"
-        '
-        'colVersion
-        '
-        Me.colVersion.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colVersion.CustomSortTag = Nothing
-        Me.colVersion.DisplayIndex = 2
-        Me.colVersion.Tag = Nothing
-        Me.colVersion.Text = "Version"
-        '
-        'colAvailable
-        '
-        Me.colAvailable.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colAvailable.CustomSortTag = Nothing
-        Me.colAvailable.DisplayIndex = 3
-        Me.colAvailable.Tag = Nothing
-        Me.colAvailable.Text = "Available"
-        '
-        'colDownload
-        '
-        Me.colDownload.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colDownload.CustomSortTag = Nothing
-        Me.colDownload.DisplayIndex = 4
-        Me.colDownload.Tag = Nothing
-        Me.colDownload.Text = "Download?"
-        Me.colDownload.Width = 70
-        '
-        'colProgress
-        '
-        Me.colProgress.CustomSortTag = Nothing
-        Me.colProgress.DisplayIndex = 5
-        Me.colProgress.Tag = Nothing
-        Me.colProgress.Text = "Progress"
-        Me.colProgress.Width = 200
-        '
         'btnStartUpdate
         '
         Me.btnStartUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnStartUpdate.Enabled = False
-        Me.btnStartUpdate.Location = New System.Drawing.Point(682, 590)
+        Me.btnStartUpdate.Location = New System.Drawing.Point(688, 576)
         Me.btnStartUpdate.Name = "btnStartUpdate"
         Me.btnStartUpdate.Size = New System.Drawing.Size(100, 22)
         Me.btnStartUpdate.TabIndex = 5
@@ -125,22 +74,154 @@ Partial Class frmUpdater
         '
         Me.btnRecheckUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnRecheckUpdates.Enabled = False
-        Me.btnRecheckUpdates.Location = New System.Drawing.Point(576, 590)
+        Me.btnRecheckUpdates.Location = New System.Drawing.Point(582, 576)
         Me.btnRecheckUpdates.Name = "btnRecheckUpdates"
         Me.btnRecheckUpdates.Size = New System.Drawing.Size(100, 22)
         Me.btnRecheckUpdates.TabIndex = 6
         Me.btnRecheckUpdates.Text = "Check Updates"
         Me.btnRecheckUpdates.UseVisualStyleBackColor = True
         '
+        'PanelEx1
+        '
+        Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
+        Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.adtUpdates)
+        Me.PanelEx1.Controls.Add(Me.lblUpdateStatus)
+        Me.PanelEx1.Controls.Add(Me.btnRecheckUpdates)
+        Me.PanelEx1.Controls.Add(Me.btnStartUpdate)
+        Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 0)
+        Me.PanelEx1.Name = "PanelEx1"
+        Me.PanelEx1.Size = New System.Drawing.Size(795, 605)
+        Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.PanelEx1.Style.GradientAngle = 90
+        Me.PanelEx1.TabIndex = 7
+        '
+        'adtUpdates
+        '
+        Me.adtUpdates.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtUpdates.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtUpdates.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtUpdates.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtUpdates.Columns.Add(Me.colComponent)
+        Me.adtUpdates.Columns.Add(Me.colFunction)
+        Me.adtUpdates.Columns.Add(Me.colVersion)
+        Me.adtUpdates.Columns.Add(Me.colAvailable)
+        Me.adtUpdates.Columns.Add(Me.colDownload)
+        Me.adtUpdates.Columns.Add(Me.colProgress)
+        Me.adtUpdates.DoubleClickTogglesNode = False
+        Me.adtUpdates.DragDropEnabled = False
+        Me.adtUpdates.ExpandWidth = 0
+        Me.adtUpdates.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtUpdates.Location = New System.Drawing.Point(3, 26)
+        Me.adtUpdates.Name = "adtUpdates"
+        Me.adtUpdates.NodesConnector = Me.NodeConnector1
+        Me.adtUpdates.NodeStyle = Me.Log
+        Me.adtUpdates.PathSeparator = ";"
+        Me.adtUpdates.Size = New System.Drawing.Size(789, 544)
+        Me.adtUpdates.Styles.Add(Me.Log)
+        Me.adtUpdates.Styles.Add(Me.LogCentre)
+        Me.adtUpdates.Styles.Add(Me.Centre)
+        Me.adtUpdates.TabIndex = 7
+        Me.adtUpdates.Text = "AdvTree1"
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'Log
+        '
+        Me.Log.Class = ""
+        Me.Log.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.Log.Name = "Log"
+        Me.Log.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'colComponent
+        '
+        Me.colComponent.Name = "colComponent"
+        Me.colComponent.Text = "Component"
+        Me.colComponent.Width.Absolute = 200
+        '
+        'colFunction
+        '
+        Me.colFunction.Name = "colFunction"
+        Me.colFunction.StyleNormal = "LogCentre"
+        Me.colFunction.Text = "Function"
+        Me.colFunction.Width.Absolute = 100
+        '
+        'colVersion
+        '
+        Me.colVersion.Name = "colVersion"
+        Me.colVersion.StyleNormal = "LogCentre"
+        Me.colVersion.Text = "Version"
+        Me.colVersion.Width.Absolute = 100
+        '
+        'colAvailable
+        '
+        Me.colAvailable.Name = "colAvailable"
+        Me.colAvailable.StyleNormal = "LogCentre"
+        Me.colAvailable.Text = "Available"
+        Me.colAvailable.Width.Absolute = 100
+        '
+        'colDownload
+        '
+        Me.colDownload.Name = "colDownload"
+        Me.colDownload.StyleNormal = "LogCentre"
+        Me.colDownload.Text = "Download?"
+        Me.colDownload.Width.Absolute = 70
+        '
+        'colProgress
+        '
+        Me.colProgress.Name = "colProgress"
+        Me.colProgress.StyleNormal = "LogCentre"
+        Me.colProgress.Text = "Progress"
+        Me.colProgress.Width.Absolute = 170
+        '
+        'LogCentre
+        '
+        Me.LogCentre.Class = ""
+        Me.LogCentre.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.LogCentre.Name = "LogCentre"
+        Me.LogCentre.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.LogCentre.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'Centre
+        '
+        Me.Centre.Class = ""
+        Me.Centre.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.Centre.Name = "Centre"
+        Me.Centre.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        '
+        'Cell1
+        '
+        Me.Cell1.HostedItem = Me.CheckBoxItem1
+        Me.Cell1.Name = "Cell1"
+        Me.Cell1.StyleMouseOver = Nothing
+        Me.Cell1.StyleNormal = Me.LogCentre
+        '
+        'CheckBoxItem1
+        '
+        Me.CheckBoxItem1.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Top
+        Me.CheckBoxItem1.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center
+        Me.CheckBoxItem1.Name = "CheckBoxItem1"
+        Me.CheckBoxItem1.Stretch = True
+        '
         'frmUpdater
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(794, 624)
-        Me.Controls.Add(Me.btnRecheckUpdates)
-        Me.Controls.Add(Me.btnStartUpdate)
-        Me.Controls.Add(Me.clvUpdates)
-        Me.Controls.Add(Me.lblUpdateStatus)
+        Me.ClientSize = New System.Drawing.Size(795, 605)
+        Me.Controls.Add(Me.PanelEx1)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -148,19 +229,28 @@ Partial Class frmUpdater
         Me.Name = "frmUpdater"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "EveHQ Updater"
+        Me.PanelEx1.ResumeLayout(False)
+        Me.PanelEx1.PerformLayout()
+        CType(Me.adtUpdates, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents lblUpdateStatus As System.Windows.Forms.Label
-    Friend WithEvents clvUpdates As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents colComponent As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colFunction As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colVersion As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colAvailable As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colProgress As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents btnStartUpdate As System.Windows.Forms.Button
     Friend WithEvents tmrUpdate As System.Windows.Forms.Timer
     Friend WithEvents btnRecheckUpdates As System.Windows.Forms.Button
-    Friend WithEvents colDownload As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents adtUpdates As DevComponents.AdvTree.AdvTree
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents Log As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents colComponent As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colFunction As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colVersion As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colAvailable As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colDownload As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colProgress As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents LogCentre As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents Centre As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents Cell1 As DevComponents.AdvTree.Cell
+    Friend WithEvents CheckBoxItem1 As DevComponents.DotNetBar.CheckBoxItem
 End Class

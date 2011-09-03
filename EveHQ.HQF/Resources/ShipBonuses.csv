@@ -64,6 +64,7 @@
 # Arbitrator,,,,,,,,,,,
 628,1,3335,351,2,291,0,1,0,5,15,Tracking Disruptor Range
 628,1,3335,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
+628,1,3335,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
 628,1,3335,263,3,18,0,1,0,10,15,Drone Shield HP
 628,1,3335,265,3,18,0,1,0,10,15,Drone Armor HP
 628,1,3335,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -118,8 +119,8 @@
 625,1,3335,6,2,67,0,1,0,-10,15,Energy Transfer Cap Use
 625,0,0,91,2,67,0,0,0,500,15,Energy Transfer Range
 # Augoror Navy Issue,,,,,,,,,,,
-17709,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
-17709,1,3335,265,1,17709,0,1,0,10,15,Armor HP
+29337,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
+29337,1,3335,265,1,17709,0,1,0,10,15,Armor HP
 # Avatar,,,,,,,,,,,
 11567,1,3347,10014,4,773;774,0,1,0,100,15,Capital Energy Turret Damage
 11567,1,3347,55,3,6,0,1,0,-7.5,16,Gang Capacitor Recharge
@@ -242,7 +243,7 @@
 23915,0,0,10007,1,23915,0,0,0,200,15,Fighter Control Range 
 23915,0,0,50,1,24283,0,0,0,-99,15,Drone Control Unit CPU
 # Claw,,,,,,,,,,,
-11196,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
+11196,1,3329,10016,4,574;577,0,1,0,10,15,Small Projectile Turret Damage
 11196,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
 11196,1,12092,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 11196,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
@@ -288,6 +289,7 @@
 2161,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
 2161,1,3331,351,2,291,0,1,0,5,15,Tracking Disruptor Range
 2161,1,3331,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
+2161,1,3331,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
 # Cruor,,,,,,,,,,,
 17926,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
 17926,1,3331,90,2,68,0,1,0,15,15,Nos Drain Amount
@@ -302,6 +304,7 @@
 # Curse,,,,,,,,,,,
 20125,1,3335,351,2,291,0,1,0,5,15,Tracking Disruptor Range
 20125,1,3335,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
+20125,1,3335,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
 20125,1,3335,263,3,18,0,1,0,10,15,Drone Shield HP
 20125,1,3335,265,3,18,0,1,0,10,15,Drone Armor HP
 20125,1,3335,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -344,7 +347,7 @@
 12017,1,3335,268,1,12017,0,1,2,-5,15,Armor Explosive Resistance
 12017,1,3335,269,1,12017,0,1,2,-5,15,Armor Kinetic Resistance
 12017,1,3335,270,1,12017,0,1,2,-5,15,Armor Thermal Resistance
-12017,1,28609,10011,4,568;572,0,1,0,-10,15,Medium Energy Turret ROF
+12017,1,28609,10011,4,568;572,0,1,0,-5,15,Medium Energy Turret ROF
 12017,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
 # Dominix,,,,,,,,,,,
 645,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
@@ -534,7 +537,7 @@
 12034,1,12093,116,2,90,0,1,0,5,15,Explosive Bomb Damage
 12034,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
 12034,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
-12034,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+12034,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Huginn,,,,,,,,,,,
 11961,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 11961,1,3333,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
@@ -627,7 +630,7 @@
 11194,1,3330,239,2,201,0,1,0,20,15,ECM Jam Strength
 11194,1,3330,240,2,201,0,1,0,20,15,ECM Jam Strength
 11194,1,3330,241,2,201,0,1,0,20,15,ECM Jam Strength
-11194,1,3334,6,2,201,0,1,0,-10,15,ECM Capacitor Use
+11194,1,3330,6,2,201,0,1,0,-10,15,ECM Capacitor Use
 11194,1,28615,54,2,201,0,1,0,10,15,ECM Optimal Range
 11194,1,28615,482,1,11194,0,1,0,5,15,Capacitor Capacity
 # Kronos,,,,,,,,,,,
@@ -697,7 +700,7 @@
 12032,1,12093,117,2,90,0,1,0,5,15,Kinetic Bomb Damage
 12032,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
 12032,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
-12032,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+12032,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Mastodon,,,,,,,,,,,
 12747,1,3341,10004,1,12747,0,1,0,5,15,Cargo Capacity
 12747,1,3341,37,1,12747,0,1,0,5,15,Max Velocity
@@ -761,7 +764,7 @@
 11377,1,12093,118,2,90,0,1,0,5,15,Thermal Bomb Damage
 11377,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
 11377,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
-11377,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+11377,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Nidhoggur,,,,,,,,,,,
 24483,1,24314,54,4,1056,0,1,0,50,15,Capital Armor Transfer Range
 24483,1,24314,87,4,600,0,1,0,50,15,Capital Shield Transporter Range
@@ -828,6 +831,7 @@
 11989,1,12096,6,2,325,0,1,0,-15,15,Remote Armor Repairer Cap Use
 11989,1,12096,351,2,209,0,1,0,10,15,Tracking Link Optimal Range Bonus
 11989,1,12096,767,2,209,0,1,0,10,15,Tracking Link Tracking Speed Bonus
+11989,1,12096,349,2,209,0,1,0,10,15,Tracking Link Falloff Bonus
 11989,0,0,30,2,325,0,0,0,-65,15,Remote Armor Repairer Power Need
 # Onyx,,,,,,,,,,,
 11995,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,Kinetic Missile Damage
@@ -865,7 +869,7 @@
 22440,1,3337,10016,4,576;579,0,1,0,5,15,Large Projectile Turret Damage
 22440,1,28656,37,1,22440,0,1,0,5,15,Max Velocity
 22440,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-22440,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+22440,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Phantasm,,,,,,,,,,,
 17718,0,0,10014,4,568;572,0,0,0,100,15,Medium Energy Turret Damage
 17718,1,3335,160,4,568;572,0,1,0,7.5,15,Medium Energy Turret Tracking
@@ -884,6 +888,7 @@
 # Pilgrim,,,,,,,,,,,
 11965,1,3335,351,2,291,0,1,0,5,15,Tracking Disruptor Range
 11965,1,3335,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
+11965,1,3335,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
 11965,1,3335,263,3,18,0,1,0,10,15,Drone Shield HP
 11965,1,3335,265,3,18,0,1,0,10,15,Drone Armor HP
 11965,1,3335,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -937,7 +942,7 @@
 12038,1,12093,114,2,90,0,1,0,5,15,EM Bomb Damage
 12038,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
 12038,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
-12038,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+12038,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Ragnarok,,,,,,,,,,,
 23773,1,3345,10016,4,775;776,0,1,0,125,15,Capital Projectile Turret Damage
 23773,1,3345,552,3,6,0,1,0,7.5,16,Gang Sig Radius
@@ -983,7 +988,7 @@
 22428,1,3339,10011,4,569;573,0,1,0,-5,15,Large Energy Turret ROF
 22428,1,28656,160,4,569;573,0,1,0,7.5,15,Large Energy Turret Tracking
 22428,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-22428,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+22428,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Republic Fleet Firetail,,,,,,,,,,,
 17812,1,3329,10016,4,574;577,0,1,0,20,15,Small Projectile Turret Tracking
 17812,1,3329,37,4,574;577,0,1,0,7.5,15,Small Projectile Turret Damage
@@ -1058,6 +1063,7 @@
 11978,1,12096,6,2,41,0,1,0,-15,15,Shield Transporter Cap Use
 11978,1,12096,351,2,209,0,1,0,10,15,Tracking Link Optimal Range Bonus
 11978,1,12096,767,2,209,0,1,0,10,15,Tracking Link Tracking Speed Bonus
+11978,1,12096,349,2,209,0,1,0,10,15,Tracking Link Falloff Bonus
 11978,0,0,50,2,41,0,0,0,-50,15,Shield Transporter CPU
 # Scorpion,,,,,,,,,,,
 640,1,3338,54,2,201,0,1,0,20,15,ECM Optimal Range
@@ -1066,6 +1072,10 @@
 640,1,3338,239,2,201,0,1,0,15,15,ECM Jam Strength
 640,1,3338,240,2,201,0,1,0,15,15,ECM Jam Strength
 640,1,3338,241,2,201,0,1,0,15,15,ECM Jam Strength
+640,1,3338,238,2,80,0,1,0,15,15,ECM Burst Strength
+640,1,3338,239,2,80,0,1,0,15,15,ECM Burst Strength
+640,1,3338,240,2,80,0,1,0,15,15,ECM Burst Strength
+640,1,3338,241,2,80,0,1,0,15,15,ECM Burst Strength
 640,1,3338,142,2,80,0,1,0,20,15,ECM Burst Radius
 # Scorpion Navy Issue,,,,,,,,,,,
 32309,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
@@ -1077,6 +1087,7 @@
 631,1,3333,77,2,54,0,1,0,20,15,Mining Laser Yield
 631,1,3333,351,2,209,0,1,0,3.5,15,Tracking Link Optimal Range Bonus
 631,1,3333,767,2,209,0,1,0,3.5,15,Tracking Link Tracking Speed Bonus
+631,1,3333,349,2,209,0,1,0,3.5,15,Tracking Link Falloff Bonus
 631,0,0,54,2,209,0,0,0,500,15,Tracking Link Optimal Range Bonus
 # Scythe Fleet Issue,,,,,,,,,,,
 29336,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
@@ -1084,6 +1095,7 @@
 # Sentinel,,,,,,,,,,,
 11190,1,3331,351,2,291,0,1,0,5,15,Tracking Disruptor Range
 11190,1,3331,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
+11190,1,3331,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
 11190,1,3331,90,2,68,0,1,0,20,15,Nos Drain Amount
 11190,1,3331,97,2,71,0,1,0,20,15,Neut Drain Amount
 11190,1,28615,91,2,68,0,1,0,40,15,Nos Drain Range
@@ -1103,7 +1115,7 @@
 22430,1,3336,64,3,18,0,1,0,10,15,Drone Damage
 22430,1,28656,70,1,22430,0,1,0,-5,15,Agility
 22430,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-22430,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+22430,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Skiff,,,,,,,,,,,
 22546,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
 22546,1,22551,782,2,663,0,1,0,60,15,Mercoxit Mining Crystal Yield Bonus
@@ -1131,8 +1143,8 @@
 11198,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Succubus,,,,,,,,,,,
 17924,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
-17924,1,3330,160,4,567;570,0,1,0,7.5,15,Small Energy Turret Tracking
-17924,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
+17924,1,3331,160,4,567;570,0,1,0,7.5,15,Small Energy Turret Tracking
+17924,1,3330,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 # Taranis,,,,,,,,,,,
 11200,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
 11200,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
@@ -1194,7 +1206,7 @@
 28665,0,0,1045,2,650,0,0,0,100,15,Tractor Beam Velocity
 28665,0,0,54,2,650,0,0,0,100,15,Tractor Beam Range
 # Velator,,,,,,,,,,,
-626,1,3328,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
+606,1,3328,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
 # Vengeance,,,,,,,,,,,
 11365,1,3331,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
 11365,1,3331,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
@@ -1254,7 +1266,7 @@
 22436,1,28656,240,2,201,0,1,0,30,15,ECM Jam Strength
 22436,1,28656,241,2,201,0,1,0,30,15,ECM Jam Strength
 22436,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-22436,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+22436,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Wolf,,,,,,,,,,,
 11371,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 11371,1,12095,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage

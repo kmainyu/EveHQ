@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmMarketOrders
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -22,111 +22,99 @@ Partial Class frmMarketOrders
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMarketOrders))
-        Me.scOrderData = New System.Windows.Forms.SplitContainer
-        Me.btnSetMarketPrice = New System.Windows.Forms.Button
-        Me.lblCurrentPrice = New System.Windows.Forms.Label
-        Me.lblCurrentPriceLbl = New System.Windows.Forms.Label
-        Me.lblYourPrice = New System.Windows.Forms.Label
-        Me.lblYourPriceLbl = New System.Windows.Forms.Label
-        Me.gbAllData = New System.Windows.Forms.GroupBox
-        Me.lblAllOrderStd = New System.Windows.Forms.Label
-        Me.lblAllOrderMedian = New System.Windows.Forms.Label
-        Me.lblAllOrderMean = New System.Windows.Forms.Label
-        Me.lblAllOrderMax = New System.Windows.Forms.Label
-        Me.lblAllOrderMin = New System.Windows.Forms.Label
-        Me.lblAllOrderVol = New System.Windows.Forms.Label
-        Me.lblAllOrderStdLbl = New System.Windows.Forms.Label
-        Me.lblAllOrderMedianLbl = New System.Windows.Forms.Label
-        Me.lblAllOrderMeanLbl = New System.Windows.Forms.Label
-        Me.lblAllOrderMaxLbl = New System.Windows.Forms.Label
-        Me.lblAllOrderMinLbl = New System.Windows.Forms.Label
-        Me.lblAllOrderVolLbl = New System.Windows.Forms.Label
-        Me.gbBuyData = New System.Windows.Forms.GroupBox
-        Me.lblBuyOrderStd = New System.Windows.Forms.Label
-        Me.lblBuyOrderMedian = New System.Windows.Forms.Label
-        Me.lblBuyOrderMean = New System.Windows.Forms.Label
-        Me.lblBuyOrderMax = New System.Windows.Forms.Label
-        Me.lblBuyOrderMin = New System.Windows.Forms.Label
-        Me.lblBuyOrderVol = New System.Windows.Forms.Label
-        Me.lblBuyOrderStdLbl = New System.Windows.Forms.Label
-        Me.lblBuyOrderMedianLbl = New System.Windows.Forms.Label
-        Me.lblBuyOrderMeanLbl = New System.Windows.Forms.Label
-        Me.lblBuyOrderMaxLbl = New System.Windows.Forms.Label
-        Me.lblBuyOrderMinLbl = New System.Windows.Forms.Label
-        Me.lblBuyOrderVolLbl = New System.Windows.Forms.Label
-        Me.gbSellData = New System.Windows.Forms.GroupBox
-        Me.lblSellOrderStd = New System.Windows.Forms.Label
-        Me.lblSellOrderMedian = New System.Windows.Forms.Label
-        Me.lblSellOrderMean = New System.Windows.Forms.Label
-        Me.lblSellOrderMax = New System.Windows.Forms.Label
-        Me.lblSellOrderMin = New System.Windows.Forms.Label
-        Me.LblSellOrderVol = New System.Windows.Forms.Label
-        Me.lblSellOrderStdLbl = New System.Windows.Forms.Label
-        Me.lblSellOrderMedianLbl = New System.Windows.Forms.Label
-        Me.lblSellOrderMeanLbl = New System.Windows.Forms.Label
-        Me.lblSellOrderMaxLbl = New System.Windows.Forms.Label
-        Me.lblSellOrderMinLbl = New System.Windows.Forms.Label
-        Me.lblSellOrderVolLbl = New System.Windows.Forms.Label
-        Me.zgcPrices = New ZedGraph.ZedGraphControl
-        Me.Splitter1 = New System.Windows.Forms.Splitter
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.clvSellers = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colExpires = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.lblSellers = New System.Windows.Forms.Label
-        Me.clvBuyers = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader2 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.lblBuyers = New System.Windows.Forms.Label
-        Me.btnSetCustomPrice = New System.Windows.Forms.Button
-        Me.scOrderData.Panel1.SuspendLayout()
-        Me.scOrderData.Panel2.SuspendLayout()
-        Me.scOrderData.SuspendLayout()
-        Me.gbAllData.SuspendLayout()
-        Me.gbBuyData.SuspendLayout()
-        Me.gbSellData.SuspendLayout()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
+        Me.btnSetCustomPrice = New System.Windows.Forms.Button()
+        Me.btnSetMarketPrice = New System.Windows.Forms.Button()
+        Me.lblCurrentPrice = New System.Windows.Forms.Label()
+        Me.lblCurrentPriceLbl = New System.Windows.Forms.Label()
+        Me.lblYourPrice = New System.Windows.Forms.Label()
+        Me.lblYourPriceLbl = New System.Windows.Forms.Label()
+        Me.lblAllOrderStd = New System.Windows.Forms.Label()
+        Me.lblAllOrderMedian = New System.Windows.Forms.Label()
+        Me.lblAllOrderMean = New System.Windows.Forms.Label()
+        Me.lblAllOrderMax = New System.Windows.Forms.Label()
+        Me.lblAllOrderMin = New System.Windows.Forms.Label()
+        Me.lblAllOrderVol = New System.Windows.Forms.Label()
+        Me.lblAllOrderStdLbl = New System.Windows.Forms.Label()
+        Me.lblAllOrderMedianLbl = New System.Windows.Forms.Label()
+        Me.lblAllOrderMeanLbl = New System.Windows.Forms.Label()
+        Me.lblAllOrderMaxLbl = New System.Windows.Forms.Label()
+        Me.lblAllOrderMinLbl = New System.Windows.Forms.Label()
+        Me.lblAllOrderVolLbl = New System.Windows.Forms.Label()
+        Me.lblBuyOrderStd = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMedian = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMean = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMax = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMin = New System.Windows.Forms.Label()
+        Me.lblBuyOrderVol = New System.Windows.Forms.Label()
+        Me.lblBuyOrderStdLbl = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMedianLbl = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMeanLbl = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMaxLbl = New System.Windows.Forms.Label()
+        Me.lblBuyOrderMinLbl = New System.Windows.Forms.Label()
+        Me.lblBuyOrderVolLbl = New System.Windows.Forms.Label()
+        Me.lblSellOrderStd = New System.Windows.Forms.Label()
+        Me.lblSellOrderMedian = New System.Windows.Forms.Label()
+        Me.lblSellOrderMean = New System.Windows.Forms.Label()
+        Me.lblSellOrderMax = New System.Windows.Forms.Label()
+        Me.lblSellOrderMin = New System.Windows.Forms.Label()
+        Me.LblSellOrderVol = New System.Windows.Forms.Label()
+        Me.lblSellOrderStdLbl = New System.Windows.Forms.Label()
+        Me.lblSellOrderMedianLbl = New System.Windows.Forms.Label()
+        Me.lblSellOrderMeanLbl = New System.Windows.Forms.Label()
+        Me.lblSellOrderMaxLbl = New System.Windows.Forms.Label()
+        Me.lblSellOrderMinLbl = New System.Windows.Forms.Label()
+        Me.lblSellOrderVolLbl = New System.Windows.Forms.Label()
+        Me.lblSellers = New System.Windows.Forms.Label()
+        Me.lblBuyers = New System.Windows.Forms.Label()
+        Me.panelInfo = New DevComponents.DotNetBar.PanelEx()
+        Me.gpAllOrders = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.gpBuyOrders = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.gpSellOrders = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.ExpandableSplitter2 = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.panelGraph = New DevComponents.DotNetBar.PanelEx()
+        Me.zgcPrices = New ZedGraph.ZedGraphControl()
+        Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.panelBuyOrders = New DevComponents.DotNetBar.PanelEx()
+        Me.adtBuyers = New DevComponents.AdvTree.AdvTree()
+        Me.colBuyLocation = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBuyQty = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBuyPrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBuyExpiry = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+        Me.ExpandableSplitter3 = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.panelSellOrders = New DevComponents.DotNetBar.PanelEx()
+        Me.adtSellers = New DevComponents.AdvTree.AdvTree()
+        Me.colSellLocation = New DevComponents.AdvTree.ColumnHeader()
+        Me.colSellQty = New DevComponents.AdvTree.ColumnHeader()
+        Me.colSellPrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colSellExpiry = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
+        Me.panelInfo.SuspendLayout()
+        Me.gpAllOrders.SuspendLayout()
+        Me.gpBuyOrders.SuspendLayout()
+        Me.gpSellOrders.SuspendLayout()
+        Me.panelGraph.SuspendLayout()
+        Me.panelBuyOrders.SuspendLayout()
+        CType(Me.adtBuyers, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.panelSellOrders.SuspendLayout()
+        CType(Me.adtSellers, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'scOrderData
+        'btnSetCustomPrice
         '
-        Me.scOrderData.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.scOrderData.Dock = System.Windows.Forms.DockStyle.Right
-        Me.scOrderData.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.scOrderData.Location = New System.Drawing.Point(749, 0)
-        Me.scOrderData.Name = "scOrderData"
-        Me.scOrderData.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'scOrderData.Panel1
-        '
-        Me.scOrderData.Panel1.Controls.Add(Me.btnSetCustomPrice)
-        Me.scOrderData.Panel1.Controls.Add(Me.btnSetMarketPrice)
-        Me.scOrderData.Panel1.Controls.Add(Me.lblCurrentPrice)
-        Me.scOrderData.Panel1.Controls.Add(Me.lblCurrentPriceLbl)
-        Me.scOrderData.Panel1.Controls.Add(Me.lblYourPrice)
-        Me.scOrderData.Panel1.Controls.Add(Me.lblYourPriceLbl)
-        Me.scOrderData.Panel1.Controls.Add(Me.gbAllData)
-        Me.scOrderData.Panel1.Controls.Add(Me.gbBuyData)
-        Me.scOrderData.Panel1.Controls.Add(Me.gbSellData)
-        '
-        'scOrderData.Panel2
-        '
-        Me.scOrderData.Panel2.Controls.Add(Me.zgcPrices)
-        Me.scOrderData.Size = New System.Drawing.Size(235, 664)
-        Me.scOrderData.SplitterDistance = 423
-        Me.scOrderData.TabIndex = 0
+        Me.btnSetCustomPrice.Location = New System.Drawing.Point(115, 373)
+        Me.btnSetCustomPrice.Name = "btnSetCustomPrice"
+        Me.btnSetCustomPrice.Size = New System.Drawing.Size(100, 23)
+        Me.btnSetCustomPrice.TabIndex = 11
+        Me.btnSetCustomPrice.Text = "Set Custom Price"
+        Me.btnSetCustomPrice.UseVisualStyleBackColor = True
         '
         'btnSetMarketPrice
         '
-        Me.btnSetMarketPrice.Location = New System.Drawing.Point(13, 391)
+        Me.btnSetMarketPrice.Location = New System.Drawing.Point(9, 373)
         Me.btnSetMarketPrice.Name = "btnSetMarketPrice"
         Me.btnSetMarketPrice.Size = New System.Drawing.Size(100, 23)
         Me.btnSetMarketPrice.TabIndex = 10
@@ -136,7 +124,7 @@ Partial Class frmMarketOrders
         'lblCurrentPrice
         '
         Me.lblCurrentPrice.AutoSize = True
-        Me.lblCurrentPrice.Location = New System.Drawing.Point(94, 375)
+        Me.lblCurrentPrice.Location = New System.Drawing.Point(90, 357)
         Me.lblCurrentPrice.Name = "lblCurrentPrice"
         Me.lblCurrentPrice.Size = New System.Drawing.Size(38, 13)
         Me.lblCurrentPrice.TabIndex = 9
@@ -145,7 +133,7 @@ Partial Class frmMarketOrders
         'lblCurrentPriceLbl
         '
         Me.lblCurrentPriceLbl.AutoSize = True
-        Me.lblCurrentPriceLbl.Location = New System.Drawing.Point(10, 375)
+        Me.lblCurrentPriceLbl.Location = New System.Drawing.Point(6, 357)
         Me.lblCurrentPriceLbl.Name = "lblCurrentPriceLbl"
         Me.lblCurrentPriceLbl.Size = New System.Drawing.Size(74, 13)
         Me.lblCurrentPriceLbl.TabIndex = 8
@@ -154,7 +142,7 @@ Partial Class frmMarketOrders
         'lblYourPrice
         '
         Me.lblYourPrice.AutoSize = True
-        Me.lblYourPrice.Location = New System.Drawing.Point(94, 362)
+        Me.lblYourPrice.Location = New System.Drawing.Point(90, 344)
         Me.lblYourPrice.Name = "lblYourPrice"
         Me.lblYourPrice.Size = New System.Drawing.Size(38, 13)
         Me.lblYourPrice.TabIndex = 7
@@ -163,37 +151,16 @@ Partial Class frmMarketOrders
         'lblYourPriceLbl
         '
         Me.lblYourPriceLbl.AutoSize = True
-        Me.lblYourPriceLbl.Location = New System.Drawing.Point(10, 362)
+        Me.lblYourPriceLbl.Location = New System.Drawing.Point(6, 344)
         Me.lblYourPriceLbl.Name = "lblYourPriceLbl"
         Me.lblYourPriceLbl.Size = New System.Drawing.Size(78, 13)
         Me.lblYourPriceLbl.TabIndex = 3
         Me.lblYourPriceLbl.Text = "Selected Price:"
         '
-        'gbAllData
-        '
-        Me.gbAllData.Controls.Add(Me.lblAllOrderStd)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMedian)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMean)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMax)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMin)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderVol)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderStdLbl)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMedianLbl)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMeanLbl)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMaxLbl)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderMinLbl)
-        Me.gbAllData.Controls.Add(Me.lblAllOrderVolLbl)
-        Me.gbAllData.Location = New System.Drawing.Point(4, 245)
-        Me.gbAllData.Name = "gbAllData"
-        Me.gbAllData.Size = New System.Drawing.Size(252, 114)
-        Me.gbAllData.TabIndex = 2
-        Me.gbAllData.TabStop = False
-        Me.gbAllData.Text = "All Orders"
-        '
         'lblAllOrderStd
         '
         Me.lblAllOrderStd.AutoSize = True
-        Me.lblAllOrderStd.Location = New System.Drawing.Point(57, 87)
+        Me.lblAllOrderStd.Location = New System.Drawing.Point(54, 65)
         Me.lblAllOrderStd.Name = "lblAllOrderStd"
         Me.lblAllOrderStd.Size = New System.Drawing.Size(38, 13)
         Me.lblAllOrderStd.TabIndex = 11
@@ -202,7 +169,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMedian
         '
         Me.lblAllOrderMedian.AutoSize = True
-        Me.lblAllOrderMedian.Location = New System.Drawing.Point(57, 74)
+        Me.lblAllOrderMedian.Location = New System.Drawing.Point(54, 52)
         Me.lblAllOrderMedian.Name = "lblAllOrderMedian"
         Me.lblAllOrderMedian.Size = New System.Drawing.Size(38, 13)
         Me.lblAllOrderMedian.TabIndex = 10
@@ -211,7 +178,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMean
         '
         Me.lblAllOrderMean.AutoSize = True
-        Me.lblAllOrderMean.Location = New System.Drawing.Point(57, 61)
+        Me.lblAllOrderMean.Location = New System.Drawing.Point(54, 39)
         Me.lblAllOrderMean.Name = "lblAllOrderMean"
         Me.lblAllOrderMean.Size = New System.Drawing.Size(38, 13)
         Me.lblAllOrderMean.TabIndex = 9
@@ -220,7 +187,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMax
         '
         Me.lblAllOrderMax.AutoSize = True
-        Me.lblAllOrderMax.Location = New System.Drawing.Point(57, 48)
+        Me.lblAllOrderMax.Location = New System.Drawing.Point(54, 26)
         Me.lblAllOrderMax.Name = "lblAllOrderMax"
         Me.lblAllOrderMax.Size = New System.Drawing.Size(38, 13)
         Me.lblAllOrderMax.TabIndex = 8
@@ -229,7 +196,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMin
         '
         Me.lblAllOrderMin.AutoSize = True
-        Me.lblAllOrderMin.Location = New System.Drawing.Point(57, 35)
+        Me.lblAllOrderMin.Location = New System.Drawing.Point(54, 13)
         Me.lblAllOrderMin.Name = "lblAllOrderMin"
         Me.lblAllOrderMin.Size = New System.Drawing.Size(38, 13)
         Me.lblAllOrderMin.TabIndex = 7
@@ -238,7 +205,7 @@ Partial Class frmMarketOrders
         'lblAllOrderVol
         '
         Me.lblAllOrderVol.AutoSize = True
-        Me.lblAllOrderVol.Location = New System.Drawing.Point(57, 22)
+        Me.lblAllOrderVol.Location = New System.Drawing.Point(54, 0)
         Me.lblAllOrderVol.Name = "lblAllOrderVol"
         Me.lblAllOrderVol.Size = New System.Drawing.Size(38, 13)
         Me.lblAllOrderVol.TabIndex = 6
@@ -247,7 +214,7 @@ Partial Class frmMarketOrders
         'lblAllOrderStdLbl
         '
         Me.lblAllOrderStdLbl.AutoSize = True
-        Me.lblAllOrderStdLbl.Location = New System.Drawing.Point(6, 87)
+        Me.lblAllOrderStdLbl.Location = New System.Drawing.Point(3, 65)
         Me.lblAllOrderStdLbl.Name = "lblAllOrderStdLbl"
         Me.lblAllOrderStdLbl.Size = New System.Drawing.Size(49, 13)
         Me.lblAllOrderStdLbl.TabIndex = 5
@@ -256,7 +223,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMedianLbl
         '
         Me.lblAllOrderMedianLbl.AutoSize = True
-        Me.lblAllOrderMedianLbl.Location = New System.Drawing.Point(6, 74)
+        Me.lblAllOrderMedianLbl.Location = New System.Drawing.Point(3, 52)
         Me.lblAllOrderMedianLbl.Name = "lblAllOrderMedianLbl"
         Me.lblAllOrderMedianLbl.Size = New System.Drawing.Size(45, 13)
         Me.lblAllOrderMedianLbl.TabIndex = 4
@@ -265,7 +232,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMeanLbl
         '
         Me.lblAllOrderMeanLbl.AutoSize = True
-        Me.lblAllOrderMeanLbl.Location = New System.Drawing.Point(6, 61)
+        Me.lblAllOrderMeanLbl.Location = New System.Drawing.Point(3, 39)
         Me.lblAllOrderMeanLbl.Name = "lblAllOrderMeanLbl"
         Me.lblAllOrderMeanLbl.Size = New System.Drawing.Size(37, 13)
         Me.lblAllOrderMeanLbl.TabIndex = 3
@@ -274,7 +241,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMaxLbl
         '
         Me.lblAllOrderMaxLbl.AutoSize = True
-        Me.lblAllOrderMaxLbl.Location = New System.Drawing.Point(6, 48)
+        Me.lblAllOrderMaxLbl.Location = New System.Drawing.Point(3, 26)
         Me.lblAllOrderMaxLbl.Name = "lblAllOrderMaxLbl"
         Me.lblAllOrderMaxLbl.Size = New System.Drawing.Size(31, 13)
         Me.lblAllOrderMaxLbl.TabIndex = 2
@@ -283,7 +250,7 @@ Partial Class frmMarketOrders
         'lblAllOrderMinLbl
         '
         Me.lblAllOrderMinLbl.AutoSize = True
-        Me.lblAllOrderMinLbl.Location = New System.Drawing.Point(6, 35)
+        Me.lblAllOrderMinLbl.Location = New System.Drawing.Point(3, 13)
         Me.lblAllOrderMinLbl.Name = "lblAllOrderMinLbl"
         Me.lblAllOrderMinLbl.Size = New System.Drawing.Size(27, 13)
         Me.lblAllOrderMinLbl.TabIndex = 1
@@ -292,37 +259,16 @@ Partial Class frmMarketOrders
         'lblAllOrderVolLbl
         '
         Me.lblAllOrderVolLbl.AutoSize = True
-        Me.lblAllOrderVolLbl.Location = New System.Drawing.Point(6, 22)
+        Me.lblAllOrderVolLbl.Location = New System.Drawing.Point(3, 0)
         Me.lblAllOrderVolLbl.Name = "lblAllOrderVolLbl"
         Me.lblAllOrderVolLbl.Size = New System.Drawing.Size(45, 13)
         Me.lblAllOrderVolLbl.TabIndex = 0
         Me.lblAllOrderVolLbl.Text = "Volume:"
         '
-        'gbBuyData
-        '
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderStd)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMedian)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMean)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMax)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMin)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderVol)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderStdLbl)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMedianLbl)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMeanLbl)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMaxLbl)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderMinLbl)
-        Me.gbBuyData.Controls.Add(Me.lblBuyOrderVolLbl)
-        Me.gbBuyData.Location = New System.Drawing.Point(4, 125)
-        Me.gbBuyData.Name = "gbBuyData"
-        Me.gbBuyData.Size = New System.Drawing.Size(252, 114)
-        Me.gbBuyData.TabIndex = 1
-        Me.gbBuyData.TabStop = False
-        Me.gbBuyData.Text = "Buy Orders"
-        '
         'lblBuyOrderStd
         '
         Me.lblBuyOrderStd.AutoSize = True
-        Me.lblBuyOrderStd.Location = New System.Drawing.Point(57, 87)
+        Me.lblBuyOrderStd.Location = New System.Drawing.Point(54, 65)
         Me.lblBuyOrderStd.Name = "lblBuyOrderStd"
         Me.lblBuyOrderStd.Size = New System.Drawing.Size(38, 13)
         Me.lblBuyOrderStd.TabIndex = 11
@@ -331,7 +277,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMedian
         '
         Me.lblBuyOrderMedian.AutoSize = True
-        Me.lblBuyOrderMedian.Location = New System.Drawing.Point(57, 74)
+        Me.lblBuyOrderMedian.Location = New System.Drawing.Point(54, 52)
         Me.lblBuyOrderMedian.Name = "lblBuyOrderMedian"
         Me.lblBuyOrderMedian.Size = New System.Drawing.Size(38, 13)
         Me.lblBuyOrderMedian.TabIndex = 10
@@ -340,7 +286,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMean
         '
         Me.lblBuyOrderMean.AutoSize = True
-        Me.lblBuyOrderMean.Location = New System.Drawing.Point(57, 61)
+        Me.lblBuyOrderMean.Location = New System.Drawing.Point(54, 39)
         Me.lblBuyOrderMean.Name = "lblBuyOrderMean"
         Me.lblBuyOrderMean.Size = New System.Drawing.Size(38, 13)
         Me.lblBuyOrderMean.TabIndex = 9
@@ -349,7 +295,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMax
         '
         Me.lblBuyOrderMax.AutoSize = True
-        Me.lblBuyOrderMax.Location = New System.Drawing.Point(57, 48)
+        Me.lblBuyOrderMax.Location = New System.Drawing.Point(54, 26)
         Me.lblBuyOrderMax.Name = "lblBuyOrderMax"
         Me.lblBuyOrderMax.Size = New System.Drawing.Size(38, 13)
         Me.lblBuyOrderMax.TabIndex = 8
@@ -358,7 +304,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMin
         '
         Me.lblBuyOrderMin.AutoSize = True
-        Me.lblBuyOrderMin.Location = New System.Drawing.Point(57, 35)
+        Me.lblBuyOrderMin.Location = New System.Drawing.Point(54, 13)
         Me.lblBuyOrderMin.Name = "lblBuyOrderMin"
         Me.lblBuyOrderMin.Size = New System.Drawing.Size(38, 13)
         Me.lblBuyOrderMin.TabIndex = 7
@@ -367,7 +313,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderVol
         '
         Me.lblBuyOrderVol.AutoSize = True
-        Me.lblBuyOrderVol.Location = New System.Drawing.Point(57, 22)
+        Me.lblBuyOrderVol.Location = New System.Drawing.Point(54, 0)
         Me.lblBuyOrderVol.Name = "lblBuyOrderVol"
         Me.lblBuyOrderVol.Size = New System.Drawing.Size(38, 13)
         Me.lblBuyOrderVol.TabIndex = 6
@@ -376,7 +322,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderStdLbl
         '
         Me.lblBuyOrderStdLbl.AutoSize = True
-        Me.lblBuyOrderStdLbl.Location = New System.Drawing.Point(6, 87)
+        Me.lblBuyOrderStdLbl.Location = New System.Drawing.Point(3, 65)
         Me.lblBuyOrderStdLbl.Name = "lblBuyOrderStdLbl"
         Me.lblBuyOrderStdLbl.Size = New System.Drawing.Size(49, 13)
         Me.lblBuyOrderStdLbl.TabIndex = 5
@@ -385,7 +331,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMedianLbl
         '
         Me.lblBuyOrderMedianLbl.AutoSize = True
-        Me.lblBuyOrderMedianLbl.Location = New System.Drawing.Point(6, 74)
+        Me.lblBuyOrderMedianLbl.Location = New System.Drawing.Point(3, 52)
         Me.lblBuyOrderMedianLbl.Name = "lblBuyOrderMedianLbl"
         Me.lblBuyOrderMedianLbl.Size = New System.Drawing.Size(45, 13)
         Me.lblBuyOrderMedianLbl.TabIndex = 4
@@ -394,7 +340,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMeanLbl
         '
         Me.lblBuyOrderMeanLbl.AutoSize = True
-        Me.lblBuyOrderMeanLbl.Location = New System.Drawing.Point(6, 61)
+        Me.lblBuyOrderMeanLbl.Location = New System.Drawing.Point(3, 39)
         Me.lblBuyOrderMeanLbl.Name = "lblBuyOrderMeanLbl"
         Me.lblBuyOrderMeanLbl.Size = New System.Drawing.Size(37, 13)
         Me.lblBuyOrderMeanLbl.TabIndex = 3
@@ -403,7 +349,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMaxLbl
         '
         Me.lblBuyOrderMaxLbl.AutoSize = True
-        Me.lblBuyOrderMaxLbl.Location = New System.Drawing.Point(6, 48)
+        Me.lblBuyOrderMaxLbl.Location = New System.Drawing.Point(3, 26)
         Me.lblBuyOrderMaxLbl.Name = "lblBuyOrderMaxLbl"
         Me.lblBuyOrderMaxLbl.Size = New System.Drawing.Size(31, 13)
         Me.lblBuyOrderMaxLbl.TabIndex = 2
@@ -412,7 +358,7 @@ Partial Class frmMarketOrders
         'lblBuyOrderMinLbl
         '
         Me.lblBuyOrderMinLbl.AutoSize = True
-        Me.lblBuyOrderMinLbl.Location = New System.Drawing.Point(6, 35)
+        Me.lblBuyOrderMinLbl.Location = New System.Drawing.Point(3, 13)
         Me.lblBuyOrderMinLbl.Name = "lblBuyOrderMinLbl"
         Me.lblBuyOrderMinLbl.Size = New System.Drawing.Size(27, 13)
         Me.lblBuyOrderMinLbl.TabIndex = 1
@@ -421,37 +367,16 @@ Partial Class frmMarketOrders
         'lblBuyOrderVolLbl
         '
         Me.lblBuyOrderVolLbl.AutoSize = True
-        Me.lblBuyOrderVolLbl.Location = New System.Drawing.Point(6, 22)
+        Me.lblBuyOrderVolLbl.Location = New System.Drawing.Point(3, 0)
         Me.lblBuyOrderVolLbl.Name = "lblBuyOrderVolLbl"
         Me.lblBuyOrderVolLbl.Size = New System.Drawing.Size(45, 13)
         Me.lblBuyOrderVolLbl.TabIndex = 0
         Me.lblBuyOrderVolLbl.Text = "Volume:"
         '
-        'gbSellData
-        '
-        Me.gbSellData.Controls.Add(Me.lblSellOrderStd)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMedian)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMean)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMax)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMin)
-        Me.gbSellData.Controls.Add(Me.LblSellOrderVol)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderStdLbl)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMedianLbl)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMeanLbl)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMaxLbl)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderMinLbl)
-        Me.gbSellData.Controls.Add(Me.lblSellOrderVolLbl)
-        Me.gbSellData.Location = New System.Drawing.Point(4, 5)
-        Me.gbSellData.Name = "gbSellData"
-        Me.gbSellData.Size = New System.Drawing.Size(252, 114)
-        Me.gbSellData.TabIndex = 0
-        Me.gbSellData.TabStop = False
-        Me.gbSellData.Text = "Sell Orders"
-        '
         'lblSellOrderStd
         '
         Me.lblSellOrderStd.AutoSize = True
-        Me.lblSellOrderStd.Location = New System.Drawing.Point(57, 87)
+        Me.lblSellOrderStd.Location = New System.Drawing.Point(54, 65)
         Me.lblSellOrderStd.Name = "lblSellOrderStd"
         Me.lblSellOrderStd.Size = New System.Drawing.Size(38, 13)
         Me.lblSellOrderStd.TabIndex = 11
@@ -460,7 +385,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMedian
         '
         Me.lblSellOrderMedian.AutoSize = True
-        Me.lblSellOrderMedian.Location = New System.Drawing.Point(57, 74)
+        Me.lblSellOrderMedian.Location = New System.Drawing.Point(54, 52)
         Me.lblSellOrderMedian.Name = "lblSellOrderMedian"
         Me.lblSellOrderMedian.Size = New System.Drawing.Size(38, 13)
         Me.lblSellOrderMedian.TabIndex = 10
@@ -469,7 +394,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMean
         '
         Me.lblSellOrderMean.AutoSize = True
-        Me.lblSellOrderMean.Location = New System.Drawing.Point(57, 61)
+        Me.lblSellOrderMean.Location = New System.Drawing.Point(54, 39)
         Me.lblSellOrderMean.Name = "lblSellOrderMean"
         Me.lblSellOrderMean.Size = New System.Drawing.Size(38, 13)
         Me.lblSellOrderMean.TabIndex = 9
@@ -478,7 +403,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMax
         '
         Me.lblSellOrderMax.AutoSize = True
-        Me.lblSellOrderMax.Location = New System.Drawing.Point(57, 48)
+        Me.lblSellOrderMax.Location = New System.Drawing.Point(54, 26)
         Me.lblSellOrderMax.Name = "lblSellOrderMax"
         Me.lblSellOrderMax.Size = New System.Drawing.Size(38, 13)
         Me.lblSellOrderMax.TabIndex = 8
@@ -487,7 +412,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMin
         '
         Me.lblSellOrderMin.AutoSize = True
-        Me.lblSellOrderMin.Location = New System.Drawing.Point(57, 35)
+        Me.lblSellOrderMin.Location = New System.Drawing.Point(54, 13)
         Me.lblSellOrderMin.Name = "lblSellOrderMin"
         Me.lblSellOrderMin.Size = New System.Drawing.Size(38, 13)
         Me.lblSellOrderMin.TabIndex = 7
@@ -496,7 +421,7 @@ Partial Class frmMarketOrders
         'LblSellOrderVol
         '
         Me.LblSellOrderVol.AutoSize = True
-        Me.LblSellOrderVol.Location = New System.Drawing.Point(57, 22)
+        Me.LblSellOrderVol.Location = New System.Drawing.Point(54, 0)
         Me.LblSellOrderVol.Name = "LblSellOrderVol"
         Me.LblSellOrderVol.Size = New System.Drawing.Size(38, 13)
         Me.LblSellOrderVol.TabIndex = 6
@@ -505,7 +430,7 @@ Partial Class frmMarketOrders
         'lblSellOrderStdLbl
         '
         Me.lblSellOrderStdLbl.AutoSize = True
-        Me.lblSellOrderStdLbl.Location = New System.Drawing.Point(6, 87)
+        Me.lblSellOrderStdLbl.Location = New System.Drawing.Point(3, 65)
         Me.lblSellOrderStdLbl.Name = "lblSellOrderStdLbl"
         Me.lblSellOrderStdLbl.Size = New System.Drawing.Size(49, 13)
         Me.lblSellOrderStdLbl.TabIndex = 5
@@ -514,7 +439,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMedianLbl
         '
         Me.lblSellOrderMedianLbl.AutoSize = True
-        Me.lblSellOrderMedianLbl.Location = New System.Drawing.Point(6, 74)
+        Me.lblSellOrderMedianLbl.Location = New System.Drawing.Point(3, 52)
         Me.lblSellOrderMedianLbl.Name = "lblSellOrderMedianLbl"
         Me.lblSellOrderMedianLbl.Size = New System.Drawing.Size(45, 13)
         Me.lblSellOrderMedianLbl.TabIndex = 4
@@ -523,7 +448,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMeanLbl
         '
         Me.lblSellOrderMeanLbl.AutoSize = True
-        Me.lblSellOrderMeanLbl.Location = New System.Drawing.Point(6, 61)
+        Me.lblSellOrderMeanLbl.Location = New System.Drawing.Point(3, 39)
         Me.lblSellOrderMeanLbl.Name = "lblSellOrderMeanLbl"
         Me.lblSellOrderMeanLbl.Size = New System.Drawing.Size(37, 13)
         Me.lblSellOrderMeanLbl.TabIndex = 3
@@ -532,7 +457,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMaxLbl
         '
         Me.lblSellOrderMaxLbl.AutoSize = True
-        Me.lblSellOrderMaxLbl.Location = New System.Drawing.Point(6, 48)
+        Me.lblSellOrderMaxLbl.Location = New System.Drawing.Point(3, 26)
         Me.lblSellOrderMaxLbl.Name = "lblSellOrderMaxLbl"
         Me.lblSellOrderMaxLbl.Size = New System.Drawing.Size(31, 13)
         Me.lblSellOrderMaxLbl.TabIndex = 2
@@ -541,7 +466,7 @@ Partial Class frmMarketOrders
         'lblSellOrderMinLbl
         '
         Me.lblSellOrderMinLbl.AutoSize = True
-        Me.lblSellOrderMinLbl.Location = New System.Drawing.Point(6, 35)
+        Me.lblSellOrderMinLbl.Location = New System.Drawing.Point(3, 13)
         Me.lblSellOrderMinLbl.Name = "lblSellOrderMinLbl"
         Me.lblSellOrderMinLbl.Size = New System.Drawing.Size(27, 13)
         Me.lblSellOrderMinLbl.TabIndex = 1
@@ -550,235 +475,578 @@ Partial Class frmMarketOrders
         'lblSellOrderVolLbl
         '
         Me.lblSellOrderVolLbl.AutoSize = True
-        Me.lblSellOrderVolLbl.Location = New System.Drawing.Point(6, 22)
+        Me.lblSellOrderVolLbl.Location = New System.Drawing.Point(3, 0)
         Me.lblSellOrderVolLbl.Name = "lblSellOrderVolLbl"
         Me.lblSellOrderVolLbl.Size = New System.Drawing.Size(45, 13)
         Me.lblSellOrderVolLbl.TabIndex = 0
         Me.lblSellOrderVolLbl.Text = "Volume:"
+        '
+        'lblSellers
+        '
+        Me.lblSellers.AutoSize = True
+        Me.lblSellers.Font = New System.Drawing.Font("Tahoma", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSellers.Location = New System.Drawing.Point(3, 9)
+        Me.lblSellers.Name = "lblSellers"
+        Me.lblSellers.Size = New System.Drawing.Size(53, 13)
+        Me.lblSellers.TabIndex = 0
+        Me.lblSellers.Text = "SELLERS"
+        '
+        'lblBuyers
+        '
+        Me.lblBuyers.AutoSize = True
+        Me.lblBuyers.Font = New System.Drawing.Font("Tahoma", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBuyers.Location = New System.Drawing.Point(3, 3)
+        Me.lblBuyers.Name = "lblBuyers"
+        Me.lblBuyers.Size = New System.Drawing.Size(50, 13)
+        Me.lblBuyers.TabIndex = 3
+        Me.lblBuyers.Text = "BUYERS"
+        '
+        'panelInfo
+        '
+        Me.panelInfo.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelInfo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelInfo.Controls.Add(Me.gpAllOrders)
+        Me.panelInfo.Controls.Add(Me.gpBuyOrders)
+        Me.panelInfo.Controls.Add(Me.gpSellOrders)
+        Me.panelInfo.Controls.Add(Me.ExpandableSplitter2)
+        Me.panelInfo.Controls.Add(Me.panelGraph)
+        Me.panelInfo.Controls.Add(Me.lblYourPriceLbl)
+        Me.panelInfo.Controls.Add(Me.lblCurrentPriceLbl)
+        Me.panelInfo.Controls.Add(Me.lblYourPrice)
+        Me.panelInfo.Controls.Add(Me.btnSetCustomPrice)
+        Me.panelInfo.Controls.Add(Me.lblCurrentPrice)
+        Me.panelInfo.Controls.Add(Me.btnSetMarketPrice)
+        Me.panelInfo.Dock = System.Windows.Forms.DockStyle.Right
+        Me.panelInfo.Location = New System.Drawing.Point(851, 0)
+        Me.panelInfo.Name = "panelInfo"
+        Me.panelInfo.Size = New System.Drawing.Size(369, 849)
+        Me.panelInfo.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelInfo.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelInfo.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelInfo.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelInfo.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelInfo.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelInfo.Style.GradientAngle = 90
+        Me.panelInfo.TabIndex = 12
+        '
+        'gpAllOrders
+        '
+        Me.gpAllOrders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gpAllOrders.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpAllOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderStd)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderVolLbl)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMedian)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMinLbl)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMean)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMaxLbl)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMax)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMeanLbl)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMin)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderMedianLbl)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderVol)
+        Me.gpAllOrders.Controls.Add(Me.lblAllOrderStdLbl)
+        Me.gpAllOrders.Location = New System.Drawing.Point(6, 225)
+        Me.gpAllOrders.Name = "gpAllOrders"
+        Me.gpAllOrders.Size = New System.Drawing.Size(354, 105)
+        '
+        '
+        '
+        Me.gpAllOrders.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpAllOrders.Style.BackColorGradientAngle = 90
+        Me.gpAllOrders.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpAllOrders.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAllOrders.Style.BorderBottomWidth = 1
+        Me.gpAllOrders.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpAllOrders.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAllOrders.Style.BorderLeftWidth = 1
+        Me.gpAllOrders.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAllOrders.Style.BorderRightWidth = 1
+        Me.gpAllOrders.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAllOrders.Style.BorderTopWidth = 1
+        Me.gpAllOrders.Style.Class = ""
+        Me.gpAllOrders.Style.CornerDiameter = 4
+        Me.gpAllOrders.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpAllOrders.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpAllOrders.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpAllOrders.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpAllOrders.StyleMouseDown.Class = ""
+        Me.gpAllOrders.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpAllOrders.StyleMouseOver.Class = ""
+        Me.gpAllOrders.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpAllOrders.TabIndex = 4
+        Me.gpAllOrders.Text = "All Orders"
+        '
+        'gpBuyOrders
+        '
+        Me.gpBuyOrders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gpBuyOrders.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpBuyOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderStd)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderVolLbl)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMedian)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMinLbl)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMean)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMaxLbl)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMax)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMeanLbl)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMin)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderMedianLbl)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderVol)
+        Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderStdLbl)
+        Me.gpBuyOrders.Location = New System.Drawing.Point(6, 114)
+        Me.gpBuyOrders.Name = "gpBuyOrders"
+        Me.gpBuyOrders.Size = New System.Drawing.Size(354, 105)
+        '
+        '
+        '
+        Me.gpBuyOrders.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpBuyOrders.Style.BackColorGradientAngle = 90
+        Me.gpBuyOrders.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpBuyOrders.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBuyOrders.Style.BorderBottomWidth = 1
+        Me.gpBuyOrders.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpBuyOrders.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBuyOrders.Style.BorderLeftWidth = 1
+        Me.gpBuyOrders.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBuyOrders.Style.BorderRightWidth = 1
+        Me.gpBuyOrders.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBuyOrders.Style.BorderTopWidth = 1
+        Me.gpBuyOrders.Style.Class = ""
+        Me.gpBuyOrders.Style.CornerDiameter = 4
+        Me.gpBuyOrders.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpBuyOrders.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpBuyOrders.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpBuyOrders.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpBuyOrders.StyleMouseDown.Class = ""
+        Me.gpBuyOrders.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpBuyOrders.StyleMouseOver.Class = ""
+        Me.gpBuyOrders.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpBuyOrders.TabIndex = 3
+        Me.gpBuyOrders.Text = "Buy Orders"
+        '
+        'gpSellOrders
+        '
+        Me.gpSellOrders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gpSellOrders.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpSellOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderStd)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderVolLbl)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMedian)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMinLbl)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMean)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMaxLbl)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMax)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMeanLbl)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMin)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderMedianLbl)
+        Me.gpSellOrders.Controls.Add(Me.LblSellOrderVol)
+        Me.gpSellOrders.Controls.Add(Me.lblSellOrderStdLbl)
+        Me.gpSellOrders.Location = New System.Drawing.Point(6, 3)
+        Me.gpSellOrders.Name = "gpSellOrders"
+        Me.gpSellOrders.Size = New System.Drawing.Size(354, 105)
+        '
+        '
+        '
+        Me.gpSellOrders.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpSellOrders.Style.BackColorGradientAngle = 90
+        Me.gpSellOrders.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpSellOrders.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpSellOrders.Style.BorderBottomWidth = 1
+        Me.gpSellOrders.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpSellOrders.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpSellOrders.Style.BorderLeftWidth = 1
+        Me.gpSellOrders.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpSellOrders.Style.BorderRightWidth = 1
+        Me.gpSellOrders.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpSellOrders.Style.BorderTopWidth = 1
+        Me.gpSellOrders.Style.Class = ""
+        Me.gpSellOrders.Style.CornerDiameter = 4
+        Me.gpSellOrders.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpSellOrders.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpSellOrders.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpSellOrders.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpSellOrders.StyleMouseDown.Class = ""
+        Me.gpSellOrders.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpSellOrders.StyleMouseOver.Class = ""
+        Me.gpSellOrders.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpSellOrders.TabIndex = 2
+        Me.gpSellOrders.Text = "Sell Orders"
+        '
+        'ExpandableSplitter2
+        '
+        Me.ExpandableSplitter2.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter2.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter2.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.ExpandableSplitter2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ExpandableSplitter2.ExpandableControl = Me.panelGraph
+        Me.ExpandableSplitter2.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter2.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter2.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter2.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter2.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter2.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter2.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter2.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter2.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.ExpandableSplitter2.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.ExpandableSplitter2.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.ExpandableSplitter2.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.ExpandableSplitter2.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter2.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter2.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter2.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter2.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter2.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter2.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter2.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter2.Location = New System.Drawing.Point(0, 412)
+        Me.ExpandableSplitter2.Name = "ExpandableSplitter2"
+        Me.ExpandableSplitter2.Size = New System.Drawing.Size(369, 6)
+        Me.ExpandableSplitter2.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.ExpandableSplitter2.TabIndex = 1
+        Me.ExpandableSplitter2.TabStop = False
+        '
+        'panelGraph
+        '
+        Me.panelGraph.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelGraph.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelGraph.Controls.Add(Me.zgcPrices)
+        Me.panelGraph.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.panelGraph.Location = New System.Drawing.Point(0, 418)
+        Me.panelGraph.Name = "panelGraph"
+        Me.panelGraph.Size = New System.Drawing.Size(369, 431)
+        Me.panelGraph.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelGraph.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelGraph.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelGraph.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelGraph.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelGraph.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelGraph.Style.GradientAngle = 90
+        Me.panelGraph.TabIndex = 0
+        Me.panelGraph.Text = "PanelEx1"
         '
         'zgcPrices
         '
         Me.zgcPrices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.zgcPrices.Location = New System.Drawing.Point(0, 0)
         Me.zgcPrices.Name = "zgcPrices"
-        Me.zgcPrices.ScrollGrace = 0
-        Me.zgcPrices.ScrollMaxX = 0
-        Me.zgcPrices.ScrollMaxY = 0
-        Me.zgcPrices.ScrollMaxY2 = 0
-        Me.zgcPrices.ScrollMinX = 0
-        Me.zgcPrices.ScrollMinY = 0
-        Me.zgcPrices.ScrollMinY2 = 0
-        Me.zgcPrices.Size = New System.Drawing.Size(231, 233)
+        Me.zgcPrices.ScrollGrace = 0.0R
+        Me.zgcPrices.ScrollMaxX = 0.0R
+        Me.zgcPrices.ScrollMaxY = 0.0R
+        Me.zgcPrices.ScrollMaxY2 = 0.0R
+        Me.zgcPrices.ScrollMinX = 0.0R
+        Me.zgcPrices.ScrollMinY = 0.0R
+        Me.zgcPrices.ScrollMinY2 = 0.0R
+        Me.zgcPrices.Size = New System.Drawing.Size(369, 431)
         Me.zgcPrices.TabIndex = 0
         '
-        'Splitter1
+        'ExpandableSplitter1
         '
-        Me.Splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Splitter1.Location = New System.Drawing.Point(746, 0)
-        Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(3, 664)
-        Me.Splitter1.TabIndex = 1
-        Me.Splitter1.TabStop = False
+        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Right
+        Me.ExpandableSplitter1.ExpandableControl = Me.panelInfo
+        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter1.Location = New System.Drawing.Point(841, 0)
+        Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
+        Me.ExpandableSplitter1.Size = New System.Drawing.Size(10, 849)
+        Me.ExpandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.ExpandableSplitter1.TabIndex = 13
+        Me.ExpandableSplitter1.TabStop = False
         '
-        'SplitContainer1
+        'panelBuyOrders
         '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.panelBuyOrders.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelBuyOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelBuyOrders.Controls.Add(Me.adtBuyers)
+        Me.panelBuyOrders.Controls.Add(Me.lblBuyers)
+        Me.panelBuyOrders.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.panelBuyOrders.Location = New System.Drawing.Point(0, 418)
+        Me.panelBuyOrders.Name = "panelBuyOrders"
+        Me.panelBuyOrders.Size = New System.Drawing.Size(841, 431)
+        Me.panelBuyOrders.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelBuyOrders.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelBuyOrders.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelBuyOrders.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelBuyOrders.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelBuyOrders.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelBuyOrders.Style.GradientAngle = 90
+        Me.panelBuyOrders.TabIndex = 14
         '
-        'SplitContainer1.Panel1
+        'adtBuyers
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.clvSellers)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblSellers)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.clvBuyers)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.lblBuyers)
-        Me.SplitContainer1.Size = New System.Drawing.Size(746, 664)
-        Me.SplitContainer1.SplitterDistance = 333
-        Me.SplitContainer1.TabIndex = 2
-        '
-        'clvSellers
-        '
-        Me.clvSellers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.adtBuyers.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtBuyers.AllowDrop = True
+        Me.adtBuyers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvSellers.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colLocation, Me.colQuantity, Me.colPrice, Me.colExpires})
-        Me.clvSellers.DefaultItemHeight = 18
-        Me.clvSellers.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvSellers.Location = New System.Drawing.Point(4, 21)
-        Me.clvSellers.Name = "clvSellers"
-        Me.clvSellers.Size = New System.Drawing.Size(735, 305)
-        Me.clvSellers.TabIndex = 1
+        Me.adtBuyers.BackColor = System.Drawing.SystemColors.Window
         '
-        'colLocation
         '
-        Me.colLocation.CustomSortTag = Nothing
-        Me.colLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colLocation.Tag = Nothing
-        Me.colLocation.Text = "Location"
-        Me.colLocation.Width = 300
         '
-        'colQuantity
+        Me.adtBuyers.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtBuyers.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtBuyers.Columns.Add(Me.colBuyLocation)
+        Me.adtBuyers.Columns.Add(Me.colBuyQty)
+        Me.adtBuyers.Columns.Add(Me.colBuyPrice)
+        Me.adtBuyers.Columns.Add(Me.colBuyExpiry)
+        Me.adtBuyers.DragDropEnabled = False
+        Me.adtBuyers.DragDropNodeCopyEnabled = False
+        Me.adtBuyers.ExpandWidth = 0
+        Me.adtBuyers.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtBuyers.Location = New System.Drawing.Point(6, 19)
+        Me.adtBuyers.Name = "adtBuyers"
+        Me.adtBuyers.NodesConnector = Me.NodeConnector2
+        Me.adtBuyers.NodeStyle = Me.ElementStyle2
+        Me.adtBuyers.PathSeparator = ";"
+        Me.adtBuyers.Size = New System.Drawing.Size(829, 409)
+        Me.adtBuyers.Styles.Add(Me.ElementStyle2)
+        Me.adtBuyers.TabIndex = 4
+        Me.adtBuyers.Text = "AdvTree1"
         '
-        Me.colQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colQuantity.CustomSortTag = Nothing
-        Me.colQuantity.DisplayIndex = 1
-        Me.colQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colQuantity.Tag = Nothing
-        Me.colQuantity.Text = "Quantity"
-        Me.colQuantity.Width = 125
+        'colBuyLocation
         '
-        'colPrice
+        Me.colBuyLocation.DisplayIndex = 1
+        Me.colBuyLocation.Name = "colBuyLocation"
+        Me.colBuyLocation.Text = "Location"
+        Me.colBuyLocation.Width.Absolute = 300
         '
-        Me.colPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colPrice.CustomSortTag = Nothing
-        Me.colPrice.DisplayIndex = 2
-        Me.colPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colPrice.Tag = Nothing
-        Me.colPrice.Text = "Price"
-        Me.colPrice.Width = 125
+        'colBuyQty
         '
-        'colExpires
+        Me.colBuyQty.DisplayIndex = 2
+        Me.colBuyQty.Name = "colBuyQty"
+        Me.colBuyQty.Text = "Quantity"
+        Me.colBuyQty.Width.Absolute = 120
         '
-        Me.colExpires.CustomSortTag = Nothing
-        Me.colExpires.DisplayIndex = 3
-        Me.colExpires.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
-        Me.colExpires.Tag = Nothing
-        Me.colExpires.Text = "Expires In"
-        Me.colExpires.Width = 125
+        'colBuyPrice
         '
-        'lblSellers
+        Me.colBuyPrice.DisplayIndex = 3
+        Me.colBuyPrice.Name = "colBuyPrice"
+        Me.colBuyPrice.Text = "Price"
+        Me.colBuyPrice.Width.Absolute = 120
         '
-        Me.lblSellers.AutoSize = True
-        Me.lblSellers.Font = New System.Drawing.Font("Tahoma", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSellers.Location = New System.Drawing.Point(5, 5)
-        Me.lblSellers.Name = "lblSellers"
-        Me.lblSellers.Size = New System.Drawing.Size(53, 13)
-        Me.lblSellers.TabIndex = 0
-        Me.lblSellers.Text = "SELLERS"
+        'colBuyExpiry
         '
-        'clvBuyers
+        Me.colBuyExpiry.DisplayIndex = 4
+        Me.colBuyExpiry.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
+        Me.colBuyExpiry.Name = "colBuyExpiry"
+        Me.colBuyExpiry.Text = "Expires In"
+        Me.colBuyExpiry.Width.Absolute = 120
         '
-        Me.clvBuyers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        'NodeConnector2
+        '
+        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.Class = ""
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'ExpandableSplitter3
+        '
+        Me.ExpandableSplitter3.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter3.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter3.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.ExpandableSplitter3.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ExpandableSplitter3.ExpandableControl = Me.panelBuyOrders
+        Me.ExpandableSplitter3.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter3.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter3.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter3.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter3.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter3.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter3.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter3.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter3.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.ExpandableSplitter3.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.ExpandableSplitter3.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.ExpandableSplitter3.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.ExpandableSplitter3.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter3.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter3.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter3.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter3.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter3.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter3.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter3.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter3.Location = New System.Drawing.Point(0, 412)
+        Me.ExpandableSplitter3.Name = "ExpandableSplitter3"
+        Me.ExpandableSplitter3.Size = New System.Drawing.Size(841, 6)
+        Me.ExpandableSplitter3.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.ExpandableSplitter3.TabIndex = 15
+        Me.ExpandableSplitter3.TabStop = False
+        '
+        'panelSellOrders
+        '
+        Me.panelSellOrders.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelSellOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelSellOrders.Controls.Add(Me.adtSellers)
+        Me.panelSellOrders.Controls.Add(Me.lblSellers)
+        Me.panelSellOrders.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelSellOrders.Location = New System.Drawing.Point(0, 0)
+        Me.panelSellOrders.Name = "panelSellOrders"
+        Me.panelSellOrders.Size = New System.Drawing.Size(841, 412)
+        Me.panelSellOrders.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelSellOrders.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelSellOrders.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelSellOrders.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelSellOrders.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelSellOrders.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelSellOrders.Style.GradientAngle = 90
+        Me.panelSellOrders.TabIndex = 16
+        '
+        'adtSellers
+        '
+        Me.adtSellers.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtSellers.AllowDrop = True
+        Me.adtSellers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvBuyers.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3, Me.ContainerListViewColumnHeader4})
-        Me.clvBuyers.DefaultItemHeight = 18
-        Me.clvBuyers.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvBuyers.Location = New System.Drawing.Point(4, 21)
-        Me.clvBuyers.Name = "clvBuyers"
-        Me.clvBuyers.Size = New System.Drawing.Size(735, 299)
-        Me.clvBuyers.TabIndex = 4
+        Me.adtSellers.BackColor = System.Drawing.SystemColors.Window
         '
-        'ContainerListViewColumnHeader1
         '
-        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader1.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader1.Tag = Nothing
-        Me.ContainerListViewColumnHeader1.Text = "Location"
-        Me.ContainerListViewColumnHeader1.Width = 300
         '
-        'ContainerListViewColumnHeader2
+        Me.adtSellers.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtSellers.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtSellers.Columns.Add(Me.colSellLocation)
+        Me.adtSellers.Columns.Add(Me.colSellQty)
+        Me.adtSellers.Columns.Add(Me.colSellPrice)
+        Me.adtSellers.Columns.Add(Me.colSellExpiry)
+        Me.adtSellers.DragDropEnabled = False
+        Me.adtSellers.DragDropNodeCopyEnabled = False
+        Me.adtSellers.ExpandWidth = 0
+        Me.adtSellers.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtSellers.Location = New System.Drawing.Point(6, 25)
+        Me.adtSellers.Name = "adtSellers"
+        Me.adtSellers.NodesConnector = Me.NodeConnector1
+        Me.adtSellers.NodeStyle = Me.ElementStyle1
+        Me.adtSellers.PathSeparator = ";"
+        Me.adtSellers.Size = New System.Drawing.Size(829, 384)
+        Me.adtSellers.Styles.Add(Me.ElementStyle1)
+        Me.adtSellers.TabIndex = 1
+        Me.adtSellers.Text = "AdvTree1"
         '
-        Me.ContainerListViewColumnHeader2.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader2.DisplayIndex = 1
-        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader2.Tag = Nothing
-        Me.ContainerListViewColumnHeader2.Text = "Quantity"
-        Me.ContainerListViewColumnHeader2.Width = 125
+        'colSellLocation
         '
-        'ContainerListViewColumnHeader3
+        Me.colSellLocation.DisplayIndex = 1
+        Me.colSellLocation.Name = "colSellLocation"
+        Me.colSellLocation.Text = "Location"
+        Me.colSellLocation.Width.Absolute = 300
         '
-        Me.ContainerListViewColumnHeader3.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader3.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader3.DisplayIndex = 2
-        Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader3.Tag = Nothing
-        Me.ContainerListViewColumnHeader3.Text = "Price"
-        Me.ContainerListViewColumnHeader3.Width = 125
+        'colSellQty
         '
-        'ContainerListViewColumnHeader4
+        Me.colSellQty.DisplayIndex = 2
+        Me.colSellQty.Name = "colSellQty"
+        Me.colSellQty.Text = "Quantity"
+        Me.colSellQty.Width.Absolute = 120
         '
-        Me.ContainerListViewColumnHeader4.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader4.DisplayIndex = 3
-        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
-        Me.ContainerListViewColumnHeader4.Tag = Nothing
-        Me.ContainerListViewColumnHeader4.Text = "Expires In"
-        Me.ContainerListViewColumnHeader4.Width = 125
+        'colSellPrice
         '
-        'lblBuyers
+        Me.colSellPrice.DisplayIndex = 3
+        Me.colSellPrice.Name = "colSellPrice"
+        Me.colSellPrice.Text = "Price"
+        Me.colSellPrice.Width.Absolute = 120
         '
-        Me.lblBuyers.AutoSize = True
-        Me.lblBuyers.Font = New System.Drawing.Font("Tahoma", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBuyers.Location = New System.Drawing.Point(5, 5)
-        Me.lblBuyers.Name = "lblBuyers"
-        Me.lblBuyers.Size = New System.Drawing.Size(50, 13)
-        Me.lblBuyers.TabIndex = 3
-        Me.lblBuyers.Text = "BUYERS"
+        'colSellExpiry
         '
-        'btnSetCustomPrice
+        Me.colSellExpiry.DisplayIndex = 4
+        Me.colSellExpiry.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
+        Me.colSellExpiry.Name = "colSellExpiry"
+        Me.colSellExpiry.Text = "Expires In"
+        Me.colSellExpiry.Width.Absolute = 120
         '
-        Me.btnSetCustomPrice.Location = New System.Drawing.Point(119, 391)
-        Me.btnSetCustomPrice.Name = "btnSetCustomPrice"
-        Me.btnSetCustomPrice.Size = New System.Drawing.Size(100, 23)
-        Me.btnSetCustomPrice.TabIndex = 11
-        Me.btnSetCustomPrice.Text = "Set Custom Price"
-        Me.btnSetCustomPrice.UseVisualStyleBackColor = True
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
         '
         'frmMarketOrders
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(984, 664)
-        Me.Controls.Add(Me.SplitContainer1)
-        Me.Controls.Add(Me.Splitter1)
-        Me.Controls.Add(Me.scOrderData)
+        Me.ClientSize = New System.Drawing.Size(1220, 849)
+        Me.Controls.Add(Me.panelSellOrders)
+        Me.Controls.Add(Me.ExpandableSplitter3)
+        Me.Controls.Add(Me.panelBuyOrders)
+        Me.Controls.Add(Me.ExpandableSplitter1)
+        Me.Controls.Add(Me.panelInfo)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMarketOrders"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Market Orders"
-        Me.scOrderData.Panel1.ResumeLayout(False)
-        Me.scOrderData.Panel1.PerformLayout()
-        Me.scOrderData.Panel2.ResumeLayout(False)
-        Me.scOrderData.ResumeLayout(False)
-        Me.gbAllData.ResumeLayout(False)
-        Me.gbAllData.PerformLayout()
-        Me.gbBuyData.ResumeLayout(False)
-        Me.gbBuyData.PerformLayout()
-        Me.gbSellData.ResumeLayout(False)
-        Me.gbSellData.PerformLayout()
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.PerformLayout()
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.PerformLayout()
-        Me.SplitContainer1.ResumeLayout(False)
+        Me.panelInfo.ResumeLayout(False)
+        Me.panelInfo.PerformLayout()
+        Me.gpAllOrders.ResumeLayout(False)
+        Me.gpAllOrders.PerformLayout()
+        Me.gpBuyOrders.ResumeLayout(False)
+        Me.gpBuyOrders.PerformLayout()
+        Me.gpSellOrders.ResumeLayout(False)
+        Me.gpSellOrders.PerformLayout()
+        Me.panelGraph.ResumeLayout(False)
+        Me.panelBuyOrders.ResumeLayout(False)
+        Me.panelBuyOrders.PerformLayout()
+        CType(Me.adtBuyers, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.panelSellOrders.ResumeLayout(False)
+        Me.panelSellOrders.PerformLayout()
+        CType(Me.adtSellers, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents scOrderData As System.Windows.Forms.SplitContainer
-    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents lblSellers As System.Windows.Forms.Label
     Friend WithEvents lblBuyers As System.Windows.Forms.Label
-    Friend WithEvents clvSellers As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents colQuantity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colExpires As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colLocation As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents clvBuyers As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader2 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader3 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader4 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents gbSellData As System.Windows.Forms.GroupBox
     Friend WithEvents lblSellOrderVolLbl As System.Windows.Forms.Label
     Friend WithEvents lblSellOrderStd As System.Windows.Forms.Label
     Friend WithEvents lblSellOrderMedian As System.Windows.Forms.Label
@@ -791,7 +1059,6 @@ Partial Class frmMarketOrders
     Friend WithEvents lblSellOrderMeanLbl As System.Windows.Forms.Label
     Friend WithEvents lblSellOrderMaxLbl As System.Windows.Forms.Label
     Friend WithEvents lblSellOrderMinLbl As System.Windows.Forms.Label
-    Friend WithEvents gbAllData As System.Windows.Forms.GroupBox
     Friend WithEvents lblAllOrderStd As System.Windows.Forms.Label
     Friend WithEvents lblAllOrderMedian As System.Windows.Forms.Label
     Friend WithEvents lblAllOrderMean As System.Windows.Forms.Label
@@ -804,7 +1071,6 @@ Partial Class frmMarketOrders
     Friend WithEvents lblAllOrderMaxLbl As System.Windows.Forms.Label
     Friend WithEvents lblAllOrderMinLbl As System.Windows.Forms.Label
     Friend WithEvents lblAllOrderVolLbl As System.Windows.Forms.Label
-    Friend WithEvents gbBuyData As System.Windows.Forms.GroupBox
     Friend WithEvents lblBuyOrderStd As System.Windows.Forms.Label
     Friend WithEvents lblBuyOrderMedian As System.Windows.Forms.Label
     Friend WithEvents lblBuyOrderMean As System.Windows.Forms.Label
@@ -824,4 +1090,28 @@ Partial Class frmMarketOrders
     Friend WithEvents lblCurrentPriceLbl As System.Windows.Forms.Label
     Friend WithEvents btnSetMarketPrice As System.Windows.Forms.Button
     Friend WithEvents btnSetCustomPrice As System.Windows.Forms.Button
+    Friend WithEvents panelInfo As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents ExpandableSplitter2 As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents panelGraph As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents ExpandableSplitter1 As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents gpAllOrders As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents gpBuyOrders As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents gpSellOrders As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents panelBuyOrders As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents ExpandableSplitter3 As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents panelSellOrders As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents adtSellers As DevComponents.AdvTree.AdvTree
+    Friend WithEvents colSellLocation As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colSellQty As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colSellPrice As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colSellExpiry As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents adtBuyers As DevComponents.AdvTree.AdvTree
+    Friend WithEvents colBuyLocation As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colBuyQty As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colBuyPrice As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colBuyExpiry As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector2 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle2 As DevComponents.DotNetBar.ElementStyle
 End Class

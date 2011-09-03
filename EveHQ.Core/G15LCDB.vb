@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -19,52 +19,52 @@
 '=========================================================================
 Public Class G15LCDB
 
-    Public Shared Event UpdateAPI()
+    'Public Shared Event UpdateAPI()
 
-    Shared Property StartAPIUpdate() As Boolean
-        Get
-        End Get
-        Set(ByVal value As Boolean)
-            If value = True Then
-                RaiseEvent UpdateAPI()
-            End If
-        End Set
-    End Property
+    'Shared Property StartAPIUpdate() As Boolean
+    '    Get
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        If value = True Then
+    '            RaiseEvent UpdateAPI()
+    '        End If
+    '    End Set
+    'End Property
 
-    Public Shared Function ButtonPress(ByVal device As Integer, ByVal dwButtons As Integer, ByVal pContext As System.IntPtr) As Integer
-        'Button presses are passed to this routine
-        Select Case dwButtons
-            Case 1
-                ' Button 1
-                Call EveHQ.Core.HQ.EveHQLCD.SelectNextChar()
-            Case 2
-                ' Button 2
-                If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False Then
-                    EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True
-                Else
-                    EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False
-                End If
-                Select Case EveHQ.Core.HQ.lcdCharMode
-                    Case 0
-                        Call EveHQ.Core.HQ.EveHQLCD.DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot)
-                    Case 1
-                        Call EveHQ.Core.HQ.EveHQLCD.DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot)
-                End Select
-            Case 4
-                ' Button 3
-                EveHQ.Core.HQ.lcdCharMode += 1
-                If EveHQ.Core.HQ.lcdCharMode > 1 Then EveHQ.Core.HQ.lcdCharMode = 0
-                Select Case EveHQ.Core.HQ.lcdCharMode
-                    Case 0
-                        Call EveHQ.Core.HQ.EveHQLCD.DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot)
-                    Case 1
-                        Call EveHQ.Core.HQ.EveHQLCD.DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot)
-                End Select
-            Case 8
-                ' Button 4
-                G15LCDB.StartAPIUpdate = True
-        End Select
-    End Function
+    'Public Shared Function ButtonPress(ByVal device As Integer, ByVal dwButtons As Integer, ByVal pContext As System.IntPtr) As Integer
+    '    'Button presses are passed to this routine
+    '    Select Case dwButtons
+    '        Case 1
+    '            ' Button 1
+    '            Call EveHQ.Core.HQ.EveHQLCD.SelectNextChar()
+    '        Case 2
+    '            ' Button 2
+    '            If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False Then
+    '                EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True
+    '            Else
+    '                EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False
+    '            End If
+    '            Select Case EveHQ.Core.HQ.lcdCharMode
+    '                Case 0
+    '                    Call EveHQ.Core.HQ.EveHQLCD.DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot)
+    '                Case 1
+    '                    Call EveHQ.Core.HQ.EveHQLCD.DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot)
+    '            End Select
+    '        Case 4
+    '            ' Button 3
+    '            EveHQ.Core.HQ.lcdCharMode += 1
+    '            If EveHQ.Core.HQ.lcdCharMode > 1 Then EveHQ.Core.HQ.lcdCharMode = 0
+    '            Select Case EveHQ.Core.HQ.lcdCharMode
+    '                Case 0
+    '                    Call EveHQ.Core.HQ.EveHQLCD.DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot)
+    '                Case 1
+    '                    Call EveHQ.Core.HQ.EveHQLCD.DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot)
+    '            End Select
+    '        Case 8
+    '            ' Button 4
+    '            G15LCDv2.StartAPIUpdate = True
+    '    End Select
+    'End Function
 
     Public Shared Function ConfigureOptions(ByVal connection As Integer, ByVal pcontext As System.IntPtr) As Integer
         ' This function is called when the "Config" button is pressed in the Logitech LCD Manager

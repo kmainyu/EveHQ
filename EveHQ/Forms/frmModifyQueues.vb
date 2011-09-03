@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -109,7 +109,9 @@ Public Class frmModifyQueues
                     nItem.FromLevel = qItem.FromLevel
                     nItem.Name = qItem.Name
                     nItem.Key = nItem.Name & nItem.FromLevel & nItem.ToLevel
-                    nItem.Pos = qItem.Pos
+					nItem.Pos = qItem.Pos
+					nItem.Priority = qItem.Priority
+					nItem.Notes = qItem.Notes
                     newQ.Add(nItem, nItem.Key)
                 Next
                 newQueue.Queue = newQ
@@ -142,8 +144,24 @@ Public Class frmModifyQueues
                         End If
                     Next
                 Next
-                displayPilot.TrainingQueues.Add(newQueue.Name, newQueue)
-        End Select
+				displayPilot.TrainingQueues.Add(newQueue.Name, newQueue)
+			Case "Split"
+				If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+					Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Copying Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
+					If reply = Windows.Forms.DialogResult.Retry Then
+						Exit Sub
+					Else
+						Me.Close()
+						Exit Sub
+					End If
+				End If
+				Dim newQueue As New EveHQ.Core.SkillQueue
+				newQueue.Name = txtQueueName.Text
+				newQueue.IncCurrentTraining = True
+				newQueue.Primary = False
+				newQueue.Queue = CType(txtQueueName.Tag, Collection)
+				displayPilot.TrainingQueues.Add(newQueue.Name, newQueue)
+		End Select
         Me.Close()
     End Sub
 
@@ -151,10 +169,4 @@ Public Class frmModifyQueues
         Me.Close()
     End Sub
 
-    Private Sub txtQueueName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtQueueName.KeyPress
-        Dim myMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(e.KeyChar, "^[0-9a-zA-Z\x20\x08]*$")
-        If myMatch.Success = False Then
-            e.KeyChar = CChar("")
-        End If
-    End Sub
 End Class

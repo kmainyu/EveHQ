@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -10,166 +29,89 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Resources;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EveHQ.PosManager
 {
-    public partial class PoSManMainForm : Form
+    public partial class PoSManMainForm : DevComponents.DotNetBar.Office2007Form
     {
         public ArrayList MonSel_L = new ArrayList();
 
         POS Design = new POS();                         // New POS Structure
-        CategoryList CL = new CategoryList();           // POS Categories
-        public POSDesigns POSList = new POSDesigns();   // New List of POS Designs
-        public TowerListing TL = new TowerListing();    // Tower Listings
-        public ModuleListing ML = new ModuleListing();  // Module Listings
         private FuelBay A_Fuel = new FuelBay();         // Fuel Bay to be used for Adjustments
         private FuelBay D_Fuel = new FuelBay();         // Fuel Bay to be used for the Designer
-        public API_List API_D = new API_List();         // API Tower Listing (if it Exists)
         public DPListing DPLst = new DPListing();       // Damage Profile Listing
-        public AllianceList AL = new AllianceList();
-        public SystemList SL = new SystemList();
-        public PlayerList PL = new PlayerList();
-        public NotificationList NL = new NotificationList();
-        Configuration Config = new Configuration();
-        public static BackgroundWorker apiWorker;
         PoS_Item api;
         FuelBay tt = null;
         bool load = false;
         bool update = false;
         bool timeCheck = false;
-        bool PosChanged = false;
         bool UpdateTower = true;
-        bool mailSendErr = false;
+        bool UserSplitMove = false;
+        bool SecAddLoad = false;
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
+        private string Sel_React_Pos = "";
         public string selName, AllPosFillText, SelPosFillText, SelReactPos;
         public string CurrentName = "", NewName = "";
-        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, React, Owner, FTech, fHrs, sHrs, hCPU, hPow, hIso };
-        enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost, Cap };
+        enum MonDG { Name, LocN, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, React, Owner, FTech, fHrs, sHrs, hCPU, hPow, hIso };
+        enum dgPM { Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost, Cap };
         enum fillDG { Name, Loc, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, RunT };
-        enum fuelDG { type, amount, vol, cost };      
+        enum fuelDG { type, amount, vol, cost };
+        private bool PosChanged = false;
+        private bool ReactChanged = false;
         decimal srcID, dstID;
         string srcNm, dstNm;
         // 20 max possible links for now
-        private int MaxLink = 20;
-        private Color[] LColor = new Color[] {Color.Blue, Color.Green, Color.Orange, Color.Violet, Color.LimeGreen,
-                                              Color.LightBlue, Color.Red, Color.Yellow, Color.Coral, Color.DarkBlue,
-                                              Color.DarkGreen, Color.DarkOrange, Color.DarkRed, Color.DarkViolet,
-                                              Color.ForestGreen, Color.Gold, Color.Gray, Color.Lavender,
-                                              Color.LightCyan, Color.Olive};
-    
+        private long MaxLink = 20;
 
 
-#region Main Form Handlers
+        #region Main Form Handlers
 
         public PoSManMainForm()
         {
             InitializeComponent();
         }
-        
+
         private void frmMainForm_Load(object sender, EventArgs e)
         {
             int dgCol;
             load = true;
 
-            Config.LoadConfiguration();     // Load PoS Manager Configuration Information
-
-            CL.LoadCategoryList();          // Load Category Listing from Disk
-            TL.LoadTowerListing();          // Load Tower Listing from Disk
-            ML.LoadModuleListing();         // Load Tower Modules Listing from Disk
-            POSList.LoadDesignListing();    // Loads Desgined POS's from Disk
-            API_D.LoadAPIListing();       // Load Tower API Data from Disk
             DPLst.LoadDPListing();          // Load Damage Profile List
-            SL.LoadSystemListFromDisk();
-            AL.LoadAllianceListFromDisk();
-            PL.LoadPlayerList();
-            NL.LoadNotificationList();
+
+            if (PlugInData.bgw_APIUpdate.IsBusy)
+                tp_ModsAndFuel.Visible = false;
 
             PopulateDPList("Omni-Type");
             PopulateSystemList();
             PopulateCorpList();
 
-            // Add PoS designes into the Designer Combo-Box pull down list for Selection
-            cb_PoSName.Items.Clear();
-            if (POSList.Designs.Count < 1)
-            {
-                cb_PoSName.Text = "No Towers Created";
-            }
+            SetChangedStatus(false, "");
+            SetReactChangedStatus(false, "");
 
-            // Fill in default values for New Tower Data
-            foreach (POS pl in POSList.Designs)
-            {
-                cb_PoSName.Items.Add(pl.Name);
-
-                if (pl.ReactionLinks == null)
-                {
-                    pl.ReactionLinks = new ArrayList();
-                    pl.React_TS = DateTime.Now;
-                }
-
-                if (pl.Owner == null)
-                {
-                    pl.Owner = "";
-                    pl.FuelTech = "";
-                    pl.ownerID = 0;
-                    pl.fuelTechID = 0;
-                }
-
-                if (pl.Owner == "")
-                    pl.Owner = pl.CorpName;
-
-                // Actual testing reveals that the DB values are NOT correct for 
-                // structure resistances, they are in reality ZERO
-                pl.PosTower.Struct.EMP = 0;
-                pl.PosTower.Struct.Explosive = 0;
-                pl.PosTower.Struct.Kinetic = 0;
-                pl.PosTower.Struct.Thermal = 0;
-
-                foreach (Module m in pl.Modules)
-                {
-                    if (m.ReactList == null)
-                        CopyMissingReactData(m);
-                    else
-                    {
-                        // Copy the Cache load data for Reactions, etc... Just in case it changed
-                        // or was updated.
-                        foreach (Module bm in ML.Modules)
-                        {
-                            if (bm.typeID == m.typeID)
-                            {
-                                m.ReactList = new ArrayList(bm.ReactList);
-                                m.MSRList = new ArrayList(bm.MSRList);
-                                m.InputList = new ArrayList(bm.InputList);
-                                m.OutputList = new ArrayList(bm.OutputList);
-                            }
-                        }
-                    }
-                }
-            }
+            // Add PoS designes longo the Designer Combo-Box pull down list for Selection
+            UpdatePOSNameSelections();
 
             BuildPOSListForMonitoring();
-            UpdateAllTowerSovLevels();
-
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-            POSList.CalculatePOSReactions();
 
             GetTowerItemListData();
-            SetReactionValuesAndUpdateDisplay();
-            
+
             PopulateMonitoredPoSDisplay();
+            PopulateReactionList();
+
             cb_ItemType.SelectedIndex = 1;
             cb_Interval.SelectedIndex = 0;
 
-            t_MonitorUpdate.Enabled = true;
-
-            Mon_dg_indx = Config.data.MonSelIndex;
-            Mon_dg_Pos = Config.data.SelPos;
+            Mon_dg_indx = PlugInData.Config.data.MonSelIndex;
+            Mon_dg_Pos = PlugInData.Config.data.SelPos;
             if (Mon_dg_Pos != "")
             {
                 // Find index to selected POS
@@ -187,29 +129,39 @@ namespace EveHQ.PosManager
                 Mon_dg_indx = dg_MonitoredTowers.RowCount - 1;
 
             // Set default time period to FILL
-            tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
-            nud_PeriodValue.Value = Config.data.maintPV;
+            tscb_TimePeriod.SelectedIndex = (int)PlugInData.Config.data.malongTP;
+            nud_PeriodValue.Value = Convert.ToInt32(PlugInData.Config.data.malongPV);
 
-            if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 22))
+            if (PlugInData.Config.data.FuelCat > 0)
+                rb_MarketCost.Checked = true;
+            else
+                rb_CustomCost.Checked = true;
+
+            if (PlugInData.Config.data.AutoAPI > 0)
+                rb_AutoAPI.Checked = true;
+            else
+                rb_ManualAPI.Checked = true;
+
+            if ((PlugInData.Config.data.dgMonBool == null) || (PlugInData.Config.data.dgMonBool.Count < 23))
             {
-                if (Config.data.dgMonBool == null)
+                if (PlugInData.Config.data.dgMonBool == null)
                 {
-                    Config.data.dgMonBool = new ArrayList();
+                    PlugInData.Config.data.dgMonBool = new ArrayList();
 
-                    for (int x = 0; x < 22; x++)
-                        Config.data.dgMonBool.Add(true);
+                    for (int x = 0; x < 23; x++)
+                        PlugInData.Config.data.dgMonBool.Add(true);
                 }
                 else
                 {
-                    for (int x = Config.data.dgMonBool.Count; x<22; x++)
-                        Config.data.dgMonBool.Add(true);
+                    for (int x = PlugInData.Config.data.dgMonBool.Count; x < 23; x++)
+                        PlugInData.Config.data.dgMonBool.Add(true);
                 }
-                Config.SaveConfiguration();
+                PlugInData.Config.SaveConfiguration();
             }
             else
             {
                 dgCol = 0;
-                foreach (bool dgcs in Config.data.dgMonBool)
+                foreach (bool dgcs in PlugInData.Config.data.dgMonBool)
                 {
                     if (dgCol <= dg_MonitoredTowers.Columns.Count)
                     {
@@ -219,19 +171,19 @@ namespace EveHQ.PosManager
                 }
             }
 
-            if ((Config.data.dgDesBool == null) || (Config.data.dgDesBool.Count < 14))
+            if ((PlugInData.Config.data.dgDesBool == null) || (PlugInData.Config.data.dgDesBool.Count < 14))
             {
-                Config.data.dgDesBool = new ArrayList();
+                PlugInData.Config.data.dgDesBool = new ArrayList();
 
                 for (int x = 0; x < 14; x++)
-                    Config.data.dgDesBool.Add(true);
+                    PlugInData.Config.data.dgDesBool.Add(true);
 
-                Config.SaveConfiguration();
+                PlugInData.Config.SaveConfiguration();
             }
             else
             {
                 dgCol = 0;
-                foreach (bool dgcs in Config.data.dgDesBool)
+                foreach (bool dgcs in PlugInData.Config.data.dgDesBool)
                 {
                     if (dgCol <= dg_PosMods.Columns.Count)
                     {
@@ -241,7 +193,7 @@ namespace EveHQ.PosManager
                 }
             }
 
-            SortMonitorDataGridByColumn(dg_MonitoredTowers, Config.data.SortedColumnIndex);
+            SortMonitorDataGridByColumn(dg_MonitoredTowers, PlugInData.Config.data.SortedColumnIndex);
 
             if (Mon_dg_indx >= 0)
             {
@@ -255,16 +207,45 @@ namespace EveHQ.PosManager
             }
 
             load = false;
-
-            tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            if (!bgw_APIUpdate.IsBusy)
+            if (PlugInData.bgw_APIUpdate.IsBusy)
             {
-                tsb_UpdateAPI.Enabled = false;
-                bgw_APIUpdate.RunWorkerAsync();
+                tsl_APIState.Text = "Updating API Data and Fuel Calculations";
+                b_UpdateAPI.Enabled = false;
+            }
+            else
+            {
+                tsl_APIState.Text = "";
+                b_UpdateAPI.Enabled = true;
+            }
+
+            if (PlugInData.Config.data.Extra.Count > 0)
+                sc_MainPanels.SplitterDistance = Convert.ToInt32(PlugInData.Config.data.Extra[0]);
+            else
+            {
+                PlugInData.Config.data.Extra.Add(sc_MainPanels.SplitterDistance);
+                PlugInData.Config.SaveConfiguration();
             }
         }
 
-        private void tb_PosManager_SelectedIndexChanged(object sender, EventArgs e)
+        private void UpdatePOSNameSelections()
+        {
+            ct_PoSName.Nodes.Clear();
+            ct_MonTwrForLink.Nodes.Clear();
+            foreach (var p in PlugInData.PDL.Designs.Values)
+            {
+                AddTowerToDesignMenu(p.Name, p.CorpName, p.System);
+
+                if (p.Monitored)
+                    AddTowerToModLinkMenu(p.Name, p.CorpName, p.Moon, p.System);
+            }
+
+            foreach (DevComponents.AdvTree.Node expN in ct_MonTwrForLink.Nodes)
+                expN.ExpandAll();
+            foreach (DevComponents.AdvTree.Node expN in ct_PoSName.Nodes)
+                expN.ExpandAll();
+        }
+
+        private void tc_MainTabs_SelectedIndexChanged(object sender, DevComponents.DotNetBar.TabStripTabChangedEventArgs e)
         {
             int colCt = 1;
             bool colSt = false;
@@ -276,20 +257,20 @@ namespace EveHQ.PosManager
                 selName = "New POS";
             }
 
-            if (tb_PosManager.SelectedIndex == 1) // POS Designer
+            if (tc_MainTabs.SelectedTab == tp_POSDesign) // POS Designer
             {
-                if (cb_PoSName.Items.Contains(selName))
-                    cb_PoSName.SelectedItem = selName;
+                SetSelectedTowerNode(selName);
                 SaveConfiguration();
             }
-            else if (tb_PosManager.SelectedIndex == 0) // PoS Monitor
+            else if (tc_MainTabs.SelectedTab == tp_TowerMonitor) // PoS Monitor
             {
                 SaveConfiguration();
                 PopulateMonitoredPoSDisplay();
             }
-            else if (tb_PosManager.SelectedIndex == 2)  // POS Maintenence
+            else if (tc_MainTabs.SelectedTab == tp_MalongainTowers)  // POS Malongenence
             {
                 PopulateTowerFillDG();
+                //sc_MainPanels.SplitterDistance = (int)PlugInData.Config.data.Extra[0];
                 if (dg_TowerFuelList.Rows.Count > Fil_dg_indx)
                 {
                     dg_TowerFuelList.CurrentCell = dg_TowerFuelList.Rows[Fil_dg_indx].Cells[(int)fillDG.Name];
@@ -299,10 +280,10 @@ namespace EveHQ.PosManager
                 }
                 SaveConfiguration();
             }
-            else if (tb_PosManager.SelectedIndex == 5) // Configuration
+            else if (tc_MainTabs.SelectedTab == tp_Config) // Configuration
             {
                 // Config Page - Fill in Checkbox States vs. Datagrid states
-                foreach (CheckBox cb in gb_MonPosCol.Controls)
+                foreach (CheckBox cb in gp_TowerMonitor.Controls)
                 {
                     cName = cb.Name;
                     colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
@@ -314,7 +295,7 @@ namespace EveHQ.PosManager
                     }
                 }
 
-                foreach (CheckBox cb in gb_PosDesignShow.Controls)
+                foreach (CheckBox cb in gp_ModuleDetail.Controls)
                 {
                     cName = cb.Name;
                     colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
@@ -327,16 +308,21 @@ namespace EveHQ.PosManager
                     }
                 }
 
-                PopulateFuelConfigDisplay();
+                PopulateIGBSecurityDisplay();
             }
-            else if (tb_PosManager.SelectedIndex == 3)  // Reaction Manager
+            else if (tc_MainTabs.SelectedTab == tp_TowerReactions)  // Reaction Manager
             {
                 PopulateTowerModuleDisplay();
             }
-            else if (tb_PosManager.SelectedIndex == 4)  // Notifications
+            else if (tc_MainTabs.SelectedTab == tp_TowerNotifications)  // Notifications
             {
                 PopulatePlayerList();
                 PopulateNotificationList();
+            }
+            else if (tc_MainTabs.SelectedTab == tp_ModsAndFuel)  // Stored Fuel
+            {
+                PopulateStoredFuelDisplay();
+                PopulateIHUBOwners();
             }
         }
 
@@ -349,16 +335,15 @@ namespace EveHQ.PosManager
 
                 if (dr == DialogResult.Yes)
                 {
-                    POSList.UpdateListDesign(Design);
-                    POSList.SaveDesignListing();
-                    PosChanged = false;
+                    PlugInData.PDL.UpdateListDesign(Design);
+                    PlugInData.PDL.SaveDesignListing();
+                    SetChangedStatus(false, "");
                 }
                 else
                 {
-                    PosChanged = false;
                 }
             }
-            Config.SaveConfiguration();
+            PlugInData.Config.SaveConfiguration();
         }
 
         private void PopulateSystemList()
@@ -367,7 +352,7 @@ namespace EveHQ.PosManager
 
             cb_System.Items.Clear();
 
-            foreach (string key in SL.Systems.Keys)
+            foreach (string key in PlugInData.SLs.Systems.Keys)
                 syst.Add(key);
 
             if (syst.Count > 0)
@@ -380,12 +365,12 @@ namespace EveHQ.PosManager
             cb_System.SelectedIndex = 0;
         }
 
-        private void PopulateCorpList()
+        public void PopulateCorpList()
         {
             // Build corp selection listing
             cb_CorpName.Items.Clear();
             cb_CorpName.Items.Add("Undefined");
-            foreach (APITowerData atd in API_D.apiTower.Values )
+            foreach (APITowerData atd in PlugInData.API_D.apiTower.Values)
             {
                 if (!cb_CorpName.Items.Contains(atd.corpName))
                     cb_CorpName.Items.Add(atd.corpName);
@@ -401,189 +386,299 @@ namespace EveHQ.PosManager
             }
         }
 
-#endregion
-
-
-#region Conversions
-
-        private string ConvertHoursToShortTextDisplay(decimal hours, int index)
+        public void PopulateReactionList()
         {
-            string retVal = "", week = "", day = "", hour = "";
-            int days = 0, weeks = 0;
+            MoonSiloReactMineral MSRM, msr;
+            DevComponents.AdvTree.Node Simple, Complex, Biochem, MedBiochem, Polymer, Reaction, ReactComp;
+            DevComponents.AdvTree.Cell atc;
 
-            if (hours >= 999999)
-            {
-                retVal = "Infinite";
-            }
-            else
-            {
-                if (index == 2)
-                    hours = hours * (24 * 7);
-                else if (index == 1)
-                    hours = hours * 24;
+            at_ReactionPlan.Nodes.Clear();
 
-                if (index >= 2)
+            Simple = new DevComponents.AdvTree.Node("Simple Reaction");
+            Complex = new DevComponents.AdvTree.Node("Complex Reaction");
+            Biochem = new DevComponents.AdvTree.Node("Biochem Reaction");
+            MedBiochem = new DevComponents.AdvTree.Node("Med Biochem Reaction");
+            Polymer = new DevComponents.AdvTree.Node("Ploymer Reaction");
+
+            foreach (Module m in PlugInData.ML.Modules.Values)
+            {
+                if (m.Category.Equals("Mobile Reactor"))
                 {
-                    weeks = Convert.ToInt32(Math.Truncate(hours / (24 * 7)));
-                    if (weeks > 0)
+                    foreach (Reaction r in m.ReactList)
                     {
-                        week = weeks + " Wks";
-                        hours = hours - (weeks * (24 * 7));
+                        if (m.Name.Contains("Simple"))
+                        {
+                            Reaction = new DevComponents.AdvTree.Node(r.reactName);
+                            MSRM = GetInOutForType(((InOutData)r.outputs[0]).typeID, m, false);
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((MSRM.reactQty * ((InOutData)r.outputs[0]).qty).ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString()).ToString("N2"))));
+
+                            decimal compCost = 0;
+                            foreach (InOutData iod in r.inputs)
+                            {
+                                msr = GetInOutForType(iod.typeID, m, true);
+                                ReactComp = new DevComponents.AdvTree.Node(msr.name);
+                                atc = new DevComponents.AdvTree.Cell((iod.qty * msr.reactQty).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString())).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty)).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                Reaction.Nodes.Add(ReactComp);
+                                compCost = compCost + ((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty));
+                            }
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell(compCost.ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((((MSRM.reactQty * ((InOutData)r.outputs[0]).qty) * (Decimal)EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString())) - compCost).ToString("N2")));
+                            Simple.Nodes.Add(Reaction);
+                        }
+                        else if (m.Name.Contains("Complex"))
+                        {
+                            Reaction = new DevComponents.AdvTree.Node(r.reactName);
+                            MSRM = GetInOutForType(((InOutData)r.outputs[0]).typeID, m, false);
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((MSRM.reactQty * ((InOutData)r.outputs[0]).qty).ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString()).ToString("N2"))));
+
+                            decimal compCost = 0;
+                            foreach (InOutData iod in r.inputs)
+                            {
+                                msr = GetInOutForType(iod.typeID, m, true);
+                                ReactComp = new DevComponents.AdvTree.Node(msr.name);
+                                atc = new DevComponents.AdvTree.Cell((iod.qty * msr.reactQty).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString())).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty)).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                Reaction.Nodes.Add(ReactComp);
+                                compCost = compCost + ((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty));
+                            }
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell(compCost.ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((((MSRM.reactQty * ((InOutData)r.outputs[0]).qty) * (Decimal)EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString())) - compCost).ToString("N2")));
+                            Complex.Nodes.Add(Reaction);
+                        }
+                        else if (m.Name.Contains("Medium"))
+                        {
+                            int outputSelect = 0;
+                            if (r.outputs.Count == 2) { outputSelect = 1; }
+
+                            Reaction = new DevComponents.AdvTree.Node(r.reactName);
+                            MSRM = GetInOutForType(((InOutData)r.outputs[outputSelect]).typeID, m, false);
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((MSRM.reactQty * ((InOutData)r.outputs[outputSelect]).qty).ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString()).ToString("N2"))));
+
+                            decimal compCost = 0;
+                            foreach (InOutData iod in r.inputs)
+                            {
+                                msr = GetInOutForType(iod.typeID, m, true);
+                                ReactComp = new DevComponents.AdvTree.Node(msr.name);
+                                atc = new DevComponents.AdvTree.Cell((iod.qty * msr.reactQty).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString())).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty)).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                Reaction.Nodes.Add(ReactComp);
+                                compCost = compCost + ((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty));
+                            }
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell(compCost.ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((((MSRM.reactQty * ((InOutData)r.outputs[outputSelect]).qty) * (Decimal)EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString())) - compCost).ToString("N2")));
+                            MedBiochem.Nodes.Add(Reaction);
+                        }
+                        else if (m.Name.Contains("Biochem"))
+                        {
+                            int outputSelect = 0;
+                            if (r.outputs.Count == 2) { outputSelect = 1; }
+
+                            Reaction = new DevComponents.AdvTree.Node(r.reactName);
+                            MSRM = GetInOutForType(((InOutData)r.outputs[outputSelect]).typeID, m, false);
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((MSRM.reactQty * ((InOutData)r.outputs[outputSelect]).qty).ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString()).ToString("N2"))));
+
+                            decimal compCost = 0;
+                            foreach (InOutData iod in r.inputs)
+                            {
+                                msr = GetInOutForType(iod.typeID, m, true);
+                                ReactComp = new DevComponents.AdvTree.Node(msr.name);
+                                atc = new DevComponents.AdvTree.Cell((iod.qty * msr.reactQty).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString())).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty)).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                Reaction.Nodes.Add(ReactComp);
+                                compCost = compCost + ((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty));
+                            }
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell(compCost.ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((((MSRM.reactQty * ((InOutData)r.outputs[outputSelect]).qty) * (Decimal)EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString())) - compCost).ToString("N2")));
+                            Biochem.Nodes.Add(Reaction);
+                        }
+                        else if (m.Name.Contains("Polymer"))
+                        {
+                            Reaction = new DevComponents.AdvTree.Node(r.reactName);
+                            MSRM = GetInOutForType(((InOutData)r.outputs[0]).typeID, m, false);
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((MSRM.reactQty * ((InOutData)r.outputs[0]).qty).ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString()).ToString("N2"))));
+
+                            decimal compCost = 0;
+                            foreach (InOutData iod in r.inputs)
+                            {
+                                msr = GetInOutForType(iod.typeID, m, true);
+                                ReactComp = new DevComponents.AdvTree.Node(msr.name);
+                                atc = new DevComponents.AdvTree.Cell((iod.qty * msr.reactQty).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString())).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                atc = new DevComponents.AdvTree.Cell(((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty)).ToString("N2"));
+                                ReactComp.Cells.Add(atc);
+                                Reaction.Nodes.Add(ReactComp);
+                                compCost = compCost + ((Decimal)EveHQ.Core.DataFunctions.GetPrice(msr.typeID.ToString()) * (iod.qty * msr.reactQty));
+                            }
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell(compCost.ToString("N2")));
+                            Reaction.Cells.Add(new DevComponents.AdvTree.Cell((((MSRM.reactQty * ((InOutData)r.outputs[0]).qty) * (Decimal)EveHQ.Core.DataFunctions.GetPrice(MSRM.typeID.ToString())) - compCost).ToString("N2")));
+                            Polymer.Nodes.Add(Reaction);
+                        }
                     }
                 }
+            }
 
-                if (index >= 1)
+            at_ReactionPlan.Nodes.Add(Simple);
+            at_ReactionPlan.Nodes.Add(Complex);
+            at_ReactionPlan.Nodes.Add(Biochem);
+            at_ReactionPlan.Nodes.Add(MedBiochem);
+            at_ReactionPlan.Nodes.Add(Polymer);
+        }
+
+        private string GetInputMaterialForIOD(InOutData iod, Module RMod)
+        {
+            string retStr = "";
+
+            foreach (MoonSiloReactMineral msr in RMod.InputList)
+            {
+                if (msr.typeID == iod.typeID)
                 {
-                    days = Convert.ToInt32(Math.Truncate(hours / 24));
-                    if (days > 0)
+                    return msr.name;
+                }
+            }
+            return retStr;
+        }
+
+        private MoonSiloReactMineral GetInOutForType(decimal id, Module RMod, bool inp)
+        {
+            if (inp)
+            {
+                foreach (MoonSiloReactMineral r in RMod.InputList)
+                {
+                    if (r.typeID == id)
+                        return r;
+                }
+            }
+            else
+            {
+                foreach (MoonSiloReactMineral r in RMod.OutputList)
+                {
+                    if (r.typeID == id)
+                        return r;
+                }
+            }
+            return null;
+        }
+
+        #endregion
+
+
+        #region Designer Methods
+
+        private void SetSelectedTowerNode(string twr)
+        {
+            if (ct_PoSName.Nodes.Count > 0)
+            {
+                foreach (DevComponents.AdvTree.Node n in ct_PoSName.Nodes)
+                {
+                    // Corp Name
+                    if (n.HasChildNodes)
                     {
-                        day = days + " Dys";
-                        hours = hours - (days * 24);
+                        foreach (DevComponents.AdvTree.Node cn in n.Nodes)
+                        {
+                            // System
+                            if (cn.HasChildNodes)
+                            {
+                                // Tower
+                                foreach (DevComponents.AdvTree.Node ccn in cn.Nodes)
+                                {
+                                    if (ccn.Text.Equals(twr))
+                                    {
+                                        ct_PoSName.SelectedNode = ccn;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-
-                if (hours > 0)
-                    hour = hours + " Hrs";
-
-                if (weeks > 0)
-                    retVal = week;
-
-                if (days > 0)
-                {
-                    if (retVal.Length > 0)
-                        retVal += ", " + day;
-                    else
-                        retVal = day;
-                }
-
-                if (hours >= 1)
-                {
-                    if (retVal.Length > 0)
-                        retVal += ", " + hour;
-                    else
-                        retVal = hour;
-                }
             }
-            return retVal;
         }
 
-        private string ConvertHoursToTextDisplay(decimal hours)
+        private void AddTowerToDesignMenu(string twr, string crp, string syst)
         {
-            string retVal = "";
-            int days;
+            DevComponents.AdvTree.Node corp = null, towr;
+            DevComponents.AdvTree.Node systM = null;
+            string twrNm;
 
-            hours = Math.Floor(hours);
+            if (crp.Length < 1)  // If no corp name, just leave here
+                crp = "Undefined";
 
-            if (hours >= 999999)
+            if (syst.Length < 1)
+                syst = "Not Selected";
+
+            foreach (DevComponents.AdvTree.Node cE in ct_PoSName.Nodes)
             {
-                retVal = "Infinite";
-            }
-            else
-            {
-                days = Convert.ToInt32(Math.Truncate(hours / 24));
-
-                if (days > 0)
+                if (cE.Text.Equals(crp))
                 {
-                    retVal = String.Format("{0:0}", days) + " Days";
-                    hours = hours - (days * 24);
+                    corp = cE;
+
+                    foreach (DevComponents.AdvTree.Node sE in cE.Nodes)
+                    {
+                        if (sE.Text.Equals(syst))
+                        {
+                            systM = sE;
+                            break;
+                        }
+                    }
+                    break;
                 }
-
-                if ((days > 0) && (hours > 0))
-                    retVal += ", ";
-
-                if (hours > 0)
-                    retVal += String.Format("{0:0}", hours) + " Hrs";
-
-                if ((days <= 0) && (hours <= 0))
-                    retVal = "Zero - Shutdown";
             }
-            return retVal;
+
+            if (corp == null)
+            {
+                // Corp does not exist, so add it
+                corp = new DevComponents.AdvTree.Node();
+                corp.Text = crp;
+                corp.Selectable = false;
+                corp.Expanded = true;
+                ct_PoSName.Nodes.Add(corp);
+            }
+
+            if (systM == null)
+            {
+                // Corp does not exist, so add it
+                systM = new DevComponents.AdvTree.Node();
+                systM.Text = syst;
+                systM.Selectable = false;
+                systM.Expanded = false;
+                corp.Nodes.Add(systM);
+            }
+
+            twrNm = twr;
+            towr = new DevComponents.AdvTree.Node();
+            towr.Text = twrNm;
+            // Tower does not exist - add it
+            systM.Nodes.Add(towr);
         }
 
-        private string ConvertSecondsToTextDisplay(decimal secs)
+        private void SetChangedStatus(bool st, string ln)
         {
-            string retVal = "";
-            int hours, mins;
-
-            hours = Convert.ToInt32(Math.Truncate(secs / 3600));
-            if (hours >= 999999)
-            {
-                retVal = "Infinite";
-            }
-            else
-            {
-
-                if (hours > 0)
-                {
-                    retVal = String.Format("{0:0}", hours) + " h";
-                    secs = secs - (hours * 3600);
-                }
-
-                mins = Convert.ToInt32(Math.Truncate(secs / 60));
-
-                if (mins > 0)
-                {
-                    if (hours > 0)
-                        retVal += ", " + String.Format("{0:0}", mins) + " m";
-                    else
-                        retVal = String.Format("{0:0}", mins) + " m";
-
-                    secs = secs - (mins * 60);
-                }
-
-                if (secs >= 1)
-                {
-                    if ((hours > 0) || (mins > 0))
-                        retVal += ", " + String.Format("{0:0}", secs) + " s";
-                    else
-                        retVal = String.Format("{0:0}", secs) + " s";
-                }
-            }
-            return retVal;
+            PosChanged = st;
+            l_SaveStatus.Text = ln;
         }
-
-        public string ConvertReactionHoursToTextDisplay(decimal hours)
-        {
-            string retVal = "";
-            int days;
-
-            hours = Math.Floor(hours);
-
-            if (hours >= 999999)
-            {
-                retVal = "";
-            }
-            else if (hours == 0)
-            {
-                retVal = "Unknown";
-            }
-            else
-            {
-                days = Convert.ToInt32(Math.Truncate(hours / 24));
-
-                if (days > 0)
-                {
-                    retVal = String.Format("{0:0}", days) + " Days";
-                    hours = hours - (days * 24);
-                }
-
-                if ((days > 0) && (hours > 0))
-                    retVal += ", ";
-
-                if (hours > 0)
-                    retVal += String.Format("{0:0}", hours) + " Hrs";
-
-                if ((days <= 0) && (hours <= 0))
-                    retVal = "Zero - Shutdown";
-            }
-            return retVal;
-        }
-
-
-#endregion
-
-
-#region Designer Methods
 
         private void DamageProfile_Change()
         {
@@ -665,14 +760,14 @@ namespace EveHQ.PosManager
                 }
             }
             update = false;
-            if(!load)
+            if (!load)
                 CalculateAndDisplayEHPData();
         }
 
         private void PopulateDPList(string sel)
         {
             int ind = 0, newInd = 0;
-            
+
             cb_DamageProfile.Items.Clear();
             foreach (DamageProfile dl in DPLst.DPL)
             {
@@ -720,7 +815,7 @@ namespace EveHQ.PosManager
         {
             decimal retVal = 0;
 
-            if(Design.PosTower.Shield.Extra.Count > 0)
+            if (Design.PosTower.Shield.Extra.Count > 0)
                 retVal = (decimal)(Design.PosTower.Shield.Amount / Convert.ToDecimal(Design.PosTower.Shield.Extra[0].ToString()));
 
             return retVal;
@@ -746,8 +841,8 @@ namespace EveHQ.PosManager
             shield_hp = Design.PosTower.Shield.Amount;
             divis = ((emp_def * emp_val) + (exp_def * exp_val) + (kin_def * kin_val) + (thm_def * thm_val));
 
-            if(divis > 0)
-                 shield_ehp = (shield_hp * 100) / divis;
+            if (divis > 0)
+                shield_ehp = (shield_hp * 100) / divis;
             else
                 shield_ehp = shield_hp;
 
@@ -784,7 +879,7 @@ namespace EveHQ.PosManager
             total_ehp = shield_ehp + armor_ehp + struct_ehp;
 
             l_PoS_EHP.Text = String.Format("{0:#,0.#}", total_ehp);
-       }
+        }
 
         private void CalculatePOSData()
         {
@@ -867,7 +962,7 @@ namespace EveHQ.PosManager
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.cost].Value = String.Format("{0:#,0.#}", PMD.Cost) + " isk";
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Cap].Value = String.Format("{0:#,0.#}", PMD.Capacity) + " m3";
 
-               
+
                 if (PMD.State == "Online")
                 {
                     dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.LawnGreen;
@@ -912,6 +1007,139 @@ namespace EveHQ.PosManager
             Design.PosTower.Shield.Kinetic_M = CalcResistanceBonus(Design.PosTower.Shield.Kinetic, KIN);
             Design.PosTower.Shield.Explosive_M = CalcResistanceBonus(Design.PosTower.Shield.Explosive, EXP);
             Design.PosTower.Shield.Thermal_M = CalcResistanceBonus(Design.PosTower.Shield.Thermal, THM);
+
+            DisplayPOSData();
+            l_PoS_DPS.Text = String.Format("{0:#,0.#}", total_damage) + "  /  " + String.Format("{0:#,0.#}", total_dps);
+            CalculateAndDisplayEHPData();
+            CalculateAndDisplayDesignFuelData();
+        }
+
+        private void DisplaySelectedPOSData(POS selTwr)
+        {
+            decimal cpu_used = 0, power_used = 0, dps = 0, rateofire = 0, dmg = 0;
+            decimal total_damage = 0, total_dps = 0;
+            ArrayList EM, EXP, KIN, THM;
+            decimal[] topt = new decimal[2];
+            EM = new ArrayList();
+            EXP = new ArrayList();
+            KIN = new ArrayList();
+            THM = new ArrayList();
+            int dg_ind;
+
+            dg_PosMods.Rows.Clear();
+
+            dg_ind = dg_PosMods.Rows.Add();
+            if (selTwr.PosTower.typeID != 0)
+            {
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Name].Value = selTwr.PosTower.Name;
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Qty].Value = 1;
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Value = selTwr.PosTower.State;
+
+                if (selTwr.PosTower.State == "Online")
+                    dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.LawnGreen;
+                else if (selTwr.PosTower.State == "Offline")
+                    dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.Gold;
+                else if (selTwr.PosTower.State == "Reinforced")
+                    dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.LightCoral;
+
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Opt].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.fOff].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.dmg].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.rof].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.dps].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.trk].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.prox].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.swDly].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Chg].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.cost].Value = String.Format("{0:#,0.#}", selTwr.PosTower.Cost) + " isk";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Cap].Value = String.Format("{0:#,0.#}", selTwr.PosTower.Capacity) + " m3";
+            }
+            else
+            {
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Name].Value = "No Tower";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Qty].Value = 0;
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Opt].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.fOff].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.dmg].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.rof].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.dps].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.trk].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.prox].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.swDly].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Chg].Value = "NA";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.cost].Value = String.Format("{0:#,0.#}", 0) + " isk";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Cap].Value = String.Format("{0:#,0.#}", 0) + " m3";
+            }
+
+            foreach (Module PMD in selTwr.Modules)
+            {
+                dg_ind = dg_PosMods.Rows.Add();
+                dmg = CalculateDamage(PMD);
+                rateofire = CalculateRateOfFire(PMD) / 1000;
+                dps = CalculateDPS(dmg, rateofire);
+                topt = GetTrackOptimalModBonus();
+
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Name].Value = PMD.Name;
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Qty].Value = PMD.Qty;
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Value = PMD.State;
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Opt].Value = String.Format("{0:#,0.#}", CalculateOptimalRange(PMD, topt) / 1000) + "km";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.fOff].Value = String.Format("{0:#,0.#}", CalculateFalloffRange(PMD) / 1000) + "km";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.dmg].Value = String.Format("{0:#,0.#}", dmg);
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.rof].Value = String.Format("{0:#,0.#}", rateofire) + "s";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.dps].Value = String.Format("{0:#,0.#}", dps);
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.trk].Value = String.Format("{0:#,0.#####}", GetTracking(PMD, topt));
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.prox].Value = String.Format("{0:#,0.#}", GetProxRange(PMD));
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.swDly].Value = String.Format("{0:#,0.#}", GetSwitchDelayTime(PMD)) + "s";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Chg].Value = PMD.Charge;
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.cost].Value = String.Format("{0:#,0.#}", PMD.Cost) + " isk";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Cap].Value = String.Format("{0:#,0.#}", PMD.Capacity) + " m3";
+
+
+                if (PMD.State == "Online")
+                {
+                    dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.LawnGreen;
+                    cpu_used += PMD.Qty * PMD.CPU_Used;
+                    power_used += PMD.Qty * PMD.Power_Used;
+
+                    for (int x = 0; x < PMD.Qty; x++)
+                    {
+                        if ((PMD.Bonuses.EmpDmgRes > 0) && (PMD.Bonuses.EmpDmgRes < 1))
+                            EM.Add(1 - PMD.Bonuses.EmpDmgRes);
+                        if ((PMD.Bonuses.ExplosiveDmgRes > 0) && (PMD.Bonuses.ExplosiveDmgRes < 1))
+                            EXP.Add(1 - PMD.Bonuses.ExplosiveDmgRes);
+                        if ((PMD.Bonuses.KineticDmgRes > 0) && (PMD.Bonuses.KineticDmgRes < 1))
+                            KIN.Add(1 - PMD.Bonuses.KineticDmgRes);
+                        if ((PMD.Bonuses.ThermalDmgRes > 0) && (PMD.Bonuses.ThermalDmgRes < 1))
+                            THM.Add(1 - PMD.Bonuses.ThermalDmgRes);
+                    }
+
+                    if (PMD.Name.Contains("Energy Neut"))
+                    {
+                    }
+                    else
+                    {
+                        total_damage += dmg;
+                        total_dps += dps;
+                    }
+                }
+                else if (PMD.State == "Offline")
+                {
+                    dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.Gold;
+                }
+                else if (PMD.State == "Reinforced")
+                {
+                    dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.LightCoral;
+                }
+            }
+
+            selTwr.PosTower.CPU_Used = cpu_used;
+            selTwr.PosTower.Power_Used = power_used;
+
+            selTwr.PosTower.Shield.EMP_M = CalcResistanceBonus(selTwr.PosTower.Shield.EMP, EM);
+            selTwr.PosTower.Shield.Kinetic_M = CalcResistanceBonus(selTwr.PosTower.Shield.Kinetic, KIN);
+            selTwr.PosTower.Shield.Explosive_M = CalcResistanceBonus(selTwr.PosTower.Shield.Explosive, EXP);
+            selTwr.PosTower.Shield.Thermal_M = CalcResistanceBonus(selTwr.PosTower.Shield.Thermal, THM);
 
             DisplayPOSData();
             l_PoS_DPS.Text = String.Format("{0:#,0.#}", total_damage) + "  /  " + String.Format("{0:#,0.#}", total_dps);
@@ -1062,7 +1290,7 @@ namespace EveHQ.PosManager
             {
                 vel = m.Optimal;
                 velMod = (decimal)((Design.PosTower.Bonuses.PrjOpt / 100) + 1);
-                
+
                 ftMod = ch.RangeMult;
                 if (ftMod == 0)
                     ftMod = 1;
@@ -1102,14 +1330,14 @@ namespace EveHQ.PosManager
             cI = GetChargeIndexForModule(m);
             if (cI < 0)
             {
-                if (m.ChargeList.Count <=0)
+                if (m.ChargeList.Count <= 0)
                 {
                     retVal = (decimal)m.FallOff;
                 }
                 return retVal;
             }
             ch = (Charge)m.Charges[cI];
-      
+
             if (m.Category.Contains("Projectile"))
             {
                 vel = m.FallOff;
@@ -1152,7 +1380,7 @@ namespace EveHQ.PosManager
             decimal retVal = 0;
             decimal em, exp, kin, thm, arm, shd;
             decimal dmgMod, tDmgMod = 1;
-            
+
             Charge ch;
             int cI;
 
@@ -1163,7 +1391,7 @@ namespace EveHQ.PosManager
                 {
                     retVal = (decimal)m.EnergyNeut;
                 }
-               return retVal;
+                return retVal;
             }
 
             ch = (Charge)m.Charges[cI];
@@ -1185,7 +1413,7 @@ namespace EveHQ.PosManager
             }
             else if (m.Category.Contains("Laser"))
             {
-                tDmgMod = (decimal)((Design.PosTower.Bonuses.LaserDmg / 100) +1);
+                tDmgMod = (decimal)((Design.PosTower.Bonuses.LaserDmg / 100) + 1);
             }
             if (dmgMod == 0)
                 dmgMod = 1;
@@ -1284,7 +1512,7 @@ namespace EveHQ.PosManager
             }
 
             return (pVal - bVal);
-            //int n;
+            //long n;
             //double retVal = 0;
             //double pVal, cVal, bVal;
             //double Xo;
@@ -1328,11 +1556,20 @@ namespace EveHQ.PosManager
             pbc = ComputeBayPercentage(cpu_used, cpu);
             pbp = ComputeBayPercentage(power_used, power);
 
-            pb_CPU.TextOverlay = cpu_used + " / " + cpu;
+            pb_CPU.Text = cpu_used + " / " + cpu;
             pb_CPU.Value = Convert.ToInt32(pbc);
-            pb_Power.TextOverlay = power_used + " / " + power;
+            pb_Power.Text = power_used + " / " + power;
             pb_Power.Value = Convert.ToInt32(pbp);
-            
+
+            if (cpu_used > cpu)
+                pb_CPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error;
+            else
+                pb_CPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal;
+
+            if (power_used > power)
+                pb_Power.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error;
+            else
+                pb_Power.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal;
 
             l_TowerShield.Text = String.Format("{0:#,0.#}", Design.PosTower.Shield.Amount);
             calc = Design.PosTower.Shield.EMP;
@@ -1368,8 +1605,8 @@ namespace EveHQ.PosManager
 
         private void ClearPosData()
         {
-            pb_CPU.TextOverlay = "";
-            pb_Power.TextOverlay = "";
+            pb_CPU.Text = "";
+            pb_Power.Text = "";
             pb_CPU.Value = 0;
             pb_Power.Value = 0;
 
@@ -1420,10 +1657,8 @@ namespace EveHQ.PosManager
             l_IsotopeType.Text = "Isotopes";
             pb_Fuel.Value = 0;
             pb_Stront.Value = 0;
-            l_Fuel_Val.Text = "0 / 0";
-            l_Stront_Val.Text = "0 / 0";
-            l_Fuel_Val.ForeColor = Color.Green;
-            l_Stront_Val.ForeColor = Color.Green;
+            pb_Fuel.Text = "0 / 0";
+            pb_Stront.Text = "0 / 0";
         }
 
         private void ClearModListing()
@@ -1454,10 +1689,10 @@ namespace EveHQ.PosManager
             }
 
             l_POS_C.Text = String.Format("{0:#,0.#}", totalCost);
-            l_AnchorTime.Text = ConvertSecondsToTextDisplay(anchorT);
-            l_OnlineTime.Text = ConvertSecondsToTextDisplay(onlineT);
-            l_SetupTime.Text = ConvertSecondsToTextDisplay(anchorT + onlineT);
-            l_Total_UnAnchor_T.Text = ConvertSecondsToTextDisplay(unAnchorT);
+            l_AnchorTime.Text = PlugInData.ConvertSecondsToTextDisplay(anchorT);
+            l_OnlineTime.Text = PlugInData.ConvertSecondsToTextDisplay(onlineT);
+            l_SetupTime.Text = PlugInData.ConvertSecondsToTextDisplay(anchorT + onlineT);
+            l_Total_UnAnchor_T.Text = PlugInData.ConvertSecondsToTextDisplay(unAnchorT);
         }
 
         private void CalculateAndDisplayDesignFuelData()
@@ -1466,65 +1701,65 @@ namespace EveHQ.PosManager
             string lin1, lin2;
             string run_time;
 
-            Design.CalculatePOSDesignFuelValues(Config.data.FuelCosts);
+            Design.CalculatePOSDesignFuelValues(PlugInData.Config.data.FuelCosts);
 
             // Display Calculated Data
             l_EnrUranium.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.EnrUran.Qty);
-            l_EnrUrn_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.EnrUran.CostForQty);
+            //l_EnrUrn_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.EnrUran.CostForQty);
 
             l_Oxygen.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Oxygen.Qty);
-            l_Oxygen_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Oxygen.CostForQty);
+            //l_Oxygen_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Oxygen.CostForQty);
 
             l_MechParts.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.MechPart.Qty);
-            l_McP_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.MechPart.CostForQty);
+            //l_McP_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.MechPart.CostForQty);
 
             l_Coolant.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Coolant.Qty);
-            l_Cool_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Coolant.CostForQty);
+            //l_Cool_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Coolant.CostForQty);
 
             l_Robotics.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Robotics.Qty);
-            l_Robt_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Robotics.CostForQty);
+            //l_Robt_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Robotics.CostForQty);
 
             l_HeavyWater.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HvyWater.Qty);
-            l_HvyW_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HvyWater.CostForQty);
+            //l_HvyW_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HvyWater.CostForQty);
 
             l_LiquidOzone.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.LiqOzone.Qty);
-            l_LiqO_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.LiqOzone.CostForQty);
+            //l_LiqO_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.LiqOzone.CostForQty);
 
             l_FactionCharters.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Charters.Qty);
-            l_Chart_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Charters.CostForQty);
+            //l_Chart_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Charters.CostForQty);
 
             l_Stront_D.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Strontium.Qty);
-            l_Strnt_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Strontium.CostForQty);
+            //l_Strnt_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Strontium.CostForQty);
 
             if (Design.PosTower.D_Fuel.N2Iso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.N2Iso.Qty);
                 l_IsotopeType.Text = "N2 Iso";
-                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.N2Iso.CostForQty);
+                //l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.N2Iso.CostForQty);
             }
             else if (Design.PosTower.D_Fuel.H2Iso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.H2Iso.Qty);
                 l_IsotopeType.Text = "H2 Iso";
-                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.H2Iso.CostForQty);
+                //l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.H2Iso.CostForQty);
             }
             else if (Design.PosTower.D_Fuel.HeIso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HeIso.Qty);
                 l_IsotopeType.Text = "He Iso";
-                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HeIso.CostForQty);
+                //l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HeIso.CostForQty);
             }
             else if (Design.PosTower.D_Fuel.O2Iso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.O2Iso.Qty);
                 l_IsotopeType.Text = "O2 Iso";
-                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.O2Iso.CostForQty);
+                //l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.O2Iso.CostForQty);
             }
             else
             {
                 l_Isotopes.Text = "0";
                 l_IsotopeType.Text = "Unknown";
-                l_Iso_C.Text = String.Format("{0:#,0.#}", 0);
+                //l_Iso_C.Text = String.Format("{0:#,0.#}", 0);
             }
 
             l_Fuel_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.FuelCost);
@@ -1538,24 +1773,14 @@ namespace EveHQ.PosManager
 
             lin1 = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.FuelUsed);
             lin2 = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.StrontUsed);
-            l_Fuel_Val.Text = lin1 + " / " + String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.FuelCap);
-            l_Stront_Val.Text = lin2 + " / " + String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.StrontCap);
-
-            if (Design.PosTower.D_Fuel.FuelUsed > Design.PosTower.D_Fuel.FuelCap)
-                l_Fuel_Val.ForeColor = Color.Red;
-            else
-                l_Fuel_Val.ForeColor = Color.Green;
-
-            if (Design.PosTower.D_Fuel.StrontUsed > Design.PosTower.D_Fuel.StrontCap)
-                l_Stront_Val.ForeColor = Color.Red;
-            else
-                l_Stront_Val.ForeColor = Color.Green;
+            pb_Fuel.Text = lin1 + " / " + String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.FuelCap);
+            pb_Stront.Text = lin2 + " / " + String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.StrontCap);
 
             if (cb_Interval.SelectedIndex != 4)
             {
                 l_AmountForMax.Show();
                 l_AmountForMax.BringToFront();
-                run_time = ConvertHoursToShortTextDisplay(Design.PosTower.Design_Int_Qty, cb_Interval.SelectedIndex);
+                run_time = PlugInData.ConvertHoursToShortTextDisplay(Design.PosTower.Design_Int_Qty, cb_Interval.SelectedIndex);
                 l_AmountForMax.Text = run_time;
             }
             else
@@ -1569,27 +1794,28 @@ namespace EveHQ.PosManager
 
         private void GetTowerItemListData()
         {
-           cb_ItemType.Items.Clear();
+            cb_ItemType.Items.Clear();
 
-            foreach (CategoryItem ci in CL.Cats)
+            foreach (CategoryItem ci in PlugInData.CL.Cats)
             {
                 cb_ItemType.Items.Add(ci.CatName);
             }
-            cb_ItemType.SelectedIndex = 1;
+
+            if (cb_ItemType.Items.Count > 0)
+                cb_ItemType.SelectedIndex = 1;
         }
 
         private void cb_ItemType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string imgLoc;
             CategoryItem ci;
             int selIndex;
-            int selGroup;
+            long selGroup;
             int imgIndx = 0;
-            Bitmap bmp;
+            Image img;
             ListViewItem lvi;
 
             selIndex = cb_ItemType.SelectedIndex;
-            ci = (CategoryItem)CL.Cats[selIndex];
+            ci = (CategoryItem)PlugInData.CL.Cats[selIndex];
             selGroup = ci.groupID;
 
             lv_ItemSelList.Items.Clear();
@@ -1597,19 +1823,16 @@ namespace EveHQ.PosManager
 
             if (cb_ItemType.Text.Contains("Tower"))
             {
-                foreach (Tower t in TL.Towers)
+                foreach (Tower t in PlugInData.TL.Towers.Values)
                 {
-                    imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(t.typeID.ToString(), Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Types));
+                    img = EveHQ.Core.ImageHandler.GetImage(t.typeID.ToString());
 
-                    try
-                    {
-                        bmp = new Bitmap(Image.FromFile(imgLoc));
-                        il_SelCat.Images.Add(bmp);
-                    }
-                    catch
+                    if (img == null)
                     {
                         il_SelCat.Images.Add(il_system.Images[0]);
                     }
+                    else
+                        il_SelCat.Images.Add(img);
 
                     lvi = new ListViewItem(t.Name);
                     lvi.Name = cb_ItemType.Text;
@@ -1622,28 +1845,25 @@ namespace EveHQ.PosManager
             }
             else
             {
-                if (ML.Modules.Count < 1)
+                if (PlugInData.ML.Modules.Count < 1)
                 {
                     // No modules found, attempt to retrieve them
                     MessageBox.Show("Did not find any modules, Attempting to find them - this will take a bit, please wait.", "Modules Error", MessageBoxButtons.OK);
-                    ML.PopulateModuleListing(1);
+                    PlugInData.ML.PopulateModuleListing(1);
                 }
 
-                foreach (Module m in ML.Modules)
+                foreach (Module m in PlugInData.ML.Modules.Values)
                 {
                     if (selGroup == m.groupID)
                     {
-                        imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(m.typeID.ToString(), Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Types));
+                        img = EveHQ.Core.ImageHandler.GetImage(m.typeID.ToString());
 
-                        try
-                        {
-                            bmp = new Bitmap(Image.FromFile(imgLoc));
-                            il_SelCat.Images.Add(bmp);
-                        }
-                        catch
+                        if (img == null)
                         {
                             il_SelCat.Images.Add(il_system.Images[0]);
                         }
+                        else
+                            il_SelCat.Images.Add(img);
 
                         lvi = new ListViewItem(m.Name);
                         lvi.Name = cb_ItemType.Text;
@@ -1661,7 +1881,7 @@ namespace EveHQ.PosManager
         {
             DragDropEffects DDE;
             ListViewItem LVI;
-            int typeID;
+            long typeID;
             string location;
 
             if (CurrentName == "")
@@ -1681,37 +1901,35 @@ namespace EveHQ.PosManager
 
                 if (LVI.Name.Contains("Tower"))
                 {
-                    foreach (Tower t in TL.Towers)
+                    if (PlugInData.TL.Towers.ContainsKey(typeID))
                     {
-                        if (t.typeID == typeID)
-                        {
-                            Design.PosTower = new Tower(t);
-                            Design.PosTower.Location = location;
-                            Design.PosTower.Category = cb_ItemType.Text;
-                            Design.PosTower.Design_Int_Qty = 1;
-                            Design.PosTower.Design_Interval = cb_Interval.SelectedIndex;
+                        Design.PosTower = new Tower(PlugInData.TL.Towers[typeID]);
+                        Design.PosTower.Location = location;
+                        Design.PosTower.Category = cb_ItemType.Text;
+                        Design.PosTower.Design_Int_Qty = 1;
+                        Design.PosTower.Design_Interval = cb_Interval.SelectedIndex;
 
-                            nud_StrontInterval.Maximum = Design.ComputeMaxPosStrontTime();
-                            nud_DesFuelPeriod.Maximum = Design.ComputeMaxPosRunTimeForLoad();
-                            
-                            Design.PosTower.Design_Stront_Qty = 0;
-                            if (!load)
-                                PosChanged = true;
+                        nud_StrontInterval.Maximum = Design.ComputeMaxPosStrontTime();
+                        nud_DesFuelPeriod.Maximum = Design.ComputeMaxPosRunTimeForLoad();
+
+                        Design.PosTower.Design_Stront_Qty = 0;
+                        if (!load)
+                        {
+                            SetChangedStatus(true, "Unsaved Changes - Save Needed");
                         }
                     }
                 }
                 else
                 {
-                    foreach (Module m in ML.Modules)
+                    if (PlugInData.ML.Modules.ContainsKey(typeID))
                     {
-                        if (m.typeID == typeID)
+                        Module nw = new Module(PlugInData.ML.Modules[typeID]);
+                        nw.Location = location;
+                        nw.Category = cb_ItemType.Text;
+                        Design.Modules.Add(nw);
+                        if (!load)
                         {
-                            Module nw = new Module(m);
-                            nw.Location = location;
-                            nw.Category = cb_ItemType.Text;
-                            Design.Modules.Add(nw);
-                            if (!load)
-                                PosChanged = true;
+                            SetChangedStatus(true, "Unsaved Changes - Save Needed");
                         }
                     }
                 }
@@ -1721,269 +1939,266 @@ namespace EveHQ.PosManager
 
         private void GetItemData(ListViewItem LVI)
         {
-            int typeID;
+            long typeID;
 
             typeID = Convert.ToInt32(LVI.SubItems[1].Text);
 
             GetItemData(typeID, cb_ItemType.Text);
         }
 
-        private void GetItemData(int typeID, string cat)
+        private void GetItemData(long typeID, string cat)
         {
             string fuel = "";
+            Tower t;
+            Module m;
 
             if (cat.Contains("Tower"))
             {
-                foreach (Tower t in TL.Towers)
+                if (PlugInData.TL.Towers.ContainsKey(typeID))
                 {
-                    if (t.typeID == typeID)
+                    t = PlugInData.TL.Towers[typeID];
+                    if (t.CPU > t.CPU_Used)
                     {
-                        if (t.CPU > t.CPU_Used)
-                        {
-                            l_cpu.ForeColor = Color.Green;
-                            l_cpu.Text = String.Format("{0:#,0.#}", t.CPU);
-                        }
-                        else
-                        {
-                            l_cpu.ForeColor = Color.Red;
-                            l_cpu.Text = String.Format("{0:#,0.#}", t.CPU_Used);
-                        }
-
-                        if (t.Power > t.Power_Used)
-                        {
-                            l_power.ForeColor = Color.Green;
-                            l_power.Text = String.Format("{0:#,0.#}", t.Power);
-                        }
-                        else
-                        {
-                            l_power.ForeColor = Color.Red;
-                            l_power.Text = String.Format("{0:#,0.#}", t.Power_Used);
-                        }
-
-                        l_armor_hp.Text = String.Format("{0:#,0.#}", t.Armor.Amount);
-                        l_shield_hp.Text = String.Format("{0:#,0.#}", t.Shield.Amount);
-                        l_shield_em.Text = String.Format("{0:#,0.#}", t.Shield.EMP) + "%";
-                        l_shield_exp.Text = String.Format("{0:#,0.#}", t.Shield.Explosive) + "%";
-                        l_shield_kin.Text = String.Format("{0:#,0.#}", t.Shield.Kinetic) + "%";
-                        l_shield_therm.Text = String.Format("{0:#,0.#}", t.Shield.Thermal) + "%";
-                        l_struct_hp.Text = String.Format("{0:#,0.#}", t.Struct.Amount);
-                        l_struct_emp.Text = String.Format("{0:#,0.#}", t.Struct.EMP) + "%";
-                        l_struct_exp.Text = String.Format("{0:#,0.#}", t.Struct.Explosive) + "%";
-                        l_struct_kin.Text = String.Format("{0:#,0.#}", t.Struct.Kinetic) + "%";
-                        l_struct_therm.Text = String.Format("{0:#,0.#}", t.Struct.Thermal) + "%";
-                        l_SI_Cost.Text = String.Format("{0:#,0.#}", t.Cost) + " isk";
-
-                        fuel += "Fuel Usage -->\n";
-                        fuel += "Enriched Uranium: " + t.Fuel.EnrUran.PeriodQty + "\n";
-                        fuel += "Oxygen: " + t.Fuel.Oxygen.PeriodQty + "\n";
-                        fuel += "Mechanical Parts: " + t.Fuel.MechPart.PeriodQty + "\n";
-                        fuel += "Coolant: " + t.Fuel.Coolant.PeriodQty + "\n";
-                        fuel += "Robotics: " + t.Fuel.Robotics.PeriodQty + "\n";
-                        fuel += "Heavy Water: " + t.Fuel.HvyWater.PeriodQty + "\n";
-                        fuel += "Liquid Ozone: " + t.Fuel.LiqOzone.PeriodQty + "\n";
-                        fuel += "Charters: " + t.Fuel.Charters.PeriodQty + "\n";
-                        fuel += "Strontium: " + t.Fuel.Strontium.PeriodQty + "\n";
-
-                        if (t.Fuel.N2Iso.PeriodQty > 0)
-                        {
-                            fuel += "Nitrogen Isotopes: " + t.Fuel.N2Iso.PeriodQty + "\n";
-                        }
-                        else if (t.Fuel.HeIso.PeriodQty > 0)
-                        {
-                            fuel += "Helium Isotopes: " + t.Fuel.HeIso.PeriodQty + "\n";
-                        }
-                        else if (t.Fuel.H2Iso.PeriodQty > 0)
-                        {
-                            fuel += "Hydrogen Isotopes: " + t.Fuel.H2Iso.PeriodQty + "\n";
-                        }
-                        else if (t.Fuel.O2Iso.PeriodQty > 0)
-                        {
-                            fuel += "Oxygen Isotopes: " + t.Fuel.O2Iso.PeriodQty + "\n";
-                        }
-
-                        rtb_Other.Text = t.Desc + "\n\n" + fuel + "\n" + t.OtherInfo;
-                        rtb_Other.Text += "Volume   <" + t.Volume + " m3>\n";
-                        rtb_Other.Text += "Capacity <" + t.Capacity + " m3>\n";
+                        l_cpu.ForeColor = Color.Green;
+                        l_cpu.Text = String.Format("{0:#,0.#}", t.CPU);
                     }
+                    else
+                    {
+                        l_cpu.ForeColor = Color.Red;
+                        l_cpu.Text = String.Format("{0:#,0.#}", t.CPU_Used);
+                    }
+
+                    if (t.Power > t.Power_Used)
+                    {
+                        l_power.ForeColor = Color.Green;
+                        l_power.Text = String.Format("{0:#,0.#}", t.Power);
+                    }
+                    else
+                    {
+                        l_power.ForeColor = Color.Red;
+                        l_power.Text = String.Format("{0:#,0.#}", t.Power_Used);
+                    }
+
+                    l_armor_hp.Text = String.Format("{0:#,0.#}", t.Armor.Amount);
+                    l_shield_hp.Text = String.Format("{0:#,0.#}", t.Shield.Amount);
+                    l_shield_em.Text = String.Format("{0:#,0.#}", t.Shield.EMP) + "%";
+                    l_shield_exp.Text = String.Format("{0:#,0.#}", t.Shield.Explosive) + "%";
+                    l_shield_kin.Text = String.Format("{0:#,0.#}", t.Shield.Kinetic) + "%";
+                    l_shield_therm.Text = String.Format("{0:#,0.#}", t.Shield.Thermal) + "%";
+                    l_struct_hp.Text = String.Format("{0:#,0.#}", t.Struct.Amount);
+                    l_struct_emp.Text = String.Format("{0:#,0.#}", t.Struct.EMP) + "%";
+                    l_struct_exp.Text = String.Format("{0:#,0.#}", t.Struct.Explosive) + "%";
+                    l_struct_kin.Text = String.Format("{0:#,0.#}", t.Struct.Kinetic) + "%";
+                    l_struct_therm.Text = String.Format("{0:#,0.#}", t.Struct.Thermal) + "%";
+                    l_SI_Cost.Text = String.Format("{0:#,0.#}", t.Cost) + " isk";
+
+                    fuel += "Fuel Usage -->\n";
+                    fuel += "Enriched Uranium: " + t.Fuel.EnrUran.PeriodQty + "\n";
+                    fuel += "Oxygen: " + t.Fuel.Oxygen.PeriodQty + "\n";
+                    fuel += "Mechanical Parts: " + t.Fuel.MechPart.PeriodQty + "\n";
+                    fuel += "Coolant: " + t.Fuel.Coolant.PeriodQty + "\n";
+                    fuel += "Robotics: " + t.Fuel.Robotics.PeriodQty + "\n";
+                    fuel += "Heavy Water: " + t.Fuel.HvyWater.PeriodQty + "\n";
+                    fuel += "Liquid Ozone: " + t.Fuel.LiqOzone.PeriodQty + "\n";
+                    fuel += "Charters: " + t.Fuel.Charters.PeriodQty + "\n";
+                    fuel += "Strontium: " + t.Fuel.Strontium.PeriodQty + "\n";
+
+                    if (t.Fuel.N2Iso.PeriodQty > 0)
+                    {
+                        fuel += "Nitrogen Isotopes: " + t.Fuel.N2Iso.PeriodQty + "\n";
+                    }
+                    else if (t.Fuel.HeIso.PeriodQty > 0)
+                    {
+                        fuel += "Helium Isotopes: " + t.Fuel.HeIso.PeriodQty + "\n";
+                    }
+                    else if (t.Fuel.H2Iso.PeriodQty > 0)
+                    {
+                        fuel += "Hydrogen Isotopes: " + t.Fuel.H2Iso.PeriodQty + "\n";
+                    }
+                    else if (t.Fuel.O2Iso.PeriodQty > 0)
+                    {
+                        fuel += "Oxygen Isotopes: " + t.Fuel.O2Iso.PeriodQty + "\n";
+                    }
+
+                    rtb_Other.Text = t.Desc + "\n\n" + fuel + "\n" + t.OtherInfo;
+                    rtb_Other.Text += "Volume   <" + t.Volume + " m3>\n";
+                    rtb_Other.Text += "Capacity <" + t.Capacity + " m3>\n";
                 }
             }
             else
             {
-                foreach (Module m in ML.Modules)
+                if (PlugInData.ML.Modules.ContainsKey(typeID))
                 {
-                    if (m.typeID == typeID)
+                    m = PlugInData.ML.Modules[typeID];
+                    if (m.CPU > m.CPU_Used)
                     {
-                        if (m.CPU > m.CPU_Used)
-                        {
-                            l_cpu.ForeColor = Color.Green;
-                            l_cpu.Text = String.Format("{0:#,0.#}", m.CPU);
-                        }
-                        else
-                        {
-                            l_cpu.ForeColor = Color.Red;
-                            l_cpu.Text = String.Format("{0:#,0.#}", m.CPU_Used);
-                        }
-
-                        if (m.Power > m.Power_Used)
-                        {
-                            l_power.ForeColor = Color.Green;
-                            l_power.Text = String.Format("{0:#,0.#}", m.Power);
-                        }
-                        else
-                        {
-                            l_power.ForeColor = Color.Red;
-                            l_power.Text = String.Format("{0:#,0.#}", m.Power_Used);
-                        }
-
-                        l_armor_hp.Text = String.Format("{0:#,0.#}", m.Armor.Amount);
-                        l_shield_hp.Text = String.Format("{0:#,0.#}", m.Shield.Amount);
-                        l_shield_em.Text = String.Format("{0:#,0.#}", m.Shield.EMP) + "%";
-                        l_shield_exp.Text = String.Format("{0:#,0.#}", m.Shield.Explosive) + "%";
-                        l_shield_kin.Text = String.Format("{0:#,0.#}", m.Shield.Kinetic) + "%";
-                        l_shield_therm.Text = String.Format("{0:#,0.#}", m.Shield.Thermal) + "%";
-                        l_struct_hp.Text = String.Format("{0:#,0.#}", m.Struct.Amount);
-                        l_struct_emp.Text = String.Format("{0:#,0.#}", m.Struct.EMP) + "%";
-                        l_struct_exp.Text = String.Format("{0:#,0.#}", m.Struct.Explosive) + "%";
-                        l_struct_kin.Text = String.Format("{0:#,0.#}", m.Struct.Kinetic) + "%";
-                        l_struct_therm.Text = String.Format("{0:#,0.#}", m.Struct.Thermal) + "%";
-                        l_SI_Cost.Text = String.Format("{0:#,0.#}", m.Cost) + " isk";
-
-                        rtb_Other.Text = m.Desc + "\n\n" + fuel + "\n" + m.OtherInfo;
-                        rtb_Other.Text += "Volume   <" + m.Volume + " m3>\n";
-                        rtb_Other.Text += "Capacity <" + m.Capacity + " m3>\n";
+                        l_cpu.ForeColor = Color.Green;
+                        l_cpu.Text = String.Format("{0:#,0.#}", m.CPU);
                     }
+                    else
+                    {
+                        l_cpu.ForeColor = Color.Red;
+                        l_cpu.Text = String.Format("{0:#,0.#}", m.CPU_Used);
+                    }
+
+                    if (m.Power > m.Power_Used)
+                    {
+                        l_power.ForeColor = Color.Green;
+                        l_power.Text = String.Format("{0:#,0.#}", m.Power);
+                    }
+                    else
+                    {
+                        l_power.ForeColor = Color.Red;
+                        l_power.Text = String.Format("{0:#,0.#}", m.Power_Used);
+                    }
+
+                    l_armor_hp.Text = String.Format("{0:#,0.#}", m.Armor.Amount);
+                    l_shield_hp.Text = String.Format("{0:#,0.#}", m.Shield.Amount);
+                    l_shield_em.Text = String.Format("{0:#,0.#}", m.Shield.EMP) + "%";
+                    l_shield_exp.Text = String.Format("{0:#,0.#}", m.Shield.Explosive) + "%";
+                    l_shield_kin.Text = String.Format("{0:#,0.#}", m.Shield.Kinetic) + "%";
+                    l_shield_therm.Text = String.Format("{0:#,0.#}", m.Shield.Thermal) + "%";
+                    l_struct_hp.Text = String.Format("{0:#,0.#}", m.Struct.Amount);
+                    l_struct_emp.Text = String.Format("{0:#,0.#}", m.Struct.EMP) + "%";
+                    l_struct_exp.Text = String.Format("{0:#,0.#}", m.Struct.Explosive) + "%";
+                    l_struct_kin.Text = String.Format("{0:#,0.#}", m.Struct.Kinetic) + "%";
+                    l_struct_therm.Text = String.Format("{0:#,0.#}", m.Struct.Thermal) + "%";
+                    l_SI_Cost.Text = String.Format("{0:#,0.#}", m.Cost) + " isk";
+
+                    rtb_Other.Text = m.Desc + "\n\n" + fuel + "\n" + m.OtherInfo;
+                    rtb_Other.Text += "Volume   <" + m.Volume + " m3>\n";
+                    rtb_Other.Text += "Capacity <" + m.Capacity + " m3>\n";
                 }
             }
         }
 
-        private void GetDesignItemData(int typeID, string cat)
+        private void GetDesignItemData(long typeID, string cat)
         {
             string fuel = "", tName;
             decimal cap;
+            POS p;
 
-            tName = cb_PoSName.Text;
+            tName = ct_PoSName.Text;
 
-            foreach (POS p in POSList.Designs)
+            if (PlugInData.PDL.Designs.ContainsKey(tName))
             {
-                if (p.Name == tName)
+                p = PlugInData.PDL.Designs[tName];
+                if (cat.Contains("Tower"))
                 {
-                    if (cat.Contains("Tower"))
+                    if (p.PosTower.CPU > p.PosTower.CPU_Used)
                     {
-                        if (p.PosTower.CPU > p.PosTower.CPU_Used)
-                        {
-                            l_cpu.ForeColor = Color.Green;
-                            l_cpu.Text = String.Format("{0:#,0.#}", p.PosTower.CPU);
-                        }
-                        else
-                        {
-                            l_cpu.ForeColor = Color.Red;
-                            l_cpu.Text = String.Format("{0:#,0.#}", p.PosTower.CPU_Used);
-                        }
-
-                        if (p.PosTower.Power > p.PosTower.Power_Used)
-                        {
-                            l_power.ForeColor = Color.Green;
-                            l_power.Text = String.Format("{0:#,0.#}", p.PosTower.Power);
-                        }
-                        else
-                        {
-                            l_power.ForeColor = Color.Red;
-                            l_power.Text = String.Format("{0:#,0.#}", p.PosTower.Power_Used);
-                        }
-
-                        l_armor_hp.Text = String.Format("{0:#,0.#}", p.PosTower.Armor.Amount);
-                        l_shield_hp.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Amount);
-                        l_shield_em.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.EMP) + "%";
-                        l_shield_exp.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Explosive) + "%";
-                        l_shield_kin.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Kinetic) + "%";
-                        l_shield_therm.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Thermal) + "%";
-                        l_struct_hp.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Amount);
-                        l_struct_emp.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.EMP) + "%";
-                        l_struct_exp.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Explosive) + "%";
-                        l_struct_kin.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Kinetic) + "%";
-                        l_struct_therm.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Thermal) + "%";
-                        l_SI_Cost.Text = String.Format("{0:#,0.#}", p.PosTower.Cost) + " isk";
-
-                        fuel += "Fuel Usage -->\n";
-                        fuel += "Enriched Uranium: " + p.PosTower.Fuel.EnrUran.PeriodQty + "\n";
-                        fuel += "Oxygen: " + p.PosTower.Fuel.Oxygen.PeriodQty + "\n";
-                        fuel += "Mechanical Parts: " + p.PosTower.Fuel.MechPart.PeriodQty + "\n";
-                        fuel += "Coolant: " + p.PosTower.Fuel.Coolant.PeriodQty + "\n";
-                        fuel += "Robotics: " + p.PosTower.Fuel.Robotics.PeriodQty + "\n";
-                        fuel += "Heavy Water: " + p.PosTower.Fuel.HvyWater.PeriodQty + "\n";
-                        fuel += "Liquid Ozone: " + p.PosTower.Fuel.LiqOzone.PeriodQty + "\n";
-                        fuel += "Charters: " + p.PosTower.Fuel.Charters.PeriodQty + "\n";
-                        fuel += "Strontium: " + p.PosTower.Fuel.Strontium.PeriodQty + "\n";
-
-                        if (p.PosTower.Fuel.N2Iso.PeriodQty > 0)
-                        {
-                            fuel += "Nitrogen Isotopes: " + p.PosTower.Fuel.N2Iso.PeriodQty + "\n";
-                        }
-                        else if (p.PosTower.Fuel.HeIso.PeriodQty > 0)
-                        {
-                            fuel += "Helium Isotopes: " + p.PosTower.Fuel.HeIso.PeriodQty + "\n";
-                        }
-                        else if (p.PosTower.Fuel.H2Iso.PeriodQty > 0)
-                        {
-                            fuel += "Hydrogen Isotopes: " + p.PosTower.Fuel.H2Iso.PeriodQty + "\n";
-                        }
-                        else if (p.PosTower.Fuel.O2Iso.PeriodQty > 0)
-                        {
-                            fuel += "Oxygen Isotopes: " + p.PosTower.Fuel.O2Iso.PeriodQty + "\n";
-                        }
-
-                        rtb_Other.Text = p.PosTower.Desc + "\n\n" + fuel + "\n" + p.PosTower.OtherInfo;
-                        rtb_Other.Text += "Volume   <" + p.PosTower.Volume + " m3>\n";
-                        rtb_Other.Text += "Capacity <" + p.PosTower.Capacity + " m3>\n";
+                        l_cpu.ForeColor = Color.Green;
+                        l_cpu.Text = String.Format("{0:#,0.#}", p.PosTower.CPU);
                     }
                     else
                     {
-                        foreach (Module m in p.Modules)
+                        l_cpu.ForeColor = Color.Red;
+                        l_cpu.Text = String.Format("{0:#,0.#}", p.PosTower.CPU_Used);
+                    }
+
+                    if (p.PosTower.Power > p.PosTower.Power_Used)
+                    {
+                        l_power.ForeColor = Color.Green;
+                        l_power.Text = String.Format("{0:#,0.#}", p.PosTower.Power);
+                    }
+                    else
+                    {
+                        l_power.ForeColor = Color.Red;
+                        l_power.Text = String.Format("{0:#,0.#}", p.PosTower.Power_Used);
+                    }
+
+                    l_armor_hp.Text = String.Format("{0:#,0.#}", p.PosTower.Armor.Amount);
+                    l_shield_hp.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Amount);
+                    l_shield_em.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.EMP) + "%";
+                    l_shield_exp.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Explosive) + "%";
+                    l_shield_kin.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Kinetic) + "%";
+                    l_shield_therm.Text = String.Format("{0:#,0.#}", p.PosTower.Shield.Thermal) + "%";
+                    l_struct_hp.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Amount);
+                    l_struct_emp.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.EMP) + "%";
+                    l_struct_exp.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Explosive) + "%";
+                    l_struct_kin.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Kinetic) + "%";
+                    l_struct_therm.Text = String.Format("{0:#,0.#}", p.PosTower.Struct.Thermal) + "%";
+                    l_SI_Cost.Text = String.Format("{0:#,0.#}", p.PosTower.Cost) + " isk";
+
+                    fuel += "Fuel Usage -->\n";
+                    fuel += "Enriched Uranium: " + p.PosTower.Fuel.EnrUran.PeriodQty + "\n";
+                    fuel += "Oxygen: " + p.PosTower.Fuel.Oxygen.PeriodQty + "\n";
+                    fuel += "Mechanical Parts: " + p.PosTower.Fuel.MechPart.PeriodQty + "\n";
+                    fuel += "Coolant: " + p.PosTower.Fuel.Coolant.PeriodQty + "\n";
+                    fuel += "Robotics: " + p.PosTower.Fuel.Robotics.PeriodQty + "\n";
+                    fuel += "Heavy Water: " + p.PosTower.Fuel.HvyWater.PeriodQty + "\n";
+                    fuel += "Liquid Ozone: " + p.PosTower.Fuel.LiqOzone.PeriodQty + "\n";
+                    fuel += "Charters: " + p.PosTower.Fuel.Charters.PeriodQty + "\n";
+                    fuel += "Strontium: " + p.PosTower.Fuel.Strontium.PeriodQty + "\n";
+
+                    if (p.PosTower.Fuel.N2Iso.PeriodQty > 0)
+                    {
+                        fuel += "Nitrogen Isotopes: " + p.PosTower.Fuel.N2Iso.PeriodQty + "\n";
+                    }
+                    else if (p.PosTower.Fuel.HeIso.PeriodQty > 0)
+                    {
+                        fuel += "Helium Isotopes: " + p.PosTower.Fuel.HeIso.PeriodQty + "\n";
+                    }
+                    else if (p.PosTower.Fuel.H2Iso.PeriodQty > 0)
+                    {
+                        fuel += "Hydrogen Isotopes: " + p.PosTower.Fuel.H2Iso.PeriodQty + "\n";
+                    }
+                    else if (p.PosTower.Fuel.O2Iso.PeriodQty > 0)
+                    {
+                        fuel += "Oxygen Isotopes: " + p.PosTower.Fuel.O2Iso.PeriodQty + "\n";
+                    }
+
+                    rtb_Other.Text = p.PosTower.Desc + "\n\n" + fuel + "\n" + p.PosTower.OtherInfo;
+                    rtb_Other.Text += "Volume   <" + p.PosTower.Volume + " m3>\n";
+                    rtb_Other.Text += "Capacity <" + p.PosTower.Capacity + " m3>\n";
+                }
+                else
+                {
+                    foreach (Module m in p.Modules)
+                    {
+                        if (m.typeID == typeID)
                         {
-                            if (m.typeID == typeID)
+                            if (m.CPU > m.CPU_Used)
                             {
-                                if (m.CPU > m.CPU_Used)
-                                {
-                                    l_cpu.ForeColor = Color.Green;
-                                    l_cpu.Text = String.Format("{0:#,0.#}", m.CPU);
-                                }
-                                else
-                                {
-                                    l_cpu.ForeColor = Color.Red;
-                                    l_cpu.Text = String.Format("{0:#,0.#}", m.CPU_Used);
-                                }
-
-                                if (m.Power > m.Power_Used)
-                                {
-                                    l_power.ForeColor = Color.Green;
-                                    l_power.Text = String.Format("{0:#,0.#}", m.Power);
-                                }
-                                else
-                                {
-                                    l_power.ForeColor = Color.Red;
-                                    l_power.Text = String.Format("{0:#,0.#}", m.Power_Used);
-                                }
-
-                                l_armor_hp.Text = String.Format("{0:#,0.#}", m.Armor.Amount);
-                                l_shield_hp.Text = String.Format("{0:#,0.#}", m.Shield.Amount);
-                                l_shield_em.Text = String.Format("{0:#,0.#}", m.Shield.EMP) + "%";
-                                l_shield_exp.Text = String.Format("{0:#,0.#}", m.Shield.Explosive) + "%";
-                                l_shield_kin.Text = String.Format("{0:#,0.#}", m.Shield.Kinetic) + "%";
-                                l_shield_therm.Text = String.Format("{0:#,0.#}", m.Shield.Thermal) + "%";
-                                l_struct_hp.Text = String.Format("{0:#,0.#}", m.Struct.Amount);
-                                l_struct_emp.Text = String.Format("{0:#,0.#}", m.Struct.EMP) + "%";
-                                l_struct_exp.Text = String.Format("{0:#,0.#}", m.Struct.Explosive) + "%";
-                                l_struct_kin.Text = String.Format("{0:#,0.#}", m.Struct.Kinetic) + "%";
-                                l_struct_therm.Text = String.Format("{0:#,0.#}", m.Struct.Thermal) + "%";
-                                l_SI_Cost.Text = String.Format("{0:#,0.#}", m.Cost) + " isk";
-
-                                rtb_Other.Text = m.Desc + "\n\n" + fuel + "\n" + m.OtherInfo;
-                                rtb_Other.Text += "Volume   <" + m.Volume + " m3>\n";
-                                cap = CalculateSiloCapacity(m, p);
-                                rtb_Other.Text += "Capacity <" + cap + " m3>\n";
-
-                                break;
+                                l_cpu.ForeColor = Color.Green;
+                                l_cpu.Text = String.Format("{0:#,0.#}", m.CPU);
                             }
+                            else
+                            {
+                                l_cpu.ForeColor = Color.Red;
+                                l_cpu.Text = String.Format("{0:#,0.#}", m.CPU_Used);
+                            }
+
+                            if (m.Power > m.Power_Used)
+                            {
+                                l_power.ForeColor = Color.Green;
+                                l_power.Text = String.Format("{0:#,0.#}", m.Power);
+                            }
+                            else
+                            {
+                                l_power.ForeColor = Color.Red;
+                                l_power.Text = String.Format("{0:#,0.#}", m.Power_Used);
+                            }
+
+                            l_armor_hp.Text = String.Format("{0:#,0.#}", m.Armor.Amount);
+                            l_shield_hp.Text = String.Format("{0:#,0.#}", m.Shield.Amount);
+                            l_shield_em.Text = String.Format("{0:#,0.#}", m.Shield.EMP) + "%";
+                            l_shield_exp.Text = String.Format("{0:#,0.#}", m.Shield.Explosive) + "%";
+                            l_shield_kin.Text = String.Format("{0:#,0.#}", m.Shield.Kinetic) + "%";
+                            l_shield_therm.Text = String.Format("{0:#,0.#}", m.Shield.Thermal) + "%";
+                            l_struct_hp.Text = String.Format("{0:#,0.#}", m.Struct.Amount);
+                            l_struct_emp.Text = String.Format("{0:#,0.#}", m.Struct.EMP) + "%";
+                            l_struct_exp.Text = String.Format("{0:#,0.#}", m.Struct.Explosive) + "%";
+                            l_struct_kin.Text = String.Format("{0:#,0.#}", m.Struct.Kinetic) + "%";
+                            l_struct_therm.Text = String.Format("{0:#,0.#}", m.Struct.Thermal) + "%";
+                            l_SI_Cost.Text = String.Format("{0:#,0.#}", m.Cost) + " isk";
+
+                            rtb_Other.Text = m.Desc + "\n\n" + fuel + "\n" + m.OtherInfo;
+                            rtb_Other.Text += "Volume   <" + m.Volume + " m3>\n";
+                            cap = CalculateSiloCapacity(m, p);
+                            rtb_Other.Text += "Capacity <" + cap + " m3>\n";
+
+                            break;
                         }
                     }
                 }
@@ -2008,7 +2223,7 @@ namespace EveHQ.PosManager
         {
             DragDropEffects DDE;
             string srcName, location;
-            int typeID;
+            long typeID;
             PoS_Item pi = (PoS_Item)sender;
             PoS_Item piOld;
 
@@ -2018,7 +2233,7 @@ namespace EveHQ.PosManager
             if (e.Button == MouseButtons.Right)
                 return;
 
-            if(e.Button == MouseButtons.Middle)
+            if (e.Button == MouseButtons.Middle)
                 Mouse_Online_Offline_Click(sender, e);
 
             srcName = pi.contName;
@@ -2071,7 +2286,9 @@ namespace EveHQ.PosManager
                     }
 
                     if (!load)
-                        PosChanged = true;
+                    {
+                        SetChangedStatus(true, "Unsaved Changes - Save Needed");
+                    }
                 }
                 CalculatePOSData();
             }
@@ -2081,7 +2298,7 @@ namespace EveHQ.PosManager
             }
         }
 
-        private void cb_PoSName_SelectedIndexChanged(object sender, EventArgs e)
+        private void ct_PoSName_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ((PosChanged) && (Design.Name != "New POS") && (Design.Name != ""))
             {
@@ -2090,85 +2307,81 @@ namespace EveHQ.PosManager
 
                 if (dr == DialogResult.Yes)
                 {
-                    POSList.UpdateListDesign(Design);
-                    POSList.SaveDesignListing();
+                    PlugInData.PDL.UpdateListDesign(Design);
+                    PlugInData.PDL.SaveDesignListing();
                     BuildPOSListForMonitoring();
-                    POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-                    PosChanged = false;
+                    PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
                 }
                 else
                 {
-                    POSList.LoadDesignListing();
-                    PosChanged = false;
+                    PlugInData.PDL.LoadDesignListing();
                 }
             }
 
+            SetChangedStatus(false, "");
             load = true;
 
-            CurrentName = cb_PoSName.Text;
-            if(CurrentName.Contains(" <"))
+            CurrentName = ct_PoSName.Text;
+            if (CurrentName.Contains(" <"))
                 CurrentName = CurrentName.Substring(0, CurrentName.IndexOf(" <"));
 
             // 1. Get new PoS Data from List
-            foreach (POS pl in POSList.Designs)
+            if (PlugInData.PDL.Designs.ContainsKey(CurrentName))
             {
-                if (pl.Name == CurrentName)
+                // 2. Clear Current PoS Display
+                foreach (Control c in p_Tower.Controls)
                 {
-                    // 2. Clear Current PoS Display
-                    foreach (Control c in p_Tower.Controls)
+                    if (c.GetType().Name == "PoS_Item")
                     {
-                        if (c.GetType().Name == "PoS_Item")
-                        {
-                            PoS_Item pi = (PoS_Item)c;
-                            pi.RemoveItemFromControl();
-                        }
+                        PoS_Item pi = (PoS_Item)c;
+                        pi.RemoveItemFromControl();
                     }
+                }
 
-                    // 3. Populate PoS Display with PoS Information
-                    Design = new POS(pl);
+                // 3. Populate PoS Display with PoS Information
+                Design = new POS(PlugInData.PDL.Designs[CurrentName]);
 
-                    // Populate POS
-                    if (Design.PosTower.typeID != 0)
+                // Populate POS
+                if (Design.PosTower.typeID != 0)
+                {
+                    // First Populate the Tower itself - as there is only 1
+                    pi_Tower.typeID = Design.PosTower.typeID;
+                    pi_Tower.contName = "pi_Tower";
+                    pi_Tower.number = 1;
+
+                    if (Design.PosTower.State == "Online")
+                        pi_Tower.onOff = Color.Green;
+                    else
+                        pi_Tower.onOff = Color.Red;
+
+                    pi_Tower.catName = Design.PosTower.Category;
+                    pi_Tower.ModName = Design.PosTower.Name;
+                    pi_Tower.SetToolTipForItem(Design.PosTower.Name);
+                    pi_Tower.UpdateItemState();
+
+                    nud_StrontInterval.Maximum = Design.ComputeMaxPosStrontTime();
+
+                    foreach (Module mc in Design.Modules)
                     {
-                        // First Populate the Tower itself - as there is only 1
-                        pi_Tower.typeID = Design.PosTower.typeID;
-                        pi_Tower.contName = "pi_Tower";
-                        pi_Tower.number = 1;
+                        // Now Populate each Module in the POS design
+                        PoS_Item pi;
 
-                        if (Design.PosTower.State == "Online")
-                            pi_Tower.onOff = Color.Green;
+                        pi = (PoS_Item)p_Tower.Controls[mc.Location];
+
+                        pi.typeID = mc.typeID;
+                        pi.contName = mc.Location;
+                        pi.number = (int)mc.Qty;
+
+                        if (mc.State == "Online")
+                            pi.onOff = Color.Green;
                         else
-                            pi_Tower.onOff = Color.Red;
+                            pi.onOff = Color.Red;
 
-                        pi_Tower.catName = Design.PosTower.Category;
-                        pi_Tower.ModName = Design.PosTower.Name;
-                        pi_Tower.SetToolTipForItem(pl.PosTower.Name);
-                        pi_Tower.UpdateItemState();
+                        pi.catName = mc.Category;
+                        pi.ModName = mc.Name;
+                        pi.SetToolTipForItem(mc.Name);
+                        pi.UpdateItemState();
 
-                        nud_StrontInterval.Maximum = Design.ComputeMaxPosStrontTime();
-
-                        foreach (Module mc in Design.Modules)
-                        {
-                            // Now Populate each Module in the POS design
-                            PoS_Item pi;
-
-                            pi = (PoS_Item)p_Tower.Controls[mc.Location];
-
-                            pi.typeID = mc.typeID;
-                            pi.contName = mc.Location;
-                            pi.number = (int)mc.Qty;
-
-                            if (mc.State == "Online")
-                                pi.onOff = Color.Green;
-                            else
-                                pi.onOff = Color.Red;
-
-                            pi.catName = mc.Category;
-                            pi.ModName = mc.Name;
-                            pi.SetToolTipForItem(mc.Name);
-                            pi.UpdateItemState();
-
-                        }
                     }
                 }
             }
@@ -2179,6 +2392,15 @@ namespace EveHQ.PosManager
             cb_systemMoon.Text = Design.Moon;
 
             nud_DesFuelPeriod.Maximum = Design.ComputeMaxPosRunTimeForLoad();
+            if (nud_DesFuelPeriod.Minimum < 0)
+                nud_DesFuelPeriod.Minimum = 0;
+            if (nud_DesFuelPeriod.Maximum <= 0)
+                nud_DesFuelPeriod.Maximum = 100;
+            if (nud_StrontInterval.Minimum < 0)
+                nud_StrontInterval.Minimum = 0;
+            if (nud_StrontInterval.Maximum <= 0)
+                nud_StrontInterval.Maximum = 100;
+
             if (Design.PosTower.typeID != 0)
             {
                 cb_Interval.SelectedIndex = (int)Design.PosTower.Design_Interval;
@@ -2186,7 +2408,10 @@ namespace EveHQ.PosManager
                     nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
                 else
                     nud_DesFuelPeriod.Value = 1;
-                nud_StrontInterval.Value = Design.PosTower.Design_Stront_Qty;
+                if (Design.PosTower.Design_Stront_Qty > nud_StrontInterval.Maximum)
+                    nud_StrontInterval.Value = nud_StrontInterval.Maximum;
+                else
+                    nud_StrontInterval.Value = Design.PosTower.Design_Stront_Qty;
             }
             else
             {
@@ -2205,7 +2430,7 @@ namespace EveHQ.PosManager
 
         private void SetModuleQuantity(object sender, EventArgs e)
         {
-            int newNum;
+            long newNum;
 
             if (api.typeID == 0)
                 return;
@@ -2225,7 +2450,9 @@ namespace EveHQ.PosManager
                     }
                 }
                 if (!load)
-                    PosChanged = true;
+                {
+                    SetChangedStatus(true, "Unsaved Changes - Save Needed");
+                }
                 CalculatePOSData();
             }
         }
@@ -2248,7 +2475,9 @@ namespace EveHQ.PosManager
             Design.SovLevel = cb_SovLevel.SelectedIndex;
 
             if (!load)
-                PosChanged = true;
+            {
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+            }
             CalculatePOSData();
         }
 
@@ -2257,23 +2486,25 @@ namespace EveHQ.PosManager
             Design.Moon = cb_systemMoon.Text;
 
             if (!load)
-                PosChanged = true;
+            {
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+            }
         }
 
         private void cb_System_SelectedIndexChanged(object sender, EventArgs e)
         {
             Sov_Data syst;
-            int index;
 
             Design.System = cb_System.Text;
 
             if (!load)
-                PosChanged = true;
+            {
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+            }
 
             FindAndGetSystemMoons();
 
-            index = SL.Systems.IndexOfKey(Design.System);
-            syst = (Sov_Data)SL.Systems.GetByIndex(index);
+            syst = PlugInData.SLs.Systems[Design.System];
 
             if (Decimal.Compare(syst.secLevel, Convert.ToDecimal(0.45)) > 0)
                 Design.UseChart = true;
@@ -2289,10 +2520,10 @@ namespace EveHQ.PosManager
             decimal sysID;
             Sov_Data sd;
             DataSet ml;
-            
-            sd = (Sov_Data)SL.Systems[Design.System];
+
+            sd = PlugInData.SLs.Systems[Design.System];
             sysID = sd.systemID;
-            
+
             strSQL = "SELECT mapDenormalize.itemName FROM mapDenormalize WHERE (mapDenormalize.solarSystemID=" + sysID + " AND mapDenormalize.groupID=8);";
             ml = EveHQ.Core.DataFunctions.GetData(strSQL);
 
@@ -2317,7 +2548,7 @@ namespace EveHQ.PosManager
             {
                 Design.CorpName = cb_CorpName.Text;
 
-                foreach (APITowerData apid in API_D.apiTower.Values)
+                foreach (APITowerData apid in PlugInData.API_D.apiTower.Values)
                 {
                     if (apid.corpName == Design.CorpName)
                     {
@@ -2325,7 +2556,8 @@ namespace EveHQ.PosManager
                         {
                             // Update the corpID for the POS and Save to Disk
                             Design.corpID = apid.corpID;
-                            POSList.SaveDesignListing();
+                            PlugInData.PDL.SaveDesignListing();
+                            SetChangedStatus(false, "");
                         }
                         break;
                     }
@@ -2335,25 +2567,149 @@ namespace EveHQ.PosManager
             UpdateLinkedTowerSovLevel(Design);
 
             if (!load)
-                PosChanged = true;
+            {
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+            }
 
             CalculatePOSData();
         }
 
 
-#endregion
+        #endregion
 
 
-#region PoS Monitor Routines
+        #region PoS Monitor Routines
+
+        private void ExportToClipboard(object sender, EventArgs e)
+        {
+            POS p;
+            long mCnt = 0, rlCnt = 0;
+            string TowerExport;
+
+            if (PlugInData.PDL.Designs.ContainsKey(selName))
+            {
+                p = PlugInData.PDL.Designs[selName];
+            }
+            else
+            {
+                MessageBox.Show("You Must Select a Tower to Export first.", "Export Tower", MessageBoxButtons.OK);
+                return;
+            }
+
+            TowerExport = p.Name + "," + p.PosTower.typeID.ToString() + "\n";
+
+            if (p.Modules.Count > 0)
+            {
+                TowerExport += "MODL|";
+                foreach (Module m in p.Modules)
+                {
+                    if (mCnt > 0)
+                        TowerExport += "|";
+
+                    TowerExport += m.typeID.ToString() + "," + m.Qty.ToString() + "," + m.ModuleID + "," + m.selReact.typeID.ToString() + "," + m.selMineral.typeID + "," + m.State + "," + m.Location;
+                    mCnt++;
+                }
+            }
+
+            TowerExport += "\n";
+            if (p.ReactionLinks.Count > 0)
+            {
+                TowerExport += "RLNK|";
+                foreach (ReactionLink rl in p.ReactionLinks)
+                {
+                     if (rlCnt > 0)
+                        TowerExport += "|";
+
+                     TowerExport += rl.LinkID.ToString() + "," + rl.InpID.ToString() + "," + rl.OutID.ToString() + "," + rl.XferQty + "," + rl.XferVol.ToString() + "," + rl.srcNm + "," + rl.dstNm;
+                
+                    rlCnt++;
+                }
+            }
+
+            Clipboard.SetText(TowerExport);
+
+        }
+
+        private void tm_ExportTower_Click(object sender, EventArgs e)
+        {
+            POS p;
+            string fname;
+
+            if (PlugInData.PDL.Designs.ContainsKey(selName))
+            {
+                p = PlugInData.PDL.Designs[selName];
+            }
+            else
+            {
+                MessageBox.Show("You Must Select a Tower to export first.", "Export Tower", MessageBoxButtons.OK);
+                return;
+            }
+
+            sfd_Export.InitialDirectory = PlugInData.PosExport_Path;
+            sfd_Export.Filter = "Tower (*.twr)|*.twr";
+            sfd_Export.FilterIndex = 0;
+            sfd_Export.ShowDialog();
+
+            fname = sfd_Export.FileName;
+
+            // Save the Serialized data to Disk
+            Stream pStream = File.Create(fname);
+            BinaryFormatter pBF = new BinaryFormatter();
+            pBF.Serialize(pStream, p);
+            pStream.Close();
+        }
+
+        private void tm_ImportTower_Click(object sender, EventArgs e)
+        {
+            string fname;
+            POS p = new POS();
+            Stream cStr;
+            BinaryFormatter myBf;
+
+            ofd_Import.InitialDirectory = PlugInData.PosExport_Path;
+            ofd_Import.Filter = "Tower (*.twr)|*.twr";
+            ofd_Import.FilterIndex = 0;
+            ofd_Import.ShowDialog();
+
+            fname = ofd_Import.FileName;
+            if (File.Exists(fname))
+            {
+                // We have a configuration data file
+                cStr = File.OpenRead(fname);
+                myBf = new BinaryFormatter();
+
+                try
+                {
+                    p = (POS)myBf.Deserialize(cStr);
+                    if (PlugInData.PDL.Designs.ContainsKey(p.Name))
+                    {
+                        PlugInData.PDL.Designs.Remove(p.Name);
+                    }
+                    PlugInData.PDL.Designs.Add(p.Name, p);
+                    PlugInData.PDL.SaveDesignListing();
+                    UpdatePOSForNewData();
+                }
+                catch
+                {
+                    // Cannot load tower for some reason!
+                    MessageBox.Show("Error encountered trying to load Tower File.", "Import Tower", MessageBoxButtons.OK);
+                    cStr.Close();
+                    return;
+                }
+
+                cStr.Close();
+            }
+        }
 
         private void UpdateAllTowerSovLevels()
         {
-            foreach (POS p in POSList.Designs)
+            foreach (POS p in PlugInData.PDL.Designs.Values)
             {
                 UpdateLinkedTowerSovLevel(p);
             }
 
-            POSList.SaveDesignListing();
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
         }
 
         private void UpdateLinkedTowerSovLevel(POS p)
@@ -2370,12 +2726,16 @@ namespace EveHQ.PosManager
                 // This POS is Linked to a Corp
                 corpID = p.corpID;
 
-                ad = (Alliance_Data)AL.alliances[corpID];
+                ad = (Alliance_Data)PlugInData.AL.alliances[corpID];
                 if (ad != null)
                 {
                     // Corp is in an alliance
                     // Find system in system list, update SOV level accordingly
-                    sd = (Sov_Data)SL.Systems[p.System];
+                    if (PlugInData.SLs.Systems.ContainsKey(p.System))
+                        sd = PlugInData.SLs.Systems[p.System];
+                    else
+                        sd = null;
+
                     if (sd != null)
                     {
                         if ((sd.corpID == corpID) || (sd.allianceID == ad.allianceID))
@@ -2392,7 +2752,7 @@ namespace EveHQ.PosManager
             if (p.itemID != 0)
             {
                 // Tower is linked to CORP Data
-                td = API_D.GetAPIDataMemberForTowerID(p.itemID);
+                td = PlugInData.API_D.GetAPIDataMemberForTowerID(p.itemID);
 
                 if (td != null)
                 {
@@ -2436,9 +2796,9 @@ namespace EveHQ.PosManager
             }
 
             // Update Tower Charter Requirements
-            if(SL.Systems.Contains(p.System))
+            if (PlugInData.SLs.Systems.ContainsKey(p.System))
             {
-                sd = (Sov_Data)SL.Systems[p.System];
+                sd = PlugInData.SLs.Systems[p.System];
                 if (Decimal.Compare(sd.secLevel, Convert.ToDecimal(0.45)) > 0)
                     p.UseChart = true;
                 else
@@ -2448,56 +2808,29 @@ namespace EveHQ.PosManager
 
         public POS GetPoSListingForPoS(string name)
         {
-            foreach (POS pl in POSList.Designs)
+            if (PlugInData.PDL.Designs.ContainsKey(name))
             {
-                if (name == pl.Name)
-                    return pl;
+                return PlugInData.PDL.Designs[name];
             }
             return null;
         }
-        
+
         private void BuildPOSListForMonitoring()
         {
             MonSel_L.Clear();
-            foreach (POS pl in POSList.Designs)
+            foreach (POS pl in PlugInData.PDL.Designs.Values)
                 MonSel_L.Add(pl.Name);
         }
 
-        private ArrayList GetLongestSiloRunTime(POS p)
+        public void UpdatePOSForNewData()
         {
-            decimal runT = 9999999999999999;
-            string rText, rName = "";
-            ArrayList retVal = new ArrayList();
-
-            foreach (Module m in p.Modules)
-            {
-                switch (Convert.ToInt64(m.ModType))
-                {
-                    case 2:
-                    case 8:
-                    case 9:
-                    case 11:
-                    case 12:
-                    case 13:
-                        if ((m.FillEmptyTime < runT) && (m.State == "Online"))
-                        {
-                            rName = m.selMineral.name;
-                            runT = m.FillEmptyTime;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            rText = ConvertReactionHoursToTextDisplay(runT);
-            if (rText.Length > 0)
-                rText += " <" + rName + ">";
-
-            retVal.Add(runT);
-            retVal.Add(rText);
-
-            return retVal;
+            BuildPOSListForMonitoring();
+            UpdateAllTowerSovLevels();
+            RunCalculationsWithUpdatedInformation();
+            dg_MonitoredTowers_SelectionChanged(1, new EventArgs());
+            SetChangedStatus(false, "");
+            tsl_APIState.Text = "";
+            b_UpdateAPI.Enabled = true;
         }
 
         private void PopulateMonitoredPoSDisplay()
@@ -2511,13 +2844,18 @@ namespace EveHQ.PosManager
             DataSet locData;
             ArrayList ReactRet;
 
-            foreach (POS p in POSList.Designs)
+            if (dg_MonitoredTowers.ColumnCount <= 0)
+                return;
+
+            foreach (POS p in PlugInData.PDL.Designs.Values)
             {
                 if (p.Monitored)
                 {
                     dg_ind = -1;
                     ind_ct = 0;
-                    foreach(DataGridViewRow dr in dg_MonitoredTowers.Rows)
+                    p.CalculatePOSFuelRunTime(PlugInData.API_D, p.PosTower.Fuel);
+
+                    foreach (DataGridViewRow dr in dg_MonitoredTowers.Rows)
                     {
                         if (dr.Cells[(int)MonDG.Name].Value.ToString().Contains(p.Name))
                         {
@@ -2534,17 +2872,25 @@ namespace EveHQ.PosManager
                         dg_ind = dg_MonitoredTowers.Rows.Add();
                     }
 
-                    if(p.Moon != "")
-                        line = p.Name + " < " + p.Moon + " >[Sov" + p.SovLevel + "]";
-                    else
-                        line = p.Name + " < " + p.System + " >[Sov" + p.SovLevel + "]";
+                    for (int cl = 0; cl < 28; cl++)
+                    {
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[cl].Style.BackColor = Color.Gainsboro;
+                    }
 
+                    line = p.Name + " [Sov" + p.SovLevel + "]";
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = line;
-                    line = ConvertHoursToTextDisplay(p.PosTower.F_RunTime);
+
+                    if (p.Moon != "")
+                        line = p.Moon;
+                    else
+                        line = p.System;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.LocN].Value = line;
+
+                    line = PlugInData.ConvertHoursToTextDisplay(p.PosTower.F_RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Value = line;
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.fHrs].ValueType = typeof(decimal);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.fHrs].Value = p.PosTower.F_RunTime;
-                    line = ConvertHoursToTextDisplay(p.PosTower.Fuel.Strontium.RunTime);
+                    line = PlugInData.ConvertHoursToTextDisplay(p.PosTower.Fuel.Strontium.RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Value = line;
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.sHrs].ValueType = typeof(decimal);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.sHrs].Value = p.PosTower.Fuel.Strontium.RunTime;
@@ -2552,7 +2898,7 @@ namespace EveHQ.PosManager
                     ref_TM = DateTime.Now;
                     if (p.itemID != 0)
                     {
-                        apid = API_D.GetAPIDataMemberForTowerID(p.itemID);
+                        apid = PlugInData.API_D.GetAPIDataMemberForTowerID(p.itemID);
                         // Get Table With Tower or Tower Item Information
                         if (apid != null)
                         {
@@ -2560,9 +2906,12 @@ namespace EveHQ.PosManager
                             {
                                 strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
                                 locData = EveHQ.Core.DataFunctions.GetData(strSQL);
-                                loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
-                                apid.locName = loc;
-                                API_D.SaveAPIListing();
+                                if (locData.Tables[0].Rows.Count > 0)
+                                {
+                                    loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                                    apid.locName = loc;
+                                    PlugInData.API_D.SaveAPIListing();
+                                }
                             }
 
                             line = "<" + apid.locName + "> ";
@@ -2619,7 +2968,7 @@ namespace EveHQ.PosManager
                     }
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = p.PosTower.State;
-                    
+
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.CPU].Value = String.Format("{0:#,0.#}", p.PosTower.CPU_Used) + " / " + String.Format("{0:#,0.#}", p.PosTower.CPU);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hCPU].ValueType = typeof(decimal);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hCPU].Value = p.PosTower.CPU_Used;
@@ -2712,7 +3061,7 @@ namespace EveHQ.PosManager
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Rbt].Style.BackColor = Color.Red;
                         else
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Rbt].Style.BackColor = Color.Gainsboro;
-                            
+
                         if (p.PosTower.Fuel.HvyWater.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.HvW].Style.BackColor = Color.Red;
                         else
@@ -2753,18 +3102,18 @@ namespace EveHQ.PosManager
                     else
                     {
                         // Tower is Reinforced !
-                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = ref_TM.ToString();
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Value = "Reinforced Until";
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = ref_TM.ToString() + "(Eve Time)";
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Style.BackColor = Color.LightCoral;
-                        if (p.PosTower.S_RunTime < 4)
-                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Style.BackColor = Color.Red;
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Style.BackColor = Color.LightCoral;
                     }
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.useC].Value = p.UseChart;
 
-                    ReactRet = GetLongestSiloRunTime(p);
+                    ReactRet = PlugInData.GetLongestSiloRunTime(p);
                     ReactTime = (decimal)ReactRet[0];
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Value = (string)ReactRet[1];
-                    if(ReactTime < 6)
+                    if (ReactTime < 6)
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Style.BackColor = Color.Red;
                     else if (ReactTime < 24)
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.React].Style.BackColor = Color.Gold;
@@ -2801,95 +3150,96 @@ namespace EveHQ.PosManager
             }
         }
 
-        private void SortMonitorDataGridByColumn(DataGridView dgv, int ColIndex)
+        private void SortMonitorDataGridByColumn(DataGridView dgv, long ColIndex)
         {
             if (load)
             {
-                 if (Config.data.MonSortOrder == SortOrder.Descending)
-                     Config.data.MonSortOrder = SortOrder.Ascending;
-                 else
-                     Config.data.MonSortOrder = SortOrder.Descending;
+                if (PlugInData.Config.data.MonSortOrder == SortOrder.Descending)
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Ascending;
+                else
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Descending;
             }
 
             if ((ColIndex == (int)MonDG.FuelR) && (dgv.Columns[(int)MonDG.FuelR].SortMode == DataGridViewColumnSortMode.Programmatic))
             {
                 // Sort on hidden fuel hours column
-                if (Config.data.MonSortOrder == SortOrder.Descending)
+                if (PlugInData.Config.data.MonSortOrder == SortOrder.Descending)
                 {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Ascending;
                     dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Ascending);
                 }
                 else
                 {
-                    Config.data.MonSortOrder = SortOrder.Descending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Descending;
                     dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Descending);
                 }
             }
             else if ((ColIndex == (int)MonDG.CPU) && (dgv.Columns[(int)MonDG.CPU].SortMode == DataGridViewColumnSortMode.Programmatic))
             {
-                if (Config.data.MonSortOrder == SortOrder.Descending)
+                if (PlugInData.Config.data.MonSortOrder == SortOrder.Descending)
                 {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Ascending;
                     dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Ascending);
                 }
                 else
                 {
-                    Config.data.MonSortOrder = SortOrder.Descending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Descending;
                     dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Descending);
                 }
             }
             else if ((ColIndex == (int)MonDG.Power) && (dgv.Columns[(int)MonDG.Power].SortMode == DataGridViewColumnSortMode.Programmatic))
             {
-                if (Config.data.MonSortOrder == SortOrder.Descending)
+                if (PlugInData.Config.data.MonSortOrder == SortOrder.Descending)
                 {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Ascending;
                     dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Ascending);
                 }
                 else
                 {
-                    Config.data.MonSortOrder = SortOrder.Descending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Descending;
                     dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Descending);
                 }
             }
             else if ((ColIndex == (int)MonDG.StrontR) && (dgv.Columns[(int)MonDG.StrontR].SortMode == DataGridViewColumnSortMode.Programmatic))
             {
                 // Sort on hidden stront hours column
-                if (Config.data.MonSortOrder == SortOrder.Descending)
+                if (PlugInData.Config.data.MonSortOrder == SortOrder.Descending)
                 {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Ascending;
                     dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Ascending);
                 }
                 else
                 {
-                    Config.data.MonSortOrder = SortOrder.Descending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Descending;
                     dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Descending);
                 }
             }
             else if ((ColIndex == (int)MonDG.Iso) && (dgv.Columns[(int)MonDG.Iso].SortMode == DataGridViewColumnSortMode.Programmatic))
             {
                 // Sort on hidden stront hours column
-                if (Config.data.MonSortOrder == SortOrder.Descending)
+                if (PlugInData.Config.data.MonSortOrder == SortOrder.Descending)
                 {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Ascending;
                     dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Ascending);
                 }
                 else
                 {
-                    Config.data.MonSortOrder = SortOrder.Descending;
+                    PlugInData.Config.data.MonSortOrder = SortOrder.Descending;
                     dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Descending);
                 }
             }
             else
             {
-                Config.data.MonSortOrder = dgv.SortOrder;
+                PlugInData.Config.data.MonSortOrder = dgv.SortOrder;
             }
         }
 
         private void dg_MonitoredTowers_SelectionChanged(object sender, EventArgs e)
         {
-            decimal qty;
-            string posItm, posName, line;
+            //decimal qty;
+            string posName; //posItm, line;
             APITowerData td;
+            POS pl;
 
             if (dg_MonitoredTowers.CurrentRow == null)
                 return;
@@ -2897,120 +3247,100 @@ namespace EveHQ.PosManager
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
                 selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
-                posName = selName.Substring(0, selName.IndexOf(" <"));
+                posName = selName.Substring(0, selName.IndexOf(" ["));
                 selName = posName;
                 Mon_dg_Pos = posName;
-                
+
                 if (Mon_dg_indx == dg_MonitoredTowers.CurrentRow.Index)
                     return;
 
                 Mon_dg_indx = dg_MonitoredTowers.CurrentRow.Index;
-               
-                foreach (POS pl in POSList.Designs)
+
+                if (PlugInData.PDL.Designs.ContainsKey(selName))
                 {
-                    if (selName == pl.Name)
+                    pl = PlugInData.PDL.Designs[selName];
+                    // OK, this is the PoS that was just selected. Need to work the display.
+                    // 1. Display current fuel levels for the POS & Run times for each type of fuel
+                    // 2. Calculate and Display Bay usage (percentage on bars)
+                    // 3. Display PoS module listing in listbox
+                    // 4. Display PoS modules on picture screen section
+                    DisplaySelectedPOSData(pl);
+
+                    nud_EnrUran.Value = Convert.ToInt32(pl.PosTower.Fuel.EnrUran.Qty);
+                    nud_Oxy.Value = Convert.ToInt32(pl.PosTower.Fuel.Oxygen.Qty);
+                    nud_MechPart.Value = Convert.ToInt32(pl.PosTower.Fuel.MechPart.Qty);
+                    nud_Robotic.Value = Convert.ToInt32(pl.PosTower.Fuel.Robotics.Qty);
+                    nud_Coolant.Value = Convert.ToInt32(pl.PosTower.Fuel.Coolant.Qty);
+                    nud_HvyWtr.Value = Convert.ToInt32(pl.PosTower.Fuel.HvyWater.Qty);
+                    nud_LiqOzn.Value = Convert.ToInt32(pl.PosTower.Fuel.LiqOzone.Qty);
+                    nud_Charter.Value = Convert.ToInt32(pl.PosTower.Fuel.Charters.Qty);
+                    nud_Stront.Value = Convert.ToInt32(pl.PosTower.Fuel.Strontium.Qty);
+                    if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
+                        nud_Isotope.Value = Convert.ToInt32(pl.PosTower.Fuel.HeIso.Qty);
+                    if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
+                        nud_Isotope.Value = Convert.ToInt32(pl.PosTower.Fuel.H2Iso.Qty);
+                    if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
+                        nud_Isotope.Value = Convert.ToInt32(pl.PosTower.Fuel.O2Iso.Qty);
+                    if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
+                        nud_Isotope.Value = Convert.ToInt32(pl.PosTower.Fuel.N2Iso.Qty);
+
+                    // Tower is linked to CORP Data
+                    td = PlugInData.API_D.GetAPIDataMemberForTowerID(pl.itemID);
+                    if (td != null)
                     {
-                        // OK, this is the PoS that was just selected. Need to work the display.
-                        // 1. Display current fuel levels for the POS & Run times for each type of fuel
-                        // 2. Calculate and Display Bay usage (percentage on bars)
-                        // 3. Display PoS module listing in listbox
-                        // 4. Display PoS modules on picture screen section
-                        rtb_POSMods.Clear();
-                        UpdateTower = false;
+                        if (td.allowCorp)
+                            cbx_AllowCorp.Checked = true;
+                        else
+                            cbx_AllowCorp.Checked = false;
 
-                        rtb_POSMods.AppendText("Modules at POS\n");
-                        rtb_POSMods.AppendText("---------------------------------\n");
-                        foreach (Module m in pl.Modules)
+                        if (td.allowAlliance)
+                            cbk_AllowAlly.Checked = true;
+                        else
+                            cbk_AllowAlly.Checked = false;
+
+                        if (td.standDrop > 0)
                         {
-                            qty = m.Qty;
-                            posItm = m.Name;
-                            if (qty > 1)
-                                posItm += "[" + qty + "]";
-                            posItm += " <" + m.State + ">\n";
-                            rtb_POSMods.AppendText(posItm);
+                            cbx_OnStdDrop.Checked = true;
+                            cbx_OnStdDrop.Text = "On Standing Drop < " + td.standDrop / 10 + " >";
                         }
-                        // Set up Default NUD Fuel Values to make calculations work correctly
-                        nud_EnrUran.Value = pl.PosTower.Fuel.EnrUran.Qty;
-                        nud_Oxy.Value = pl.PosTower.Fuel.Oxygen.Qty;
-                        nud_MechPart.Value = pl.PosTower.Fuel.MechPart.Qty;
-                        nud_Robotic.Value = pl.PosTower.Fuel.Robotics.Qty;
-                        nud_Coolant.Value = pl.PosTower.Fuel.Coolant.Qty;
-                        nud_HvyWtr.Value = pl.PosTower.Fuel.HvyWater.Qty;
-                        nud_LiqOzn.Value = pl.PosTower.Fuel.LiqOzone.Qty;
-                        nud_Charter.Value = pl.PosTower.Fuel.Charters.Qty;
-                        nud_Stront.Value = pl.PosTower.Fuel.Strontium.Qty;
-                        if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
-                            nud_Isotope.Value = pl.PosTower.Fuel.HeIso.Qty;
-                        if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
-                            nud_Isotope.Value = pl.PosTower.Fuel.H2Iso.Qty;
-                        if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
-                            nud_Isotope.Value = pl.PosTower.Fuel.O2Iso.Qty;
-                        if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
-                            nud_Isotope.Value = pl.PosTower.Fuel.N2Iso.Qty;
-
-                        // Tower is linked to CORP Data
-                        td = API_D.GetAPIDataMemberForTowerID(pl.itemID);
-                        if (td != null)
+                        else
                         {
-                            rtb_POSMods.AppendText("\n---------------------------------\n");
-                            rtb_POSMods.AppendText("General Tower Settings:\n");
-                            rtb_POSMods.AppendText("---------------------------------\n");
-                            rtb_POSMods.AppendText("Usage Flags : " + td.useFlag + "\n");
-                            rtb_POSMods.AppendText("Deploy Flags : " + td.depFlag + "\n");
-                            line = "Allow Corp Members : ";
-                            if (td.allowCorp)
-                                line += "[X]\n";
-                            else
-                                line += "[ ]\n";
-                            rtb_POSMods.AppendText(line);
-                            line = "Allow Alliance Members : ";
-                            if (td.allowAlliance)
-                                line += "[X]\n";
-                            else
-                                line += "[ ]\n";
-                            rtb_POSMods.AppendText(line);
-                            line = "Claim Sovereignty : ";
-                            if (td.claimSov)
-                                line += "[X]\n";
-                            else
-                                line += "[ ]\n";
-                            rtb_POSMods.AppendText(line);
-
-                            rtb_POSMods.AppendText("\n---------------------------------\n");
-                            rtb_POSMods.AppendText("Tower Combat Settings (Attack):\n");
-                            rtb_POSMods.AppendText("---------------------------------\n");
-                            line = "On Standing Drop : < " + td.standDrop + " >\n";
-                            rtb_POSMods.AppendText(line);
-                            line = "On Status Drop : ";
-                            if (td.onStatusDrop)
-                                line += "[X] < " + td.statusDrop + " >\n";
-                            else
-                                line += "[ ] < " + td.statusDrop + " >\n";
-                            rtb_POSMods.AppendText(line);
-                            line = "On Agression : ";
-                            if (td.onAgression)
-                                line += "[X]\n";
-                            else
-                                line += "[ ]\n";
-                            rtb_POSMods.AppendText(line);
-                            line = "On War Declared : ";
-                            if (td.onWar)
-                                line += "[X]\n";
-                            else
-                                line += "[ ]\n";
-                            rtb_POSMods.AppendText(line);
+                            cbx_OnStdDrop.Checked = false;
+                            cbx_OnStdDrop.Text = "On Standing Drop < 0 >";
                         }
 
-                        UpdateTower = true;
-                        UpdateTowerMonitorDisplay();
+
+                        if (td.onStatusDrop)
+                        {
+                            cbx_OnStatusDrop.Checked = true;
+                            cbx_OnStatusDrop.Text = "On Status Drop < " + td.statusDrop + " >";
+                        }
+                        else
+                        {
+                            cbx_OnStatusDrop.Checked = false;
+                            cbx_OnStatusDrop.Text = "On Status Drop < 0 >";
+                        }
+                        
+                        if (td.onAgression)
+                            cbx_OnAgression.Checked = true;
+                        else
+                            cbx_OnAgression.Checked = false;
+
+                        if (td.onWar)
+                            cbx_OnWar.Checked = true;
+                        else
+                            cbx_OnWar.Checked = false;
                     }
+
+                    UpdateTower = true;
+                    UpdateTowerMonitorDisplay();
                 }
             }
             if (!load)
             {
-                Config.data.MonSelIndex = Mon_dg_indx;
-                Config.data.SelPos = Mon_dg_Pos;
-                Config.SaveConfiguration();
+                PlugInData.Config.data.MonSelIndex = Mon_dg_indx;
+                PlugInData.Config.data.SelPos = Mon_dg_Pos;
+                PlugInData.Config.SaveConfiguration();
             }
         }
 
@@ -3019,333 +3349,327 @@ namespace EveHQ.PosManager
             FuelBay nud_fuel;
             decimal bay_p;
             decimal sov_mod, increment;
+            POS pl;
 
             if ((load) || (timeCheck))
                 return;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                foreach (POS pl in POSList.Designs)
+                if (PlugInData.PDL.Designs.ContainsKey(selName))
                 {
-                    if (selName == pl.Name)
-                    {
-                        nud_fuel = new FuelBay(pl.PosTower.Fuel);
-                        nud_fuel.EnrUran.Qty = nud_EnrUran.Value;
-                        nud_fuel.Oxygen.Qty = nud_Oxy.Value;
-                        nud_fuel.MechPart.Qty = nud_MechPart.Value;
-                        nud_fuel.Robotics.Qty = nud_Robotic.Value;
-                        nud_fuel.Coolant.Qty = nud_Coolant.Value;
-                        nud_fuel.HvyWater.Qty = nud_HvyWtr.Value;
-                        nud_fuel.LiqOzone.Qty = nud_LiqOzn.Value;
-                        nud_fuel.Charters.Qty = nud_Charter.Value;
-                        nud_fuel.HeIso.Qty = nud_Isotope.Value;
-                        nud_fuel.H2Iso.Qty = nud_Isotope.Value;
+                    pl = PlugInData.PDL.Designs[selName];
+                    nud_fuel = new FuelBay(pl.PosTower.Fuel);
+                    nud_fuel.EnrUran.Qty = nud_EnrUran.Value;
+                    nud_fuel.Oxygen.Qty = nud_Oxy.Value;
+                    nud_fuel.MechPart.Qty = nud_MechPart.Value;
+                    nud_fuel.Robotics.Qty = nud_Robotic.Value;
+                    nud_fuel.Coolant.Qty = nud_Coolant.Value;
+                    nud_fuel.HvyWater.Qty = nud_HvyWtr.Value;
+                    nud_fuel.LiqOzone.Qty = nud_LiqOzn.Value;
+                    nud_fuel.Charters.Qty = nud_Charter.Value;
+                    if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
                         nud_fuel.N2Iso.Qty = nud_Isotope.Value;
+                    else if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
+                        nud_fuel.HeIso.Qty = nud_Isotope.Value;
+                    else if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
+                        nud_fuel.H2Iso.Qty = nud_Isotope.Value;
+                    else if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
                         nud_fuel.O2Iso.Qty = nud_Isotope.Value;
-                        nud_fuel.Strontium.Qty = nud_Stront.Value;
+                    nud_fuel.Strontium.Qty = nud_Stront.Value;
 
-                        pl.CalculatePOSAdjustRunTime(Config.data.FuelCosts, nud_fuel);
+                    pl.CalculatePOSAdjustRunTime(PlugInData.Config.data.FuelCosts, nud_fuel);
 
-                        sov_mod = pl.GetSovMultiple();
+                    sov_mod = pl.GetSovMultiple();
 
-                        // Enr Uranium
-                        l_C_EnUr.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.EnrUran.Qty);
-                        l_R_EnUr.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.EnrUran.RunTime);
-                        increment = pl.PosTower.Fuel.EnrUran.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                        nud_EnrUran.Increment = Convert.ToDecimal(increment);
-                        l_QH_EnUr.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_EnUr.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.EnrUran.RunTime);
-                        if (pl.PosTower.A_Fuel.EnrUran.RunTime < pl.PosTower.Fuel.EnrUran.RunTime)
-                            l_AR_EnUr.ForeColor = Color.Red;
-                        else
-                            l_AR_EnUr.ForeColor = Color.Green;
-                        if (nud_EnrUran.Value < pl.PosTower.Fuel.EnrUran.Qty)
-                            nud_EnrUran.ForeColor = Color.Red;
-                        else if (nud_EnrUran.Value > pl.PosTower.Fuel.EnrUran.Qty)
-                            nud_EnrUran.ForeColor = Color.Green;
-                        else
-                            nud_EnrUran.ForeColor = Color.Blue;
+                    // Enr Uranium
+                    l_C_EnUr.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.EnrUran.Qty);
+                    l_R_EnUr.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.EnrUran.RunTime);
+                    increment = pl.PosTower.Fuel.EnrUran.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                    nud_EnrUran.Increment = Convert.ToInt32(increment);
+                    l_QH_EnUr.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_EnUr.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.EnrUran.RunTime);
+                    if (pl.PosTower.A_Fuel.EnrUran.RunTime < pl.PosTower.Fuel.EnrUran.RunTime)
+                        l_AR_EnUr.ForeColor = Color.Red;
+                    else
+                        l_AR_EnUr.ForeColor = Color.Green;
+                    if (nud_EnrUran.Value < pl.PosTower.Fuel.EnrUran.Qty)
+                        nud_EnrUran.ForeColor = Color.Red;
+                    else if (nud_EnrUran.Value > pl.PosTower.Fuel.EnrUran.Qty)
+                        nud_EnrUran.ForeColor = Color.Green;
+                    else
+                        nud_EnrUran.ForeColor = Color.Blue;
 
-                        // Oxygen
-                        l_C_Oxyg.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Oxygen.Qty);
-                        l_R_Oxyg.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Oxygen.RunTime);
-                        increment = pl.PosTower.Fuel.Oxygen.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                        nud_Oxy.Increment = Convert.ToDecimal(increment);
-                        l_QH_Oxyg.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_Oxyg.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Oxygen.RunTime);
-                        if (pl.PosTower.A_Fuel.Oxygen.RunTime < pl.PosTower.Fuel.Oxygen.RunTime)
-                            l_AR_Oxyg.ForeColor = Color.Red;
-                        else
-                            l_AR_Oxyg.ForeColor = Color.Green;
-                        if (nud_Oxy.Value > pl.PosTower.Fuel.Oxygen.Qty)
-                            nud_Oxy.ForeColor = Color.Green;
-                        else if (nud_Oxy.Value < pl.PosTower.Fuel.Oxygen.Qty)
-                            nud_Oxy.ForeColor = Color.Red;
-                        else
-                            nud_Oxy.ForeColor = Color.Blue;
+                    // Oxygen
+                    l_C_Oxyg.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Oxygen.Qty);
+                    l_R_Oxyg.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.Oxygen.RunTime);
+                    increment = pl.PosTower.Fuel.Oxygen.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                    nud_Oxy.Increment = Convert.ToInt32(increment);
+                    l_QH_Oxyg.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_Oxyg.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Oxygen.RunTime);
+                    if (pl.PosTower.A_Fuel.Oxygen.RunTime < pl.PosTower.Fuel.Oxygen.RunTime)
+                        l_AR_Oxyg.ForeColor = Color.Red;
+                    else
+                        l_AR_Oxyg.ForeColor = Color.Green;
+                    if (nud_Oxy.Value > pl.PosTower.Fuel.Oxygen.Qty)
+                        nud_Oxy.ForeColor = Color.Green;
+                    else if (nud_Oxy.Value < pl.PosTower.Fuel.Oxygen.Qty)
+                        nud_Oxy.ForeColor = Color.Red;
+                    else
+                        nud_Oxy.ForeColor = Color.Blue;
 
-                        // Mechanical Parts
-                        l_C_McP.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.MechPart.Qty);
-                        l_R_McP.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.MechPart.RunTime);
-                        increment = pl.PosTower.Fuel.MechPart.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                        nud_MechPart.Increment = Convert.ToDecimal(increment);
-                        l_QH_McP.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_McP.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.MechPart.RunTime);
-                        if (pl.PosTower.A_Fuel.MechPart.RunTime < pl.PosTower.Fuel.MechPart.RunTime)
-                            l_AR_McP.ForeColor = Color.Red;
-                        else
-                            l_AR_McP.ForeColor = Color.Green;
-                        if (nud_MechPart.Value > pl.PosTower.Fuel.MechPart.Qty)
-                            nud_MechPart.ForeColor = Color.Green;
-                        else if (nud_MechPart.Value < pl.PosTower.Fuel.MechPart.Qty)
-                            nud_MechPart.ForeColor = Color.Red;
-                        else
-                            nud_MechPart.ForeColor = Color.Blue;
+                    // Mechanical Parts
+                    l_C_McP.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.MechPart.Qty);
+                    l_R_McP.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.MechPart.RunTime);
+                    increment = pl.PosTower.Fuel.MechPart.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                    nud_MechPart.Increment = Convert.ToInt32(increment);
+                    l_QH_McP.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_McP.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.MechPart.RunTime);
+                    if (pl.PosTower.A_Fuel.MechPart.RunTime < pl.PosTower.Fuel.MechPart.RunTime)
+                        l_AR_McP.ForeColor = Color.Red;
+                    else
+                        l_AR_McP.ForeColor = Color.Green;
+                    if (nud_MechPart.Value > pl.PosTower.Fuel.MechPart.Qty)
+                        nud_MechPart.ForeColor = Color.Green;
+                    else if (nud_MechPart.Value < pl.PosTower.Fuel.MechPart.Qty)
+                        nud_MechPart.ForeColor = Color.Red;
+                    else
+                        nud_MechPart.ForeColor = Color.Blue;
 
-                        // Coolant
-                        l_C_Cool.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Coolant.Qty);
-                        l_R_Cool.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Coolant.RunTime);
-                        increment = pl.PosTower.Fuel.Coolant.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                        nud_Coolant.Increment = Convert.ToDecimal(increment);
-                        l_QH_Cool.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_Cool.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Coolant.RunTime);
-                        if (pl.PosTower.A_Fuel.Coolant.RunTime < pl.PosTower.Fuel.Coolant.RunTime)
-                            l_AR_Cool.ForeColor = Color.Red;
-                        else
-                            l_AR_Cool.ForeColor = Color.Green;
-                        if (nud_Coolant.Value > pl.PosTower.Fuel.Coolant.Qty)
-                            nud_Coolant.ForeColor = Color.Green;
-                        else if (nud_Coolant.Value < pl.PosTower.Fuel.Coolant.Qty)
-                            nud_Coolant.ForeColor = Color.Red;
-                        else
-                            nud_Coolant.ForeColor = Color.Blue;
+                    // Coolant
+                    l_C_Cool.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Coolant.Qty);
+                    l_R_Cool.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.Coolant.RunTime);
+                    increment = pl.PosTower.Fuel.Coolant.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                    nud_Coolant.Increment = Convert.ToInt32(increment);
+                    l_QH_Cool.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_Cool.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Coolant.RunTime);
+                    if (pl.PosTower.A_Fuel.Coolant.RunTime < pl.PosTower.Fuel.Coolant.RunTime)
+                        l_AR_Cool.ForeColor = Color.Red;
+                    else
+                        l_AR_Cool.ForeColor = Color.Green;
+                    if (nud_Coolant.Value > pl.PosTower.Fuel.Coolant.Qty)
+                        nud_Coolant.ForeColor = Color.Green;
+                    else if (nud_Coolant.Value < pl.PosTower.Fuel.Coolant.Qty)
+                        nud_Coolant.ForeColor = Color.Red;
+                    else
+                        nud_Coolant.ForeColor = Color.Blue;
 
-                        // Robotics
-                        l_C_Robt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Robotics.Qty);
-                        l_R_Robt.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Robotics.RunTime);
-                        increment = pl.PosTower.Fuel.Robotics.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                        nud_Robotic.Increment = Convert.ToDecimal(increment);
-                        l_QH_Robt.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_Robt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Robotics.RunTime);
-                        if (pl.PosTower.A_Fuel.Robotics.RunTime < pl.PosTower.Fuel.Robotics.RunTime)
-                            l_AR_Robt.ForeColor = Color.Red;
-                        else
-                            l_AR_Robt.ForeColor = Color.Green;
-                        if (nud_Robotic.Value > pl.PosTower.Fuel.Robotics.Qty)
-                            nud_Robotic.ForeColor = Color.Green;
-                        else if (nud_Robotic.Value < pl.PosTower.Fuel.Robotics.Qty)
-                            nud_Robotic.ForeColor = Color.Red;
-                        else
-                            nud_Robotic.ForeColor = Color.Blue;
+                    // Robotics
+                    l_C_Robt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Robotics.Qty);
+                    l_R_Robt.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.Robotics.RunTime);
+                    increment = pl.PosTower.Fuel.Robotics.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                    nud_Robotic.Increment = Convert.ToInt32(increment);
+                    l_QH_Robt.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_Robt.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Robotics.RunTime);
+                    if (pl.PosTower.A_Fuel.Robotics.RunTime < pl.PosTower.Fuel.Robotics.RunTime)
+                        l_AR_Robt.ForeColor = Color.Red;
+                    else
+                        l_AR_Robt.ForeColor = Color.Green;
+                    if (nud_Robotic.Value > pl.PosTower.Fuel.Robotics.Qty)
+                        nud_Robotic.ForeColor = Color.Green;
+                    else if (nud_Robotic.Value < pl.PosTower.Fuel.Robotics.Qty)
+                        nud_Robotic.ForeColor = Color.Red;
+                    else
+                        nud_Robotic.ForeColor = Color.Blue;
 
-                        // Faction Charters
-                        l_C_Chrt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Charters.Qty);
-                        l_R_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Charters.RunTime);
-                        increment = pl.PosTower.Fuel.Charters.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                        nud_Charter.Increment = Convert.ToDecimal(increment);
-                        l_QH_Chrt.Text = String.Format("{0:#,0.#}", increment);
-                        if (!pl.UseChart)
-                        {
-                            l_AR_Chrt.ForeColor = Color.Blue;
-                            l_AR_Chrt.Text = "NA";
-                        }
-                        else
-                        {
-                            l_AR_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Charters.RunTime);
-                            if (pl.PosTower.A_Fuel.Charters.RunTime < pl.PosTower.Fuel.Charters.RunTime)
-                                l_AR_Chrt.ForeColor = Color.Red;
-                            else
-                                l_AR_Chrt.ForeColor = Color.Green;
-                        }
-                        if (nud_Charter.Value > pl.PosTower.Fuel.Charters.Qty)
-                            nud_Charter.ForeColor = Color.Green;
-                        if (nud_Charter.Value < pl.PosTower.Fuel.Charters.Qty)
-                            nud_Charter.ForeColor = Color.Red;
-                        else
-                            nud_Charter.ForeColor = Color.Blue;
-
-                        // Strontium
-                        l_C_Strn.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Strontium.Qty);
-                        l_R_Strn.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Strontium.RunTime);
-                        increment = pl.PosTower.Fuel.Strontium.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                        nud_Stront.Increment = Convert.ToDecimal(increment);
-                        l_QH_Strn.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_Strn.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Strontium.RunTime);
-                        if (pl.PosTower.A_Fuel.Strontium.RunTime < pl.PosTower.Fuel.Strontium.RunTime)
-                            l_AR_Strn.ForeColor = Color.Red;
-                        else
-                            l_AR_Strn.ForeColor = Color.Green;
-                        if (nud_Stront.Value > pl.PosTower.Fuel.Strontium.Qty)
-                            nud_Stront.ForeColor = Color.Green;
-                        else if (nud_Stront.Value < pl.PosTower.Fuel.Strontium.Qty)
-                            nud_Stront.ForeColor = Color.Red;
-                        else
-                            nud_Stront.ForeColor = Color.Blue;
-
-                        // Heavy Water
-                        l_C_HvyW.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HvyWater.Qty);
-                        l_R_HvyW.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.HvyWater.RunTime);
-                        increment = pl.PosTower.Fuel.HvyWater.GetFuelQtyForPeriod(sov_mod, pl.PosTower.CPU, pl.PosTower.CPU_Used);
-                        nud_HvyWtr.Increment = increment;
-                        l_QH_HvyW.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_HvyW.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HvyWater.RunTime);
-                        if (pl.PosTower.A_Fuel.HvyWater.RunTime < pl.PosTower.Fuel.HvyWater.RunTime)
-                            l_AR_HvyW.ForeColor = Color.Red;
-                        else
-                            l_AR_HvyW.ForeColor = Color.Green;
-                        if (nud_HvyWtr.Value > pl.PosTower.Fuel.HvyWater.Qty)
-                            nud_HvyWtr.ForeColor = Color.Green;
-                        else if (nud_HvyWtr.Value < pl.PosTower.Fuel.HvyWater.Qty)
-                            nud_HvyWtr.ForeColor = Color.Red;
-                        else
-                            nud_HvyWtr.ForeColor = Color.Blue;
-
-                        // Liquid Ozone
-                        l_C_LiqO.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.LiqOzone.Qty);
-                        l_R_LiqO.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.LiqOzone.RunTime);
-                        increment = pl.PosTower.Fuel.LiqOzone.GetFuelQtyForPeriod(sov_mod, pl.PosTower.Power, pl.PosTower.Power_Used);
-                        nud_LiqOzn.Increment = increment;
-                        l_QH_LiqO.Text = String.Format("{0:#,0.#}", increment);
-                        l_AR_LiqO.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.LiqOzone.RunTime);
-                        if (pl.PosTower.A_Fuel.LiqOzone.RunTime < pl.PosTower.Fuel.LiqOzone.RunTime)
-                            l_AR_LiqO.ForeColor = Color.Red;
-                        else
-                            l_AR_LiqO.ForeColor = Color.Green;
-                        if (nud_LiqOzn.Value > pl.PosTower.Fuel.LiqOzone.Qty)
-                            nud_LiqOzn.ForeColor = Color.Green;
-                        else if (nud_LiqOzn.Value < pl.PosTower.Fuel.LiqOzone.Qty)
-                            nud_LiqOzn.ForeColor = Color.Red;
-                        else
-                            nud_LiqOzn.ForeColor = Color.Blue;
-
-                        // Isotopes
-                        if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
-                        {
-                            l_M_IsoType.Text = "N2";
-                            l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.N2Iso.Qty);
-                            l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.N2Iso.RunTime);
-                            increment = pl.PosTower.Fuel.N2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                            nud_Isotope.Increment = Convert.ToDecimal(increment);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
-                            l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.N2Iso.RunTime);
-                            if (pl.PosTower.A_Fuel.N2Iso.RunTime < pl.PosTower.Fuel.N2Iso.RunTime)
-                                l_AR_Iso.ForeColor = Color.Red;
-                            else
-                                l_AR_Iso.ForeColor = Color.Green;
-                            if (nud_Isotope.Value > pl.PosTower.Fuel.N2Iso.Qty)
-                                nud_Isotope.ForeColor = Color.Green;
-                            else if (nud_Isotope.Value < pl.PosTower.Fuel.N2Iso.Qty)
-                                nud_Isotope.ForeColor = Color.Red;
-                            else
-                                nud_Isotope.ForeColor = Color.Blue;
-                        }
-                        else if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
-                        {
-                            l_M_IsoType.Text = "H2";
-                            l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.H2Iso.Qty);
-                            l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.H2Iso.RunTime);
-                            increment = pl.PosTower.Fuel.H2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                            nud_Isotope.Increment = Convert.ToDecimal(increment);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
-                            l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.H2Iso.RunTime);
-                            if (pl.PosTower.A_Fuel.H2Iso.RunTime < pl.PosTower.Fuel.H2Iso.RunTime)
-                                l_AR_Iso.ForeColor = Color.Red;
-                            else
-                                l_AR_Iso.ForeColor = Color.Green;
-                            if (nud_Isotope.Value > pl.PosTower.Fuel.H2Iso.Qty)
-                                nud_Isotope.ForeColor = Color.Green;
-                            else if (nud_Isotope.Value < pl.PosTower.Fuel.H2Iso.Qty)
-                                nud_Isotope.ForeColor = Color.Red;
-                            else
-                                nud_Isotope.ForeColor = Color.Blue;
-                        }
-                        else if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
-                        {
-                            l_M_IsoType.Text = "O2";
-                            l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.O2Iso.Qty);
-                            l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.O2Iso.RunTime);
-                            increment = pl.PosTower.Fuel.O2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                            nud_Isotope.Increment = Convert.ToDecimal(increment);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
-                            l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.O2Iso.RunTime);
-                            if (pl.PosTower.A_Fuel.O2Iso.RunTime < pl.PosTower.Fuel.O2Iso.RunTime)
-                                l_AR_Iso.ForeColor = Color.Red;
-                            else
-                                l_AR_Iso.ForeColor = Color.Green;
-                            if (nud_Isotope.Value > pl.PosTower.Fuel.O2Iso.Qty)
-                                nud_Isotope.ForeColor = Color.Green;
-                            else if (nud_Isotope.Value < pl.PosTower.Fuel.O2Iso.Qty)
-                                nud_Isotope.ForeColor = Color.Red;
-                            else
-                                nud_Isotope.ForeColor = Color.Blue;
-                        }
-                        else if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
-                        {
-                            l_M_IsoType.Text = "He";
-                            l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HeIso.Qty);
-                            l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.HeIso.RunTime);
-                            increment = pl.PosTower.Fuel.HeIso.GetFuelQtyForPeriod(sov_mod, 1, 1);
-                            nud_Isotope.Increment = Convert.ToDecimal(increment);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
-                            l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HeIso.RunTime);
-                            if (pl.PosTower.A_Fuel.HeIso.RunTime < pl.PosTower.Fuel.HeIso.RunTime)
-                                l_AR_Iso.ForeColor = Color.Red;
-                            else
-                                l_AR_Iso.ForeColor = Color.Green;
-                            if (nud_Isotope.Value > pl.PosTower.Fuel.HeIso.Qty)
-                                nud_Isotope.ForeColor = Color.Green;
-                            else if (nud_Isotope.Value < pl.PosTower.Fuel.HeIso.Qty)
-                                nud_Isotope.ForeColor = Color.Red;
-                            else
-                                nud_Isotope.ForeColor = Color.Blue;
-                        }
-                        else
-                        {
-                            l_M_IsoType.Text = "";
-                            l_C_Iso.Text = "0";
-                            l_R_Iso.Text = ConvertHoursToTextDisplay(0);
-                            l_QH_Iso.Text = "0";
-                            l_AR_Iso.Text = ConvertHoursToTextDisplay(0);
-                            l_AR_Iso.ForeColor = Color.Green;
-                            nud_Isotope.Increment = 0;
-                            nud_Isotope.ForeColor = Color.Blue;
-                        }
-
-                        bay_p = ComputeBayPercentage(pl.PosTower.A_Fuel.FuelUsed, pl.PosTower.A_Fuel.FuelCap);
-                        pb_FuelBayFill.Value = Convert.ToInt32(bay_p);
-                        pb_FuelBayFill.TextOverlay = pl.PosTower.A_Fuel.FuelUsed + " / " + pl.PosTower.A_Fuel.FuelCap;
-
-                        bay_p = ComputeBayPercentage(pl.PosTower.A_Fuel.StrontUsed, pl.PosTower.A_Fuel.StrontCap);
-                        pb_StrontBayFill.Value = Convert.ToInt32(bay_p);
-                        pb_StrontBayFill.TextOverlay = pl.PosTower.A_Fuel.StrontUsed + " / " + pl.PosTower.A_Fuel.StrontCap;
-
-                        break;
+                    // Faction Charters
+                    l_C_Chrt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Charters.Qty);
+                    l_R_Chrt.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.Charters.RunTime);
+                    increment = pl.PosTower.Fuel.Charters.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                    nud_Charter.Increment = Convert.ToInt32(increment);
+                    l_QH_Chrt.Text = String.Format("{0:#,0.#}", increment);
+                    if (!pl.UseChart)
+                    {
+                        l_AR_Chrt.ForeColor = Color.Blue;
+                        l_AR_Chrt.Text = "NA";
                     }
+                    else
+                    {
+                        l_AR_Chrt.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Charters.RunTime);
+                        if (pl.PosTower.A_Fuel.Charters.RunTime < pl.PosTower.Fuel.Charters.RunTime)
+                            l_AR_Chrt.ForeColor = Color.Red;
+                        else
+                            l_AR_Chrt.ForeColor = Color.Green;
+                    }
+                    if (nud_Charter.Value > pl.PosTower.Fuel.Charters.Qty)
+                        nud_Charter.ForeColor = Color.Green;
+                    if (nud_Charter.Value < pl.PosTower.Fuel.Charters.Qty)
+                        nud_Charter.ForeColor = Color.Red;
+                    else
+                        nud_Charter.ForeColor = Color.Blue;
+
+                    // Strontium
+                    l_C_Strn.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Strontium.Qty);
+                    l_R_Strn.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.Strontium.RunTime);
+                    increment = pl.PosTower.Fuel.Strontium.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                    nud_Stront.Increment = Convert.ToInt32(increment);
+                    l_QH_Strn.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_Strn.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Strontium.RunTime);
+                    if (pl.PosTower.A_Fuel.Strontium.RunTime < pl.PosTower.Fuel.Strontium.RunTime)
+                        l_AR_Strn.ForeColor = Color.Red;
+                    else
+                        l_AR_Strn.ForeColor = Color.Green;
+                    if (nud_Stront.Value > pl.PosTower.Fuel.Strontium.Qty)
+                        nud_Stront.ForeColor = Color.Green;
+                    else if (nud_Stront.Value < pl.PosTower.Fuel.Strontium.Qty)
+                        nud_Stront.ForeColor = Color.Red;
+                    else
+                        nud_Stront.ForeColor = Color.Blue;
+
+                    // Heavy Water
+                    l_C_HvyW.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HvyWater.Qty);
+                    l_R_HvyW.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.HvyWater.RunTime);
+                    increment = pl.PosTower.Fuel.HvyWater.GetFuelQtyForPeriod(sov_mod, pl.PosTower.CPU, pl.PosTower.CPU_Used);
+                    nud_HvyWtr.Increment = Convert.ToInt32(increment);
+                    l_QH_HvyW.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_HvyW.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HvyWater.RunTime);
+                    if (pl.PosTower.A_Fuel.HvyWater.RunTime < pl.PosTower.Fuel.HvyWater.RunTime)
+                        l_AR_HvyW.ForeColor = Color.Red;
+                    else
+                        l_AR_HvyW.ForeColor = Color.Green;
+                    if (nud_HvyWtr.Value > pl.PosTower.Fuel.HvyWater.Qty)
+                        nud_HvyWtr.ForeColor = Color.Green;
+                    else if (nud_HvyWtr.Value < pl.PosTower.Fuel.HvyWater.Qty)
+                        nud_HvyWtr.ForeColor = Color.Red;
+                    else
+                        nud_HvyWtr.ForeColor = Color.Blue;
+
+                    // Liquid Ozone
+                    l_C_LiqO.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.LiqOzone.Qty);
+                    l_R_LiqO.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.LiqOzone.RunTime);
+                    increment = pl.PosTower.Fuel.LiqOzone.GetFuelQtyForPeriod(sov_mod, pl.PosTower.Power, pl.PosTower.Power_Used);
+                    nud_LiqOzn.Increment = Convert.ToInt32(increment);
+                    l_QH_LiqO.Text = String.Format("{0:#,0.#}", increment);
+                    l_AR_LiqO.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.LiqOzone.RunTime);
+                    if (pl.PosTower.A_Fuel.LiqOzone.RunTime < pl.PosTower.Fuel.LiqOzone.RunTime)
+                        l_AR_LiqO.ForeColor = Color.Red;
+                    else
+                        l_AR_LiqO.ForeColor = Color.Green;
+                    if (nud_LiqOzn.Value > pl.PosTower.Fuel.LiqOzone.Qty)
+                        nud_LiqOzn.ForeColor = Color.Green;
+                    else if (nud_LiqOzn.Value < pl.PosTower.Fuel.LiqOzone.Qty)
+                        nud_LiqOzn.ForeColor = Color.Red;
+                    else
+                        nud_LiqOzn.ForeColor = Color.Blue;
+
+                    // Isotopes
+                    if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
+                    {
+                        l_M_IsoType.Text = "N2";
+                        l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.N2Iso.Qty);
+                        l_R_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.N2Iso.RunTime);
+                        increment = pl.PosTower.Fuel.N2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                        nud_Isotope.Increment = Convert.ToInt32(increment);
+                        l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
+                        l_AR_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.N2Iso.RunTime);
+                        if (pl.PosTower.A_Fuel.N2Iso.RunTime < pl.PosTower.Fuel.N2Iso.RunTime)
+                            l_AR_Iso.ForeColor = Color.Red;
+                        else
+                            l_AR_Iso.ForeColor = Color.Green;
+                        if (nud_Isotope.Value > pl.PosTower.Fuel.N2Iso.Qty)
+                            nud_Isotope.ForeColor = Color.Green;
+                        else if (nud_Isotope.Value < pl.PosTower.Fuel.N2Iso.Qty)
+                            nud_Isotope.ForeColor = Color.Red;
+                        else
+                            nud_Isotope.ForeColor = Color.Blue;
+                    }
+                    else if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
+                    {
+                        l_M_IsoType.Text = "H2";
+                        l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.H2Iso.Qty);
+                        l_R_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.H2Iso.RunTime);
+                        increment = pl.PosTower.Fuel.H2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                        nud_Isotope.Increment = Convert.ToInt32(increment);
+                        l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
+                        l_AR_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.H2Iso.RunTime);
+                        if (pl.PosTower.A_Fuel.H2Iso.RunTime < pl.PosTower.Fuel.H2Iso.RunTime)
+                            l_AR_Iso.ForeColor = Color.Red;
+                        else
+                            l_AR_Iso.ForeColor = Color.Green;
+                        if (nud_Isotope.Value > pl.PosTower.Fuel.H2Iso.Qty)
+                            nud_Isotope.ForeColor = Color.Green;
+                        else if (nud_Isotope.Value < pl.PosTower.Fuel.H2Iso.Qty)
+                            nud_Isotope.ForeColor = Color.Red;
+                        else
+                            nud_Isotope.ForeColor = Color.Blue;
+                    }
+                    else if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
+                    {
+                        l_M_IsoType.Text = "O2";
+                        l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.O2Iso.Qty);
+                        l_R_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.O2Iso.RunTime);
+                        increment = pl.PosTower.Fuel.O2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                        nud_Isotope.Increment = Convert.ToInt32(increment);
+                        l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
+                        l_AR_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.O2Iso.RunTime);
+                        if (pl.PosTower.A_Fuel.O2Iso.RunTime < pl.PosTower.Fuel.O2Iso.RunTime)
+                            l_AR_Iso.ForeColor = Color.Red;
+                        else
+                            l_AR_Iso.ForeColor = Color.Green;
+                        if (nud_Isotope.Value > pl.PosTower.Fuel.O2Iso.Qty)
+                            nud_Isotope.ForeColor = Color.Green;
+                        else if (nud_Isotope.Value < pl.PosTower.Fuel.O2Iso.Qty)
+                            nud_Isotope.ForeColor = Color.Red;
+                        else
+                            nud_Isotope.ForeColor = Color.Blue;
+                    }
+                    else if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
+                    {
+                        l_M_IsoType.Text = "He";
+                        l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HeIso.Qty);
+                        l_R_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.Fuel.HeIso.RunTime);
+                        increment = pl.PosTower.Fuel.HeIso.GetFuelQtyForPeriod(sov_mod, 1, 1);
+                        nud_Isotope.Increment = Convert.ToInt32(increment);
+                        l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
+                        l_AR_Iso.Text = PlugInData.ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HeIso.RunTime);
+                        if (pl.PosTower.A_Fuel.HeIso.RunTime < pl.PosTower.Fuel.HeIso.RunTime)
+                            l_AR_Iso.ForeColor = Color.Red;
+                        else
+                            l_AR_Iso.ForeColor = Color.Green;
+                        if (nud_Isotope.Value > pl.PosTower.Fuel.HeIso.Qty)
+                            nud_Isotope.ForeColor = Color.Green;
+                        else if (nud_Isotope.Value < pl.PosTower.Fuel.HeIso.Qty)
+                            nud_Isotope.ForeColor = Color.Red;
+                        else
+                            nud_Isotope.ForeColor = Color.Blue;
+                    }
+                    else
+                    {
+                        l_M_IsoType.Text = "";
+                        l_C_Iso.Text = "0";
+                        l_R_Iso.Text = PlugInData.ConvertHoursToTextDisplay(0);
+                        l_QH_Iso.Text = "0";
+                        l_AR_Iso.Text = PlugInData.ConvertHoursToTextDisplay(0);
+                        l_AR_Iso.ForeColor = Color.Green;
+                        nud_Isotope.Increment = 0;
+                        nud_Isotope.ForeColor = Color.Blue;
+                    }
+
+                    bay_p = ComputeBayPercentage(pl.PosTower.A_Fuel.FuelUsed, pl.PosTower.A_Fuel.FuelCap);
+                    pb_FuelBayFill.Value = Convert.ToInt32(bay_p);
+                    pb_FuelBayFill.Text = pl.PosTower.A_Fuel.FuelUsed + " / " + pl.PosTower.A_Fuel.FuelCap;
+
+                    bay_p = ComputeBayPercentage(pl.PosTower.A_Fuel.StrontUsed, pl.PosTower.A_Fuel.StrontCap);
+                    pb_StrontBayFill.Value = Convert.ToInt32(bay_p);
+                    pb_StrontBayFill.Text = pl.PosTower.A_Fuel.StrontUsed + " / " + pl.PosTower.A_Fuel.StrontCap;
                 }
             }
         }
 
-        private void UdateMonitorInformation(object sender, EventArgs e)
+        public void DataUpdateInProgress()
         {
             tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            if (!bgw_APIUpdate.IsBusy)
-            {
-                tsb_UpdateAPI.Enabled = false;
-                bgw_APIUpdate.RunWorkerAsync();
-            }
+            b_UpdateAPI.Enabled = false;
         }
-
+       
         private void RunCalculationsWithUpdatedInformation()
         {
             timeCheck = true;
 
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-
-            if (POSList.CalculatePOSReactions())
-                SetReactionValuesAndUpdateDisplay();
-
+            SetReactionValuesAndUpdateDisplay();
             PopulateMonitoredPoSDisplay();
-            if (Mon_dg_indx >= 0)
+
+            if ((Mon_dg_indx >= 0) && (dg_MonitoredTowers.Rows.Count >= Mon_dg_indx))
             {
                 dg_MonitoredTowers.CurrentCell = dg_MonitoredTowers.Rows[Mon_dg_indx].Cells[(int)MonDG.Name];
                 Object o = new Object();
@@ -3353,7 +3677,7 @@ namespace EveHQ.PosManager
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
 
-            bgw_SendNotify.RunWorkerAsync();
+            //PlugInData.bgw_SendNotify.RunWorkerAsync();
 
             timeCheck = false;
         }
@@ -3364,167 +3688,262 @@ namespace EveHQ.PosManager
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                foreach (POS pl in POSList.Designs)
+                if (PlugInData.PDL.Designs.ContainsKey(selName))
                 {
-                    if (selName == pl.Name)
-                    {
-                        pl.PosTower.State = state;
+                    PlugInData.PDL.Designs[selName].PosTower.State = state;
 
-                        if (state == "Reinforced")
-                            pl.Stront_TS = DateTime.Now;
-                        else
-                            pl.Fuel_TS = DateTime.Now;
-                    }
+                    if (state == "Reinforced")
+                        PlugInData.PDL.Designs[selName].Stront_TS = DateTime.Now;
+                    else
+                        PlugInData.PDL.Designs[selName].Fuel_TS = DateTime.Now;
                 }
             }
 
             update = false;
         }
 
-        private void dg_MonitoredTowers_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //if (e.ColumnIndex == 18)
-            //{
-            //    foreach (POS pl in POSList.Designs)
-            //    {
-            //        if (selName == pl.Name)
-            //        {
-            //            if (!(bool)dg_MonitoredTowers.Rows[e.RowIndex].Cells[e.ColumnIndex].Value)
-            //            {
-            //                dg_MonitoredTowers.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = true;
-            //                pl.UseChart = true;
-            //            }
-            //            else
-            //            {
-            //                dg_MonitoredTowers.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = false;
-            //                pl.UseChart = false;
-            //            }
-            //            break;
-            //        }
-            //    }
-            //    POSList.SaveDesignListing();
-            //}
-        }
+        #endregion
 
-        private void CheckAndSendNotificationIfActive()
-        {
-            decimal ntfyHours, freqHrs;
-            decimal ReactTime = 0;
-            ArrayList ReactRet;
-            DateTime cts;
-            TimeSpan diff;
 
-            if (mailSendErr)
+        #region Button and Menu Controls
+
+        private void b_ImportTower_Click(object sender, EventArgs e)
+        {
+            string line;
+            StreamReader SR;
+            string fname;
+            string[] kv;
+            POS it = new POS();
+            Module im = new Module();
+            long ID;
+
+            ofd_Import.InitialDirectory = PlugInData.PosExport_Path;
+            ofd_Import.Filter = "POS (*.pos)|*.pos";
+            ofd_Import.FilterIndex = 0;
+            DialogResult DR = ofd_Import.ShowDialog();
+
+            if (DR == DialogResult.Cancel)
                 return;
 
-            cts = DateTime.Now;
+            fname = ofd_Import.FileName;
 
-            foreach (POS p in POSList.Designs)
+            SR = File.OpenText(fname);
+
+            while ((line = SR.ReadLine()) != null)
             {
-                foreach (PosNotify pn in NL.NotifyList)
+                // Read in each line, and the pull in the individual data pieces
+                kv = line.Split(':');
+                switch (kv[0])
                 {
-                    if (mailSendErr)
-                        return;
-
-                    if (p.Name == pn.Tower)
-                    {
-                        if (pn.Frequency == "Days")
-                        {
-                            freqHrs = pn.FreqQty * 24;
-                        }
+                    case "TNAME":
+                        it.Name = kv[1];
+                        break;
+                    case "TSYST":
+                        it.System = kv[1];
+                        break;
+                    case "TSOVL":
+                        it.SovLevel = Convert.ToInt32(kv[1]);
+                        break;
+                    case "TMOON":
+                        it.Moon = kv[1];
+                        break;
+                    case "TTOWR":
+                        ID = Convert.ToInt32(kv[1]);
+                        it.PosTower = new Tower(PlugInData.TL.Towers[ID]);
+                        break;
+                    case "TTOWS":
+                        it.PosTower.State = kv[1];
+                        break;
+                    case "TMODT":
+                        ID = Convert.ToInt32(kv[1]);
+                        im = new Module(PlugInData.ML.Modules[ID]);
+                        break;
+                    case "TMODS":
+                        im.State = kv[1];
+                        break;
+                    case "TMODQ":
+                        im.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TMODC":
+                        im.Charge = kv[1];
+                        break;
+                    case "TMODL":
+                        im.Location = kv[1];
+                        it.Modules.Add(im);
+                        break;
+                    case "TF_EU":
+                        it.PosTower.Fuel.EnrUran.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_OX":
+                        it.PosTower.Fuel.Oxygen.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_MP":
+                        it.PosTower.Fuel.MechPart.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_CL":
+                        it.PosTower.Fuel.Coolant.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_RB":
+                        it.PosTower.Fuel.Robotics.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_HW":
+                        it.PosTower.Fuel.HvyWater.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_LO":
+                        it.PosTower.Fuel.LiqOzone.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_CH":
+                        it.PosTower.Fuel.Charters.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_ST":
+                        it.PosTower.Fuel.Strontium.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_O2":
+                        it.PosTower.Fuel.O2Iso.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_N2":
+                        it.PosTower.Fuel.N2Iso.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_H2":
+                        it.PosTower.Fuel.H2Iso.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_HE":
+                        it.PosTower.Fuel.HeIso.Qty = Convert.ToDecimal(kv[1]);
+                        break;
+                    case "TF_UC":
+                        if (kv[1].Equals("true"))
+                            it.UseChart = true;
                         else
-                        {
-                            freqHrs = pn.FreqQty;
-                        }
-                        if (pn.Initial == "Days")
-                        {
-                            ntfyHours = pn.InitQty * 24;
-                        }
+                            it.UseChart = false;
+                            break;
+                    case "TWMON":
+                        if (kv[1].Equals("true"))
+                            it.Monitored = true;
                         else
-                        {
-                            ntfyHours = pn.InitQty;
-                        }
-
-                        if (pn.Type == "Fuel Level")
-                        {
-                            if (pn.Notify_Active)
-                            {
-                                if (ntfyHours > p.PosTower.F_RunTime)
-                                {
-                                    diff = cts.Subtract(pn.Notify_Sent);
-                                    if (diff.Hours >= freqHrs)
-                                    {
-                                        if(SendNotification(pn, p))
-                                            pn.Notify_Sent = DateTime.Now;
-                                    }
-                                }
-                                else
-                                {
-                                    pn.Notify_Active = false;
-                                }
-                            }
-                            else
-                            {
-                                // Check to see if tower fuel run time is less than notification time
-                                if (ntfyHours >= p.PosTower.F_RunTime)
-                                {
-                                    pn.Notify_Active = true;
-                                    if (SendNotification(pn, p))
-                                        pn.Notify_Sent = DateTime.Now;
-                                }
-                                else
-                                {
-                                    pn.Notify_Active = false;
-                                }
-                            }
-                        }
-                        else if (pn.Type == "Silo Level")
-                        {
-                            ReactRet = GetLongestSiloRunTime(p);
-                            ReactTime = (decimal)ReactRet[0];
-
-                            if (pn.Notify_Active)
-                            {
-                                if (ntfyHours > ReactTime)
-                                {
-                                    diff = cts.Subtract(pn.Notify_Sent);
-                                    if (diff.Hours >= freqHrs)
-                                    {
-                                        if (SendNotification(pn, p))
-                                            pn.Notify_Sent = DateTime.Now;
-                                    }
-                                }
-                                else
-                                {
-                                    pn.Notify_Active = false;
-                                }
-                            }
-                            else
-                            {
-                                // Check to see if tower fuel run time is less than notification time
-                                if (ntfyHours >= ReactTime)
-                                {
-                                    pn.Notify_Active = true;
-                                    if (SendNotification(pn, p))
-                                        pn.Notify_Sent = DateTime.Now;
-                                }
-                                else
-                                {
-                                    pn.Notify_Active = false;
-                                }
-                            }
-                        }
-                    }
+                            it.Monitored = false;
+                        break;
+                    default:
+                        break;
                 }
             }
+
+            // Add new tower to list
+            PlugInData.PDL.AddDesignToList(it);
+
+            // Set selected tower to new tower name
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
+
+            BuildPOSListForMonitoring();
+
+            UpdatePOSNameSelections();
+            SetSelectedTowerNode(it.Name);
+
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
+            PopulateMonitoredPoSDisplay();
         }
 
-#endregion
+        private void b_ExportTower_Click(object sender, EventArgs e)
+        {
+            // 1. Get desired export location from user
+            // 2. Export
+            string line;
+            StreamWriter SW;
+            string fname;
+
+            if (Design.Name == "")
+            {
+                MessageBox.Show("No Tower Selected to Export.", "Input Missing");
+                return;
+            }
+
+            sfd_Export.InitialDirectory = PlugInData.PosExport_Path;
+            sfd_Export.Filter = "POS (*.pos)|*.pos";
+            sfd_Export.FilterIndex = 0;
+            DialogResult DR = sfd_Export.ShowDialog();
+
+            if (DR == DialogResult.Cancel)
+                return;
+
+            fname = sfd_Export.FileName;
+
+            SW = File.CreateText(fname);
+
+            line = "TNAME:" + Design.Name;
+            SW.WriteLine(line);
+
+            line = "TSYST:" + Design.System;
+            SW.WriteLine(line);
+
+            line = "TSOVL:" + Design.SovLevel;
+            SW.WriteLine(line);
+
+            line = "TMOON:" + Design.Moon;
+            SW.WriteLine(line);
+
+            line = "TTOWR:" + Design.PosTower.typeID;
+            SW.WriteLine(line);
+            line = "TTOWS:" + Design.PosTower.State;
+            SW.WriteLine(line);
+
+            foreach (Module m in Design.Modules)
+            {
+                line = "TMODT:" + m.typeID;
+                SW.WriteLine(line);
+                line = "TMODS:" + m.State;
+                SW.WriteLine(line);
+                line = "TMODQ:" + m.Qty;
+                SW.WriteLine(line);
+                line = "TMODC:" + m.Charge;
+                SW.WriteLine(line);
+                line = "TMODL:" + m.Location;
+                SW.WriteLine(line);
+            }
+
+            line = "TF_EU:" + Design.PosTower.Fuel.EnrUran.Qty;
+            SW.WriteLine(line);
+            line = "TF_OX:" + Design.PosTower.Fuel.Oxygen.Qty;
+            SW.WriteLine(line);
+            line = "TF_MP:" + Design.PosTower.Fuel.MechPart.Qty;
+            SW.WriteLine(line);
+            line = "TF_CL:" + Design.PosTower.Fuel.Coolant.Qty;
+            SW.WriteLine(line);
+            line = "TF_RB:" + Design.PosTower.Fuel.Robotics.Qty;
+            SW.WriteLine(line);
+            line = "TF_HW:" + Design.PosTower.Fuel.HvyWater.Qty;
+            SW.WriteLine(line);
+            line = "TF_LO:" + Design.PosTower.Fuel.LiqOzone.Qty;
+            SW.WriteLine(line);
+            line = "TF_CH:" + Design.PosTower.Fuel.Charters.Qty;
+            SW.WriteLine(line);
+            line = "TF_ST:" + Design.PosTower.Fuel.Strontium.Qty;
+            SW.WriteLine(line);
+            line = "TF_O2:" + Design.PosTower.Fuel.O2Iso.Qty;
+            SW.WriteLine(line);
+            line = "TF_N2:" + Design.PosTower.Fuel.N2Iso.Qty;
+            SW.WriteLine(line);
+            line = "TF_H2:" + Design.PosTower.Fuel.H2Iso.Qty;
+            SW.WriteLine(line);
+            line = "TF_HE:" + Design.PosTower.Fuel.HeIso.Qty;
+            SW.WriteLine(line);
+
+            if (Design.UseChart)
+                line = "TF_UC:true";
+            else
+                line = "TF_UC:false";
+            SW.WriteLine(line);
+
+            if (Design.Monitored)
+                line = "TWMON:true";
+            else
+                line = "TWMON:false";
+            SW.WriteLine(line);
 
 
-#region Button and Menu Controls
+            SW.Close();
+        }
 
-        private void tsb_ExportPOS_Click(object sender, EventArgs e)
+        private void b_CopyToCB_Click(object sender, EventArgs e)
         {
             string TowerExport, paddStr;
             string[,] fVal;
@@ -3563,7 +3982,7 @@ namespace EveHQ.PosManager
 
                 if (Convert.ToDecimal(fVal[x, 1]) > 0)
                 {
-                    paddStr = fVal[x, 0].PadRight(20, ' ').Substring(0,18) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                    paddStr = fVal[x, 0].PadRight(20, ' ').Substring(0, 18) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
                     paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3 ]\n";
                     TowerExport += paddStr;
                     totalVol += Convert.ToDecimal(fVal[x, 2]);
@@ -3575,9 +3994,9 @@ namespace EveHQ.PosManager
             TowerExport += "--------------------------------------------------------\n";
             TowerExport += "Transport Volume: " + String.Format("{0:#,0.#}", totalVol) + " m3\n";
             TowerExport += "Total Cost       : " + String.Format("{0:#,0.#}", totalCost) + " isk\n";
-            TowerExport += "Anchor Time     : " + ConvertSecondsToTextDisplay(anchorTime) + "\n";
-            TowerExport += "Online Time      : " + ConvertSecondsToTextDisplay(onlineTime) + "\n";
-            TowerExport += "Total Assembly   : " + ConvertSecondsToTextDisplay(anchorTime + onlineTime) + "\n";
+            TowerExport += "Anchor Time     : " + PlugInData.ConvertSecondsToTextDisplay(anchorTime) + "\n";
+            TowerExport += "Online Time      : " + PlugInData.ConvertSecondsToTextDisplay(onlineTime) + "\n";
+            TowerExport += "Total Assembly   : " + PlugInData.ConvertSecondsToTextDisplay(anchorTime + onlineTime) + "\n";
 
             Clipboard.SetText(TowerExport);
         }
@@ -3647,14 +4066,14 @@ namespace EveHQ.PosManager
             }
         }
 
-        private void b_SavePoS_Click(object sender, EventArgs e)
+        private void b_SaveTower_Click(object sender, EventArgs e)
         {
             POS pli;
             DateTime cur;
 
-            tsl_Status.Text = "Saving POS Listing";
+            l_SaveStatus.Text = "Saving POS Listing";
 
-            if ((cb_PoSName.Text == "") && (NewName == ""))
+            if ((ct_PoSName.Text == "") && (NewName == ""))
             {
                 // No name - request one from user
                 POS_Name NewPos = new POS_Name();
@@ -3663,10 +4082,10 @@ namespace EveHQ.PosManager
                 NewPos.ShowDialog();
             }
 
-            if ((cb_PoSName.Text == "") && (NewName == ""))
+            if ((ct_PoSName.Text == "") && (NewName == ""))
                 return;
 
-            if (cb_PoSName.Text == "")
+            if (ct_PoSName.Text == "")
             {
                 POS_Name NewPos = new POS_Name();
                 NewPos.myData = this;
@@ -3688,16 +4107,16 @@ namespace EveHQ.PosManager
             pli = new POS(Design);
             pli.Name = CurrentName;
 
-            POSList.UpdateListDesign(pli);
-            POSList.SaveDesignListing();
-            PosChanged = false;
+            PlugInData.PDL.UpdateListDesign(pli);
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
 
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
-            cb_PoSName.Text = pli.Name;
+            SetSelectedTowerNode(pli.Name);
             cur = DateTime.Now;
-            tsl_Status.Text = "POS Listing Saved (" + cur.ToString() + ")";
+            l_SaveStatus.Text = "POS Listing Saved (" + cur.ToString() + ")";
         }
 
         private void tsm_Online_Click(object sender, EventArgs e)
@@ -3723,7 +4142,9 @@ namespace EveHQ.PosManager
                 }
             }
             if (!load)
-                PosChanged = true;
+            {
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+            }
             CalculatePOSData();
         }
 
@@ -3750,7 +4171,9 @@ namespace EveHQ.PosManager
                 }
             }
             if (!load)
-                PosChanged = true;
+            {
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+            }
             CalculatePOSData();
         }
 
@@ -3798,7 +4221,9 @@ namespace EveHQ.PosManager
             api.UpdateItemState();
 
             if (!load)
-                PosChanged = true;
+            {
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+            }
 
             CalculatePOSData();
         }
@@ -3829,11 +4254,12 @@ namespace EveHQ.PosManager
 
             api.RemoveItemFromControl();
             if (!load)
-                PosChanged = true;
+                SetChangedStatus(true, "Unsaved Changes - Save Needed");
+
             CalculatePOSData();
         }
 
-        private void b_NewPos_Click(object sender, EventArgs e)
+        private void b_NewTower_Click(object sender, EventArgs e)
         {
             if ((PosChanged) && (Design.Name != ""))
             {
@@ -3842,7 +4268,7 @@ namespace EveHQ.PosManager
 
                 if (dr == DialogResult.Yes)
                 {
-                    POSList.UpdateListDesign(Design);
+                    PlugInData.PDL.UpdateListDesign(Design);
                 }
             }
 
@@ -3858,13 +4284,14 @@ namespace EveHQ.PosManager
             CurrentName = NewName;
             NewName = "";
             this.Focus();
-            POSList.AddDesignToList(new POS(CurrentName));
-            POSList.SaveDesignListing();
+            PlugInData.PDL.AddDesignToList(new POS(CurrentName));
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
             BuildPOSListForMonitoring();
-            cb_PoSName.Items.Add(CurrentName);
-            PosChanged = false;
-            cb_PoSName.SelectedItem = CurrentName;
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            UpdatePOSNameSelections();
+            SetSelectedTowerNode(CurrentName);
+
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
 
             cb_System.Text = "Select POS System";
@@ -3872,7 +4299,7 @@ namespace EveHQ.PosManager
             cb_CorpName.Text = "Select Corp Name";
         }
 
-        private void b_RenamePos_Click(object sender, EventArgs e)
+        private void b_RenameTower_Click(object sender, EventArgs e)
         {
             POS_Name RenPos = new POS_Name();
             RenPos.myData = this;
@@ -3882,28 +4309,24 @@ namespace EveHQ.PosManager
             if (CurrentName.Equals(NewName))
                 return;
 
-            POSList.RemoveDesignFromList(CurrentName);
+            PlugInData.PDL.RemoveDesignFromList(CurrentName);
             Design.Name = NewName;
             CurrentName = NewName;
             NewName = "";
             this.Focus();
-            POSList.AddDesignToList(Design);
-            POSList.SaveDesignListing();
-            BuildPOSListForMonitoring();
-            cb_PoSName.Items.Clear();
-            foreach (POS pl in POSList.Designs)
-            {
-                cb_PoSName.Items.Add(pl.Name);
-            }
+            PlugInData.PDL.AddDesignToList(Design);
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
 
-            cb_PoSName.SelectedItem = CurrentName;
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            BuildPOSListForMonitoring();
+            UpdatePOSNameSelections();
+            SetSelectedTowerNode(CurrentName); 
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
-            PosChanged = false;
         }
 
-        private void b_CopyPOS_Click(object sender, EventArgs e)
+        private void b_CopyTower_Click(object sender, EventArgs e)
         {
             POS newCopy;
             POS_Name CpyPos = new POS_Name();
@@ -3923,29 +4346,24 @@ namespace EveHQ.PosManager
             newCopy.locID = 0;
             newCopy.ReactionLinks.Clear();
             foreach (Module m in newCopy.Modules)
-                CopyMissingReactData(m);
+                m.CopyMissingReactData();
 
-            POSList.AddDesignToList(newCopy);
+            PlugInData.PDL.AddDesignToList(newCopy);
             CurrentName = NewName;
             NewName = "";
             this.Focus();
-            POSList.SaveDesignListing();
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
 
             BuildPOSListForMonitoring();
-            cb_PoSName.Items.Clear();
-            foreach (POS pl in POSList.Designs)
-            {
-                cb_PoSName.Items.Add(pl.Name);
-            }
-
-            cb_PoSName.SelectedItem = NewName;
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            UpdatePOSNameSelections();
+            SetSelectedTowerNode(NewName); 
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
-            PosChanged = false;
         }
 
-        private void b_ClearPoS_Click(object sender, EventArgs e)
+        private void b_ClearMods_Click(object sender, EventArgs e)
         {
             // Needs Pop-Up confirmation
             DialogResult dr = MessageBox.Show("Are you sure that you want to Clear  the POS Modules from [" + CurrentName + "] ?", "Clear POS", MessageBoxButtons.YesNo);
@@ -3965,7 +4383,7 @@ namespace EveHQ.PosManager
 
             Design.ClearAllPOSData();
 
-            b_SavePoS_Click(sender, e);
+            b_SaveTower_Click(sender, e);
 
             // Needs to clear all Data (fuel, mod list, etc)
             ClearPosData();
@@ -3973,7 +4391,7 @@ namespace EveHQ.PosManager
             ClearModListing();
         }
 
-        private void b_DelPoS_Click(object sender, EventArgs e)
+        private void b_DeleteTower_Click(object sender, EventArgs e)
         {
             // Needs Pop-Up confirmation
             DialogResult dr = MessageBox.Show("Are you sure that you want to Delete the POS [" + CurrentName + "] ?", "Delete POS", MessageBoxButtons.YesNo);
@@ -3981,15 +4399,8 @@ namespace EveHQ.PosManager
             if (dr == DialogResult.No)
                 return;
 
-            foreach (POS pl in POSList.Designs)
-            {
-                if (pl.Name == CurrentName)
-                {
-                    // Existing PoS being removed
-                    POSList.Designs.Remove(pl);
-                    break;
-                }
-            }
+            if (PlugInData.PDL.Designs.ContainsKey(CurrentName))
+                PlugInData.PDL.Designs.Remove(CurrentName);
 
             // 2. Clear Current PoS Display
             foreach (Control c in p_Tower.Controls)
@@ -4002,30 +4413,24 @@ namespace EveHQ.PosManager
             }
 
             Design.ClearAllPOSData();
-            cb_PoSName.Items.Clear();
-            foreach (POS p in POSList.Designs)
-            {
-                cb_PoSName.Items.Add(p.Name);
-            } 
-            if (cb_PoSName.Items.Count > 0)
-                cb_PoSName.SelectedIndex = 0;
+            UpdatePOSNameSelections();
 
             CalculatePOSData();
 
-            POSList.SaveDesignListing();
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
 
             // Needs to clear all Data (fuel, mod list, etc)
             ClearPosData();
             ClearFuelData();
             ClearModListing();
-            PosChanged = false;
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
         }
 
-        private void b_ModifyList_Click(object sender, EventArgs e)
+        private void b_MonitorList_Click(object sender, EventArgs e)
         {
             MonitorListSelect mlist_sel = new MonitorListSelect();
             mlist_sel.myData = this;
@@ -4033,105 +4438,108 @@ namespace EveHQ.PosManager
 
             dg_MonitoredTowers.Rows.Clear();
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
-            POSList.SaveDesignListing();
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
         }
 
-        private void b_FuelUpdate_Click(object sender, EventArgs e)
+        private void b_SetFuelLevel_Click(object sender, EventArgs e)
         {
+            POS pl;
             update = true;
 
+            b_SetFuelLevel.Enabled = false;
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                foreach (POS pl in POSList.Designs)
+                if (PlugInData.PDL.Designs.ContainsKey(selName))
                 {
-                    if (selName == pl.Name)
-                    {
-                        // Enr Uranium
-                        pl.PosTower.Fuel.EnrUran.Qty = pl.PosTower.A_Fuel.EnrUran.Qty;
+                    pl = PlugInData.PDL.Designs[selName];
+                    // Enr Uranium
+                    pl.PosTower.Fuel.EnrUran.Qty = pl.PosTower.A_Fuel.EnrUran.Qty;
 
-                        // Oxygen
-                        pl.PosTower.Fuel.Oxygen.Qty = pl.PosTower.A_Fuel.Oxygen.Qty;
+                    // Oxygen
+                    pl.PosTower.Fuel.Oxygen.Qty = pl.PosTower.A_Fuel.Oxygen.Qty;
 
-                        // Mechanical Parts
-                        pl.PosTower.Fuel.MechPart.Qty = pl.PosTower.A_Fuel.MechPart.Qty;
+                    // Mechanical Parts
+                    pl.PosTower.Fuel.MechPart.Qty = pl.PosTower.A_Fuel.MechPart.Qty;
 
-                        // Coolant
-                        pl.PosTower.Fuel.Coolant.Qty = pl.PosTower.A_Fuel.Coolant.Qty;
+                    // Coolant
+                    pl.PosTower.Fuel.Coolant.Qty = pl.PosTower.A_Fuel.Coolant.Qty;
 
-                        // Robotics
-                        pl.PosTower.Fuel.Robotics.Qty = pl.PosTower.A_Fuel.Robotics.Qty;
+                    // Robotics
+                    pl.PosTower.Fuel.Robotics.Qty = pl.PosTower.A_Fuel.Robotics.Qty;
 
-                        // Faction Charters
-                        pl.PosTower.Fuel.Charters.Qty = pl.PosTower.A_Fuel.Charters.Qty;
+                    // Faction Charters
+                    pl.PosTower.Fuel.Charters.Qty = pl.PosTower.A_Fuel.Charters.Qty;
 
-                        // Strontium
-                        pl.PosTower.Fuel.Strontium.Qty = pl.PosTower.A_Fuel.Strontium.Qty;
+                    // Strontium
+                    pl.PosTower.Fuel.Strontium.Qty = pl.PosTower.A_Fuel.Strontium.Qty;
 
-                        // Heavy Water
-                        pl.PosTower.Fuel.HvyWater.Qty = pl.PosTower.A_Fuel.HvyWater.Qty;
+                    // Heavy Water
+                    pl.PosTower.Fuel.HvyWater.Qty = pl.PosTower.A_Fuel.HvyWater.Qty;
 
-                        // Liquid Ozone
-                        pl.PosTower.Fuel.LiqOzone.Qty = pl.PosTower.A_Fuel.LiqOzone.Qty;
+                    // Liquid Ozone
+                    pl.PosTower.Fuel.LiqOzone.Qty = pl.PosTower.A_Fuel.LiqOzone.Qty;
 
-                        // Isotope
-                        if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
-                            pl.PosTower.Fuel.HeIso.Qty = pl.PosTower.A_Fuel.HeIso.Qty;
-                        if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
-                            pl.PosTower.Fuel.H2Iso.Qty = pl.PosTower.A_Fuel.H2Iso.Qty;
-                        if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
-                            pl.PosTower.Fuel.N2Iso.Qty = pl.PosTower.A_Fuel.N2Iso.Qty;
-                        if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
-                            pl.PosTower.Fuel.O2Iso.Qty = pl.PosTower.A_Fuel.O2Iso.Qty;
-                        
-                    }
+                    // Isotope
+                    if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
+                        pl.PosTower.Fuel.HeIso.Qty = pl.PosTower.A_Fuel.HeIso.Qty;
+                    if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
+                        pl.PosTower.Fuel.H2Iso.Qty = pl.PosTower.A_Fuel.H2Iso.Qty;
+                    if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
+                        pl.PosTower.Fuel.N2Iso.Qty = pl.PosTower.A_Fuel.N2Iso.Qty;
+                    if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
+                        pl.PosTower.Fuel.O2Iso.Qty = pl.PosTower.A_Fuel.O2Iso.Qty;
+
                 }
             }
 
             update = false;
 
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-            POSList.SaveDesignListing();
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
             BuildPOSListForMonitoring();
             PopulateMonitoredPoSDisplay();
             UpdateTowerMonitorDisplay();
-         }
+            b_SetFuelLevel.Enabled = true;
+        }
 
-        private void b_EnterReinf_Click(object sender, EventArgs e)
+        private void b_State_Reinforced_Click(object sender, EventArgs e)
         {
             if (dg_MonitoredTowers.RowCount <= 0)
                 return;
 
             UpdateMonitoredTowerState("Reinforced");
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
-        private void b_offline_Click(object sender, EventArgs e)
+        private void b_State_Offline_Click(object sender, EventArgs e)
         {
             if (dg_MonitoredTowers.RowCount <= 0)
                 return;
 
             UpdateMonitoredTowerState("Offline");
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
-        private void b_online_Click(object sender, EventArgs e)
+        private void b_State_Online_Click(object sender, EventArgs e)
         {
             if (dg_MonitoredTowers.RowCount <= 0)
                 return;
 
             UpdateMonitoredTowerState("Online");
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
-        private void tsb_SetOwner_Click(object sender, EventArgs e)
+        private void b_SetOwner_Click(object sender, EventArgs e)
         {
             // Setting of the Tower Owner and Fuel Tech
             // Need to have Entry / Selection for:
@@ -4143,15 +4551,16 @@ namespace EveHQ.PosManager
 
             ownFT = new OwnerFuelTech(this);
             ownFT.ShowDialog();
-            POSList.SaveDesignListing();
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
             PopulateMonitoredPoSDisplay();
         }
 
 
-#endregion
+        #endregion
 
 
-#region POS Maintenance
+        #region POS Maintenance
 
         private void cb_ShowFuelNeed_CheckedChanged(object sender, EventArgs e)
         {
@@ -4161,12 +4570,13 @@ namespace EveHQ.PosManager
 
         private void b_CopySelected_Click(object sender, EventArgs e)
         {
-            string maintName = "", paddStr;
-            int dgi, count = 0;
+            string malongName = "", paddStr;
+            long dgi, count = 0;
             FuelBay sfb = new FuelBay();
             decimal totVol, totCost;
             decimal[,] tval = new decimal[13, 3];
             string[,] fVal;
+            POS pl;
 
             for (int x = 0; x < 13; x++)
             {
@@ -4181,80 +4591,78 @@ namespace EveHQ.PosManager
                 if (dr.Cells[0].Value == null)
                     continue;
 
-                maintName = dr.Cells[(int)fillDG.Name].Value.ToString();
-                SelPosFillText += maintName + " < " + dr.Cells[(int)fillDG.Loc].Value.ToString() + " >\n";
-                foreach (POS pl in POSList.Designs)
+                malongName = dr.Cells[(int)fillDG.Name].Value.ToString();
+                SelPosFillText += malongName + " < " + dr.Cells[(int)fillDG.Loc].Value.ToString() + " >\n";
+
+                if (PlugInData.PDL.Designs.ContainsKey(malongName))
                 {
-                    if (maintName == pl.Name)
+                    pl = PlugInData.PDL.Designs[malongName];
+                    totVol = 0;
+                    totCost = 0;
+
+                    if (count < 1)
+                        sfb = new FuelBay(pl.PosTower.T_Fuel);
+                    else
+                        sfb.AddFuelQty(pl.PosTower.T_Fuel);
+
+                    pl.PosTower.T_Fuel.SetCurrentFuelVolumes();
+                    pl.PosTower.T_Fuel.SetCurrentFuelCosts(PlugInData.Config.data.FuelCosts);
+                    fVal = pl.PosTower.T_Fuel.GetFuelBayTotals();
+
+                    for (int x = 0; x < 13; x++)
                     {
-                        totVol = 0;
-                        totCost = 0;
+                        if ((!PlugInData.Config.data.malongChart) && (x == 11))
+                            continue;
+                        if ((!PlugInData.Config.data.malongStront) && (x == 12))
+                            continue;
 
-                        if (count < 1)
-                            sfb = new FuelBay(pl.PosTower.T_Fuel);
-                        else
-                            sfb.AddFuelQty(pl.PosTower.T_Fuel);
-
-                        pl.PosTower.T_Fuel.SetCurrentFuelVolumes();
-                        pl.PosTower.T_Fuel.SetCurrentFuelCosts(Config.data.FuelCosts);
-                        fVal = pl.PosTower.T_Fuel.GetFuelBayTotals();
-
-                        for (int x = 0; x < 13; x++)
+                        if (Convert.ToDecimal(fVal[x, 1]) > 0)
                         {
-                            if ((!Config.data.maintChart) && (x == 11))
-                                continue;
-                            if ((!Config.data.maintStront) && (x == 12))
-                                continue;
-
-                            if (Convert.ToDecimal(fVal[x, 1]) > 0)
+                            switch (dgi)
                             {
-                                switch (dgi)
-                                {
-                                    case 0:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0,10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                    case 1:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
-                                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3 ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                    case 2:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
-                                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3";
-                                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                    default:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                }
-                                tval[x, 0] += Convert.ToDecimal(fVal[x, 1]);
-                                tval[x, 1] += Convert.ToDecimal(fVal[x, 2]);
-                                tval[x, 2] += Convert.ToDecimal(fVal[x, 3]);
-                                SelPosFillText += paddStr;
+                                case 0:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
+                                case 1:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                                    paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3 ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
+                                case 2:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                                    paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3";
+                                    paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
+                                default:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
                             }
+                            tval[x, 0] += Convert.ToDecimal(fVal[x, 1]);
+                            tval[x, 1] += Convert.ToDecimal(fVal[x, 2]);
+                            tval[x, 2] += Convert.ToDecimal(fVal[x, 3]);
+                            SelPosFillText += paddStr;
                         }
-                        count++;
-                        SelPosFillText += "Tport Vol  [ " + String.Format("{0:#,0.#}", totVol) + "m3 ]\n";
-                        if (dgi == 2)
-                            SelPosFillText += "Fuel Cost  [ " + String.Format("{0:#,0.#}", totCost) + "isk ]\n";
-
-                        SelPosFillText += "----\n";
-                        break;
                     }
+                    count++;
+                    SelPosFillText += "Tport Vol  [ " + String.Format("{0:#,0.#}", totVol) + "m3 ]\n";
+                    if (dgi == 2)
+                        SelPosFillText += "Fuel Cost  [ " + String.Format("{0:#,0.#}", totCost) + "isk ]\n";
+
+                    SelPosFillText += "----\n";
                 }
             }
 
             if (dg_TowerFuelList.SelectedRows.Count > 1)
             {
                 sfb.SetCurrentFuelVolumes();
-                sfb.SetCurrentFuelCosts(Config.data.FuelCosts);
+                sfb.SetCurrentFuelCosts(PlugInData.Config.data.FuelCosts);
                 fVal = sfb.GetFuelBayTotals();
                 totCost = 0;
                 totVol = 0;
@@ -4262,9 +4670,9 @@ namespace EveHQ.PosManager
                 SelPosFillText += " < Total for Selected Towers >\n";
                 for (int x = 0; x < 13; x++)
                 {
-                    if ((!Config.data.maintChart) && (x == 11))
+                    if ((!PlugInData.Config.data.malongChart) && (x == 11))
                         continue;
-                    if ((!Config.data.maintStront) && (x == 12))
+                    if ((!PlugInData.Config.data.malongStront) && (x == 12))
                         continue;
 
                     if (Convert.ToDecimal(fVal[x, 1]) > 0)
@@ -4307,12 +4715,13 @@ namespace EveHQ.PosManager
 
         private void b_CopyAllPos_Click(object sender, EventArgs e)
         {
-            string maintName = "", paddStr;
-            int dgi, count = 0;
+            string malongName = "", paddStr;
+            long dgi, count = 0;
             FuelBay sfb = new FuelBay();
             decimal totVol, totCost;
             decimal[,] tval = new decimal[13, 3];
             string[,] fVal;
+            POS pl;
 
             for (int x = 0; x < 13; x++)
             {
@@ -4327,78 +4736,76 @@ namespace EveHQ.PosManager
                 if (dr.Cells[0].Value == null)
                     continue;
 
-                maintName = dr.Cells[(int)fillDG.Name].Value.ToString();
-                AllPosFillText += maintName + " < " + dr.Cells[(int)fillDG.Loc].Value.ToString() + " >\n";
-                foreach (POS pl in POSList.Designs)
+                malongName = dr.Cells[(int)fillDG.Name].Value.ToString();
+                AllPosFillText += malongName + " < " + dr.Cells[(int)fillDG.Loc].Value.ToString() + " >\n";
+
+                if (PlugInData.PDL.Designs.ContainsKey(malongName))
                 {
-                    if (maintName == pl.Name)
+                    pl = PlugInData.PDL.Designs[malongName];
+                    totVol = 0;
+                    totCost = 0;
+
+                    if (count < 1)
+                        sfb = new FuelBay(pl.PosTower.T_Fuel);
+                    else
+                        sfb.AddFuelQty(pl.PosTower.T_Fuel);
+
+                    pl.PosTower.T_Fuel.SetCurrentFuelVolumes();
+                    pl.PosTower.T_Fuel.SetCurrentFuelCosts(PlugInData.Config.data.FuelCosts);
+                    fVal = pl.PosTower.T_Fuel.GetFuelBayTotals();
+
+                    for (int x = 0; x < 13; x++)
                     {
-                        totVol = 0;
-                        totCost = 0;
+                        if ((!PlugInData.Config.data.malongChart) && (x == 11))
+                            continue;
+                        if ((!PlugInData.Config.data.malongStront) && (x == 12))
+                            continue;
 
-                        if (count < 1)
-                            sfb = new FuelBay(pl.PosTower.T_Fuel);
-                        else
-                            sfb.AddFuelQty(pl.PosTower.T_Fuel);
-
-                        pl.PosTower.T_Fuel.SetCurrentFuelVolumes();
-                        pl.PosTower.T_Fuel.SetCurrentFuelCosts(Config.data.FuelCosts);
-                        fVal = pl.PosTower.T_Fuel.GetFuelBayTotals();
-
-                        for (int x = 0; x < 13; x++)
+                        if (Convert.ToDecimal(fVal[x, 1]) > 0)
                         {
-                            if ((!Config.data.maintChart) && (x == 11))
-                                continue;
-                            if ((!Config.data.maintStront) && (x == 12))
-                                continue;
-
-                            if (Convert.ToDecimal(fVal[x, 1]) > 0)
+                            switch (dgi)
                             {
-                                switch (dgi)
-                                {
-                                    case 0:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                    case 1:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
-                                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3 ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                    case 2:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
-                                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3";
-                                        paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                    default:
-                                        paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
-                                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                                        break;
-                                }
-                                tval[x, 0] += Convert.ToDecimal(fVal[x, 1]);
-                                tval[x, 1] += Convert.ToDecimal(fVal[x, 2]);
-                                tval[x, 2] += Convert.ToDecimal(fVal[x, 3]);
-                                AllPosFillText += paddStr;
+                                case 0:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
+                                case 1:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                                    paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3 ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
+                                case 2:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                                    paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3";
+                                    paddStr += " ][ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
+                                default:
+                                    paddStr = fVal[x, 0].PadRight(12, ' ').Substring(0, 10) + " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + " ]\n";
+                                    totVol += Convert.ToDecimal(fVal[x, 2]);
+                                    totCost += Convert.ToDecimal(fVal[x, 3]);
+                                    break;
                             }
+                            tval[x, 0] += Convert.ToDecimal(fVal[x, 1]);
+                            tval[x, 1] += Convert.ToDecimal(fVal[x, 2]);
+                            tval[x, 2] += Convert.ToDecimal(fVal[x, 3]);
+                            AllPosFillText += paddStr;
                         }
-                        count++;
-                        AllPosFillText += "Tport Vol  [ " + String.Format("{0:#,0.#}", totVol) + "m3 ]\n";
-                        if (dgi == 2)
-                            AllPosFillText += "Fuel Cost  [ " + String.Format("{0:#,0.#}", totCost) + "isk ]\n";
-
-                        AllPosFillText += "-------------------------------------------------\n";
-                        break;
                     }
+                    count++;
+                    AllPosFillText += "Tport Vol  [ " + String.Format("{0:#,0.#}", totVol) + "m3 ]\n";
+                    if (dgi == 2)
+                        AllPosFillText += "Fuel Cost  [ " + String.Format("{0:#,0.#}", totCost) + "isk ]\n";
+
+                    AllPosFillText += "-------------------------------------------------\n";
                 }
             }
 
             sfb.SetCurrentFuelVolumes();
-            sfb.SetCurrentFuelCosts(Config.data.FuelCosts);
+            sfb.SetCurrentFuelCosts(PlugInData.Config.data.FuelCosts);
             fVal = sfb.GetFuelBayTotals();
             totCost = 0;
             totVol = 0;
@@ -4406,9 +4813,9 @@ namespace EveHQ.PosManager
             AllPosFillText += " < Total for All Towers >\n";
             for (int x = 0; x < 13; x++)
             {
-                if ((!Config.data.maintChart) && (x == 11))
+                if ((!PlugInData.Config.data.malongChart) && (x == 11))
                     continue;
-                if ((!Config.data.maintStront) && (x == 12))
+                if ((!PlugInData.Config.data.malongStront) && (x == 12))
                     continue;
 
                 if (Convert.ToDecimal(fVal[x, 1]) > 0)
@@ -4449,11 +4856,11 @@ namespace EveHQ.PosManager
             Clipboard.SetText(AllPosFillText);
         }
 
-        private void ApplyFillData(object sender, EventArgs e)
+        private void b_ApplyIntervalPeriod_Click(object sender, EventArgs e)
         {
-            Config.data.maintTP = tscb_TimePeriod.SelectedIndex;
-            Config.data.maintPV = nud_PeriodValue.Value;
-            Config.SaveConfiguration();
+            PlugInData.Config.data.malongTP = tscb_TimePeriod.SelectedIndex;
+            PlugInData.Config.data.malongPV = nud_PeriodValue.Value;
+            PlugInData.Config.SaveConfiguration();
 
             PopulateTowerFillDG();
             UpdateSelectedTowerList();
@@ -4473,7 +4880,7 @@ namespace EveHQ.PosManager
 
         private void dg_TowerFuelList_SelectionChanged(object sender, EventArgs e)
         {
-            string maintName = "";
+            string malongName = "";
             int dgi, count = 0;
             FuelBay sfb = new FuelBay();
             decimal totVol, totCost;
@@ -4481,29 +4888,26 @@ namespace EveHQ.PosManager
 
             foreach (DataGridViewRow dr in dg_TowerFuelList.SelectedRows)
             {
-                if (dr.Cells[0].Value == null)
+                if ((dr.Cells[0].Value == null) || (dg_TowerFuelList.CurrentRow == null))
                     continue;
 
                 Fil_dg_indx = dg_TowerFuelList.CurrentRow.Index;
-                maintName = dr.Cells[(int)fillDG.Name].Value.ToString();
-                foreach (POS pl in POSList.Designs)
-                {
-                    if (maintName == pl.Name)
-                    {
-                        if (count < 1)
-                            sfb = new FuelBay(pl.PosTower.T_Fuel);
-                        else
-                            sfb.AddFuelQty(pl.PosTower.T_Fuel);
+                malongName = dr.Cells[(int)fillDG.Name].Value.ToString();
 
-                        count++;
-                        break;
-                    }
+                if (PlugInData.PDL.Designs.ContainsKey(malongName))
+                {
+                    if (count < 1)
+                        sfb = new FuelBay(PlugInData.PDL.Designs[malongName].PosTower.T_Fuel);
+                    else
+                        sfb.AddFuelQty(PlugInData.PDL.Designs[malongName].PosTower.T_Fuel);
+
+                    count++;
                 }
             }
 
             dg_SelectedFuel.Rows.Clear();
             sfb.SetCurrentFuelVolumes();
-            sfb.SetCurrentFuelCosts(Config.data.FuelCosts);
+            sfb.SetCurrentFuelCosts(PlugInData.Config.data.FuelCosts);
             fVal = sfb.GetFuelBayTotals();
 
             totCost = 0;
@@ -4511,9 +4915,9 @@ namespace EveHQ.PosManager
 
             for (int x = 0; x < 13; x++)
             {
-                if ((!Config.data.maintChart) && (x == 11))
+                if ((!PlugInData.Config.data.malongChart) && (x == 11))
                     continue;
-                if ((!Config.data.maintStront) && (x == 12))
+                if ((!PlugInData.Config.data.malongStront) && (x == 12))
                     continue;
 
                 dgi = dg_SelectedFuel.Rows.Add();
@@ -4541,7 +4945,7 @@ namespace EveHQ.PosManager
                 return;
 
             tt.SetCurrentFuelVolumes();
-            tt.SetCurrentFuelCosts(Config.data.FuelCosts);
+            tt.SetCurrentFuelCosts(PlugInData.Config.data.FuelCosts);
             dg_TotalFuel.Rows.Clear();
             fVal = tt.GetFuelBayTotals();
 
@@ -4549,9 +4953,9 @@ namespace EveHQ.PosManager
             totCost = 0;
             for (int x = 0; x < 13; x++)
             {
-                if ((!Config.data.maintChart) && (x == 11))
+                if ((!PlugInData.Config.data.malongChart) && (x == 11))
                     continue;
-                if ((!Config.data.maintStront) && (x == 12))
+                if ((!PlugInData.Config.data.malongStront) && (x == 12))
                     continue;
 
                 dgi = dg_TotalFuel.Rows.Add();
@@ -4578,14 +4982,24 @@ namespace EveHQ.PosManager
             tt = null;
             dg_TowerFuelList.Rows.Clear();
             update = true;
-            cb_FactChartTotal.Checked = Config.data.maintChart;
-            cb_UseStrontTotals.Checked = Config.data.maintStront;
+            cb_FactChartTotal.Checked = PlugInData.Config.data.malongChart;
+            cb_UseStrontTotals.Checked = PlugInData.Config.data.malongStront;
             update = false;
 
-            foreach (POS p in POSList.Designs)
+            foreach (POS p in PlugInData.PDL.Designs.Values)
             {
                 if (!p.Monitored)
                     continue;
+
+                if (!cb_ShowFuelNeed.Checked)
+                    period = p.ComputePosFuelUsageForFillTracking((int)PlugInData.Config.data.malongTP, PlugInData.Config.data.malongPV, PlugInData.Config.data.FuelCosts);
+                else
+                    period = p.ComputePosFuelNeedForFillTracking((int)PlugInData.Config.data.malongTP, PlugInData.Config.data.malongPV, PlugInData.Config.data.FuelCosts);
+
+                dgi = dg_TowerFuelList.Rows.Add();
+
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Name].Value = p.Name;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Loc].Value = p.Moon;
 
                 if (count < 1)
                     tt = new FuelBay(p.PosTower.T_Fuel);
@@ -4593,16 +5007,6 @@ namespace EveHQ.PosManager
                     tt.AddFuelQty(p.PosTower.T_Fuel);
 
                 count++;
-
-                if(!cb_ShowFuelNeed.Checked)
-                    period = p.ComputePosFuelUsageForFillTracking((int)Config.data.maintTP, Config.data.maintPV, Config.data.FuelCosts);
-                else
-                    period = p.ComputePosFuelNeedForFillTracking((int)Config.data.maintTP, Config.data.maintPV, Config.data.FuelCosts);
-
-                dgi = dg_TowerFuelList.Rows.Add();
-
-                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Name].Value = p.Name;
-                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Loc].Value = p.Moon;
 
                 dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.EnrUr].Value = String.Format("{0:#,0.#}", p.PosTower.T_Fuel.EnrUran.Qty);
                 dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Oxy].Value = String.Format("{0:#,0.#}", p.PosTower.T_Fuel.Oxygen.Qty);
@@ -4635,7 +5039,7 @@ namespace EveHQ.PosManager
                 dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Cht].Value = String.Format("{0:#,0.#}", p.PosTower.T_Fuel.Charters.Qty);
                 dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Strt].Value = String.Format("{0:#,0.#}", p.PosTower.T_Fuel.Strontium.Qty);
 
-                line = ConvertHoursToTextDisplay(period);
+                line = PlugInData.ConvertHoursToTextDisplay(period);
                 dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.RunT].Value = line;
             }
             PopulateTotalsDG();
@@ -4645,8 +5049,8 @@ namespace EveHQ.PosManager
         {
             if (update)
                 return;
-            Config.data.maintChart = cb_FactChartTotal.Checked;
-            Config.SaveConfiguration();
+            PlugInData.Config.data.malongChart = cb_FactChartTotal.Checked;
+            PlugInData.Config.SaveConfiguration();
             PopulateTotalsDG();
             UpdateSelectedTowerList();
         }
@@ -4655,15 +5059,17 @@ namespace EveHQ.PosManager
         {
             if (update)
                 return;
-            Config.data.maintStront = cb_UseStrontTotals.Checked;
-            Config.SaveConfiguration();
+            PlugInData.Config.data.malongStront = cb_UseStrontTotals.Checked;
+            PlugInData.Config.SaveConfiguration();
             PopulateTotalsDG();
             UpdateSelectedTowerList();
         }
 
         private void b_SetSelectedFull_Click(object sender, EventArgs e)
         {
-            string maintName;
+            string malongName;
+
+            b_SetSelectedFull.Enabled = false; // Disable while processing to prevent multiple-clicks.
 
             if (dg_TowerFuelList.SelectedRows.Count > 1)
             {
@@ -4674,28 +5080,33 @@ namespace EveHQ.PosManager
 
             if (dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Name].Value != null)
             {
-                maintName = dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Name].Value.ToString();
-                foreach (POS pl in POSList.Designs)
+                malongName = dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Name].Value.ToString();
+                if (PlugInData.PDL.Designs.ContainsKey(malongName))
                 {
-                    if (maintName == pl.Name)
-                    {
-                        pl.PosTower.Fuel.AddFuelQty(pl.PosTower.T_Fuel);
-                        break;
-                    }
+                    PlugInData.PDL.Designs[malongName].PosTower.Fuel.AddFuelQty(PlugInData.PDL.Designs[malongName].PosTower.T_Fuel);
                 }
             }
             PopulateTowerFillDG();
             dg_TowerFuelList_SelectionChanged(sender, e);
             PopulateTotalsDG();
             UpdateSelectedTowerList();
+
+            PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
+            BuildPOSListForMonitoring();
             PopulateMonitoredPoSDisplay();
+            UpdateTowerMonitorDisplay();
+
+            b_SetSelectedFull.Enabled = true;
+
         }
 
 
-#endregion
+        #endregion
 
 
-#region Fuel Amount Change Control
+        #region Fuel Amount Change Control
 
         private void nud_DesFuelPeriod_ValueChanged(object sender, EventArgs e)
         {
@@ -4722,6 +5133,12 @@ namespace EveHQ.PosManager
 
             Design.PosTower.Design_Interval = cb_Interval.SelectedIndex;
             CalculateAndDisplayDesignFuelData();
+
+            if (Design.PosTower.Design_Int_Qty > nud_DesFuelPeriod.Maximum)
+                nud_DesFuelPeriod.Maximum = Design.PosTower.Design_Int_Qty;
+            if (Design.PosTower.Design_Int_Qty < nud_DesFuelPeriod.Minimum)
+                nud_DesFuelPeriod.Minimum = Design.PosTower.Design_Int_Qty;
+
             nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
         }
 
@@ -4744,154 +5161,51 @@ namespace EveHQ.PosManager
                 UpdateTowerMonitorDisplay();
         }
 
-#endregion
+        #endregion
 
 
-#region API Routines
+        #region API Routines
 
-        private void tsb_PopTowerFromAPI_Click(object sender, EventArgs e)
+        private void b_API_Populate_Click(object sender, EventArgs e)
         {
             PopulateTowersFromAPI pti = new PopulateTowersFromAPI();
             pti.myData = this;
             pti.ShowDialog();
 
-            cb_PoSName.Items.Clear();
-            foreach (POS pl in POSList.Designs)
-            {
-                cb_PoSName.Items.Add(pl.Name);
-            }
+            UpdatePOSNameSelections();
 
-            POSList.SaveDesignListing();
-            PosChanged = false;
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
             BuildPOSListForMonitoring();
             RunCalculationsWithUpdatedInformation();
         }
 
-        private void b_TowerAPILink_Click(object sender, EventArgs e)
+        private void b_API_Link_Click(object sender, EventArgs e)
         {
             Tower_API_Linker TowerLink = new Tower_API_Linker();
             TowerLink.myData = this;
             TowerLink.ShowDialog();
-            API_D.SaveAPIListing();
+            PlugInData.API_D.SaveAPIListing();
             BuildPOSListForMonitoring();
             RunCalculationsWithUpdatedInformation();
         }
 
-        private void b_UpdateAPIData_Click(object sender, EventArgs e)
+        private void b_UpdateAPI_Click(object sender, EventArgs e)
         {
-            tsl_APIState.Text = "Updating API Data and Fuel Calculations";
-            if (!bgw_APIUpdate.IsBusy)
+            if (!PlugInData.bgw_APIUpdate.IsBusy)
             {
-                tsb_UpdateAPI.Enabled = false;
-                bgw_APIUpdate.RunWorkerAsync();
+                tsl_APIState.Text = "Updating API Data and Fuel Calculations";
+                b_UpdateAPI.Enabled = false;
+                PlugInData.ManualUpdate = true;
+                PlugInData.bgw_APIUpdate.RunWorkerAsync();
             }
         }
 
-        private void bgw_APIUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            SystemSovList SSL = new SystemSovList();
 
-            SSL.LoadSovListFromAPI(1);
-            SL.LoadSystemListFromDisk();
-            AL.LoadAllianceListFromAPI(1);
-            API_D.LoadAPIListing();
-            BuildPOSListForMonitoring();
-            UpdateAllTowerSovLevels();
-            RunCalculationsWithUpdatedInformation();
-            POSList.SaveDesignListing();
-            tsl_APIState.Text = "";
-            tsb_UpdateAPI.Enabled = true;
-        }
-
-        private void bgw_APIUpdate_DoWork(object sender, DoWorkEventArgs e)
-        {
-            GetCorpAssets();
-            GetCorpSheet();
-            GetAllySovLists();
-            API_D.LoadPOSDataFromAPI(TL);
-            API_D.SaveAPIListing();
-            PopulateCorpList();
-        }
-
-        private void GetAllySovLists()
-        {
-            SystemSovList SSL = new SystemSovList();
-            AL = new AllianceList();
-
-            AL.LoadAllianceListFromAPI(1);
-            SSL.LoadSovListFromAPI(1);
-        }
-
-        private void GetCorpAssets()
-        {
-            string acctName;
-            int sel;
-            EveHQ.Core.EveAccount pilotAccount;
-            XmlDocument apiXML;
-            foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
-            {
-                if (selPilot.Active)
-                {
-                    acctName = selPilot.Account;
-                    if (EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(acctName))
-                    {
-                        pilotAccount = (Core.EveAccount)EveHQ.Core.HQ.EveHQSettings.Accounts[acctName];
-                        sel = (int)EveHQ.Core.EveAPI.APIRequest.AssetsCorp;
-                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
-                        if (!CheckXML(apiXML))
-                        {
-                            apiXML = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
-                            // Errors, try one more time. Data will not be used later if it contains errors
-                        }
-                    }
-                }
-            }
-        }
-
-        private void GetCorpSheet()
-        {
-            string acctName;
-            int sel;
-            EveHQ.Core.EveAccount pilotAccount;
-            XmlDocument apiXML;
-            foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
-            {
-                if (selPilot.Active)
-                {
-                    acctName = selPilot.Account;
-                    if (EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(acctName))
-                    {
-                        pilotAccount = (Core.EveAccount)EveHQ.Core.HQ.EveHQSettings.Accounts[acctName];
-                        sel = (int)EveHQ.Core.EveAPI.APIRequest.CorpSheet;
-                        apiXML = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
-                        if (!CheckXML(apiXML))
-                        {
-                            apiXML = EveHQ.Core.EveAPI.GetAPIXML(sel, pilotAccount, selPilot.ID, 0);
-                            // Errors, try one more time. Data will not be used later if it contains errors
-                        }
-                    }
-                }
-            }
-        }
-
-        private bool CheckXML(XmlDocument apiXML)
-        {
-            if (apiXML != null)
-            {
-                XmlNodeList errlist = apiXML.SelectNodes("/eveapi/error");
-                if (errlist.Count != 0)
-                {
-                    // Error - Now WTF do I do???
-                    return false;
-                }
-            }
-            return true;
-        }
-
-#endregion
+        #endregion
 
 
-#region Configuration Stuff
+        #region Configuration Stuff
 
         private void DGColumnCBStateChange(object sender, EventArgs e)
         {
@@ -4906,11 +5220,11 @@ namespace EveHQ.PosManager
             cName = cb.Name;
             colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
 
-            if (colCt < 23)
+            if (colCt < 24)
             {
                 dgvc = dg_MonitoredTowers.Columns[colCt - 1];
                 dgvc.Visible = cb.Checked;
-                Config.data.dgMonBool[colCt-1] = cb.Checked;
+                PlugInData.Config.data.dgMonBool[colCt - 1] = cb.Checked;
             }
             else
             {
@@ -4919,86 +5233,110 @@ namespace EveHQ.PosManager
                 {
                     dgvc = dg_PosMods.Columns[colCt - 1];
                     dgvc.Visible = cb.Checked;
-                    Config.data.dgDesBool[colCt-1] = cb.Checked;
+                    PlugInData.Config.data.dgDesBool[colCt - 1] = cb.Checked;
                 }
             }
 
             SaveConfiguration();
         }
 
-        private void PopulateFuelConfigDisplay()
-        {
-            nud_ER_FC.Value = Config.data.FuelCosts.EnrUran.Cost;
-            nud_OX_FC.Value = Config.data.FuelCosts.Oxygen.Cost;
-            nud_MP_FC.Value = Config.data.FuelCosts.MechPart.Cost;
-            nud_CL_FC.Value = Config.data.FuelCosts.Coolant.Cost;
-            nud_RB_FC.Value = Config.data.FuelCosts.Robotics.Cost;
-            nud_HE_FC.Value = Config.data.FuelCosts.HeIso.Cost;
-            nud_N2_FC.Value = Config.data.FuelCosts.N2Iso.Cost;
-            nud_H2_FC.Value = Config.data.FuelCosts.H2Iso.Cost;
-            nud_O2_FC.Value = Config.data.FuelCosts.O2Iso.Cost;
-            nud_HW_FC.Value = Config.data.FuelCosts.HvyWater.Cost;
-            nud_LO_FC.Value = Config.data.FuelCosts.LiqOzone.Cost;
-            nud_CH_FC.Value = Config.data.FuelCosts.Charters.Cost;
-            nud_ST_FC.Value = Config.data.FuelCosts.Strontium.Cost;
-        }
-
         private void SaveConfiguration()
         {
-            Config.data.FuelCosts.EnrUran.Cost = nud_ER_FC.Value;
-            Config.data.FuelCosts.Oxygen.Cost = nud_OX_FC.Value;
-            Config.data.FuelCosts.MechPart.Cost = nud_MP_FC.Value;
-            Config.data.FuelCosts.Coolant.Cost =  nud_CL_FC.Value;
-            Config.data.FuelCosts.Robotics.Cost = nud_RB_FC.Value;
-            Config.data.FuelCosts.HeIso.Cost = nud_HE_FC.Value;
-            Config.data.FuelCosts.N2Iso.Cost = nud_N2_FC.Value;
-            Config.data.FuelCosts.H2Iso.Cost = nud_H2_FC.Value;
-            Config.data.FuelCosts.O2Iso.Cost = nud_O2_FC.Value;
-            Config.data.FuelCosts.HvyWater.Cost = nud_HW_FC.Value;
-            Config.data.FuelCosts.LiqOzone.Cost = nud_LO_FC.Value;
-            Config.data.FuelCosts.Charters.Cost = nud_CH_FC.Value;
-            Config.data.FuelCosts.Strontium.Cost = nud_ST_FC.Value;
+            if (rb_MarketCost.Checked)
+                PlugInData.Config.data.FuelCat = 1;
+            else
+                PlugInData.Config.data.FuelCat = 0;
 
-            Config.SaveConfiguration();
+            if (rb_AutoAPI.Checked)
+                PlugInData.Config.data.AutoAPI = 1;
+            else
+                PlugInData.Config.data.AutoAPI = 0;
+
+            PlugInData.Config.SaveConfiguration();
             CalculateAndDisplayDesignFuelData();
+        }
+
+        private void rb_MarketCost_CheckedChanged(object sender, EventArgs e)
+        {
+            SaveConfiguration();
+        }
+
+        private void rb_AutoAPI_CheckedChanged(object sender, EventArgs e)
+        {
+            SaveConfiguration();
         }
 
         private void dg_MonitoredTowers_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dgv;
+            string name;
 
             dgv = (DataGridView)sender;
 
-            Config.data.SortedColumnIndex = e.ColumnIndex;
+            PlugInData.Config.data.SortedColumnIndex = e.ColumnIndex;
 
-            SortMonitorDataGridByColumn(dgv, Config.data.SortedColumnIndex);
-
-            Config.SaveConfiguration();
+            if (e.Button == MouseButtons.Left)
+            {
+                SortMonitorDataGridByColumn(dgv, PlugInData.Config.data.SortedColumnIndex);
+                PlugInData.Config.SaveConfiguration();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                name = dgv.Columns[e.ColumnIndex].HeaderText;
+            }
         }
-        
 
-#endregion
+        private void sc_MainPanels_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            long splitPos;
+
+            if (!UserSplitMove)
+                return;
+
+            splitPos = sc_MainPanels.SplitterDistance;
+
+            //if (PlugInData.Config.data.Extra.Count > 0)
+            PlugInData.Config.data.Extra[0] = splitPos;
+            //else
+            //    PlugInData.Config.data.Extra.Add(splitPos);
+
+            PlugInData.Config.SaveConfiguration();
+            UserSplitMove = false;
+        }
+
+        private void sc_MainPanels_SplitterMoving(object sender, SplitterCancelEventArgs e)
+        {
+            UserSplitMove = true;
+        }
+
+        #endregion
 
 
-#region Set Module Charge - Handling Routines
- 
+        #region Set Module Charge - Handling Routines
+
         private void tsm_SetModuleCharge_Click(object sender, EventArgs e)
         {
 
         }
 
 
-#endregion
+        #endregion
 
 
-#region Reaction Monitor
+        #region Reaction Monitor
+
+        private void SetReactChangedStatus(bool st, string ln)
+        {
+            ReactChanged = st;
+            lb_ReacSave.Text = ln;
+        }
 
         public void SetModuleWarnOnValueAndTime()
         {
             bool fInp, fOutp;
             decimal xfIn, xfOut;
 
-            foreach (POS p in POSList.Designs)
+            foreach (POS p in PlugInData.PDL.Designs.Values)
             {
                 foreach (Module m in p.Modules)
                 {
@@ -5084,105 +5422,100 @@ namespace EveHQ.PosManager
             // OK, new fill numbers, etc have been set for towers. Now I need to update the display
             // accordingly
             TowerReactMod tr;
-            TreeNode pos;
             decimal sMult;
-            string posName;
+            POS pl;
 
             SetModuleWarnOnValueAndTime();
 
-            pos = tv_ReactManage.SelectedNode;
-            if (pos == null)
+            // Now - Get / find this POS in the list of towers
+            // If tower cannot be found, leave
+            if (!PlugInData.PDL.Designs.ContainsKey(Sel_React_Pos))
                 return;
 
-            if (pos.Parent != null)
-                pos = pos.Parent;
+            pl = PlugInData.PDL.Designs[Sel_React_Pos];
+            // Found Selected Tower - Update all Modules
+            sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
 
-            // Now - Get / find this POS in the list of towers
-            foreach (POS pl in POSList.Designs)
+            foreach (Control c in p_PosMods.Controls)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >";
-                if (posName == pos.Text)
+                tr = (TowerReactMod)c;
+
+                foreach (Module m in pl.Modules)
                 {
-                    // Found Selected Tower - Update all Modules
-                    sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
-
-                    foreach (Control c in p_PosMods.Controls)
+                    if (m.ModuleID == tr.ReactMod.ModuleID)
                     {
-                        tr = (TowerReactMod)c;
-
-                        foreach (Module m in pl.Modules)
-                        {
-                            if (m.ModuleID == tr.ReactMod.ModuleID)
-                            {
-                                tr.SetModuleData(m, sMult);
-                                break;
-                            }
-                        }
+                        tr.SetModuleData(m, sMult);
+                        break;
                     }
                 }
             }
         }
-         
+
+        private void gp_ReacTower_Resize(object sender, EventArgs e)
+        {
+            PopulateTowerModuleDisplay();
+        }
+
         public void PopulateTowerModuleDisplay()
         {
-            // Need to populate the tree view with Monitored Towers and Thier applicable modules
+            // Need to populate the tower display with Monitored Towers and Thier applicable modules
             // IE: Silos, Juntions, Reactors, Harvesters
-            TreeNode mtn, tn;
-            string posName, line;
-            bool hasMods = false;
-            int towerNum = 1;
+            int width, numWide, countV = 0, countH = 0;
+            ReactMod smd;
+            ArrayList SiloMods = new ArrayList();
+            ReactionTower RT;
 
-            tv_ReactManage.Nodes.Clear();
+            SetModuleWarnOnValueAndTime();
 
-            foreach (POS pl in POSList.Designs)
+            gp_ReacTower.Controls.Clear();
+            foreach (POS pl in PlugInData.PDL.Designs.Values)
             {
                 if (!pl.Monitored)
                     continue;
 
-                posName = pl.Name;
-
-                posName += "  < " + pl.Moon + " >";
-
-                mtn = tv_ReactManage.Nodes.Add(posName);
-                mtn.Name = "Tower" + towerNum;
-                towerNum++;
-                hasMods = false;
-
+                SiloMods.Clear();
                 foreach (Module m in pl.Modules)
                 {
                     if ((m.Category == "Mobile Reactor") || (m.Category == "Moon Mining") ||
                         (m.Category == "Silo"))
                     {
                         if (m.Category == "Silo")
-                            line = m.Name + " < " + m.CapQty + " / " + m.MaxQty + ">";
-                        else
-                            line = m.Name;
+                        {
+                            if (m.FillEmptyTime == 0)
+                                smd = new ReactMod(m.selMineral.name, PlugInData.ConvertReactionHoursToTextDisplay(m.FillEmptyTime), 999999, Convert.ToInt32(m.CapQty), Convert.ToInt32(m.MaxQty));
+                            else
+                                smd = new ReactMod(m.selMineral.name, PlugInData.ConvertReactionHoursToTextDisplay(m.FillEmptyTime), m.FillEmptyTime, Convert.ToInt32(m.CapQty), Convert.ToInt32(m.MaxQty));
 
-                        tn = mtn.Nodes.Add(line);
-                        hasMods = true;
+                            SiloMods.Add(smd);
+                        }
                     }
                 }
 
-                if (!hasMods)
-                    tv_ReactManage.Nodes.Remove(mtn);
+                if (SiloMods.Count > 0)
+                {
+                    SiloMods.Sort();
+                    // Populate the controls display
+                    RT = new ReactionTower();
+                    RT.UpdateReactionInformation(pl.Name, pl.Moon, SiloMods, this, pl.itemID);
+                    width = gp_ReacTower.Width;
+                    numWide = (int)(width / RT.Width);
+
+                    if (countH < numWide)
+                    {
+                        RT.Location = new Point(countH * (RT.Width + 1), countV * (RT.Height + 2));
+                        gp_ReacTower.Controls.Add(RT);
+                        countH++;
+                    }
+                    else
+                    {
+                        countH = 0;
+                        countV++;
+                        RT.Location = new Point(countH * (RT.Width + 1), countV * (RT.Height + 2));
+                        gp_ReacTower.Controls.Add(RT);
+                        countH++;
+                    }
+                }
             }
-
-        }
-
-        private void tv_ReactManage_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            // Populate Module list on RH side with correct controls, etc... for this POS
-            TreeNode pos;
-
-            pos = tv_ReactManage.SelectedNode;
-
-            if (pos.Parent != null)
-                pos = pos.Parent;
-
-            SelReactPos = pos.Text;
-
-            POSList.SaveDesignListing();
-            DisplayReactionModules();
         }
 
         private void DisplayReactionModules()
@@ -5190,47 +5523,42 @@ namespace EveHQ.PosManager
             TowerReactMod trm;
             int num = 0;
             decimal sMult;
-            string posName;
+            POS pl;
+            // Get corret POS Object
+            pl = PlugInData.PDL.Designs[SelReactPos];
 
             // Clear current module display
             p_PosMods.Controls.Clear();
             p_PosMods.Refresh();
             SetModuleWarnOnValueAndTime();
 
-            // Now - Get / find this POS in the list of towers
-            foreach (POS pl in POSList.Designs)
+            SetReactionModuleID(pl);
+
+            foreach (Module m in pl.Modules)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >";
-
-                if (SelReactPos == posName)
+                if (((m.Category == "Mobile Reactor") || (m.Category == "Moon Mining") ||
+                    (m.Category == "Silo")) && (m.State == "Online"))
                 {
-                    SetReactionModuleID(pl);
+                    trm = new TowerReactMod(m.Name);
+                    trm.myData = this;
+                    trm.Location = new Point(0, (num * 86));
+                    p_PosMods.Controls.Add(trm);
+                    sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
+                    trm.SetModuleData(m, sMult);
 
-                    foreach (Module m in pl.Modules)
-                    {
-                        if (((m.Category == "Mobile Reactor") || (m.Category == "Moon Mining") ||
-                            (m.Category == "Silo")) && (m.State == "Online"))
-                        {
-                            trm = new TowerReactMod(m.Name);
-                            trm.myData = this;
-                            trm.Location = new Point(0, (num * 86));
-                            p_PosMods.Controls.Add(trm);
-                            sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
-                            trm.SetModuleData(m, sMult);
-
-                            num++;
-                        }
-                    }
-                    SetActiveLinkColorBG(pl);
+                    num++;
                 }
             }
-            POSList.SaveDesignListing();
+            SetActiveLinkColorBG(pl);
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
+
         }
 
         private void SetActiveLinkColorBG(POS pl)
         {
             TowerReactMod tr;
-            int lnkCnt = 0;
+            long lnkCnt = 0;
 
             // Now populate links
             foreach (ReactionLink rl in pl.ReactionLinks)
@@ -5240,35 +5568,11 @@ namespace EveHQ.PosManager
                     tr = (TowerReactMod)c;
 
                     if (tr.ReactMod.ModuleID == rl.InpID)
-                        tr.SetLinkColor(LColor[lnkCnt], rl.srcNm);
+                        tr.SetLinkColor(PlugInData.LColor[lnkCnt], rl.srcNm);
                     if (tr.ReactMod.ModuleID == rl.OutID)
-                        tr.SetLinkColor(LColor[lnkCnt], rl.dstNm);
+                        tr.SetLinkColor(PlugInData.LColor[lnkCnt], rl.dstNm);
                 }
                 lnkCnt++;
-            }
-        }
-
-        public void CopyMissingReactData(Module m)
-        {
-            foreach (Module bm in ML.Modules)
-            {
-                if (bm.typeID == m.typeID)
-                {
-                    m.ReactList = new ArrayList(bm.ReactList);
-                    m.MSRList = new ArrayList(bm.MSRList);
-                    m.InputList = new ArrayList(bm.InputList);
-                    m.OutputList = new ArrayList(bm.OutputList);
-                    m.selReact = new Reaction();
-                    m.selMineral = new MoonSiloReactMineral();
-                    m.ModuleID = 0;
-                    m.ModType = 0;
-                    m.CapVol = 0;
-                    m.CapQty = 0;
-                    m.MaxQty = 0;
-                    m.FillEmptyTime = 0;
-                    m.WarnOn = 0;
-                    break;
-                }
             }
         }
 
@@ -5353,319 +5657,309 @@ namespace EveHQ.PosManager
             }
         }
 
-        public void TowerReactModuleUpdated(Module m, int cTyp, int linkID, string pbNm)
+        public void TowerReactModuleUpdated(Module m, long cTyp, long linkID, string pbNm)
         {
-            string posName;
-
+            POS pl;
             // Get corret POS Object
-            foreach (POS pl in POSList.Designs)
+            pl = PlugInData.PDL.Designs[SelReactPos];
+
+            // A module reaction, or Link has been set
+            switch (cTyp)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >";
-                if (posName == SelReactPos)
-                {
-                    // A module reaction, or Link has been set
-                    switch(cTyp)
+                case 1:
+                case 11:
+                    // Mineral has been set
+                    foreach (Module pm in pl.Modules)
                     {
-                        case 1:
-                        case 11:
-                            // Mineral has been set
-                            foreach (Module pm in pl.Modules)
-                            {
-                                if (pm.ModuleID == m.ModuleID)
-                                {
-                                    pm.selMineral = new MoonSiloReactMineral(m.selMineral);
-                                    pm.MaxQty = m.MaxQty;
-                                    if (cTyp == 11)
-                                        ClearReactionLink(pm);
-                                    break;
-                                }
-                            }
+                        if (pm.ModuleID == m.ModuleID)
+                        {
+                            pm.selMineral = new MoonSiloReactMineral(m.selMineral);
+                            pm.MaxQty = m.MaxQty;
+                            if (cTyp == 11)
+                                ClearReactionLink(pm);
                             break;
-                        case 2:
-                        case 12:
-                            // Reaction has been set
-                            foreach (Module pm in pl.Modules)
-                            {
-                                if (pm.ModuleID == m.ModuleID)
-                                {
-                                    pm.selReact = new Reaction(m.selReact);
-                                    if (cTyp == 12)
-                                        ClearReactionLink(pm);
-                                    break;
-                                }
-                            }
-                            break;
-                        case 3:
-                            if (srcID != 0)
-                            {
-                                // selection of 2nd input has taken place.
-                                ClearSelectData();
-                            }
-                            // Source has been selected
-                            srcID = m.ModuleID;
-                            srcNm = pbNm;
-
-                            if (dstID != 0)
-                                CheckAndSetModuleLinkIfCompatible();
-                            break;
-                        case 4:
-                            if (dstID != 0)
-                            {
-                                // selection of 2nd output has taken place.
-                                ClearSelectData();
-                            }
-                            // Destination has been selected
-                            dstID = m.ModuleID;
-                            dstNm = pbNm;
-
-                            if (srcID != 0)
-                                CheckAndSetModuleLinkIfCompatible();
-                            break;
-                        case 5:
-                            // We Have a Silo Fill Level Change
-                            foreach (Module pm in pl.Modules)
-                            {
-                                if (pm.ModuleID == m.ModuleID)
-                                {
-                                    pm.CapQty = m.CapQty;
-                                    pm.CapVol = m.CapVol;
-                                }
-                            }
-                            // Values updated, change tower timestamp
-                            pl.React_TS = DateTime.Now;
-                            break;
-                        case 6:
-                            // User wants to clear this reaction link
-                            foreach (ReactionLink rl in pl.ReactionLinks)
-                            {
-                                if (((rl.InpID == m.ModuleID) && (rl.srcNm == pbNm)) || ((rl.OutID == m.ModuleID) && (rl.dstNm == pbNm)))
-                                {
-                                    pl.ReactionLinks.Remove(rl);
-                                    DisplayReactionModules();
-                                    break;
-                                }
-                            }
-                            break;
-                        default:
-                            break;
+                        }
                     }
-                }
+                    break;
+                case 2:
+                case 12:
+                    // Reaction has been set
+                    foreach (Module pm in pl.Modules)
+                    {
+                        if (pm.ModuleID == m.ModuleID)
+                        {
+                            pm.selReact = new Reaction(m.selReact);
+                            if (cTyp == 12)
+                                ClearReactionLink(pm);
+                            break;
+                        }
+                    }
+                    break;
+                case 3:
+                    if (srcID != 0)
+                    {
+                        // selection of 2nd input has taken place.
+                        ClearSelectData();
+                    }
+                    // Source has been selected
+                    srcID = m.ModuleID;
+                    srcNm = pbNm;
+
+                    if (dstID != 0)
+                        CheckAndSetModuleLinkIfCompatible();
+                    break;
+                case 4:
+                    if (dstID != 0)
+                    {
+                        // selection of 2nd output has taken place.
+                        ClearSelectData();
+                    }
+                    // Destination has been selected
+                    dstID = m.ModuleID;
+                    dstNm = pbNm;
+
+                    if (srcID != 0)
+                        CheckAndSetModuleLinkIfCompatible();
+                    break;
+                case 5:
+                    // We Have a Silo Fill Level Change
+                    foreach (Module pm in pl.Modules)
+                    {
+                        if (pm.ModuleID == m.ModuleID)
+                        {
+                            pm.CapQty = m.CapQty;
+                            pm.CapVol = m.CapVol;
+                        }
+                    }
+                    // Values updated, change tower timestamp
+                    pl.React_TS = DateTime.Now;
+                    break;
+                case 6:
+                    // User wants to clear this reaction link
+                    foreach (ReactionLink rl in pl.ReactionLinks)
+                    {
+                        if (((rl.InpID == m.ModuleID) && (rl.srcNm == pbNm)) || ((rl.OutID == m.ModuleID) && (rl.dstNm == pbNm)))
+                        {
+                            pl.ReactionLinks.Remove(rl);
+                            DisplayReactionModules();
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
+
+            SetReactChangedStatus(true, "Reaction Data Changed - Save Needed");
         }
 
         public bool CheckAndSetModuleLinkIfCompatible()
         {
             Module src = new Module();
             Module dst = new Module();
-            int numFound = 0;
+            long numFound = 0;
             int srcNum = 0, dstNum = 0;
             InOutData dio, sio;
-            string posName;
+            POS pl;
+            // Get corret POS Object
+            pl = PlugInData.PDL.Designs[SelReactPos];
 
             if (srcNm.Length > 0)
             {
-                srcNum = Convert.ToInt32(srcNm.Substring(6,1)) - 1;
+                srcNum = Convert.ToInt32(srcNm.Substring(6, 1)) - 1;
             }
 
             if (dstNm.Length > 0)
             {
-                dstNum = Convert.ToInt32(dstNm.Substring(5,1)) - 1;
+                dstNum = Convert.ToInt32(dstNm.Substring(5, 1)) - 1;
             }
 
             // Reaction has been set
-            foreach (POS pl in POSList.Designs)
+            if (pl.ReactionLinks.Count >= MaxLink)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >";
-                if (posName == SelReactPos)
+                MessageBox.Show("Sorry, Maximum [20] Links has been Reached. Pester Sherk to allow more!");
+                ClearSelectData();
+                return false;
+            }
+            // Found tower - now find modules
+            foreach (Module pm in pl.Modules)
+            {
+                if (pm.ModuleID == srcID)
                 {
-                    if (pl.ReactionLinks.Count >= MaxLink)
-                    {
-                        MessageBox.Show("Sorry, Maximum [20] Links has been Reached. Pester Sherk to allow more!");
-                        ClearSelectData();
-                        return false;
-                    }
-                    // Found tower - now find modules
-                    foreach (Module pm in pl.Modules)
-                    {
-                        if (pm.ModuleID == srcID)
-                        {
-                            src = new Module(pm);
-                            numFound++;
-                        }
-                        if (pm.ModuleID == dstID)
-                        {
-                            dst = new Module(pm);
-                            numFound++;
-                        }
+                    src = new Module(pm);
+                    numFound++;
+                }
+                if (pm.ModuleID == dstID)
+                {
+                    dst = new Module(pm);
+                    numFound++;
+                }
 
-                        if (numFound == 2)
-                            break;
-                    }
-
-                    if (src.ModuleID == dst.ModuleID)
-                    {
-                        MessageBox.Show("Invalid Link - Source and Destination of Link cannot be the Same Module.");
-                        ClearSelectData();
-                        return false;
-                    }
-
-                    // Verify location is not already linked
-                    foreach (ReactionLink rl in pl.ReactionLinks)
-                    {
-                        if (((rl.srcNm == srcNm) && (rl.InpID == src.ModuleID)) || ((rl.dstNm == dstNm) && (rl.OutID == dst.ModuleID)))
-                        {
-                            MessageBox.Show("Invalid Link - Input or Output is Already Linked.");
-                            ClearSelectData();
-                            return false;
-                        }
-                    }
-
-                    // src == Module providing link source material
-                    // dst == Module providing link desctination for material
-                    if (src.Category == "Mobile Reactor")
-                    {
-                        // Source is a Mobile Reactor, Dest Can be: A Reactor or A Silo/Junction
-                        // Source Has different Outputs, make sure we check correct one
-                        sio = new InOutData((InOutData)src.selReact.outputs[srcNum]);
-
-                        if (dst.Category == "Silo")
-                        {
-                            if (sio.typeID == dst.selMineral.typeID)
-                            { 
-                                // Valid - complete the linkup
-                                SetModuleReactionLink(pl);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Invalid Link - Mineral Output Type and Target Module Type are not compatible.");
-                                ClearSelectData();
-                                return false;
-                                // Not valid
-                            }
-                        }
-                        else if (dst.Category == "Mobile Reactor")
-                        {
-                            dio = new InOutData((InOutData)dst.selReact.inputs[dstNum]);
-                            if (dio.typeID == sio.typeID)
-                            {
-                                // Valid but not ideal - warn
-                                // This is allowed, but more comes in than the reaction will use, so
-                                // it will cost to do it - not ideal use of resources
-                                DialogResult dr = MessageBox.Show("You will lose mineral / reaction production with this link, do you want to continue?", "Make Link", MessageBoxButtons.YesNo);
-
-                                if (dr == DialogResult.Yes)
-                                {
-                                    // Well, stupid things do happen
-                                    SetModuleReactionLink(pl);
-                                }
-                                else
-                                {
-                                    ClearSelectData();
-                                    return false;
-                                }
-                            }
-                            else
-                            {
-                                // Not valid
-                                MessageBox.Show("Invalid Link - Mineral Output Type and Reaction Input Types are not compatible.");
-                                ClearSelectData();
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            // Invalid fitting
-                            MessageBox.Show("Invalid Link - Module Types are Not Compatible.");
-                            ClearSelectData();
-                            return false;
-                        }
-                    }
-                    else if (src.Category == "Moon Mining")
-                    {
-                        // Source is a Moon miner, Dest can be: A Mobile Reactor or a Silo / Junction
-                        // Only one possible output
-                        if(dst.Category == "Silo")
-                        {
-                            if(src.selMineral.typeID == dst.selMineral.typeID)
-                            {
-                                // Valid Link
-                                SetModuleReactionLink(pl);
-                            }
-                            else
-                            {
-                                // Not valid
-                                MessageBox.Show("Invalid Link - Mineral Output Type and Silo Types are not compatible.");
-                                ClearSelectData();
-                                return false;
-                            }
-                        }
-                        else if(dst.Category == "Mobile Reactor")
-                        {
-                            dio = new InOutData((InOutData)dst.selReact.inputs[dstNum]);
-                            if (src.selMineral.typeID == dio.typeID)
-                            {
-                                // Valid Link
-                                SetModuleReactionLink(pl);
-                            }
-                            else
-                            {
-                                // Not valid
-                                MessageBox.Show("Invalid Link - Mineral Output Type and Reaction Input Types are not compatible.");
-                                ClearSelectData();
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Invalid Link - Moon miner input is always the same as Selected Mineral. No link possible here.");
-                            ClearSelectData();
-                            return false;
-                        }
-                    }
-                    else if (src.Category == "Silo")
-                    {
-                        // Input is a Silo type - ensure compatibility with output of the other module in the link
-                        // Silo Outputs can be: Reaction, Silo / Junction
-                        if (dst.Category == "Mobile Reactor")
-                        {
-                            dio = new InOutData((InOutData)dst.selReact.inputs[dstNum]);
-                            if (src.selMineral.typeID == dio.typeID)
-                            {
-                                // Valid Link
-                                SetModuleReactionLink(pl);
-                            }
-                            else
-                            {
-                                // Not valid
-                                MessageBox.Show("Invalid Link - Mineral Output Type and Reaction Input Types are not compatible.");
-                                ClearSelectData();
-                                return false;
-                            }
-                        }
-                        else if(dst.Category == "Silo")
-                        {
-                            // Silo or Moon Mining type - check mineral compabitility
-                            if (src.selMineral.typeID == dst.selMineral.typeID)
-                            {
-                                // Valid
-                                SetModuleReactionLink(pl);
-                            }
-                            else
-                            {
-                                // Not valid
-                                MessageBox.Show("Invalid Link - Mineral Output Type and Mineral Input Types are not compatible.");
-                                ClearSelectData();
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Invalid Link - Silo output cannot be used as input for this Module.");
-                            ClearSelectData();
-                            return false;
-                        }
-                    }
+                if (numFound == 2)
                     break;
+            }
+
+            if (src.ModuleID == dst.ModuleID)
+            {
+                MessageBox.Show("Invalid Link - Source and Destination of Link cannot be the Same Module.");
+                ClearSelectData();
+                return false;
+            }
+
+            // Verify location is not already linked
+            foreach (ReactionLink rl in pl.ReactionLinks)
+            {
+                if (((rl.srcNm == srcNm) && (rl.InpID == src.ModuleID)) || ((rl.dstNm == dstNm) && (rl.OutID == dst.ModuleID)))
+                {
+                    MessageBox.Show("Invalid Link - Input or Output is Already Linked.");
+                    ClearSelectData();
+                    return false;
+                }
+            }
+
+            // src == Module providing link source material
+            // dst == Module providing link desctination for material
+            if (src.Category == "Mobile Reactor")
+            {
+                // Source is a Mobile Reactor, Dest Can be: A Reactor or A Silo/Junction
+                // Source Has different Outputs, make sure we check correct one
+                sio = new InOutData((InOutData)src.selReact.outputs[srcNum]);
+
+                if (dst.Category == "Silo")
+                {
+                    if (sio.typeID == dst.selMineral.typeID)
+                    {
+                        // Valid - complete the linkup
+                        SetModuleReactionLink(pl);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid Link - Mineral Output Type and Target Module Type are not compatible.");
+                        ClearSelectData();
+                        return false;
+                        // Not valid
+                    }
+                }
+                else if (dst.Category == "Mobile Reactor")
+                {
+                    dio = new InOutData((InOutData)dst.selReact.inputs[dstNum]);
+                    if (dio.typeID == sio.typeID)
+                    {
+                        // Valid but not ideal - warn
+                        // This is allowed, but more comes in than the reaction will use, so
+                        // it will cost to do it - not ideal use of resources
+                        DialogResult dr = MessageBox.Show("You will lose mineral / reaction production with this link, do you want to continue?", "Make Link", MessageBoxButtons.YesNo);
+
+                        if (dr == DialogResult.Yes)
+                        {
+                            // Well, stupid things do happen
+                            SetModuleReactionLink(pl);
+                        }
+                        else
+                        {
+                            ClearSelectData();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // Not valid
+                        MessageBox.Show("Invalid Link - Mineral Output Type and Reaction Input Types are not compatible.");
+                        ClearSelectData();
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Invalid fitting
+                    MessageBox.Show("Invalid Link - Module Types are Not Compatible.");
+                    ClearSelectData();
+                    return false;
+                }
+            }
+            else if (src.Category == "Moon Mining")
+            {
+                // Source is a Moon miner, Dest can be: A Mobile Reactor or a Silo / Junction
+                // Only one possible output
+                if (dst.Category == "Silo")
+                {
+                    if (src.selMineral.typeID == dst.selMineral.typeID)
+                    {
+                        // Valid Link
+                        SetModuleReactionLink(pl);
+                    }
+                    else
+                    {
+                        // Not valid
+                        MessageBox.Show("Invalid Link - Mineral Output Type and Silo Types are not compatible.");
+                        ClearSelectData();
+                        return false;
+                    }
+                }
+                else if (dst.Category == "Mobile Reactor")
+                {
+                    dio = new InOutData((InOutData)dst.selReact.inputs[dstNum]);
+                    if (src.selMineral.typeID == dio.typeID)
+                    {
+                        // Valid Link
+                        SetModuleReactionLink(pl);
+                    }
+                    else
+                    {
+                        // Not valid
+                        MessageBox.Show("Invalid Link - Mineral Output Type and Reaction Input Types are not compatible.");
+                        ClearSelectData();
+                        return false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Link - Moon miner input is always the same as Selected Mineral. No link possible here.");
+                    ClearSelectData();
+                    return false;
+                }
+            }
+            else if (src.Category == "Silo")
+            {
+                // Input is a Silo type - ensure compatibility with output of the other module in the link
+                // Silo Outputs can be: Reaction, Silo / Junction
+                if (dst.Category == "Mobile Reactor")
+                {
+                    dio = new InOutData((InOutData)dst.selReact.inputs[dstNum]);
+                    if (src.selMineral.typeID == dio.typeID)
+                    {
+                        // Valid Link
+                        SetModuleReactionLink(pl);
+                    }
+                    else
+                    {
+                        // Not valid
+                        MessageBox.Show("Invalid Link - Mineral Output Type and Reaction Input Types are not compatible.");
+                        ClearSelectData();
+                        return false;
+                    }
+                }
+                else if (dst.Category == "Silo")
+                {
+                    // Silo or Moon Mining type - check mineral compabitility
+                    if (src.selMineral.typeID == dst.selMineral.typeID)
+                    {
+                        // Valid
+                        SetModuleReactionLink(pl);
+                    }
+                    else
+                    {
+                        // Not valid
+                        MessageBox.Show("Invalid Link - Mineral Output Type and Mineral Input Types are not compatible.");
+                        ClearSelectData();
+                        return false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Link - Silo output cannot be used as input for this Module.");
+                    ClearSelectData();
+                    return false;
                 }
             }
             ClearSelectData();
@@ -5680,29 +5974,23 @@ namespace EveHQ.PosManager
             retV[1] = 100;
             Module SrcMod = new Module();
             Module DstMod = new Module();
-            string posName;
+            POS pl;
+            // Get corret POS Object
+            pl = PlugInData.PDL.Designs[SelReactPos];
 
-            foreach (POS pl in POSList.Designs)
+            foreach (Module m in pl.Modules)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >";
-                if (posName == SelReactPos)
+                if (m.ModuleID == srcID)
                 {
-                    foreach (Module m in pl.Modules)
-                    {
-                        if (m.ModuleID == srcID)
-                        {
-                            SrcMod = new Module(m);
-                            break;
-                        }
-                    }
-                    foreach (Module m in pl.Modules)
-                    {
-                        if (m.ModuleID == dstID)
-                        {
-                            DstMod = new Module(m);
-                            break;
-                        }
-                    }
+                    SrcMod = new Module(m);
+                    break;
+                }
+            }
+            foreach (Module m in pl.Modules)
+            {
+                if (m.ModuleID == dstID)
+                {
+                    DstMod = new Module(m);
                     break;
                 }
             }
@@ -5774,60 +6062,60 @@ namespace EveHQ.PosManager
             qv = GetQtyVolForLink();
 
             nrl = new ReactionLink(1, srcID, dstID, qv[0], qv[1], Color.Green, srcNm, dstNm);
-            
+
             pl.ReactionLinks.Add(nrl);
-            
+
             SetLinkColorBG(pl);
 
             ClearSelectData();
         }
 
-        private void tsb_React_Save_Click(object sender, EventArgs e)
+        private void b_SaveStatus_Click(object sender, EventArgs e)
         {
-            POSList.SaveDesignListing();
+            b_SaveStatus.Enabled = false;
+            PlugInData.PDL.SaveDesignListing();
+            SetChangedStatus(false, "");
+            SetReactChangedStatus(false, "");
+
             SetReactionValuesAndUpdateDisplay();
             PopulateTowerModuleDisplay();
+            b_SaveStatus.Enabled = true;
         }
 
-        private void tsb_ReactClearLink_Click(object sender, EventArgs e)
+        private void b_ClearLinks_Click(object sender, EventArgs e)
         {
-            string posName;
-
+            POS pl;
             // Get corret POS Object
-            foreach (POS pl in POSList.Designs)
-            {
-                posName = pl.Name + "  < " + pl.Moon + " >";
-                if (posName == SelReactPos)
-                {
-                    pl.ReactionLinks.Clear();
-                    DisplayReactionModules();
-                }
-            }
+            pl = PlugInData.PDL.Designs[SelReactPos];
+            // Get corret POS Object
+
+            pl.ReactionLinks.Clear();
+            DisplayReactionModules();
+
+            SetReactChangedStatus(true, "Reaction Data Changed - Save Needed");
         }
 
         private void ClearReactionLink(Module m)
         {
             ArrayList tmpLst;
-            string posName;
+            POS pl;
+            bool linkCleared = false;
+            // Get corret POS Object
+            pl = PlugInData.PDL.Designs[SelReactPos];
 
-            foreach (POS pl in POSList.Designs)
+            tmpLst = new ArrayList();
+            foreach (ReactionLink rl in pl.ReactionLinks)
             {
-                posName = pl.Name + "  < " + pl.Moon + " >";
-                if (posName == SelReactPos)
+                if ((rl.InpID != m.ModuleID) && (rl.OutID != m.ModuleID))
                 {
-                    tmpLst = new ArrayList();
-                    foreach (ReactionLink rl in pl.ReactionLinks)
-                    {
-                        if ((rl.InpID != m.ModuleID) && (rl.OutID != m.ModuleID))
-                        {
-                            tmpLst.Add(rl);
-                        }
-                    }
-                    pl.ReactionLinks = new ArrayList(tmpLst);
-                    break;
+                    tmpLst.Add(rl);
                 }
+                else
+                    linkCleared = true;
             }
-            DisplayReactionModules();
+            pl.ReactionLinks = new ArrayList(tmpLst);
+            if (linkCleared)
+                DisplayReactionModules();
         }
 
         private void ClearSelectData()
@@ -5859,35 +6147,60 @@ namespace EveHQ.PosManager
                 tr = (TowerReactMod)c;
 
                 if (tr.ReactMod.ModuleID == srcID)
-                    tr.SetLinkColor(LColor[(pl.ReactionLinks.Count-1)], srcNm);
+                    tr.SetLinkColor(PlugInData.LColor[(pl.ReactionLinks.Count - 1)], srcNm);
                 if (tr.ReactMod.ModuleID == dstID)
-                    tr.SetLinkColor(LColor[(pl.ReactionLinks.Count-1)], dstNm);
+                    tr.SetLinkColor(PlugInData.LColor[(pl.ReactionLinks.Count - 1)], dstNm);
             }
         }
 
         public Bitmap GetIcon(string icon)
         {
             Bitmap bmp;
-            string imgLoc;
+            Image img;
 
-            imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(icon, Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Icons));
+            img = EveHQ.Core.ImageHandler.GetImage(icon);
 
-            try
-            {
-                bmp = new Bitmap(Image.FromFile(imgLoc));
-            }
-            catch
+            if (img == null)
             {
                 bmp = new Bitmap(il_system.Images[0]);
             }
+            else
+                bmp = new Bitmap(img);
 
             return bmp;
         }
 
-#endregion
+        public void TowerSelectedForReactionLinks(string name)
+        {
+            Sel_React_Pos = name;
+
+            // Populate Module list on RH side with correct controls, etc... for this POS
+            if (ReactChanged == true)
+            {
+                // Query user to save any changes
+                DialogResult dr = MessageBox.Show("The currently Selected Reaction has Changed. Do you want to Save it?", "Save Reaction State", MessageBoxButtons.YesNo);
+
+                if (dr == DialogResult.Yes)
+                {
+                    PlugInData.PDL.SaveDesignListing();
+                    SetChangedStatus(false, "");
+                }
+                else
+                {
+                    PlugInData.PDL.LoadDesignListing();
+                }
+            }
+            SetReactChangedStatus(false, "");
+
+            SelReactPos = name;
+
+            DisplayReactionModules();
+        }
+
+        #endregion
 
 
-#region Tower Notifications
+        #region Tower Notifications
 
         private TreeNode FindTreeNode(TreeNodeCollection tnc, string node)
         {
@@ -5906,11 +6219,11 @@ namespace EveHQ.PosManager
 
             tv_Players.Nodes.Clear();
 
-            foreach (Player p in PL.Players)
+            foreach (Player p in PlugInData.PL.Players)
             {
                 mtn = tv_Players.Nodes.Add(p.Name);
                 mtn.Name = p.Name;
-                if(p.Email1 != "")
+                if (p.Email1 != "")
                     tn = mtn.Nodes.Add(p.Email1);
                 if (p.Email2 != "")
                     tn = mtn.Nodes.Add(p.Email2);
@@ -5926,7 +6239,7 @@ namespace EveHQ.PosManager
 
             tv_Notifications.Nodes.Clear();
 
-            foreach (PosNotify p in NL.NotifyList)
+            foreach (PosNotify p in PlugInData.NL.NotifyList)
             {
                 mtn = FindTreeNode(tv_Notifications.Nodes, p.Tower);
                 if (mtn == null)
@@ -5966,157 +6279,8 @@ namespace EveHQ.PosManager
 
         private void tsb_Test_Click(object sender, EventArgs e)
         {
-            mailSendErr = false;
+            PlugInData.NL.mailSendErr = false;
             bgw_ManualSend.RunWorkerAsync();
-        }
-
-        private bool SendNotification(PosNotify pn, POS p)
-        {
-            string eServe, eAddy, eUser, ePass, paddStr = "", mailMsg = "", subject;
-            string paddLine = "";
-            bool useSMTP;
-            int ePort;
-            decimal timeP;
-            decimal totVol=0, totCost=0;
-            decimal[,] tval = new decimal[13, 3];
-            string[,] fVal;
-            decimal ReactTime = 0;
-            ArrayList ReactRet;
-            System.Net.Mail.SmtpClient Notify = new System.Net.Mail.SmtpClient();
-            System.Net.Mail.MailMessage NtfMsg;
-
-            for (int x = 0; x < 13; x++)
-            {
-                for (int y = 0; y < 3; y++)
-                    tval[x, y] = 0;
-            }
-
-            eServe = EveHQ.Core.HQ.EveHQSettings.EMailServer;
-            ePort = EveHQ.Core.HQ.EveHQSettings.EMailPort;
-            eAddy = EveHQ.Core.HQ.EveHQSettings.EMailAddress;
-            useSMTP = EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth;
-            eUser = EveHQ.Core.HQ.EveHQSettings.EMailUsername;
-            ePass = EveHQ.Core.HQ.EveHQSettings.EMailPassword;
-
-            Notify.Port = ePort;
-            Notify.Host = eServe;
-
-            if (useSMTP)
-            {
-                System.Net.NetworkCredential netCred = new System.Net.NetworkCredential();
-                netCred.Password = ePass;
-                netCred.UserName = eUser;
-                Notify.Credentials = netCred;
-            }
-
-            if (pn.Type == "Fuel Level")
-            {
-                timeP = p.ComputePosFuelUsageForFillTracking(4, 0, Config.data.FuelCosts);
-                p.PosTower.T_Fuel.SetCurrentFuelVolumes();
-                p.PosTower.T_Fuel.SetCurrentFuelCosts(Config.data.FuelCosts);
-                fVal = p.PosTower.T_Fuel.GetFuelBayTotals();
-
-                mailMsg += "Tower   : " + p.Name + "\n";
-                mailMsg += "Location: " + p.Moon + "\n";
-                mailMsg += "Fuel Run Time Is: " + ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "\n";
-                mailMsg += "\nThe Tower Needs the Following Fuel for MAX Run Time:\n";
-                mailMsg += "----------------------------------------------------\n\n";
-
-                for (int x = 0; x < 13; x++)
-                {
-                    if ((!p.UseChart) && (x == 11))
-                        continue;
-
-                    if (Convert.ToDecimal(fVal[x, 1]) > 0)
-                    {
-                        paddStr = fVal[x, 0].PadRight(17, ' ');
-                        paddLine = " [ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])).PadLeft(7) + " ]";
-                        paddStr += paddLine;
-                        paddLine = "[ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])).PadLeft(7) + "m3 ]";
-                        paddStr += paddLine;
-                        paddLine = "[ " + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])).PadLeft(11) + "isk ]\n";
-                        paddStr += paddLine;
-                        totVol += Convert.ToDecimal(fVal[x, 2]);
-                        totCost += Convert.ToDecimal(fVal[x, 3]);
-                        tval[x, 0] += Convert.ToDecimal(fVal[x, 1]);
-                        tval[x, 1] += Convert.ToDecimal(fVal[x, 2]);
-                        tval[x, 2] += Convert.ToDecimal(fVal[x, 3]);
-                        mailMsg += paddStr;
-                    }
-                }
-                mailMsg += "Transport Volume  [ " + String.Format("{0:#,0.#}", totVol).PadLeft(12) + "m3 ]\n";
-                mailMsg += "Total Fuel Cost   [ " + String.Format("{0:#,0.#}", totCost).PadLeft(11) + "isk ]\n";
-                //Clipboard.SetText(mailMsg);
-            }
-            else if (pn.Type == "Silo Level")
-            {
-                ReactRet = GetLongestSiloRunTime(p);
-                ReactTime = (decimal)ReactRet[0];
-
-                mailMsg += "Tower   : " + p.Name + "\n";
-                mailMsg += "Location: " + p.Moon + "\n";
-                mailMsg += "\nThe Tower Needs the Silo's Dealt With!\n";
-                mailMsg += "----------------------------------------------------\n\n";
-
-                foreach (Module m in p.Modules)
-                {
-                    paddLine = "";
-                    switch (Convert.ToInt64(m.ModType))
-                    {
-                        case 2:
-                        case 8:
-                        case 9:
-                        case 11:
-                        case 12:
-                        case 13:
-                            paddLine = m.selMineral.name + " Silo Needs attention in [ " + ConvertHoursToTextDisplay(m.FillEmptyTime) + " ]\n\n";
-                            break;
-                        default:
-                            break;
-                    }
-                    mailMsg += paddLine;
-                }
-            }
-            else
-                return false;  // Unknown Type
-
-            NtfMsg = new System.Net.Mail.MailMessage();
-            NtfMsg.From = new System.Net.Mail.MailAddress(eAddy);
-            foreach (Player pl in pn.PList.Players)
-            {
-                foreach (Player ply in PL.Players)
-                {
-                    if (pl.Name == ply.Name)
-                    {
-                        if (ply.Email1 != "")
-                        {
-                            NtfMsg.To.Add(ply.Email1);
-                        }
-                        if (ply.Email2 != "")
-                        {
-                            NtfMsg.To.Add(ply.Email2);
-                        }
-                        if (ply.Email3 != "")
-                        {
-                            NtfMsg.To.Add(ply.Email3);
-                        }
-                    }
-                }
-            }
-            subject = "EveHQ PoSManager: " + pn.Type + " for '" + p.Name + "'";
-            NtfMsg.Subject = subject;
-            NtfMsg.Body = mailMsg;
-            try 
-            {
-                Notify.Send(NtfMsg);
-            }
-            catch
-            {
-                MessageBox.Show("Error during attempt to Send Mail\nCheck to make sure the Mail configuration for EveHQ\nis correct and that you have a good connection.\n\nYou will need to do a Manual Send (button)\nOr restart manager to re-enable Notification Mails.", "Mail Send Error");
-                mailSendErr = true;
-                return false;
-            }
-            return true;
         }
 
         private void tsm_EditNotify_Click(object sender, EventArgs e)
@@ -6173,12 +6337,12 @@ namespace EveHQ.PosManager
                 if (dr == DialogResult.Yes)
                 {
                     root = sel.Text;
-                    foreach (PosNotify pn in NL.NotifyList)
+                    foreach (PosNotify pn in PlugInData.NL.NotifyList)
                     {
                         if (pn.Tower != root)
                             tLst.Add(pn);
                     }
-                    NL.NotifyList = new ArrayList(tLst);
+                    PlugInData.NL.NotifyList = new ArrayList(tLst);
                 }
                 else
                     return;
@@ -6191,7 +6355,7 @@ namespace EveHQ.PosManager
                 rule = sel.Text;
                 root = sel.Parent.Text;
 
-                foreach (PosNotify pn in NL.NotifyList)
+                foreach (PosNotify pn in PlugInData.NL.NotifyList)
                 {
                     line = pn.Type + " [ Start at " + pn.InitQty + " " + pn.Initial + " | Every " + pn.FreqQty + " " + pn.Frequency + " after.]";
                     if ((pn.Tower == root) && (line == rule))
@@ -6199,14 +6363,14 @@ namespace EveHQ.PosManager
                         DialogResult dr = MessageBox.Show("Are you sure you want to Delete the Rule for :" + root + "\n Rule: " + rule, "Delete Rule", MessageBoxButtons.YesNo);
                         if (dr == DialogResult.Yes)
                         {
-                            NL.NotifyList.Remove(pn);
+                            PlugInData.NL.NotifyList.Remove(pn);
                         }
                         break;
                     }
                 }
             }
 
-            NL.SaveNotificationList();
+            PlugInData.NL.SaveNotificationList();
             PopulateNotificationList();
         }
 
@@ -6234,7 +6398,7 @@ namespace EveHQ.PosManager
             TreeNode plyr;
             bool delYes = false;
 
-            foreach (Player p in PL.Players)
+            foreach (Player p in PlugInData.PL.Players)
             {
                 plyr = tv_Players.SelectedNode;
                 if (plyr != null)
@@ -6249,7 +6413,7 @@ namespace EveHQ.PosManager
 
                         if (dr == DialogResult.Yes)
                         {
-                            PL.Players.Remove(p);
+                            PlugInData.PL.Players.Remove(p);
                             delYes = true;
                             break;
                         }
@@ -6258,14 +6422,9 @@ namespace EveHQ.PosManager
             }
             if (delYes)
             {
-                PL.SavePlayerList();
+                PlugInData.PL.SavePlayerList();
                 PopulatePlayerList();
             }
-        }
-
-        private void bgw_SendNotify_DoWork(object sender, DoWorkEventArgs e)
-        {
-            CheckAndSendNotificationIfActive();
         }
 
         private void bgw_ManualSend_DoWork(object sender, DoWorkEventArgs e)
@@ -6297,30 +6456,2182 @@ namespace EveHQ.PosManager
                 root = sel.Parent.Text;
             }
 
-            foreach (PosNotify pn in NL.NotifyList)
+            foreach (PosNotify pn in PlugInData.NL.NotifyList)
             {
                 line = pn.Type + " [ Start at " + pn.InitQty + " " + pn.Initial + " | Every " + pn.FreqQty + " " + pn.Frequency + " after.]";
                 if ((pn.Tower == root) && (rule == line))
                 {
-                    foreach (POS p in POSList.Designs)
+                    if (PlugInData.PDL.Designs.ContainsKey(root))
                     {
-                        if (p.Name == root)
-                        {
-                            SendNotification(pn, p);
-                            break;
-                        }
+                        PlugInData.NL.SendNotification(pn, PlugInData.PDL.Designs[root]);
                     }
                     break;
                 }
             }
         }
 
+        #endregion
 
 
-#endregion
+        #region Module API Link Handling
 
+        private void AddTowerToModLinkMenu(string twr, string crp, string mn, string syst)
+        {
+            DevComponents.AdvTree.Node corp = null, towr;
+            DevComponents.AdvTree.Node systM = null;
+            string twrNm;
+
+            if (crp.Length < 1)  // If no corp name, just leave here
+                return;
+
+            foreach (DevComponents.AdvTree.Node cE in ct_MonTwrForLink.Nodes)
+            {
+                if (cE.Text.Equals(crp))
+                {
+                    corp = cE;
+
+                    foreach (DevComponents.AdvTree.Node sE in cE.Nodes)
+                    {
+                        if (sE.Text.Equals(syst))
+                        {
+                            systM = sE;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if (corp == null)
+            {
+                // Corp does not exist, so add it
+                corp = new DevComponents.AdvTree.Node();
+                corp.Text = crp;
+                corp.Selectable = false;
+                corp.Expanded = true;
+                ct_MonTwrForLink.Nodes.Add(corp);
+            }
+
+            if (systM == null)
+            {
+                // Corp does not exist, so add it
+                systM = new DevComponents.AdvTree.Node();
+                systM.Text = syst;
+                systM.Selectable = false;
+                systM.Expanded = false;
+                corp.Nodes.Add(systM);
+            }
+
+            twrNm = twr + " [" + mn + "]";
+            towr = new DevComponents.AdvTree.Node();
+            towr.Text = twrNm;
+            // Tower does not exist - add it
+            systM.Nodes.Add(towr);
+        }
+
+        public void ClearModuleLinkAndRedraw(long modID, string twrName)
+        {
+            POS st;
+
+            if (!PlugInData.ModuleLinks.ContainsKey(modID))
+                return;
+
+            if (!PlugInData.PDL.Designs.ContainsKey(twrName))
+                return;
+
+            st = PlugInData.PDL.Designs[twrName];
+
+            foreach (Module m in st.Modules)
+            {
+                if (m.modID == modID)
+                {
+                    m.modID = 0;
+                    break;
+                }
+            }
+            PlugInData.ModuleLinks.Remove(modID);
+            // Update Link module color backgrounds appropriately
+            PlugInData.SaveModuleLinkListToDisk();
+            PlugInData.PDL.SaveDesignListing();
+
+            UpdateModuleLinks();
+        }
+
+        public void SetModuleLinkAndRedraw()
+        {
+            POS st;
+            string tnm;
+            
+            // Create a module link with the desired information
+            if (!PlugInData.ModuleLinks.ContainsKey(PlugInData.LinkInProgress.modID))
+            {
+                PlugInData.ModuleLinks.Add(PlugInData.LinkInProgress.modID, PlugInData.LinkInProgress);
+
+                tnm = ct_MonTwrForLink.Text;
+                tnm = tnm.Substring(0, tnm.IndexOf("[") - 1);
+                st = PlugInData.PDL.Designs[tnm];
+
+                foreach (Module m in st.Modules)
+                {
+                    if (PlugInData.LinkInProgress.modLoc.Equals(m.Location))
+                    {
+                        // Found correct module, set moduleID
+                        m.modID = PlugInData.LinkInProgress.modID;
+                    }
+                }
+
+                PlugInData.LinkInProgress = new ModuleLink();
+            }
+            
+            PlugInData.SaveModuleLinkListToDisk();
+            PlugInData.PDL.UpdateTowerSiloValuesForAPI();   // New link, so update the Data !
+            PlugInData.PDL.SaveDesignListing();
+
+            // Update Link module color backgrounds appropriately
+            UpdateModuleLinks();
+        }
+
+        private void UpdateModuleLinks()
+        {
+            long tModID = 0;
+            int colCt = 0;
+            int rowCt = 0;
+            POS st;
+            string tnm, twrN;
+            LinkModule LM;
+
+            if (ct_MonTwrForLink.SelectedNode == null)
+                return;
+
+            twrN = ct_MonTwrForLink.Text;
+            tnm = twrN.Substring(0, twrN.IndexOf("[") - 1);
+            st = PlugInData.PDL.Designs[tnm];
+
+            gp_TowerSelectList.Controls.Clear();
+            foreach (Module m in st.Modules)
+            {
+                switch (m.typeID)
+                {
+                    case 16216: // Mobile Labs
+                    case 28351: //
+                    case 32245: //
+                    case 14343: // Silo Types
+                    case 17982: //
+                    case 25270: //
+                    case 25271: //
+                    case 25280: //
+                    case 25821: //
+                    case 30655: // Silo Types
+                    case 27897: // JB
+                    case 17621: // CHA
+                    case 12237: // SMA
+                    case 24646: // CSMA
+                        LM = new LinkModule();
+                        if (m.modID == 0)
+                        {
+                            tModID++;
+                        }
+                        
+                        if (m.State.Equals("Online"))
+                            LM.SetLinkModuleInfo(m.Name, m.modID, m.typeID, tnm, st.corpID, st.CorpName, 0, false, m.Location, m.selMineral.name, "");
+                        else
+                            LM.SetLinkModuleInfo(m.Name, m.modID, m.typeID, tnm, st.corpID, st.CorpName, 0, false, m.Location, m.State, "");
+                        LM.Location = new Point(colCt * (LM.Width + 1), rowCt * (LM.Height + 1));
+                        colCt++;
+                        if (colCt >= Math.Floor((float)(gp_TowerSelectList.Width / (LM.Width+1))))
+                        {
+                            rowCt++;
+                            colCt = 0;
+                        }
+                        gp_TowerSelectList.Controls.Add(LM);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            colCt = 0;
+            rowCt = 0;
+            gp_SystemModules.Controls.Clear();
+            if (PlugInData.CpML.ContainsKey(st.CorpName))
+            {
+                foreach (APIModule apm in PlugInData.CpML[st.CorpName].Values)
+                {
+
+                    if (PlugInData.SystemIDToStr.ContainsKey(apm.systemID) && (PlugInData.SystemIDToStr[apm.systemID].Equals(st.System)))
+                    {
+                        switch (apm.typeID)
+                        {
+                            case 16216: // Mobile Labs
+                            case 28351: //
+                            case 32245: //
+                            case 14343: // Silo Types
+                            case 17982: //
+                            case 25270: //
+                            case 25271: //
+                            case 25280: //
+                            case 25821: //
+                            case 30655: // Silo Types
+                            case 27897: // JB
+                            case 17621: // CHA
+                            case 12237: // SMA
+                            case 24646: // CSMA
+                                LM = new LinkModule();
+
+                                LM.SetLinkModuleInfo(apm.name, apm.modID, apm.typeID, tnm, st.corpID, st.CorpName, apm.systemID, true, "", "", apm.updateTime);
+                                LM.Location = new Point(colCt * (LM.Width + 1), rowCt * (LM.Height + 1));
+                                colCt++;
+                                if (colCt >= Math.Floor((float)(gp_SystemModules.Width / (LM.Width + 1))))
+                                {
+                                    rowCt++;
+                                    colCt = 0;
+                                }
+                                gp_SystemModules.Controls.Add(LM);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+
+            foreach (ModuleLink ML in PlugInData.ModuleLinks.Values)
+            {
+                if (ct_MonTwrForLink.Text.Contains(ML.twrName))
+                {
+                    // Update Tower side
+                    foreach (LinkModule LMd in gp_TowerSelectList.Controls)
+                    {
+                        if (ML.modID == LMd.modID)
+                            LMd.UpdateLinkColor(ML.LinkColor, "");
+                    }
+                }
+                // Update System side
+                foreach (LinkModule LMd in gp_SystemModules.Controls)
+                {
+                    if (ML.modID == LMd.modID)
+                        LMd.UpdateLinkColor(ML.LinkColor, ML.twrName);
+                }
+            }
+        }
+
+        private void ct_MonTwrForLink_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateModuleLinks();
+        }
+
+        private void gp_SystemModules_Resize(object sender, EventArgs e)
+        {
+            ct_MonTwrForLink_SelectedIndexChanged(sender, e);
+        }
+
+        #endregion
+
+
+        #region Stored Fuel Display
+
+        private long IsItemTowerFuelType(long ID)
+        {
+            switch (ID)
+            {
+                case 44:    // Enr Uranium
+                    return 1;
+                case 3683:  // Oxygen
+                    return 2;
+                case 3689:  // Mech Parts
+                    return 3;
+                case 9832:  // Coolant
+                    return 4;
+                case 9848:  // Robotics
+                    return 5;
+                case 16272: // Heavy Water
+                    return 10;
+                case 16273: // Liquid Ozone
+                    return 11;
+                case 24592: // Charter
+                case 24593: // Charter
+                case 24594: // Charter
+                case 24595: // Charter
+                case 24596: // Charter
+                case 24597: // Charter
+                    return 13;
+                case 17888: // Nitrogen Isotopes
+                    return 6;
+                case 16274: // Helium Isotopes
+                    return 7;
+                case 17889: // Hydrogen Isotopes
+                    return 8;
+                case 17887: // Oxygen Isotopes
+                    return 9;
+                case 16275: // Strontium
+                    return 12;
+                default:
+                    return 0;
+            }
+        }
+
+        private bool IsItemTowerModType(long ID)
+        {
+            if (PlugInData.ML.Modules.ContainsKey(ID))
+                return true;
+
+            return false;
+        }
+
+        public void PopulateStoredFuelDisplay()
+        {
+            bool hasFI = false, hasFIM = false, locE = false;
+            long itmT;
+            DevComponents.AdvTree.Node Owner, LocN, ModN;
+            DevComponents.AdvTree.Cell Qtys;
+
+            long[] FuelTotals, LocFT, ModFT;
+
+            if (PlugInData.bgw_APIUpdate.IsBusy)
+                return;
+
+            at_StoredFuel.Nodes.Clear();
+            tp_ModsAndFuel.Visible = true;
+            LocFT = new long[14];
+
+            foreach (var ch in PlugInData.ChML)
+            {
+                // This is character name <-- Primary Node
+                if (ch.Value.Values.Count > 0)
+                {
+                    Owner = new DevComponents.AdvTree.Node(ch.Key);
+                    hasFIM = false;
+                    FuelTotals = new long[14];
+
+                    // APIModule is a location, ship, etc - not an actual data item
+                    foreach (APIModule APM in ch.Value.Values)
+                    {
+                        LocN = new DevComponents.AdvTree.Node();
+                        locE = false;
+                        foreach (DevComponents.AdvTree.Node LC in Owner.Nodes)
+                        {
+                            if (LC.Text.Equals(APM.locName))
+                            {
+                                locE = true;
+                                LocN = LC;
+                                break;
+                            }
+                        }
+
+                        if (!locE)
+                        {
+                            LocN.Text = APM.locName;
+                            LocFT = new long[14];
+                        }
+                        else
+                        {
+                            for (int x = 1; x < 15; x++)
+                            {
+
+                                LocFT[x - 1] = Convert.ToInt64(Double.Parse(LocN.Cells[x].Text));
+                            }
+                        }
+
+                        hasFI = false;
+                        ModFT = new long[14];
+                        ModN = new DevComponents.AdvTree.Node(APM.name);
+
+                        if (APM.Items.Count > 0)
+                        {
+                            hasFI = PopulateModuleItemNodes(APM.Items, ModFT, ModN);
+                        }
+                        else
+                        {
+                            itmT = IsItemTowerFuelType(APM.typeID);
+
+                            if (itmT > 0)
+                            {
+                                hasFI = true;
+                                 ModFT[itmT] += APM.Qty;
+                            }
+                        }
+
+                        if (hasFI)
+                        {
+                            hasFIM = true;
+                            for (int x = 0; x < 14; x++)
+                            {
+                                Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", ModFT[x]));
+                                LocFT[x] += ModFT[x];
+                                ModN.Cells.Add(Qtys);
+                            }
+                            LocN.Nodes.Add(ModN);
+                            if (locE)
+                            {
+                                for (int x = 1; x < 15; x++)
+                                {
+                                    LocN.Cells[x].Text = String.Format("{0:#,0.#}", LocFT[x-1]);
+                                    FuelTotals[x-1] += ModFT[x-1];
+                                }
+                            }
+                            else
+                            {
+                                for (int x = 0; x < 14; x++)
+                                {
+                                    Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", LocFT[x]));
+                                    FuelTotals[x] += LocFT[x];
+                                    LocN.Cells.Add(Qtys);
+                                }
+                                Owner.Nodes.Add(LocN);
+                            }
+                        }                          
+                    }
+
+                    if (hasFIM)
+                    {
+                        for (int x = 0; x < 14; x++)
+                        {
+                            Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", FuelTotals[x]));
+                            Owner.Cells.Add(Qtys);
+                        }
+                        at_StoredFuel.Nodes.Add(Owner);
+                    }
+                }
+            }
+
+            foreach (var ch in PlugInData.CpML)
+            {
+                // This is character name <-- Primary Node
+                if (ch.Value.Values.Count > 0)
+                {
+                    Owner = new DevComponents.AdvTree.Node(ch.Key);
+                    hasFIM = false;
+                    FuelTotals = new long[14];
+
+                    // APIModule is a location, ship, etc - not an actual data item
+                    foreach (APIModule APM in ch.Value.Values)
+                    {
+                        LocN = new DevComponents.AdvTree.Node();
+                        locE = false;
+                        foreach (DevComponents.AdvTree.Node LC in Owner.Nodes)
+                        {
+                            if (LC.Text.Equals(APM.locName))
+                            {
+                                locE = true;
+                                LocN = LC;
+                                break;
+                            }
+                        }
+
+                        if (!locE)
+                        {
+                            LocN.Text = APM.locName;
+                            LocFT = new long[14];
+                        }
+                        else
+                        {
+                            for (int x = 1; x < 15; x++)
+                            {
+                                LocFT[x - 1] = Convert.ToInt64(Double.Parse(LocN.Cells[x].Text));
+                            }
+                        }
+
+                        hasFI = false;
+                        ModFT = new long[14];
+                        ModN = new DevComponents.AdvTree.Node(APM.name);
+
+                        if (APM.name.Contains("Hangar"))
+                        {
+                        }
+                        if (APM.Items.Count > 0)
+                        {
+                            hasFI = PopulateModuleItemNodes(APM.Items, ModFT, ModN);
+                        }
+                        else
+                        {
+                            itmT = IsItemTowerFuelType(APM.typeID);
+
+                            if (itmT > 0)
+                            {
+                                hasFI = true;
+                                ModFT[itmT] += APM.Qty;
+                            }
+                        }
+
+                        if (hasFI)
+                        {
+                            hasFIM = true;
+                            for (int x = 0; x < 14; x++)
+                            {
+                                Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", ModFT[x]));
+                                LocFT[x] += ModFT[x];
+                                ModN.Cells.Add(Qtys);
+                            }
+                            LocN.Nodes.Add(ModN);
+                            if (locE)
+                            {
+                                for (int x = 1; x < 15; x++)
+                                {
+                                    LocN.Cells[x].Text = String.Format("{0:#,0.#}", LocFT[x - 1]);
+                                    FuelTotals[x - 1] += ModFT[x - 1];
+                                }
+                            }
+                            else
+                            {
+                                for (int x = 0; x < 14; x++)
+                                {
+                                    Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", LocFT[x]));
+                                    FuelTotals[x] += LocFT[x];
+                                    LocN.Cells.Add(Qtys);
+                                }
+                                Owner.Nodes.Add(LocN);
+                            }
+                        }
+                    }
+
+                    if (hasFIM)
+                    {
+                        for (int x = 0; x < 14; x++)
+                        {
+                            Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", FuelTotals[x]));
+                            Owner.Cells.Add(Qtys);
+                        }
+                        at_StoredFuel.Nodes.Add(Owner);
+                    }
+                }
+            }
+        }
+
+        public bool PopulateModuleItemNodes(SortedList<long, PlugInData.ModuleItem> MIs, long[] FT, DevComponents.AdvTree.Node RN)
+        {
+            long itmT;
+            bool hasFI = false;
+            bool sNodeFI = false;
+            bool hasAnyFI = false;
+            DevComponents.AdvTree.Node ModN;
+            DevComponents.AdvTree.Cell Qtys;
+            long[] FTotes;
+
+            foreach (PlugInData.ModuleItem MI in MIs.Values)
+            {
+                FTotes = new long[14];
+                hasFI = false;
+                sNodeFI = false;
+                ModN = new DevComponents.AdvTree.Node(MI.name);
+
+                if ((MI.SubItems != null) && (MI.SubItems.Count > 0))
+                {
+                    // I have a container to parse, make recursive call here
+                    sNodeFI = PopulateModuleItemNodes(MI.SubItems, FTotes, ModN);
+                }
+                else
+                {
+                    // Items to look at and total up                                   
+                    itmT = IsItemTowerFuelType(MI.typeID);
+                    if (itmT > 0)
+                    {
+                        hasFI = true;
+                        FTotes[itmT] += MI.qty;
+                    }
+                }
+
+                if (hasFI || sNodeFI)
+                {
+                    hasAnyFI = true;
+
+                    for (int x = 0; x < 14; x++)
+                    {
+                        Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", FTotes[x]));
+                        FT[x] += FTotes[x];
+                        ModN.Cells.Add(Qtys);
+                    }
+                    RN.Nodes.Add(ModN);
+                }
+            }
+            return hasAnyFI;
+        }
+
+        private void cbx_FuelInStations_CheckedChanged(object sender, EventArgs e)
+        {
+            PopulateStoredFuelDisplay();
+        }
+
+        private void cbx_FuelInShips_CheckedChanged(object sender, EventArgs e)
+        {
+            PopulateStoredFuelDisplay();
+        }
+
+        private void cbx_FuelInSpace_CheckedChanged(object sender, EventArgs e)
+        {
+            PopulateStoredFuelDisplay();
+        }
+
+        private void rb_LocationSort_CheckedChanged(object sender, EventArgs e)
+        {
+            PopulateStoredFuelDisplay();
+        }
+
+        private void b_RefreshAPI_Click(object sender, EventArgs e)
+        {
+            PopulateStoredFuelDisplay();
+        }
+
+        //public void PopulateStoredModsDisplay()
+        //{
+        //    bool fiSh, fiSt, fiSp;
+        //    bool locS;
+        //    long itmID, itmT;
+        //    string loc;
+        //    DevComponents.AdvTree.Node Owner, SubN, LocN;
+        //    DevComponents.AdvTree.Cell Qtys;
+
+        //    SortedList<string, SortedList<string, long>> ModQty = new SortedList<string, SortedList<string, long>>();
+        //    SortedList<string, long> LModQty = new SortedList<string, long>();
+        //    SortedList<string, DevComponents.AdvTree.Node> Locns = new SortedList<string, DevComponents.AdvTree.Node>();
+        //    APIModule APIM;
+
+        //    if (PlugInData.bgw_APIUpdate.IsBusy)
+        //        return;
+
+        //    tp_ModsAndFuel.Visible = true;
+
+        //    fiSh = cbx_FuelInShips.Checked;
+        //    fiSt = cbx_FuelInStations.Checked;
+        //    fiSp = cbx_FuelInSpace.Checked;
+
+        //    locS = rb_LocationSort.Checked;
+
+        //    // Build sorted data listing
+        //    at_TowerMods.Nodes.Clear();
+        //    if (locS)
+        //    {
+        //    }
+        //    else
+        //    {
+        //        // Default case - only active for the moment - No re-sort required
+        //        foreach (var ch in PlugInData.ChML)
+        //        {
+        //            Owner = new DevComponents.AdvTree.Node(ch.Key);
+        //            Locns.Clear();
+        //            ModQty.Clear();
+
+        //            foreach (var itm in ch.Value)
+        //            {
+        //                // Is the item itelf a Module or is it a Container
+        //                itmID = itm.Key;
+        //                APIM = (APIModule)itm.Value;
+
+        //                if (APIM.Items.Count > 0)
+        //                {
+        //                    // Container -- Need a CAN Parser, would appear under locations
+        //                    // Will show if inside of a can or a ship's hold
+        //                    foreach (var l in APIM.Items)
+        //                    {
+        //                        if ((l.Value.SubItems != null) && (l.Value.SubItems.Count > 0))
+        //                        {
+        //                            // Container Inside of another Container (umm... CHA, Corp Hanger, Can inside of Ship, Can in Hanger, etc.)
+        //                        }
+        //                        else
+        //                        {
+        //                            // Items inside of container only                                   
+        //                            if (IsItemTowerModType(l.Value.typeID))
+        //                            {
+        //                                // We have a module inside of this Can
+        //                                loc = APIM.locName;
+        //                                if (Locns.ContainsKey(loc))
+        //                                {
+        //                                    LocN = Locns[loc];
+        //                                }
+        //                                else
+        //                                {
+        //                                    LocN = new DevComponents.AdvTree.Node(loc);
+        //                                    Locns.Add(loc, LocN);
+        //                                }
+
+        //                                if (ModQty.ContainsKey(loc) && ModQty[loc].ContainsKey(APIM.name))
+        //                                {
+        //                                    ModQty[loc][APIM.name] += l.Value.qty;
+        //                                }
+        //                                else if (ModQty.ContainsKey(loc) && !ModQty[loc].ContainsKey(APIM.name))
+        //                                {
+        //                                    ModQty[loc].Add(APIM.name, l.Value.qty);
+        //                                }
+        //                                else
+        //                                {
+        //                                    ModQty.Add(loc, new SortedList<string, long>());
+        //                                    ModQty[loc].Add(APIM.name, l.Value.qty);
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    // Item
+        //                    if (IsItemTowerModType(APIM.typeID))
+        //                    {
+        //                        loc = APIM.locName;
+        //                        if (Locns.ContainsKey(loc))
+        //                        {
+        //                            LocN = Locns[loc];
+        //                        }
+        //                        else
+        //                        {
+        //                            LocN = new DevComponents.AdvTree.Node(loc);
+        //                            Locns.Add(loc, LocN);
+        //                        }
+
+        //                        if (ModQty.ContainsKey(loc) && ModQty[loc].ContainsKey(APIM.name))
+        //                        {
+        //                            ModQty[loc][APIM.name] += APIM.Qty;
+        //                        }
+        //                        else if (ModQty.ContainsKey(loc) && !ModQty[loc].ContainsKey(APIM.name))
+        //                        {
+        //                            ModQty[loc].Add(APIM.name, APIM.Qty);
+        //                        }
+        //                        else
+        //                        {
+        //                            ModQty.Add(loc, new SortedList<string, long>());
+        //                            ModQty[loc].Add(APIM.name, APIM.Qty);
+        //                        }
+        //                    }
+        //                }
+        //            }
+
+        //            foreach (var v in fuelI)
+        //            {
+        //                LocN = Locns[v.Key];
+        //                stot = new long[14];
+        //                foreach (var f in v.Value)
+        //                {
+        //                    ltot = f.Value;
+        //                    SubN = new DevComponents.AdvTree.Node(PlugInData.ItemIDToName[f.Key]);
+
+        //                    for (int x = 1; x < 14; x++)
+        //                    {
+        //                        if (ltot[x] > 0)
+        //                            Qtys = new DevComponents.AdvTree.Cell(ltot[x].ToString());
+        //                        else
+        //                            Qtys = new DevComponents.AdvTree.Cell("");
+
+        //                        tots[x] += ltot[x];
+        //                        stot[x] += ltot[x];
+        //                        SubN.Cells.Add(Qtys);
+        //                    }
+
+        //                    LocN.Nodes.Add(SubN);
+        //                }
+        //                for (int y = 1; y < 14; y++)
+        //                {
+        //                    if (stot[y] > 0)
+        //                        Qtys = new DevComponents.AdvTree.Cell(stot[y].ToString());
+        //                    else
+        //                        Qtys = new DevComponents.AdvTree.Cell("");
+
+        //                    LocN.Cells.Add(Qtys);
+        //                }
+
+        //                Owner.Nodes.Add(LocN);
+        //            }
+
+        //            for (int y = 1; y < 14; y++)
+        //            {
+        //                if (tots[y] > 0)
+        //                    Qtys = new DevComponents.AdvTree.Cell(tots[y].ToString());
+        //                else
+        //                    Qtys = new DevComponents.AdvTree.Cell("");
+
+        //                Owner.Cells.Add(Qtys);
+        //            }
+
+        //            at_StoredFuel.Nodes.Add(Owner);
+        //        }
+
+        //        foreach (var ch in PlugInData.CML)
+        //        {
+
+        //            Owner = new DevComponents.AdvTree.Node(PlugInData.CorpIDToName[ch.Key]);
+        //            Locns.Clear();
+        //            fuelI.Clear();
+
+        //            foreach (var itm in ch.Value)
+        //            {
+        //                // Is the item itelf a Fuel Item or is it a container
+        //                itmID = itm.Key;
+        //                APIM = (APIModule)itm.Value;
+
+        //                if (APIM.Items.Count > 0)
+        //                {
+        //                    // Container -- Need a CAN Parser, would appear under locations
+        //                    // Will show if inside of a can or a ship's hold
+        //                    foreach (var l in APIM.Items)
+        //                    {
+        //                        if ((l.Value.SubItems != null) && (l.Value.SubItems.Count > 0))
+        //                        {
+        //                            // Container Inside of another Container (umm... CHA, Corp Hanger, Can inside of Ship, Can in Hanger, etc.)
+        //                        }
+        //                        else
+        //                        {
+        //                            // Items inside of container only                                   
+        //                            itmT = IsItemTowerFuelType(l.Value.typeID);
+        //                            if (itmT > 0)
+        //                            {
+        //                                loc = APIM.locName;
+        //                                if (Locns.ContainsKey(loc))
+        //                                {
+        //                                    LocN = Locns[loc];
+        //                                }
+        //                                else
+        //                                {
+        //                                    LocN = new DevComponents.AdvTree.Node(loc);
+        //                                    Locns.Add(loc, LocN);
+        //                                }
+
+        //                                if (fuelI.ContainsKey(loc) && fuelI[loc].ContainsKey(APIM.modID))
+        //                                {
+        //                                    tots = fuelI[loc][APIM.modID];
+        //                                }
+        //                                else if (fuelI.ContainsKey(loc) && !fuelI[loc].ContainsKey(APIM.modID))
+        //                                {
+        //                                    tots = new long[14];
+        //                                    fuelI[loc].Add(APIM.modID, tots);
+        //                                }
+        //                                else
+        //                                {
+        //                                    tots = new long[14];
+        //                                    fuelI.Add(loc, new SortedList<long, int[]>());
+        //                                    fuelI[loc].Add(APIM.modID, tots);
+        //                                }
+
+        //                                tots[itmT] += l.Value.qty;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    // Item
+        //                    itmT = IsItemTowerFuelType(APIM.typeID);
+        //                    if (itmT > 0)
+        //                    {
+        //                        loc = APIM.locName;
+        //                        if (Locns.ContainsKey(loc))
+        //                        {
+        //                            LocN = Locns[loc];
+        //                        }
+        //                        else
+        //                        {
+        //                            LocN = new DevComponents.AdvTree.Node(loc);
+        //                            Locns.Add(loc, LocN);
+        //                        }
+
+        //                        if (fuelI.ContainsKey(loc) && fuelI[loc].ContainsKey(APIM.modID))
+        //                        {
+        //                            tots = fuelI[loc][APIM.modID];
+        //                        }
+        //                        else if (fuelI.ContainsKey(loc) && !fuelI[loc].ContainsKey(APIM.modID))
+        //                        {
+        //                            tots = new long[14];
+        //                            fuelI[loc].Add(APIM.modID, tots);
+        //                        }
+        //                        else
+        //                        {
+        //                            tots = new long[14];
+        //                            fuelI.Add(loc, new SortedList<long, int[]>());
+        //                            fuelI[loc].Add(APIM.modID, tots);
+        //                        }
+
+        //                        tots[itmT] += APIM.Qty;
+        //                    }
+        //                }
+        //            }
+
+        //            tots = new long[14];
+        //            foreach (var v in fuelI)
+        //            {
+        //                LocN = Locns[v.Key];
+        //                stot = new long[14];
+        //                foreach (var f in v.Value)
+        //                {
+        //                    ltot = f.Value;
+        //                    SubN = new DevComponents.AdvTree.Node(PlugInData.ItemIDToName[f.Key]);
+
+        //                    for (int x = 1; x < 14; x++)
+        //                    {
+        //                        if (ltot[x] > 0)
+        //                            Qtys = new DevComponents.AdvTree.Cell(ltot[x].ToString());
+        //                        else
+        //                            Qtys = new DevComponents.AdvTree.Cell("");
+
+        //                        tots[x] += ltot[x];
+        //                        stot[x] += ltot[x];
+        //                        SubN.Cells.Add(Qtys);
+        //                    }
+
+        //                    LocN.Nodes.Add(SubN);
+        //                }
+        //                for (int y = 1; y < 14; y++)
+        //                {
+        //                    if (stot[y] > 0)
+        //                        Qtys = new DevComponents.AdvTree.Cell(stot[y].ToString());
+        //                    else
+        //                        Qtys = new DevComponents.AdvTree.Cell("");
+
+        //                    LocN.Cells.Add(Qtys);
+        //                }
+
+        //                Owner.Nodes.Add(LocN);
+        //            }
+
+        //            for (int y = 1; y < 14; y++)
+        //            {
+        //                if (tots[y] > 0)
+        //                    Qtys = new DevComponents.AdvTree.Cell(tots[y].ToString());
+        //                else
+        //                    Qtys = new DevComponents.AdvTree.Cell("");
+
+        //                Owner.Cells.Add(Qtys);
+        //            }
+
+        //            at_StoredFuel.Nodes.Add(Owner);
+        //        }
+        //    }
+        //}
+
+
+        #endregion
+
+        
+        #region IHUB Handlers
+
+        public void PopulateIHUBDisplay()
+        {
+            string owner;
+            int rInd;
+            SortedList<string, SystemIHub> ownHubs;
+
+            dgv_iHubs.Rows.Clear();
+            owner = cb_iHubOwner.SelectedItem.ToString();
+
+            if (!PlugInData.iHubs.ContainsKey(owner))
+                return;
+
+            ownHubs = PlugInData.iHubs[owner];
+
+            foreach (var v in ownHubs)
+            {
+                rInd = dgv_iHubs.Rows.Add();
+                dgv_iHubs.Rows[rInd].Cells[0].Value = v.Key.ToString();
+
+                foreach (InfrastructureUG IUG in v.Value.OreUG.Values)
+                {
+                    if (IUG.cell > 0)
+                    {
+                        dgv_iHubs.Rows[rInd].Cells[IUG.cell].Value = IUG.colNm;
+                        if (IUG.online)
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.LimeGreen;
+                        else
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.Salmon;
+                    }
+                }
+                foreach (InfrastructureUG IUG in v.Value.SrvUG.Values)
+                {
+                    if (IUG.cell > 0)
+                    {
+                        dgv_iHubs.Rows[rInd].Cells[IUG.cell].Value = IUG.colNm;
+                        if (IUG.online)
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.LimeGreen;
+                        else
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.Salmon;
+                    }
+                }
+                foreach (InfrastructureUG IUG in v.Value.EntUG.Values)
+                {
+                    if (IUG.cell > 0)
+                    {
+                        dgv_iHubs.Rows[rInd].Cells[IUG.cell].Value = IUG.colNm;
+                        if (IUG.online)
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.LimeGreen;
+                        else
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.Salmon;
+                    }
+                }
+                foreach (InfrastructureUG IUG in v.Value.PrtUG.Values)
+                {
+                    if (IUG.cell > 0)
+                    {
+                        dgv_iHubs.Rows[rInd].Cells[IUG.cell].Value = IUG.colNm;
+                        if (IUG.online)
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.LimeGreen;
+                        else
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.Salmon;
+                    }
+                }
+                foreach (InfrastructureUG IUG in v.Value.FlxUG.Values)
+                {
+                    if (IUG.cell > 0)
+                    {
+                        dgv_iHubs.Rows[rInd].Cells[IUG.cell].Value = IUG.colNm;
+                        if (IUG.online)
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.LimeGreen;
+                        else
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.Salmon;
+                    }
+                }
+                foreach (InfrastructureUG IUG in v.Value.StratUG.Values)
+                {
+                    if (IUG.cell > 0)
+                    {
+                        dgv_iHubs.Rows[rInd].Cells[IUG.cell].Value = IUG.colNm;
+                        if (IUG.online)
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.LimeGreen;
+                        else
+                            dgv_iHubs.Rows[rInd].Cells[IUG.cell].Style.BackColor = Color.Salmon;
+                    }
+                }
+            }
+        }
+
+        public void PopulateIHUBOwners()
+        {
+            cb_iHubOwner.Items.Clear();
+            cb_iHubOwner.Items.AddRange(PlugInData.iHubs.Keys.ToArray());
+            if (cb_iHubOwner.Items.Count > 0)
+                cb_iHubOwner.SelectedIndex = 0;
+        }
+
+        private void cb_iHubOwner_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PopulateIHUBDisplay();
+        }
+
+        private void cms_IHubs_Opening(object sender, CancelEventArgs e)
+        {
+            if (dgv_iHubs.SelectedCells[0].ColumnIndex == 0)
+            {
+                cms_IHubs.Items[0].Enabled = false;
+                cms_IHubs.Items[1].Enabled = false;
+                cms_IHubs.Items[2].Enabled = false;
+                cms_IHubs.Items[3].Enabled = false;
+                cms_IHubs.Items[4].Enabled = true;
+                cms_IHubs.Items[5].Enabled = true;
+                cms_IHubs.Items[6].Enabled = true;
+            }
+            else
+            {
+                cms_IHubs.Items[0].Enabled = true;
+                cms_IHubs.Items[1].Enabled = true;
+                cms_IHubs.Items[2].Enabled = true;
+                cms_IHubs.Items[3].Enabled = true;
+                cms_IHubs.Items[4].Enabled = false;
+                cms_IHubs.Items[5].Enabled = false;
+                cms_IHubs.Items[6].Enabled = false;
+            }
+        }
+
+        private void tmsi_MarkIUGOffline_Click(object sender, EventArgs e)
+        {
+            // Ore = 1-5
+            // Survay = 6-10
+            // Entrapment = 11-15
+            // Pirate = 16-20
+            // Quantumn = 21-25
+            // Bridge = 26
+            // CynoGen = 27
+            // CynoJam = 28
+            // SC Construct = 29
+            int row, col;
+            string SelSystem, SelIUG = "Unknown", colNm = "";
+            row = dgv_iHubs.SelectedCells[0].RowIndex;
+            col = dgv_iHubs.SelectedCells[0].ColumnIndex;
+
+            SelSystem = dgv_iHubs[0, row].Value.ToString();
+
+            if (!PlugInData.iHubs.ContainsKey(cb_iHubOwner.Text))
+                return;
+            if (!PlugInData.iHubs[cb_iHubOwner.Text].ContainsKey(SelSystem))
+                return;
+
+            if (col < 6)
+            {
+                SelIUG = "Ore Prospecting Array " + col;
+                colNm = "Ore " + col;
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG.ContainsKey(SelIUG))
+                {
+                     PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG[SelIUG].online = false;
+                }
+            }
+            else if (col < 11)
+            {
+                SelIUG = "Survey Networks " + col;
+                colNm = "Surv " + (col - 5);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG[SelIUG].online = false;
+                }
+            }
+            else if (col < 16)
+            {
+                SelIUG = "Entrapment Array " + col;
+                colNm = "Entp " + (col - 10);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG[SelIUG].online = false;
+                }
+            }
+            else if (col < 21)
+            {
+                SelIUG = "Pirate Detection Array " + col;
+                colNm = "Pirt " + (col - 15);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG[SelIUG].online = false;
+                }
+            }
+            else if (col < 26)
+            {
+                SelIUG = "Quantum Flux Generator " + col;
+                colNm = "Q.Flx " + (col - 20);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG[SelIUG].online = false;
+                }
+            }
+            else if (col == 26)
+            {
+                SelIUG = "Advanced Logistics Network";
+                colNm = "Bridge";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = false;
+                }
+            }
+            else if (col == 27)
+            {
+                SelIUG = "Cynosural Navigation";
+                colNm = "CynoGen";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = false;
+                }
+            }
+            else if (col == 28)
+            {
+                SelIUG = "Cynosural Suppresion";
+                colNm = "Cyno-Jam";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = false;
+                }
+            }
+            else if (col == 29)
+            {
+                SelIUG = "Supercapital Construction Facilities";
+                colNm = "S-Cap";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = false;
+                }
+            }
+            PopulateIHUBDisplay();
+            PlugInData.SaveIHubListing();
+        }
+
+        private void tmsi_AddIUG_Click(object sender, EventArgs e)
+        {
+            // Ore = 1-5
+            // Survay = 6-10
+            // Entrapment = 11-15
+            // Pirate = 16-20
+            // Quantumn = 21-25
+            // Bridge = 26
+            // CynoGen = 27
+            // CynoJam = 28
+            // SC Construct = 29
+            int row, col;
+            string SelSystem, SelIUG = "Unknown", colNm = "";
+            InfrastructureUG IUG;
+
+            row = dgv_iHubs.SelectedCells[0].RowIndex;
+            col = dgv_iHubs.SelectedCells[0].ColumnIndex;
+            SelSystem = dgv_iHubs[0, row].Value.ToString();
+
+            if (col < 1)    // col 0 == System, we do not want that to do anything here
+                return;
+            if (!PlugInData.iHubs.ContainsKey(cb_iHubOwner.Text))
+                return;
+            if (!PlugInData.iHubs[cb_iHubOwner.Text].ContainsKey(SelSystem))
+                return;
+
+            if (col < 6)
+            {
+                SelIUG = "Ore Prospecting Array " + col;
+                colNm = "Ore " + col;
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col < 11)
+            {
+                SelIUG = "Survey Networks " + (col - 5);
+                colNm = "Surv " + (col  - 5);
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col < 16)
+            {
+                SelIUG = "Entrapment Array " + (col - 10);
+                colNm = "Entp " + (col - 10);
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col < 21)
+            {
+                SelIUG = "Pirate Detection Array " + (col - 15);
+                colNm = "Pirt " + (col - 15);
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col < 26)
+            {
+                SelIUG = "Quantum Flux Generator " + (col - 20);
+                colNm = "Q.Flx " + (col - 20);
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col == 26)
+            {
+                SelIUG = "Advanced Logistics Network";
+                colNm = "Bridge";
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col == 27)
+            {
+                SelIUG = "Cynosural Navigation";
+                colNm = "CynoGen";
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col == 28)
+            {
+                SelIUG = "Cynosural Suppresion";
+                colNm = "Cyno-Jam";
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Add(IUG.name, IUG);
+                }
+            }
+            else if (col == 29)
+            {
+                SelIUG = "Supercapital Construction Facilities";
+                colNm = "S-Cap";
+                if (!PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    IUG = new InfrastructureUG();
+                    IUG.name = SelIUG;
+                    IUG.colNm = colNm;
+                    IUG.cell = col;
+                    IUG.online = true;
+                    IUG.ID = -1;
+                    IUG.typeID = -1;
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Add(IUG.name, IUG);
+                }
+            }
+            PopulateIHUBDisplay();
+            PlugInData.SaveIHubListing();
+        }
+
+        private void tmsi_RemoveIUG_Click(object sender, EventArgs e)
+        {
+            // Ore = 1-5
+            // Survay = 6-10
+            // Entrapment = 11-15
+            // Pirate = 16-20
+            // Quantumn = 21-25
+            // Bridge = 26
+            // CynoGen = 27
+            // CynoJam = 28
+            // SC Construct = 29
+            int row, col;
+            string SelSystem, SelIUG = "Unknown";
+
+            row = dgv_iHubs.SelectedCells[0].RowIndex;
+            col = dgv_iHubs.SelectedCells[0].ColumnIndex;
+            SelSystem = dgv_iHubs[0, row].Value.ToString();
+
+            if (!PlugInData.iHubs.ContainsKey(cb_iHubOwner.Text))
+                return;
+            if (!PlugInData.iHubs[cb_iHubOwner.Text].ContainsKey(SelSystem))
+                return;
+
+            if (col < 6)
+            {
+                SelIUG = "Ore Prospecting Array " + col;
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG.Remove(SelIUG);
+                }
+            }
+            else if (col < 11)
+            {
+                SelIUG = "Survey Networks " + col;
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG.Remove(SelIUG);
+                }
+            }
+            else if (col < 16)
+            {
+                SelIUG = "Entrapment Array " + col;
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG.Remove(SelIUG);
+                }
+            }
+            else if (col < 21)
+            {
+                SelIUG = "Pirate Detection Array " + col;
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG.Remove(SelIUG);
+                }
+            }
+            else if (col < 26)
+            {
+                SelIUG = "Quantum Flux Generator " + col;
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG.Remove(SelIUG);
+                }
+            }
+            else if (col == 26)
+            {
+                SelIUG = "Advanced Logistics Network";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Remove(SelIUG);
+                }
+            }
+            else if (col == 27)
+            {
+                SelIUG = "Cynosural Navigation";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Remove(SelIUG);
+                }
+            }
+            else if (col == 28)
+            {
+                SelIUG = "Cynosural Suppresion";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Remove(SelIUG);
+                }
+            }
+            else if (col == 29)
+            {
+                SelIUG = "Supercapital Construction Facilities";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.Remove(SelIUG);
+                }
+            }
+            PopulateIHUBDisplay();
+            PlugInData.SaveIHubListing();
+        }
+
+        private void tmsi_MarkHUBOffline_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsmi_MarkHUBOnline_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsmi_MarkIUGOnline_Click(object sender, EventArgs e)
+        {
+            // Ore = 1-5
+            // Survay = 6-10
+            // Entrapment = 11-15
+            // Pirate = 16-20
+            // Quantumn = 21-25
+            // Bridge = 26
+            // CynoGen = 27
+            // CynoJam = 28
+            // SC Construct = 29
+            int row, col;
+            string SelSystem, SelIUG = "Unknown", colNm = "";
+            row = dgv_iHubs.SelectedCells[0].RowIndex;
+            col = dgv_iHubs.SelectedCells[0].ColumnIndex;
+
+            SelSystem = dgv_iHubs[0, row].Value.ToString();
+
+            if (!PlugInData.iHubs.ContainsKey(cb_iHubOwner.Text))
+                return;
+            if (!PlugInData.iHubs[cb_iHubOwner.Text].ContainsKey(SelSystem))
+                return;
+
+            if (col < 6)
+            {
+                SelIUG = "Ore Prospecting Array " + col;
+                colNm = "Ore " + col;
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].OreUG[SelIUG].online = true;
+                }
+            }
+            else if (col < 11)
+            {
+                SelIUG = "Survey Networks " + col;
+                colNm = "Surv " + (col - 5);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].SrvUG[SelIUG].online = true;
+                }
+            }
+            else if (col < 16)
+            {
+                SelIUG = "Entrapment Array " + col;
+                colNm = "Entp " + (col - 10);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].EntUG[SelIUG].online = true;
+                }
+            }
+            else if (col < 21)
+            {
+                SelIUG = "Pirate Detection Array " + col;
+                colNm = "Pirt " + (col - 15);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].PrtUG[SelIUG].online = true;
+                }
+            }
+            else if (col < 26)
+            {
+                SelIUG = "Quantum Flux Generator " + col;
+                colNm = "Q.Flx " + (col - 20);
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].FlxUG[SelIUG].online = true;
+                }
+            }
+            else if (col == 26)
+            {
+                SelIUG = "Advanced Logistics Network";
+                colNm = "Bridge";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = true;
+                }
+            }
+            else if (col == 27)
+            {
+                SelIUG = "Cynosural Navigation";
+                colNm = "CynoGen";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = true;
+                }
+            }
+            else if (col == 28)
+            {
+                SelIUG = "Cynosural Suppresion";
+                colNm = "Cyno-Jam";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = true;
+                }
+            }
+            else if (col == 29)
+            {
+                SelIUG = "Supercapital Construction Facilities";
+                colNm = "S-Cap";
+                if (PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG.ContainsKey(SelIUG))
+                {
+                    PlugInData.iHubs[cb_iHubOwner.Text][SelSystem].StratUG[SelIUG].online = true;
+                }
+            }
+            PopulateIHUBDisplay();
+            PlugInData.SaveIHubListing();
+        }
+
+        private void tmsi_RemoveHUB_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void b_AddIHUB_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+        #endregion
+
+
+        #region IGB Security Configuration
+
+        private void clb_POSSecList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            string opt, mod, itm;
+            string[] split;
+
+            if (SecAddLoad)
+                return;
+
+            itm = clb_POSSecList.SelectedItem.ToString();
+
+            split = itm.Split(' ');
+            opt = split[1];
+            mod = split[2].Replace("[", "");
+            mod = mod.Replace("]", "");
+
+            foreach (IGBSecurity igb in PlugInData.POSSecList)
+            {
+                if ((igb.Option.Equals(opt)) && igb.Modifier.Equals(mod))
+                {
+                    if (e.NewValue == CheckState.Checked)
+                        igb.Active = true;
+                    else
+                        igb.Active = false;
+
+                    break;
+                }
+            }
+            PlugInData.SaveSecurityListing();
+        }
+
+        private void clb_IHubSecList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            string opt, mod, itm;
+            string[] split;
+
+            if (SecAddLoad)
+                return;
+
+            itm = clb_IHubSecList.SelectedItem.ToString();
+
+            split = itm.Split(' ');
+            opt = split[1];
+            mod = split[2].Replace("[", "");
+            mod = mod.Replace("]", "");
+
+            foreach (IGBSecurity igb in PlugInData.IHubSecList)
+            {
+                if ((igb.Option.Equals(opt)) && igb.Modifier.Equals(mod))
+                {
+                    if (e.NewValue == CheckState.Checked)
+                        igb.Active = true;
+                    else
+                        igb.Active = false;
+
+                    break;
+                }
+            }
+            PlugInData.SaveSecurityListing();
+        }
+
+        private void tmsi_RPosSec_Click(object sender, EventArgs e)
+        {
+            string opt, mod, itm;
+            string[] split;
+
+            if (clb_POSSecList.SelectedItem == null)
+                return;
+
+            itm = clb_POSSecList.SelectedItem.ToString();
+
+            split = itm.Split(' ');
+            opt = split[1];
+            mod = itm.Substring(itm.IndexOf("[")+1);
+            mod = mod.Replace("]", "");
+
+            foreach (IGBSecurity igb in PlugInData.POSSecList)
+            {
+                if ((igb.Option.Equals(opt)) && igb.Modifier.Equals(mod))
+                {
+                    PlugInData.POSSecList.Remove(igb);
+                    break;
+                }
+            }
+            SecAddLoad = true;
+            PopulateIGBPosSecurityDisplay();
+            SecAddLoad = false;
+            PlugInData.SaveSecurityListing();
+        }
+
+        private void tsmi_RHubSec_Click(object sender, EventArgs e)
+        {
+            string opt, mod, itm;
+            string[] split;
+
+            if (clb_IHubSecList.SelectedItem == null)
+                return;
+
+            itm = clb_IHubSecList.SelectedItem.ToString();
+
+            split = itm.Split(' ');
+            opt = split[1];
+            mod = split[2].Replace("[", "");
+            mod = mod.Replace("]", "");
+
+            foreach (IGBSecurity igb in PlugInData.IHubSecList)
+            {
+                if ((igb.Option.Equals(opt)) && igb.Modifier.Equals(mod))
+                {
+                    PlugInData.IHubSecList.Remove(igb);
+                    break;
+                }
+            }
+            SecAddLoad = true;
+            PopulateIGBHubSecurityDisplay();
+            SecAddLoad = false;
+            PlugInData.SaveSecurityListing();
+        }
+
+        private void b_AddPOSSec_Click(object sender, EventArgs e)
+        {
+            string option, mod;
+            bool andOR;
+
+            option = cb_PosSecOption.Text;
+            mod = cb_PosSecMod.Text;
+            andOR = rb_psAND.Checked;
+
+            PlugInData.POSSecList.Add(new IGBSecurity(option, mod, andOR, true));
+            SecAddLoad = true;
+            PopulateIGBPosSecurityDisplay();
+            SecAddLoad = false;
+            PlugInData.SaveSecurityListing();
+        }
+
+        private void b_AddIHubSec_Click(object sender, EventArgs e)
+        {
+            string option, mod;
+            bool andOR;
+
+            option = cb_HubSecOption.Text;
+            mod = cb_IHubSecMod.Text;
+            andOR = rb_ihAND.Checked;
+
+            PlugInData.IHubSecList.Add(new IGBSecurity(option, mod, andOR, true));
+            SecAddLoad = true;
+            PopulateIGBHubSecurityDisplay();
+            SecAddLoad = false;
+            PlugInData.SaveSecurityListing();
+        }
+
+        private void cb_PosSecOption_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cb_PosSecOption.Text.Equals("Player"))
+            {
+                cb_PosSecMod.Items.Clear();
+                foreach (Player p in PlugInData.SecUsers.Values)
+                    cb_PosSecMod.Items.Add(p.Name + " [ " + p.Ally + " ]");
+                cb_PosSecMod.Show();
+                lb_psMT.Show();
+            }
+            else if (cb_PosSecOption.Text.Equals("Role"))
+            {
+                cb_PosSecMod.Items.Clear();
+                cb_PosSecMod.Items.Add("Director");
+                cb_PosSecMod.Items.Add("Factory Manager");
+                cb_PosSecMod.Items.Add("Station Manager");
+                cb_PosSecMod.Items.Add("Equipment Config");
+                cb_PosSecMod.Items.Add("Starbase Config");
+                cb_PosSecMod.Show();
+                lb_psMT.Show();
+            }
+            else if (cb_PosSecOption.Text.Equals("Anyone"))
+            {
+                cb_PosSecMod.Items.Clear();
+                cb_PosSecMod.Hide();
+                lb_psMT.Hide();
+            }
+            else if (cb_PosSecOption.Text.Equals("Alliance"))
+            {
+                cb_PosSecMod.Items.Clear();
+                foreach (Alliance_Data ad in PlugInData.AL.alliances.Values)
+                    if (!cb_PosSecMod.Items.Contains(ad.name))
+                        cb_PosSecMod.Items.Add(ad.name);
+                cb_PosSecMod.Show();
+                lb_psMT.Show();
+            }
+            else if (cb_PosSecOption.Text.Equals("Corporation"))
+            {
+                cb_PosSecMod.Items.Clear();
+                foreach (Player p in PlugInData.SecUsers.Values)
+                {
+                    if (!cb_PosSecMod.Items.Contains(p.Corp))
+                        cb_PosSecMod.Items.Add(p.Corp);
+                }
+                cb_PosSecMod.Show();
+                lb_psMT.Show();
+            }
+        }
+
+        private void cb_HubSecOption_SelectedIndexChanged(object sender, EventArgs e)
+        {         
+            if (cb_HubSecOption.Text.Equals("Player"))
+            {
+                cb_IHubSecMod.Items.Clear();
+                foreach (Player p in PlugInData.SecUsers.Values)
+                    cb_IHubSecMod.Items.Add(p.Name + " [ " + p.Ally + " ]");
+                cb_IHubSecMod.Show();
+                lb_psMT.Show();
+            }
+            else if (cb_HubSecOption.Text.Equals("Role"))
+            {
+                cb_IHubSecMod.Items.Clear();
+                cb_IHubSecMod.Items.Add("Director");
+                cb_IHubSecMod.Items.Add("Factory Manager");
+                cb_IHubSecMod.Items.Add("Station Manager");
+                cb_IHubSecMod.Items.Add("Equipment Config");
+                cb_IHubSecMod.Items.Add("Starbase Config");
+                cb_IHubSecMod.Show();
+                lb_psMT.Show();
+            }
+            else if (cb_HubSecOption.Text.Equals("Anyone"))
+            {
+                cb_IHubSecMod.Items.Clear();
+                cb_IHubSecMod.Hide();
+                lb_psMT.Hide();
+            }
+            else if (cb_HubSecOption.Text.Equals("Alliance"))
+            {
+                cb_IHubSecMod.Items.Clear();
+                foreach (Alliance_Data ad in PlugInData.AL.alliances.Values)
+                    if (!cb_IHubSecMod.Items.Contains(ad.name))
+                        cb_IHubSecMod.Items.Add(ad.name);
+                cb_IHubSecMod.Show();
+                lb_psMT.Show();
+            }
+            else if (cb_HubSecOption.Text.Equals("Corporation"))
+            {
+                cb_IHubSecMod.Items.Clear();
+                foreach (Player p in PlugInData.SecUsers.Values)
+                {
+                    if (!cb_IHubSecMod.Items.Contains(p.Corp))
+                        cb_IHubSecMod.Items.Add(p.Corp);
+                }
+                cb_IHubSecMod.Show();
+                lb_psMT.Show();
+            }
+        }
+
+        private void PopulateIGBSecurityDisplay()
+        {
+            SecAddLoad = true;
+            PopulateIGBPosSecurityDisplay();
+            PopulateIGBHubSecurityDisplay();
+            SecAddLoad = false;
+        }
+
+        private void PopulateIGBPosSecurityDisplay()
+        {
+            string secItem, andOR;
+
+            clb_POSSecList.Items.Clear();
+
+            foreach (IGBSecurity igb in PlugInData.POSSecList)
+            {
+                if (igb.AND)
+                    andOR = "{AND} ";
+                else
+                    andOR = "{OR} ";
+
+                secItem = andOR + igb.Option + " [" + igb.Modifier + "]";
+
+                clb_POSSecList.Items.Add(secItem, igb.Active);
+            }
+        }
+
+        private void PopulateIGBHubSecurityDisplay()
+        {
+            string secItem, andOR;
+
+            clb_IHubSecList.Items.Clear();
+
+            foreach (IGBSecurity igb in PlugInData.IHubSecList)
+            {
+                if (igb.AND)
+                    andOR = "{AND} ";
+                else
+                    andOR = "{OR} ";
+
+                secItem = andOR + igb.Option + " [" + igb.Modifier + "]";
+
+                clb_IHubSecList.Items.Add(secItem, igb.Active);
+            }
+        }
+
+        #endregion
+
+
+        #region Fuel Price Handler
+
+        private void UpdateItemPrice(string id, double arg)
+        {
+            EveHQ.Core.frmModifyPrice newPrice = new EveHQ.Core.frmModifyPrice(id, arg);
+            newPrice.ShowDialog();
+
+            CalculateAndDisplayDesignFuelData();
+            PopulateTowerFillDG();
+            UpdateSelectedTowerList();
+        }
+
+        private void pb_mEU_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.EnrUran.itemID, 0);
+        }
+
+        private void pb_mOxy_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.Oxygen.itemID, 0);
+        }
+
+        private void pb_mMP_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.MechPart.itemID, 0);
+        }
+
+        private void pb_mCoolant_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.Coolant.itemID, 0);
+        }
+
+        private void pb_MRobotics_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.Robotics.itemID, 0);
+        }
+
+        private void pb_dIso_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (l_IsotopeType.Text.Equals("O2"))
+                    UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                else if (l_IsotopeType.Text.Equals("H2"))
+                    UpdateItemPrice(PlugInData.BFStats.H2Iso.itemID, 0);
+                else if (l_IsotopeType.Text.Equals("N2"))
+                    UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                else if (l_IsotopeType.Text.Equals("He"))
+                    UpdateItemPrice(PlugInData.BFStats.HeIso.itemID, 0);
+            }
+        }
+
+        private void pb_MIso_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (l_M_IsoType.Text.Equals("O2"))
+                    UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                else if (l_M_IsoType.Text.Equals("H2"))
+                    UpdateItemPrice(PlugInData.BFStats.H2Iso.itemID, 0);
+                else if (l_M_IsoType.Text.Equals("N2"))
+                    UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                else if (l_M_IsoType.Text.Equals("He"))
+                    UpdateItemPrice(PlugInData.BFStats.HeIso.itemID, 0);
+            }
+        }
+
+        private void pb_mHW_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.HvyWater.itemID, 0);
+        }
+
+        private void pb_mLO_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.LiqOzone.itemID, 0);
+        }
+
+        private void pb_mCharter_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.Charters.itemID, 0);
+        }
+
+        private void pb_mStront_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                UpdateItemPrice(PlugInData.BFStats.Strontium.itemID, 0);
+        }
+
+        private void dg_MonitoredTowers_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string name, cltxt;
+            DataGridView dgv;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                dgv = (DataGridView)sender;
+                name = dgv.Columns[dgv.CurrentCell.ColumnIndex].HeaderText;
+
+                if (name.Equals("Enr Uranium"))
+                    UpdateItemPrice(PlugInData.BFStats.EnrUran.itemID, 0);
+                else if (name.Equals("Oxygen"))
+                    UpdateItemPrice(PlugInData.BFStats.Oxygen.itemID, 0);
+                else if (name.Equals("Mech Parts"))
+                    UpdateItemPrice(PlugInData.BFStats.MechPart.itemID, 0);
+                else if (name.Equals("Coolant"))
+                    UpdateItemPrice(PlugInData.BFStats.Coolant.itemID, 0);
+                else if (name.Equals("Robotics"))
+                    UpdateItemPrice(PlugInData.BFStats.Robotics.itemID, 0);
+                else if (name.Equals("Isotopes"))
+                {
+                    cltxt = dgv.CurrentCell.Value.ToString();
+
+                    if (cltxt.Contains("O2"))
+                        UpdateItemPrice(PlugInData.BFStats.O2Iso.itemID, 0);
+                    else if (cltxt.Contains("N2"))
+                        UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                    else if (cltxt.Contains("H2"))
+                        UpdateItemPrice(PlugInData.BFStats.H2Iso.itemID, 0);
+                    else if (cltxt.Contains("He"))
+                        UpdateItemPrice(PlugInData.BFStats.HeIso.itemID, 0);
+                }
+                else if (name.Equals("Hvy Water"))
+                    UpdateItemPrice(PlugInData.BFStats.HvyWater.itemID, 0);
+                else if (name.Equals("Liq Ozone"))
+                    UpdateItemPrice(PlugInData.BFStats.LiqOzone.itemID, 0);
+                else if (name.Equals("Charters"))
+                    UpdateItemPrice(PlugInData.BFStats.Charters.itemID, 0);
+                else if (name.Equals("Strontium"))
+                    UpdateItemPrice(PlugInData.BFStats.Strontium.itemID, 0);
+            }
+        }
+
+        private void dg_TowerFuelList_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string name, cltxt;
+            DataGridView dgv;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                dgv = (DataGridView)sender;
+                name = dgv.Columns[dgv.CurrentCell.ColumnIndex].HeaderText;
+
+                if (name.Equals("Enr. Ur."))
+                    UpdateItemPrice(PlugInData.BFStats.EnrUran.itemID, 0);
+                else if (name.Equals("Oxygen"))
+                    UpdateItemPrice(PlugInData.BFStats.Oxygen.itemID, 0);
+                else if (name.Equals("Mech Pts"))
+                    UpdateItemPrice(PlugInData.BFStats.MechPart.itemID, 0);
+                else if (name.Equals("Coolant"))
+                    UpdateItemPrice(PlugInData.BFStats.Coolant.itemID, 0);
+                else if (name.Equals("Robotics"))
+                    UpdateItemPrice(PlugInData.BFStats.Robotics.itemID, 0);
+                else if (name.Equals("Isotopes"))
+                {
+                    cltxt = dgv.CurrentCell.Value.ToString();
+
+                    if (cltxt.Contains("O2"))
+                        UpdateItemPrice(PlugInData.BFStats.O2Iso.itemID, 0);
+                    else if (cltxt.Contains("N2"))
+                        UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                    else if (cltxt.Contains("H2"))
+                        UpdateItemPrice(PlugInData.BFStats.H2Iso.itemID, 0);
+                    else if (cltxt.Contains("He"))
+                        UpdateItemPrice(PlugInData.BFStats.HeIso.itemID, 0);
+                }
+                else if (name.Equals("Hvy. Water"))
+                    UpdateItemPrice(PlugInData.BFStats.HvyWater.itemID, 0);
+                else if (name.Equals("Liq Ozone"))
+                    UpdateItemPrice(PlugInData.BFStats.LiqOzone.itemID, 0);
+                else if (name.Equals("Charters"))
+                    UpdateItemPrice(PlugInData.BFStats.Charters.itemID, 0);
+                else if (name.Equals("Strontium"))
+                    UpdateItemPrice(PlugInData.BFStats.Strontium.itemID, 0);
+            }
+        }
+
+        private void dg_SelectedFuel_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string name;
+            DataGridView dgv;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                dgv = (DataGridView)sender;
+                name = dgv[0, dgv.CurrentCell.RowIndex].Value.ToString();
+
+                if (name.Equals("Enriched Uranium"))
+                    UpdateItemPrice(PlugInData.BFStats.EnrUran.itemID, 0);
+                else if (name.Equals("Oxygen"))
+                    UpdateItemPrice(PlugInData.BFStats.Oxygen.itemID, 0);
+                else if (name.Equals("Mechanical Parts"))
+                    UpdateItemPrice(PlugInData.BFStats.MechPart.itemID, 0);
+                else if (name.Equals("Coolant"))
+                    UpdateItemPrice(PlugInData.BFStats.Coolant.itemID, 0);
+                else if (name.Equals("Robotics"))
+                    UpdateItemPrice(PlugInData.BFStats.Robotics.itemID, 0);
+                else if (name.Contains("Oxygen Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.O2Iso.itemID, 0);
+                else if (name.Contains("Nitrogen Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                else if (name.Contains("Hydrogen Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.H2Iso.itemID, 0);
+                else if (name.Contains("Helium Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.HeIso.itemID, 0);
+                else if (name.Equals("Heavy Water"))
+                    UpdateItemPrice(PlugInData.BFStats.HvyWater.itemID, 0);
+                else if (name.Equals("Liquid Ozone"))
+                    UpdateItemPrice(PlugInData.BFStats.LiqOzone.itemID, 0);
+                else if (name.Equals("Charters"))
+                    UpdateItemPrice(PlugInData.BFStats.Charters.itemID, 0);
+                else if (name.Equals("Strontium Clathrates"))
+                    UpdateItemPrice(PlugInData.BFStats.Strontium.itemID, 0);
+            }
+        }
+
+        private void dg_TotalFuel_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string name;
+            DataGridView dgv;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                dgv = (DataGridView)sender;
+                name = dgv[0, dgv.CurrentCell.RowIndex].Value.ToString();
+
+                if (name.Equals("Enriched Uranium"))
+                    UpdateItemPrice(PlugInData.BFStats.EnrUran.itemID, 0);
+                else if (name.Equals("Oxygen"))
+                    UpdateItemPrice(PlugInData.BFStats.Oxygen.itemID, 0);
+                else if (name.Equals("Mechanical Parts"))
+                    UpdateItemPrice(PlugInData.BFStats.MechPart.itemID, 0);
+                else if (name.Equals("Coolant"))
+                    UpdateItemPrice(PlugInData.BFStats.Coolant.itemID, 0);
+                else if (name.Equals("Robotics"))
+                    UpdateItemPrice(PlugInData.BFStats.Robotics.itemID, 0);
+                else if (name.Contains("Oxygen Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.O2Iso.itemID, 0);
+                else if (name.Contains("Nitrogen Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.N2Iso.itemID, 0);
+                else if (name.Contains("Hydrogen Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.H2Iso.itemID, 0);
+                else if (name.Contains("Helium Isotope"))
+                    UpdateItemPrice(PlugInData.BFStats.HeIso.itemID, 0);
+                else if (name.Equals("Heavy Water"))
+                    UpdateItemPrice(PlugInData.BFStats.HvyWater.itemID, 0);
+                else if (name.Equals("Liquid Ozone"))
+                    UpdateItemPrice(PlugInData.BFStats.LiqOzone.itemID, 0);
+                else if (name.Equals("Charters"))
+                    UpdateItemPrice(PlugInData.BFStats.Charters.itemID, 0);
+                else if (name.Equals("Strontium Clathrates"))
+                    UpdateItemPrice(PlugInData.BFStats.Strontium.itemID, 0);
+            }
+        }
+
+
+
+
+        #endregion
+
+
+        #region Tower Fuel Update - Seperate Window
+
+        private void tsmi_UpdateTowerFuel_Click(object sender, EventArgs e)
+        {
+            POS pl;
+            UpdateTowerFuel UTF;
+
+            if (PlugInData.PDL.Designs.ContainsKey(selName))
+            {
+                pl = PlugInData.PDL.Designs[selName];
+
+                UTF = new UpdateTowerFuel(pl);
+                DialogResult DR = UTF.ShowDialog();
+
+                if (DR != DialogResult.Cancel)
+                {
+                    PlugInData.PDL.CalculatePOSFuelRunTimes(PlugInData.API_D, PlugInData.Config.data.FuelCosts);
+                    PlugInData.PDL.SaveDesignListing();
+                    SetChangedStatus(false, "");
+                    BuildPOSListForMonitoring();
+                    PopulateMonitoredPoSDisplay();
+                    UpdateTowerMonitorDisplay();
+                }
+            }
+
+        }
+
+        #endregion
 
     }
-
 
 }

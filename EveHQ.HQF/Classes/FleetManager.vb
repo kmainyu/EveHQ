@@ -1,4 +1,23 @@
-﻿Public Class FleetManager
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Public Class FleetManager
     Public Shared FleetCollection As New SortedList(Of String, Fleet)
 
     <Serializable()> Public Class Fleet
@@ -54,13 +73,7 @@
     End Class
 
     Public Shared Function IsFittingUsable(ByVal pilotName As String, ByVal shipFit As String) As ArrayList
-        Dim fittingSep As Integer = shipFit.IndexOf(", ")
-        Dim shipName As String = shipFit.Substring(0, fittingSep)
-        Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-        Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
-        Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-        aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
-        Return Engine.CalculateNeededSkills(pilotName, aShip).ShipPilotSkills
+        Return Fittings.FittingList(shipFit).CalculateNeededSkills(pilotName).ShipPilotSkills
     End Function
 
     Public Shared Sub CheckAllFittings()

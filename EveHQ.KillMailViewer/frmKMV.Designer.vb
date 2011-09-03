@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmKMV
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -22,55 +22,44 @@ Partial Class frmKMV
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.gbAPIInfo = New System.Windows.Forms.GroupBox
-        Me.cboAccount = New System.Windows.Forms.ComboBox
-        Me.radUseAPI = New System.Windows.Forms.RadioButton
-        Me.radUseAccount = New System.Windows.Forms.RadioButton
-        Me.lblAPIStatus = New System.Windows.Forms.Label
-        Me.btnGetCharacters = New System.Windows.Forms.Button
-        Me.txtAPIKey = New System.Windows.Forms.TextBox
-        Me.lblAPIKey = New System.Windows.Forms.Label
-        Me.txtUserID = New System.Windows.Forms.TextBox
-        Me.lblUserID = New System.Windows.Forms.Label
-        Me.gbCharacters = New System.Windows.Forms.GroupBox
-        Me.chkUseCorp = New System.Windows.Forms.CheckBox
-        Me.lvwCharacters = New System.Windows.Forms.ListView
-        Me.colCharacterName = New System.Windows.Forms.ColumnHeader
-        Me.btnFetchKillMails = New System.Windows.Forms.Button
-        Me.lblKMSummary = New System.Windows.Forms.Label
-        Me.lblKillmailDetails = New System.Windows.Forms.Label
-        Me.txtKillMailDetails = New System.Windows.Forms.TextBox
-        Me.btnUploadToBC = New System.Windows.Forms.Button
-        Me.clvKillMails = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colVictim = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colShipLost = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colKillTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.gbAPIInfo.SuspendLayout()
-        Me.gbCharacters.SuspendLayout()
+        Me.cboAccount = New System.Windows.Forms.ComboBox()
+        Me.radUseAPI = New System.Windows.Forms.RadioButton()
+        Me.radUseAccount = New System.Windows.Forms.RadioButton()
+        Me.lblAPIStatus = New System.Windows.Forms.Label()
+        Me.btnGetCharacters = New System.Windows.Forms.Button()
+        Me.txtAPIKey = New System.Windows.Forms.TextBox()
+        Me.lblAPIKey = New System.Windows.Forms.Label()
+        Me.txtUserID = New System.Windows.Forms.TextBox()
+        Me.lblUserID = New System.Windows.Forms.Label()
+        Me.chkUseCorp = New System.Windows.Forms.CheckBox()
+        Me.lvwCharacters = New System.Windows.Forms.ListView()
+        Me.colCharacterName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.btnFetchKillMails = New System.Windows.Forms.Button()
+        Me.lblKMSummary = New System.Windows.Forms.Label()
+        Me.lblKillmailDetails = New System.Windows.Forms.Label()
+        Me.txtKillMailDetails = New System.Windows.Forms.TextBox()
+        Me.btnUploadToBC = New System.Windows.Forms.Button()
+        Me.gpAPI = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.gpCharacters = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.adtKillmails = New DevComponents.AdvTree.AdvTree()
+        Me.colVictim = New DevComponents.AdvTree.ColumnHeader()
+        Me.colShip = New DevComponents.AdvTree.ColumnHeader()
+        Me.colDate = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
+        Me.btnCopyKillmail = New DevComponents.DotNetBar.ButtonX()
+        Me.btnExportToHQF = New DevComponents.DotNetBar.ButtonX()
+        Me.gpAPI.SuspendLayout()
+        Me.gpCharacters.SuspendLayout()
+        Me.PanelEx1.SuspendLayout()
+        CType(Me.adtKillmails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'gbAPIInfo
-        '
-        Me.gbAPIInfo.Controls.Add(Me.cboAccount)
-        Me.gbAPIInfo.Controls.Add(Me.radUseAPI)
-        Me.gbAPIInfo.Controls.Add(Me.radUseAccount)
-        Me.gbAPIInfo.Controls.Add(Me.lblAPIStatus)
-        Me.gbAPIInfo.Controls.Add(Me.btnGetCharacters)
-        Me.gbAPIInfo.Controls.Add(Me.txtAPIKey)
-        Me.gbAPIInfo.Controls.Add(Me.lblAPIKey)
-        Me.gbAPIInfo.Controls.Add(Me.txtUserID)
-        Me.gbAPIInfo.Controls.Add(Me.lblUserID)
-        Me.gbAPIInfo.Location = New System.Drawing.Point(12, 12)
-        Me.gbAPIInfo.Name = "gbAPIInfo"
-        Me.gbAPIInfo.Size = New System.Drawing.Size(532, 147)
-        Me.gbAPIInfo.TabIndex = 0
-        Me.gbAPIInfo.TabStop = False
-        Me.gbAPIInfo.Text = "Character API Information"
         '
         'cboAccount
         '
         Me.cboAccount.FormattingEnabled = True
-        Me.cboAccount.Location = New System.Drawing.Point(152, 19)
+        Me.cboAccount.Location = New System.Drawing.Point(138, 11)
         Me.cboAccount.Name = "cboAccount"
         Me.cboAccount.Size = New System.Drawing.Size(146, 21)
         Me.cboAccount.Sorted = True
@@ -79,30 +68,33 @@ Partial Class frmKMV
         'radUseAPI
         '
         Me.radUseAPI.AutoSize = True
-        Me.radUseAPI.Location = New System.Drawing.Point(17, 43)
+        Me.radUseAPI.BackColor = System.Drawing.Color.Transparent
+        Me.radUseAPI.Location = New System.Drawing.Point(3, 35)
         Me.radUseAPI.Name = "radUseAPI"
         Me.radUseAPI.Size = New System.Drawing.Size(106, 17)
         Me.radUseAPI.TabIndex = 7
         Me.radUseAPI.Text = "Use Specific API:"
-        Me.radUseAPI.UseVisualStyleBackColor = True
+        Me.radUseAPI.UseVisualStyleBackColor = False
         '
         'radUseAccount
         '
         Me.radUseAccount.AutoSize = True
+        Me.radUseAccount.BackColor = System.Drawing.Color.Transparent
         Me.radUseAccount.Checked = True
-        Me.radUseAccount.Location = New System.Drawing.Point(17, 20)
+        Me.radUseAccount.Location = New System.Drawing.Point(3, 12)
         Me.radUseAccount.Name = "radUseAccount"
         Me.radUseAccount.Size = New System.Drawing.Size(129, 17)
         Me.radUseAccount.TabIndex = 6
         Me.radUseAccount.TabStop = True
         Me.radUseAccount.Text = "Use Existing Account:"
-        Me.radUseAccount.UseVisualStyleBackColor = True
+        Me.radUseAccount.UseVisualStyleBackColor = False
         '
         'lblAPIStatus
         '
         Me.lblAPIStatus.AutoSize = True
+        Me.lblAPIStatus.BackColor = System.Drawing.Color.Transparent
         Me.lblAPIStatus.Enabled = False
-        Me.lblAPIStatus.Location = New System.Drawing.Point(102, 121)
+        Me.lblAPIStatus.Location = New System.Drawing.Point(88, 113)
         Me.lblAPIStatus.Name = "lblAPIStatus"
         Me.lblAPIStatus.Size = New System.Drawing.Size(154, 13)
         Me.lblAPIStatus.TabIndex = 5
@@ -111,7 +103,7 @@ Partial Class frmKMV
         'btnGetCharacters
         '
         Me.btnGetCharacters.Enabled = False
-        Me.btnGetCharacters.Location = New System.Drawing.Point(422, 116)
+        Me.btnGetCharacters.Location = New System.Drawing.Point(408, 108)
         Me.btnGetCharacters.Name = "btnGetCharacters"
         Me.btnGetCharacters.Size = New System.Drawing.Size(100, 23)
         Me.btnGetCharacters.TabIndex = 4
@@ -121,7 +113,7 @@ Partial Class frmKMV
         'txtAPIKey
         '
         Me.txtAPIKey.Enabled = False
-        Me.txtAPIKey.Location = New System.Drawing.Point(102, 92)
+        Me.txtAPIKey.Location = New System.Drawing.Point(88, 84)
         Me.txtAPIKey.Name = "txtAPIKey"
         Me.txtAPIKey.Size = New System.Drawing.Size(420, 21)
         Me.txtAPIKey.TabIndex = 3
@@ -129,8 +121,9 @@ Partial Class frmKMV
         'lblAPIKey
         '
         Me.lblAPIKey.AutoSize = True
+        Me.lblAPIKey.BackColor = System.Drawing.Color.Transparent
         Me.lblAPIKey.Enabled = False
-        Me.lblAPIKey.Location = New System.Drawing.Point(39, 95)
+        Me.lblAPIKey.Location = New System.Drawing.Point(25, 87)
         Me.lblAPIKey.Name = "lblAPIKey"
         Me.lblAPIKey.Size = New System.Drawing.Size(49, 13)
         Me.lblAPIKey.TabIndex = 2
@@ -139,7 +132,7 @@ Partial Class frmKMV
         'txtUserID
         '
         Me.txtUserID.Enabled = False
-        Me.txtUserID.Location = New System.Drawing.Point(102, 66)
+        Me.txtUserID.Location = New System.Drawing.Point(88, 58)
         Me.txtUserID.Name = "txtUserID"
         Me.txtUserID.Size = New System.Drawing.Size(100, 21)
         Me.txtUserID.TabIndex = 1
@@ -147,34 +140,24 @@ Partial Class frmKMV
         'lblUserID
         '
         Me.lblUserID.AutoSize = True
+        Me.lblUserID.BackColor = System.Drawing.Color.Transparent
         Me.lblUserID.Enabled = False
-        Me.lblUserID.Location = New System.Drawing.Point(39, 69)
+        Me.lblUserID.Location = New System.Drawing.Point(25, 61)
         Me.lblUserID.Name = "lblUserID"
         Me.lblUserID.Size = New System.Drawing.Size(44, 13)
         Me.lblUserID.TabIndex = 0
         Me.lblUserID.Text = "UserID:"
         '
-        'gbCharacters
-        '
-        Me.gbCharacters.Controls.Add(Me.chkUseCorp)
-        Me.gbCharacters.Controls.Add(Me.lvwCharacters)
-        Me.gbCharacters.Controls.Add(Me.btnFetchKillMails)
-        Me.gbCharacters.Location = New System.Drawing.Point(550, 12)
-        Me.gbCharacters.Name = "gbCharacters"
-        Me.gbCharacters.Size = New System.Drawing.Size(279, 147)
-        Me.gbCharacters.TabIndex = 1
-        Me.gbCharacters.TabStop = False
-        Me.gbCharacters.Text = "Available Characters"
-        '
         'chkUseCorp
         '
         Me.chkUseCorp.AutoSize = True
-        Me.chkUseCorp.Location = New System.Drawing.Point(6, 94)
+        Me.chkUseCorp.BackColor = System.Drawing.Color.Transparent
+        Me.chkUseCorp.Location = New System.Drawing.Point(3, 86)
         Me.chkUseCorp.Name = "chkUseCorp"
         Me.chkUseCorp.Size = New System.Drawing.Size(107, 17)
         Me.chkUseCorp.TabIndex = 7
         Me.chkUseCorp.Text = "Get Corp Killmails"
-        Me.chkUseCorp.UseVisualStyleBackColor = True
+        Me.chkUseCorp.UseVisualStyleBackColor = False
         '
         'lvwCharacters
         '
@@ -183,7 +166,7 @@ Partial Class frmKMV
         Me.lvwCharacters.GridLines = True
         Me.lvwCharacters.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharacters.HideSelection = False
-        Me.lvwCharacters.Location = New System.Drawing.Point(6, 19)
+        Me.lvwCharacters.Location = New System.Drawing.Point(3, 11)
         Me.lvwCharacters.Name = "lvwCharacters"
         Me.lvwCharacters.Size = New System.Drawing.Size(267, 69)
         Me.lvwCharacters.TabIndex = 6
@@ -197,7 +180,7 @@ Partial Class frmKMV
         'btnFetchKillMails
         '
         Me.btnFetchKillMails.Enabled = False
-        Me.btnFetchKillMails.Location = New System.Drawing.Point(173, 116)
+        Me.btnFetchKillMails.Location = New System.Drawing.Point(170, 108)
         Me.btnFetchKillMails.Name = "btnFetchKillMails"
         Me.btnFetchKillMails.Size = New System.Drawing.Size(100, 23)
         Me.btnFetchKillMails.TabIndex = 5
@@ -207,7 +190,7 @@ Partial Class frmKMV
         'lblKMSummary
         '
         Me.lblKMSummary.AutoSize = True
-        Me.lblKMSummary.Location = New System.Drawing.Point(12, 172)
+        Me.lblKMSummary.Location = New System.Drawing.Point(6, 187)
         Me.lblKMSummary.Name = "lblKMSummary"
         Me.lblKMSummary.Size = New System.Drawing.Size(84, 13)
         Me.lblKMSummary.TabIndex = 2
@@ -216,7 +199,7 @@ Partial Class frmKMV
         'lblKillmailDetails
         '
         Me.lblKillmailDetails.AutoSize = True
-        Me.lblKillmailDetails.Location = New System.Drawing.Point(420, 172)
+        Me.lblKillmailDetails.Location = New System.Drawing.Point(550, 187)
         Me.lblKillmailDetails.Name = "lblKillmailDetails"
         Me.lblKillmailDetails.Size = New System.Drawing.Size(72, 13)
         Me.lblKillmailDetails.TabIndex = 5
@@ -225,20 +208,19 @@ Partial Class frmKMV
         'txtKillMailDetails
         '
         Me.txtKillMailDetails.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtKillMailDetails.Location = New System.Drawing.Point(423, 188)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtKillMailDetails.Location = New System.Drawing.Point(547, 203)
         Me.txtKillMailDetails.Multiline = True
         Me.txtKillMailDetails.Name = "txtKillMailDetails"
         Me.txtKillMailDetails.ReadOnly = True
         Me.txtKillMailDetails.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtKillMailDetails.Size = New System.Drawing.Size(445, 440)
+        Me.txtKillMailDetails.Size = New System.Drawing.Size(282, 491)
         Me.txtKillMailDetails.TabIndex = 6
         '
         'btnUploadToBC
         '
-        Me.btnUploadToBC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUploadToBC.Location = New System.Drawing.Point(291, 162)
+        Me.btnUploadToBC.Location = New System.Drawing.Point(418, 177)
         Me.btnUploadToBC.Name = "btnUploadToBC"
         Me.btnUploadToBC.Size = New System.Drawing.Size(123, 23)
         Me.btnUploadToBC.TabIndex = 7
@@ -246,73 +228,238 @@ Partial Class frmKMV
         Me.btnUploadToBC.UseVisualStyleBackColor = True
         Me.btnUploadToBC.Visible = False
         '
-        'clvKillMails
+        'gpAPI
         '
-        Me.clvKillMails.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.clvKillMails.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colVictim, Me.colShipLost, Me.colKillTime})
-        Me.clvKillMails.DefaultItemHeight = 20
-        Me.clvKillMails.Location = New System.Drawing.Point(12, 188)
-        Me.clvKillMails.Name = "clvKillMails"
-        Me.clvKillMails.Size = New System.Drawing.Size(405, 440)
-        Me.clvKillMails.TabIndex = 8
+        Me.gpAPI.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpAPI.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpAPI.Controls.Add(Me.cboAccount)
+        Me.gpAPI.Controls.Add(Me.radUseAccount)
+        Me.gpAPI.Controls.Add(Me.radUseAPI)
+        Me.gpAPI.Controls.Add(Me.lblUserID)
+        Me.gpAPI.Controls.Add(Me.txtUserID)
+        Me.gpAPI.Controls.Add(Me.lblAPIStatus)
+        Me.gpAPI.Controls.Add(Me.lblAPIKey)
+        Me.gpAPI.Controls.Add(Me.btnGetCharacters)
+        Me.gpAPI.Controls.Add(Me.txtAPIKey)
+        Me.gpAPI.Location = New System.Drawing.Point(9, 12)
+        Me.gpAPI.Name = "gpAPI"
+        Me.gpAPI.Size = New System.Drawing.Size(532, 163)
+        '
+        '
+        '
+        Me.gpAPI.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpAPI.Style.BackColorGradientAngle = 90
+        Me.gpAPI.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpAPI.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAPI.Style.BorderBottomWidth = 1
+        Me.gpAPI.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpAPI.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAPI.Style.BorderLeftWidth = 1
+        Me.gpAPI.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAPI.Style.BorderRightWidth = 1
+        Me.gpAPI.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAPI.Style.BorderTopWidth = 1
+        Me.gpAPI.Style.Class = ""
+        Me.gpAPI.Style.CornerDiameter = 4
+        Me.gpAPI.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpAPI.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpAPI.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpAPI.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpAPI.StyleMouseDown.Class = ""
+        Me.gpAPI.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpAPI.StyleMouseOver.Class = ""
+        Me.gpAPI.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpAPI.TabIndex = 9
+        Me.gpAPI.Text = "API Information"
+        '
+        'gpCharacters
+        '
+        Me.gpCharacters.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpCharacters.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpCharacters.Controls.Add(Me.chkUseCorp)
+        Me.gpCharacters.Controls.Add(Me.lvwCharacters)
+        Me.gpCharacters.Controls.Add(Me.btnFetchKillMails)
+        Me.gpCharacters.Location = New System.Drawing.Point(547, 12)
+        Me.gpCharacters.Name = "gpCharacters"
+        Me.gpCharacters.Size = New System.Drawing.Size(279, 163)
+        '
+        '
+        '
+        Me.gpCharacters.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpCharacters.Style.BackColorGradientAngle = 90
+        Me.gpCharacters.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpCharacters.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpCharacters.Style.BorderBottomWidth = 1
+        Me.gpCharacters.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpCharacters.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpCharacters.Style.BorderLeftWidth = 1
+        Me.gpCharacters.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpCharacters.Style.BorderRightWidth = 1
+        Me.gpCharacters.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpCharacters.Style.BorderTopWidth = 1
+        Me.gpCharacters.Style.Class = ""
+        Me.gpCharacters.Style.CornerDiameter = 4
+        Me.gpCharacters.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpCharacters.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpCharacters.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpCharacters.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpCharacters.StyleMouseDown.Class = ""
+        Me.gpCharacters.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpCharacters.StyleMouseOver.Class = ""
+        Me.gpCharacters.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpCharacters.TabIndex = 10
+        Me.gpCharacters.Text = "Available Characters"
+        '
+        'PanelEx1
+        '
+        Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
+        Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.adtKillmails)
+        Me.PanelEx1.Controls.Add(Me.btnCopyKillmail)
+        Me.PanelEx1.Controls.Add(Me.btnExportToHQF)
+        Me.PanelEx1.Controls.Add(Me.gpAPI)
+        Me.PanelEx1.Controls.Add(Me.gpCharacters)
+        Me.PanelEx1.Controls.Add(Me.btnUploadToBC)
+        Me.PanelEx1.Controls.Add(Me.lblKMSummary)
+        Me.PanelEx1.Controls.Add(Me.txtKillMailDetails)
+        Me.PanelEx1.Controls.Add(Me.lblKillmailDetails)
+        Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 0)
+        Me.PanelEx1.Name = "PanelEx1"
+        Me.PanelEx1.Size = New System.Drawing.Size(841, 735)
+        Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.PanelEx1.Style.GradientAngle = 90
+        Me.PanelEx1.TabIndex = 11
+        '
+        'adtKillmails
+        '
+        Me.adtKillmails.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtKillmails.AllowDrop = True
+        Me.adtKillmails.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.adtKillmails.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtKillmails.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtKillmails.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtKillmails.Columns.Add(Me.colVictim)
+        Me.adtKillmails.Columns.Add(Me.colShip)
+        Me.adtKillmails.Columns.Add(Me.colDate)
+        Me.adtKillmails.DragDropEnabled = False
+        Me.adtKillmails.DragDropNodeCopyEnabled = False
+        Me.adtKillmails.ExpandWidth = 0
+        Me.adtKillmails.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtKillmails.Location = New System.Drawing.Point(9, 203)
+        Me.adtKillmails.Name = "adtKillmails"
+        Me.adtKillmails.NodesConnector = Me.NodeConnector1
+        Me.adtKillmails.NodeStyle = Me.ElementStyle1
+        Me.adtKillmails.PathSeparator = ";"
+        Me.adtKillmails.Size = New System.Drawing.Size(532, 520)
+        Me.adtKillmails.Styles.Add(Me.ElementStyle1)
+        Me.adtKillmails.TabIndex = 14
+        Me.adtKillmails.Text = "AdvTree1"
         '
         'colVictim
         '
-        Me.colVictim.CustomSortTag = Nothing
-        Me.colVictim.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colVictim.Tag = Nothing
+        Me.colVictim.DisplayIndex = 1
+        Me.colVictim.Name = "colVictim"
         Me.colVictim.Text = "Victim"
-        Me.colVictim.Width = 125
+        Me.colVictim.Width.Absolute = 210
         '
-        'colShipLost
+        'colShip
         '
-        Me.colShipLost.CustomSortTag = Nothing
-        Me.colShipLost.DisplayIndex = 1
-        Me.colShipLost.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colShipLost.Tag = Nothing
-        Me.colShipLost.Text = "Ship Lost"
-        Me.colShipLost.Width = 125
+        Me.colShip.DisplayIndex = 2
+        Me.colShip.Name = "colShip"
+        Me.colShip.Text = "Kill Type"
+        Me.colShip.Width.Absolute = 160
         '
-        'colKillTime
+        'colDate
         '
-        Me.colKillTime.CustomSortTag = Nothing
-        Me.colKillTime.DisplayIndex = 2
-        Me.colKillTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
-        Me.colKillTime.Tag = Nothing
-        Me.colKillTime.Text = "Kill Time"
-        Me.colKillTime.Width = 125
+        Me.colDate.DisplayIndex = 3
+        Me.colDate.Name = "colDate"
+        Me.colDate.Text = "Kill Date"
+        Me.colDate.Width.Absolute = 120
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'btnCopyKillmail
+        '
+        Me.btnCopyKillmail.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnCopyKillmail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCopyKillmail.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnCopyKillmail.Enabled = False
+        Me.btnCopyKillmail.Location = New System.Drawing.Point(547, 700)
+        Me.btnCopyKillmail.Name = "btnCopyKillmail"
+        Me.btnCopyKillmail.Size = New System.Drawing.Size(90, 23)
+        Me.btnCopyKillmail.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnCopyKillmail.TabIndex = 13
+        Me.btnCopyKillmail.Text = "Copy Killmail"
+        '
+        'btnExportToHQF
+        '
+        Me.btnExportToHQF.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExportToHQF.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExportToHQF.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnExportToHQF.Enabled = False
+        Me.btnExportToHQF.Location = New System.Drawing.Point(643, 700)
+        Me.btnExportToHQF.Name = "btnExportToHQF"
+        Me.btnExportToHQF.Size = New System.Drawing.Size(90, 23)
+        Me.btnExportToHQF.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnExportToHQF.TabIndex = 12
+        Me.btnExportToHQF.Text = "Export to HQF"
         '
         'frmKMV
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(880, 640)
-        Me.Controls.Add(Me.clvKillMails)
-        Me.Controls.Add(Me.btnUploadToBC)
-        Me.Controls.Add(Me.txtKillMailDetails)
-        Me.Controls.Add(Me.lblKillmailDetails)
-        Me.Controls.Add(Me.lblKMSummary)
-        Me.Controls.Add(Me.gbCharacters)
-        Me.Controls.Add(Me.gbAPIInfo)
+        Me.ClientSize = New System.Drawing.Size(841, 735)
+        Me.Controls.Add(Me.PanelEx1)
+        Me.DoubleBuffered = True
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmKMV"
         Me.Text = "EveHQ Killmail Viewer"
-        Me.gbAPIInfo.ResumeLayout(False)
-        Me.gbAPIInfo.PerformLayout()
-        Me.gbCharacters.ResumeLayout(False)
-        Me.gbCharacters.PerformLayout()
+        Me.gpAPI.ResumeLayout(False)
+        Me.gpAPI.PerformLayout()
+        Me.gpCharacters.ResumeLayout(False)
+        Me.gpCharacters.PerformLayout()
+        Me.PanelEx1.ResumeLayout(False)
+        Me.PanelEx1.PerformLayout()
+        CType(Me.adtKillmails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents gbAPIInfo As System.Windows.Forms.GroupBox
     Friend WithEvents btnGetCharacters As System.Windows.Forms.Button
     Friend WithEvents txtAPIKey As System.Windows.Forms.TextBox
     Friend WithEvents lblAPIKey As System.Windows.Forms.Label
     Friend WithEvents txtUserID As System.Windows.Forms.TextBox
     Friend WithEvents lblUserID As System.Windows.Forms.Label
-    Friend WithEvents gbCharacters As System.Windows.Forms.GroupBox
     Friend WithEvents lblAPIStatus As System.Windows.Forms.Label
     Friend WithEvents lvwCharacters As System.Windows.Forms.ListView
     Friend WithEvents btnFetchKillMails As System.Windows.Forms.Button
@@ -325,8 +472,15 @@ Partial Class frmKMV
     Friend WithEvents radUseAccount As System.Windows.Forms.RadioButton
     Friend WithEvents cboAccount As System.Windows.Forms.ComboBox
     Friend WithEvents btnUploadToBC As System.Windows.Forms.Button
-    Friend WithEvents clvKillMails As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents colVictim As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colShipLost As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colKillTime As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents gpAPI As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents gpCharacters As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents btnExportToHQF As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnCopyKillmail As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents adtKillmails As DevComponents.AdvTree.AdvTree
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents colVictim As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colShip As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colDate As DevComponents.AdvTree.ColumnHeader
 End Class

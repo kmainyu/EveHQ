@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +31,7 @@ using System.Runtime.InteropServices;
 
 namespace EveHQ.PosManager
 {
-    public partial class Tower_API_Linker : Form
+    public partial class Tower_API_Linker : DevComponents.DotNetBar.Office2007Form
     {
         public PoSManMainForm myData;
 
@@ -99,7 +118,7 @@ namespace EveHQ.PosManager
             if (pli != null)
             {
                 itemID = Convert.ToInt64(api.Tag.ToString());
-                apid = myData.API_D.GetAPIDataMemberForTowerID(itemID);
+                apid = PlugInData.API_D.GetAPIDataMemberForTowerID(itemID);
                 pli.itemID = itemID;
                 pli.locID = apid.locID;
                 pli.CorpName = apid.corpName;
@@ -128,11 +147,11 @@ namespace EveHQ.PosManager
             APITowerData apid;
             string posName;
             long itemID;
-            int towerNum = 1;
+            long towerNum = 1;
 
             tv_PoSList.Nodes.Clear();
             
-            foreach (POS pl in myData.POSList.Designs)
+            foreach (POS pl in PlugInData.PDL.Designs.Values)
             {
                 posName = pl.Name;
                 itemID = pl.itemID;
@@ -144,7 +163,7 @@ namespace EveHQ.PosManager
 
                 if (itemID != 0)
                 {
-                    apid = myData.API_D.GetAPIDataMemberForTowerID(itemID);
+                    apid = PlugInData.API_D.GetAPIDataMemberForTowerID(itemID);
                     if (apid != null)
                     {
                         tn = mtn.Nodes.Add("--> [" + apid.towerName + "] <" + apid.locName + ">");
@@ -168,13 +187,13 @@ namespace EveHQ.PosManager
         private void PopulateAPITowerView()
         {
             TreeNode mtn, tn, ltn, ctn;
-            int towerNum = 1;
+            long towerNum = 1;
             string loc, cName, strSQL, twrName;
             DataSet locData;
 
             tv_APIList.Nodes.Clear();
 
-            foreach (APITowerData apid in myData.API_D.apiTower.Values)
+            foreach (APITowerData apid in PlugInData.API_D.apiTower.Values)
             {
                 cName = apid.corpName;
                 ctn = FindTreeNode(tv_APIList.Nodes, cName);
@@ -190,9 +209,12 @@ namespace EveHQ.PosManager
                 {
                     strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
                     locData = EveHQ.Core.DataFunctions.GetData(strSQL);
-                    loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                    if (locData.Tables[0].Rows.Count > 0)
+                        loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                    else
+                        loc = "Unknown";
                     apid.locName = loc;
-                    myData.API_D.SaveAPIListing();
+                    PlugInData.API_D.SaveAPIListing();
                 }
                 else
                     loc = apid.locName;
@@ -209,10 +231,13 @@ namespace EveHQ.PosManager
                 // Tower name and link
                 strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.moonID + ";";
                 locData = EveHQ.Core.DataFunctions.GetData(strSQL);
-                loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                if (locData.Tables[0].Rows.Count > 0)
+                    loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
+                else
+                    loc = "Unkown";
                 twrName = apid.towerName + " < " + loc + " >";
 
-                foreach (POS pl in myData.POSList.Designs)
+                foreach (POS pl in PlugInData.PDL.Designs.Values)
                 {
                     if (pl.itemID == apid.itemID)
                     {
@@ -315,7 +340,8 @@ namespace EveHQ.PosManager
 
         private void Tower_API_Linker_FormClosing(object sender, FormClosingEventArgs e)
         {
-            myData.POSList.SaveDesignListing();
+            PlugInData.PDL.SaveDesignListing();
         }
+
     }
 }

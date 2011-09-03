@@ -117,80 +117,255 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="noitem" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\noitem.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ImplantFormSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImplantFormSmall.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RefTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RefTypes.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="level2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="level4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level4.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="level5_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level5_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="info_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon09_09_grey.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="History" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\History.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="level2_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level2_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="level5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level5.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="EveHQ_online" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EveHQ_online.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon22_41" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon22_41.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="level1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="level1_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level1_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="level3_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level3_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="EveHQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EveHQ.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="level0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level0.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SkillBook16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SkillBook16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EveHQ_offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EveHQ_offline.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SkillBook32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SkillBook32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="info_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon09_09.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Document32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Document32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Perception32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Perception32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Aura32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Aura32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="level4_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level4_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="level3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\level3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Info32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Info32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Help32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Help32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="level5_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level5_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AmarrBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AmarrBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Willpower32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Willpower32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AmarrRace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AmarrRace.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Square721BT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Square721BT.TTF;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="level1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="level2_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level2_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EveHQ_starting" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EveHQ_starting.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CertificateClasses" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CertificateClasses.bin;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="level3_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level3_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Certificates" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Certificates.bin;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="RaceSkillsTable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RaceSkillsTable.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Implants32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Implants32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WHClasses" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WHClasses.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="SebiestorBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SebiestorBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="level4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level4.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon77_07.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nochar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nochar.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Attributes32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Attributes32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Jin_MeiBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Jin-MeiBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon79_06.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WHEffects" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WHEffects.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="CivireBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CivireBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WSpaceTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WSpaceTypes.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Ki_NunniBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ki-NunniBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="level1_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level1_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Market32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Market32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KhanidBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KhanidBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeteisBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeteisBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QueryAPI32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QueryAPI32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon09_09_grey.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="level5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level5.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AchuraBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AchuraBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Exit32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Exit32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Dashboard32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Dashboard32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EveHQErrorProf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EveHQErrorProf.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon79_02.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GallenteRace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GallenteRace.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SecureCan32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SecureCan32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Orders32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Orders32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="noitem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\noitem.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon77_12.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EveHQ_online" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EveHQ_online.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warning64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Warning64.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Intelligence32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Intelligence32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IntakiBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IntakiBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="level3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="level0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\level0.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon79_04.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EveHQSplash9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EveHQSplash9.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Memory32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Memory32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WHattribs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WHattribs.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Chart32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Chart32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon79_01.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Errors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Errors.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="EveHQSplash1_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EveHQSplash1.14.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="VherokiorBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VherokiorBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CertificateCategories" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CertificateCategories.bin;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="IGB32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IGB32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EveMail32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EveMail32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NeuralRemapFormSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NeuralRemapFormSmall.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManageAPI32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManageAPI32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Charisma32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Charisma32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon79_03.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EveHQ_offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EveHQ_offline.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GallenteBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GallenteBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CaldariRace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CaldariRace.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Database32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Database32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MinmatarRace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MinmatarRace.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon79_05.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BrutorBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BrutorBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Folder32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon22_29.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LoadRSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LoadRSS.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LoadRSS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LoadRSS2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

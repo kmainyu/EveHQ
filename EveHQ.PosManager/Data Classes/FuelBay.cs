@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -84,46 +103,24 @@ namespace EveHQ.PosManager
             Strontium.LastQty = Strontium.Qty;
         }
 
-        public void SetAPIFuelUsage(decimal hrs)
+        public void SetAPIFuelUsage(decimal sov_mult)
         {
-            if (hrs < 1)
-                hrs = 1;
-
-            // If fuel has gone up - get out
-            if ((EnrUran.Qty > EnrUran.LastQty) ||
-                (Oxygen.Qty > Oxygen.LastQty) ||
-                (MechPart.Qty > MechPart.LastQty) ||
-                (Coolant.Qty > Coolant.LastQty) ||
-                (Robotics.Qty > Robotics.LastQty) ||
-                (HvyWater.Qty > HvyWater.LastQty) ||
-                (Charters.Qty > Charters.LastQty) ||
-                (N2Iso.Qty > N2Iso.LastQty) ||
-                (HeIso.Qty > HeIso.LastQty) ||
-                (O2Iso.Qty > O2Iso.LastQty) ||
-                (H2Iso.Qty > H2Iso.LastQty) ||
-                (Strontium.Qty > Strontium.LastQty))           
-                return;
-
-
-            while (((Robotics.LastQty - Robotics.Qty) / hrs) > 1)
-            {
-                hrs = hrs + 1;
-            }
-
+            // Due to the issue of actual times - I must go back to insisting the time values be
             // Do all types, although at this time only HW and LO matter
-            EnrUran.APIPerQty = Math.Ceiling((EnrUran.LastQty - EnrUran.Qty) / hrs);
-            Oxygen.APIPerQty = Math.Ceiling((Oxygen.LastQty - Oxygen.Qty) / hrs);
-            MechPart.APIPerQty = Math.Ceiling((MechPart.LastQty - MechPart.Qty) / hrs);
-            Coolant.APIPerQty = Math.Ceiling((Coolant.LastQty - Coolant.Qty) / hrs);
-            Robotics.APIPerQty = Math.Ceiling((Robotics.LastQty - Robotics.Qty) / hrs);
-            HvyWater.APIPerQty = Math.Ceiling((HvyWater.LastQty - HvyWater.Qty) / hrs);
-            LiqOzone.APIPerQty = Math.Ceiling((LiqOzone.LastQty - LiqOzone.Qty) / hrs);
-            Charters.APIPerQty = Math.Ceiling((Charters.LastQty - Charters.Qty) / hrs);
-            N2Iso.APIPerQty = Math.Ceiling((N2Iso.LastQty - N2Iso.Qty) / hrs);
-            HeIso.APIPerQty = Math.Ceiling((HeIso.LastQty - HeIso.Qty) / hrs);
-            H2Iso.APIPerQty = Math.Ceiling((H2Iso.LastQty - H2Iso.Qty) / hrs);
-            O2Iso.APIPerQty = Math.Ceiling((O2Iso.LastQty - O2Iso.Qty) / hrs);
-            Strontium.APIPerQty = Math.Ceiling((Strontium.LastQty - Strontium.Qty) / hrs);
+            // These calculations have been Drastically OFF - there is a hole here somewhere !!!!
+            EnrUran.SetAPIFuelUse(sov_mult);
+            Oxygen.SetAPIFuelUse(sov_mult);
+            MechPart.SetAPIFuelUse(sov_mult);
+            Coolant.SetAPIFuelUse(sov_mult);
+            Robotics.SetAPIFuelUse(sov_mult);
+            HvyWater.SetAPIFuelUse(sov_mult);
+            LiqOzone.SetAPIFuelUse(sov_mult);
+            Charters.SetAPIFuelUse(sov_mult);
+            N2Iso.SetAPIFuelUse(sov_mult);
+            HeIso.SetAPIFuelUse(sov_mult);
+            H2Iso.SetAPIFuelUse(sov_mult);
+            O2Iso.SetAPIFuelUse(sov_mult);
+            Strontium.SetAPIFuelUse(sov_mult);
         }
 
         public void CopyLastAndAPI(FuelBay fb)
@@ -190,95 +187,117 @@ namespace EveHQ.PosManager
             HeIso.UpdateBaseValues(fb.HeIso);
             Strontium.UpdateBaseValues(fb.Strontium);
         }
-        
+
+        private decimal GetFuelItemCost(string id, int cat)
+        {
+            decimal fCost = 0;
+
+            switch(cat)
+            {
+                case 0:
+                    fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(id));   // Custom > Market > Default
+                    break;
+                case 1:
+                    if (EveHQ.Core.HQ.MarketPriceList.ContainsKey(id))
+                        fCost = Convert.ToDecimal(EveHQ.Core.HQ.MarketPriceList[id]);       // Market Price Only
+                    break;
+            }
+            return fCost;
+        }
+
         public void SetCurrentFuelCosts(FuelBay fb)
         {
             decimal fCost;
+            int cat;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(EnrUran.itemID));
+            cat = PlugInData.Config.data.FuelCat;
+
+            fCost = GetFuelItemCost("44", cat);
             if (fb.EnrUran.Cost > 0)
                 EnrUran.CostForQty = (EnrUran.Qty * fb.EnrUran.Cost);
             else
                 EnrUran.CostForQty = (EnrUran.Qty * fCost);
             FuelCost = EnrUran.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Oxygen.itemID));
+            fCost = GetFuelItemCost("3683", cat);
             if (fb.Oxygen.Cost > 0)
                 Oxygen.CostForQty = (Oxygen.Qty * fb.Oxygen.Cost);
             else
                 Oxygen.CostForQty = (Oxygen.Qty * fCost);
             FuelCost += Oxygen.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(MechPart.itemID));
+            fCost = GetFuelItemCost("3689", cat);
             if (fb.MechPart.Cost > 0)
                 MechPart.CostForQty = (MechPart.Qty * fb.MechPart.Cost);
             else
                 MechPart.CostForQty = (MechPart.Qty * fCost);
             FuelCost += MechPart.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Coolant.itemID));
+            fCost = GetFuelItemCost("9832", cat);
             if (fb.Coolant.Cost > 0)
                 Coolant.CostForQty = (Coolant.Qty * fb.Coolant.Cost);
             else
                 Coolant.CostForQty = (Coolant.Qty * fCost);
             FuelCost += Coolant.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Robotics.itemID));
+            fCost = GetFuelItemCost("9848", cat);
             if (fb.Robotics.Cost > 0)
                 Robotics.CostForQty = (Robotics.Qty * fb.Robotics.Cost);
             else
                 Robotics.CostForQty = (Robotics.Qty * fCost);
             FuelCost += Robotics.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(HvyWater.itemID));
+            fCost = GetFuelItemCost("16272", cat);
             if (fb.HvyWater.Cost > 0)
                 HvyWater.CostForQty = (HvyWater.Qty * fb.HvyWater.Cost);
             else
                 HvyWater.CostForQty = (HvyWater.Qty * fCost);
             FuelCost += HvyWater.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(LiqOzone.itemID));
+            fCost = GetFuelItemCost("16273", cat);
             if (fb.LiqOzone.Cost > 0)
                 LiqOzone.CostForQty = (LiqOzone.Qty * fb.LiqOzone.Cost);
             else
                 LiqOzone.CostForQty = (LiqOzone.Qty * fCost);
             FuelCost += LiqOzone.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Charters.itemID));
+            fCost = GetFuelItemCost(Charters.itemID, cat);
             if (fb.Charters.Cost > 0)
                 Charters.CostForQty = (Charters.Qty * fb.Charters.Cost);
             else
+            {
                 Charters.CostForQty = (Charters.Qty * fCost);
+            }
             FuelCost += Charters.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(Strontium.itemID));
+            fCost = GetFuelItemCost("16275", cat);
             if (fb.Strontium.Cost > 0)
                 Strontium.CostForQty = (Strontium.Qty * fb.Strontium.Cost);
             else
                 Strontium.CostForQty = (Strontium.Qty * fCost);
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(N2Iso.itemID));
+            fCost = GetFuelItemCost("17888", cat);
             if (fb.N2Iso.Cost > 0)
                 N2Iso.CostForQty = (N2Iso.Qty * fb.N2Iso.Cost);
             else
                 N2Iso.CostForQty = (N2Iso.Qty * fCost);
             FuelCost += N2Iso.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(H2Iso.itemID));
+            fCost = GetFuelItemCost("17889", cat);
             if (fb.H2Iso.Cost > 0)
                 H2Iso.CostForQty = (H2Iso.Qty * fb.H2Iso.Cost);
             else
                 H2Iso.CostForQty = (H2Iso.Qty * fCost);
             FuelCost += H2Iso.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(HeIso.itemID));
+            fCost = GetFuelItemCost("16274", cat);
             if (fb.HeIso.Cost > 0)
                 HeIso.CostForQty = (HeIso.Qty * fb.HeIso.Cost);
             else
                 HeIso.CostForQty = (HeIso.Qty * fCost);
             FuelCost += HeIso.CostForQty;
 
-            fCost = Convert.ToDecimal(EveHQ.Core.DataFunctions.GetPrice(O2Iso.itemID));
+            fCost = GetFuelItemCost("17887", cat);
             if (fb.O2Iso.Cost > 0)
                 O2Iso.CostForQty = (O2Iso.Qty * fb.O2Iso.Cost);
             else
@@ -398,6 +417,23 @@ namespace EveHQ.PosManager
             H2Iso.Qty -= fb.H2Iso.Qty;
             O2Iso.Qty -= fb.O2Iso.Qty;
             Strontium.Qty -= fb.Strontium.Qty;
+        }
+
+        public void SubtractZeroMin(FuelBay fb)
+        {
+            EnrUran.SubtractZeroMin(fb.EnrUran.Qty);
+            Oxygen.SubtractZeroMin(fb.Oxygen.Qty);
+            MechPart.SubtractZeroMin(fb.MechPart.Qty);
+            Coolant.SubtractZeroMin(fb.Coolant.Qty);
+            Robotics.SubtractZeroMin(fb.Robotics.Qty);
+            HvyWater.SubtractZeroMin(fb.HvyWater.Qty);
+            LiqOzone.SubtractZeroMin(fb.LiqOzone.Qty);
+            Charters.SubtractZeroMin(fb.Charters.Qty);
+            N2Iso.SubtractZeroMin(fb.N2Iso.Qty);
+            HeIso.SubtractZeroMin(fb.HeIso.Qty);
+            H2Iso.SubtractZeroMin(fb.H2Iso.Qty);
+            O2Iso.SubtractZeroMin(fb.O2Iso.Qty);
+            Strontium.SubtractZeroMin(fb.Strontium.Qty);
         }
 
         public void SetFuelQtyForPeriod(decimal period, decimal sov_mult, decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u, bool useChart)
@@ -621,7 +657,7 @@ namespace EveHQ.PosManager
 
         public string[,] GetFuelBayTotals()
         {
-            string[,] retVal = new string[13,4];
+            string[,] retVal = new string[13, 4];
 
             retVal[0, 0] = EnrUran.Name;
             retVal[0, 1] = EnrUran.Qty.ToString();
@@ -687,6 +723,208 @@ namespace EveHQ.PosManager
             retVal[12, 1] = Strontium.Qty.ToString();
             retVal[12, 2] = Strontium.VolForQty.ToString();
             retVal[12, 3] = Strontium.CostForQty.ToString();
+
+            return retVal;
+        }
+
+        public string[,] GetFuelBayAndBurnTotals(POS p, decimal sov_mod)
+        {
+            string[,] retVal = new string[13, 7];
+
+            retVal[0, 0] = EnrUran.Name;
+            retVal[0, 1] = EnrUran.Qty.ToString();
+            retVal[0, 2] = EnrUran.VolForQty.ToString();
+            retVal[0, 3] = p.PosTower.Fuel.EnrUran.Qty.ToString();
+            retVal[0, 4] = EnrUran.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[0, 5] = p.PosTower.Fuel.EnrUran.RunTime.ToString();
+            retVal[0, 6] = EnrUran.RunTime.ToString();
+
+            retVal[1, 0] = Oxygen.Name;
+            retVal[1, 1] = Oxygen.Qty.ToString();
+            retVal[1, 2] = Oxygen.VolForQty.ToString();
+            retVal[1, 3] = p.PosTower.Fuel.Oxygen.Qty.ToString();
+            retVal[1, 4] = Oxygen.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[1, 5] = p.PosTower.Fuel.Oxygen.RunTime.ToString();
+            retVal[1, 6] = Oxygen.RunTime.ToString();
+
+            retVal[2, 0] = MechPart.Name;
+            retVal[2, 1] = MechPart.Qty.ToString();
+            retVal[2, 2] = MechPart.VolForQty.ToString();
+            retVal[2, 3] = p.PosTower.Fuel.MechPart.Qty.ToString();
+            retVal[2, 4] = MechPart.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[2, 5] = p.PosTower.Fuel.MechPart.RunTime.ToString();
+            retVal[2, 6] = MechPart.RunTime.ToString();
+
+            retVal[3, 0] = Coolant.Name;
+            retVal[3, 1] = Coolant.Qty.ToString();
+            retVal[3, 2] = Coolant.VolForQty.ToString();
+            retVal[3, 3] = p.PosTower.Fuel.Coolant.Qty.ToString();
+            retVal[3, 4] = Coolant.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[3, 5] = p.PosTower.Fuel.Coolant.RunTime.ToString();
+            retVal[3, 6] = Coolant.RunTime.ToString();
+
+            retVal[4, 0] = Robotics.Name;
+            retVal[4, 1] = Robotics.Qty.ToString();
+            retVal[4, 2] = Robotics.VolForQty.ToString();
+            retVal[4, 3] = p.PosTower.Fuel.Robotics.Qty.ToString();
+            retVal[4, 4] = Robotics.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[4, 5] = p.PosTower.Fuel.Robotics.RunTime.ToString();
+            retVal[4, 6] = Robotics.RunTime.ToString();
+
+            retVal[5, 0] = "Helium Isotopes";
+            retVal[5, 1] = HeIso.Qty.ToString();
+            retVal[5, 2] = HeIso.VolForQty.ToString();
+            retVal[5, 3] = p.PosTower.Fuel.HeIso.Qty.ToString();
+            retVal[5, 4] = HeIso.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[5, 5] = p.PosTower.Fuel.HeIso.RunTime.ToString();
+            retVal[5, 6] = HeIso.RunTime.ToString();
+
+            retVal[6, 0] = "Hydrogen Isotopes";
+            retVal[6, 1] = H2Iso.Qty.ToString();
+            retVal[6, 2] = H2Iso.VolForQty.ToString();
+            retVal[6, 3] = p.PosTower.Fuel.H2Iso.Qty.ToString();
+            retVal[6, 4] = H2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[6, 5] = p.PosTower.Fuel.H2Iso.RunTime.ToString();
+            retVal[6, 6] = H2Iso.RunTime.ToString();
+
+            retVal[7, 0] = "Nitrogen Isotopes";
+            retVal[7, 1] = N2Iso.Qty.ToString();
+            retVal[7, 2] = N2Iso.VolForQty.ToString();
+            retVal[7, 3] = p.PosTower.Fuel.N2Iso.Qty.ToString();
+            retVal[7, 4] = N2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[7, 5] = p.PosTower.Fuel.N2Iso.RunTime.ToString();
+            retVal[7, 6] = N2Iso.RunTime.ToString();
+
+            retVal[8, 0] = "Oxygen Isotopes";
+            retVal[8, 1] = O2Iso.Qty.ToString();
+            retVal[8, 2] = O2Iso.VolForQty.ToString();
+            retVal[8, 3] = p.PosTower.Fuel.O2Iso.Qty.ToString();
+            retVal[8, 4] = O2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[8, 5] = p.PosTower.Fuel.O2Iso.RunTime.ToString();
+            retVal[8, 6] = O2Iso.RunTime.ToString();
+
+            retVal[9, 0] = HvyWater.Name;
+            retVal[9, 1] = HvyWater.Qty.ToString();
+            retVal[9, 2] = HvyWater.VolForQty.ToString();
+            retVal[9, 3] = p.PosTower.Fuel.HvyWater.Qty.ToString();
+            retVal[9, 4] = HvyWater.GetFuelQtyForPeriod(sov_mod, p.PosTower.CPU, p.PosTower.CPU_Used).ToString();
+            retVal[9, 5] = p.PosTower.Fuel.HvyWater.RunTime.ToString();
+            retVal[9, 6] = HvyWater.RunTime.ToString();
+
+            retVal[10, 0] = LiqOzone.Name;
+            retVal[10, 1] = LiqOzone.Qty.ToString();
+            retVal[10, 2] = LiqOzone.VolForQty.ToString();
+            retVal[10, 3] = p.PosTower.Fuel.LiqOzone.Qty.ToString();
+            retVal[10, 4] = LiqOzone.GetFuelQtyForPeriod(sov_mod, p.PosTower.Power, p.PosTower.Power_Used).ToString();
+            retVal[10, 5] = p.PosTower.Fuel.LiqOzone.RunTime.ToString();
+            retVal[10, 6] = LiqOzone.RunTime.ToString();
+
+            retVal[11, 0] = Charters.Name;
+            retVal[11, 1] = Charters.Qty.ToString();
+            retVal[11, 2] = Charters.VolForQty.ToString();
+            retVal[11, 3] = p.PosTower.Fuel.Charters.Qty.ToString();
+            retVal[11, 4] = Charters.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[11, 5] = p.PosTower.Fuel.Charters.RunTime.ToString();
+            retVal[11, 6] = Charters.RunTime.ToString();
+
+            retVal[12, 0] = Strontium.Name;
+            retVal[12, 1] = Strontium.Qty.ToString();
+            retVal[12, 2] = Strontium.VolForQty.ToString();
+            retVal[12, 3] = p.PosTower.Fuel.Strontium.Qty.ToString();
+            retVal[12, 4] = Strontium.GetFuelQtyForPeriod(sov_mod, 1, 1).ToString();
+            retVal[12, 5] = p.PosTower.Fuel.Strontium.RunTime.ToString();
+            retVal[12, 6] = Strontium.RunTime.ToString();
+
+            return retVal;
+        }
+
+        public string[,] GetFuelAmountsAndBayTotals(POS p, decimal sov_mod)
+        {
+            string[,] retVal = new string[12, 6];
+
+            retVal[0, 0] = EnrUran.Name;
+            retVal[0, 1] = EnrUran.Qty.ToString();
+            retVal[0, 2] = EnrUran.RunTime.ToString();
+            retVal[0, 3] = EnrUran.VolForQty.ToString();
+            retVal[0, 4] = (EnrUran.Qty + p.PosTower.Fuel.EnrUran.Qty).ToString();
+            retVal[0, 5] = (EnrUran.RunTime + p.PosTower.Fuel.EnrUran.RunTime).ToString();
+
+            retVal[1, 0] = Oxygen.Name;
+            retVal[1, 1] = Oxygen.Qty.ToString();
+            retVal[1, 2] = Oxygen.RunTime.ToString();
+            retVal[1, 3] = Oxygen.VolForQty.ToString();
+            retVal[1, 4] = (Oxygen.Qty + p.PosTower.Fuel.Oxygen.Qty).ToString();
+            retVal[1, 5] = (Oxygen.RunTime + p.PosTower.Fuel.Oxygen.RunTime).ToString();
+
+            retVal[2, 0] = MechPart.Name;
+            retVal[2, 1] = MechPart.Qty.ToString();
+            retVal[2, 2] = MechPart.RunTime.ToString();
+            retVal[2, 3] = MechPart.VolForQty.ToString();
+            retVal[2, 4] = (MechPart.Qty + p.PosTower.Fuel.MechPart.Qty).ToString();
+            retVal[2, 5] = (MechPart.RunTime + p.PosTower.Fuel.MechPart.RunTime).ToString();
+
+            retVal[3, 0] = Coolant.Name;
+            retVal[3, 1] = Coolant.Qty.ToString();
+            retVal[3, 2] = Coolant.RunTime.ToString();
+            retVal[3, 3] = Coolant.VolForQty.ToString();
+            retVal[3, 4] = (Coolant.Qty + p.PosTower.Fuel.Coolant.Qty).ToString();
+            retVal[3, 5] = (Coolant.RunTime + p.PosTower.Fuel.Coolant.RunTime).ToString();
+
+            retVal[4, 0] = Robotics.Name;
+            retVal[4, 1] = Robotics.Qty.ToString();
+            retVal[4, 2] = Robotics.RunTime.ToString();
+            retVal[4, 3] = Robotics.VolForQty.ToString();
+            retVal[4, 4] = (Robotics.Qty + p.PosTower.Fuel.Robotics.Qty).ToString();
+            retVal[4, 5] = (Robotics.RunTime + p.PosTower.Fuel.Robotics.RunTime).ToString();
+
+            retVal[5, 0] = "Helium Isotopes";
+            retVal[5, 1] = HeIso.Qty.ToString();
+            retVal[5, 2] = HeIso.RunTime.ToString();
+            retVal[5, 3] = HeIso.VolForQty.ToString();
+            retVal[5, 4] = (HeIso.Qty + p.PosTower.Fuel.HeIso.Qty).ToString();
+            retVal[5, 5] = (HeIso.RunTime + p.PosTower.Fuel.HeIso.RunTime).ToString();
+
+            retVal[6, 0] = "Hydrogen Isotopes";
+            retVal[6, 1] = H2Iso.Qty.ToString();
+            retVal[6, 2] = H2Iso.RunTime.ToString();
+            retVal[6, 3] = H2Iso.VolForQty.ToString();
+            retVal[6, 4] = (H2Iso.Qty + p.PosTower.Fuel.H2Iso.Qty).ToString();
+            retVal[6, 5] = (H2Iso.RunTime + p.PosTower.Fuel.H2Iso.RunTime).ToString();
+
+            retVal[7, 0] = "Nitrogen Isotopes";
+            retVal[7, 1] = N2Iso.Qty.ToString();
+            retVal[7, 2] = N2Iso.RunTime.ToString();
+            retVal[7, 3] = N2Iso.VolForQty.ToString();
+            retVal[7, 4] = (N2Iso.Qty + p.PosTower.Fuel.N2Iso.Qty).ToString();
+            retVal[7, 5] = (N2Iso.RunTime + p.PosTower.Fuel.N2Iso.RunTime).ToString();
+
+            retVal[8, 0] = "Oxygen Isotopes";
+            retVal[8, 1] = O2Iso.Qty.ToString();
+            retVal[8, 2] = O2Iso.RunTime.ToString();
+            retVal[8, 3] = O2Iso.VolForQty.ToString();
+            retVal[8, 4] = (O2Iso.Qty + p.PosTower.Fuel.O2Iso.Qty).ToString();
+            retVal[8, 5] = (O2Iso.RunTime + p.PosTower.Fuel.O2Iso.RunTime).ToString();
+
+            retVal[9, 0] = HvyWater.Name;
+            retVal[9, 1] = HvyWater.Qty.ToString();
+            retVal[9, 2] = HvyWater.RunTime.ToString();
+            retVal[9, 3] = HvyWater.VolForQty.ToString();
+            retVal[9, 4] = (HvyWater.Qty + p.PosTower.Fuel.HvyWater.Qty).ToString();
+            retVal[9, 5] = (HvyWater.RunTime + p.PosTower.Fuel.HvyWater.RunTime).ToString();
+
+            retVal[10, 0] = LiqOzone.Name;
+            retVal[10, 1] = LiqOzone.Qty.ToString();
+            retVal[10, 2] = LiqOzone.RunTime.ToString();
+            retVal[10, 3] = LiqOzone.VolForQty.ToString();
+            retVal[10, 4] = (LiqOzone.Qty + p.PosTower.Fuel.LiqOzone.Qty).ToString();
+            retVal[10, 5] = (LiqOzone.RunTime + p.PosTower.Fuel.LiqOzone.RunTime).ToString();
+
+            retVal[11, 0] = Charters.Name;
+            retVal[11, 1] = Charters.Qty.ToString();
+            retVal[11, 2] = Charters.RunTime.ToString();
+            retVal[11, 3] = Charters.VolForQty.ToString();
+            retVal[11, 4] = (Charters.Qty + p.PosTower.Fuel.Charters.Qty).ToString();
+            retVal[11, 5] = (Charters.RunTime + p.PosTower.Fuel.Charters.RunTime).ToString();
 
             return retVal;
         }

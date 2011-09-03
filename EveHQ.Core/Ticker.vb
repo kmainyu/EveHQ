@@ -1,4 +1,23 @@
-﻿Imports System.Drawing.Drawing2D
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 Imports System.Drawing
 
@@ -68,7 +87,7 @@ Public Class Ticker
         ' Add any initialization after the InitializeComponent() call.
         SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.DoubleBuffer Or ControlStyles.ResizeRedraw Or ControlStyles.UserPaint, True)
         scrollTimer.Interval = 5
-        scrollTimer.Enabled = True
+        scrollTimer.Enabled = False
         Me.DoubleBuffered = True
         r = New Random(Now.Millisecond)
         lastItem = EveHQ.Core.HQ.itemData.Count
@@ -140,9 +159,10 @@ Public Class Ticker
         Dim PluginName As String = "EveHQ Item Browser"
         Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
-            Dim mainTab As TabControl = CType(EveHQ.Core.HQ.MainForm.Controls("tabMDI"), TabControl)
-            If mainTab.TabPages.ContainsKey(PluginName) = True Then
-                mainTab.SelectTab(PluginName)
+            Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+            Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+            If tp IsNot Nothing Then
+                mainTab.SelectedTab = tp
             Else
                 Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
                 plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
@@ -183,6 +203,14 @@ Public Class Ticker
         Public imgID As String = ""
         Public imgName As String = ""
     End Class
+
+    Private Sub Ticker_VisibleChanged(sender As System.Object, e As System.EventArgs) Handles MyBase.VisibleChanged
+        If Me.Visible Then
+            scrollTimer.Enabled = True
+        Else
+            scrollTimer.Enabled = False
+        End If
+    End Sub
 End Class
 
 

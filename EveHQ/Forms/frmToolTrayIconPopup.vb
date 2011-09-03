@@ -1,4 +1,23 @@
-﻿Imports System.IO
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.IO
 Imports System.Runtime.InteropServices
 
 Public Class frmToolTrayIconPopup
@@ -8,7 +27,7 @@ Public Class frmToolTrayIconPopup
     Dim currentDate As Date
 
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
-        MyBase.OnPaint(e)
+		MyBase.OnPaint(e)
     End Sub
 
     Protected Overrides Sub OnClosed(ByVal e As EventArgs)
@@ -17,15 +36,15 @@ Public Class frmToolTrayIconPopup
     End Sub
 
     Protected Overrides Sub OnLoad(ByVal e As EventArgs)
-        MyBase.OnLoad(e)
-        Me.displayTimer.Start()
-        Me.UpdateForm()
+		MyBase.OnLoad(e)
+		Me.displayTimer.Start()
+		Me.UpdateForm()
     End Sub
 
     Protected Overrides Sub OnShown(ByVal e As EventArgs)
-        MyBase.OnShown(e)
-        NativeMethods.SetWindowPos(MyBase.Handle, -1, 0, 0, 0, 0, &H13)
-        NativeMethods.ShowWindow(MyBase.Handle, 4)
+		MyBase.OnShown(e)
+		NativeMethods.SetWindowPos(MyBase.Handle, -1, 0, 0, 0, 0, &H13)
+		NativeMethods.ShowWindow(MyBase.Handle, 4)
     End Sub
 
     Private Sub displayTimer_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles displayTimer.Tick
@@ -64,10 +83,11 @@ Public Class frmToolTrayIconPopup
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        Me.SuspendLayout()
-        Me.ConfigureForm()
-        Me.ResumeLayout()
+		' Add any initialization after the InitializeComponent() call.
+		Me.SuspendLayout()
+		Me.ConfigureForm()
+		Me.ResumeLayout()
+
     End Sub
 End Class
 

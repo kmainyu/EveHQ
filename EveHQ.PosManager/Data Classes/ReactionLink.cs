@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +35,7 @@ namespace EveHQ.PosManager
     [Serializable]
     class ReactionLink
     {
-        public int LinkID;
+        public long LinkID;
         public decimal InpID, OutID;
         public decimal XferQty;
         public decimal XferVol;
@@ -47,7 +66,7 @@ namespace EveHQ.PosManager
             LinkColor = rl.LinkColor;
         }
 
-        public ReactionLink(int lid, decimal iid, decimal oid, decimal xq, decimal xv, Color lc, string sn, string dn)
+        public ReactionLink(long lid, decimal iid, decimal oid, decimal xq, decimal xv, Color lc, string sn, string dn)
         {
             LinkID = lid;
             InpID = iid;

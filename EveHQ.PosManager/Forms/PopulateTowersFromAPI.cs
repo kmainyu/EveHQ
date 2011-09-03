@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +27,7 @@ using System.Windows.Forms;
 
 namespace EveHQ.PosManager
 {
-    public partial class PopulateTowersFromAPI : Form
+    public partial class PopulateTowersFromAPI : DevComponents.DotNetBar.Office2007Form
     {
         public PoSManMainForm myData;
 
@@ -26,10 +45,10 @@ namespace EveHQ.PosManager
             cbx_Monitored.Checked = true;
 
             clb_TowerListing.Items.Clear();
-            foreach(APITowerData apid in myData.API_D.apiTower.Values)
+            foreach (APITowerData apid in PlugInData.API_D.apiTower.Values)
             {
                 present = false;
-                foreach (POS p in myData.POSList.Designs)
+                foreach (POS p in PlugInData.PDL.Designs.Values)
                 {
                     if (p.itemID == apid.itemID)
                     {
@@ -41,17 +60,18 @@ namespace EveHQ.PosManager
                 if (!present)
                 {
                     // Get Table With Tower or Tower Item Information
-                    strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.locID + ";";
+
+                    strSQL = "SELECT itemName FROM mapDenormalize WHERE mapDenormalize.itemID=" + apid.moonID + ";";
                     locData = EveHQ.Core.DataFunctions.GetData(strSQL);
                     loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
 
                     if (apid.locName == "Unknown")
                     {
                         apid.locName = loc;
-                        myData.API_D.SaveAPIListing();
+                        PlugInData.API_D.SaveAPIListing();
                     }
 
-                    pos_name = apid.corpName + " --> " + apid.locName + ", " + apid.towerName + " [" + apid.itemID + "]";
+                    pos_name = apid.corpName + " --> " + loc + ", " + apid.towerName + " [" + apid.itemID + "]";
                     clb_TowerListing.Items.Add(pos_name);
                 }
             }
@@ -81,7 +101,7 @@ namespace EveHQ.PosManager
                 {
                     tName = clb_TowerListing.Items[indx].ToString();
                     // Need to add this POS Tower to my listings
-                    foreach (APITowerData apid in myData.API_D.apiTower.Values)
+                    foreach (APITowerData apid in PlugInData.API_D.apiTower.Values)
                     {
                         if (tName.Contains(apid.itemID.ToString()))
                         {
@@ -90,13 +110,9 @@ namespace EveHQ.PosManager
                             APITower = new POS(tName);
 
                             // I have the name. Need to add the tower object to the POS
-                            foreach (Tower t in myData.TL.Towers)
+                            if (PlugInData.TL.Towers.ContainsKey(apid.towerID))
                             {
-                                if (t.typeID == apid.towerID)
-                                {
-                                    APITower.PosTower = new Tower(t);
-                                    break;
-                                }
+                                APITower.PosTower = new Tower(PlugInData.TL.Towers[apid.towerID]);
                             }
 
                             APITower.CorpName = apid.corpName;
@@ -126,9 +142,6 @@ namespace EveHQ.PosManager
                                     break;
                             }
 
-                            APITower.PosTower.CPU_Used = APITower.PosTower.CPU;
-                            APITower.PosTower.Power_Used = APITower.PosTower.Power;
-
                             // Also need to set Fuel Data Amounts
                             APITower.PosTower.Fuel.EnrUran.Qty = apid.EnrUr;
                             APITower.PosTower.Fuel.Oxygen.Qty = apid.Oxygn;
@@ -145,12 +158,13 @@ namespace EveHQ.PosManager
                             APITower.PosTower.Fuel.Strontium.Qty = apid.Stront;
                             APITower.Monitored = mon;
 
-                            myData.POSList.AddDesignToList(APITower);
+                            PlugInData.PDL.AddDesignToList(APITower);
                         }
                     }
                 }
             }
             this.Dispose();
         }
+
     }
 }

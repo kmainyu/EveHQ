@@ -1,0 +1,584 @@
+====== Version 2 Change Log ======
+
+Changes to: Revision 3239
+
+This page is subject to change for the final release
+
+
+===== EveHQ Application Changes =====
+
+New Features & Critical Changes:
+  * Changed database from MS Access to MS SQLCE, providing quicker access and better features while maintaining the flat file format
+  * EveHQ upgraded to use .Net Framework 3.5 to make use of additional features
+  * Massive update to the UI to use new customised controls, ribbon and customisable coloured elements
+  * Major overhaul of the EveHQ API Cache and Proxy system to allow better segregation and handling of API functionality
+  * New Planetary Interaction Plug-in
+  * New RouteMap Plug-in replaces the old Map plug-in from v1
+  * Removed code to launch Eve in a full window - this is now handled by the Eve client
+  * Skill queue suggestions removed due to removal of learning skills from Eve (affects Training form and HQF)
+  * Can use both the old API system and the new Customisable API Key (CAK) system
+
+
+===== EveHQ Core =====
+
+New Features & Critical Changes:
+  * New Last Transactions widget for Dashboard
+  * New Eve Skill Queue widget for Dashboard
+  * New Skill Cost chart for determining total skillbook value trained
+  * Added multiple "Shopping Lists" in the form of Requisitions
+  * New RSS Feed widget for the Dashboard
+  * New SQL query function to allow querying the static and custom databases and to allow queries to be saved for future use
+  * Creation plug-in and moved functionality to the EveHQ Settings under Pilots
+  * New Wormhole Information widget for the Dashboard
+  * New Market Orders widget for the Dashboard
+  * New Last Journals widget for the Dashboard
+  * New W-Space Information widget for the Dashboard
+  * Added settings for IGB Public/Private modes
+  * Portrait fetching is now done from the new Eve Image server
+  * Market Prices are now obtained from BattleClinic by default as opposed to Eve-Central
+  * Market Prices has an option to download from Eve Marketeer as an alternative price source
+  * Default starting location of static database is now in the user's AppData folder
+
+Enhancements:
+  * Mail button tooltip on main toolbar better explains the numbers
+  * EveMails are now checked for MailingListIDs
+  * Optimised pre-requisite and dependency highlighting in skill queue to reduce calculation time significantly 
+  * Dashboard now allows manual placement of widgets
+  * Widgets can now be properly resized in all directions using the mouse, options used in configuration settings now removed
+  * EveMail form now states that only EveMail bodies will be downloaded
+  * Market Logs are now highlighted according to age
+  * Skill queues can now be sorted via the column click which now obeys the rules of pre-requisites
+  * An API refresh will now remember selected items in the skill queue
+  * Changing levels or positions in the skill queue will ensure the changed item is visible in large lists 
+  * Training Queue will now display the number of skills
+  * Added new dockable and resizable training bar control for displaying pilot and skill queue information
+  * Added focused control highlighting in various forms
+  * Images in the pilot training bar now links to the pilot form
+  * Replaced Eve skill queue list in the Pilot form with new graphical control
+  * Closing EveHQ for an update will not raise the skill training warning
+  * Added a new option to configure auto-backup of the EveHQ settings prior to an update
+  * IGB Server defaults to not active when EveHQ is first run
+  * Improved MDI tab system display
+  * Price matrix is now updated after updating faction or market prices
+  * Added new settings to enable SSL connections when sending email notifications
+  * Sorting of the Rank column in the Pilot Info form is now possible
+  * Enabled deletion of multiple market log files
+  * Added a new setting for "Basic" proxy authentication
+  * Added setting for disabling the Training bar
+  * Added options to mark Eve mails and notices as read
+  * Updated Faction Price Snapshot URL
+  * Added a feature to show a special message pulled from a new URL
+  * Added "remote" plug-in disabling via server message in case of critical plug-in errors
+  * Replaced in-built certificate data with routines from the database
+  * Homer has taken early retirement and been replaced by the more experienced Professor Farnsworth
+  * Added refresh facility to Market Orders Widget
+  * Added restore functionality into the EveHQ backup settings
+  * Added code to backup and restore SQL databases
+  * API Checker form can now force download the actual XML rather than use the cached version
+  * Pilot images where cached image is not available now show a default CCP "no character" image instead of a blank
+  * Corrected buttons for performing the EveHQ Settings backups
+  * Fixed crash in test email sending where settings weren't applied
+  * Implemented auto-scrolling in the Training Form for retaining view of skill training queue after modification
+  * EveMail and Notification feature given a good UI overhaul, and include message bodies for both
+  * Notifications of EveMail messages now includes the message body
+  * API key type added to the API Account Management screen
+  * API Account status added to the API Account Management screen
+  * Added context menu for Queue options in the Queue Summary tab in the Training form
+  * Current skill queue view is retained after closing settings or after an API update
+  * Added setting to show Primary Queue when opening skill training or switching pilots
+  * Added Delete button functionality for training queues
+  * Added Shift + Up/Down to control skills moving up/down training queues
+  * Added new button to open the "AppData" folder for easier navigation
+  * Account status now shown on character training bar when expired
+  * Added account time overlay on pilot image in training bar
+  * Added settings for displaying account time overlay
+  * Added Account information to the pilot info form
+  * Added Expand/Collapse All options and buttons for skill tree in the training form
+  * Added customisable control splitter to the training Form
+  * Resizing and dragging dashboard widgets should now happen more smoothly
+  * Current skill queue view will be retained after an API update or closing settings
+  * Suppressed Eve-Central error messages until all the batch has been completed
+  * IGB Server toggle will be disabled if not supported or there are insufficient permissions
+  * Added Char/ContactList and Corp/ContactList APIs
+  * Removed restriction on characters permitted in the skill queue names
+  * Added ability to split queues via button or context menu
+  * Character Summary report now shows the level of skill being trained
+  * Added price groups for market prices
+  * TQ Status will now say "Disabled" if the feature hasn't been activated in settings
+  * Added some clarification to the TQ and API Status messages on startup
+  * Added Copy Mail functionality to EveMail
+  * Character corp roles are now parsed to improve API performance where corp related information is required
+  * Allowed multi-select to delete custom prices
+  * Added message to a blank dashboard to indicate how to start using it
+  * Added context menu to header bar of widgets to remove them from the dashboard
+  * Added ability to manually disable individual API accounts to prevent character API downloads
+  * Removed extra notification messages when successfully creating the custom database
+  * Market price download is now multi-threaded to allow other things to be done during download
+  * Added a Market Cache file list to the Pricing system
+  * Dashboard is now scrollable and widgets placed outside the screen area
+  * Pilot portraits are now automatically downloaded the first time the pilot is seen in the API
+  * Missing pilot portraits should be retrieved automatically
+  * Added new screen for information and help
+  * Unclaimed certificates are now shown in green in the certificate view
+  * Settings file is now saved after an API download
+  
+Fixes:
+  * Fixed an error in API trying to save IDToName/NameToID files where filename contains data > 240 characters
+  * Fixed display of number of unread Eve notifications
+  * Fixed skill queue issue with skill training bonus where skill extends past the limit
+  * Fixed skill queue issue with skill training bonus where limit is exceeded in a multiple level skill
+  * Fixed crash in mail where senderID is unrecognised from the database
+  * Fixed EMP import/exports and full import due to new XML structure
+  * Removed duplicate shutdown routine causing conflicts when using the File > Exit menu option
+  * Standings will now only use the latest files, not old versions in previous machonet versions
+  * Fixed control anchoring in the mail form
+  * Being required to select a database on startup now opens the full database settings form
+  * Settings form now centered instead of semi-random placement
+  * Skill Queue widget control anchoring issues resolved
+  * Fixed Dashboard context menu
+  * Fixed a crash in Notification display where the notification typeID is not in the list 
+  * Fixed silent error writing EveIDs to the database where the Eve name contained an apostrophe
+  * Fixed tab ordering of API Account form
+  * Fixed an overflow in the skill rate calculation where multiple levels had already been trained
+  * Fixed a crash when deleting skill queues
+  * Fixed error in processing pilot bloodlines that contained a "-" in the name
+  * Fixed issue with skill queues not parsing if only the current skill is in the queue
+  * Fixed EveHQ Backup issues with unwanted files
+  * Removed excess updating code in the Dashboard
+  * Skill queue optimisation controls should now be displayed correctly in all cases
+  * Skill queue tabs will now be drawn correctly after rebuilding queues
+  * Initial click on the skill queue tabs should not cause the training queue control to flicker
+  * Fixed some small issues with skill flow calculations
+  * Saving of the API XMLs in the cache is handled much better in the result of an error
+  * Failure to save an API XML will no longer prevent the correct API being returned to the calling feature
+  * Fixed issue with EveHQ not starting correctly on the first run when a valid DB is present in the application folder
+  * Fixed some database timeout issues
+  * Neural remap should no longer crash if the current queue is already the optimal queue
+  * Eliminated cursor flickering issue with the Dashboard
+  * Resolved various issues with Dashboard widgets and Training bar which could result in "Out of Memory" exceptions
+  * Fixed a crash where the Training form would be disposed of before being used
+  * Fixed remote plug-in startup error in Ticker control and other various controls
+  * Fixed data conversion issues in the Skill Training XML
+  * Fixed an issue sending notifications
+  * All widgets will no longer refresh when only one requires updating
+  * Fixed automatic market log import when prices form had not been previously loaded
+  * Implant Analysis will now take into account the current training skill
+  * Neural Remap will now take into account the current training skill
+  * "Skills Ready to Train to Next level" filter now excludes all level 5 skills
+  * It is now possible to separate all levels for multiple selected skills if the first skill clicked was for a single skill level increase
+  * Fixed usage of /LUA:off when starting Eve from the EveHQ menu
+  * Fixed some errors with clearing the character XML cache
+  * Trimmed API account input to remove excess spaces when copy/pasting from various sources
+  * Character API routines should no longer be able to be run more than once at any one time
+  * Inactive training pilots will no longer appear in the training bar
+  * Fixed crash in CharSummary report where the current training skill is not identified
+  * Fixed issues using /LUA:OFF with icon launch menu
+  * Corrected parsing of EveMail items so recipient isn't always "<Mailing List>"
+  * Copying temporary pilots should not copy duplicate pilot names
+  * Fixed crash with incomplete groups in the dependencies section of skill details
+  * Fixed skillpoints still accumulating after completing a skill
+  * Fixed parsing of market logs in foreign cultures
+  * Fixed issues with RefTypes API in the Last Journal widget
+  * Server offset will now display existing value at startup of settings form
+  * Implemented workaround for MDI child form maximized bug in Windows
+  * Small textual change for Eve notification emails
+  * Setting EveHQ to run at startup will now take account of whether the /local switch is being used
+  * Colouring of skill time remaining text in Pilot form no longer delayed until next time update
+  * Skill times in Training Bar updated immediately on creation
+  * Fixed culture issue in the Last Transactions widget
+  * Fixed a placement error when adding skills to a queue for non-training characters
+  * Fixed cursor showing as "Move" in various forms after clicking on a dashboard widget header to move it
+  * Fix for changes to CharacterSheet API
+  * Removed reliance on indexed XML properties for character sheet
+  * Fix for missing read flag in the mailheaders API
+  * Reworked code to save training XML files to use proper XML declarations
+  * Selecting Queue Summary tab should now correctly reset options
+  * Fixed crash attempting to click IncludeCurrentTraining when not valid
+  * Fixed a core saving issue during shutdown when using backup prompts on exit
+  * Fixed error adding skills to queue from the context menu when the view changes after opening menu
+  * Fixed crash removing all items from the skill queue when ICT is set to false
+  * Fix for crashes in Implant and Remap forms for non-training characters
+  * Fixed an issue that would cause the custom database to be reintialised on each startup
+  * Fixed mixup of attributes for skills when reading from the APISkillTree XML file
+  * Fixed code error preventing Memory implant from updating correctly in the Implant Analysis
+  * Altered alignment of certain columns in the skill queue list
+  * Fixed an application hang when changing levels within multiple skills
+  * Reverted auto delete of trained skills so that these are retained in the skill queue if required
+  * Amended downtime clash to 11:00 to 11:30 Eve Time (30 mins)
+  * Fixed a condition where the skill queue node could be null between selecting a node and clicking the context menu
+  * Fixed startup issues where the settings form was needed to configure a setting
+  * Searched skills in the training form should now allow them to be correctly added from the right-click context menu
+  * Skill Queues are now correctly processed after all API update attempts due to replacement character data
+  * Skill search in the training form now searches description as well as name
+  * Adding, deleting or editing skill queues will update the queue report menu
+  * Fixed crash building reports after renaming queue
+  * Standings are now based on the API and stored with the character
+  * Fix for skill queue flow where skill in training for a previous level still exists
+  * Prevented notifications repeatedly popping up when cached API data is retrieved
+  * Removed "FTP Accounts" in the settings as they are unused
+  * Standings now uses the API on a per character basis
+  * Fixed issue in the Modify Price form where market/custom prices do not exist
+  * Fixed issue in log highlighting when moving focus
+  * Fixed empty string issue after editing prices in the Modify Price form
+  * Added error handling when loading market price XML files
+  * Fix for SkillTree API import making all skills published
+  * Fixed UI docking issue with API Accounts screen
+  * Fix for alignment of numbers in Alloy Report
+  * Updating character API from the API Accounts screen will now update the API correctly
+  * Fixed a redraw issue with the ZedGraph control
+  * Fixed market log import function reading incorrect header info
+  * Fixed DPI issue with images on Splash screen and About screen
+  * Fixed crash when sorting market log screen by age
+  * Fixed pre-req and dependency labelling in the skill queues
+  * Fixed mail display containing escaped characters
+  * Prevented multiple window pile-up on starting EveHQ
+  * Fixed errors writing EveMails and EveNotifications when using certain regional settings
+  * Fixed errors writing market and custom prices when using certain regional settings
+  * Fixed EveMail IDs being cleared before being used for email notifications
+  * Disabled dashboard ticker control when not visible, freeing up CPU resources
+  * Fixed shutdown issues when backups are configured to run on exit
+  * Proxy server should now be correctly used when downloading images
+  
+
+===== HQF =====
+
+New Features & Critical Changes:
+  * Added a Ship Editor feature to HQF
+  * Added new Capacitor Simulation feature, displaying the details of the capacitor stability result
+  * Added unprobeability indicator to the Ship Info Control
+  * Implemented undo/redo system for modules and charges
+  * Implemented Defence Profiles for getting reasonable DPS figures without using the Damage Simulator
+
+Enhancements:
+  * Skills in the pilot manager are now ordered alphabetically
+  * Enabled multiple module status changing
+  * Removed charges from the Eve Exports
+  * Price added to the module list 
+  * Removed Doomsday Device Check as it is no longer relevant
+  * Removed old ship preview tab and replaced with standard Show Info form
+  * Increased cap simulation time from 1 hour to 12 hours
+  * Required skills now take Drones into account
+  * Required skills now take Implants into account
+  * Opening a fitting will no longer recalculate the fitting several times
+  * Implemented new default damage profiles
+  * Changing damage profile will no longer recalc the whole fitting, just the defence statistics
+  * Damage profiles now saved and retrieved with fittings
+  * WH information stored and retrieved with fittings
+  * Removing a module will now add it onto the MRU list
+  * Sizes of slot columns are now saved for future use
+  * Slot columns can now be moved by dragging the headers with the mouse
+  * Vastly improved response times for UI calculations
+  * Moved damage profiles editor to settings
+  * Added details for Eve Effective HP
+  * Removed slot number labels with Turret & Launcher numbers moved to high slot node
+  * Option to configure slots now placed in slot context menu
+  * Added ability to export a fittings as a Requisition
+  * Added ability to Add single modules to Requisitions from context menu of ShipSlotControl
+  * Automatic rig substitution added when importing old fittings from various sources
+  * Provided import feature for importing EFT characters into the HQF skills
+  * Implemented fitting and replacement from the Meta Variations form
+  * Queue time display on character training now includes the current training skill
+  * Module List column sizes are now saved for future HQF sessions
+  * Added the Noctis ORE Industrial
+  * Added copy/paste module functionality
+  * Wormhole beacons should no longer appear in the module list
+  * Modified tooltips in slot control to give some usage info
+  * Added T3 module slot layouts to tooltips and descriptions
+  * "Find Module to Fit" will now only show compatible-sized rigs
+  * Implemented ShowInfo onto fitted modules in the BCBrowser
+  * Added message that pilots need to be added before importing Eve fittings
+  * Added the ability to overload a rack
+  * Clipboard import should now be able to import the forum export format
+  * Added ability to ignore attribute columns in the meta variations form
+  * Meta Variations form size and sorting now saved in settings
+
+Fixes:
+  * Fixed role errors on Ashimmu, Cruor and Daredevil
+  * Skirmish Warfare Mindlink now gives bonuses to the correct modules
+  * Cloaking device scan resolution penalty now applied even if module is offline
+  * Removed effect of drone interfacing skill for fighters
+  * Fixed error with duplicate fitting names
+  * Fixed bonuses for Flycatcher
+  * Siege module now gives bonues to Citadel Cruise Missiles
+  * Fixed tracking bonuses for T1 ammo
+  * Fixed crash importing Eve fittings where a matching module wasn't found
+  * Fixed crash in Damage Analysis using a fit that has been imported into EveHQ from EFT but never opened
+  * Fixed crash trying to show market group where no market group info is available
+  * Implants and Boosters now added as a valid market group in the module list
+  * Fixed implant descriptions
+  * Added ship bonuses for fighter bombers
+  * Added fighter bombers skill bonuses and damage calculations
+  * Tracking scripts now affect module falloff bonuses
+  * Fixed issue with Pilot Manager displaying incorrect implants
+  * Fixed Propulsion Jamming skill not applying to WDFGs
+  * Fixed issues with no being able to mix LG and HG implants of the same group
+  * Crystal implants will no longer affect capital modules
+  * Fixed signature radius bonus on Loki Defensive Amplification Node
+  * Fixed damage bonus for titans
+  * Fixed the Celestis ship bonuses
+  * Fixed Gravity Capacitor rigs not giving bonuses to probes
+  * Shield Emission skill now correctly applies to Capital Shield Transporters
+  * Fixed Harvest implant attribute mappings
+  * Fixed damage bonus on FoF missiles
+  * Fixed Rook missile bonus
+  * Fixed Ragnarok and Leviathan warfare link bonuses
+  * Fixed incorrect calculation method for Drop booster tracking bonus
+  * Fixed Crash booster bonus affecting Explosion velocity, not radius
+  * Fixed Incursus bonuses
+  * Fixed error message when exporting fittings to Eve without fittings selected
+  * Fixed Scythe range bonus to tracking links
+  * Fixed various errors in tracking link skill mappings 
+  * Removed incorrect capacitor bonus on Proteus Engineering - Augmented Capacitor Reservoir 
+  * Fixed "Named" armor and shield HP implants giving bonuses to armor/shield extenders 
+  * Fixed crash entering non-numeric data into the SMTP Port setting for the IGB Server
+  * Caught an error that could occur while setting text onto the clipboard in the Exception form
+  * Module states should now be retained for external fitting calculations
+  * Fixed pirate implant calculations when mixing various group types
+  * Fixed a crash in the BattleClinic Browser is looking at a loadout with no pilots configured
+  * Corrected Rorqual bonus to mining foreman ganglinks
+  * Fixed a crash in the Fitting Browser where no pilot or damage profile is available
+  * Fixed issues with using both turrets and missiles in the damage graph
+  * Fixed crash when attempting to add skills to a skill queue
+  * Fixed Fittings treeview not showing fitting names
+  * Import fitting from clipboard will remove any leading/trailing spaces before parsing
+  * Fixed sensor recalibration time on Stealth Bombers
+  * Fixed bonuses on Augoror Navy Issue
+  * Fixed sensor recalibration time on Black Ops
+  * Fixed duplication of ship data within the HQF lists
+  * Fixed error with the plug-in not returning a successful result after correctly loading serialized data files HQF
+  * Fixed control docking issues on meta-variations form
+  * Ship Bonuses are now listed in the relevant skills of the ship
+  * Removed stacking penalties from Rigor and Flare rigs
+  * Omnidirectional Links now stacking penalised
+  * Implemented skill, rig and implant effects for codebreakers and analyzers
+  * Fixed Velator small hybrid bonus applying to the Vexor
+  * Command processors will now be taken into account before ganglink status
+  * Closing damage profile form will now save the profiles
+  * Fixed tracking rig bonuses
+  * Tracking link bonuses on ships now affect the falloff attribute
+  * Removed unnecessary updating of fittings when adding, editing and removing implant groups
+  * Fixed stacking on Nanobot accelerator rigs
+  * Fixed stacking on Remote Repair Augmentor rigs
+  * Fixed stacking on Tracking Diagnostic Subroutines rigs
+  * Fixed anchoring of controls in the ship/fitting search panel
+  * Fixed crash importing Eve fittings
+  * Fixed crash selecting the Red Giant effect in the WH tab
+  * Offlining command processors will deactivate the appropriate number of active ganglinks if applicable
+  * Duplicate fitting calculations should no longer be made when opening fittings with drones
+  * Fixed negative resistance calculations (affects mainly Pulsar and Wolf Rayet WH effects)
+  * Fixed PPG-x and PPH-x implant attribute mappings
+  * Fixed Skirmish warfare mindlink inertia bonus
+  * Shield boost bonus is now correctly stacking nerfed when in siege/triage modes
+  * Fixed Tracking Disruptor bonuses of Arbitrator, Crucifier, Curse, Pilgrim & Sentinel
+  * Turret Destabilisation skill now affects tracking disruptor falloff strength
+  * Fixed crash in Show Info form where an attribute isn't in the base item (such as optimal range for missiles)
+  * Fixed issues with Damage Analysis calculations when using missiles
+  * Fixed crash in damage analysis for turrets
+  * Fixed crash in MetaVariations form due to missing attributes
+  * AB/MWD sig radius penalty now stacking penalised
+  * Fixed calculation of subsystem effects where 2 subsystems affect the same attribute
+  * Remote repair augmentors now affect capital remote armor mods
+  * Fixed crash when importing with no valid ship
+  * Fixed capital shield mod not affected by ganglinks
+  * Fixed capital armor mod not affected by ganglinks
+  * Fixed crash doing Show Info on modules with no active fitting
+  * Fixed crash applying skills when not on a valid module group
+  * Fixed crash when using active drones without damage attributes
+  * Fixed Claw damage bonus
+  * Fixed export issues reporting incorrect fitting key
+  * Fixed skill bonuses for ECM Burst
+  * Fixed Scorpion bonuses for ECM Burst
+  * Fixed training times in ShowInfo window
+  * Training time label in ShowInfo window now reacts to click
+  * Fixed ECM cap use bonus on Kitsune
+  * Updated Hawk bonus
+  * Fixed Data Mining module calculation issues
+  * Fixed bonuses given by some scan probe launchers to probes
+  * Fixed a bug where copy via drag/drop wouldn't check for certain constraints
+  * Fixed Powergrid Subroutine Maximizer rig mappings
+  * Added code to detect missing damage profiles and to select the default if so
+  * Fixed Loki Offensive Covert Subsystem ROF bonus
+  * Fixed updating of module list where node was already selected and search had been done
+  * Fixed Damage Analysis survival times with recharge
+  * Fixed crash changing pilot in BCBrowser with no fitting opened
+  * Fixed various crashes in Damage Analysis form when no fittings selected
+  * Fixed errors when building cache with invalid skill IDs in the DB
+  * Ship Comparisons now show correct capacitor data if fitting is cap stable
+  * Fixed Eve export of current fitting
+  * Individual panels in the Ship Information can now be collapsed
+  * Panels in the Ship Information now contain default information in the title
+  * Fixed cap booster reload time calculations
+  * Fixed Rigor rigs working on non-guided missiles
+  * Fixed Citadel Cruise Missile skill bonuses
+  * Fixed display of wormhole info after opening a fitting with the wormhole info previously set
+  * Fix for duplicate image error on HQF form loading
+  * Fixed import of Eve fittings where some slots were blank
+  * Fixed ROF bonus on Devoter
+  * Fixed cases where the pilot name wasn't in the list of HQF pilots
+  * Fixed crash selecting multiple fittings for deletion
+  * T3 inertia and sig radius should now take the correct value of the subsystems
+  * Fixed a crash looking at modules with no default pilot set
+  * Fixed Eve export of fittings when fitting has been previously opened
+  * Fixed crash with implant selection when a implant group is not found
+  * Fixed bonuses on Succubus
+  * Added Quafe Zero to boosters
+  * Added all Concord LP store implants
+  * Excluded duplicate meta level column as standard
+  * Fixed slot tooltips persisting after removing modules
+    
+
+===== Item Browser =====
+
+Enhancements:
+  * Removed "Wanted List" in favour of new Requisitions feature
+  * Ship certificate recommendations now taken from the database
+  * Removed insurance tab due to changing insurance details
+  * Optimised database access code resulting in faster display times for items
+  * Effects added to the tabs
+  * Searching items which possess an "effect" is now possible
+  * Attribute and Effect search will only contain items that have that attribute/effect
+
+Fixes:
+  * Fixed crash when trying to access certain items due to inconsistent Eve data
+  * Fixed crash caused by item skills having an ID of "0"
+  * Fixed display with incomplete groups in the dependencies section
+  * Fixed crash in attribute search where the itemID did not exist
+  * Updated image selection code to properly include PI types
+  * Fixed issue with Forward and Back buttons not responding to clicks when over the text part of the button
+
+
+===== Killmail Viewer =====
+
+Enhancements:
+  * Columns in killmail list now sortable
+  * Added copy killmail to clipboard functionality
+  * Added export to HQF option which will open HQF with the fitting browser
+
+
+===== POS Manager =====
+
+Enhancements:
+  * Tower display list now shows tower location to avoid confusion in multiple-POS systems
+  * POS Manager now supports IGB functionality via the EveHQ IGB Server
+  * Modules can now be linked in the POS Manager for silo fill tracking
+  * Improvements to tower fuel data tracking
+  * Added support for iHub tracking
+  * Ability to set fuel prices from most locations, along with config selection for where prices come from
+  * Reaction Monitor - added a sort such that any silo that is not full or empty, will show the shortest run time silos at the top of the list
+  * Added a configuration option to make Corp/Player Assets take place on either an automatic or manual update cycle
+  * Added a right-click selection to update tower fuel from the tower selection grid - this will open up a seperate TOP most window that is suitable for dragging on top of the client next to the tower display to make the manual update easier to do
+
+Fixes:
+  * Fixed various errors with links and reactions
+  * Fixed timing errors on the API Update
+  * Overhauled API routines for POS data to more accurately compute time to next update
+  * Fuel computations have been revised resulting in being less susceptible to a timing hole where one or more fuel types could get a double amount assigned
+  * Fixed a crash shen looking up corp assets of non-API characters
+  * Fixed Tyrannis API changes to POS
+  * Fixed a bug where user selects Cancel for POS/Tower Import
+  * Fixed a bug where user selects Cancel for POS/Tower Export
+  * Fixed a load bug with missing data in the Configuration file for new configurations
+  * Fixed a glitch where a missing key crash occurs
+  * Fixed a Populate Tower Bug - was improperly duping the fuel values so all towers populated would have the same exact fuel values
+  * Removed need to populate to set a tower state - now handled by API information
+  * Fixed an issue where the data display was an hour out of date for tower state
+  * Fixed various 64-bit conversion issues
+  * Fixed an issue with Corp and API Data download and processing
+  * Fix for auto-fuel calculation not working correctly 
+  * Fix for bugs in the fuel display tab
+
+
+===== PRISM =====
+
+New Features & Critical Changes:
+  * Removed all investment related UI and data
+  * Wallet and Transaction data now stored in the custom database
+  * Invention Calculator
+  * Production Manager for storing BPCalc results
+  * Batch Manager for showing multiple production resources
+  * Added numerous wallet, profit and asset related reports
+  * Contracts now added as a separate viewer and incorporated into the assets view where relevant
+
+Enhancements:
+  * BP Manager asset import now shows more detail in the location
+  * Blueprints in assets now separated from details in BP Manager
+  * Blueprints in assets updated with new text based on copy/original
+  * Multiple BPs can now be deleted from the BP Manager
+  * Deleting BPs will not alter the default sort order
+  * Modifying BPs will not alter the default sort order
+  * BP values now nil if they are of an unknown type
+  * Added "Advanced Mobile Laboratory" in the available lab modules for research
+  * Added profit/loss per hour on BP Calc
+  * Implemented context menu for Transactions to allow setting of custom price
+  * Added various filters to the wallet viewer
+  * Wallet viewer will now show details of market transactions as a sub-item
+  * Jobs API will now also store the EveID/Name data from the InstallerID to use in the Jobs installer filter
+  * BPCalc resources improved to allow for already built parent components
+  * BPCalc now allows configurable ME levels for sub-components
+  * Added new settings for default BPCalc manufacturer and BPCalc Asset Owner
+  * Max producible units in BPCalc will now show n/a when not calculated
+  * Removed the global owner - each section now contains separate pilot selection boxes
+  * Asset filters now shown as a sidebar to the Asset view
+  * Asset view now contains customisable columns where the layout is saved
+  * Additional columns (system, constellation, region, sec status) added to Asset view
+  * Corp Reps will now need to be selected to prevent API issues
+  * Multiple prices can now be updated from within BPCalc
+  * Job Activity now reports the proper name instead of just a number
+  * Added activity and status filters to the industry jobs
+  * API key type and role checking is now used to determine if APIs should be downloaded
+  * Added API retry code for cases where Error Code 0 is returned by the API
+  * Added search area for quick access to items, jobs and batches
+  * Added a new Quick Quote (Production) function
+  * Contract APIs added (only works with new CAK API system)
+  * Added margin and markup to BPCalc
+  * Added ability to copy BP Manager list to the clipboard
+  * BP Manager import now uses the extra detail in the Assets XML to distinguish BPOs and BPCs
+  * Default pilot option added to Prism options
+
+Fixes:
+  * Perfect ML now corrected due to new waste calculations
+  * Fixed various Corp Hangar Mode issues
+  * Fixed cost and efficiency display issues in the BP Calculator
+  * Fixed issue with perfect ME Levels in the BP Calculator
+  * Fixed crash in the Recycler when trying to recycle non-valid items
+  * Fixed issue with Tyrannis data
+  * Fixed crash when filtering blueprints due to inconsistent Eve data
+  * Fixed POS Array multiplier manufacturing waste calculations
+  * Corrected Waste Factor calculation for anything not 10%
+  * Unticking the "Use POS Array" checkbox will reset the array used
+  * BPCalc will centre correctly when showing non-modal
+  * Fixed crashes in cases where wallet XML data returns nothing
+  * Fixed Production Array reset in BPCalc not updating the values
+  * Buy Orders in Assets will now only show the amounts deducted from wallet, not the buy price
+  * Fixed culture errors parsing industry jobs
+  * Fix for 64-bit item IDs
+  * Fixed crash in orders section of assets for unknown items
+  * Journal owners/ref types should update after an API download
+  * Removed status bar from Prism form and assigned labels to Assets tab
+  * Fixed issues with RefTypes API not being available at startup
+  * Initial scan for XML files now deals with corps properly
+  * Fixed crashes where waste factor was zero on some unpublished BPs
+  * Fixed crash trying to add Custom BP with no owner selected
+  * Fixed display of custom asset names
+  * Fixed crash double-clicking on group filters with no item selected
+  * Fixed crash with incomplete cell information in the recycling subnodes
+  * Recycler tab will now appear when opening recycling from the assets view
+  * Fixed crash recycling from a location
+  * Fixed hangar values and volumes in corp hangars in Corp Hangar mode
+  * Fixed errors occuring during multiple BP editing
+  * Fixed crash in recycler when selecting a context menu on blank items
+  * Fixed initial display of API statuses
+  * Fixed various typos in wallet journal descriptions
+  * Fixed Prism tab closing crash issue
+  * Supplementary assets nodes (research, orders, cash) will not show if there are no relevant items
+  * Wallets now excluded from any asset search results
+  * Searching assets will now display relevant research nodes correctly
+
+
+===== Void =====
+
+Fixes:
+  * Fixed shield resist display
+
+
+{{tag>guide history}}

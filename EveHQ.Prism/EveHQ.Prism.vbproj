@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,11 +11,32 @@
     <AssemblyName>EveHQ.Prism</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>On</OptionStrict>
     <OptionInfer>Off</OptionInfer>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,10 +45,10 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
     <DocumentationFile>EveHQ.Prism.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn>42353,42354,42355</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,14 +57,23 @@
     <Optimize>true</Optimize>
     <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
     <DocumentationFile>EveHQ.Prism.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn>42353,42354,42355</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevComponents.DotNetBar2, Version=8.6.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EveHQ.Core\ExternalLibs\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -54,11 +84,84 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AssemblyArray.vb" />
     <Compile Include="Classes\AssetItem.vb" />
+    <Compile Include="Classes\BatchJob.vb" />
+    <Compile Include="Classes\BatchJobs.vb" />
     <Compile Include="Classes\Blueprint.vb" />
+    <Compile Include="Classes\Contract.vb" />
+    <Compile Include="Classes\DataFunctions.vb" />
+    <Compile Include="Classes\IndustryJob.vb" />
+    <Compile Include="Classes\Invention.vb" />
+    <Compile Include="Classes\PrismEvents.vb" />
+    <Compile Include="Classes\PrismOwner.vb" />
+    <Compile Include="Classes\ProductionJob.vb" />
+    <Compile Include="Classes\ProductionJobs.vb" />
+    <Compile Include="Classes\Reports.vb" />
+    <Compile Include="Classes\WalletJournalItem.vb" />
+    <Compile Include="Controls\BPMEControl.Designer.vb">
+      <DependentUpon>BPMEControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BPMEControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PriceAdjustmentControl.Designer.vb">
+      <DependentUpon>PriceAdjustmentControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PriceAdjustmentControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PrismResources.Designer.vb">
+      <DependentUpon>PrismResources.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PrismResources.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PrismSelectionControl.Designer.vb">
+      <DependentUpon>PrismSelectionControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PrismSelectionControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PrismAssetsControl.Designer.vb">
+      <DependentUpon>PrismAssetsControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PrismAssetsControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PrismSelectionHostControl.Designer.vb">
+      <DependentUpon>PrismSelectionHostControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PrismSelectionHostControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\frmQuickProduction.Designer.vb">
+      <DependentUpon>frmQuickProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmQuickProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddBatchJob.Designer.vb">
+      <DependentUpon>frmAddBatchJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAddBatchJob.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddProductionJob.Designer.vb">
+      <DependentUpon>frmAddProductionJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAddProductionJob.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddBPCPrice.Designer.vb">
+      <DependentUpon>frmAddBPCPrice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAddBPCPrice.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmAddCustomBP.Designer.vb">
       <DependentUpon>frmAddCustomBP.vb</DependentUpon>
     </Compile>
@@ -89,22 +192,28 @@
     <Compile Include="Forms\frmEditBPDetails.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmJournalCheck.Designer.vb">
+      <DependentUpon>frmJournalCheck.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmJournalCheck.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPrismSettings.Designer.vb">
+      <DependentUpon>frmPrismSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPrismSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmQuickInventionChance.Designer.vb">
+      <DependentUpon>frmQuickInventionChance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmQuickInventionChance.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmSelectItem.Designer.vb">
       <DependentUpon>frmSelectItem.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSelectItem.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmAddInvestment.Designer.vb">
-      <DependentUpon>frmAddInvestment.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmAddInvestment.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmAddTransaction.Designer.vb">
-      <DependentUpon>frmAddTransaction.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmAddTransaction.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmPrism.Designer.vb">
@@ -113,19 +222,12 @@
     <Compile Include="Forms\frmPrism.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmModifyPrice.Designer.vb">
-      <DependentUpon>frmModifyPrice.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmModifyPrice.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmSelectQuantity.Designer.vb">
       <DependentUpon>frmSelectQuantity.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSelectQuantity.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Investment.vb" />
     <Compile Include="Classes\Location.vb" />
     <Compile Include="Classes\MarketOrder.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -144,10 +246,40 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Classes\PlugInData.vb" />
-    <Compile Include="Classes\PrismSettings.vb" />
+    <Compile Include="Classes\Settings.vb" />
     <Compile Include="Classes\SolarSystem.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\BPMEControl.resx">
+      <DependentUpon>BPMEControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PriceAdjustmentControl.resx">
+      <DependentUpon>PriceAdjustmentControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PrismAssetsControl.resx">
+      <DependentUpon>PrismAssetsControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PrismResources.resx">
+      <DependentUpon>PrismResources.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PrismSelectionControl.resx">
+      <DependentUpon>PrismSelectionControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PrismSelectionHostControl.resx">
+      <DependentUpon>PrismSelectionHostControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmQuickProduction.resx">
+      <DependentUpon>frmQuickProduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAddBatchJob.resx">
+      <DependentUpon>frmAddBatchJob.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAddProductionJob.resx">
+      <DependentUpon>frmAddProductionJob.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAddBPCPrice.resx">
+      <DependentUpon>frmAddBPCPrice.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAddCustomBP.resx">
       <DependentUpon>frmAddCustomBP.vb</DependentUpon>
     </EmbeddedResource>
@@ -163,23 +295,21 @@
     <EmbeddedResource Include="Forms\frmEditBPDetails.resx">
       <DependentUpon>frmEditBPDetails.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmJournalCheck.resx">
+      <DependentUpon>frmJournalCheck.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPrismSettings.resx">
+      <DependentUpon>frmPrismSettings.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmQuickInventionChance.resx">
+      <DependentUpon>frmQuickInventionChance.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSelectItem.resx">
       <DependentUpon>frmSelectItem.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAddInvestment.resx">
-      <DependentUpon>frmAddInvestment.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAddTransaction.resx">
-      <DependentUpon>frmAddTransaction.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPrism.resx">
       <DependentUpon>frmPrism.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmModifyPrice.resx">
-      <DependentUpon>frmModifyPrice.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSelectQuantity.resx">
@@ -215,6 +345,57 @@
       <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
       <Name>EveHQ.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
+      <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
+      <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon74_14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon09_09.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pound32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PrismIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RefTypes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spinner3-bluey.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon38_111.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

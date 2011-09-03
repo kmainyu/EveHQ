@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -28,7 +28,7 @@ Imports System.Web
 Imports System.Windows.Forms
 Imports System.Runtime.Serialization.Formatters.Binary
 
-Public Class Settings
+<Serializable()> Public Class Settings
 
     Public Shared HQFSettings As New HQF.Settings
     Public Shared HQFFolder As String
@@ -49,8 +49,8 @@ Public Class Settings
     Private cCloseInfoPanel As Boolean = False
     Private cCapRechargeConstant As Double = 2.5
     Private cShieldRechargeConstant As Double = 2.5
-    Private cStandardSlotColumns As New ArrayList
-    Private cUserSlotColumns As New ArrayList
+    Private cStandardSlotColumns As New List(Of UserSlotColumn)
+    Private cUserSlotColumns As New List(Of UserSlotColumn)
     Private cFavourites As New ArrayList
     Private cMRULimit As Integer = 15
     Private cMRUModules As New ArrayList
@@ -63,7 +63,128 @@ Public Class Settings
     Private cIncludeAmmoReloadTime As Boolean = False
     Private cUseLastPilot As Boolean = False
     Private cStorageBayHeight As Integer = 200
+    Private cSlotNameWidth As Integer = 150
+    Private cImplantGroups As New SortedList(Of String, ImplantGroup)
+    Private cModuleListColWidths As New SortedList(Of Long, Integer)
+    Private cIgnoredAttributeColumns As New List(Of String)
+    Private cSortedAttributeColumn As String = ""
+    Private cMetaVariationsFormSize As New Drawing.Size
+    Private cDefensePanelIsCollapsed As Boolean = False
+    Private cCapacitorPanelIsCollapsed As Boolean = False
+    Private cDamagePanelIsCollapsed As Boolean = False
+    Private cTargetingPanelIsCollapsed As Boolean = False
+    Private cPropulsionPanelIsCollapsed As Boolean = False
+    Private cCargoPanelIsCollapsed As Boolean = False
 
+    Public Property CargoPanelIsCollapsed As Boolean
+        Get
+            Return cCargoPanelIsCollapsed
+        End Get
+        Set(value As Boolean)
+            cCargoPanelIsCollapsed = value
+        End Set
+    End Property
+    Public Property PropulsionPanelIsCollapsed As Boolean
+        Get
+            Return cPropulsionPanelIsCollapsed
+        End Get
+        Set(value As Boolean)
+            cPropulsionPanelIsCollapsed = value
+        End Set
+    End Property
+    Public Property TargetingPanelIsCollapsed As Boolean
+        Get
+            Return cTargetingPanelIsCollapsed
+        End Get
+        Set(value As Boolean)
+            cTargetingPanelIsCollapsed = value
+        End Set
+    End Property
+    Public Property DamagePanelIsCollapsed As Boolean
+        Get
+            Return cDamagePanelIsCollapsed
+        End Get
+        Set(value As Boolean)
+            cDamagePanelIsCollapsed = value
+        End Set
+    End Property
+    Public Property CapacitorPanelIsCollapsed As Boolean
+        Get
+            Return cCapacitorPanelIsCollapsed
+        End Get
+        Set(value As Boolean)
+            cCapacitorPanelIsCollapsed = value
+        End Set
+    End Property
+    Public Property DefensePanelIsCollapsed As Boolean
+        Get
+            Return cDefensePanelIsCollapsed
+        End Get
+        Set(value As Boolean)
+            cDefensePanelIsCollapsed = value
+        End Set
+    End Property
+    Public Property MetaVariationsFormSize As Drawing.Size
+        Get
+            If cMetaVariationsFormSize.Width = 0 Then
+                cMetaVariationsFormSize.Width = 900
+            End If
+            If cMetaVariationsFormSize.Height = 0 Then
+                cMetaVariationsFormSize.Height = 550
+            End If
+            Return cMetaVariationsFormSize
+        End Get
+        Set(value As Drawing.Size)
+            cMetaVariationsFormSize = value
+        End Set
+    End Property
+    Public Property SortedAttributeColumn As String
+        Get
+            Return cSortedAttributeColumn
+        End Get
+        Set(value As String)
+            cSortedAttributeColumn = value
+        End Set
+    End Property
+    Public Property IgnoredAttributeColumns As List(Of String)
+        Get
+            If cIgnoredAttributeColumns Is Nothing Then
+                cIgnoredAttributeColumns = New List(Of String)
+            End If
+            Return cIgnoredAttributeColumns
+        End Get
+        Set(value As List(Of String))
+            cIgnoredAttributeColumns = value
+        End Set
+    End Property
+    Public Property ModuleListColWidths() As SortedList(Of Long, Integer)
+        Get
+            If cModuleListColWidths Is Nothing Then
+                cModuleListColWidths = New SortedList(Of Long, Integer)
+            End If
+            Return cModuleListColWidths
+        End Get
+        Set(ByVal value As SortedList(Of Long, Integer))
+            cModuleListColWidths = value
+        End Set
+    End Property
+    Public Property ImplantGroups() As SortedList(Of String, ImplantGroup)
+        Get
+            Return cImplantGroups
+        End Get
+        Set(ByVal value As SortedList(Of String, ImplantGroup))
+            cImplantGroups = value
+        End Set
+    End Property
+
+    Public Property SlotNameWidth() As Integer
+        Get
+            Return cSlotNameWidth
+        End Get
+        Set(ByVal value As Integer)
+            cSlotNameWidth = value
+        End Set
+    End Property
     Public Property StorageBayHeight() As Integer
         Get
             Return cStorageBayHeight
@@ -160,19 +281,19 @@ Public Class Settings
             cFavourites = value
         End Set
     End Property
-    Public Property UserSlotColumns() As ArrayList
+    Public Property UserSlotColumns() As List(Of UserSlotColumn)
         Get
             Return cUserSlotColumns
         End Get
-        Set(ByVal value As ArrayList)
+        Set(ByVal value As List(Of UserSlotColumn))
             cUserSlotColumns = value
         End Set
     End Property
-    Public Property StandardSlotColumns() As ArrayList
+    Public Property StandardSlotColumns() As List(Of UserSlotColumn)
         Get
             Return cStandardSlotColumns
         End Get
-        Set(ByVal value As ArrayList)
+        Set(ByVal value As List(Of UserSlotColumn))
             cStandardSlotColumns = value
         End Set
     End Property
@@ -298,86 +419,84 @@ Public Class Settings
     End Property
 
     Public Sub SaveHQFSettings()
-        Dim XMLdoc As XmlDocument = New XmlDocument
-        Dim XMLS As String = ""
 
-        ' Prepare the XML document
-        XMLS = ("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>") & vbCrLf
-        XMLS &= "<HQFSettings>" & vbCrLf
-
-        ' Save the General Information
-        XMLS &= Chr(9) & "<general>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<hiSlotColour>" & HQFSettings.HiSlotColour & "</hiSlotColour>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<midSlotColour>" & HQFSettings.MidSlotColour & "</midSlotColour>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<lowSlotColour>" & HQFSettings.LowSlotColour & "</lowSlotColour>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<rigSlotColour>" & HQFSettings.RigSlotColour & "</rigSlotColour>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<defaultPilot>" & HQFSettings.DefaultPilot & "</defaultPilot>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<restoreLastSession>" & HQFSettings.RestoreLastSession & "</restoreLastSession>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<lastPriceUpdate>" & HQFSettings.LastPriceUpdate & "</lastPriceUpdate>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<moduleFilter>" & HQFSettings.ModuleFilter & "</moduleFilter>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<updateHQFSkills>" & HQFSettings.AutoUpdateHQFSkills & "</updateHQFSkills>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<showPerformance>" & HQFSettings.ShowPerformanceData & "</showPerformance>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<closeInfoPanel>" & HQFSettings.CloseInfoPanel & "</closeInfoPanel>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<capRechargeConst>" & HQFSettings.CapRechargeConstant & "</capRechargeConst>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<shieldRechargeConst>" & HQFSettings.ShieldRechargeConstant & "</shieldRechargeConst>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<shipPanelWidth>" & HQFSettings.ShipPanelWidth & "</shipPanelWidth>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<modPanelWidth>" & HQFSettings.ModPanelWidth & "</modPanelWidth>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<shipSplitterWidth>" & HQFSettings.ShipSplitterWidth & "</shipSplitterWidth>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<modSplitterWidth>" & HQFSettings.ModSplitterWidth & "</modSplitterWidth>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<missileRangeConst>" & HQFSettings.MissileRangeConstant & "</missileRangeConst>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<subSlotColour>" & HQFSettings.SubSlotColour & "</subSlotColour>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<includeAmmoTime>" & HQFSettings.IncludeAmmoReloadTime & "</includeAmmoTime>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<includeCapTime>" & HQFSettings.IncludeCapReloadTime & "</includeCapTime>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<useLastPilot>" & HQFSettings.UseLastPilot & "</useLastPilot>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<storageBayHeight>" & HQFSettings.StorageBayHeight & "</storageBayHeight>" & vbCrLf
-        XMLS &= Chr(9) & "</general>" & vbCrLf
-
-        ' Save the slot layout
-        XMLS &= Chr(9) & "<slotLayout>" & vbCrLf
-        For Each slot As String In HQFSettings.UserSlotColumns
-            XMLS &= Chr(9) & Chr(9) & "<slot>" & slot & "</slot>" & vbCrLf
-        Next
-        XMLS &= Chr(9) & "</slotLayout>" & vbCrLf
-
-        ' Save favourites
-        HQFSettings.Favourites.Sort()
-        XMLS &= Chr(9) & "<favourites>" & vbCrLf
-        For Each favMod As String In HQFSettings.Favourites
-            XMLS &= Chr(9) & Chr(9) & "<item>" & favMod & "</item>" & vbCrLf
-        Next
-        XMLS &= Chr(9) & "</favourites>" & vbCrLf
-
-        ' Save the open fittings
-        XMLS &= Chr(9) & "<openFittings>" & vbCrLf
-        For Each fitting As String In ShipLists.fittedShipList.Keys
-            XMLS &= Chr(9) & Chr(9) & "<fitting>" & HttpUtility.HtmlEncode(fitting) & "</fitting>" & vbCrLf
-        Next
-        XMLS &= Chr(9) & "</openFittings>" & vbCrLf
-
-        ' Save the Implant groups
-        XMLS &= Chr(9) & "<implantGroups>" & vbCrLf
-        For Each implantSet As ImplantGroup In Implants.implantGroups.Values
-            XMLS &= Chr(9) & Chr(9) & "<implantGroup>" & vbCrLf
-            XMLS &= Chr(9) & Chr(9) & Chr(9) & "<implantGroupName>" & implantSet.GroupName & "</implantGroupName>" & vbCrLf
-            For imp As Integer = 1 To 10
-                XMLS &= Chr(9) & Chr(9) & Chr(9) & "<implantName>" & implantSet.ImplantName(imp) & "</implantName>" & vbCrLf
-            Next
-            XMLS &= Chr(9) & Chr(9) & "</implantGroup>" & vbCrLf
-        Next
-        XMLS &= Chr(9) & "</implantGroups>" & vbCrLf
-
-        ' End Settings
-        XMLS &= "</HQFSettings>"
-        XMLdoc.LoadXml(XMLS)
-        Try
-            XMLdoc.Save(Path.Combine(HQFFolder, "HQFSettings.xml"))
-        Catch e As Exception
-            'Console.WriteLine(e.Message)
-        End Try
-
+        ' Write a serial version of the settings
+        Dim s As New FileStream(Path.Combine(HQFFolder, "HQFSettings.bin"), FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, HQF.Settings.HQFSettings)
+        s.Flush()
+        s.Close()
 
     End Sub
     Public Function LoadHQFSettings() As Boolean
+
+        ' Initialise the standard slot columns
+        Call Me.InitialiseSlotColumns()
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQFFolder, "HQFSettings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(HQFFolder, "HQFSettings.bin"), FileMode.Open)
+            Try
+                Dim f As BinaryFormatter = New BinaryFormatter
+                HQF.Settings.HQFSettings = CType(f.Deserialize(s), HQF.Settings)
+                s.Close()
+            Catch ex As Exception
+                Dim msg As String = "There was an error trying to load the HQF settings file and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "HQF will delete this file and re-initialise the settings." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "Press OK to reset the settings." & ControlChars.CrLf
+                MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Try
+                    s.Close()
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(HQFFolder, "HQFSettings.bin"))
+                Catch e As Exception
+                    MessageBox.Show("Unable to delete the HQFSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Return False
+                End Try
+            End Try
+        Else
+            ' Attempt to load the old version and convert
+            Call Me.LoadOldHQFSettings()
+        End If
+
+        ' Check if the standard columns have changed and we need to add columns
+        If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
+            Dim MissingFlag As Boolean = True
+            For Each StdCol As UserSlotColumn In cStandardSlotColumns
+                MissingFlag = True
+                For Each TestUserCol As UserSlotColumn In HQFSettings.UserSlotColumns
+                    If StdCol.Name = TestUserCol.Name Then
+                        MissingFlag = False
+                        Exit For
+                    End If
+                Next
+                If MissingFlag = True Then
+                    HQFSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
+                End If
+            Next
+        End If
+        Return True
+
+    End Function
+    Public Sub InitialiseSlotColumns()
+        cStandardSlotColumns.Clear()
+        cStandardSlotColumns.Add(New UserSlotColumn("Charge", "Module Charge", 150, True))
+        cStandardSlotColumns.Add(New UserSlotColumn("CPU", "CPU", 75, True))
+        cStandardSlotColumns.Add(New UserSlotColumn("PG", "PG", 75, True))
+        cStandardSlotColumns.Add(New UserSlotColumn("Calib", "Calibration", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("Price", "Price", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("ActCost", "Activation Cost", 75, True))
+        cStandardSlotColumns.Add(New UserSlotColumn("ActTime", "Activation Time", 75, True))
+        cStandardSlotColumns.Add(New UserSlotColumn("CapRate", "Cap Usage Rate", 75, True))
+        cStandardSlotColumns.Add(New UserSlotColumn("OptRange", "Optimal Range", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("ROF", "ROF", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("Damage", "Damage", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("DPS", "DPS", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("Falloff", "Falloff", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("Tracking", "Tracking", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("ExpRad", "Explosion Radius", 75, False))
+        cStandardSlotColumns.Add(New UserSlotColumn("ExpVel", "Explosion Velocity", 75, False))
+    End Sub
+
+    Public Function LoadOldHQFSettings() As Boolean
         Dim XMLdoc As XmlDocument = New XmlDocument
 
         ' Initialise the standard slot columns
@@ -423,19 +542,24 @@ Public Class Settings
             Catch
             End Try
 
-            ' Get the slot columns layout
+            ' Reset the column layout
             HQFSettings.UserSlotColumns.Clear()
-            Try
-                settingDetails = XMLdoc.SelectNodes("/HQFSettings/slotLayout")
-                ' Get the relevant node!
-                settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
-                If settingSettings.HasChildNodes Then
-                    For group As Integer = 0 To settingSettings.ChildNodes.Count - 1
-                        HQFSettings.UserSlotColumns.Add(settingSettings.ChildNodes(group).InnerText)
+            ' Check if the standard columns have changed and we need to add columns
+            If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
+                Dim MissingFlag As Boolean = True
+                For Each StdCol As UserSlotColumn In cStandardSlotColumns
+                    MissingFlag = True
+                    For Each TestUserCol As UserSlotColumn In HQFSettings.UserSlotColumns
+                        If StdCol.Name = TestUserCol.Name Then
+                            MissingFlag = False
+                            Exit For
+                        End If
                     Next
-                End If
-            Catch
-            End Try
+                    If MissingFlag = True Then
+                        HQFSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
+                    End If
+                Next
+            End If
 
             ' Get the favourites
             HQFSettings.Favourites.Clear()
@@ -468,7 +592,7 @@ Public Class Settings
 
 
             ' Get the implant details
-            Implants.implantGroups.Clear()
+            HQF.Settings.HQFSettings.ImplantGroups.Clear()
             Try
                 settingDetails = XMLdoc.SelectNodes("/HQFSettings/implantGroups")
                 ' Get the relevant node!
@@ -480,7 +604,7 @@ Public Class Settings
                         For imp As Integer = 1 To 10
                             newImplantGroup.ImplantName(imp) = CStr(settingSettings.ChildNodes(group).ChildNodes(imp).InnerText)
                         Next
-                        Implants.implantGroups.Add(newImplantGroup.GroupName, newImplantGroup)
+                        HQF.Settings.HQFSettings.ImplantGroups.Add(newImplantGroup.GroupName, newImplantGroup)
                     Next
                 End If
             Catch
@@ -488,220 +612,59 @@ Public Class Settings
 
         End If
 
-        ' Check if the standard columns have changed and we need to add columns
-        If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
-            For Each slotItem As ListViewItem In cStandardSlotColumns
-                If HQFSettings.UserSlotColumns.Contains(slotItem.Name & "0") = False And HQFSettings.UserSlotColumns.Contains(slotItem.Name & "1") = False Then
-                    If slotItem.Checked = True Then
-                        HQFSettings.UserSlotColumns.Add(slotItem.Name & "1")
-                    Else
-                        HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
-                    End If
-                End If
-            Next
-        End If
         Return True
 
     End Function
-    Public Sub InitialiseSlotColumns()
-        cStandardSlotColumns.Clear()
-        Dim newItem As New ListViewItem
-        ' Setup Charge Item
-        newItem = New ListViewItem
-        newItem.Name = "Charge"
-        newItem.Text = "Charge"
-        newItem.Checked = True
-        cStandardSlotColumns.Add(newItem)
-        ' Setup CPU Item
-        newItem = New ListViewItem
-        newItem.Name = "CPU"
-        newItem.Text = "CPU"
-        newItem.Checked = True
-        cStandardSlotColumns.Add(newItem)
-        ' Setup PG Item
-        newItem = New ListViewItem
-        newItem.Name = "PG"
-        newItem.Text = "PG"
-        newItem.Checked = True
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Calibration Item
-        newItem = New ListViewItem
-        newItem.Name = "Calibration"
-        newItem.Text = "Calibration"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Price Item
-        newItem = New ListViewItem
-        newItem.Name = "Price"
-        newItem.Text = "Price"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Activation Cost Item
-        newItem = New ListViewItem
-        newItem.Name = "ActCost"
-        newItem.Text = "Activation Cost"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Activation Time Item
-        newItem = New ListViewItem
-        newItem.Name = "ActTime"
-        newItem.Text = "Activation Time"
-        newItem.Checked = True
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Cap Usage Rate Item
-        newItem = New ListViewItem
-        newItem.Name = "CapUsageRate"
-        newItem.Text = "Cap Usage Rate"
-        newItem.Checked = True
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Optimal Range Item
-        newItem = New ListViewItem
-        newItem.Name = "OptRange"
-        newItem.Text = "Optimal Range"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup ROF Item
-        newItem = New ListViewItem
-        newItem.Name = "ROF"
-        newItem.Text = "Rate Of Fire"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Damage Item
-        newItem = New ListViewItem
-        newItem.Name = "Damage"
-        newItem.Text = "Damage"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup DPS Item
-        newItem = New ListViewItem
-        newItem.Name = "DPS"
-        newItem.Text = "DPS"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Falloff
-        newItem = New ListViewItem
-        newItem.Name = "Falloff"
-        newItem.Text = "Falloff"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Tracking
-        newItem = New ListViewItem
-        newItem.Name = "Tracking"
-        newItem.Text = "Tracking"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Tracking
-        newItem = New ListViewItem
-        newItem.Name = "ExpRad"
-        newItem.Text = "Explosion Radius"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-        ' Setup Tracking
-        newItem = New ListViewItem
-        newItem.Name = "ExpVel"
-        newItem.Text = "Explosion Velocity"
-        newItem.Checked = False
-        cStandardSlotColumns.Add(newItem)
-    End Sub
-    Public Sub LoadProfiles()
-        ' Check for the profiles file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            DamageProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
-            s.Close()
-        Else
-            ' Need to create the profiles file and the standard custom profile (omni-damage)
-            Dim NPCGroups(13) As String
-            Dim newProfile As New DamageProfile
-            DamageProfiles.ProfileList.Clear()
-            NPCGroups(0) = "Angel Cartel" : NPCGroups(1) = "Blood Raiders" : NPCGroups(2) = "Guristas" : NPCGroups(3) = "Rogue Drone"
-            NPCGroups(4) = "Sansha's Nation" : NPCGroups(5) = "Serpentis" : NPCGroups(6) = "Amarr Empire" : NPCGroups(7) = "Caldari State"
-            NPCGroups(8) = "CONCORD" : NPCGroups(9) = "Gallente Federation" : NPCGroups(10) = "Khanid" : NPCGroups(11) = "Minmatar Republic"
-            NPCGroups(12) = "Mordu" : NPCGroups(13) = "Thukker"
-            Dim damage(13, 3) As Double
-            For Each newNPC As NPC In NPCs.NPCList.Values
-                For NPCGroup As Integer = 0 To 13
-                    If newNPC.GroupName.Contains(NPCGroups(NPCGroup)) = True Then
-                        damage(NPCGroup, 0) += newNPC.EM
-                        damage(NPCGroup, 1) += newNPC.Explosive
-                        damage(NPCGroup, 2) += newNPC.Kinetic
-                        damage(NPCGroup, 3) += newNPC.Thermal
-                    End If
-                Next
-            Next
-            For NPCGroup As Integer = 0 To 13
-                newProfile = New DamageProfile
-                newProfile.Name = NPCGroups(NPCGroup)
-                Dim damagetotal As Double = 0
-                For damageType As Integer = 0 To 3
-                    damagetotal += damage(NPCGroup, damageType)
-                Next
-                For damageType As Integer = 0 To 3
-                    damage(NPCGroup, damageType) = damage(NPCGroup, damageType) / damagetotal * 100
-                Next
-                newProfile.Type = 0
-                newProfile.EM = damage(NPCGroup, 0)
-                newProfile.Explosive = damage(NPCGroup, 1)
-                newProfile.Kinetic = damage(NPCGroup, 2)
-                newProfile.Thermal = damage(NPCGroup, 3)
-                DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
-            Next
-            ' Save Omni Damage
-            newProfile = New DamageProfile
-            newProfile.Name = "<Omni-Damage>"
-            newProfile.Type = 0
-            newProfile.EM = 25 : newProfile.Explosive = 25 : newProfile.Kinetic = 25 : newProfile.Thermal = 25 : newProfile.DPS = 0
-            newProfile.Fitting = ""
-            newProfile.Pilot = ""
-            newProfile.NPCs.Clear()
-            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
-            ' Save EM Damage
-            newProfile = New DamageProfile
-            newProfile.Name = "Pure EM"
-            newProfile.Type = 0
-            newProfile.EM = 100 : newProfile.Explosive = 0 : newProfile.Kinetic = 0 : newProfile.Thermal = 0 : newProfile.DPS = 0
-            newProfile.Fitting = ""
-            newProfile.Pilot = ""
-            newProfile.NPCs.Clear()
-            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
-            ' Save Explosive Damage
-            newProfile = New DamageProfile
-            newProfile.Name = "Pure Explosive"
-            newProfile.Type = 0
-            newProfile.EM = 0 : newProfile.Explosive = 100 : newProfile.Kinetic = 0 : newProfile.Thermal = 0 : newProfile.DPS = 0
-            newProfile.Fitting = ""
-            newProfile.Pilot = ""
-            newProfile.NPCs.Clear()
-            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
-            ' Save Kinetic Damage
-            newProfile = New DamageProfile
-            newProfile.Name = "Pure Kinetic"
-            newProfile.Type = 0
-            newProfile.EM = 0 : newProfile.Explosive = 0 : newProfile.Kinetic = 100 : newProfile.Thermal = 0 : newProfile.DPS = 0
-            newProfile.Fitting = ""
-            newProfile.Pilot = ""
-            newProfile.NPCs.Clear()
-            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
-            ' Save Thermal Damage
-            newProfile = New DamageProfile
-            newProfile.Name = "Pure Thermal"
-            newProfile.Type = 0
-            newProfile.EM = 0 : newProfile.Explosive = 0 : newProfile.Kinetic = 0 : newProfile.Thermal = 100 : newProfile.DPS = 0
-            newProfile.Fitting = ""
-            newProfile.Pilot = ""
-            newProfile.NPCs.Clear()
-            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
-            Call SaveProfiles()
-        End If
-    End Sub
-    Public Sub SaveProfiles()
-        ' Save the Profiles
-        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, DamageProfiles.ProfileList)
-        s.Flush()
-        s.Close()
+
+End Class
+
+<Serializable()> Public Class UserSlotColumn
+    Dim cName As String = ""
+    Dim cDescription As String = ""
+    Dim cWidth As Integer = 75
+    Dim cActive As Boolean = False
+
+    Public Property Name() As String
+        Get
+            Return cName
+        End Get
+        Set(ByVal value As String)
+            cName = value
+        End Set
+    End Property
+
+    Public Property Description() As String
+        Get
+            Return cDescription
+        End Get
+        Set(ByVal value As String)
+            cDescription = value
+        End Set
+    End Property
+
+    Public Property Width() As Integer
+        Get
+            Return cWidth
+        End Get
+        Set(ByVal value As Integer)
+            cWidth = value
+        End Set
+    End Property
+
+    Public Property Active() As Boolean
+        Get
+            Return cActive
+        End Get
+        Set(ByVal value As Boolean)
+            cActive = value
+        End Set
+    End Property
+
+    Public Sub New(ByVal ColumnName As String, ByVal Description As String, ByVal ColumnWidth As Integer, ByVal IsActive As Boolean)
+        cName = ColumnName
+        cDescription = Description
+        cWidth = ColumnWidth
+        cActive = IsActive
     End Sub
 
 End Class

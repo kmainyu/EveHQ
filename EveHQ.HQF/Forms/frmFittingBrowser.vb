@@ -1,15 +1,35 @@
-﻿Imports System.Drawing
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Imports System.Drawing
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Net
 Imports System.Text
 Imports System.IO
-Imports DotNetLib.Windows.Forms
 
 Public Class frmFittingBrowser
 
     Dim currentShip As Ship
     Dim currentFit As New ArrayList
+    Dim currentFitting As Fitting
     Dim cDNAFit As DNAFitting
     Dim SourceURL As String = ""
     Dim LoadoutName As String = ""
@@ -57,7 +77,7 @@ Public Class frmFittingBrowser
         Set(ByVal value As DNAFitting)
             cDNAFit = value
             currentShip = CType(ShipLists.shipList(ShipLists.shipListKeyID(value.ShipID)), Ship).Clone
-            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID)
             lblShipType.Text = currentShip.Name
             Call Me.UseDNAFitting()
             lblLoadoutName.Text = LoadoutName
@@ -173,54 +193,58 @@ Public Class frmFittingBrowser
     Private Sub GenerateFittingData()
         ' Let's try and generate a fitting and get some damage info
         If currentShip IsNot Nothing Then
-            Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
-            Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
+            If cboPilots.SelectedItem IsNot Nothing And cboProfiles.SelectedItem IsNot Nothing Then
+                If HQFPilotCollection.HQFPilots.ContainsKey(cboPilots.SelectedItem.ToString) Then
 
-            currentShip.DamageProfile = loadoutProfile
-            Dim loadoutShip As Ship = Engine.ApplyFitting(currentShip, loadoutPilot)
+                    Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
+                    Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
 
-            lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
-            lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
-            lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
-            Dim cap As Double = Engine.CalculateCapStatistics(loadoutShip)
-            If cap > 0 Then
-                cap = cap / loadoutShip.CapCapacity * 100
-                lblCapacitor.Text = "Stable at " & FormatNumber(cap, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            Else
-                lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-cap, False)
-            End If
-            lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
-            lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
-            Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
-            lblCPU.Text = FormatNumber(CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            If CPU > 100 Then
-                lblCPU.ForeColor = Color.Red
-            Else
-                lblCPU.ForeColor = Color.Black
-            End If
-            Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
-            lblPG.Text = FormatNumber(PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            If PG > 100 Then
-                lblPG.ForeColor = Color.Red
-            Else
-                lblPG.ForeColor = Color.Black
-            End If
-            Dim maxOpt As Double = 0
-            For slot As Integer = 1 To loadoutShip.HiSlots
-                Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
-                If shipMod IsNot Nothing Then
-                    If shipMod.Attributes.Contains("54") Then
-                        maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
+                    currentFitting.PilotName = loadoutPilot.PilotName
+                    currentFitting.BaseShip.DamageProfile = loadoutProfile
+                    currentFitting.ApplyFitting()
+                    Dim loadoutShip As Ship = currentFitting.FittedShip
+
+                    lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
+                    lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
+                    lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
+                    Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(loadoutShip, False)
+                    If csr.CapIsDrained = False Then
+                        lblCapacitor.Text = "Stable at " & FormatNumber(csr.MinimumCap / loadoutShip.CapCapacity * 100, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    Else
+                        lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False)
                     End If
+                    lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
+                    lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+                    Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
+                    lblCPU.Text = FormatNumber(CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    If CPU > 100 Then
+                        lblCPU.ForeColor = Color.Red
+                    Else
+                        lblCPU.ForeColor = Color.Black
+                    End If
+                    Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
+                    lblPG.Text = FormatNumber(PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    If PG > 100 Then
+                        lblPG.ForeColor = Color.Red
+                    Else
+                        lblPG.ForeColor = Color.Black
+                    End If
+                    Dim maxOpt As Double = 0
+                    For slot As Integer = 1 To loadoutShip.HiSlots
+                        Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
+                        If shipMod IsNot Nothing Then
+                            If shipMod.Attributes.ContainsKey("54") Then
+                                maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
+                            End If
+                        End If
+                    Next
+                    lblOptimalRange.Text = FormatNumber(maxOpt, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
                 End If
-            Next
-            lblOptimalRange.Text = FormatNumber(maxOpt, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
-
+            End If
         End If
-
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
@@ -235,24 +259,29 @@ Public Class frmFittingBrowser
         Dim shipName As String = lblShipType.Text
         Dim fittingName As String = LoadoutName
         ' If the fitting exists, add a number onto the end
-        If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
-            Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If response = Windows.Forms.DialogResult.Yes Then
-                Dim newFittingName As String = ""
-                Dim revision As Integer = 1
-                Do
-                    revision += 1
-                    newFittingName = fittingName & " " & revision.ToString
-                Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
-                fittingName = newFittingName
-                MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                Exit Sub
+        If fittingName.Trim <> "" Then
+            If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
+                Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If response = Windows.Forms.DialogResult.Yes Then
+                    Dim newFittingName As String = ""
+                    Dim revision As Integer = 1
+                    Do
+                        revision += 1
+                        newFittingName = fittingName & " " & revision.ToString
+                    Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
+                    fittingName = newFittingName
+                    MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    Exit Sub
+                End If
             End If
+            ' Lets create the fitting
+            Dim NewFit As Fitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
+            Fittings.FittingList.Add(NewFit.KeyName, NewFit)
+            HQFEvents.StartUpdateFittingList = True
+        Else
+            MessageBox.Show("Cannot import a fitting without a valid fitting name.", "Fitting Name Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
-        ' Lets create the fitting
-        Fittings.FittingList.Add(shipName & ", " & fittingName, currentFit)
-        HQFEvents.StartUpdateFittingList = True
     End Sub
 
     Private Sub ReorderModules()
@@ -327,12 +356,17 @@ Public Class frmFittingBrowser
         Next
         Call Me.ReorderModules()
         lblLoadoutName.Visible = True
-        lblLoadoutTopic.Text = "Source Link" : lblLoadoutTopic.Visible = True : LblLoadoutTopicLbl.Visible = True
+        lblLoadoutTopic.Text = "Source Link"
         btnImport.Enabled = True
-        currentShip = Engine.UpdateShipDataFromFittingList(currentShip, currentFit)
+        Dim shipName As String = lblShipType.Text
+        Dim fittingName As String = lblLoadoutName.Text
+        currentFitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
+        currentFitting.PilotName = cboPilots.SelectedItem.ToString
+        currentFitting.UpdateBaseShipFromFitting()
+        currentShip = currentFitting.BaseShip
         ' Generate fitting data
         Call Me.GenerateFittingData()
-        gbStatistics.Visible = True
+        gpStatistics.Visible = True
         Call UpdateSlotColumns()
         Call UpdateSlotLayout()
         ' Get SourceURL if available
@@ -349,6 +383,14 @@ Public Class frmFittingBrowser
             Else
                 LoadoutName = "Unknown Fitting"
             End If
+            lblLoadoutTopic.Visible = True
+            LblLoadoutTopicLbl.Visible = True
+        Else
+            If cDNAFit.Arguments.ContainsKey("LoadoutName") = True Then
+                LoadoutName = cDNAFit.Arguments("LoadoutName")
+            End If
+            lblLoadoutTopic.Visible = False
+            LblLoadoutTopicLbl.Visible = False
         End If
     End Sub
 

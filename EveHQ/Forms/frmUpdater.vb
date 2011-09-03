@@ -1,4 +1,22 @@
-﻿Imports DotNetLib.Windows.Forms
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
 Imports System.Xml
 Imports System.Net
 Imports System.Text
@@ -8,6 +26,9 @@ Imports System.Net.Sockets
 Imports System.Threading
 Imports System.Data
 Imports System.IO.Compression
+Imports DevComponents.AdvTree
+Imports DevComponents.DotNetBar
+Imports System.ComponentModel
 
 Public Class frmUpdater
 
@@ -21,11 +42,27 @@ Public Class frmUpdater
     Public startupTest As Boolean = False
     Dim BaseLocation As String = ""
     Dim PatcherLocation As String = ""
+    Dim UpdateRequiredStyle As ElementStyle
+    Dim UpdateNotRequiredStyle As ElementStyle
+    Dim UpdateWorkerList As New SortedList(Of String, BackgroundWorker)
+
+    Private Sub frmUpdater_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If EveHQ.Core.HQ.EveHQIsUpdating = True Then
+            MessageBox.Show("Please wait while the download process is completed before closing the form.", "Update in Progress", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
 
     Private Sub frmUpdater_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         tmrUpdate.Interval = 100
         tmrUpdate.Enabled = True
         tmrUpdate.Start()
+        ' Set Styles
+        UpdateRequiredStyle = adtUpdates.Styles("Log").Copy
+        UpdateNotRequiredStyle = adtUpdates.Styles("Log").Copy
+        UpdateRequiredStyle.TextColor = Color.Red
+        UpdateNotRequiredStyle.TextColor = Color.LimeGreen
     End Sub
 
     Private Function FetchUpdateXML() As XmlDocument
@@ -40,23 +77,14 @@ Public Class frmUpdater
         Try
             lblUpdateStatus.Text = "Status: Attempting to obtain update file..."
             ' Create the requester
-            ServicePointManager.DefaultConnectionLimit = 10
+            ServicePointManager.DefaultConnectionLimit = 5
             ServicePointManager.Expect100Continue = False
             Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
             Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
             request.UserAgent = "EveHQ Updater " & My.Application.Info.Version.ToString
             request.CachePolicy = policy
             ' Setup proxy server (if required)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                    EveHQProxy.UseDefaultCredentials = True
-                Else
-                    EveHQProxy.UseDefaultCredentials = False
-                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                End If
-                request.Proxy = EveHQProxy
-            End If
+            Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
             ' Prepare for a response from the server
             Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
             ' Get the stream associated with the response.
@@ -89,7 +117,7 @@ Public Class frmUpdater
             updateRequired = False
             ' Get a current list of components
             lblUpdateStatus.Text = "Status: Checking current components..."
-            clvUpdates.Items.Clear()
+            adtUpdates.Nodes.Clear()
             CurrentComponents.Clear()
             pbControls.Clear()
             For Each myAssembly As AssemblyName In Assembly.GetExecutingAssembly().GetReferencedAssemblies()
@@ -97,6 +125,8 @@ Public Class frmUpdater
                     If myAssembly.Name.StartsWith("EveHQ") Then
                         CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
                         CurrentComponents.Add(myAssembly.Name & ".pdb", myAssembly.Version.ToString)
+                    ElseIf myAssembly.Name.StartsWith("DevComponents") Then
+                        CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
                     End If
                 End If
             Next
@@ -118,17 +148,17 @@ Public Class frmUpdater
             Else
                 CurrentComponents.Add("LgLcd.dll", "Not Present")
             End If
-            ' Try and add the database version (if using Access)
+            ' Try and add the database version (if using SQL CE)
             If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
                 Dim databaseData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
                 If databaseData IsNot Nothing Then
                     If databaseData.Tables(0).Rows.Count > 0 Then
-                        CurrentComponents.Add("EveHQ.mdb.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
+                        CurrentComponents.Add("EveHQ.sdf.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
                     Else
-                        CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                        CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
                     End If
                 Else
-                    CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                    CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
                 End If
             End If
 
@@ -141,7 +171,7 @@ Public Class frmUpdater
                 For Each updateFile As XmlNode In requiredFiles
                     Call AddUpdateToList(updateFile)
                 Next
-                If UpdateRequired = True Then
+                If updateRequired = True Then
                     lblUpdateStatus.Text = "Status: Awaiting User Action..."
                     btnStartUpdate.Enabled = True
                 Else
@@ -159,79 +189,85 @@ Public Class frmUpdater
     End Sub
 
     Private Sub AddUpdateToList(ByVal updateFile As XmlNode)
-        Dim newFile As New ContainerListViewItem
+        Dim newFile As New Node
         newFile.Text = updateFile.ChildNodes(0).InnerText
-        clvUpdates.Items.Add(newFile)
-        newFile.SubItems(1).Text = updateFile.ChildNodes(1).InnerText
+        adtUpdates.Nodes.Add(newFile)
+        newFile.Cells.Add(New Cell(updateFile.ChildNodes(1).InnerText, adtUpdates.Styles("Centre")))
         If CurrentComponents.Contains(updateFile.ChildNodes(0).InnerText) = True Then
-            newFile.SubItems(2).Text = CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText))
+            newFile.Cells.Add(New Cell(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)), adtUpdates.Styles("Centre")))
+        Else
+            newFile.Cells.Add(New Cell("Unknown", adtUpdates.Styles("Centre")))
         End If
-        newFile.SubItems(3).Text = updateFile.ChildNodes(2).InnerText
+        newFile.Cells.Add(New Cell(updateFile.ChildNodes(2).InnerText, adtUpdates.Styles("Centre")))
         ' Check if the plug-in is available
         If CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)) IsNot Nothing Then
             ' Check which is the later version
             If IsUpdateAvailable(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)), updateFile.ChildNodes(2).InnerText) = True Then
-                newFile.ForeColor = Color.Red
-                Dim chkDownload As New CheckBox
+                newFile.Style = UpdateRequiredStyle
+                Dim chkDownload As New DevComponents.DotNetBar.CheckBoxItem
                 chkDownload.Name = newFile.Text
-                chkDownload.Size = New Size(14, 14)
-                If newFile.SubItems(1).Text = "Required" Then
+                If newFile.Cells(1).Text = "Required" Then
                     chkDownload.Enabled = False
                 Else
                     chkDownload.Enabled = True
                 End If
                 chkDownload.Checked = True
-                newFile.SubItems(4).ItemControl = chkDownload
-                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                Dim pbProgress As New ProgressBar
+                newFile.Cells.Add(New Cell(""))
+                chkDownload.CheckBoxPosition = eCheckBoxPosition.Top
+                newFile.Cells(4).HostedItem = chkDownload
+                Dim pbProgress As New ProgressBarItem
                 pbProgress.Name = newFile.Text
-                pbProgress.Width = 150
-                pbProgress.Height = 16
-                newFile.SubItems(5).ItemControl = pbProgress
-                'newFile.SubItems(5).Text = "0%"
-                pbControls.Add(newFile.Text, pbProgress)
-                UpdateRequired = True
-            Else
-                Dim chkDownload As New CheckBox
-                chkDownload.Name = newFile.Text
-                chkDownload.Size = New Size(14, 14)
-                chkDownload.Enabled = False
-                chkDownload.Checked = False
-                newFile.SubItems(4).ItemControl = chkDownload
-                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                newFile.ForeColor = Color.LimeGreen
-                newFile.SubItems(5).Text = "Update Not Required"
-            End If
-        Else
-            If newFile.Text <> "EveHQ.mdb.zip" Or (newFile.Text = "EveHQ.mdb.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
-                newFile.SubItems(2).Text = "New!!"
-                newFile.ForeColor = Color.Red
-                Dim chkDownload As New CheckBox
-                chkDownload.Name = newFile.Text
-                chkDownload.Size = New Size(14, 14)
-                chkDownload.Enabled = True
-                chkDownload.Checked = True
-                newFile.SubItems(4).ItemControl = chkDownload
-                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                Dim pbProgress As New ProgressBar
-                pbProgress.Name = newFile.Text
-                pbProgress.Width = 150
-                pbProgress.Height = 16
-                newFile.SubItems(5).ItemControl = pbProgress
-                'newFile.SubItems(5).Text = "0%"
+                pbProgress.TextVisible = True
+                pbProgress.Text = "0%"
+                pbProgress.Width = 170
+                newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                newFile.Cells(5).HostedItem = pbProgress
                 pbControls.Add(newFile.Text, pbProgress)
                 updateRequired = True
             Else
-                newFile.SubItems(2).Text = "Using SQL"
-                Dim chkDownload As New CheckBox
+                Dim chkDownload As New DevComponents.DotNetBar.CheckBoxItem
                 chkDownload.Name = newFile.Text
-                chkDownload.Size = New Size(14, 14)
                 chkDownload.Enabled = False
                 chkDownload.Checked = False
-                newFile.SubItems(4).ItemControl = chkDownload
-                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                newFile.ForeColor = Color.LimeGreen
-                newFile.SubItems(5).Text = "Update Not Required"
+                newFile.Cells.Add(New Cell(""))
+                chkDownload.CheckBoxPosition = eCheckBoxPosition.Top
+                newFile.Cells(4).HostedItem = chkDownload
+                newFile.Style = UpdateNotRequiredStyle
+                newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                newFile.Cells(5).Text = "Update Not Required"
+            End If
+        Else
+            If newFile.Text <> "EveHQ.sdf.zip" Or (newFile.Text = "EveHQ.sdf.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
+                newFile.Cells(2).Text = "New!!"
+                newFile.Style = UpdateRequiredStyle
+                Dim chkDownload As New DevComponents.DotNetBar.CheckBoxItem
+                chkDownload.Name = newFile.Text
+                chkDownload.Enabled = True
+                chkDownload.Checked = True
+                newFile.Cells.Add(New Cell(""))
+                chkDownload.CheckBoxPosition = eCheckBoxPosition.Top
+                newFile.Cells(4).HostedItem = chkDownload
+                Dim pbProgress As New ProgressBarItem
+                pbProgress.Name = newFile.Text
+                pbProgress.TextVisible = True
+                pbProgress.Text = "0%"
+                pbProgress.Width = 170
+                newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                newFile.Cells(5).HostedItem = pbProgress
+                pbControls.Add(newFile.Text, pbProgress)
+                updateRequired = True
+            Else
+                newFile.Cells(2).Text = "Using SQL"
+                Dim chkDownload As New DevComponents.DotNetBar.CheckBoxItem
+                chkDownload.Name = newFile.Text
+                chkDownload.Enabled = False
+                chkDownload.Checked = False
+                newFile.Cells.Add(New Cell(""))
+                chkDownload.CheckBoxPosition = eCheckBoxPosition.Top
+                newFile.Cells(4).HostedItem = chkDownload
+                newFile.Style = UpdateNotRequiredStyle
+                newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                newFile.Cells(5).Text = "Update Not Required"
             End If
         End If
         If updateFile.ChildNodes(3).InnerText = "True" Then
@@ -271,27 +307,26 @@ Public Class frmUpdater
     Private Sub btnStartUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStartUpdate.Click
 
         btnStartUpdate.Enabled = False
+        EveHQ.Core.HQ.EveHQIsUpdating = True
         filesTried = 0
 
         ' Reset the progress bars
-        For Each pb As ProgressBar In pbControls.Values
+        For Each pb As ProgressBarItem In pbControls.Values
             pb.Minimum = 0
             pb.Maximum = 100
             pb.Value = 0
+            pb.Text = pb.Value.ToString & "%"
         Next
 
         ' Check which files we are downloading (those that are checked)
         filesRequired.Clear()
         filesComplete.Clear()
-        For Each item As ContainerListViewItem In clvUpdates.Items
-            Dim chkDownload As CheckBox = CType(item.SubItems(4).ItemControl, CheckBox)
-            If chkDownload IsNot Nothing Then
-                If chkDownload.Checked = True Then
-                    filesRequired.Add(item.Text, item)
-                Else
-                    item.SubItems(5).ItemControl = Nothing
-                    item.SubItems(5).Text = "Not selected for download"
-                End If
+        For Each item As Node In adtUpdates.Nodes
+            If CType(item.Cells(4).HostedItem, CheckBoxItem).Checked = True Then
+                filesRequired.Add(item.Text, item)
+            Else
+                item.Cells(5).HostedItem = Nothing
+                item.Cells(5).Text = "Not selected for download"
             End If
         Next
 
@@ -327,6 +362,8 @@ Public Class frmUpdater
                 ' Double failure - report and exit
                 Dim msg As String = "Unable to copy necessary files for the update process to complete. Please update manually."
                 MessageBox.Show(msg, "Unable to Update", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                EveHQ.Core.HQ.EveHQIsUpdating = False
+                Exit Sub
             End Try
         End Try
 
@@ -340,6 +377,7 @@ Public Class frmUpdater
         End If
 
         lblUpdateStatus.Text = "Status: Downloading updates..."
+        UpdateWorkerList.Clear()
         For Each reqFile As String In filesRequired.Keys
             Dim updateWorker As New System.ComponentModel.BackgroundWorker
             AddHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
@@ -377,16 +415,7 @@ Public Class frmUpdater
         Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
         request.CachePolicy = policy
         ' Setup proxy server (if required)
-        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                EveHQProxy.UseDefaultCredentials = True
-            Else
-                EveHQProxy.UseDefaultCredentials = False
-                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-            End If
-            request.Proxy = EveHQProxy
-        End If
+        Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
         request.UserAgent = "EveHQ Updater " & My.Application.Info.Version.ToString
         request.CachePolicy = policy
         request.Method = WebRequestMethods.File.DownloadFile
@@ -442,23 +471,31 @@ Public Class frmUpdater
 
     Private Sub UpdateWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
         Dim fileName As String = e.UserState.ToString
-        Dim pb As ProgressBar = CType(pbControls(fileName), ProgressBar)
+        Dim pb As ProgressBarItem = CType(pbControls(fileName), ProgressBarItem)
         pb.Value = e.ProgressPercentage
+        pb.Text = pb.Value.ToString & "%"
     End Sub
 
     Private Sub UpdateWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
-        For Each item As ContainerListViewItem In clvUpdates.Items
+        For Each item As Node In adtUpdates.Nodes
             If filesComplete.Contains(item.Text) = True Then
-                item.SubItems(5).ItemControl = Nothing
                 If CBool(filesComplete.Item(item.Text)) = True Then
-                    item.ForeColor = Color.LimeGreen
-                    item.SubItems(5).Text = "Download Complete!"
+                    item.Style = UpdateNotRequiredStyle
+                    item.Cells(5).HostedItem.Text = "Download Complete!"
+                    CType(item.Cells(5).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Normal
                 Else
-                    item.ForeColor = Color.Red
-                    item.SubItems(5).Text = "Download Failed!"
+                    item.Style = UpdateRequiredStyle
+                    item.Cells(5).HostedItem.Text = "Download Failed!"
+                    CType(item.Cells(5).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Error
                 End If
             End If
         Next
+        ' Remove event handlers
+        Dim updateWorker As System.ComponentModel.BackgroundWorker = CType(sender, System.ComponentModel.BackgroundWorker)
+        RemoveHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
+        RemoveHandler updateWorker.ProgressChanged, AddressOf UpdateWorker_ProgressChanged
+        RemoveHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
+
         If filesTried = filesRequired.Count Then
             If filesComplete.Count = filesRequired.Count Then
                 lblUpdateStatus.Text = "Status: Download complete!"
@@ -467,10 +504,16 @@ Public Class frmUpdater
                 If MessageBox.Show(msg, "Update Now?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
                     ' Activate the update menu
                     EveHQ.Core.HQ.AppUpdateAvailable = True
-                    frmEveHQ.mnuUpdateNow.Enabled = True
+                    frmEveHQ.btnUpdateEveHQ.Enabled = True
+                    EveHQ.Core.HQ.EveHQIsUpdating = False
                     Me.Close()
                 Else
-                    
+                    ' Try backup here?
+                    If EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate = True Then
+                        EveHQ.Core.HQ.WriteLogEvent("Shutdown: Request to backup EveHQ Settings before update")
+                        Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
+                        Call EveHQ.Core.EveHQBackup.BackupEveHQSettings()
+                    End If
                     ' Try and download patchfile
                     Dim patcherFile As String = Path.Combine(PatcherLocation, "EveHQPatcher.exe")
                     Try
@@ -506,6 +549,8 @@ Public Class frmUpdater
                         startInfo.Verb = "runas"
                     End If
                     Process.Start(startInfo)
+                    EveHQ.Core.HQ.EveHQIsUpdating = False
+                    EveHQ.Core.HQ.UpdateShutDownRequest = True
                     EveHQ.Core.HQ.StartShutdownEveHQ = True
                     Me.Close()
                 End If
@@ -536,16 +581,7 @@ Public Class frmUpdater
         Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
         request.CachePolicy = policy
         ' Setup proxy server (if required)
-        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                EveHQProxy.UseDefaultCredentials = True
-            Else
-                EveHQProxy.UseDefaultCredentials = False
-                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-            End If
-            request.Proxy = EveHQProxy
-        End If
+        Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
         request.CachePolicy = policy
         request.Method = WebRequestMethods.File.DownloadFile
         request.Timeout = 900000
@@ -584,6 +620,6 @@ Public Class frmUpdater
 
     End Function
 
-    
+
 End Class
 

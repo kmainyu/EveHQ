@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -24,6 +24,7 @@ Imports System.Data
 Imports System.IO
 Imports System.Windows.Forms
 Imports System.Reflection
+Imports System.Text
 
 Public Class IGB
     Shared context As HttpListenerContext
@@ -67,6 +68,9 @@ Public Class IGB
             listener.Prefixes.Add(s)
         Next
 
+        ' Check our IGB Access List is complete
+        Call CheckAllIGBAccessRights()
+
         Try
             ' Start the listener to begin listening for requests.
             listener.Start()
@@ -96,29 +100,71 @@ Public Class IGB
                             Case "/HOME", "/HOME/"
                                 responseString &= CreateHome()
                             Case "/ITEMDB", "/ITEMDB/"
-                                responseString &= CreateHTMLItemDB()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Item Database") = True Then
+                                    responseString &= CreateHTMLItemDB()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
+                            Case "/MARKETTEST", "/MARKETTEST/"
+                                responseString &= CreateMarketTest()
                             Case "/SEARCHRESULTS", "SEARCHRESULTS"
                                 responseString &= CreateHTMLSearchResultsSQL()
                             Case "/HEADERS", "/HEADERS/"
                                 responseString &= CreateHeaders()
                             Case "/REPORTS", "/REPORTS/"
-                                responseString &= CreateReports()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Reports - Main Menu") = True Then
+                                    responseString &= CreateReports()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/ALLOY", "/REPORTS/ALLOY/"
-                                responseString &= CreateAlloyReport()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Alloy Composition") = True Then
+                                    responseString &= CreateAlloyReport()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/ORE", "/REPORTS/ORE/"
-                                responseString &= CreateOreReport()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ore Composition") = True Then
+                                    responseString &= CreateOreReport()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/ICE", "/REPORTS/ICE/"
-                                responseString &= CreateIceReport()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ice Composition") = True Then
+                                    responseString &= CreateIceReport()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/SKILLLEVELS", "/REPORTS/SKILLLEVELS/"
-                                responseString &= CreateSPReport()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Skill Level Table") = True Then
+                                    responseString &= CreateSPReport()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/CHARACTER", "/REPORTS/CHARACTER/"
-                                responseString &= ShowCharReports()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                    responseString &= ShowCharReports()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/CHARSUMM", "/REPORTS/CHARASUMM/"
-                                responseString &= ShowCharSummary()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Summary") = True Then
+                                    responseString &= ShowCharSummary()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/CHARREPORT", "/REPORTS/CHARREPORT/"
-                                responseString &= CreateCharReport()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                    responseString &= CreateCharReport()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/REPORTS/CHARREPORT/QUEUES", "/REPORTS/CHARREPORT/QUEUES/"
-                                responseString &= CreateQueueReport()
+                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                    responseString &= CreateQueueReport()
+                                Else
+                                    responseString &= CreateHome()
+                                End If
                             Case "/LOGO.JPG"
                                 context.Response.ContentType = "image/jpeg"
                                 My.Resources.EveHQ_IGBLogo.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "logo.jpg"))
@@ -151,28 +197,41 @@ Public Class IGB
                                 '    End If
                                 '    responseString &= IGBHTMLFooter(context)
                             Case Else
-                                ' Check if this is a plugin string
-                                Dim IGBPlugin As Boolean = False
-                                For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
-                                    Dim testName As String = PlugInInfo.Name.Replace(" ", "")
-                                    If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
-                                        IGBPlugin = True
-                                        Dim PlugInResponse As String = ""
-                                        Dim myAssembly As Assembly = Assembly.LoadFrom(PlugInInfo.FileName)
-                                        Dim t As Type = myAssembly.GetType(PlugInInfo.FileType)
-                                        PlugInInfo.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-                                        Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = PlugInInfo.Instance
-                                        PlugInResponse = runPlugIn.IGBService(context)
-                                        If PlugInResponse Is Nothing Then
-                                            PlugInResponse = "The module '" & PlugInInfo.Name & "' failed to return a valid response."
-                                        End If
-                                        responseString &= PlugInResponse
+                                ' Check for requisitions
+                                If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS") Or context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS/") Then
+                                    If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Requisitions") = True Then
+                                        responseString = EveHQ.Core.RequisitionIGB.Response(context)
+                                    Else
+                                        responseString = CreateHome()
                                     End If
-                                Next
-                                If IGBPlugin = False Then
-                                    responseString &= IGBHTMLHeader(context, "EveHQ IGB Site")
-                                    responseString &= "Sorry, the page you are looking for cannot be found.<br><br>"
-                                    responseString &= IGBHTMLFooter(context)
+                                Else
+                                    ' Check if this is a plugin string
+                                    Dim IGBPlugin As Boolean = False
+                                    For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+                                        If PlugInInfo.RunInIGB Then
+                                            If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData(PlugInInfo.Name) = True Then
+                                                Dim testName As String = PlugInInfo.Name.Replace(" ", "")
+                                                If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
+                                                    IGBPlugin = True
+                                                    Dim PlugInResponse As String = ""
+                                                    Dim myAssembly As Assembly = Assembly.LoadFrom(PlugInInfo.FileName)
+                                                    Dim t As Type = myAssembly.GetType(PlugInInfo.FileType)
+                                                    PlugInInfo.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
+                                                    Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = PlugInInfo.Instance
+                                                    PlugInResponse = runPlugIn.IGBService(context)
+                                                    If PlugInResponse Is Nothing Then
+                                                        PlugInResponse = "The module '" & PlugInInfo.Name & "' failed to return a valid response."
+                                                    End If
+                                                    responseString &= PlugInResponse
+                                                End If
+                                            End If
+                                        End If
+                                    Next
+                                    If IGBPlugin = False Then
+                                        responseString &= IGBHTMLHeader(context, "EveHQ IGB Site", 0)
+                                        responseString &= "Sorry, the page you are looking for cannot be found.<br><br>"
+                                        responseString &= IGBHTMLFooter(context)
+                                    End If
                                 End If
                         End Select
 
@@ -212,6 +271,18 @@ Public Class IGB
         fs.Dispose()
         Return System.Text.Encoding.Default.GetString(ByteArray)
     End Function
+    Public Shared Sub CheckAllIGBAccessRights()
+        Dim IGBAccessFile As String = My.Resources.IGBAccess.ToString
+        Dim IGBAccessList() As String = IGBAccessFile.Split(ControlChars.CrLf.ToCharArray)
+        For Each IGBFeature As String In IGBAccessList
+            If IGBFeature.Trim <> "" Then
+                Dim IGBFeatureData() As String = IGBFeature.Split(",".ToCharArray)
+                If EveHQ.Core.HQ.EveHQSettings.IGBAllowedData.ContainsKey(IGBFeatureData(0)) = False Then
+                    EveHQ.Core.HQ.EveHQSettings.IGBAllowedData.Add(IGBFeatureData(0), CBool(IGBFeatureData(1)))
+                End If
+            End If
+        Next
+    End Sub
 
 #Region "IGB Procedures and Functions"
     Private Sub ShowData()
@@ -252,7 +323,7 @@ Public Class IGB
             frmData.ShowDialog()
         End With
     End Sub
-    Public Shared Function IGBHTMLHeader(ByVal context As Net.HttpListenerContext, Optional ByVal strTitle As String = "") As String
+    Public Shared Function IGBHTMLHeader(ByVal context As Net.HttpListenerContext, ByVal strTitle As String, ByVal PageRefreshPeriod As Integer) As String
         Dim strHTML As String = ""
         strHTML &= "<HTML>"
         strHTML &= "<HEAD><TITLE>" & strTitle & "</TITLE>"
@@ -265,13 +336,22 @@ Public Class IGB
         strHTML &= ".footer { font-family: Tahoma, Arial; font-size: 9px; color: #ffffff; font-variant: small-caps; }"
         strHTML &= ".title { font-family: Tahoma, Arial; font-size: 20px; color: #ffffff; font-variant: small-caps; }"
         strHTML &= ".tbl { width: 800px; color: #ffffff; }"
+        strHTML &= "#wrapper {overflow: auto; height: 100%; width:820px; margin-left:auto; margin-right:auto;}"
         strHTML &= "--></STYLE>"
-        strHTML &= "</HEAD>"
-        If context.Request.Headers("EVE_CHARNAME") <> "" Then
-            strHTML &= "<BODY link=#ff8888 alink=#ff8888 vlink=#ff8888>"
-        Else
-            strHTML &= "<BODY onLoad=""CCPEVE.requestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
+        If PageRefreshPeriod <> 0 Then
+            strHTML &= "<META HTTP-EQUIV=""REFRESH"" CONTENT=""" & PageRefreshPeriod.ToString & """>"
         End If
+        strHTML &= "</HEAD>"
+        If PageRefreshPeriod <> 0 Then
+            strHTML &= "<BODY onLoad=""CCPEVE.showMarketDetails(638)"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
+        Else
+            If context.Request.Headers("EVE_CHARNAME") <> "" Then
+                strHTML &= "<BODY link=#ff8888 alink=#ff8888 vlink=#ff8888>"
+            Else
+                strHTML &= "<BODY onLoad=""CCPEVE.requestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
+            End If
+        End If
+
         strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />  IGB Server<br>"
         strHTML &= "<p>"
         If context.Request.Headers("EVE_CHARNAME") = "" Then
@@ -279,17 +359,39 @@ Public Class IGB
         Else
             strHTML &= "Greetings " & context.Request.Headers("EVE_CHARNAME") & "!<br>"
         End If
-        strHTML &= "<hr><a href=/>Home</a>  |  <a href=/itemDB>Item Database</a>  |  <a href=/reports>Reports</a>  |  <a href=/headers>IGB Headers</a>"
+
+        strHTML &= "<hr><a href=/>Home</a>  | "
+
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Item Database") = True Then
+            strHTML &= " <a href=/itemDB>Item Database</a>  | "
+        End If
+
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Reports - Main Menu") = True Then
+            strHTML &= " <a href=/reports>Reports</a>  | "
+        End If
+
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Requisitions") = True Then
+            If EveHQ.Core.RequisitionDataFunctions.CountRequisitions > 0 Then
+                strHTML &= " <a href=/reqs>Requisitions</a> | "
+            End If
+        End If
+
+        strHTML &= " <a href=/headers>IGB Headers</a>"
+
         For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
             If PlugInInfo.RunInIGB = True Then
-                strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
+                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData(PlugInInfo.Name) = True Then
+                    strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
+                End If
             End If
         Next
         strHTML &= "</p>"
         strHTML &= "<form method=""GET"" action=""/searchResults"">"
-        strHTML &= "Search Item Database:  "
-        strHTML &= "<input type=""text"" name=""str"">"
-        strHTML &= "<input type=""submit"" value=""Search!""></form><hr><br>"
+        If EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Item Database") = True Then
+            strHTML &= "Search Item Database:  "
+            strHTML &= "<input type=""text"" name=""str"">"
+            strHTML &= "<input type=""submit"" value=""Search!""></form><hr><br>"
+        End If
         Return strHTML
     End Function
     Public Shared Function IGBHTMLFooter(ByVal context As Net.HttpListenerContext) As String
@@ -311,7 +413,7 @@ Public Class IGB
         Dim strHTML As String = ""
         Dim strPilot As String = ""
         Dim strHost As String = ""
-        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Home")
+        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Home", 0)
         strHTML &= "<p>Welcome to the EveHQ In-Game Browser (IGB) Server!</p>"
         strHTML &= "<p>This server will give you access to the wealth of information that is the Eve Online database and present it in tabular form for easy reading.</p>"
         If context.Request.UserAgent.StartsWith("EVE-IGB") Then
@@ -327,14 +429,14 @@ Public Class IGB
     End Function
     Private Function CreateHTMLItemDB() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Item Database")
+        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Item Database", 0)
         strHTML &= CreateNavPaneSQL()
         strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateHeaders() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Header Info")
+        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Header Info", 0)
         If context.Request.UserAgent.StartsWith("EVE-IGB") Then
             context.Response.Headers.Add("refresh:sessionchange;URL=/HEADERS")
         End If
@@ -349,21 +451,33 @@ Public Class IGB
     End Function
     Private Function CreateReports() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "EveHQ Reports")
+        strHTML &= IGBHTMLHeader(context, "EveHQ Reports", 0)
         strHTML &= "<p>Please select a report from the list below:</p><br>"
-        strHTML &= "<p><a href=/reports/alloy>Alloy Composition Report</a><br>"
-        strHTML &= "<br><a href=/reports/ore>Ore Composition Report</a><br>"
-        strHTML &= "<br><a href=/reports/ice>Ice Composition Report</a><br>"
-        strHTML &= "<br><a href=/reports/skilllevels>Skill Level Table</a><br>"
-        strHTML &= "<br><a href=/reports/charsumm>Character Summary</a><br>"
-        strHTML &= "<br><a href=/reports/character>Individual Character Reports</a></p>"
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Alloy Composition") = True Then
+            strHTML &= "<p><a href=/reports/alloy>Alloy Composition Report</a><br>"
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ore Composition") = True Then
+            strHTML &= "<br><a href=/reports/ore>Ore Composition Report</a><br>"
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ice Composition") = True Then
+            strHTML &= "<br><a href=/reports/ice>Ice Composition Report</a><br>"
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Skill Level Table") = True Then
+            strHTML &= "<br><a href=/reports/skilllevels>Skill Level Table</a><br>"
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Summary") = True Then
+            strHTML &= "<br><a href=/reports/charsumm>Character Summary</a><br>"
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+            strHTML &= "<br><a href=/reports/character>Individual Character Reports</a></p>"
+        End If
         strHTML &= "<br><br><br>"
         strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateOreReport() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Ore Composition Report")
+        strHTML &= IGBHTMLHeader(context, "Ore Composition Report", 0)
         strHTML &= EveHQ.Core.Reports.HTMLTitle("Ore Composition Report")
         strHTML &= EveHQ.Core.Reports.RockReport(True)
         strHTML &= EveHQ.Core.Reports.HTMLFooter
@@ -371,7 +485,7 @@ Public Class IGB
     End Function
     Private Function CreateIceReport() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Ice Composition Report")
+        strHTML &= IGBHTMLHeader(context, "Ice Composition Report", 0)
         strHTML &= EveHQ.Core.Reports.HTMLTitle("Ice Composition Report")
         strHTML &= EveHQ.Core.Reports.IceReport(True)
         strHTML &= EveHQ.Core.Reports.HTMLFooter
@@ -379,7 +493,7 @@ Public Class IGB
     End Function
     Private Function CreateAlloyReport() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Alloy Composition Report")
+        strHTML &= IGBHTMLHeader(context, "Alloy Composition Report", 0)
         strHTML &= EveHQ.Core.Reports.HTMLTitle("Alloy Composition Report")
         strHTML &= EveHQ.Core.Reports.AlloyReport(True)
         strHTML &= EveHQ.Core.Reports.HTMLFooter
@@ -387,7 +501,7 @@ Public Class IGB
     End Function
     Private Function CreateSPReport() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Skill Level Table")
+        strHTML &= IGBHTMLHeader(context, "Skill Level Table", 0)
         strHTML &= EveHQ.Core.Reports.HTMLTitle("Skill Level Table")
         strHTML &= EveHQ.Core.Reports.SPSummary
         strHTML &= EveHQ.Core.Reports.HTMLFooter
@@ -395,7 +509,7 @@ Public Class IGB
     End Function
     Private Function ShowCharSummary() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Pilot Summary")
+        strHTML &= IGBHTMLHeader(context, "Pilot Summary", 0)
         strHTML &= EveHQ.Core.Reports.HTMLTitle("Pilot Summary")
         strHTML &= EveHQ.Core.Reports.CharSummary()
         strHTML &= EveHQ.Core.Reports.HTMLFooter
@@ -403,14 +517,14 @@ Public Class IGB
     End Function
     Private Function ShowCharReports() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Generate Character Report")
+        strHTML &= IGBHTMLHeader(context, "Generate Character Report", 0)
         strHTML &= CreateCharReports(True)
         strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateHTMLSearchResultsSQL() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "EveHQ Search Results")
+        strHTML &= IGBHTMLHeader(context, "EveHQ Search Results", 0)
         If context.Request.QueryString.Count = 0 Or context.Request.QueryString.Item("str") = "" Then
             strHTML &= "<p>Please enter a valid search parameter</p>"
         Else
@@ -474,12 +588,11 @@ Public Class IGB
                     Next
                 Case "t"
                     Dim typeID As String = context.Request.QueryString.Item("id")
-                    Dim pInfo(5) As String
-                    pInfo = EveHQ.Core.DataFunctions.GetTypeParentInfo(typeID)
+                    Dim pInfo As EveItem = EveHQ.Core.HQ.itemData(typeID)
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & pInfo(4) & ">" & pInfo(5) & "</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & pInfo(2) & ">" & pInfo(3) & "</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=t&id=" & pInfo(0) & ">" & pInfo(1) & "</a>"
+                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & pInfo.Category.ToString & ">" & EveHQ.Core.HQ.itemCats(pInfo.Category.ToString) & "</a> -> "
+                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & pInfo.Group.ToString & ">" & EveHQ.Core.HQ.itemGroups(pInfo.Group.ToString) & "</a> -> "
+                    dbNavigator &= "<a href=/itemDB/?view=t&id=" & pInfo.ID.ToString & ">" & pInfo.Name & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"
                     strHTML &= "<p><a href=/itemDB/?view=t&id=" & typeID & "&s=a>ATTRIBUTES</a>"
@@ -502,7 +615,7 @@ Public Class IGB
                     End If
 
                     ' Show additional information re blueprint or product
-                    If CDbl(pInfo(4)) = 9 Then
+                    If pInfo.Category = 9 Then
                         Dim typeID2 As String = EveHQ.Core.DataFunctions.GetTypeID(bpTypeID)
                         If bpTypeID <> typeID2 Then
                             strHTML &= "<a href=/itemDB/?view=t&id=" & typeID2 & ">PRODUCT</a>"
@@ -520,10 +633,10 @@ Public Class IGB
                     'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                     '    strHTML &= "<td width=64px><img src=""typeicon:" & typeID & """ width=64 height=64></td>"
                     'Else
-                    strHTML &= "<td width=64px><img src='" & Me.GetExternalIcon(pInfo(0), pInfo(4)) & "'></td>"
+                    strHTML &= "<td width=64px><img src='" & Me.GetExternalIcon(pInfo.ID.ToString, pInfo.Category.ToString) & "'></td>"
                     'End If
                     strHTML &= "<td style='font-size:x-large;'>"
-                    strHTML &= "<b>" & pInfo(1) & "</b>"
+                    strHTML &= "<b>" & pInfo.Name & "</b>"
                     strHTML &= "</td></tr></table><br>"
 
                     Select Case context.Request.QueryString.Item("s")
@@ -605,7 +718,7 @@ Public Class IGB
                             attributes(attNo, 4) = ""
                             attributes(attNo, 5) = "0"
 
-                            If CDbl(pInfo(4)) = 9 Then            ' If in the blueprint category
+                            If pInfo.Category = 9 Then            ' If in the blueprint category
                                 strSQL = "SELECT *"
                                 strSQL &= " FROM invBlueprintTypes"
                                 strSQL &= " WHERE blueprintTypeID=" & typeID & ";"
@@ -825,8 +938,8 @@ Public Class IGB
                                             'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                                             '    strHTML &= "<td width=32px><img src=typeicon:" & materials(item, 1) & " width=32 height=32></td>"
                                             'Else
-                                            Dim iInfo() As String = EveHQ.Core.DataFunctions.GetTypeParentInfo(materials(item, 1))
-                                            strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo(0), iInfo(4)) & "' width=32px height=32px></td>"
+                                            Dim iInfo As EveItem = EveHQ.Core.HQ.itemData(materials(item, 1))
+                                            strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo.ID.ToString, iInfo.Category.ToString) & "' width=32px height=32px></td>"
                                             'End If
                                             strHTML &= "<td width=300px><a href=/itemDB/?view=t&id=" & materials(item, 1) & ">" & materials(item, 2) & "</a>"
                                             strHTML &= "</td><td>"
@@ -869,8 +982,8 @@ Public Class IGB
                                 'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                                 '    strHTML &= "<td width=32px><img src=typeicon:" & itemVariations(0, item) & " width=32 height=32></td>"
                                 'Else
-                                Dim iInfo() As String = EveHQ.Core.DataFunctions.GetTypeParentInfo(typeID)
-                                strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo(0), iInfo(4)) & "' width=32px height=32px></td>"
+                                Dim iInfo As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(typeID)
+                                strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo.ID.ToString, iInfo.Category.ToString) & "' width=32px height=32px></td>"
                                 'End If
                                 strHTML &= "<td width=368px><a href=/itemDB/?view=t&id=" & itemVariations(0, item) & ">" & itemVariations(1, item) & "</a></td><td>" & itemVariations(2, item) & "</td></tr>"
                             Next
@@ -888,15 +1001,7 @@ Public Class IGB
     End Function
 
     Private Function GetExternalIcon(ByVal typeID As String, ByVal catID As String) As String
-        Select Case CInt(catID)
-            Case 6, 18, 23
-                Return EveHQ.Core.ImageHandler.GetRawImageLocation(typeID, ImageHandler.ImageType.Types)
-            Case 9
-                Return EveHQ.Core.ImageHandler.GetRawImageLocation(typeID, ImageHandler.ImageType.Blueprints)
-            Case Else
-                Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID WHERE typeID=" & typeID & ";")
-                Return EveHQ.Core.ImageHandler.GetRawImageLocation(iconData.Tables(0).Rows(0).Item("iconFile").ToString, ImageHandler.ImageType.Icons)
-        End Select
+        Return EveHQ.Core.ImageHandler.GetRawImageLocation(typeID)
     End Function
 
     Private Function CreateCharReports(ByVal forIGB As Boolean) As String
@@ -954,7 +1059,7 @@ Public Class IGB
     Private Function CreateCharReport() As String
         Dim strHTML As String = ""
         If context.Request.QueryString.Count < 2 Then
-            strHTML &= IGBHTMLHeader(context, "Character Report Error")
+            strHTML &= IGBHTMLHeader(context, "Character Report Error", 0)
             strHTML &= "<p>There was an error generating your character report</p>"
             strHTML &= IGBHTMLFooter(context)
         Else
@@ -962,7 +1067,7 @@ Public Class IGB
             Dim pilotString As String = context.Request.QueryString.Item("Pilot")
             repString = repString.Replace("+", " ")
             pilotString = pilotString.Replace("+", " ")
-            strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString)
+            strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
             Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Character Sheet"
@@ -1019,7 +1124,7 @@ Public Class IGB
     Private Function CreateQueueReport() As String
         Dim strHTML As String = ""
         If context.Request.QueryString.Count < 3 Then
-            strHTML &= IGBHTMLHeader(context, "Character Queue Report Error")
+            strHTML &= IGBHTMLHeader(context, "Character Queue Report Error", 0)
             strHTML &= "<p>There was an error generating your character report</p>"
             strHTML &= IGBHTMLFooter(context)
         Else
@@ -1029,7 +1134,7 @@ Public Class IGB
             repString = repString.Replace("+", " ")
             pilotString = pilotString.Replace("+", " ")
             queueString = queueString.Replace("+", " ")
-            strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString)
+            strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
             Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Training Queue"
@@ -1046,6 +1151,16 @@ Public Class IGB
             strHTML &= EveHQ.Core.Reports.HTMLFooter
         End If
         Return strHTML
+    End Function
+
+    Private Function CreateMarketTest() As String
+        Dim strHTML As New StringBuilder
+
+        strHTML.Append(IGBHTMLHeader(context, "EveHQ IGB Market Crawl Test", 5))
+        strHTML.Append("<p>Welcome to the EveHQ IGB Market Crawl Test</p>")
+        strHTML.Append(Now.ToString)
+
+        Return strHTML.ToString
     End Function
 #End Region
 End Class

@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -64,7 +64,7 @@ Public Class DragAndDropListView
             Dim testItem As ListViewItem = CType(testData.DragItems.Item(0), ListViewItem)
             If testItem.Text.Substring(0, 2) = "##" Then
                 If displayPilot.Training = False Then
-                    di += 1
+					'di += 1
                 End If
 
                 If di < MyBase.Items.Count Then

@@ -32,9 +32,11 @@ Partial Class CharacterBlock
         '
         'pbPilot
         '
+        Me.pbPilot.ErrorImage = Global.EveHQ.My.Resources.Resources.noitem
         Me.pbPilot.Location = New System.Drawing.Point(3, 3)
         Me.pbPilot.Name = "pbPilot"
         Me.pbPilot.Size = New System.Drawing.Size(64, 64)
+        Me.pbPilot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.pbPilot.TabIndex = 0
         Me.pbPilot.TabStop = False
         '

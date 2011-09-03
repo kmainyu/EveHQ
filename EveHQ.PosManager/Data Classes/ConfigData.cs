@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -14,17 +33,19 @@ using System.Collections.Generic;
 namespace EveHQ.PosManager
 {
     [Serializable]
-    class ConfigData
+    public class ConfigData
     {
         public FuelBay FuelCosts;
-        public int SortedColumnIndex;
+        public long SortedColumnIndex;
         public int MonSelIndex;
+        public int FuelCat;
+        public int AutoAPI;
         public SortOrder MonSortOrder;
         public ArrayList Extra;
         public string SelPos;
-        public bool maintChart, maintStront, noNegs;
+        public bool malongChart, malongStront, noNegs;
         public ArrayList dgMonBool, dgDesBool;
-        public decimal maintTP, maintPV;
+        public decimal malongTP, malongPV;
         // Extra - Storage and Values
 
         public ConfigData()
@@ -37,11 +58,13 @@ namespace EveHQ.PosManager
             MonSelIndex = 0;
             SelPos = "";
             MonSortOrder = SortOrder.Ascending;
-            maintChart = true;
-            maintStront = true;
+            malongChart = true;
+            malongStront = true;
             noNegs = false;
-            maintTP = 0;
-            maintPV = 1;
+            malongTP = 0;
+            malongPV = 1;
+            FuelCat = 0;
+            AutoAPI = 0;
         }
     }
 }

@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Public Class frmSettings
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -19,7 +19,7 @@ Partial Public Class frmSettings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Colours & Styles")
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Dashboard")
@@ -28,294 +28,287 @@ Partial Public Class frmSettings
         Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
         Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
         Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
-        Me.gbGeneral = New System.Windows.Forms.GroupBox
-        Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox
-        Me.lblTrainingBarPosition = New System.Windows.Forms.Label
-        Me.cboTrainingBarPosition = New System.Windows.Forms.ComboBox
-        Me.lblToolbarPosition = New System.Windows.Forms.Label
-        Me.cboToolbarPosition = New System.Windows.Forms.ComboBox
-        Me.lblMDITabPosition = New System.Windows.Forms.Label
-        Me.cboMDITabPosition = New System.Windows.Forms.ComboBox
-        Me.txtErrorRepEmail = New System.Windows.Forms.TextBox
-        Me.lblErrorRepEmail = New System.Windows.Forms.Label
-        Me.txtErrorRepName = New System.Windows.Forms.TextBox
-        Me.lblErrorRepName = New System.Windows.Forms.Label
-        Me.chkErrorReporting = New System.Windows.Forms.CheckBox
-        Me.txtUpdateLocation = New System.Windows.Forms.TextBox
-        Me.lblUpdateLocation = New System.Windows.Forms.Label
-        Me.chkMinimiseOnExit = New System.Windows.Forms.CheckBox
-        Me.lblMDITabStyle = New System.Windows.Forms.Label
-        Me.cboMDITabStyle = New System.Windows.Forms.ComboBox
-        Me.chkEncryptSettings = New System.Windows.Forms.CheckBox
-        Me.cboStartupPilot = New System.Windows.Forms.ComboBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.cboStartupView = New System.Windows.Forms.ComboBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.chkAutoMinimise = New System.Windows.Forms.CheckBox
-        Me.chkAutoRun = New System.Windows.Forms.CheckBox
-        Me.chkAutoHide = New System.Windows.Forms.CheckBox
-        Me.gbPilotScreenColours = New System.Windows.Forms.GroupBox
-        Me.pbPilotSkillHighlight = New System.Windows.Forms.PictureBox
-        Me.lblPilotSkillHighlight = New System.Windows.Forms.Label
-        Me.pbPilotSkillText = New System.Windows.Forms.PictureBox
-        Me.lblPilotSkillText = New System.Windows.Forms.Label
-        Me.pbPilotGroupText = New System.Windows.Forms.PictureBox
-        Me.lblPilotGroupText = New System.Windows.Forms.Label
-        Me.pbPilotGroupBG = New System.Windows.Forms.PictureBox
-        Me.lblPilotGroupBG = New System.Windows.Forms.Label
-        Me.btnResetPilotColours = New System.Windows.Forms.Button
-        Me.pbPilotLevel5 = New System.Windows.Forms.PictureBox
-        Me.lblLevel5Colour = New System.Windows.Forms.Label
-        Me.pbPilotPartial = New System.Windows.Forms.PictureBox
-        Me.lblPilotPartiallyTrainedColour = New System.Windows.Forms.Label
-        Me.pbPilotCurrent = New System.Windows.Forms.PictureBox
-        Me.lblPilotCurrentColour = New System.Windows.Forms.Label
-        Me.pbPilotStandard = New System.Windows.Forms.PictureBox
-        Me.lblPilotStandardColour = New System.Windows.Forms.Label
-        Me.gbEveAccounts = New System.Windows.Forms.GroupBox
-        Me.btnGetData = New System.Windows.Forms.Button
-        Me.btnDeleteAccount = New System.Windows.Forms.Button
-        Me.btnEditAccount = New System.Windows.Forms.Button
-        Me.btnAddAccount = New System.Windows.Forms.Button
-        Me.lvAccounts = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.gbPilots = New System.Windows.Forms.GroupBox
-        Me.btnAddPilotFromXML = New System.Windows.Forms.Button
-        Me.btnDeletePilot = New System.Windows.Forms.Button
-        Me.btnAddPilot = New System.Windows.Forms.Button
-        Me.lvwPilots = New System.Windows.Forms.ListView
-        Me.colPilot = New System.Windows.Forms.ColumnHeader
-        Me.colID = New System.Windows.Forms.ColumnHeader
-        Me.colAccount = New System.Windows.Forms.ColumnHeader
-        Me.gbIGB = New System.Windows.Forms.GroupBox
-        Me.chkStartIGBonLoad = New System.Windows.Forms.CheckBox
-        Me.nudIGBPort = New System.Windows.Forms.NumericUpDown
-        Me.lblIGBPort = New System.Windows.Forms.Label
-        Me.gbFTPAccounts = New System.Windows.Forms.GroupBox
-        Me.btnTestUpload = New System.Windows.Forms.Button
-        Me.btnDeleteFTP = New System.Windows.Forms.Button
-        Me.btnEditFTP = New System.Windows.Forms.Button
-        Me.btnAddFTP = New System.Windows.Forms.Button
-        Me.lvwFTP = New System.Windows.Forms.ListView
-        Me.FTPName = New System.Windows.Forms.ColumnHeader
-        Me.Server = New System.Windows.Forms.ColumnHeader
-        Me.gbEveFolders = New System.Windows.Forms.GroupBox
-        Me.gbLocation4 = New System.Windows.Forms.GroupBox
-        Me.lblFriendlyName4 = New System.Windows.Forms.Label
-        Me.txtFriendlyName4 = New System.Windows.Forms.TextBox
-        Me.lblCacheSize4 = New System.Windows.Forms.Label
-        Me.chkLUA4 = New System.Windows.Forms.CheckBox
-        Me.lblEveDir4 = New System.Windows.Forms.Label
-        Me.btnEveDir4 = New System.Windows.Forms.Button
-        Me.btnClear4 = New System.Windows.Forms.Button
-        Me.gbLocation3 = New System.Windows.Forms.GroupBox
-        Me.lblFriendlyName3 = New System.Windows.Forms.Label
-        Me.txtFriendlyName3 = New System.Windows.Forms.TextBox
-        Me.lblCacheSize3 = New System.Windows.Forms.Label
-        Me.chkLUA3 = New System.Windows.Forms.CheckBox
-        Me.lblEveDir3 = New System.Windows.Forms.Label
-        Me.btnEveDir3 = New System.Windows.Forms.Button
-        Me.btnClear3 = New System.Windows.Forms.Button
-        Me.gbLocation2 = New System.Windows.Forms.GroupBox
-        Me.lblFriendlyName2 = New System.Windows.Forms.Label
-        Me.txtFriendlyName2 = New System.Windows.Forms.TextBox
-        Me.lblCacheSize2 = New System.Windows.Forms.Label
-        Me.chkLUA2 = New System.Windows.Forms.CheckBox
-        Me.lblEveDir2 = New System.Windows.Forms.Label
-        Me.btnEveDir2 = New System.Windows.Forms.Button
-        Me.btnClear2 = New System.Windows.Forms.Button
-        Me.gbLocation1 = New System.Windows.Forms.GroupBox
-        Me.lblFriendlyName1 = New System.Windows.Forms.Label
-        Me.txtFriendlyName1 = New System.Windows.Forms.TextBox
-        Me.lblCacheSize1 = New System.Windows.Forms.Label
-        Me.chkLUA1 = New System.Windows.Forms.CheckBox
-        Me.lblEveDir1 = New System.Windows.Forms.Label
-        Me.btnEveDir1 = New System.Windows.Forms.Button
-        Me.btnClear1 = New System.Windows.Forms.Button
-        Me.gbTrainingQueue = New System.Windows.Forms.GroupBox
-        Me.btnMoveDown = New System.Windows.Forms.Button
-        Me.btnMoveUp = New System.Windows.Forms.Button
-        Me.lvwColumns = New System.Windows.Forms.ListView
-        Me.colQueueColumns = New System.Windows.Forms.ColumnHeader
-        Me.chkShowCompletedSkills = New System.Windows.Forms.CheckBox
-        Me.pbPartiallyTrainedColour = New System.Windows.Forms.PictureBox
-        Me.lblPartiallyTrainedColour = New System.Windows.Forms.Label
-        Me.chkDeleteCompletedSkills = New System.Windows.Forms.CheckBox
-        Me.pbReadySkillColour = New System.Windows.Forms.PictureBox
-        Me.lblReadySkillColour = New System.Windows.Forms.Label
-        Me.pbDowntimeClashColour = New System.Windows.Forms.PictureBox
-        Me.lblDowntimeClashColour = New System.Windows.Forms.Label
-        Me.pbBothPreReqColour = New System.Windows.Forms.PictureBox
-        Me.lblBothPreReqColour = New System.Windows.Forms.Label
-        Me.pbHasPreReqColour = New System.Windows.Forms.PictureBox
-        Me.pbIsPreReqColour = New System.Windows.Forms.PictureBox
-        Me.lblHasPreReqColour = New System.Windows.Forms.Label
-        Me.lblIsPreReqColour = New System.Windows.Forms.Label
-        Me.lblSkillQueueColours = New System.Windows.Forms.Label
-        Me.lblQueueColumns = New System.Windows.Forms.Label
-        Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox
-        Me.nudDBTimeout = New System.Windows.Forms.NumericUpDown
-        Me.lblDatabaseTimeout = New System.Windows.Forms.Label
-        Me.btnTestDB = New System.Windows.Forms.Button
-        Me.cboFormat = New System.Windows.Forms.ComboBox
-        Me.lblFormat = New System.Windows.Forms.Label
-        Me.gbAccess = New System.Windows.Forms.GroupBox
-        Me.chkUseAppDirForDB = New System.Windows.Forms.CheckBox
-        Me.btnBrowseMDB = New System.Windows.Forms.Button
-        Me.txtMDBPassword = New System.Windows.Forms.TextBox
-        Me.txtMDBUsername = New System.Windows.Forms.TextBox
-        Me.txtMDBServer = New System.Windows.Forms.TextBox
-        Me.lblMDBPassword = New System.Windows.Forms.Label
-        Me.lblMDBUser = New System.Windows.Forms.Label
-        Me.lblMDBFilename = New System.Windows.Forms.Label
-        Me.gbMSSQL = New System.Windows.Forms.GroupBox
-        Me.txtMSSQLDatabase = New System.Windows.Forms.TextBox
-        Me.lblMSSQLDatabase = New System.Windows.Forms.Label
-        Me.lblMSSQLSecurity = New System.Windows.Forms.Label
-        Me.radMSSQLDatabase = New System.Windows.Forms.RadioButton
-        Me.radMSSQLWindows = New System.Windows.Forms.RadioButton
-        Me.txtMSSQLPassword = New System.Windows.Forms.TextBox
-        Me.txtMSSQLUsername = New System.Windows.Forms.TextBox
-        Me.txtMSSQLServer = New System.Windows.Forms.TextBox
-        Me.lblMSSQLPassword = New System.Windows.Forms.Label
-        Me.lblMSSQLUser = New System.Windows.Forms.Label
-        Me.lblMSSQLServer = New System.Windows.Forms.Label
-        Me.gbProxyServer = New System.Windows.Forms.GroupBox
-        Me.gbProxyServerInfo = New System.Windows.Forms.GroupBox
-        Me.lblProxyPassword = New System.Windows.Forms.Label
-        Me.lblProxyUsername = New System.Windows.Forms.Label
-        Me.txtProxyPassword = New System.Windows.Forms.TextBox
-        Me.txtProxyUsername = New System.Windows.Forms.TextBox
-        Me.radUseSpecifiedCreds = New System.Windows.Forms.RadioButton
-        Me.lblProxyServer = New System.Windows.Forms.Label
-        Me.txtProxyServer = New System.Windows.Forms.TextBox
-        Me.radUseDefaultCreds = New System.Windows.Forms.RadioButton
-        Me.chkUseProxy = New System.Windows.Forms.CheckBox
-        Me.gbEveServer = New System.Windows.Forms.GroupBox
-        Me.chkAutoMailAPI = New System.Windows.Forms.CheckBox
-        Me.gbAPIServer = New System.Windows.Forms.GroupBox
-        Me.txtAPIFileExtension = New System.Windows.Forms.TextBox
-        Me.lblAPIFileExtension = New System.Windows.Forms.Label
-        Me.chkUseCCPBackup = New System.Windows.Forms.CheckBox
-        Me.chkUseAPIRSServer = New System.Windows.Forms.CheckBox
-        Me.txtAPIRSServer = New System.Windows.Forms.TextBox
-        Me.lblAPIRSServer = New System.Windows.Forms.Label
-        Me.txtCCPAPIServer = New System.Windows.Forms.TextBox
-        Me.lblCCPAPIServer = New System.Windows.Forms.Label
-        Me.gbAPIRelayServer = New System.Windows.Forms.GroupBox
-        Me.chkAPIRSAutoStart = New System.Windows.Forms.CheckBox
-        Me.nudAPIRSPort = New System.Windows.Forms.NumericUpDown
-        Me.lblAPIRSPort = New System.Windows.Forms.Label
-        Me.chkActivateAPIRS = New System.Windows.Forms.CheckBox
-        Me.chkEnableEveStatus = New System.Windows.Forms.CheckBox
-        Me.lblCurrentOffset = New System.Windows.Forms.Label
-        Me.lblServerOffset = New System.Windows.Forms.Label
-        Me.trackServerOffset = New System.Windows.Forms.TrackBar
-        Me.chkAutoAPI = New System.Windows.Forms.CheckBox
-        Me.gbPlugIns = New System.Windows.Forms.GroupBox
-        Me.btnTidyPlugins = New System.Windows.Forms.Button
-        Me.btnRefreshPlugins = New System.Windows.Forms.Button
-        Me.lblPlugInInfo = New System.Windows.Forms.Label
-        Me.lblDetectedPlugIns = New System.Windows.Forms.Label
-        Me.lvwPlugins = New System.Windows.Forms.ListView
-        Me.colPlugInName = New System.Windows.Forms.ColumnHeader
-        Me.colStatus = New System.Windows.Forms.ColumnHeader
-        Me.gbNotifications = New System.Windows.Forms.GroupBox
-        Me.chkNotifyNotification = New System.Windows.Forms.CheckBox
-        Me.chkNotifyEveMail = New System.Windows.Forms.CheckBox
-        Me.chkNotifyEarly = New System.Windows.Forms.CheckBox
-        Me.chkNotifyNow = New System.Windows.Forms.CheckBox
-        Me.lblNotifyMe = New System.Windows.Forms.Label
-        Me.btnSoundTest = New System.Windows.Forms.Button
-        Me.btnSelectSoundFile = New System.Windows.Forms.Button
-        Me.lblSoundFile = New System.Windows.Forms.Label
-        Me.chkNotifySound = New System.Windows.Forms.CheckBox
-        Me.lblNotifyOffset = New System.Windows.Forms.Label
-        Me.trackNotifyOffset = New System.Windows.Forms.TrackBar
-        Me.chkNotifyEmail = New System.Windows.Forms.CheckBox
-        Me.chkNotifyDialog = New System.Windows.Forms.CheckBox
-        Me.chkNotifyToolTip = New System.Windows.Forms.CheckBox
-        Me.nudShutdownNotifyPeriod = New System.Windows.Forms.NumericUpDown
-        Me.lblShutdownNotifyPeriod = New System.Windows.Forms.Label
-        Me.chkShutdownNotify = New System.Windows.Forms.CheckBox
-        Me.gbEmail = New System.Windows.Forms.GroupBox
-        Me.lblSenderAddress = New System.Windows.Forms.Label
-        Me.txtSenderAddress = New System.Windows.Forms.TextBox
-        Me.txtSMTPPort = New System.Windows.Forms.TextBox
-        Me.lblSMTPPort = New System.Windows.Forms.Label
-        Me.btnTestEmail = New System.Windows.Forms.Button
-        Me.lblEmailPassword = New System.Windows.Forms.Label
-        Me.txtEmailPassword = New System.Windows.Forms.TextBox
-        Me.txtEmailUsername = New System.Windows.Forms.TextBox
-        Me.lblEmailUsername = New System.Windows.Forms.Label
-        Me.chkSMTPAuthentication = New System.Windows.Forms.CheckBox
-        Me.lblEMailAddress = New System.Windows.Forms.Label
-        Me.txtEmailAddress = New System.Windows.Forms.TextBox
-        Me.txtSMTPServer = New System.Windows.Forms.TextBox
-        Me.lblSMTPServer = New System.Windows.Forms.Label
-        Me.btnClose = New System.Windows.Forms.Button
-        Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog
-        Me.ofd1 = New System.Windows.Forms.OpenFileDialog
-        Me.tvwSettings = New System.Windows.Forms.TreeView
-        Me.gbColours = New System.Windows.Forms.GroupBox
-        Me.txtCSVSeparator = New System.Windows.Forms.TextBox
-        Me.lblCSVSeparatorChar = New System.Windows.Forms.Label
-        Me.chkDisableVisualStyles = New System.Windows.Forms.CheckBox
-        Me.cd1 = New System.Windows.Forms.ColorDialog
-        Me.gbG15 = New System.Windows.Forms.GroupBox
-        Me.nudCycleTime = New System.Windows.Forms.NumericUpDown
-        Me.lblCycleTime = New System.Windows.Forms.Label
-        Me.chkCyclePilots = New System.Windows.Forms.CheckBox
-        Me.chkActivateG15 = New System.Windows.Forms.CheckBox
+        Me.gbGeneral = New System.Windows.Forms.GroupBox()
+        Me.chkDisableTrainingBar = New System.Windows.Forms.CheckBox()
+        Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox()
+        Me.lblMDITabPosition = New System.Windows.Forms.Label()
+        Me.cboMDITabPosition = New System.Windows.Forms.ComboBox()
+        Me.txtErrorRepEmail = New System.Windows.Forms.TextBox()
+        Me.lblErrorRepEmail = New System.Windows.Forms.Label()
+        Me.txtErrorRepName = New System.Windows.Forms.TextBox()
+        Me.lblErrorRepName = New System.Windows.Forms.Label()
+        Me.chkErrorReporting = New System.Windows.Forms.CheckBox()
+        Me.txtUpdateLocation = New System.Windows.Forms.TextBox()
+        Me.lblUpdateLocation = New System.Windows.Forms.Label()
+        Me.chkMinimiseOnExit = New System.Windows.Forms.CheckBox()
+        Me.cboStartupPilot = New System.Windows.Forms.ComboBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.cboStartupView = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.chkAutoMinimise = New System.Windows.Forms.CheckBox()
+        Me.chkAutoRun = New System.Windows.Forms.CheckBox()
+        Me.chkAutoHide = New System.Windows.Forms.CheckBox()
+        Me.gbPilotScreenColours = New System.Windows.Forms.GroupBox()
+        Me.pbPilotSkillHighlight = New System.Windows.Forms.PictureBox()
+        Me.lblPilotSkillHighlight = New System.Windows.Forms.Label()
+        Me.pbPilotSkillText = New System.Windows.Forms.PictureBox()
+        Me.lblPilotSkillText = New System.Windows.Forms.Label()
+        Me.pbPilotGroupText = New System.Windows.Forms.PictureBox()
+        Me.lblPilotGroupText = New System.Windows.Forms.Label()
+        Me.pbPilotGroupBG = New System.Windows.Forms.PictureBox()
+        Me.lblPilotGroupBG = New System.Windows.Forms.Label()
+        Me.btnResetPilotColours = New System.Windows.Forms.Button()
+        Me.pbPilotLevel5 = New System.Windows.Forms.PictureBox()
+        Me.lblLevel5Colour = New System.Windows.Forms.Label()
+        Me.pbPilotPartial = New System.Windows.Forms.PictureBox()
+        Me.lblPilotPartiallyTrainedColour = New System.Windows.Forms.Label()
+        Me.pbPilotCurrent = New System.Windows.Forms.PictureBox()
+        Me.lblPilotCurrentColour = New System.Windows.Forms.Label()
+        Me.pbPilotStandard = New System.Windows.Forms.PictureBox()
+        Me.lblPilotStandardColour = New System.Windows.Forms.Label()
+        Me.gbEveAccounts = New System.Windows.Forms.GroupBox()
+        Me.adtAccounts = New DevComponents.AdvTree.AdvTree()
+        Me.colAccountName = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAccountVersion = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAccountUserID = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAccountAccessType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAccountStatus = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
+        Me.btnDisableAccount = New System.Windows.Forms.Button()
+        Me.btnCheckAPIKeys = New System.Windows.Forms.Button()
+        Me.btnGetData = New System.Windows.Forms.Button()
+        Me.btnDeleteAccount = New System.Windows.Forms.Button()
+        Me.btnEditAccount = New System.Windows.Forms.Button()
+        Me.btnAddAccount = New System.Windows.Forms.Button()
+        Me.gbPilots = New System.Windows.Forms.GroupBox()
+        Me.btnCreateBlankPilot = New System.Windows.Forms.Button()
+        Me.btnAddPilotFromXML = New System.Windows.Forms.Button()
+        Me.btnDeletePilot = New System.Windows.Forms.Button()
+        Me.btnAddPilot = New System.Windows.Forms.Button()
+        Me.lvwPilots = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colPilot = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colID = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colAccount = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.gbIGB = New System.Windows.Forms.GroupBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.clb_IGBAllowedDisplay = New System.Windows.Forms.CheckedListBox()
+        Me.rb_IGBCfgAccessMode = New System.Windows.Forms.RadioButton()
+        Me.rb_IGBFullAccessMode = New System.Windows.Forms.RadioButton()
+        Me.chkStartIGBonLoad = New System.Windows.Forms.CheckBox()
+        Me.nudIGBPort = New System.Windows.Forms.NumericUpDown()
+        Me.lblIGBPort = New System.Windows.Forms.Label()
+        Me.gbEveFolders = New System.Windows.Forms.GroupBox()
+        Me.gbLocation4 = New System.Windows.Forms.GroupBox()
+        Me.lblFriendlyName4 = New System.Windows.Forms.Label()
+        Me.txtFriendlyName4 = New System.Windows.Forms.TextBox()
+        Me.lblCacheSize4 = New System.Windows.Forms.Label()
+        Me.chkLUA4 = New System.Windows.Forms.CheckBox()
+        Me.lblEveDir4 = New System.Windows.Forms.Label()
+        Me.btnEveDir4 = New System.Windows.Forms.Button()
+        Me.btnClear4 = New System.Windows.Forms.Button()
+        Me.gbLocation3 = New System.Windows.Forms.GroupBox()
+        Me.lblFriendlyName3 = New System.Windows.Forms.Label()
+        Me.txtFriendlyName3 = New System.Windows.Forms.TextBox()
+        Me.lblCacheSize3 = New System.Windows.Forms.Label()
+        Me.chkLUA3 = New System.Windows.Forms.CheckBox()
+        Me.lblEveDir3 = New System.Windows.Forms.Label()
+        Me.btnEveDir3 = New System.Windows.Forms.Button()
+        Me.btnClear3 = New System.Windows.Forms.Button()
+        Me.gbLocation2 = New System.Windows.Forms.GroupBox()
+        Me.lblFriendlyName2 = New System.Windows.Forms.Label()
+        Me.txtFriendlyName2 = New System.Windows.Forms.TextBox()
+        Me.lblCacheSize2 = New System.Windows.Forms.Label()
+        Me.chkLUA2 = New System.Windows.Forms.CheckBox()
+        Me.lblEveDir2 = New System.Windows.Forms.Label()
+        Me.btnEveDir2 = New System.Windows.Forms.Button()
+        Me.btnClear2 = New System.Windows.Forms.Button()
+        Me.gbLocation1 = New System.Windows.Forms.GroupBox()
+        Me.lblFriendlyName1 = New System.Windows.Forms.Label()
+        Me.txtFriendlyName1 = New System.Windows.Forms.TextBox()
+        Me.lblCacheSize1 = New System.Windows.Forms.Label()
+        Me.chkLUA1 = New System.Windows.Forms.CheckBox()
+        Me.lblEveDir1 = New System.Windows.Forms.Label()
+        Me.btnEveDir1 = New System.Windows.Forms.Button()
+        Me.btnClear1 = New System.Windows.Forms.Button()
+        Me.gbTrainingQueue = New System.Windows.Forms.GroupBox()
+        Me.chkStartWithPrimaryQueue = New System.Windows.Forms.CheckBox()
+        Me.btnMoveDown = New System.Windows.Forms.Button()
+        Me.btnMoveUp = New System.Windows.Forms.Button()
+        Me.lvwColumns = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colQueueColumns = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.chkShowCompletedSkills = New System.Windows.Forms.CheckBox()
+        Me.pbPartiallyTrainedColour = New System.Windows.Forms.PictureBox()
+        Me.lblPartiallyTrainedColour = New System.Windows.Forms.Label()
+        Me.chkDeleteCompletedSkills = New System.Windows.Forms.CheckBox()
+        Me.pbReadySkillColour = New System.Windows.Forms.PictureBox()
+        Me.lblReadySkillColour = New System.Windows.Forms.Label()
+        Me.pbDowntimeClashColour = New System.Windows.Forms.PictureBox()
+        Me.lblDowntimeClashColour = New System.Windows.Forms.Label()
+        Me.pbBothPreReqColour = New System.Windows.Forms.PictureBox()
+        Me.lblBothPreReqColour = New System.Windows.Forms.Label()
+        Me.pbHasPreReqColour = New System.Windows.Forms.PictureBox()
+        Me.pbIsPreReqColour = New System.Windows.Forms.PictureBox()
+        Me.lblHasPreReqColour = New System.Windows.Forms.Label()
+        Me.lblIsPreReqColour = New System.Windows.Forms.Label()
+        Me.lblSkillQueueColours = New System.Windows.Forms.Label()
+        Me.lblQueueColumns = New System.Windows.Forms.Label()
+        Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox()
+        Me.nudDBTimeout = New System.Windows.Forms.NumericUpDown()
+        Me.lblDatabaseTimeout = New System.Windows.Forms.Label()
+        Me.btnTestDB = New System.Windows.Forms.Button()
+        Me.cboFormat = New System.Windows.Forms.ComboBox()
+        Me.lblFormat = New System.Windows.Forms.Label()
+        Me.gbAccess = New System.Windows.Forms.GroupBox()
+        Me.chkUseAppDirForDB = New System.Windows.Forms.CheckBox()
+        Me.btnBrowseMDB = New System.Windows.Forms.Button()
+        Me.txtMDBPassword = New System.Windows.Forms.TextBox()
+        Me.txtMDBUsername = New System.Windows.Forms.TextBox()
+        Me.txtMDBServer = New System.Windows.Forms.TextBox()
+        Me.lblMDBPassword = New System.Windows.Forms.Label()
+        Me.lblMDBUser = New System.Windows.Forms.Label()
+        Me.lblMDBFilename = New System.Windows.Forms.Label()
+        Me.gbMSSQL = New System.Windows.Forms.GroupBox()
+        Me.txtMSSQLDatabase = New System.Windows.Forms.TextBox()
+        Me.lblMSSQLDatabase = New System.Windows.Forms.Label()
+        Me.lblMSSQLSecurity = New System.Windows.Forms.Label()
+        Me.radMSSQLDatabase = New System.Windows.Forms.RadioButton()
+        Me.radMSSQLWindows = New System.Windows.Forms.RadioButton()
+        Me.txtMSSQLPassword = New System.Windows.Forms.TextBox()
+        Me.txtMSSQLUsername = New System.Windows.Forms.TextBox()
+        Me.txtMSSQLServer = New System.Windows.Forms.TextBox()
+        Me.lblMSSQLPassword = New System.Windows.Forms.Label()
+        Me.lblMSSQLUser = New System.Windows.Forms.Label()
+        Me.lblMSSQLServer = New System.Windows.Forms.Label()
+        Me.gbProxyServer = New System.Windows.Forms.GroupBox()
+        Me.gbProxyServerInfo = New System.Windows.Forms.GroupBox()
+        Me.chkProxyUseBasic = New System.Windows.Forms.CheckBox()
+        Me.lblProxyPassword = New System.Windows.Forms.Label()
+        Me.lblProxyUsername = New System.Windows.Forms.Label()
+        Me.txtProxyPassword = New System.Windows.Forms.TextBox()
+        Me.txtProxyUsername = New System.Windows.Forms.TextBox()
+        Me.radUseSpecifiedCreds = New System.Windows.Forms.RadioButton()
+        Me.lblProxyServer = New System.Windows.Forms.Label()
+        Me.txtProxyServer = New System.Windows.Forms.TextBox()
+        Me.radUseDefaultCreds = New System.Windows.Forms.RadioButton()
+        Me.chkUseProxy = New System.Windows.Forms.CheckBox()
+        Me.gbEveServer = New System.Windows.Forms.GroupBox()
+        Me.trackServerOffset = New DevComponents.DotNetBar.Controls.Slider()
+        Me.chkAutoMailAPI = New System.Windows.Forms.CheckBox()
+        Me.gbAPIServer = New System.Windows.Forms.GroupBox()
+        Me.txtAPIFileExtension = New System.Windows.Forms.TextBox()
+        Me.lblAPIFileExtension = New System.Windows.Forms.Label()
+        Me.chkUseCCPBackup = New System.Windows.Forms.CheckBox()
+        Me.chkUseAPIRSServer = New System.Windows.Forms.CheckBox()
+        Me.txtAPIRSServer = New System.Windows.Forms.TextBox()
+        Me.lblAPIRSServer = New System.Windows.Forms.Label()
+        Me.txtCCPAPIServer = New System.Windows.Forms.TextBox()
+        Me.lblCCPAPIServer = New System.Windows.Forms.Label()
+        Me.gbAPIRelayServer = New System.Windows.Forms.GroupBox()
+        Me.lblAPIRSStatus = New System.Windows.Forms.Label()
+        Me.chkAPIRSAutoStart = New System.Windows.Forms.CheckBox()
+        Me.nudAPIRSPort = New System.Windows.Forms.NumericUpDown()
+        Me.lblAPIRSPort = New System.Windows.Forms.Label()
+        Me.chkActivateAPIRS = New System.Windows.Forms.CheckBox()
+        Me.chkEnableEveStatus = New System.Windows.Forms.CheckBox()
+        Me.lblCurrentOffset = New System.Windows.Forms.Label()
+        Me.lblServerOffset = New System.Windows.Forms.Label()
+        Me.chkAutoAPI = New System.Windows.Forms.CheckBox()
+        Me.gbPlugIns = New System.Windows.Forms.GroupBox()
+        Me.btnTidyPlugins = New System.Windows.Forms.Button()
+        Me.btnRefreshPlugins = New System.Windows.Forms.Button()
+        Me.lblPlugInInfo = New System.Windows.Forms.Label()
+        Me.lblDetectedPlugIns = New System.Windows.Forms.Label()
+        Me.lvwPlugins = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colPlugInName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colStatus = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.gbNotifications = New System.Windows.Forms.GroupBox()
+        Me.nudAccountTimeLimit = New System.Windows.Forms.NumericUpDown()
+        Me.lblAccountTimeLimit = New System.Windows.Forms.Label()
+        Me.chkNotifyAccountTime = New System.Windows.Forms.CheckBox()
+        Me.sldNotifyOffset = New DevComponents.DotNetBar.Controls.Slider()
+        Me.chkIgnoreLastMessage = New System.Windows.Forms.CheckBox()
+        Me.chkNotifyNotification = New System.Windows.Forms.CheckBox()
+        Me.chkNotifyEveMail = New System.Windows.Forms.CheckBox()
+        Me.chkNotifyEarly = New System.Windows.Forms.CheckBox()
+        Me.chkNotifyNow = New System.Windows.Forms.CheckBox()
+        Me.lblNotifyMe = New System.Windows.Forms.Label()
+        Me.btnSoundTest = New System.Windows.Forms.Button()
+        Me.btnSelectSoundFile = New System.Windows.Forms.Button()
+        Me.lblSoundFile = New System.Windows.Forms.Label()
+        Me.chkNotifySound = New System.Windows.Forms.CheckBox()
+        Me.lblNotifyOffset = New System.Windows.Forms.Label()
+        Me.chkNotifyEmail = New System.Windows.Forms.CheckBox()
+        Me.chkNotifyDialog = New System.Windows.Forms.CheckBox()
+        Me.chkNotifyToolTip = New System.Windows.Forms.CheckBox()
+        Me.nudShutdownNotifyPeriod = New System.Windows.Forms.NumericUpDown()
+        Me.lblShutdownNotifyPeriod = New System.Windows.Forms.Label()
+        Me.chkShutdownNotify = New System.Windows.Forms.CheckBox()
+        Me.gbEmail = New System.Windows.Forms.GroupBox()
+        Me.chkUseSSL = New System.Windows.Forms.CheckBox()
+        Me.lblSenderAddress = New System.Windows.Forms.Label()
+        Me.txtSenderAddress = New System.Windows.Forms.TextBox()
+        Me.txtSMTPPort = New System.Windows.Forms.TextBox()
+        Me.lblSMTPPort = New System.Windows.Forms.Label()
+        Me.btnTestEmail = New System.Windows.Forms.Button()
+        Me.lblEmailPassword = New System.Windows.Forms.Label()
+        Me.txtEmailPassword = New System.Windows.Forms.TextBox()
+        Me.txtEmailUsername = New System.Windows.Forms.TextBox()
+        Me.lblEmailUsername = New System.Windows.Forms.Label()
+        Me.chkSMTPAuthentication = New System.Windows.Forms.CheckBox()
+        Me.lblEMailAddress = New System.Windows.Forms.Label()
+        Me.txtEmailAddress = New System.Windows.Forms.TextBox()
+        Me.txtSMTPServer = New System.Windows.Forms.TextBox()
+        Me.lblSMTPServer = New System.Windows.Forms.Label()
+        Me.btnClose = New System.Windows.Forms.Button()
+        Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ofd1 = New System.Windows.Forms.OpenFileDialog()
+        Me.tvwSettings = New System.Windows.Forms.TreeView()
+        Me.gbColours = New System.Windows.Forms.GroupBox()
+        Me.txtCSVSeparator = New System.Windows.Forms.TextBox()
+        Me.lblCSVSeparatorChar = New System.Windows.Forms.Label()
+        Me.chkDisableVisualStyles = New System.Windows.Forms.CheckBox()
+        Me.cd1 = New System.Windows.Forms.ColorDialog()
+        Me.gbG15 = New System.Windows.Forms.GroupBox()
+        Me.nudCycleTime = New System.Windows.Forms.NumericUpDown()
+        Me.lblCycleTime = New System.Windows.Forms.Label()
+        Me.chkCyclePilots = New System.Windows.Forms.CheckBox()
+        Me.chkActivateG15 = New System.Windows.Forms.CheckBox()
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuPriceAdd = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem
-        Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
-        Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
-        Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.gbDashboard = New System.Windows.Forms.GroupBox
-        Me.gbOtherDBOptions = New System.Windows.Forms.GroupBox
-        Me.cboTickerLocation = New System.Windows.Forms.ComboBox
-        Me.lblTickerLocation = New System.Windows.Forms.Label
-        Me.chkShowPriceTicker = New System.Windows.Forms.CheckBox
-        Me.dbDashboardConfig = New System.Windows.Forms.GroupBox
-        Me.lblWidgetTypes = New System.Windows.Forms.Label
-        Me.cboWidgets = New System.Windows.Forms.ComboBox
-        Me.btnAddWidget = New System.Windows.Forms.Button
-        Me.btnRemoveWidget = New System.Windows.Forms.Button
-        Me.lvWidgets = New System.Windows.Forms.ListView
-        Me.colWidgetType = New System.Windows.Forms.ColumnHeader
-        Me.colWidgetInfo = New System.Windows.Forms.ColumnHeader
-        Me.lblCurrentWidgets = New System.Windows.Forms.Label
-        Me.gbDashboardColours = New System.Windows.Forms.GroupBox
-        Me.pbWidgetHeader2 = New System.Windows.Forms.PictureBox
-        Me.lblWidgetHeader2 = New System.Windows.Forms.Label
-        Me.pbWidgetHeader1 = New System.Windows.Forms.PictureBox
-        Me.lblWidgetHeader1 = New System.Windows.Forms.Label
-        Me.pbWidgetBorder = New System.Windows.Forms.PictureBox
-        Me.lblWidgetBorder = New System.Windows.Forms.Label
-        Me.pbDBColor = New System.Windows.Forms.PictureBox
-        Me.lblDBColor = New System.Windows.Forms.Label
-        Me.btnResetDBColors = New System.Windows.Forms.Button
-        Me.pbWidgetMain2 = New System.Windows.Forms.PictureBox
-        Me.lblWidgetMain2 = New System.Windows.Forms.Label
-        Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
-        Me.lblWidgetMain1 = New System.Windows.Forms.Label
+        Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuPriceAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem()
+        Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox()
+        Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox()
+        Me.lblTaskbarIconMode = New System.Windows.Forms.Label()
+        Me.gbDashboard = New System.Windows.Forms.GroupBox()
+        Me.cboTickerLocation = New System.Windows.Forms.ComboBox()
+        Me.lblTickerLocation = New System.Windows.Forms.Label()
+        Me.dbDashboardConfig = New System.Windows.Forms.GroupBox()
+        Me.lblWidgetTypes = New System.Windows.Forms.Label()
+        Me.cboWidgets = New System.Windows.Forms.ComboBox()
+        Me.btnAddWidget = New System.Windows.Forms.Button()
+        Me.btnRemoveWidget = New System.Windows.Forms.Button()
+        Me.lvWidgets = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colWidgetType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colWidgetInfo = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lblCurrentWidgets = New System.Windows.Forms.Label()
+        Me.chkShowPriceTicker = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.panelSettings = New DevComponents.DotNetBar.PanelEx()
+        Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.STT = New DevComponents.DotNetBar.SuperTooltip()
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -327,10 +320,10 @@ Partial Public Class frmSettings
         CType(Me.pbPilotCurrent, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilotStandard, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbEveAccounts.SuspendLayout()
+        CType(Me.adtAccounts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbPilots.SuspendLayout()
         Me.gbIGB.SuspendLayout()
         CType(Me.nudIGBPort, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbFTPAccounts.SuspendLayout()
         Me.gbEveFolders.SuspendLayout()
         Me.gbLocation4.SuspendLayout()
         Me.gbLocation3.SuspendLayout()
@@ -353,10 +346,9 @@ Partial Public Class frmSettings
         Me.gbAPIServer.SuspendLayout()
         Me.gbAPIRelayServer.SuspendLayout()
         CType(Me.nudAPIRSPort, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.trackServerOffset, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbPlugIns.SuspendLayout()
         Me.gbNotifications.SuspendLayout()
-        CType(Me.trackNotifyOffset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudAccountTimeLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbEmail.SuspendLayout()
         Me.gbColours.SuspendLayout()
@@ -365,24 +357,15 @@ Partial Public Class frmSettings
         Me.ctxPrices.SuspendLayout()
         Me.gbTaskbarIcon.SuspendLayout()
         Me.gbDashboard.SuspendLayout()
-        Me.gbOtherDBOptions.SuspendLayout()
         Me.dbDashboardConfig.SuspendLayout()
-        Me.gbDashboardColours.SuspendLayout()
-        CType(Me.pbWidgetHeader2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbWidgetHeader1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbWidgetBorder, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.panelSettings.SuspendLayout()
+        Me.gpNav.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.chkDisableTrainingBar)
         Me.gbGeneral.Controls.Add(Me.chkDisableAutoConnections)
-        Me.gbGeneral.Controls.Add(Me.lblTrainingBarPosition)
-        Me.gbGeneral.Controls.Add(Me.cboTrainingBarPosition)
-        Me.gbGeneral.Controls.Add(Me.lblToolbarPosition)
-        Me.gbGeneral.Controls.Add(Me.cboToolbarPosition)
         Me.gbGeneral.Controls.Add(Me.lblMDITabPosition)
         Me.gbGeneral.Controls.Add(Me.cboMDITabPosition)
         Me.gbGeneral.Controls.Add(Me.txtErrorRepEmail)
@@ -393,9 +376,6 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.txtUpdateLocation)
         Me.gbGeneral.Controls.Add(Me.lblUpdateLocation)
         Me.gbGeneral.Controls.Add(Me.chkMinimiseOnExit)
-        Me.gbGeneral.Controls.Add(Me.lblMDITabStyle)
-        Me.gbGeneral.Controls.Add(Me.cboMDITabStyle)
-        Me.gbGeneral.Controls.Add(Me.chkEncryptSettings)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.Label3)
         Me.gbGeneral.Controls.Add(Me.cboStartupView)
@@ -403,68 +383,38 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(517, 184)
+        Me.gbGeneral.Location = New System.Drawing.Point(404, 440)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(113, 36)
+        Me.gbGeneral.Size = New System.Drawing.Size(245, 45)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
         '
+        'chkDisableTrainingBar
+        '
+        Me.chkDisableTrainingBar.AutoSize = True
+        Me.chkDisableTrainingBar.Location = New System.Drawing.Point(24, 149)
+        Me.chkDisableTrainingBar.Name = "chkDisableTrainingBar"
+        Me.chkDisableTrainingBar.Size = New System.Drawing.Size(121, 17)
+        Me.chkDisableTrainingBar.TabIndex = 52
+        Me.chkDisableTrainingBar.Text = "Disable Training Bar"
+        Me.chkDisableTrainingBar.UseVisualStyleBackColor = True
+        '
         'chkDisableAutoConnections
         '
         Me.chkDisableAutoConnections.AutoSize = True
-        Me.chkDisableAutoConnections.Location = New System.Drawing.Point(24, 149)
+        Me.chkDisableAutoConnections.Location = New System.Drawing.Point(24, 126)
         Me.chkDisableAutoConnections.Name = "chkDisableAutoConnections"
-        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(198, 17)
+        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(199, 17)
         Me.chkDisableAutoConnections.TabIndex = 51
         Me.chkDisableAutoConnections.Text = "Disable Automatic Web Connections"
         Me.chkDisableAutoConnections.UseVisualStyleBackColor = True
         '
-        'lblTrainingBarPosition
-        '
-        Me.lblTrainingBarPosition.AutoSize = True
-        Me.lblTrainingBarPosition.Location = New System.Drawing.Point(313, 170)
-        Me.lblTrainingBarPosition.Name = "lblTrainingBarPosition"
-        Me.lblTrainingBarPosition.Size = New System.Drawing.Size(89, 13)
-        Me.lblTrainingBarPosition.TabIndex = 50
-        Me.lblTrainingBarPosition.Text = "Training Position:"
-        '
-        'cboTrainingBarPosition
-        '
-        Me.cboTrainingBarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboTrainingBarPosition.FormattingEnabled = True
-        Me.cboTrainingBarPosition.Items.AddRange(New Object() {"Bottom", "Left", "None", "Right", "Top"})
-        Me.cboTrainingBarPosition.Location = New System.Drawing.Point(411, 167)
-        Me.cboTrainingBarPosition.Name = "cboTrainingBarPosition"
-        Me.cboTrainingBarPosition.Size = New System.Drawing.Size(161, 21)
-        Me.cboTrainingBarPosition.Sorted = True
-        Me.cboTrainingBarPosition.TabIndex = 49
-        '
-        'lblToolbarPosition
-        '
-        Me.lblToolbarPosition.AutoSize = True
-        Me.lblToolbarPosition.Location = New System.Drawing.Point(313, 143)
-        Me.lblToolbarPosition.Name = "lblToolbarPosition"
-        Me.lblToolbarPosition.Size = New System.Drawing.Size(87, 13)
-        Me.lblToolbarPosition.TabIndex = 48
-        Me.lblToolbarPosition.Text = "Toolbar Position:"
-        '
-        'cboToolbarPosition
-        '
-        Me.cboToolbarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboToolbarPosition.FormattingEnabled = True
-        Me.cboToolbarPosition.Items.AddRange(New Object() {"Bottom", "Left", "Right", "Top"})
-        Me.cboToolbarPosition.Location = New System.Drawing.Point(411, 140)
-        Me.cboToolbarPosition.Name = "cboToolbarPosition"
-        Me.cboToolbarPosition.Size = New System.Drawing.Size(161, 21)
-        Me.cboToolbarPosition.Sorted = True
-        Me.cboToolbarPosition.TabIndex = 47
-        '
         'lblMDITabPosition
         '
         Me.lblMDITabPosition.AutoSize = True
-        Me.lblMDITabPosition.Location = New System.Drawing.Point(313, 116)
+        Me.lblMDITabPosition.Location = New System.Drawing.Point(313, 89)
         Me.lblMDITabPosition.Name = "lblMDITabPosition"
         Me.lblMDITabPosition.Size = New System.Drawing.Size(91, 13)
         Me.lblMDITabPosition.TabIndex = 46
@@ -475,7 +425,7 @@ Partial Public Class frmSettings
         Me.cboMDITabPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboMDITabPosition.FormattingEnabled = True
         Me.cboMDITabPosition.Items.AddRange(New Object() {"Bottom", "Top"})
-        Me.cboMDITabPosition.Location = New System.Drawing.Point(411, 113)
+        Me.cboMDITabPosition.Location = New System.Drawing.Point(411, 86)
         Me.cboMDITabPosition.Name = "cboMDITabPosition"
         Me.cboMDITabPosition.Size = New System.Drawing.Size(161, 21)
         Me.cboMDITabPosition.Sorted = True
@@ -522,7 +472,7 @@ Partial Public Class frmSettings
         Me.chkErrorReporting.AutoSize = True
         Me.chkErrorReporting.Location = New System.Drawing.Point(24, 268)
         Me.chkErrorReporting.Name = "chkErrorReporting"
-        Me.chkErrorReporting.Size = New System.Drawing.Size(190, 17)
+        Me.chkErrorReporting.Size = New System.Drawing.Size(184, 17)
         Me.chkErrorReporting.TabIndex = 40
         Me.chkErrorReporting.Text = "Enable Integrated Error Reporting"
         Me.chkErrorReporting.UseVisualStyleBackColor = True
@@ -552,36 +502,6 @@ Partial Public Class frmSettings
         Me.chkMinimiseOnExit.TabIndex = 11
         Me.chkMinimiseOnExit.Text = "Minimise on Exit"
         Me.chkMinimiseOnExit.UseVisualStyleBackColor = True
-        '
-        'lblMDITabStyle
-        '
-        Me.lblMDITabStyle.AutoSize = True
-        Me.lblMDITabStyle.Location = New System.Drawing.Point(313, 89)
-        Me.lblMDITabStyle.Name = "lblMDITabStyle"
-        Me.lblMDITabStyle.Size = New System.Drawing.Size(78, 13)
-        Me.lblMDITabStyle.TabIndex = 10
-        Me.lblMDITabStyle.Text = "MDI Tab Style:"
-        '
-        'cboMDITabStyle
-        '
-        Me.cboMDITabStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboMDITabStyle.FormattingEnabled = True
-        Me.cboMDITabStyle.Items.AddRange(New Object() {"Flat Buttons", "Raised Buttons", "Tabs"})
-        Me.cboMDITabStyle.Location = New System.Drawing.Point(411, 86)
-        Me.cboMDITabStyle.Name = "cboMDITabStyle"
-        Me.cboMDITabStyle.Size = New System.Drawing.Size(161, 21)
-        Me.cboMDITabStyle.Sorted = True
-        Me.cboMDITabStyle.TabIndex = 9
-        '
-        'chkEncryptSettings
-        '
-        Me.chkEncryptSettings.AutoSize = True
-        Me.chkEncryptSettings.Location = New System.Drawing.Point(24, 126)
-        Me.chkEncryptSettings.Name = "chkEncryptSettings"
-        Me.chkEncryptSettings.Size = New System.Drawing.Size(124, 17)
-        Me.chkEncryptSettings.TabIndex = 8
-        Me.chkEncryptSettings.Text = "Encrypt Settings File"
-        Me.chkEncryptSettings.UseVisualStyleBackColor = True
         '
         'cboStartupPilot
         '
@@ -627,7 +547,7 @@ Partial Public Class frmSettings
         Me.chkAutoMinimise.AutoSize = True
         Me.chkAutoMinimise.Location = New System.Drawing.Point(24, 57)
         Me.chkAutoMinimise.Name = "chkAutoMinimise"
-        Me.chkAutoMinimise.Size = New System.Drawing.Size(164, 17)
+        Me.chkAutoMinimise.Size = New System.Drawing.Size(166, 17)
         Me.chkAutoMinimise.TabIndex = 1
         Me.chkAutoMinimise.Text = "Minimise When EveHQ Starts"
         Me.chkAutoMinimise.UseVisualStyleBackColor = True
@@ -637,7 +557,7 @@ Partial Public Class frmSettings
         Me.chkAutoRun.AutoSize = True
         Me.chkAutoRun.Location = New System.Drawing.Point(24, 103)
         Me.chkAutoRun.Name = "chkAutoRun"
-        Me.chkAutoRun.Size = New System.Drawing.Size(181, 17)
+        Me.chkAutoRun.Size = New System.Drawing.Size(183, 17)
         Me.chkAutoRun.TabIndex = 2
         Me.chkAutoRun.Text = "Run EveHQ on Windows Startup"
         Me.chkAutoRun.UseVisualStyleBackColor = True
@@ -647,7 +567,7 @@ Partial Public Class frmSettings
         Me.chkAutoHide.AutoSize = True
         Me.chkAutoHide.Location = New System.Drawing.Point(24, 34)
         Me.chkAutoHide.Name = "chkAutoHide"
-        Me.chkAutoHide.Size = New System.Drawing.Size(247, 17)
+        Me.chkAutoHide.Size = New System.Drawing.Size(249, 17)
         Me.chkAutoHide.TabIndex = 0
         Me.chkAutoHide.Text = "Hide EveHQ from the Taskbar when Minimising"
         Me.chkAutoHide.UseVisualStyleBackColor = True
@@ -842,93 +762,176 @@ Partial Public Class frmSettings
         'gbEveAccounts
         '
         Me.gbEveAccounts.BackColor = System.Drawing.Color.Transparent
+        Me.gbEveAccounts.Controls.Add(Me.adtAccounts)
+        Me.gbEveAccounts.Controls.Add(Me.btnDisableAccount)
+        Me.gbEveAccounts.Controls.Add(Me.btnCheckAPIKeys)
         Me.gbEveAccounts.Controls.Add(Me.btnGetData)
         Me.gbEveAccounts.Controls.Add(Me.btnDeleteAccount)
         Me.gbEveAccounts.Controls.Add(Me.btnEditAccount)
         Me.gbEveAccounts.Controls.Add(Me.btnAddAccount)
-        Me.gbEveAccounts.Controls.Add(Me.lvAccounts)
-        Me.gbEveAccounts.Location = New System.Drawing.Point(615, 104)
+        Me.gbEveAccounts.Location = New System.Drawing.Point(195, 12)
         Me.gbEveAccounts.Name = "gbEveAccounts"
-        Me.gbEveAccounts.Size = New System.Drawing.Size(132, 47)
+        Me.gbEveAccounts.Size = New System.Drawing.Size(697, 498)
         Me.gbEveAccounts.TabIndex = 16
         Me.gbEveAccounts.TabStop = False
         Me.gbEveAccounts.Text = "API Account Management"
         Me.gbEveAccounts.Visible = False
         '
+        'adtAccounts
+        '
+        Me.adtAccounts.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtAccounts.AllowDrop = True
+        Me.adtAccounts.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.adtAccounts.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtAccounts.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtAccounts.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtAccounts.Columns.Add(Me.colAccountName)
+        Me.adtAccounts.Columns.Add(Me.colAccountVersion)
+        Me.adtAccounts.Columns.Add(Me.colAccountUserID)
+        Me.adtAccounts.Columns.Add(Me.colAccountAccessType)
+        Me.adtAccounts.Columns.Add(Me.colAccountStatus)
+        Me.adtAccounts.ExpandWidth = 0
+        Me.adtAccounts.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtAccounts.Location = New System.Drawing.Point(12, 20)
+        Me.adtAccounts.Name = "adtAccounts"
+        Me.adtAccounts.NodesConnector = Me.NodeConnector1
+        Me.adtAccounts.NodeStyle = Me.ElementStyle1
+        Me.adtAccounts.PathSeparator = ";"
+        Me.adtAccounts.Size = New System.Drawing.Size(676, 431)
+        Me.adtAccounts.Styles.Add(Me.ElementStyle1)
+        Me.adtAccounts.TabIndex = 26
+        Me.adtAccounts.Text = "AdvTree1"
+        '
+        'colAccountName
+        '
+        Me.colAccountName.Name = "colAccountName"
+        Me.colAccountName.Text = "Account Name"
+        Me.colAccountName.Width.Absolute = 200
+        '
+        'colAccountVersion
+        '
+        Me.colAccountVersion.Name = "colAccountVersion"
+        Me.colAccountVersion.Text = "Key Version"
+        Me.colAccountVersion.Width.Absolute = 90
+        '
+        'colAccountUserID
+        '
+        Me.colAccountUserID.Name = "colAccountUserID"
+        Me.colAccountUserID.Text = "User / Key ID"
+        Me.colAccountUserID.Width.Absolute = 90
+        '
+        'colAccountAccessType
+        '
+        Me.colAccountAccessType.Name = "colAccountAccessType"
+        Me.colAccountAccessType.Text = "Access Type"
+        Me.colAccountAccessType.Width.Absolute = 90
+        '
+        'colAccountStatus
+        '
+        Me.colAccountStatus.Name = "colAccountStatus"
+        Me.colAccountStatus.Text = "Account Status"
+        Me.colAccountStatus.Width.Absolute = 90
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'btnDisableAccount
+        '
+        Me.btnDisableAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDisableAccount.Enabled = False
+        Me.btnDisableAccount.Location = New System.Drawing.Point(240, 457)
+        Me.btnDisableAccount.Name = "btnDisableAccount"
+        Me.btnDisableAccount.Size = New System.Drawing.Size(70, 35)
+        Me.btnDisableAccount.TabIndex = 25
+        Me.btnDisableAccount.Text = "Disable Account"
+        Me.ToolTip1.SetToolTip(Me.btnDisableAccount, "Removes an API account from EveHQ")
+        '
+        'btnCheckAPIKeys
+        '
+        Me.btnCheckAPIKeys.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCheckAPIKeys.Location = New System.Drawing.Point(356, 457)
+        Me.btnCheckAPIKeys.Name = "btnCheckAPIKeys"
+        Me.btnCheckAPIKeys.Size = New System.Drawing.Size(70, 35)
+        Me.btnCheckAPIKeys.TabIndex = 23
+        Me.btnCheckAPIKeys.Text = "Check API Keys"
+        Me.ToolTip1.SetToolTip(Me.btnCheckAPIKeys, "Checks the API Key types for ""Unknown"" keys")
+        '
         'btnGetData
         '
-        Me.btnGetData.Location = New System.Drawing.Point(403, 127)
+        Me.btnGetData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnGetData.Location = New System.Drawing.Point(618, 457)
         Me.btnGetData.Name = "btnGetData"
-        Me.btnGetData.Size = New System.Drawing.Size(90, 35)
+        Me.btnGetData.Size = New System.Drawing.Size(70, 35)
         Me.btnGetData.TabIndex = 22
-        Me.btnGetData.Text = "Retrieve Account Data"
+        Me.btnGetData.Text = "Retrieve API Data"
         Me.ToolTip1.SetToolTip(Me.btnGetData, "Retrieves API data for all listed accounts")
         '
         'btnDeleteAccount
         '
-        Me.btnDeleteAccount.Location = New System.Drawing.Point(403, 81)
+        Me.btnDeleteAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDeleteAccount.Location = New System.Drawing.Point(164, 457)
         Me.btnDeleteAccount.Name = "btnDeleteAccount"
-        Me.btnDeleteAccount.Size = New System.Drawing.Size(90, 25)
+        Me.btnDeleteAccount.Size = New System.Drawing.Size(70, 35)
         Me.btnDeleteAccount.TabIndex = 21
         Me.btnDeleteAccount.Text = "Delete Account"
         Me.ToolTip1.SetToolTip(Me.btnDeleteAccount, "Removes an API account from EveHQ")
         '
         'btnEditAccount
         '
-        Me.btnEditAccount.Location = New System.Drawing.Point(403, 50)
+        Me.btnEditAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnEditAccount.Location = New System.Drawing.Point(88, 457)
         Me.btnEditAccount.Name = "btnEditAccount"
-        Me.btnEditAccount.Size = New System.Drawing.Size(90, 25)
+        Me.btnEditAccount.Size = New System.Drawing.Size(70, 35)
         Me.btnEditAccount.TabIndex = 20
         Me.btnEditAccount.Text = "Edit Account"
         Me.ToolTip1.SetToolTip(Me.btnEditAccount, "Allows the API Key or friendly name of an account to be modified")
         '
         'btnAddAccount
         '
-        Me.btnAddAccount.Location = New System.Drawing.Point(403, 19)
+        Me.btnAddAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAddAccount.Location = New System.Drawing.Point(12, 457)
         Me.btnAddAccount.Name = "btnAddAccount"
-        Me.btnAddAccount.Size = New System.Drawing.Size(90, 25)
+        Me.btnAddAccount.Size = New System.Drawing.Size(70, 35)
         Me.btnAddAccount.TabIndex = 19
         Me.btnAddAccount.Text = "Add Account"
         Me.ToolTip1.SetToolTip(Me.btnAddAccount, "Adds a new API account to EveHQ")
         '
-        'lvAccounts
-        '
-        Me.lvAccounts.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lvAccounts.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
-        Me.lvAccounts.FullRowSelect = True
-        Me.lvAccounts.GridLines = True
-        Me.lvAccounts.Location = New System.Drawing.Point(12, 19)
-        Me.lvAccounts.Name = "lvAccounts"
-        Me.lvAccounts.Size = New System.Drawing.Size(383, 18)
-        Me.lvAccounts.TabIndex = 18
-        Me.lvAccounts.UseCompatibleStateImageBehavior = False
-        Me.lvAccounts.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Account Name"
-        Me.ColumnHeader1.Width = 200
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "User ID"
-        Me.ColumnHeader2.Width = 150
-        '
         'gbPilots
         '
         Me.gbPilots.BackColor = System.Drawing.Color.Transparent
+        Me.gbPilots.Controls.Add(Me.btnCreateBlankPilot)
         Me.gbPilots.Controls.Add(Me.btnAddPilotFromXML)
         Me.gbPilots.Controls.Add(Me.btnDeletePilot)
         Me.gbPilots.Controls.Add(Me.btnAddPilot)
         Me.gbPilots.Controls.Add(Me.lvwPilots)
-        Me.gbPilots.Location = New System.Drawing.Point(247, 372)
+        Me.gbPilots.Location = New System.Drawing.Point(211, 355)
         Me.gbPilots.Name = "gbPilots"
-        Me.gbPilots.Size = New System.Drawing.Size(115, 48)
+        Me.gbPilots.Size = New System.Drawing.Size(146, 100)
         Me.gbPilots.TabIndex = 17
         Me.gbPilots.TabStop = False
         Me.gbPilots.Text = "Pilot Management"
         Me.gbPilots.Visible = False
+        '
+        'btnCreateBlankPilot
+        '
+        Me.btnCreateBlankPilot.Location = New System.Drawing.Point(421, 81)
+        Me.btnCreateBlankPilot.Name = "btnCreateBlankPilot"
+        Me.btnCreateBlankPilot.Size = New System.Drawing.Size(120, 25)
+        Me.btnCreateBlankPilot.TabIndex = 23
+        Me.btnCreateBlankPilot.Text = "Create Blank Pilot"
         '
         'btnAddPilotFromXML
         '
@@ -940,7 +943,7 @@ Partial Public Class frmSettings
         '
         'btnDeletePilot
         '
-        Me.btnDeletePilot.Location = New System.Drawing.Point(421, 81)
+        Me.btnDeletePilot.Location = New System.Drawing.Point(421, 112)
         Me.btnDeletePilot.Name = "btnDeletePilot"
         Me.btnDeletePilot.Size = New System.Drawing.Size(120, 25)
         Me.btnDeletePilot.TabIndex = 21
@@ -958,14 +961,19 @@ Partial Public Class frmSettings
         '
         Me.lvwPilots.AllowColumnReorder = True
         Me.lvwPilots.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.lvwPilots.Border.Class = "ListViewBorder"
+        Me.lvwPilots.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwPilots.CheckBoxes = True
         Me.lvwPilots.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPilot, Me.colID, Me.colAccount})
         Me.lvwPilots.FullRowSelect = True
         Me.lvwPilots.GridLines = True
         Me.lvwPilots.Location = New System.Drawing.Point(12, 19)
         Me.lvwPilots.Name = "lvwPilots"
-        Me.lvwPilots.Size = New System.Drawing.Size(398, 23)
+        Me.lvwPilots.Size = New System.Drawing.Size(398, 75)
         Me.lvwPilots.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwPilots.TabIndex = 18
         Me.lvwPilots.UseCompatibleStateImageBehavior = False
@@ -988,30 +996,78 @@ Partial Public Class frmSettings
         '
         'gbIGB
         '
+        Me.gbIGB.Controls.Add(Me.Label4)
+        Me.gbIGB.Controls.Add(Me.clb_IGBAllowedDisplay)
+        Me.gbIGB.Controls.Add(Me.rb_IGBCfgAccessMode)
+        Me.gbIGB.Controls.Add(Me.rb_IGBFullAccessMode)
         Me.gbIGB.Controls.Add(Me.chkStartIGBonLoad)
         Me.gbIGB.Controls.Add(Me.nudIGBPort)
         Me.gbIGB.Controls.Add(Me.lblIGBPort)
-        Me.gbIGB.Location = New System.Drawing.Point(213, 244)
+        Me.gbIGB.Location = New System.Drawing.Point(735, 77)
         Me.gbIGB.Name = "gbIGB"
-        Me.gbIGB.Size = New System.Drawing.Size(81, 32)
+        Me.gbIGB.Size = New System.Drawing.Size(124, 32)
         Me.gbIGB.TabIndex = 19
         Me.gbIGB.TabStop = False
         Me.gbIGB.Text = "IGB Settings"
         Me.gbIGB.Visible = False
         '
+        'Label4
+        '
+        Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label4.Location = New System.Drawing.Point(26, 85)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(395, 41)
+        Me.Label4.TabIndex = 7
+        Me.Label4.Text = "The settings below are used while in Public Mode. If an item is checked, the data" & _
+    " will be available on the In-Game Browser. If it is not checked, then the item w" & _
+    "ill not be displayed."
+        '
+        'clb_IGBAllowedDisplay
+        '
+        Me.clb_IGBAllowedDisplay.CheckOnClick = True
+        Me.clb_IGBAllowedDisplay.FormattingEnabled = True
+        Me.clb_IGBAllowedDisplay.Location = New System.Drawing.Point(26, 129)
+        Me.clb_IGBAllowedDisplay.Name = "clb_IGBAllowedDisplay"
+        Me.clb_IGBAllowedDisplay.Size = New System.Drawing.Size(395, 340)
+        Me.clb_IGBAllowedDisplay.TabIndex = 5
+        '
+        'rb_IGBCfgAccessMode
+        '
+        Me.rb_IGBCfgAccessMode.AutoSize = True
+        Me.rb_IGBCfgAccessMode.Location = New System.Drawing.Point(185, 65)
+        Me.rb_IGBCfgAccessMode.Name = "rb_IGBCfgAccessMode"
+        Me.rb_IGBCfgAccessMode.Size = New System.Drawing.Size(239, 17)
+        Me.rb_IGBCfgAccessMode.TabIndex = 4
+        Me.rb_IGBCfgAccessMode.Text = "Run IGB in Public Configurable Access Mode"
+        Me.ToolTip1.SetToolTip(Me.rb_IGBCfgAccessMode, "Configurable Access Mode: Only The checked IGB items will be Available!")
+        Me.rb_IGBCfgAccessMode.UseVisualStyleBackColor = True
+        '
+        'rb_IGBFullAccessMode
+        '
+        Me.rb_IGBFullAccessMode.AutoSize = True
+        Me.rb_IGBFullAccessMode.Checked = True
+        Me.rb_IGBFullAccessMode.Location = New System.Drawing.Point(26, 65)
+        Me.rb_IGBFullAccessMode.Name = "rb_IGBFullAccessMode"
+        Me.rb_IGBFullAccessMode.Size = New System.Drawing.Size(165, 17)
+        Me.rb_IGBFullAccessMode.TabIndex = 3
+        Me.rb_IGBFullAccessMode.TabStop = True
+        Me.rb_IGBFullAccessMode.Text = "Run IGB In Full Access Mode"
+        Me.ToolTip1.SetToolTip(Me.rb_IGBFullAccessMode, "Full Access Mode - All Features Available in the IGB.")
+        Me.rb_IGBFullAccessMode.UseVisualStyleBackColor = True
+        '
         'chkStartIGBonLoad
         '
         Me.chkStartIGBonLoad.AutoSize = True
-        Me.chkStartIGBonLoad.Location = New System.Drawing.Point(29, 84)
+        Me.chkStartIGBonLoad.Location = New System.Drawing.Point(229, 28)
         Me.chkStartIGBonLoad.Name = "chkStartIGBonLoad"
-        Me.chkStartIGBonLoad.Size = New System.Drawing.Size(155, 17)
+        Me.chkStartIGBonLoad.Size = New System.Drawing.Size(157, 17)
         Me.chkStartIGBonLoad.TabIndex = 2
         Me.chkStartIGBonLoad.Text = "Run IGB on EveHQ Startup"
         Me.chkStartIGBonLoad.UseVisualStyleBackColor = True
         '
         'nudIGBPort
         '
-        Me.nudIGBPort.Location = New System.Drawing.Point(98, 42)
+        Me.nudIGBPort.Location = New System.Drawing.Point(98, 27)
         Me.nudIGBPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
         Me.nudIGBPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudIGBPort.Name = "nudIGBPort"
@@ -1022,83 +1078,11 @@ Partial Public Class frmSettings
         'lblIGBPort
         '
         Me.lblIGBPort.AutoSize = True
-        Me.lblIGBPort.Location = New System.Drawing.Point(26, 44)
+        Me.lblIGBPort.Location = New System.Drawing.Point(26, 29)
         Me.lblIGBPort.Name = "lblIGBPort"
         Me.lblIGBPort.Size = New System.Drawing.Size(51, 13)
         Me.lblIGBPort.TabIndex = 0
         Me.lblIGBPort.Text = "IGB Port:"
-        '
-        'gbFTPAccounts
-        '
-        Me.gbFTPAccounts.BackColor = System.Drawing.Color.Transparent
-        Me.gbFTPAccounts.Controls.Add(Me.btnTestUpload)
-        Me.gbFTPAccounts.Controls.Add(Me.btnDeleteFTP)
-        Me.gbFTPAccounts.Controls.Add(Me.btnEditFTP)
-        Me.gbFTPAccounts.Controls.Add(Me.btnAddFTP)
-        Me.gbFTPAccounts.Controls.Add(Me.lvwFTP)
-        Me.gbFTPAccounts.Location = New System.Drawing.Point(411, 295)
-        Me.gbFTPAccounts.Name = "gbFTPAccounts"
-        Me.gbFTPAccounts.Size = New System.Drawing.Size(97, 18)
-        Me.gbFTPAccounts.TabIndex = 17
-        Me.gbFTPAccounts.TabStop = False
-        Me.gbFTPAccounts.Text = "FTP Accounts"
-        Me.gbFTPAccounts.Visible = False
-        '
-        'btnTestUpload
-        '
-        Me.btnTestUpload.Location = New System.Drawing.Point(337, 249)
-        Me.btnTestUpload.Name = "btnTestUpload"
-        Me.btnTestUpload.Size = New System.Drawing.Size(75, 25)
-        Me.btnTestUpload.TabIndex = 22
-        Me.btnTestUpload.Text = "Test Upload"
-        Me.btnTestUpload.UseVisualStyleBackColor = True
-        Me.btnTestUpload.Visible = False
-        '
-        'btnDeleteFTP
-        '
-        Me.btnDeleteFTP.Location = New System.Drawing.Point(204, 249)
-        Me.btnDeleteFTP.Name = "btnDeleteFTP"
-        Me.btnDeleteFTP.Size = New System.Drawing.Size(90, 25)
-        Me.btnDeleteFTP.TabIndex = 21
-        Me.btnDeleteFTP.Text = "Delete Account"
-        '
-        'btnEditFTP
-        '
-        Me.btnEditFTP.Location = New System.Drawing.Point(108, 249)
-        Me.btnEditFTP.Name = "btnEditFTP"
-        Me.btnEditFTP.Size = New System.Drawing.Size(90, 25)
-        Me.btnEditFTP.TabIndex = 20
-        Me.btnEditFTP.Text = "Edit Account"
-        '
-        'btnAddFTP
-        '
-        Me.btnAddFTP.Location = New System.Drawing.Point(12, 249)
-        Me.btnAddFTP.Name = "btnAddFTP"
-        Me.btnAddFTP.Size = New System.Drawing.Size(90, 25)
-        Me.btnAddFTP.TabIndex = 19
-        Me.btnAddFTP.Text = "Add Account"
-        '
-        'lvwFTP
-        '
-        Me.lvwFTP.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.FTPName, Me.Server})
-        Me.lvwFTP.FullRowSelect = True
-        Me.lvwFTP.GridLines = True
-        Me.lvwFTP.Location = New System.Drawing.Point(12, 19)
-        Me.lvwFTP.Name = "lvwFTP"
-        Me.lvwFTP.Size = New System.Drawing.Size(400, 224)
-        Me.lvwFTP.TabIndex = 18
-        Me.lvwFTP.UseCompatibleStateImageBehavior = False
-        Me.lvwFTP.View = System.Windows.Forms.View.Details
-        '
-        'FTPName
-        '
-        Me.FTPName.Text = "FTP Name"
-        Me.FTPName.Width = 150
-        '
-        'Server
-        '
-        Me.Server.Text = "Server"
-        Me.Server.Width = 220
         '
         'gbEveFolders
         '
@@ -1106,9 +1090,9 @@ Partial Public Class frmSettings
         Me.gbEveFolders.Controls.Add(Me.gbLocation3)
         Me.gbEveFolders.Controls.Add(Me.gbLocation2)
         Me.gbEveFolders.Controls.Add(Me.gbLocation1)
-        Me.gbEveFolders.Location = New System.Drawing.Point(222, 206)
+        Me.gbEveFolders.Location = New System.Drawing.Point(335, 115)
         Me.gbEveFolders.Name = "gbEveFolders"
-        Me.gbEveFolders.Size = New System.Drawing.Size(117, 29)
+        Me.gbEveFolders.Size = New System.Drawing.Size(147, 36)
         Me.gbEveFolders.TabIndex = 3
         Me.gbEveFolders.TabStop = False
         Me.gbEveFolders.Text = "Eve Folders"
@@ -1117,7 +1101,7 @@ Partial Public Class frmSettings
         'gbLocation4
         '
         Me.gbLocation4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gbLocation4.Controls.Add(Me.lblFriendlyName4)
         Me.gbLocation4.Controls.Add(Me.txtFriendlyName4)
         Me.gbLocation4.Controls.Add(Me.lblCacheSize4)
@@ -1127,7 +1111,7 @@ Partial Public Class frmSettings
         Me.gbLocation4.Controls.Add(Me.btnClear4)
         Me.gbLocation4.Location = New System.Drawing.Point(6, 353)
         Me.gbLocation4.Name = "gbLocation4"
-        Me.gbLocation4.Size = New System.Drawing.Size(104, 100)
+        Me.gbLocation4.Size = New System.Drawing.Size(134, 100)
         Me.gbLocation4.TabIndex = 15
         Me.gbLocation4.TabStop = False
         Me.gbLocation4.Text = "Eve Location 4"
@@ -1136,7 +1120,7 @@ Partial Public Class frmSettings
         '
         Me.lblFriendlyName4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFriendlyName4.AutoSize = True
-        Me.lblFriendlyName4.Location = New System.Drawing.Point(-208, 72)
+        Me.lblFriendlyName4.Location = New System.Drawing.Point(-178, 72)
         Me.lblFriendlyName4.Name = "lblFriendlyName4"
         Me.lblFriendlyName4.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName4.TabIndex = 15
@@ -1145,7 +1129,7 @@ Partial Public Class frmSettings
         'txtFriendlyName4
         '
         Me.txtFriendlyName4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFriendlyName4.Location = New System.Drawing.Point(-125, 69)
+        Me.txtFriendlyName4.Location = New System.Drawing.Point(-95, 69)
         Me.txtFriendlyName4.Name = "txtFriendlyName4"
         Me.txtFriendlyName4.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName4.TabIndex = 14
@@ -1165,7 +1149,7 @@ Partial Public Class frmSettings
         Me.chkLUA4.AutoSize = True
         Me.chkLUA4.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA4.Name = "chkLUA4"
-        Me.chkLUA4.Size = New System.Drawing.Size(73, 17)
+        Me.chkLUA4.Size = New System.Drawing.Size(75, 17)
         Me.chkLUA4.TabIndex = 12
         Me.chkLUA4.Text = "/LUA Off?"
         Me.chkLUA4.UseVisualStyleBackColor = True
@@ -1173,19 +1157,19 @@ Partial Public Class frmSettings
         'lblEveDir4
         '
         Me.lblEveDir4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEveDir4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblEveDir4.Location = New System.Drawing.Point(6, 16)
         Me.lblEveDir4.Name = "lblEveDir4"
         Me.lblEveDir4.Padding = New System.Windows.Forms.Padding(2)
-        Me.lblEveDir4.Size = New System.Drawing.Size(19, 50)
+        Me.lblEveDir4.Size = New System.Drawing.Size(49, 50)
         Me.lblEveDir4.TabIndex = 9
         Me.lblEveDir4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnEveDir4
         '
         Me.btnEveDir4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnEveDir4.Location = New System.Drawing.Point(34, 16)
+        Me.btnEveDir4.Location = New System.Drawing.Point(64, 16)
         Me.btnEveDir4.Name = "btnEveDir4"
         Me.btnEveDir4.Size = New System.Drawing.Size(64, 22)
         Me.btnEveDir4.TabIndex = 10
@@ -1195,7 +1179,7 @@ Partial Public Class frmSettings
         'btnClear4
         '
         Me.btnClear4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClear4.Location = New System.Drawing.Point(34, 44)
+        Me.btnClear4.Location = New System.Drawing.Point(64, 44)
         Me.btnClear4.Name = "btnClear4"
         Me.btnClear4.Size = New System.Drawing.Size(64, 22)
         Me.btnClear4.TabIndex = 11
@@ -1205,7 +1189,7 @@ Partial Public Class frmSettings
         'gbLocation3
         '
         Me.gbLocation3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gbLocation3.Controls.Add(Me.lblFriendlyName3)
         Me.gbLocation3.Controls.Add(Me.txtFriendlyName3)
         Me.gbLocation3.Controls.Add(Me.lblCacheSize3)
@@ -1215,7 +1199,7 @@ Partial Public Class frmSettings
         Me.gbLocation3.Controls.Add(Me.btnClear3)
         Me.gbLocation3.Location = New System.Drawing.Point(6, 247)
         Me.gbLocation3.Name = "gbLocation3"
-        Me.gbLocation3.Size = New System.Drawing.Size(104, 100)
+        Me.gbLocation3.Size = New System.Drawing.Size(134, 100)
         Me.gbLocation3.TabIndex = 14
         Me.gbLocation3.TabStop = False
         Me.gbLocation3.Text = "Eve Location 3"
@@ -1224,7 +1208,7 @@ Partial Public Class frmSettings
         '
         Me.lblFriendlyName3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFriendlyName3.AutoSize = True
-        Me.lblFriendlyName3.Location = New System.Drawing.Point(-208, 72)
+        Me.lblFriendlyName3.Location = New System.Drawing.Point(-178, 72)
         Me.lblFriendlyName3.Name = "lblFriendlyName3"
         Me.lblFriendlyName3.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName3.TabIndex = 13
@@ -1233,7 +1217,7 @@ Partial Public Class frmSettings
         'txtFriendlyName3
         '
         Me.txtFriendlyName3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFriendlyName3.Location = New System.Drawing.Point(-125, 69)
+        Me.txtFriendlyName3.Location = New System.Drawing.Point(-95, 69)
         Me.txtFriendlyName3.Name = "txtFriendlyName3"
         Me.txtFriendlyName3.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName3.TabIndex = 12
@@ -1253,7 +1237,7 @@ Partial Public Class frmSettings
         Me.chkLUA3.AutoSize = True
         Me.chkLUA3.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA3.Name = "chkLUA3"
-        Me.chkLUA3.Size = New System.Drawing.Size(73, 17)
+        Me.chkLUA3.Size = New System.Drawing.Size(75, 17)
         Me.chkLUA3.TabIndex = 10
         Me.chkLUA3.Text = "/LUA Off?"
         Me.chkLUA3.UseVisualStyleBackColor = True
@@ -1261,19 +1245,19 @@ Partial Public Class frmSettings
         'lblEveDir3
         '
         Me.lblEveDir3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEveDir3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblEveDir3.Location = New System.Drawing.Point(6, 16)
         Me.lblEveDir3.Name = "lblEveDir3"
         Me.lblEveDir3.Padding = New System.Windows.Forms.Padding(2)
-        Me.lblEveDir3.Size = New System.Drawing.Size(19, 50)
+        Me.lblEveDir3.Size = New System.Drawing.Size(49, 50)
         Me.lblEveDir3.TabIndex = 6
         Me.lblEveDir3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnEveDir3
         '
         Me.btnEveDir3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnEveDir3.Location = New System.Drawing.Point(34, 16)
+        Me.btnEveDir3.Location = New System.Drawing.Point(64, 16)
         Me.btnEveDir3.Name = "btnEveDir3"
         Me.btnEveDir3.Size = New System.Drawing.Size(64, 22)
         Me.btnEveDir3.TabIndex = 8
@@ -1283,7 +1267,7 @@ Partial Public Class frmSettings
         'btnClear3
         '
         Me.btnClear3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClear3.Location = New System.Drawing.Point(34, 44)
+        Me.btnClear3.Location = New System.Drawing.Point(64, 44)
         Me.btnClear3.Name = "btnClear3"
         Me.btnClear3.Size = New System.Drawing.Size(64, 22)
         Me.btnClear3.TabIndex = 9
@@ -1293,7 +1277,7 @@ Partial Public Class frmSettings
         'gbLocation2
         '
         Me.gbLocation2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gbLocation2.Controls.Add(Me.lblFriendlyName2)
         Me.gbLocation2.Controls.Add(Me.txtFriendlyName2)
         Me.gbLocation2.Controls.Add(Me.lblCacheSize2)
@@ -1303,7 +1287,7 @@ Partial Public Class frmSettings
         Me.gbLocation2.Controls.Add(Me.btnClear2)
         Me.gbLocation2.Location = New System.Drawing.Point(6, 141)
         Me.gbLocation2.Name = "gbLocation2"
-        Me.gbLocation2.Size = New System.Drawing.Size(104, 100)
+        Me.gbLocation2.Size = New System.Drawing.Size(134, 100)
         Me.gbLocation2.TabIndex = 13
         Me.gbLocation2.TabStop = False
         Me.gbLocation2.Text = "Eve Location 2"
@@ -1312,7 +1296,7 @@ Partial Public Class frmSettings
         '
         Me.lblFriendlyName2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFriendlyName2.AutoSize = True
-        Me.lblFriendlyName2.Location = New System.Drawing.Point(-208, 72)
+        Me.lblFriendlyName2.Location = New System.Drawing.Point(-178, 72)
         Me.lblFriendlyName2.Name = "lblFriendlyName2"
         Me.lblFriendlyName2.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName2.TabIndex = 11
@@ -1321,7 +1305,7 @@ Partial Public Class frmSettings
         'txtFriendlyName2
         '
         Me.txtFriendlyName2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFriendlyName2.Location = New System.Drawing.Point(-125, 69)
+        Me.txtFriendlyName2.Location = New System.Drawing.Point(-95, 69)
         Me.txtFriendlyName2.Name = "txtFriendlyName2"
         Me.txtFriendlyName2.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName2.TabIndex = 10
@@ -1341,7 +1325,7 @@ Partial Public Class frmSettings
         Me.chkLUA2.AutoSize = True
         Me.chkLUA2.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA2.Name = "chkLUA2"
-        Me.chkLUA2.Size = New System.Drawing.Size(73, 17)
+        Me.chkLUA2.Size = New System.Drawing.Size(75, 17)
         Me.chkLUA2.TabIndex = 8
         Me.chkLUA2.Text = "/LUA Off?"
         Me.chkLUA2.UseVisualStyleBackColor = True
@@ -1349,19 +1333,19 @@ Partial Public Class frmSettings
         'lblEveDir2
         '
         Me.lblEveDir2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEveDir2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblEveDir2.Location = New System.Drawing.Point(6, 16)
         Me.lblEveDir2.Name = "lblEveDir2"
         Me.lblEveDir2.Padding = New System.Windows.Forms.Padding(2)
-        Me.lblEveDir2.Size = New System.Drawing.Size(19, 50)
+        Me.lblEveDir2.Size = New System.Drawing.Size(49, 50)
         Me.lblEveDir2.TabIndex = 3
         Me.lblEveDir2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnEveDir2
         '
         Me.btnEveDir2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnEveDir2.Location = New System.Drawing.Point(34, 16)
+        Me.btnEveDir2.Location = New System.Drawing.Point(64, 16)
         Me.btnEveDir2.Name = "btnEveDir2"
         Me.btnEveDir2.Size = New System.Drawing.Size(64, 22)
         Me.btnEveDir2.TabIndex = 6
@@ -1371,7 +1355,7 @@ Partial Public Class frmSettings
         'btnClear2
         '
         Me.btnClear2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClear2.Location = New System.Drawing.Point(34, 44)
+        Me.btnClear2.Location = New System.Drawing.Point(64, 44)
         Me.btnClear2.Name = "btnClear2"
         Me.btnClear2.Size = New System.Drawing.Size(64, 22)
         Me.btnClear2.TabIndex = 7
@@ -1381,7 +1365,7 @@ Partial Public Class frmSettings
         'gbLocation1
         '
         Me.gbLocation1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gbLocation1.Controls.Add(Me.lblFriendlyName1)
         Me.gbLocation1.Controls.Add(Me.txtFriendlyName1)
         Me.gbLocation1.Controls.Add(Me.lblCacheSize1)
@@ -1391,7 +1375,7 @@ Partial Public Class frmSettings
         Me.gbLocation1.Controls.Add(Me.btnClear1)
         Me.gbLocation1.Location = New System.Drawing.Point(6, 35)
         Me.gbLocation1.Name = "gbLocation1"
-        Me.gbLocation1.Size = New System.Drawing.Size(104, 100)
+        Me.gbLocation1.Size = New System.Drawing.Size(134, 100)
         Me.gbLocation1.TabIndex = 12
         Me.gbLocation1.TabStop = False
         Me.gbLocation1.Text = "Eve Location 1"
@@ -1400,7 +1384,7 @@ Partial Public Class frmSettings
         '
         Me.lblFriendlyName1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFriendlyName1.AutoSize = True
-        Me.lblFriendlyName1.Location = New System.Drawing.Point(-208, 72)
+        Me.lblFriendlyName1.Location = New System.Drawing.Point(-178, 72)
         Me.lblFriendlyName1.Name = "lblFriendlyName1"
         Me.lblFriendlyName1.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName1.TabIndex = 9
@@ -1409,7 +1393,7 @@ Partial Public Class frmSettings
         'txtFriendlyName1
         '
         Me.txtFriendlyName1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFriendlyName1.Location = New System.Drawing.Point(-125, 69)
+        Me.txtFriendlyName1.Location = New System.Drawing.Point(-95, 69)
         Me.txtFriendlyName1.Name = "txtFriendlyName1"
         Me.txtFriendlyName1.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName1.TabIndex = 8
@@ -1429,7 +1413,7 @@ Partial Public Class frmSettings
         Me.chkLUA1.AutoSize = True
         Me.chkLUA1.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA1.Name = "chkLUA1"
-        Me.chkLUA1.Size = New System.Drawing.Size(73, 17)
+        Me.chkLUA1.Size = New System.Drawing.Size(75, 17)
         Me.chkLUA1.TabIndex = 6
         Me.chkLUA1.Text = "/LUA Off?"
         Me.chkLUA1.UseVisualStyleBackColor = True
@@ -1437,19 +1421,19 @@ Partial Public Class frmSettings
         'lblEveDir1
         '
         Me.lblEveDir1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEveDir1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblEveDir1.Location = New System.Drawing.Point(6, 16)
         Me.lblEveDir1.Name = "lblEveDir1"
         Me.lblEveDir1.Padding = New System.Windows.Forms.Padding(2)
-        Me.lblEveDir1.Size = New System.Drawing.Size(19, 50)
+        Me.lblEveDir1.Size = New System.Drawing.Size(49, 50)
         Me.lblEveDir1.TabIndex = 0
         Me.lblEveDir1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnEveDir1
         '
         Me.btnEveDir1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnEveDir1.Location = New System.Drawing.Point(34, 16)
+        Me.btnEveDir1.Location = New System.Drawing.Point(64, 16)
         Me.btnEveDir1.Name = "btnEveDir1"
         Me.btnEveDir1.Size = New System.Drawing.Size(64, 22)
         Me.btnEveDir1.TabIndex = 4
@@ -1459,7 +1443,7 @@ Partial Public Class frmSettings
         'btnClear1
         '
         Me.btnClear1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClear1.Location = New System.Drawing.Point(34, 44)
+        Me.btnClear1.Location = New System.Drawing.Point(64, 44)
         Me.btnClear1.Name = "btnClear1"
         Me.btnClear1.Size = New System.Drawing.Size(64, 22)
         Me.btnClear1.TabIndex = 5
@@ -1468,6 +1452,7 @@ Partial Public Class frmSettings
         '
         'gbTrainingQueue
         '
+        Me.gbTrainingQueue.Controls.Add(Me.chkStartWithPrimaryQueue)
         Me.gbTrainingQueue.Controls.Add(Me.btnMoveDown)
         Me.gbTrainingQueue.Controls.Add(Me.btnMoveUp)
         Me.gbTrainingQueue.Controls.Add(Me.lvwColumns)
@@ -1487,13 +1472,23 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.lblIsPreReqColour)
         Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(695, 208)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(699, 307)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(113, 57)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(162, 52)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
         Me.gbTrainingQueue.Visible = False
+        '
+        'chkStartWithPrimaryQueue
+        '
+        Me.chkStartWithPrimaryQueue.AutoSize = True
+        Me.chkStartWithPrimaryQueue.Location = New System.Drawing.Point(287, 335)
+        Me.chkStartWithPrimaryQueue.Name = "chkStartWithPrimaryQueue"
+        Me.chkStartWithPrimaryQueue.Size = New System.Drawing.Size(286, 17)
+        Me.chkStartWithPrimaryQueue.TabIndex = 37
+        Me.chkStartWithPrimaryQueue.Text = "Always show Primary Queue when opening skill training"
+        Me.chkStartWithPrimaryQueue.UseVisualStyleBackColor = True
         '
         'btnMoveDown
         '
@@ -1515,10 +1510,14 @@ Partial Public Class frmSettings
         '
         'lvwColumns
         '
+        '
+        '
+        '
+        Me.lvwColumns.Border.Class = "ListViewBorder"
+        Me.lvwColumns.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwColumns.CheckBoxes = True
         Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQueueColumns})
         Me.lvwColumns.FullRowSelect = True
-        Me.lvwColumns.HideSelection = False
         Me.lvwColumns.Location = New System.Drawing.Point(6, 41)
         Me.lvwColumns.Name = "lvwColumns"
         Me.lvwColumns.Size = New System.Drawing.Size(222, 382)
@@ -1536,7 +1535,7 @@ Partial Public Class frmSettings
         Me.chkShowCompletedSkills.AutoSize = True
         Me.chkShowCompletedSkills.Location = New System.Drawing.Point(287, 312)
         Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
-        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(191, 17)
+        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(194, 17)
         Me.chkShowCompletedSkills.TabIndex = 33
         Me.chkShowCompletedSkills.Text = "Show completed skills in skill queue"
         Me.chkShowCompletedSkills.UseVisualStyleBackColor = True
@@ -1565,7 +1564,7 @@ Partial Public Class frmSettings
         Me.chkDeleteCompletedSkills.AutoSize = True
         Me.chkDeleteCompletedSkills.Location = New System.Drawing.Point(287, 289)
         Me.chkDeleteCompletedSkills.Name = "chkDeleteCompletedSkills"
-        Me.chkDeleteCompletedSkills.Size = New System.Drawing.Size(262, 17)
+        Me.chkDeleteCompletedSkills.Size = New System.Drawing.Size(258, 17)
         Me.chkDeleteCompletedSkills.TabIndex = 30
         Me.chkDeleteCompletedSkills.Text = "Automatically delete completed skills from queues"
         Me.chkDeleteCompletedSkills.UseVisualStyleBackColor = True
@@ -1692,9 +1691,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(449, 77)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(489, 155)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(113, 47)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(162, 47)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -1729,7 +1728,7 @@ Partial Public Class frmSettings
         '
         Me.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboFormat.FormattingEnabled = True
-        Me.cboFormat.Items.AddRange(New Object() {"Access Database (.MDB)", "MS SQL Server", "MS SQL 2005 Express"})
+        Me.cboFormat.Items.AddRange(New Object() {"MS SQL CE (.SDF)", "MS SQL Server"})
         Me.cboFormat.Location = New System.Drawing.Point(103, 45)
         Me.cboFormat.Name = "cboFormat"
         Me.cboFormat.Size = New System.Drawing.Size(309, 21)
@@ -1759,14 +1758,14 @@ Partial Public Class frmSettings
         Me.gbAccess.Size = New System.Drawing.Size(500, 250)
         Me.gbAccess.TabIndex = 37
         Me.gbAccess.TabStop = False
-        Me.gbAccess.Text = "Access (MDB) Options"
+        Me.gbAccess.Text = "MS SQL CE (SDF) Options"
         '
         'chkUseAppDirForDB
         '
         Me.chkUseAppDirForDB.AutoSize = True
         Me.chkUseAppDirForDB.Location = New System.Drawing.Point(99, 128)
         Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
-        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(248, 17)
+        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(247, 17)
         Me.chkUseAppDirForDB.TabIndex = 7
         Me.chkUseAppDirForDB.Text = "Use EveHQ Application Directory for Database"
         Me.chkUseAppDirForDB.UseVisualStyleBackColor = True
@@ -1881,7 +1880,7 @@ Partial Public Class frmSettings
         Me.radMSSQLDatabase.AutoSize = True
         Me.radMSSQLDatabase.Location = New System.Drawing.Point(105, 29)
         Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
-        Me.radMSSQLDatabase.Size = New System.Drawing.Size(44, 17)
+        Me.radMSSQLDatabase.Size = New System.Drawing.Size(46, 17)
         Me.radMSSQLDatabase.TabIndex = 7
         Me.radMSSQLDatabase.Text = "SQL"
         Me.radMSSQLDatabase.UseVisualStyleBackColor = True
@@ -1891,7 +1890,7 @@ Partial Public Class frmSettings
         Me.radMSSQLWindows.AutoSize = True
         Me.radMSSQLWindows.Location = New System.Drawing.Point(173, 29)
         Me.radMSSQLWindows.Name = "radMSSQLWindows"
-        Me.radMSSQLWindows.Size = New System.Drawing.Size(68, 17)
+        Me.radMSSQLWindows.Size = New System.Drawing.Size(69, 17)
         Me.radMSSQLWindows.TabIndex = 6
         Me.radMSSQLWindows.Text = "Windows"
         Me.radMSSQLWindows.UseVisualStyleBackColor = True
@@ -1949,9 +1948,9 @@ Partial Public Class frmSettings
         '
         Me.gbProxyServer.Controls.Add(Me.gbProxyServerInfo)
         Me.gbProxyServer.Controls.Add(Me.chkUseProxy)
-        Me.gbProxyServer.Location = New System.Drawing.Point(490, 335)
+        Me.gbProxyServer.Location = New System.Drawing.Point(253, 262)
         Me.gbProxyServer.Name = "gbProxyServer"
-        Me.gbProxyServer.Size = New System.Drawing.Size(90, 30)
+        Me.gbProxyServer.Size = New System.Drawing.Size(160, 45)
         Me.gbProxyServer.TabIndex = 2
         Me.gbProxyServer.TabStop = False
         Me.gbProxyServer.Text = "Proxy Server"
@@ -1959,6 +1958,7 @@ Partial Public Class frmSettings
         '
         'gbProxyServerInfo
         '
+        Me.gbProxyServerInfo.Controls.Add(Me.chkProxyUseBasic)
         Me.gbProxyServerInfo.Controls.Add(Me.lblProxyPassword)
         Me.gbProxyServerInfo.Controls.Add(Me.lblProxyUsername)
         Me.gbProxyServerInfo.Controls.Add(Me.txtProxyPassword)
@@ -1969,11 +1969,21 @@ Partial Public Class frmSettings
         Me.gbProxyServerInfo.Controls.Add(Me.radUseDefaultCreds)
         Me.gbProxyServerInfo.Location = New System.Drawing.Point(29, 68)
         Me.gbProxyServerInfo.Name = "gbProxyServerInfo"
-        Me.gbProxyServerInfo.Size = New System.Drawing.Size(349, 187)
+        Me.gbProxyServerInfo.Size = New System.Drawing.Size(349, 217)
         Me.gbProxyServerInfo.TabIndex = 1
         Me.gbProxyServerInfo.TabStop = False
         Me.gbProxyServerInfo.Text = "Proxy Server Information"
         Me.gbProxyServerInfo.Visible = False
+        '
+        'chkProxyUseBasic
+        '
+        Me.chkProxyUseBasic.AutoSize = True
+        Me.chkProxyUseBasic.Location = New System.Drawing.Point(27, 176)
+        Me.chkProxyUseBasic.Name = "chkProxyUseBasic"
+        Me.chkProxyUseBasic.Size = New System.Drawing.Size(145, 17)
+        Me.chkProxyUseBasic.TabIndex = 10
+        Me.chkProxyUseBasic.Text = "Use Basic Authentication"
+        Me.chkProxyUseBasic.UseVisualStyleBackColor = True
         '
         'lblProxyPassword
         '
@@ -2016,7 +2026,7 @@ Partial Public Class frmSettings
         Me.radUseSpecifiedCreds.AutoSize = True
         Me.radUseSpecifiedCreds.Location = New System.Drawing.Point(27, 93)
         Me.radUseSpecifiedCreds.Name = "radUseSpecifiedCreds"
-        Me.radUseSpecifiedCreds.Size = New System.Drawing.Size(170, 17)
+        Me.radUseSpecifiedCreds.Size = New System.Drawing.Size(167, 17)
         Me.radUseSpecifiedCreds.TabIndex = 5
         Me.radUseSpecifiedCreds.Text = "Use the Following Credentials:"
         Me.radUseSpecifiedCreds.UseVisualStyleBackColor = True
@@ -2043,7 +2053,7 @@ Partial Public Class frmSettings
         Me.radUseDefaultCreds.Checked = True
         Me.radUseDefaultCreds.Location = New System.Drawing.Point(27, 70)
         Me.radUseDefaultCreds.Name = "radUseDefaultCreds"
-        Me.radUseDefaultCreds.Size = New System.Drawing.Size(183, 17)
+        Me.radUseDefaultCreds.Size = New System.Drawing.Size(181, 17)
         Me.radUseDefaultCreds.TabIndex = 0
         Me.radUseDefaultCreds.TabStop = True
         Me.radUseDefaultCreds.Text = "Use Existing Network Credentials"
@@ -2054,35 +2064,52 @@ Partial Public Class frmSettings
         Me.chkUseProxy.AutoSize = True
         Me.chkUseProxy.Location = New System.Drawing.Point(29, 31)
         Me.chkUseProxy.Name = "chkUseProxy"
-        Me.chkUseProxy.Size = New System.Drawing.Size(110, 17)
+        Me.chkUseProxy.Size = New System.Drawing.Size(108, 17)
         Me.chkUseProxy.TabIndex = 0
         Me.chkUseProxy.Text = "Use Proxy Server"
         Me.chkUseProxy.UseVisualStyleBackColor = True
         '
         'gbEveServer
         '
+        Me.gbEveServer.Controls.Add(Me.trackServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoMailAPI)
         Me.gbEveServer.Controls.Add(Me.gbAPIServer)
         Me.gbEveServer.Controls.Add(Me.gbAPIRelayServer)
         Me.gbEveServer.Controls.Add(Me.chkEnableEveStatus)
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
-        Me.gbEveServer.Controls.Add(Me.trackServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbEveServer.Location = New System.Drawing.Point(213, 298)
+        Me.gbEveServer.Location = New System.Drawing.Point(678, 155)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(184, 47)
+        Me.gbEveServer.Size = New System.Drawing.Size(201, 50)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
         Me.gbEveServer.Visible = False
+        '
+        'trackServerOffset
+        '
+        '
+        '
+        '
+        Me.trackServerOffset.BackgroundStyle.Class = ""
+        Me.trackServerOffset.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.trackServerOffset.LabelVisible = False
+        Me.trackServerOffset.Location = New System.Drawing.Point(15, 81)
+        Me.trackServerOffset.Maximum = 600
+        Me.trackServerOffset.Minimum = -600
+        Me.trackServerOffset.Name = "trackServerOffset"
+        Me.trackServerOffset.Size = New System.Drawing.Size(659, 23)
+        Me.trackServerOffset.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.trackServerOffset.TabIndex = 22
+        Me.trackServerOffset.Value = 0
         '
         'chkAutoMailAPI
         '
         Me.chkAutoMailAPI.AutoSize = True
         Me.chkAutoMailAPI.Location = New System.Drawing.Point(18, 420)
         Me.chkAutoMailAPI.Name = "chkAutoMailAPI"
-        Me.chkAutoMailAPI.Size = New System.Drawing.Size(303, 17)
+        Me.chkAutoMailAPI.Size = New System.Drawing.Size(304, 17)
         Me.chkAutoMailAPI.TabIndex = 21
         Me.chkAutoMailAPI.Text = "Automatically Check for Mail and Notification XML Updates"
         Me.chkAutoMailAPI.UseVisualStyleBackColor = True
@@ -2125,7 +2152,7 @@ Partial Public Class frmSettings
         Me.chkUseCCPBackup.AutoSize = True
         Me.chkUseCCPBackup.Location = New System.Drawing.Point(152, 52)
         Me.chkUseCCPBackup.Name = "chkUseCCPBackup"
-        Me.chkUseCCPBackup.Size = New System.Drawing.Size(173, 17)
+        Me.chkUseCCPBackup.Size = New System.Drawing.Size(177, 17)
         Me.chkUseCCPBackup.TabIndex = 26
         Me.chkUseCCPBackup.Text = "Use CCP API Server as Backup"
         Me.chkUseCCPBackup.UseVisualStyleBackColor = True
@@ -2174,6 +2201,7 @@ Partial Public Class frmSettings
         '
         'gbAPIRelayServer
         '
+        Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSStatus)
         Me.gbAPIRelayServer.Controls.Add(Me.chkAPIRSAutoStart)
         Me.gbAPIRelayServer.Controls.Add(Me.nudAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSPort)
@@ -2185,12 +2213,21 @@ Partial Public Class frmSettings
         Me.gbAPIRelayServer.TabStop = False
         Me.gbAPIRelayServer.Text = "API Relay Server"
         '
+        'lblAPIRSStatus
+        '
+        Me.lblAPIRSStatus.AutoSize = True
+        Me.lblAPIRSStatus.Location = New System.Drawing.Point(12, 29)
+        Me.lblAPIRSStatus.Name = "lblAPIRSStatus"
+        Me.lblAPIRSStatus.Size = New System.Drawing.Size(174, 13)
+        Me.lblAPIRSStatus.TabIndex = 28
+        Me.lblAPIRSStatus.Text = "API Relay Server Status: Unknown"
+        '
         'chkAPIRSAutoStart
         '
         Me.chkAPIRSAutoStart.AutoSize = True
-        Me.chkAPIRSAutoStart.Location = New System.Drawing.Point(223, 30)
+        Me.chkAPIRSAutoStart.Location = New System.Drawing.Point(407, 55)
         Me.chkAPIRSAutoStart.Name = "chkAPIRSAutoStart"
-        Me.chkAPIRSAutoStart.Size = New System.Drawing.Size(184, 17)
+        Me.chkAPIRSAutoStart.Size = New System.Drawing.Size(182, 17)
         Me.chkAPIRSAutoStart.TabIndex = 5
         Me.chkAPIRSAutoStart.Text = "Run API Relay Server on Startup"
         Me.chkAPIRSAutoStart.UseVisualStyleBackColor = True
@@ -2217,9 +2254,9 @@ Partial Public Class frmSettings
         'chkActivateAPIRS
         '
         Me.chkActivateAPIRS.AutoSize = True
-        Me.chkActivateAPIRS.Location = New System.Drawing.Point(13, 30)
+        Me.chkActivateAPIRS.Location = New System.Drawing.Point(244, 55)
         Me.chkActivateAPIRS.Name = "chkActivateAPIRS"
-        Me.chkActivateAPIRS.Size = New System.Drawing.Size(151, 17)
+        Me.chkActivateAPIRS.Size = New System.Drawing.Size(149, 17)
         Me.chkActivateAPIRS.TabIndex = 0
         Me.chkActivateAPIRS.Text = "Activate API Relay Server"
         Me.chkActivateAPIRS.UseVisualStyleBackColor = True
@@ -2229,7 +2266,7 @@ Partial Public Class frmSettings
         Me.chkEnableEveStatus.AutoSize = True
         Me.chkEnableEveStatus.Location = New System.Drawing.Point(19, 31)
         Me.chkEnableEveStatus.Name = "chkEnableEveStatus"
-        Me.chkEnableEveStatus.Size = New System.Drawing.Size(127, 17)
+        Me.chkEnableEveStatus.Size = New System.Drawing.Size(126, 17)
         Me.chkEnableEveStatus.TabIndex = 13
         Me.chkEnableEveStatus.Text = "Enable Server Status"
         Me.chkEnableEveStatus.UseVisualStyleBackColor = True
@@ -2237,7 +2274,7 @@ Partial Public Class frmSettings
         'lblCurrentOffset
         '
         Me.lblCurrentOffset.AutoSize = True
-        Me.lblCurrentOffset.Location = New System.Drawing.Point(16, 118)
+        Me.lblCurrentOffset.Location = New System.Drawing.Point(16, 107)
         Me.lblCurrentOffset.Name = "lblCurrentOffset"
         Me.lblCurrentOffset.Size = New System.Drawing.Size(82, 13)
         Me.lblCurrentOffset.TabIndex = 12
@@ -2246,30 +2283,18 @@ Partial Public Class frmSettings
         'lblServerOffset
         '
         Me.lblServerOffset.AutoSize = True
-        Me.lblServerOffset.Location = New System.Drawing.Point(16, 54)
+        Me.lblServerOffset.Location = New System.Drawing.Point(16, 65)
         Me.lblServerOffset.Name = "lblServerOffset"
         Me.lblServerOffset.Size = New System.Drawing.Size(153, 13)
         Me.lblServerOffset.TabIndex = 11
         Me.lblServerOffset.Text = "Tranquiity Server Time Offset:"
-        '
-        'trackServerOffset
-        '
-        Me.trackServerOffset.BackColor = System.Drawing.SystemColors.Control
-        Me.trackServerOffset.Location = New System.Drawing.Point(19, 70)
-        Me.trackServerOffset.Maximum = 600
-        Me.trackServerOffset.Minimum = -600
-        Me.trackServerOffset.Name = "trackServerOffset"
-        Me.trackServerOffset.Size = New System.Drawing.Size(390, 45)
-        Me.trackServerOffset.TabIndex = 10
-        Me.trackServerOffset.TickFrequency = 30
-        Me.trackServerOffset.TickStyle = System.Windows.Forms.TickStyle.Both
         '
         'chkAutoAPI
         '
         Me.chkAutoAPI.AutoSize = True
         Me.chkAutoAPI.Location = New System.Drawing.Point(18, 397)
         Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(255, 17)
+        Me.chkAutoAPI.Size = New System.Drawing.Size(254, 17)
         Me.chkAutoAPI.TabIndex = 20
         Me.chkAutoAPI.Text = "Automatically Check for Character XML Updates"
         Me.chkAutoAPI.UseVisualStyleBackColor = True
@@ -2281,7 +2306,7 @@ Partial Public Class frmSettings
         Me.gbPlugIns.Controls.Add(Me.lblPlugInInfo)
         Me.gbPlugIns.Controls.Add(Me.lblDetectedPlugIns)
         Me.gbPlugIns.Controls.Add(Me.lvwPlugins)
-        Me.gbPlugIns.Location = New System.Drawing.Point(443, 235)
+        Me.gbPlugIns.Location = New System.Drawing.Point(389, 167)
         Me.gbPlugIns.Name = "gbPlugIns"
         Me.gbPlugIns.Size = New System.Drawing.Size(70, 26)
         Me.gbPlugIns.TabIndex = 18
@@ -2327,6 +2352,11 @@ Partial Public Class frmSettings
         '
         'lvwPlugins
         '
+        '
+        '
+        '
+        Me.lvwPlugins.Border.Class = "ListViewBorder"
+        Me.lvwPlugins.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwPlugins.CheckBoxes = True
         Me.lvwPlugins.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPlugInName, Me.colStatus})
         Me.lvwPlugins.GridLines = True
@@ -2349,6 +2379,11 @@ Partial Public Class frmSettings
         '
         'gbNotifications
         '
+        Me.gbNotifications.Controls.Add(Me.nudAccountTimeLimit)
+        Me.gbNotifications.Controls.Add(Me.lblAccountTimeLimit)
+        Me.gbNotifications.Controls.Add(Me.chkNotifyAccountTime)
+        Me.gbNotifications.Controls.Add(Me.sldNotifyOffset)
+        Me.gbNotifications.Controls.Add(Me.chkIgnoreLastMessage)
         Me.gbNotifications.Controls.Add(Me.chkNotifyNotification)
         Me.gbNotifications.Controls.Add(Me.chkNotifyEveMail)
         Me.gbNotifications.Controls.Add(Me.chkNotifyEarly)
@@ -2359,29 +2394,83 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.lblSoundFile)
         Me.gbNotifications.Controls.Add(Me.chkNotifySound)
         Me.gbNotifications.Controls.Add(Me.lblNotifyOffset)
-        Me.gbNotifications.Controls.Add(Me.trackNotifyOffset)
         Me.gbNotifications.Controls.Add(Me.chkNotifyEmail)
         Me.gbNotifications.Controls.Add(Me.chkNotifyDialog)
         Me.gbNotifications.Controls.Add(Me.chkNotifyToolTip)
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(661, 311)
+        Me.gbNotifications.Location = New System.Drawing.Point(218, 206)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(86, 47)
+        Me.gbNotifications.Size = New System.Drawing.Size(162, 34)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
         Me.gbNotifications.Visible = False
         '
+        'nudAccountTimeLimit
+        '
+        Me.nudAccountTimeLimit.Location = New System.Drawing.Point(219, 335)
+        Me.nudAccountTimeLimit.Maximum = New Decimal(New Integer() {32940, 0, 0, 0})
+        Me.nudAccountTimeLimit.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudAccountTimeLimit.Name = "nudAccountTimeLimit"
+        Me.nudAccountTimeLimit.Size = New System.Drawing.Size(68, 21)
+        Me.nudAccountTimeLimit.TabIndex = 27
+        Me.nudAccountTimeLimit.Value = New Decimal(New Integer() {168, 0, 0, 0})
+        '
+        'lblAccountTimeLimit
+        '
+        Me.lblAccountTimeLimit.AutoSize = True
+        Me.lblAccountTimeLimit.Location = New System.Drawing.Point(71, 337)
+        Me.lblAccountTimeLimit.Name = "lblAccountTimeLimit"
+        Me.lblAccountTimeLimit.Size = New System.Drawing.Size(136, 13)
+        Me.lblAccountTimeLimit.TabIndex = 26
+        Me.lblAccountTimeLimit.Text = "Notification Period (hours):"
+        '
+        'chkNotifyAccountTime
+        '
+        Me.chkNotifyAccountTime.AutoSize = True
+        Me.chkNotifyAccountTime.Location = New System.Drawing.Point(21, 311)
+        Me.chkNotifyAccountTime.Name = "chkNotifyAccountTime"
+        Me.chkNotifyAccountTime.Size = New System.Drawing.Size(236, 17)
+        Me.chkNotifyAccountTime.TabIndex = 25
+        Me.chkNotifyAccountTime.Text = "Show account time remaining in Training Bar"
+        Me.chkNotifyAccountTime.UseVisualStyleBackColor = True
+        '
+        'sldNotifyOffset
+        '
+        '
+        '
+        '
+        Me.sldNotifyOffset.BackgroundStyle.Class = ""
+        Me.sldNotifyOffset.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.sldNotifyOffset.LabelVisible = False
+        Me.sldNotifyOffset.Location = New System.Drawing.Point(21, 200)
+        Me.sldNotifyOffset.Maximum = 1800
+        Me.sldNotifyOffset.Name = "sldNotifyOffset"
+        Me.sldNotifyOffset.Size = New System.Drawing.Size(450, 23)
+        Me.sldNotifyOffset.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.sldNotifyOffset.TabIndex = 24
+        Me.sldNotifyOffset.Value = 0
+        '
+        'chkIgnoreLastMessage
+        '
+        Me.chkIgnoreLastMessage.AutoSize = True
+        Me.chkIgnoreLastMessage.Location = New System.Drawing.Point(21, 443)
+        Me.chkIgnoreLastMessage.Name = "chkIgnoreLastMessage"
+        Me.chkIgnoreLastMessage.Size = New System.Drawing.Size(159, 17)
+        Me.chkIgnoreLastMessage.TabIndex = 23
+        Me.chkIgnoreLastMessage.Text = "Ignore Last Server Message"
+        Me.chkIgnoreLastMessage.UseVisualStyleBackColor = True
+        '
         'chkNotifyNotification
         '
         Me.chkNotifyNotification.AutoSize = True
-        Me.chkNotifyNotification.Location = New System.Drawing.Point(231, 270)
+        Me.chkNotifyNotification.Location = New System.Drawing.Point(243, 270)
         Me.chkNotifyNotification.Name = "chkNotifyNotification"
-        Me.chkNotifyNotification.Size = New System.Drawing.Size(172, 17)
+        Me.chkNotifyNotification.Size = New System.Drawing.Size(257, 17)
         Me.chkNotifyNotification.TabIndex = 22
-        Me.chkNotifyNotification.Text = "Notify on New Eve Notification"
+        Me.chkNotifyNotification.Text = "Send E-Mail when new Eve Notification received"
         Me.chkNotifyNotification.UseVisualStyleBackColor = True
         '
         'chkNotifyEveMail
@@ -2389,9 +2478,9 @@ Partial Public Class frmSettings
         Me.chkNotifyEveMail.AutoSize = True
         Me.chkNotifyEveMail.Location = New System.Drawing.Point(21, 270)
         Me.chkNotifyEveMail.Name = "chkNotifyEveMail"
-        Me.chkNotifyEveMail.Size = New System.Drawing.Size(133, 17)
+        Me.chkNotifyEveMail.Size = New System.Drawing.Size(219, 17)
         Me.chkNotifyEveMail.TabIndex = 21
-        Me.chkNotifyEveMail.Text = "Notify on New EveMail"
+        Me.chkNotifyEveMail.Text = "Send E-mail when new EveMail received"
         Me.chkNotifyEveMail.UseVisualStyleBackColor = True
         '
         'chkNotifyEarly
@@ -2399,7 +2488,7 @@ Partial Public Class frmSettings
         Me.chkNotifyEarly.AutoSize = True
         Me.chkNotifyEarly.Location = New System.Drawing.Point(236, 153)
         Me.chkNotifyEarly.Name = "chkNotifyEarly"
-        Me.chkNotifyEarly.Size = New System.Drawing.Size(116, 17)
+        Me.chkNotifyEarly.Size = New System.Drawing.Size(115, 17)
         Me.chkNotifyEarly.TabIndex = 20
         Me.chkNotifyEarly.Text = "Before skill finishes"
         Me.chkNotifyEarly.UseVisualStyleBackColor = True
@@ -2409,7 +2498,7 @@ Partial Public Class frmSettings
         Me.chkNotifyNow.AutoSize = True
         Me.chkNotifyNow.Location = New System.Drawing.Point(98, 153)
         Me.chkNotifyNow.Name = "chkNotifyNow"
-        Me.chkNotifyNow.Size = New System.Drawing.Size(112, 17)
+        Me.chkNotifyNow.Size = New System.Drawing.Size(113, 17)
         Me.chkNotifyNow.TabIndex = 19
         Me.chkNotifyNow.Text = "When skill finishes"
         Me.chkNotifyNow.UseVisualStyleBackColor = True
@@ -2470,23 +2559,12 @@ Partial Public Class frmSettings
         Me.lblNotifyOffset.TabIndex = 13
         Me.lblNotifyOffset.Text = "Early Notification Offset:"
         '
-        'trackNotifyOffset
-        '
-        Me.trackNotifyOffset.BackColor = System.Drawing.SystemColors.Control
-        Me.trackNotifyOffset.Location = New System.Drawing.Point(21, 200)
-        Me.trackNotifyOffset.Maximum = 1800
-        Me.trackNotifyOffset.Name = "trackNotifyOffset"
-        Me.trackNotifyOffset.Size = New System.Drawing.Size(450, 45)
-        Me.trackNotifyOffset.TabIndex = 12
-        Me.trackNotifyOffset.TickFrequency = 30
-        Me.trackNotifyOffset.TickStyle = System.Windows.Forms.TickStyle.Both
-        '
         'chkNotifyEmail
         '
         Me.chkNotifyEmail.AutoSize = True
         Me.chkNotifyEmail.Location = New System.Drawing.Point(400, 89)
         Me.chkNotifyEmail.Name = "chkNotifyEmail"
-        Me.chkNotifyEmail.Size = New System.Drawing.Size(136, 17)
+        Me.chkNotifyEmail.Size = New System.Drawing.Size(137, 17)
         Me.chkNotifyEmail.TabIndex = 5
         Me.chkNotifyEmail.Text = "Send E-Mail Notifcation"
         Me.chkNotifyEmail.UseVisualStyleBackColor = True
@@ -2496,7 +2574,7 @@ Partial Public Class frmSettings
         Me.chkNotifyDialog.AutoSize = True
         Me.chkNotifyDialog.Location = New System.Drawing.Point(231, 89)
         Me.chkNotifyDialog.Name = "chkNotifyDialog"
-        Me.chkNotifyDialog.Size = New System.Drawing.Size(162, 17)
+        Me.chkNotifyDialog.Size = New System.Drawing.Size(163, 17)
         Me.chkNotifyDialog.TabIndex = 4
         Me.chkNotifyDialog.Text = "Show Dialog Box Notification"
         Me.chkNotifyDialog.UseVisualStyleBackColor = True
@@ -2506,7 +2584,7 @@ Partial Public Class frmSettings
         Me.chkNotifyToolTip.AutoSize = True
         Me.chkNotifyToolTip.Location = New System.Drawing.Point(21, 89)
         Me.chkNotifyToolTip.Name = "chkNotifyToolTip"
-        Me.chkNotifyToolTip.Size = New System.Drawing.Size(205, 17)
+        Me.chkNotifyToolTip.Size = New System.Drawing.Size(204, 17)
         Me.chkNotifyToolTip.TabIndex = 3
         Me.chkNotifyToolTip.Text = "Show System Tray Popup Notification"
         Me.chkNotifyToolTip.UseVisualStyleBackColor = True
@@ -2534,13 +2612,14 @@ Partial Public Class frmSettings
         Me.chkShutdownNotify.AutoSize = True
         Me.chkShutdownNotify.Location = New System.Drawing.Point(21, 30)
         Me.chkShutdownNotify.Name = "chkShutdownNotify"
-        Me.chkShutdownNotify.Size = New System.Drawing.Size(339, 17)
+        Me.chkShutdownNotify.Size = New System.Drawing.Size(334, 17)
         Me.chkShutdownNotify.TabIndex = 0
         Me.chkShutdownNotify.Text = "Notify of imminent completion of skill training on EveHQ shutdown"
         Me.chkShutdownNotify.UseVisualStyleBackColor = True
         '
         'gbEmail
         '
+        Me.gbEmail.Controls.Add(Me.chkUseSSL)
         Me.gbEmail.Controls.Add(Me.lblSenderAddress)
         Me.gbEmail.Controls.Add(Me.txtSenderAddress)
         Me.gbEmail.Controls.Add(Me.txtSMTPPort)
@@ -2555,13 +2634,23 @@ Partial Public Class frmSettings
         Me.gbEmail.Controls.Add(Me.txtEmailAddress)
         Me.gbEmail.Controls.Add(Me.txtSMTPServer)
         Me.gbEmail.Controls.Add(Me.lblSMTPServer)
-        Me.gbEmail.Location = New System.Drawing.Point(247, 88)
+        Me.gbEmail.Location = New System.Drawing.Point(716, 367)
         Me.gbEmail.Name = "gbEmail"
-        Me.gbEmail.Size = New System.Drawing.Size(145, 36)
+        Me.gbEmail.Size = New System.Drawing.Size(129, 35)
         Me.gbEmail.TabIndex = 6
         Me.gbEmail.TabStop = False
         Me.gbEmail.Text = "E-Mail Options"
         Me.gbEmail.Visible = False
+        '
+        'chkUseSSL
+        '
+        Me.chkUseSSL.AutoSize = True
+        Me.chkUseSSL.Location = New System.Drawing.Point(219, 54)
+        Me.chkUseSSL.Name = "chkUseSSL"
+        Me.chkUseSSL.Size = New System.Drawing.Size(68, 17)
+        Me.chkUseSSL.TabIndex = 14
+        Me.chkUseSSL.Text = "Use SSL"
+        Me.chkUseSSL.UseVisualStyleBackColor = True
         '
         'lblSenderAddress
         '
@@ -2619,6 +2708,7 @@ Partial Public Class frmSettings
         Me.txtEmailPassword.Enabled = False
         Me.txtEmailPassword.Location = New System.Drawing.Point(117, 323)
         Me.txtEmailPassword.Name = "txtEmailPassword"
+        Me.txtEmailPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtEmailPassword.Size = New System.Drawing.Size(250, 21)
         Me.txtEmailPassword.TabIndex = 7
         '
@@ -2645,7 +2735,7 @@ Partial Public Class frmSettings
         Me.chkSMTPAuthentication.AutoSize = True
         Me.chkSMTPAuthentication.Location = New System.Drawing.Point(21, 274)
         Me.chkSMTPAuthentication.Name = "chkSMTPAuthentication"
-        Me.chkSMTPAuthentication.Size = New System.Drawing.Size(146, 17)
+        Me.chkSMTPAuthentication.Size = New System.Drawing.Size(149, 17)
         Me.chkSMTPAuthentication.TabIndex = 4
         Me.chkSMTPAuthentication.Text = "Use SMTP Authentication"
         Me.chkSMTPAuthentication.UseVisualStyleBackColor = True
@@ -2685,7 +2775,7 @@ Partial Public Class frmSettings
         'btnClose
         '
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(12, 492)
+        Me.btnClose.Location = New System.Drawing.Point(3, 491)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 25)
         Me.btnClose.TabIndex = 26
@@ -2697,7 +2787,8 @@ Partial Public Class frmSettings
         '
         'tvwSettings
         '
-        Me.tvwSettings.Location = New System.Drawing.Point(12, 12)
+        Me.tvwSettings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tvwSettings.Location = New System.Drawing.Point(0, 0)
         Me.tvwSettings.Name = "tvwSettings"
         TreeNode1.Name = "nodeGeneral"
         TreeNode1.Text = "General"
@@ -2715,26 +2806,24 @@ Partial Public Class frmSettings
         TreeNode7.Text = "Eve Folders"
         TreeNode8.Name = "nodeEveServer"
         TreeNode8.Text = "Eve API & Server"
-        TreeNode9.Name = "nodeFTPAccounts"
-        TreeNode9.Text = "FTP Accounts"
-        TreeNode10.Name = "nodeG15"
-        TreeNode10.Text = "G15 Display"
-        TreeNode11.Name = "nodeIGB"
-        TreeNode11.Text = "IGB"
-        TreeNode12.Name = "nodeNotifications"
-        TreeNode12.Text = "Notifications"
-        TreeNode13.Name = "nodePilots"
-        TreeNode13.Text = "Pilots"
-        TreeNode14.Name = "nodePlugins"
-        TreeNode14.Text = "Plug Ins"
-        TreeNode15.Name = "nodeProxyServer"
-        TreeNode15.Text = "Proxy Server"
-        TreeNode16.Name = "nodeTaskBarIcon"
-        TreeNode16.Text = "Taskbar Icon"
-        TreeNode17.Name = "nodeTrainingQueue"
-        TreeNode17.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17})
-        Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
+        TreeNode9.Name = "nodeG15"
+        TreeNode9.Text = "G15 Display"
+        TreeNode10.Name = "nodeIGB"
+        TreeNode10.Text = "IGB"
+        TreeNode11.Name = "nodeNotifications"
+        TreeNode11.Text = "Notifications"
+        TreeNode12.Name = "nodePilots"
+        TreeNode12.Text = "Pilots"
+        TreeNode13.Name = "nodePlugins"
+        TreeNode13.Text = "Plug Ins"
+        TreeNode14.Name = "nodeProxyServer"
+        TreeNode14.Text = "Proxy Server"
+        TreeNode15.Name = "nodeTaskBarIcon"
+        TreeNode15.Text = "Taskbar Icon"
+        TreeNode16.Name = "nodeTrainingQueue"
+        TreeNode16.Text = "Training Queue"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
+        Me.tvwSettings.Size = New System.Drawing.Size(180, 463)
         Me.tvwSettings.TabIndex = 27
         '
         'gbColours
@@ -2743,7 +2832,7 @@ Partial Public Class frmSettings
         Me.gbColours.Controls.Add(Me.lblCSVSeparatorChar)
         Me.gbColours.Controls.Add(Me.chkDisableVisualStyles)
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbColours.Location = New System.Drawing.Point(398, 378)
+        Me.gbColours.Location = New System.Drawing.Point(381, 379)
         Me.gbColours.Name = "gbColours"
         Me.gbColours.Size = New System.Drawing.Size(131, 41)
         Me.gbColours.TabIndex = 28
@@ -2774,7 +2863,7 @@ Partial Public Class frmSettings
         Me.chkDisableVisualStyles.AutoSize = True
         Me.chkDisableVisualStyles.Location = New System.Drawing.Point(19, 305)
         Me.chkDisableVisualStyles.Name = "chkDisableVisualStyles"
-        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(122, 17)
+        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(123, 17)
         Me.chkDisableVisualStyles.TabIndex = 38
         Me.chkDisableVisualStyles.Text = "Disable Visual Styles"
         Me.chkDisableVisualStyles.UseVisualStyleBackColor = True
@@ -2785,7 +2874,7 @@ Partial Public Class frmSettings
         Me.gbG15.Controls.Add(Me.lblCycleTime)
         Me.gbG15.Controls.Add(Me.chkCyclePilots)
         Me.gbG15.Controls.Add(Me.chkActivateG15)
-        Me.gbG15.Location = New System.Drawing.Point(385, 183)
+        Me.gbG15.Location = New System.Drawing.Point(456, 227)
         Me.gbG15.Name = "gbG15"
         Me.gbG15.Size = New System.Drawing.Size(95, 37)
         Me.gbG15.TabIndex = 30
@@ -2870,7 +2959,7 @@ Partial Public Class frmSettings
         '
         Me.gbTaskbarIcon.Controls.Add(Me.cboTaskbarIconMode)
         Me.gbTaskbarIcon.Controls.Add(Me.lblTaskbarIconMode)
-        Me.gbTaskbarIcon.Location = New System.Drawing.Point(634, 414)
+        Me.gbTaskbarIcon.Location = New System.Drawing.Point(631, 256)
         Me.gbTaskbarIcon.Name = "gbTaskbarIcon"
         Me.gbTaskbarIcon.Size = New System.Drawing.Size(100, 39)
         Me.gbTaskbarIcon.TabIndex = 32
@@ -2899,35 +2988,24 @@ Partial Public Class frmSettings
         '
         'gbDashboard
         '
-        Me.gbDashboard.Controls.Add(Me.gbOtherDBOptions)
+        Me.gbDashboard.Controls.Add(Me.cboTickerLocation)
+        Me.gbDashboard.Controls.Add(Me.lblTickerLocation)
         Me.gbDashboard.Controls.Add(Me.dbDashboardConfig)
-        Me.gbDashboard.Controls.Add(Me.gbDashboardColours)
-        Me.gbDashboard.Location = New System.Drawing.Point(615, 33)
+        Me.gbDashboard.Controls.Add(Me.chkShowPriceTicker)
+        Me.gbDashboard.Location = New System.Drawing.Point(520, 90)
         Me.gbDashboard.Name = "gbDashboard"
-        Me.gbDashboard.Size = New System.Drawing.Size(96, 26)
+        Me.gbDashboard.Size = New System.Drawing.Size(131, 45)
         Me.gbDashboard.TabIndex = 33
         Me.gbDashboard.TabStop = False
         Me.gbDashboard.Text = "Dashboard"
         Me.gbDashboard.Visible = False
-        '
-        'gbOtherDBOptions
-        '
-        Me.gbOtherDBOptions.Controls.Add(Me.cboTickerLocation)
-        Me.gbOtherDBOptions.Controls.Add(Me.lblTickerLocation)
-        Me.gbOtherDBOptions.Controls.Add(Me.chkShowPriceTicker)
-        Me.gbOtherDBOptions.Location = New System.Drawing.Point(17, 259)
-        Me.gbOtherDBOptions.Name = "gbOtherDBOptions"
-        Me.gbOtherDBOptions.Size = New System.Drawing.Size(215, 229)
-        Me.gbOtherDBOptions.TabIndex = 40
-        Me.gbOtherDBOptions.TabStop = False
-        Me.gbOtherDBOptions.Text = "Other Dashboard Options"
         '
         'cboTickerLocation
         '
         Me.cboTickerLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTickerLocation.FormattingEnabled = True
         Me.cboTickerLocation.Items.AddRange(New Object() {"Top", "Bottom"})
-        Me.cboTickerLocation.Location = New System.Drawing.Point(111, 46)
+        Me.cboTickerLocation.Location = New System.Drawing.Point(242, 469)
         Me.cboTickerLocation.Name = "cboTickerLocation"
         Me.cboTickerLocation.Size = New System.Drawing.Size(83, 21)
         Me.cboTickerLocation.TabIndex = 2
@@ -2935,21 +3013,11 @@ Partial Public Class frmSettings
         'lblTickerLocation
         '
         Me.lblTickerLocation.AutoSize = True
-        Me.lblTickerLocation.Location = New System.Drawing.Point(23, 49)
+        Me.lblTickerLocation.Location = New System.Drawing.Point(154, 472)
         Me.lblTickerLocation.Name = "lblTickerLocation"
         Me.lblTickerLocation.Size = New System.Drawing.Size(82, 13)
         Me.lblTickerLocation.TabIndex = 1
         Me.lblTickerLocation.Text = "Ticker Location:"
-        '
-        'chkShowPriceTicker
-        '
-        Me.chkShowPriceTicker.AutoSize = True
-        Me.chkShowPriceTicker.Location = New System.Drawing.Point(20, 24)
-        Me.chkShowPriceTicker.Name = "chkShowPriceTicker"
-        Me.chkShowPriceTicker.Size = New System.Drawing.Size(109, 17)
-        Me.chkShowPriceTicker.TabIndex = 0
-        Me.chkShowPriceTicker.Text = "Show Price Ticker"
-        Me.chkShowPriceTicker.UseVisualStyleBackColor = True
         '
         'dbDashboardConfig
         '
@@ -2959,17 +3027,18 @@ Partial Public Class frmSettings
         Me.dbDashboardConfig.Controls.Add(Me.btnRemoveWidget)
         Me.dbDashboardConfig.Controls.Add(Me.lvWidgets)
         Me.dbDashboardConfig.Controls.Add(Me.lblCurrentWidgets)
-        Me.dbDashboardConfig.Location = New System.Drawing.Point(238, 27)
+        Me.dbDashboardConfig.Location = New System.Drawing.Point(13, 24)
         Me.dbDashboardConfig.Name = "dbDashboardConfig"
-        Me.dbDashboardConfig.Size = New System.Drawing.Size(449, 461)
+        Me.dbDashboardConfig.Size = New System.Drawing.Size(673, 428)
         Me.dbDashboardConfig.TabIndex = 39
         Me.dbDashboardConfig.TabStop = False
         Me.dbDashboardConfig.Text = "Dashboard Configuration"
         '
         'lblWidgetTypes
         '
+        Me.lblWidgetTypes.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblWidgetTypes.AutoSize = True
-        Me.lblWidgetTypes.Location = New System.Drawing.Point(14, 435)
+        Me.lblWidgetTypes.Location = New System.Drawing.Point(14, 402)
         Me.lblWidgetTypes.Name = "lblWidgetTypes"
         Me.lblWidgetTypes.Size = New System.Drawing.Size(77, 13)
         Me.lblWidgetTypes.TabIndex = 5
@@ -2977,10 +3046,10 @@ Partial Public Class frmSettings
         '
         'cboWidgets
         '
+        Me.cboWidgets.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cboWidgets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboWidgets.FormattingEnabled = True
-        Me.cboWidgets.Items.AddRange(New Object() {"Pilot Information", "Skill Queue Information"})
-        Me.cboWidgets.Location = New System.Drawing.Point(93, 432)
+        Me.cboWidgets.Location = New System.Drawing.Point(93, 399)
         Me.cboWidgets.Name = "cboWidgets"
         Me.cboWidgets.Size = New System.Drawing.Size(184, 21)
         Me.cboWidgets.Sorted = True
@@ -2988,7 +3057,8 @@ Partial Public Class frmSettings
         '
         'btnAddWidget
         '
-        Me.btnAddWidget.Location = New System.Drawing.Point(283, 430)
+        Me.btnAddWidget.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAddWidget.Location = New System.Drawing.Point(283, 397)
         Me.btnAddWidget.Name = "btnAddWidget"
         Me.btnAddWidget.Size = New System.Drawing.Size(75, 23)
         Me.btnAddWidget.TabIndex = 3
@@ -2997,7 +3067,8 @@ Partial Public Class frmSettings
         '
         'btnRemoveWidget
         '
-        Me.btnRemoveWidget.Location = New System.Drawing.Point(364, 430)
+        Me.btnRemoveWidget.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveWidget.Location = New System.Drawing.Point(364, 397)
         Me.btnRemoveWidget.Name = "btnRemoveWidget"
         Me.btnRemoveWidget.Size = New System.Drawing.Size(75, 23)
         Me.btnRemoveWidget.TabIndex = 2
@@ -3006,12 +3077,20 @@ Partial Public Class frmSettings
         '
         'lvWidgets
         '
+        Me.lvWidgets.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.lvWidgets.Border.Class = "ListViewBorder"
+        Me.lvWidgets.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvWidgets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colWidgetType, Me.colWidgetInfo})
         Me.lvWidgets.FullRowSelect = True
         Me.lvWidgets.GridLines = True
         Me.lvWidgets.Location = New System.Drawing.Point(11, 40)
         Me.lvWidgets.Name = "lvWidgets"
-        Me.lvWidgets.Size = New System.Drawing.Size(428, 386)
+        Me.lvWidgets.Size = New System.Drawing.Size(652, 353)
         Me.lvWidgets.TabIndex = 1
         Me.lvWidgets.UseCompatibleStateImageBehavior = False
         Me.lvWidgets.View = System.Windows.Forms.View.Details
@@ -3024,7 +3103,7 @@ Partial Public Class frmSettings
         'colWidgetInfo
         '
         Me.colWidgetInfo.Text = "Widget information"
-        Me.colWidgetInfo.Width = 300
+        Me.colWidgetInfo.Width = 500
         '
         'lblCurrentWidgets
         '
@@ -3035,175 +3114,108 @@ Partial Public Class frmSettings
         Me.lblCurrentWidgets.TabIndex = 0
         Me.lblCurrentWidgets.Text = "Current Widgets:"
         '
-        'gbDashboardColours
+        'chkShowPriceTicker
         '
-        Me.gbDashboardColours.Controls.Add(Me.pbWidgetHeader2)
-        Me.gbDashboardColours.Controls.Add(Me.lblWidgetHeader2)
-        Me.gbDashboardColours.Controls.Add(Me.pbWidgetHeader1)
-        Me.gbDashboardColours.Controls.Add(Me.lblWidgetHeader1)
-        Me.gbDashboardColours.Controls.Add(Me.pbWidgetBorder)
-        Me.gbDashboardColours.Controls.Add(Me.lblWidgetBorder)
-        Me.gbDashboardColours.Controls.Add(Me.pbDBColor)
-        Me.gbDashboardColours.Controls.Add(Me.lblDBColor)
-        Me.gbDashboardColours.Controls.Add(Me.btnResetDBColors)
-        Me.gbDashboardColours.Controls.Add(Me.pbWidgetMain2)
-        Me.gbDashboardColours.Controls.Add(Me.lblWidgetMain2)
-        Me.gbDashboardColours.Controls.Add(Me.pbWidgetMain1)
-        Me.gbDashboardColours.Controls.Add(Me.lblWidgetMain1)
-        Me.gbDashboardColours.Location = New System.Drawing.Point(17, 27)
-        Me.gbDashboardColours.Name = "gbDashboardColours"
-        Me.gbDashboardColours.Size = New System.Drawing.Size(215, 226)
-        Me.gbDashboardColours.TabIndex = 38
-        Me.gbDashboardColours.TabStop = False
-        Me.gbDashboardColours.Text = "Dashboard Colours"
+        Me.chkShowPriceTicker.AutoSize = True
+        Me.chkShowPriceTicker.Location = New System.Drawing.Point(13, 471)
+        Me.chkShowPriceTicker.Name = "chkShowPriceTicker"
+        Me.chkShowPriceTicker.Size = New System.Drawing.Size(113, 17)
+        Me.chkShowPriceTicker.TabIndex = 0
+        Me.chkShowPriceTicker.Text = "Show Price Ticker"
+        Me.chkShowPriceTicker.UseVisualStyleBackColor = True
         '
-        'pbWidgetHeader2
+        'panelSettings
         '
-        Me.pbWidgetHeader2.BackColor = System.Drawing.Color.LightGray
-        Me.pbWidgetHeader2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbWidgetHeader2.Location = New System.Drawing.Point(159, 96)
-        Me.pbWidgetHeader2.Name = "pbWidgetHeader2"
-        Me.pbWidgetHeader2.Size = New System.Drawing.Size(24, 24)
-        Me.pbWidgetHeader2.TabIndex = 60
-        Me.pbWidgetHeader2.TabStop = False
+        Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelSettings.Controls.Add(Me.gbEveAccounts)
+        Me.panelSettings.Controls.Add(Me.gbNotifications)
+        Me.panelSettings.Controls.Add(Me.gbDashboard)
+        Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
+        Me.panelSettings.Controls.Add(Me.gbEveServer)
+        Me.panelSettings.Controls.Add(Me.gbEveFolders)
+        Me.panelSettings.Controls.Add(Me.gbIGB)
+        Me.panelSettings.Controls.Add(Me.gbGeneral)
+        Me.panelSettings.Controls.Add(Me.gbProxyServer)
+        Me.panelSettings.Controls.Add(Me.gbEmail)
+        Me.panelSettings.Controls.Add(Me.gbPilots)
+        Me.panelSettings.Controls.Add(Me.gbTaskbarIcon)
+        Me.panelSettings.Controls.Add(Me.gbPlugIns)
+        Me.panelSettings.Controls.Add(Me.gpNav)
+        Me.panelSettings.Controls.Add(Me.btnClose)
+        Me.panelSettings.Controls.Add(Me.gbDatabaseFormat)
+        Me.panelSettings.Controls.Add(Me.gbG15)
+        Me.panelSettings.Controls.Add(Me.gbColours)
+        Me.panelSettings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelSettings.Location = New System.Drawing.Point(0, 0)
+        Me.panelSettings.Name = "panelSettings"
+        Me.panelSettings.Size = New System.Drawing.Size(904, 522)
+        Me.panelSettings.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelSettings.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelSettings.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelSettings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelSettings.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelSettings.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelSettings.Style.GradientAngle = 90
+        Me.panelSettings.TabIndex = 34
         '
-        'lblWidgetHeader2
+        'gpNav
         '
-        Me.lblWidgetHeader2.AutoSize = True
-        Me.lblWidgetHeader2.Location = New System.Drawing.Point(13, 99)
-        Me.lblWidgetHeader2.Name = "lblWidgetHeader2"
-        Me.lblWidgetHeader2.Size = New System.Drawing.Size(88, 13)
-        Me.lblWidgetHeader2.TabIndex = 59
-        Me.lblWidgetHeader2.Text = "Widget Header 2"
+        Me.gpNav.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpNav.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpNav.Controls.Add(Me.tvwSettings)
+        Me.gpNav.Location = New System.Drawing.Point(3, 3)
+        Me.gpNav.Name = "gpNav"
+        Me.gpNav.Size = New System.Drawing.Size(186, 485)
         '
-        'pbWidgetHeader1
         '
-        Me.pbWidgetHeader1.BackColor = System.Drawing.Color.DimGray
-        Me.pbWidgetHeader1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbWidgetHeader1.Location = New System.Drawing.Point(159, 72)
-        Me.pbWidgetHeader1.Name = "pbWidgetHeader1"
-        Me.pbWidgetHeader1.Size = New System.Drawing.Size(24, 24)
-        Me.pbWidgetHeader1.TabIndex = 58
-        Me.pbWidgetHeader1.TabStop = False
         '
-        'lblWidgetHeader1
+        Me.gpNav.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpNav.Style.BackColorGradientAngle = 90
+        Me.gpNav.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpNav.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpNav.Style.BorderBottomWidth = 1
+        Me.gpNav.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpNav.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpNav.Style.BorderLeftWidth = 1
+        Me.gpNav.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpNav.Style.BorderRightWidth = 1
+        Me.gpNav.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpNav.Style.BorderTopWidth = 1
+        Me.gpNav.Style.Class = ""
+        Me.gpNav.Style.CornerDiameter = 4
+        Me.gpNav.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpNav.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpNav.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpNav.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
         '
-        Me.lblWidgetHeader1.AutoSize = True
-        Me.lblWidgetHeader1.Location = New System.Drawing.Point(13, 75)
-        Me.lblWidgetHeader1.Name = "lblWidgetHeader1"
-        Me.lblWidgetHeader1.Size = New System.Drawing.Size(88, 13)
-        Me.lblWidgetHeader1.TabIndex = 57
-        Me.lblWidgetHeader1.Text = "Widget Header 1"
         '
-        'pbWidgetBorder
         '
-        Me.pbWidgetBorder.BackColor = System.Drawing.Color.Black
-        Me.pbWidgetBorder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbWidgetBorder.Location = New System.Drawing.Point(159, 48)
-        Me.pbWidgetBorder.Name = "pbWidgetBorder"
-        Me.pbWidgetBorder.Size = New System.Drawing.Size(24, 24)
-        Me.pbWidgetBorder.TabIndex = 56
-        Me.pbWidgetBorder.TabStop = False
+        Me.gpNav.StyleMouseDown.Class = ""
+        Me.gpNav.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
-        'lblWidgetBorder
         '
-        Me.lblWidgetBorder.AutoSize = True
-        Me.lblWidgetBorder.Location = New System.Drawing.Point(13, 51)
-        Me.lblWidgetBorder.Name = "lblWidgetBorder"
-        Me.lblWidgetBorder.Size = New System.Drawing.Size(76, 13)
-        Me.lblWidgetBorder.TabIndex = 55
-        Me.lblWidgetBorder.Text = "Widget Border"
         '
-        'pbDBColor
+        Me.gpNav.StyleMouseOver.Class = ""
+        Me.gpNav.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpNav.TabIndex = 34
+        Me.gpNav.Text = "Settings Navigation"
         '
-        Me.pbDBColor.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.pbDBColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbDBColor.Location = New System.Drawing.Point(159, 24)
-        Me.pbDBColor.Name = "pbDBColor"
-        Me.pbDBColor.Size = New System.Drawing.Size(24, 24)
-        Me.pbDBColor.TabIndex = 54
-        Me.pbDBColor.TabStop = False
+        'STT
         '
-        'lblDBColor
-        '
-        Me.lblDBColor.AutoSize = True
-        Me.lblDBColor.Location = New System.Drawing.Point(13, 27)
-        Me.lblDBColor.Name = "lblDBColor"
-        Me.lblDBColor.Size = New System.Drawing.Size(118, 13)
-        Me.lblDBColor.TabIndex = 53
-        Me.lblDBColor.Text = "Dashboard Background"
-        '
-        'btnResetDBColors
-        '
-        Me.btnResetDBColors.Location = New System.Drawing.Point(38, 190)
-        Me.btnResetDBColors.Name = "btnResetDBColors"
-        Me.btnResetDBColors.Size = New System.Drawing.Size(145, 23)
-        Me.btnResetDBColors.TabIndex = 52
-        Me.btnResetDBColors.Text = "Reset To Defaults"
-        Me.btnResetDBColors.UseVisualStyleBackColor = True
-        '
-        'pbWidgetMain2
-        '
-        Me.pbWidgetMain2.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.pbWidgetMain2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbWidgetMain2.Location = New System.Drawing.Point(159, 144)
-        Me.pbWidgetMain2.Name = "pbWidgetMain2"
-        Me.pbWidgetMain2.Size = New System.Drawing.Size(24, 24)
-        Me.pbWidgetMain2.TabIndex = 39
-        Me.pbWidgetMain2.TabStop = False
-        '
-        'lblWidgetMain2
-        '
-        Me.lblWidgetMain2.AutoSize = True
-        Me.lblWidgetMain2.Location = New System.Drawing.Point(13, 147)
-        Me.lblWidgetMain2.Name = "lblWidgetMain2"
-        Me.lblWidgetMain2.Size = New System.Drawing.Size(75, 13)
-        Me.lblWidgetMain2.TabIndex = 38
-        Me.lblWidgetMain2.Text = "Widget Main 2"
-        '
-        'pbWidgetMain1
-        '
-        Me.pbWidgetMain1.BackColor = System.Drawing.Color.White
-        Me.pbWidgetMain1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbWidgetMain1.Location = New System.Drawing.Point(159, 120)
-        Me.pbWidgetMain1.Name = "pbWidgetMain1"
-        Me.pbWidgetMain1.Size = New System.Drawing.Size(24, 24)
-        Me.pbWidgetMain1.TabIndex = 37
-        Me.pbWidgetMain1.TabStop = False
-        '
-        'lblWidgetMain1
-        '
-        Me.lblWidgetMain1.AutoSize = True
-        Me.lblWidgetMain1.Location = New System.Drawing.Point(13, 123)
-        Me.lblWidgetMain1.Name = "lblWidgetMain1"
-        Me.lblWidgetMain1.Size = New System.Drawing.Size(75, 13)
-        Me.lblWidgetMain1.TabIndex = 36
-        Me.lblWidgetMain1.Text = "Widget Main 1"
+        Me.STT.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.STT.MinimumTooltipSize = New System.Drawing.Size(300, 24)
+        Me.STT.PositionBelowControl = False
         '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbNotifications)
-        Me.Controls.Add(Me.gbEmail)
-        Me.Controls.Add(Me.gbEveServer)
-        Me.Controls.Add(Me.gbDashboard)
-        Me.Controls.Add(Me.gbDatabaseFormat)
-        Me.Controls.Add(Me.gbEveAccounts)
-        Me.Controls.Add(Me.gbTrainingQueue)
-        Me.Controls.Add(Me.gbGeneral)
-        Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbG15)
-        Me.Controls.Add(Me.gbTaskbarIcon)
-        Me.Controls.Add(Me.gbPilots)
-        Me.Controls.Add(Me.gbEveFolders)
-        Me.Controls.Add(Me.gbProxyServer)
-        Me.Controls.Add(Me.gbPlugIns)
-        Me.Controls.Add(Me.gbIGB)
-        Me.Controls.Add(Me.tvwSettings)
-        Me.Controls.Add(Me.btnClose)
-        Me.Controls.Add(Me.gbFTPAccounts)
+        Me.ClientSize = New System.Drawing.Size(904, 522)
+        Me.Controls.Add(Me.panelSettings)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -3211,7 +3223,7 @@ Partial Public Class frmSettings
         Me.MinimizeBox = False
         Me.Name = "frmSettings"
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "EveHQ Settings"
         Me.gbGeneral.ResumeLayout(False)
         Me.gbGeneral.PerformLayout()
@@ -3226,11 +3238,11 @@ Partial Public Class frmSettings
         CType(Me.pbPilotCurrent, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilotStandard, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbEveAccounts.ResumeLayout(False)
+        CType(Me.adtAccounts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbPilots.ResumeLayout(False)
         Me.gbIGB.ResumeLayout(False)
         Me.gbIGB.PerformLayout()
         CType(Me.nudIGBPort, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbFTPAccounts.ResumeLayout(False)
         Me.gbEveFolders.ResumeLayout(False)
         Me.gbLocation4.ResumeLayout(False)
         Me.gbLocation4.PerformLayout()
@@ -3266,12 +3278,11 @@ Partial Public Class frmSettings
         Me.gbAPIRelayServer.ResumeLayout(False)
         Me.gbAPIRelayServer.PerformLayout()
         CType(Me.nudAPIRSPort, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.trackServerOffset, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbPlugIns.ResumeLayout(False)
         Me.gbPlugIns.PerformLayout()
         Me.gbNotifications.ResumeLayout(False)
         Me.gbNotifications.PerformLayout()
-        CType(Me.trackNotifyOffset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudAccountTimeLimit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbEmail.ResumeLayout(False)
         Me.gbEmail.PerformLayout()
@@ -3284,18 +3295,11 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon.ResumeLayout(False)
         Me.gbTaskbarIcon.PerformLayout()
         Me.gbDashboard.ResumeLayout(False)
-        Me.gbOtherDBOptions.ResumeLayout(False)
-        Me.gbOtherDBOptions.PerformLayout()
+        Me.gbDashboard.PerformLayout()
         Me.dbDashboardConfig.ResumeLayout(False)
         Me.dbDashboardConfig.PerformLayout()
-        Me.gbDashboardColours.ResumeLayout(False)
-        Me.gbDashboardColours.PerformLayout()
-        CType(Me.pbWidgetHeader2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbWidgetHeader1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbWidgetBorder, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.panelSettings.ResumeLayout(False)
+        Me.gpNav.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -3303,25 +3307,15 @@ Partial Public Class frmSettings
     Friend WithEvents btnDeleteAccount As System.Windows.Forms.Button
     Friend WithEvents btnEditAccount As System.Windows.Forms.Button
     Friend WithEvents btnAddAccount As System.Windows.Forms.Button
-    Friend WithEvents lvAccounts As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents gbPilots As System.Windows.Forms.GroupBox
     Friend WithEvents btnDeletePilot As System.Windows.Forms.Button
     Friend WithEvents btnAddPilot As System.Windows.Forms.Button
-    Friend WithEvents lvwPilots As System.Windows.Forms.ListView
+    Friend WithEvents lvwPilots As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colPilot As System.Windows.Forms.ColumnHeader
     Friend WithEvents colAccount As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents colID As System.Windows.Forms.ColumnHeader
-    Friend WithEvents gbFTPAccounts As System.Windows.Forms.GroupBox
-    Friend WithEvents btnDeleteFTP As System.Windows.Forms.Button
-    Friend WithEvents btnEditFTP As System.Windows.Forms.Button
-    Friend WithEvents btnAddFTP As System.Windows.Forms.Button
-    Friend WithEvents lvwFTP As System.Windows.Forms.ListView
-    Friend WithEvents FTPName As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Server As System.Windows.Forms.ColumnHeader
-    Friend WithEvents btnTestUpload As System.Windows.Forms.Button
-    Friend WithEvents gbGeneral As System.Windows.Forms.GroupBox
+	Friend WithEvents gbGeneral As System.Windows.Forms.GroupBox
     Friend WithEvents chkAutoRun As System.Windows.Forms.CheckBox
     Friend WithEvents chkAutoHide As System.Windows.Forms.CheckBox
     Friend WithEvents chkAutoMinimise As System.Windows.Forms.CheckBox
@@ -3380,15 +3374,13 @@ Partial Public Class frmSettings
     Friend WithEvents lblProxyUsername As System.Windows.Forms.Label
     Friend WithEvents txtProxyPassword As System.Windows.Forms.TextBox
     Friend WithEvents txtProxyUsername As System.Windows.Forms.TextBox
-    Friend WithEvents chkEncryptSettings As System.Windows.Forms.CheckBox
     Friend WithEvents gbEveServer As System.Windows.Forms.GroupBox
     Friend WithEvents lblCurrentOffset As System.Windows.Forms.Label
     Friend WithEvents lblServerOffset As System.Windows.Forms.Label
-    Friend WithEvents trackServerOffset As System.Windows.Forms.TrackBar
     Friend WithEvents chkEnableEveStatus As System.Windows.Forms.CheckBox
     Friend WithEvents gbPlugIns As System.Windows.Forms.GroupBox
     Friend WithEvents lblDetectedPlugIns As System.Windows.Forms.Label
-    Friend WithEvents lvwPlugins As System.Windows.Forms.ListView
+    Friend WithEvents lvwPlugins As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colPlugInName As System.Windows.Forms.ColumnHeader
     Friend WithEvents colStatus As System.Windows.Forms.ColumnHeader
     Friend WithEvents gbIGB As System.Windows.Forms.GroupBox
@@ -3415,15 +3407,11 @@ Partial Public Class frmSettings
     Friend WithEvents lblEmailUsername As System.Windows.Forms.Label
     Friend WithEvents chkSMTPAuthentication As System.Windows.Forms.CheckBox
     Friend WithEvents lblNotifyOffset As System.Windows.Forms.Label
-    Friend WithEvents trackNotifyOffset As System.Windows.Forms.TrackBar
     Friend WithEvents btnTestEmail As System.Windows.Forms.Button
     Friend WithEvents tvwSettings As System.Windows.Forms.TreeView
     Friend WithEvents gbColours As System.Windows.Forms.GroupBox
     Friend WithEvents cd1 As System.Windows.Forms.ColorDialog
-    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnRefreshPlugins As System.Windows.Forms.Button
-    Friend WithEvents lblMDITabStyle As System.Windows.Forms.Label
-    Friend WithEvents cboMDITabStyle As System.Windows.Forms.ComboBox
     Friend WithEvents chkMinimiseOnExit As System.Windows.Forms.CheckBox
     Friend WithEvents pbBothPreReqColour As System.Windows.Forms.PictureBox
     Friend WithEvents lblBothPreReqColour As System.Windows.Forms.Label
@@ -3531,45 +3519,26 @@ Partial Public Class frmSettings
     Friend WithEvents chkShowCompletedSkills As System.Windows.Forms.CheckBox
     Friend WithEvents lblMDITabPosition As System.Windows.Forms.Label
     Friend WithEvents cboMDITabPosition As System.Windows.Forms.ComboBox
-    Friend WithEvents lblTrainingBarPosition As System.Windows.Forms.Label
-    Friend WithEvents cboTrainingBarPosition As System.Windows.Forms.ComboBox
-    Friend WithEvents lblToolbarPosition As System.Windows.Forms.Label
-    Friend WithEvents cboToolbarPosition As System.Windows.Forms.ComboBox
     Friend WithEvents chkDisableAutoConnections As System.Windows.Forms.CheckBox
     Friend WithEvents chkDisableVisualStyles As System.Windows.Forms.CheckBox
     Friend WithEvents lblCSVSeparatorChar As System.Windows.Forms.Label
     Friend WithEvents txtCSVSeparator As System.Windows.Forms.TextBox
     Friend WithEvents gbDashboard As System.Windows.Forms.GroupBox
-    Friend WithEvents gbDashboardColours As System.Windows.Forms.GroupBox
-    Friend WithEvents pbWidgetHeader2 As System.Windows.Forms.PictureBox
-    Friend WithEvents lblWidgetHeader2 As System.Windows.Forms.Label
-    Friend WithEvents pbWidgetHeader1 As System.Windows.Forms.PictureBox
-    Friend WithEvents lblWidgetHeader1 As System.Windows.Forms.Label
-    Friend WithEvents pbWidgetBorder As System.Windows.Forms.PictureBox
-    Friend WithEvents lblWidgetBorder As System.Windows.Forms.Label
-    Friend WithEvents pbDBColor As System.Windows.Forms.PictureBox
-    Friend WithEvents lblDBColor As System.Windows.Forms.Label
-    Friend WithEvents btnResetDBColors As System.Windows.Forms.Button
-    Friend WithEvents pbWidgetMain2 As System.Windows.Forms.PictureBox
-    Friend WithEvents lblWidgetMain2 As System.Windows.Forms.Label
-    Friend WithEvents pbWidgetMain1 As System.Windows.Forms.PictureBox
-    Friend WithEvents lblWidgetMain1 As System.Windows.Forms.Label
     Friend WithEvents dbDashboardConfig As System.Windows.Forms.GroupBox
     Friend WithEvents btnRemoveWidget As System.Windows.Forms.Button
-    Friend WithEvents lvWidgets As System.Windows.Forms.ListView
+    Friend WithEvents lvWidgets As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colWidgetType As System.Windows.Forms.ColumnHeader
     Friend WithEvents colWidgetInfo As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblCurrentWidgets As System.Windows.Forms.Label
     Friend WithEvents lblWidgetTypes As System.Windows.Forms.Label
     Friend WithEvents cboWidgets As System.Windows.Forms.ComboBox
     Friend WithEvents btnAddWidget As System.Windows.Forms.Button
-    Friend WithEvents gbOtherDBOptions As System.Windows.Forms.GroupBox
     Friend WithEvents cboTickerLocation As System.Windows.Forms.ComboBox
     Friend WithEvents lblTickerLocation As System.Windows.Forms.Label
     Friend WithEvents chkShowPriceTicker As System.Windows.Forms.CheckBox
     Friend WithEvents btnMoveDown As System.Windows.Forms.Button
     Friend WithEvents btnMoveUp As System.Windows.Forms.Button
-    Friend WithEvents lvwColumns As System.Windows.Forms.ListView
+    Friend WithEvents lvwColumns As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colQueueColumns As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblSenderAddress As System.Windows.Forms.Label
     Friend WithEvents txtSenderAddress As System.Windows.Forms.TextBox
@@ -3577,4 +3546,33 @@ Partial Public Class frmSettings
     Friend WithEvents chkAutoMailAPI As System.Windows.Forms.CheckBox
     Friend WithEvents chkNotifyNotification As System.Windows.Forms.CheckBox
     Friend WithEvents chkNotifyEveMail As System.Windows.Forms.CheckBox
+    Friend WithEvents panelSettings As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents gpNav As DevComponents.DotNetBar.Controls.GroupPanel
+    Friend WithEvents btnCreateBlankPilot As System.Windows.Forms.Button
+    Friend WithEvents lblAPIRSStatus As System.Windows.Forms.Label
+    Friend WithEvents chkUseSSL As System.Windows.Forms.CheckBox
+    Friend WithEvents chkProxyUseBasic As System.Windows.Forms.CheckBox
+    Friend WithEvents chkDisableTrainingBar As System.Windows.Forms.CheckBox
+    Friend WithEvents rb_IGBCfgAccessMode As System.Windows.Forms.RadioButton
+    Friend WithEvents rb_IGBFullAccessMode As System.Windows.Forms.RadioButton
+    Friend WithEvents clb_IGBAllowedDisplay As System.Windows.Forms.CheckedListBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents chkIgnoreLastMessage As System.Windows.Forms.CheckBox
+    Friend WithEvents trackServerOffset As DevComponents.DotNetBar.Controls.Slider
+    Friend WithEvents sldNotifyOffset As DevComponents.DotNetBar.Controls.Slider
+    Friend WithEvents btnCheckAPIKeys As System.Windows.Forms.Button
+    Friend WithEvents chkStartWithPrimaryQueue As System.Windows.Forms.CheckBox
+    Friend WithEvents nudAccountTimeLimit As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblAccountTimeLimit As System.Windows.Forms.Label
+    Friend WithEvents chkNotifyAccountTime As System.Windows.Forms.CheckBox
+    Friend WithEvents btnDisableAccount As System.Windows.Forms.Button
+    Friend WithEvents STT As DevComponents.DotNetBar.SuperTooltip
+    Friend WithEvents adtAccounts As DevComponents.AdvTree.AdvTree
+    Friend WithEvents colAccountName As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colAccountVersion As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colAccountUserID As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colAccountAccessType As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colAccountStatus As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
 End Class

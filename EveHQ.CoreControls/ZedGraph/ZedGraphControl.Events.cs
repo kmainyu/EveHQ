@@ -28,6 +28,7 @@ namespace ZedGraph
 	partial class ZedGraphControl
 	{
 
+        private string LastTT = "";
 	#region Events
 
 		/// <summary>
@@ -686,10 +687,13 @@ namespace ZedGraph
 						if ( this.PointValueEvent != null )
 						{
 							string label = this.PointValueEvent( this, pane, curve, iPt );
-							if ( label != null && label.Length > 0 )
+							if ( label != null && label.Length > 0)
 							{
-								this.pointToolTip.SetToolTip( this, label );
-								this.pointToolTip.Active = true;
+                                if (!label.Equals(LastTT))
+    								this.pointToolTip.SetToolTip( this, label );
+	
+                                this.pointToolTip.Active = true;
+                                LastTT = label;
 							}
 							else
 								this.pointToolTip.Active = false;

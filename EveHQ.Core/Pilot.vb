@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -90,7 +90,8 @@ Imports System.Xml
     Public Updated As Boolean = False
     Public LastUpdate As String = ""
     Public Active As Boolean = True
-    Public KeySkills(51) As String
+    Public KeySkills(53) As String
+    Public Standings As New SortedList(Of Long, PilotStanding)
     Public CorpRoles As New List(Of CorporationRoles)
     Public Enum KeySkill
         Mining = 1
@@ -144,7 +145,9 @@ Imports System.Xml
         Tycoon = 49
         Visibility = 50
         Wholesale = 51
-    End Enum
+        Diplomacy = 52
+        Connections = 53
+	End Enum
 End Class
 
 Public Enum CorporationRoles As Long
@@ -228,3 +231,39 @@ End Class
     Public StartTime As DateTime
     Public EndTime As DateTime
 End Class
+
+Public Class PilotSortTrainingTime
+    Public cName As String
+    Public cTrainingEndTime As Date
+    Public Property Name() As String
+        Get
+            Return cName
+        End Get
+        Set(ByVal value As String)
+            cName = value
+        End Set
+    End Property
+    Public Property TrainingEndTime() As Date
+        Get
+            Return cTrainingEndTime
+        End Get
+        Set(ByVal value As Date)
+            cTrainingEndTime = value
+        End Set
+    End Property
+End Class
+
+<Serializable()> Public Class PilotStanding
+    Public Type As StandingType
+    Public ID As Long ' Key for Standings
+    Public Name As String
+    Public Standing As Double
+End Class
+
+Public Enum StandingType
+    Unknown = -1
+    Agent = 0
+    Faction = 1
+    NPCCorporation = 2
+    PlayerCorp = 3
+End Enum

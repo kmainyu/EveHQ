@@ -31,15 +31,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopulateTowersFromAPI));
             this.label1 = new System.Windows.Forms.Label();
             this.clb_TowerListing = new System.Windows.Forms.CheckedListBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbx_Monitored = new System.Windows.Forms.CheckBox();
-            this.b_Import = new System.Windows.Forms.Button();
-            this.b_Cancel = new System.Windows.Forms.Button();
-            this.groupBox2.SuspendLayout();
+            this.b_Import = new DevComponents.DotNetBar.ButtonX();
+            this.b_Cancel = new DevComponents.DotNetBar.ButtonX();
+            this.groupPanel2 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.groupPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
+            this.label1.BackColor = System.Drawing.Color.Silver;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Maroon;
@@ -48,8 +49,8 @@
             this.label1.Size = new System.Drawing.Size(423, 52);
             this.label1.TabIndex = 0;
             this.label1.Text = "Caution - Adding PoS Towers from the API List can lead to duplicate designs if th" +
-                "e name is in any way different. Towers and designs that are already linked will " +
-                "not be shown.";
+    "e name is in any way different. Towers and designs that are already linked will " +
+    "not be shown.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // clb_TowerListing
@@ -61,48 +62,83 @@
             this.clb_TowerListing.Size = new System.Drawing.Size(423, 196);
             this.clb_TowerListing.TabIndex = 1;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.cbx_Monitored);
-            this.groupBox2.Location = new System.Drawing.Point(227, 263);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(179, 96);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tower Monitor State";
-            // 
             // cbx_Monitored
             // 
             this.cbx_Monitored.AutoSize = true;
-            this.cbx_Monitored.Location = new System.Drawing.Point(6, 19);
+            this.cbx_Monitored.BackColor = System.Drawing.Color.Transparent;
+            this.cbx_Monitored.Location = new System.Drawing.Point(6, 8);
             this.cbx_Monitored.Name = "cbx_Monitored";
             this.cbx_Monitored.Size = new System.Drawing.Size(144, 17);
             this.cbx_Monitored.TabIndex = 0;
             this.cbx_Monitored.Text = "Set Towers to Monitored";
-            this.cbx_Monitored.UseVisualStyleBackColor = true;
+            this.cbx_Monitored.UseVisualStyleBackColor = false;
             // 
             // b_Import
             // 
-            this.b_Import.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.b_Import.Location = new System.Drawing.Point(94, 365);
+            this.b_Import.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_Import.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_Import.Location = new System.Drawing.Point(69, 365);
             this.b_Import.Name = "b_Import";
             this.b_Import.Size = new System.Drawing.Size(87, 37);
-            this.b_Import.TabIndex = 4;
-            this.b_Import.Text = "Import";
-            this.b_Import.UseVisualStyleBackColor = true;
+            this.b_Import.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_Import.TabIndex = 6;
+            this.b_Import.Text = "Import Selected Towers";
             this.b_Import.Click += new System.EventHandler(this.b_Import_Click);
             // 
             // b_Cancel
             // 
+            this.b_Cancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_Cancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.b_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.b_Cancel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.b_Cancel.Location = new System.Drawing.Point(248, 365);
+            this.b_Cancel.Location = new System.Drawing.Point(272, 365);
             this.b_Cancel.Name = "b_Cancel";
             this.b_Cancel.Size = new System.Drawing.Size(87, 37);
-            this.b_Cancel.TabIndex = 5;
+            this.b_Cancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_Cancel.TabIndex = 7;
             this.b_Cancel.Text = "Cancel";
-            this.b_Cancel.UseVisualStyleBackColor = true;
             this.b_Cancel.Click += new System.EventHandler(this.b_Cancel_Click);
+            // 
+            // groupPanel2
+            // 
+            this.groupPanel2.CanvasColor = System.Drawing.SystemColors.Control;
+            this.groupPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.groupPanel2.Controls.Add(this.cbx_Monitored);
+            this.groupPanel2.Location = new System.Drawing.Point(241, 259);
+            this.groupPanel2.Name = "groupPanel2";
+            this.groupPanel2.Size = new System.Drawing.Size(157, 100);
+            // 
+            // 
+            // 
+            this.groupPanel2.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.groupPanel2.Style.BackColorGradientAngle = 90;
+            this.groupPanel2.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.groupPanel2.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel2.Style.BorderBottomWidth = 1;
+            this.groupPanel2.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.groupPanel2.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel2.Style.BorderLeftWidth = 1;
+            this.groupPanel2.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel2.Style.BorderRightWidth = 1;
+            this.groupPanel2.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel2.Style.BorderTopWidth = 1;
+            this.groupPanel2.Style.Class = "";
+            this.groupPanel2.Style.CornerDiameter = 4;
+            this.groupPanel2.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.groupPanel2.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.groupPanel2.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.groupPanel2.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.groupPanel2.StyleMouseDown.Class = "";
+            this.groupPanel2.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.groupPanel2.StyleMouseOver.Class = "";
+            this.groupPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.groupPanel2.TabIndex = 9;
+            this.groupPanel2.Text = "Tower Monitor State";
             // 
             // PopulateTowersFromAPI
             // 
@@ -111,11 +147,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.b_Cancel;
             this.ClientSize = new System.Drawing.Size(429, 409);
+            this.Controls.Add(this.groupPanel2);
             this.Controls.Add(this.b_Cancel);
             this.Controls.Add(this.b_Import);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.clb_TowerListing);
             this.Controls.Add(this.label1);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -124,8 +161,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Populate Towers From API Listing";
             this.Load += new System.EventHandler(this.PopulateTowersFromAPI_Load);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupPanel2.ResumeLayout(false);
+            this.groupPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -134,9 +171,9 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckedListBox clb_TowerListing;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox cbx_Monitored;
-        private System.Windows.Forms.Button b_Import;
-        private System.Windows.Forms.Button b_Cancel;
+        private DevComponents.DotNetBar.ButtonX b_Import;
+        private DevComponents.DotNetBar.ButtonX b_Cancel;
+        private DevComponents.DotNetBar.Controls.GroupPanel groupPanel2;
     }
 }

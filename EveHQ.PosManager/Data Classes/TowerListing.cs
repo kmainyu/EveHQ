@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -16,15 +35,15 @@ namespace EveHQ.PosManager
     [Serializable]
     public class TowerListing
     {
-        public ArrayList Towers;
+        public SortedList<long, Tower> Towers;
         public DataSet invTypeData, towerStatData, towerFuelData;
 
         public TowerListing()
         {
-            Towers = new ArrayList();
+            Towers = new SortedList<long, Tower>();
         }
 
-        private void GetItemData(int typeID, int groupID)
+        private void GetItemData(long typeID, long groupID)
         {
             string strSQL;
 
@@ -59,7 +78,7 @@ namespace EveHQ.PosManager
             }
         }
 
-        private double GetDoubleFromVariableIA(DataRow dr, int aI_1, int aI_2)
+        private double GetDoubleFromVariableIA(DataRow dr, long aI_1, long aI_2)
         {
             double retVal = -1;
 
@@ -75,7 +94,7 @@ namespace EveHQ.PosManager
             return retVal;
         }
 
-        private decimal GetDecimalFromVariableIA(DataRow dr, int aI_1, int aI_2)
+        private decimal GetDecimalFromVariableIA(DataRow dr, long aI_1, long aI_2)
         {
             decimal retVal = 0;
 
@@ -95,7 +114,7 @@ namespace EveHQ.PosManager
         {
             Tower nt;
             DataRow row;
-            int numItem;
+            long numItem;
             string extL = "";
             string extT = "";
             double timVal;
@@ -104,8 +123,8 @@ namespace EveHQ.PosManager
             // Place data into the data table
             nt.Name = invTypeData.Tables[0].Rows[0].ItemArray[2].ToString();
             nt.Desc = invTypeData.Tables[0].Rows[0].ItemArray[3].ToString();
-            nt.typeID = Convert.ToInt32(invTypeData.Tables[0].Rows[0].ItemArray[0]);
-            nt.groupID = Convert.ToInt32(invTypeData.Tables[0].Rows[0].ItemArray[1]);
+            nt.typeID = Convert.ToInt64(invTypeData.Tables[0].Rows[0].ItemArray[0]);
+            nt.groupID = Convert.ToInt64(invTypeData.Tables[0].Rows[0].ItemArray[1]);
             nt.Capacity = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[8]);
             nt.Volume = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[7]);
             nt.Cost = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[11]);
@@ -121,7 +140,7 @@ namespace EveHQ.PosManager
                 {
                     row = towerFuelData.Tables[0].Rows[x];
 
-                    switch (Convert.ToInt32(row.ItemArray[1]))
+                    switch (Convert.ToInt64(row.ItemArray[1]))
                     {
                         case 44:    // Enr Uranium
                             nt.Fuel.EnrUran.Name = row.ItemArray[10].ToString();
@@ -268,7 +287,7 @@ namespace EveHQ.PosManager
             for (int x = 0; x < numItem; x++)
             {
                 row = towerStatData.Tables[0].Rows[x];
-                switch (Convert.ToInt32(row.ItemArray[1]))
+                switch (Convert.ToInt64(row.ItemArray[1]))
                 {
                     case 9:             // Structure HP - dec
                         nt.Struct.Amount = GetDecimalFromVariableIA(row, 2, 3);
@@ -408,7 +427,7 @@ namespace EveHQ.PosManager
                     extT = row.ItemArray[5].ToString();
 
                 // Now build data display for item selection information
-                switch (Convert.ToInt32(row.ItemArray[1]))
+                switch (Convert.ToInt64(row.ItemArray[1]))
                 {
                     case 9:     // Structure HP - dec
                     case 11:    // Power Grid - double
@@ -448,19 +467,19 @@ namespace EveHQ.PosManager
                     case 676:   // UnAnchor
                     case 677:   // Online
                         extL = (GetDoubleFromVariableIA(row, 2, 3)/1000).ToString();
-                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt32(row.ItemArray[1]) + ">\n");
+                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt64(row.ItemArray[1]) + ">\n");
                         nt.OtherInfo += extT + " <" + extL + " s>\n";
                         break;
                     case 722:   // Tower Period
                         // Comes in as ms, convert to Minutes (60000ms per minute)
                         extL = (GetDecimalFromVariableIA(row, 2, 3) / 60000).ToString();
-                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt32(row.ItemArray[1]) + ">\n");
+                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt64(row.ItemArray[1]) + ">\n");
                         nt.OtherInfo += extT + " <" + extL + " min>\n";
                         break;
                     case 552:   // Signature Radius
                     default:    // All other information
                         extL = (GetDecimalFromVariableIA(row, 2, 3)).ToString();
-                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt32(row.ItemArray[1]) + ">\n");
+                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt64(row.ItemArray[1]) + ">\n");
                         nt.OtherInfo += extT + " <" + extL + " " + row.ItemArray[18].ToString() + ">\n";
                         break;
                 }
@@ -470,17 +489,17 @@ namespace EveHQ.PosManager
             nt.A_Fuel = new FuelBay(nt.Fuel);
             nt.T_Fuel = new FuelBay(nt.Fuel);
 
-            Towers.Add(nt);
+            Towers.Add(nt.typeID, nt);
         }
 
         public void PopulateTowerListing(Object st)
         {
-            string strSQL, imgLoc;
+            string strSQL;
             string lastCache;
-            int groupID;
-            int typeID;
-            Bitmap bmp;
+            long groupID;
+            long typeID;
             DataSet cd, scd;
+            Image img;
 
             lastCache = (string)st;
 
@@ -495,7 +514,7 @@ namespace EveHQ.PosManager
                 // For Each Category
                 foreach (DataRow dr in cd.Tables[0].Rows)
                 {
-                    groupID = Convert.ToInt32(dr[0]);
+                    groupID = Convert.ToInt64(dr[0]);
                     strSQL = "SELECT * FROM invTypes INNER JOIN eveGraphics ON invTypes.graphicID = eveGraphics.graphicID WHERE invTypes.groupID=" + groupID + " AND invTypes.published=1 ORDER BY invTypes.typeName;";
                     scd = EveHQ.Core.DataFunctions.GetData(strSQL);
 
@@ -506,20 +525,12 @@ namespace EveHQ.PosManager
                             // For each Tower do:
                             // 1. Get Graphic
                             // 2. Store Tower Info into TowerListing
-                            imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(row[0].ToString(), Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Types));
-
-                            try
-                            {
-                                bmp = new Bitmap(Image.FromFile(imgLoc));
-                            }
-                            catch
-                            {
-                            }
+                            img = EveHQ.Core.ImageHandler.GetImage(row[0].ToString());
 
                             if (dr[1].ToString().Contains("Tower"))
                             {
                                 // We have a control Tower
-                                typeID = Convert.ToInt32(row[0]);
+                                typeID = Convert.ToInt64(row[0]);
                                 GetItemData(typeID, groupID);
                                 PlaceDataIntoTowerList();
                             }
@@ -533,26 +544,9 @@ namespace EveHQ.PosManager
 
         public void SaveTowerListing(string LastCache)
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path , "Cache");
-
-            if (!Directory.Exists(PoSManage_Path))
-                Directory.CreateDirectory(PoSManage_Path);
-
-            if (!Directory.Exists(PoSCache_Path))
-                Directory.CreateDirectory(PoSCache_Path);
-
-            fname = Path.Combine(PoSCache_Path , "Tower_List.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path , "Tower_List.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
@@ -560,7 +554,7 @@ namespace EveHQ.PosManager
             pBF.Serialize(pStream, Towers);
             pStream.Close();
 
-            fname = Path.Combine(PoSCache_Path , "version.txt");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "version.txt");
             StreamWriter sw = new StreamWriter(fname);
             sw.Write(LastCache);
             sw.Close();
@@ -568,28 +562,11 @@ namespace EveHQ.PosManager
 
         public void LoadTowerListing()
         {
-            string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
+            string fname;
             Stream cStr;
             BinaryFormatter myBf;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-            }
-            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
-            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
-
-
-            if (!Directory.Exists(PoSManage_Path))
-                return;
-            if (!Directory.Exists(PoSCache_Path))
-                return;
-
-            fname = Path.Combine(PoSCache_Path, "Tower_List.bin");
+            fname = Path.Combine(PlugInData.PoSCache_Path, "Tower_List.bin");
             // Load the Data from Disk
             if (File.Exists(fname))
             {
@@ -599,7 +576,7 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    Towers = (ArrayList)myBf.Deserialize(cStr);
+                    Towers = (SortedList<long, Tower>)myBf.Deserialize(cStr);
                     cStr.Close();
                 }
                 catch

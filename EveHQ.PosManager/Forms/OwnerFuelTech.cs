@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +27,7 @@ using System.Windows.Forms;
 
 namespace EveHQ.PosManager
 {
-    public partial class OwnerFuelTech : Form
+    public partial class OwnerFuelTech : DevComponents.DotNetBar.Office2007Form
     {
         public PoSManMainForm myData;
 
@@ -26,36 +45,35 @@ namespace EveHQ.PosManager
         private void b_OK_Click(object sender, EventArgs e)
         {
             string twrName;
+            POS pl;
 
             twrName = myData.selName;
 
-            foreach (POS pl in myData.POSList.Designs)
-            {
-                if (twrName == pl.Name)
-                {
-                    pl.Owner = cb_OwnerName.Text;
-                    pl.FuelTech = cb_FuelTechName.Text;
+           if (PlugInData.PDL.Designs.ContainsKey(twrName))
+           {
+               pl = PlugInData.PDL.Designs[twrName];
+                pl.Owner = cb_OwnerName.Text;
+                pl.FuelTech = cb_FuelTechName.Text;
 
-                    if (rb_Corp.Checked)
+                if (rb_Corp.Checked)
+                {
+                    foreach (APITowerData atd in PlugInData.API_D.apiTower.Values)
                     {
-                        foreach (APITowerData atd in myData.API_D.apiTower.Values)
+                        if (atd.corpName == pl.Owner)
                         {
-                            if (atd.corpName == pl.Owner)
-                            {
-                                pl.ownerID = atd.corpID;
-                                break;
-                            }
+                            pl.ownerID = atd.corpID;
+                            break;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
                     {
-                        foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
+                        if (selPilot.Name == pl.Owner)
                         {
-                            if (selPilot.Name == pl.Owner)
-                            {
-                                pl.ownerID = Convert.ToDecimal(selPilot.ID);
-                                break;
-                            }
+                            pl.ownerID = Convert.ToDecimal(selPilot.ID);
+                            break;
                         }
                     }
                 }
@@ -77,15 +95,12 @@ namespace EveHQ.PosManager
             string twrName;
 
             twrName = myData.selName;
-            foreach (POS pl in myData.POSList.Designs)
+            if (PlugInData.PDL.Designs.ContainsKey(twrName))
             {
-                if (twrName == pl.Name)
-                {
-                    if (pl.Owner == pl.CorpName)
-                        rb_Corp.Checked = true;
-                    else
-                        rb_Personal.Checked = true;
-                }
+                if (PlugInData.PDL.Designs[twrName].Owner == PlugInData.PDL.Designs[twrName].CorpName)
+                    rb_Corp.Checked = true;
+                else
+                    rb_Personal.Checked = true;
             }
             PopulateOwnerNameList();
             PopulateFuelTechNameList();
@@ -98,16 +113,12 @@ namespace EveHQ.PosManager
 
             twrName = myData.selName;
 
-            foreach (POS pl in myData.POSList.Designs)
+            if (PlugInData.PDL.Designs.ContainsKey(twrName))
             {
-                if (twrName == pl.Name)
-                {
-                    if (rb_Corp.Checked)
-                        ownName = pl.CorpName;
-                    else
-                        ownName = pl.Owner;
-                    break;
-                }
+                if (rb_Corp.Checked)
+                    ownName = PlugInData.PDL.Designs[twrName].CorpName;
+                else
+                    ownName = PlugInData.PDL.Designs[twrName].Owner;
             }
 
             if (rb_Corp.Checked)
@@ -139,13 +150,9 @@ namespace EveHQ.PosManager
                 cb_FuelTechName.Items.Add(selPilot.Name);
             }
 
-            foreach (POS pl in myData.POSList.Designs)
+            if (PlugInData.PDL.Designs.ContainsKey(twrName))
             {
-                if (twrName == pl.Name)
-                {
-                    cb_FuelTechName.Text = pl.FuelTech;
-                    break;
-                }
+                cb_FuelTechName.Text = PlugInData.PDL.Designs[twrName].FuelTech;
             }
         }
 
@@ -158,5 +165,6 @@ namespace EveHQ.PosManager
         {
             PopulateOwnerNameList();
         }
-    }
+
+     }
 }

@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmCertificateDetails
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -49,14 +49,11 @@ Partial Class frmCertificateDetails
         Dim ListViewGroup24 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup25 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Certificates", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCertificateDetails))
-        Me.TabControl1 = New System.Windows.Forms.TabControl
-        Me.tabPreReqSkills = New System.Windows.Forms.TabPage
         Me.tvwReqs = New System.Windows.Forms.TreeView
         Me.ctxSkills = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuSkillName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuViewSkillDetails = New System.Windows.Forms.ToolStripMenuItem
-        Me.tabPreReqCerts = New System.Windows.Forms.TabPage
         Me.lvwCerts = New System.Windows.Forms.ListView
         Me.ReqCert = New System.Windows.Forms.ColumnHeader
         Me.ReqCertLevel = New System.Windows.Forms.ColumnHeader
@@ -64,41 +61,26 @@ Partial Class frmCertificateDetails
         Me.mnuCertName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
-        Me.tabDepends = New System.Windows.Forms.TabPage
         Me.lvwDepend = New System.Windows.Forms.ListView
         Me.NeededFor = New System.Windows.Forms.ColumnHeader
         Me.NeededLevel = New System.Windows.Forms.ColumnHeader
         Me.lblDescription = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.TabControl1.SuspendLayout()
-        Me.tabPreReqSkills.SuspendLayout()
+        Me.tcCerts = New DevComponents.DotNetBar.TabControl
+        Me.tiPreReqSkills = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel
+        Me.tiPreReqCerts = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel
+        Me.tiRequiredFor = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel
         Me.ctxSkills.SuspendLayout()
-        Me.tabPreReqCerts.SuspendLayout()
         Me.ctxCerts.SuspendLayout()
-        Me.tabDepends.SuspendLayout()
+        CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tcCerts.SuspendLayout()
+        Me.TabControlPanel1.SuspendLayout()
+        Me.TabControlPanel2.SuspendLayout()
+        Me.TabControlPanel3.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Controls.Add(Me.tabPreReqSkills)
-        Me.TabControl1.Controls.Add(Me.tabPreReqCerts)
-        Me.TabControl1.Controls.Add(Me.tabDepends)
-        Me.TabControl1.Location = New System.Drawing.Point(12, 253)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(466, 355)
-        Me.TabControl1.TabIndex = 3
-        '
-        'tabPreReqSkills
-        '
-        Me.tabPreReqSkills.Controls.Add(Me.tvwReqs)
-        Me.tabPreReqSkills.Location = New System.Drawing.Point(4, 22)
-        Me.tabPreReqSkills.Name = "tabPreReqSkills"
-        Me.tabPreReqSkills.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPreReqSkills.Size = New System.Drawing.Size(458, 329)
-        Me.tabPreReqSkills.TabIndex = 0
-        Me.tabPreReqSkills.Text = "Pre-Requisite Skills"
-        Me.tabPreReqSkills.UseVisualStyleBackColor = True
         '
         'tvwReqs
         '
@@ -106,10 +88,10 @@ Partial Class frmCertificateDetails
         Me.tvwReqs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvwReqs.Indent = 25
         Me.tvwReqs.ItemHeight = 20
-        Me.tvwReqs.Location = New System.Drawing.Point(3, 3)
+        Me.tvwReqs.Location = New System.Drawing.Point(1, 1)
         Me.tvwReqs.Name = "tvwReqs"
         Me.tvwReqs.ShowPlusMinus = False
-        Me.tvwReqs.Size = New System.Drawing.Size(452, 323)
+        Me.tvwReqs.Size = New System.Drawing.Size(464, 330)
         Me.tvwReqs.TabIndex = 0
         '
         'ctxSkills
@@ -136,17 +118,6 @@ Partial Class frmCertificateDetails
         Me.mnuViewSkillDetails.Name = "mnuViewSkillDetails"
         Me.mnuViewSkillDetails.Size = New System.Drawing.Size(132, 22)
         Me.mnuViewSkillDetails.Text = "View Details"
-        '
-        'tabPreReqCerts
-        '
-        Me.tabPreReqCerts.Controls.Add(Me.lvwCerts)
-        Me.tabPreReqCerts.Location = New System.Drawing.Point(4, 22)
-        Me.tabPreReqCerts.Name = "tabPreReqCerts"
-        Me.tabPreReqCerts.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPreReqCerts.Size = New System.Drawing.Size(458, 329)
-        Me.tabPreReqCerts.TabIndex = 1
-        Me.tabPreReqCerts.Text = "Pre-Requisite Certificates"
-        Me.tabPreReqCerts.UseVisualStyleBackColor = True
         '
         'lvwCerts
         '
@@ -180,11 +151,11 @@ Partial Class frmCertificateDetails
         ListViewGroup12.Header = "POS Equipment"
         ListViewGroup12.Name = "Cat23"
         Me.lvwCerts.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12})
-        Me.lvwCerts.Location = New System.Drawing.Point(3, 3)
+        Me.lvwCerts.Location = New System.Drawing.Point(1, 1)
         Me.lvwCerts.Name = "lvwCerts"
         Me.lvwCerts.ShowGroups = False
         Me.lvwCerts.ShowItemToolTips = True
-        Me.lvwCerts.Size = New System.Drawing.Size(452, 323)
+        Me.lvwCerts.Size = New System.Drawing.Size(464, 330)
         Me.lvwCerts.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwCerts.TabIndex = 0
         Me.lvwCerts.UseCompatibleStateImageBehavior = False
@@ -225,16 +196,6 @@ Partial Class frmCertificateDetails
         Me.mnuViewCertDetails.Size = New System.Drawing.Size(132, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
-        'tabDepends
-        '
-        Me.tabDepends.Controls.Add(Me.lvwDepend)
-        Me.tabDepends.Location = New System.Drawing.Point(4, 22)
-        Me.tabDepends.Name = "tabDepends"
-        Me.tabDepends.Size = New System.Drawing.Size(458, 329)
-        Me.tabDepends.TabIndex = 2
-        Me.tabDepends.Text = "Required For"
-        Me.tabDepends.UseVisualStyleBackColor = True
-        '
         'lvwDepend
         '
         Me.lvwDepend.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NeededFor, Me.NeededLevel})
@@ -269,10 +230,10 @@ Partial Class frmCertificateDetails
         ListViewGroup25.Header = "Certificates"
         ListViewGroup25.Name = "CatCerts"
         Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14, ListViewGroup15, ListViewGroup16, ListViewGroup17, ListViewGroup18, ListViewGroup19, ListViewGroup20, ListViewGroup21, ListViewGroup22, ListViewGroup23, ListViewGroup24, ListViewGroup25})
-        Me.lvwDepend.Location = New System.Drawing.Point(0, 0)
+        Me.lvwDepend.Location = New System.Drawing.Point(1, 1)
         Me.lvwDepend.Name = "lvwDepend"
         Me.lvwDepend.ShowItemToolTips = True
-        Me.lvwDepend.Size = New System.Drawing.Size(458, 329)
+        Me.lvwDepend.Size = New System.Drawing.Size(464, 330)
         Me.lvwDepend.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDepend.TabIndex = 1
         Me.lvwDepend.UseCompatibleStateImageBehavior = False
@@ -297,38 +258,138 @@ Partial Class frmCertificateDetails
         Me.lblDescription.Margin = New System.Windows.Forms.Padding(5)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Padding = New System.Windows.Forms.Padding(5)
-        Me.lblDescription.Size = New System.Drawing.Size(462, 231)
+        Me.lblDescription.Size = New System.Drawing.Size(466, 231)
         Me.lblDescription.TabIndex = 0
+        '
+        'tcCerts
+        '
+        Me.tcCerts.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tcCerts.BackColor = System.Drawing.Color.Transparent
+        Me.tcCerts.CanReorderTabs = True
+        Me.tcCerts.ColorScheme.TabBackground = System.Drawing.Color.Transparent
+        Me.tcCerts.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
+        Me.tcCerts.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+        Me.tcCerts.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
+        Me.tcCerts.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tcCerts.Controls.Add(Me.TabControlPanel1)
+        Me.tcCerts.Controls.Add(Me.TabControlPanel3)
+        Me.tcCerts.Controls.Add(Me.TabControlPanel2)
+        Me.tcCerts.Location = New System.Drawing.Point(12, 253)
+        Me.tcCerts.Name = "tcCerts"
+        Me.tcCerts.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.tcCerts.SelectedTabIndex = 0
+        Me.tcCerts.Size = New System.Drawing.Size(466, 355)
+        Me.tcCerts.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
+        Me.tcCerts.TabIndex = 4
+        Me.tcCerts.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
+        Me.tcCerts.Tabs.Add(Me.tiPreReqSkills)
+        Me.tcCerts.Tabs.Add(Me.tiPreReqCerts)
+        Me.tcCerts.Tabs.Add(Me.tiRequiredFor)
+        Me.tcCerts.Text = "TabControl2"
+        '
+        'tiPreReqSkills
+        '
+        Me.tiPreReqSkills.AttachedControl = Me.TabControlPanel1
+        Me.tiPreReqSkills.Name = "tiPreReqSkills"
+        Me.tiPreReqSkills.Text = "Pre-Requisite Skills"
+        '
+        'TabControlPanel1
+        '
+        Me.TabControlPanel1.Controls.Add(Me.tvwReqs)
+        Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel1.Name = "TabControlPanel1"
+        Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel1.Style.GradientAngle = 90
+        Me.TabControlPanel1.TabIndex = 1
+        Me.TabControlPanel1.TabItem = Me.tiPreReqSkills
+        '
+        'tiPreReqCerts
+        '
+        Me.tiPreReqCerts.AttachedControl = Me.TabControlPanel2
+        Me.tiPreReqCerts.Name = "tiPreReqCerts"
+        Me.tiPreReqCerts.Text = "Pre-Requisite Certificates"
+        '
+        'TabControlPanel2
+        '
+        Me.TabControlPanel2.Controls.Add(Me.lvwCerts)
+        Me.TabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel2.Name = "TabControlPanel2"
+        Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel2.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel2.Style.GradientAngle = 90
+        Me.TabControlPanel2.TabIndex = 2
+        Me.TabControlPanel2.TabItem = Me.tiPreReqCerts
+        '
+        'tiRequiredFor
+        '
+        Me.tiRequiredFor.AttachedControl = Me.TabControlPanel3
+        Me.tiRequiredFor.Name = "tiRequiredFor"
+        Me.tiRequiredFor.Text = "Required For"
+        '
+        'TabControlPanel3
+        '
+        Me.TabControlPanel3.Controls.Add(Me.lvwDepend)
+        Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel3.Name = "TabControlPanel3"
+        Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel3.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel3.Style.GradientAngle = 90
+        Me.TabControlPanel3.TabIndex = 3
+        Me.TabControlPanel3.TabItem = Me.tiRequiredFor
         '
         'frmCertificateDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(490, 614)
+        Me.Controls.Add(Me.tcCerts)
         Me.Controls.Add(Me.lblDescription)
-        Me.Controls.Add(Me.TabControl1)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmCertificateDetails"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Certificate Details"
-        Me.TabControl1.ResumeLayout(False)
-        Me.tabPreReqSkills.ResumeLayout(False)
         Me.ctxSkills.ResumeLayout(False)
-        Me.tabPreReqCerts.ResumeLayout(False)
         Me.ctxCerts.ResumeLayout(False)
-        Me.tabDepends.ResumeLayout(False)
+        CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tcCerts.ResumeLayout(False)
+        Me.TabControlPanel1.ResumeLayout(False)
+        Me.TabControlPanel2.ResumeLayout(False)
+        Me.TabControlPanel3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents lblDescription As System.Windows.Forms.Label
-    Friend WithEvents tabPreReqSkills As System.Windows.Forms.TabPage
     Friend WithEvents tvwReqs As System.Windows.Forms.TreeView
-    Friend WithEvents tabPreReqCerts As System.Windows.Forms.TabPage
     Friend WithEvents lvwCerts As System.Windows.Forms.ListView
     Friend WithEvents ReqCert As System.Windows.Forms.ColumnHeader
     Friend WithEvents ReqCertLevel As System.Windows.Forms.ColumnHeader
@@ -341,8 +402,14 @@ Partial Class frmCertificateDetails
     Friend WithEvents mnuCertName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tabDepends As System.Windows.Forms.TabPage
     Friend WithEvents lvwDepend As System.Windows.Forms.ListView
     Friend WithEvents NeededFor As System.Windows.Forms.ColumnHeader
     Friend WithEvents NeededLevel As System.Windows.Forms.ColumnHeader
+    Friend WithEvents tcCerts As DevComponents.DotNetBar.TabControl
+    Friend WithEvents TabControlPanel1 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiPreReqSkills As DevComponents.DotNetBar.TabItem
+    Friend WithEvents TabControlPanel3 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiRequiredFor As DevComponents.DotNetBar.TabItem
+    Friend WithEvents TabControlPanel2 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiPreReqCerts As DevComponents.DotNetBar.TabItem
 End Class

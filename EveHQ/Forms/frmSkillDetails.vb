@@ -1,8 +1,6 @@
-Imports System.Text
-
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -19,6 +17,8 @@ Imports System.Text
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Text
+
 Public Class frmSkillDetails
 
     Dim oldNodeIndex As Integer = -1
@@ -67,9 +67,13 @@ Public Class frmSkillDetails
         With Me.lvwDetails
             Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-            Dim groupName As String = EveHQ.Core.HQ.itemGroups(cSkill.GroupID)
-            If EveHQ.Core.HQ.SkillGroups.ContainsKey(groupName) = True Then
-                myGroup = EveHQ.Core.HQ.SkillGroups(groupName)
+            If EveHQ.Core.HQ.itemGroups.ContainsKey(cSkill.GroupID) = True Then
+                Dim groupName As String = EveHQ.Core.HQ.itemGroups(cSkill.GroupID)
+                If EveHQ.Core.HQ.SkillGroups.ContainsKey(groupName) = True Then
+                    myGroup = EveHQ.Core.HQ.SkillGroups(groupName)
+                Else
+                    myGroup = Nothing
+                End If
             Else
                 myGroup = Nothing
             End If
@@ -286,8 +290,8 @@ Public Class frmSkillDetails
                     Dim toolTipText As New StringBuilder
 
                     newItem.Group = lvwDepend.Groups("CatCerts")
-                    Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
-                    certName = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                    Dim cert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(item)
+                    certName = EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString).Name
                     Select Case cert.Grade
                         Case 1
                             certGrade = "Basic"
@@ -301,9 +305,9 @@ Public Class frmSkillDetails
                             certGrade = "Elite"
                     End Select
                     For Each reqCertID As String In cert.RequiredCerts.Keys
-                        Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
+                        Dim reqCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(reqCertID)
                         If reqCert.ID.ToString <> item Then
-                            toolTipText.Append(CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name)
+                            toolTipText.Append(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString).Name)
                             Select Case reqCert.Grade
                                 Case 1
                                     toolTipText.Append(" (Basic), ")
@@ -420,7 +424,8 @@ Public Class frmSkillDetails
         Dim PluginType As String = myPlugIn.FileType
         Dim runPlugIn As EveHQ.Core.IEveHQPlugIn
 
-        If frmEveHQ.tabMDI.TabPages.ContainsKey(PluginName) = False Then
+        Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+        If tp Is Nothing Then
             Dim myAssembly As Reflection.Assembly = Reflection.Assembly.LoadFrom(PluginFile)
             Dim t As Type = myAssembly.GetType(PluginType)
             myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
@@ -430,7 +435,7 @@ Public Class frmSkillDetails
             plugInForm.Show()
         Else
             runPlugIn = myPlugIn.Instance
-            frmEveHQ.tabMDI.SelectTab(PluginName)
+            frmEveHQ.tabEveHQMDI.SelectedTab = tp
         End If
 
         runPlugIn.GetPlugInData(itemID, 0)
@@ -523,5 +528,19 @@ Public Class frmSkillDetails
         frmCertificateDetails.Text = mnuItemName.Text
         frmCertificateDetails.DisplayPilotName = cDisplayPilotName
         frmCertificateDetails.ShowCertDetails(certID)
+    End Sub
+
+    Public Sub New()
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' Add the category groups into the listview
+        lvwDepend.Groups.Clear()
+        For Each cat As String In EveHQ.Core.HQ.itemCats.Keys
+            lvwDepend.Groups.Add("Cat" & cat, EveHQ.Core.HQ.itemCats(cat))
+        Next
+        lvwDepend.Groups.Add("CatCerts", "Certificates")
+
     End Sub
 End Class

@@ -1,4 +1,24 @@
-﻿Imports System.Text
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Imports System.Text
 Imports System.Drawing
 Imports System.Windows.Forms
 
@@ -71,9 +91,11 @@ Public Class EveSpace
             Return cSourceShip.Velocity
         End Get
         Set(ByVal value As Double)
-            cSourceShip.Velocity = value
-            If cUseIntegratedVelocity = False Then
-                Call Me.CalculateData(Nothing)
+            If cSourceShip IsNot Nothing Then
+                cSourceShip.Velocity = value
+                If cUseIntegratedVelocity = False Then
+                    Call Me.CalculateData(Nothing)
+                End If
             End If
         End Set
     End Property
@@ -82,9 +104,11 @@ Public Class EveSpace
             Return cTargetShip.Velocity
         End Get
         Set(ByVal value As Double)
-            cTargetShip.Velocity = value
-            If cUseIntegratedVelocity = False Then
-                Call Me.CalculateData(Nothing)
+            If cTargetShip IsNot Nothing Then
+                cTargetShip.Velocity = value
+                If cUseIntegratedVelocity = False Then
+                    Call Me.CalculateData(Nothing)
+                End If
             End If
         End Set
     End Property
@@ -101,7 +125,7 @@ Public Class EveSpace
             cSourceShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(SourceShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(SourceShip.Ship.ID)
                 Dim img As Bitmap
                 If baseImage IsNot Nothing Then
                     img = New Bitmap(baseImage, 32, 32)
@@ -137,7 +161,7 @@ Public Class EveSpace
             cTargetShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(TargetShip.Ship.ID, EveHQ.Core.ImageHandler.ImageType.Types)
+                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(TargetShip.Ship.ID)
                 Dim img As Bitmap
                 If baseImage IsNot Nothing Then
                     img = New Bitmap(baseImage, 32, 32)

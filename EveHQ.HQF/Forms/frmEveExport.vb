@@ -1,4 +1,24 @@
-﻿Imports System.Windows.Forms
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Imports System.Windows.Forms
 Imports System.Xml
 Imports System.IO
 
@@ -6,7 +26,8 @@ Public Class frmEveExport
 
     Dim EveFolder As String = Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "Eve"), "fittings")
     Dim EveFile As String = ""
-    Dim cFittingList As New ArrayList
+	Dim cFittingList As New ArrayList
+	Dim cUpdateRequired As Boolean = False
 
     Public Property FittingList() As ArrayList
         Get
@@ -16,7 +37,16 @@ Public Class frmEveExport
             cFittingList = value
             UpdateFittingList()
         End Set
-    End Property
+	End Property
+
+	Public Property UpdateRequired As Boolean
+		Get
+			Return cUpdateRequired
+		End Get
+		Set(ByVal value As Boolean)
+			cUpdateRequired = value
+		End Set
+	End Property
 
     Private Sub UpdateFittingList()
         lvwFittings.BeginUpdate()
@@ -33,7 +63,7 @@ Public Class frmEveExport
 
     Private Function ExportFittingsToEveFile() As Boolean
         Dim fitXML As New XmlDocument
-        Dim currentFit As New ArrayList
+        Dim currentFit As Fitting
         Dim dec As XmlDeclaration = fitXML.CreateXmlDeclaration("1.0", Nothing, Nothing)
         Dim fitAtt As XmlAttribute
 
@@ -43,30 +73,27 @@ Public Class frmEveExport
 
         If FittingList.Count > 0 Then
             For Each shipFit As String In cFittingList
-                Dim fittingSep As Integer = shipFit.IndexOf(", ")
-                Dim shipName As String = shipFit.Substring(0, fittingSep)
-                Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-                currentFit = CType(Fittings.FittingList.Item(shipFit), ArrayList)
+                currentFit = Fittings.FittingList.Item(shipFit).Clone
 
                 Dim fit As XmlNode = fitXML.CreateElement("fitting")
                 fitAtt = fitXML.CreateAttribute("name")
-                fitAtt.Value = fittingName
+                fitAtt.Value = currentFit.FittingName
                 fit.Attributes.Append(fitAtt)
                 fitRoot.AppendChild(fit)
 
                 Dim desc As XmlNode = fitXML.CreateElement("description")
                 fitAtt = fitXML.CreateAttribute("value")
-                fitAtt.Value = fittingName
+                fitAtt.Value = currentFit.FittingName
                 desc.Attributes.Append(fitAtt)
                 fit.AppendChild(desc)
 
                 Dim shiptype As XmlNode = fitXML.CreateElement("shipType")
                 fitAtt = fitXML.CreateAttribute("value")
-                fitAtt.Value = shipName
+                fitAtt.Value = currentFit.ShipName
                 shiptype.Attributes.Append(fitAtt)
                 fit.AppendChild(shiptype)
 
-                Call ExportFittingList(currentFit, fitXML, fit)
+				Call ExportFittingList(currentFit, fitXML, fit, cUpdateRequired)
 
             Next
 
@@ -91,127 +118,99 @@ Public Class frmEveExport
         End If
     End Function
 
-    Private Sub ExportFittingList(ByVal fitting As ArrayList, ByRef fitXML As XmlDocument, ByRef fitNode As XmlNode)
-        Dim subslot, hislot, medslot, lowslot, rigslot As Integer
-        Dim hardware As XmlNode
-        Dim hardwareAtt As XmlAttribute
-        Dim slotGroup As String = ""
-        Dim slotNo As Integer = 0
-        For Each shipMod As String In fitting
-            If shipMod IsNot Nothing Then
-                ' Check for installed charges
-                Dim modData() As String = shipMod.Split(",".ToCharArray)
-                Dim state As Integer = 4
-                Dim itemQuantity As Integer = 1
-                If modData(0).Length > 2 Then
-                    If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
-                        state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
-                        modData(0) = modData(0).TrimEnd(("_" & state.ToString).ToCharArray)
-                        state = CInt(Math.Pow(2, state))
-                    End If
-                End If
-                ' Check for item quantity (EFT method)
-                Dim qSep As Integer = InStrRev(modData(0), " ")
-                If qSep > 0 Then
-                    Dim qString As String = modData(0).Substring(qSep)
-                    If qString.StartsWith("x") Then
-                        qString = qString.TrimStart("x".ToCharArray)
-                        If IsNumeric(qString) = True Then
-                            itemQuantity = CInt(qString)
-                            modData(0) = modData(0).TrimEnd((" x" & itemQuantity.ToString).ToCharArray)
-                        End If
-                    End If
-                End If
-                ' Check if the module exists
-                If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
-                    Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
-                    Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
-                    If modData.GetUpperBound(0) > 0 Then
-                        ' Check if a charge (will be a valid item)
-                        If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
-                            Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
-                            sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule).Clone
-                        End If
-                    End If
-                    ' Check if module is nothing
-                    If sMod IsNot Nothing Then
-                        ' Check if module is a drone
-                        If sMod.IsDrone = True Then
-                            Dim active As Boolean = False
-                            If modData.GetUpperBound(0) > 0 Then
-                                If modData(1).EndsWith("a") = True Then
-                                    active = True
-                                    itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
-                                Else
-                                    If modData(1).EndsWith("i") = True Then
-                                        itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
-                                    Else
-                                        itemQuantity = CInt(modData(1))
-                                    End If
-                                End If
-                            End If
-                            ' Add the XML data
-                            hardware = fitXML.CreateElement("hardware")
-                            hardwareAtt = fitXML.CreateAttribute("qty") : hardwareAtt.Value = itemQuantity.ToString
-                            hardware.Attributes.Append(hardwareAtt)
-                            hardwareAtt = fitXML.CreateAttribute("slot") : hardwareAtt.Value = "drone bay"
-                            hardware.Attributes.Append(hardwareAtt)
-                            hardwareAtt = fitXML.CreateAttribute("type") : hardwareAtt.Value = sMod.Name
-                            hardware.Attributes.Append(hardwareAtt)
-                            fitNode.AppendChild(hardware)
-                            'Call Me.AddDrone(sMod, itemQuantity, active)
-                        Else
-                            ' Check if module is a charge
-                            If sMod.IsCharge = True Or sMod.IsContainer Then
-                                If modData.GetUpperBound(0) > 0 Then
-                                    itemQuantity = CInt(modData(1))
-                                End If
-                                'Call Me.AddItem(sMod, itemQuantity)
-                            Else
-                                ' Must be a proper module then!
-                                sMod.ModuleState = state
-                                Select Case sMod.SlotType
-                                    Case 16 ' Subsystems
-                                        slotGroup = "subsystem slot "
-                                        slotNo = subslot
-                                        subslot += 1
-                                    Case 8 ' High
-                                        slotGroup = "hi slot "
-                                        slotNo = hislot
-                                        hislot += 1
-                                    Case 4 ' Mid
-                                        slotGroup = "med slot "
-                                        slotNo = medslot
-                                        medslot += 1
-                                    Case 2 ' Low
-                                        slotGroup = "low slot "
-                                        slotNo = lowslot
-                                        lowslot += 1
-                                    Case 1 ' Rig
-                                        slotGroup = "rig slot "
-                                        slotNo = rigslot
-                                        rigslot += 1
-                                End Select
-                                hardware = fitXML.CreateElement("hardware")
-                                hardwareAtt = fitXML.CreateAttribute("slot")
-                                hardwareAtt.Value = slotGroup & slotNo.ToString
-                                hardware.Attributes.Append(hardwareAtt)
-                                hardwareAtt = fitXML.CreateAttribute("type")
-                                hardwareAtt.Value = sMod.Name
-                                hardware.Attributes.Append(hardwareAtt)
-                                fitNode.AppendChild(hardware)
-                            End If
-                        End If
-                    Else
-                        ' Unrecognised module
-                        MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End If
-                Else
-                    'currentFit.Remove(modData(0))
-                End If
-            End If
-        Next
-    End Sub
+	Private Sub ExportFittingList(ByVal ExpFitting As Fitting, ByRef fitXML As XmlDocument, ByRef fitNode As XmlNode, ByVal UpdateRequired As Boolean)
+		Dim hardware As XmlNode
+		Dim hardwareAtt As XmlAttribute
+		Dim slotGroup As String = ""
+
+		' Update the base ship fitting from the actual fit
+        If UpdateRequired = True Then
+            ExpFitting.BaseShip = CType(ShipLists.shipList(ExpFitting.ShipName), Ship).Clone
+            ExpFitting.UpdateBaseShipFromFitting()
+        End If
+
+		For slotNo As Integer = 1 To ExpFitting.BaseShip.SubSlots
+			If ExpFitting.BaseShip.SubSlot(slotNo) IsNot Nothing Then
+				slotGroup = "subsystem slot "
+				hardware = fitXML.CreateElement("hardware")
+				hardwareAtt = fitXML.CreateAttribute("slot")
+				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+				hardware.Attributes.Append(hardwareAtt)
+				hardwareAtt = fitXML.CreateAttribute("type")
+				hardwareAtt.Value = ExpFitting.BaseShip.SubSlot(slotNo).Name
+				hardware.Attributes.Append(hardwareAtt)
+				fitNode.AppendChild(hardware)
+			End If
+		Next
+
+		For slotNo As Integer = 1 To ExpFitting.BaseShip.RigSlots
+			If ExpFitting.BaseShip.RigSlot(slotNo) IsNot Nothing Then
+				slotGroup = "rig slot "
+				hardware = fitXML.CreateElement("hardware")
+				hardwareAtt = fitXML.CreateAttribute("slot")
+				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+				hardware.Attributes.Append(hardwareAtt)
+				hardwareAtt = fitXML.CreateAttribute("type")
+				hardwareAtt.Value = ExpFitting.BaseShip.RigSlot(slotNo).Name
+				hardware.Attributes.Append(hardwareAtt)
+				fitNode.AppendChild(hardware)
+			End If
+		Next
+
+		For slotNo As Integer = 1 To ExpFitting.BaseShip.LowSlots
+			If ExpFitting.BaseShip.LowSlot(slotNo) IsNot Nothing Then
+				slotGroup = "low slot "
+				hardware = fitXML.CreateElement("hardware")
+				hardwareAtt = fitXML.CreateAttribute("slot")
+				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+				hardware.Attributes.Append(hardwareAtt)
+				hardwareAtt = fitXML.CreateAttribute("type")
+				hardwareAtt.Value = ExpFitting.BaseShip.LowSlot(slotNo).Name
+				hardware.Attributes.Append(hardwareAtt)
+				fitNode.AppendChild(hardware)
+			End If
+		Next
+
+		For slotNo As Integer = 1 To ExpFitting.BaseShip.MidSlots
+			If ExpFitting.BaseShip.MidSlot(slotNo) IsNot Nothing Then
+				slotGroup = "med slot "
+				hardware = fitXML.CreateElement("hardware")
+				hardwareAtt = fitXML.CreateAttribute("slot")
+				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+				hardware.Attributes.Append(hardwareAtt)
+				hardwareAtt = fitXML.CreateAttribute("type")
+				hardwareAtt.Value = ExpFitting.BaseShip.MidSlot(slotNo).Name
+				hardware.Attributes.Append(hardwareAtt)
+				fitNode.AppendChild(hardware)
+			End If
+		Next
+
+		For slotNo As Integer = 1 To ExpFitting.BaseShip.HiSlots
+			If ExpFitting.BaseShip.HiSlot(slotNo) IsNot Nothing Then
+				slotGroup = "hi slot "
+				hardware = fitXML.CreateElement("hardware")
+				hardwareAtt = fitXML.CreateAttribute("slot")
+				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+				hardware.Attributes.Append(hardwareAtt)
+				hardwareAtt = fitXML.CreateAttribute("type")
+				hardwareAtt.Value = ExpFitting.BaseShip.HiSlot(slotNo).Name
+				hardware.Attributes.Append(hardwareAtt)
+				fitNode.AppendChild(hardware)
+			End If
+		Next
+
+		For Each DBI As DroneBayItem In ExpFitting.BaseShip.DroneBayItems.Values
+			' Add the XML data
+			hardware = fitXML.CreateElement("hardware")
+			hardwareAtt = fitXML.CreateAttribute("qty") : hardwareAtt.Value = DBI.Quantity.ToString
+			hardware.Attributes.Append(hardwareAtt)
+			hardwareAtt = fitXML.CreateAttribute("slot") : hardwareAtt.Value = "drone bay"
+			hardware.Attributes.Append(hardwareAtt)
+			hardwareAtt = fitXML.CreateAttribute("type") : hardwareAtt.Value = DBI.DroneType.Name
+			hardware.Attributes.Append(hardwareAtt)
+			fitNode.AppendChild(hardware)
+		Next
+	End Sub
 
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
         Me.Close()

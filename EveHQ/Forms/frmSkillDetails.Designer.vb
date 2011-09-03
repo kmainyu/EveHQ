@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmSkillDetails
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -20,22 +20,8 @@ Partial Class frmSkillDetails
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Containers", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Materials", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Accessories", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Ships", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Charges", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Blueprints", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Skills", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Commodities", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Certificates", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
         Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
@@ -58,20 +44,14 @@ Partial Class frmSkillDetails
         Me.mnuViewItemDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuViewItemDetailsInIB = New System.Windows.Forms.ToolStripMenuItem
-        Me.TabControl1 = New System.Windows.Forms.TabControl
-        Me.TabPage3 = New System.Windows.Forms.TabPage
         Me.lblDescription = New System.Windows.Forms.Label
-        Me.TabPage1 = New System.Windows.Forms.TabPage
-        Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.lvwDepend = New System.Windows.Forms.ListView
         Me.NeededFor = New System.Windows.Forms.ColumnHeader
         Me.NeededLevel = New System.Windows.Forms.ColumnHeader
-        Me.TabPage5 = New System.Windows.Forms.TabPage
         Me.lvwSPs = New System.Windows.Forms.ListView
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
-        Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.lvwTimes = New EveHQ.ListViewNoFlicker
         Me.ToLevel = New System.Windows.Forms.ColumnHeader
         Me.Standard = New System.Windows.Forms.ColumnHeader
@@ -81,14 +61,26 @@ Partial Class frmSkillDetails
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.TabControl2 = New DevComponents.DotNetBar.TabControl
+        Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel
+        Me.tiDescription = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel
+        Me.tiTrainingTimes = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel
+        Me.tiPreReqs = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel
+        Me.tiDepends = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel
+        Me.tiSkillPoints = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.ctxReqs.SuspendLayout()
         Me.ctxDepend.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.TabPage3.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
-        Me.TabPage5.SuspendLayout()
-        Me.TabPage4.SuspendLayout()
+        CType(Me.TabControl2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControl2.SuspendLayout()
+        Me.TabControlPanel1.SuspendLayout()
+        Me.TabControlPanel5.SuspendLayout()
+        Me.TabControlPanel2.SuspendLayout()
+        Me.TabControlPanel3.SuspendLayout()
+        Me.TabControlPanel4.SuspendLayout()
         Me.SuspendLayout()
         '
         'tvwReqs
@@ -97,10 +89,10 @@ Partial Class frmSkillDetails
         Me.tvwReqs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvwReqs.Indent = 25
         Me.tvwReqs.ItemHeight = 20
-        Me.tvwReqs.Location = New System.Drawing.Point(3, 3)
+        Me.tvwReqs.Location = New System.Drawing.Point(1, 1)
         Me.tvwReqs.Name = "tvwReqs"
         Me.tvwReqs.ShowPlusMinus = False
-        Me.tvwReqs.Size = New System.Drawing.Size(452, 323)
+        Me.tvwReqs.Size = New System.Drawing.Size(464, 330)
         Me.tvwReqs.TabIndex = 0
         '
         'ctxReqs
@@ -167,62 +159,17 @@ Partial Class frmSkillDetails
         Me.mnuViewItemDetailsInIB.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewItemDetailsInIB.Text = "View Details In Item Browser"
         '
-        'TabControl1
-        '
-        Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Controls.Add(Me.TabPage5)
-        Me.TabControl1.Controls.Add(Me.TabPage4)
-        Me.TabControl1.Location = New System.Drawing.Point(12, 253)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(466, 355)
-        Me.TabControl1.TabIndex = 2
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.lblDescription)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(458, 329)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Description"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
         'lblDescription
         '
         Me.lblDescription.BackColor = System.Drawing.Color.White
         Me.lblDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblDescription.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblDescription.Location = New System.Drawing.Point(0, 0)
+        Me.lblDescription.Location = New System.Drawing.Point(1, 1)
         Me.lblDescription.Margin = New System.Windows.Forms.Padding(5)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Padding = New System.Windows.Forms.Padding(5)
-        Me.lblDescription.Size = New System.Drawing.Size(458, 329)
+        Me.lblDescription.Size = New System.Drawing.Size(464, 330)
         Me.lblDescription.TabIndex = 0
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Controls.Add(Me.tvwReqs)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(458, 329)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Pre-requisites"
-        Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.lvwDepend)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(458, 329)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Dependancies"
-        Me.TabPage2.UseVisualStyleBackColor = True
         '
         'lvwDepend
         '
@@ -231,39 +178,10 @@ Partial Class frmSkillDetails
         Me.lvwDepend.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwDepend.FullRowSelect = True
         Me.lvwDepend.GridLines = True
-        ListViewGroup1.Header = "Containers"
-        ListViewGroup1.Name = "Cat2"
-        ListViewGroup2.Header = "Materials"
-        ListViewGroup2.Name = "Cat4"
-        ListViewGroup3.Header = "Accessories"
-        ListViewGroup3.Name = "Cat5"
-        ListViewGroup4.Header = "Ships"
-        ListViewGroup4.Name = "Cat6"
-        ListViewGroup5.Header = "Modules"
-        ListViewGroup5.Name = "Cat7"
-        ListViewGroup6.Header = "Charges"
-        ListViewGroup6.Name = "Cat8"
-        ListViewGroup7.Header = "Blueprints"
-        ListViewGroup7.Name = "Cat9"
-        ListViewGroup8.Header = "Skills"
-        ListViewGroup8.Name = "Cat16"
-        ListViewGroup9.Header = "Commodities"
-        ListViewGroup9.Name = "Cat17"
-        ListViewGroup10.Header = "Drones"
-        ListViewGroup10.Name = "Cat18"
-        ListViewGroup11.Header = "Implants"
-        ListViewGroup11.Name = "Cat20"
-        ListViewGroup12.Header = "Mobile Disruptors"
-        ListViewGroup12.Name = "Cat22"
-        ListViewGroup13.Header = "POS Equipment"
-        ListViewGroup13.Name = "Cat23"
-        ListViewGroup14.Header = "Certificates"
-        ListViewGroup14.Name = "CatCerts"
-        Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12, ListViewGroup13, ListViewGroup14})
-        Me.lvwDepend.Location = New System.Drawing.Point(3, 3)
+        Me.lvwDepend.Location = New System.Drawing.Point(1, 1)
         Me.lvwDepend.Name = "lvwDepend"
         Me.lvwDepend.ShowItemToolTips = True
-        Me.lvwDepend.Size = New System.Drawing.Size(452, 323)
+        Me.lvwDepend.Size = New System.Drawing.Size(464, 330)
         Me.lvwDepend.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDepend.TabIndex = 0
         Me.lvwDepend.UseCompatibleStateImageBehavior = False
@@ -279,16 +197,6 @@ Partial Class frmSkillDetails
         Me.NeededLevel.Text = "Level"
         Me.NeededLevel.Width = 75
         '
-        'TabPage5
-        '
-        Me.TabPage5.Controls.Add(Me.lvwSPs)
-        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(458, 329)
-        Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "Skill Points"
-        Me.TabPage5.UseVisualStyleBackColor = True
-        '
         'lvwSPs
         '
         Me.lvwSPs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5})
@@ -296,9 +204,9 @@ Partial Class frmSkillDetails
         Me.lvwSPs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwSPs.FullRowSelect = True
         Me.lvwSPs.GridLines = True
-        Me.lvwSPs.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSPs.Location = New System.Drawing.Point(1, 1)
         Me.lvwSPs.Name = "lvwSPs"
-        Me.lvwSPs.Size = New System.Drawing.Size(458, 329)
+        Me.lvwSPs.Size = New System.Drawing.Size(464, 330)
         Me.lvwSPs.TabIndex = 2
         Me.lvwSPs.UseCompatibleStateImageBehavior = False
         Me.lvwSPs.View = System.Windows.Forms.View.Details
@@ -317,16 +225,6 @@ Partial Class frmSkillDetails
         Me.ColumnHeader5.Text = "Diff from Last Level"
         Me.ColumnHeader5.Width = 125
         '
-        'TabPage4
-        '
-        Me.TabPage4.Controls.Add(Me.lvwTimes)
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(458, 329)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Training Times"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
         'lvwTimes
         '
         Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ToLevel, Me.Standard, Me.Current, Me.Cumulative})
@@ -334,9 +232,9 @@ Partial Class frmSkillDetails
         Me.lvwTimes.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwTimes.FullRowSelect = True
         Me.lvwTimes.GridLines = True
-        Me.lvwTimes.Location = New System.Drawing.Point(0, 0)
+        Me.lvwTimes.Location = New System.Drawing.Point(1, 1)
         Me.lvwTimes.Name = "lvwTimes"
-        Me.lvwTimes.Size = New System.Drawing.Size(458, 329)
+        Me.lvwTimes.Size = New System.Drawing.Size(464, 330)
         Me.lvwTimes.TabIndex = 1
         Me.lvwTimes.UseCompatibleStateImageBehavior = False
         Me.lvwTimes.View = System.Windows.Forms.View.Details
@@ -365,22 +263,22 @@ Partial Class frmSkillDetails
         Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvwDetails.FullRowSelect = True
         Me.lvwDetails.GridLines = True
-        ListViewGroup15.Header = "General"
-        ListViewGroup15.Name = "General"
-        ListViewGroup16.Header = "Pilot Specific"
-        ListViewGroup16.Name = "Specific"
-        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        ListViewGroup1.Header = "General"
+        ListViewGroup1.Name = "General"
+        ListViewGroup2.Header = "Pilot Specific"
+        ListViewGroup2.Name = "Specific"
+        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem1.Group = ListViewGroup15
-        ListViewItem2.Group = ListViewGroup15
-        ListViewItem3.Group = ListViewGroup15
-        ListViewItem4.Group = ListViewGroup15
-        ListViewItem5.Group = ListViewGroup15
-        ListViewItem6.Group = ListViewGroup15
-        ListViewItem7.Group = ListViewGroup16
-        ListViewItem8.Group = ListViewGroup16
-        ListViewItem9.Group = ListViewGroup16
-        ListViewItem10.Group = ListViewGroup16
+        ListViewItem1.Group = ListViewGroup1
+        ListViewItem2.Group = ListViewGroup1
+        ListViewItem3.Group = ListViewGroup1
+        ListViewItem4.Group = ListViewGroup1
+        ListViewItem5.Group = ListViewGroup1
+        ListViewItem6.Group = ListViewGroup1
+        ListViewItem7.Group = ListViewGroup2
+        ListViewItem8.Group = ListViewGroup2
+        ListViewItem9.Group = ListViewGroup2
+        ListViewItem10.Group = ListViewGroup2
         Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
         Me.lvwDetails.Location = New System.Drawing.Point(12, 12)
         Me.lvwDetails.MultiSelect = False
@@ -399,29 +297,181 @@ Partial Class frmSkillDetails
         '
         Me.ColumnHeader2.Width = 200
         '
+        'TabControl2
+        '
+        Me.TabControl2.BackColor = System.Drawing.Color.Transparent
+        Me.TabControl2.CanReorderTabs = True
+        Me.TabControl2.ColorScheme.TabBackground = System.Drawing.Color.Transparent
+        Me.TabControl2.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
+        Me.TabControl2.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+        Me.TabControl2.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
+        Me.TabControl2.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.TabControl2.Controls.Add(Me.TabControlPanel3)
+        Me.TabControl2.Controls.Add(Me.TabControlPanel1)
+        Me.TabControl2.Controls.Add(Me.TabControlPanel5)
+        Me.TabControl2.Controls.Add(Me.TabControlPanel2)
+        Me.TabControl2.Controls.Add(Me.TabControlPanel4)
+        Me.TabControl2.Location = New System.Drawing.Point(12, 253)
+        Me.TabControl2.Name = "TabControl2"
+        Me.TabControl2.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.TabControl2.SelectedTabIndex = 0
+        Me.TabControl2.Size = New System.Drawing.Size(466, 355)
+        Me.TabControl2.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
+        Me.TabControl2.TabIndex = 3
+        Me.TabControl2.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
+        Me.TabControl2.Tabs.Add(Me.tiDescription)
+        Me.TabControl2.Tabs.Add(Me.tiPreReqs)
+        Me.TabControl2.Tabs.Add(Me.tiDepends)
+        Me.TabControl2.Tabs.Add(Me.tiSkillPoints)
+        Me.TabControl2.Tabs.Add(Me.tiTrainingTimes)
+        Me.TabControl2.Text = "TabControl2"
+        '
+        'TabControlPanel1
+        '
+        Me.TabControlPanel1.Controls.Add(Me.lblDescription)
+        Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel1.Name = "TabControlPanel1"
+        Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel1.Style.GradientAngle = 90
+        Me.TabControlPanel1.TabIndex = 1
+        Me.TabControlPanel1.TabItem = Me.tiDescription
+        '
+        'tiDescription
+        '
+        Me.tiDescription.AttachedControl = Me.TabControlPanel1
+        Me.tiDescription.Name = "tiDescription"
+        Me.tiDescription.Text = "Description"
+        '
+        'TabControlPanel5
+        '
+        Me.TabControlPanel5.Controls.Add(Me.lvwTimes)
+        Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel5.Name = "TabControlPanel5"
+        Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel5.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel5.Style.GradientAngle = 90
+        Me.TabControlPanel5.TabIndex = 5
+        Me.TabControlPanel5.TabItem = Me.tiTrainingTimes
+        '
+        'tiTrainingTimes
+        '
+        Me.tiTrainingTimes.AttachedControl = Me.TabControlPanel5
+        Me.tiTrainingTimes.Name = "tiTrainingTimes"
+        Me.tiTrainingTimes.Text = "Training Times"
+        '
+        'TabControlPanel2
+        '
+        Me.TabControlPanel2.Controls.Add(Me.tvwReqs)
+        Me.TabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel2.Name = "TabControlPanel2"
+        Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel2.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel2.Style.GradientAngle = 90
+        Me.TabControlPanel2.TabIndex = 2
+        Me.TabControlPanel2.TabItem = Me.tiPreReqs
+        '
+        'tiPreReqs
+        '
+        Me.tiPreReqs.AttachedControl = Me.TabControlPanel2
+        Me.tiPreReqs.Name = "tiPreReqs"
+        Me.tiPreReqs.Text = "Pre-Requisites"
+        '
+        'TabControlPanel3
+        '
+        Me.TabControlPanel3.Controls.Add(Me.lvwDepend)
+        Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel3.Name = "TabControlPanel3"
+        Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel3.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel3.Style.GradientAngle = 90
+        Me.TabControlPanel3.TabIndex = 3
+        Me.TabControlPanel3.TabItem = Me.tiDepends
+        '
+        'tiDepends
+        '
+        Me.tiDepends.AttachedControl = Me.TabControlPanel3
+        Me.tiDepends.Name = "tiDepends"
+        Me.tiDepends.Text = "Dependancies"
+        '
+        'TabControlPanel4
+        '
+        Me.TabControlPanel4.Controls.Add(Me.lvwSPs)
+        Me.TabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel4.Name = "TabControlPanel4"
+        Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel4.Size = New System.Drawing.Size(466, 332)
+        Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel4.Style.GradientAngle = 90
+        Me.TabControlPanel4.TabIndex = 4
+        Me.TabControlPanel4.TabItem = Me.tiSkillPoints
+        '
+        'tiSkillPoints
+        '
+        Me.tiSkillPoints.AttachedControl = Me.TabControlPanel4
+        Me.tiSkillPoints.Name = "tiSkillPoints"
+        Me.tiSkillPoints.Text = "Skill Points"
+        '
         'frmSkillDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(490, 614)
-        Me.Controls.Add(Me.TabControl1)
+        Me.ClientSize = New System.Drawing.Size(490, 613)
+        Me.Controls.Add(Me.TabControl2)
         Me.Controls.Add(Me.lvwDetails)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmSkillDetails"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Skill Details"
         Me.ctxReqs.ResumeLayout(False)
         Me.ctxDepend.ResumeLayout(False)
-        Me.TabControl1.ResumeLayout(False)
-        Me.TabPage3.ResumeLayout(False)
-        Me.TabPage1.ResumeLayout(False)
-        Me.TabPage2.ResumeLayout(False)
-        Me.TabPage5.ResumeLayout(False)
-        Me.TabPage4.ResumeLayout(False)
+        CType(Me.TabControl2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControl2.ResumeLayout(False)
+        Me.TabControlPanel1.ResumeLayout(False)
+        Me.TabControlPanel5.ResumeLayout(False)
+        Me.TabControlPanel2.ResumeLayout(False)
+        Me.TabControlPanel3.ResumeLayout(False)
+        Me.TabControlPanel4.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -429,9 +479,6 @@ Partial Class frmSkillDetails
     Friend WithEvents lvwDetails As EveHQ.ListViewNoFlicker
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
-    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
-    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents lvwDepend As System.Windows.Forms.ListView
     Friend WithEvents NeededFor As System.Windows.Forms.ColumnHeader
     Friend WithEvents NeededLevel As System.Windows.Forms.ColumnHeader
@@ -439,15 +486,12 @@ Partial Class frmSkillDetails
     Friend WithEvents mnuItemName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuViewItemDetailsInIB As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
     Friend WithEvents lblDescription As System.Windows.Forms.Label
-    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
     Friend WithEvents lvwTimes As EveHQ.ListViewNoFlicker
     Friend WithEvents ToLevel As System.Windows.Forms.ColumnHeader
     Friend WithEvents Standard As System.Windows.Forms.ColumnHeader
     Friend WithEvents Current As System.Windows.Forms.ColumnHeader
     Friend WithEvents Cumulative As System.Windows.Forms.ColumnHeader
-    Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
     Friend WithEvents lvwSPs As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
@@ -459,4 +503,15 @@ Partial Class frmSkillDetails
     Friend WithEvents mnuViewSkillDetails As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuViewItemDetails As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TabControl2 As DevComponents.DotNetBar.TabControl
+    Friend WithEvents TabControlPanel4 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiSkillPoints As DevComponents.DotNetBar.TabItem
+    Friend WithEvents TabControlPanel5 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiTrainingTimes As DevComponents.DotNetBar.TabItem
+    Friend WithEvents TabControlPanel3 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiDepends As DevComponents.DotNetBar.TabItem
+    Friend WithEvents TabControlPanel2 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiPreReqs As DevComponents.DotNetBar.TabItem
+    Friend WithEvents TabControlPanel1 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiDescription As DevComponents.DotNetBar.TabItem
 End Class

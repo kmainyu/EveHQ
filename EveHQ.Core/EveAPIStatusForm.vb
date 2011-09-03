@@ -1,8 +1,6 @@
-Imports System.Windows.Forms
-
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -19,6 +17,8 @@ Imports System.Windows.Forms
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Windows.Forms
+
 Public Class EveAPIStatusForm
 
     Dim results() As String
@@ -76,11 +76,11 @@ Public Class EveAPIStatusForm
                     ' Set pilot
                     itemResult.SubItems(1).Text = results(1)
                     ' Add Result for character XML
-                    If CInt(results(2)) = EveHQ.Core.EveAPI.APIRequest.CharacterSheet Then
+                    If CInt(results(2)) = EveAPI.APITypes.CharacterSheet Then
                         Call DisplayAPIResult(3, CInt(EveHQ.Core.HQ.APIResults(result)), itemResult)
                     End If
                     ' Add Result for training XML
-                    If CInt(results(2)) = EveHQ.Core.EveAPI.APIRequest.SkillQueue Then
+                    If CInt(results(2)) = EveAPI.APITypes.SkillQueue Then
                         Call DisplayAPIResult(4, CInt(EveHQ.Core.HQ.APIResults(result)), itemResult)
                     End If
                 End If

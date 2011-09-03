@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -23,7 +23,7 @@ Public Class frmGunnery
 
     Dim mCurrentSlot As String
     Dim mCurrentModule As ShipModule
-    Dim mCurrentShip As Ship
+    Dim mCurrentFit As Fitting
     Dim mCurrentPilot As HQFPilot
     Dim AmmoList As New ArrayList
 
@@ -38,12 +38,14 @@ Public Class frmGunnery
         End Set
     End Property
 
-    Public Property CurrentShip() As Ship
+    Public Property CurrentFit() As Fitting
         Get
-            Return mCurrentShip
+            Return mCurrentFit
         End Get
-        Set(ByVal value As Ship)
-            mCurrentShip = value.Clone
+        Set(ByVal value As Fitting)
+            mCurrentFit = value.Clone
+            mCurrentFit.BaseShip = mCurrentFit.BuildSubSystemEffects(mCurrentFit.BaseShip)
+            mCurrentFit.UpdateBaseShipFromFitting()
         End Set
     End Property
 
@@ -61,16 +63,16 @@ Public Class frmGunnery
         Dim slotNo As Integer = CInt(mCurrentSlot.Substring(2, 1))
         Select Case slotType
             Case 1 ' Rig
-                mCurrentModule = CurrentShip.RigSlot(slotNo)
+                mCurrentModule = mCurrentFit.BaseShip.RigSlot(slotNo)
             Case 2 ' Low
-                mCurrentModule = CurrentShip.LowSlot(slotNo)
+                mCurrentModule = mCurrentFit.BaseShip.LowSlot(slotNo)
             Case 4 ' Mid
-                mCurrentModule = CurrentShip.MidSlot(slotNo)
+                mCurrentModule = mCurrentFit.BaseShip.MidSlot(slotNo)
             Case 8 ' High
-                mCurrentModule = CurrentShip.HiSlot(slotNo)
+                mCurrentModule = mCurrentFit.BaseShip.HiSlot(slotNo)
         End Select
         ' Set the GroupBox for the weapon type
-        gbStandardInfo.Text = mCurrentModule.Name
+        gpStandardInfo.Text = mCurrentModule.Name
         ' Get the charge group and item data
         Dim chargeGroupData() As String
         AmmoList.Clear()
@@ -94,20 +96,26 @@ Public Class frmGunnery
         Dim ammoMod As New ShipModule
         Dim newMod As New ShipModule
         Dim newAmmo As ListViewItem
-        CurrentShip.HiSlots = AmmoList.Count
-        CurrentShip.TurretSlots = AmmoList.Count
+        ' Override the fitting rules
+        CurrentFit.BaseShip.OverrideFittingRules = True
+        ' Set the new fitting limits
+        CurrentFit.BaseShip.Attributes("14") = AmmoList.Count
+        CurrentFit.BaseShip.HiSlots = AmmoList.Count
+        CurrentFit.BaseShip.Attributes("102") = AmmoList.Count
+        CurrentFit.BaseShip.TurretSlots = AmmoList.Count
         Dim slotCount As Integer = 0
         ' Load up the modules and charges
         For Each ammo As String In AmmoList
             slotCount += 1
-            CurrentShip.HiSlot(slotCount) = mCurrentModule.Clone
+            CurrentFit.BaseShip.HiSlot(slotCount) = mCurrentModule.Clone
             ' Convert ammo name into a ShipModule
             ammoMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(ammo)), ShipModule).Clone
-            CurrentShip.HiSlot(slotCount).LoadedCharge = ammoMod
-            CurrentShip.HiSlot(slotCount).SlotNo = slotCount
+            CurrentFit.BaseShip.HiSlot(slotCount).LoadedCharge = ammoMod
+            CurrentFit.BaseShip.HiSlot(slotCount).SlotNo = slotCount
         Next
         ' Generate a fitting and get some info
-        ammoShip = Engine.ApplyFitting(CurrentShip, CurrentPilot)
+        CurrentFit.ApplyFitting()
+        ammoShip = CurrentFit.FittedShip
         ' Display the results
         lvGuns.BeginUpdate()
         lvGuns.Items.Clear()
@@ -117,8 +125,16 @@ Public Class frmGunnery
             newAmmo.Text = newMod.LoadedCharge.Name
             newAmmo.SubItems.Add(FormatNumber(newMod.CapUsage, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("54"), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("158"), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("160"), 5, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            If newMod.Attributes.ContainsKey("158") Then
+                newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("158"), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            Else
+                newAmmo.SubItems.Add("0")
+            End If
+            If newMod.Attributes.ContainsKey("160") Then
+                newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("160"), 5, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            Else
+                newAmmo.SubItems.Add("0.00000")
+            End If
             newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10051"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10052"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10053"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
@@ -131,9 +147,20 @@ Public Class frmGunnery
         ' Update the weapon standard information
         lblCPU.Text = "CPU: " & FormatNumber(ammoShip.HiSlot(1).CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblPG.Text = "PG: " & FormatNumber(ammoShip.HiSlot(1).PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        Dim Dmg As Double = CDbl(ammoShip.HiSlot(1).Attributes("10014")) + CDbl(ammoShip.HiSlot(1).Attributes("10015")) + CDbl(ammoShip.HiSlot(1).Attributes("10016"))
+        Dim Dmg As Double = 0
+        Dim ROF As Double = 0
+        Select Case ammoShip.HiSlot(1).DatabaseGroup
+            Case "53" ' Energy Turret 
+                dmg = ammoShip.HiSlot(1).Attributes("10014")
+                ROF = ammoShip.HiSlot(1).Attributes("10011")
+            Case "74" ' Hybrid Turret
+                dmg = ammoShip.HiSlot(1).Attributes("10015")
+                ROF = ammoShip.HiSlot(1).Attributes("10012")
+            Case "55" ' Projectile Turret
+                dmg = ammoShip.HiSlot(1).Attributes("10016")
+                ROF = ammoShip.HiSlot(1).Attributes("10013")
+        End Select
         lblDmgMod.Text = "Damage Mod: " & FormatNumber(Dmg, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x"
-        Dim ROF As Double = CDbl(ammoShip.HiSlot(1).Attributes("10011")) + CDbl(ammoShip.HiSlot(1).Attributes("10012")) + CDbl(ammoShip.HiSlot(1).Attributes("10013"))
         lblROF.Text = "ROF: " & FormatNumber(ROF, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s"
     End Sub
 
@@ -156,7 +183,7 @@ Public Class frmGunnery
 
     Private Sub CopyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyToolStripMenuItem.Click
         Dim buffer As New System.Text.StringBuilder
-        buffer.AppendLine(gbStandardInfo.Text)
+        buffer.AppendLine(gpStandardInfo.Text)
         For i As Integer = 0 To lvGuns.Columns.Count - 1
             buffer.Append(lvGuns.Columns(i).Text)
             buffer.Append(ControlChars.Tab)

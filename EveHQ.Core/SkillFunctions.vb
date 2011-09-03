@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -214,7 +214,11 @@ Public Class SkillFunctions
     Public Shared Function CalcCurrentSkillPoints(ByRef myPilot As EveHQ.Core.Pilot) As Long
         If myPilot.Training = True Then
             tTimeSpan = myPilot.TrainingEndTime - myPilot.TrainingStartTime
-            sTimeSpan = Now - EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingStartTime)
+            If DateTime.Compare(Now, EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime)) < 0 Then
+                sTimeSpan = Now - EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingStartTime)
+            Else
+                sTimeSpan = tTimeSpan
+            End If
             myPilot.TrainingCurrentSP = CInt(sTimeSpan.TotalSeconds / tTimeSpan.TotalSeconds * (myPilot.TrainingEndSP - myPilot.TrainingStartSP))
             Return myPilot.TrainingCurrentSP
         Else
@@ -274,7 +278,7 @@ Public Class SkillFunctions
         ' Get details of skill groups from the database
         Dim strSQL As String = ""
         Dim strSQLR As String = ""
-        strSQL &= "SELECT * FROM invGroups WHERE invGroups.categoryID=16 ORDER BY groupName;"
+        strSQL &= "SELECT * FROM invGroups WHERE (invGroups.categoryID=16 AND invGroups.groupID<>267) ORDER BY groupName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If eveData Is Nothing Then
             MessageBox.Show("The Database returned a null dataset when trying to load the Eve skill data. The error returned was: " & EveHQ.Core.HQ.dataError, "Load Eve Skill Data error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -300,7 +304,7 @@ Public Class SkillFunctions
         strSQL = ""
         strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName,  invTypes.basePrice, invTypes.published, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
         strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
-        strSQL &= " WHERE invCategories.categoryID=16 ORDER BY typeName;"
+        strSQL &= " WHERE (invCategories.categoryID=16 AND invGroups.groupID<>267) ORDER BY typeName;"
 
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
@@ -418,8 +422,8 @@ Public Class SkillFunctions
     Public Shared Sub LoadEveSkillDataFromAPI()
         Try
             ' Get the XML data from the API
-            Dim skillXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillTree, EveAPI.APIReturnMethod.ReturnStandard)
-
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim skillXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.SkillTree, EveAPI.APIReturnMethods.BypassCache)
             ' Load the skills!
             If skillXML IsNot Nothing Then
                 Dim skillDetails As XmlNodeList
@@ -431,16 +435,16 @@ Public Class SkillFunctions
                         newSkill.ID = skill.Attributes.GetNamedItem("typeID").Value
                         newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
                         newSkill.GroupID = skill.Attributes.GetNamedItem("groupID").Value
+                        newSkill.Published = CBool(skill.Attributes.GetNamedItem("published").Value)
                         newSkill.Description = skill.ChildNodes(0).InnerText
-                        newSkill.Published = True
                         newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
                         If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
                             For skillNode As Integer = 0 To skill.ChildNodes(2).ChildNodes.Count - 1
                                 newSkill.PreReqSkills.Add(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("typeID").Value, CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("skillLevel").Value))
                             Next
                         End If
-                        newSkill.PA = StrConv(skill.ChildNodes(3).ChildNodes(0).InnerText, VbStrConv.ProperCase)
-                        newSkill.SA = StrConv(skill.ChildNodes(3).ChildNodes(1).InnerText, VbStrConv.ProperCase)
+                        newSkill.PA = StrConv(skill.ChildNodes(3).SelectSingleNode("primaryAttribute").InnerText, VbStrConv.ProperCase)
+                        newSkill.SA = StrConv(skill.ChildNodes(3).SelectSingleNode("secondaryAttribute").InnerText, VbStrConv.ProperCase)
                         ' Calculate the levels
                         For a As Integer = 0 To 5
                             newSkill.LevelUp(a) = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, a))
@@ -455,6 +459,7 @@ Public Class SkillFunctions
                             newSkill.ID = skill.Attributes.GetNamedItem("typeID").Value
                             newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
                             newSkill.GroupID = skill.Attributes.GetNamedItem("groupID").Value
+                            newSkill.Published = CBool(skill.Attributes.GetNamedItem("published").Value)
                             newSkill.Description = skill.ChildNodes(0).InnerText
                             newSkill.Published = True
                             newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
@@ -463,8 +468,8 @@ Public Class SkillFunctions
                                     newSkill.PreReqSkills.Add(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("typeID").Value, CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("skillLevel").Value))
                                 Next
                             End If
-                            newSkill.PA = StrConv(skill.ChildNodes(3).ChildNodes(0).InnerText, VbStrConv.ProperCase)
-                            newSkill.SA = StrConv(skill.ChildNodes(3).ChildNodes(1).InnerText, VbStrConv.ProperCase)
+                            newSkill.PA = StrConv(skill.ChildNodes(3).SelectSingleNode("primaryAttribute").InnerText, VbStrConv.ProperCase)
+                            newSkill.SA = StrConv(skill.ChildNodes(3).SelectSingleNode("secondaryAttribute").InnerText, VbStrConv.ProperCase)
                             ' Calculate the levels
                             For a As Integer = 0 To 5
                                 newSkill.LevelUp(a) = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, a))
@@ -477,7 +482,7 @@ Public Class SkillFunctions
             Exit Sub
         End Try
     End Sub
-    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, Optional ByVal TrainingBonus As Double = 1) As Integer
+    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill) As Integer
         Dim PA, SA As Double
         Dim Rate As Integer
 
@@ -509,7 +514,7 @@ Public Class SkillFunctions
                 SA = cPilot.WAttT
         End Select
 
-        Rate = CInt(((60 * PA) + (30 * SA)) * TrainingBonus)
+        Rate = CInt(((60 * PA) + (30 * SA)))
         Return Rate
 
     End Function          'CalculateSPRate
@@ -593,6 +598,7 @@ Public Class SkillFunctions
 
         For curLevel As Integer = startLevel + 1 To sLevel
             EndSP = EveHQ.Core.SkillFunctions.CalculateSPLevel(CInt(Rank), curLevel)
+
             ' Calculate the primary attribute
             Select Case cSkill.PA.Substring(0, 1)
                 Case "C"
@@ -828,7 +834,7 @@ Public Class SkillFunctions
                 ' Write Character XML
                 strXML = ""
                 strXML &= EveHQ.Core.Reports.CurrentPilotXML_New(skillPilot)
-                sw = New IO.StreamWriter(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & skillPilot.Account & "_" & skillPilot.ID & ".xml"))
+                sw = New IO.StreamWriter(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & skillPilot.Account & "_" & skillPilot.ID & ".xml"))
                 sw.Write(strXML)
                 sw.Flush()
                 sw.Close()
@@ -836,7 +842,7 @@ Public Class SkillFunctions
                 ' Write Training XML
                 strXML = ""
                 strXML &= EveHQ.Core.Reports.CurrentTrainingXML_New(skillPilot)
-                sw = New IO.StreamWriter(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & skillPilot.Account & "_" & skillPilot.ID & ".xml"))
+                sw = New IO.StreamWriter(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & skillPilot.Account & "_" & skillPilot.ID & ".xml"))
                 sw.Write(strXML)
                 sw.Flush()
                 sw.Close()

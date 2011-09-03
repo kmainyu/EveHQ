@@ -68,6 +68,7 @@
 349,1,19760,158,2,291,0,1,0,0,Frequency Modulation - TD
 349,1,19760,158,2,379,0,1,0,0,Frequency Modulation - TP
 294,1,19759,54,2,201,0,1,0,0,Long Distance Jamming - ECM
+294,1,19759,142,2,80,0,1,0,0,Long Distance Jamming - ECM Burst
 294,1,19759,54,2,208,0,1,0,0,Long Distance Jamming - RSD
 294,1,19759,54,2,291,0,1,0,0,Long Distance Jamming - TD
 294,1,19759,54,2,379,0,1,0,0,Long Distance Jamming - TP
@@ -85,6 +86,10 @@
 828,1,19761,239,2,201,0,1,0,0,Signal Dispersion - Ladar ECM
 828,1,19761,240,2,201,0,1,0,0,Signal Dispersion - Mag ECM
 828,1,19761,241,2,201,0,1,0,0,Signal Dispersion - Radar ECM
+828,1,19761,238,2,80,0,1,0,0,Signal Dispersion - ECM Burst
+828,1,19761,239,2,80,0,1,0,0,Signal Dispersion - ECM Burst
+828,1,19761,240,2,80,0,1,0,0,Signal Dispersion - ECM Burst
+828,1,19761,241,2,80,0,1,0,0,Signal Dispersion - ECM Burst
 828,1,19766,566,2,208,0,1,0,0,Signal Suppression - RSD Resolution
 828,1,19766,309,2,208,0,1,0,0,Signal Suppression - RSD Range
 566,1,3431,564,3,6,0,1,0,0,Signature Analysis
@@ -94,6 +99,7 @@
 311,1,3429,10064,3,6,0,1,1,0,Targeting
 828,1,19767,767,2,291,0,1,0,0,Turret Destabilization - Tracking Speed
 828,1,19767,351,2,291,0,1,0,0,Turret Destabilization - Optimal Range
+828,1,19767,349,2,291,0,1,0,0,Turret Destabilization - Falloff
 317,1,3434,6,2,291,0,1,0,0,Weapon Disruption
 # ENGINEERING,,,,,,,,,,
 317,1,24572,6,4,910,0,1,0,0,Capital Energy Emission Systems
@@ -283,13 +289,17 @@
 312,1,3393,73,4,1049,0,1,0,0,Repair Systems - Small
 312,1,3393,73,4,1050,0,1,0,0,Repair Systems - Medium
 312,1,3393,73,4,1051,0,1,0,0,Repair Systems - Large
-902,1,25863,902,1,25861;30836,0,1,0,0,Salvaging
+902,1,25863,902,1,25861;30836,0,1,11,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 885,1,27906,714,1,27951,0,1,8,0,Tactical Logistics Reconfiguration
 958,1,22809,987,2,98;326,0,1,0,0,Thermic Armor Compensation - Passive
 988,1,22809,997,2,328,0,1,5,0,Thermic Armor Compensation - Active
 # MISSILE LAUNCHER OPERATION,,,,,,,,,,
 293,1,28073,669,2,862,0,1,0,0,Bomb Deployment
+292,1,32435,114,2,1019,0,1,0,0,Citadel Cruise Missiles - EM
+292,1,32435,116,2,1019,0,1,0,0,Citadel Cruise Missiles - Explosive
+292,1,32435,117,2,1019,0,1,0,0,Citadel Cruise Missiles - Kinetic
+292,1,32435,118,2,1019,0,1,0,0,Citadel Cruise Missiles - Thermal
 292,1,21668,114,2,476,0,1,0,0,Citadel Torpedoes - EM
 292,1,21668,116,2,476,0,1,0,0,Citadel Torpedoes - Explosive
 292,1,21668,117,2,476,0,1,0,0,Citadel Torpedoes - Kinetic
@@ -472,6 +482,7 @@
 315,1,3449,37,3,6,0,1,0,0,Navigation
 319,1,3455,153,3,6,0,1,0,0,Warp Drive Operation
 # SCIENCE,,,,,,,,,,
+280,1,13278,902,1,22177;30832,0,1,11,0,Archeaology
 434,1,3410,77,4,1039,0,1,0,0,Astrogeology - Mining Laser
 434,1,3410,77,4,1040,0,1,0,0,Astrogeology - Strip Miner
 66,1,25811,73,2,481,0,1,0,0,Astrometric Acquisition - Scan Time
@@ -484,6 +495,7 @@
 292,1,24563,116,2,588,0,1,0,0,Doomsday Operation - Explosive
 292,1,24563,114,2,588,0,1,0,0,Doomsday Operation - EM
 292,1,24563,117,2,588,0,1,0,0,Doomsday Operation - Kinetic
+280,1,21718,902,1,22175;30834,0,1,11,0,Hacking
 885,1,24562,714,2,590,0,1,0,0,Jump Portal Generation
 1126,1,25538,616,2,303,0,1,0,0,Nanite Control - Shield Boost Penalty
 1126,1,25538,1141,2,303,0,1,0,0,Nanite Control - Armor HP Penalty
@@ -714,8 +726,8 @@
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
 459,2,647,10007,3,6,0,0,1,15,Drone Link Augmenter - Drone Control Range Bonus
 567,2,644,37,3,18,0,0,0,15,Drone Navigation Computer - Drone Velocity
-243,2,646,54,3,18,0,0,5,15,Omni Tracking Link - Max Range
-244,2,646,160,3,18,0,0,5,15,Omni Tracking Link - Tracking Speed
+243,2,646,54,3,18,1,0,5,15,Omni Tracking Link - Max Range
+244,2,646,160,3,18,1,0,5,15,Omni Tracking Link - Tracking Speed
 # REMOTE DRONES,,,,,,,,,,
 90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
 517,2,639,158,2,55;53;74,0,0,0,16,TD Drone - Falloff
@@ -875,7 +887,7 @@
 # Afterburners/MWD,,,,,,,,,,
 567,2,46,10010,3,6,0,0,1,12,AB/MWD Thrust
 796,2,46,10002,3,6,0,0,1,12,AB/MWD Mass addition
-554,2,46,552,3,6,0,0,0,12,AB/MWD Sig Radius Penalty
+554,2,46,552,3,6,1,0,0,12,AB/MWD Sig Radius Penalty
 147,2,46,482,3,6,0,0,0,14,AB/MWD Cap Penalty
 20,2,46,37,3,6,0,0,3,12,AB/MWD Velocity Bonus
 # Inertia Stabilizers,,,,,,,,,,
@@ -935,6 +947,8 @@
 # Industrial Core,,,,,,,,,,
 20,1,28583,37,3,6,0,0,0,4,Max Velocity Bonus
 1238,1,28583,833,1,22553;22555;22557,0,0,5,4,Mining Foreman Ganglink Bonus
+# Scan Probe Launchers,,,,,,,,,,
+846,2,481,1371,2,479,0,0,0,4,Scan Probe Strength Bonus
 # Siege Module,,,,,,,,,,
 20,1,20280,37,3,6,0,0,0,4,Max Velocity Bonus
 292,1,20280,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914;1019,0,0,0,4,Damage Bonus - EM Missiles
@@ -944,7 +958,7 @@
 292,1,20280,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
 292,1,20280,10014,2,53,0,0,0,4,Damage Bonus - Lasers
 292,1,20280,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
-548,1,20280,68,2,40,0,0,0,4,Shield Boost Bonus
+548,1,20280,68,2,40,1,0,0,4,Shield Boost Bonus
 565,1,20280,564,3,6,0,0,0,4,Scan Resolution Penalty
 767,1,20280,160,2,55;53;74,0,0,0,4,Tracking Speed
 847,1,20280,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,4,Missile Explosion Velocity
@@ -953,7 +967,7 @@
 897,1,20280,73,2,40,0,0,0,4,Shield Booster Duration
 # Triage Module,,,,,,,,,,
 20,1,27951,37,3,6,0,0,0,4,Max Velocity Bonus
-548,1,27951,68,2,40,0,0,0,4,Shield Boost Bonus
+548,1,27951,68,2,40,1,0,0,4,Shield Boost Bonus
 565,1,27951,564,3,6,0,0,0,4,Scan Resolution Bonus
 895,1,27951,84,2,62,0,0,0,4,Armor Repair Amount
 896,1,27951,73,2,62,0,0,0,4,Armor Repair Duration
@@ -987,22 +1001,29 @@
 780,2,546,73,4,1038,0,0,0,14,Cycle Time
 1082,2,546,50,4,1038,0,0,0,14,CPU Penalty
 # GANG MODULES,,,,,,,,,,
-833,1,20069,6,2,62;325,0,0,0,16,Armored Warfare Link - Damage Control
+833,1,20069,6,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Damage Control - Armor Repairers
+833,1,20069,6,2,325,0,0,0,16,Armored Warfare Link - Damage Control - Armor Transporters
 833,1,20409,267,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
 833,1,20409,268,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
 833,1,20409,269,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
 833,1,20409,270,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
-833,1,22227,73,2,62;325,0,0,0,16,Armored Warfare Link - Rapid Repair
+833,1,22227,73,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Rapid Repair - Armor Repairers
+833,1,22227,73,2,325,0,0,0,16,Armored Warfare Link - Rapid Repair - Armor Transporters
 1320,1,20406,238,2,201,1,0,0,16,IWL - Electronic Superiority (ECM Strength)
 1320,1,20406,239,2,201,1,0,0,16,IWL - Electronic Superiority (ECM Strength)
 1320,1,20406,240,2,201,1,0,0,16,IWL - Electronic Superiority (ECM Strength)
 1320,1,20406,241,2,201,1,0,0,16,IWL - Electronic Superiority (ECM Strength)
+1320,1,20406,238,2,80,1,0,0,16,IWL - Electronic Superiority (ECM Burst Strength)
+1320,1,20406,239,2,80,1,0,0,16,IWL - Electronic Superiority (ECM Burst Strength)
+1320,1,20406,240,2,80,1,0,0,16,IWL - Electronic Superiority (ECM Burst Strength)
+1320,1,20406,241,2,80,1,0,0,16,IWL - Electronic Superiority (ECM Burst Strength)
 1321,1,20406,309,2,208,1,0,0,16,IWL - Electronic Superiority (Sensor Dampening)
 1321,1,20406,566,2,208,1,0,0,16,IWL - Electronic Superiority (Sensor Dampening)
 1322,1,20406,351,2,291,1,0,0,16,IWL - Electronic Superiority (Tracking Disruption)
 1322,1,20406,767,2,291,1,0,0,16,IWL - Electronic Superiority (Tracking Disruption)
 1323,1,20406,554,2,379,1,0,0,16,IWL - Electronic Superiority (Target Painters)
-833,1,20405,54,2,201;208;291;379,0,0,0,16,IWL - Recon Operation
+833,1,20405,54,2,201;208;291;379,0,0,0,16,IWL - Recon Operation (ECM Mods)
+833,1,20405,142,2,80,0,0,0,16,IWL - Recon Operation (ECM Burst)
 833,1,11052,211,3,6,1,0,0,16,IWL - Sensor Integrity (Grav Strength)
 833,1,11052,209,3,6,1,0,0,16,IWL - Sensor Integrity (Ladar Strength)
 833,1,11052,210,3,6,1,0,0,16,IWL - Sensor Integrity (Mag Strength)
@@ -1010,8 +1031,10 @@
 833,1,22553,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency
 833,1,22557,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization
 833,1,22555,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement
-833,1,20124,73,2,40;41,0,0,0,16,SiWL - Active Shielding
-833,1,22228,6,2,40;41,0,0,0,16,SiWL - Shield Efficiency
+833,1,20124,73,4,609;610;611;612,0,0,0,16,SiWL - Active Shielding - Shield Boosters
+833,1,20124,73,2,41,0,0,0,16,SiWL - Active Shielding - Shield Transporters
+833,1,22228,6,4,609;610;611;612,0,0,0,16,SiWL - Shield Efficiency - Shield Boosters
+833,1,22228,6,2,41,0,0,0,16,SiWL - Shield Efficiency - Shield Transporters
 833,1,20514,271,3,6,1,0,2,16,SiWL - Shield Harmonizing
 833,1,20514,272,3,6,1,0,2,16,SiWL - Shield Harmonizing
 833,1,20514,273,3,6,1,0,2,16,SiWL - Shield Harmonizing
@@ -1032,9 +1055,9 @@
 986,2,773,269,3,6,1,0,2,15,Anti-Kinetic Pump
 987,2,773,270,3,6,1,0,2,15,Anti-Thermal Pump
 806,2,773,84,4,1049;1050;1051,1,0,0,15,Auxiliary Nano Pump
-312,2,773,73,4,1049;1050;1051,1,0,0,15,Nanobot Accelerator
-317,2,773,6,4,1059;1058;1057,1,0,0,15,Remote Repair Augmentor
-902,2,773,902,1,25861;30836,0,1,0,15,Salvage Tackle
+312,2,773,73,4,1049;1050;1051,0,0,0,15,Nanobot Accelerator
+317,2,773,6,2,325,0,0,0,15,Remote Repair Augmentor
+902,2,773,902,1,25861;30836,0,1,1,15,Salvage Tackle
 335,2,773,265,3,6,0,0,0,15,Trimark Armor Pump
 # RIGS - ASTRONAUTIC,,,,,,,,,,
 1138,2,782,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
@@ -1062,8 +1085,20 @@
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
 1164,2,778,20,3,18,0,0,0,15,Stasis Drone Augmentor
 # RIGS - ELECTRONIC,,,,,,,,,,
+1160,1,31201,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
+1160,1,31207,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
+1160,1,31203,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
+1160,1,31209,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
+1160,1,25930,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
+1160,1,26342,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
 846,2,780,1371,2,479,0,0,0,15,Gravity Capacitor Upgrade
 310,2,780,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+1160,1,31238,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
+1160,1,31244,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
+1160,1,31240,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
+1160,1,31246,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
+1160,1,25932,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
+1160,1,26346,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
 317,2,780,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
 # RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,
 1138,2,786,263,3,6,0,0,0,15,Electronic Superiority Rig Drawback - Shield HP
@@ -1078,8 +1113,8 @@
 308,2,786,73,2,47;48;49,0,0,0,15,Signal Focusing Kit
 565,2,786,564,3,6,1,0,0,15,Targeting System Subcontroller
 619,2,786,560,2,330,0,0,0,15,Targeting Systems Stabiizer
-828,2,786,351,2,291,0,0,0,15,Tracking Diagnostic Subroutines
-828,2,786,767,2,291,0,0,0,15,Tracking Diagnostic Subroutines
+828,2,786,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines
+828,2,786,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines
 # RIGS - ENERGY GRID,,,,,,,,,,
 313,2,781,11,3,6,0,0,0,15,Ancilliary Current Router
 314,2,781,55,3,6,0,0,0,15,Capacitor Control Circuit
@@ -1094,7 +1129,7 @@
 64,2,775,10014,2,53,1,0,5,15,Energy Collision Accelerator
 317,2,775,6,2,53,1,0,0,15,Energy Discharge Elutriation
 351,2,775,54,2,53,1,0,0,15,Energy Locus Coordinator
-244,2,775,160,2,53,1,0,0,15,Energy Metastasis Adjuster
+244,2,775,160,2,53,1,0,5,15,Energy Metastasis Adjuster
 # RIGS - HYBRID WEAPON,,,,,,,,,,
 1138,2,776,30,2,74,0,0,0,15,Hybrid Weapon Rig Drawback - PG Penalty
 310,2,776,50,2,74,0,0,0,15,Algid Hybrid Administrations Unit
@@ -1103,7 +1138,7 @@
 64,2,776,10015,2,74,1,0,5,15,Hybrid Collision Accelerator
 317,2,776,6,2,74,1,0,0,15,Hybrid Discharge Elutriation
 351,2,776,54,2,74,1,0,0,15,Hybrid Locus Coordinator
-244,2,776,160,2,74,1,0,0,15,Hybrid Metastasis Adjuster
+244,2,776,160,2,74,1,0,5,15,Hybrid Metastasis Adjuster
 # RIGS - LAUNCHER,,,,,,,,,,
 1138,2,779,50,2,511;524;506;510;771;507;508;509,0,0,0,15,Launcher Rig Drawback - CPU Penalty
 204,2,779,51,2,511;524;506;510;771;507;508;509,1,0,0,15,Bay Loading Accelerator
@@ -1113,8 +1148,8 @@
 213,2,779,116,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
 213,2,779,117,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
 213,2,779,118,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
-847,2,779,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Flare Catalyst
-848,2,779,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Rigot Catalyst
+847,2,779,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Warhead Flare Catalyst
+848,2,779,654,2,656;655;653;386;396;395;394;385;384,0,0,0,15,Warhead Rigor Catalyst
 # RIGS - PROJECTILE WEAPON,,,,,,,,,,
 1138,2,777,30,2,55,0,0,0,15,Projectile Weapon Rig Drawback - PG Penalty
 349,2,777,158,2,55,1,0,0,15,Projectile Ambit Extension
@@ -1122,7 +1157,7 @@
 64,2,777,10016,2,55,1,0,5,15,Projectile Collision Accelerator
 317,2,777,6,2,55,1,0,0,15,Projectile Discharge Elutriation
 351,2,777,54,2,55,1,0,0,15,Projectile Locus Coordinator
-244,2,777,160,2,55,1,0,0,15,Projectile Metastasis Adjuster
+244,2,777,160,2,55,1,0,5,15,Projectile Metastasis Adjuster
 # RIGS - SHIELD,,,,,,,,,,
 1138,2,774,552,3,6,1,0,0,15,Shield Rig Drawback - Sig Radius Penalty
 984,2,774,271,3,6,1,0,2,15,Anti-EM Screen Reinforcer
@@ -1180,6 +1215,7 @@
 244,2,920,160,2,53;55;74,0,0,5,15,Tracking Speed Multiplier
 517,2,920,158,2,53;55;74,0,0,5,15,Falloff Modifer
 652,2,920,552,3,6,0,0,0,15,Signature Penalty
+652,2,920,554,3,8,0,0,0,15,Signature Penalty - Ammo
 1465,2,920,267,3,6,0,0,2,15,Armor EM Resistance Bonus
 1466,2,920,269,3,6,0,0,2,15,Armor Kin Resistance Bonus
 1467,2,920,270,3,6,0,0,2,15,Armor Therm Resistance Bonus
@@ -1347,3 +1383,5 @@
 1079,1,28680,482,3,6,0,0,0,15,Synth Mindflood - Capacitor Bonus
 349,1,28684,158,2,55;53;74,0,0,0,15,Synth Soothsayer - Turret Falloff Bonus
 554,1,28682,552,3,6,0,0,0,15,Synth Xinstict - Sig Radius Bonus
+315,1,3898,37,3,6,0,0,0,15,Quafe Zero - Velocity Bonus
+566,1,3898,564,3,6,0,0,0,15,Quafe Zero - Velocity Bonus

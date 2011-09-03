@@ -22,27 +22,36 @@ Partial Class TrainingQueue
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.pnlBottom = New System.Windows.Forms.Panel
+        Me.lblSkillCount = New System.Windows.Forms.Label
+        Me.lblNumberOfSkills = New System.Windows.Forms.Label
         Me.lblQueueTime = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.lvQueue = New EveHQ.DragAndDropListView
-        Me.pnlBottom.SuspendLayout()
+        Me.panelInfo = New DevComponents.DotNetBar.PanelEx
+        Me.panelInfo.SuspendLayout()
         Me.SuspendLayout()
         '
-        'pnlBottom
+        'lblSkillCount
         '
-        Me.pnlBottom.Controls.Add(Me.lblQueueTime)
-        Me.pnlBottom.Controls.Add(Me.Label1)
-        Me.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.pnlBottom.Location = New System.Drawing.Point(0, 374)
-        Me.pnlBottom.Name = "pnlBottom"
-        Me.pnlBottom.Size = New System.Drawing.Size(766, 40)
-        Me.pnlBottom.TabIndex = 0
+        Me.lblSkillCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblSkillCount.Location = New System.Drawing.Point(325, 13)
+        Me.lblSkillCount.Name = "lblSkillCount"
+        Me.lblSkillCount.Size = New System.Drawing.Size(43, 17)
+        Me.lblSkillCount.TabIndex = 5
+        '
+        'lblNumberOfSkills
+        '
+        Me.lblNumberOfSkills.AutoSize = True
+        Me.lblNumberOfSkills.Location = New System.Drawing.Point(233, 14)
+        Me.lblNumberOfSkills.Name = "lblNumberOfSkills"
+        Me.lblNumberOfSkills.Size = New System.Drawing.Size(86, 13)
+        Me.lblNumberOfSkills.TabIndex = 4
+        Me.lblNumberOfSkills.Text = "Number of Skills:"
         '
         'lblQueueTime
         '
         Me.lblQueueTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblQueueTime.Location = New System.Drawing.Point(116, 14)
+        Me.lblQueueTime.Location = New System.Drawing.Point(113, 14)
         Me.lblQueueTime.Name = "lblQueueTime"
         Me.lblQueueTime.Size = New System.Drawing.Size(110, 15)
         Me.lblQueueTime.TabIndex = 2
@@ -50,7 +59,7 @@ Partial Class TrainingQueue
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 14)
+        Me.Label1.Location = New System.Drawing.Point(3, 14)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(101, 13)
         Me.Label1.TabIndex = 0
@@ -69,10 +78,31 @@ Partial Class TrainingQueue
         Me.lvQueue.Location = New System.Drawing.Point(0, 0)
         Me.lvQueue.Name = "lvQueue"
         Me.lvQueue.ShowItemToolTips = True
-        Me.lvQueue.Size = New System.Drawing.Size(766, 374)
+        Me.lvQueue.Size = New System.Drawing.Size(766, 373)
         Me.lvQueue.TabIndex = 1
         Me.lvQueue.UseCompatibleStateImageBehavior = False
         Me.lvQueue.View = System.Windows.Forms.View.Details
+        '
+        'panelInfo
+        '
+        Me.panelInfo.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelInfo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelInfo.Controls.Add(Me.lblSkillCount)
+        Me.panelInfo.Controls.Add(Me.Label1)
+        Me.panelInfo.Controls.Add(Me.lblNumberOfSkills)
+        Me.panelInfo.Controls.Add(Me.lblQueueTime)
+        Me.panelInfo.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.panelInfo.Location = New System.Drawing.Point(0, 373)
+        Me.panelInfo.Name = "panelInfo"
+        Me.panelInfo.Size = New System.Drawing.Size(766, 41)
+        Me.panelInfo.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelInfo.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelInfo.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelInfo.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelInfo.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelInfo.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelInfo.Style.GradientAngle = 90
+        Me.panelInfo.TabIndex = 2
         '
         'TrainingQueue
         '
@@ -80,17 +110,19 @@ Partial Class TrainingQueue
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.lvQueue)
-        Me.Controls.Add(Me.pnlBottom)
+        Me.Controls.Add(Me.panelInfo)
         Me.Name = "TrainingQueue"
         Me.Size = New System.Drawing.Size(766, 414)
-        Me.pnlBottom.ResumeLayout(False)
-        Me.pnlBottom.PerformLayout()
+        Me.panelInfo.ResumeLayout(False)
+        Me.panelInfo.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents pnlBottom As System.Windows.Forms.Panel
     Public WithEvents lvQueue As EveHQ.DragAndDropListView
     Friend WithEvents lblQueueTime As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lblSkillCount As System.Windows.Forms.Label
+    Friend WithEvents lblNumberOfSkills As System.Windows.Forms.Label
+    Friend WithEvents panelInfo As DevComponents.DotNetBar.PanelEx
 
 End Class

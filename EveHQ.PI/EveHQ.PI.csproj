@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A1DAB60F-A110-4BA3-8899-286E5B965088}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EveHQ.PI</RootNamespace>
+    <AssemblyName>EveHQ.PI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>EveHQ.ICO</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevComponents.DotNetBar2, Version=9.1.0.6, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EveHQ.Core\ExternalLibs\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\ExtControlUnit.cs" />
+    <Compile Include="Classes\PIOFacility.cs" />
+    <Compile Include="Classes\Resource.cs" />
+    <Compile Include="Controls\ECU_Mod.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ECU_Mod.Designer.cs">
+      <DependentUpon>ECU_Mod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddModule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddModule.Designer.cs">
+      <DependentUpon>AddModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\CommandCenter.cs" />
+    <Compile Include="Classes\Component.cs" />
+    <Compile Include="Classes\Extractor.cs" />
+    <Compile Include="Classes\Launchpad.cs" />
+    <Compile Include="Classes\Link.cs" />
+    <Compile Include="Classes\LinkData.cs" />
+    <Compile Include="Classes\PIFacility.cs" />
+    <Compile Include="Classes\Planet.cs" />
+    <Compile Include="Classes\Processor.cs" />
+    <Compile Include="Classes\Reaction.cs" />
+    <Compile Include="Classes\StorageFacility.cs" />
+    <Compile Include="Controls\Command_Mod.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Command_Mod.Designer.cs">
+      <DependentUpon>Command_Mod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Extractor_Mod.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Extractor_Mod.Designer.cs">
+      <DependentUpon>Extractor_Mod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExtractRateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExtractRateDialog.Designer.cs">
+      <DependentUpon>ExtractRateDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CopyRename.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CopyRename.Designer.cs">
+      <DependentUpon>CopyRename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NewPIFacility.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewPIFacility.Designer.cs">
+      <DependentUpon>NewPIFacility.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PIMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PIMain.Designer.cs">
+      <DependentUpon>PIMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\PlugInData.cs" />
+    <Compile Include="Classes\Material.cs" />
+    <Compile Include="Classes\MaterialInfo.cs" />
+    <Compile Include="Classes\LineItem.cs" />
+    <Compile Include="Controls\Launch_Pad.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Launch_Pad.Designer.cs">
+      <DependentUpon>Launch_Pad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Processor_Mod.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Processor_Mod.Designer.cs">
+      <DependentUpon>Processor_Mod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Storage_Mod.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Storage_Mod.Designer.cs">
+      <DependentUpon>Storage_Mod.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EveHQ.ICO" />
+    <None Include="Resources\LavaLarge.png" />
+    <None Include="Resources\noitem.jpg" />
+    <None Include="Resources\TemperateLarge.png" />
+    <None Include="Resources\StormLarge.png" />
+    <None Include="Resources\PlasmaLarge.png" />
+    <None Include="Resources\OceanicLarge.png" />
+    <None Include="Resources\IceLarge.png" />
+    <None Include="Resources\GasLarge.png" />
+    <None Include="Resources\BarrenLarge.png" />
+    <None Include="Resources\TemperateIcon.png" />
+    <None Include="Resources\StormIcon.png" />
+    <None Include="Resources\PlasmaIcon.png" />
+    <None Include="Resources\OceanicIcon.png" />
+    <None Include="Resources\LavaIcon.png" />
+    <None Include="Resources\IceIcon.png" />
+    <None Include="Resources\GasIcon.png" />
+    <None Include="Resources\BarrenIcon.png" />
+    <None Include="Resources\pi_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
+      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
+      <Name>EveHQ.CoreControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
+      <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
+      <Name>EveHQ.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
+      <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
+      <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\ECU_Mod.resx">
+      <DependentUpon>ECU_Mod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddModule.resx">
+      <DependentUpon>AddModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Command_Mod.resx">
+      <DependentUpon>Command_Mod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Extractor_Mod.resx">
+      <DependentUpon>Extractor_Mod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExtractRateDialog.resx">
+      <DependentUpon>ExtractRateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CopyRename.resx">
+      <DependentUpon>CopyRename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewPIFacility.resx">
+      <DependentUpon>NewPIFacility.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PIMain.resx">
+      <DependentUpon>PIMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Launch_Pad.resx">
+      <DependentUpon>Launch_Pad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Processor_Mod.resx">
+      <DependentUpon>Processor_Mod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Storage_Mod.resx">
+      <DependentUpon>Storage_Mod.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

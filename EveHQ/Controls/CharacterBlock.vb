@@ -1,4 +1,23 @@
-﻿Imports System.IO
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.IO
 
 Public Class CharacterBlock
 
@@ -14,7 +33,11 @@ Public Class CharacterBlock
         ' Draw image
         pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
         Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, dPilot.ID & ".png")
-        pbPilot.ImageLocation = imgFilename
+        If My.Computer.FileSystem.FileExists(imgFilename) = True Then
+            pbPilot.ImageLocation = imgFilename
+        Else
+            pbPilot.Image = My.Resources.nochar
+        End If
 
         ' Add labels
         lblPilotName.Text = dPilot.Name

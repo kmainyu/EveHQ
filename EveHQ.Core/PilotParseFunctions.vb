@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -62,24 +62,27 @@ Public Class PilotParseFunctions
         ' Copy new pilot data
         Dim oldPilot, newPilot As EveHQ.Core.Pilot
         For Each newPilot In EveHQ.Core.HQ.TPilots.Values
-            For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                If oldPilot.Name = newPilot.Name Then
-                    ' Transfer old information first (stuff that isn't picked up in the XML download)!!
-                    newPilot.UseManualImplants = oldPilot.UseManualImplants
-                    newPilot.CImplantM = oldPilot.CImplantM
-                    newPilot.IImplantM = oldPilot.IImplantM
-                    newPilot.MImplantM = oldPilot.MImplantM
-                    newPilot.PImplantM = oldPilot.PImplantM
-                    newPilot.WImplantM = oldPilot.WImplantM
-                    newPilot.Active = oldPilot.Active
-                    ' Check if the old pilot has an account if using manual mode!!
-                    If oldPilot.Account <> "" And newPilot.Account = "" Then
-                        newPilot.Account = oldPilot.Account
-                        newPilot.AccountPosition = oldPilot.AccountPosition
-                    End If
-                    EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(oldPilot.Name)
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(newPilot.Name) Then
+                oldPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(newPilot.Name), Pilot)
+                ' Transfer old information first (stuff that isn't picked up in the XML download)!!
+                newPilot.UseManualImplants = oldPilot.UseManualImplants
+                newPilot.CImplantM = oldPilot.CImplantM
+                newPilot.IImplantM = oldPilot.IImplantM
+                newPilot.MImplantM = oldPilot.MImplantM
+                newPilot.PImplantM = oldPilot.PImplantM
+                newPilot.WImplantM = oldPilot.WImplantM
+                newPilot.ActiveQueueName = oldPilot.ActiveQueueName
+                newPilot.ActiveQueue = CType(oldPilot.ActiveQueue.Clone, SkillQueue)
+                newPilot.Active = oldPilot.Active
+                newPilot.PrimaryQueue = oldPilot.PrimaryQueue
+				newPilot.Standings = oldPilot.Standings
+				' Check if the old pilot has an account if using manual mode!!
+                If oldPilot.Account <> "" And newPilot.Account = "" Then
+                    newPilot.Account = oldPilot.Account
+                    newPilot.AccountPosition = oldPilot.AccountPosition
                 End If
-            Next
+                EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(oldPilot.Name)
+            End If
         Next
         For Each newPilot In EveHQ.Core.HQ.TPilots.Values
             ' Add the update info first to indicate it has been updated
@@ -99,6 +102,26 @@ Public Class PilotParseFunctions
         Call LoadKeySkills()
 
     End Sub          'CopyTempPilotsToMain
+
+    Public Shared Sub CopyTempCorpsToMain()
+
+        ' Remove corps that will be replaced
+        For Each NewCorp As Corporation In EveHQ.Core.HQ.TCorps.Values
+            If EveHQ.Core.HQ.EveHQSettings.Corporations.ContainsKey(NewCorp.Name) Then
+                EveHQ.Core.HQ.EveHQSettings.Corporations.Remove(NewCorp.Name)
+            End If
+        Next
+
+        ' Copy new corp data
+        For Each NewCorp As Corporation In EveHQ.Core.HQ.TCorps.Values
+            ' Add the update info first to indicate it has been updated
+            If EveHQ.Core.HQ.EveHQSettings.Corporations.ContainsKey(NewCorp.Name) = False Then
+                EveHQ.Core.HQ.EveHQSettings.Corporations.Add(NewCorp.Name, NewCorp)
+            End If
+        Next
+
+    End Sub
+
     Private Shared Sub GetPilotCachedInfo()
         Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
         For Each currentPilot In EveHQ.Core.HQ.TPilots.Values
@@ -106,18 +129,18 @@ Public Class PilotParseFunctions
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
             Dim cXMLDoc, tXMLDoc As New XmlDocument
-            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
                 cXML = True
             End If
-            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
                 tXML = True
             End If
 
             ' Only load in and parse if both files are available
             If cXML = True Then
-                cXMLDoc.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
+                cXMLDoc.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
                 If tXML = True Then
-                    tXMLDoc.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
+                    tXMLDoc.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
                 End If
                 Call ParsePilotSkills(currentPilot, cXMLDoc)
                 Call ParsePilotXML(currentPilot, cXMLDoc)
@@ -255,6 +278,10 @@ Public Class PilotParseFunctions
                         curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility) = CStr(curSkill.Level)
                     Case "Wholesale"
                         curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale) = CStr(curSkill.Level)
+                    Case "Diploamcy"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Diplomacy) = CStr(curSkill.Level)
+                    Case "Connections"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Connections) = CStr(curSkill.Level)
                 End Select
             Next
             Return True
@@ -276,115 +303,244 @@ Public Class PilotParseFunctions
 
     Public Shared Sub GetCharactersInAccount(ByVal caccount As EveAccount)
 
+        ' Check Account Status
+        Call GetAccountStatus(caccount)
+
         ' Fetch the characters on account XML file
-        Dim accountXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Characters, caccount, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
-        If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
-            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, -EveAPI.LastAPIError)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.Characters, caccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
+        If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
+            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, -APIReq.LastAPIError)
         Else
-            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, EveAPI.LastAPIResult)
+            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, APIReq.LastAPIResult)
         End If
 
-        If EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedActual Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedCached Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
-            If accountXML IsNot Nothing Then
-                ' Get characters
-                Dim charlist As XmlNodeList
-                Dim toon As XmlNode
-                Dim curr_toon As Integer = 0
+        ' Ignore for APIv2 corp keys
+        If Not (caccount.APIKeySystem = APIKeySystems.Version2 And caccount.APIKeyType = APIKeyTypes.Corporation) Then
 
-                ' Get the list of characters and the character IDs
-                charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
-                ' Clear the current characters on the account
-                caccount.Characters = New ArrayList
-                For Each toon In charlist
-                    curr_toon += 1
-                    ' Add the pilot details into the collection
-                    Dim newPilot As New EveHQ.Core.Pilot
-                    newPilot.Name = toon.Attributes.GetNamedItem("name").Value
-                    newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
-                    newPilot.AccountPosition = CStr(curr_toon)
-                    newPilot.Account = caccount.userID
-                    EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
-                    caccount.Characters.Add(newPilot.Name)
-                    Call GetCharacterXMLs(caccount, newPilot)
-                Next
+            If APIReq.LastAPIResult = EveAPI.APIResults.ReturnedActual Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedCached Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
+                If accountXML IsNot Nothing Then
+                    ' Get characters
+                    Dim charlist As XmlNodeList
+                    Dim toon As XmlNode
+                    Dim curr_toon As Integer = 0
 
-                ' Check if we have any old pilots that the account does not have anymore
-                Dim oldPilots As String = ""
-                Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-                For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                    If oldPilot.Account = caccount.userID Then
-                        Dim validPilot As Boolean = False
-                        For Each toon In charlist
-                            If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
-                                validPilot = True
-                                Exit For
-                            End If
-                        Next
-                        If validPilot = False Then
-                            oldPilots &= oldPilot.Name & ","
-                            oldPilot.Account = ""
-                            oldPilot.AccountPosition = "0"
+                    ' Get the list of characters and the character IDs
+                    charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
+                    ' Clear the current characters on the account
+                    caccount.Characters = New ArrayList
+                    For Each toon In charlist
+                        curr_toon += 1
+                        ' Add the pilot details into the collection
+                        Dim newPilot As New EveHQ.Core.Pilot
+                        newPilot.Name = toon.Attributes.GetNamedItem("name").Value
+                        newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
+                        newPilot.AccountPosition = CStr(curr_toon)
+                        newPilot.Account = caccount.userID
+                        ' Copy notification data if available - we reset this after checking the API request if not cached
+                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(newPilot.Name) = True Then
+                            newPilot.TrainingNotifiedEarly = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(newPilot.Name), EveHQ.Core.Pilot).TrainingNotifiedEarly
+                            newPilot.TrainingNotifiedNow = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(newPilot.Name), EveHQ.Core.Pilot).TrainingNotifiedNow
+                        Else
+                            ' New character - let's download the image for them automatically :)
+                            EveHQ.Core.ImageHandler.DownloadPortrait(newPilot.ID)
                         End If
-                    End If
-                Next
-                oldPilots = oldPilots.Trim(CChar(","))
-                If oldPilots <> "" Then
-                    Dim msg As String = ""
-                    msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & caccount.userID & "'" & ControlChars.CrLf
-                    msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
-                    Dim olderPilots() As String = oldPilots.Split(CChar(","))
-                    Dim dPilot As String = ""
-                    For Each dPilot In olderPilots
-                        msg &= dPilot & ControlChars.CrLf
+                        EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
+                        caccount.Characters.Add(newPilot.Name)
+                        Call GetCharacterXMLs(caccount, newPilot)
                     Next
-                    MessageBox.Show(msg, "Unused Pilots", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    ' Check if we have any old pilots that the account does not have anymore
+                    Dim oldPilots As String = ""
+                    Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+                    For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                        If oldPilot.Account = caccount.userID Then
+                            Dim validPilot As Boolean = False
+                            For Each toon In charlist
+                                If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
+                                    validPilot = True
+                                    Exit For
+                                End If
+                            Next
+                            If validPilot = False Then
+                                oldPilots &= oldPilot.Name & ","
+                                oldPilot.Account = ""
+                                oldPilot.AccountPosition = "0"
+                            End If
+                        End If
+                    Next
+                    oldPilots = oldPilots.Trim(CChar(","))
+                    If oldPilots <> "" Then
+                        Dim msg As String = ""
+                        msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & caccount.userID & "'" & ControlChars.CrLf
+                        msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
+                        Dim olderPilots() As String = oldPilots.Split(CChar(","))
+                        Dim dPilot As String = ""
+                        For Each dPilot In olderPilots
+                            msg &= dPilot & ControlChars.CrLf
+                        Next
+                        MessageBox.Show(msg, "Unused Pilots", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+
                 End If
-
-            End If
-        End If
-
-    End Sub
-    Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
-        Dim cXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CharacterSheet, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
-        If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
-            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet) = False Then
-                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet, -EveHQ.Core.EveAPI.LastAPIError)
             End If
         Else
-            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet) = False Then
-                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet, EveHQ.Core.EveAPI.LastAPIResult)
+            Dim CorpList As XmlNodeList
+            Dim Corp As XmlNode
+            ' Add a corporation to the settings
+            ' Get the list of characters and the character IDs
+            CorpList = accountXML.SelectNodes("/eveapi/result/rowset/row")
+            ' Clear the current characters on the account
+            caccount.Characters = New ArrayList
+            If CorpList.Count > 0 Then
+                Corp = CorpList(0)
+                Dim NewCorp As New EveHQ.Core.Corporation
+                ' Get the existing corp if appropriate
+                If EveHQ.Core.HQ.TCorps.ContainsKey(Corp.Attributes.GetNamedItem("corporationName").Value) = True Then
+                    NewCorp = EveHQ.Core.HQ.TCorps(Corp.Attributes.GetNamedItem("corporationName").Value)
+                Else
+                    NewCorp.Name = Corp.Attributes.GetNamedItem("corporationName").Value
+                    NewCorp.ID = Corp.Attributes.GetNamedItem("corporationID").Value
+                    EveHQ.Core.HQ.TCorps.Add(NewCorp.Name, NewCorp)
+                    caccount.Characters.Add(NewCorp.Name)
+                End If
+                If NewCorp.CharacterIDs.Contains(Corp.Attributes.GetNamedItem("characterID").Value) = False Then
+                    NewCorp.CharacterIDs.Add(Corp.Attributes.GetNamedItem("characterID").Value)
+                End If
+                If NewCorp.CharacterNames.Contains(Corp.Attributes.GetNamedItem("name").Value) = False Then
+                    NewCorp.CharacterNames.Add(Corp.Attributes.GetNamedItem("name").Value)
+                End If
+                If NewCorp.Accounts.Contains(caccount.userID) = False Then
+                    NewCorp.Accounts.Add(caccount.userID)
+                End If
             End If
-        End If
-        Dim tXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillQueue, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
-        If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
-            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue) = False Then
-                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue, -EveHQ.Core.EveAPI.LastAPIError)
-            End If
-        Else
-            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue) = False Then
-                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue, EveHQ.Core.EveAPI.LastAPIResult)
-            End If
-        End If
-        If cXML IsNot Nothing And tXML IsNot Nothing Then
-            Call ParsePilotSkills(cPilot, cXML)
-            Call ParsePilotXML(cPilot, cXML)
-            Call ParseTrainingXML(cPilot, tXML)
-            Call BuildAttributeData(cPilot)
-            'Else
-            'Dim msg As String = "There was a error retrieving the character data for " & cPilot.Name & " from the API server. The error returned was: " & ControlChars.CrLf & ControlChars.CrLf
-            'msg &= EveHQ.Core.EveAPI.LastAPIErrorText & ControlChars.CrLf & ControlChars.CrLf
-            'msg &= "Please check the status of the API server."
-            'MessageBox.Show(msg, "API Error - " & cPilot.Name, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
+    Private Shared Sub GetAccountStatus(ByRef cAccount As EveAccount)
+        ' Attempts to get the AccountStatus API for additional information and for checking API key status
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
+        Select Case cAccount.APIKeySystem
+            Case APIKeySystems.Unknown
+                ' Ignore
+            Case APIKeySystems.Version1
+                Select Case APIReq.LastAPIError
+                    Case -1
+                        If accountXML IsNot Nothing Then
+                            ' Should be full key
+                            cAccount.APIKeyType = Core.APIKeyTypes.Full
+                            cAccount.LastAccountStatusCheck = Now
+                            ' Parse the account information
+                            If accountXML.GetElementsByTagName("createDate").Item(0).InnerText <> "" Then
+                                Dim cd As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("createDate").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
+                                cAccount.CreateDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cd)
+                                Dim pu As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("paidUntil").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
+                                cAccount.PaidUntil = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(pu)
+                                cAccount.LogonCount = CLng(accountXML.GetElementsByTagName("logonCount").Item(0).InnerText)
+                                cAccount.LogonMinutes = CLng(accountXML.GetElementsByTagName("logonMinutes").Item(0).InnerText)
+                                If cAccount.PaidUntil < Now Then
+                                    ' Account has expired
+                                    cAccount.APIAccountStatus = APIAccountStatuses.Disabled
+                                Else
+                                    cAccount.APIAccountStatus = APIAccountStatuses.Active
+                                End If
+                            End If
+                        End If
+                    Case 211
+                        ' Account has expired
+                        cAccount.APIAccountStatus = APIAccountStatuses.Disabled
+                    Case 200
+                        ' Should be limited key
+                        cAccount.APIKeyType = Core.APIKeyTypes.Limited
+                        cAccount.APIAccountStatus = APIAccountStatuses.Active
+                End Select
+            Case APIKeySystems.Version2
+                Select Case APIReq.LastAPIError
+                    Case -1
+                        If accountXML IsNot Nothing Then
+                            cAccount.LastAccountStatusCheck = Now
+                            ' Parse the account information
+                            If accountXML.GetElementsByTagName("createDate").Item(0).InnerText <> "" Then
+                                Dim cd As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("createDate").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
+                                cAccount.CreateDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cd)
+                                Dim pu As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("paidUntil").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
+                                cAccount.PaidUntil = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(pu)
+                                cAccount.LogonCount = CLng(accountXML.GetElementsByTagName("logonCount").Item(0).InnerText)
+                                cAccount.LogonMinutes = CLng(accountXML.GetElementsByTagName("logonMinutes").Item(0).InnerText)
+                                If cAccount.PaidUntil < Now Then
+                                    ' Account has expired
+                                    cAccount.APIAccountStatus = APIAccountStatuses.Disabled
+                                Else
+                                    cAccount.APIAccountStatus = APIAccountStatuses.Active
+                                End If
+                            End If
+                        End If
+                    Case 211
+                        ' Account has expired
+                        cAccount.APIAccountStatus = APIAccountStatuses.Disabled
+                    Case 200
+                        ' Should be limited key
+                        cAccount.APIKeyType = Core.APIKeyTypes.Limited
+                        cAccount.APIAccountStatus = APIAccountStatuses.Active
+                End Select
+        End Select
+        
+    End Sub
+	Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
+
+		' Set up an API Request for this character
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+
+		' Get the Character Sheet
+		Dim cXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
+
+		' Store the Character Sheet API result
+		If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
+			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet) = False Then
+				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet, -APIReq.LastAPIError)
+			End If
+		Else
+			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet) = False Then
+				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet, APIReq.LastAPIResult)
+			End If
+		End If
+
+		' Get the Skill Queue
+		Dim tXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.SkillQueue, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
+
+		' Store the Skill Queue API result
+		If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
+			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue) = False Then
+				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue, -APIReq.LastAPIError)
+			End If
+		Else
+			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue) = False Then
+				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue, APIReq.LastAPIResult)
+			End If
+		End If
+
+		' Only parse the sheets if both the CharacterSheet and TrainingQueue APIs are not null
+		If cXML IsNot Nothing And tXML IsNot Nothing Then
+			' Check if we need to reset the pilot notifications (if not a cached response)
+			If APIReq.LastAPIResult = EveAPI.APIResults.ReturnedNew Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedActual Then
+				cPilot.TrainingNotifiedEarly = False
+				cPilot.TrainingNotifiedNow = False
+			End If
+
+			' Parse the API data
+			Call ParsePilotSkills(cPilot, cXML)
+			Call ParsePilotXML(cPilot, cXML)
+			Call ParseTrainingXML(cPilot, tXML)
+			Call BuildAttributeData(cPilot)
+		End If
+
+	End Sub
     Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal CXMLDoc As XmlDocument)
 
         Dim CharDetails As XmlNodeList
         Dim toon As XmlNode
         Dim curr_toon As Integer = 0
         Dim toonNo As Integer = 0
-
-        Dim name As XmlNodeList = CXMLDoc.GetElementsByTagName("name")
 
         Dim nPilot As New EveHQ.Core.Pilot
         CharDetails = CXMLDoc.SelectNodes("/eveapi/result")
@@ -490,10 +646,10 @@ Public Class PilotParseFunctions
                         .TrainingSkillID = trainingNode.Attributes("typeID").Value
                         .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
                         Dim dt As Date = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                        .TrainingStartTimeActual = CDate(dt.ToString)
+                        .TrainingStartTimeActual = dt
                         .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
                         dt = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                        .TrainingEndTimeActual = CDate(dt.ToString)
+                        .TrainingEndTimeActual = dt
                         .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
                         .TrainingStartSP = CInt(trainingNode.Attributes("startSP").Value)
                         .TrainingEndSP = CInt(trainingNode.Attributes("endSP").Value)
@@ -507,8 +663,8 @@ Public Class PilotParseFunctions
                 End With
                 ' Now get any additional results and add them to the pilot queued skills
                 cPilot.QueuedSkills.Clear()
-                If TrainingDetails.Count > 1 Then
-                    For queuedSkillNo As Integer = 1 To TrainingDetails.Count - 1
+                If TrainingDetails.Count > 0 Then
+                    For queuedSkillNo As Integer = 0 To TrainingDetails.Count - 1
                         trainingNode = TrainingDetails(queuedSkillNo)
                         If trainingNode.Attributes("startTime").Value <> "" And trainingNode.Attributes("endTime").Value <> "" Then
                             Dim QueuedSkill As New PilotQueuedSkill
@@ -718,9 +874,9 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
-                pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTXML IsNot Nothing Then
-                    pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                    pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
@@ -812,10 +968,10 @@ Public Class PilotParseFunctions
                 newPilot.AccountPosition = "0"
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
-                pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTXML IsNot Nothing Then
                     If pilotTXML.InnerText <> "" Then
-                        pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                        pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                     End If
                 End If
 

@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmEveExport
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -25,12 +25,12 @@ Partial Class frmEveExport
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEveExport))
         Me.lblDescription = New System.Windows.Forms.Label
         Me.lblEveFolder = New System.Windows.Forms.Label
-        Me.lvwFittings = New System.Windows.Forms.ListView
+        Me.lvwFittings = New DevComponents.DotNetBar.Controls.ListViewEx
         Me.colFitting = New System.Windows.Forms.ColumnHeader
-        Me.btnExport = New System.Windows.Forms.Button
-        Me.btnCancel = New System.Windows.Forms.Button
         Me.lblFilename = New System.Windows.Forms.Label
         Me.txtFilename = New System.Windows.Forms.TextBox
+        Me.btnExport = New DevComponents.DotNetBar.ButtonX
+        Me.btnCancel = New DevComponents.DotNetBar.ButtonX
         Me.SuspendLayout()
         '
         'lblDescription
@@ -53,6 +53,11 @@ Partial Class frmEveExport
         '
         'lvwFittings
         '
+        '
+        '
+        '
+        Me.lvwFittings.Border.Class = "ListViewBorder"
+        Me.lvwFittings.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lvwFittings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colFitting})
         Me.lvwFittings.FullRowSelect = True
         Me.lvwFittings.GridLines = True
@@ -67,24 +72,6 @@ Partial Class frmEveExport
         '
         Me.colFitting.Text = "Fitting Name"
         Me.colFitting.Width = 490
-        '
-        'btnExport
-        '
-        Me.btnExport.Location = New System.Drawing.Point(375, 300)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(75, 23)
-        Me.btnExport.TabIndex = 3
-        Me.btnExport.Text = "Export"
-        Me.btnExport.UseVisualStyleBackColor = True
-        '
-        'btnCancel
-        '
-        Me.btnCancel.Location = New System.Drawing.Point(456, 300)
-        Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.TabIndex = 4
-        Me.btnCancel.Text = "Cancel"
-        Me.btnCancel.UseVisualStyleBackColor = True
         '
         'lblFilename
         '
@@ -103,18 +90,44 @@ Partial Class frmEveExport
         Me.txtFilename.Size = New System.Drawing.Size(212, 21)
         Me.txtFilename.TabIndex = 6
         '
+        'btnExport
+        '
+        Me.btnExport.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnExport.Location = New System.Drawing.Point(375, 300)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(75, 23)
+        Me.btnExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnExport.TabIndex = 7
+        Me.btnExport.Text = "Export"
+        '
+        'btnCancel
+        '
+        Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnCancel.Location = New System.Drawing.Point(456, 300)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btnCancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnCancel.TabIndex = 8
+        Me.btnCancel.Text = "Cancel"
+        '
         'frmEveExport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(543, 335)
-        Me.Controls.Add(Me.txtFilename)
-        Me.Controls.Add(Me.lblFilename)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnExport)
+        Me.Controls.Add(Me.txtFilename)
+        Me.Controls.Add(Me.lblFilename)
         Me.Controls.Add(Me.lvwFittings)
         Me.Controls.Add(Me.lblEveFolder)
         Me.Controls.Add(Me.lblDescription)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -129,10 +142,10 @@ Partial Class frmEveExport
     End Sub
     Friend WithEvents lblDescription As System.Windows.Forms.Label
     Friend WithEvents lblEveFolder As System.Windows.Forms.Label
-    Friend WithEvents lvwFittings As System.Windows.Forms.ListView
-    Friend WithEvents btnExport As System.Windows.Forms.Button
-    Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents lvwFittings As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colFitting As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblFilename As System.Windows.Forms.Label
     Friend WithEvents txtFilename As System.Windows.Forms.TextBox
+    Friend WithEvents btnExport As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnCancel As DevComponents.DotNetBar.ButtonX
 End Class

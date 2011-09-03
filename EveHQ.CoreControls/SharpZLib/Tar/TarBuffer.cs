@@ -259,8 +259,6 @@ or which contains garbage records after a zero block.
 			}
 		}
 		
-		// TODO: IsEOFBlock could/should be static but this is a breaking change.
-
 		/// <summary>
 		/// Determine if an archive block indicates End of Archive. End of
 		/// archive is indicated by a block that consists entirely of null bytes.

@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,7 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports DotNetLib.Windows.Forms
+Imports DevComponents.AdvTree
 
 Public Class frmShipComparison
 
@@ -105,62 +105,65 @@ Public Class frmShipComparison
             CompareWorker.Dispose()
 
             ' Add the details to the listview
-            clvShips.BeginUpdate()
-            clvShips.Items.Clear()
+            adtShips.BeginUpdate()
+            adtShips.Nodes.Clear()
             For Each newShip As ShipData In ShipInfo.Values
-                Dim newCLV As New ContainerListViewItem
-                newCLV.Text = newShip.Ship & ", " & newShip.Fitting
-                clvShips.Items.Add(newCLV)
-                Dim pb As New Windows.Forms.PictureBox
-                pb.Height = 16 : pb.Width = 16 : pb.Image = My.Resources.imgInfo2 : pb.SizeMode = Windows.Forms.PictureBoxSizeMode.StretchImage
-                ToolTip1.SetToolTip(pb, newShip.Modules)
-                newCLV.SubItems(0).ItemControl = pb
-                newCLV.SubItems(0).Tag = newShip.Modules
-                newCLV.SubItems(1).Text = newShip.Ship & ", " & newShip.Fitting
-                newCLV.SubItems(2).Text = FormatNumber(newShip.EHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(3).Text = FormatNumber(newShip.Tank, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(4).Tag = newShip.Capacitor
+                Dim newShipNode As New Node
+                newShipNode.Text = newShip.Ship & ", " & newShip.Fitting
+                newShipNode.Tag = newShip.Modules
+                adtShips.Nodes.Add(newShipNode)
+                STT.SetSuperTooltip(newShipNode, New DevComponents.DotNetBar.SuperTooltipInfo("Fitting Info", newShip.Fitting, newShip.Modules, Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.EHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.Tank, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
                 If newShip.Capacitor > 0 Then
-                    newCLV.SubItems(4).Text = "Stable at " & FormatNumber(newShip.Capacitor, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    newShipNode.Cells.Add(New Cell("Stable at " & FormatNumber(newShip.Capacitor, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"))
                 Else
-                    newCLV.SubItems(4).Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-newShip.Capacitor)
+                    newShipNode.Cells.Add(New Cell("Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-newShip.Capacitor)))
                 End If
-                newCLV.SubItems(5).Text = FormatNumber(newShip.Volley, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(6).Text = FormatNumber(newShip.DPS, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(7).Text = FormatNumber(newShip.SEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(8).Text = FormatNumber(newShip.SEx, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(9).Text = FormatNumber(newShip.SKi, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(10).Text = FormatNumber(newShip.STh, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(11).Text = FormatNumber(newShip.AEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(12).Text = FormatNumber(newShip.AEx, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(13).Text = FormatNumber(newShip.AKi, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLV.SubItems(14).Text = FormatNumber(newShip.ATh, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newShipNode.Cells(3).Tag = newShip.Capacitor
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.Volley, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.DPS, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.SEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.SEx, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.SKi, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.STh, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.AEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.AEx, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.AKi, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.ATh, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
             Next
-            clvShips.EndUpdate()
+            EveHQ.Core.AdvTreeSorter.Sort(adtShips, 1, True, True)
+            adtShips.EndUpdate()
         End If
     End Sub
 
     Private Sub btnCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopy.Click
         Dim buffer As New System.Text.StringBuilder
         buffer.AppendLine("HQF Ship Comparison Table")
-        For i As Integer = 1 To clvShips.Columns.Count - 1
-            buffer.Append(clvShips.Columns(i).Text)
+        For i As Integer = 0 To adtShips.Columns.Count - 1
+            buffer.Append(adtShips.Columns(i).Text)
             buffer.Append(ControlChars.Tab)
         Next
         buffer.Append("Fitting List")
         buffer.Append(ControlChars.CrLf)
-        For i As Integer = 0 To clvShips.Items.Count - 1
-            For j As Integer = 1 To clvShips.Items(0).SubItems.Count - 1
-                If clvShips.Items(i).SubItems(j) IsNot Nothing Then
-                    buffer.Append(clvShips.Items(i).SubItems(j).Text)
+        For i As Integer = 0 To adtShips.Nodes.Count - 1
+            For j As Integer = 0 To adtShips.Nodes(0).Cells.Count - 1
+                If adtShips.Nodes(i).Cells(j) IsNot Nothing Then
+                    buffer.Append(adtShips.Nodes(i).Cells(j).Text)
                     buffer.Append(ControlChars.Tab)
                 End If
             Next
-            buffer.Append(clvShips.Items(i).SubItems(0).Tag.ToString.Replace(ControlChars.CrLf, ", ").Replace(", , ", ", "))
+            buffer.Append(adtShips.Nodes(i).Cells(0).Tag.ToString.Replace(ControlChars.CrLf, ", ").Replace(", , ", ", "))
             buffer.Append(ControlChars.CrLf)
         Next
         My.Computer.Clipboard.SetText(buffer.ToString)
     End Sub
+
+    Private Sub adtShips_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtShips.ColumnHeaderMouseDown
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+    End Sub
+
 End Class
 
 Public Class ShipData

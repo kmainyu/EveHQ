@@ -1,4 +1,23 @@
-﻿Imports System.Windows.Forms
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.Windows.Forms
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 
@@ -12,17 +31,22 @@ Public Class PlugInData
     Shared moduleEffectData As DataSet
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.16.0.2570"
+    Shared LastCacheRefresh As String = "1.99.0.3139"
 
 #Region "Plug-in Interface Properties and Functions"
 
     Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
-        ' Check for fitting protocol
-        Dim fb As New frmFittingBrowser
-        fb.DNAFit = Me.ParseFittingLink(CStr(Data))
-        fb.TopMost = True
-        fb.Show()
-        Return Nothing
+        Select Case DataType
+            Case 0 ' Fitting Protocol
+                ' Check for fitting protocol
+                Dim fb As New frmFittingBrowser
+                fb.DNAFit = Me.ParseFittingLink(CStr(Data))
+                fb.TopMost = True
+                fb.Show()
+                Return Nothing
+            Case Else
+                Return Nothing
+        End Select
     End Function
 
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
@@ -67,94 +91,207 @@ Public Class PlugInData
             Engine.BuildShipEffectsMap()
             Engine.BuildShipBonusesMap()
             Engine.BuildSubSystemBonusMap()
+
             ' Check for the existence of the binary data
+            Dim NoSerializableErrors As Boolean = True
+
             If PlugInData.UseSerializableData = True Then
-                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin")) = True Then
-                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
-                    s.Close()
+
+                If NoSerializableErrors = True Then
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin")) = True Then
+                        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin"), FileMode.Open)
+                        Try
+                            Dim f As BinaryFormatter = New BinaryFormatter
+                            Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
+                            s.Close()
+                        Catch sex As Exception
+                            s.Close()
+                            NoSerializableErrors = False
+                        End Try
+                    Else
+                        NoSerializableErrors = False
+                    End If
                 End If
-                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin")) = True Then
-                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    ShipLists.shipList = CType(f.Deserialize(s), SortedList)
-                    s.Close()
-                    For Each cShip As Ship In ShipLists.shipList.Values
-                        ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
-                        ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
-                    Next
+
+                If NoSerializableErrors = True Then
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin")) = True Then
+                        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
+                        Try
+                            Dim f As BinaryFormatter = New BinaryFormatter
+                            ShipLists.shipList = CType(f.Deserialize(s), SortedList)
+                            s.Close()
+                            For Each cShip As Ship In ShipLists.shipList.Values
+                                ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
+                                ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
+                            Next
+                        Catch sex As Exception
+                            s.Close()
+                            NoSerializableErrors = False
+                        End Try
+                    Else
+                        NoSerializableErrors = False
+                    End If
                 End If
-                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin")) = True Then
-                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    ModuleLists.moduleList = CType(f.Deserialize(s), SortedList)
-                    s.Close()
-                    For Each cMod As ShipModule In ModuleLists.moduleList.Values
-                        ModuleLists.moduleListName.Add(cMod.Name.Trim, cMod.ID)
-                        If cMod.IsCharge = True Then
-                            If Charges.ChargeGroups.Contains(cMod.MarketGroup) = False Then
-                                Charges.ChargeGroups.Add(cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
-                            End If
-                        End If
-                    Next
+
+                If NoSerializableErrors = True Then
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin")) = True Then
+                        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin"), FileMode.Open)
+                        Try
+                            Dim f As BinaryFormatter = New BinaryFormatter
+                            ModuleLists.moduleList = CType(f.Deserialize(s), SortedList)
+                            s.Close()
+                            For Each cMod As ShipModule In ModuleLists.moduleList.Values
+                                ModuleLists.moduleListName.Add(cMod.Name.Trim, cMod.ID)
+                                If cMod.IsCharge = True Then
+                                    If Charges.ChargeGroups.Contains(cMod.MarketGroup) = False Then
+                                        Charges.ChargeGroups.Add(cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
+                                    End If
+                                End If
+                            Next
+                        Catch sex As Exception
+                            s.Close()
+                            NoSerializableErrors = False
+                        End Try
+                    Else
+                        NoSerializableErrors = False
+                    End If
                 End If
-                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin")) = True Then
-                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    Implants.implantList = CType(f.Deserialize(s), SortedList)
-                    s.Close()
+
+                If NoSerializableErrors = True Then
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin")) = True Then
+                        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin"), FileMode.Open)
+                        Try
+                            Dim f As BinaryFormatter = New BinaryFormatter
+                            Implants.implantList = CType(f.Deserialize(s), SortedList)
+                            s.Close()
+                        Catch sex As Exception
+                            s.Close()
+                            NoSerializableErrors = False
+                        End Try
+                    Else
+                        NoSerializableErrors = False
+                    End If
                 End If
-                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin")) = True Then
-                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    Boosters.BoosterList = CType(f.Deserialize(s), SortedList)
-                    s.Close()
+
+                If NoSerializableErrors = True Then
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin")) = True Then
+                        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin"), FileMode.Open)
+                        Try
+                            Dim f As BinaryFormatter = New BinaryFormatter
+                            Boosters.BoosterList = CType(f.Deserialize(s), SortedList)
+                            s.Close()
+                        Catch sex As Exception
+                            s.Close()
+                            NoSerializableErrors = False
+                        End Try
+                    Else
+                        NoSerializableErrors = False
+                    End If
                 End If
-                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin")) = True Then
-                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
-                    s.Close()
+
+                If NoSerializableErrors = True Then
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin")) = True Then
+                        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin"), FileMode.Open)
+                        Try
+                            Dim f As BinaryFormatter = New BinaryFormatter
+                            SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
+                            s.Close()
+                        Catch sex As Exception
+                            s.Close()
+                            NoSerializableErrors = False
+                        End Try
+                    Else
+                        NoSerializableErrors = False
+                    End If
                 End If
-                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin")) = True Then
-                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    NPCs.NPCList = CType(f.Deserialize(s), SortedList)
-                    s.Close()
+
+                If NoSerializableErrors = True Then
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin")) = True Then
+                        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin"), FileMode.Open)
+                        Try
+                            Dim f As BinaryFormatter = New BinaryFormatter
+                            NPCs.NPCList = CType(f.Deserialize(s), SortedList)
+                            s.Close()
+                        Catch sex As Exception
+                            s.Close()
+                            NoSerializableErrors = False
+                        End Try
+                    Else
+                        NoSerializableErrors = False
+                    End If
                 End If
+
+                ' Ask what we want to do in the case of errors during the deserialization process
+                If NoSerializableErrors = False Then
+                    Dim msg As String = "There was an error loading the HQF cache files. Would you like to try and re-generate the cache data to continue?"
+                    Dim reply As DialogResult = MessageBox.Show(msg, "Re-create HQF Cache Data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If reply = DialogResult.Yes Then
+                        Return Me.GenerateHQFCacheData
+                    Else
+                        MessageBox.Show("Loading of HQF aborted due to corrupt cache files", "HQF Loading Aborted", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Return False
+                    End If
+                End If
+
                 Call Me.BuildAttributeQuickList()
                 Engine.BuildImplantEffectsMap()
+
+                ' Load any custom ship classes and ships then implement into HQF
+                CustomHQFClasses.LoadCustomShipClasses()
+                CustomHQFClasses.LoadCustomShips()
+                CustomHQFClasses.ImplementCustomShips()
+
+                ' Convert the old fittings file to the new version
+                Call SavedFittings.ConvertOldFittingsFile()
+
+                Return True
             Else
-                ' Populate the Ship data
-                If Me.LoadAttributes = True Then
-                    If Me.LoadSkillData = True Then
-                        If Me.LoadShipGroupData = True Then
-                            If Me.LoadMarketGroupData = True Then
-                                If Me.LoadShipNameData = True Then
-                                    If Me.LoadShipAttributeData = True Then
-                                        Call Me.PopulateShipLists()
-                                        If Me.LoadModuleData = True Then
-                                            If Me.LoadModuleEffectData = True Then
-                                                If Me.LoadModuleAttributeData = True Then
-                                                    If Me.LoadModuleMetaTypes = True Then
-                                                        If Me.BuildModuleData = True Then
-                                                            If Me.LoadNPCData = True Then
-                                                                Call Me.BuildAttributeQuickList()
-                                                                Engine.BuildImplantEffectsMap()
-                                                                Call Me.BuildModuleEffects()
-                                                                Call Me.BuildImplantEffects()
-                                                                Call Me.BuildShipEffects()
-                                                                Call Me.BuildSubsystemEffects()
-                                                                ' Save the HQF data
-                                                                Call Me.SaveHQFCacheData()
-                                                                Call Me.CleanUpData()
-                                                            Else
-                                                                Return False
-                                                            End If
-                                                        Else
-                                                            Return False
-                                                        End If
+                ' Generate the HQF Cache Data
+                Return Me.GenerateHQFCacheData()
+            End If
+        Catch ex As Exception
+            Dim msg As String = "There was an error loading the HQF cache files. Would you like to try and re-generate the cache data to continue?"
+            Dim reply As DialogResult = MessageBox.Show(msg, "Re-create HQF Cache Data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.Yes Then
+                Return Me.GenerateHQFCacheData
+            Else
+                MessageBox.Show("Loading of HQF aborted due to corrupt cache files", "HQF Loading Aborted", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End Try
+    End Function
+
+    Public Function GenerateHQFCacheData() As Boolean
+        Try
+            ' Populate the Ship data
+            If Me.LoadAttributes = True Then
+                If Me.LoadSkillData = True Then
+                    If Me.LoadShipGroupData = True Then
+                        If Me.LoadMarketGroupData = True Then
+                            If Me.LoadShipNameData = True Then
+                                If Me.LoadShipAttributeData = True Then
+                                    Call Me.PopulateShipLists()
+                                    If Me.LoadModuleData = True Then
+                                        If Me.LoadModuleEffectData = True Then
+                                            If Me.LoadModuleAttributeData = True Then
+                                                If Me.LoadModuleMetaTypes = True Then
+                                                    If Me.BuildModuleData = True Then
+                                                        Call Me.BuildAttributeQuickList()
+                                                        Engine.BuildImplantEffectsMap()
+                                                        Call Me.BuildModuleEffects()
+                                                        Call Me.BuildImplantEffects()
+                                                        Call Me.BuildShipEffects()
+                                                        Call Me.BuildSubsystemEffects()
+                                                        ' Save the HQF data
+                                                        Call Me.SaveHQFCacheData()
+                                                        Call Me.CleanUpData()
+                                                        ' Load any custom ship classes and ships then implement into HQF
+                                                        CustomHQFClasses.LoadCustomShipClasses()
+                                                        CustomHQFClasses.LoadCustomShips()
+                                                        CustomHQFClasses.ImplementCustomShips()
+                                                        ' Convert the old fittings file to the new version
+                                                        Call SavedFittings.ConvertOldFittingsFile()
+                                                        Return True
                                                     Else
                                                         Return False
                                                     End If
@@ -185,10 +322,12 @@ Public Class PlugInData
                 Else
                     Return False
                 End If
+            Else
+                Return False
             End If
             Return True
         Catch ex As Exception
-            Windows.Forms.MessageBox.Show(ex.Message)
+            MessageBox.Show("There was an error generating the HQF cache data. The error was: " & ex.Message, "Error Generating HQF Cache", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -392,7 +531,7 @@ Public Class PlugInData
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.published, invTypes.raceID, invTypes.marketGroupID"
             strSQL &= " FROM (invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID"
-            strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true) ORDER BY typeName;"
+            strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=1) ORDER BY typeName;"
             PlugInData.shipNameData = EveHQ.Core.DataFunctions.GetData(strSQL)
             If PlugInData.shipNameData IsNot Nothing Then
                 If PlugInData.shipNameData.Tables(0).Rows.Count <> 0 Then
@@ -416,10 +555,11 @@ Public Class PlugInData
             Dim pSkillName As String = "" : Dim sSkillName As String = "" : Dim tSkillName As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.raceID, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
-            strSQL &= " WHERE ((invCategories.categoryID=6 AND invTypes.published=true) OR invTypes.typeID IN (601,596,588,606)) ORDER BY typeName, attributeID;"
+            strSQL &= " WHERE ((invCategories.categoryID=6 AND invTypes.published=1) OR invTypes.typeID IN (601,596,588,606)) ORDER BY typeName, attributeID;"
             Dim shipData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If shipData IsNot Nothing Then
                 If shipData.Tables(0).Rows.Count <> 0 Then
+                    ShipLists.shipList.Clear()
                     Dim lastShipName As String = ""
                     Dim newShip As New EveHQ.HQF.Ship
                     pSkillName = "" : sSkillName = "" : tSkillName = ""
@@ -429,67 +569,7 @@ Public Class PlugInData
                         If lastShipName <> shipRow.Item("typeName").ToString Then
                             ' Add the current ship to the list then reset the ship data
                             If lastShipName <> "" Then
-                                ' Add the custom attributes to the list
-                                newShip.Attributes.Add("10001", newShip.Radius)
-                                newShip.Attributes.Add("10002", newShip.Mass)
-                                newShip.Attributes.Add("10003", newShip.Volume)
-                                newShip.Attributes.Add("10004", newShip.CargoBay)
-                                newShip.Attributes.Add("10005", 0)
-                                newShip.Attributes.Add("10006", 0)
-                                newShip.Attributes.Add("10007", 20000)
-                                newShip.Attributes.Add("10008", 20000)
-                                newShip.Attributes.Add("10009", 1)
-                                newShip.Attributes.Add("10010", 0)
-                                newShip.Attributes.Add("10020", 0)
-                                newShip.Attributes.Add("10021", 0)
-                                newShip.Attributes.Add("10022", 0)
-                                newShip.Attributes.Add("10023", 0)
-                                newShip.Attributes.Add("10024", 0)
-                                newShip.Attributes.Add("10025", 0)
-                                newShip.Attributes.Add("10026", 0)
-                                newShip.Attributes.Add("10027", 0)
-                                newShip.Attributes.Add("10028", 0)
-                                newShip.Attributes.Add("10029", 0)
-                                newShip.Attributes.Add("10031", 0)
-                                newShip.Attributes.Add("10033", 0)
-                                newShip.Attributes.Add("10034", 0)
-                                newShip.Attributes.Add("10035", 0)
-                                newShip.Attributes.Add("10036", 0)
-                                newShip.Attributes.Add("10037", 0)
-                                newShip.Attributes.Add("10038", 0)
-                                newShip.Attributes.Add("10043", 0)
-                                newShip.Attributes.Add("10044", 0)
-                                newShip.Attributes.Add("10045", 0)
-                                newShip.Attributes.Add("10046", 0)
-                                newShip.Attributes.Add("10047", 0)
-                                newShip.Attributes.Add("10048", 0)
-                                newShip.Attributes.Add("10049", 0)
-                                newShip.Attributes.Add("10050", 0)
-                                newShip.Attributes.Add("10055", 0)
-                                newShip.Attributes.Add("10056", 0)
-                                newShip.Attributes.Add("10057", 0)
-                                newShip.Attributes.Add("10058", 0)
-                                newShip.Attributes.Add("10059", 0)
-                                newShip.Attributes.Add("10060", 0)
-                                newShip.Attributes.Add("10061", 0)
-                                newShip.Attributes.Add("10062", 0)
-                                newShip.Attributes.Add("10063", 1)
-                                newShip.Attributes.Add("10064", 2)
-                                newShip.Attributes.Add("10065", 0)
-                                newShip.Attributes.Add("10066", 0)
-                                newShip.Attributes.Add("10067", 0)
-                                newShip.Attributes.Add("10068", 0)
-                                newShip.Attributes.Add("10069", 0)
-                                ' Check for slot attributes (missing for T3)
-                                If newShip.Attributes.ContainsKey("12") = False Then
-                                    newShip.Attributes.Add("12", 0)
-                                    newShip.Attributes.Add("13", 0)
-                                    newShip.Attributes.Add("14", 0)
-                                End If
-                                ' Check for cloak reactivation attribute
-                                If newShip.Attributes.ContainsKey("1034") = False Then
-                                    newShip.Attributes.Add("1034", 30)
-                                End If
+                                Call newShip.AddCustomShipAttributes()
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -575,68 +655,9 @@ Public Class PlugInData
                         lastShipName = shipRow.Item("typeName").ToString
                     Next
                     ' Add the custom attributes to the list
-                    newShip.Attributes.Add("10001", newShip.Radius)
-                    newShip.Attributes.Add("10002", newShip.Mass)
-                    newShip.Attributes.Add("10003", newShip.Volume)
-                    newShip.Attributes.Add("10004", newShip.CargoBay)
-                    newShip.Attributes.Add("10005", 0)
-                    newShip.Attributes.Add("10006", 0)
-                    newShip.Attributes.Add("10007", 20000)
-                    newShip.Attributes.Add("10008", 20000)
-                    newShip.Attributes.Add("10009", 1)
-                    newShip.Attributes.Add("10010", 0)
-                    newShip.Attributes.Add("10020", 0)
-                    newShip.Attributes.Add("10021", 0)
-                    newShip.Attributes.Add("10022", 0)
-                    newShip.Attributes.Add("10023", 0)
-                    newShip.Attributes.Add("10024", 0)
-                    newShip.Attributes.Add("10025", 0)
-                    newShip.Attributes.Add("10026", 0)
-                    newShip.Attributes.Add("10027", 0)
-                    newShip.Attributes.Add("10028", 0)
-                    newShip.Attributes.Add("10029", 0)
-                    newShip.Attributes.Add("10031", 0)
-                    newShip.Attributes.Add("10033", 0)
-                    newShip.Attributes.Add("10034", 0)
-                    newShip.Attributes.Add("10035", 0)
-                    newShip.Attributes.Add("10036", 0)
-                    newShip.Attributes.Add("10037", 0)
-                    newShip.Attributes.Add("10038", 0)
-                    newShip.Attributes.Add("10043", 0)
-                    newShip.Attributes.Add("10044", 0)
-                    newShip.Attributes.Add("10045", 0)
-                    newShip.Attributes.Add("10046", 0)
-                    newShip.Attributes.Add("10047", 0)
-                    newShip.Attributes.Add("10048", 0)
-                    newShip.Attributes.Add("10049", 0)
-                    newShip.Attributes.Add("10050", 0)
-                    newShip.Attributes.Add("10055", 0)
-                    newShip.Attributes.Add("10056", 0)
-                    newShip.Attributes.Add("10057", 0)
-                    newShip.Attributes.Add("10058", 0)
-                    newShip.Attributes.Add("10059", 0)
-                    newShip.Attributes.Add("10060", 0)
-                    newShip.Attributes.Add("10061", 0)
-                    newShip.Attributes.Add("10062", 0)
-                    newShip.Attributes.Add("10063", 1)
-                    newShip.Attributes.Add("10064", 2)
-                    newShip.Attributes.Add("10065", 0)
-                    newShip.Attributes.Add("10066", 0)
-                    newShip.Attributes.Add("10067", 0)
-                    newShip.Attributes.Add("10068", 0)
-                    newShip.Attributes.Add("10069", 0)
+                    Call newShip.AddCustomShipAttributes()
                     ' Map the remaining attributes for the last ship type
-                    Ship.MapShipAttributes(newShip)
-                    ' Check for slot attributes (missing for T3)
-                    If newShip.Attributes.ContainsKey("12") = False Then
-                        newShip.Attributes.Add("12", 0)
-                        newShip.Attributes.Add("13", 0)
-                        newShip.Attributes.Add("14", 0)
-                    End If
-                    ' Check for cloak reactivation attribute
-                    If newShip.Attributes.ContainsKey("1034") = False Then
-                        newShip.Attributes.Add("1034", 30)
-                    End If
+                    Ship.MapShipAttributes(newShip)              
                     ' Perform the last addition for the last ship type
                     ShipLists.shipList.Add(newShip.Name, newShip)
                     Return True
@@ -825,66 +846,52 @@ Public Class PlugInData
                                 newModule.IsImplant = True
                             End If
                         End If
-
-                        ' Exclude groups 303 (Boosters) & 304 (DNA Mutators)
-                        'If CInt(row.Item("groupID")) <> 303 And CInt(row.Item("groupID")) <> 304 Then
-                        '    Dim newImplant As New Implant
-                        '    newImplant.ID = newModule.ID
-                        '    newImplant.Name = newModule.Name
-                        '    newImplant.Description = newModule.Description
-                        '    newImplant.DatabaseGroup = newModule.DatabaseGroup
-                        '    newImplant.BasePrice = newModule.BasePrice
-                        '    newImplant.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newImplant.ID)
-                        '    newImplant.MarketGroup = newModule.MarketGroup
-                        '    newImplant.MetaType = newModule.MetaType
-                        '    Implants.implantList.Add(newImplant.Name, newImplant)
-                        'End If
                 End Select
-            Next
+			Next
 
             ' Fill in the blank market groups now the list is complete
-            Dim modName As String = ""
-            Dim modID As String = ""
-            Dim parentID As String = ""
-            Dim nModule As New ShipModule
-            Dim eModule As New ShipModule
-            For setNo As Integer = 0 To 1
-                For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
-                    If IsDBNull(row.Item("marketGroupID")) = True Then
-                        modID = row.Item("typeID").ToString
-                        nModule = CType(ModuleLists.moduleList(modID), ShipModule)
-                        If ModuleLists.moduleMetaTypes.Contains(modID) = True Then
-                            parentID = ModuleLists.moduleMetaTypes(modID).ToString
-                            eModule = CType(ModuleLists.moduleList(parentID), ShipModule)
-                            nModule.MarketGroup = eModule.MarketGroup
-                        End If
-                    End If
-                Next
-            Next
+			Dim modName As String = ""
+			Dim modID As String = ""
+			Dim parentID As String = ""
+			Dim nModule As New ShipModule
+			Dim eModule As New ShipModule
+			For setNo As Integer = 0 To 1
+				For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
+					If IsDBNull(row.Item("marketGroupID")) = True Then
+						modID = row.Item("typeID").ToString
+						nModule = CType(ModuleLists.moduleList(modID), ShipModule)
+						If ModuleLists.moduleMetaTypes.Contains(modID) = True Then
+							parentID = ModuleLists.moduleMetaTypes(modID).ToString
+							eModule = CType(ModuleLists.moduleList(parentID), ShipModule)
+							nModule.MarketGroup = eModule.MarketGroup
+						End If
+					End If
+				Next
+			Next
 
-            ' Search for changes/additions to the market groups from resources
-            Dim marketChanges As String = My.Resources.newItemMarketGroup.ToString
-            Dim changeLines As String() = marketChanges.Split(ControlChars.CrLf.ToCharArray)
-            For Each marketChange As String In changeLines
-                If marketChange.Trim <> "" Then
-                    Dim changeData() As String = marketChange.Split(",".ToCharArray)
-                    Dim typeID As String = changeData(0)
-                    Dim marketGroupID As String = changeData(1)
-                    Dim metaTypeID As Integer = CInt(changeData(2))
-                    If ModuleLists.moduleList.ContainsKey(typeID) = True Then
-                        Dim mModule As ShipModule = CType(ModuleLists.moduleList(typeID), ShipModule)
-                        mModule.MarketGroup = marketGroupID
-                        If metaTypeID <> 0 Then
-                            mModule.MetaType = metaTypeID
-                        End If
-                    End If
-                End If
-            Next
-            Return BuildModuleEffectData()
-        Catch e As Exception
-            MessageBox.Show("Error building Module Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
+			' Search for changes/additions to the market groups from resources
+			Dim marketChanges As String = My.Resources.newItemMarketGroup.ToString
+			Dim changeLines As String() = marketChanges.Split(ControlChars.CrLf.ToCharArray)
+			For Each marketChange As String In changeLines
+				If marketChange.Trim <> "" Then
+					Dim changeData() As String = marketChange.Split(",".ToCharArray)
+					Dim typeID As String = changeData(0)
+					Dim marketGroupID As String = changeData(1)
+					Dim metaTypeID As Integer = CInt(changeData(2))
+					If ModuleLists.moduleList.ContainsKey(typeID) = True Then
+						Dim mModule As ShipModule = CType(ModuleLists.moduleList(typeID), ShipModule)
+						mModule.MarketGroup = marketGroupID
+						If metaTypeID <> 0 Then
+							mModule.MetaType = metaTypeID
+						End If
+					End If
+				End If
+			Next
+			Return BuildModuleEffectData()
+		Catch e As Exception
+			MessageBox.Show("Error building Module Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Return False
+		End Try
     End Function
     Private Function BuildModuleEffectData() As Boolean
         Try
@@ -895,15 +902,15 @@ Public Class PlugInData
                 If effMod IsNot Nothing Then
                     Select Case CInt(modRow.Item("effectID"))
                         Case 11 ' Low slot
-                            effMod.SlotType = 2
+                            effMod.SlotType = SlotTypes.Low
                         Case 12 ' High slot
-                            effMod.SlotType = 8
+                            effMod.SlotType = SlotTypes.High
                         Case 13 ' Mid slot
-                            effMod.SlotType = 4
+                            effMod.SlotType = SlotTypes.Mid
                         Case 2663 ' Rig slot
-                            effMod.SlotType = 1
+                            effMod.SlotType = SlotTypes.Rig
                         Case 3772 ' Sub slot
-                            effMod.SlotType = 16
+                            effMod.SlotType = SlotTypes.Subsystem
                         Case 40
                             If effMod.DatabaseGroup <> "481" Then
                                 effMod.IsLauncher = True
@@ -913,7 +920,7 @@ Public Class PlugInData
                     End Select
                     ' Add custom attributes
                     If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Or effMod.DatabaseGroup = "862" Then
-                        If effMod.Attributes.Contains("10017") = False Then
+                        If effMod.Attributes.ContainsKey("10017") = False Then
                             effMod.Attributes.Add("10017", 0)
                             effMod.Attributes.Add("10018", 0)
                             effMod.Attributes.Add("10019", 0)
@@ -926,26 +933,24 @@ Public Class PlugInData
                     End If
                     Select Case CInt(effMod.MarketGroup)
                         Case 1038 ' Ice Miners
-                            If effMod.Attributes.Contains("10041") = False Then
+                            If effMod.Attributes.ContainsKey("10041") = False Then
                                 effMod.Attributes.Add("10041", 0)
                             End If
                         Case 1039, 1040 ' Ore Miners
-                            If effMod.Attributes.Contains("10039") = False Then
+                            If effMod.Attributes.ContainsKey("10039") = False Then
                                 effMod.Attributes.Add("10039", 0)
                             End If
                         Case 158 ' Mining Drones
-                            If effMod.Attributes.Contains("10040") = False Then
+                            If effMod.Attributes.ContainsKey("10040") = False Then
                                 effMod.Attributes.Add("10040", 0)
                             End If
                     End Select
                     Select Case CInt(effMod.DatabaseGroup)
                         Case 76
-                            If effMod.Attributes.Contains("6") = False Then
+                            If effMod.Attributes.ContainsKey("6") = False Then
                                 effMod.Attributes.Add("6", 0)
                             End If
                     End Select
-                Else
-                    MessageBox.Show("Module: " & modRow.Item("typeID").ToString & " not found in the module list.", "Module Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             Next
             If BuildModuleAttributeData() = True Then
@@ -966,6 +971,7 @@ Public Class PlugInData
             Dim lastModName As String = ""
             For Each modRow As DataRow In PlugInData.moduleAttributeData.Tables(0).Rows
                 Dim attMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
+                'If attMod IsNot Nothing Then
                 If lastModName <> modRow.Item("typeName").ToString And lastModName <> "" Then
                     pSkillName = "" : sSkillName = "" : tSkillName = ""
                 End If
@@ -1054,7 +1060,7 @@ Public Class PlugInData
                     Case 6
                         attMod.CapUsage = attValue
                     Case 51
-                        If attMod.Attributes.Contains("6") = True Then
+                        If attMod.Attributes.ContainsKey("6") = True Then
                             attMod.CapUsageRate = attMod.CapUsage / attValue
                             attMod.Attributes.Add("10032", attMod.CapUsageRate)
                         End If
@@ -1132,21 +1138,26 @@ Public Class PlugInData
                 'If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
                 '    Charges.ChargeGroups.Add(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize)
                 'End If
+                'End If
             Next
             ' Build the metaType data
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
                 If ModuleLists.moduleMetaGroups.Contains(cMod.ID) = True Then
                     If CStr(ModuleLists.moduleMetaGroups(cMod.ID)) = "0" Then
-                        Select Case CInt(cMod.Attributes("422"))
-                            Case 1
-                                cMod.MetaType = CInt(2 ^ 0)
-                            Case 2
-                                cMod.MetaType = CInt(2 ^ 1)
-                            Case 3
-                                cMod.MetaType = CInt(2 ^ 13)
-                            Case Else
-                                cMod.MetaType = CInt(2 ^ 0)
-                        End Select
+                        If cMod.Attributes.ContainsKey("422") = True Then
+                            Select Case CInt(cMod.Attributes("422"))
+                                Case 1
+                                    cMod.MetaType = CInt(2 ^ 0)
+                                Case 2
+                                    cMod.MetaType = CInt(2 ^ 1)
+                                Case 3
+                                    cMod.MetaType = CInt(2 ^ 13)
+                                Case Else
+                                    cMod.MetaType = CInt(2 ^ 0)
+                            End Select
+                        Else
+                            cMod.MetaType = 1
+                        End If
                     Else
                         cMod.MetaType = CInt(2 ^ (CInt(ModuleLists.moduleMetaGroups(cMod.ID)) - 1))
                     End If
@@ -1251,10 +1262,10 @@ Public Class PlugInData
                 EffectData = EffectLine.Split(",".ToCharArray)
                 newEffect = New Effect
                 newEffect.AffectingAtt = CInt(EffectData(0))
-                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingType = CType(EffectData(1), EffectType)
                 newEffect.AffectingID = CInt(EffectData(2))
                 newEffect.AffectedAtt = CInt(EffectData(3))
-                newEffect.AffectedType = CInt(EffectData(4))
+                newEffect.AffectedType = CType(EffectData(4), EffectType)
                 If EffectData(5).Contains(";") = True Then
                     IDs = EffectData(5).Split(";".ToCharArray)
                     For Each ID As String In IDs
@@ -1263,9 +1274,9 @@ Public Class PlugInData
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CInt(EffectData(6))
+                newEffect.StackNerf = CType(EffectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(EffectData(7))
-                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.CalcType = CType(EffectData(8), EffectCalcType)
                 newEffect.Status = CInt(EffectData(9))
 
                 Select Case newEffect.AffectingType
@@ -1317,7 +1328,7 @@ Public Class PlugInData
                                 cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Attribute
-                            If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                            If cModule.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
                     End Select
@@ -1349,7 +1360,7 @@ Public Class PlugInData
                                         cShip.Affects.Add(AffectingName)
                                     End If
                                 Case EffectType.Attribute
-                                    If cShip.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                                    If cShip.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
                             End Select
@@ -1392,7 +1403,7 @@ Public Class PlugInData
                     newEffect.ImplantName = CStr(EffectData(10))
                     newEffect.AffectingAtt = CInt(EffectData(0))
                     newEffect.AffectedAtt = CInt(att)
-                    newEffect.AffectedType = CInt(EffectData(4))
+                    newEffect.AffectedType = CType(EffectData(4), EffectType)
                     If EffectData(5).Contains(";") = True Then
                         IDs = EffectData(5).Split(";".ToCharArray)
                         For Each ID As String In IDs
@@ -1401,7 +1412,7 @@ Public Class PlugInData
                     Else
                         newEffect.AffectedID.Add(EffectData(5))
                     End If
-                    newEffect.CalcType = CInt(EffectData(6))
+                    newEffect.CalcType = CType(EffectData(6), EffectCalcType)
                     Dim cImplant As ShipModule = CType(Implants.implantList(newEffect.ImplantName), ShipModule)
                     newEffect.Value = CDbl(cImplant.Attributes(EffectData(0)))
                     newEffect.IsGang = CBool(EffectData(8))
@@ -1439,7 +1450,7 @@ Public Class PlugInData
                                     cModule.Affects.Add(AffectingName)
                                 End If
                             Case EffectType.Attribute
-                                If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                                If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
                         End Select
@@ -1469,10 +1480,10 @@ Public Class PlugInData
                 EffectData = EffectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
                 newEffect.ShipID = CInt(EffectData(0))
-                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingType = CType(EffectData(1), EffectType)
                 newEffect.AffectingID = CInt(EffectData(2))
                 newEffect.AffectedAtt = CInt(EffectData(3))
-                newEffect.AffectedType = CInt(EffectData(4))
+                newEffect.AffectedType = CType(EffectData(4), EffectType)
                 If EffectData(5).Contains(";") = True Then
                     IDs = EffectData(5).Split(";".ToCharArray)
                     For Each ID As String In IDs
@@ -1481,9 +1492,9 @@ Public Class PlugInData
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CInt(EffectData(6))
+                newEffect.StackNerf = CType(EffectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(EffectData(7))
-                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.CalcType = CType(EffectData(8), EffectCalcType)
                 newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
@@ -1525,7 +1536,7 @@ Public Class PlugInData
                                 cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Attribute
-                            If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                            If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
                     End Select
@@ -1563,10 +1574,10 @@ Public Class PlugInData
                 EffectData = EffectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
                 newEffect.ShipID = CInt(EffectData(0))
-                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingType = CType(EffectData(1), EffectType)
                 newEffect.AffectingID = CInt(EffectData(2))
                 newEffect.AffectedAtt = CInt(EffectData(3))
-                newEffect.AffectedType = CInt(EffectData(4))
+                newEffect.AffectedType = CType(EffectData(4), EffectType)
                 If EffectData(5).Contains(";") = True Then
                     IDs = EffectData(5).Split(";".ToCharArray)
                     For Each ID As String In IDs
@@ -1575,9 +1586,9 @@ Public Class PlugInData
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CInt(EffectData(6))
+                newEffect.StackNerf = CType(EffectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(EffectData(7))
-                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.CalcType = CType(EffectData(8), EffectCalcType)
                 newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
@@ -1618,7 +1629,7 @@ Public Class PlugInData
                                 cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Attribute
-                            If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                            If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
                     End Select
@@ -1671,90 +1682,6 @@ Public Class PlugInData
             End If
         Next
     End Sub
-
-    ' NPC Loading Routines
-    Private Function LoadNPCData() As Boolean
-        Try
-            Dim strSQL As String = ""
-            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
-            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
-            strSQL &= " WHERE (invCategories.categoryID=11) ORDER BY typeName, attributeID;"
-            Dim NPCData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If NPCData IsNot Nothing Then
-                If NPCData.Tables(0).Rows.Count <> 0 Then
-                    Dim lastNPC As String = ""
-                    Dim newNPC As New EveHQ.HQF.NPC
-
-                    Dim attValue As Double = 0
-                    For Each NPCRow As DataRow In NPCData.Tables(0).Rows
-                        ' If the shipName has changed, we need to start a new ship type
-                        If lastNPC <> NPCRow.Item("typeName").ToString Then
-                            ' Add the current ship to the list then reset the ship data
-                            If lastNPC <> "" Then
-                                NPCs.NPCList.Add(newNPC.Name, newNPC)
-                                newNPC = New EveHQ.HQF.NPC
-                            End If
-                            ' Create new ship type & non "attribute" data
-                            newNPC.Name = NPCRow.Item("typeName").ToString
-                            newNPC.GroupName = NPCRow.Item("groupName").ToString
-                        End If
-
-                        ' Now get, modify (if applicable) and add the "attribute"
-                        If IsDBNull(NPCRow.Item("valueInt")) = True Then
-                            attValue = CDbl(NPCRow.Item("valueFloat"))
-                        Else
-                            attValue = CDbl(NPCRow.Item("valueInt"))
-                        End If
-
-                        ' Map only the skill attributes
-                        Select Case CInt(NPCRow.Item("attributeID"))
-                            Case 51
-                                newNPC.ROF = attValue / 1000
-                            Case 64
-                                newNPC.DamageMod = attValue
-                            Case 114
-                                newNPC.EM = attValue * newNPC.DamageMod
-                            Case 116
-                                newNPC.Explosive = attValue * newNPC.DamageMod
-                            Case 117
-                                newNPC.Kinetic = attValue * newNPC.DamageMod
-                            Case 118
-                                newNPC.Thermal = attValue * newNPC.DamageMod
-                                newNPC.DPS = (newNPC.EM + newNPC.Explosive + newNPC.Kinetic + newNPC.Thermal) / newNPC.ROF
-                            Case 506
-                                newNPC.MissileROF = attValue / 1000
-                            Case 507
-                                newNPC.MissileType = attValue.ToString
-                                ' Get the details of the missile from the modules
-                                Dim missile As ShipModule = CType(ModuleLists.moduleList(newNPC.MissileType), ShipModule)
-                                If missile IsNot Nothing Then
-                                    newNPC.EM = newNPC.EM + CDbl(missile.Attributes("114"))
-                                    newNPC.Explosive = newNPC.Explosive + CDbl(missile.Attributes("116"))
-                                    newNPC.Kinetic = newNPC.Kinetic + CDbl(missile.Attributes("117"))
-                                    newNPC.Thermal = newNPC.Thermal + CDbl(missile.Attributes("118"))
-                                    newNPC.DPS += (CDbl(missile.Attributes("114")) + CDbl(missile.Attributes("116")) + CDbl(missile.Attributes("117")) + CDbl(missile.Attributes("118"))) / newNPC.MissileROF
-
-                                End If
-                        End Select
-                        lastNPC = NPCRow.Item("typeName").ToString
-                    Next
-
-                    ' Perform the last addition for the last ship type
-                    NPCs.NPCList.Add(newNPC.Name, newNPC)
-                    Return True
-                Else
-                    MessageBox.Show("Warning: NPC Data returned no rows but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Return True
-                End If
-            Else
-                MessageBox.Show("Warning: NPC Data returned a null dataset but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Return True
-            End If
-        Catch e As Exception
-            MessageBox.Show("Error loading NPC Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
 
     Private Sub SaveHQFCacheData()
         ' Delete the cache folder if it's already there

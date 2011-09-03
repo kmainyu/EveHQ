@@ -1,121 +1,32 @@
-﻿Public Class DBCPilotInfo
-
-#Region "Control Variables"
-    Dim cPilot As EveHQ.Core.Pilot
-    Dim ReadConfig As Boolean = False
-#End Region
-
-#Region "Control Properties"
-
-    Public ReadOnly Property ControlName() As String
-        Get
-            Return "Pilot Information"
-        End Get
-    End Property
-
-    Dim cDefaultPilotName As String = ""
-    Public Property DefaultPilotName() As String
-        Get
-            Return cDefaultPilotName
-        End Get
-        Set(ByVal value As String)
-            cDefaultPilotName = value
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
-            End If
-            If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
-            If ReadConfig = False Then
-                Me.SetConfig("DefaultPilotName", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlWidth As Integer = 300
-    Public Property ControlWidth() As Integer
-        Get
-            Return cControlWidth
-        End Get
-        Set(ByVal value As Integer)
-            cControlWidth = value
-            Me.Width = cControlWidth
-            If ReadConfig = False Then
-                Me.SetConfig("ControlWidth", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlHeight As Integer = 220
-    Public Property ControlHeight() As Integer
-        Get
-            Return cControlHeight
-        End Get
-        Set(ByVal value As Integer)
-            cControlHeight = value
-            Me.Height = cControlHeight
-            If ReadConfig = False Then
-                Me.SetConfig("ControlHeight", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlPosition As Integer
-    Public Property ControlPosition() As Integer
-        Get
-            Return cControlPosition
-        End Get
-        Set(ByVal value As Integer)
-            cControlPosition = value
-            If ReadConfig = False Then
-                Me.SetConfig("ControlPosition", value)
-            End If
-        End Set
-    End Property
-
-    Dim cControlConfig As New SortedList(Of String, Object)
-    Public Property ControlConfiguration() As SortedList(Of String, Object)
-        Get
-            ' Check for ControlName
-            Call Me.SetConfig("ControlName", ControlName)
-            Return cControlConfig
-        End Get
-        Set(ByVal value As SortedList(Of String, Object))
-            cControlConfig = value
-            Call Me.ReadFromConfig()
-        End Set
-    End Property
-
-#End Region
-
-#Region "Control Configuration"
-    Private Sub ReadFromConfig()
-        ReadConfig = True
-        For Each ConfigProperty As String In cControlConfig.Keys
-            Dim pi As System.Reflection.PropertyInfo = Me.GetType().GetProperty(ConfigProperty)
-            If ConfigProperty <> "ControlName" Then
-                Try
-                    pi.SetValue(Me, Convert.ChangeType(cControlConfig(ConfigProperty), pi.PropertyType, Globalization.CultureInfo.InvariantCulture), Nothing)
-                Catch e As Exception
-                End Try
-            End If
-        Next
-        ReadConfig = False
-    End Sub
-    Private Sub SetConfig(ByVal ConfigProperty As String, ByVal ConfigData As Object)
-        If cControlConfig.ContainsKey(ConfigProperty) = False Then
-            cControlConfig.Add(ConfigProperty, ConfigData)
-        Else
-            cControlConfig(ConfigProperty) = ConfigData
-        End If
-    End Sub
-#End Region
-
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Public Class DBCPilotInfo
     Public Sub New()
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        ' Update the AGPs with the configured details
-        Call Me.UpdateColours()
+        ' Add any initialization after the InitializeComponent() call.
+
+        ' Initialise configuration form name
+        Me.ControlConfigForm = "EveHQ.DBCPilotInfoConfig"
 
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
@@ -129,17 +40,45 @@
 
     End Sub
 
-    Public Sub UpdateColours()
-        AGPHeader.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
-        AGPHeader.CornerRadius = 10
-        AGPPilotInfo.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
-        AGPPilotInfo.CornerRadius = 10
-        AGPPilotInfo.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
-        AGPPilotInfo.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
-        AGPHeader.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
-        AGPHeader.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
-    End Sub
+#Region "Public Overriding Propeties"
 
+    Public Overrides ReadOnly Property ControlName() As String
+        Get
+            Return "Pilot Information"
+        End Get
+    End Property
+
+#End Region
+
+#Region "Custom Control Variables"
+    Dim cDefaultPilotName As String = ""
+#End Region
+
+#Region "Custom Control Properties"
+    Public Property DefaultPilotName() As String
+        Get
+            Return cDefaultPilotName
+        End Get
+        Set(ByVal value As String)
+            cDefaultPilotName = value
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(DefaultPilotName) Then
+                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
+            End If
+            If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
+            If ReadConfig = False Then
+                Me.SetConfig("DefaultPilotName", value)
+                Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName)
+            End If
+        End Set
+    End Property
+
+#End Region
+
+#Region "Class Variables"
+    Dim cPilot As EveHQ.Core.Pilot
+#End Region
+
+#Region "Private Methods"
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
             cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
@@ -156,15 +95,9 @@
     Private Sub UpdatePilotInfo()
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
             ' Update the info
-            Dim imgFilename As String = IO.Path.Combine(EveHQ.Core.HQ.imageCacheFolder, cPilot.ID & ".png")
-            If My.Computer.FileSystem.FileExists(imgFilename) = True Then
-                AGPPilotInfo.Image = Image.FromFile(imgFilename)
-            Else
-                AGPPilotInfo.Image = My.Resources.noitem
-            End If
+            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(cPilot)
             lblCorp.Text = "Member of " & cPilot.Corp
             lblIsk.Text = "Balance: " & FormatNumber(cPilot.Isk, 2)
-
             Call Me.UpdateTrainingInfo()
         Else
             ' Clear the info
@@ -176,7 +109,7 @@
             lblTrainingTime.Text = ""
             lblSkillQueueEnd.Text = ""
             lblSkillQueueTime.Text = ""
-            AGPPilotInfo.Image = My.Resources.noitem
+            pbPilot.Image = My.Resources.noitem
         End If
     End Sub
 
@@ -198,10 +131,16 @@
             End If
             If cPilot.QueuedSkills IsNot Nothing Then
                 If cPilot.QueuedSkills.Count > 0 Then
-                    Dim lastSkill As EveHQ.Core.PilotQueuedSkill = cPilot.QueuedSkills(cPilot.QueuedSkills.Keys(cPilot.QueuedSkills.Count - 1))
-                    Dim skillDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(lastSkill.EndTime)
-                    lblSkillQueueEnd.Text = "Skill Queue Ends: " & Format(skillDate, "ddd") & " " & skillDate
-                    lblSkillQueueTime.Text = "Queue Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(CType(skillDate - Now, TimeSpan).TotalSeconds)
+                    If cPilot.QueuedSkills.Count = 1 Then
+                        Dim skillDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingEndTime)
+                        lblSkillQueueEnd.Text = "Skill Queue Ends: " & Format(skillDate, "ddd") & " " & skillDate
+                        lblSkillQueueTime.Text = "Queue Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+                    Else
+                        Dim lastSkill As EveHQ.Core.PilotQueuedSkill = cPilot.QueuedSkills(cPilot.QueuedSkills.Keys(cPilot.QueuedSkills.Count - 1))
+                        Dim skillDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(lastSkill.EndTime)
+                        lblSkillQueueEnd.Text = "Skill Queue Ends: " & Format(skillDate, "ddd") & " " & skillDate
+                        lblSkillQueueTime.Text = "Queue Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(CType(skillDate - Now, TimeSpan).TotalSeconds)
+                    End If
                 Else
                     lblSkillQueueEnd.Text = "Skill Queue Ends: n/a"
                     lblSkillQueueTime.Text = "Queue Time Remaining: n/a"
@@ -227,11 +166,5 @@
         frmEveHQ.OpenPilotInfoForm()
     End Sub
 
-    Private Sub pbConfig_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbConfig.MouseDoubleClick
-        ' Initialise the configuration form
-        Dim newConfigForm As New DBCPilotInfoConfig
-        newConfigForm.DBWidget = Me
-        newConfigForm.ShowDialog()
-    End Sub
-
+#End Region
 End Class

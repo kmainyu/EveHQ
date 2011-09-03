@@ -1,4 +1,23 @@
-﻿Public Class DBCPilotInfoConfig
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Public Class DBCPilotInfoConfig
 
 #Region "Properties"
 
@@ -16,14 +35,6 @@
 #End Region
 
     Private Sub SetControlInfo()
-        If cDBWidget.ControlWidth < nudWidth.Minimum Then
-            cDBWidget.ControlWidth = CInt(nudWidth.Minimum)
-        End If
-        If cDBWidget.ControlHeight < nudHeight.Minimum Then
-            cDBWidget.ControlHeight = CInt(nudHeight.Minimum)
-        End If
-        nudWidth.Value = cDBWidget.ControlWidth
-        nudHeight.Value = cDBWidget.ControlHeight
         If cboPilots.Items.Contains(cDBWidget.DefaultPilotName) = True Then
             cboPilots.SelectedItem = cDBWidget.DefaultPilotName
         Else
@@ -44,8 +55,6 @@
             MessageBox.Show("You must select a valid pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        cDBWidget.ControlWidth = CInt(nudWidth.Value)
-        cDBWidget.ControlHeight = CInt(nudHeight.Value)
         If cboPilots.SelectedItem IsNot Nothing Then
             cDBWidget.DefaultPilotName = cboPilots.SelectedItem.ToString
         End If

@@ -80,6 +80,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.pb_Item);
+            this.DoubleBuffered = true;
             this.Name = "PoS_Item";
             this.Size = new System.Drawing.Size(148, 148);
             this.Load += new System.EventHandler(this.PoS_Item_Load);

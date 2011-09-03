@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<eveHQMessage>
+  <lastUpdated>03/09/2011 16:00:00</lastUpdated>
+  <title>HOURS TO GO</title>
+  <allowIgnore>1</allowIgnore>
+  <message>
+  <![CDATA[
+If you're reading this then you've been switched over to the v2 update URL automagically!!<br /><br />
+<br /><br /><br /><br /><br /><br />
+- Vessper]]></message>
+  <disabledPlugins>
+    <plugin name="Invention Calculator" version="3.5.0.0" />
+  </disabledPlugins>
+</eveHQMessage>

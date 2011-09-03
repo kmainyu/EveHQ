@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2009  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,76 +17,20 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports ICSharpCode.SharpZipLib.Zip
 Imports System.IO
 
 Public Class frmBackupEveHQ
 
     Private Sub btnBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBackup.Click
-        If BackupEveHQSettings() = True Then
+        If EveHQ.Core.EveHQBackup.BackupEveHQSettings() = True Then
             lblLastBackup.Text = Format(EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast, "dd/MM/yyyy HH:mm")
         End If
         Call CalcNextBackup()
         Call ScanBackups()
     End Sub
 
-    Public Function BackupEveHQSettings() As Boolean
-        Dim backupTime As Date = Now
-        Dim timeStamp As String = Format(backupTime, "yyyy-MM-dd-HH-mm-ss")
-        Dim zipFolder As String = System.IO.Path.Combine(EveHQ.Core.HQ.EveHQBackupFolder, "EveHQBackup " & timeStamp)
-        Dim zipFileName As String = System.IO.Path.Combine(zipFolder, "EveHQBackup " & timeStamp & ".zip")
-        Dim oldTime As Date = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast
-        Dim oldResult As Integer = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult
-        Try
-            ' Update backup details
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast = backupTime
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = -1
-
-            ' Save the settings file
-            Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
-
-            ' Create the zip folder
-            If My.Computer.FileSystem.DirectoryExists(zipFolder) = False Then
-                My.Computer.FileSystem.CreateDirectory(zipFolder)
-            End If
-
-            ' Backup the data
-            Dim fileFilter As String = "-\.config$;-\.dll$;-\.exe$;-\.manifest$;-\.mdb$;-\.pdb;-\.sdf$;-\.zip$"
-            Dim zipSettings As FastZip = New FastZip()
-            Me.Cursor = Cursors.WaitCursor
-            zipSettings.CreateZip(zipFileName, EveHQ.Core.HQ.appDataFolder, True, fileFilter, "^(?:(?!cache).)*$")
-            Me.Cursor = Cursors.Default
-            Return True
-        Catch e As Exception
-            ' Report the error
-            Dim msg As String = "Error Performing EveHQ Backup:"
-            msg &= ControlChars.CrLf & e.Message & ControlChars.CrLf
-            If e.InnerException IsNot Nothing Then
-                msg &= "Inner Exception: " & e.InnerException.Message & ControlChars.CrLf
-            End If
-            MessageBox.Show(msg, "EveHQ Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = 0
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast = oldTime
-            Me.Cursor = Cursors.Default
-            ' Try and delete the zip folder
-            Try
-                If My.Computer.FileSystem.DirectoryExists(zipFolder) = True Then
-                    My.Computer.FileSystem.DeleteDirectory(zipFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                End If
-            Catch ex As Exception
-                ' Delete failed - ignore!
-            End Try
-            Return False
-        End Try
-    End Function
-
-    Public Sub CalcNextBackup()
-        Dim nextBackup As Date = EveHQ.Core.HQ.EveHQSettings.EveHQBackupStart
-        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast > nextBackup Then
-            nextBackup = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast
-        End If
-        nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq, nextBackup)
-        lblNextBackup.Text = Format(nextBackup, "dd/MM/yyyy HH:mm")
+    Private Sub CalcNextBackup()
+        lblNextBackup.Text = Format(EveHQ.Core.EveHQBackup.CalcNextBackup(), "dd/MM/yyyy HH:mm")
     End Sub
 
     Public Sub ScanBackups()
@@ -137,6 +81,7 @@ Public Class frmBackupEveHQ
         Else
             lblLastBackup.Text = Format(EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast, "dd/MM/yyyy HH:mm")
         End If
+        chkBackupBeforeUpdate.Checked = EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate
         Call ScanBackups()
     End Sub
 
@@ -216,5 +161,40 @@ Public Class frmBackupEveHQ
             Me.nudDays.Enabled = True
             Me.dtpStart.Enabled = True
         End If
+    End Sub
+
+    Private Sub chkBackupBeforeUpdate_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkBackupBeforeUpdate.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate = chkBackupBeforeUpdate.Checked
+    End Sub
+
+    Private Sub btnRestore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRestore.Click
+        If lvwBackups.SelectedItems.Count = 1 Then
+            ' Get the backup directory
+            If My.Computer.FileSystem.DirectoryExists(lvwBackups.SelectedItems(0).Text) = True Then
+                Dim BackupDir As DirectoryInfo = My.Computer.FileSystem.GetDirectoryInfo(lvwBackups.SelectedItems(0).Text)
+                ' Calculate the file
+                Dim FileName As String = BackupDir.Name & ".zip"
+                Dim BackupFile As String = Path.Combine(BackupDir.FullName, FileName)
+                ' Check the file exists
+                If My.Computer.FileSystem.FileExists(BackupFile) = True Then
+                    Call EveHQ.Core.EveHQBackup.RestoreEveHQSettings(BackupFile)
+                Else
+                    MessageBox.Show("Unable to locate backup file. Please verify that the file exists.", "Missing Backup File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub lvwBackups_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwBackups.SelectedIndexChanged
+        If lvwBackups.SelectedItems.Count > 0 Then
+            btnRestore.Enabled = True
+        Else
+            btnRestore.Enabled = False
+        End If
+    End Sub
+
+    Private Sub btnBackupSQLDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBackupSQLDB.Click
+        Call EveHQ.Core.EveHQBackup.BackupSQLDB()
     End Sub
 End Class

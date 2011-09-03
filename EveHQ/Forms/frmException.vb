@@ -1,4 +1,23 @@
-﻿Imports System.Text
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.Text
 Imports System.Net
 Imports System.IO
 
@@ -18,7 +37,11 @@ Public Class frmException
         errReport.AppendLine("Error: " & lblError.Text)
         errReport.AppendLine("Stack Trace:")
         errReport.AppendLine("[code]" & txtStackTrace.Text & "[/code]")
-        Clipboard.SetText(errReport.ToString)
+        Try
+            Clipboard.SetText(errReport.ToString)
+        Catch ex As Exception
+            MessageBox.Show("There was an error copying the data to the clipboard. Please take a screenshot of the error or perform a manual copy of the stack trace.", "Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub btnSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend.Click
@@ -32,16 +55,7 @@ Public Class frmException
 
         Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
         ' Setup proxy server (if required)
-        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                EveHQProxy.UseDefaultCredentials = True
-            Else
-                EveHQProxy.UseDefaultCredentials = False
-                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-            End If
-            request.Proxy = EveHQProxy
-        End If
+        Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
         ' Setup request parameters
         request.Method = "POST"
         request.ContentLength = postData.Length

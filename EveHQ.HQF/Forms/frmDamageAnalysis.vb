@@ -1,4 +1,24 @@
-﻿Imports System.Windows.Forms
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2011  EveHQ Development Team
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+
+Imports System.Windows.Forms
 Imports System.Text
 Imports System.Drawing
 Imports ZedGraph
@@ -12,19 +32,23 @@ Public Class frmDamageAnalysis
     Dim transVel As Double = 0
     Dim targetVel As Double = 0
     Dim d As Double = 0
-    Dim tsr As Double = 0
-    Dim tt As Double = 0
-    Dim tor As Double = 0
-    Dim tf As Double = 0
-    Dim tvd As Double = 0
-    Dim tdps As Double = 0
+    Dim tsr As Double = 0 ' Turret Signature Radius
+    Dim tt As Double = 0 ' Turret Tracking
+    Dim tor As Double = 0 ' Turret Optimal Range
+    Dim tf As Double = 0 ' Turret Falloff
+    Dim tvd As Double = 0 ' Turret Volley Damage
+    Dim tdps As Double = 0 ' Turret DPS
     Dim tc As Integer = 0 ' Turret Count 
+    Dim trof As Double = 0 ' Turret ROF
     Dim mc As Integer = 0 ' Missile Count
-    Dim trof As Double = 0
+    Dim mor As Double = 0 ' Missile Optimal Range
+    Dim mrof As Double = 0 ' Missile ROF
     Dim missileER As Double = 0
     Dim missileEV As Double = 0
     Dim missileDRF As Double = 0
     Dim missileDRS As Double = 0
+    Dim mvd As Double = 0 ' Missile Volley Damage
+    Dim mdps As Double = 0 ' Missile DPS
     Dim sHP, aHP, hHP As Double
     Dim sEM, sEx, sKi, sTh As Double
     Dim aEM, aEx, aKi, aTh As Double
@@ -125,14 +149,13 @@ Public Class frmDamageAnalysis
     Private Sub SetAttackingShip()
         If cboAttackerFitting.SelectedItem IsNot Nothing And cboAttackerPilot.SelectedItem IsNot Nothing Then
             Dim shipFit As String = cboAttackerFitting.SelectedItem.ToString
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
             Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboAttackerPilot.SelectedItem.ToString), HQFPilot)
-            Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
-            attackingShip = Engine.ApplyFitting(aShip, aPilot)
+            Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+            NewFit.UpdateBaseShipFromFitting()
+            NewFit.BaseShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+            NewFit.PilotName = aPilot.PilotName
+            NewFit.ApplyFitting(BuildType.BuildEverything)
+            attackingShip = NewFit.FittedShip
             ' Check hislots of attacker to find turret data
             Dim sMod As New ShipModule
             tMod = New ShipModule
@@ -142,44 +165,53 @@ Public Class frmDamageAnalysis
             Dim MixedLaunchers As Boolean = False
             Dim MixedMissiles As Boolean = False
             tc = 0
+            mc = 0
             For slot As Integer = 1 To attackingShip.HiSlots
                 If attackingShip.HiSlot(slot) IsNot Nothing Then
                     sMod = attackingShip.HiSlot(slot)
                     If sMod.IsTurret Then
                         If tMod.Name <> "" Or tMod.Name Is Nothing Then
-                            If sMod.LoadedCharge IsNot Nothing Then
-                                tMod = sMod
-                                tc += 1
+                            If sMod.ModuleState >= 4 Then
+                                If sMod.LoadedCharge IsNot Nothing Then
+                                    tMod = sMod
+                                    tc += 1
+                                End If
                             End If
                         Else
                             ' Check if we match
                             If sMod.Name <> tMod.Name Then
                                 MixedTurrets = True
                             Else
-                                If sMod.LoadedCharge.Name <> tMod.LoadedCharge.Name Then
-                                    MixedAmmo = True
-                                Else
-                                    tc += 1
+                                If sMod.ModuleState >= 4 Then
+                                    If sMod.LoadedCharge.Name <> tMod.LoadedCharge.Name Then
+                                        MixedAmmo = True
+                                    Else
+                                        tc += 1
+                                    End If
                                 End If
-                            End If
+                                End If
                         End If
                     ElseIf sMod.IsLauncher Then
                         If mMod.Name <> "" Or mMod.Name Is Nothing Then
-                            If sMod.LoadedCharge IsNot Nothing Then
-                                mMod = sMod
-                                mc += 1
+                            If sMod.ModuleState >= 4 Then
+                                If sMod.LoadedCharge IsNot Nothing Then
+                                    mMod = sMod
+                                    mc += 1
+                                End If
                             End If
                         Else
                             ' Check if we match
                             If sMod.Name <> mMod.Name Then
                                 MixedLaunchers = True
                             Else
-                                If sMod.LoadedCharge.Name <> mMod.LoadedCharge.Name Then
-                                    MixedMissiles = True
-                                Else
-                                    mc += 1
+                                If sMod.ModuleState >= 4 Then
+                                    If sMod.LoadedCharge.Name <> mMod.LoadedCharge.Name Then
+                                        MixedMissiles = True
+                                    Else
+                                        mc += 1
+                                    End If
                                 End If
-                            End If
+                                End If
                         End If
                     End If
                 End If
@@ -221,19 +253,19 @@ Public Class frmDamageAnalysis
     Private Sub SetTargetShip()
         If cboTargetFitting.SelectedItem IsNot Nothing And cboTargetPilot.SelectedItem IsNot Nothing Then
             Dim shipFit As String = cboTargetFitting.SelectedItem.ToString
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
             Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboTargetPilot.SelectedItem.ToString), HQFPilot)
-            Dim aShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            aShip = Engine.UpdateShipDataFromFittingList(aShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            aShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
-            targetShip = Engine.ApplyFitting(aShip, aPilot)
+            Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+            NewFit.UpdateBaseShipFromFitting()
+            NewFit.BaseShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+            NewFit.PilotName = aPilot.PilotName
+            NewFit.ApplyFitting(BuildType.BuildEverything)
+            targetShip = NewFit.FittedShip
             If EveSpace1.TargetShip Is Nothing Then
                 EveSpace1.TargetShip = New ShipStatus("TargetShip", targetShip, New Point(250, 250), New Point(150, 150))
             Else
                 EveSpace1.TargetShip = New ShipStatus("TargetShip", targetShip, EveSpace1.TargetShip.Location, EveSpace1.TargetShip.Heading)
             End If
+            btnRangeVSHitChance.Enabled = True
         End If
     End Sub
 
@@ -248,77 +280,95 @@ Public Class frmDamageAnalysis
         EveSpace1.VelocityScale = nudVel.Value
     End Sub
 
-    Private Sub btnRangeVSHitChance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRangeVSHitChance.Click
+    Private Sub btnRangeVSHitChance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRangeVsHitChance.Click
         ' Prepare a new graph to display
-        If GraphForm.IsHandleCreated = False Then
-            GraphForm = New frmChartViewer
-            Dim myPane As GraphPane = GraphForm.ZGC1.GraphPane
+        If EveSpace1.SourceShip IsNot Nothing And EveSpace1.TargetShip IsNot Nothing Then
+            If GraphForm.IsHandleCreated = False Then
+                GraphForm = New frmChartViewer
+                Dim myPane As GraphPane = GraphForm.ZGC1.GraphPane
 
-            ' Set the titles and axis labels
-            myPane.Title.Text = "Range vs Hit Chance - " & EveSpace1.SourceShip.Ship.Name
-            myPane.XAxis.Title.Text = "Range (m)"
-            myPane.XAxis.Scale.Min = 0
-            myPane.XAxis.Scale.Max = 3 * tor
-            myPane.XAxis.Scale.MajorStep = tor
-            myPane.XAxis.MajorGrid.IsVisible = True
-            myPane.YAxis.Title.Text = "Hit Chance (%)"
-            myPane.YAxis.Scale.Min = 0
-            myPane.YAxis.Scale.Max = 110
-            myPane.YAxis.Scale.MajorStep = 20
-            myPane.YAxis.MajorGrid.IsVisible = True
+                ' Set the titles and axis labels
+                Dim MaxRange As Double = Math.Max(tor + (2 * tf), mor * 1.5)
+                Dim GraphPoints As Integer = 50
+                myPane.Title.Text = "Range vs Hit Chance - " & EveSpace1.SourceShip.Ship.Name
+                myPane.XAxis.Title.Text = "Range (m)"
+                myPane.XAxis.Scale.Min = 0
+                myPane.XAxis.Scale.Max = Math.Max(tor + (2 * tf), mor * 1.5)
+                myPane.XAxis.Scale.MajorStep = tf
+                myPane.XAxis.MajorGrid.IsVisible = True
+                myPane.YAxis.Title.Text = "Hit Chance (%)"
+                myPane.YAxis.Scale.Min = 0
+                myPane.YAxis.Scale.Max = 110
+                myPane.YAxis.Scale.MajorStep = 20
+                myPane.YAxis.MajorGrid.IsVisible = True
 
-            ' Create some points from 0 to 3*tor 
-            Dim listR As New PointPairList()
-            Dim listT As New PointPairList()
-            Dim listC As New PointPairList
-            Dim x As Double, y As Double
+                ' Create some points from 0 to tor + (2 * tf)
+                Dim listTurretRange As New PointPairList
+                Dim listTurretTracking As New PointPairList
+                Dim listTurretCombined As New PointPairList
+                Dim listMissileRange As New PointPairList
+                Dim x As Double, y As Double
 
-            For x = 0 To 3 * tor Step 1000 ' Range
-                y = (0.5 ^ (((Math.Max(0, x - tor)) / tf) ^ 2)) * 100 ' Range Element Only
-                listR.Add(x, y)
-                y = (0.5 ^ ((((transVel / (x * tt)) * (tsr / sr)) ^ 2))) * 100 ' Tracking Element Only
-                listT.Add(x, y)
-                y = (0.5 ^ ((((transVel / (x * tt)) * (tsr / sr)) ^ 2) + ((Math.Max(0, x - tor)) / tf) ^ 2)) * 100 ' Combined
-                listC.Add(x, y)
-            Next
-            Dim bestRange As Double = 0
-            Dim bestChance As Double = 0
-            For x = 0 To 3 * tor
-                y = (0.5 ^ ((((transVel / (x * tt)) * (tsr / sr)) ^ 2) + ((Math.Max(0, x - tor)) / tf) ^ 2)) * 100 ' Combined
-                If y > bestChance Then
-                    bestChance = y
-                    bestRange = x
+                For x = 0 To MaxRange Step MaxRange / GraphPoints
+                    If tc > 0 Then
+                        y = (0.5 ^ (((Math.Max(0, x - tor)) / tf) ^ 2)) * 100 ' Range Element Only
+                        listTurretRange.Add(x, y)
+                        y = (0.5 ^ ((((transVel / (x * tt)) * (tsr / sr)) ^ 2))) * 100 ' Tracking Element Only
+                        listTurretTracking.Add(x, y)
+                        y = (0.5 ^ ((((transVel / (x * tt)) * (tsr / sr)) ^ 2) + ((Math.Max(0, x - tor)) / tf) ^ 2)) * 100 ' Combined
+                        listTurretCombined.Add(x, y)
+                    End If
+                    If mc > 0 Then
+                        y = 100 - Math.Min(Int(x / mor) * 100, 100)
+                        listMissileRange.Add(x, y)
+                    End If
+                Next
+                Dim bestRange As Double = 0
+                Dim bestChance As Double = 0
+                For x = 0 To MaxRange
+                    y = (0.5 ^ ((((transVel / (x * tt)) * (tsr / sr)) ^ 2) + ((Math.Max(0, x - tor)) / tf) ^ 2)) * 100 ' Combined
+                    If y > bestChance Then
+                        bestChance = y
+                        bestRange = x
+                    End If
+                Next
+
+                ' Generate curves
+                If tc > 0 Then
+                    Dim myCurveC As LineItem = myPane.AddCurve("Turret Combined", listTurretCombined, Color.Green, SymbolType.XCross)
+                    Dim myCurveR As LineItem = myPane.AddCurve("Turret Range Element", listTurretRange, Color.Magenta, SymbolType.XCross)
+                    Dim myCurveT As LineItem = myPane.AddCurve("Turret Tracking Element", listTurretTracking, Color.Blue, SymbolType.XCross)
+                    myCurveR.Line.IsAntiAlias = True
+                    myCurveT.Line.IsAntiAlias = True
+                    myCurveC.Line.IsAntiAlias = True
                 End If
-            Next
 
-            ' Generate curves
-            Dim myCurveC As LineItem = myPane.AddCurve("Combined Chance", listC, Color.Green, SymbolType.XCross)
-            Dim myCurveR As LineItem = myPane.AddCurve("Range Element", listR, Color.Magenta, SymbolType.XCross)
-            Dim myCurveT As LineItem = myPane.AddCurve("Tracking Element", listT, Color.Blue, SymbolType.XCross)
-            myCurveR.Line.IsAntiAlias = True
-            myCurveT.Line.IsAntiAlias = True
-            myCurveC.Line.IsAntiAlias = True
+                If mc > 0 Then
+                    Dim myCurveM As LineItem = myPane.AddCurve("Missile Range", listMissileRange, Color.Firebrick, SymbolType.XCross)
+                    myCurveM.Line.IsAntiAlias = True
+                End If
 
-            ' Fill the axis background with a color gradient
-            myPane.Chart.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
-            myPane.Legend.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
-            myPane.Legend.FontSpec.FontColor = Color.MidnightBlue
+                ' Fill the axis background with a color gradient
+                myPane.Chart.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
+                myPane.Legend.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
+                myPane.Legend.FontSpec.FontColor = Color.MidnightBlue
 
-            ' Fill the pane background with a color gradient
-            myPane.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
-            ' Calculate the Axis Scale Ranges
-            GraphForm.ZGC1.AxisChange()
+                ' Fill the pane background with a color gradient
+                myPane.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
+                ' Calculate the Axis Scale Ranges
+                GraphForm.ZGC1.AxisChange()
 
-            ' Write some detail
-            Dim info As New StringBuilder
-            info.AppendLine("Current chance to hit = " & FormatNumber(CTH, 2) & "% @ " & FormatNumber(d, 0) & "m")
-            info.AppendLine("Highest chance to hit = " & FormatNumber(bestChance, 2) & "% @ " & FormatNumber(bestRange, 0) & "m")
-            GraphForm.lblGraphInfo.Text = info.ToString
+                ' Write some detail
+                Dim info As New StringBuilder
+                info.AppendLine("Current chance to hit = " & FormatNumber(CTH, 2) & "% @ " & FormatNumber(d, 0) & "m")
+                info.AppendLine("Highest chance to hit = " & FormatNumber(bestChance, 2) & "% @ " & FormatNumber(bestRange, 0) & "m")
+                GraphForm.lblGraphInfo.Text = info.ToString
 
-            GraphForm.Show()
-        Else
-            GraphForm.BringToFront()
-            GraphForm.Visible = True
+                GraphForm.Show()
+            Else
+                GraphForm.BringToFront()
+                GraphForm.Visible = True
+            End If
         End If
     End Sub
 
@@ -419,7 +469,12 @@ Public Class frmDamageAnalysis
             tf = CDbl(tMod.Attributes("158"))
             tvd = CDbl(tMod.Attributes("10018"))
             tdps = CDbl(tMod.Attributes("10019"))
-            trof = CDbl(tMod.Attributes("10011")) + CDbl(tMod.Attributes("10012")) + CDbl(tMod.Attributes("10013"))
+            For att As Integer = 10011 To 10013
+                If tMod.Attributes.ContainsKey(att.ToString) = True Then
+                    trof = tMod.Attributes(att.ToString)
+                    Exit For
+                End If
+            Next
             wEM = CDbl(tMod.Attributes("10051"))
             wEx = CDbl(tMod.Attributes("10052"))
             wKi = CDbl(tMod.Attributes("10053"))
@@ -454,7 +509,9 @@ Public Class frmDamageAnalysis
             Dim prr As Double = (EveSpace1.TargetShip.Ship.ShieldCapacity / EveSpace1.TargetShip.Ship.ShieldRecharge) / 5
 
             ' Calculate Expected Times (no target ship HP recharge)
-            estNR = sHP / (esdT * tc) * trof : eatNR = aHP / (eadT * tc) * trof : ehtNR = hHP / (ehdT * tc) * trof
+            estNR = sHP / (esdT * tc) * trof
+            eatNR = aHP / (eadT * tc) * trof
+            ehtNR = hHP / (ehdT * tc) * trof
             If estNR > 86400 Then
                 estNR = 86400
             End If
@@ -466,18 +523,18 @@ Public Class frmDamageAnalysis
             End If
 
             ' Calculate Expected Times (with target ship HP recharge)
-            If (esdT - tsrr) > 0 Then
-                estR = sHP / ((esdT - tsrr) * tc) * trof
+            If ((esdT * tc) - tsrr) > 0 Then
+                estR = sHP / ((esdT * tc) - tsrr) * trof
             Else
                 estR = 86400
             End If
-            If (eadT - tarr - prr) > 0 Then
-                eatR = aHP / ((eadT - tarr - prr) * tc) * trof
+            If ((eadT * tc) - tarr - prr) > 0 Then
+                eatR = aHP / ((eadT * tc) - tarr - prr) * trof
             Else
                 eatR = 86400
             End If
-            If (ehdT - thrr - prr) > 0 Then
-                ehtR = hHP / ((ehdT - thrr - prr) * tc) * trof
+            If ((ehdT * tc) - thrr - prr) > 0 Then
+                ehtR = hHP / ((ehdT * tc) - thrr - prr) * trof
             Else
                 ehtR = 86400
             End If
@@ -532,7 +589,7 @@ Public Class frmDamageAnalysis
             lblTurretStats.Text = stats.ToString
             lblTurretStats.Refresh()
         Else
-            lblTurretStats.Text = "No valid turret modules found on attacking ship!"
+            lblTurretStats.Text = "No valid/active turret modules found on attacking ship!"
             lblTurretStats.Refresh()
         End If
 
@@ -567,10 +624,10 @@ Public Class frmDamageAnalysis
         hTh = EveSpace1.TargetShip.Ship.StructureThResist
 
         If mMod.Name <> "" And mMod.Name IsNot Nothing Then
-            tor = CDbl(mMod.Attributes("54"))
-            tvd = CDbl(mMod.Attributes("10018"))
-            tdps = CDbl(mMod.Attributes("10019"))
-            trof = CDbl(mMod.Attributes("51"))
+            mor = CDbl(mMod.Attributes("54"))
+            mvd = CDbl(mMod.Attributes("10018"))
+            mdps = CDbl(mMod.Attributes("10019"))
+            mrof = CDbl(mMod.Attributes("51"))
             missileER = CDbl(mMod.LoadedCharge.Attributes("654"))
             missileEV = CDbl(mMod.LoadedCharge.Attributes("653"))
             missileDRF = CDbl(mMod.LoadedCharge.Attributes("1353"))
@@ -587,7 +644,7 @@ Public Class frmDamageAnalysis
             hdEM = wEM * (1 - hEM / 100) : hdEx = wEx * (1 - hEx / 100) : hdKi = wKi * (1 - hKi / 100) : hdTh = wTh * (1 - hTh / 100) : hdT = hdEM + hdEx + hdKi + hdTh
 
             ' Calculate the actual damage
-            If tor >= d Then
+            If mor >= d Then
                 CTH = wT * Math.Min(Math.Min(sr / missileER, 1), (missileEV / missileER * sr / targetVel) ^ (Math.Log(missileDRF) / Math.Log(missileDRS)))
             Else
                 CTH = 0
@@ -608,7 +665,7 @@ Public Class frmDamageAnalysis
             Dim prr As Double = (EveSpace1.TargetShip.Ship.ShieldCapacity / EveSpace1.TargetShip.Ship.ShieldRecharge) / 5
 
             ' Calculate Expected Times (no target ship HP recharge)
-            estNR = sHP / (esdT * mc) * trof : eatNR = aHP / (eadT * mc) * trof : ehtNR = hHP / (ehdT * mc) * trof
+            estNR = sHP / (esdT * mc) * mrof : eatNR = aHP / (eadT * mc) * mrof : ehtNR = hHP / (ehdT * mc) * mrof
             If estNR > 86400 Then
                 estNR = 86400
             End If
@@ -620,18 +677,18 @@ Public Class frmDamageAnalysis
             End If
 
             ' Calculate Expected Times (with target ship HP recharge)
-            If (esdT - tsrr) > 0 Then
-                estR = sHP / ((esdT - tsrr) * mc) * trof
+            If ((esdT * mc) - tsrr) > 0 Then
+                estR = sHP / ((esdT * mc) - tsrr) * mrof
             Else
                 estR = 86400
             End If
-            If (eadT - tarr - prr) > 0 Then
-                eatR = aHP / ((eadT - tarr - prr) * mc) * trof
+            If ((eadT * mc) - tarr - prr) > 0 Then
+                eatR = aHP / ((eadT * mc) - tarr - prr) * mrof
             Else
                 eatR = 86400
             End If
-            If (ehdT - thrr - prr) > 0 Then
-                ehtR = hHP / ((ehdT - thrr - prr) * mc) * trof
+            If ((ehdT * mc) - thrr - prr) > 0 Then
+                ehtR = hHP / ((ehdT * mc) - thrr - prr) * mrof
             Else
                 ehtR = 86400
             End If
@@ -647,10 +704,10 @@ Public Class frmDamageAnalysis
             stats.AppendLine("Missile Count: " & mc.ToString("N0"))
             stats.AppendLine("Missile Ex Radius: " & missileER.ToString("N2") & " m")
             stats.AppendLine("Missile Ex Velocity: " & missileEV.ToString("N2") & " m/s")
-            stats.AppendLine("Missile Range: " & tor.ToString("N0") & " m")
-            stats.AppendLine("Missile ROF: " & trof.ToString("N2") & " s")
-            stats.AppendLine("Missile Volley: " & tvd.ToString("N2") & " HP")
-            stats.AppendLine("Missile DPS: " & tdps.ToString("N2") & " HP/s")
+            stats.AppendLine("Missile Range: " & mor.ToString("N0") & " m")
+            stats.AppendLine("Missile ROF: " & mrof.ToString("N2") & " s")
+            stats.AppendLine("Missile Volley: " & mvd.ToString("N2") & " HP")
+            stats.AppendLine("Missile DPS: " & mdps.ToString("N2") & " HP/s")
             stats.AppendLine("Missile Damage (EM/Ex/Ki/Th): " & wEM.ToString("N2") & " / " & wEx.ToString("N2") & " / " & wKi.ToString("N2") & " / " & wTh.ToString("N2"))
             stats.AppendLine("Target HP (S/A/H): " & sHP.ToString("N2") & " / " & aHP.ToString("N2") & " / " & hHP.ToString("N2"))
             stats.AppendLine("Target Shield Res (EM/Ex/Ki/Th): " & sEM.ToString("N2") & " / " & sEx.ToString("N2") & " / " & sKi.ToString("N2") & " / " & sTh.ToString("N2"))
@@ -661,13 +718,13 @@ Public Class frmDamageAnalysis
             stats.AppendLine("Expected Damage Ratio: " & EDR.ToString("N8"))
             stats.AppendLine("")
             stats.AppendLine("Theoretical Per Missile Damage (S/A/H): " & sdT.ToString("N2") & " / " & adT.ToString("N2") & " / " & hdT.ToString("N2"))
-            stats.AppendLine("Theoretical Per Missile DPS (S/A/H): " & (sdT / trof).ToString("N2") & " / " & (adT / trof).ToString("N2") & " / " & (hdT / trof).ToString("N2"))
+            stats.AppendLine("Theoretical Per Missile DPS (S/A/H): " & (sdT / mrof).ToString("N2") & " / " & (adT / mrof).ToString("N2") & " / " & (hdT / mrof).ToString("N2"))
             stats.AppendLine("Expected Per Missile Damage (S/A/H): " & esdT.ToString("N2") & " / " & eadT.ToString("N2") & " / " & ehdT.ToString("N2"))
-            stats.AppendLine("Expected Per Missile DPS (S/A/H): " & (esdT / trof).ToString("N2") & " / " & (eadT / trof).ToString("N2") & " / " & (ehdT / trof).ToString("N2"))
+            stats.AppendLine("Expected Per Missile DPS (S/A/H): " & (esdT / mrof).ToString("N2") & " / " & (eadT / mrof).ToString("N2") & " / " & (ehdT / mrof).ToString("N2"))
             stats.AppendLine("Theoretical Total Damage (S/A/H): " & (sdT * mc).ToString("N2") & " / " & (adT * mc).ToString("N2") & " / " & (hdT * mc).ToString("N2"))
-            stats.AppendLine("Theoretical Total DPS (S/A/H): " & (sdT / trof * mc).ToString("N2") & " / " & (adT / trof * mc).ToString("N2") & " / " & (hdT / trof * mc).ToString("N2"))
+            stats.AppendLine("Theoretical Total DPS (S/A/H): " & (sdT / mrof * mc).ToString("N2") & " / " & (adT / mrof * mc).ToString("N2") & " / " & (hdT / mrof * mc).ToString("N2"))
             stats.AppendLine("Expected Total Damage (S/A/H): " & (esdT * mc).ToString("N2") & " / " & (eadT * mc).ToString("N2") & " / " & (ehdT * mc).ToString("N2"))
-            stats.AppendLine("Expected Total DPS (S/A/H): " & (esdT / trof * mc).ToString("N2") & " / " & (eadT / trof * mc).ToString("N2") & " / " & (ehdT / trof * mc).ToString("N2"))
+            stats.AppendLine("Expected Total DPS (S/A/H): " & (esdT / mrof * mc).ToString("N2") & " / " & (eadT / mrof * mc).ToString("N2") & " / " & (ehdT / mrof * mc).ToString("N2"))
             stats.AppendLine("Target HP Recharge Rates (S/A/H): " & tsrr.ToString("N2") & " / " & tarr.ToString("N2") & " / " & thrr.ToString("N2"))
             stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(estNR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estNR))) & " / " & CStr(IIf(eatNR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatNR))) & " / " & CStr(IIf(ehtNR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtNR))))
             stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(estR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(estR))) & " / " & CStr(IIf(eatR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(eatR))) & " / " & CStr(IIf(ehtR >= 86400, "Stable", EveHQ.Core.SkillFunctions.TimeToString(ehtR))))
@@ -677,7 +734,7 @@ Public Class frmDamageAnalysis
             lblMissileStats.Text = stats.ToString
             lblMissileStats.Refresh()
         Else
-            lblMissileStats.Text = "No valid missile modules found on attacking ship!"
+            lblMissileStats.Text = "No valid/active missile modules found on attacking ship!"
             lblMissileStats.Refresh()
         End If
 

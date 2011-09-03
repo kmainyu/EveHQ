@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -192,18 +211,18 @@ namespace EveHQ.PosManager
             SiloCap = ReactMod.Capacity * SiloMult;
 
             // Fill Bar and Amount
-            pb_FillLevel.MaxValue = Convert.ToInt32(SiloCap);
+            pb_FillLevel.Maximum = Convert.ToInt32(SiloCap);
             pb_FillLevel.Value = Convert.ToInt32(ReactMod.CapVol);
             CapText = ReactMod.CapQty + " / " + Math.Truncate(ReactMod.MaxQty) + " (" + ReactMod.CapVol + " m3)";
-            pb_FillLevel.TextOverlay = CapText;
+            pb_FillLevel.Text = CapText;
 
             // In/Out Warn Setting
-            l_RunTime.Text = myData.ConvertReactionHoursToTextDisplay(ReactMod.FillEmptyTime);
+            l_RunTime.Text = PlugInData.ConvertReactionHoursToTextDisplay(ReactMod.FillEmptyTime);
         }
 
         private void ShowHideInOut()
         {
-            int num;
+            long num;
             string tTip;
 
             input1.Hide();
@@ -362,24 +381,24 @@ namespace EveHQ.PosManager
         private void SetItemSelectedIcon(string react, bool isMin, bool overWrt)
         {
             MoonSiloReactMineral ir, or;
-            int ioCnt = 0;
+            long ioCnt = 0;
 
             l_ExtraInfo.Text = react;
             if (isMin)
             {
                 ReactionMineral.BackgroundImageLayout = ImageLayout.Stretch;
-                ReactionMineral.BackgroundImage = myData.GetIcon(ReactMod.selMineral.icon);
+                ReactionMineral.BackgroundImage = myData.GetIcon(ReactMod.selMineral.typeID.ToString());
                 input1.Show();
-                input1.BackgroundImage = myData.GetIcon(ReactMod.selMineral.icon);
+                input1.BackgroundImage = myData.GetIcon(ReactMod.selMineral.typeID.ToString());
                 toolTip1.SetToolTip(input1, ReactMod.selMineral.name);
                 output1.Show();
-                output1.BackgroundImage = myData.GetIcon(ReactMod.selMineral.icon);
+                output1.BackgroundImage = myData.GetIcon(ReactMod.selMineral.typeID.ToString());
                 toolTip1.SetToolTip(output1, ReactMod.selMineral.name);
             }
             else
             {
                 ReactionMineral.BackgroundImageLayout = ImageLayout.Stretch;
-                ReactionMineral.BackgroundImage = myData.GetIcon(ReactMod.selReact.icon);
+                ReactionMineral.BackgroundImage = myData.GetIcon(ReactMod.selReact.typeID.ToString());
                 input1.Hide();
                 input2.Hide();
                 input3.Hide();
@@ -397,32 +416,32 @@ namespace EveHQ.PosManager
                     {
                         case 1:
                             input1.Show();
-                            input1.BackgroundImage = myData.GetIcon(ir.icon);
+                            input1.BackgroundImage = myData.GetIcon(ir.typeID.ToString());
                             toolTip1.SetToolTip(input1, ir.name);
                             break;
                         case 2:
                             input2.Show();
-                            input2.BackgroundImage = myData.GetIcon(ir.icon);
+                            input2.BackgroundImage = myData.GetIcon(ir.typeID.ToString());
                             toolTip1.SetToolTip(input2, ir.name);
                             break;
                         case 3:
                             input3.Show();
-                            input3.BackgroundImage = myData.GetIcon(ir.icon);
+                            input3.BackgroundImage = myData.GetIcon(ir.typeID.ToString());
                             toolTip1.SetToolTip(input3, ir.name);
                             break;
                         case 4:
                             input4.Show();
-                            input4.BackgroundImage = myData.GetIcon(ir.icon);
+                            input4.BackgroundImage = myData.GetIcon(ir.typeID.ToString());
                             toolTip1.SetToolTip(input4, ir.name);
                             break;
                         case 5:
                             input5.Show();
-                            input5.BackgroundImage = myData.GetIcon(ir.icon);
+                            input5.BackgroundImage = myData.GetIcon(ir.typeID.ToString());
                             toolTip1.SetToolTip(input5, ir.name);
                             break;
                         case 6:
                             input6.Show();
-                            input6.BackgroundImage = myData.GetIcon(ir.icon);
+                            input6.BackgroundImage = myData.GetIcon(ir.typeID.ToString());
                             toolTip1.SetToolTip(input6, ir.name);
                             break;
                         default:
@@ -438,12 +457,12 @@ namespace EveHQ.PosManager
                     {
                         case 1:
                             output1.Show();
-                            output1.BackgroundImage = myData.GetIcon(or.icon);
+                            output1.BackgroundImage = myData.GetIcon(or.typeID.ToString());
                             toolTip1.SetToolTip(output1, or.name);
                             break;
                         case 2:
                             output2.Show();
-                            output2.BackgroundImage = myData.GetIcon(or.icon);
+                            output2.BackgroundImage = myData.GetIcon(or.typeID.ToString());
                             toolTip1.SetToolTip(output2, or.name);
                             break;
                         default:
@@ -684,6 +703,7 @@ namespace EveHQ.PosManager
             ContextMenuStrip Mnu = (ContextMenuStrip)sender;
             csmSel = Mnu.SourceControl.Name;
         }
+
 
      }
 }

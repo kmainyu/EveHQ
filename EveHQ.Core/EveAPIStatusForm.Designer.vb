@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class EveAPIStatusForm
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -33,6 +33,8 @@ Partial Class EveAPIStatusForm
         Me.tmrClose = New System.Windows.Forms.Timer(Me.components)
         Me.lblErrorDetailsLbl = New System.Windows.Forms.Label
         Me.lblErrorDetails = New System.Windows.Forms.Label
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
+        Me.PanelEx1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lvwStatus
@@ -41,7 +43,7 @@ Partial Class EveAPIStatusForm
         Me.lvwStatus.FullRowSelect = True
         Me.lvwStatus.GridLines = True
         Me.lvwStatus.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.lvwStatus.Location = New System.Drawing.Point(13, 13)
+        Me.lvwStatus.Location = New System.Drawing.Point(12, 13)
         Me.lvwStatus.Name = "lvwStatus"
         Me.lvwStatus.Size = New System.Drawing.Size(731, 277)
         Me.lvwStatus.TabIndex = 0
@@ -78,7 +80,7 @@ Partial Class EveAPIStatusForm
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(643, 448)
+        Me.btnClose.Location = New System.Drawing.Point(642, 448)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(100, 23)
         Me.btnClose.TabIndex = 2
@@ -93,7 +95,7 @@ Partial Class EveAPIStatusForm
         '
         Me.lblErrorDetailsLbl.AutoSize = True
         Me.lblErrorDetailsLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblErrorDetailsLbl.Location = New System.Drawing.Point(10, 293)
+        Me.lblErrorDetailsLbl.Location = New System.Drawing.Point(9, 293)
         Me.lblErrorDetailsLbl.Name = "lblErrorDetailsLbl"
         Me.lblErrorDetailsLbl.Size = New System.Drawing.Size(134, 13)
         Me.lblErrorDetailsLbl.TabIndex = 4
@@ -102,21 +104,41 @@ Partial Class EveAPIStatusForm
         'lblErrorDetails
         '
         Me.lblErrorDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblErrorDetails.Location = New System.Drawing.Point(13, 306)
+        Me.lblErrorDetails.Location = New System.Drawing.Point(12, 306)
         Me.lblErrorDetails.Name = "lblErrorDetails"
         Me.lblErrorDetails.Size = New System.Drawing.Size(731, 136)
         Me.lblErrorDetails.TabIndex = 5
+        '
+        'PanelEx1
+        '
+        Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
+        Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.lvwStatus)
+        Me.PanelEx1.Controls.Add(Me.lblErrorDetails)
+        Me.PanelEx1.Controls.Add(Me.btnClose)
+        Me.PanelEx1.Controls.Add(Me.lblErrorDetailsLbl)
+        Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 0)
+        Me.PanelEx1.Name = "PanelEx1"
+        Me.PanelEx1.Size = New System.Drawing.Size(754, 476)
+        Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.PanelEx1.Style.GradientAngle = 90
+        Me.PanelEx1.TabIndex = 6
         '
         'EveAPIStatusForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(756, 476)
+        Me.ClientSize = New System.Drawing.Size(754, 476)
         Me.ControlBox = False
-        Me.Controls.Add(Me.lblErrorDetails)
-        Me.Controls.Add(Me.lblErrorDetailsLbl)
-        Me.Controls.Add(Me.btnClose)
-        Me.Controls.Add(Me.lvwStatus)
+        Me.Controls.Add(Me.PanelEx1)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "EveAPIStatusForm"
@@ -124,8 +146,9 @@ Partial Class EveAPIStatusForm
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Eve API Status"
+        Me.PanelEx1.ResumeLayout(False)
+        Me.PanelEx1.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents lvwStatus As System.Windows.Forms.ListView
@@ -138,4 +161,5 @@ Partial Class EveAPIStatusForm
     Friend WithEvents colPilot As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblErrorDetailsLbl As System.Windows.Forms.Label
     Friend WithEvents lblErrorDetails As System.Windows.Forms.Label
+    Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
 End Class

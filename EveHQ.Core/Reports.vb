@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -113,6 +113,7 @@ Public Class Reports
         strCSS &= ".thead { font-family: Tahoma, Arial; font-size: 12px; color: #ffffff; font-variant: small-caps; background-color: #444444 }"
         strCSS &= ".footer { font-family: Tahoma, Arial; font-size: 9px; color: #ffffff; font-variant: small-caps }"
         strCSS &= ".title { font-family: Tahoma, Arial; font-size: 20px; color: #ffffff; font-variant: small-caps }"
+        strCSS &= "#wrapper {overflow: auto; height: 100%; width:820px; margin-left:auto; margin-right:auto;}"
         strCSS &= "--></STYLE>"
         Return strCSS
     End Function
@@ -973,13 +974,13 @@ Public Class Reports
 
     Public Shared Sub GenerateCharXML(ByVal rPilot As EveHQ.Core.Pilot)
         Dim cXML As New XmlDocument
-        cXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
+        cXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
         cXML.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharXML (" & rPilot.Name & ").xml"))
     End Sub
 
     Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQ.Core.Pilot)
         Dim tXML As New XmlDocument
-        tXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
+        tXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
         tXML.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
     End Sub
 
@@ -1008,7 +1009,7 @@ Public Class Reports
 
     Public Shared Function TrainQueue(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
         Dim strHTML As String = ""
-        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue)
+        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
@@ -1030,21 +1031,21 @@ Public Class Reports
         strHTML &= "</tr>"
 
         For skill As Integer = 0 To arrQueue.Count - 1
-            Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), EveHQ.Core.SortedQueue)
+            Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), EveHQ.Core.SortedQueueItem)
             Dim skillName As String = qItem.Name
-            Dim curLevel As String = qItem.CurLevel
-            Dim startLevel As String = qItem.FromLevel
-            Dim endLevel As String = qItem.ToLevel
-            Dim percent As String = qItem.Percent
+            Dim curLevel As Integer = qItem.CurLevel
+            Dim startLevel As Integer = qItem.FromLevel
+            Dim endLevel As Integer = qItem.ToLevel
+            Dim percent As Double = qItem.Percent
             Dim timeToEnd As String = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime))
             Dim endTime As String = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
 
             strHTML &= "<tr height=20px>"
             strHTML &= "<td>" & skillName & "</td>"
-            strHTML &= "<td align=center>" & curLevel & "</td>"
-            strHTML &= "<td align=center>" & startLevel & "</td>"
-            strHTML &= "<td align=center>" & endLevel & "</td>"
-            strHTML &= "<td align=center>" & percent & "</td>"
+            strHTML &= "<td align=center>" & curLevel.ToString & "</td>"
+            strHTML &= "<td align=center>" & startLevel.ToString & "</td>"
+            strHTML &= "<td align=center>" & endLevel.ToString & "</td>"
+            strHTML &= "<td align=center>" & FormatNumber(percent, 0) & "</td>"
             strHTML &= "<td>" & timeToEnd & "</td>"
             strHTML &= "<td>" & endTime & "</td>"
             strHTML &= "</tr>"
@@ -1079,7 +1080,7 @@ Public Class Reports
 
     Public Shared Function ShoppingList(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
         Dim strHTML As String = ""
-        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue)
+        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
@@ -1097,7 +1098,7 @@ Public Class Reports
 
         Dim skillPriceList As New ArrayList
         For skill As Integer = 0 To arrQueue.Count - 1
-            Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), SortedQueue)
+            Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), SortedQueueItem)
             Dim skillName As String = qItem.Name
             If rpilot.PilotSkills.Contains(skillName) = False Then
                 If skillPriceList.Contains(skillName) = False Then
@@ -1290,8 +1291,15 @@ Public Class Reports
         Dim strHTML As String = ""
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT iconFile FROM eveIcons WHERE invTypes.iconID=eveIcons.iconID) AS groupIcon, (SELECT (SELECT iconFile FROM eveIcons WHERE eveIcons.iconID=invTypes.iconID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveIcons INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveIcons.iconID=invTypes.iconID"
+        strSQL &= "SELECT     invTypes.typeID, invTypes.typeName, invGroups.groupID, invGroups.groupName, invTypeMaterials.materialTypeID, invTypeMaterials.quantity, eveIcons.iconFile AS groupIcon, "
+        strSQL &= " invTypes_1.typeName AS Material, eveIcons_1.iconFile AS typeIcon"
+        strSQL &= " FROM         invTypes INNER JOIN"
+        strSQL &= " invGroups ON invTypes.groupID = invGroups.groupID INNER JOIN"
+        strSQL &= " invTypeMaterials ON invTypes.typeID = invTypeMaterials.typeID INNER JOIN"
+        strSQL &= " eveIcons ON invTypes.iconID = eveIcons.iconID INNER JOIN"
+        strSQL &= " invTypes AS invTypes_1 ON invTypeMaterials.materialTypeID = invTypes_1.typeID INNER JOIN"
+        strSQL &= " eveIcons AS eveIcons_1 ON invTypes_1.iconID = eveIcons_1.iconID INNER JOIN"
+        strSQL &= " invGroups AS invGroups_1 ON invTypes_1.groupID = invGroups_1.groupID"
         strSQL &= " WHERE(invGroups.groupID = 355)"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -1364,9 +1372,9 @@ Public Class Reports
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 8
                 If forIGB = False Then
-                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minID(min)) & "'></td>"
                 Else
-                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minID(min)) & "'></td>"
                 End If
             Next
             strHTML &= "</tr>"
@@ -1389,9 +1397,9 @@ Public Class Reports
                     strHTML &= "<tr>"
                     strHTML &= "<td width=35px>"
                     If forIGB = False Then
-                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
+                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreID(groupType, oreType)) & "'>"
                     Else
-                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
+                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreID(groupType, oreType)) & "'>"
                     End If
                     strHTML &= "</td>"
                     strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
@@ -1402,6 +1410,7 @@ Public Class Reports
                 Next
             Next
             strHTML &= "</table><br>"
+            'strHTML &= "</div>"
 
             Return strHTML
         Else
@@ -1434,10 +1443,17 @@ Public Class Reports
         Dim OreMetaTypes As Integer = 6
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT iconFile FROM eveIcons WHERE invTypes.iconID=eveIcons.iconID) AS groupIcon, (SELECT (SELECT iconFile FROM eveIcons WHERE eveIcons.iconID=invTypes.iconID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveIcons INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveIcons.iconID=invTypes.iconID"
-        strSQL &= " WHERE(((invGroups.categoryID) = 25) And (invTypes.published=true) And ((invGroups.groupID) <> 465))"
-        strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
+        strSQL &= "SELECT     invTypes.typeID, invTypes.typeName, invGroups.groupID, invGroups.groupName, invTypeMaterials.materialTypeID, invTypeMaterials.quantity, eveIcons.iconFile AS groupIcon, "
+        strSQL &= " invTypes_1.typeName AS Material, eveIcons_1.iconFile AS typeIcon"
+        strSQL &= " FROM         invTypes INNER JOIN"
+        strSQL &= " invGroups ON invTypes.groupID = invGroups.groupID INNER JOIN"
+        strSQL &= " invTypeMaterials ON invTypes.typeID = invTypeMaterials.typeID INNER JOIN"
+        strSQL &= " eveIcons ON invTypes.iconID = eveIcons.iconID INNER JOIN"
+        strSQL &= " invTypes AS invTypes_1 ON invTypeMaterials.materialTypeID = invTypes_1.typeID INNER JOIN"
+        strSQL &= " eveIcons AS eveIcons_1 ON invTypes_1.iconID = eveIcons_1.iconID INNER JOIN"
+        strSQL &= " invGroups AS invGroups_1 ON invTypes_1.groupID = invGroups_1.groupID"
+        strSQL &= " WHERE     (invGroups.categoryID = 25) AND (invTypes.published = 1) AND (invGroups.groupID <> 465)"
+        strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName"
 
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
@@ -1509,9 +1525,9 @@ Public Class Reports
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 8
                 If forIGB = False Then
-                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minID(min)) & "'></td>"
                 Else
-                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minID(min)) & "'></td>"
                 End If
             Next
             strHTML &= "</tr>"
@@ -1534,9 +1550,9 @@ Public Class Reports
                     strHTML &= "<tr>"
                     strHTML &= "<td width=35px>"
                     If forIGB = False Then
-                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
+                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreID(groupType, oreType)) & "'>"
                     Else
-                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
+                        strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreID(groupType, oreType)) & "'>"
                     End If
                     strHTML &= "</td>"
                     strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
@@ -1576,9 +1592,16 @@ Public Class Reports
         Dim IceMetaTypes As Integer = 24
 
         Dim strSQL As String = ""
-        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS Material, invTypeMaterials.materialTypeID , invTypeMaterials.quantity , invGroups.groupID, invGroups.groupName, (SELECT iconFile FROM eveIcons WHERE invTypes.iconID=eveIcons.iconID) AS groupIcon, (SELECT (SELECT iconFile FROM eveIcons WHERE eveIcons.iconID=invTypes.iconID) FROM invTypes WHERE invTypeMaterials.materialTypeID = invTypes.typeID) AS typeIcon"
-        strSQL &= " FROM eveIcons INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN invTypeMaterials ON invTypes.typeID=invTypeMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveIcons.iconID=invTypes.iconID"
-        strSQL &= " WHERE(((invGroups.categoryID) = 25) And (invTypes.published=true) And ((invGroups.groupID) = 465))"
+        strSQL &= "SELECT     invTypes.typeID, invTypes.typeName, invGroups.groupID, invGroups.groupName, invTypeMaterials.materialTypeID, invTypeMaterials.quantity, eveIcons.iconFile AS groupIcon, "
+        strSQL &= " invTypes_1.typeName AS Material, eveIcons_1.iconFile AS typeIcon"
+        strSQL &= " FROM         invTypes INNER JOIN"
+        strSQL &= " invGroups ON invTypes.groupID = invGroups.groupID INNER JOIN"
+        strSQL &= " invTypeMaterials ON invTypes.typeID = invTypeMaterials.typeID INNER JOIN"
+        strSQL &= " eveIcons ON invTypes.iconID = eveIcons.iconID INNER JOIN"
+        strSQL &= " invTypes AS invTypes_1 ON invTypeMaterials.materialTypeID = invTypes_1.typeID INNER JOIN"
+        strSQL &= " eveIcons AS eveIcons_1 ON invTypes_1.iconID = eveIcons_1.iconID INNER JOIN"
+        strSQL &= " invGroups AS invGroups_1 ON invTypes_1.groupID = invGroups_1.groupID"
+        strSQL &= " WHERE(((invGroups.categoryID) = 25) And (invTypes.published=1) And ((invGroups.groupID) = 465))"
         strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
@@ -1647,9 +1670,9 @@ Public Class Reports
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 7
                 If forIGB = False Then
-                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minID(min)) & "'></td>"
                 Else
-                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                    strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(minID(min)) & "'></td>"
                 End If
             Next
             strHTML &= "</tr>"
@@ -1669,9 +1692,9 @@ Public Class Reports
                 strHTML &= "<tr><td colspan=9 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
                 For oreType As Integer = 1 To IceMetaTypes
                     If forIGB = False Then
-                        strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                        strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreID(groupType, oreType)) & "'></td>"
                     Else
-                        strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
+                        strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetRawImageLocation(oreID(groupType, oreType)) & "'></td>"
                     End If
                     strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
                     For minType As Integer = 1 To 7
@@ -1745,7 +1768,7 @@ Public Class Reports
                     currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rPilot))
                     currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rPilot))
                     strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints + rPilot.TrainingCurrentSP, 0) & "</td>"
-                    strHTML &= "<td width=200px align=right>" & skillname & "<br>" & currentTime & "</td>"
+					strHTML &= "<td width=200px align=right>" & skillname & " " & EveHQ.Core.SkillFunctions.Roman(rPilot.TrainingSkillLevel) & "<br>" & currentTime & "</td>"
                 Else
                     strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints, 0) & "</td>"
                     strHTML &= "<td width=200px align=right>n/a</td>"
@@ -2176,6 +2199,106 @@ Public Class Reports
         Dim b As Integer = colRandom.Next(0, 255)
         Return Color.FromArgb(255, r, g, b)
         colRandom = New Random(r * g * b)
+    End Function
+#End Region
+
+#Region "Skill Cost Chart"
+    Public Shared Function SkillCostChart(ByVal rpilot As EveHQ.Core.Pilot) As ZedGraph.ZedGraphControl
+        Dim zgc As New ZedGraph.ZedGraphControl
+        Dim myPane As ZedGraph.GraphPane = zgc.GraphPane
+
+        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSP As String = ""
+        Dim currentTime As String = ""
+        If rpilot.Training = True Then
+            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSP = CStr(rpilot.TrainingCurrentSP)
+            currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
+        End If
+
+        Dim otherGroup As Double
+        Dim otherList As New ArrayList
+        Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 3) As String
+        Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
+        Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
+        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim groupCount As Integer = 0
+        Dim totalSkillCost As Long = 0
+        For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
+            groupCount += 1
+            repGroup(groupCount, 1) = cGroup.Name
+            Dim skillCount As Long = 0
+            Dim TotalCost As Long = 0
+            For Each cSkill In rpilot.PilotSkills
+                If cSkill.GroupID = cGroup.ID Then
+                    skillCount += 1
+                    repSkill(groupCount, CInt(skillCount), 0) = cSkill.ID
+                    repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
+                    repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
+                    repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
+                    TotalCost += CLng(repSkill(groupCount, CInt(skillCount), 4))
+                End If
+            Next
+            repGroup(groupCount, 2) = CStr(skillCount)
+            repGroup(groupCount, 3) = CStr(TotalCost)
+            totalSkillCost += TotalCost
+        Next
+
+        ' Set the GraphPane title
+        myPane.Title.Text = "Skill Cost Breakdown by Category - " & rpilot.Name
+        myPane.Title.FontSpec.IsItalic = True
+        myPane.Title.FontSpec.Size = 18.0F
+        myPane.Title.FontSpec.Family = "Arial"
+
+        ' Fill the pane background with a color gradient
+        myPane.Fill = New ZedGraph.Fill(Color.White, Color.LightSteelBlue, 45.0F)
+        ' No fill for the chart background
+        myPane.Chart.Fill.Type = ZedGraph.FillType.None
+
+        ' Set the legend to an arbitrary location
+        myPane.Legend.IsVisible = False
+        myPane.Legend.Position = ZedGraph.LegendPos.TopCenter
+        myPane.Legend.FontSpec.Size = 8.0F
+        myPane.Legend.IsHStack = False
+
+        ' Add some pie slices
+        Dim segment(EveHQ.Core.HQ.SkillGroups.Count) As ZedGraph.PieItem
+        For group As Integer = 1 To EveHQ.Core.HQ.SkillGroups.Count
+            If CDbl(repGroup(group, 3)) > 0 Then
+                If CDbl(repGroup(group, 3)) / totalSkillCost * 100 > 1.25 Then
+                    segment(group) = myPane.AddPieSlice(CDbl(repGroup(group, 3)), EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, repGroup(group, 1) & " (" & FormatNumber(repGroup(group, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK)")
+                    segment(group).LabelType = ZedGraph.PieLabelType.Name_Percent
+                    segment(group).LabelDetail.FontSpec.Size = 8
+                Else
+                    otherGroup += CDbl(repGroup(group, 3))
+                    otherList.Add(repGroup(group, 1) & ": " & FormatNumber(repGroup(group, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK")
+                End If
+            End If
+        Next
+        If otherGroup > 0 Then
+            segment(0) = myPane.AddPieSlice(otherGroup, EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, "Other Groups (" & FormatNumber(otherGroup, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK)")
+            segment(0).LabelType = ZedGraph.PieLabelType.Name_Percent
+            segment(0).LabelDetail.FontSpec.Size = 8
+            ' Make a text label to highlight the total value
+            Dim text As New ZedGraph.TextObj("Others:" & ControlChars.CrLf, 0.1, 0.98, ZedGraph.CoordType.PaneFraction, ZedGraph.AlignH.Left, ZedGraph.AlignV.Bottom)
+            text.Location.AlignH = ZedGraph.AlignH.Center
+            text.Location.AlignV = ZedGraph.AlignV.Bottom
+            text.FontSpec.Size = 7
+            text.FontSpec.Border.IsVisible = False
+            text.FontSpec.Fill = New ZedGraph.Fill(Color.FromArgb(200, 200, 255), Color.FromArgb(100, 100, 255), 45.0F)
+            text.FontSpec.StringAlignment = StringAlignment.Center
+            myPane.GraphObjList.Add(text)
+            For Each groupText As String In otherList
+                text.Text &= groupText & ControlChars.CrLf
+            Next
+        End If
+
+        ' Calculate the Axis Scale Ranges
+        zgc.AxisChange()
+        zgc.Top = 0 : zgc.Left = 0 : zgc.Dock = Windows.Forms.DockStyle.Fill
+        Return zgc
     End Function
 #End Region
 
@@ -2867,7 +2990,7 @@ Public Class Reports
 
     Public Shared Function TextTrainQueue(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
         Dim strText As New StringBuilder
-        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue)
+        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
@@ -2892,20 +3015,20 @@ Public Class Reports
         strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-10} {4,-10} {5,-20} {6,-20}", txtData))
 
         For skill As Integer = 0 To arrQueue.Count - 1
-            Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), SortedQueue)
+            Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), SortedQueueItem)
             Dim skillName As String = qItem.Name
-            Dim curLevel As String = qItem.CurLevel
-            Dim startLevel As String = qItem.FromLevel
-            Dim endLevel As String = qItem.ToLevel
-            Dim percent As String = qItem.Percent
+            Dim curLevel As Integer = qItem.CurLevel
+            Dim startLevel As Integer = qItem.FromLevel
+            Dim endLevel As Integer = qItem.ToLevel
+            Dim percent As Double = qItem.Percent
             Dim timeToEnd As String = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime))
             Dim endTime As String = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
 
             txtData(0) = skillName
-            txtData(1) = curLevel
-            txtData(2) = startLevel
-            txtData(3) = endLevel
-            txtData(4) = percent
+            txtData(1) = curLevel.ToString
+            txtData(2) = startLevel.ToString
+            txtData(3) = endLevel.ToString
+            txtData(4) = FormatNumber(percent, 0)
             txtData(5) = timeToEnd
             txtData(6) = endTime
             strText.AppendLine(String.Format("{0,-49} {1,-10} {2,-9} {3,-9} {4,-8} {5,-20} {6,-20}", txtData))
@@ -2935,7 +3058,7 @@ Public Class Reports
 
     Public Shared Function TextShoppingList(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
         Dim strText As New StringBuilder
-        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue)
+        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
@@ -2956,7 +3079,7 @@ Public Class Reports
 
         Dim skillPriceList As New ArrayList
         For skill As Integer = 0 To arrQueue.Count - 1
-            Dim qItem As EveHQ.Core.SortedQueue = CType(arrQueue(skill), SortedQueue)
+            Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), SortedQueueItem)
             Dim skillName As String = qItem.Name
             If rpilot.PilotSkills.Contains(skillName) = False Then
                 If skillPriceList.Contains(skillName) = False Then

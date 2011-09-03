@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -20,7 +20,6 @@
 <Serializable()> Public Class Implants
 
     Public Shared implantList As New SortedList   ' Key = Name
-    Public Shared implantGroups As New SortedList   ' Key = Name
 
 End Class
 

@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmRequiredSkills
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -22,89 +22,22 @@ Partial Class frmRequiredSkills
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.clvSkills = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colSkillName = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colReqLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colActLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colHQFLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colRequiredFor = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.btnClose = New System.Windows.Forms.Button
-        Me.btnAddToQueue = New System.Windows.Forms.Button
-        Me.lblQueueTime = New System.Windows.Forms.Label
-        Me.btnSetSkillsToRequirements = New System.Windows.Forms.Button
+        Me.lblQueueTime = New System.Windows.Forms.Label()
+        Me.btnClose = New DevComponents.DotNetBar.ButtonX()
+        Me.btnAddToQueue = New DevComponents.DotNetBar.ButtonX()
+        Me.btnSetSkillsToRequirements = New DevComponents.DotNetBar.ButtonX()
+        Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
+        Me.adtSkills = New DevComponents.AdvTree.AdvTree()
+        Me.Node1 = New DevComponents.AdvTree.Node()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.Skill = New DevComponents.DotNetBar.ElementStyle()
+        Me.colSkillName = New DevComponents.AdvTree.ColumnHeader()
+        Me.colReqLevel = New DevComponents.AdvTree.ColumnHeader()
+        Me.colActLevel = New DevComponents.AdvTree.ColumnHeader()
+        Me.colHQFLevel = New DevComponents.AdvTree.ColumnHeader()
+        Me.colReqdFor = New DevComponents.AdvTree.ColumnHeader()
+        CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'clvSkills
-        '
-        Me.clvSkills.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colSkillName, Me.colReqLevel, Me.colActLevel, Me.colHQFLevel, Me.colRequiredFor})
-        Me.clvSkills.DefaultItemHeight = 20
-        Me.clvSkills.Location = New System.Drawing.Point(13, 13)
-        Me.clvSkills.Name = "clvSkills"
-        Me.clvSkills.ShowPlusMinus = True
-        Me.clvSkills.ShowRootTreeLines = True
-        Me.clvSkills.ShowTreeLines = True
-        Me.clvSkills.Size = New System.Drawing.Size(765, 516)
-        Me.clvSkills.TabIndex = 0
-        '
-        'colSkillName
-        '
-        Me.colSkillName.CustomSortTag = Nothing
-        Me.colSkillName.Tag = Nothing
-        Me.colSkillName.Text = "SkillName"
-        Me.colSkillName.Width = 225
-        '
-        'colReqLevel
-        '
-        Me.colReqLevel.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colReqLevel.CustomSortTag = Nothing
-        Me.colReqLevel.DisplayIndex = 1
-        Me.colReqLevel.Tag = Nothing
-        Me.colReqLevel.Text = "Req Level"
-        Me.colReqLevel.Width = 70
-        '
-        'colActLevel
-        '
-        Me.colActLevel.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colActLevel.CustomSortTag = Nothing
-        Me.colActLevel.DisplayIndex = 2
-        Me.colActLevel.Tag = Nothing
-        Me.colActLevel.Text = "Act Level"
-        Me.colActLevel.Width = 70
-        '
-        'colHQFLevel
-        '
-        Me.colHQFLevel.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colHQFLevel.CustomSortTag = Nothing
-        Me.colHQFLevel.DisplayIndex = 3
-        Me.colHQFLevel.Tag = Nothing
-        Me.colHQFLevel.Text = "HQF Level"
-        Me.colHQFLevel.Width = 70
-        '
-        'colRequiredFor
-        '
-        Me.colRequiredFor.CustomSortTag = Nothing
-        Me.colRequiredFor.DisplayIndex = 4
-        Me.colRequiredFor.Tag = Nothing
-        Me.colRequiredFor.Text = "Required For"
-        Me.colRequiredFor.Width = 300
-        '
-        'btnClose
-        '
-        Me.btnClose.Location = New System.Drawing.Point(678, 535)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(100, 23)
-        Me.btnClose.TabIndex = 1
-        Me.btnClose.Text = "Close"
-        Me.btnClose.UseVisualStyleBackColor = True
-        '
-        'btnAddToQueue
-        '
-        Me.btnAddToQueue.Location = New System.Drawing.Point(572, 535)
-        Me.btnAddToQueue.Name = "btnAddToQueue"
-        Me.btnAddToQueue.Size = New System.Drawing.Size(100, 23)
-        Me.btnAddToQueue.TabIndex = 2
-        Me.btnAddToQueue.Text = "Add To Queue"
-        Me.btnAddToQueue.UseVisualStyleBackColor = True
         '
         'lblQueueTime
         '
@@ -112,47 +45,172 @@ Partial Class frmRequiredSkills
         Me.lblQueueTime.Location = New System.Drawing.Point(12, 540)
         Me.lblQueueTime.Name = "lblQueueTime"
         Me.lblQueueTime.Size = New System.Drawing.Size(118, 13)
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblQueueTime, New DevComponents.DotNetBar.SuperTooltipInfo("Estimated Queue Time", "", "Shows an estimate of the time needed to train all the required skills. Optimal ti" & _
+                    "me is the time that can be achieved if relevant learning skills are added to the" & _
+                    " queue.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.lblQueueTime.TabIndex = 3
         Me.lblQueueTime.Text = "Estimated Queue Time:"
         '
+        'btnClose
+        '
+        Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnClose.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnClose.Location = New System.Drawing.Point(678, 535)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(100, 23)
+        Me.btnClose.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnClose.TabIndex = 5
+        Me.btnClose.Text = "Close"
+        '
+        'btnAddToQueue
+        '
+        Me.btnAddToQueue.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAddToQueue.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAddToQueue.Location = New System.Drawing.Point(572, 535)
+        Me.btnAddToQueue.Name = "btnAddToQueue"
+        Me.btnAddToQueue.Size = New System.Drawing.Size(100, 23)
+        Me.btnAddToQueue.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnAddToQueue, New DevComponents.DotNetBar.SuperTooltipInfo("Add To Queue", "", "This option adds all the required skills to a new or existing EveHQ skill queue.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnAddToQueue.TabIndex = 6
+        Me.btnAddToQueue.Text = "Add To Queue"
+        '
         'btnSetSkillsToRequirements
         '
+        Me.btnSetSkillsToRequirements.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnSetSkillsToRequirements.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnSetSkillsToRequirements.Location = New System.Drawing.Point(466, 535)
         Me.btnSetSkillsToRequirements.Name = "btnSetSkillsToRequirements"
         Me.btnSetSkillsToRequirements.Size = New System.Drawing.Size(100, 23)
-        Me.btnSetSkillsToRequirements.TabIndex = 4
+        Me.btnSetSkillsToRequirements.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnSetSkillsToRequirements, New DevComponents.DotNetBar.SuperTooltipInfo("Set HQF Skills", "", "This option sets the HQF skill set to the required skills. This will bring the se" & _
+                    "lected pilot's skill set up to the minimum required to pilot the ship.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnSetSkillsToRequirements.TabIndex = 7
         Me.btnSetSkillsToRequirements.Text = "Set HQF Skills"
-        Me.btnSetSkillsToRequirements.UseVisualStyleBackColor = True
+        '
+        'SuperTooltip1
+        '
+        Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        '
+        'adtSkills
+        '
+        Me.adtSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtSkills.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtSkills.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtSkills.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtSkills.Columns.Add(Me.colSkillName)
+        Me.adtSkills.Columns.Add(Me.colReqLevel)
+        Me.adtSkills.Columns.Add(Me.colActLevel)
+        Me.adtSkills.Columns.Add(Me.colHQFLevel)
+        Me.adtSkills.Columns.Add(Me.colReqdFor)
+        Me.adtSkills.DragDropEnabled = False
+        Me.adtSkills.DragDropNodeCopyEnabled = False
+        Me.adtSkills.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
+        Me.adtSkills.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtSkills.Location = New System.Drawing.Point(12, 12)
+        Me.adtSkills.Name = "adtSkills"
+        Me.adtSkills.Nodes.AddRange(New DevComponents.AdvTree.Node() {Me.Node1})
+        Me.adtSkills.NodesConnector = Me.NodeConnector1
+        Me.adtSkills.NodeStyle = Me.Skill
+        Me.adtSkills.PathSeparator = ";"
+        Me.adtSkills.Size = New System.Drawing.Size(766, 517)
+        Me.adtSkills.Styles.Add(Me.Skill)
+        Me.adtSkills.TabIndex = 8
+        Me.adtSkills.Text = "AdvTree1"
+        '
+        'Node1
+        '
+        Me.Node1.Expanded = True
+        Me.Node1.Name = "Node1"
+        Me.Node1.Text = "Node1"
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'Skill
+        '
+        Me.Skill.Class = ""
+        Me.Skill.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.Skill.Name = "Skill"
+        Me.Skill.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'colSkillName
+        '
+        Me.colSkillName.DisplayIndex = 1
+        Me.colSkillName.Name = "colSkillName"
+        Me.colSkillName.Text = "Skill Name"
+        Me.colSkillName.Width.Absolute = 280
+        '
+        'colReqLevel
+        '
+        Me.colReqLevel.DisplayIndex = 2
+        Me.colReqLevel.Name = "colReqLevel"
+        Me.colReqLevel.Text = "Req Lvl"
+        Me.colReqLevel.Width.Absolute = 50
+        '
+        'colActLevel
+        '
+        Me.colActLevel.DisplayIndex = 3
+        Me.colActLevel.Name = "colActLevel"
+        Me.colActLevel.Text = "Act Lvl"
+        Me.colActLevel.Width.Absolute = 50
+        '
+        'colHQFLevel
+        '
+        Me.colHQFLevel.DisplayIndex = 4
+        Me.colHQFLevel.Name = "colHQFLevel"
+        Me.colHQFLevel.Text = "HQF Lvl"
+        Me.colHQFLevel.Width.Absolute = 50
+        '
+        'colReqdFor
+        '
+        Me.colReqdFor.DisplayIndex = 5
+        Me.colReqdFor.Name = "colReqdFor"
+        Me.colReqdFor.Text = "Required For"
+        Me.colReqdFor.Width.Absolute = 280
         '
         'frmRequiredSkills
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.btnClose
         Me.ClientSize = New System.Drawing.Size(790, 564)
+        Me.Controls.Add(Me.adtSkills)
         Me.Controls.Add(Me.btnSetSkillsToRequirements)
-        Me.Controls.Add(Me.lblQueueTime)
         Me.Controls.Add(Me.btnAddToQueue)
         Me.Controls.Add(Me.btnClose)
-        Me.Controls.Add(Me.clvSkills)
+        Me.Controls.Add(Me.lblQueueTime)
+        Me.DoubleBuffered = True
+        Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmRequiredSkills"
+        Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Required Skills"
+        CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents clvSkills As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents btnClose As System.Windows.Forms.Button
-    Friend WithEvents btnAddToQueue As System.Windows.Forms.Button
-    Friend WithEvents colSkillName As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colReqLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colHQFLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colActLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colRequiredFor As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents lblQueueTime As System.Windows.Forms.Label
-    Friend WithEvents btnSetSkillsToRequirements As System.Windows.Forms.Button
+    Friend WithEvents btnClose As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnAddToQueue As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnSetSkillsToRequirements As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
+    Friend WithEvents adtSkills As DevComponents.AdvTree.AdvTree
+    Friend WithEvents Node1 As DevComponents.AdvTree.Node
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents Skill As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents colSkillName As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colReqLevel As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colActLevel As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colHQFLevel As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colReqdFor As DevComponents.AdvTree.ColumnHeader
 End Class

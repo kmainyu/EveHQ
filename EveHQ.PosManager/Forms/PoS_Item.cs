@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,8 +30,8 @@ namespace EveHQ.PosManager
 {
     public partial class PoS_Item : UserControl
     {
-        public int number;
-        public int typeID;
+        public long number;
+        public long typeID;
         public string ModName, catName, dstName;
         public string contName;
         public Color onOff;
@@ -127,7 +146,7 @@ namespace EveHQ.PosManager
 
         [Description("Sets Starting # for Item"),
          Category("Tower Item Settings")]
-        public int ItemNumber
+        public long ItemNumber
         {
             get
             {
@@ -246,7 +265,7 @@ namespace EveHQ.PosManager
             //Panel destination = (Panel)sender;
             PoS_Item piIn;
             ListViewItem LV;
-            int keyLoc;
+            long keyLoc;
 
             if (e.Data.GetDataPresent(typeof(ListViewItem)))
             {
@@ -268,7 +287,7 @@ namespace EveHQ.PosManager
             }
             else if (e.Data.GetDataPresent(typeof(PoS_Item)))
             {
-                // Place or Copy Data into new location
+                // Place or Copy Data longo new location
                 piIn = (PoS_Item)e.Data.GetData(typeof(PoS_Item));
                 typeID = piIn.typeID;
                 catName = piIn.catName;
@@ -304,22 +323,20 @@ namespace EveHQ.PosManager
 
         public void SizeAndSetImage()
         {
-            string imgLoc;
+            Image img;
             Bitmap bmp;
             Graphics g;
             Rectangle dr, sr;
 
+            img = EveHQ.Core.ImageHandler.GetImage(typeID.ToString(), 128);
 
-            imgLoc = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString(), Convert.ToInt32(EveHQ.Core.ImageHandler.ImageType.Types));
-
-            try
-            {
-                bmp = new Bitmap(Image.FromFile(imgLoc));
-            }
-            catch
+            if (img == null)
             {
                 bmp = new Bitmap(il_defImage.Images[0]);
             }
+            else
+                bmp = new Bitmap(img);
+
             g = Graphics.FromImage(bmp);
 
             sr = new Rectangle(0, 0, bmp.Width, bmp.Height);

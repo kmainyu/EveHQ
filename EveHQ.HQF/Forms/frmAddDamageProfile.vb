@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -127,7 +127,7 @@ Public Class frmAddDamageProfile
                 End If
                 ' Add the profile
                 DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
-                Call Settings.HQFSettings.SaveProfiles()
+                Call DamageProfiles.SaveProfiles()
                 Me.Close()
             End If
         End If
@@ -212,13 +212,12 @@ Public Class frmAddDamageProfile
             If cboFittingName.SelectedItem IsNot Nothing And cboPilotName.SelectedItem IsNot Nothing Then
                 ' Let's try and generate a fitting and get some damage info
                 Dim shipFit As String = cboFittingName.SelectedItem.ToString
-                Dim fittingSep As Integer = shipFit.IndexOf(", ")
-                Dim shipName As String = shipFit.Substring(0, fittingSep)
-                Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-                Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-                pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
                 Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilotName.SelectedItem.ToString), HQFPilot)
-                Dim profileShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+                Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+                NewFit.UpdateBaseShipFromFitting()
+                NewFit.PilotName = pPilot.PilotName
+                NewFit.ApplyFitting(BuildType.BuildEverything)
+                Dim profileShip As Ship = NewFit.FittedShip
                 ' Place details of ship damage and DPS into text boxes
                 txtEMDamage.Text = FormatNumber(profileShip.Attributes("10055").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 txtEXDamage.Text = FormatNumber(profileShip.Attributes("10056").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)

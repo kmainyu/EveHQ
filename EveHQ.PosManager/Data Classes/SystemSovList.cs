@@ -1,4 +1,23 @@
-﻿using System;
+﻿// ========================================================================
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2011  EveHQ Development Team
+// 
+// This file is part of EveHQ.
+//
+// EveHQ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// ========================================================================
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -49,7 +68,7 @@ namespace EveHQ.PosManager
             if (SovList.Systems.Count <= 0)
                 return false;
 
-            ap = (Sov_Data)SovList.Systems.GetByIndex(0);
+            ap = SovList.Systems.Values[0];
 
             if (ap == null)
                 return false;
@@ -119,9 +138,14 @@ namespace EveHQ.PosManager
         private Sov_Data GetDataForSystemName(string sysName)
         {
             Sov_Data sd;
-            sd = (Sov_Data)SovList.Systems[sysName];
 
-            return sd;
+            if (SovList.Systems.ContainsKey(sysName))
+            {
+                sd = (Sov_Data)SovList.Systems[sysName];
+                return sd;
+            }
+
+            return null;
         }
 
         private void LoadSovListDataFromAPI()
@@ -134,25 +158,41 @@ namespace EveHQ.PosManager
             sovData = new XmlDocument();
             // When a tower gets linked to the API and vice versa, the towerItemID will be
             // stored in the POS data itself. This will allow for easy import of the fuel data.
-            sovData = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.Sovereignty, 0);
+            EveAPI.EveAPIRequest APIReq;
+            APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
+            sovData = APIReq.GetAPIXML(EveAPI.APITypes.Sovereignty, EveAPI.APIReturnMethods.ReturnStandard);
+
+            if (APIReq.LastAPIError != 0)
+            {
+                if (!PlugInData.ThrottleList.ContainsKey("Sov List"))
+                {
+                    PlugInData.ThrottleList.Add("Sov List", new PlugInData.throttlePlayer(1));
+                }
+                else
+                {
+                    PlugInData.ThrottleList["Sov List"].IncCount();
+                }
+                PlugInData.LogAPIError(APIReq.LastAPIError, APIReq.LastAPIErrorText, "Sov List");
+            }
+
             if (!CheckXML(sovData))
                 return;
 
-            dateList = sovData.SelectNodes("/eveapi");
-
-            svList = sovData.SelectNodes("/eveapi/result/rowset/row");
-
-            cacheDate = dateList[0].ChildNodes[0].InnerText;
-            cacheUntil = dateList[0].ChildNodes[2].InnerText;
-
-            if (IsSovDataTimestampCurrent(cacheUntil))
-            {
-                // Nothing new to load at all
-                return;
-            }
-
             try
             {
+                dateList = sovData.SelectNodes("/eveapi");
+
+                svList = sovData.SelectNodes("/eveapi/result/rowset/row");
+
+                cacheDate = dateList[0].ChildNodes[0].InnerText;
+                cacheUntil = dateList[0].ChildNodes[2].InnerText;
+
+                if (IsSovDataTimestampCurrent(cacheUntil))
+                {
+                    // Nothing new to load at all
+                    return;
+                }
+
                 foreach (XmlNode syst in svList)
                 {
                     sysName = syst.Attributes.GetNamedItem("solarSystemName").Value.ToString();

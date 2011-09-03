@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmHQF
-    Inherits System.Windows.Forms.Form
+    Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -22,621 +22,255 @@ Partial Class frmHQF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQF))
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
-        Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton
-        Me.tsbOptions = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbFleetManager = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.btnPilotManager = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
-        Me.btnCopy = New System.Windows.Forms.ToolStripSplitButton
-        Me.mnuCopyForHQF = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuCopyForEFT = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuCopyForForums = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuShipStats = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuCopyImplants = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuMainExportToEve = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
-        Me.btnScreenshot = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.btnImportFittings = New System.Windows.Forms.ToolStripSplitButton
-        Me.mnuImportEveFittings = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuImportEFTFittings = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
-        Me.btnClipboardPaste = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
-        Me.cboFittings = New System.Windows.Forms.ToolStripComboBox
-        Me.SplitContainerShip = New System.Windows.Forms.SplitContainer
-        Me.clvFittings = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuFittingsFittingName = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuPreviewShip2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuFittingsShowFitting = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuFittingsRenameFitting = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuFittingsCopyFitting = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuFittingsDeleteFitting = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuFittingsCreateFitting = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuFittingsBCBrowser = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuCompareFittings = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuExportToEve = New System.Windows.Forms.ToolStripMenuItem
-        Me.lblFlyable = New System.Windows.Forms.Label
-        Me.cboFlyable = New System.Windows.Forms.ComboBox
-        Me.pbSearchShips = New System.Windows.Forms.PictureBox
-        Me.txtShipSearch = New System.Windows.Forms.TextBox
-        Me.btnResetShips = New System.Windows.Forms.Button
-        Me.tvwShips = New System.Windows.Forms.TreeView
+        Me.mnuFittingsFittingName = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuPreviewShip2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuFittingsShowFitting = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuFittingsRenameFitting = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuFittingsCopyFitting = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuFittingsDeleteFitting = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuFittingsCreateFitting = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuFittingsBCBrowser = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuCompareFittings = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuExportToEve = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuExportToRequisitions = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tvwShips = New DevComponents.AdvTree.AdvTree()
         Me.ctxShipBrowser = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShipBrowserShipName = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuPreviewShip = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuCreateNewFitting = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuAddToShipBay = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuBattleClinicBrowser = New System.Windows.Forms.ToolStripMenuItem
-        Me.SplitContainerMod = New System.Windows.Forms.SplitContainer
-        Me.chkFilter8192 = New System.Windows.Forms.CheckBox
-        Me.chkOnlyShowFittable = New System.Windows.Forms.CheckBox
-        Me.chkOnlyShowUsable = New System.Windows.Forms.CheckBox
-        Me.chkApplySkills = New System.Windows.Forms.CheckBox
-        Me.chkFilter32 = New System.Windows.Forms.CheckBox
-        Me.chkFilter16 = New System.Windows.Forms.CheckBox
-        Me.chkFilter8 = New System.Windows.Forms.CheckBox
-        Me.chkFilter4 = New System.Windows.Forms.CheckBox
-        Me.chkFilter2 = New System.Windows.Forms.CheckBox
-        Me.chkFilter1 = New System.Windows.Forms.CheckBox
-        Me.tvwItems = New System.Windows.Forms.TreeView
-        Me.lblModuleDisplayType = New System.Windows.Forms.Label
-        Me.txtSearchModules = New System.Windows.Forms.TextBox
-        Me.lblSearchModules = New System.Windows.Forms.Label
-        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
-        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
-        Me.colModulePG = New System.Windows.Forms.ColumnHeader
-        Me.colModulePrice = New System.Windows.Forms.ColumnHeader
+        Me.mnuShipBrowserShipName = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuPreviewShip = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuCreateNewFitting = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuAddToShipBay = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuBattleClinicBrowser = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
+        Me.lblFlyable = New System.Windows.Forms.Label()
+        Me.cboFlyable = New System.Windows.Forms.ComboBox()
+        Me.pbSearchShips = New System.Windows.Forms.PictureBox()
+        Me.txtShipSearch = New System.Windows.Forms.TextBox()
+        Me.btnResetShips = New System.Windows.Forms.Button()
+        Me.chkFilter8192 = New System.Windows.Forms.CheckBox()
+        Me.chkOnlyShowFittable = New System.Windows.Forms.CheckBox()
+        Me.chkOnlyShowUsable = New System.Windows.Forms.CheckBox()
+        Me.chkApplySkills = New System.Windows.Forms.CheckBox()
+        Me.chkFilter32 = New System.Windows.Forms.CheckBox()
+        Me.chkFilter16 = New System.Windows.Forms.CheckBox()
+        Me.chkFilter8 = New System.Windows.Forms.CheckBox()
+        Me.chkFilter4 = New System.Windows.Forms.CheckBox()
+        Me.chkFilter2 = New System.Windows.Forms.CheckBox()
+        Me.chkFilter1 = New System.Windows.Forms.CheckBox()
+        Me.lblModuleDisplayType = New System.Windows.Forms.Label()
+        Me.txtSearchModules = New System.Windows.Forms.TextBox()
+        Me.lblSearchModules = New System.Windows.Forms.Label()
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuAddToFavourites_List = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuRemoveFromFavourites = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuSep2 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuShowModuleMarketGroup = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuShowMetaVariations = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuAddToFavourites_List = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuRemoveFromFavourites = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSep2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuShowModuleMarketGroup = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuShowMetaVariations = New System.Windows.Forms.ToolStripMenuItem()
         Me.imgAttributes = New System.Windows.Forms.ImageList(Me.components)
-        Me.ctxTabHQF = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuCloseHQFTab = New System.Windows.Forms.ToolStripMenuItem
         Me.tmrClipboard = New System.Windows.Forms.Timer(Me.components)
-        Me.tabHQF = New System.Windows.Forms.TabControl
-        Me.tabShipPreview = New System.Windows.Forms.TabPage
-        Me.panelPreview = New System.Windows.Forms.Panel
-        Me.lblShipType = New System.Windows.Forms.Label
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.lblLauncherSlots = New System.Windows.Forms.Label
-        Me.lblTurretSlots = New System.Windows.Forms.Label
-        Me.lblRigSlots = New System.Windows.Forms.Label
-        Me.pbLauncherSlot = New System.Windows.Forms.PictureBox
-        Me.pbTurretSlot = New System.Windows.Forms.PictureBox
-        Me.pbRigSlot = New System.Windows.Forms.PictureBox
-        Me.lblHiSlots = New System.Windows.Forms.Label
-        Me.lblMedSlots = New System.Windows.Forms.Label
-        Me.lblLowSlots = New System.Windows.Forms.Label
-        Me.pbHiSlot = New System.Windows.Forms.PictureBox
-        Me.pbMedSlot = New System.Windows.Forms.PictureBox
-        Me.pbLowSlot = New System.Windows.Forms.PictureBox
-        Me.gbFitting = New System.Windows.Forms.GroupBox
-        Me.lblCalibration = New System.Windows.Forms.Label
-        Me.lblPG = New System.Windows.Forms.Label
-        Me.lblCPU = New System.Windows.Forms.Label
-        Me.pbCalibration = New System.Windows.Forms.PictureBox
-        Me.pbPG = New System.Windows.Forms.PictureBox
-        Me.pbCPU = New System.Windows.Forms.PictureBox
-        Me.gbShield = New System.Windows.Forms.GroupBox
-        Me.lblShieldRecharge = New System.Windows.Forms.Label
-        Me.lblShieldHP = New System.Windows.Forms.Label
-        Me.lblShieldKi = New System.Windows.Forms.Label
-        Me.lblShieldTh = New System.Windows.Forms.Label
-        Me.lblShieldEx = New System.Windows.Forms.Label
-        Me.lblShieldEM = New System.Windows.Forms.Label
-        Me.pbShieldTh = New System.Windows.Forms.PictureBox
-        Me.pbShieldKi = New System.Windows.Forms.PictureBox
-        Me.pbShieldEx = New System.Windows.Forms.PictureBox
-        Me.pbShieldEM = New System.Windows.Forms.PictureBox
-        Me.pbShield = New System.Windows.Forms.PictureBox
-        Me.gbArmor = New System.Windows.Forms.GroupBox
-        Me.lblArmorHP = New System.Windows.Forms.Label
-        Me.lblArmorKi = New System.Windows.Forms.Label
-        Me.lblArmorTh = New System.Windows.Forms.Label
-        Me.lblArmorEx = New System.Windows.Forms.Label
-        Me.lblArmorEM = New System.Windows.Forms.Label
-        Me.pbArmorTh = New System.Windows.Forms.PictureBox
-        Me.pbArmorKi = New System.Windows.Forms.PictureBox
-        Me.pbArmorEx = New System.Windows.Forms.PictureBox
-        Me.pbArmorEM = New System.Windows.Forms.PictureBox
-        Me.pbArmor = New System.Windows.Forms.PictureBox
-        Me.gbStructure = New System.Windows.Forms.GroupBox
-        Me.lblStructureHP = New System.Windows.Forms.Label
-        Me.lblStructureKi = New System.Windows.Forms.Label
-        Me.lblStructureTh = New System.Windows.Forms.Label
-        Me.lblStructureEx = New System.Windows.Forms.Label
-        Me.lblStructureEM = New System.Windows.Forms.Label
-        Me.pbStructureTh = New System.Windows.Forms.PictureBox
-        Me.pbStructureKi = New System.Windows.Forms.PictureBox
-        Me.pbStructureEx = New System.Windows.Forms.PictureBox
-        Me.pbStructureEM = New System.Windows.Forms.PictureBox
-        Me.pbStructure = New System.Windows.Forms.PictureBox
-        Me.gbStorage = New System.Windows.Forms.GroupBox
-        Me.lblDroneBandwidth = New System.Windows.Forms.Label
-        Me.lblDroneBay = New System.Windows.Forms.Label
-        Me.lblCargohold = New System.Windows.Forms.Label
-        Me.pbStorage = New System.Windows.Forms.PictureBox
-        Me.gbCapacitor = New System.Windows.Forms.GroupBox
-        Me.lblCapRecharge = New System.Windows.Forms.Label
-        Me.lblCapacitor = New System.Windows.Forms.Label
-        Me.pbCapacitor = New System.Windows.Forms.PictureBox
-        Me.gbSpeed = New System.Windows.Forms.GroupBox
-        Me.lblWarpSpeed = New System.Windows.Forms.Label
-        Me.lblInertia = New System.Windows.Forms.Label
-        Me.lblSpeed = New System.Windows.Forms.Label
-        Me.pbSpeed = New System.Windows.Forms.PictureBox
-        Me.pbShip = New System.Windows.Forms.PictureBox
-        Me.txtShipDescription = New System.Windows.Forms.RichTextBox
-        Me.tabFit = New System.Windows.Forms.TabPage
-        Me.panelShipSlot = New System.Windows.Forms.Panel
-        Me.panelShipInfo = New System.Windows.Forms.Panel
-        Me.CollapsibleSplitter1 = New NJFLib.Controls.CollapsibleSplitter
-        Me.CollapsibleSplitter2 = New NJFLib.Controls.CollapsibleSplitter
-        Me.ToolStrip1.SuspendLayout()
-        Me.SplitContainerShip.Panel1.SuspendLayout()
-        Me.SplitContainerShip.Panel2.SuspendLayout()
-        Me.SplitContainerShip.SuspendLayout()
+        Me.panelModules = New DevComponents.DotNetBar.PanelEx()
+        Me.panelModuleList = New DevComponents.DotNetBar.PanelEx()
+        Me.tvwModules = New DevComponents.AdvTree.AdvTree()
+        Me.colModuleName = New DevComponents.AdvTree.ColumnHeader()
+        Me.colModuleMeta = New DevComponents.AdvTree.ColumnHeader()
+        Me.colModuleCPU = New DevComponents.AdvTree.ColumnHeader()
+        Me.colModulePG = New DevComponents.AdvTree.ColumnHeader()
+        Me.colModulePrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.Node3 = New DevComponents.AdvTree.Node()
+        Me.NodeConnector4 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle4 = New DevComponents.DotNetBar.ElementStyle()
+        Me.SplitterMods = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.panelModFilters = New DevComponents.DotNetBar.PanelEx()
+        Me.tvwItems = New DevComponents.AdvTree.AdvTree()
+        Me.NodeConnector3 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle3 = New DevComponents.DotNetBar.ElementStyle()
+        Me.SplitterModules = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.panelShips = New DevComponents.DotNetBar.PanelEx()
+        Me.SplitterFittings = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.panelFittings = New DevComponents.DotNetBar.PanelEx()
+        Me.tvwFittings = New DevComponents.AdvTree.AdvTree()
+        Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+        Me.SplitterShips = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.tabHQF = New DevComponents.DotNetBar.TabControl()
+        Me.rbmc1 = New DevComponents.DotNetBar.RibbonBarMergeContainer()
+        Me.rbEditor = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnEditor = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbImport = New DevComponents.DotNetBar.RibbonBar()
+        Me.ItemContainer2 = New DevComponents.DotNetBar.ItemContainer()
+        Me.btnImportEve = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnImportEFT = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnImport = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbExport = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnScreenGrab = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportEve = New DevComponents.DotNetBar.ButtonItem()
+        Me.ItemContainer1 = New DevComponents.DotNetBar.ItemContainer()
+        Me.btnExportFitting = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportHQF = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportEFT = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportForums = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportDetails = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportStats = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportImplants = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExportReq = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbTools = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnPilotManager = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnImplantManager = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbOptions = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnOptions = New DevComponents.DotNetBar.ButtonItem()
+        Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.ctxFittings.SuspendLayout()
-        CType(Me.pbSearchShips, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.tvwShips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxShipBrowser.SuspendLayout()
-        Me.SplitContainerMod.Panel1.SuspendLayout()
-        Me.SplitContainerMod.Panel2.SuspendLayout()
-        Me.SplitContainerMod.SuspendLayout()
+        CType(Me.pbSearchShips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxModuleList.SuspendLayout()
-        Me.ctxTabHQF.SuspendLayout()
-        Me.tabHQF.SuspendLayout()
-        Me.tabShipPreview.SuspendLayout()
-        Me.panelPreview.SuspendLayout()
-        Me.FlowLayoutPanel1.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.pbLauncherSlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbTurretSlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbRigSlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbHiSlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbMedSlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbLowSlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbFitting.SuspendLayout()
-        CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbShield.SuspendLayout()
-        CType(Me.pbShieldTh, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldKi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldEx, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShield, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbArmor.SuspendLayout()
-        CType(Me.pbArmorTh, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmorKi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmorEx, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmorEM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmor, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbStructure.SuspendLayout()
-        CType(Me.pbStructureTh, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructureKi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructureEx, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructureEM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructure, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbStorage.SuspendLayout()
-        CType(Me.pbStorage, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbCapacitor.SuspendLayout()
-        CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbSpeed.SuspendLayout()
-        CType(Me.pbSpeed, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tabFit.SuspendLayout()
+        Me.panelModules.SuspendLayout()
+        Me.panelModuleList.SuspendLayout()
+        CType(Me.tvwModules, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.panelModFilters.SuspendLayout()
+        CType(Me.tvwItems, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.panelShips.SuspendLayout()
+        Me.panelFittings.SuspendLayout()
+        CType(Me.tvwFittings, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.tabHQF, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rbmc1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'ToolStrip1
-        '
-        Me.ToolStrip1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.tsbFleetManager, Me.ToolStripSeparator1, Me.btnPilotManager, Me.ToolStripSeparator8, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1099, 25)
-        Me.ToolStrip1.TabIndex = 2
-        Me.ToolStrip1.Text = "ToolStrip1"
-        '
-        'ToolStripButton3
-        '
-        Me.ToolStripButton3.Image = CType(resources.GetObject("ToolStripButton3.Image"), System.Drawing.Image)
-        Me.ToolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton3.Name = "ToolStripButton3"
-        Me.ToolStripButton3.Size = New System.Drawing.Size(82, 22)
-        Me.ToolStripButton3.Text = "Check Data"
-        Me.ToolStripButton3.Visible = False
-        '
-        'tsbOptions
-        '
-        Me.tsbOptions.Image = CType(resources.GetObject("tsbOptions.Image"), System.Drawing.Image)
-        Me.tsbOptions.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbOptions.Name = "tsbOptions"
-        Me.tsbOptions.Size = New System.Drawing.Size(64, 22)
-        Me.tsbOptions.Text = "Options"
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
-        Me.ToolStripSeparator3.Visible = False
-        '
-        'tsbFleetManager
-        '
-        Me.tsbFleetManager.Enabled = False
-        Me.tsbFleetManager.Image = CType(resources.GetObject("tsbFleetManager.Image"), System.Drawing.Image)
-        Me.tsbFleetManager.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbFleetManager.Name = "tsbFleetManager"
-        Me.tsbFleetManager.Size = New System.Drawing.Size(96, 22)
-        Me.tsbFleetManager.Text = "Fleet Manager"
-        Me.tsbFleetManager.Visible = False
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'btnPilotManager
-        '
-        Me.btnPilotManager.Enabled = False
-        Me.btnPilotManager.Image = CType(resources.GetObject("btnPilotManager.Image"), System.Drawing.Image)
-        Me.btnPilotManager.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnPilotManager.Name = "btnPilotManager"
-        Me.btnPilotManager.Size = New System.Drawing.Size(92, 22)
-        Me.btnPilotManager.Text = "Pilot Manager"
-        '
-        'ToolStripSeparator8
-        '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
-        '
-        'btnCopy
-        '
-        Me.btnCopy.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyForHQF, Me.mnuCopyForEFT, Me.mnuCopyForForums, Me.ToolStripMenuItem7, Me.mnuShipStats, Me.mnuCopyImplants, Me.ToolStripMenuItem8, Me.mnuMainExportToEve})
-        Me.btnCopy.Enabled = False
-        Me.btnCopy.Image = CType(resources.GetObject("btnCopy.Image"), System.Drawing.Image)
-        Me.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnCopy.Name = "btnCopy"
-        Me.btnCopy.Size = New System.Drawing.Size(104, 22)
-        Me.btnCopy.Text = "Export Fitting"
-        '
-        'mnuCopyForHQF
-        '
-        Me.mnuCopyForHQF.Name = "mnuCopyForHQF"
-        Me.mnuCopyForHQF.Size = New System.Drawing.Size(173, 22)
-        Me.mnuCopyForHQF.Text = "Copy For HQF"
-        '
-        'mnuCopyForEFT
-        '
-        Me.mnuCopyForEFT.Name = "mnuCopyForEFT"
-        Me.mnuCopyForEFT.Size = New System.Drawing.Size(173, 22)
-        Me.mnuCopyForEFT.Text = "Copy For EFT"
-        '
-        'mnuCopyForForums
-        '
-        Me.mnuCopyForForums.Name = "mnuCopyForForums"
-        Me.mnuCopyForForums.Size = New System.Drawing.Size(173, 22)
-        Me.mnuCopyForForums.Text = "Copy For Forums"
-        '
-        'ToolStripMenuItem7
-        '
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(170, 6)
-        '
-        'mnuShipStats
-        '
-        Me.mnuShipStats.Name = "mnuShipStats"
-        Me.mnuShipStats.Size = New System.Drawing.Size(173, 22)
-        Me.mnuShipStats.Text = "Copy Ship Statistics"
-        '
-        'mnuCopyImplants
-        '
-        Me.mnuCopyImplants.Name = "mnuCopyImplants"
-        Me.mnuCopyImplants.Size = New System.Drawing.Size(173, 22)
-        Me.mnuCopyImplants.Text = "Copy Implant Details"
-        '
-        'ToolStripMenuItem8
-        '
-        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(170, 6)
-        '
-        'mnuMainExportToEve
-        '
-        Me.mnuMainExportToEve.Name = "mnuMainExportToEve"
-        Me.mnuMainExportToEve.Size = New System.Drawing.Size(173, 22)
-        Me.mnuMainExportToEve.Text = "Export to Eve"
-        '
-        'ToolStripSeparator6
-        '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
-        '
-        'btnScreenshot
-        '
-        Me.btnScreenshot.AutoToolTip = False
-        Me.btnScreenshot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnScreenshot.Enabled = False
-        Me.btnScreenshot.Image = CType(resources.GetObject("btnScreenshot.Image"), System.Drawing.Image)
-        Me.btnScreenshot.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnScreenshot.Name = "btnScreenshot"
-        Me.btnScreenshot.Size = New System.Drawing.Size(23, 22)
-        Me.btnScreenshot.Text = "Screenshot"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'btnImportFittings
-        '
-        Me.btnImportFittings.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuImportEveFittings, Me.mnuImportEFTFittings})
-        Me.btnImportFittings.Image = CType(resources.GetObject("btnImportFittings.Image"), System.Drawing.Image)
-        Me.btnImportFittings.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnImportFittings.Name = "btnImportFittings"
-        Me.btnImportFittings.Size = New System.Drawing.Size(109, 22)
-        Me.btnImportFittings.Text = "Import Fittings"
-        '
-        'mnuImportEveFittings
-        '
-        Me.mnuImportEveFittings.Name = "mnuImportEveFittings"
-        Me.mnuImportEveFittings.Size = New System.Drawing.Size(165, 22)
-        Me.mnuImportEveFittings.Text = "Import Eve Fittings"
-        '
-        'mnuImportEFTFittings
-        '
-        Me.mnuImportEFTFittings.Name = "mnuImportEFTFittings"
-        Me.mnuImportEFTFittings.Size = New System.Drawing.Size(165, 22)
-        Me.mnuImportEFTFittings.Text = "Import EFT Fittings"
-        '
-        'ToolStripSeparator7
-        '
-        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
-        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
-        '
-        'btnClipboardPaste
-        '
-        Me.btnClipboardPaste.Enabled = False
-        Me.btnClipboardPaste.Image = CType(resources.GetObject("btnClipboardPaste.Image"), System.Drawing.Image)
-        Me.btnClipboardPaste.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnClipboardPaste.Name = "btnClipboardPaste"
-        Me.btnClipboardPaste.Size = New System.Drawing.Size(132, 22)
-        Me.btnClipboardPaste.Text = "Import from Clipboard"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
-        '
-        'cboFittings
-        '
-        Me.cboFittings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFittings.FlatStyle = System.Windows.Forms.FlatStyle.Standard
-        Me.cboFittings.Name = "cboFittings"
-        Me.cboFittings.Size = New System.Drawing.Size(250, 25)
-        Me.cboFittings.Sorted = True
-        Me.cboFittings.Visible = False
-        '
-        'SplitContainerShip
-        '
-        Me.SplitContainerShip.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainerShip.Dock = System.Windows.Forms.DockStyle.Left
-        Me.SplitContainerShip.Location = New System.Drawing.Point(0, 25)
-        Me.SplitContainerShip.Name = "SplitContainerShip"
-        Me.SplitContainerShip.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerShip.Panel1
-        '
-        Me.SplitContainerShip.Panel1.Controls.Add(Me.clvFittings)
-        '
-        'SplitContainerShip.Panel2
-        '
-        Me.SplitContainerShip.Panel2.Controls.Add(Me.lblFlyable)
-        Me.SplitContainerShip.Panel2.Controls.Add(Me.cboFlyable)
-        Me.SplitContainerShip.Panel2.Controls.Add(Me.pbSearchShips)
-        Me.SplitContainerShip.Panel2.Controls.Add(Me.txtShipSearch)
-        Me.SplitContainerShip.Panel2.Controls.Add(Me.btnResetShips)
-        Me.SplitContainerShip.Panel2.Controls.Add(Me.tvwShips)
-        Me.SplitContainerShip.Size = New System.Drawing.Size(200, 696)
-        Me.SplitContainerShip.SplitterDistance = 298
-        Me.SplitContainerShip.SplitterWidth = 2
-        Me.SplitContainerShip.TabIndex = 3
-        '
-        'clvFittings
-        '
-        Me.clvFittings.AllowMultiSelect = True
-        Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
-        Me.clvFittings.DefaultItemHeight = 16
-        Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.clvFittings.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.clvFittings.ItemContextMenu = Me.ctxFittings
-        Me.clvFittings.Location = New System.Drawing.Point(0, 0)
-        Me.clvFittings.Name = "clvFittings"
-        Me.clvFittings.ShowPlusMinus = True
-        Me.clvFittings.ShowRootTreeLines = True
-        Me.clvFittings.ShowTreeLines = True
-        Me.clvFittings.Size = New System.Drawing.Size(196, 294)
-        Me.clvFittings.TabIndex = 0
-        '
-        'ContainerListViewColumnHeader1
-        '
-        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader1.Tag = Nothing
-        Me.ContainerListViewColumnHeader1.Text = "Available Fittings"
-        Me.ContainerListViewColumnHeader1.Width = 150
         '
         'ctxFittings
         '
-        Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.mnuExportToEve})
+        Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.ToolStripMenuItem7, Me.mnuExportToEve, Me.mnuExportToRequisitions})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(180, 248)
+        Me.ctxFittings.Size = New System.Drawing.Size(192, 276)
         '
         'mnuFittingsFittingName
         '
-        Me.mnuFittingsFittingName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.mnuFittingsFittingName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mnuFittingsFittingName.Name = "mnuFittingsFittingName"
-        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(179, 22)
+        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsFittingName.Text = "Fitting Name"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(188, 6)
         '
         'mnuPreviewShip2
         '
         Me.mnuPreviewShip2.Name = "mnuPreviewShip2"
-        Me.mnuPreviewShip2.Size = New System.Drawing.Size(179, 22)
+        Me.mnuPreviewShip2.Size = New System.Drawing.Size(191, 22)
         Me.mnuPreviewShip2.Text = "Preview Ship Details"
         '
         'mnuFittingsShowFitting
         '
         Me.mnuFittingsShowFitting.Name = "mnuFittingsShowFitting"
-        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(179, 22)
+        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsShowFitting.Text = "Show Fitting"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(188, 6)
         '
         'mnuFittingsRenameFitting
         '
         Me.mnuFittingsRenameFitting.Name = "mnuFittingsRenameFitting"
-        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(179, 22)
+        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsRenameFitting.Text = "Rename Fitting"
         '
         'mnuFittingsCopyFitting
         '
         Me.mnuFittingsCopyFitting.Name = "mnuFittingsCopyFitting"
-        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(179, 22)
+        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsCopyFitting.Text = "Copy Fitting"
         '
         'mnuFittingsDeleteFitting
         '
         Me.mnuFittingsDeleteFitting.Name = "mnuFittingsDeleteFitting"
-        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(179, 22)
+        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsDeleteFitting.Text = "Delete Fitting"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(188, 6)
         '
         'mnuFittingsCreateFitting
         '
         Me.mnuFittingsCreateFitting.Name = "mnuFittingsCreateFitting"
-        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(179, 22)
+        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsCreateFitting.Text = "Create New Fitting"
         '
         'mnuFittingsBCBrowser
         '
         Me.mnuFittingsBCBrowser.Name = "mnuFittingsBCBrowser"
-        Me.mnuFittingsBCBrowser.Size = New System.Drawing.Size(179, 22)
+        Me.mnuFittingsBCBrowser.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsBCBrowser.Text = "BattleClinic Browser"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(188, 6)
         '
         'mnuCompareFittings
         '
         Me.mnuCompareFittings.Name = "mnuCompareFittings"
-        Me.mnuCompareFittings.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCompareFittings.Size = New System.Drawing.Size(191, 22)
         Me.mnuCompareFittings.Text = "Compare Fittings"
+        '
+        'ToolStripMenuItem7
+        '
+        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(188, 6)
         '
         'mnuExportToEve
         '
         Me.mnuExportToEve.Name = "mnuExportToEve"
-        Me.mnuExportToEve.Size = New System.Drawing.Size(179, 22)
+        Me.mnuExportToEve.Size = New System.Drawing.Size(191, 22)
         Me.mnuExportToEve.Text = "Export To Eve"
         '
-        'lblFlyable
+        'mnuExportToRequisitions
         '
-        Me.lblFlyable.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblFlyable.AutoSize = True
-        Me.lblFlyable.Location = New System.Drawing.Point(3, 31)
-        Me.lblFlyable.Name = "lblFlyable"
-        Me.lblFlyable.Size = New System.Drawing.Size(45, 13)
-        Me.lblFlyable.TabIndex = 6
-        Me.lblFlyable.Text = "Flyable:"
-        '
-        'cboFlyable
-        '
-        Me.cboFlyable.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cboFlyable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFlyable.FormattingEnabled = True
-        Me.cboFlyable.Location = New System.Drawing.Point(51, 28)
-        Me.cboFlyable.Name = "cboFlyable"
-        Me.cboFlyable.Size = New System.Drawing.Size(144, 21)
-        Me.cboFlyable.TabIndex = 5
-        '
-        'pbSearchShips
-        '
-        Me.pbSearchShips.Image = CType(resources.GetObject("pbSearchShips.Image"), System.Drawing.Image)
-        Me.pbSearchShips.Location = New System.Drawing.Point(3, 3)
-        Me.pbSearchShips.Name = "pbSearchShips"
-        Me.pbSearchShips.Size = New System.Drawing.Size(20, 20)
-        Me.pbSearchShips.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbSearchShips.TabIndex = 4
-        Me.pbSearchShips.TabStop = False
-        '
-        'txtShipSearch
-        '
-        Me.txtShipSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtShipSearch.Location = New System.Drawing.Point(29, 1)
-        Me.txtShipSearch.Name = "txtShipSearch"
-        Me.txtShipSearch.Size = New System.Drawing.Size(120, 21)
-        Me.txtShipSearch.TabIndex = 1
-        '
-        'btnResetShips
-        '
-        Me.btnResetShips.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnResetShips.Location = New System.Drawing.Point(152, 0)
-        Me.btnResetShips.Name = "btnResetShips"
-        Me.btnResetShips.Size = New System.Drawing.Size(44, 23)
-        Me.btnResetShips.TabIndex = 3
-        Me.btnResetShips.Text = "Reset"
-        Me.btnResetShips.UseVisualStyleBackColor = True
+        Me.mnuExportToRequisitions.Name = "mnuExportToRequisitions"
+        Me.mnuExportToRequisitions.Size = New System.Drawing.Size(191, 22)
+        Me.mnuExportToRequisitions.Text = "Export To Requisitions"
         '
         'tvwShips
         '
-        Me.tvwShips.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tvwShips.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.tvwShips.AllowDrop = True
+        Me.tvwShips.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.tvwShips.BackgroundStyle.Class = "TreeBorderKey"
+        Me.tvwShips.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.tvwShips.ContextMenuStrip = Me.ctxShipBrowser
-        Me.tvwShips.FullRowSelect = True
-        Me.tvwShips.Location = New System.Drawing.Point(0, 55)
+        Me.tvwShips.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tvwShips.DragDropEnabled = False
+        Me.tvwShips.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
+        Me.tvwShips.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.tvwShips.Location = New System.Drawing.Point(0, 330)
         Me.tvwShips.Name = "tvwShips"
-        Me.tvwShips.Size = New System.Drawing.Size(196, 339)
-        Me.tvwShips.TabIndex = 0
+        Me.tvwShips.NodesConnector = Me.NodeConnector1
+        Me.tvwShips.NodeSpacing = 1
+        Me.tvwShips.NodeStyle = Me.ElementStyle1
+        Me.tvwShips.PathSeparator = ";"
+        Me.tvwShips.Size = New System.Drawing.Size(228, 391)
+        Me.tvwShips.Styles.Add(Me.ElementStyle1)
+        Me.tvwShips.TabIndex = 7
+        Me.tvwShips.Text = "AdvTree1"
         '
         'ctxShipBrowser
         '
@@ -688,38 +322,67 @@ Partial Class frmHQF
         Me.mnuBattleClinicBrowser.Text = "Battleclinic Browser"
         Me.mnuBattleClinicBrowser.ToolTipText = "View Ship Loadouts from BattleClinic"
         '
-        'SplitContainerMod
+        'NodeConnector1
         '
-        Me.SplitContainerMod.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainerMod.Dock = System.Windows.Forms.DockStyle.Right
-        Me.SplitContainerMod.Location = New System.Drawing.Point(808, 25)
-        Me.SplitContainerMod.Name = "SplitContainerMod"
-        Me.SplitContainerMod.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
         '
-        'SplitContainerMod.Panel1
+        'ElementStyle1
         '
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkFilter8192)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkOnlyShowFittable)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkOnlyShowUsable)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkApplySkills)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkFilter32)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkFilter16)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkFilter8)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkFilter4)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkFilter2)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.chkFilter1)
-        Me.SplitContainerMod.Panel1.Controls.Add(Me.tvwItems)
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
         '
-        'SplitContainerMod.Panel2
+        'lblFlyable
         '
-        Me.SplitContainerMod.Panel2.Controls.Add(Me.lblModuleDisplayType)
-        Me.SplitContainerMod.Panel2.Controls.Add(Me.txtSearchModules)
-        Me.SplitContainerMod.Panel2.Controls.Add(Me.lblSearchModules)
-        Me.SplitContainerMod.Panel2.Controls.Add(Me.lvwItems)
-        Me.SplitContainerMod.Size = New System.Drawing.Size(291, 696)
-        Me.SplitContainerMod.SplitterDistance = 298
-        Me.SplitContainerMod.SplitterWidth = 2
-        Me.SplitContainerMod.TabIndex = 4
+        Me.lblFlyable.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblFlyable.AutoSize = True
+        Me.lblFlyable.Location = New System.Drawing.Point(5, 301)
+        Me.lblFlyable.Name = "lblFlyable"
+        Me.lblFlyable.Size = New System.Drawing.Size(45, 13)
+        Me.lblFlyable.TabIndex = 6
+        Me.lblFlyable.Text = "Flyable:"
+        '
+        'cboFlyable
+        '
+        Me.cboFlyable.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboFlyable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFlyable.FormattingEnabled = True
+        Me.cboFlyable.Location = New System.Drawing.Point(53, 298)
+        Me.cboFlyable.Name = "cboFlyable"
+        Me.cboFlyable.Size = New System.Drawing.Size(169, 21)
+        Me.cboFlyable.TabIndex = 5
+        '
+        'pbSearchShips
+        '
+        Me.pbSearchShips.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.pbSearchShips.Image = CType(resources.GetObject("pbSearchShips.Image"), System.Drawing.Image)
+        Me.pbSearchShips.Location = New System.Drawing.Point(5, 273)
+        Me.pbSearchShips.Name = "pbSearchShips"
+        Me.pbSearchShips.Size = New System.Drawing.Size(20, 20)
+        Me.pbSearchShips.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbSearchShips.TabIndex = 4
+        Me.pbSearchShips.TabStop = False
+        '
+        'txtShipSearch
+        '
+        Me.txtShipSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtShipSearch.Location = New System.Drawing.Point(31, 271)
+        Me.txtShipSearch.Name = "txtShipSearch"
+        Me.txtShipSearch.Size = New System.Drawing.Size(141, 21)
+        Me.txtShipSearch.TabIndex = 1
+        '
+        'btnResetShips
+        '
+        Me.btnResetShips.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnResetShips.Location = New System.Drawing.Point(178, 269)
+        Me.btnResetShips.Name = "btnResetShips"
+        Me.btnResetShips.Size = New System.Drawing.Size(44, 23)
+        Me.btnResetShips.TabIndex = 3
+        Me.btnResetShips.Text = "Reset"
+        Me.btnResetShips.UseVisualStyleBackColor = True
         '
         'chkFilter8192
         '
@@ -727,7 +390,7 @@ Partial Class frmHQF
         Me.chkFilter8192.AutoSize = True
         Me.chkFilter8192.Checked = True
         Me.chkFilter8192.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFilter8192.Location = New System.Drawing.Point(138, 226)
+        Me.chkFilter8192.Location = New System.Drawing.Point(154, 259)
         Me.chkFilter8192.Name = "chkFilter8192"
         Me.chkFilter8192.Size = New System.Drawing.Size(58, 17)
         Me.chkFilter8192.TabIndex = 18
@@ -739,7 +402,7 @@ Partial Class frmHQF
         '
         Me.chkOnlyShowFittable.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkOnlyShowFittable.AutoSize = True
-        Me.chkOnlyShowFittable.Location = New System.Drawing.Point(154, 274)
+        Me.chkOnlyShowFittable.Location = New System.Drawing.Point(154, 307)
         Me.chkOnlyShowFittable.Name = "chkOnlyShowFittable"
         Me.chkOnlyShowFittable.Size = New System.Drawing.Size(62, 17)
         Me.chkOnlyShowFittable.TabIndex = 17
@@ -751,7 +414,7 @@ Partial Class frmHQF
         '
         Me.chkOnlyShowUsable.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkOnlyShowUsable.AutoSize = True
-        Me.chkOnlyShowUsable.Location = New System.Drawing.Point(90, 274)
+        Me.chkOnlyShowUsable.Location = New System.Drawing.Point(90, 307)
         Me.chkOnlyShowUsable.Name = "chkOnlyShowUsable"
         Me.chkOnlyShowUsable.Size = New System.Drawing.Size(58, 17)
         Me.chkOnlyShowUsable.TabIndex = 16
@@ -763,7 +426,7 @@ Partial Class frmHQF
         '
         Me.chkApplySkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkApplySkills.AutoSize = True
-        Me.chkApplySkills.Location = New System.Drawing.Point(6, 274)
+        Me.chkApplySkills.Location = New System.Drawing.Point(6, 307)
         Me.chkApplySkills.Name = "chkApplySkills"
         Me.chkApplySkills.Size = New System.Drawing.Size(78, 17)
         Me.chkApplySkills.TabIndex = 15
@@ -775,10 +438,10 @@ Partial Class frmHQF
         '
         Me.chkFilter32.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkFilter32.AutoSize = True
-        Me.chkFilter32.BackColor = System.Drawing.SystemColors.Control
+        Me.chkFilter32.BackColor = System.Drawing.Color.Transparent
         Me.chkFilter32.Checked = True
         Me.chkFilter32.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFilter32.Location = New System.Drawing.Point(72, 258)
+        Me.chkFilter32.Location = New System.Drawing.Point(89, 291)
         Me.chkFilter32.Name = "chkFilter32"
         Me.chkFilter32.Size = New System.Drawing.Size(79, 17)
         Me.chkFilter32.TabIndex = 14
@@ -793,7 +456,7 @@ Partial Class frmHQF
         Me.chkFilter16.AutoSize = True
         Me.chkFilter16.Checked = True
         Me.chkFilter16.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFilter16.Location = New System.Drawing.Point(72, 242)
+        Me.chkFilter16.Location = New System.Drawing.Point(89, 275)
         Me.chkFilter16.Name = "chkFilter16"
         Me.chkFilter16.Size = New System.Drawing.Size(59, 17)
         Me.chkFilter16.TabIndex = 13
@@ -807,7 +470,7 @@ Partial Class frmHQF
         Me.chkFilter8.AutoSize = True
         Me.chkFilter8.Checked = True
         Me.chkFilter8.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFilter8.Location = New System.Drawing.Point(6, 242)
+        Me.chkFilter8.Location = New System.Drawing.Point(6, 275)
         Me.chkFilter8.Name = "chkFilter8"
         Me.chkFilter8.Size = New System.Drawing.Size(61, 17)
         Me.chkFilter8.TabIndex = 12
@@ -821,7 +484,7 @@ Partial Class frmHQF
         Me.chkFilter4.AutoSize = True
         Me.chkFilter4.Checked = True
         Me.chkFilter4.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFilter4.Location = New System.Drawing.Point(6, 258)
+        Me.chkFilter4.Location = New System.Drawing.Point(6, 291)
         Me.chkFilter4.Name = "chkFilter4"
         Me.chkFilter4.Size = New System.Drawing.Size(68, 17)
         Me.chkFilter4.TabIndex = 11
@@ -835,7 +498,7 @@ Partial Class frmHQF
         Me.chkFilter2.AutoSize = True
         Me.chkFilter2.Checked = True
         Me.chkFilter2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFilter2.Location = New System.Drawing.Point(72, 226)
+        Me.chkFilter2.Location = New System.Drawing.Point(90, 259)
         Me.chkFilter2.Name = "chkFilter2"
         Me.chkFilter2.Size = New System.Drawing.Size(58, 17)
         Me.chkFilter2.TabIndex = 10
@@ -849,7 +512,7 @@ Partial Class frmHQF
         Me.chkFilter1.AutoSize = True
         Me.chkFilter1.Checked = True
         Me.chkFilter1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkFilter1.Location = New System.Drawing.Point(6, 226)
+        Me.chkFilter1.Location = New System.Drawing.Point(6, 259)
         Me.chkFilter1.Name = "chkFilter1"
         Me.chkFilter1.Size = New System.Drawing.Size(58, 17)
         Me.chkFilter1.TabIndex = 9
@@ -857,23 +520,11 @@ Partial Class frmHQF
         Me.chkFilter1.Text = "Tech 1"
         Me.chkFilter1.UseVisualStyleBackColor = True
         '
-        'tvwItems
-        '
-        Me.tvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.tvwItems.FullRowSelect = True
-        Me.tvwItems.HideSelection = False
-        Me.tvwItems.Location = New System.Drawing.Point(0, -2)
-        Me.tvwItems.Name = "tvwItems"
-        Me.tvwItems.Size = New System.Drawing.Size(287, 222)
-        Me.tvwItems.TabIndex = 1
-        '
         'lblModuleDisplayType
         '
         Me.lblModuleDisplayType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblModuleDisplayType.AutoSize = True
-        Me.lblModuleDisplayType.Location = New System.Drawing.Point(3, 375)
+        Me.lblModuleDisplayType.Location = New System.Drawing.Point(3, 342)
         Me.lblModuleDisplayType.Name = "lblModuleDisplayType"
         Me.lblModuleDisplayType.Size = New System.Drawing.Size(87, 13)
         Me.lblModuleDisplayType.TabIndex = 20
@@ -881,65 +532,22 @@ Partial Class frmHQF
         '
         'txtSearchModules
         '
-        Me.txtSearchModules.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtSearchModules.Location = New System.Drawing.Point(54, 3)
+        Me.txtSearchModules.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtSearchModules.Location = New System.Drawing.Point(56, 328)
         Me.txtSearchModules.Name = "txtSearchModules"
-        Me.txtSearchModules.Size = New System.Drawing.Size(230, 21)
+        Me.txtSearchModules.Size = New System.Drawing.Size(171, 21)
         Me.txtSearchModules.TabIndex = 19
         '
         'lblSearchModules
         '
+        Me.lblSearchModules.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblSearchModules.AutoSize = True
-        Me.lblSearchModules.Location = New System.Drawing.Point(4, 6)
+        Me.lblSearchModules.Location = New System.Drawing.Point(6, 331)
         Me.lblSearchModules.Name = "lblSearchModules"
         Me.lblSearchModules.Size = New System.Drawing.Size(44, 13)
         Me.lblSearchModules.TabIndex = 18
         Me.lblSearchModules.Text = "Search:"
-        '
-        'lvwItems
-        '
-        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG, Me.colModulePrice})
-        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
-        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwItems.FullRowSelect = True
-        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
-        Me.lvwItems.MultiSelect = False
-        Me.lvwItems.Name = "lvwItems"
-        Me.lvwItems.ShowItemToolTips = True
-        Me.lvwItems.Size = New System.Drawing.Size(287, 343)
-        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwItems.TabIndex = 0
-        Me.lvwItems.UseCompatibleStateImageBehavior = False
-        Me.lvwItems.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module"
-        Me.colModuleName.Width = 150
-        '
-        'colModuleMetaType
-        '
-        Me.colModuleMetaType.Text = "Meta"
-        Me.colModuleMetaType.Width = 40
-        '
-        'colModuleCPU
-        '
-        Me.colModuleCPU.Text = "CPU"
-        Me.colModuleCPU.Width = 40
-        '
-        'colModulePG
-        '
-        Me.colModulePG.Text = "PG"
-        Me.colModulePG.Width = 40
-        '
-        'colModulePrice
-        '
-        Me.colModulePrice.Text = "Price"
-        Me.colModulePrice.Width = 100
         '
         'ctxModuleList
         '
@@ -996,998 +604,860 @@ Partial Class frmHQF
         Me.imgAttributes.Images.SetKeyName(2, "hiSlot")
         Me.imgAttributes.Images.SetKeyName(3, "rigSlot")
         '
-        'ctxTabHQF
-        '
-        Me.ctxTabHQF.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCloseHQFTab})
-        Me.ctxTabHQF.Name = "ctxTabbedMDI"
-        Me.ctxTabHQF.Size = New System.Drawing.Size(124, 26)
-        '
-        'mnuCloseHQFTab
-        '
-        Me.mnuCloseHQFTab.Name = "mnuCloseHQFTab"
-        Me.mnuCloseHQFTab.Size = New System.Drawing.Size(123, 22)
-        Me.mnuCloseHQFTab.Text = "Not Valid"
-        '
         'tmrClipboard
         '
         Me.tmrClipboard.Enabled = True
         Me.tmrClipboard.Interval = 1000
         '
+        'panelModules
+        '
+        Me.panelModules.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelModules.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelModules.Controls.Add(Me.panelModuleList)
+        Me.panelModules.Controls.Add(Me.SplitterMods)
+        Me.panelModules.Controls.Add(Me.panelModFilters)
+        Me.panelModules.Dock = System.Windows.Forms.DockStyle.Right
+        Me.panelModules.Location = New System.Drawing.Point(1054, 0)
+        Me.panelModules.Name = "panelModules"
+        Me.panelModules.Size = New System.Drawing.Size(230, 721)
+        Me.panelModules.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelModules.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelModules.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelModules.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelModules.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelModules.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelModules.Style.GradientAngle = 90
+        Me.panelModules.TabIndex = 21
+        '
+        'panelModuleList
+        '
+        Me.panelModuleList.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelModuleList.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelModuleList.Controls.Add(Me.lblModuleDisplayType)
+        Me.panelModuleList.Controls.Add(Me.tvwModules)
+        Me.panelModuleList.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelModuleList.Location = New System.Drawing.Point(0, 361)
+        Me.panelModuleList.Name = "panelModuleList"
+        Me.panelModuleList.Size = New System.Drawing.Size(230, 360)
+        Me.panelModuleList.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelModuleList.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelModuleList.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelModuleList.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelModuleList.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelModuleList.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelModuleList.Style.GradientAngle = 90
+        Me.panelModuleList.TabIndex = 21
+        '
+        'tvwModules
+        '
+        Me.tvwModules.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.tvwModules.AllowDrop = True
+        Me.tvwModules.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tvwModules.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.tvwModules.BackgroundStyle.Class = "TreeBorderKey"
+        Me.tvwModules.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.tvwModules.Columns.Add(Me.colModuleName)
+        Me.tvwModules.Columns.Add(Me.colModuleMeta)
+        Me.tvwModules.Columns.Add(Me.colModuleCPU)
+        Me.tvwModules.Columns.Add(Me.colModulePG)
+        Me.tvwModules.Columns.Add(Me.colModulePrice)
+        Me.tvwModules.ContextMenuStrip = Me.ctxModuleList
+        Me.tvwModules.DragDropEnabled = False
+        Me.tvwModules.ExpandWidth = 0
+        Me.tvwModules.Indent = 0
+        Me.tvwModules.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.tvwModules.Location = New System.Drawing.Point(0, 0)
+        Me.tvwModules.Name = "tvwModules"
+        Me.tvwModules.Nodes.AddRange(New DevComponents.AdvTree.Node() {Me.Node3})
+        Me.tvwModules.NodesConnector = Me.NodeConnector4
+        Me.tvwModules.NodeSpacing = 0
+        Me.tvwModules.NodeStyle = Me.ElementStyle4
+        Me.tvwModules.PathSeparator = ";"
+        Me.tvwModules.Size = New System.Drawing.Size(230, 339)
+        Me.tvwModules.Styles.Add(Me.ElementStyle4)
+        Me.tvwModules.TabIndex = 21
+        Me.tvwModules.Text = "AdvTree1"
+        '
+        'colModuleName
+        '
+        Me.colModuleName.DisplayIndex = 0
+        Me.colModuleName.Name = "colModuleName"
+        Me.colModuleName.Text = "Module"
+        Me.colModuleName.Width.Absolute = 150
+        '
+        'colModuleMeta
+        '
+        Me.colModuleMeta.DisplayIndex = 1
+        Me.colModuleMeta.Name = "colModuleMeta"
+        Me.colModuleMeta.Text = "Meta"
+        Me.colModuleMeta.Width.Absolute = 35
+        '
+        'colModuleCPU
+        '
+        Me.colModuleCPU.DisplayIndex = 2
+        Me.colModuleCPU.Name = "colModuleCPU"
+        Me.colModuleCPU.Text = "CPU"
+        Me.colModuleCPU.Width.Absolute = 40
+        '
+        'colModulePG
+        '
+        Me.colModulePG.DisplayIndex = 3
+        Me.colModulePG.Name = "colModulePG"
+        Me.colModulePG.Text = "PG"
+        Me.colModulePG.Width.Absolute = 40
+        '
+        'colModulePrice
+        '
+        Me.colModulePrice.DisplayIndex = 4
+        Me.colModulePrice.Name = "colModulePrice"
+        Me.colModulePrice.Text = "Price"
+        Me.colModulePrice.Width.Absolute = 80
+        '
+        'Node3
+        '
+        Me.Node3.Name = "Node3"
+        '
+        'NodeConnector4
+        '
+        Me.NodeConnector4.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle4
+        '
+        Me.ElementStyle4.Class = ""
+        Me.ElementStyle4.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle4.Name = "ElementStyle4"
+        Me.ElementStyle4.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'SplitterMods
+        '
+        Me.SplitterMods.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterMods.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterMods.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.SplitterMods.Dock = System.Windows.Forms.DockStyle.Top
+        Me.SplitterMods.Expandable = False
+        Me.SplitterMods.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterMods.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterMods.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterMods.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterMods.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterMods.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterMods.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterMods.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterMods.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.SplitterMods.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.SplitterMods.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.SplitterMods.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.SplitterMods.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterMods.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterMods.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterMods.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterMods.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterMods.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterMods.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterMods.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterMods.Location = New System.Drawing.Point(0, 355)
+        Me.SplitterMods.Name = "SplitterMods"
+        Me.SplitterMods.Size = New System.Drawing.Size(230, 6)
+        Me.SplitterMods.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.SplitterMods.TabIndex = 1
+        Me.SplitterMods.TabStop = False
+        '
+        'panelModFilters
+        '
+        Me.panelModFilters.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelModFilters.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelModFilters.Controls.Add(Me.tvwItems)
+        Me.panelModFilters.Controls.Add(Me.txtSearchModules)
+        Me.panelModFilters.Controls.Add(Me.lblSearchModules)
+        Me.panelModFilters.Controls.Add(Me.chkFilter1)
+        Me.panelModFilters.Controls.Add(Me.chkFilter8192)
+        Me.panelModFilters.Controls.Add(Me.chkFilter2)
+        Me.panelModFilters.Controls.Add(Me.chkOnlyShowFittable)
+        Me.panelModFilters.Controls.Add(Me.chkFilter4)
+        Me.panelModFilters.Controls.Add(Me.chkFilter8)
+        Me.panelModFilters.Controls.Add(Me.chkOnlyShowUsable)
+        Me.panelModFilters.Controls.Add(Me.chkFilter16)
+        Me.panelModFilters.Controls.Add(Me.chkFilter32)
+        Me.panelModFilters.Controls.Add(Me.chkApplySkills)
+        Me.panelModFilters.Dock = System.Windows.Forms.DockStyle.Top
+        Me.panelModFilters.Location = New System.Drawing.Point(0, 0)
+        Me.panelModFilters.Name = "panelModFilters"
+        Me.panelModFilters.Size = New System.Drawing.Size(230, 355)
+        Me.panelModFilters.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelModFilters.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelModFilters.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelModFilters.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelModFilters.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelModFilters.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelModFilters.Style.GradientAngle = 90
+        Me.panelModFilters.TabIndex = 0
+        '
+        'tvwItems
+        '
+        Me.tvwItems.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.tvwItems.AllowDrop = True
+        Me.tvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tvwItems.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.tvwItems.BackgroundStyle.Class = "TreeBorderKey"
+        Me.tvwItems.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.tvwItems.DragDropEnabled = False
+        Me.tvwItems.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
+        Me.tvwItems.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.tvwItems.Location = New System.Drawing.Point(0, 0)
+        Me.tvwItems.Name = "tvwItems"
+        Me.tvwItems.NodesConnector = Me.NodeConnector3
+        Me.tvwItems.NodeSpacing = 1
+        Me.tvwItems.NodeStyle = Me.ElementStyle3
+        Me.tvwItems.PathSeparator = ";"
+        Me.tvwItems.Size = New System.Drawing.Size(230, 253)
+        Me.tvwItems.Styles.Add(Me.ElementStyle3)
+        Me.tvwItems.TabIndex = 20
+        Me.tvwItems.Text = "AdvTree1"
+        '
+        'NodeConnector3
+        '
+        Me.NodeConnector3.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle3
+        '
+        Me.ElementStyle3.Class = ""
+        Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle3.Name = "ElementStyle3"
+        Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'SplitterModules
+        '
+        Me.SplitterModules.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterModules.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterModules.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.SplitterModules.Dock = System.Windows.Forms.DockStyle.Right
+        Me.SplitterModules.ExpandableControl = Me.panelModules
+        Me.SplitterModules.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterModules.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterModules.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterModules.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterModules.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterModules.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterModules.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterModules.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterModules.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.SplitterModules.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.SplitterModules.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.SplitterModules.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.SplitterModules.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterModules.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterModules.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterModules.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterModules.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterModules.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterModules.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterModules.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterModules.Location = New System.Drawing.Point(1048, 0)
+        Me.SplitterModules.Name = "SplitterModules"
+        Me.SplitterModules.Size = New System.Drawing.Size(6, 721)
+        Me.SplitterModules.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.SplitterModules.TabIndex = 22
+        Me.SplitterModules.TabStop = False
+        '
+        'panelShips
+        '
+        Me.panelShips.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelShips.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelShips.Controls.Add(Me.tvwShips)
+        Me.panelShips.Controls.Add(Me.SplitterFittings)
+        Me.panelShips.Controls.Add(Me.panelFittings)
+        Me.panelShips.Dock = System.Windows.Forms.DockStyle.Left
+        Me.panelShips.Location = New System.Drawing.Point(0, 0)
+        Me.panelShips.Name = "panelShips"
+        Me.panelShips.Size = New System.Drawing.Size(228, 721)
+        Me.panelShips.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelShips.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelShips.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelShips.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelShips.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelShips.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelShips.Style.GradientAngle = 90
+        Me.panelShips.TabIndex = 23
+        '
+        'SplitterFittings
+        '
+        Me.SplitterFittings.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterFittings.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterFittings.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.SplitterFittings.Dock = System.Windows.Forms.DockStyle.Top
+        Me.SplitterFittings.Expandable = False
+        Me.SplitterFittings.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterFittings.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterFittings.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterFittings.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterFittings.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterFittings.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterFittings.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterFittings.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterFittings.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.SplitterFittings.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.SplitterFittings.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.SplitterFittings.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.SplitterFittings.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterFittings.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterFittings.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterFittings.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterFittings.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterFittings.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterFittings.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterFittings.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterFittings.Location = New System.Drawing.Point(0, 324)
+        Me.SplitterFittings.Name = "SplitterFittings"
+        Me.SplitterFittings.Size = New System.Drawing.Size(228, 6)
+        Me.SplitterFittings.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.SplitterFittings.TabIndex = 1
+        Me.SplitterFittings.TabStop = False
+        '
+        'panelFittings
+        '
+        Me.panelFittings.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelFittings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelFittings.Controls.Add(Me.tvwFittings)
+        Me.panelFittings.Controls.Add(Me.txtShipSearch)
+        Me.panelFittings.Controls.Add(Me.cboFlyable)
+        Me.panelFittings.Controls.Add(Me.lblFlyable)
+        Me.panelFittings.Controls.Add(Me.pbSearchShips)
+        Me.panelFittings.Controls.Add(Me.btnResetShips)
+        Me.panelFittings.Dock = System.Windows.Forms.DockStyle.Top
+        Me.panelFittings.Location = New System.Drawing.Point(0, 0)
+        Me.panelFittings.Name = "panelFittings"
+        Me.panelFittings.Size = New System.Drawing.Size(228, 324)
+        Me.panelFittings.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelFittings.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelFittings.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelFittings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelFittings.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelFittings.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelFittings.Style.GradientAngle = 90
+        Me.panelFittings.TabIndex = 0
+        '
+        'tvwFittings
+        '
+        Me.tvwFittings.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.tvwFittings.AllowDrop = True
+        Me.tvwFittings.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tvwFittings.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.tvwFittings.BackgroundStyle.Class = "TreeBorderKey"
+        Me.tvwFittings.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.tvwFittings.ContextMenuStrip = Me.ctxFittings
+        Me.tvwFittings.DragDropEnabled = False
+        Me.tvwFittings.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
+        Me.tvwFittings.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.tvwFittings.Location = New System.Drawing.Point(0, 0)
+        Me.tvwFittings.MultiSelect = True
+        Me.tvwFittings.MultiSelectRule = DevComponents.AdvTree.eMultiSelectRule.AnyNode
+        Me.tvwFittings.Name = "tvwFittings"
+        Me.tvwFittings.NodesConnector = Me.NodeConnector2
+        Me.tvwFittings.NodeSpacing = 1
+        Me.tvwFittings.NodeStyle = Me.ElementStyle2
+        Me.tvwFittings.PathSeparator = ";"
+        Me.tvwFittings.Size = New System.Drawing.Size(228, 264)
+        Me.tvwFittings.Styles.Add(Me.ElementStyle2)
+        Me.tvwFittings.TabIndex = 7
+        Me.tvwFittings.Text = "AdvTree1"
+        '
+        'NodeConnector2
+        '
+        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.Class = ""
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'SplitterShips
+        '
+        Me.SplitterShips.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterShips.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterShips.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.SplitterShips.ExpandableControl = Me.panelShips
+        Me.SplitterShips.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterShips.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterShips.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterShips.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterShips.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterShips.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterShips.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterShips.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterShips.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.SplitterShips.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.SplitterShips.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.SplitterShips.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.SplitterShips.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterShips.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterShips.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitterShips.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.SplitterShips.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.SplitterShips.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.SplitterShips.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.SplitterShips.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.SplitterShips.Location = New System.Drawing.Point(228, 0)
+        Me.SplitterShips.Name = "SplitterShips"
+        Me.SplitterShips.Size = New System.Drawing.Size(6, 721)
+        Me.SplitterShips.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.SplitterShips.TabIndex = 24
+        Me.SplitterShips.TabStop = False
+        '
         'tabHQF
         '
-        Me.tabHQF.ContextMenuStrip = Me.ctxTabHQF
-        Me.tabHQF.Controls.Add(Me.tabShipPreview)
-        Me.tabHQF.Controls.Add(Me.tabFit)
-        Me.tabHQF.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tabHQF.Location = New System.Drawing.Point(208, 25)
-        Me.tabHQF.Multiline = True
+        Me.tabHQF.AntiAlias = True
+        Me.tabHQF.AutoCloseTabs = True
+        Me.tabHQF.BackColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(125, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.tabHQF.CanReorderTabs = True
+        Me.tabHQF.CloseButtonOnTabsVisible = True
+        Me.tabHQF.Location = New System.Drawing.Point(243, 125)
         Me.tabHQF.Name = "tabHQF"
-        Me.tabHQF.SelectedIndex = 0
-        Me.tabHQF.Size = New System.Drawing.Size(592, 696)
-        Me.tabHQF.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
-        Me.tabHQF.TabIndex = 0
-        '
-        'tabShipPreview
-        '
-        Me.tabShipPreview.Controls.Add(Me.panelPreview)
-        Me.tabShipPreview.Location = New System.Drawing.Point(4, 22)
-        Me.tabShipPreview.Name = "tabShipPreview"
-        Me.tabShipPreview.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabShipPreview.Size = New System.Drawing.Size(584, 670)
-        Me.tabShipPreview.TabIndex = 0
-        Me.tabShipPreview.Text = "Ship Preview"
-        Me.tabShipPreview.UseVisualStyleBackColor = True
-        '
-        'panelPreview
-        '
-        Me.panelPreview.BackColor = System.Drawing.SystemColors.Control
-        Me.panelPreview.Controls.Add(Me.lblShipType)
-        Me.panelPreview.Controls.Add(Me.FlowLayoutPanel1)
-        Me.panelPreview.Controls.Add(Me.pbShip)
-        Me.panelPreview.Controls.Add(Me.txtShipDescription)
-        Me.panelPreview.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelPreview.Location = New System.Drawing.Point(3, 3)
-        Me.panelPreview.Name = "panelPreview"
-        Me.panelPreview.Size = New System.Drawing.Size(578, 664)
-        Me.panelPreview.TabIndex = 19
-        '
-        'lblShipType
-        '
-        Me.lblShipType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblShipType.Font = New System.Drawing.Font("Arial", 20.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShipType.Location = New System.Drawing.Point(4, 4)
-        Me.lblShipType.Name = "lblShipType"
-        Me.lblShipType.Size = New System.Drawing.Size(571, 33)
-        Me.lblShipType.TabIndex = 2
-        Me.lblShipType.Text = "Ship Type"
-        '
-        'FlowLayoutPanel1
-        '
-        Me.FlowLayoutPanel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FlowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.FlowLayoutPanel1.Controls.Add(Me.GroupBox1)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbFitting)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbShield)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbArmor)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbStructure)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbStorage)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbCapacitor)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbSpeed)
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 174)
-        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(572, 502)
-        Me.FlowLayoutPanel1.TabIndex = 18
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.lblLauncherSlots)
-        Me.GroupBox1.Controls.Add(Me.lblTurretSlots)
-        Me.GroupBox1.Controls.Add(Me.lblRigSlots)
-        Me.GroupBox1.Controls.Add(Me.pbLauncherSlot)
-        Me.GroupBox1.Controls.Add(Me.pbTurretSlot)
-        Me.GroupBox1.Controls.Add(Me.pbRigSlot)
-        Me.GroupBox1.Controls.Add(Me.lblHiSlots)
-        Me.GroupBox1.Controls.Add(Me.lblMedSlots)
-        Me.GroupBox1.Controls.Add(Me.lblLowSlots)
-        Me.GroupBox1.Controls.Add(Me.pbHiSlot)
-        Me.GroupBox1.Controls.Add(Me.pbMedSlot)
-        Me.GroupBox1.Controls.Add(Me.pbLowSlot)
-        Me.GroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.GroupBox1.Location = New System.Drawing.Point(3, 3)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(251, 126)
-        Me.GroupBox1.TabIndex = 16
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Slot Layout"
-        '
-        'lblLauncherSlots
-        '
-        Me.lblLauncherSlots.AutoSize = True
-        Me.lblLauncherSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLauncherSlots.Location = New System.Drawing.Point(153, 93)
-        Me.lblLauncherSlots.Name = "lblLauncherSlots"
-        Me.lblLauncherSlots.Size = New System.Drawing.Size(90, 13)
-        Me.lblLauncherSlots.TabIndex = 14
-        Me.lblLauncherSlots.Text = "Launcher Slots: 0"
-        '
-        'lblTurretSlots
-        '
-        Me.lblTurretSlots.AutoSize = True
-        Me.lblTurretSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTurretSlots.Location = New System.Drawing.Point(153, 61)
-        Me.lblTurretSlots.Name = "lblTurretSlots"
-        Me.lblTurretSlots.Size = New System.Drawing.Size(76, 13)
-        Me.lblTurretSlots.TabIndex = 13
-        Me.lblTurretSlots.Text = "Turret Slots: 0"
-        '
-        'lblRigSlots
-        '
-        Me.lblRigSlots.AutoSize = True
-        Me.lblRigSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRigSlots.Location = New System.Drawing.Point(153, 29)
-        Me.lblRigSlots.Name = "lblRigSlots"
-        Me.lblRigSlots.Size = New System.Drawing.Size(61, 13)
-        Me.lblRigSlots.TabIndex = 12
-        Me.lblRigSlots.Text = "Rig Slots: 0"
-        '
-        'pbLauncherSlot
-        '
-        Me.pbLauncherSlot.Image = CType(resources.GetObject("pbLauncherSlot.Image"), System.Drawing.Image)
-        Me.pbLauncherSlot.Location = New System.Drawing.Point(115, 84)
-        Me.pbLauncherSlot.Name = "pbLauncherSlot"
-        Me.pbLauncherSlot.Size = New System.Drawing.Size(32, 32)
-        Me.pbLauncherSlot.TabIndex = 11
-        Me.pbLauncherSlot.TabStop = False
-        '
-        'pbTurretSlot
-        '
-        Me.pbTurretSlot.Image = CType(resources.GetObject("pbTurretSlot.Image"), System.Drawing.Image)
-        Me.pbTurretSlot.Location = New System.Drawing.Point(115, 52)
-        Me.pbTurretSlot.Name = "pbTurretSlot"
-        Me.pbTurretSlot.Size = New System.Drawing.Size(32, 32)
-        Me.pbTurretSlot.TabIndex = 10
-        Me.pbTurretSlot.TabStop = False
-        '
-        'pbRigSlot
-        '
-        Me.pbRigSlot.Image = CType(resources.GetObject("pbRigSlot.Image"), System.Drawing.Image)
-        Me.pbRigSlot.Location = New System.Drawing.Point(115, 20)
-        Me.pbRigSlot.Name = "pbRigSlot"
-        Me.pbRigSlot.Size = New System.Drawing.Size(32, 32)
-        Me.pbRigSlot.TabIndex = 9
-        Me.pbRigSlot.TabStop = False
-        '
-        'lblHiSlots
-        '
-        Me.lblHiSlots.AutoSize = True
-        Me.lblHiSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHiSlots.Location = New System.Drawing.Point(44, 94)
-        Me.lblHiSlots.Name = "lblHiSlots"
-        Me.lblHiSlots.Size = New System.Drawing.Size(67, 13)
-        Me.lblHiSlots.TabIndex = 8
-        Me.lblHiSlots.Text = "High Slots: 0"
-        '
-        'lblMedSlots
-        '
-        Me.lblMedSlots.AutoSize = True
-        Me.lblMedSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMedSlots.Location = New System.Drawing.Point(44, 61)
-        Me.lblMedSlots.Name = "lblMedSlots"
-        Me.lblMedSlots.Size = New System.Drawing.Size(66, 13)
-        Me.lblMedSlots.TabIndex = 7
-        Me.lblMedSlots.Text = "Med Slots: 0"
-        '
-        'lblLowSlots
-        '
-        Me.lblLowSlots.AutoSize = True
-        Me.lblLowSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLowSlots.Location = New System.Drawing.Point(44, 29)
-        Me.lblLowSlots.Name = "lblLowSlots"
-        Me.lblLowSlots.Size = New System.Drawing.Size(65, 13)
-        Me.lblLowSlots.TabIndex = 6
-        Me.lblLowSlots.Text = "Low Slots: 0"
-        '
-        'pbHiSlot
-        '
-        Me.pbHiSlot.Image = CType(resources.GetObject("pbHiSlot.Image"), System.Drawing.Image)
-        Me.pbHiSlot.Location = New System.Drawing.Point(6, 84)
-        Me.pbHiSlot.Name = "pbHiSlot"
-        Me.pbHiSlot.Size = New System.Drawing.Size(32, 32)
-        Me.pbHiSlot.TabIndex = 3
-        Me.pbHiSlot.TabStop = False
-        '
-        'pbMedSlot
-        '
-        Me.pbMedSlot.Image = CType(resources.GetObject("pbMedSlot.Image"), System.Drawing.Image)
-        Me.pbMedSlot.Location = New System.Drawing.Point(6, 52)
-        Me.pbMedSlot.Name = "pbMedSlot"
-        Me.pbMedSlot.Size = New System.Drawing.Size(32, 32)
-        Me.pbMedSlot.TabIndex = 2
-        Me.pbMedSlot.TabStop = False
-        '
-        'pbLowSlot
-        '
-        Me.pbLowSlot.Image = CType(resources.GetObject("pbLowSlot.Image"), System.Drawing.Image)
-        Me.pbLowSlot.Location = New System.Drawing.Point(6, 20)
-        Me.pbLowSlot.Name = "pbLowSlot"
-        Me.pbLowSlot.Size = New System.Drawing.Size(32, 32)
-        Me.pbLowSlot.TabIndex = 1
-        Me.pbLowSlot.TabStop = False
-        '
-        'gbFitting
-        '
-        Me.gbFitting.Controls.Add(Me.lblCalibration)
-        Me.gbFitting.Controls.Add(Me.lblPG)
-        Me.gbFitting.Controls.Add(Me.lblCPU)
-        Me.gbFitting.Controls.Add(Me.pbCalibration)
-        Me.gbFitting.Controls.Add(Me.pbPG)
-        Me.gbFitting.Controls.Add(Me.pbCPU)
-        Me.gbFitting.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbFitting.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbFitting.Location = New System.Drawing.Point(260, 3)
-        Me.gbFitting.Name = "gbFitting"
-        Me.gbFitting.Size = New System.Drawing.Size(147, 126)
-        Me.gbFitting.TabIndex = 15
-        Me.gbFitting.TabStop = False
-        Me.gbFitting.Text = "Fitting"
-        '
-        'lblCalibration
-        '
-        Me.lblCalibration.AutoSize = True
-        Me.lblCalibration.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCalibration.Location = New System.Drawing.Point(44, 89)
-        Me.lblCalibration.Name = "lblCalibration"
-        Me.lblCalibration.Size = New System.Drawing.Size(71, 13)
-        Me.lblCalibration.TabIndex = 8
-        Me.lblCalibration.Text = "Calibration: 0"
-        '
-        'lblPG
-        '
-        Me.lblPG.AutoSize = True
-        Me.lblPG.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPG.Location = New System.Drawing.Point(44, 57)
-        Me.lblPG.Name = "lblPG"
-        Me.lblPG.Size = New System.Drawing.Size(68, 13)
-        Me.lblPG.TabIndex = 7
-        Me.lblPG.Text = "Powergrid: 0"
-        '
-        'lblCPU
-        '
-        Me.lblCPU.AutoSize = True
-        Me.lblCPU.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCPU.Location = New System.Drawing.Point(44, 29)
-        Me.lblCPU.Name = "lblCPU"
-        Me.lblCPU.Size = New System.Drawing.Size(40, 13)
-        Me.lblCPU.TabIndex = 6
-        Me.lblCPU.Text = "CPU: 0"
-        '
-        'pbCalibration
-        '
-        Me.pbCalibration.Image = CType(resources.GetObject("pbCalibration.Image"), System.Drawing.Image)
-        Me.pbCalibration.Location = New System.Drawing.Point(6, 80)
-        Me.pbCalibration.Name = "pbCalibration"
-        Me.pbCalibration.Size = New System.Drawing.Size(32, 32)
-        Me.pbCalibration.TabIndex = 3
-        Me.pbCalibration.TabStop = False
-        '
-        'pbPG
-        '
-        Me.pbPG.Image = CType(resources.GetObject("pbPG.Image"), System.Drawing.Image)
-        Me.pbPG.Location = New System.Drawing.Point(6, 51)
-        Me.pbPG.Name = "pbPG"
-        Me.pbPG.Size = New System.Drawing.Size(32, 32)
-        Me.pbPG.TabIndex = 2
-        Me.pbPG.TabStop = False
-        '
-        'pbCPU
-        '
-        Me.pbCPU.Image = CType(resources.GetObject("pbCPU.Image"), System.Drawing.Image)
-        Me.pbCPU.Location = New System.Drawing.Point(6, 20)
-        Me.pbCPU.Name = "pbCPU"
-        Me.pbCPU.Size = New System.Drawing.Size(32, 32)
-        Me.pbCPU.TabIndex = 1
-        Me.pbCPU.TabStop = False
-        '
-        'gbShield
-        '
-        Me.gbShield.Controls.Add(Me.lblShieldRecharge)
-        Me.gbShield.Controls.Add(Me.lblShieldHP)
-        Me.gbShield.Controls.Add(Me.lblShieldKi)
-        Me.gbShield.Controls.Add(Me.lblShieldTh)
-        Me.gbShield.Controls.Add(Me.lblShieldEx)
-        Me.gbShield.Controls.Add(Me.lblShieldEM)
-        Me.gbShield.Controls.Add(Me.pbShieldTh)
-        Me.gbShield.Controls.Add(Me.pbShieldKi)
-        Me.gbShield.Controls.Add(Me.pbShieldEx)
-        Me.gbShield.Controls.Add(Me.pbShieldEM)
-        Me.gbShield.Controls.Add(Me.pbShield)
-        Me.gbShield.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbShield.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbShield.Location = New System.Drawing.Point(3, 135)
-        Me.gbShield.Name = "gbShield"
-        Me.gbShield.Size = New System.Drawing.Size(191, 113)
-        Me.gbShield.TabIndex = 9
-        Me.gbShield.TabStop = False
-        Me.gbShield.Text = "Shield"
-        '
-        'lblShieldRecharge
-        '
-        Me.lblShieldRecharge.AutoSize = True
-        Me.lblShieldRecharge.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShieldRecharge.Location = New System.Drawing.Point(7, 88)
-        Me.lblShieldRecharge.Name = "lblShieldRecharge"
-        Me.lblShieldRecharge.Size = New System.Drawing.Size(97, 13)
-        Me.lblShieldRecharge.TabIndex = 10
-        Me.lblShieldRecharge.Text = "Recharge Rate: 0s"
-        '
-        'lblShieldHP
-        '
-        Me.lblShieldHP.AutoSize = True
-        Me.lblShieldHP.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShieldHP.Location = New System.Drawing.Point(7, 70)
-        Me.lblShieldHP.Name = "lblShieldHP"
-        Me.lblShieldHP.Size = New System.Drawing.Size(28, 13)
-        Me.lblShieldHP.TabIndex = 9
-        Me.lblShieldHP.Text = "0 hp"
-        '
-        'lblShieldKi
-        '
-        Me.lblShieldKi.AutoSize = True
-        Me.lblShieldKi.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShieldKi.Location = New System.Drawing.Point(146, 25)
-        Me.lblShieldKi.Name = "lblShieldKi"
-        Me.lblShieldKi.Size = New System.Drawing.Size(24, 13)
-        Me.lblShieldKi.TabIndex = 8
-        Me.lblShieldKi.Text = "0%"
-        '
-        'lblShieldTh
-        '
-        Me.lblShieldTh.AutoSize = True
-        Me.lblShieldTh.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShieldTh.Location = New System.Drawing.Point(146, 57)
-        Me.lblShieldTh.Name = "lblShieldTh"
-        Me.lblShieldTh.Size = New System.Drawing.Size(24, 13)
-        Me.lblShieldTh.TabIndex = 7
-        Me.lblShieldTh.Text = "0%"
-        '
-        'lblShieldEx
-        '
-        Me.lblShieldEx.AutoSize = True
-        Me.lblShieldEx.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShieldEx.Location = New System.Drawing.Point(80, 57)
-        Me.lblShieldEx.Name = "lblShieldEx"
-        Me.lblShieldEx.Size = New System.Drawing.Size(24, 13)
-        Me.lblShieldEx.TabIndex = 6
-        Me.lblShieldEx.Text = "0%"
-        '
-        'lblShieldEM
-        '
-        Me.lblShieldEM.AutoSize = True
-        Me.lblShieldEM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShieldEM.Location = New System.Drawing.Point(80, 25)
-        Me.lblShieldEM.Name = "lblShieldEM"
-        Me.lblShieldEM.Size = New System.Drawing.Size(24, 13)
-        Me.lblShieldEM.TabIndex = 5
-        Me.lblShieldEM.Text = "0%"
-        '
-        'pbShieldTh
-        '
-        Me.pbShieldTh.Image = CType(resources.GetObject("pbShieldTh.Image"), System.Drawing.Image)
-        Me.pbShieldTh.Location = New System.Drawing.Point(117, 48)
-        Me.pbShieldTh.Name = "pbShieldTh"
-        Me.pbShieldTh.Size = New System.Drawing.Size(32, 32)
-        Me.pbShieldTh.TabIndex = 4
-        Me.pbShieldTh.TabStop = False
-        '
-        'pbShieldKi
-        '
-        Me.pbShieldKi.Image = CType(resources.GetObject("pbShieldKi.Image"), System.Drawing.Image)
-        Me.pbShieldKi.Location = New System.Drawing.Point(117, 19)
-        Me.pbShieldKi.Name = "pbShieldKi"
-        Me.pbShieldKi.Size = New System.Drawing.Size(32, 32)
-        Me.pbShieldKi.TabIndex = 3
-        Me.pbShieldKi.TabStop = False
-        '
-        'pbShieldEx
-        '
-        Me.pbShieldEx.Image = CType(resources.GetObject("pbShieldEx.Image"), System.Drawing.Image)
-        Me.pbShieldEx.Location = New System.Drawing.Point(53, 48)
-        Me.pbShieldEx.Name = "pbShieldEx"
-        Me.pbShieldEx.Size = New System.Drawing.Size(32, 32)
-        Me.pbShieldEx.TabIndex = 2
-        Me.pbShieldEx.TabStop = False
-        '
-        'pbShieldEM
-        '
-        Me.pbShieldEM.Image = CType(resources.GetObject("pbShieldEM.Image"), System.Drawing.Image)
-        Me.pbShieldEM.Location = New System.Drawing.Point(53, 19)
-        Me.pbShieldEM.Name = "pbShieldEM"
-        Me.pbShieldEM.Size = New System.Drawing.Size(32, 32)
-        Me.pbShieldEM.TabIndex = 1
-        Me.pbShieldEM.TabStop = False
-        '
-        'pbShield
-        '
-        Me.pbShield.Image = CType(resources.GetObject("pbShield.Image"), System.Drawing.Image)
-        Me.pbShield.Location = New System.Drawing.Point(6, 19)
-        Me.pbShield.Name = "pbShield"
-        Me.pbShield.Size = New System.Drawing.Size(48, 48)
-        Me.pbShield.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbShield.TabIndex = 0
-        Me.pbShield.TabStop = False
-        '
-        'gbArmor
-        '
-        Me.gbArmor.Controls.Add(Me.lblArmorHP)
-        Me.gbArmor.Controls.Add(Me.lblArmorKi)
-        Me.gbArmor.Controls.Add(Me.lblArmorTh)
-        Me.gbArmor.Controls.Add(Me.lblArmorEx)
-        Me.gbArmor.Controls.Add(Me.lblArmorEM)
-        Me.gbArmor.Controls.Add(Me.pbArmorTh)
-        Me.gbArmor.Controls.Add(Me.pbArmorKi)
-        Me.gbArmor.Controls.Add(Me.pbArmorEx)
-        Me.gbArmor.Controls.Add(Me.pbArmorEM)
-        Me.gbArmor.Controls.Add(Me.pbArmor)
-        Me.gbArmor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbArmor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbArmor.Location = New System.Drawing.Point(200, 135)
-        Me.gbArmor.Name = "gbArmor"
-        Me.gbArmor.Size = New System.Drawing.Size(191, 96)
-        Me.gbArmor.TabIndex = 10
-        Me.gbArmor.TabStop = False
-        Me.gbArmor.Text = "Armor"
-        '
-        'lblArmorHP
-        '
-        Me.lblArmorHP.AutoSize = True
-        Me.lblArmorHP.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArmorHP.Location = New System.Drawing.Point(7, 70)
-        Me.lblArmorHP.Name = "lblArmorHP"
-        Me.lblArmorHP.Size = New System.Drawing.Size(28, 13)
-        Me.lblArmorHP.TabIndex = 9
-        Me.lblArmorHP.Text = "0 hp"
-        '
-        'lblArmorKi
-        '
-        Me.lblArmorKi.AutoSize = True
-        Me.lblArmorKi.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArmorKi.Location = New System.Drawing.Point(146, 29)
-        Me.lblArmorKi.Name = "lblArmorKi"
-        Me.lblArmorKi.Size = New System.Drawing.Size(24, 13)
-        Me.lblArmorKi.TabIndex = 8
-        Me.lblArmorKi.Text = "0%"
-        '
-        'lblArmorTh
-        '
-        Me.lblArmorTh.AutoSize = True
-        Me.lblArmorTh.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArmorTh.Location = New System.Drawing.Point(146, 54)
-        Me.lblArmorTh.Name = "lblArmorTh"
-        Me.lblArmorTh.Size = New System.Drawing.Size(24, 13)
-        Me.lblArmorTh.TabIndex = 7
-        Me.lblArmorTh.Text = "0%"
-        '
-        'lblArmorEx
-        '
-        Me.lblArmorEx.AutoSize = True
-        Me.lblArmorEx.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArmorEx.Location = New System.Drawing.Point(80, 54)
-        Me.lblArmorEx.Name = "lblArmorEx"
-        Me.lblArmorEx.Size = New System.Drawing.Size(24, 13)
-        Me.lblArmorEx.TabIndex = 6
-        Me.lblArmorEx.Text = "0%"
-        '
-        'lblArmorEM
-        '
-        Me.lblArmorEM.AutoSize = True
-        Me.lblArmorEM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArmorEM.Location = New System.Drawing.Point(80, 29)
-        Me.lblArmorEM.Name = "lblArmorEM"
-        Me.lblArmorEM.Size = New System.Drawing.Size(24, 13)
-        Me.lblArmorEM.TabIndex = 5
-        Me.lblArmorEM.Text = "0%"
-        '
-        'pbArmorTh
-        '
-        Me.pbArmorTh.Image = CType(resources.GetObject("pbArmorTh.Image"), System.Drawing.Image)
-        Me.pbArmorTh.Location = New System.Drawing.Point(117, 48)
-        Me.pbArmorTh.Name = "pbArmorTh"
-        Me.pbArmorTh.Size = New System.Drawing.Size(32, 32)
-        Me.pbArmorTh.TabIndex = 4
-        Me.pbArmorTh.TabStop = False
-        '
-        'pbArmorKi
-        '
-        Me.pbArmorKi.Image = CType(resources.GetObject("pbArmorKi.Image"), System.Drawing.Image)
-        Me.pbArmorKi.Location = New System.Drawing.Point(117, 19)
-        Me.pbArmorKi.Name = "pbArmorKi"
-        Me.pbArmorKi.Size = New System.Drawing.Size(32, 32)
-        Me.pbArmorKi.TabIndex = 3
-        Me.pbArmorKi.TabStop = False
-        '
-        'pbArmorEx
-        '
-        Me.pbArmorEx.Image = CType(resources.GetObject("pbArmorEx.Image"), System.Drawing.Image)
-        Me.pbArmorEx.Location = New System.Drawing.Point(53, 48)
-        Me.pbArmorEx.Name = "pbArmorEx"
-        Me.pbArmorEx.Size = New System.Drawing.Size(32, 32)
-        Me.pbArmorEx.TabIndex = 2
-        Me.pbArmorEx.TabStop = False
-        '
-        'pbArmorEM
-        '
-        Me.pbArmorEM.Image = CType(resources.GetObject("pbArmorEM.Image"), System.Drawing.Image)
-        Me.pbArmorEM.Location = New System.Drawing.Point(53, 17)
-        Me.pbArmorEM.Name = "pbArmorEM"
-        Me.pbArmorEM.Size = New System.Drawing.Size(32, 32)
-        Me.pbArmorEM.TabIndex = 1
-        Me.pbArmorEM.TabStop = False
-        '
-        'pbArmor
-        '
-        Me.pbArmor.Image = CType(resources.GetObject("pbArmor.Image"), System.Drawing.Image)
-        Me.pbArmor.Location = New System.Drawing.Point(6, 19)
-        Me.pbArmor.Name = "pbArmor"
-        Me.pbArmor.Size = New System.Drawing.Size(48, 48)
-        Me.pbArmor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbArmor.TabIndex = 0
-        Me.pbArmor.TabStop = False
-        '
-        'gbStructure
-        '
-        Me.gbStructure.Controls.Add(Me.lblStructureHP)
-        Me.gbStructure.Controls.Add(Me.lblStructureKi)
-        Me.gbStructure.Controls.Add(Me.lblStructureTh)
-        Me.gbStructure.Controls.Add(Me.lblStructureEx)
-        Me.gbStructure.Controls.Add(Me.lblStructureEM)
-        Me.gbStructure.Controls.Add(Me.pbStructureTh)
-        Me.gbStructure.Controls.Add(Me.pbStructureKi)
-        Me.gbStructure.Controls.Add(Me.pbStructureEx)
-        Me.gbStructure.Controls.Add(Me.pbStructureEM)
-        Me.gbStructure.Controls.Add(Me.pbStructure)
-        Me.gbStructure.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbStructure.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbStructure.Location = New System.Drawing.Point(3, 254)
-        Me.gbStructure.Name = "gbStructure"
-        Me.gbStructure.Size = New System.Drawing.Size(191, 96)
-        Me.gbStructure.TabIndex = 11
-        Me.gbStructure.TabStop = False
-        Me.gbStructure.Text = "Structure"
-        '
-        'lblStructureHP
-        '
-        Me.lblStructureHP.AutoSize = True
-        Me.lblStructureHP.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStructureHP.Location = New System.Drawing.Point(7, 70)
-        Me.lblStructureHP.Name = "lblStructureHP"
-        Me.lblStructureHP.Size = New System.Drawing.Size(28, 13)
-        Me.lblStructureHP.TabIndex = 9
-        Me.lblStructureHP.Text = "0 hp"
-        '
-        'lblStructureKi
-        '
-        Me.lblStructureKi.AutoSize = True
-        Me.lblStructureKi.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStructureKi.Location = New System.Drawing.Point(146, 29)
-        Me.lblStructureKi.Name = "lblStructureKi"
-        Me.lblStructureKi.Size = New System.Drawing.Size(24, 13)
-        Me.lblStructureKi.TabIndex = 8
-        Me.lblStructureKi.Text = "0%"
-        '
-        'lblStructureTh
-        '
-        Me.lblStructureTh.AutoSize = True
-        Me.lblStructureTh.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStructureTh.Location = New System.Drawing.Point(146, 57)
-        Me.lblStructureTh.Name = "lblStructureTh"
-        Me.lblStructureTh.Size = New System.Drawing.Size(24, 13)
-        Me.lblStructureTh.TabIndex = 7
-        Me.lblStructureTh.Text = "0%"
-        '
-        'lblStructureEx
-        '
-        Me.lblStructureEx.AutoSize = True
-        Me.lblStructureEx.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStructureEx.Location = New System.Drawing.Point(80, 57)
-        Me.lblStructureEx.Name = "lblStructureEx"
-        Me.lblStructureEx.Size = New System.Drawing.Size(24, 13)
-        Me.lblStructureEx.TabIndex = 6
-        Me.lblStructureEx.Text = "0%"
-        '
-        'lblStructureEM
-        '
-        Me.lblStructureEM.AutoSize = True
-        Me.lblStructureEM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStructureEM.Location = New System.Drawing.Point(80, 29)
-        Me.lblStructureEM.Name = "lblStructureEM"
-        Me.lblStructureEM.Size = New System.Drawing.Size(24, 13)
-        Me.lblStructureEM.TabIndex = 5
-        Me.lblStructureEM.Text = "0%"
-        '
-        'pbStructureTh
-        '
-        Me.pbStructureTh.Image = CType(resources.GetObject("pbStructureTh.Image"), System.Drawing.Image)
-        Me.pbStructureTh.Location = New System.Drawing.Point(117, 51)
-        Me.pbStructureTh.Name = "pbStructureTh"
-        Me.pbStructureTh.Size = New System.Drawing.Size(32, 32)
-        Me.pbStructureTh.TabIndex = 4
-        Me.pbStructureTh.TabStop = False
-        '
-        'pbStructureKi
-        '
-        Me.pbStructureKi.Image = CType(resources.GetObject("pbStructureKi.Image"), System.Drawing.Image)
-        Me.pbStructureKi.Location = New System.Drawing.Point(117, 20)
-        Me.pbStructureKi.Name = "pbStructureKi"
-        Me.pbStructureKi.Size = New System.Drawing.Size(32, 32)
-        Me.pbStructureKi.TabIndex = 3
-        Me.pbStructureKi.TabStop = False
-        '
-        'pbStructureEx
-        '
-        Me.pbStructureEx.Image = CType(resources.GetObject("pbStructureEx.Image"), System.Drawing.Image)
-        Me.pbStructureEx.Location = New System.Drawing.Point(53, 51)
-        Me.pbStructureEx.Name = "pbStructureEx"
-        Me.pbStructureEx.Size = New System.Drawing.Size(32, 32)
-        Me.pbStructureEx.TabIndex = 2
-        Me.pbStructureEx.TabStop = False
-        '
-        'pbStructureEM
-        '
-        Me.pbStructureEM.Image = CType(resources.GetObject("pbStructureEM.Image"), System.Drawing.Image)
-        Me.pbStructureEM.Location = New System.Drawing.Point(53, 19)
-        Me.pbStructureEM.Name = "pbStructureEM"
-        Me.pbStructureEM.Size = New System.Drawing.Size(32, 32)
-        Me.pbStructureEM.TabIndex = 1
-        Me.pbStructureEM.TabStop = False
-        '
-        'pbStructure
-        '
-        Me.pbStructure.Image = CType(resources.GetObject("pbStructure.Image"), System.Drawing.Image)
-        Me.pbStructure.Location = New System.Drawing.Point(6, 19)
-        Me.pbStructure.Name = "pbStructure"
-        Me.pbStructure.Size = New System.Drawing.Size(48, 48)
-        Me.pbStructure.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbStructure.TabIndex = 0
-        Me.pbStructure.TabStop = False
-        '
-        'gbStorage
-        '
-        Me.gbStorage.Controls.Add(Me.lblDroneBandwidth)
-        Me.gbStorage.Controls.Add(Me.lblDroneBay)
-        Me.gbStorage.Controls.Add(Me.lblCargohold)
-        Me.gbStorage.Controls.Add(Me.pbStorage)
-        Me.gbStorage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbStorage.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbStorage.Location = New System.Drawing.Point(200, 254)
-        Me.gbStorage.Name = "gbStorage"
-        Me.gbStorage.Size = New System.Drawing.Size(194, 75)
-        Me.gbStorage.TabIndex = 14
-        Me.gbStorage.TabStop = False
-        Me.gbStorage.Text = "Storage"
-        '
-        'lblDroneBandwidth
-        '
-        Me.lblDroneBandwidth.AutoSize = True
-        Me.lblDroneBandwidth.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDroneBandwidth.Location = New System.Drawing.Point(57, 54)
-        Me.lblDroneBandwidth.Name = "lblDroneBandwidth"
-        Me.lblDroneBandwidth.Size = New System.Drawing.Size(96, 13)
-        Me.lblDroneBandwidth.TabIndex = 7
-        Me.lblDroneBandwidth.Text = "Bandwidth: 0 Mb/s"
-        '
-        'lblDroneBay
-        '
-        Me.lblDroneBay.AutoSize = True
-        Me.lblDroneBay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDroneBay.Location = New System.Drawing.Point(57, 36)
-        Me.lblDroneBay.Name = "lblDroneBay"
-        Me.lblDroneBay.Size = New System.Drawing.Size(87, 13)
-        Me.lblDroneBay.TabIndex = 6
-        Me.lblDroneBay.Text = "Drone Bay: 0 m3"
-        '
-        'lblCargohold
-        '
-        Me.lblCargohold.AutoSize = True
-        Me.lblCargohold.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCargohold.Location = New System.Drawing.Point(57, 18)
-        Me.lblCargohold.Name = "lblCargohold"
-        Me.lblCargohold.Size = New System.Drawing.Size(66, 13)
-        Me.lblCargohold.TabIndex = 5
-        Me.lblCargohold.Text = "Cargo: 0 m3"
-        '
-        'pbStorage
-        '
-        Me.pbStorage.Image = CType(resources.GetObject("pbStorage.Image"), System.Drawing.Image)
-        Me.pbStorage.Location = New System.Drawing.Point(6, 19)
-        Me.pbStorage.Name = "pbStorage"
-        Me.pbStorage.Size = New System.Drawing.Size(48, 48)
-        Me.pbStorage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbStorage.TabIndex = 0
-        Me.pbStorage.TabStop = False
-        '
-        'gbCapacitor
-        '
-        Me.gbCapacitor.Controls.Add(Me.lblCapRecharge)
-        Me.gbCapacitor.Controls.Add(Me.lblCapacitor)
-        Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
-        Me.gbCapacitor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCapacitor.Location = New System.Drawing.Point(3, 356)
-        Me.gbCapacitor.Name = "gbCapacitor"
-        Me.gbCapacitor.Size = New System.Drawing.Size(191, 75)
-        Me.gbCapacitor.TabIndex = 12
-        Me.gbCapacitor.TabStop = False
-        Me.gbCapacitor.Text = "Capacitor"
-        '
-        'lblCapRecharge
-        '
-        Me.lblCapRecharge.AutoSize = True
-        Me.lblCapRecharge.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCapRecharge.Location = New System.Drawing.Point(60, 45)
-        Me.lblCapRecharge.Name = "lblCapRecharge"
-        Me.lblCapRecharge.Size = New System.Drawing.Size(97, 13)
-        Me.lblCapRecharge.TabIndex = 6
-        Me.lblCapRecharge.Text = "Recharge Rate: 0s"
-        '
-        'lblCapacitor
-        '
-        Me.lblCapacitor.AutoSize = True
-        Me.lblCapacitor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCapacitor.Location = New System.Drawing.Point(60, 25)
-        Me.lblCapacitor.Name = "lblCapacitor"
-        Me.lblCapacitor.Size = New System.Drawing.Size(66, 13)
-        Me.lblCapacitor.TabIndex = 5
-        Me.lblCapacitor.Text = "Capacitor: 0"
-        '
-        'pbCapacitor
-        '
-        Me.pbCapacitor.Image = CType(resources.GetObject("pbCapacitor.Image"), System.Drawing.Image)
-        Me.pbCapacitor.Location = New System.Drawing.Point(6, 19)
-        Me.pbCapacitor.Name = "pbCapacitor"
-        Me.pbCapacitor.Size = New System.Drawing.Size(48, 48)
-        Me.pbCapacitor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbCapacitor.TabIndex = 0
-        Me.pbCapacitor.TabStop = False
-        '
-        'gbSpeed
-        '
-        Me.gbSpeed.Controls.Add(Me.lblWarpSpeed)
-        Me.gbSpeed.Controls.Add(Me.lblInertia)
-        Me.gbSpeed.Controls.Add(Me.lblSpeed)
-        Me.gbSpeed.Controls.Add(Me.pbSpeed)
-        Me.gbSpeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbSpeed.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbSpeed.Location = New System.Drawing.Point(200, 356)
-        Me.gbSpeed.Name = "gbSpeed"
-        Me.gbSpeed.Size = New System.Drawing.Size(222, 75)
-        Me.gbSpeed.TabIndex = 13
-        Me.gbSpeed.TabStop = False
-        Me.gbSpeed.Text = "Speed && Inertia"
-        '
-        'lblWarpSpeed
-        '
-        Me.lblWarpSpeed.AutoSize = True
-        Me.lblWarpSpeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblWarpSpeed.Location = New System.Drawing.Point(60, 54)
-        Me.lblWarpSpeed.Name = "lblWarpSpeed"
-        Me.lblWarpSpeed.Size = New System.Drawing.Size(79, 13)
-        Me.lblWarpSpeed.TabIndex = 7
-        Me.lblWarpSpeed.Text = "Warp Speed: 0"
-        '
-        'lblInertia
-        '
-        Me.lblInertia.AutoSize = True
-        Me.lblInertia.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblInertia.Location = New System.Drawing.Point(60, 36)
-        Me.lblInertia.Name = "lblInertia"
-        Me.lblInertia.Size = New System.Drawing.Size(52, 13)
-        Me.lblInertia.TabIndex = 6
-        Me.lblInertia.Text = "Inertia: 0"
-        '
-        'lblSpeed
-        '
-        Me.lblSpeed.AutoSize = True
-        Me.lblSpeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSpeed.Location = New System.Drawing.Point(60, 19)
-        Me.lblSpeed.Name = "lblSpeed"
-        Me.lblSpeed.Size = New System.Drawing.Size(100, 13)
-        Me.lblSpeed.TabIndex = 5
-        Me.lblSpeed.Text = "Max Velocity: 0 m/s"
-        '
-        'pbSpeed
-        '
-        Me.pbSpeed.Image = CType(resources.GetObject("pbSpeed.Image"), System.Drawing.Image)
-        Me.pbSpeed.Location = New System.Drawing.Point(6, 19)
-        Me.pbSpeed.Name = "pbSpeed"
-        Me.pbSpeed.Size = New System.Drawing.Size(48, 48)
-        Me.pbSpeed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbSpeed.TabIndex = 0
-        Me.pbSpeed.TabStop = False
-        '
-        'pbShip
-        '
-        Me.pbShip.Location = New System.Drawing.Point(0, 40)
-        Me.pbShip.Name = "pbShip"
-        Me.pbShip.Size = New System.Drawing.Size(128, 128)
-        Me.pbShip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbShip.TabIndex = 0
-        Me.pbShip.TabStop = False
-        '
-        'txtShipDescription
-        '
-        Me.txtShipDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtShipDescription.BackColor = System.Drawing.SystemColors.Control
-        Me.txtShipDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtShipDescription.Cursor = System.Windows.Forms.Cursors.Default
-        Me.txtShipDescription.Location = New System.Drawing.Point(134, 40)
-        Me.txtShipDescription.Name = "txtShipDescription"
-        Me.txtShipDescription.ReadOnly = True
-        Me.txtShipDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
-        Me.txtShipDescription.Size = New System.Drawing.Size(441, 128)
-        Me.txtShipDescription.TabIndex = 17
-        Me.txtShipDescription.Text = "Ship Description"
-        '
-        'tabFit
-        '
-        Me.tabFit.Controls.Add(Me.panelShipSlot)
-        Me.tabFit.Controls.Add(Me.panelShipInfo)
-        Me.tabFit.Location = New System.Drawing.Point(4, 22)
-        Me.tabFit.Name = "tabFit"
-        Me.tabFit.Size = New System.Drawing.Size(584, 670)
-        Me.tabFit.TabIndex = 2
-        Me.tabFit.Text = "Fitting"
-        Me.tabFit.UseVisualStyleBackColor = True
-        '
-        'panelShipSlot
-        '
-        Me.panelShipSlot.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelShipSlot.Location = New System.Drawing.Point(0, 0)
-        Me.panelShipSlot.Name = "panelShipSlot"
-        Me.panelShipSlot.Size = New System.Drawing.Size(334, 670)
-        Me.panelShipSlot.TabIndex = 1
-        '
-        'panelShipInfo
-        '
-        Me.panelShipInfo.Dock = System.Windows.Forms.DockStyle.Right
-        Me.panelShipInfo.Location = New System.Drawing.Point(334, 0)
-        Me.panelShipInfo.Name = "panelShipInfo"
-        Me.panelShipInfo.Size = New System.Drawing.Size(250, 670)
-        Me.panelShipInfo.TabIndex = 0
-        '
-        'CollapsibleSplitter1
-        '
-        Me.CollapsibleSplitter1.AnimationDelay = 20
-        Me.CollapsibleSplitter1.AnimationStep = 20
-        Me.CollapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat
-        Me.CollapsibleSplitter1.ControlToHide = Me.SplitContainerShip
-        Me.CollapsibleSplitter1.ExpandParentForm = False
-        Me.CollapsibleSplitter1.Location = New System.Drawing.Point(200, 25)
-        Me.CollapsibleSplitter1.Name = "CollapsibleSplitter1"
-        Me.CollapsibleSplitter1.TabIndex = 9
-        Me.CollapsibleSplitter1.TabStop = False
-        Me.CollapsibleSplitter1.UseAnimations = False
-        Me.CollapsibleSplitter1.VisualStyle = NJFLib.Controls.VisualStyles.XP
-        '
-        'CollapsibleSplitter2
-        '
-        Me.CollapsibleSplitter2.AnimationDelay = 20
-        Me.CollapsibleSplitter2.AnimationStep = 20
-        Me.CollapsibleSplitter2.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat
-        Me.CollapsibleSplitter2.ControlToHide = Me.SplitContainerMod
-        Me.CollapsibleSplitter2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.CollapsibleSplitter2.ExpandParentForm = False
-        Me.CollapsibleSplitter2.Location = New System.Drawing.Point(800, 25)
-        Me.CollapsibleSplitter2.Name = "CollapsibleSplitter2"
-        Me.CollapsibleSplitter2.TabIndex = 10
-        Me.CollapsibleSplitter2.TabStop = False
-        Me.CollapsibleSplitter2.UseAnimations = False
-        Me.CollapsibleSplitter2.VisualStyle = NJFLib.Controls.VisualStyles.XP
+        Me.tabHQF.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.tabHQF.SelectedTabIndex = -1
+        Me.tabHQF.Size = New System.Drawing.Size(799, 584)
+        Me.tabHQF.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
+        Me.tabHQF.TabIndex = 25
+        Me.tabHQF.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.MultilineNoNavigationBox
+        Me.tabHQF.Text = "HQF!"
+        '
+        'rbmc1
+        '
+        Me.rbmc1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.rbmc1.Controls.Add(Me.rbEditor)
+        Me.rbmc1.Controls.Add(Me.rbImport)
+        Me.rbmc1.Controls.Add(Me.rbExport)
+        Me.rbmc1.Controls.Add(Me.rbTools)
+        Me.rbmc1.Controls.Add(Me.rbOptions)
+        Me.rbmc1.Location = New System.Drawing.Point(240, 12)
+        Me.rbmc1.Name = "rbmc1"
+        Me.rbmc1.RibbonTabText = "HQF"
+        Me.rbmc1.Size = New System.Drawing.Size(802, 100)
+        '
+        '
+        '
+        Me.rbmc1.Style.Class = ""
+        Me.rbmc1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbmc1.StyleMouseDown.Class = ""
+        Me.rbmc1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbmc1.StyleMouseOver.Class = ""
+        Me.rbmc1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbmc1.TabIndex = 1
+        Me.rbmc1.Visible = False
+        '
+        'rbEditor
+        '
+        Me.rbEditor.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbEditor.BackgroundMouseOverStyle.Class = ""
+        Me.rbEditor.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbEditor.BackgroundStyle.Class = ""
+        Me.rbEditor.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbEditor.ContainerControlProcessDialogKey = True
+        Me.rbEditor.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEditor})
+        Me.rbEditor.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbEditor.Location = New System.Drawing.Point(680, 0)
+        Me.rbEditor.Name = "rbEditor"
+        Me.rbEditor.Size = New System.Drawing.Size(65, 100)
+        Me.rbEditor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbEditor.TabIndex = 5
+        Me.rbEditor.Text = "Editor"
+        '
+        '
+        '
+        Me.rbEditor.TitleStyle.Class = ""
+        Me.rbEditor.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbEditor.TitleStyleMouseOver.Class = ""
+        Me.rbEditor.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnEditor
+        '
+        Me.btnEditor.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnEditor.Image = CType(resources.GetObject("btnEditor.Image"), System.Drawing.Image)
+        Me.btnEditor.ImageFixedSize = New System.Drawing.Size(48, 48)
+        Me.btnEditor.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnEditor.Name = "btnEditor"
+        Me.btnEditor.SubItemsExpandWidth = 14
+        Me.btnEditor.Text = "HQF Editor"
+        '
+        'rbImport
+        '
+        Me.rbImport.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbImport.BackgroundMouseOverStyle.Class = ""
+        Me.rbImport.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbImport.BackgroundStyle.Class = ""
+        Me.rbImport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbImport.ContainerControlProcessDialogKey = True
+        Me.rbImport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnImport})
+        Me.rbImport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbImport.Location = New System.Drawing.Point(485, 0)
+        Me.rbImport.Name = "rbImport"
+        Me.rbImport.Size = New System.Drawing.Size(193, 100)
+        Me.rbImport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbImport.TabIndex = 3
+        Me.rbImport.Text = "Import"
+        '
+        '
+        '
+        Me.rbImport.TitleStyle.Class = ""
+        Me.rbImport.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbImport.TitleStyleMouseOver.Class = ""
+        Me.rbImport.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbImport.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+        '
+        'ItemContainer2
+        '
+        '
+        '
+        '
+        Me.ItemContainer2.BackgroundStyle.Class = ""
+        Me.ItemContainer2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer2.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
+        Me.ItemContainer2.Name = "ItemContainer2"
+        Me.ItemContainer2.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnImportEve, Me.btnImportEFT})
+        '
+        'btnImportEve
+        '
+        Me.btnImportEve.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnImportEve.Image = CType(resources.GetObject("btnImportEve.Image"), System.Drawing.Image)
+        Me.btnImportEve.ImageFixedSize = New System.Drawing.Size(30, 30)
+        Me.btnImportEve.Name = "btnImportEve"
+        Me.btnImportEve.Text = "Import Eve Fittings"
+        '
+        'btnImportEFT
+        '
+        Me.btnImportEFT.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnImportEFT.Image = CType(resources.GetObject("btnImportEFT.Image"), System.Drawing.Image)
+        Me.btnImportEFT.ImageFixedSize = New System.Drawing.Size(30, 30)
+        Me.btnImportEFT.Name = "btnImportEFT"
+        Me.btnImportEFT.Text = "Import From EFT"
+        '
+        'btnImport
+        '
+        Me.btnImport.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnImport.Enabled = False
+        Me.btnImport.Image = CType(resources.GetObject("btnImport.Image"), System.Drawing.Image)
+        Me.btnImport.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnImport.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.SubItemsExpandWidth = 14
+        Me.btnImport.Text = "Clipboard Import"
+        '
+        'rbExport
+        '
+        Me.rbExport.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbExport.BackgroundMouseOverStyle.Class = ""
+        Me.rbExport.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbExport.BackgroundStyle.Class = ""
+        Me.rbExport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbExport.ContainerControlProcessDialogKey = True
+        Me.rbExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnScreenGrab, Me.btnExportEve, Me.ItemContainer1, Me.btnExportReq})
+        Me.rbExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbExport.Location = New System.Drawing.Point(179, 0)
+        Me.rbExport.Name = "rbExport"
+        Me.rbExport.Size = New System.Drawing.Size(304, 100)
+        Me.rbExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbExport.TabIndex = 2
+        Me.rbExport.Text = "Current Fitting Export"
+        '
+        '
+        '
+        Me.rbExport.TitleStyle.Class = ""
+        Me.rbExport.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbExport.TitleStyleMouseOver.Class = ""
+        Me.rbExport.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbExport.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+        '
+        'btnScreenGrab
+        '
+        Me.btnScreenGrab.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnScreenGrab.Enabled = False
+        Me.btnScreenGrab.Image = CType(resources.GetObject("btnScreenGrab.Image"), System.Drawing.Image)
+        Me.btnScreenGrab.ImageFixedSize = New System.Drawing.Size(48, 48)
+        Me.btnScreenGrab.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnScreenGrab.Name = "btnScreenGrab"
+        Me.btnScreenGrab.SubItemsExpandWidth = 14
+        Me.btnScreenGrab.Text = "Screenshot"
+        '
+        'btnExportEve
+        '
+        Me.btnExportEve.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnExportEve.Enabled = False
+        Me.btnExportEve.Image = CType(resources.GetObject("btnExportEve.Image"), System.Drawing.Image)
+        Me.btnExportEve.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnExportEve.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnExportEve.Name = "btnExportEve"
+        Me.btnExportEve.SubItemsExpandWidth = 14
+        Me.btnExportEve.Text = "Export to Eve"
+        '
+        'ItemContainer1
+        '
+        '
+        '
+        '
+        Me.ItemContainer1.BackgroundStyle.BorderLeftColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ItemContainer1.BackgroundStyle.BorderLeftWidth = 1
+        Me.ItemContainer1.BackgroundStyle.Class = ""
+        Me.ItemContainer1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer1.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
+        Me.ItemContainer1.Name = "ItemContainer1"
+        Me.ItemContainer1.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnExportFitting, Me.btnExportDetails})
+        '
+        'btnExportFitting
+        '
+        Me.btnExportFitting.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnExportFitting.Enabled = False
+        Me.btnExportFitting.Image = CType(resources.GetObject("btnExportFitting.Image"), System.Drawing.Image)
+        Me.btnExportFitting.ImageFixedSize = New System.Drawing.Size(30, 30)
+        Me.btnExportFitting.Name = "btnExportFitting"
+        Me.btnExportFitting.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnExportHQF, Me.btnExportEFT, Me.btnExportForums})
+        Me.btnExportFitting.Text = "Export Fitting"
+        '
+        'btnExportHQF
+        '
+        Me.btnExportHQF.Name = "btnExportHQF"
+        Me.btnExportHQF.Text = "Copy For HQF"
+        '
+        'btnExportEFT
+        '
+        Me.btnExportEFT.Name = "btnExportEFT"
+        Me.btnExportEFT.Text = "Export for EFT"
+        '
+        'btnExportForums
+        '
+        Me.btnExportForums.Name = "btnExportForums"
+        Me.btnExportForums.Text = "Export for Forums"
+        '
+        'btnExportDetails
+        '
+        Me.btnExportDetails.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnExportDetails.Enabled = False
+        Me.btnExportDetails.Image = CType(resources.GetObject("btnExportDetails.Image"), System.Drawing.Image)
+        Me.btnExportDetails.ImageFixedSize = New System.Drawing.Size(30, 30)
+        Me.btnExportDetails.Name = "btnExportDetails"
+        Me.btnExportDetails.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnExportStats, Me.btnExportImplants})
+        Me.btnExportDetails.Text = "Export Details"
+        '
+        'btnExportStats
+        '
+        Me.btnExportStats.Name = "btnExportStats"
+        Me.btnExportStats.Text = "Copy Ship Statistics"
+        '
+        'btnExportImplants
+        '
+        Me.btnExportImplants.Name = "btnExportImplants"
+        Me.btnExportImplants.Text = "Copy Implant Details"
+        '
+        'btnExportReq
+        '
+        Me.btnExportReq.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnExportReq.Enabled = False
+        Me.btnExportReq.Image = CType(resources.GetObject("btnExportReq.Image"), System.Drawing.Image)
+        Me.btnExportReq.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnExportReq.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnExportReq.Name = "btnExportReq"
+        Me.btnExportReq.SubItemsExpandWidth = 14
+        Me.btnExportReq.Text = "Export To Requisition"
+        '
+        'rbTools
+        '
+        Me.rbTools.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbTools.BackgroundMouseOverStyle.Class = ""
+        Me.rbTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbTools.BackgroundStyle.Class = ""
+        Me.rbTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbTools.ContainerControlProcessDialogKey = True
+        Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnPilotManager, Me.btnImplantManager})
+        Me.rbTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbTools.Location = New System.Drawing.Point(67, 0)
+        Me.rbTools.Name = "rbTools"
+        Me.rbTools.Size = New System.Drawing.Size(110, 100)
+        Me.rbTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbTools.TabIndex = 1
+        Me.rbTools.Text = "Tools"
+        '
+        '
+        '
+        Me.rbTools.TitleStyle.Class = ""
+        Me.rbTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbTools.TitleStyleMouseOver.Class = ""
+        Me.rbTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbTools.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+        '
+        'btnPilotManager
+        '
+        Me.btnPilotManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnPilotManager.Enabled = False
+        Me.btnPilotManager.Image = CType(resources.GetObject("btnPilotManager.Image"), System.Drawing.Image)
+        Me.btnPilotManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnPilotManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnPilotManager.Name = "btnPilotManager"
+        Me.btnPilotManager.Stretch = True
+        Me.btnPilotManager.SubItemsExpandWidth = 14
+        Me.btnPilotManager.Text = "Pilot Manager"
+        '
+        'btnImplantManager
+        '
+        Me.btnImplantManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnImplantManager.Enabled = False
+        Me.btnImplantManager.Image = CType(resources.GetObject("btnImplantManager.Image"), System.Drawing.Image)
+        Me.btnImplantManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnImplantManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnImplantManager.Name = "btnImplantManager"
+        Me.btnImplantManager.Stretch = True
+        Me.btnImplantManager.SubItemsExpandWidth = 14
+        Me.btnImplantManager.Text = "Implant Manager"
+        '
+        'rbOptions
+        '
+        Me.rbOptions.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbOptions.BackgroundMouseOverStyle.Class = ""
+        Me.rbOptions.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbOptions.BackgroundStyle.Class = ""
+        Me.rbOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbOptions.ContainerControlProcessDialogKey = True
+        Me.rbOptions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOptions})
+        Me.rbOptions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbOptions.Location = New System.Drawing.Point(0, 0)
+        Me.rbOptions.Name = "rbOptions"
+        Me.rbOptions.Size = New System.Drawing.Size(65, 100)
+        Me.rbOptions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbOptions.TabIndex = 0
+        Me.rbOptions.Text = "Options"
+        '
+        '
+        '
+        Me.rbOptions.TitleStyle.Class = ""
+        Me.rbOptions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbOptions.TitleStyleMouseOver.Class = ""
+        Me.rbOptions.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbOptions.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+        '
+        'btnOptions
+        '
+        Me.btnOptions.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnOptions.Image = CType(resources.GetObject("btnOptions.Image"), System.Drawing.Image)
+        Me.btnOptions.ImageFixedSize = New System.Drawing.Size(48, 48)
+        Me.btnOptions.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnOptions.Name = "btnOptions"
+        Me.btnOptions.SubItemsExpandWidth = 14
+        Me.btnOptions.Text = "Options"
+        '
+        'SuperTooltip1
+        '
+        Me.SuperTooltip1.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.SuperTooltip1.PositionBelowControl = False
         '
         'frmHQF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1099, 721)
+        Me.ClientSize = New System.Drawing.Size(1284, 721)
         Me.Controls.Add(Me.tabHQF)
-        Me.Controls.Add(Me.CollapsibleSplitter2)
-        Me.Controls.Add(Me.CollapsibleSplitter1)
-        Me.Controls.Add(Me.SplitContainerMod)
-        Me.Controls.Add(Me.SplitContainerShip)
-        Me.Controls.Add(Me.ToolStrip1)
+        Me.Controls.Add(Me.rbmc1)
+        Me.Controls.Add(Me.SplitterShips)
+        Me.Controls.Add(Me.panelShips)
+        Me.Controls.Add(Me.SplitterModules)
+        Me.Controls.Add(Me.panelModules)
+        Me.DoubleBuffered = True
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.KeyPreview = True
         Me.Name = "frmHQF"
         Me.Text = "EveHQ Fitter"
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        Me.SplitContainerShip.Panel1.ResumeLayout(False)
-        Me.SplitContainerShip.Panel2.ResumeLayout(False)
-        Me.SplitContainerShip.Panel2.PerformLayout()
-        Me.SplitContainerShip.ResumeLayout(False)
         Me.ctxFittings.ResumeLayout(False)
-        CType(Me.pbSearchShips, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.tvwShips, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxShipBrowser.ResumeLayout(False)
-        Me.SplitContainerMod.Panel1.ResumeLayout(False)
-        Me.SplitContainerMod.Panel1.PerformLayout()
-        Me.SplitContainerMod.Panel2.ResumeLayout(False)
-        Me.SplitContainerMod.Panel2.PerformLayout()
-        Me.SplitContainerMod.ResumeLayout(False)
+        CType(Me.pbSearchShips, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxModuleList.ResumeLayout(False)
-        Me.ctxTabHQF.ResumeLayout(False)
-        Me.tabHQF.ResumeLayout(False)
-        Me.tabShipPreview.ResumeLayout(False)
-        Me.panelPreview.ResumeLayout(False)
-        Me.FlowLayoutPanel1.ResumeLayout(False)
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        CType(Me.pbLauncherSlot, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbTurretSlot, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbRigSlot, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbHiSlot, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbMedSlot, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbLowSlot, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbFitting.ResumeLayout(False)
-        Me.gbFitting.PerformLayout()
-        CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbShield.ResumeLayout(False)
-        Me.gbShield.PerformLayout()
-        CType(Me.pbShieldTh, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldKi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldEx, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShield, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbArmor.ResumeLayout(False)
-        Me.gbArmor.PerformLayout()
-        CType(Me.pbArmorTh, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmorKi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmorEx, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmorEM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmor, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbStructure.ResumeLayout(False)
-        Me.gbStructure.PerformLayout()
-        CType(Me.pbStructureTh, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructureKi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructureEx, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructureEM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructure, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbStorage.ResumeLayout(False)
-        Me.gbStorage.PerformLayout()
-        CType(Me.pbStorage, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbCapacitor.ResumeLayout(False)
-        Me.gbCapacitor.PerformLayout()
-        CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbSpeed.ResumeLayout(False)
-        Me.gbSpeed.PerformLayout()
-        CType(Me.pbSpeed, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShip, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tabFit.ResumeLayout(False)
+        Me.panelModules.ResumeLayout(False)
+        Me.panelModuleList.ResumeLayout(False)
+        Me.panelModuleList.PerformLayout()
+        CType(Me.tvwModules, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.panelModFilters.ResumeLayout(False)
+        Me.panelModFilters.PerformLayout()
+        CType(Me.tvwItems, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.panelShips.ResumeLayout(False)
+        Me.panelFittings.ResumeLayout(False)
+        Me.panelFittings.PerformLayout()
+        CType(Me.tvwFittings, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.tabHQF, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rbmc1.ResumeLayout(False)
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
-    Friend WithEvents SplitContainerShip As System.Windows.Forms.SplitContainer
-    Friend WithEvents SplitContainerMod As System.Windows.Forms.SplitContainer
-    Friend WithEvents tvwShips As System.Windows.Forms.TreeView
-    Friend WithEvents tsbOptions As System.Windows.Forms.ToolStripButton
-    Friend WithEvents tvwItems As System.Windows.Forms.TreeView
-    Friend WithEvents lvwItems As EveHQ.HQF.ListViewNoFlicker
-    Friend WithEvents ToolStripButton3 As System.Windows.Forms.ToolStripButton
     Friend WithEvents chkFilter1 As System.Windows.Forms.CheckBox
     Friend WithEvents chkFilter32 As System.Windows.Forms.CheckBox
     Friend WithEvents chkFilter16 As System.Windows.Forms.CheckBox
     Friend WithEvents chkFilter8 As System.Windows.Forms.CheckBox
     Friend WithEvents chkFilter4 As System.Windows.Forms.CheckBox
     Friend WithEvents chkFilter2 As System.Windows.Forms.CheckBox
-    Friend WithEvents colModuleName As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colModuleCPU As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colModulePG As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblSearchModules As System.Windows.Forms.Label
     Friend WithEvents txtSearchModules As System.Windows.Forms.TextBox
     Friend WithEvents ctxShipBrowser As System.Windows.Forms.ContextMenuStrip
@@ -1998,9 +1468,6 @@ Partial Class frmHQF
     Friend WithEvents mnuPreviewShip As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ctxModuleList As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuShowModuleInfo As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ctxTabHQF As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents mnuCloseHQFTab As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents btnClipboardPaste As System.Windows.Forms.ToolStripButton
     Friend WithEvents tmrClipboard As System.Windows.Forms.Timer
     Friend WithEvents ctxFittings As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuFittingsShowFitting As System.Windows.Forms.ToolStripMenuItem
@@ -2014,8 +1481,6 @@ Partial Class frmHQF
     Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuPreviewShip2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents btnPilotManager As System.Windows.Forms.ToolStripButton
-    Friend WithEvents colModuleMetaType As System.Windows.Forms.ColumnHeader
     Friend WithEvents chkOnlyShowUsable As System.Windows.Forms.CheckBox
     Friend WithEvents chkApplySkills As System.Windows.Forms.CheckBox
     Friend WithEvents mnuSep1 As System.Windows.Forms.ToolStripSeparator
@@ -2026,121 +1491,72 @@ Partial Class frmHQF
     Friend WithEvents mnuShowModuleMarketGroup As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents txtShipSearch As System.Windows.Forms.TextBox
     Friend WithEvents btnResetShips As System.Windows.Forms.Button
-    Friend WithEvents cboFittings As System.Windows.Forms.ToolStripComboBox
-    Friend WithEvents btnCopy As System.Windows.Forms.ToolStripSplitButton
-    Friend WithEvents mnuCopyForHQF As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuCopyForEFT As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuCopyForForums As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tabHQF As System.Windows.Forms.TabControl
-    Friend WithEvents tabShipPreview As System.Windows.Forms.TabPage
-    Friend WithEvents FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents lblLauncherSlots As System.Windows.Forms.Label
-    Friend WithEvents lblTurretSlots As System.Windows.Forms.Label
-    Friend WithEvents lblRigSlots As System.Windows.Forms.Label
-    Friend WithEvents pbLauncherSlot As System.Windows.Forms.PictureBox
-    Friend WithEvents pbTurretSlot As System.Windows.Forms.PictureBox
-    Friend WithEvents pbRigSlot As System.Windows.Forms.PictureBox
-    Friend WithEvents lblHiSlots As System.Windows.Forms.Label
-    Friend WithEvents lblMedSlots As System.Windows.Forms.Label
-    Friend WithEvents lblLowSlots As System.Windows.Forms.Label
-    Friend WithEvents pbHiSlot As System.Windows.Forms.PictureBox
-    Friend WithEvents pbMedSlot As System.Windows.Forms.PictureBox
-    Friend WithEvents pbLowSlot As System.Windows.Forms.PictureBox
-    Friend WithEvents gbShield As System.Windows.Forms.GroupBox
-    Friend WithEvents lblShieldRecharge As System.Windows.Forms.Label
-    Friend WithEvents lblShieldHP As System.Windows.Forms.Label
-    Friend WithEvents lblShieldKi As System.Windows.Forms.Label
-    Friend WithEvents lblShieldTh As System.Windows.Forms.Label
-    Friend WithEvents lblShieldEx As System.Windows.Forms.Label
-    Friend WithEvents lblShieldEM As System.Windows.Forms.Label
-    Friend WithEvents pbShieldTh As System.Windows.Forms.PictureBox
-    Friend WithEvents pbShieldKi As System.Windows.Forms.PictureBox
-    Friend WithEvents pbShieldEx As System.Windows.Forms.PictureBox
-    Friend WithEvents pbShieldEM As System.Windows.Forms.PictureBox
-    Friend WithEvents pbShield As System.Windows.Forms.PictureBox
-    Friend WithEvents gbArmor As System.Windows.Forms.GroupBox
-    Friend WithEvents lblArmorHP As System.Windows.Forms.Label
-    Friend WithEvents lblArmorKi As System.Windows.Forms.Label
-    Friend WithEvents lblArmorTh As System.Windows.Forms.Label
-    Friend WithEvents lblArmorEx As System.Windows.Forms.Label
-    Friend WithEvents lblArmorEM As System.Windows.Forms.Label
-    Friend WithEvents pbArmorTh As System.Windows.Forms.PictureBox
-    Friend WithEvents pbArmorKi As System.Windows.Forms.PictureBox
-    Friend WithEvents pbArmorEx As System.Windows.Forms.PictureBox
-    Friend WithEvents pbArmorEM As System.Windows.Forms.PictureBox
-    Friend WithEvents pbArmor As System.Windows.Forms.PictureBox
-    Friend WithEvents gbStructure As System.Windows.Forms.GroupBox
-    Friend WithEvents lblStructureHP As System.Windows.Forms.Label
-    Friend WithEvents lblStructureKi As System.Windows.Forms.Label
-    Friend WithEvents lblStructureTh As System.Windows.Forms.Label
-    Friend WithEvents lblStructureEx As System.Windows.Forms.Label
-    Friend WithEvents lblStructureEM As System.Windows.Forms.Label
-    Friend WithEvents pbStructureTh As System.Windows.Forms.PictureBox
-    Friend WithEvents pbStructureKi As System.Windows.Forms.PictureBox
-    Friend WithEvents pbStructureEx As System.Windows.Forms.PictureBox
-    Friend WithEvents pbStructureEM As System.Windows.Forms.PictureBox
-    Friend WithEvents pbStructure As System.Windows.Forms.PictureBox
-    Friend WithEvents gbStorage As System.Windows.Forms.GroupBox
-    Friend WithEvents lblDroneBay As System.Windows.Forms.Label
-    Friend WithEvents lblCargohold As System.Windows.Forms.Label
-    Friend WithEvents pbStorage As System.Windows.Forms.PictureBox
-    Friend WithEvents gbFitting As System.Windows.Forms.GroupBox
-    Friend WithEvents lblCalibration As System.Windows.Forms.Label
-    Friend WithEvents lblPG As System.Windows.Forms.Label
-    Friend WithEvents lblCPU As System.Windows.Forms.Label
-    Friend WithEvents pbCalibration As System.Windows.Forms.PictureBox
-    Friend WithEvents pbPG As System.Windows.Forms.PictureBox
-    Friend WithEvents pbCPU As System.Windows.Forms.PictureBox
-    Friend WithEvents gbCapacitor As System.Windows.Forms.GroupBox
-    Friend WithEvents lblCapRecharge As System.Windows.Forms.Label
-    Friend WithEvents lblCapacitor As System.Windows.Forms.Label
-    Friend WithEvents pbCapacitor As System.Windows.Forms.PictureBox
-    Friend WithEvents gbSpeed As System.Windows.Forms.GroupBox
-    Friend WithEvents lblWarpSpeed As System.Windows.Forms.Label
-    Friend WithEvents lblInertia As System.Windows.Forms.Label
-    Friend WithEvents lblSpeed As System.Windows.Forms.Label
-    Friend WithEvents pbSpeed As System.Windows.Forms.PictureBox
-    Friend WithEvents txtShipDescription As System.Windows.Forms.RichTextBox
-    Friend WithEvents lblShipType As System.Windows.Forms.Label
-    Friend WithEvents pbShip As System.Windows.Forms.PictureBox
-    Friend WithEvents tabFit As System.Windows.Forms.TabPage
-    Friend WithEvents panelShipSlot As System.Windows.Forms.Panel
-    Friend WithEvents panelShipInfo As System.Windows.Forms.Panel
     Friend WithEvents chkOnlyShowFittable As System.Windows.Forms.CheckBox
-    Friend WithEvents btnScreenshot As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents pbSearchShips As System.Windows.Forms.PictureBox
-    Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents mnuShipStats As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents clvFittings As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents mnuCompareFittings As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents panelPreview As System.Windows.Forms.Panel
-    Friend WithEvents lblDroneBandwidth As System.Windows.Forms.Label
     Friend WithEvents mnuBattleClinicBrowser As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuFittingsBCBrowser As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuExportToEve As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents btnImportFittings As System.Windows.Forms.ToolStripSplitButton
-    Friend WithEvents mnuImportEveFittings As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuImportEFTFittings As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblFlyable As System.Windows.Forms.Label
     Friend WithEvents cboFlyable As System.Windows.Forms.ComboBox
     Friend WithEvents chkFilter8192 As System.Windows.Forms.CheckBox
     Friend WithEvents mnuAddToShipBay As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tsbFleetManager As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuShowMetaVariations As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CollapsibleSplitter1 As NJFLib.Controls.CollapsibleSplitter
-    Friend WithEvents CollapsibleSplitter2 As NJFLib.Controls.CollapsibleSplitter
-    Friend WithEvents mnuCopyImplants As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem8 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents mnuMainExportToEve As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents colModulePrice As System.Windows.Forms.ColumnHeader
+    Friend WithEvents tvwShips As DevComponents.AdvTree.AdvTree
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents panelModules As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents SplitterModules As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents SplitterMods As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents panelModFilters As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents panelShips As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents SplitterFittings As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents panelFittings As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents SplitterShips As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents tabHQF As DevComponents.DotNetBar.TabControl
+    Friend WithEvents rbmc1 As DevComponents.DotNetBar.RibbonBarMergeContainer
+    Friend WithEvents rbOptions As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnOptions As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbTools As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnPilotManager As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnImplantManager As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbExport As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnScreenGrab As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents ItemContainer1 As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents btnExportFitting As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExportHQF As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExportEFT As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExportForums As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExportDetails As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExportStats As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExportImplants As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExportEve As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbImport As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents ItemContainer2 As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents btnImportEve As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnImportEFT As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnImport As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents tvwFittings As DevComponents.AdvTree.AdvTree
+    Friend WithEvents NodeConnector2 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle2 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents tvwItems As DevComponents.AdvTree.AdvTree
+    Friend WithEvents NodeConnector3 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle3 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents panelModuleList As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents tvwModules As DevComponents.AdvTree.AdvTree
+    Friend WithEvents NodeConnector4 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents colModuleName As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colModuleMeta As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colModuleCPU As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colModulePG As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colModulePrice As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
+    Friend WithEvents Node3 As DevComponents.AdvTree.Node
+    Friend WithEvents ElementStyle4 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents rbEditor As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnEditor As DevComponents.DotNetBar.ButtonItem
+	Friend WithEvents btnExportReq As DevComponents.DotNetBar.ButtonItem
+	Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
+	Friend WithEvents mnuExportToRequisitions As System.Windows.Forms.ToolStripMenuItem
 End Class

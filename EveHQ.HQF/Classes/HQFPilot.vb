@@ -1,9 +1,6 @@
-﻿Imports System.Runtime.Serialization.Formatters.Binary
-Imports System.IO
-
-' ========================================================================
+﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2008  Lee Vessey
+' Copyright © 2005-2011  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -20,6 +17,9 @@ Imports System.IO
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.IO
+
 <Serializable()> Public Class HQFPilot
 
 #Region "Property Variables"
@@ -60,8 +60,8 @@ Imports System.IO
             ' Check if we can set the implants from the group listing
             If index = 0 Then
                 If value <> "*Custom*" Then
-                    If HQF.Implants.implantGroups.ContainsKey(value) Then
-                        Dim ImplantSet As ImplantGroup = CType(HQF.Implants.implantGroups(value), ImplantGroup)
+                    If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(value) Then
+                        Dim ImplantSet As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(value), ImplantGroup)
                         For slot As Integer = 1 To 10
                             cImplantName(slot) = ImplantSet.ImplantName(slot)
                         Next
@@ -154,24 +154,39 @@ End Class
                 Next
             End If
         End If
-    End Sub
+	End Sub
 
-    Public Shared Sub SaveHQFPilotData()
-        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, HQFPilotCollection.HQFPilots)
-        s.Flush()
-        s.Close()
-    End Sub
+	Public Shared Sub SetSkillsToSkillList(ByVal hPilot As HQFPilot, ByVal SkillList As SortedList(Of String, Integer))
+		For Each SkillName As String In SkillList.Keys
+			If hPilot.SkillSet.Contains(SkillName) = True Then
+				CType(hPilot.SkillSet(SkillName), HQFSkill).Level = SkillList(SkillName)
+			Else
+				Dim MyHQFSkill As New HQFSkill
+				MyHQFSkill.ID = CType(EveHQ.Core.HQ.SkillListName(SkillName), EveHQ.Core.EveSkill).ID
+				MyHQFSkill.Name = SkillName
+				MyHQFSkill.Level = SkillList(SkillName)
+				hPilot.SkillSet.Add(MyHQFSkill, MyHQFSkill.Name)
+			End If
+		Next
+	End Sub
 
-    Public Shared Sub LoadHQFPilotData()
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            HQFPilotCollection.HQFPilots = CType(f.Deserialize(s), SortedList)
-            s.Close()
-        End If
-    End Sub
+
+	Public Shared Sub SaveHQFPilotData()
+		Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)
+		Dim f As New BinaryFormatter
+		f.Serialize(s, HQFPilotCollection.HQFPilots)
+		s.Flush()
+		s.Close()
+	End Sub
+
+	Public Shared Sub LoadHQFPilotData()
+		If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
+			Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
+			Dim f As BinaryFormatter = New BinaryFormatter
+			HQFPilotCollection.HQFPilots = CType(f.Deserialize(s), SortedList)
+			s.Close()
+		End If
+	End Sub
 End Class
 
 <Serializable()> Public Class HQFSkill
