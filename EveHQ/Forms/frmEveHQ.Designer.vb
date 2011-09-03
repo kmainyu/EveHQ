@@ -263,9 +263,10 @@ Partial Public Class frmEveHQ
         '
         'EveIconMenu
         '
+        Me.EveIconMenu.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EveIconMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxmnuLaunchEve1, Me.ctxmnuLaunchEve2, Me.ctxmnuLaunchEve3, Me.ctxmnuLaunchEve4, Me.ToolStripSeparator4, Me.ForceServerCheckToolStripMenuItem, Me.RestoreWindowToolStripMenuItem, Me.HideWhenMinimisedToolStripMenuItem, Me.ToolStripSeparator5, Me.ctxAbout, Me.ctxExit})
         Me.EveIconMenu.Name = "ContextMenuStrip1"
-        Me.EveIconMenu.Size = New System.Drawing.Size(193, 214)
+        Me.EveIconMenu.Size = New System.Drawing.Size(175, 214)
         '
         'ctxmnuLaunchEve1
         '
@@ -348,9 +349,10 @@ Partial Public Class frmEveHQ
         '
         'ctxTabbedMDI
         '
+        Me.ctxTabbedMDI.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxTabbedMDI.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCloseMDITab})
         Me.ctxTabbedMDI.Name = "ctxTabbedMDI"
-        Me.ctxTabbedMDI.Size = New System.Drawing.Size(127, 26)
+        Me.ctxTabbedMDI.Size = New System.Drawing.Size(153, 48)
         '
         'mnuCloseMDITab
         '

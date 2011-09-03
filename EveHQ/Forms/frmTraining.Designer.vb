@@ -1862,66 +1862,67 @@ Partial Class frmTraining
         '
         'ctxQueues
         '
+        Me.ctxQueues.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxQueues.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddQueue, Me.mnuEditQueue, Me.mnuDeleteQueue, Me.ToolStripMenuItem5, Me.mnuMergeQueues, Me.mnuCopyQueue, Me.mnuCopyQueueToPilot, Me.ToolStripMenuItem6, Me.mnuSetPrimary})
         Me.ctxQueues.Name = "ctxQueues"
-        Me.ctxQueues.Size = New System.Drawing.Size(187, 170)
+        Me.ctxQueues.Size = New System.Drawing.Size(179, 192)
         '
         'mnuAddQueue
         '
         Me.mnuAddQueue.Name = "mnuAddQueue"
-        Me.mnuAddQueue.Size = New System.Drawing.Size(186, 22)
+        Me.mnuAddQueue.Size = New System.Drawing.Size(178, 22)
         Me.mnuAddQueue.Text = "Add Queue"
         '
         'mnuEditQueue
         '
         Me.mnuEditQueue.Enabled = False
         Me.mnuEditQueue.Name = "mnuEditQueue"
-        Me.mnuEditQueue.Size = New System.Drawing.Size(186, 22)
+        Me.mnuEditQueue.Size = New System.Drawing.Size(178, 22)
         Me.mnuEditQueue.Text = "Edit Queue"
         '
         'mnuDeleteQueue
         '
         Me.mnuDeleteQueue.Enabled = False
         Me.mnuDeleteQueue.Name = "mnuDeleteQueue"
-        Me.mnuDeleteQueue.Size = New System.Drawing.Size(186, 22)
+        Me.mnuDeleteQueue.Size = New System.Drawing.Size(178, 22)
         Me.mnuDeleteQueue.Text = "Delete Queue"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(183, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(175, 6)
         '
         'mnuMergeQueues
         '
         Me.mnuMergeQueues.Enabled = False
         Me.mnuMergeQueues.Name = "mnuMergeQueues"
-        Me.mnuMergeQueues.Size = New System.Drawing.Size(186, 22)
+        Me.mnuMergeQueues.Size = New System.Drawing.Size(178, 22)
         Me.mnuMergeQueues.Text = "Merge Queues"
         '
         'mnuCopyQueue
         '
         Me.mnuCopyQueue.Enabled = False
         Me.mnuCopyQueue.Name = "mnuCopyQueue"
-        Me.mnuCopyQueue.Size = New System.Drawing.Size(186, 22)
+        Me.mnuCopyQueue.Size = New System.Drawing.Size(178, 22)
         Me.mnuCopyQueue.Text = "Copy Queue"
         '
         'mnuCopyQueueToPilot
         '
         Me.mnuCopyQueueToPilot.Enabled = False
         Me.mnuCopyQueueToPilot.Name = "mnuCopyQueueToPilot"
-        Me.mnuCopyQueueToPilot.Size = New System.Drawing.Size(186, 22)
+        Me.mnuCopyQueueToPilot.Size = New System.Drawing.Size(178, 22)
         Me.mnuCopyQueueToPilot.Text = "Copy Queue to Pilot"
         '
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(183, 6)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(175, 6)
         '
         'mnuSetPrimary
         '
         Me.mnuSetPrimary.Enabled = False
         Me.mnuSetPrimary.Name = "mnuSetPrimary"
-        Me.mnuSetPrimary.Size = New System.Drawing.Size(186, 22)
+        Me.mnuSetPrimary.Size = New System.Drawing.Size(178, 22)
         Me.mnuSetPrimary.Text = "Set as Primary Queue"
         '
         'tabSummary
