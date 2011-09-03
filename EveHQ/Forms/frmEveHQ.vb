@@ -2518,7 +2518,7 @@ Public Class frmEveHQ
 
     Private Sub btnViewHistory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewHistory.Click
         Try
-            Process.Start("http://wiki.battleclinic.com/index.php/EveHQ_2.x_Versions")
+            Process.Start("http://wiki.indiceve.com/doku.php?id=guide:history")
         Catch ex As Exception
             ' Guess the user needs to reset the http protocol in the OS - not much EveHQ can do here!
         End Try
