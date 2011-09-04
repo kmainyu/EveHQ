@@ -788,13 +788,6 @@ Public Class PrismAssetsControl
                         End If
                     End If
                 End If
-                If assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
-                    parentAsset.Nodes(accountID - 1000).Nodes.Add(subAsset)
-                    AssetIsInHanger = True
-                Else
-                    parentAsset.Nodes.Add(subAsset)
-                    AssetIsInHanger = False
-                End If
 
                 ' Add the asset to the list of assets
                 Dim newAssetList As New AssetItem
@@ -822,20 +815,32 @@ Public Class PrismAssetsControl
                 newAssetList.quantity = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
                 newAssetList.price = 0
                 totalAssetCount += newAssetList.quantity
-                assetList.Add(newAssetList.itemID, newAssetList)
 
-                Call Me.UpdateAssetColumnData(newAssetList, subAsset)
+                If assetList.ContainsKey(newAssetList.itemID) = False Then
+                    assetList.Add(newAssetList.itemID, newAssetList)
 
-                ' Update hangar price if applicable
-                containerPrice += (newAssetList.price * newAssetList.quantity)
-                If AssetIsInHanger = True Then
-                    hangarPrice = CDbl(subAsset.Parent.Cells(AssetColumn("AssetValue")).Text)
-                    subAsset.Parent.Cells(AssetColumn("AssetValue")).Text = FormatNumber(hangarPrice + linePrice, 2)
-                End If
+                    If assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
+                        parentAsset.Nodes(accountID - 1000).Nodes.Add(subAsset)
+                        AssetIsInHanger = True
+                    Else
+                        parentAsset.Nodes.Add(subAsset)
+                        AssetIsInHanger = False
+                    End If
 
-                If subLoc.HasChildNodes = True Then
-                    containerPrice -= linePrice
-                    containerPrice += PopulateAssetNode(subAsset, subLoc, assetOwner, location, Owner, EveLocation)
+                    Call Me.UpdateAssetColumnData(newAssetList, subAsset)
+
+                    ' Update hangar price if applicable
+                    containerPrice += (newAssetList.price * newAssetList.quantity)
+                    If AssetIsInHanger = True Then
+                        hangarPrice = CDbl(subAsset.Parent.Cells(AssetColumn("AssetValue")).Text)
+                        subAsset.Parent.Cells(AssetColumn("AssetValue")).Text = FormatNumber(hangarPrice + linePrice, 2)
+                    End If
+
+                    If subLoc.HasChildNodes = True Then
+                        containerPrice -= linePrice
+                        containerPrice += PopulateAssetNode(subAsset, subLoc, assetOwner, location, Owner, EveLocation)
+                    End If
+
                 End If
 
             Catch ex As Exception
