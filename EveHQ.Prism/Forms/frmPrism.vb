@@ -5579,7 +5579,7 @@ Public Class frmPrism
                                     If newBP.BPType = BPType.Unknown Then
                                         If BPCFlag = True Then
                                             newBP.BPType = BPType.BPC
-                                            newBP.Runs = 0
+                                            newBP.Runs = 1
                                         Else
                                             newBP.BPType = BPType.BPO
                                             newBP.Runs = -1
@@ -5690,7 +5690,7 @@ Public Class frmPrism
                     If newBP.BPType = BPType.Unknown Then
                         If BPCFlag = True Then
                             newBP.BPType = BPType.BPC
-                            newBP.Runs = 0
+                            newBP.Runs = 1
                         Else
                             newBP.BPType = BPType.BPO
                             newBP.Runs = -1
