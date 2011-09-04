@@ -1119,37 +1119,41 @@ Public Class frmEveHQ
             ' Add non-training accounts to the training bar
             For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
                 If DisabledAccounts.Contains(cAccount.userID) = True Then
-                    ' Build a status panel
-                    Dim cb As New CharacterTrainingBlock(cAccount.userID, True)
-                    pdc1.Controls.Add(cb)
-                    If Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Bottom Or Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Top Then
-                        cb.Left = startloc
-                        cb.BringToFront()
-                        startloc += cb.Width + 20
-                    Else
-                        cb.Top = startloc
-                        cb.BringToFront()
-                        startloc += cb.Height + 5
+                    ' Build a status panel if the account is not manually disabled
+                    If cAccount.APIAccountStatus <> Core.APIAccountStatuses.ManualDisabled Then
+                        Dim cb As New CharacterTrainingBlock(cAccount.userID, True)
+                        pdc1.Controls.Add(cb)
+                        If Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Bottom Or Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Top Then
+                            cb.Left = startloc
+                            cb.BringToFront()
+                            startloc += cb.Width + 20
+                        Else
+                            cb.Top = startloc
+                            cb.BringToFront()
+                            startloc += cb.Height + 5
+                        End If
                     End If
                 Else
                     If TrainingAccounts.Contains(cAccount.userID) = False Then
                         ' Only add if not a APIv2 corp account
                         If Not (cAccount.APIKeySystem = Core.APIKeySystems.Version2 And cAccount.APIKeyType = Core.APIKeyTypes.Corporation) Then
-                            ' Build a status panel
-                            Dim cb As New CharacterTrainingBlock(cAccount.userID, True)
-                            pdc1.Controls.Add(cb)
-                            If Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Bottom Or Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Top Then
-                                cb.Left = startloc
-                                cb.BringToFront()
-                                startloc += cb.Width + 20
-                            Else
-                                cb.Top = startloc
-                                cb.BringToFront()
-                                startloc += cb.Height + 5
+                            ' Build a status panel if the account is not manually disabled
+                            If cAccount.APIAccountStatus <> Core.APIAccountStatuses.ManualDisabled Then
+                                Dim cb As New CharacterTrainingBlock(cAccount.userID, True)
+                                pdc1.Controls.Add(cb)
+                                If Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Bottom Or Bar1.DockSide = DevComponents.DotNetBar.eDockSide.Top Then
+                                    cb.Left = startloc
+                                    cb.BringToFront()
+                                    startloc += cb.Width + 20
+                                Else
+                                    cb.Top = startloc
+                                    cb.BringToFront()
+                                    startloc += cb.Height + 5
+                                End If
                             End If
                         End If
                     End If
-                End If
+                    End If
             Next
 
             ' Add training pilots to the training bar
