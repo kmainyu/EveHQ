@@ -120,9 +120,11 @@ Public Class AdvTreeSortComparer
 
     Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
         Dim returnVal As Integer = -1
+        Dim TempDbl As Double = 0
+        Dim TempDate As Date = Now
 
         If sorttag = False Then
-            If IsNumeric(CType(x, Node).Cells(col).Text) And IsNumeric(CType(y, Node).Cells(col).Text) Then
+            If Double.TryParse(CType(x, Node).Cells(col).Text, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Text, TempDbl) Then
                 'Parse the two objects passed as a parameter as a Double
                 DoubleX = CDbl((CType(x, Node).Cells(col).Text))
                 DoubleY = CDbl((CType(y, Node).Cells(col).Text))
@@ -138,7 +140,7 @@ Public Class AdvTreeSortComparer
                 returnVal = CType(x, Node).Cells(col).Text.CompareTo(CType(y, Node).Cells(col).Text)
             End If
         Else
-            If IsNumeric(CType(x, Node).Cells(col).Tag) And IsNumeric(CType(y, Node).Cells(col).Tag) Then
+            If Double.TryParse(CType(x, Node).Cells(col).Tag.ToString, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Tag.ToString, TempDbl) Then
                 'Parse the two objects passed as a parameter as a Double
                 DoubleX = CDbl((CType(x, Node).Cells(col).Tag))
                 DoubleY = CDbl((CType(y, Node).Cells(col).Tag))
