@@ -190,12 +190,14 @@ Public Class frmModifyEveAccounts
                             Return True
                         End If
                         ' Now check corporations
-                        If CharacterList.Contains(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Character), EveHQ.Core.Pilot).Corp) Then
-                            ' We have a corporation already
-                            Dim msg As New StringBuilder
-                            msg.AppendLine("The new account contains a corporation (" & CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Character), EveHQ.Core.Pilot).Corp & ") already in use by EveHQ under an old API key. Try deleting the old account first.")
-                            MessageBox.Show(msg.ToString, "Duplicate Corporation Identified", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Return True
+                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(Character) Then
+                            If CharacterList.Contains(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Character), EveHQ.Core.Pilot).Corp) Then
+                                ' We have a corporation already
+                                Dim msg As New StringBuilder
+                                msg.AppendLine("The new account contains a corporation (" & CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Character), EveHQ.Core.Pilot).Corp & ") already in use by EveHQ under an old API key. Try deleting the old account first.")
+                                MessageBox.Show(msg.ToString, "Duplicate Corporation Identified", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Return True
+                            End If
                         End If
                     Case Core.APIKeySystems.Version2
                         ' Only check "characters"
