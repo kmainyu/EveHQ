@@ -2001,6 +2001,8 @@ Public Class ShipSlotControl
             pilotSkill.Level = level
             ParentFitting.ApplyFitting(BuildType.BuildEverything)
         End If
+        ' Trigger an update of all open ship fittings!
+        HQFEvents.StartUpdateShipInfo = hPilot.PilotName
 	End Sub
 
     Private Function SquishText(ByVal text As String) As String

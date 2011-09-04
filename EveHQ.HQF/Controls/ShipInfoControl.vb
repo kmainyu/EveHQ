@@ -383,6 +383,8 @@ Public Class ShipInfoControl
         ' Set buttons
         btnDamageAnalysis.Enabled = (turretShip Or missileShip)
 
+        Me.Refresh()
+
         eTime = Now
         'MessageBox.Show((eTime - sTime).TotalMilliseconds.ToString & "ms", "Ship Info Control Update")
     End Sub

@@ -119,67 +119,68 @@ Partial Class frmPilotManager
         '
         'ctxHQFLevel
         '
+        Me.ctxHQFLevel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxHQFLevel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSetSkillName, Me.ToolStripMenuItem1, Me.mnuSetLevel0, Me.mnuSetLevel1, Me.mnuSetLevel2, Me.mnuSetLevel3, Me.mnuSetLevel4, Me.mnuSetLevel5, Me.ToolStripMenuItem2, Me.mnuSetDefault})
         Me.ctxHQFLevel.Name = "ctxHQFLevel"
-        Me.ctxHQFLevel.Size = New System.Drawing.Size(149, 192)
+        Me.ctxHQFLevel.Size = New System.Drawing.Size(153, 214)
         '
         'mnuSetSkillName
         '
         Me.mnuSetSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSetSkillName.Name = "mnuSetSkillName"
-        Me.mnuSetSkillName.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetSkillName.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetSkillName.Text = "Skill Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(145, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
         '
         'mnuSetLevel0
         '
         Me.mnuSetLevel0.Name = "mnuSetLevel0"
-        Me.mnuSetLevel0.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel0.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetLevel0.Text = "Set To Level 0"
         '
         'mnuSetLevel1
         '
         Me.mnuSetLevel1.Name = "mnuSetLevel1"
-        Me.mnuSetLevel1.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel1.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetLevel1.Text = "Set To Level 1"
         '
         'mnuSetLevel2
         '
         Me.mnuSetLevel2.Name = "mnuSetLevel2"
-        Me.mnuSetLevel2.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel2.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetLevel2.Text = "Set To Level 2"
         '
         'mnuSetLevel3
         '
         Me.mnuSetLevel3.Name = "mnuSetLevel3"
-        Me.mnuSetLevel3.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel3.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetLevel3.Text = "Set To Level 3"
         '
         'mnuSetLevel4
         '
         Me.mnuSetLevel4.Name = "mnuSetLevel4"
-        Me.mnuSetLevel4.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel4.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetLevel4.Text = "Set To Level 4"
         '
         'mnuSetLevel5
         '
         Me.mnuSetLevel5.Name = "mnuSetLevel5"
-        Me.mnuSetLevel5.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel5.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetLevel5.Text = "Set To Level 5"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
         '
         'mnuSetDefault
         '
         Me.mnuSetDefault.Name = "mnuSetDefault"
-        Me.mnuSetDefault.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetDefault.Size = New System.Drawing.Size(152, 22)
         Me.mnuSetDefault.Text = "Set To Default"
         '
         'lblSkillsModified

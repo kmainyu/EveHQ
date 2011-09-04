@@ -1349,7 +1349,6 @@ Public Class frmHQF
     End Sub
 
     Public Sub UpdateShipInfo(ByVal pilotName As String)
-        Me.Cursor = Cursors.WaitCursor
         ' Updates all the open fittings
         For Each thisTab As DevComponents.DotNetBar.TabItem In tabHQF.Tabs
             If thisTab IsNot Nothing Then
@@ -1376,7 +1375,6 @@ Public Class frmHQF
                 End If
             End If
         Next
-        Me.Cursor = Cursors.Default
         HQFEvents.StartUpdateModuleList = True
     End Sub
 
