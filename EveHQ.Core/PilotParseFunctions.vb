@@ -557,7 +557,7 @@ Public Class PilotParseFunctions
                 .CorpID = CXMLDoc.GetElementsByTagName("corporationID").Item(0).InnerText
                 .CloneName = CXMLDoc.GetElementsByTagName("cloneName").Item(0).InnerText
                 .CloneSP = CXMLDoc.GetElementsByTagName("cloneSkillPoints").Item(0).InnerText
-                Dim isk As Double = Double.Parse(CXMLDoc.GetElementsByTagName("balance").Item(0).InnerText, Globalization.NumberStyles.Number, culture)
+                Dim isk As Double = Double.Parse(CXMLDoc.GetElementsByTagName("balance").Item(0).InnerText, Globalization.NumberStyles.Any, culture)
                 .Isk = isk
                 ' Put cache info here??
             End With

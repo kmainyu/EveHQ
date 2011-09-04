@@ -274,7 +274,7 @@ Public Class frmKMV
                 newVictim.allianceName = .Attributes.GetNamedItem("allianceName").Value
                 newVictim.factionID = .Attributes.GetNamedItem("factionID").Value
                 newVictim.factionName = .Attributes.GetNamedItem("factionName").Value
-                newVictim.damageTaken = Double.Parse(.Attributes.GetNamedItem("damageTaken").Value, Globalization.NumberStyles.Number, culture)
+                newVictim.damageTaken = Double.Parse(.Attributes.GetNamedItem("damageTaken").Value, Globalization.NumberStyles.Any, culture)
                 newVictim.shipTypeID = .Attributes.GetNamedItem("shipTypeID").Value
             End With
             newKM.Victim = newVictim
@@ -290,8 +290,8 @@ Public Class frmKMV
                 newAttacker.allianceName = attackerNode.Attributes.GetNamedItem("allianceName").Value
                 newAttacker.factionID = attackerNode.Attributes.GetNamedItem("factionID").Value
                 newAttacker.factionName = attackerNode.Attributes.GetNamedItem("factionName").Value
-                newAttacker.secStatus = Double.Parse(attackerNode.Attributes.GetNamedItem("securityStatus").Value, Globalization.NumberStyles.Number, culture)
-                newAttacker.damageDone = Double.Parse(attackerNode.Attributes.GetNamedItem("damageDone").Value, Globalization.NumberStyles.Number, culture)
+                newAttacker.secStatus = Double.Parse(attackerNode.Attributes.GetNamedItem("securityStatus").Value, Globalization.NumberStyles.Any, culture)
+                newAttacker.damageDone = Double.Parse(attackerNode.Attributes.GetNamedItem("damageDone").Value, Globalization.NumberStyles.Any, culture)
                 newAttacker.finalBlow = CBool(attackerNode.Attributes.GetNamedItem("finalBlow").Value)
                 newAttacker.weaponTypeID = attackerNode.Attributes.GetNamedItem("weaponTypeID").Value
                 newAttacker.shipTypeID = attackerNode.Attributes.GetNamedItem("shipTypeID").Value
@@ -304,9 +304,9 @@ Public Class frmKMV
             For Each itemNode As XmlNode In KMInfo.ChildNodes(2).ChildNodes
                 Dim newItem As New KMItem
                 newItem.typeID = itemNode.Attributes.GetNamedItem("typeID").Value
-                newItem.flag = Integer.Parse(itemNode.Attributes.GetNamedItem("flag").Value, Globalization.NumberStyles.Number, culture)
-                newItem.qtyDropped = Integer.Parse(itemNode.Attributes.GetNamedItem("qtyDropped").Value, Globalization.NumberStyles.Number, culture)
-                newItem.qtyDestroyed = Integer.Parse(itemNode.Attributes.GetNamedItem("qtyDestroyed").Value, Globalization.NumberStyles.Number, culture)
+                newItem.flag = Integer.Parse(itemNode.Attributes.GetNamedItem("flag").Value, Globalization.NumberStyles.Any, culture)
+                newItem.qtyDropped = Integer.Parse(itemNode.Attributes.GetNamedItem("qtyDropped").Value, Globalization.NumberStyles.Any, culture)
+                newItem.qtyDestroyed = Integer.Parse(itemNode.Attributes.GetNamedItem("qtyDestroyed").Value, Globalization.NumberStyles.Any, culture)
                 newKM.Items.Add(newItem)
             Next
 

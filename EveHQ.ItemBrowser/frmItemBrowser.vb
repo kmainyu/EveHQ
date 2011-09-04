@@ -450,7 +450,7 @@ Public Class frmItemBrowser
             For node As Integer = 0 To 11
                 Dim nodeText As String = MarketItem.ChildNodes(node + 1).InnerText
                 If IsNumeric(nodeText) = True Then
-                    lstEveCentral.Items(node).SubItems.Add(FormatNumber(Double.Parse(nodeText, Globalization.NumberStyles.Number, culture), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lstEveCentral.Items(node).SubItems.Add(FormatNumber(Double.Parse(nodeText, Globalization.NumberStyles.Any, culture), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 Else
                     Me.EveCentralDataFound = False
                     Exit Sub
@@ -476,19 +476,19 @@ Public Class frmItemBrowser
         AddHandler PlugInData.PluginDataReceived, AddressOf PluginDataHandler
 
         For activity As Integer = 1 To ActivityCount
-			tabPagesM(activity) = Me.tcMaterials.Tabs("tiM" & activity)
-			tabPagesC(activity) = Me.tcComponents.Tabs("tiC" & activity)
+            tabPagesM(activity) = Me.tcMaterials.Tabs("tiM" & activity)
+            tabPagesC(activity) = Me.tcComponents.Tabs("tiC" & activity)
         Next
         Call Me.LoadFittingAttributes()
         Me.tiEffects.Visible = False
-		Me.tiSkills.Visible = False
-		Me.tiFitting.Visible = False
-		Me.tiMaterials.Visible = False
-		Me.tiComponent.Visible = False
-		Me.tiRecommended.Visible = False
-		Me.tiVariations.Visible = False
-		Me.tiDependencies.Visible = False
-		Me.tiEveCentral.Visible = False
+        Me.tiSkills.Visible = False
+        Me.tiFitting.Visible = False
+        Me.tiMaterials.Visible = False
+        Me.tiComponent.Visible = False
+        Me.tiRecommended.Visible = False
+        Me.tiVariations.Visible = False
+        Me.tiDependencies.Visible = False
+        Me.tiEveCentral.Visible = False
         Me.lblUsable.Text = ""
         Me.lblUsableTime.Text = ""
 
@@ -615,11 +615,11 @@ Public Class frmItemBrowser
                     Dim certGrade As String = CertGrades(newCert.Grade)
                     newItem.SubItems.Add(certGrade)
                     lvwRecommended.Items.Add(newItem)
-				Next
-				tiRecommended.Visible = True
-			Else
-				tiRecommended.Visible = False
-			End If
+                Next
+                tiRecommended.Visible = True
+            Else
+                tiRecommended.Visible = False
+            End If
         End If
         lvwRecommended.EndUpdate()
     End Sub
@@ -836,9 +836,9 @@ Public Class frmItemBrowser
                             attributes(attNo, 4) = " s"
                         End If
                 End Select
-                'If Double.TryParse(attributes(attNo, 3), Globalization.NumberStyles.Number, culture, attValue) = True Then
+                'If Double.TryParse(attributes(attNo, 3), Globalization.NumberStyles.Any, culture, attValue) = True Then
                 '    If attValue <> 0 Then
-                '        attributes(attNo, 3) = Double.Parse(attValue, Globalization.NumberStyles.Number, culture)
+                '        attributes(attNo, 3) = Double.Parse(attValue, Globalization.NumberStyles.Any, culture)
                 '    End If
                 'End If
             Next

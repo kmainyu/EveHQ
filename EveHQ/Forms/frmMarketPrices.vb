@@ -1041,7 +1041,7 @@ Public Class frmMarketPrices
                 Items = feedXML.SelectNodes("/eveapi/result/rowset/row")
                 StatusLabel.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : StatusLabel.Refresh()
                 For Each Item In Items
-                    EveHQ.Core.DataFunctions.SetMarketPrice(CLng(Item.Attributes.GetNamedItem("typeID").Value), Double.Parse(Item.Attributes.GetNamedItem("latest").Value, Globalization.NumberStyles.Number, culture), True)
+                    EveHQ.Core.DataFunctions.SetMarketPrice(CLng(Item.Attributes.GetNamedItem("typeID").Value), Double.Parse(Item.Attributes.GetNamedItem("latest").Value, Globalization.NumberStyles.Any, culture), True)
                 Next
             Catch e As Exception
                 MessageBox.Show("Unable to parse Faction Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)

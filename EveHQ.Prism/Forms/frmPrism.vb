@@ -3255,7 +3255,7 @@ Public Class frmPrism
                                     sOrder.Text = itemName
                                     Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
                                     sOrder.Cells(1).Text = FormatNumber(quantity, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                                    Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
+                                    Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
                                     sOrder.Cells(2).Text = FormatNumber(price, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
                                     Dim loc As String = ""
                                     If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
@@ -3291,7 +3291,7 @@ Public Class frmPrism
                                     bOrder.Text = itemName
                                     Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
                                     bOrder.Cells(1).Text = FormatNumber(quantity, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                                    Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
+                                    Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
                                     bOrder.Cells(2).Text = FormatNumber(price, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
                                     Dim loc As String = ""
                                     If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
@@ -4409,7 +4409,7 @@ Public Class frmPrism
                 cboWalletTransDivision.Enabled = False
             End If
 
-            End If
+        End If
     End Sub
 
     Private Sub cboTransactionOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -6140,7 +6140,7 @@ Public Class frmPrism
     Private Sub mnuTransactionModifyPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuTransactionModifyPrice.Click
         If mnuTransactionModifyPrice.Tag IsNot Nothing Then
             Dim ItemID As String = mnuTransactionModifyPrice.Tag.ToString
-            Dim Price As Double = Double.Parse(adtTransactions.SelectedNodes(0).Cells(3).Text, Globalization.NumberStyles.Number, culture)
+            Dim Price As Double = Double.Parse(adtTransactions.SelectedNodes(0).Cells(3).Text, Globalization.NumberStyles.Any, culture)
             Dim NewPrice As New EveHQ.Core.frmModifyPrice(ItemID, Price)
             NewPrice.ShowDialog()
         End If

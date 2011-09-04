@@ -911,7 +911,7 @@ Public Class PrismAssetsControl
                                     corpWallets.Add(Owner.Name, Owner.ID)
                                     accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
                                     For Each account In accountList
-                                        Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
+                                        Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Any, culture)
                                         Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
                                         If corpWalletDivisions.ContainsKey(Owner.ID & "_" & accountKey) = False Then
                                             corpWalletDivisions.Add(Owner.ID & "_" & accountKey, isk)
@@ -933,7 +933,7 @@ Public Class PrismAssetsControl
                                 Dim account As XmlNode
                                 accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
                                 For Each account In accountList
-                                    Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
+                                    Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Any, culture)
                                     If charWallets.Contains(Owner.Name) = False Then
                                         charWallets.Add(Owner.Name, isk)
                                     End If

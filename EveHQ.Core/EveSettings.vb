@@ -1732,7 +1732,7 @@ Public Class EveHQSettingsFunctions
                         Dim version As Double = 0
                         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
                         If rootNode.Attributes.Count > 0 Then
-                            version = Double.Parse(rootNode.Attributes("version").Value, Globalization.NumberStyles.Number, culture)
+                            version = Double.Parse(rootNode.Attributes("version").Value, Globalization.NumberStyles.Any, culture)
                         End If
                         QueueList = XMLdoc.SelectNodes("/training/queue")
                         If QueueList.Count > 0 Then
