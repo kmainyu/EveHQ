@@ -118,6 +118,39 @@ Public Class frmCharCreate
 
     End Sub
 
+    Private Sub CalcRaceSkills(ByVal raceID As String)
+        ' Extract RaceSkills from resources
+        Dim RaceSkills As New ArrayList
+        Dim RaceSkillsTable As String = My.Resources.RaceSkillsTable
+        Dim RaceSkillLines() As String = RaceSkillsTable.Split(ControlChars.CrLf.ToCharArray)
+        For Each RaceSkill As String In RaceSkillLines
+            Dim RaceSkillData() As String = RaceSkill.Split(",".ToCharArray)
+            If RaceSkillData(0) = raceID Then
+                RaceSkills.Add(RaceSkillData(1) & "," & RaceSkillData(2))
+            End If
+        Next
+
+        ' Load up the skills for the selected race
+        skillsRace.Clear()
+        Dim skillID As String = ""
+        Dim skillName As String = ""
+        Dim skillLevel As Integer = 0
+        Dim skillPoints As Long = 0
+        For Each raceskill As String In RaceSkills
+            Dim RaceSkillData() As String = raceskill.Split(",".ToCharArray)
+            skillID = RaceSkillData(0)
+            skillLevel = CInt(RaceSkillData(1))
+            skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
+            skillPoints = CLng(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel)))
+            Dim skillItem As New ListViewItem
+            skillItem.Text = skillName
+            skillItem.Name = skillID
+            skillItem.SubItems.Add(skillLevel.ToString)
+            skillItem.SubItems.Add(skillPoints.ToString)
+            skillsRace.Add(skillItem, skillItem.Text)
+        Next
+    End Sub
+
     Private Sub nud_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudC.ValueChanged, nudI.ValueChanged, nudM.ValueChanged, nudP.ValueChanged, nudW.ValueChanged
         Dim attTotal As Integer = CInt(nudC.Value + nudI.Value + nudM.Value + nudP.Value + nudW.Value)
         Me.lblAttTotal.Text = CStr(attTotal)
