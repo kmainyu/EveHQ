@@ -1957,7 +1957,9 @@ Imports System.Runtime.Serialization
             End If
             ' Calculate shield maintenance drones
             If cModule.DatabaseGroup = "640" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                sRA = sRA + cModule.Attributes("68") / cModule.Attributes("73")
+                If cModule.Attributes.ContainsKey("68") Then
+                    sRA = sRA + cModule.Attributes("68") / cModule.Attributes("73")
+                End If
             End If
             ' Calculate armor repairing
             If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
@@ -1969,7 +1971,9 @@ Imports System.Runtime.Serialization
             End If
             ' Calculate armor maintenance drones
             If cModule.DatabaseGroup = "640" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                aR = aR + cModule.Attributes("84") / cModule.Attributes("73")
+                If cModule.Attributes.ContainsKey("84") Then
+                    aR = aR + cModule.Attributes("84") / cModule.Attributes("73")
+                End If
             End If
             ' Calculate hull repairing
             If cModule.DatabaseGroup = "63" And (cModule.ModuleState And 12) = cModule.ModuleState Then
