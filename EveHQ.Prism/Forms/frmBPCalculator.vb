@@ -396,31 +396,33 @@ Public Class frmBPCalculator
             ownerBPs = PlugInData.BlueprintAssets(cBPOwnerName)
         End If
         Dim BPData As New Blueprint
-		For Each BP As BlueprintAsset In ownerBPs.Values
-            Dim BPACBI As New BPAssetComboboxItem(PlugInData.Blueprints(BP.TypeID).Name, BP.AssetID, BP.MELevel, BP.PELevel, BP.Runs)
+        For Each BP As BlueprintAsset In ownerBPs.Values
+            If BP.Runs <> 0 Then
+                Dim BPACBI As New BPAssetComboboxItem(PlugInData.Blueprints(BP.TypeID).Name, BP.AssetID, BP.MELevel, BP.PELevel, BP.Runs)
 
-            'Basic filter if inventable item filtering is on
-			If chkInventBPOs.Checked = True Then
-				If btnToggleInvention.Value = True Then
-					' Use T1 data
-					If PlugInData.Blueprints(BP.TypeID).Inventions.Count > 0 Then
-						cboBPs.Items.Add(BPACBI)
-					End If
-				Else
-					' Use T2 data
-					If PlugInData.Blueprints(BP.TypeID).InventFrom.Count > 0 Then
-						cboBPs.Items.Add(BPACBI)
-					End If
-				End If
-			Else
-				cboBPs.Items.Add(BPACBI)
-			End If
+                'Basic filter if inventable item filtering is on
+                If chkInventBPOs.Checked = True Then
+                    If btnToggleInvention.Value = True Then
+                        ' Use T1 data
+                        If PlugInData.Blueprints(BP.TypeID).Inventions.Count > 0 Then
+                            cboBPs.Items.Add(BPACBI)
+                        End If
+                    Else
+                        ' Use T2 data
+                        If PlugInData.Blueprints(BP.TypeID).InventFrom.Count > 0 Then
+                            cboBPs.Items.Add(BPACBI)
+                        End If
+                    End If
+                Else
+                    cboBPs.Items.Add(BPACBI)
+                End If
 
-			' Check if this matches the ownedBPID
-			If BPACBI.AssetID = cOwnedBPID Then
-				OwnedBP = BPACBI
-			End If
-		Next
+                ' Check if this matches the ownedBPID
+                If BPACBI.AssetID = cOwnedBPID Then
+                    OwnedBP = BPACBI
+                End If
+            End If
+        Next
 		cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
