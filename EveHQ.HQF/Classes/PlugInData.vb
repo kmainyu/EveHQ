@@ -1495,7 +1495,7 @@ Public Class PlugInData
                 newEffect.StackNerf = CType(EffectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CType(EffectData(8), EffectCalcType)
-                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
+                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Any, culture)
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
 
@@ -1589,7 +1589,7 @@ Public Class PlugInData
                 newEffect.StackNerf = CType(EffectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CType(EffectData(8), EffectCalcType)
-                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
+                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Any, culture)
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
 
