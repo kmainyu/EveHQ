@@ -345,7 +345,9 @@ Public Class PilotParseFunctions
                             ' New character - let's download the image for them automatically :)
                             EveHQ.Core.ImageHandler.DownloadPortrait(newPilot.ID)
                         End If
-                        EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
+                        If EveHQ.Core.HQ.TPilots.ContainsKey(newPilot.Name) = False Then
+                            EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
+                        End If
                         caccount.Characters.Add(newPilot.Name)
                         Call GetCharacterXMLs(caccount, newPilot)
                     Next
