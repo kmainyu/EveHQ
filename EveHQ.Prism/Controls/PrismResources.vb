@@ -578,57 +578,40 @@ Public Class PrismResources
 
     Private Sub GetOwnedResources()
 
-        ' Establish a list of owners whose assets we are going to query
-        Dim ownerList As New ArrayList
-        For Each OwnerItem As ListViewItem In CType(cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems
-            ownerList.Add(OwnerItem.Text)
-        Next
 
-        ' Iterate through our list of owners
-        For Each Owner As String In ownerList
+       Dim Owner As New PrismOwner
 
-            ' Fetch the resources owned
-            Dim IsCorp As Boolean = False
-            ' See if this owner is a corp
-            If PlugInData.CorpList.ContainsKey(Owner) = True Then
-                IsCorp = True
-                ' See if we have a representative
-				If Settings.PrismSettings.CorpReps.ContainsKey(Owner) Then
-					If Settings.PrismSettings.CorpReps(Owner).ContainsKey(CorpRepType.Assets) Then
-						Owner = Settings.PrismSettings.CorpReps(Owner).Item(CorpRepType.Assets)
-					Else
-						Owner = ""
-					End If
-				Else
-					Owner = ""
-				End If
-            End If
+        For Each cOwner As ListViewItem In CType(cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems
 
-            If Owner <> "" Then
-                ' Parse the Assets XML
-                Dim assetXML As New XmlDocument
-                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Owner), Core.Pilot)
-                Dim accountName As String = selPilot.Account
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                If IsCorp = True Then
-                    assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, pilotAccount.ToAPIAccount, selPilot.ID, EveAPI.APIReturnMethods.ReturnCacheOnly)
-                Else
-                    assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, pilotAccount.ToAPIAccount, selPilot.ID, EveAPI.APIReturnMethods.ReturnCacheOnly)
-                End If
-                If assetXML IsNot Nothing Then
+            If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
+                Owner = PlugInData.PrismOwners(cOwner.Text)
+                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
-                    Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                    If locList.Count > 0 Then
-                        ' Define what we want to obtain
-                        Dim categories, groups As New ArrayList
-                        For Each loc As XmlNode In locList
-                            Call GetAssetQuantitesFromNode(loc, categories, groups, OwnedResources)
-                        Next
+                If OwnerAccount IsNot Nothing Then
+
+                    Dim AssetXML As New XmlDocument
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    If Owner.IsCorp = True Then
+                        AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    Else
+                        AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    End If
+
+                    If AssetXML IsNot Nothing Then
+                        Dim locList As XmlNodeList = AssetXML.SelectNodes("/eveapi/result/rowset/row")
+                        If locList.Count > 0 Then
+                            ' Define what we want to obtain
+                            Dim categories, groups As New ArrayList
+                            For Each loc As XmlNode In locList
+                                Call GetAssetQuantitesFromNode(loc, categories, groups, OwnedResources)
+                            Next
+                        End If
                     End If
                 End If
             End If
         Next
+
     End Sub
 
     Private Sub GetAssetQuantitesFromNode(ByVal item As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef Assets As SortedList(Of String, Long))

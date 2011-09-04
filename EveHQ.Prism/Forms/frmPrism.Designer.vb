@@ -134,8 +134,9 @@ Partial Class frmPrism
         Me.colRecTotalBen = New DevComponents.AdvTree.ColumnHeader()
         Me.colRecUnitBen = New DevComponents.AdvTree.ColumnHeader()
         Me.ctxRecycleItem = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuAlterRecycleQuantity = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuAddRecycleItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuAlterRecycleQuantity = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuRemoveRecycleItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NodeConnector12 = New DevComponents.AdvTree.NodeConnector()
         Me.ItemNormal = New DevComponents.DotNetBar.ElementStyle()
@@ -411,7 +412,6 @@ Partial Class frmPrism
         Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.tiJournal = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.mnuAddRecycleItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxTransactions.SuspendLayout()
         CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1668,16 +1668,22 @@ Partial Class frmPrism
         Me.ctxRecycleItem.Name = "ctxRecycleItem"
         Me.ctxRecycleItem.Size = New System.Drawing.Size(143, 76)
         '
-        'mnuAlterRecycleQuantity
+        'mnuAddRecycleItem
         '
-        Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
-        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(152, 22)
-        Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
+        Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
+        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddRecycleItem.Text = "Add Item"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        '
+        'mnuAlterRecycleQuantity
+        '
+        Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
+        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
         '
         'mnuRemoveRecycleItem
         '
@@ -2572,8 +2578,8 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPrism.Controls.Add(Me.TabControlPanel8)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel8)
         Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel3)
         Me.tabPrism.Controls.Add(Me.TabControlPanel7)
@@ -5269,12 +5275,6 @@ Partial Class frmPrism
         '
         Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
         Me.NodeConnector1.LineWidth = 0
-        '
-        'mnuAddRecycleItem
-        '
-        Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
-        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(152, 22)
-        Me.mnuAddRecycleItem.Text = "Add Item"
         '
         'frmPrism
         '
