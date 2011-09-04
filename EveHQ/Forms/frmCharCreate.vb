@@ -69,28 +69,22 @@ Public Class frmCharCreate
 
         ' If we have chosen something, then activate the next control
         If cboRace.SelectedIndex > -1 Then
-            lblStep2.Enabled = True : cboBloodline.Enabled = True
+            Select Case cboRace.SelectedItem.ToString
+                Case "Amarr"
+                    sBloodName = "Amarr" : sAncestryName = "Liberal Holders"
+                Case "Caldari"
+                    sBloodName = "Deteis" : sAncestryName = "Scientists"
+                Case "Gallente"
+                    sBloodName = "Gallente" : sAncestryName = "Miners"
+                Case "Minmatar"
+                    sBloodName = "Brutor" : sAncestryName = "Workers"
+            End Select
         End If
 
-        ' Clear any subsequent controls as these will no longer be relevant
-        lblStep3.Enabled = False
-        cboAncestry.Items.Clear()
-        cboAncestry.Enabled = False
 
         ' Store the raceID and raceName
         sRaceName = CStr(cboRace.SelectedItem)
         sRaceID = CInt(eveRaces.Item(sRaceName))
-
-        ' Load up the options for the bloodlines
-        cboBloodline.Items.Clear()
-        eveBloodlines.Clear()
-        Dim bloodset() As DataRow = bloodData.Tables(0).Select("raceID=" & sRaceID)
-        Dim bloodName As String = ""
-        For bloodNo As Integer = 0 To bloodset.GetUpperBound(0)
-            bloodName = CStr(bloodset(bloodNo).Item("bloodlineName"))
-            eveBloodlines.Add(bloodName, bloodset(bloodNo).Item("bloodlineID"))
-            cboBloodline.Items.Add(bloodName)
-        Next
 
         Call CalcRaceSkills(CStr(sRaceID))
 
@@ -107,61 +101,9 @@ Public Class frmCharCreate
         Next
         lblSP.Text = "Skillpoints: " & FormatNumber(skillPoints, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
-        ' Disable the transfer character options
-        nudC.Enabled = False
-        nudI.Enabled = False
-        nudM.Enabled = False
-        nudP.Enabled = False
-        nudW.Enabled = False
-        txtCharName.Enabled = False
-        Me.btnAddPilot.Enabled = False
-
-    End Sub
-    Private Sub cboBloodline_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBloodline.SelectedIndexChanged
-
-        ' If we have chosen something, then activate the next control
-        If cboBloodline.SelectedIndex > -1 Then
-            lblStep3.Enabled = True : cboAncestry.Enabled = True
-        End If
-
-        ' Store the raceID and raceName
-        sBloodName = CStr(cboBloodline.SelectedItem)
-        sBloodID = CInt(eveBloodlines.Item(sBloodName))
-
-        ' Load up the options for the ancestries
-        cboAncestry.Items.Clear()
-        eveAncestries.Clear()
-        Dim ancSet() As DataRow = ancestryData.Tables(0).Select("bloodlineID=" & sBloodID)
-        Dim ancName As String = ""
-        For ancNo As Integer = 0 To ancSet.GetUpperBound(0)
-            ancName = CStr(ancSet(ancNo).Item("ancestryName"))
-            Me.eveAncestries.Add(ancName, ancSet(ancNo).Item("ancestryID"))
-            Me.cboAncestry.Items.Add(ancName)
-        Next
-
-        ' Disable the transfer character options
-        nudC.Enabled = False
-        nudI.Enabled = False
-        nudM.Enabled = False
-        nudP.Enabled = False
-        nudW.Enabled = False
-        txtCharName.Enabled = False
-        Me.btnAddPilot.Enabled = False
-
-    End Sub
-    Private Sub cboAncestry_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAncestry.SelectedIndexChanged
-
-        ' Store the raceID and raceName
-        sAncestryName = CStr(cboAncestry.SelectedItem)
-        sAncestryID = CInt(eveAncestries.Item(sAncestryName))
-
-        ' Generate an ID based on date and time
-        Dim CharID As String = Format(Now, "MddHHmmss")
-        lblCharID.Text = CharID
-
-        ' Enable the transfer character options
-        lblStep4.Enabled = True
-        lblStep5.Enabled = True
+        ' Enable character options
+        lblSelectAttributes.Enabled = True
+        lblSelectChar.Enabled = True
         nudC.Enabled = True
         nudI.Enabled = True
         nudM.Enabled = True
@@ -170,39 +112,10 @@ Public Class frmCharCreate
         txtCharName.Enabled = True
         Me.btnAddPilot.Enabled = True
 
-    End Sub
+        ' Generate an ID based on date and time
+        Dim CharID As String = Format(Now, "MddHHmmss")
+        lblCharID.Text = CharID
 
-    Private Sub CalcRaceSkills(ByVal raceID As String)
-        ' Extract RaceSkills from resources
-        Dim RaceSkills As New ArrayList
-        Dim RaceSkillsTable As String = My.Resources.RaceSkillsTable
-        Dim RaceSkillLines() As String = RaceSkillsTable.Split(ControlChars.CrLf.ToCharArray)
-        For Each RaceSkill As String In RaceSkillLines
-            Dim RaceSkillData() As String = RaceSkill.Split(",".ToCharArray)
-            If RaceSkillData(0) = raceID Then
-                RaceSkills.Add(RaceSkillData(1) & "," & RaceSkillData(2))
-            End If
-        Next
-
-        ' Load up the skills for the selected race
-        skillsRace.Clear()
-        Dim skillID As String = ""
-        Dim skillName As String = ""
-        Dim skillLevel As Integer = 0
-        Dim skillPoints As Long = 0
-        For Each raceskill As String In RaceSkills
-            Dim RaceSkillData() As String = raceskill.Split(",".ToCharArray)
-            skillID = RaceSkillData(0)
-            skillLevel = CInt(RaceSkillData(1))
-            skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
-            skillPoints = CLng(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel)))
-            Dim skillItem As New ListViewItem
-            skillItem.Text = skillName
-            skillItem.Name = skillID
-            skillItem.SubItems.Add(skillLevel.ToString)
-            skillItem.SubItems.Add(skillPoints.ToString)
-            skillsRace.Add(skillItem, skillItem.Text)
-        Next
     End Sub
 
     Private Sub nud_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudC.ValueChanged, nudI.ValueChanged, nudM.ValueChanged, nudP.ValueChanged, nudW.ValueChanged
@@ -301,44 +214,9 @@ Public Class frmCharCreate
                 Return False
             End If
         End If
-        bloodData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrBloodlines")
-        If bloodData Is Nothing Then
-            MessageBox.Show("chrBloodlines table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            If bloodData.Tables(0).Rows.Count = 0 Then
-                MessageBox.Show("chrBloodlines table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
-        ancestryData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrAncestries")
-        If ancestryData Is Nothing Then
-            MessageBox.Show("chrAncestries table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            If ancestryData.Tables(0).Rows.Count = 0 Then
-                MessageBox.Show("chrAncestries table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End If
-        End If
         Return True
     End Function
 
 #End Region
 
-    Private Sub lblW_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblW.Click
-
-    End Sub
-
-    Private Sub lblM_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblM.Click
-
-    End Sub
-
-    Private Sub lblI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblI.Click
-
-    End Sub
-
-    Private Sub lblP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblP.Click
-
-    End Sub
 End Class

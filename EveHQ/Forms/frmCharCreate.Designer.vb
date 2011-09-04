@@ -20,37 +20,33 @@ Partial Class frmCharCreate
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCharCreate))
-        Me.btnAddPilot = New System.Windows.Forms.Button
-        Me.lvwSkills = New System.Windows.Forms.ListView
-        Me.colSkill = New System.Windows.Forms.ColumnHeader
-        Me.colLevel = New System.Windows.Forms.ColumnHeader
-        Me.colSP = New System.Windows.Forms.ColumnHeader
-        Me.lblSP = New System.Windows.Forms.Label
-        Me.cboAncestry = New System.Windows.Forms.ComboBox
-        Me.lblStep3 = New System.Windows.Forms.Label
-        Me.cboBloodline = New System.Windows.Forms.ComboBox
-        Me.lblStep2 = New System.Windows.Forms.Label
-        Me.cboRace = New System.Windows.Forms.ComboBox
-        Me.lblStep1 = New System.Windows.Forms.Label
-        Me.txtCharName = New System.Windows.Forms.TextBox
-        Me.lblCharID = New System.Windows.Forms.Label
-        Me.lblCharacterIDLabel = New System.Windows.Forms.Label
-        Me.lblAttTotal = New System.Windows.Forms.Label
-        Me.lblAttributesTotalLabel = New System.Windows.Forms.Label
-        Me.nudW = New System.Windows.Forms.NumericUpDown
-        Me.nudP = New System.Windows.Forms.NumericUpDown
-        Me.nudM = New System.Windows.Forms.NumericUpDown
-        Me.nudI = New System.Windows.Forms.NumericUpDown
-        Me.nudC = New System.Windows.Forms.NumericUpDown
-        Me.lblW = New System.Windows.Forms.Label
-        Me.lblP = New System.Windows.Forms.Label
-        Me.lblM = New System.Windows.Forms.Label
-        Me.lblI = New System.Windows.Forms.Label
-        Me.lblC = New System.Windows.Forms.Label
-        Me.grpSelection = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.lblStep4 = New System.Windows.Forms.Label
-        Me.lblStep5 = New System.Windows.Forms.Label
-        Me.grpSkills = New DevComponents.DotNetBar.Controls.GroupPanel
+        Me.btnAddPilot = New System.Windows.Forms.Button()
+        Me.lvwSkills = New System.Windows.Forms.ListView()
+        Me.colSkill = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colLevel = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colSP = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lblSP = New System.Windows.Forms.Label()
+        Me.cboRace = New System.Windows.Forms.ComboBox()
+        Me.lblStep1 = New System.Windows.Forms.Label()
+        Me.txtCharName = New System.Windows.Forms.TextBox()
+        Me.lblCharID = New System.Windows.Forms.Label()
+        Me.lblCharacterIDLabel = New System.Windows.Forms.Label()
+        Me.lblAttTotal = New System.Windows.Forms.Label()
+        Me.lblAttributesTotalLabel = New System.Windows.Forms.Label()
+        Me.nudW = New System.Windows.Forms.NumericUpDown()
+        Me.nudP = New System.Windows.Forms.NumericUpDown()
+        Me.nudM = New System.Windows.Forms.NumericUpDown()
+        Me.nudI = New System.Windows.Forms.NumericUpDown()
+        Me.nudC = New System.Windows.Forms.NumericUpDown()
+        Me.lblW = New System.Windows.Forms.Label()
+        Me.lblP = New System.Windows.Forms.Label()
+        Me.lblM = New System.Windows.Forms.Label()
+        Me.lblI = New System.Windows.Forms.Label()
+        Me.lblC = New System.Windows.Forms.Label()
+        Me.grpSelection = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.lblSelectChar = New System.Windows.Forms.Label()
+        Me.lblSelectAttributes = New System.Windows.Forms.Label()
+        Me.grpSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
         CType(Me.nudW, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -63,7 +59,7 @@ Partial Class frmCharCreate
         'btnAddPilot
         '
         Me.btnAddPilot.Enabled = False
-        Me.btnAddPilot.Location = New System.Drawing.Point(15, 389)
+        Me.btnAddPilot.Location = New System.Drawing.Point(15, 333)
         Me.btnAddPilot.Name = "btnAddPilot"
         Me.btnAddPilot.Size = New System.Drawing.Size(180, 23)
         Me.btnAddPilot.TabIndex = 24
@@ -73,11 +69,11 @@ Partial Class frmCharCreate
         'lvwSkills
         '
         Me.lvwSkills.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwSkills.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colSkill, Me.colLevel, Me.colSP})
         Me.lvwSkills.Location = New System.Drawing.Point(3, 8)
         Me.lvwSkills.Name = "lvwSkills"
-        Me.lvwSkills.Size = New System.Drawing.Size(328, 388)
+        Me.lvwSkills.Size = New System.Drawing.Size(328, 329)
         Me.lvwSkills.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwSkills.TabIndex = 0
         Me.lvwSkills.UseCompatibleStateImageBehavior = False
@@ -100,56 +96,14 @@ Partial Class frmCharCreate
         '
         'lblSP
         '
+        Me.lblSP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblSP.AutoSize = True
         Me.lblSP.BackColor = System.Drawing.Color.Transparent
-        Me.lblSP.Location = New System.Drawing.Point(3, 399)
+        Me.lblSP.Location = New System.Drawing.Point(3, 340)
         Me.lblSP.Name = "lblSP"
         Me.lblSP.Size = New System.Drawing.Size(76, 13)
         Me.lblSP.TabIndex = 5
         Me.lblSP.Text = "Skillpoints: n/a"
-        '
-        'cboAncestry
-        '
-        Me.cboAncestry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboAncestry.Enabled = False
-        Me.cboAncestry.FormattingEnabled = True
-        Me.cboAncestry.Location = New System.Drawing.Point(173, 59)
-        Me.cboAncestry.Name = "cboAncestry"
-        Me.cboAncestry.Size = New System.Drawing.Size(183, 21)
-        Me.cboAncestry.TabIndex = 17
-        '
-        'lblStep3
-        '
-        Me.lblStep3.AutoSize = True
-        Me.lblStep3.BackColor = System.Drawing.Color.Transparent
-        Me.lblStep3.Enabled = False
-        Me.lblStep3.Location = New System.Drawing.Point(12, 62)
-        Me.lblStep3.Name = "lblStep3"
-        Me.lblStep3.Size = New System.Drawing.Size(127, 13)
-        Me.lblStep3.TabIndex = 16
-        Me.lblStep3.Text = "Step 3: Choose Ancestry"
-        '
-        'cboBloodline
-        '
-        Me.cboBloodline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBloodline.Enabled = False
-        Me.cboBloodline.FormattingEnabled = True
-        Me.cboBloodline.Location = New System.Drawing.Point(173, 32)
-        Me.cboBloodline.Name = "cboBloodline"
-        Me.cboBloodline.Size = New System.Drawing.Size(183, 21)
-        Me.cboBloodline.Sorted = True
-        Me.cboBloodline.TabIndex = 15
-        '
-        'lblStep2
-        '
-        Me.lblStep2.AutoSize = True
-        Me.lblStep2.BackColor = System.Drawing.Color.Transparent
-        Me.lblStep2.Enabled = False
-        Me.lblStep2.Location = New System.Drawing.Point(12, 35)
-        Me.lblStep2.Name = "lblStep2"
-        Me.lblStep2.Size = New System.Drawing.Size(126, 13)
-        Me.lblStep2.TabIndex = 14
-        Me.lblStep2.Text = "Step 2: Choose Bloodline"
         '
         'cboRace
         '
@@ -174,7 +128,7 @@ Partial Class frmCharCreate
         'txtCharName
         '
         Me.txtCharName.Enabled = False
-        Me.txtCharName.Location = New System.Drawing.Point(173, 300)
+        Me.txtCharName.Location = New System.Drawing.Point(173, 244)
         Me.txtCharName.Name = "txtCharName"
         Me.txtCharName.Size = New System.Drawing.Size(183, 21)
         Me.txtCharName.TabIndex = 42
@@ -183,7 +137,7 @@ Partial Class frmCharCreate
         '
         Me.lblCharID.AutoSize = True
         Me.lblCharID.BackColor = System.Drawing.Color.Transparent
-        Me.lblCharID.Location = New System.Drawing.Point(190, 335)
+        Me.lblCharID.Location = New System.Drawing.Point(190, 279)
         Me.lblCharID.Name = "lblCharID"
         Me.lblCharID.Size = New System.Drawing.Size(0, 13)
         Me.lblCharID.TabIndex = 41
@@ -192,7 +146,7 @@ Partial Class frmCharCreate
         '
         Me.lblCharacterIDLabel.AutoSize = True
         Me.lblCharacterIDLabel.BackColor = System.Drawing.Color.Transparent
-        Me.lblCharacterIDLabel.Location = New System.Drawing.Point(47, 335)
+        Me.lblCharacterIDLabel.Location = New System.Drawing.Point(47, 279)
         Me.lblCharacterIDLabel.Name = "lblCharacterIDLabel"
         Me.lblCharacterIDLabel.Size = New System.Drawing.Size(73, 13)
         Me.lblCharacterIDLabel.TabIndex = 39
@@ -202,7 +156,7 @@ Partial Class frmCharCreate
         '
         Me.lblAttTotal.AutoSize = True
         Me.lblAttTotal.BackColor = System.Drawing.Color.Transparent
-        Me.lblAttTotal.Location = New System.Drawing.Point(190, 253)
+        Me.lblAttTotal.Location = New System.Drawing.Point(190, 197)
         Me.lblAttTotal.Name = "lblAttTotal"
         Me.lblAttTotal.Size = New System.Drawing.Size(19, 13)
         Me.lblAttTotal.TabIndex = 38
@@ -212,7 +166,7 @@ Partial Class frmCharCreate
         '
         Me.lblAttributesTotalLabel.AutoSize = True
         Me.lblAttributesTotalLabel.BackColor = System.Drawing.Color.Transparent
-        Me.lblAttributesTotalLabel.Location = New System.Drawing.Point(45, 253)
+        Me.lblAttributesTotalLabel.Location = New System.Drawing.Point(45, 197)
         Me.lblAttributesTotalLabel.Name = "lblAttributesTotalLabel"
         Me.lblAttributesTotalLabel.Size = New System.Drawing.Size(86, 13)
         Me.lblAttributesTotalLabel.TabIndex = 37
@@ -221,7 +175,7 @@ Partial Class frmCharCreate
         'nudW
         '
         Me.nudW.Enabled = False
-        Me.nudW.Location = New System.Drawing.Point(173, 221)
+        Me.nudW.Location = New System.Drawing.Point(173, 165)
         Me.nudW.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
         Me.nudW.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudW.Name = "nudW"
@@ -233,7 +187,7 @@ Partial Class frmCharCreate
         'nudP
         '
         Me.nudP.Enabled = False
-        Me.nudP.Location = New System.Drawing.Point(173, 195)
+        Me.nudP.Location = New System.Drawing.Point(173, 139)
         Me.nudP.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
         Me.nudP.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudP.Name = "nudP"
@@ -245,7 +199,7 @@ Partial Class frmCharCreate
         'nudM
         '
         Me.nudM.Enabled = False
-        Me.nudM.Location = New System.Drawing.Point(173, 169)
+        Me.nudM.Location = New System.Drawing.Point(173, 113)
         Me.nudM.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
         Me.nudM.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudM.Name = "nudM"
@@ -257,7 +211,7 @@ Partial Class frmCharCreate
         'nudI
         '
         Me.nudI.Enabled = False
-        Me.nudI.Location = New System.Drawing.Point(173, 143)
+        Me.nudI.Location = New System.Drawing.Point(173, 87)
         Me.nudI.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
         Me.nudI.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudI.Name = "nudI"
@@ -269,7 +223,7 @@ Partial Class frmCharCreate
         'nudC
         '
         Me.nudC.Enabled = False
-        Me.nudC.Location = New System.Drawing.Point(173, 117)
+        Me.nudC.Location = New System.Drawing.Point(173, 61)
         Me.nudC.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
         Me.nudC.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudC.Name = "nudC"
@@ -282,7 +236,7 @@ Partial Class frmCharCreate
         '
         Me.lblW.AutoSize = True
         Me.lblW.BackColor = System.Drawing.Color.Transparent
-        Me.lblW.Location = New System.Drawing.Point(45, 223)
+        Me.lblW.Location = New System.Drawing.Point(45, 167)
         Me.lblW.Name = "lblW"
         Me.lblW.Size = New System.Drawing.Size(98, 13)
         Me.lblW.TabIndex = 29
@@ -292,7 +246,7 @@ Partial Class frmCharCreate
         '
         Me.lblP.AutoSize = True
         Me.lblP.BackColor = System.Drawing.Color.Transparent
-        Me.lblP.Location = New System.Drawing.Point(45, 197)
+        Me.lblP.Location = New System.Drawing.Point(45, 141)
         Me.lblP.Name = "lblP"
         Me.lblP.Size = New System.Drawing.Size(103, 13)
         Me.lblP.TabIndex = 28
@@ -302,7 +256,7 @@ Partial Class frmCharCreate
         '
         Me.lblM.AutoSize = True
         Me.lblM.BackColor = System.Drawing.Color.Transparent
-        Me.lblM.Location = New System.Drawing.Point(45, 171)
+        Me.lblM.Location = New System.Drawing.Point(45, 115)
         Me.lblM.Name = "lblM"
         Me.lblM.Size = New System.Drawing.Size(90, 13)
         Me.lblM.TabIndex = 27
@@ -312,7 +266,7 @@ Partial Class frmCharCreate
         '
         Me.lblI.AutoSize = True
         Me.lblI.BackColor = System.Drawing.Color.Transparent
-        Me.lblI.Location = New System.Drawing.Point(45, 145)
+        Me.lblI.Location = New System.Drawing.Point(45, 89)
         Me.lblI.Name = "lblI"
         Me.lblI.Size = New System.Drawing.Size(107, 13)
         Me.lblI.TabIndex = 26
@@ -322,7 +276,7 @@ Partial Class frmCharCreate
         '
         Me.lblC.AutoSize = True
         Me.lblC.BackColor = System.Drawing.Color.Transparent
-        Me.lblC.Location = New System.Drawing.Point(45, 119)
+        Me.lblC.Location = New System.Drawing.Point(45, 63)
         Me.lblC.Name = "lblC"
         Me.lblC.Size = New System.Drawing.Size(96, 13)
         Me.lblC.TabIndex = 25
@@ -332,20 +286,16 @@ Partial Class frmCharCreate
         '
         Me.grpSelection.CanvasColor = System.Drawing.SystemColors.Control
         Me.grpSelection.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.grpSelection.Controls.Add(Me.lblStep5)
+        Me.grpSelection.Controls.Add(Me.lblSelectChar)
         Me.grpSelection.Controls.Add(Me.lblCharID)
         Me.grpSelection.Controls.Add(Me.txtCharName)
         Me.grpSelection.Controls.Add(Me.btnAddPilot)
         Me.grpSelection.Controls.Add(Me.lblCharacterIDLabel)
-        Me.grpSelection.Controls.Add(Me.lblStep4)
+        Me.grpSelection.Controls.Add(Me.lblSelectAttributes)
         Me.grpSelection.Controls.Add(Me.lblStep1)
-        Me.grpSelection.Controls.Add(Me.cboAncestry)
-        Me.grpSelection.Controls.Add(Me.lblStep3)
         Me.grpSelection.Controls.Add(Me.cboRace)
         Me.grpSelection.Controls.Add(Me.lblAttTotal)
-        Me.grpSelection.Controls.Add(Me.cboBloodline)
         Me.grpSelection.Controls.Add(Me.lblAttributesTotalLabel)
-        Me.grpSelection.Controls.Add(Me.lblStep2)
         Me.grpSelection.Controls.Add(Me.nudW)
         Me.grpSelection.Controls.Add(Me.lblC)
         Me.grpSelection.Controls.Add(Me.nudP)
@@ -358,7 +308,7 @@ Partial Class frmCharCreate
         Me.grpSelection.Controls.Add(Me.nudC)
         Me.grpSelection.Location = New System.Drawing.Point(12, 12)
         Me.grpSelection.Name = "grpSelection"
-        Me.grpSelection.Size = New System.Drawing.Size(379, 444)
+        Me.grpSelection.Size = New System.Drawing.Size(379, 385)
         '
         '
         '
@@ -393,27 +343,27 @@ Partial Class frmCharCreate
         Me.grpSelection.TabIndex = 43
         Me.grpSelection.Text = "Character Selection"
         '
-        'lblStep4
+        'lblSelectChar
         '
-        Me.lblStep4.AutoSize = True
-        Me.lblStep4.BackColor = System.Drawing.Color.Transparent
-        Me.lblStep4.Enabled = False
-        Me.lblStep4.Location = New System.Drawing.Point(12, 94)
-        Me.lblStep4.Name = "lblStep4"
-        Me.lblStep4.Size = New System.Drawing.Size(129, 13)
-        Me.lblStep4.TabIndex = 18
-        Me.lblStep4.Text = "Step 4: Amend Attributes"
+        Me.lblSelectChar.AutoSize = True
+        Me.lblSelectChar.BackColor = System.Drawing.Color.Transparent
+        Me.lblSelectChar.Enabled = False
+        Me.lblSelectChar.Location = New System.Drawing.Point(12, 247)
+        Me.lblSelectChar.Name = "lblSelectChar"
+        Me.lblSelectChar.Size = New System.Drawing.Size(155, 13)
+        Me.lblSelectChar.TabIndex = 39
+        Me.lblSelectChar.Text = "Step 3: Select Character Name"
         '
-        'lblStep5
+        'lblSelectAttributes
         '
-        Me.lblStep5.AutoSize = True
-        Me.lblStep5.BackColor = System.Drawing.Color.Transparent
-        Me.lblStep5.Enabled = False
-        Me.lblStep5.Location = New System.Drawing.Point(12, 303)
-        Me.lblStep5.Name = "lblStep5"
-        Me.lblStep5.Size = New System.Drawing.Size(155, 13)
-        Me.lblStep5.TabIndex = 39
-        Me.lblStep5.Text = "Step 5: Select Character Name"
+        Me.lblSelectAttributes.AutoSize = True
+        Me.lblSelectAttributes.BackColor = System.Drawing.Color.Transparent
+        Me.lblSelectAttributes.Enabled = False
+        Me.lblSelectAttributes.Location = New System.Drawing.Point(12, 38)
+        Me.lblSelectAttributes.Name = "lblSelectAttributes"
+        Me.lblSelectAttributes.Size = New System.Drawing.Size(129, 13)
+        Me.lblSelectAttributes.TabIndex = 18
+        Me.lblSelectAttributes.Text = "Step 2: Amend Attributes"
         '
         'grpSkills
         '
@@ -423,7 +373,7 @@ Partial Class frmCharCreate
         Me.grpSkills.Controls.Add(Me.lvwSkills)
         Me.grpSkills.Location = New System.Drawing.Point(407, 12)
         Me.grpSkills.Name = "grpSkills"
-        Me.grpSkills.Size = New System.Drawing.Size(335, 444)
+        Me.grpSkills.Size = New System.Drawing.Size(335, 385)
         '
         '
         '
@@ -462,7 +412,7 @@ Partial Class frmCharCreate
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(754, 465)
+        Me.ClientSize = New System.Drawing.Size(754, 407)
         Me.Controls.Add(Me.grpSkills)
         Me.Controls.Add(Me.grpSelection)
         Me.DoubleBuffered = True
@@ -488,10 +438,6 @@ Partial Class frmCharCreate
     Friend WithEvents colLevel As System.Windows.Forms.ColumnHeader
     Friend WithEvents colSP As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblSP As System.Windows.Forms.Label
-    Friend WithEvents cboAncestry As System.Windows.Forms.ComboBox
-    Friend WithEvents lblStep3 As System.Windows.Forms.Label
-    Friend WithEvents cboBloodline As System.Windows.Forms.ComboBox
-    Friend WithEvents lblStep2 As System.Windows.Forms.Label
     Friend WithEvents cboRace As System.Windows.Forms.ComboBox
     Friend WithEvents lblStep1 As System.Windows.Forms.Label
     Friend WithEvents btnAddPilot As System.Windows.Forms.Button
@@ -511,7 +457,7 @@ Partial Class frmCharCreate
     Friend WithEvents lblI As System.Windows.Forms.Label
     Friend WithEvents lblC As System.Windows.Forms.Label
     Friend WithEvents grpSelection As DevComponents.DotNetBar.Controls.GroupPanel
-    Friend WithEvents lblStep4 As System.Windows.Forms.Label
-    Friend WithEvents lblStep5 As System.Windows.Forms.Label
+    Friend WithEvents lblSelectAttributes As System.Windows.Forms.Label
+    Friend WithEvents lblSelectChar As System.Windows.Forms.Label
     Friend WithEvents grpSkills As DevComponents.DotNetBar.Controls.GroupPanel
 End Class
