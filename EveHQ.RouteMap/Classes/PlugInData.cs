@@ -96,7 +96,7 @@ namespace EveHQ.RouteMap
         public static string RMapExport_Path;
         public bool UseSerializableData = false;
         public static bool JKApiUpdated = false;
-        public static string LastCacheRefresh = "1.99.10.999";
+        public static string LastCacheRefresh = "1.99.12.999";
         public static ManualResetEvent doneEvent;
         public static ConfigData2 Config;
         public static Dictionary<long, CynoGenJam> CynoGenJamList;

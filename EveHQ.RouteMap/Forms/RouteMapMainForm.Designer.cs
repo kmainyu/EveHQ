@@ -548,7 +548,6 @@
             this.dc_HTC = new System.Data.DataColumn();
             this.sc_SettingsAndMap = new System.Windows.Forms.SplitContainer();
             this.sc_SelectInfo = new System.Windows.Forms.SplitContainer();
-            this.gp_InfoAS = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.cms_RemoveSWH = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmi_RemoveWH = new System.Windows.Forms.ToolStripMenuItem();
             this.t_APICheck = new System.Windows.Forms.Timer(this.components);
@@ -662,7 +661,6 @@
             this.sc_SelectInfo.Panel1.SuspendLayout();
             this.sc_SelectInfo.Panel2.SuspendLayout();
             this.sc_SelectInfo.SuspendLayout();
-            this.gp_InfoAS.SuspendLayout();
             this.cms_RemoveSWH.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -968,7 +966,7 @@
             this.dgv_JumpFrom.Name = "dgv_JumpFrom";
             this.dgv_JumpFrom.RowHeadersVisible = false;
             this.dgv_JumpFrom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_JumpFrom.Size = new System.Drawing.Size(208, 170);
+            this.dgv_JumpFrom.Size = new System.Drawing.Size(208, 176);
             this.dgv_JumpFrom.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn4
@@ -1039,7 +1037,7 @@
             this.dgv_JumpTo.Name = "dgv_JumpTo";
             this.dgv_JumpTo.RowHeadersVisible = false;
             this.dgv_JumpTo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_JumpTo.Size = new System.Drawing.Size(208, 170);
+            this.dgv_JumpTo.Size = new System.Drawing.Size(208, 176);
             this.dgv_JumpTo.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn1
@@ -1103,7 +1101,7 @@
             this.tv_SystemDetails.Location = new System.Drawing.Point(235, 1);
             this.tv_SystemDetails.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tv_SystemDetails.Name = "tv_SystemDetails";
-            this.tv_SystemDetails.Size = new System.Drawing.Size(189, 190);
+            this.tv_SystemDetails.Size = new System.Drawing.Size(195, 190);
             this.tv_SystemDetails.TabIndex = 4;
             // 
             // cms_GateRouteAvoidWP
@@ -1333,7 +1331,7 @@
             this.clb_SearchSelections.FormattingEnabled = true;
             this.clb_SearchSelections.Location = new System.Drawing.Point(195, 64);
             this.clb_SearchSelections.Name = "clb_SearchSelections";
-            this.clb_SearchSelections.Size = new System.Drawing.Size(233, 324);
+            this.clb_SearchSelections.Size = new System.Drawing.Size(239, 324);
             this.clb_SearchSelections.Sorted = true;
             this.clb_SearchSelections.TabIndex = 50;
             // 
@@ -2084,7 +2082,7 @@
             this.b_ZoomAndCenterRoute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ZoomAndCenterRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ZoomAndCenterRoute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ZoomAndCenterRoute.Location = new System.Drawing.Point(346, 1);
+            this.b_ZoomAndCenterRoute.Location = new System.Drawing.Point(352, 1);
             this.b_ZoomAndCenterRoute.Name = "b_ZoomAndCenterRoute";
             this.b_ZoomAndCenterRoute.Size = new System.Drawing.Size(88, 18);
             this.b_ZoomAndCenterRoute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -2098,7 +2096,7 @@
             this.b_ZoomAndCenterGateRoute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ZoomAndCenterGateRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ZoomAndCenterGateRoute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ZoomAndCenterGateRoute.Location = new System.Drawing.Point(346, 1);
+            this.b_ZoomAndCenterGateRoute.Location = new System.Drawing.Point(352, 1);
             this.b_ZoomAndCenterGateRoute.Name = "b_ZoomAndCenterGateRoute";
             this.b_ZoomAndCenterGateRoute.Size = new System.Drawing.Size(88, 18);
             this.b_ZoomAndCenterGateRoute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -2855,7 +2853,7 @@
             this.zg_JumpKills.ScrollMinX = 0D;
             this.zg_JumpKills.ScrollMinY = 0D;
             this.zg_JumpKills.ScrollMinY2 = 0D;
-            this.zg_JumpKills.Size = new System.Drawing.Size(434, 390);
+            this.zg_JumpKills.Size = new System.Drawing.Size(440, 396);
             this.zg_JumpKills.TabIndex = 1;
             this.zg_JumpKills.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zg_JumpKills_PointValueEvent);
             // 
@@ -2888,7 +2886,7 @@
             this.tc_RouteSeach.Name = "tc_RouteSeach";
             this.tc_RouteSeach.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
             this.tc_RouteSeach.SelectedTabIndex = 0;
-            this.tc_RouteSeach.Size = new System.Drawing.Size(436, 415);
+            this.tc_RouteSeach.Size = new System.Drawing.Size(442, 421);
             this.tc_RouteSeach.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document;
             this.tc_RouteSeach.TabIndex = 0;
             this.tc_RouteSeach.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
@@ -2911,7 +2909,7 @@
             this.tcp_Info.Location = new System.Drawing.Point(0, 23);
             this.tcp_Info.Name = "tcp_Info";
             this.tcp_Info.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_Info.Size = new System.Drawing.Size(436, 392);
+            this.tcp_Info.Size = new System.Drawing.Size(442, 398);
             this.tcp_Info.Style.BackColor1.Color = System.Drawing.SystemColors.Control;
             this.tcp_Info.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
             this.tcp_Info.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
@@ -2950,7 +2948,7 @@
             this.gp_SearchRoute.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_SearchRoute.Location = new System.Drawing.Point(1, 1);
             this.gp_SearchRoute.Name = "gp_SearchRoute";
-            this.gp_SearchRoute.Size = new System.Drawing.Size(434, 390);
+            this.gp_SearchRoute.Size = new System.Drawing.Size(440, 396);
             // 
             // 
             // 
@@ -3030,9 +3028,9 @@
             this.groupPanel2.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel2.Controls.Add(this.dgv_JumpFrom);
-            this.groupPanel2.Location = new System.Drawing.Point(215, 193);
+            this.groupPanel2.Location = new System.Drawing.Point(221, 193);
             this.groupPanel2.Name = "groupPanel2";
-            this.groupPanel2.Size = new System.Drawing.Size(214, 192);
+            this.groupPanel2.Size = new System.Drawing.Size(214, 198);
             // 
             // 
             // 
@@ -3077,7 +3075,7 @@
             this.groupPanel1.Controls.Add(this.dgv_JumpTo);
             this.groupPanel1.Location = new System.Drawing.Point(-1, 193);
             this.groupPanel1.Name = "groupPanel1";
-            this.groupPanel1.Size = new System.Drawing.Size(214, 192);
+            this.groupPanel1.Size = new System.Drawing.Size(214, 198);
             // 
             // 
             // 
@@ -3378,7 +3376,7 @@
             this.tabControlPanel10.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel10.Name = "tabControlPanel10";
             this.tabControlPanel10.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel10.Size = new System.Drawing.Size(436, 392);
+            this.tabControlPanel10.Size = new System.Drawing.Size(442, 398);
             this.tabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
             this.tabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.Silver;
             this.tabControlPanel10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -3402,7 +3400,7 @@
             this.tcp_Search.Location = new System.Drawing.Point(0, 23);
             this.tcp_Search.Name = "tcp_Search";
             this.tcp_Search.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_Search.Size = new System.Drawing.Size(436, 392);
+            this.tcp_Search.Size = new System.Drawing.Size(442, 398);
             this.tcp_Search.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
             this.tcp_Search.Style.BackColor2.Color = System.Drawing.Color.Silver;
             this.tcp_Search.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -3448,7 +3446,7 @@
             this.gp_SearchPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_SearchPanel.Location = new System.Drawing.Point(1, 1);
             this.gp_SearchPanel.Name = "gp_SearchPanel";
-            this.gp_SearchPanel.Size = new System.Drawing.Size(434, 390);
+            this.gp_SearchPanel.Size = new System.Drawing.Size(440, 396);
             // 
             // 
             // 
@@ -3732,7 +3730,7 @@
             this.tcp_Config.Location = new System.Drawing.Point(0, 23);
             this.tcp_Config.Name = "tcp_Config";
             this.tcp_Config.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_Config.Size = new System.Drawing.Size(436, 392);
+            this.tcp_Config.Size = new System.Drawing.Size(442, 398);
             this.tcp_Config.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
             this.tcp_Config.Style.BackColor2.Color = System.Drawing.Color.Silver;
             this.tcp_Config.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -3760,7 +3758,7 @@
             this.gp_Configs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_Configs.Location = new System.Drawing.Point(1, 1);
             this.gp_Configs.Name = "gp_Configs";
-            this.gp_Configs.Size = new System.Drawing.Size(434, 390);
+            this.gp_Configs.Size = new System.Drawing.Size(440, 396);
             // 
             // 
             // 
@@ -4096,7 +4094,7 @@
             this.tabControlPanel9.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel9.Name = "tabControlPanel9";
             this.tabControlPanel9.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel9.Size = new System.Drawing.Size(436, 392);
+            this.tabControlPanel9.Size = new System.Drawing.Size(442, 398);
             this.tabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
             this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.Silver;
             this.tabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -4117,7 +4115,7 @@
             this.groupPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel5.Location = new System.Drawing.Point(1, 1);
             this.groupPanel5.Name = "groupPanel5";
-            this.groupPanel5.Size = new System.Drawing.Size(434, 390);
+            this.groupPanel5.Size = new System.Drawing.Size(440, 396);
             // 
             // 
             // 
@@ -4483,7 +4481,7 @@
             this.tcp_SystemInfo.Location = new System.Drawing.Point(0, 23);
             this.tcp_SystemInfo.Name = "tcp_SystemInfo";
             this.tcp_SystemInfo.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_SystemInfo.Size = new System.Drawing.Size(436, 392);
+            this.tcp_SystemInfo.Size = new System.Drawing.Size(442, 398);
             this.tcp_SystemInfo.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
             this.tcp_SystemInfo.Style.BackColor2.Color = System.Drawing.Color.Silver;
             this.tcp_SystemInfo.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -4519,7 +4517,7 @@
             this.gp_systemInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_systemInfo.Location = new System.Drawing.Point(1, 1);
             this.gp_systemInfo.Name = "gp_systemInfo";
-            this.gp_systemInfo.Size = new System.Drawing.Size(434, 390);
+            this.gp_systemInfo.Size = new System.Drawing.Size(440, 396);
             // 
             // 
             // 
@@ -4605,7 +4603,7 @@
             this.ct_StationLoc.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             this.ct_StationLoc.Location = new System.Drawing.Point(86, 84);
             this.ct_StationLoc.Name = "ct_StationLoc";
-            this.ct_StationLoc.Size = new System.Drawing.Size(177, 19);
+            this.ct_StationLoc.Size = new System.Drawing.Size(183, 19);
             this.ct_StationLoc.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ct_StationLoc.TabIndex = 144;
             // 
@@ -5461,7 +5459,7 @@
             this.tcp_GateRte.Location = new System.Drawing.Point(0, 23);
             this.tcp_GateRte.Name = "tcp_GateRte";
             this.tcp_GateRte.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_GateRte.Size = new System.Drawing.Size(436, 392);
+            this.tcp_GateRte.Size = new System.Drawing.Size(442, 398);
             this.tcp_GateRte.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
             this.tcp_GateRte.Style.BackColor2.Color = System.Drawing.Color.Silver;
             this.tcp_GateRte.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -5477,7 +5475,7 @@
             this.b_ComputeGateRoute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ComputeGateRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ComputeGateRoute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ComputeGateRoute.Location = new System.Drawing.Point(160, 39);
+            this.b_ComputeGateRoute.Location = new System.Drawing.Point(166, 39);
             this.b_ComputeGateRoute.Name = "b_ComputeGateRoute";
             this.b_ComputeGateRoute.Size = new System.Drawing.Size(179, 28);
             this.b_ComputeGateRoute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5490,7 +5488,7 @@
             this.b_ExportGR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ExportGR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ExportGR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ExportGR.Location = new System.Drawing.Point(346, 49);
+            this.b_ExportGR.Location = new System.Drawing.Point(352, 49);
             this.b_ExportGR.Name = "b_ExportGR";
             this.b_ExportGR.Size = new System.Drawing.Size(88, 18);
             this.b_ExportGR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5503,7 +5501,7 @@
             this.b_ImportGR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ImportGR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ImportGR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ImportGR.Location = new System.Drawing.Point(346, 29);
+            this.b_ImportGR.Location = new System.Drawing.Point(352, 29);
             this.b_ImportGR.Name = "b_ImportGR";
             this.b_ImportGR.Size = new System.Drawing.Size(88, 18);
             this.b_ImportGR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5521,7 +5519,7 @@
             this.gp_GateRoute.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_GateRoute.Location = new System.Drawing.Point(1, 94);
             this.gp_GateRoute.Name = "gp_GateRoute";
-            this.gp_GateRoute.Size = new System.Drawing.Size(431, 301);
+            this.gp_GateRoute.Size = new System.Drawing.Size(437, 307);
             // 
             // 
             // 
@@ -5567,7 +5565,7 @@
             this.pbar_GRSearch.ForeColor = System.Drawing.Color.Green;
             this.pbar_GRSearch.Location = new System.Drawing.Point(1, 69);
             this.pbar_GRSearch.Name = "pbar_GRSearch";
-            this.pbar_GRSearch.Size = new System.Drawing.Size(434, 23);
+            this.pbar_GRSearch.Size = new System.Drawing.Size(440, 23);
             this.pbar_GRSearch.TabIndex = 98;
             // 
             // cb_GRCyno
@@ -5645,7 +5643,7 @@
             this.tcp_JumpRte.Location = new System.Drawing.Point(0, 23);
             this.tcp_JumpRte.Name = "tcp_JumpRte";
             this.tcp_JumpRte.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_JumpRte.Size = new System.Drawing.Size(436, 392);
+            this.tcp_JumpRte.Size = new System.Drawing.Size(442, 398);
             this.tcp_JumpRte.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
             this.tcp_JumpRte.Style.BackColor2.Color = System.Drawing.Color.Silver;
             this.tcp_JumpRte.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -5673,7 +5671,7 @@
             this.b_ExportJR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ExportJR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ExportJR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ExportJR.Location = new System.Drawing.Point(346, 49);
+            this.b_ExportJR.Location = new System.Drawing.Point(352, 49);
             this.b_ExportJR.Name = "b_ExportJR";
             this.b_ExportJR.Size = new System.Drawing.Size(88, 18);
             this.b_ExportJR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5686,7 +5684,7 @@
             this.b_ImportJR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ImportJR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ImportJR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ImportJR.Location = new System.Drawing.Point(346, 29);
+            this.b_ImportJR.Location = new System.Drawing.Point(352, 29);
             this.b_ImportJR.Name = "b_ImportJR";
             this.b_ImportJR.Size = new System.Drawing.Size(88, 18);
             this.b_ImportJR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5705,7 +5703,7 @@
             this.pbar_RouteCalc.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.pbar_RouteCalc.Location = new System.Drawing.Point(1, 69);
             this.pbar_RouteCalc.Name = "pbar_RouteCalc";
-            this.pbar_RouteCalc.Size = new System.Drawing.Size(434, 23);
+            this.pbar_RouteCalc.Size = new System.Drawing.Size(440, 23);
             this.pbar_RouteCalc.TabIndex = 22;
             this.pbar_RouteCalc.Text = "progressBarX1";
             // 
@@ -5714,7 +5712,7 @@
             this.b_ComputeRoute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_ComputeRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_ComputeRoute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ComputeRoute.Location = new System.Drawing.Point(160, 39);
+            this.b_ComputeRoute.Location = new System.Drawing.Point(166, 39);
             this.b_ComputeRoute.Name = "b_ComputeRoute";
             this.b_ComputeRoute.Size = new System.Drawing.Size(179, 28);
             this.b_ComputeRoute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5732,7 +5730,7 @@
             this.gp_JumpRoute.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_JumpRoute.Location = new System.Drawing.Point(1, 94);
             this.gp_JumpRoute.Name = "gp_JumpRoute";
-            this.gp_JumpRoute.Size = new System.Drawing.Size(432, 301);
+            this.gp_JumpRoute.Size = new System.Drawing.Size(438, 307);
             // 
             // 
             // 
@@ -8353,59 +8351,19 @@
             // 
             // sc_SelectInfo.Panel1
             // 
+            this.sc_SelectInfo.Panel1.AutoScroll = true;
             this.sc_SelectInfo.Panel1.Controls.Add(this.gp_MiniMap);
+            this.sc_SelectInfo.Panel1MinSize = 100;
             // 
             // sc_SelectInfo.Panel2
             // 
-            this.sc_SelectInfo.Panel2.Controls.Add(this.gp_InfoAS);
+            this.sc_SelectInfo.Panel2.AutoScroll = true;
+            this.sc_SelectInfo.Panel2.Controls.Add(this.tc_RouteSeach);
+            this.sc_SelectInfo.Panel2MinSize = 100;
             this.sc_SelectInfo.Size = new System.Drawing.Size(442, 730);
             this.sc_SelectInfo.SplitterDistance = 308;
             this.sc_SelectInfo.SplitterWidth = 1;
             this.sc_SelectInfo.TabIndex = 0;
-            // 
-            // gp_InfoAS
-            // 
-            this.gp_InfoAS.AutoScroll = true;
-            this.gp_InfoAS.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_InfoAS.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_InfoAS.Controls.Add(this.tc_RouteSeach);
-            this.gp_InfoAS.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_InfoAS.Location = new System.Drawing.Point(0, 0);
-            this.gp_InfoAS.MinimumSize = new System.Drawing.Size(439, 421);
-            this.gp_InfoAS.Name = "gp_InfoAS";
-            this.gp_InfoAS.Size = new System.Drawing.Size(442, 421);
-            // 
-            // 
-            // 
-            this.gp_InfoAS.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_InfoAS.Style.BackColorGradientAngle = 90;
-            this.gp_InfoAS.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_InfoAS.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_InfoAS.Style.BorderBottomWidth = 1;
-            this.gp_InfoAS.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_InfoAS.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_InfoAS.Style.BorderLeftWidth = 1;
-            this.gp_InfoAS.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_InfoAS.Style.BorderRightWidth = 1;
-            this.gp_InfoAS.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_InfoAS.Style.BorderTopWidth = 1;
-            this.gp_InfoAS.Style.Class = "";
-            this.gp_InfoAS.Style.CornerDiameter = 4;
-            this.gp_InfoAS.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_InfoAS.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_InfoAS.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_InfoAS.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_InfoAS.StyleMouseDown.Class = "";
-            this.gp_InfoAS.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_InfoAS.StyleMouseOver.Class = "";
-            this.gp_InfoAS.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_InfoAS.TabIndex = 0;
             // 
             // cms_RemoveSWH
             // 
@@ -8570,7 +8528,6 @@
             this.sc_SelectInfo.Panel1.ResumeLayout(false);
             this.sc_SelectInfo.Panel2.ResumeLayout(false);
             this.sc_SelectInfo.ResumeLayout(false);
-            this.gp_InfoAS.ResumeLayout(false);
             this.cms_RemoveSWH.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -9022,7 +8979,6 @@
         private DevComponents.DotNetBar.ButtonItem bi_ImportCSV;
         private System.Windows.Forms.SplitContainer sc_SettingsAndMap;
         private System.Windows.Forms.SplitContainer sc_SelectInfo;
-        private DevComponents.DotNetBar.Controls.GroupPanel gp_InfoAS;
         private DevComponents.DotNetBar.ExpandableSplitter ep_RightPanel;
         private System.Data.DataTable dt_Agents;
         private System.Data.DataColumn dc_AgentName;

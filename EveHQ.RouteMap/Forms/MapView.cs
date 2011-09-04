@@ -468,6 +468,12 @@ namespace EveHQ.RouteMap
                 else
                 {
                     sb_HorizontalScroll.Enabled = true;
+
+                    if ((int)(MapSize.Width / MapScale) < 0)
+                        return;
+                    if ((int)(MapSize.Width / 5 / MapScale) < 0)
+                        return;
+
                     sb_HorizontalScroll.LargeChange = (int)(MapSize.Width / MapScale);
                     sb_HorizontalScroll.SmallChange = (int)(MapSize.Width / 5 / MapScale);
                 }
