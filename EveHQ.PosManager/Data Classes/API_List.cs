@@ -201,9 +201,9 @@ namespace EveHQ.PosManager
 
         public void LoadPOSDataFromV2API(EveHQ.Core.EveAccount pilotAccount)
         {
-            XmlDocument apiPOSList, apiPOSDetails, apiCorpDetails;
+            XmlDocument apiPOSList, apiPOSDetails;
             XmlNodeList posList, rsltList;
-            XmlNode CnL, RsltL;
+            XmlNode RsltL;
             APITowerData aptd;
             DataSet locData;
             string corpName, corpID, strSQL;
@@ -218,21 +218,11 @@ namespace EveHQ.PosManager
             // Get API Files from disk (or API server) as needed.
             // Additions here for V2 of the API Keys - makes things a touch tricky... ... ...
             if (pilotAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.StarbaseList) &&
-                pilotAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.StarbaseDetail) &&
-                pilotAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.CorporationSheet))
+                pilotAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.StarbaseDetail))
             {
                 // Get my Corporation Details - do not have a setup pilot at this point
                 EveAPI.EveAPIRequest APIReq;
                 APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
-
-                apiCorpDetails = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, pilotAccount.ToAPIAccount(), "", EveAPI.APIReturnMethods.ReturnStandard);
-                if (!PlugInData.CheckXML(apiCorpDetails))
-                    return;
-
-                // Pull out corporation name and ID <-- used for later data storage and usage
-                CnL = apiCorpDetails.SelectSingleNode("/eveapi/result");
-                corpName = CnL["corporationName"].InnerText;
-                corpID = CnL["corporationID"].InnerText;
 
                 // Get overall POS List associated with the given Pilot ID
                 apiPOSList = APIReq.GetAPIXML(EveAPI.APITypes.POSList, pilotAccount.ToAPIAccount(), "", EveAPI.APIReturnMethods.ReturnStandard);
@@ -268,7 +258,13 @@ namespace EveHQ.PosManager
                         aptd.towerID = Convert.ToInt32(psN.Attributes.GetNamedItem("typeID").Value.ToString());
                         aptd.locID = Convert.ToInt32(psN.Attributes.GetNamedItem("locationID").Value.ToString());
                         aptd.moonID = Convert.ToInt32(psN.Attributes.GetNamedItem("moonID").Value.ToString());
+                        corpID = psN.Attributes.GetNamedItem("standingOwnerID").Value.ToString();
                         aptd.corpID = Convert.ToInt32(corpID);
+
+                        corpName = "Unknown";
+                        if (pilotAccount.Characters.Count > 0)
+                            corpName = pilotAccount.Characters[0].ToString();
+
                         aptd.corpName = corpName;
                             
                         aptd.towerName = GetTowerNameForTowerTypeID(aptd.towerID);
