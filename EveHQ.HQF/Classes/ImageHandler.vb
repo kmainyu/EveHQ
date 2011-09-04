@@ -30,7 +30,11 @@ Public Class ImageHandler
     Public Shared Function IconImage24(ByVal IconName As String, ByVal MetaLevel As Integer) As Image
 
         If IconName <> "" Then
-            Return ImageHandler.ItemIcons24(IconName & "_" & MetaLevel.ToString)
+            If ItemIcons24.ContainsKey(IconName & "_" & MetaLevel.ToString) Then
+                Return ImageHandler.ItemIcons24(IconName & "_" & MetaLevel.ToString)
+            Else
+                Return Nothing
+            End If
         Else
             Return Nothing
         End If
@@ -40,7 +44,11 @@ Public Class ImageHandler
     Public Shared Function IconImage48(ByVal IconName As String, ByVal MetaLevel As Integer) As Image
 
         If IconName <> "" Then
-            Return ImageHandler.ItemIcons48(IconName & "_" & MetaLevel.ToString)
+            If ItemIcons48.ContainsKey(IconName & "_" & MetaLevel.ToString) Then
+                Return ImageHandler.ItemIcons48(IconName & "_" & MetaLevel.ToString)
+            Else
+                Return Nothing
+            End If
         Else
             Return Nothing
         End If
