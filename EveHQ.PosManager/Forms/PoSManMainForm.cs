@@ -2633,7 +2633,7 @@ namespace EveHQ.PosManager
         private void tm_ExportTower_Click(object sender, EventArgs e)
         {
             POS p;
-            string fname;
+            string fname = "C:\\UNKNOWN.twr";
 
             if (PlugInData.PDL.Designs.ContainsKey(selName))
             {
@@ -2661,7 +2661,7 @@ namespace EveHQ.PosManager
 
         private void tm_ImportTower_Click(object sender, EventArgs e)
         {
-            string fname;
+            string fname = "C:\\UNKNOWN.twr";
             POS p = new POS();
             Stream cStr;
             BinaryFormatter myBf;
@@ -3711,7 +3711,7 @@ namespace EveHQ.PosManager
         {
             string line;
             StreamReader SR;
-            string fname;
+            string fname = "C:\\UNKNOWN.pos";
             string[] kv;
             POS it = new POS();
             Module im = new Module();
@@ -3849,7 +3849,7 @@ namespace EveHQ.PosManager
             // 2. Export
             string line;
             StreamWriter SW;
-            string fname;
+            string fname = "C:\\UNKNOWN.pos";
 
             if (Design.Name == "")
             {
