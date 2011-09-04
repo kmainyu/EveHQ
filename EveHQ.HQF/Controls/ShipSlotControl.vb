@@ -3402,24 +3402,26 @@ Public Class ShipSlotControl
                 Else
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboSCShip.SelectedItem.ToString
-                    Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString), HQFPilot)
-                    Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                    NewFit.UpdateBaseShipFromFitting()
-                    NewFit.PilotName = pPilot.PilotName
-                    NewFit.ApplyFitting(BuildType.BuildEverything)
-                    Dim remoteShip As Ship = NewFit.FittedShip
-                    Dim SCModules As New ArrayList
-                    ' Check the ship bonuses for further effects (Titans use this!)
-                    SCModules = GetShipGangBonusModules(remoteShip, pPilot)
-                    ' Check the modules for fleet effects
-                    For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                        If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                            FleetModule.ModuleState = ModuleStates.Gang
-                            FleetModule.SlotNo = 0
-                            SCModules.Add(FleetModule)
-                        End If
-                    Next
-                    cboSCShip.Tag = SCModules
+                    If cboSCPilot.SelectedItem IsNot Nothing Then
+                        Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString), HQFPilot)
+                        Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+                        NewFit.UpdateBaseShipFromFitting()
+                        NewFit.PilotName = pPilot.PilotName
+                        NewFit.ApplyFitting(BuildType.BuildEverything)
+                        Dim remoteShip As Ship = NewFit.FittedShip
+                        Dim SCModules As New ArrayList
+                        ' Check the ship bonuses for further effects (Titans use this!)
+                        SCModules = GetShipGangBonusModules(remoteShip, pPilot)
+                        ' Check the modules for fleet effects
+                        For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                            If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                                FleetModule.ModuleState = ModuleStates.Gang
+                                FleetModule.SlotNo = 0
+                                SCModules.Add(FleetModule)
+                            End If
+                        Next
+                        cboSCShip.Tag = SCModules
+                    End If
                 End If
             End If
             Call Me.CalculateFleetEffects()
@@ -3436,21 +3438,23 @@ Public Class ShipSlotControl
                 Else
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboWCShip.SelectedItem.ToString
-                    Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString), HQFPilot)
-                    Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                    NewFit.UpdateBaseShipFromFitting()
-                    NewFit.PilotName = pPilot.PilotName
-                    NewFit.ApplyFitting(BuildType.BuildEverything)
-                    Dim remoteShip As Ship = NewFit.FittedShip
-                    Dim WCModules As New ArrayList
-                    For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                        If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                            FleetModule.ModuleState = ModuleStates.Gang
-                            FleetModule.SlotNo = 0
-                            WCModules.Add(FleetModule)
-                        End If
-                    Next
-                    cboWCShip.Tag = WCModules
+                    If cboWCPilot.SelectedItem IsNot Nothing Then
+                        Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString), HQFPilot)
+                        Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+                        NewFit.UpdateBaseShipFromFitting()
+                        NewFit.PilotName = pPilot.PilotName
+                        NewFit.ApplyFitting(BuildType.BuildEverything)
+                        Dim remoteShip As Ship = NewFit.FittedShip
+                        Dim WCModules As New ArrayList
+                        For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                            If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                                FleetModule.ModuleState = ModuleStates.Gang
+                                FleetModule.SlotNo = 0
+                                WCModules.Add(FleetModule)
+                            End If
+                        Next
+                        cboWCShip.Tag = WCModules
+                    End If
                 End If
             End If
             Call Me.CalculateFleetEffects()
@@ -3467,21 +3471,23 @@ Public Class ShipSlotControl
                 Else
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboFCShip.SelectedItem.ToString
-                    Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString), HQFPilot)
-                    Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                    NewFit.UpdateBaseShipFromFitting()
-                    NewFit.PilotName = pPilot.PilotName
-                    NewFit.ApplyFitting(BuildType.BuildEverything)
-                    Dim remoteShip As Ship = NewFit.FittedShip
-                    Dim FCModules As New ArrayList
-                    For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                        If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                            FleetModule.ModuleState = ModuleStates.Gang
-                            FleetModule.SlotNo = 0
-                            FCModules.Add(FleetModule)
-                        End If
-                    Next
-                    cboFCShip.Tag = FCModules
+                    If cboFCPilot.SelectedItem IsNot Nothing Then
+                        Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString), HQFPilot)
+                        Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+                        NewFit.UpdateBaseShipFromFitting()
+                        NewFit.PilotName = pPilot.PilotName
+                        NewFit.ApplyFitting(BuildType.BuildEverything)
+                        Dim remoteShip As Ship = NewFit.FittedShip
+                        Dim FCModules As New ArrayList
+                        For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                            If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                                FleetModule.ModuleState = ModuleStates.Gang
+                                FleetModule.SlotNo = 0
+                                FCModules.Add(FleetModule)
+                            End If
+                        Next
+                        cboFCShip.Tag = FCModules
+                    End If
                 End If
             End If
             Call Me.CalculateFleetEffects()
