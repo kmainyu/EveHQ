@@ -387,11 +387,6 @@ Public Class PrismAssetsControl
                             Next
                         End If
                     End If
-                Else
-                    For divID As Integer = 1000 To 1006
-                        divisions.Add(OwnerID & "_" & divID.ToString, "Division " & divID.ToString)
-                        walletDivisions.Add(OwnerID & "_" & divID.ToString, "Wallet Division " & divID.ToString)
-                    Next
                 End If
 
             End If
