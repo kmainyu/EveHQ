@@ -266,7 +266,6 @@ namespace EveHQ.PosManager
                             corpName = pilotAccount.Characters[0].ToString();
 
                         aptd.corpName = corpName;
-                            
                         aptd.towerName = GetTowerNameForTowerTypeID(aptd.towerID);
 
                         if (aptd.locID != 0)
