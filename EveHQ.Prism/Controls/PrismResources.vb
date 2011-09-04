@@ -578,7 +578,6 @@ Public Class PrismResources
 
     Private Sub GetOwnedResources()
 
-
        Dim Owner As New PrismOwner
 
         For Each cOwner As ListViewItem In CType(cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems
