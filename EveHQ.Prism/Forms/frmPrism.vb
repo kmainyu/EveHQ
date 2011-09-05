@@ -6366,6 +6366,40 @@ Public Class frmPrism
 
     End Sub
 
+    Private Sub adtSearch_NodeDoubleClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSearch.NodeDoubleClick
+        Dim KeyName As String = e.Node.Name
+        Select Case e.Node.TagString
+            Case "Item"
+                Dim itemName As String = KeyName
+                Dim itemID As String = EveHQ.Core.HQ.itemList(itemName)
+                ' See if we have a blueprint
+                Dim BPName As String = ""
+                Dim BPID As String = ""
+                If itemName.EndsWith("Blueprint") = False Then
+                    If EveHQ.Core.HQ.itemList.ContainsKey(itemName.Trim & " Blueprint") = True Then
+                        BPName = itemName.Trim & " Blueprint"
+                        BPID = EveHQ.Core.HQ.itemList(BPName)
+                    End If
+                Else
+                    BPID = itemID
+                    BPName = itemName
+                    itemID = PlugInData.Blueprints(BPID).ProductID.ToString
+                    itemName = EveHQ.Core.HQ.itemData(itemID).Name
+                End If
+                If BPID <> "" Then
+                    ' Start a standard BP Calc
+                    Dim BPCalc As New frmBPCalculator(BPName)
+                    Call OpenBPCalculator(BPCalc)
+                End If
+            Case "Production"
+                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
+                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
+                    Dim BPCalc As New frmBPCalculator(PJob)
+                    Call OpenBPCalculator(BPCalc)
+                End If
+        End Select
+    End Sub
+
     Private Sub tabPrism_SelectedTabChanging(sender As Object, e As DevComponents.DotNetBar.TabStripTabChangingEventArgs) Handles tabPrism.SelectedTabChanging
         SelectedTab = e.NewTab
     End Sub
@@ -6946,4 +6980,5 @@ Public Class frmPrism
             Call Me.LoadRecyclingInfo()
         End If
     End Sub
+
 End Class
