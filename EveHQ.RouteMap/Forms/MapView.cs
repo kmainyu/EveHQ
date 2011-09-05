@@ -465,8 +465,6 @@ namespace EveHQ.RouteMap
             {
                 MapSize = Size.Subtract(ClientSize, new Size(sb_VerticalScroll.Width, sb_HorizontalScroll.Height));
 
-                //if (GlobalFlatArea.Width + UserSettings.Instance.ActiveViewportStyle.Margin.Width * 2 <
-                //    _mapEffectiveSize.Width / _mapScale)
                 if (GlobalFlatArea.Width < MapSize.Width / MapScale)
                 {
                     sb_HorizontalScroll.Enabled = false;
@@ -476,18 +474,12 @@ namespace EveHQ.RouteMap
                 {
                     sb_HorizontalScroll.Enabled = true;
 
-                    if ((int)(MapSize.Width / MapScale) < 0)
-                        return;
-                    if ((int)(MapSize.Width / 5 / MapScale) < 0)
-                        return;
+                    if ((int)(MapSize.Width / MapScale) > 0)
+                        sb_HorizontalScroll.LargeChange = (int)(MapSize.Width / MapScale);
+                    if ((int)(MapSize.Width / 5 / MapScale) > 0)
+                        sb_HorizontalScroll.SmallChange = (int)(MapSize.Width / 5 / MapScale);
 
-                    sb_HorizontalScroll.LargeChange = (int)(MapSize.Width / MapScale);
-                    sb_HorizontalScroll.SmallChange = (int)(MapSize.Width / 5 / MapScale);
                 }
-
-                //if (GlobalFlatArea.Height + UserSettings.Instance.ActiveViewportStyle.Margin.Height * 2 <
-                //    _mapEffectiveSize.Height / _mapScale)
-
 
                 if (GlobalFlatArea.Height < MapSize.Height / MapScale)
                 {
@@ -497,8 +489,10 @@ namespace EveHQ.RouteMap
                 else
                 {
                     sb_VerticalScroll.Enabled = true;
-                    sb_VerticalScroll.LargeChange = (int)(MapSize.Height / MapScale);
-                    sb_VerticalScroll.SmallChange = (int)(MapSize.Height / 5 / MapScale);
+                    if ((int)(MapSize.Height / MapScale) > 0)
+                        sb_VerticalScroll.LargeChange = (int)(MapSize.Height / MapScale);
+                    if ((int)(MapSize.Height / 5 / MapScale) > 0)
+                        sb_VerticalScroll.SmallChange = (int)(MapSize.Height / 5 / MapScale);
                 }
             }
             else
