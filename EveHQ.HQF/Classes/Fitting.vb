@@ -1285,8 +1285,8 @@ Imports System.Runtime.Serialization
                 If HQF.Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = "76" Then
                     Dim cModule As ShipModule = newShip.MidSlot(slot)
                     If cModule.LoadedCharge IsNot Nothing Then
-						Dim reloadEffect As Double = 10 / (CInt(cModule.Capacity / cModule.LoadedCharge.Volume))
-                        cModule.Attributes("73") = (cModule.Attributes("73") + reloadEffect)
+                        Dim reloadEffect As Double = 10 / (CInt(Int(cModule.Capacity / cModule.LoadedCharge.Volume)))
+                        cModule.Attributes("73") += reloadEffect
                     End If
                 End If
             End If
