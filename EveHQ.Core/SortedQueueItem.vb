@@ -36,6 +36,7 @@ Public Class SortedQueueItem
     Dim mIsInjected As Boolean
     Dim mPercent As Double
     Dim mTrainTime As Long
+    Dim mTimeBeforeTrained As Long
     Dim mDateFinished As Date
     Dim mRank As Integer
     Dim mPAtt As String
@@ -207,6 +208,20 @@ Public Class SortedQueueItem
         End Get
         Set(ByVal value As Long)
             mTrainTime = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Shows the quickest time (in seconds) before this skill (and level) becomes trained
+    ''' </summary>
+    ''' <value>Shows the quickest time (in seconds) before this skill (and level) becomes trained</value>
+    ''' <remarks></remarks>
+    Public Property TimeBeforeTrained As Long
+        Get
+            Return mTimeBeforeTrained
+        End Get
+        Set(value As Long)
+            mTimeBeforeTrained = value
         End Set
     End Property
 

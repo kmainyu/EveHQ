@@ -1804,17 +1804,20 @@ Public Class EveHQSettingsFunctions
         EveHQ.Core.HQ.EveHQSettings.QColumns(3, 0) = "Tole" : EveHQ.Core.HQ.EveHQSettings.QColumns(3, 1) = CStr(True)
         EveHQ.Core.HQ.EveHQSettings.QColumns(4, 0) = "Perc" : EveHQ.Core.HQ.EveHQSettings.QColumns(4, 1) = CStr(True)
         EveHQ.Core.HQ.EveHQSettings.QColumns(5, 0) = "Trai" : EveHQ.Core.HQ.EveHQSettings.QColumns(5, 1) = CStr(True)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(6, 0) = "Date" : EveHQ.Core.HQ.EveHQSettings.QColumns(6, 1) = CStr(True)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(7, 0) = "Rank" : EveHQ.Core.HQ.EveHQSettings.QColumns(7, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(8, 0) = "PAtt" : EveHQ.Core.HQ.EveHQSettings.QColumns(8, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(9, 0) = "SAtt" : EveHQ.Core.HQ.EveHQSettings.QColumns(9, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(10, 0) = "SPRH" : EveHQ.Core.HQ.EveHQSettings.QColumns(10, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(11, 0) = "SPRD" : EveHQ.Core.HQ.EveHQSettings.QColumns(11, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(12, 0) = "SPRW" : EveHQ.Core.HQ.EveHQSettings.QColumns(12, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(13, 0) = "SPRM" : EveHQ.Core.HQ.EveHQSettings.QColumns(13, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(14, 0) = "SPRY" : EveHQ.Core.HQ.EveHQSettings.QColumns(14, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(15, 0) = "SPAd" : EveHQ.Core.HQ.EveHQSettings.QColumns(15, 1) = CStr(False)
-        EveHQ.Core.HQ.EveHQSettings.QColumns(16, 0) = "SPTo" : EveHQ.Core.HQ.EveHQSettings.QColumns(16, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(6, 0) = "Comp" : EveHQ.Core.HQ.EveHQSettings.QColumns(6, 1) = CStr(True)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(7, 0) = "Date" : EveHQ.Core.HQ.EveHQSettings.QColumns(7, 1) = CStr(True)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(8, 0) = "Rank" : EveHQ.Core.HQ.EveHQSettings.QColumns(8, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(9, 0) = "PAtt" : EveHQ.Core.HQ.EveHQSettings.QColumns(9, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(10, 0) = "SAtt" : EveHQ.Core.HQ.EveHQSettings.QColumns(10, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(11, 0) = "SPRH" : EveHQ.Core.HQ.EveHQSettings.QColumns(11, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(12, 0) = "SPRD" : EveHQ.Core.HQ.EveHQSettings.QColumns(12, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(13, 0) = "SPRW" : EveHQ.Core.HQ.EveHQSettings.QColumns(13, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(14, 0) = "SPRM" : EveHQ.Core.HQ.EveHQSettings.QColumns(14, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(15, 0) = "SPRY" : EveHQ.Core.HQ.EveHQSettings.QColumns(15, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(16, 0) = "SPAd" : EveHQ.Core.HQ.EveHQSettings.QColumns(16, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(17, 0) = "SPTo" : EveHQ.Core.HQ.EveHQSettings.QColumns(17, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(18, 0) = "Note" : EveHQ.Core.HQ.EveHQSettings.QColumns(18, 1) = CStr(False)
+        EveHQ.Core.HQ.EveHQSettings.QColumns(19, 0) = "Prio" : EveHQ.Core.HQ.EveHQSettings.QColumns(19, 1) = CStr(False)
         EveHQ.Core.HQ.EveHQSettings.QColumnsSet = True
     End Sub
 
@@ -2059,22 +2062,27 @@ Public Class EveHQSettingsFunctions
         newItem = New ListViewItem
         newItem.Name = "To"
         newItem.Text = "To Lvl"
-        newItem.Checked = False
+        newItem.Checked = True
         EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "Percent"
         newItem.Text = "%"
-        newItem.Checked = False
+        newItem.Checked = True
         EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "TrainTime"
         newItem.Text = "Training Time"
-        newItem.Checked = False
+        newItem.Checked = True
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "TimeToComplete"
+        newItem.Text = "Time To Complete"
+        newItem.Checked = True
         EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "DateEnded"
         newItem.Text = "Date Completed"
-        newItem.Checked = False
+        newItem.Checked = True
         EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "Rank"
@@ -2131,11 +2139,11 @@ Public Class EveHQSettingsFunctions
         newItem.Text = "Notes"
         newItem.Checked = False
         EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
-        'newItem = New ListViewItem
-        'newItem.Name = "Priority"
-        'newItem.Text = "Priority"
-        'newItem.Checked = False
-        'EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        newItem = New ListViewItem
+        newItem.Name = "Priority"
+        newItem.Text = "Priority"
+        newItem.Checked = False
+        EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
     End Sub
     Public Shared Sub InitialiseUserColumns()
         If EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Count = 0 Then
@@ -2145,6 +2153,8 @@ Public Class EveHQSettingsFunctions
             EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("To1")
             EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("Percent1")
             EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("TrainTime1")
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("TimeToComplete1")
+            EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Add("DateEnded1")
         End If
         ' Check if the standard columns have changed and we need to add columns
         If EveHQ.Core.HQ.EveHQSettings.UserQueueColumns.Count <> EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Count Then

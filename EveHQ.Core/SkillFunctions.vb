@@ -871,6 +871,19 @@ Public Class SkillFunctions
         End If
 
     End Function
+
+    Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal parentSkillID As String, ToSkillLevel As Integer) As Double
+        Dim UsableTime As Double = 0
+        Dim FromSkillLevel As Integer = -1
+        If rPilot.PilotSkills.Contains(parentSkillID) = False Then
+            UsableTime = TimeBeforeCanTrain(rPilot, parentSkillID)
+        Else
+            FromSkillLevel = CType(rPilot.PilotSkills(parentSkillID), EveHQ.Core.EveSkill).Level
+        End If
+        UsableTime += CalcTimeToLevel(rPilot, EveHQ.Core.HQ.SkillListID(parentSkillID), ToSkillLevel, FromSkillLevel)
+        Return UsableTime
+    End Function
+
     Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal parentSkillID As String) As Double
 
         Dim parentSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(parentSkillID)

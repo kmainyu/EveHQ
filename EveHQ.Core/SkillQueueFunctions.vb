@@ -111,6 +111,7 @@ Public Class SkillQueueFunctions
                     qItem.ToLevel = clevel
                     qItem.Percent = percent
                     qItem.TrainTime = cTime
+                    qItem.TimeBeforeTrained = cTime
                     qItem.DateFinished = endtime
                     qItem.Rank = mySkill.Rank
                     qItem.PAtt = mySkill.PA
@@ -354,6 +355,7 @@ Public Class SkillQueueFunctions
                         qItem.PartTrained = False
                     End If
                     qItem.TrainTime = cTime
+                    qItem.TimeBeforeTrained = CLng(EveHQ.Core.SkillFunctions.TimeBeforeCanTrain(qPilot, myskill.ID, toLevel))
                     qItem.DateFinished = endtime
                     qItem.Rank = myskill.Rank
                     qItem.PAtt = myskill.PA

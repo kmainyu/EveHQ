@@ -332,6 +332,8 @@ Public Class frmTraining
                         lv.Columns.Add(colName, "%", 30, HorizontalAlignment.Center, "")
                     Case "TrainTime"
                         lv.Columns.Add(colName, "Training Time", 100, HorizontalAlignment.Left, "")
+                    Case "TimeToComplete"
+                        lv.Columns.Add(colName, "Time To Complete", 100, HorizontalAlignment.Left, "")
                     Case "DateEnded"
                         lv.Columns.Add(colName, "Date Completed", 150, HorizontalAlignment.Left, "")
                     Case "Rank"
@@ -849,6 +851,10 @@ Public Class frmTraining
                         newSI.Name = "TrainTime"
                         newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qitem.TrainTime))
                         newSI.Tag = qitem.TrainTime
+                    Case "TimeToComplete"
+                        newSI.Name = "TimeToComplete"
+                        newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qitem.TimeBeforeTrained))
+                        newSI.Tag = qitem.TimeBeforeTrained
                     Case "DateEnded"
                         newSI.Name = qitem.DateFinished.ToBinary.ToString
                         newSI.Text = Format(qitem.DateFinished, "ddd") & " " & FormatDateTime(qitem.DateFinished, DateFormat.GeneralDate)
@@ -863,31 +869,31 @@ Public Class frmTraining
                         newSI.Text = qitem.SAtt
                     Case "SPHour"
                         newSI.Name = qitem.SPRate.ToString
-                        newSI.Text = FormatNumber(qitem.SPRate, 0, , , TriState.True)
+                        newSI.Text = qitem.SPRate.ToString("N0")
                     Case "SPDay"
                         newSI.Name = CStr(CDbl(qitem.SPRate) * 24)
-                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24, 0, , , TriState.True)
+                        newSI.Text = (qitem.SPRate * 24).ToString("N0")
                     Case "SPWeek"
                         newSI.Name = CStr(CDbl(qitem.SPRate) * 24 * 7)
-                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24 * 7, 0, , , TriState.True)
+                        newSI.Text = (qitem.SPRate * 24 * 7).ToString("N0")
                     Case "SPMonth"
                         newSI.Name = CStr(CDbl(qitem.SPRate) * 24 * 30)
-                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24 * 30, 0, , , TriState.True)
+                        newSI.Text = (qitem.SPRate * 24 * 30).ToString("N0")
                     Case "SPYear"
                         newSI.Name = CStr(CDbl(qitem.SPRate) * 24 * 365)
-                        newSI.Text = FormatNumber(CDbl(qitem.SPRate) * 24 * 365, 0, , , TriState.True)
+                        newSI.Text = (qitem.SPRate * 24 * 365).ToString("N0")
                     Case "SPAdded"
                         newSI.Name = qitem.SPTrained.ToString
-                        newSI.Text = FormatNumber(qitem.SPTrained, 0, , , TriState.True)
+                        newSI.Text = qitem.SPTrained.ToString("N0")
                     Case "SPTotal"
                         newSI.Name = CStr(totalSP)
-                        newSI.Text = FormatNumber(totalSP, 0, , , TriState.True)
+                        newSI.Text = totalSP.ToString("N0")
                     Case "Notes"
                         newSI.Name = "Notes"
                         newSI.Text = qitem.Notes
                     Case "Priority"
                         newSI.Name = "Priority"
-                        newSI.Text = FormatNumber(qitem.Priority, 0, , , TriState.True)
+                        newSI.Text = qitem.Priority.ToString("N0")
                 End Select
                 newskill.SubItems.Add(newSI)
             End If
@@ -1344,6 +1350,8 @@ Public Class frmTraining
                 Call SortQueue("Percent", SortDirection)
             Case "Training Time"
                 Call SortQueue("TrainTime", SortDirection) ' Sort on training time
+            Case "Time To Complete"
+                Call SortQueue("TimeBeforeTrained", SortDirection) ' Sort on time to level
             Case "Rank"
                 Call SortQueue("Rank", SortDirection)
             Case "Pri Attr"
