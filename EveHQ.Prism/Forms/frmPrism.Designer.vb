@@ -843,12 +843,12 @@ Partial Class frmPrism
         Me.ctxTransactions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxTransactions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuTransactionModifyPrice})
         Me.ctxTransactions.Name = "ctxTransactions"
-        Me.ctxTransactions.Size = New System.Drawing.Size(153, 48)
+        Me.ctxTransactions.Size = New System.Drawing.Size(133, 26)
         '
         'mnuTransactionModifyPrice
         '
         Me.mnuTransactionModifyPrice.Name = "mnuTransactionModifyPrice"
-        Me.mnuTransactionModifyPrice.Size = New System.Drawing.Size(141, 22)
+        Me.mnuTransactionModifyPrice.Size = New System.Drawing.Size(132, 22)
         Me.mnuTransactionModifyPrice.Text = "Modify Price"
         '
         'btnResetJournal
@@ -1143,30 +1143,30 @@ Partial Class frmPrism
         'mnuExportToCSV
         '
         Me.mnuExportToCSV.Name = "mnuExportToCSV"
-        Me.mnuExportToCSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportToCSV.Size = New System.Drawing.Size(270, 22)
         Me.mnuExportToCSV.Text = "Copy Recycling Data to Clipboard (CSV)"
         '
         'mnuExportToTSV
         '
         Me.mnuExportToTSV.Name = "mnuExportToTSV"
-        Me.mnuExportToTSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportToTSV.Size = New System.Drawing.Size(270, 22)
         Me.mnuExportToTSV.Text = "Copy Recycling Data to Clipboard (TSV)"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(289, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(267, 6)
         '
         'mnuExportTotalsToCSV
         '
         Me.mnuExportTotalsToCSV.Name = "mnuExportTotalsToCSV"
-        Me.mnuExportTotalsToCSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportTotalsToCSV.Size = New System.Drawing.Size(270, 22)
         Me.mnuExportTotalsToCSV.Text = "Copy Recycling Totals to Clipboard (CSV)"
         '
         'mnuExportTotalsToTSV
         '
         Me.mnuExportTotalsToTSV.Name = "mnuExportTotalsToTSV"
-        Me.mnuExportTotalsToTSV.Size = New System.Drawing.Size(292, 22)
+        Me.mnuExportTotalsToTSV.Size = New System.Drawing.Size(270, 22)
         Me.mnuExportTotalsToTSV.Text = "Copy Recycling Totals to Clipboard (TSV)"
         '
         'chkFeesOnItems
@@ -1671,24 +1671,24 @@ Partial Class frmPrism
         'mnuAddRecycleItem
         '
         Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
-        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(142, 22)
         Me.mnuAddRecycleItem.Text = "Add Item"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(139, 6)
         '
         'mnuAlterRecycleQuantity
         '
         Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
-        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(142, 22)
         Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
         '
         'mnuRemoveRecycleItem
         '
         Me.mnuRemoveRecycleItem.Name = "mnuRemoveRecycleItem"
-        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(152, 22)
+        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(142, 22)
         Me.mnuRemoveRecycleItem.Text = "Remove Item"
         '
         'NodeConnector12
@@ -2027,24 +2027,24 @@ Partial Class frmPrism
         'mnuSendToBPCalc
         '
         Me.mnuSendToBPCalc.Name = "mnuSendToBPCalc"
-        Me.mnuSendToBPCalc.Size = New System.Drawing.Size(222, 22)
+        Me.mnuSendToBPCalc.Size = New System.Drawing.Size(207, 22)
         Me.mnuSendToBPCalc.Text = "Send to Blueprint Calculator"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(204, 6)
         '
         'mnuAmendBPDetails
         '
         Me.mnuAmendBPDetails.Name = "mnuAmendBPDetails"
-        Me.mnuAmendBPDetails.Size = New System.Drawing.Size(222, 22)
+        Me.mnuAmendBPDetails.Size = New System.Drawing.Size(207, 22)
         Me.mnuAmendBPDetails.Text = "Amend Blueprint Details"
         '
         'mnuRemoveCustomBP
         '
         Me.mnuRemoveCustomBP.Name = "mnuRemoveCustomBP"
-        Me.mnuRemoveCustomBP.Size = New System.Drawing.Size(222, 22)
+        Me.mnuRemoveCustomBP.Size = New System.Drawing.Size(207, 22)
         Me.mnuRemoveCustomBP.Text = "Remove Custom Blueprint"
         '
         'ColumnHeader1

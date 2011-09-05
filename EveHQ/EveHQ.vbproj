@@ -876,7 +876,9 @@
     <None Include="Resources\WHattribs.txt" />
     <None Include="Resources\WHClasses.txt" />
     <None Include="Resources\WHEffects.txt" />
-    <Content Include="_updates.xml" />
+    <Content Include="_updates.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>
