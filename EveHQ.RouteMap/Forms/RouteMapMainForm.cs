@@ -96,7 +96,6 @@ namespace EveHQ.RouteMap
         {
             int dim;
             bool st;
-            string fname;
 
             DateTime startT, endT;
             TimeSpan runT;
@@ -4666,7 +4665,7 @@ namespace EveHQ.RouteMap
             // Text Export Cyno/Jump Route
             string line;
             StreamWriter SW;
-            string RMapBase_Path, RMapManage_Path, RMapData_Path, fname;
+            string fname;
 
             if (CurrentRoute.Count <= 0)
             {
@@ -4674,24 +4673,7 @@ namespace EveHQ.RouteMap
                 return;
             }
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                RMapBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                RMapBase_Path = Application.StartupPath;
-            }
-            RMapManage_Path = Path.Combine(RMapBase_Path, "RouteMap");
-            RMapData_Path = Path.Combine(RMapManage_Path, "Routes");
-
-            if (!Directory.Exists(RMapManage_Path))
-                Directory.CreateDirectory(RMapManage_Path);
-
-            if (!Directory.Exists(RMapData_Path))
-                Directory.CreateDirectory(RMapData_Path);
-
-            sfd_ExportSelect.InitialDirectory = RMapData_Path;
+            sfd_ExportSelect.InitialDirectory = PlugInData.RMapData_Path;
             sfd_ExportSelect.Filter = "Jump Route (*.jrt)|*.jrt";
             sfd_ExportSelect.FilterIndex = 0;
             DialogResult DR = sfd_ExportSelect.ShowDialog();
@@ -4704,8 +4686,19 @@ namespace EveHQ.RouteMap
 
             line = "START:" + NewRoute.Start.Name;
             SW.WriteLine(line);
+
+            foreach (Vertex v in CurrentRoute)
+            {
+                if (v.SolarSystem.Name.Equals(NewRoute.Start.Name) || v.SolarSystem.Name.Equals(NewRoute.Dest.Name))
+                    continue;
+
+                line = "JUMP:" + v.SolarSystem.Name + " By: " + v.JumpTyp.ToString();
+                SW.WriteLine(line);
+            }
+            
             line = "END:" + NewRoute.Dest.Name;
             SW.WriteLine(line);
+           
             foreach (var s in NewRoute.WayPoints)
             {
                 if ((!s.Name.Equals(NewRoute.Start.Name)) && (!s.Name.Equals(NewRoute.Dest.Name)))
@@ -4752,28 +4745,10 @@ namespace EveHQ.RouteMap
             // Text Import for Jump Bridge & Cyno List *.csv
             string line;
             StreamReader SR;
-            string RMapBase_Path, RMapManage_Path, RMapData_Path, fname;
+            string fname;
             string[] kv;
 
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                RMapBase_Path = EveHQ.Core.HQ.appDataFolder;
-            }
-            else
-            {
-                RMapBase_Path = Application.StartupPath;
-            }
-            RMapManage_Path = Path.Combine(RMapBase_Path, "RouteMap");
-            RMapData_Path = Path.Combine(RMapManage_Path, "Routes");
-
-            if (!Directory.Exists(RMapManage_Path))
-                Directory.CreateDirectory(RMapManage_Path);
-
-            if (!Directory.Exists(RMapData_Path))
-                Directory.CreateDirectory(RMapData_Path);
-
-
-            ofd_ImportFile.InitialDirectory = RMapData_Path;
+             ofd_ImportFile.InitialDirectory = PlugInData.RMapData_Path;
             ofd_ImportFile.Filter = "Jump Route (*.jrt)|*.jrt";
             ofd_ImportFile.FilterIndex = 0;
             
@@ -5001,6 +4976,16 @@ namespace EveHQ.RouteMap
 
             line = "START:" + NewRoute.Start.Name;
             SW.WriteLine(line);
+
+            foreach (Vertex v in CurrentGateRoute)
+            {
+                if (v.SolarSystem.Name.Equals(NewRoute.Start.Name) || v.SolarSystem.Name.Equals(NewRoute.Dest.Name))
+                    continue;
+
+                line = "GATE:" + v.SolarSystem.Name;
+                SW.WriteLine(line);
+            }
+
             line = "END:" + NewRoute.Dest.Name;
             SW.WriteLine(line);
             foreach (var s in NewRoute.WayPoints)
