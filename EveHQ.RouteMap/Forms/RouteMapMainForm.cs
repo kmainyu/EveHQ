@@ -191,10 +191,10 @@ namespace EveHQ.RouteMap
             tc_MapSelect.SelectedTab = tp_Galaxy;
             //tc_MapSelect.Refresh();
 
-            fname = Path.Combine(EveHQ.Core.HQ.appFolder, "RouteMap_help_info.rtf");
-            if (File.Exists(fname))
-                rtb_HelpInfo.LoadFile(fname);
-
+            Assembly asm = Assembly.GetExecutingAssembly();
+            Stream stream = asm.GetManifestResourceStream("EveHQ.RouteMap.RouteMap_help_info.rtf");
+            rtb_HelpInfo.LoadFile(stream, RichTextBoxStreamType.RichText);
+            
             SaveConfigToDisk();
 
             ActMon_1.InitializeMonitor();
@@ -209,27 +209,6 @@ namespace EveHQ.RouteMap
         private void PopMishTypes()
         {
             MishTypes = new SortedList<string, AgentMishTypePerc>();
-            //MishTypes.Add("Accounting", new AgentMishTypePerc(91.23, 8.77, 0, 0, false, true, false, false, false, false, true));
-            //MishTypes.Add("Administration", new AgentMishTypePerc(23.58, 76.14, 0, 0.28, true, false, false, false, false, true, false));
-            //MishTypes.Add("Advisory", new AgentMishTypePerc(46.79, 51.07, 0.71, 1.43, false, false, true, false, false, true, false));
-            //MishTypes.Add("Archives", new AgentMishTypePerc(92.47, 6.16, 0.68, 0.68, true, false, true, false, false, false, false));
-            //MishTypes.Add("Astrosurveying", new AgentMishTypePerc(37.01, 58.66, 1.97, 2.36, false, false, false, true, true, false, false));
-            //MishTypes.Add("Command", new AgentMishTypePerc(4.09, 95.72, 0.19, 0, false, false, false, false, true, true, false));
-            //MishTypes.Add("Distribution", new AgentMishTypePerc(79.24, 20.43, 0, 0.33, false, true, false, false, false, false, true));
-            //MishTypes.Add("Financial", new AgentMishTypePerc(70.09, 29.91, 0, 0, true, true, false, false, false, false, false));
-            //MishTypes.Add("Intelligence", new AgentMishTypePerc(10.11, 83.82, 0, 0, false, false, true, false, true, false, false));
-            //MishTypes.Add("Internal Security", new AgentMishTypePerc(1.51, 98.37, 0, 0.12, true, false, false, false, true, false, false));
-            //MishTypes.Add("Legal", new AgentMishTypePerc(16.18, 83.82, 0, 0, false, true, false, false, false, true, false));
-            //MishTypes.Add("Manufacturing", new AgentMishTypePerc(82.42, 10.61, 3.65, 3.32, false, false, true, true, false, false, false));
-            //MishTypes.Add("Marketing", new AgentMishTypePerc(56.92, 43.08, 0, 0, false, true, false, false, false, false, true));
-            //MishTypes.Add("Mining", new AgentMishTypePerc(41.06, 23.85, 27.75, 7.34, false, false, false, true, false, false, true));
-            //MishTypes.Add("Personnel", new AgentMishTypePerc(33.99, 65.77, 0.24, 0, true, false, false, true, false, false, false));
-            //MishTypes.Add("Production", new AgentMishTypePerc(90.83, 6.43, 2.46, 0.27, false, false, false, true, false, false, true));
-            //MishTypes.Add("Public Relations", new AgentMishTypePerc(38.64, 61.02, 0.34, 0, false, true, false, false, false, true, false));
-            //MishTypes.Add("R&D", new AgentMishTypePerc(46.48, 0, 0, 53.52, false, false, false, false, false, false, false));
-            //MishTypes.Add("Security", new AgentMishTypePerc(3.69, 96.15, 0, 0.16, false, false, false, false, true, true, false));
-            //MishTypes.Add("Storage", new AgentMishTypePerc(78.77, 19.18, 0, 2.05, true, false, false, false, false, false, true));
-            //MishTypes.Add("Surveillance", new AgentMishTypePerc(6.51, 93.35, 0, 0.14, false, false, true, false, true, false, false));
 
             MishTypes.Add("Distribution", new AgentMishTypePerc(true, false, false));
             MishTypes.Add("Mining", new AgentMishTypePerc(false, true, false));
