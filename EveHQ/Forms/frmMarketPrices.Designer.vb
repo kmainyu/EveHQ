@@ -142,6 +142,7 @@ Partial Class frmMarketPrices
         Me.NodeConnector5 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle4 = New DevComponents.DotNetBar.ElementStyle()
         Me.tiCustomPrices = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.btnRefreshLogs = New DevComponents.DotNetBar.ButtonX()
         CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxMarketExport.SuspendLayout()
@@ -313,21 +314,22 @@ Partial Class frmMarketPrices
         '
         'ctxMarketExport
         '
+        Me.ctxMarketExport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxMarketExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewOrders, Me.mnuDeleteLog})
         Me.ctxMarketExport.Name = "ctxPrices"
-        Me.ctxMarketExport.Size = New System.Drawing.Size(152, 48)
+        Me.ctxMarketExport.Size = New System.Drawing.Size(142, 48)
         '
         'mnuViewOrders
         '
-        Me.mnuViewOrders.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.mnuViewOrders.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mnuViewOrders.Name = "mnuViewOrders"
-        Me.mnuViewOrders.Size = New System.Drawing.Size(151, 22)
+        Me.mnuViewOrders.Size = New System.Drawing.Size(141, 22)
         Me.mnuViewOrders.Text = "View Orders"
         '
         'mnuDeleteLog
         '
         Me.mnuDeleteLog.Name = "mnuDeleteLog"
-        Me.mnuDeleteLog.Size = New System.Drawing.Size(151, 22)
+        Me.mnuDeleteLog.Size = New System.Drawing.Size(141, 22)
         Me.mnuDeleteLog.Text = "Delete log"
         '
         'nudAge
@@ -405,38 +407,39 @@ Partial Class frmMarketPrices
         '
         'ctxPrices
         '
+        Me.ctxPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
         Me.ctxPrices.Name = "ctxPrices"
-        Me.ctxPrices.Size = New System.Drawing.Size(182, 120)
+        Me.ctxPrices.Size = New System.Drawing.Size(171, 98)
         '
         'mnuPriceItemName
         '
-        Me.mnuPriceItemName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.mnuPriceItemName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mnuPriceItemName.Name = "mnuPriceItemName"
-        Me.mnuPriceItemName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceItemName.Size = New System.Drawing.Size(170, 22)
         Me.mnuPriceItemName.Text = "Item Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(167, 6)
         '
         'mnuPriceAdd
         '
         Me.mnuPriceAdd.Name = "mnuPriceAdd"
-        Me.mnuPriceAdd.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceAdd.Size = New System.Drawing.Size(170, 22)
         Me.mnuPriceAdd.Text = "Add Custom Price"
         '
         'mnuPriceEdit
         '
         Me.mnuPriceEdit.Name = "mnuPriceEdit"
-        Me.mnuPriceEdit.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceEdit.Size = New System.Drawing.Size(170, 22)
         Me.mnuPriceEdit.Text = "Edit Custom Price"
         '
         'mnuPriceDelete
         '
         Me.mnuPriceDelete.Name = "mnuPriceDelete"
-        Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceDelete.Size = New System.Drawing.Size(170, 22)
         Me.mnuPriceDelete.Text = "Delete Custom Price"
         '
         'lblMarketPriceUpdateStatus
@@ -540,8 +543,8 @@ Partial Class frmMarketPrices
         Me.TabControl1.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.TabControl1.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.TabControl1.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.TabControl1.Controls.Add(Me.TabControlPanel1)
         Me.TabControl1.Controls.Add(Me.TabControlPanel3)
+        Me.TabControl1.Controls.Add(Me.TabControlPanel1)
         Me.TabControl1.Controls.Add(Me.TabControlPanel5)
         Me.TabControl1.Controls.Add(Me.TabControlPanel6)
         Me.TabControl1.Controls.Add(Me.TabControlPanel4)
@@ -715,7 +718,6 @@ Partial Class frmMarketPrices
         'adtLogs
         '
         Me.adtLogs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtLogs.AllowDrop = True
         Me.adtLogs.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -733,6 +735,7 @@ Partial Class frmMarketPrices
         Me.adtLogs.ExpandWidth = 0
         Me.adtLogs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.adtLogs.Location = New System.Drawing.Point(1, 31)
+        Me.adtLogs.MultiSelect = True
         Me.adtLogs.Name = "adtLogs"
         Me.adtLogs.NodesConnector = Me.NodeConnector1
         Me.adtLogs.NodeStyle = Me.Log
@@ -784,6 +787,7 @@ Partial Class frmMarketPrices
         '
         Me.panelLogSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelLogSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelLogSettings.Controls.Add(Me.btnRefreshLogs)
         Me.panelLogSettings.Controls.Add(Me.nudAge)
         Me.panelLogSettings.Controls.Add(Me.lblHighlightLogsHours)
         Me.panelLogSettings.Controls.Add(Me.lblHighlightOldLogsText)
@@ -1715,6 +1719,17 @@ Partial Class frmMarketPrices
         Me.tiCustomPrices.Name = "tiCustomPrices"
         Me.tiCustomPrices.Text = "Custom Prices"
         '
+        'btnRefreshLogs
+        '
+        Me.btnRefreshLogs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnRefreshLogs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnRefreshLogs.Location = New System.Drawing.Point(266, 4)
+        Me.btnRefreshLogs.Name = "btnRefreshLogs"
+        Me.btnRefreshLogs.Size = New System.Drawing.Size(100, 23)
+        Me.btnRefreshLogs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnRefreshLogs.TabIndex = 5
+        Me.btnRefreshLogs.Text = "Refresh Logs"
+        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1882,4 +1897,5 @@ Partial Class frmMarketPrices
     Friend WithEvents radEveMarketeer As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents radBattleclinic As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents lblMarketSource As System.Windows.Forms.Label
+    Friend WithEvents btnRefreshLogs As DevComponents.DotNetBar.ButtonX
 End Class

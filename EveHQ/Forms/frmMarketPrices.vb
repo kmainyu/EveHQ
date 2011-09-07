@@ -235,7 +235,7 @@ Public Class frmMarketPrices
                     item &= info(idx) & "-"
                 Next
                 item = item.TrimEnd("-".ToCharArray).Trim
-                logDate = DateTime.ParseExact(info(info.Length - 1).Trim, TimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                logDate = FI.CreationTime
                 LogItem = New Node
                 LogItem.Tag = file
                 LogItem.Text = region
@@ -548,6 +548,10 @@ Public Class frmMarketPrices
                 mnuViewOrders.Enabled = False
                 mnuDeleteLog.Text = "Delete Logs"
         End Select
+    End Sub
+
+    Private Sub btnRefreshLogs_Click(sender As System.Object, e As System.EventArgs) Handles btnRefreshLogs.Click
+        Call Me.ImportLogDetails()
     End Sub
 
 #Region "Price Group Routines"
@@ -1969,5 +1973,6 @@ Public Class frmMarketPrices
 
 #End Region
 
+   
 End Class
 
