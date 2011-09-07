@@ -1260,6 +1260,7 @@ Public Class frmHQF
             tvwModules.Enabled = True
             lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & tvwModules.Nodes.Count & " items)"
         End If
+        EveHQ.Core.AdvTreeSorter.Sort(tvwModules, HQF.Settings.HQFSettings.SortedModuleListInfo, False)
         tvwModules.EndUpdate()
         'endTime = Now
         'MessageBox.Show((endTime - startTime).TotalMilliseconds.ToString & "ms", "DisplayModules Time", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1270,7 +1271,8 @@ Public Class frmHQF
 #Region "Module List Routines"
 
     Private Sub tvwModules_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tvwModules.ColumnHeaderMouseUp
-        CType(sender, DevComponents.AdvTree.ColumnHeader).Sort()
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        HQF.Settings.HQFSettings.SortedModuleListInfo = EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
     Private Sub tvwModules_ColumnResized(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvwModules.ColumnResized
         Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
@@ -1286,16 +1288,16 @@ Public Class frmHQF
 					If shipMod.IsDrone = True Then
 						Dim active As Boolean = False
 						Call ActiveFitting.AddDrone(shipMod, 1, False, False)
-					Else
-						' Check if module is a charge
-						If shipMod.IsCharge = True Or shipMod.IsContainer Then
-							ActiveFitting.AddItem(shipMod, 1, False)
-						Else
-							' Must be a proper module then!
+                    Else
+                        ' Check if module is a charge
+                        If shipMod.IsCharge = True Or shipMod.IsContainer Then
+                            ActiveFitting.AddItem(shipMod, 1, False)
+                        Else
+                            ' Must be a proper module then!
                             ActiveFitting.AddModule(shipMod, 0, True, False, Nothing, False, False)
-							' Add it to the MRU
-							Call Me.UpdateMRUModules(shipMod.Name)
-						End If
+                            ' Add it to the MRU
+                            Call Me.UpdateMRUModules(shipMod.Name)
+                        End If
 					End If
 				End If
 			End If

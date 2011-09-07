@@ -75,12 +75,24 @@ Imports System.Runtime.Serialization.Formatters.Binary
     Private cTargetingPanelIsCollapsed As Boolean = False
     Private cPropulsionPanelIsCollapsed As Boolean = False
     Private cCargoPanelIsCollapsed As Boolean = False
+    Private cSortedModuleListInfo As New EveHQ.Core.AdvTreeSortResult
 
+    Public Property SortedModuleListInfo As EveHQ.Core.AdvTreeSortResult
+        Get
+            If cSortedModuleListInfo Is Nothing Then
+                cSortedModuleListInfo = New EveHQ.Core.AdvTreeSortResult
+            End If
+            Return cSortedModuleListInfo
+        End Get
+        Set(ByVal value As EveHQ.Core.AdvTreeSortResult)
+            cSortedModuleListInfo = value
+        End Set
+    End Property
     Public Property CargoPanelIsCollapsed As Boolean
         Get
             Return cCargoPanelIsCollapsed
         End Get
-        Set(value As Boolean)
+        Set(ByVal value As Boolean)
             cCargoPanelIsCollapsed = value
         End Set
     End Property
