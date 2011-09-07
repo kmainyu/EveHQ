@@ -2244,7 +2244,7 @@ Imports System.Runtime.Serialization
 
         ' Add ships
         For Each MWS As ModuleQWithState In Me.Ships
-            Dim NewMod As Ship = CType(ShipLists.shipList(MWS.ID), Ship).Clone
+            Dim NewMod As Ship = CType(ShipLists.shipList(ShipLists.shipListKeyID(MWS.ID)), Ship).Clone
             Call Me.AddShip(NewMod, MWS.Quantity, True)
         Next
 
