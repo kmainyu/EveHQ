@@ -1894,24 +1894,26 @@ Public Class frmEveHQ
             ' Get the price information
             Dim priceData As ArrayList = EveHQ.Core.DataFunctions.ProcessMarketExportFile(e.FullPath)
             If priceData IsNot Nothing Then
-                Dim USerPrice As Double = CDbl(priceData(12)) : Dim typeID As Long = CLng(priceData(13))
+                Dim UserPrice As Double = CDbl(priceData(12)) : Dim typeID As Long = CLng(priceData(13))
                 If EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = True Then
-                    ' Update the market price
-                    EveHQ.Core.DataFunctions.SetCustomPrice(typeID, USerPrice, False)
-                End If
-                If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
-                    iconEveHQMLW.BalloonTipTitle = "Market Export Processing Completed"
-                    iconEveHQMLW.BalloonTipText = "The file: " & e.Name & " has been successfully processed!"
-                    iconEveHQMLW.BalloonTipIcon = ToolTipIcon.Info
-                    iconEveHQMLW.ShowBalloonTip(10)
-                End If
-                If EveHQ.Core.HQ.EveHQSettings.MarketLogPopupConfirm = True Then
-                    MessageBox.Show("The file: " & e.Name & " has been successfully processed!", "Market Export Processing Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If Not Double.IsNaN(UserPrice) And Not Double.IsInfinity(UserPrice) Then
+                        ' Update the market price
+                        If EveHQ.Core.DataFunctions.SetCustomPrice(typeID, UserPrice, False) = True Then
+                            If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
+                                iconEveHQMLW.BalloonTipTitle = "Market Export Processing Completed"
+                                iconEveHQMLW.BalloonTipText = "The file: " & e.Name & " has been successfully processed!"
+                                iconEveHQMLW.BalloonTipIcon = ToolTipIcon.Info
+                                iconEveHQMLW.ShowBalloonTip(10)
+                            End If
+                            If EveHQ.Core.HQ.EveHQSettings.MarketLogPopupConfirm = True Then
+                                MessageBox.Show("The file: " & e.Name & " has been successfully processed!", "Market Export Processing Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            End If
+                        End If
+                    End If
                 End If
             End If
         End If
     End Sub
-
 
 #End Region
 
