@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RouteMapMainForm));
             this.label6 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -206,6 +206,15 @@
             this.ti_Display = new DevComponents.DotNetBar.TabItem(this.components);
             this.zg_JumpKills = new ZedGraph.ZedGraphControl();
             this.tc_RouteSeach = new DevComponents.DotNetBar.TabControl();
+            this.tcp_JumpRte = new DevComponents.DotNetBar.TabControlPanel();
+            this.cbx_JRSafeTower = new System.Windows.Forms.CheckBox();
+            this.b_ExportJR = new DevComponents.DotNetBar.ButtonX();
+            this.b_ImportJR = new DevComponents.DotNetBar.ButtonX();
+            this.pbar_RouteCalc = new DevComponents.DotNetBar.Controls.ProgressBarX();
+            this.b_ComputeRoute = new DevComponents.DotNetBar.ButtonX();
+            this.gp_JumpRoute = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.lbx_JumpRouteLength = new DevComponents.DotNetBar.LabelX();
+            this.tp_JumpRoute = new DevComponents.DotNetBar.TabItem(this.components);
             this.tcp_Info = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_SearchRoute = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.lb_SystemSize = new DevComponents.DotNetBar.LabelX();
@@ -349,15 +358,6 @@
             this.cb_GRStation = new System.Windows.Forms.CheckBox();
             this.lbx_RouteLength = new DevComponents.DotNetBar.LabelX();
             this.tp_GateRoute = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tcp_JumpRte = new DevComponents.DotNetBar.TabControlPanel();
-            this.cbx_JRSafeTower = new System.Windows.Forms.CheckBox();
-            this.b_ExportJR = new DevComponents.DotNetBar.ButtonX();
-            this.b_ImportJR = new DevComponents.DotNetBar.ButtonX();
-            this.pbar_RouteCalc = new DevComponents.DotNetBar.Controls.ProgressBarX();
-            this.b_ComputeRoute = new DevComponents.DotNetBar.ButtonX();
-            this.gp_JumpRoute = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.lbx_JumpRouteLength = new DevComponents.DotNetBar.LabelX();
-            this.tp_JumpRoute = new DevComponents.DotNetBar.TabItem(this.components);
             this.cb_CynoSystemMoon = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.cb_CynoSystemName = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.b_ExportCyno = new DevComponents.DotNetBar.ButtonX();
@@ -405,13 +405,13 @@
             this.ep_SearchResult = new DevComponents.DotNetBar.PanelEx();
             this.dgv_SearchResult = new DevComponents.DotNetBar.Controls.DataGridViewX();
             this.tc_MapSelect = new DevComponents.DotNetBar.TabControl();
+            this.tcp_Galaxy = new DevComponents.DotNetBar.TabControlPanel();
+            this.MainMapView = new EveHQ.RouteMap.MapView();
+            this.tp_Galaxy = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel5 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_HelpInfo = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.rtb_HelpInfo = new System.Windows.Forms.RichTextBox();
             this.tp_Help = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tcp_Galaxy = new DevComponents.DotNetBar.TabControlPanel();
-            this.MainMapView = new EveHQ.RouteMap.MapView();
-            this.tp_Galaxy = new DevComponents.DotNetBar.TabItem(this.components);
             this.tcp_ActivityMonitor = new DevComponents.DotNetBar.TabControlPanel();
             this.tlp_ActivityMonitorSelects = new System.Windows.Forms.TableLayoutPanel();
             this.ActMon_4 = new EveHQ.RouteMap.ActivityMonitor();
@@ -584,6 +584,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bar_RegionControls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_RouteSeach)).BeginInit();
             this.tc_RouteSeach.SuspendLayout();
+            this.tcp_JumpRte.SuspendLayout();
             this.tcp_Info.SuspendLayout();
             this.gp_SearchRoute.SuspendLayout();
             this.groupPanel2.SuspendLayout();
@@ -613,7 +614,6 @@
             this.gp_POS.SuspendLayout();
             this.gp_MoonGoo.SuspendLayout();
             this.tcp_GateRte.SuspendLayout();
-            this.tcp_JumpRte.SuspendLayout();
             this.gp_Waypoints.SuspendLayout();
             this.gp_Avoids.SuspendLayout();
             this.gp_MiniMap.SuspendLayout();
@@ -628,9 +628,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SearchResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_MapSelect)).BeginInit();
             this.tc_MapSelect.SuspendLayout();
+            this.tcp_Galaxy.SuspendLayout();
             this.tabControlPanel5.SuspendLayout();
             this.gp_HelpInfo.SuspendLayout();
-            this.tcp_Galaxy.SuspendLayout();
             this.tcp_ActivityMonitor.SuspendLayout();
             this.tlp_ActivityMonitorSelects.SuspendLayout();
             this.tabControlPanel4.SuspendLayout();
@@ -2874,13 +2874,13 @@
             new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254))))), 1F)});
             this.tc_RouteSeach.ColorScheme.TabPanelBackground2 = System.Drawing.Color.Silver;
             this.tc_RouteSeach.Controls.Add(this.tcp_Info);
+            this.tc_RouteSeach.Controls.Add(this.tcp_JumpRte);
             this.tc_RouteSeach.Controls.Add(this.tabControlPanel10);
             this.tc_RouteSeach.Controls.Add(this.tcp_Search);
             this.tc_RouteSeach.Controls.Add(this.tcp_Config);
             this.tc_RouteSeach.Controls.Add(this.tabControlPanel9);
             this.tc_RouteSeach.Controls.Add(this.tcp_SystemInfo);
             this.tc_RouteSeach.Controls.Add(this.tcp_GateRte);
-            this.tc_RouteSeach.Controls.Add(this.tcp_JumpRte);
             this.tc_RouteSeach.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tc_RouteSeach.Location = new System.Drawing.Point(0, 0);
             this.tc_RouteSeach.Name = "tc_RouteSeach";
@@ -2900,6 +2900,164 @@
             this.tc_RouteSeach.Tabs.Add(this.ti_SystemActivity);
             this.tc_RouteSeach.ThemeAware = true;
             this.tc_RouteSeach.SelectedTabChanged += new DevComponents.DotNetBar.TabStrip.SelectedTabChangedEventHandler(this.tc_RouteSeach_SelectedTabChanged);
+            // 
+            // tcp_JumpRte
+            // 
+            this.tcp_JumpRte.Controls.Add(this.b_ZoomAndCenterRoute);
+            this.tcp_JumpRte.Controls.Add(this.cbx_JRSafeTower);
+            this.tcp_JumpRte.Controls.Add(this.b_ExportJR);
+            this.tcp_JumpRte.Controls.Add(this.b_ImportJR);
+            this.tcp_JumpRte.Controls.Add(this.pbar_RouteCalc);
+            this.tcp_JumpRte.Controls.Add(this.b_ComputeRoute);
+            this.tcp_JumpRte.Controls.Add(this.gp_JumpRoute);
+            this.tcp_JumpRte.Controls.Add(this.cbx_UseCynoGens);
+            this.tcp_JumpRte.Controls.Add(this.cbx_UseJumpBridge);
+            this.tcp_JumpRte.Controls.Add(this.cb_StationOnly);
+            this.tcp_JumpRte.Controls.Add(this.lbx_JumpRouteLength);
+            this.tcp_JumpRte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcp_JumpRte.Location = new System.Drawing.Point(0, 23);
+            this.tcp_JumpRte.Name = "tcp_JumpRte";
+            this.tcp_JumpRte.Padding = new System.Windows.Forms.Padding(1);
+            this.tcp_JumpRte.Size = new System.Drawing.Size(442, 398);
+            this.tcp_JumpRte.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tcp_JumpRte.Style.BackColor2.Color = System.Drawing.Color.Silver;
+            this.tcp_JumpRte.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tcp_JumpRte.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tcp_JumpRte.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tcp_JumpRte.Style.GradientAngle = 90;
+            this.tcp_JumpRte.TabIndex = 6;
+            this.tcp_JumpRte.TabItem = this.tp_JumpRoute;
+            // 
+            // cbx_JRSafeTower
+            // 
+            this.cbx_JRSafeTower.AutoSize = true;
+            this.cbx_JRSafeTower.BackColor = System.Drawing.Color.Transparent;
+            this.cbx_JRSafeTower.Location = new System.Drawing.Point(10, 52);
+            this.cbx_JRSafeTower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbx_JRSafeTower.Name = "cbx_JRSafeTower";
+            this.cbx_JRSafeTower.Size = new System.Drawing.Size(114, 17);
+            this.cbx_JRSafeTower.TabIndex = 105;
+            this.cbx_JRSafeTower.Text = "Cyno Safe Towers";
+            this.cbx_JRSafeTower.UseVisualStyleBackColor = false;
+            // 
+            // b_ExportJR
+            // 
+            this.b_ExportJR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_ExportJR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.b_ExportJR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_ExportJR.Location = new System.Drawing.Point(352, 49);
+            this.b_ExportJR.Name = "b_ExportJR";
+            this.b_ExportJR.Size = new System.Drawing.Size(88, 18);
+            this.b_ExportJR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_ExportJR.TabIndex = 103;
+            this.b_ExportJR.Text = "< Export Route >";
+            this.b_ExportJR.Click += new System.EventHandler(this.b_ExportJR_Click);
+            // 
+            // b_ImportJR
+            // 
+            this.b_ImportJR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_ImportJR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.b_ImportJR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_ImportJR.Location = new System.Drawing.Point(352, 29);
+            this.b_ImportJR.Name = "b_ImportJR";
+            this.b_ImportJR.Size = new System.Drawing.Size(88, 18);
+            this.b_ImportJR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_ImportJR.TabIndex = 104;
+            this.b_ImportJR.Text = "< Import Route >";
+            this.b_ImportJR.Click += new System.EventHandler(this.b_ImportJR_Click);
+            // 
+            // pbar_RouteCalc
+            // 
+            this.pbar_RouteCalc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
+            this.pbar_RouteCalc.BackgroundStyle.Class = "";
+            this.pbar_RouteCalc.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.pbar_RouteCalc.Location = new System.Drawing.Point(1, 69);
+            this.pbar_RouteCalc.Name = "pbar_RouteCalc";
+            this.pbar_RouteCalc.Size = new System.Drawing.Size(440, 23);
+            this.pbar_RouteCalc.TabIndex = 22;
+            this.pbar_RouteCalc.Text = "progressBarX1";
+            // 
+            // b_ComputeRoute
+            // 
+            this.b_ComputeRoute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_ComputeRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.b_ComputeRoute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_ComputeRoute.Location = new System.Drawing.Point(166, 39);
+            this.b_ComputeRoute.Name = "b_ComputeRoute";
+            this.b_ComputeRoute.Size = new System.Drawing.Size(179, 28);
+            this.b_ComputeRoute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_ComputeRoute.TabIndex = 21;
+            this.b_ComputeRoute.Text = "Compute Route";
+            this.b_ComputeRoute.Click += new System.EventHandler(this.b_ComputeRoute_Click);
+            // 
+            // gp_JumpRoute
+            // 
+            this.gp_JumpRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_JumpRoute.AutoScroll = true;
+            this.gp_JumpRoute.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_JumpRoute.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_JumpRoute.Location = new System.Drawing.Point(1, 94);
+            this.gp_JumpRoute.Name = "gp_JumpRoute";
+            this.gp_JumpRoute.Size = new System.Drawing.Size(438, 307);
+            // 
+            // 
+            // 
+            this.gp_JumpRoute.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_JumpRoute.Style.BackColorGradientAngle = 90;
+            this.gp_JumpRoute.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_JumpRoute.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_JumpRoute.Style.BorderBottomWidth = 1;
+            this.gp_JumpRoute.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_JumpRoute.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_JumpRoute.Style.BorderLeftWidth = 1;
+            this.gp_JumpRoute.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_JumpRoute.Style.BorderRightWidth = 1;
+            this.gp_JumpRoute.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_JumpRoute.Style.BorderTopWidth = 1;
+            this.gp_JumpRoute.Style.Class = "";
+            this.gp_JumpRoute.Style.CornerDiameter = 4;
+            this.gp_JumpRoute.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_JumpRoute.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_JumpRoute.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_JumpRoute.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_JumpRoute.StyleMouseDown.Class = "";
+            this.gp_JumpRoute.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_JumpRoute.StyleMouseOver.Class = "";
+            this.gp_JumpRoute.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_JumpRoute.TabIndex = 0;
+            // 
+            // lbx_JumpRouteLength
+            // 
+            this.lbx_JumpRouteLength.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lbx_JumpRouteLength.BackgroundStyle.Class = "";
+            this.lbx_JumpRouteLength.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lbx_JumpRouteLength.Location = new System.Drawing.Point(160, 20);
+            this.lbx_JumpRouteLength.Name = "lbx_JumpRouteLength";
+            this.lbx_JumpRouteLength.Size = new System.Drawing.Size(179, 23);
+            this.lbx_JumpRouteLength.TabIndex = 109;
+            this.lbx_JumpRouteLength.TextAlignment = System.Drawing.StringAlignment.Center;
+            // 
+            // tp_JumpRoute
+            // 
+            this.tp_JumpRoute.AttachedControl = this.tcp_JumpRte;
+            this.tp_JumpRoute.Name = "tp_JumpRoute";
+            this.tp_JumpRoute.Text = "Jump Route";
             // 
             // tcp_Info
             // 
@@ -5626,164 +5784,6 @@
             this.tp_GateRoute.Name = "tp_GateRoute";
             this.tp_GateRoute.Text = "Gate Route";
             // 
-            // tcp_JumpRte
-            // 
-            this.tcp_JumpRte.Controls.Add(this.b_ZoomAndCenterRoute);
-            this.tcp_JumpRte.Controls.Add(this.cbx_JRSafeTower);
-            this.tcp_JumpRte.Controls.Add(this.b_ExportJR);
-            this.tcp_JumpRte.Controls.Add(this.b_ImportJR);
-            this.tcp_JumpRte.Controls.Add(this.pbar_RouteCalc);
-            this.tcp_JumpRte.Controls.Add(this.b_ComputeRoute);
-            this.tcp_JumpRte.Controls.Add(this.gp_JumpRoute);
-            this.tcp_JumpRte.Controls.Add(this.cbx_UseCynoGens);
-            this.tcp_JumpRte.Controls.Add(this.cbx_UseJumpBridge);
-            this.tcp_JumpRte.Controls.Add(this.cb_StationOnly);
-            this.tcp_JumpRte.Controls.Add(this.lbx_JumpRouteLength);
-            this.tcp_JumpRte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcp_JumpRte.Location = new System.Drawing.Point(0, 23);
-            this.tcp_JumpRte.Name = "tcp_JumpRte";
-            this.tcp_JumpRte.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_JumpRte.Size = new System.Drawing.Size(442, 398);
-            this.tcp_JumpRte.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tcp_JumpRte.Style.BackColor2.Color = System.Drawing.Color.Silver;
-            this.tcp_JumpRte.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tcp_JumpRte.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tcp_JumpRte.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tcp_JumpRte.Style.GradientAngle = 90;
-            this.tcp_JumpRte.TabIndex = 6;
-            this.tcp_JumpRte.TabItem = this.tp_JumpRoute;
-            // 
-            // cbx_JRSafeTower
-            // 
-            this.cbx_JRSafeTower.AutoSize = true;
-            this.cbx_JRSafeTower.BackColor = System.Drawing.Color.Transparent;
-            this.cbx_JRSafeTower.Location = new System.Drawing.Point(10, 52);
-            this.cbx_JRSafeTower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cbx_JRSafeTower.Name = "cbx_JRSafeTower";
-            this.cbx_JRSafeTower.Size = new System.Drawing.Size(114, 17);
-            this.cbx_JRSafeTower.TabIndex = 105;
-            this.cbx_JRSafeTower.Text = "Cyno Safe Towers";
-            this.cbx_JRSafeTower.UseVisualStyleBackColor = false;
-            // 
-            // b_ExportJR
-            // 
-            this.b_ExportJR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_ExportJR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_ExportJR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ExportJR.Location = new System.Drawing.Point(352, 49);
-            this.b_ExportJR.Name = "b_ExportJR";
-            this.b_ExportJR.Size = new System.Drawing.Size(88, 18);
-            this.b_ExportJR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_ExportJR.TabIndex = 103;
-            this.b_ExportJR.Text = "< Export Route >";
-            this.b_ExportJR.Click += new System.EventHandler(this.b_ExportJR_Click);
-            // 
-            // b_ImportJR
-            // 
-            this.b_ImportJR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_ImportJR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_ImportJR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ImportJR.Location = new System.Drawing.Point(352, 29);
-            this.b_ImportJR.Name = "b_ImportJR";
-            this.b_ImportJR.Size = new System.Drawing.Size(88, 18);
-            this.b_ImportJR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_ImportJR.TabIndex = 104;
-            this.b_ImportJR.Text = "< Import Route >";
-            this.b_ImportJR.Click += new System.EventHandler(this.b_ImportJR_Click);
-            // 
-            // pbar_RouteCalc
-            // 
-            this.pbar_RouteCalc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            // 
-            // 
-            // 
-            this.pbar_RouteCalc.BackgroundStyle.Class = "";
-            this.pbar_RouteCalc.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.pbar_RouteCalc.Location = new System.Drawing.Point(1, 69);
-            this.pbar_RouteCalc.Name = "pbar_RouteCalc";
-            this.pbar_RouteCalc.Size = new System.Drawing.Size(440, 23);
-            this.pbar_RouteCalc.TabIndex = 22;
-            this.pbar_RouteCalc.Text = "progressBarX1";
-            // 
-            // b_ComputeRoute
-            // 
-            this.b_ComputeRoute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_ComputeRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_ComputeRoute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ComputeRoute.Location = new System.Drawing.Point(166, 39);
-            this.b_ComputeRoute.Name = "b_ComputeRoute";
-            this.b_ComputeRoute.Size = new System.Drawing.Size(179, 28);
-            this.b_ComputeRoute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_ComputeRoute.TabIndex = 21;
-            this.b_ComputeRoute.Text = "Compute Route";
-            this.b_ComputeRoute.Click += new System.EventHandler(this.b_ComputeRoute_Click);
-            // 
-            // gp_JumpRoute
-            // 
-            this.gp_JumpRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.gp_JumpRoute.AutoScroll = true;
-            this.gp_JumpRoute.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_JumpRoute.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_JumpRoute.Location = new System.Drawing.Point(1, 94);
-            this.gp_JumpRoute.Name = "gp_JumpRoute";
-            this.gp_JumpRoute.Size = new System.Drawing.Size(438, 307);
-            // 
-            // 
-            // 
-            this.gp_JumpRoute.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_JumpRoute.Style.BackColorGradientAngle = 90;
-            this.gp_JumpRoute.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_JumpRoute.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_JumpRoute.Style.BorderBottomWidth = 1;
-            this.gp_JumpRoute.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_JumpRoute.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_JumpRoute.Style.BorderLeftWidth = 1;
-            this.gp_JumpRoute.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_JumpRoute.Style.BorderRightWidth = 1;
-            this.gp_JumpRoute.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_JumpRoute.Style.BorderTopWidth = 1;
-            this.gp_JumpRoute.Style.Class = "";
-            this.gp_JumpRoute.Style.CornerDiameter = 4;
-            this.gp_JumpRoute.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_JumpRoute.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_JumpRoute.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_JumpRoute.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_JumpRoute.StyleMouseDown.Class = "";
-            this.gp_JumpRoute.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_JumpRoute.StyleMouseOver.Class = "";
-            this.gp_JumpRoute.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_JumpRoute.TabIndex = 0;
-            // 
-            // lbx_JumpRouteLength
-            // 
-            this.lbx_JumpRouteLength.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lbx_JumpRouteLength.BackgroundStyle.Class = "";
-            this.lbx_JumpRouteLength.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbx_JumpRouteLength.Location = new System.Drawing.Point(160, 20);
-            this.lbx_JumpRouteLength.Name = "lbx_JumpRouteLength";
-            this.lbx_JumpRouteLength.Size = new System.Drawing.Size(179, 23);
-            this.lbx_JumpRouteLength.TabIndex = 109;
-            this.lbx_JumpRouteLength.TextAlignment = System.Drawing.StringAlignment.Center;
-            // 
-            // tp_JumpRoute
-            // 
-            this.tp_JumpRoute.AttachedControl = this.tcp_JumpRte;
-            this.tp_JumpRoute.Name = "tp_JumpRoute";
-            this.tp_JumpRoute.Text = "Jump Route";
-            // 
             // cb_CynoSystemMoon
             // 
             this.cb_CynoSystemMoon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -6558,14 +6558,14 @@
             this.dgv_SystemCelest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_SystemCelest.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CelestialName});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_SystemCelest.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_SystemCelest.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_SystemCelest.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_SystemCelest.Location = new System.Drawing.Point(0, 0);
             this.dgv_SystemCelest.MultiSelect = false;
@@ -6682,14 +6682,14 @@
             this.dgv_SearchResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgv_SearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_SearchResult.ContextMenuStrip = this.cms_SearchItemMenu;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_SearchResult.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_SearchResult.DefaultCellStyle = dataGridViewCellStyle7;
             this.dgv_SearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_SearchResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_SearchResult.Location = new System.Drawing.Point(0, 0);
@@ -6741,6 +6741,46 @@
             this.tc_MapSelect.Tabs.Add(this.ti_ActivityMon);
             this.tc_MapSelect.Tabs.Add(this.tp_Help);
             this.tc_MapSelect.SelectedTabChanged += new DevComponents.DotNetBar.TabStrip.SelectedTabChangedEventHandler(this.tc_MapSelect_SelectedTabChanged);
+            // 
+            // tcp_Galaxy
+            // 
+            this.tcp_Galaxy.Controls.Add(this.MainMapView);
+            this.tcp_Galaxy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcp_Galaxy.Location = new System.Drawing.Point(0, 23);
+            this.tcp_Galaxy.Name = "tcp_Galaxy";
+            this.tcp_Galaxy.Padding = new System.Windows.Forms.Padding(1);
+            this.tcp_Galaxy.Size = new System.Drawing.Size(553, 695);
+            this.tcp_Galaxy.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tcp_Galaxy.Style.BackColor2.Color = System.Drawing.Color.Silver;
+            this.tcp_Galaxy.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tcp_Galaxy.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tcp_Galaxy.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tcp_Galaxy.Style.GradientAngle = 90;
+            this.tcp_Galaxy.TabIndex = 1;
+            this.tcp_Galaxy.TabItem = this.tp_Galaxy;
+            this.tcp_Galaxy.Visible = false;
+            // 
+            // MainMapView
+            // 
+            this.MainMapView.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.MainMapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainMapView.Location = new System.Drawing.Point(1, 1);
+            this.MainMapView.Name = "MainMapView";
+            this.MainMapView.Route = null;
+            this.MainMapView.ScrollEnabled = true;
+            this.MainMapView.SelectedSystem = null;
+            this.MainMapView.SelectedSystemName = "";
+            this.MainMapView.SetMapScale = 0.035F;
+            this.MainMapView.Size = new System.Drawing.Size(551, 693);
+            this.MainMapView.TabIndex = 0;
+            this.MainMapView.ZoomEnabled = false;
+            // 
+            // tp_Galaxy
+            // 
+            this.tp_Galaxy.AttachedControl = this.tcp_Galaxy;
+            this.tp_Galaxy.Name = "tp_Galaxy";
+            this.tp_Galaxy.Text = "Galaxy Map";
             // 
             // tabControlPanel5
             // 
@@ -6816,46 +6856,6 @@
             this.tp_Help.AttachedControl = this.tabControlPanel5;
             this.tp_Help.Name = "tp_Help";
             this.tp_Help.Text = "Help";
-            // 
-            // tcp_Galaxy
-            // 
-            this.tcp_Galaxy.Controls.Add(this.MainMapView);
-            this.tcp_Galaxy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcp_Galaxy.Location = new System.Drawing.Point(0, 23);
-            this.tcp_Galaxy.Name = "tcp_Galaxy";
-            this.tcp_Galaxy.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_Galaxy.Size = new System.Drawing.Size(553, 695);
-            this.tcp_Galaxy.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tcp_Galaxy.Style.BackColor2.Color = System.Drawing.Color.Silver;
-            this.tcp_Galaxy.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tcp_Galaxy.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tcp_Galaxy.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tcp_Galaxy.Style.GradientAngle = 90;
-            this.tcp_Galaxy.TabIndex = 1;
-            this.tcp_Galaxy.TabItem = this.tp_Galaxy;
-            this.tcp_Galaxy.Visible = false;
-            // 
-            // MainMapView
-            // 
-            this.MainMapView.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.MainMapView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainMapView.Location = new System.Drawing.Point(1, 1);
-            this.MainMapView.Name = "MainMapView";
-            this.MainMapView.Route = null;
-            this.MainMapView.ScrollEnabled = true;
-            this.MainMapView.SelectedSystem = null;
-            this.MainMapView.SelectedSystemName = "";
-            this.MainMapView.SetMapScale = 0.035F;
-            this.MainMapView.Size = new System.Drawing.Size(551, 693);
-            this.MainMapView.TabIndex = 0;
-            this.MainMapView.ZoomEnabled = false;
-            // 
-            // tp_Galaxy
-            // 
-            this.tp_Galaxy.AttachedControl = this.tcp_Galaxy;
-            this.tp_Galaxy.Name = "tp_Galaxy";
-            this.tp_Galaxy.Text = "Galaxy Map";
             // 
             // tcp_ActivityMonitor
             // 
@@ -7045,14 +7045,14 @@
             this.FromID,
             this.ToID});
             this.dgv_Bridges.ContextMenuStrip = this.cms_JBRemove;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Bridges.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Bridges.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_Bridges.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_Bridges.Location = new System.Drawing.Point(0, 93);
             this.dgv_Bridges.MultiSelect = false;
@@ -7670,14 +7670,14 @@
             this.dgv_MoonGoo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_MoonGoo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MLocation});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_MoonGoo.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_MoonGoo.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_MoonGoo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_MoonGoo.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_MoonGoo.Location = new System.Drawing.Point(0, 0);
@@ -7735,14 +7735,14 @@
             this.dgv_Planets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Planets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgc_Planet_Location});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Planets.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Planets.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgv_Planets.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Planets.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_Planets.Location = new System.Drawing.Point(1, 1);
@@ -8435,6 +8435,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.bar_RegionControls)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_RouteSeach)).EndInit();
             this.tc_RouteSeach.ResumeLayout(false);
+            this.tcp_JumpRte.ResumeLayout(false);
+            this.tcp_JumpRte.PerformLayout();
             this.tcp_Info.ResumeLayout(false);
             this.gp_SearchRoute.ResumeLayout(false);
             this.gp_SearchRoute.PerformLayout();
@@ -8474,8 +8476,6 @@
             this.gp_MoonGoo.ResumeLayout(false);
             this.tcp_GateRte.ResumeLayout(false);
             this.tcp_GateRte.PerformLayout();
-            this.tcp_JumpRte.ResumeLayout(false);
-            this.tcp_JumpRte.PerformLayout();
             this.gp_Waypoints.ResumeLayout(false);
             this.gp_Avoids.ResumeLayout(false);
             this.gp_MiniMap.ResumeLayout(false);
@@ -8492,9 +8492,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SearchResult)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_MapSelect)).EndInit();
             this.tc_MapSelect.ResumeLayout(false);
+            this.tcp_Galaxy.ResumeLayout(false);
             this.tabControlPanel5.ResumeLayout(false);
             this.gp_HelpInfo.ResumeLayout(false);
-            this.tcp_Galaxy.ResumeLayout(false);
             this.tcp_ActivityMonitor.ResumeLayout(false);
             this.tlp_ActivityMonitorSelects.ResumeLayout(false);
             this.tabControlPanel4.ResumeLayout(false);

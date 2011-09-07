@@ -190,7 +190,7 @@ namespace EveHQ.PosManager
                             }
                         }
                     }
-                    else if (pilotAccount.APIKeySystem.Equals(Core.APIKeySystems.Version2))
+                    else if (pilotAccount.APIKeySystem.Equals(Core.APIKeySystems.Version2) && pilotAccount.APIKeyType.Equals(Core.APIKeyTypes.Corporation))
                     {
                         LoadPOSDataFromV2API(pilotAccount);
                     }
@@ -227,7 +227,7 @@ namespace EveHQ.PosManager
                 // Get overall POS List associated with the given Pilot ID
                 apiPOSList = APIReq.GetAPIXML(EveAPI.APITypes.POSList, pilotAccount.ToAPIAccount(), "", EveAPI.APIReturnMethods.ReturnStandard);
 
-                if (APIReq.LastAPIError != 0)
+                if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
                 {
                     if (!PlugInData.ThrottleList.ContainsKey(pilotAccount.FriendlyName))
                     {
@@ -451,7 +451,7 @@ namespace EveHQ.PosManager
                 APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
                 apiPOSList = APIReq.GetAPIXML(sel, pilotAccount.ToAPIAccount(), selPilot.ID, EveAPI.APIReturnMethods.ReturnStandard);
 
-                if (APIReq.LastAPIError != 0)
+                if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
                 {
                     if (!PlugInData.ThrottleList.ContainsKey(selPilot.Name))
                     {

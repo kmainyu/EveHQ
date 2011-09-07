@@ -150,7 +150,7 @@ namespace EveHQ.PosManager
                 APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
                 allianceData = APIReq.GetAPIXML(EveAPI.APITypes.AllianceList, EveAPI.APIReturnMethods.ReturnStandard);
 
-                if (APIReq.LastAPIError != 0)
+                if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
                 {
                     if (!PlugInData.ThrottleList.ContainsKey("AllianceList"))
                     {

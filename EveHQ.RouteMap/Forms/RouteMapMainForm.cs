@@ -7119,6 +7119,7 @@ namespace EveHQ.RouteMap
             dgCB.AutoComplete = true;
             dgCB.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgCB.DropDownWidth = 60;
+            dgCB.Width = 60;
             dgCB.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;           
             dgCB.DataPropertyName = "WH_Type";
             dgv_SystemStaticWH.Columns.Add(dgCB);
@@ -7130,6 +7131,7 @@ namespace EveHQ.RouteMap
             dgTB.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgTB.DataPropertyName = "StaticToClass";
             dgTB.ReadOnly = true;
+            dgTB.Width = 200;
             dgv_SystemStaticWH.Columns.Add(dgTB);
             // System ID
             dgTB = new DataGridViewTextBoxColumn();
@@ -7147,6 +7149,7 @@ namespace EveHQ.RouteMap
             Color tColr = Color.Purple;
             int locX = 0, locY = 0;
             long hrsLife = 0, mrv = 0;
+            long massMult = 0;
             System.Windows.Forms.Label whType;
 
             foreach (var wh in PlugInData.Misc.WH_Nm2Cls)
@@ -7205,6 +7208,7 @@ namespace EveHQ.RouteMap
                                 break;
                             case 1383:
                                 maxMass = String.Format("{0:#,0.##}", whc.Value) + " kg";
+                                massMult = whc.Value;
                                 break;
                             case 1384:
                                 mrv = whc.Value;
@@ -7237,6 +7241,15 @@ namespace EveHQ.RouteMap
                 else
                     tTip = "Ship: " + jumpMass + " | Max: " + maxMass + " | Life: " + hrsLife + " Hours to " + tClas;
 
+                tTip += "\n------------------------------------------------------------\n";
+                tTip += "Life Cycle Not Begun - Just forming " + hrsLife + " hours Left\n";
+                tTip += "Probably won't Last Another Day - Greater than " + (hrsLife / 4) + " hours Left\n";
+                tTip += "Reaching the End - Less than " + (hrsLife / 4) + " hours Left\n";
+                tTip += "------------------------------------------------------------\n";
+                tTip += "Not Significantly Disrupted - Over " + String.Format("{0:#,0.##}", (massMult * 0.45)) + " Mass Left\n";
+                tTip += "Stability has benn Reduced - Less than " + String.Format("{0:#,0.##}", (massMult * 0.45)) + " Mass Left\n";
+                tTip += "Mass Critically Disrupte - Less than " + String.Format("{0:#,0.##}", (massMult * 0.05)) + " Mass Left";
+
                 whType = new System.Windows.Forms.Label();
                 whType.Font = new System.Drawing.Font("Tahoma", 10, FontStyle.Bold);
                 whType.Text = whName;
@@ -7250,6 +7263,8 @@ namespace EveHQ.RouteMap
                 whType.TextAlign = ContentAlignment.MiddleCenter;
                 whType.Location = new Point((10 + (50 * locX)), (5 + (16 * locY)));
 
+                whType.Click += new EventHandler(WH_InfoText_OnClick);
+
                 gp_WHPossible.Controls.Add(whType);
 
                 locX++;
@@ -7259,6 +7274,17 @@ namespace EveHQ.RouteMap
                     locY++;
                 }
             }
+        }
+
+        private void WH_InfoText_OnClick(object sender, EventArgs e)
+        {
+            string infoText;
+            System.Windows.Forms.Label lCont;
+
+            lCont = (System.Windows.Forms.Label)sender;
+            infoText = tt_MyTips.GetToolTip(lCont);
+
+            MessageBox.Show(infoText, lCont.Text + " - Information", MessageBoxButtons.OK);
         }
 
         private void cbx_WHType_SelectedIndexChanged(object sender, EventArgs e)

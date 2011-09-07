@@ -29,19 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -52,71 +42,23 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
             this.tc_MainTabs = new DevComponents.DotNetBar.TabControl();
-            this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
-            this.sc_MainPanels = new System.Windows.Forms.SplitContainer();
-            this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.tscb_TimePeriod = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.ci_Hours = new DevComponents.Editors.ComboItem();
-            this.ci_Days = new DevComponents.Editors.ComboItem();
-            this.ci_Weeks = new DevComponents.Editors.ComboItem();
-            this.ci_Months = new DevComponents.Editors.ComboItem();
-            this.ci_Fill = new DevComponents.Editors.ComboItem();
-            this.label17 = new System.Windows.Forms.Label();
-            this.nud_PeriodValue = new DevComponents.Editors.IntegerInput();
-            this.cb_UseStrontTotals = new System.Windows.Forms.CheckBox();
-            this.cb_FactChartTotal = new System.Windows.Forms.CheckBox();
-            this.b_ApplyIntervalPeriod = new DevComponents.DotNetBar.ButtonX();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.cb_ShowFuelNeed = new System.Windows.Forms.CheckBox();
-            this.gp_MalongDisplay = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
-            this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnrUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Oxygen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MechP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coolant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Robot = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Isotope = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HvyWater = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LiqOz = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Charter = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Stront = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gp_MalongFuelNeeds = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.gp_AllTowers = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.cb_AllDataForCopy = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.ci_FuelAll = new DevComponents.Editors.ComboItem();
-            this.ci_FuelVolAll = new DevComponents.Editors.ComboItem();
-            this.ci_FuelVolCostAll = new DevComponents.Editors.ComboItem();
-            this.b_CopyAllPos = new DevComponents.DotNetBar.ButtonX();
-            this.dg_TotalFuel = new System.Windows.Forms.DataGridView();
-            this.FuelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gp_SelectedTowers = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.b_SetSelectedFull = new DevComponents.DotNetBar.ButtonX();
-            this.b_CopySelected = new DevComponents.DotNetBar.ButtonX();
-            this.cb_SelectedDataForCopy = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.ci_FuelOnly = new DevComponents.Editors.ComboItem();
-            this.ci_FuelVol = new DevComponents.Editors.ComboItem();
-            this.ci_FuelVolCost = new DevComponents.Editors.ComboItem();
-            this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
-            this.SelFuelType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tp_MalongainTowers = new DevComponents.DotNetBar.TabItem(this.components);
             this.tcp_MonitorTower = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_FuelSettings = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.pb_StrontBayFill = new DevComponents.DotNetBar.Controls.ProgressBarX();
@@ -262,6 +204,64 @@
             this.l_Spacer = new DevComponents.DotNetBar.LabelItem();
             this.tsl_APIState = new DevComponents.DotNetBar.LabelItem();
             this.tp_TowerMonitor = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
+            this.sc_MainPanels = new System.Windows.Forms.SplitContainer();
+            this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.tscb_TimePeriod = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.ci_Hours = new DevComponents.Editors.ComboItem();
+            this.ci_Days = new DevComponents.Editors.ComboItem();
+            this.ci_Weeks = new DevComponents.Editors.ComboItem();
+            this.ci_Months = new DevComponents.Editors.ComboItem();
+            this.ci_Fill = new DevComponents.Editors.ComboItem();
+            this.label17 = new System.Windows.Forms.Label();
+            this.nud_PeriodValue = new DevComponents.Editors.IntegerInput();
+            this.cb_UseStrontTotals = new System.Windows.Forms.CheckBox();
+            this.cb_FactChartTotal = new System.Windows.Forms.CheckBox();
+            this.b_ApplyIntervalPeriod = new DevComponents.DotNetBar.ButtonX();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.cb_ShowFuelNeed = new System.Windows.Forms.CheckBox();
+            this.gp_MalongDisplay = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
+            this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnrUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Oxygen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MechP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coolant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Robot = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Isotope = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HvyWater = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LiqOz = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Charter = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stront = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gp_MalongFuelNeeds = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.gp_AllTowers = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.cb_AllDataForCopy = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.ci_FuelAll = new DevComponents.Editors.ComboItem();
+            this.ci_FuelVolAll = new DevComponents.Editors.ComboItem();
+            this.ci_FuelVolCostAll = new DevComponents.Editors.ComboItem();
+            this.b_CopyAllPos = new DevComponents.DotNetBar.ButtonX();
+            this.dg_TotalFuel = new System.Windows.Forms.DataGridView();
+            this.FuelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gp_SelectedTowers = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.b_SetSelectedFull = new DevComponents.DotNetBar.ButtonX();
+            this.b_CopySelected = new DevComponents.DotNetBar.ButtonX();
+            this.cb_SelectedDataForCopy = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.ci_FuelOnly = new DevComponents.Editors.ComboItem();
+            this.ci_FuelVol = new DevComponents.Editors.ComboItem();
+            this.ci_FuelVolCost = new DevComponents.Editors.ComboItem();
+            this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
+            this.SelFuelType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tp_MalongainTowers = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel7 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_FPBG = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.rb_LocationSort = new System.Windows.Forms.RadioButton();
@@ -731,19 +731,6 @@
             this.sfd_Export = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.tc_MainTabs)).BeginInit();
             this.tc_MainTabs.SuspendLayout();
-            this.tabControlPanel3.SuspendLayout();
-            this.sc_MainPanels.Panel1.SuspendLayout();
-            this.sc_MainPanels.Panel2.SuspendLayout();
-            this.sc_MainPanels.SuspendLayout();
-            this.groupPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
-            this.gp_MalongDisplay.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
-            this.gp_MalongFuelNeeds.SuspendLayout();
-            this.gp_AllTowers.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
-            this.gp_SelectedTowers.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
             this.tcp_MonitorTower.SuspendLayout();
             this.gp_FuelSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Stront)).BeginInit();
@@ -769,6 +756,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_MonitoredTowers)).BeginInit();
             this.cms_MonitoredTower.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bb_MonitorBar)).BeginInit();
+            this.tabControlPanel3.SuspendLayout();
+            this.sc_MainPanels.Panel1.SuspendLayout();
+            this.sc_MainPanels.Panel2.SuspendLayout();
+            this.sc_MainPanels.SuspendLayout();
+            this.groupPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
+            this.gp_MalongDisplay.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
+            this.gp_MalongFuelNeeds.SuspendLayout();
+            this.gp_AllTowers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
+            this.gp_SelectedTowers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
             this.tabControlPanel7.SuspendLayout();
             this.gp_FPBG.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tc_FuelMods)).BeginInit();
@@ -865,21 +865,21 @@
             this.tc_MainTabs.CanReorderTabs = true;
             this.tc_MainTabs.ColorScheme.TabBackground = System.Drawing.Color.Transparent;
             this.tc_MainTabs.ColorScheme.TabItemBackgroundColorBlend.AddRange(new DevComponents.DotNetBar.BackgroundColorBlend[] {
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(220)))), ((int)(((byte)(226))))), 0F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(189)))), ((int)(((byte)(199))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(217)))), ((int)(((byte)(223))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235))))), 1F)});
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(230)))), ((int)(((byte)(249))))), 0F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(220)))), ((int)(((byte)(248))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(208)))), ((int)(((byte)(245))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(229)))), ((int)(((byte)(247))))), 1F)});
             this.tc_MainTabs.ColorScheme.TabItemHotBackground = System.Drawing.Color.Gold;
             this.tc_MainTabs.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(new DevComponents.DotNetBar.BackgroundColorBlend[] {
             new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247))))), 1F)});
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254))))), 1F)});
             this.tc_MainTabs.ColorScheme.TabPanelBackground = System.Drawing.Color.Silver;
             this.tc_MainTabs.ColorScheme.TabPanelBackground2 = System.Drawing.Color.Transparent;
-            this.tc_MainTabs.Controls.Add(this.tcp_MonitorTower);
-            this.tc_MainTabs.Controls.Add(this.tabControlPanel3);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel7);
+            this.tc_MainTabs.Controls.Add(this.tabControlPanel3);
+            this.tc_MainTabs.Controls.Add(this.tcp_MonitorTower);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel2);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel11);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel6);
@@ -908,799 +908,6 @@
             this.tc_MainTabs.Tabs.Add(this.tp_Config);
             this.tc_MainTabs.SelectedTabChanged += new DevComponents.DotNetBar.TabStrip.SelectedTabChangedEventHandler(this.tc_MainTabs_SelectedIndexChanged);
             // 
-            // tabControlPanel3
-            // 
-            this.tabControlPanel3.Controls.Add(this.sc_MainPanels);
-            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel3.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel3.Name = "tabControlPanel3";
-            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel3.Size = new System.Drawing.Size(1008, 707);
-            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.Silver;
-            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.Transparent;
-            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel3.Style.GradientAngle = 90;
-            this.tabControlPanel3.TabIndex = 3;
-            this.tabControlPanel3.TabItem = this.tp_MalongainTowers;
-            // 
-            // sc_MainPanels
-            // 
-            this.sc_MainPanels.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sc_MainPanels.Location = new System.Drawing.Point(1, 1);
-            this.sc_MainPanels.Name = "sc_MainPanels";
-            this.sc_MainPanels.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // sc_MainPanels.Panel1
-            // 
-            this.sc_MainPanels.Panel1.Controls.Add(this.groupPanel1);
-            this.sc_MainPanels.Panel1.Controls.Add(this.gp_MalongDisplay);
-            // 
-            // sc_MainPanels.Panel2
-            // 
-            this.sc_MainPanels.Panel2.Controls.Add(this.gp_MalongFuelNeeds);
-            this.sc_MainPanels.Size = new System.Drawing.Size(1006, 705);
-            this.sc_MainPanels.SplitterDistance = 400;
-            this.sc_MainPanels.TabIndex = 5;
-            this.sc_MainPanels.SplitterMoving += new System.Windows.Forms.SplitterCancelEventHandler(this.sc_MainPanels_SplitterMoving);
-            this.sc_MainPanels.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.sc_MainPanels_SplitterMoved);
-            // 
-            // groupPanel1
-            // 
-            this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
-            this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.groupPanel1.Controls.Add(this.tscb_TimePeriod);
-            this.groupPanel1.Controls.Add(this.label17);
-            this.groupPanel1.Controls.Add(this.nud_PeriodValue);
-            this.groupPanel1.Controls.Add(this.cb_UseStrontTotals);
-            this.groupPanel1.Controls.Add(this.cb_FactChartTotal);
-            this.groupPanel1.Controls.Add(this.b_ApplyIntervalPeriod);
-            this.groupPanel1.Controls.Add(this.label18);
-            this.groupPanel1.Controls.Add(this.label27);
-            this.groupPanel1.Controls.Add(this.label25);
-            this.groupPanel1.Controls.Add(this.cb_ShowFuelNeed);
-            this.groupPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupPanel1.Location = new System.Drawing.Point(0, 0);
-            this.groupPanel1.Name = "groupPanel1";
-            this.groupPanel1.Size = new System.Drawing.Size(1006, 53);
-            // 
-            // 
-            // 
-            this.groupPanel1.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.groupPanel1.Style.BackColorGradientAngle = 90;
-            this.groupPanel1.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.groupPanel1.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.groupPanel1.Style.BorderBottomWidth = 1;
-            this.groupPanel1.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.groupPanel1.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.groupPanel1.Style.BorderLeftWidth = 1;
-            this.groupPanel1.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.groupPanel1.Style.BorderRightWidth = 1;
-            this.groupPanel1.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.groupPanel1.Style.BorderTopWidth = 1;
-            this.groupPanel1.Style.Class = "";
-            this.groupPanel1.Style.CornerDiameter = 4;
-            this.groupPanel1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.groupPanel1.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.groupPanel1.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.groupPanel1.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.groupPanel1.StyleMouseDown.Class = "";
-            this.groupPanel1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.groupPanel1.StyleMouseOver.Class = "";
-            this.groupPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.groupPanel1.TabIndex = 3;
-            // 
-            // tscb_TimePeriod
-            // 
-            this.tscb_TimePeriod.DisplayMember = "Text";
-            this.tscb_TimePeriod.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.tscb_TimePeriod.FormattingEnabled = true;
-            this.tscb_TimePeriod.ItemHeight = 15;
-            this.tscb_TimePeriod.Items.AddRange(new object[] {
-            this.ci_Hours,
-            this.ci_Days,
-            this.ci_Weeks,
-            this.ci_Months,
-            this.ci_Fill});
-            this.tscb_TimePeriod.Location = new System.Drawing.Point(622, 2);
-            this.tscb_TimePeriod.Name = "tscb_TimePeriod";
-            this.tscb_TimePeriod.Size = new System.Drawing.Size(121, 21);
-            this.tscb_TimePeriod.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.tscb_TimePeriod.TabIndex = 0;
-            // 
-            // ci_Hours
-            // 
-            this.ci_Hours.Text = "Hours";
-            // 
-            // ci_Days
-            // 
-            this.ci_Days.Text = "Days";
-            // 
-            // ci_Weeks
-            // 
-            this.ci_Weeks.Text = "Weeks";
-            // 
-            // ci_Months
-            // 
-            this.ci_Months.Text = "Months";
-            // 
-            // ci_Fill
-            // 
-            this.ci_Fill.Text = "Fill";
-            // 
-            // label17
-            // 
-            this.label17.BackColor = System.Drawing.Color.Transparent;
-            this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label17.ForeColor = System.Drawing.Color.Blue;
-            this.label17.Location = new System.Drawing.Point(371, 3);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(180, 42);
-            this.label17.TabIndex = 191;
-            this.label17.Text = "The \'Fill\' longerval will CAP each POS to the maximum fuel it can hold. The other" +
-    " longervals will not do this.";
-            // 
-            // nud_PeriodValue
-            // 
-            // 
-            // 
-            // 
-            this.nud_PeriodValue.BackgroundStyle.Class = "DateTimeInputBackground";
-            this.nud_PeriodValue.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.nud_PeriodValue.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
-            this.nud_PeriodValue.Location = new System.Drawing.Point(622, 25);
-            this.nud_PeriodValue.Name = "nud_PeriodValue";
-            this.nud_PeriodValue.ShowUpDown = true;
-            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 21);
-            this.nud_PeriodValue.TabIndex = 1;
-            // 
-            // cb_UseStrontTotals
-            // 
-            this.cb_UseStrontTotals.AutoSize = true;
-            this.cb_UseStrontTotals.BackColor = System.Drawing.Color.Transparent;
-            this.cb_UseStrontTotals.Checked = true;
-            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_UseStrontTotals.Location = new System.Drawing.Point(811, 0);
-            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
-            this.cb_UseStrontTotals.Size = new System.Drawing.Size(137, 17);
-            this.cb_UseStrontTotals.TabIndex = 3;
-            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
-            this.cb_UseStrontTotals.UseVisualStyleBackColor = false;
-            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
-            // 
-            // cb_FactChartTotal
-            // 
-            this.cb_FactChartTotal.AutoSize = true;
-            this.cb_FactChartTotal.BackColor = System.Drawing.Color.Transparent;
-            this.cb_FactChartTotal.Checked = true;
-            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_FactChartTotal.Location = new System.Drawing.Point(811, 16);
-            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
-            this.cb_FactChartTotal.Size = new System.Drawing.Size(149, 17);
-            this.cb_FactChartTotal.TabIndex = 4;
-            this.cb_FactChartTotal.Text = "Include Charters in Totals";
-            this.cb_FactChartTotal.UseVisualStyleBackColor = false;
-            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
-            // 
-            // b_ApplyIntervalPeriod
-            // 
-            this.b_ApplyIntervalPeriod.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_ApplyIntervalPeriod.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(747, 2);
-            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
-            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 44);
-            this.b_ApplyIntervalPeriod.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_ApplyIntervalPeriod.TabIndex = 2;
-            this.b_ApplyIntervalPeriod.Text = "Apply Interval";
-            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.b_ApplyIntervalPeriod_Click);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.BackColor = System.Drawing.Color.Transparent;
-            this.label18.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label18.ForeColor = System.Drawing.Color.Navy;
-            this.label18.Location = new System.Drawing.Point(585, 29);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(37, 13);
-            this.label18.TabIndex = 187;
-            this.label18.Text = "Period";
-            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.BackColor = System.Drawing.Color.Transparent;
-            this.label27.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(16, 29);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(328, 16);
-            this.label27.TabIndex = 183;
-            this.label27.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
-            this.label27.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.BackColor = System.Drawing.Color.Transparent;
-            this.label25.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label25.ForeColor = System.Drawing.Color.Navy;
-            this.label25.Location = new System.Drawing.Point(577, 6);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(45, 13);
-            this.label25.TabIndex = 186;
-            this.label25.Text = "Interval";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cb_ShowFuelNeed
-            // 
-            this.cb_ShowFuelNeed.AutoSize = true;
-            this.cb_ShowFuelNeed.BackColor = System.Drawing.Color.Transparent;
-            this.cb_ShowFuelNeed.Location = new System.Drawing.Point(811, 32);
-            this.cb_ShowFuelNeed.Name = "cb_ShowFuelNeed";
-            this.cb_ShowFuelNeed.Size = new System.Drawing.Size(187, 17);
-            this.cb_ShowFuelNeed.TabIndex = 5;
-            this.cb_ShowFuelNeed.Text = "Ignore Current Tower Fuel Levels";
-            this.cb_ShowFuelNeed.UseVisualStyleBackColor = false;
-            this.cb_ShowFuelNeed.CheckedChanged += new System.EventHandler(this.cb_ShowFuelNeed_CheckedChanged);
-            // 
-            // gp_MalongDisplay
-            // 
-            this.gp_MalongDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gp_MalongDisplay.BackColor = System.Drawing.Color.Transparent;
-            this.gp_MalongDisplay.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_MalongDisplay.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_MalongDisplay.Controls.Add(this.dg_TowerFuelList);
-            this.gp_MalongDisplay.Location = new System.Drawing.Point(1, 53);
-            this.gp_MalongDisplay.Name = "gp_MalongDisplay";
-            this.gp_MalongDisplay.Size = new System.Drawing.Size(1005, 347);
-            // 
-            // 
-            // 
-            this.gp_MalongDisplay.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_MalongDisplay.Style.BackColorGradientAngle = 90;
-            this.gp_MalongDisplay.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_MalongDisplay.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongDisplay.Style.BorderBottomWidth = 1;
-            this.gp_MalongDisplay.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_MalongDisplay.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongDisplay.Style.BorderLeftWidth = 1;
-            this.gp_MalongDisplay.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongDisplay.Style.BorderRightWidth = 1;
-            this.gp_MalongDisplay.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongDisplay.Style.BorderTopWidth = 1;
-            this.gp_MalongDisplay.Style.Class = "";
-            this.gp_MalongDisplay.Style.CornerDiameter = 4;
-            this.gp_MalongDisplay.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_MalongDisplay.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_MalongDisplay.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_MalongDisplay.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_MalongDisplay.StyleMouseDown.Class = "";
-            this.gp_MalongDisplay.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_MalongDisplay.StyleMouseOver.Class = "";
-            this.gp_MalongDisplay.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_MalongDisplay.TabIndex = 2;
-            // 
-            // dg_TowerFuelList
-            // 
-            this.dg_TowerFuelList.AllowUserToAddRows = false;
-            this.dg_TowerFuelList.AllowUserToDeleteRows = false;
-            this.dg_TowerFuelList.AllowUserToResizeRows = false;
-            this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dg_TowerFuelList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dg_TowerFuelList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
-            this.dg_TowerFuelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_TowerFuelList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FName,
-            this.FLocation,
-            this.EnrUr,
-            this.Oxygen,
-            this.MechP,
-            this.Coolant,
-            this.Robot,
-            this.Isotope,
-            this.HvyWater,
-            this.LiqOz,
-            this.Charter,
-            this.Stront,
-            this.RunTime});
-            this.dg_TowerFuelList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_TowerFuelList.Location = new System.Drawing.Point(0, 0);
-            this.dg_TowerFuelList.Name = "dg_TowerFuelList";
-            this.dg_TowerFuelList.ReadOnly = true;
-            this.dg_TowerFuelList.RowHeadersVisible = false;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle21;
-            this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TowerFuelList.Size = new System.Drawing.Size(999, 341);
-            this.dg_TowerFuelList.TabIndex = 175;
-            this.dg_TowerFuelList.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_TowerFuelList_CellMouseClick);
-            this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
-            // 
-            // FName
-            // 
-            this.FName.HeaderText = "Name";
-            this.FName.Name = "FName";
-            this.FName.ReadOnly = true;
-            this.FName.Width = 59;
-            // 
-            // FLocation
-            // 
-            this.FLocation.HeaderText = "Location";
-            this.FLocation.Name = "FLocation";
-            this.FLocation.ReadOnly = true;
-            this.FLocation.Width = 72;
-            // 
-            // EnrUr
-            // 
-            this.EnrUr.HeaderText = "Enr. Ur.";
-            this.EnrUr.Name = "EnrUr";
-            this.EnrUr.ReadOnly = true;
-            this.EnrUr.ToolTipText = "Right Click to Set Fuel Price";
-            this.EnrUr.Width = 70;
-            // 
-            // Oxygen
-            // 
-            this.Oxygen.HeaderText = "Oxygen";
-            this.Oxygen.Name = "Oxygen";
-            this.Oxygen.ReadOnly = true;
-            this.Oxygen.ToolTipText = "Right Click to Set Fuel Price";
-            this.Oxygen.Width = 70;
-            // 
-            // MechP
-            // 
-            this.MechP.HeaderText = "Mech Pts";
-            this.MechP.Name = "MechP";
-            this.MechP.ReadOnly = true;
-            this.MechP.ToolTipText = "Right Click to Set Fuel Price";
-            this.MechP.Width = 75;
-            // 
-            // Coolant
-            // 
-            this.Coolant.HeaderText = "Coolant";
-            this.Coolant.Name = "Coolant";
-            this.Coolant.ReadOnly = true;
-            this.Coolant.ToolTipText = "Right Click to Set Fuel Price";
-            this.Coolant.Width = 69;
-            // 
-            // Robot
-            // 
-            this.Robot.HeaderText = "Robotics";
-            this.Robot.Name = "Robot";
-            this.Robot.ReadOnly = true;
-            this.Robot.ToolTipText = "Right Click to Set Fuel Price";
-            this.Robot.Width = 73;
-            // 
-            // Isotope
-            // 
-            this.Isotope.HeaderText = "Isotopes";
-            this.Isotope.Name = "Isotope";
-            this.Isotope.ReadOnly = true;
-            this.Isotope.ToolTipText = "Right Click to Set Fuel Price";
-            this.Isotope.Width = 74;
-            // 
-            // HvyWater
-            // 
-            this.HvyWater.HeaderText = "Hvy. Water";
-            this.HvyWater.Name = "HvyWater";
-            this.HvyWater.ReadOnly = true;
-            this.HvyWater.ToolTipText = "Right Click to Set Fuel Price";
-            this.HvyWater.Width = 88;
-            // 
-            // LiqOz
-            // 
-            this.LiqOz.HeaderText = "Liq Ozone";
-            this.LiqOz.Name = "LiqOz";
-            this.LiqOz.ReadOnly = true;
-            this.LiqOz.ToolTipText = "Right Click to Set Fuel Price";
-            this.LiqOz.Width = 79;
-            // 
-            // Charter
-            // 
-            this.Charter.HeaderText = "Charters";
-            this.Charter.Name = "Charter";
-            this.Charter.ReadOnly = true;
-            this.Charter.ToolTipText = "Right Click to Set Fuel Price";
-            this.Charter.Width = 74;
-            // 
-            // Stront
-            // 
-            this.Stront.HeaderText = "Strontium";
-            this.Stront.Name = "Stront";
-            this.Stront.ReadOnly = true;
-            this.Stront.ToolTipText = "Right Click to Set Fuel Price";
-            this.Stront.Width = 78;
-            // 
-            // RunTime
-            // 
-            this.RunTime.HeaderText = "Run Time";
-            this.RunTime.Name = "RunTime";
-            this.RunTime.ReadOnly = true;
-            this.RunTime.Width = 76;
-            // 
-            // gp_MalongFuelNeeds
-            // 
-            this.gp_MalongFuelNeeds.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gp_MalongFuelNeeds.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_MalongFuelNeeds.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_MalongFuelNeeds.Controls.Add(this.gp_AllTowers);
-            this.gp_MalongFuelNeeds.Controls.Add(this.gp_SelectedTowers);
-            this.gp_MalongFuelNeeds.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_MalongFuelNeeds.Location = new System.Drawing.Point(0, 0);
-            this.gp_MalongFuelNeeds.Name = "gp_MalongFuelNeeds";
-            this.gp_MalongFuelNeeds.Size = new System.Drawing.Size(1006, 301);
-            // 
-            // 
-            // 
-            this.gp_MalongFuelNeeds.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_MalongFuelNeeds.Style.BackColorGradientAngle = 90;
-            this.gp_MalongFuelNeeds.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_MalongFuelNeeds.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongFuelNeeds.Style.BorderBottomWidth = 1;
-            this.gp_MalongFuelNeeds.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_MalongFuelNeeds.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongFuelNeeds.Style.BorderLeftWidth = 1;
-            this.gp_MalongFuelNeeds.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongFuelNeeds.Style.BorderRightWidth = 1;
-            this.gp_MalongFuelNeeds.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_MalongFuelNeeds.Style.BorderTopWidth = 1;
-            this.gp_MalongFuelNeeds.Style.Class = "";
-            this.gp_MalongFuelNeeds.Style.CornerDiameter = 4;
-            this.gp_MalongFuelNeeds.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_MalongFuelNeeds.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_MalongFuelNeeds.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_MalongFuelNeeds.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_MalongFuelNeeds.StyleMouseDown.Class = "";
-            this.gp_MalongFuelNeeds.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_MalongFuelNeeds.StyleMouseOver.Class = "";
-            this.gp_MalongFuelNeeds.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_MalongFuelNeeds.TabIndex = 3;
-            // 
-            // gp_AllTowers
-            // 
-            this.gp_AllTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gp_AllTowers.BackColor = System.Drawing.Color.Transparent;
-            this.gp_AllTowers.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_AllTowers.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_AllTowers.Controls.Add(this.cb_AllDataForCopy);
-            this.gp_AllTowers.Controls.Add(this.b_CopyAllPos);
-            this.gp_AllTowers.Controls.Add(this.dg_TotalFuel);
-            this.gp_AllTowers.Location = new System.Drawing.Point(500, 0);
-            this.gp_AllTowers.Name = "gp_AllTowers";
-            this.gp_AllTowers.Size = new System.Drawing.Size(501, 294);
-            // 
-            // 
-            // 
-            this.gp_AllTowers.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_AllTowers.Style.BackColorGradientAngle = 90;
-            this.gp_AllTowers.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_AllTowers.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AllTowers.Style.BorderBottomWidth = 1;
-            this.gp_AllTowers.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_AllTowers.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AllTowers.Style.BorderLeftWidth = 1;
-            this.gp_AllTowers.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AllTowers.Style.BorderRightWidth = 1;
-            this.gp_AllTowers.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AllTowers.Style.BorderTopWidth = 1;
-            this.gp_AllTowers.Style.Class = "";
-            this.gp_AllTowers.Style.CornerDiameter = 4;
-            this.gp_AllTowers.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_AllTowers.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_AllTowers.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_AllTowers.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_AllTowers.StyleMouseDown.Class = "";
-            this.gp_AllTowers.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_AllTowers.StyleMouseOver.Class = "";
-            this.gp_AllTowers.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_AllTowers.TabIndex = 3;
-            this.gp_AllTowers.Text = "All Towers Need";
-            // 
-            // cb_AllDataForCopy
-            // 
-            this.cb_AllDataForCopy.DisplayMember = "Text";
-            this.cb_AllDataForCopy.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cb_AllDataForCopy.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_AllDataForCopy.FormattingEnabled = true;
-            this.cb_AllDataForCopy.ItemHeight = 17;
-            this.cb_AllDataForCopy.Items.AddRange(new object[] {
-            this.ci_FuelAll,
-            this.ci_FuelVolAll,
-            this.ci_FuelVolCostAll});
-            this.cb_AllDataForCopy.Location = new System.Drawing.Point(179, 1);
-            this.cb_AllDataForCopy.Name = "cb_AllDataForCopy";
-            this.cb_AllDataForCopy.Size = new System.Drawing.Size(218, 23);
-            this.cb_AllDataForCopy.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_AllDataForCopy.TabIndex = 0;
-            // 
-            // ci_FuelAll
-            // 
-            this.ci_FuelAll.Text = "Fuel Only (Total m3)";
-            // 
-            // ci_FuelVolAll
-            // 
-            this.ci_FuelVolAll.Text = "Fuel & Volume (Total m3)";
-            // 
-            // ci_FuelVolCostAll
-            // 
-            this.ci_FuelVolCostAll.Text = "Fuel, Volume & Cost (Total m3 & Cost)";
-            // 
-            // b_CopyAllPos
-            // 
-            this.b_CopyAllPos.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_CopyAllPos.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_CopyAllPos.Location = new System.Drawing.Point(403, 1);
-            this.b_CopyAllPos.Name = "b_CopyAllPos";
-            this.b_CopyAllPos.Size = new System.Drawing.Size(79, 23);
-            this.b_CopyAllPos.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_CopyAllPos.TabIndex = 1;
-            this.b_CopyAllPos.Text = "Copy All";
-            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
-            // 
-            // dg_TotalFuel
-            // 
-            this.dg_TotalFuel.AllowUserToAddRows = false;
-            this.dg_TotalFuel.AllowUserToDeleteRows = false;
-            this.dg_TotalFuel.AllowUserToResizeRows = false;
-            this.dg_TotalFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dg_TotalFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dg_TotalFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FuelName,
-            this.FuelAmount,
-            this.FuelVolume,
-            this.FuelCost});
-            this.dg_TotalFuel.Location = new System.Drawing.Point(0, 28);
-            this.dg_TotalFuel.MultiSelect = false;
-            this.dg_TotalFuel.Name = "dg_TotalFuel";
-            this.dg_TotalFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle22;
-            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TotalFuel.Size = new System.Drawing.Size(497, 244);
-            this.dg_TotalFuel.TabIndex = 185;
-            this.dg_TotalFuel.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_TotalFuel_CellMouseClick);
-            // 
-            // FuelName
-            // 
-            this.FuelName.HeaderText = "Fuel";
-            this.FuelName.Name = "FuelName";
-            this.FuelName.ReadOnly = true;
-            this.FuelName.Width = 145;
-            // 
-            // FuelAmount
-            // 
-            this.FuelAmount.HeaderText = "Amount";
-            this.FuelAmount.Name = "FuelAmount";
-            this.FuelAmount.ReadOnly = true;
-            // 
-            // FuelVolume
-            // 
-            this.FuelVolume.HeaderText = "Volume";
-            this.FuelVolume.Name = "FuelVolume";
-            this.FuelVolume.ReadOnly = true;
-            // 
-            // FuelCost
-            // 
-            this.FuelCost.HeaderText = "Cost";
-            this.FuelCost.Name = "FuelCost";
-            this.FuelCost.ReadOnly = true;
-            this.FuelCost.ToolTipText = "Right Click to Set Fuel Price";
-            this.FuelCost.Width = 125;
-            // 
-            // gp_SelectedTowers
-            // 
-            this.gp_SelectedTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.gp_SelectedTowers.BackColor = System.Drawing.Color.Transparent;
-            this.gp_SelectedTowers.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_SelectedTowers.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_SelectedTowers.Controls.Add(this.b_SetSelectedFull);
-            this.gp_SelectedTowers.Controls.Add(this.b_CopySelected);
-            this.gp_SelectedTowers.Controls.Add(this.cb_SelectedDataForCopy);
-            this.gp_SelectedTowers.Controls.Add(this.dg_SelectedFuel);
-            this.gp_SelectedTowers.Location = new System.Drawing.Point(-1, 0);
-            this.gp_SelectedTowers.Name = "gp_SelectedTowers";
-            this.gp_SelectedTowers.Size = new System.Drawing.Size(501, 294);
-            // 
-            // 
-            // 
-            this.gp_SelectedTowers.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_SelectedTowers.Style.BackColorGradientAngle = 90;
-            this.gp_SelectedTowers.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_SelectedTowers.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_SelectedTowers.Style.BorderBottomWidth = 1;
-            this.gp_SelectedTowers.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_SelectedTowers.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_SelectedTowers.Style.BorderLeftWidth = 1;
-            this.gp_SelectedTowers.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_SelectedTowers.Style.BorderRightWidth = 1;
-            this.gp_SelectedTowers.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_SelectedTowers.Style.BorderTopWidth = 1;
-            this.gp_SelectedTowers.Style.Class = "";
-            this.gp_SelectedTowers.Style.CornerDiameter = 4;
-            this.gp_SelectedTowers.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_SelectedTowers.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_SelectedTowers.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_SelectedTowers.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_SelectedTowers.StyleMouseDown.Class = "";
-            this.gp_SelectedTowers.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_SelectedTowers.StyleMouseOver.Class = "";
-            this.gp_SelectedTowers.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_SelectedTowers.TabIndex = 0;
-            this.gp_SelectedTowers.Text = "Selected Tower(s) Need";
-            // 
-            // b_SetSelectedFull
-            // 
-            this.b_SetSelectedFull.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_SetSelectedFull.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_SetSelectedFull.Location = new System.Drawing.Point(105, 1);
-            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
-            this.b_SetSelectedFull.Size = new System.Drawing.Size(79, 23);
-            this.b_SetSelectedFull.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_SetSelectedFull.TabIndex = 0;
-            this.b_SetSelectedFull.Text = "Mark Full";
-            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
-            // 
-            // b_CopySelected
-            // 
-            this.b_CopySelected.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_CopySelected.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_CopySelected.Location = new System.Drawing.Point(414, 1);
-            this.b_CopySelected.Name = "b_CopySelected";
-            this.b_CopySelected.Size = new System.Drawing.Size(79, 23);
-            this.b_CopySelected.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_CopySelected.TabIndex = 2;
-            this.b_CopySelected.Text = "Copy Selected";
-            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
-            // 
-            // cb_SelectedDataForCopy
-            // 
-            this.cb_SelectedDataForCopy.DisplayMember = "Text";
-            this.cb_SelectedDataForCopy.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cb_SelectedDataForCopy.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_SelectedDataForCopy.FormattingEnabled = true;
-            this.cb_SelectedDataForCopy.ItemHeight = 17;
-            this.cb_SelectedDataForCopy.Items.AddRange(new object[] {
-            this.ci_FuelOnly,
-            this.ci_FuelVol,
-            this.ci_FuelVolCost});
-            this.cb_SelectedDataForCopy.Location = new System.Drawing.Point(190, 1);
-            this.cb_SelectedDataForCopy.Name = "cb_SelectedDataForCopy";
-            this.cb_SelectedDataForCopy.Size = new System.Drawing.Size(218, 23);
-            this.cb_SelectedDataForCopy.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_SelectedDataForCopy.TabIndex = 1;
-            // 
-            // ci_FuelOnly
-            // 
-            this.ci_FuelOnly.Text = "Fuel Only (Total m3)";
-            // 
-            // ci_FuelVol
-            // 
-            this.ci_FuelVol.Text = "Fuel & Volume (Total m3)";
-            // 
-            // ci_FuelVolCost
-            // 
-            this.ci_FuelVolCost.Text = "Fuel, Volume & Cost (Total m3 & Cost)";
-            // 
-            // dg_SelectedFuel
-            // 
-            this.dg_SelectedFuel.AllowUserToAddRows = false;
-            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
-            this.dg_SelectedFuel.AllowUserToResizeRows = false;
-            this.dg_SelectedFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dg_SelectedFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dg_SelectedFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SelFuelType,
-            this.SelFuelAmount,
-            this.SelFuelVol,
-            this.SelFuelCost});
-            this.dg_SelectedFuel.Location = new System.Drawing.Point(0, 28);
-            this.dg_SelectedFuel.MultiSelect = false;
-            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
-            this.dg_SelectedFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle23;
-            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_SelectedFuel.Size = new System.Drawing.Size(497, 244);
-            this.dg_SelectedFuel.TabIndex = 184;
-            this.dg_SelectedFuel.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_SelectedFuel_CellMouseClick);
-            // 
-            // SelFuelType
-            // 
-            this.SelFuelType.HeaderText = "Type";
-            this.SelFuelType.Name = "SelFuelType";
-            this.SelFuelType.ReadOnly = true;
-            this.SelFuelType.Width = 145;
-            // 
-            // SelFuelAmount
-            // 
-            this.SelFuelAmount.HeaderText = "Amount";
-            this.SelFuelAmount.Name = "SelFuelAmount";
-            this.SelFuelAmount.ReadOnly = true;
-            // 
-            // SelFuelVol
-            // 
-            this.SelFuelVol.HeaderText = "Volume";
-            this.SelFuelVol.Name = "SelFuelVol";
-            this.SelFuelVol.ReadOnly = true;
-            // 
-            // SelFuelCost
-            // 
-            this.SelFuelCost.HeaderText = "Cost";
-            this.SelFuelCost.Name = "SelFuelCost";
-            this.SelFuelCost.ReadOnly = true;
-            this.SelFuelCost.ToolTipText = "Right Click to Set Fuel Price";
-            this.SelFuelCost.Width = 125;
-            // 
-            // tp_MalongainTowers
-            // 
-            this.tp_MalongainTowers.AttachedControl = this.tabControlPanel3;
-            this.tp_MalongainTowers.Name = "tp_MalongainTowers";
-            this.tp_MalongainTowers.Text = "Maintain Towers";
-            // 
             // tcp_MonitorTower
             // 
             this.tcp_MonitorTower.Controls.Add(this.gp_FuelSettings);
@@ -1714,9 +921,9 @@
             this.tcp_MonitorTower.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tcp_MonitorTower.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tcp_MonitorTower.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tcp_MonitorTower.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tcp_MonitorTower.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tcp_MonitorTower.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tcp_MonitorTower.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tcp_MonitorTower.Style.GradientAngle = 90;
             this.tcp_MonitorTower.TabIndex = 1;
             this.tcp_MonitorTower.TabItem = this.tp_TowerMonitor;
@@ -3025,9 +2232,9 @@
             this.dg_MonitoredTowers.AllowUserToAddRows = false;
             this.dg_MonitoredTowers.AllowUserToDeleteRows = false;
             this.dg_MonitoredTowers.AllowUserToResizeRows = false;
-            this.dg_MonitoredTowers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_MonitoredTowers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_MonitoredTowers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dg_MonitoredTowers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_MonitoredTowers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
@@ -3061,33 +2268,33 @@
             this.HiddenCPU,
             this.HiddenPower,
             this.HiddenIso});
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_MonitoredTowers.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_MonitoredTowers.DefaultCellStyle = dataGridViewCellStyle23;
             this.dg_MonitoredTowers.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.dg_MonitoredTowers.Location = new System.Drawing.Point(1, 26);
             this.dg_MonitoredTowers.MultiSelect = false;
             this.dg_MonitoredTowers.Name = "dg_MonitoredTowers";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_MonitoredTowers.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle24.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg_MonitoredTowers.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.dg_MonitoredTowers.RowHeadersWidth = 20;
             this.dg_MonitoredTowers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
-            this.dg_MonitoredTowers.RowsDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle25.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle25.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
+            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.Color.Black;
+            this.dg_MonitoredTowers.RowsDefaultCellStyle = dataGridViewCellStyle25;
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Control;
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
@@ -3104,8 +2311,8 @@
             // dg_POSName
             // 
             this.dg_POSName.ContextMenuStrip = this.cms_MonitoredTower;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dg_POSName.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dg_POSName.DefaultCellStyle = dataGridViewCellStyle7;
             this.dg_POSName.Frozen = true;
             this.dg_POSName.HeaderText = "POS Name";
             this.dg_POSName.Name = "dg_POSName";
@@ -3135,9 +2342,9 @@
             // 
             // dg_RunTime
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black;
+            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle8;
             this.dg_RunTime.HeaderText = "Fuel Run Time";
             this.dg_RunTime.Name = "dg_RunTime";
             this.dg_RunTime.ReadOnly = true;
@@ -3176,8 +2383,8 @@
             // 
             // CPU
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CPU.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CPU.DefaultCellStyle = dataGridViewCellStyle9;
             this.CPU.HeaderText = "CPU Usage";
             this.CPU.Name = "CPU";
             this.CPU.ReadOnly = true;
@@ -3186,8 +2393,8 @@
             // 
             // Power
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Power.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Power.DefaultCellStyle = dataGridViewCellStyle10;
             this.Power.HeaderText = "Power Usage";
             this.Power.Name = "Power";
             this.Power.ReadOnly = true;
@@ -3196,9 +2403,9 @@
             // 
             // EnUr
             // 
-            dataGridViewCellStyle5.Format = "N0";
-            dataGridViewCellStyle5.NullValue = null;
-            this.EnUr.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Format = "N0";
+            dataGridViewCellStyle11.NullValue = null;
+            this.EnUr.DefaultCellStyle = dataGridViewCellStyle11;
             this.EnUr.HeaderText = "Enr Uranium";
             this.EnUr.Name = "EnUr";
             this.EnUr.ReadOnly = true;
@@ -3207,9 +2414,9 @@
             // 
             // Oxyg
             // 
-            dataGridViewCellStyle6.Format = "N0";
-            dataGridViewCellStyle6.NullValue = null;
-            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Format = "N0";
+            dataGridViewCellStyle12.NullValue = null;
+            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle12;
             this.Oxyg.HeaderText = "Oxygen";
             this.Oxyg.Name = "Oxyg";
             this.Oxyg.ReadOnly = true;
@@ -3218,9 +2425,9 @@
             // 
             // McP
             // 
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.NullValue = null;
-            this.McP.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle13.Format = "N0";
+            dataGridViewCellStyle13.NullValue = null;
+            this.McP.DefaultCellStyle = dataGridViewCellStyle13;
             this.McP.HeaderText = "Mech Parts";
             this.McP.Name = "McP";
             this.McP.ReadOnly = true;
@@ -3237,9 +2444,9 @@
             // 
             // Robt
             // 
-            dataGridViewCellStyle8.Format = "N0";
-            dataGridViewCellStyle8.NullValue = null;
-            this.Robt.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle14.Format = "N0";
+            dataGridViewCellStyle14.NullValue = null;
+            this.Robt.DefaultCellStyle = dataGridViewCellStyle14;
             this.Robt.HeaderText = "Robotics";
             this.Robt.Name = "Robt";
             this.Robt.ReadOnly = true;
@@ -3248,9 +2455,9 @@
             // 
             // Iso
             // 
-            dataGridViewCellStyle9.Format = "N0";
-            dataGridViewCellStyle9.NullValue = null;
-            this.Iso.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle15.Format = "N0";
+            dataGridViewCellStyle15.NullValue = null;
+            this.Iso.DefaultCellStyle = dataGridViewCellStyle15;
             this.Iso.HeaderText = "Isotopes";
             this.Iso.Name = "Iso";
             this.Iso.ReadOnly = true;
@@ -3260,9 +2467,9 @@
             // 
             // HvyW
             // 
-            dataGridViewCellStyle10.Format = "N0";
-            dataGridViewCellStyle10.NullValue = null;
-            this.HvyW.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle16.Format = "N0";
+            dataGridViewCellStyle16.NullValue = null;
+            this.HvyW.DefaultCellStyle = dataGridViewCellStyle16;
             this.HvyW.HeaderText = "Hvy Water";
             this.HvyW.Name = "HvyW";
             this.HvyW.ReadOnly = true;
@@ -3271,9 +2478,9 @@
             // 
             // LiqO
             // 
-            dataGridViewCellStyle11.Format = "N0";
-            dataGridViewCellStyle11.NullValue = null;
-            this.LiqO.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle17.Format = "N0";
+            dataGridViewCellStyle17.NullValue = null;
+            this.LiqO.DefaultCellStyle = dataGridViewCellStyle17;
             this.LiqO.HeaderText = "Liq Ozone";
             this.LiqO.Name = "LiqO";
             this.LiqO.ReadOnly = true;
@@ -3282,9 +2489,9 @@
             // 
             // Chrt
             // 
-            dataGridViewCellStyle12.Format = "N0";
-            dataGridViewCellStyle12.NullValue = null;
-            this.Chrt.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle18.Format = "N0";
+            dataGridViewCellStyle18.NullValue = null;
+            this.Chrt.DefaultCellStyle = dataGridViewCellStyle18;
             this.Chrt.HeaderText = "Charters";
             this.Chrt.Name = "Chrt";
             this.Chrt.ReadOnly = true;
@@ -3293,9 +2500,9 @@
             // 
             // Strn
             // 
-            dataGridViewCellStyle13.Format = "N0";
-            dataGridViewCellStyle13.NullValue = null;
-            this.Strn.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle19.Format = "N0";
+            dataGridViewCellStyle19.NullValue = null;
+            this.Strn.DefaultCellStyle = dataGridViewCellStyle19;
             this.Strn.HeaderText = "Strontium";
             this.Strn.Name = "Strn";
             this.Strn.ReadOnly = true;
@@ -3311,24 +2518,24 @@
             // 
             // ReactionRunTime
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.ReactionRunTime.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ReactionRunTime.DefaultCellStyle = dataGridViewCellStyle20;
             this.ReactionRunTime.HeaderText = "Reaction Run Time";
             this.ReactionRunTime.Name = "ReactionRunTime";
             this.ReactionRunTime.Width = 121;
             // 
             // Onwer
             // 
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Onwer.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Onwer.DefaultCellStyle = dataGridViewCellStyle21;
             this.Onwer.HeaderText = "Owner";
             this.Onwer.Name = "Onwer";
             this.Onwer.Width = 64;
             // 
             // FuelTech
             // 
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.FuelTech.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.FuelTech.DefaultCellStyle = dataGridViewCellStyle22;
             this.FuelTech.HeaderText = "Fuel Tech";
             this.FuelTech.Name = "FuelTech";
             this.FuelTech.Width = 78;
@@ -3527,6 +2734,799 @@
             this.tp_TowerMonitor.Name = "tp_TowerMonitor";
             this.tp_TowerMonitor.Text = "Monitor Towers";
             // 
+            // tabControlPanel3
+            // 
+            this.tabControlPanel3.Controls.Add(this.sc_MainPanels);
+            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel3.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel3.Name = "tabControlPanel3";
+            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel3.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.Silver;
+            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.Transparent;
+            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel3.Style.GradientAngle = 90;
+            this.tabControlPanel3.TabIndex = 3;
+            this.tabControlPanel3.TabItem = this.tp_MalongainTowers;
+            // 
+            // sc_MainPanels
+            // 
+            this.sc_MainPanels.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sc_MainPanels.Location = new System.Drawing.Point(1, 1);
+            this.sc_MainPanels.Name = "sc_MainPanels";
+            this.sc_MainPanels.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // sc_MainPanels.Panel1
+            // 
+            this.sc_MainPanels.Panel1.Controls.Add(this.groupPanel1);
+            this.sc_MainPanels.Panel1.Controls.Add(this.gp_MalongDisplay);
+            // 
+            // sc_MainPanels.Panel2
+            // 
+            this.sc_MainPanels.Panel2.Controls.Add(this.gp_MalongFuelNeeds);
+            this.sc_MainPanels.Size = new System.Drawing.Size(1006, 705);
+            this.sc_MainPanels.SplitterDistance = 400;
+            this.sc_MainPanels.TabIndex = 5;
+            this.sc_MainPanels.SplitterMoving += new System.Windows.Forms.SplitterCancelEventHandler(this.sc_MainPanels_SplitterMoving);
+            this.sc_MainPanels.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.sc_MainPanels_SplitterMoved);
+            // 
+            // groupPanel1
+            // 
+            this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
+            this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.groupPanel1.Controls.Add(this.tscb_TimePeriod);
+            this.groupPanel1.Controls.Add(this.label17);
+            this.groupPanel1.Controls.Add(this.nud_PeriodValue);
+            this.groupPanel1.Controls.Add(this.cb_UseStrontTotals);
+            this.groupPanel1.Controls.Add(this.cb_FactChartTotal);
+            this.groupPanel1.Controls.Add(this.b_ApplyIntervalPeriod);
+            this.groupPanel1.Controls.Add(this.label18);
+            this.groupPanel1.Controls.Add(this.label27);
+            this.groupPanel1.Controls.Add(this.label25);
+            this.groupPanel1.Controls.Add(this.cb_ShowFuelNeed);
+            this.groupPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupPanel1.Location = new System.Drawing.Point(0, 0);
+            this.groupPanel1.Name = "groupPanel1";
+            this.groupPanel1.Size = new System.Drawing.Size(1006, 53);
+            // 
+            // 
+            // 
+            this.groupPanel1.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.groupPanel1.Style.BackColorGradientAngle = 90;
+            this.groupPanel1.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.groupPanel1.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderBottomWidth = 1;
+            this.groupPanel1.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.groupPanel1.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderLeftWidth = 1;
+            this.groupPanel1.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderRightWidth = 1;
+            this.groupPanel1.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderTopWidth = 1;
+            this.groupPanel1.Style.Class = "";
+            this.groupPanel1.Style.CornerDiameter = 4;
+            this.groupPanel1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.groupPanel1.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.groupPanel1.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.groupPanel1.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.groupPanel1.StyleMouseDown.Class = "";
+            this.groupPanel1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.groupPanel1.StyleMouseOver.Class = "";
+            this.groupPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.groupPanel1.TabIndex = 3;
+            // 
+            // tscb_TimePeriod
+            // 
+            this.tscb_TimePeriod.DisplayMember = "Text";
+            this.tscb_TimePeriod.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.tscb_TimePeriod.FormattingEnabled = true;
+            this.tscb_TimePeriod.ItemHeight = 15;
+            this.tscb_TimePeriod.Items.AddRange(new object[] {
+            this.ci_Hours,
+            this.ci_Days,
+            this.ci_Weeks,
+            this.ci_Months,
+            this.ci_Fill});
+            this.tscb_TimePeriod.Location = new System.Drawing.Point(622, 2);
+            this.tscb_TimePeriod.Name = "tscb_TimePeriod";
+            this.tscb_TimePeriod.Size = new System.Drawing.Size(121, 21);
+            this.tscb_TimePeriod.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.tscb_TimePeriod.TabIndex = 0;
+            // 
+            // ci_Hours
+            // 
+            this.ci_Hours.Text = "Hours";
+            // 
+            // ci_Days
+            // 
+            this.ci_Days.Text = "Days";
+            // 
+            // ci_Weeks
+            // 
+            this.ci_Weeks.Text = "Weeks";
+            // 
+            // ci_Months
+            // 
+            this.ci_Months.Text = "Months";
+            // 
+            // ci_Fill
+            // 
+            this.ci_Fill.Text = "Fill";
+            // 
+            // label17
+            // 
+            this.label17.BackColor = System.Drawing.Color.Transparent;
+            this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label17.ForeColor = System.Drawing.Color.Blue;
+            this.label17.Location = new System.Drawing.Point(371, 3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(180, 42);
+            this.label17.TabIndex = 191;
+            this.label17.Text = "The \'Fill\' longerval will CAP each POS to the maximum fuel it can hold. The other" +
+                " longervals will not do this.";
+            // 
+            // nud_PeriodValue
+            // 
+            // 
+            // 
+            // 
+            this.nud_PeriodValue.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.nud_PeriodValue.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.nud_PeriodValue.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
+            this.nud_PeriodValue.Location = new System.Drawing.Point(622, 25);
+            this.nud_PeriodValue.Name = "nud_PeriodValue";
+            this.nud_PeriodValue.ShowUpDown = true;
+            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 21);
+            this.nud_PeriodValue.TabIndex = 1;
+            // 
+            // cb_UseStrontTotals
+            // 
+            this.cb_UseStrontTotals.AutoSize = true;
+            this.cb_UseStrontTotals.BackColor = System.Drawing.Color.Transparent;
+            this.cb_UseStrontTotals.Checked = true;
+            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_UseStrontTotals.Location = new System.Drawing.Point(811, 0);
+            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
+            this.cb_UseStrontTotals.Size = new System.Drawing.Size(137, 17);
+            this.cb_UseStrontTotals.TabIndex = 3;
+            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
+            this.cb_UseStrontTotals.UseVisualStyleBackColor = false;
+            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
+            // 
+            // cb_FactChartTotal
+            // 
+            this.cb_FactChartTotal.AutoSize = true;
+            this.cb_FactChartTotal.BackColor = System.Drawing.Color.Transparent;
+            this.cb_FactChartTotal.Checked = true;
+            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_FactChartTotal.Location = new System.Drawing.Point(811, 16);
+            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
+            this.cb_FactChartTotal.Size = new System.Drawing.Size(149, 17);
+            this.cb_FactChartTotal.TabIndex = 4;
+            this.cb_FactChartTotal.Text = "Include Charters in Totals";
+            this.cb_FactChartTotal.UseVisualStyleBackColor = false;
+            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
+            // 
+            // b_ApplyIntervalPeriod
+            // 
+            this.b_ApplyIntervalPeriod.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_ApplyIntervalPeriod.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(747, 2);
+            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
+            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 44);
+            this.b_ApplyIntervalPeriod.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_ApplyIntervalPeriod.TabIndex = 2;
+            this.b_ApplyIntervalPeriod.Text = "Apply Interval";
+            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.b_ApplyIntervalPeriod_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.BackColor = System.Drawing.Color.Transparent;
+            this.label18.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label18.ForeColor = System.Drawing.Color.Navy;
+            this.label18.Location = new System.Drawing.Point(585, 29);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(37, 13);
+            this.label18.TabIndex = 187;
+            this.label18.Text = "Period";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.BackColor = System.Drawing.Color.Transparent;
+            this.label27.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(16, 29);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(328, 16);
+            this.label27.TabIndex = 183;
+            this.label27.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.BackColor = System.Drawing.Color.Transparent;
+            this.label25.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label25.ForeColor = System.Drawing.Color.Navy;
+            this.label25.Location = new System.Drawing.Point(577, 6);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(45, 13);
+            this.label25.TabIndex = 186;
+            this.label25.Text = "Interval";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cb_ShowFuelNeed
+            // 
+            this.cb_ShowFuelNeed.AutoSize = true;
+            this.cb_ShowFuelNeed.BackColor = System.Drawing.Color.Transparent;
+            this.cb_ShowFuelNeed.Location = new System.Drawing.Point(811, 32);
+            this.cb_ShowFuelNeed.Name = "cb_ShowFuelNeed";
+            this.cb_ShowFuelNeed.Size = new System.Drawing.Size(187, 17);
+            this.cb_ShowFuelNeed.TabIndex = 5;
+            this.cb_ShowFuelNeed.Text = "Ignore Current Tower Fuel Levels";
+            this.cb_ShowFuelNeed.UseVisualStyleBackColor = false;
+            this.cb_ShowFuelNeed.CheckedChanged += new System.EventHandler(this.cb_ShowFuelNeed_CheckedChanged);
+            // 
+            // gp_MalongDisplay
+            // 
+            this.gp_MalongDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_MalongDisplay.BackColor = System.Drawing.Color.Transparent;
+            this.gp_MalongDisplay.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_MalongDisplay.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_MalongDisplay.Controls.Add(this.dg_TowerFuelList);
+            this.gp_MalongDisplay.Location = new System.Drawing.Point(1, 53);
+            this.gp_MalongDisplay.Name = "gp_MalongDisplay";
+            this.gp_MalongDisplay.Size = new System.Drawing.Size(1005, 347);
+            // 
+            // 
+            // 
+            this.gp_MalongDisplay.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_MalongDisplay.Style.BackColorGradientAngle = 90;
+            this.gp_MalongDisplay.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_MalongDisplay.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongDisplay.Style.BorderBottomWidth = 1;
+            this.gp_MalongDisplay.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_MalongDisplay.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongDisplay.Style.BorderLeftWidth = 1;
+            this.gp_MalongDisplay.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongDisplay.Style.BorderRightWidth = 1;
+            this.gp_MalongDisplay.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongDisplay.Style.BorderTopWidth = 1;
+            this.gp_MalongDisplay.Style.Class = "";
+            this.gp_MalongDisplay.Style.CornerDiameter = 4;
+            this.gp_MalongDisplay.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_MalongDisplay.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_MalongDisplay.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_MalongDisplay.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_MalongDisplay.StyleMouseDown.Class = "";
+            this.gp_MalongDisplay.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_MalongDisplay.StyleMouseOver.Class = "";
+            this.gp_MalongDisplay.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_MalongDisplay.TabIndex = 2;
+            // 
+            // dg_TowerFuelList
+            // 
+            this.dg_TowerFuelList.AllowUserToAddRows = false;
+            this.dg_TowerFuelList.AllowUserToDeleteRows = false;
+            this.dg_TowerFuelList.AllowUserToResizeRows = false;
+            this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dg_TowerFuelList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_TowerFuelList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dg_TowerFuelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_TowerFuelList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FName,
+            this.FLocation,
+            this.EnrUr,
+            this.Oxygen,
+            this.MechP,
+            this.Coolant,
+            this.Robot,
+            this.Isotope,
+            this.HvyWater,
+            this.LiqOz,
+            this.Charter,
+            this.Stront,
+            this.RunTime});
+            this.dg_TowerFuelList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dg_TowerFuelList.Location = new System.Drawing.Point(0, 0);
+            this.dg_TowerFuelList.Name = "dg_TowerFuelList";
+            this.dg_TowerFuelList.ReadOnly = true;
+            this.dg_TowerFuelList.RowHeadersVisible = false;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_TowerFuelList.Size = new System.Drawing.Size(999, 341);
+            this.dg_TowerFuelList.TabIndex = 175;
+            this.dg_TowerFuelList.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_TowerFuelList_CellMouseClick);
+            this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
+            // 
+            // FName
+            // 
+            this.FName.HeaderText = "Name";
+            this.FName.Name = "FName";
+            this.FName.ReadOnly = true;
+            this.FName.Width = 59;
+            // 
+            // FLocation
+            // 
+            this.FLocation.HeaderText = "Location";
+            this.FLocation.Name = "FLocation";
+            this.FLocation.ReadOnly = true;
+            this.FLocation.Width = 72;
+            // 
+            // EnrUr
+            // 
+            this.EnrUr.HeaderText = "Enr. Ur.";
+            this.EnrUr.Name = "EnrUr";
+            this.EnrUr.ReadOnly = true;
+            this.EnrUr.ToolTipText = "Right Click to Set Fuel Price";
+            this.EnrUr.Width = 70;
+            // 
+            // Oxygen
+            // 
+            this.Oxygen.HeaderText = "Oxygen";
+            this.Oxygen.Name = "Oxygen";
+            this.Oxygen.ReadOnly = true;
+            this.Oxygen.ToolTipText = "Right Click to Set Fuel Price";
+            this.Oxygen.Width = 70;
+            // 
+            // MechP
+            // 
+            this.MechP.HeaderText = "Mech Pts";
+            this.MechP.Name = "MechP";
+            this.MechP.ReadOnly = true;
+            this.MechP.ToolTipText = "Right Click to Set Fuel Price";
+            this.MechP.Width = 75;
+            // 
+            // Coolant
+            // 
+            this.Coolant.HeaderText = "Coolant";
+            this.Coolant.Name = "Coolant";
+            this.Coolant.ReadOnly = true;
+            this.Coolant.ToolTipText = "Right Click to Set Fuel Price";
+            this.Coolant.Width = 69;
+            // 
+            // Robot
+            // 
+            this.Robot.HeaderText = "Robotics";
+            this.Robot.Name = "Robot";
+            this.Robot.ReadOnly = true;
+            this.Robot.ToolTipText = "Right Click to Set Fuel Price";
+            this.Robot.Width = 73;
+            // 
+            // Isotope
+            // 
+            this.Isotope.HeaderText = "Isotopes";
+            this.Isotope.Name = "Isotope";
+            this.Isotope.ReadOnly = true;
+            this.Isotope.ToolTipText = "Right Click to Set Fuel Price";
+            this.Isotope.Width = 74;
+            // 
+            // HvyWater
+            // 
+            this.HvyWater.HeaderText = "Hvy. Water";
+            this.HvyWater.Name = "HvyWater";
+            this.HvyWater.ReadOnly = true;
+            this.HvyWater.ToolTipText = "Right Click to Set Fuel Price";
+            this.HvyWater.Width = 88;
+            // 
+            // LiqOz
+            // 
+            this.LiqOz.HeaderText = "Liq Ozone";
+            this.LiqOz.Name = "LiqOz";
+            this.LiqOz.ReadOnly = true;
+            this.LiqOz.ToolTipText = "Right Click to Set Fuel Price";
+            this.LiqOz.Width = 79;
+            // 
+            // Charter
+            // 
+            this.Charter.HeaderText = "Charters";
+            this.Charter.Name = "Charter";
+            this.Charter.ReadOnly = true;
+            this.Charter.ToolTipText = "Right Click to Set Fuel Price";
+            this.Charter.Width = 74;
+            // 
+            // Stront
+            // 
+            this.Stront.HeaderText = "Strontium";
+            this.Stront.Name = "Stront";
+            this.Stront.ReadOnly = true;
+            this.Stront.ToolTipText = "Right Click to Set Fuel Price";
+            this.Stront.Width = 78;
+            // 
+            // RunTime
+            // 
+            this.RunTime.HeaderText = "Run Time";
+            this.RunTime.Name = "RunTime";
+            this.RunTime.ReadOnly = true;
+            this.RunTime.Width = 76;
+            // 
+            // gp_MalongFuelNeeds
+            // 
+            this.gp_MalongFuelNeeds.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gp_MalongFuelNeeds.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_MalongFuelNeeds.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_MalongFuelNeeds.Controls.Add(this.gp_AllTowers);
+            this.gp_MalongFuelNeeds.Controls.Add(this.gp_SelectedTowers);
+            this.gp_MalongFuelNeeds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_MalongFuelNeeds.Location = new System.Drawing.Point(0, 0);
+            this.gp_MalongFuelNeeds.Name = "gp_MalongFuelNeeds";
+            this.gp_MalongFuelNeeds.Size = new System.Drawing.Size(1006, 301);
+            // 
+            // 
+            // 
+            this.gp_MalongFuelNeeds.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_MalongFuelNeeds.Style.BackColorGradientAngle = 90;
+            this.gp_MalongFuelNeeds.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_MalongFuelNeeds.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongFuelNeeds.Style.BorderBottomWidth = 1;
+            this.gp_MalongFuelNeeds.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_MalongFuelNeeds.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongFuelNeeds.Style.BorderLeftWidth = 1;
+            this.gp_MalongFuelNeeds.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongFuelNeeds.Style.BorderRightWidth = 1;
+            this.gp_MalongFuelNeeds.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_MalongFuelNeeds.Style.BorderTopWidth = 1;
+            this.gp_MalongFuelNeeds.Style.Class = "";
+            this.gp_MalongFuelNeeds.Style.CornerDiameter = 4;
+            this.gp_MalongFuelNeeds.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_MalongFuelNeeds.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_MalongFuelNeeds.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_MalongFuelNeeds.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_MalongFuelNeeds.StyleMouseDown.Class = "";
+            this.gp_MalongFuelNeeds.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_MalongFuelNeeds.StyleMouseOver.Class = "";
+            this.gp_MalongFuelNeeds.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_MalongFuelNeeds.TabIndex = 3;
+            // 
+            // gp_AllTowers
+            // 
+            this.gp_AllTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_AllTowers.BackColor = System.Drawing.Color.Transparent;
+            this.gp_AllTowers.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_AllTowers.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_AllTowers.Controls.Add(this.cb_AllDataForCopy);
+            this.gp_AllTowers.Controls.Add(this.b_CopyAllPos);
+            this.gp_AllTowers.Controls.Add(this.dg_TotalFuel);
+            this.gp_AllTowers.Location = new System.Drawing.Point(500, 0);
+            this.gp_AllTowers.Name = "gp_AllTowers";
+            this.gp_AllTowers.Size = new System.Drawing.Size(501, 294);
+            // 
+            // 
+            // 
+            this.gp_AllTowers.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_AllTowers.Style.BackColorGradientAngle = 90;
+            this.gp_AllTowers.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_AllTowers.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AllTowers.Style.BorderBottomWidth = 1;
+            this.gp_AllTowers.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_AllTowers.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AllTowers.Style.BorderLeftWidth = 1;
+            this.gp_AllTowers.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AllTowers.Style.BorderRightWidth = 1;
+            this.gp_AllTowers.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AllTowers.Style.BorderTopWidth = 1;
+            this.gp_AllTowers.Style.Class = "";
+            this.gp_AllTowers.Style.CornerDiameter = 4;
+            this.gp_AllTowers.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_AllTowers.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_AllTowers.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_AllTowers.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_AllTowers.StyleMouseDown.Class = "";
+            this.gp_AllTowers.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_AllTowers.StyleMouseOver.Class = "";
+            this.gp_AllTowers.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_AllTowers.TabIndex = 3;
+            this.gp_AllTowers.Text = "All Towers Need";
+            // 
+            // cb_AllDataForCopy
+            // 
+            this.cb_AllDataForCopy.DisplayMember = "Text";
+            this.cb_AllDataForCopy.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cb_AllDataForCopy.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_AllDataForCopy.FormattingEnabled = true;
+            this.cb_AllDataForCopy.ItemHeight = 17;
+            this.cb_AllDataForCopy.Items.AddRange(new object[] {
+            this.ci_FuelAll,
+            this.ci_FuelVolAll,
+            this.ci_FuelVolCostAll});
+            this.cb_AllDataForCopy.Location = new System.Drawing.Point(179, 1);
+            this.cb_AllDataForCopy.Name = "cb_AllDataForCopy";
+            this.cb_AllDataForCopy.Size = new System.Drawing.Size(218, 23);
+            this.cb_AllDataForCopy.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_AllDataForCopy.TabIndex = 0;
+            // 
+            // ci_FuelAll
+            // 
+            this.ci_FuelAll.Text = "Fuel Only (Total m3)";
+            // 
+            // ci_FuelVolAll
+            // 
+            this.ci_FuelVolAll.Text = "Fuel & Volume (Total m3)";
+            // 
+            // ci_FuelVolCostAll
+            // 
+            this.ci_FuelVolCostAll.Text = "Fuel, Volume & Cost (Total m3 & Cost)";
+            // 
+            // b_CopyAllPos
+            // 
+            this.b_CopyAllPos.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_CopyAllPos.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_CopyAllPos.Location = new System.Drawing.Point(403, 1);
+            this.b_CopyAllPos.Name = "b_CopyAllPos";
+            this.b_CopyAllPos.Size = new System.Drawing.Size(79, 23);
+            this.b_CopyAllPos.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_CopyAllPos.TabIndex = 1;
+            this.b_CopyAllPos.Text = "Copy All";
+            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
+            // 
+            // dg_TotalFuel
+            // 
+            this.dg_TotalFuel.AllowUserToAddRows = false;
+            this.dg_TotalFuel.AllowUserToDeleteRows = false;
+            this.dg_TotalFuel.AllowUserToResizeRows = false;
+            this.dg_TotalFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_TotalFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_TotalFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
+            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FuelName,
+            this.FuelAmount,
+            this.FuelVolume,
+            this.FuelCost});
+            this.dg_TotalFuel.Location = new System.Drawing.Point(0, 28);
+            this.dg_TotalFuel.MultiSelect = false;
+            this.dg_TotalFuel.Name = "dg_TotalFuel";
+            this.dg_TotalFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_TotalFuel.Size = new System.Drawing.Size(497, 244);
+            this.dg_TotalFuel.TabIndex = 185;
+            this.dg_TotalFuel.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_TotalFuel_CellMouseClick);
+            // 
+            // FuelName
+            // 
+            this.FuelName.HeaderText = "Fuel";
+            this.FuelName.Name = "FuelName";
+            this.FuelName.ReadOnly = true;
+            this.FuelName.Width = 145;
+            // 
+            // FuelAmount
+            // 
+            this.FuelAmount.HeaderText = "Amount";
+            this.FuelAmount.Name = "FuelAmount";
+            this.FuelAmount.ReadOnly = true;
+            // 
+            // FuelVolume
+            // 
+            this.FuelVolume.HeaderText = "Volume";
+            this.FuelVolume.Name = "FuelVolume";
+            this.FuelVolume.ReadOnly = true;
+            // 
+            // FuelCost
+            // 
+            this.FuelCost.HeaderText = "Cost";
+            this.FuelCost.Name = "FuelCost";
+            this.FuelCost.ReadOnly = true;
+            this.FuelCost.ToolTipText = "Right Click to Set Fuel Price";
+            this.FuelCost.Width = 125;
+            // 
+            // gp_SelectedTowers
+            // 
+            this.gp_SelectedTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_SelectedTowers.BackColor = System.Drawing.Color.Transparent;
+            this.gp_SelectedTowers.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_SelectedTowers.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_SelectedTowers.Controls.Add(this.b_SetSelectedFull);
+            this.gp_SelectedTowers.Controls.Add(this.b_CopySelected);
+            this.gp_SelectedTowers.Controls.Add(this.cb_SelectedDataForCopy);
+            this.gp_SelectedTowers.Controls.Add(this.dg_SelectedFuel);
+            this.gp_SelectedTowers.Location = new System.Drawing.Point(-1, 0);
+            this.gp_SelectedTowers.Name = "gp_SelectedTowers";
+            this.gp_SelectedTowers.Size = new System.Drawing.Size(501, 294);
+            // 
+            // 
+            // 
+            this.gp_SelectedTowers.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_SelectedTowers.Style.BackColorGradientAngle = 90;
+            this.gp_SelectedTowers.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_SelectedTowers.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_SelectedTowers.Style.BorderBottomWidth = 1;
+            this.gp_SelectedTowers.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_SelectedTowers.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_SelectedTowers.Style.BorderLeftWidth = 1;
+            this.gp_SelectedTowers.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_SelectedTowers.Style.BorderRightWidth = 1;
+            this.gp_SelectedTowers.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_SelectedTowers.Style.BorderTopWidth = 1;
+            this.gp_SelectedTowers.Style.Class = "";
+            this.gp_SelectedTowers.Style.CornerDiameter = 4;
+            this.gp_SelectedTowers.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_SelectedTowers.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_SelectedTowers.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_SelectedTowers.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_SelectedTowers.StyleMouseDown.Class = "";
+            this.gp_SelectedTowers.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_SelectedTowers.StyleMouseOver.Class = "";
+            this.gp_SelectedTowers.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_SelectedTowers.TabIndex = 0;
+            this.gp_SelectedTowers.Text = "Selected Tower(s) Need";
+            // 
+            // b_SetSelectedFull
+            // 
+            this.b_SetSelectedFull.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_SetSelectedFull.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_SetSelectedFull.Location = new System.Drawing.Point(105, 1);
+            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
+            this.b_SetSelectedFull.Size = new System.Drawing.Size(79, 23);
+            this.b_SetSelectedFull.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_SetSelectedFull.TabIndex = 0;
+            this.b_SetSelectedFull.Text = "Mark Full";
+            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
+            // 
+            // b_CopySelected
+            // 
+            this.b_CopySelected.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_CopySelected.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_CopySelected.Location = new System.Drawing.Point(414, 1);
+            this.b_CopySelected.Name = "b_CopySelected";
+            this.b_CopySelected.Size = new System.Drawing.Size(79, 23);
+            this.b_CopySelected.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_CopySelected.TabIndex = 2;
+            this.b_CopySelected.Text = "Copy Selected";
+            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
+            // 
+            // cb_SelectedDataForCopy
+            // 
+            this.cb_SelectedDataForCopy.DisplayMember = "Text";
+            this.cb_SelectedDataForCopy.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cb_SelectedDataForCopy.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_SelectedDataForCopy.FormattingEnabled = true;
+            this.cb_SelectedDataForCopy.ItemHeight = 17;
+            this.cb_SelectedDataForCopy.Items.AddRange(new object[] {
+            this.ci_FuelOnly,
+            this.ci_FuelVol,
+            this.ci_FuelVolCost});
+            this.cb_SelectedDataForCopy.Location = new System.Drawing.Point(190, 1);
+            this.cb_SelectedDataForCopy.Name = "cb_SelectedDataForCopy";
+            this.cb_SelectedDataForCopy.Size = new System.Drawing.Size(218, 23);
+            this.cb_SelectedDataForCopy.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_SelectedDataForCopy.TabIndex = 1;
+            // 
+            // ci_FuelOnly
+            // 
+            this.ci_FuelOnly.Text = "Fuel Only (Total m3)";
+            // 
+            // ci_FuelVol
+            // 
+            this.ci_FuelVol.Text = "Fuel & Volume (Total m3)";
+            // 
+            // ci_FuelVolCost
+            // 
+            this.ci_FuelVolCost.Text = "Fuel, Volume & Cost (Total m3 & Cost)";
+            // 
+            // dg_SelectedFuel
+            // 
+            this.dg_SelectedFuel.AllowUserToAddRows = false;
+            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
+            this.dg_SelectedFuel.AllowUserToResizeRows = false;
+            this.dg_SelectedFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_SelectedFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_SelectedFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
+            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelFuelType,
+            this.SelFuelAmount,
+            this.SelFuelVol,
+            this.SelFuelCost});
+            this.dg_SelectedFuel.Location = new System.Drawing.Point(0, 28);
+            this.dg_SelectedFuel.MultiSelect = false;
+            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
+            this.dg_SelectedFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_SelectedFuel.Size = new System.Drawing.Size(497, 244);
+            this.dg_SelectedFuel.TabIndex = 184;
+            this.dg_SelectedFuel.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_SelectedFuel_CellMouseClick);
+            // 
+            // SelFuelType
+            // 
+            this.SelFuelType.HeaderText = "Type";
+            this.SelFuelType.Name = "SelFuelType";
+            this.SelFuelType.ReadOnly = true;
+            this.SelFuelType.Width = 145;
+            // 
+            // SelFuelAmount
+            // 
+            this.SelFuelAmount.HeaderText = "Amount";
+            this.SelFuelAmount.Name = "SelFuelAmount";
+            this.SelFuelAmount.ReadOnly = true;
+            // 
+            // SelFuelVol
+            // 
+            this.SelFuelVol.HeaderText = "Volume";
+            this.SelFuelVol.Name = "SelFuelVol";
+            this.SelFuelVol.ReadOnly = true;
+            // 
+            // SelFuelCost
+            // 
+            this.SelFuelCost.HeaderText = "Cost";
+            this.SelFuelCost.Name = "SelFuelCost";
+            this.SelFuelCost.ReadOnly = true;
+            this.SelFuelCost.ToolTipText = "Right Click to Set Fuel Price";
+            this.SelFuelCost.Width = 125;
+            // 
+            // tp_MalongainTowers
+            // 
+            this.tp_MalongainTowers.AttachedControl = this.tabControlPanel3;
+            this.tp_MalongainTowers.Name = "tp_MalongainTowers";
+            this.tp_MalongainTowers.Text = "Maintain Towers";
+            // 
             // tabControlPanel7
             // 
             this.tabControlPanel7.Controls.Add(this.gp_FPBG);
@@ -3538,9 +3538,9 @@
             this.tabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel7.Style.GradientAngle = 90;
             this.tabControlPanel7.TabIndex = 8;
             this.tabControlPanel7.TabItem = this.tp_ModsAndFuel;
@@ -3607,9 +3607,9 @@
             // 
             // tc_FuelMods
             // 
-            this.tc_FuelMods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tc_FuelMods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tc_FuelMods.CanReorderTabs = true;
             this.tc_FuelMods.Controls.Add(this.tabControlPanel8);
             this.tc_FuelMods.Controls.Add(this.tabControlPanel10);
@@ -3635,12 +3635,12 @@
             this.tabControlPanel8.Name = "tabControlPanel8";
             this.tabControlPanel8.Padding = new System.Windows.Forms.Padding(1);
             this.tabControlPanel8.Size = new System.Drawing.Size(1000, 616);
-            this.tabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.tabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.tabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
             this.tabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel8.Style.GradientAngle = 90;
             this.tabControlPanel8.TabIndex = 1;
             this.tabControlPanel8.TabItem = this.tp_StoredFuel;
@@ -3910,12 +3910,12 @@
             this.tabControlPanel10.Name = "tabControlPanel10";
             this.tabControlPanel10.Padding = new System.Windows.Forms.Padding(1);
             this.tabControlPanel10.Size = new System.Drawing.Size(1000, 616);
-            this.tabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.tabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.tabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
             this.tabControlPanel10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel10.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel10.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel10.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel10.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel10.Style.GradientAngle = 90;
             this.tabControlPanel10.TabIndex = 3;
             this.tabControlPanel10.TabItem = this.tp_IHubs;
@@ -4009,17 +4009,17 @@
             this.dgv_iHubs.AllowUserToAddRows = false;
             this.dgv_iHubs.AllowUserToDeleteRows = false;
             this.dgv_iHubs.AllowUserToResizeRows = false;
-            this.dgv_iHubs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_iHubs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle24;
+            this.dgv_iHubs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_iHubs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_iHubs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_iHubs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.iHub,
@@ -4053,14 +4053,14 @@
             this.CynoSupp,
             this.SuperCap});
             this.dgv_iHubs.ContextMenuStrip = this.cms_IHubs;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle25.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_iHubs.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_iHubs.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_iHubs.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_iHubs.Location = new System.Drawing.Point(0, 25);
             this.dgv_iHubs.MultiSelect = false;
@@ -4359,12 +4359,12 @@
             this.tabControlPanel9.Name = "tabControlPanel9";
             this.tabControlPanel9.Padding = new System.Windows.Forms.Padding(1);
             this.tabControlPanel9.Size = new System.Drawing.Size(1000, 616);
-            this.tabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.tabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
             this.tabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel9.Style.GradientAngle = 90;
             this.tabControlPanel9.TabIndex = 2;
             this.tabControlPanel9.TabItem = this.tp_Modules;
@@ -4642,9 +4642,9 @@
             this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel2.Style.GradientAngle = 90;
             this.tabControlPanel2.TabIndex = 0;
             this.tabControlPanel2.TabItem = this.tp_POSDesign;
@@ -5827,9 +5827,9 @@
             // 
             // gp_TowerModSelect
             // 
-            this.gp_TowerModSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_TowerModSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_TowerModSelect.AutoScroll = true;
             this.gp_TowerModSelect.AutoScrollMinSize = new System.Drawing.Size(240, 548);
             this.gp_TowerModSelect.BackColor = System.Drawing.Color.Transparent;
@@ -5875,8 +5875,8 @@
             // 
             // cb_ItemType
             // 
-            this.cb_ItemType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_ItemType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_ItemType.DisplayMember = "Text";
             this.cb_ItemType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cb_ItemType.FormattingEnabled = true;
@@ -5891,9 +5891,9 @@
             // 
             // lv_ItemSelList
             // 
-            this.lv_ItemSelList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lv_ItemSelList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lv_ItemSelList.BackColor = System.Drawing.SystemColors.Window;
             this.lv_ItemSelList.ForeColor = System.Drawing.Color.Black;
             this.lv_ItemSelList.LargeImageList = this.il_SelCat;
@@ -5915,8 +5915,8 @@
             // 
             // gp_FuelUsage
             // 
-            this.gp_FuelUsage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_FuelUsage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_FuelUsage.BackColor = System.Drawing.Color.Transparent;
             this.gp_FuelUsage.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_FuelUsage.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
@@ -6003,8 +6003,8 @@
             // 
             // pb_Stront
             // 
-            this.pb_Stront.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Stront.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -6021,8 +6021,8 @@
             // 
             // pb_Fuel
             // 
-            this.pb_Fuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Fuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -6589,8 +6589,8 @@
             // 
             // gp_InfoFuel
             // 
-            this.gp_InfoFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_InfoFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_InfoFuel.AutoScroll = true;
             this.gp_InfoFuel.AutoScrollMinSize = new System.Drawing.Size(245, 520);
             this.gp_InfoFuel.BackColor = System.Drawing.Color.Transparent;
@@ -6758,8 +6758,8 @@
             // 
             // rtb_Other
             // 
-            this.rtb_Other.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.rtb_Other.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.rtb_Other.Location = new System.Drawing.Point(0, 186);
             this.rtb_Other.Name = "rtb_Other";
             this.rtb_Other.Size = new System.Drawing.Size(248, 348);
@@ -7078,8 +7078,8 @@
             // 
             // gp_TowerAndStats
             // 
-            this.gp_TowerAndStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_TowerAndStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_TowerAndStats.AutoScroll = true;
             this.gp_TowerAndStats.AutoScrollMinSize = new System.Drawing.Size(1002, 112);
             this.gp_TowerAndStats.CanvasColor = System.Drawing.SystemColors.Control;
@@ -7180,8 +7180,8 @@
             // 
             // pb_Power
             // 
-            this.pb_Power.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Power.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -7198,8 +7198,8 @@
             // 
             // pb_CPU
             // 
-            this.pb_CPU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_CPU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -8214,9 +8214,9 @@
             this.tabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel11.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel11.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel11.Style.GradientAngle = 90;
             this.tabControlPanel11.TabIndex = 9;
             this.tabControlPanel11.TabItem = this.ti_ReactionPlanner;
@@ -8356,9 +8356,9 @@
             this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel6.Style.GradientAngle = 90;
             this.tabControlPanel6.TabIndex = 6;
             this.tabControlPanel6.TabItem = this.tp_Config;
@@ -8464,7 +8464,7 @@
             this.rb_ManualAPI.TabStop = true;
             this.rb_ManualAPI.Text = "Manual API Download ";
             this.tt_InfoTips.SetToolTip(this.rb_ManualAPI, "In this mode, in order to update Silo Levels, or available Fuel, you must manuall" +
-        "y download API Data - through API download or Prism.");
+                    "y download API Data - through API download or Prism.");
             this.rb_ManualAPI.UseVisualStyleBackColor = true;
             // 
             // rb_AutoAPI
@@ -8477,7 +8477,7 @@
             this.rb_AutoAPI.TabStop = true;
             this.rb_AutoAPI.Text = "Automated Download - Every Hour";
             this.tt_InfoTips.SetToolTip(this.rb_AutoAPI, "This option will automatically download corp and character Assetts API Data Every" +
-        " Hour (or as often as the API Allows)");
+                    " Hour (or as often as the API Allows)");
             this.rb_AutoAPI.UseVisualStyleBackColor = true;
             this.rb_AutoAPI.CheckedChanged += new System.EventHandler(this.rb_AutoAPI_CheckedChanged);
             // 
@@ -8534,7 +8534,7 @@
             this.rb_CustomCost.TabStop = true;
             this.rb_CustomCost.Text = "Use Custom Prices (Custom > Market > Default)";
             this.tt_InfoTips.SetToolTip(this.rb_CustomCost, "In this mode, it will use a custom price if defined, else a market price if it ex" +
-        "ists, otherwise default price.");
+                    "ists, otherwise default price.");
             this.rb_CustomCost.UseVisualStyleBackColor = true;
             // 
             // rb_MarketCost
@@ -9560,9 +9560,9 @@
             this.tabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel1.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel1.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel1.Style.GradientAngle = 90;
             this.tabControlPanel1.TabIndex = 7;
             this.tabControlPanel1.TabItem = this.tp_ModLinker;
@@ -9615,8 +9615,8 @@
             // 
             // gp_TowerSelectList
             // 
-            this.gp_TowerSelectList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_TowerSelectList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_TowerSelectList.AutoScroll = true;
             this.gp_TowerSelectList.BackColor = System.Drawing.Color.Transparent;
             this.gp_TowerSelectList.CanvasColor = System.Drawing.SystemColors.Control;
@@ -9677,9 +9677,9 @@
             // 
             // gp_SystemModules
             // 
-            this.gp_SystemModules.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_SystemModules.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_SystemModules.AutoScroll = true;
             this.gp_SystemModules.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_SystemModules.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
@@ -9753,9 +9753,9 @@
             this.tabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel4.Style.GradientAngle = 90;
             this.tabControlPanel4.TabIndex = 4;
             this.tabControlPanel4.TabItem = this.tp_TowerNotifications;
@@ -9842,8 +9842,8 @@
             // 
             // gp_NotifyPlayerList
             // 
-            this.gp_NotifyPlayerList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_NotifyPlayerList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_NotifyPlayerList.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_NotifyPlayerList.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_NotifyPlayerList.Controls.Add(this.tv_Players);
@@ -9917,8 +9917,8 @@
             // 
             // gp_NotifyActions
             // 
-            this.gp_NotifyActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_NotifyActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_NotifyActions.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_NotifyActions.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_NotifyActions.Controls.Add(this.tv_Notifications);
@@ -10010,18 +10010,18 @@
             this.tabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel5.Style.GradientAngle = 90;
             this.tabControlPanel5.TabIndex = 5;
             this.tabControlPanel5.TabItem = this.tp_TowerReactions;
             // 
             // gp_ReacTower
             // 
-            this.gp_ReacTower.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_ReacTower.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_ReacTower.AutoScroll = true;
             this.gp_ReacTower.BackColor = System.Drawing.Color.Transparent;
             this.gp_ReacTower.CanvasColor = System.Drawing.SystemColors.Control;
@@ -10150,8 +10150,8 @@
             // 
             // p_PosMods
             // 
-            this.p_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.p_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.p_PosMods.AutoScroll = true;
             this.p_PosMods.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.p_PosMods.Location = new System.Drawing.Point(426, 32);
@@ -10364,31 +10364,31 @@
             // 
             // es_PopPanel
             // 
-            this.es_PopPanel.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
+            this.es_PopPanel.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
             this.es_PopPanel.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
             this.es_PopPanel.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
             this.es_PopPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.es_PopPanel.ExpandableControl = this.gp_PopPanel;
             this.es_PopPanel.Expanded = false;
-            this.es_PopPanel.ExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
+            this.es_PopPanel.ExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
             this.es_PopPanel.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
             this.es_PopPanel.ExpandLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.es_PopPanel.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText;
             this.es_PopPanel.GripDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.es_PopPanel.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText;
-            this.es_PopPanel.GripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(208)))), ((int)(((byte)(213)))));
+            this.es_PopPanel.GripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(239)))), ((int)(((byte)(255)))));
             this.es_PopPanel.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
             this.es_PopPanel.HotBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(151)))), ((int)(((byte)(61)))));
             this.es_PopPanel.HotBackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(184)))), ((int)(((byte)(94)))));
             this.es_PopPanel.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2;
             this.es_PopPanel.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground;
-            this.es_PopPanel.HotExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
+            this.es_PopPanel.HotExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
             this.es_PopPanel.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
             this.es_PopPanel.HotExpandLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.es_PopPanel.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText;
-            this.es_PopPanel.HotGripDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
+            this.es_PopPanel.HotGripDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
             this.es_PopPanel.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.es_PopPanel.HotGripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(208)))), ((int)(((byte)(213)))));
+            this.es_PopPanel.HotGripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(239)))), ((int)(((byte)(255)))));
             this.es_PopPanel.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
             this.es_PopPanel.Location = new System.Drawing.Point(0, 724);
             this.es_PopPanel.Name = "es_PopPanel";
@@ -10425,20 +10425,6 @@
             this.Load += new System.EventHandler(this.frmMainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tc_MainTabs)).EndInit();
             this.tc_MainTabs.ResumeLayout(false);
-            this.tabControlPanel3.ResumeLayout(false);
-            this.sc_MainPanels.Panel1.ResumeLayout(false);
-            this.sc_MainPanels.Panel2.ResumeLayout(false);
-            this.sc_MainPanels.ResumeLayout(false);
-            this.groupPanel1.ResumeLayout(false);
-            this.groupPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).EndInit();
-            this.gp_MalongDisplay.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).EndInit();
-            this.gp_MalongFuelNeeds.ResumeLayout(false);
-            this.gp_AllTowers.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).EndInit();
-            this.gp_SelectedTowers.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).EndInit();
             this.tcp_MonitorTower.ResumeLayout(false);
             this.gp_FuelSettings.ResumeLayout(false);
             this.gp_FuelSettings.PerformLayout();
@@ -10465,6 +10451,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_MonitoredTowers)).EndInit();
             this.cms_MonitoredTower.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bb_MonitorBar)).EndInit();
+            this.tabControlPanel3.ResumeLayout(false);
+            this.sc_MainPanels.Panel1.ResumeLayout(false);
+            this.sc_MainPanels.Panel2.ResumeLayout(false);
+            this.sc_MainPanels.ResumeLayout(false);
+            this.groupPanel1.ResumeLayout(false);
+            this.groupPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).EndInit();
+            this.gp_MalongDisplay.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).EndInit();
+            this.gp_MalongFuelNeeds.ResumeLayout(false);
+            this.gp_AllTowers.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).EndInit();
+            this.gp_SelectedTowers.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).EndInit();
             this.tabControlPanel7.ResumeLayout(false);
             this.gp_FPBG.ResumeLayout(false);
             this.gp_FPBG.PerformLayout();

@@ -93,7 +93,7 @@ namespace EveHQ.RouteMap
             APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
             stnData = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard);
 
-            if (APIReq.LastAPIError != 0)
+            if (APIReq.LastAPIError > 0)
             {
                 if (!PlugInData.ThrottleList.ContainsKey("ConqStations"))
                 {

@@ -103,7 +103,7 @@ namespace EveHQ.PosManager
         public static ModuleLink LinkInProgress;
         public static LinkModule LMInProgress;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.99.1.2379";
+        public string LastCacheRefresh = "1.99.2.2379";
         public static ManualResetEvent[] resetEvents;
         public static PoSManMainForm PMF = null;
         public static BackgroundWorker bgw_APIUpdate = new System.ComponentModel.BackgroundWorker();
@@ -2142,7 +2142,7 @@ namespace EveHQ.PosManager
                     APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
                     apiXML = APIReq.GetAPIXML(sel, pilotAccount.ToAPIAccount(), selPilot.ID, EveAPI.APIReturnMethods.ReturnStandard);
 
-                    if (APIReq.LastAPIError != 0)
+                    if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
                     {
                         if (!ThrottleList.ContainsKey(selPilot.Name))
                         {
@@ -2456,7 +2456,7 @@ namespace EveHQ.PosManager
 
                 apiXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, pilotAccount.ToAPIAccount(), "", EveAPI.APIReturnMethods.ReturnStandard);
 
-                if (APIReq.LastAPIError != 0)
+                if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
                 {
                     if (!ThrottleList.ContainsKey(pilotAccount.FriendlyName))
                     {
@@ -2870,7 +2870,7 @@ namespace EveHQ.PosManager
             APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
             stnData = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard);
 
-            if (APIReq.LastAPIError != 0)
+            if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
             {
                 if (!ThrottleList.ContainsKey("ConqStations"))
                 {
@@ -3015,7 +3015,7 @@ namespace EveHQ.PosManager
                     APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
                     apiXML = APIReq.GetAPIXML(sel, pilotAccount.ToAPIAccount(), selPilot.ID, EveAPI.APIReturnMethods.ReturnStandard);
 
-                    if (APIReq.LastAPIError != 0)
+                    if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
                     {
                         if (!ThrottleList.ContainsKey(selPilot.Name))
                         {
@@ -3132,7 +3132,7 @@ namespace EveHQ.PosManager
                 APIReq = new EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder);
                 apiXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, pilotAccount.ToAPIAccount(), selPilot.ID, EveAPI.APIReturnMethods.ReturnStandard);
 
-                if (APIReq.LastAPIError != 0)
+                if ((APIReq.LastAPIError > 0) && (APIReq.LastAPIResult != EveAPI.APIResults.ReturnedCached))
                 {
                     if (!ThrottleList.ContainsKey(pilotAccount.FriendlyName))
                     {

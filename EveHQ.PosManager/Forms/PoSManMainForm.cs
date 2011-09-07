@@ -6806,8 +6806,9 @@ namespace EveHQ.PosManager
                     // APIModule is a location, ship, etc - not an actual data item
                     foreach (APIModule APM in ch.Value.Values)
                     {
-                        LocN = new DevComponents.AdvTree.Node();
                         locE = false;
+                        LocN = new DevComponents.AdvTree.Node();
+
                         foreach (DevComponents.AdvTree.Node LC in Owner.Nodes)
                         {
                             if (LC.Text.Equals(APM.locName))
@@ -6825,9 +6826,8 @@ namespace EveHQ.PosManager
                         }
                         else
                         {
-                            for (int x = 1; x < 15; x++)
+                            for (int x = 1; x < 14; x++)
                             {
-
                                 LocFT[x - 1] = Convert.ToInt64(Double.Parse(LocN.Cells[x].Text));
                             }
                         }
@@ -6847,14 +6847,14 @@ namespace EveHQ.PosManager
                             if (itmT > 0)
                             {
                                 hasFI = true;
-                                 ModFT[itmT] += APM.Qty;
+                                ModFT[itmT] += APM.Qty;
                             }
                         }
 
                         if (hasFI)
                         {
                             hasFIM = true;
-                            for (int x = 0; x < 14; x++)
+                            for (int x = 1; x < 14; x++)
                             {
                                 Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", ModFT[x]));
                                 LocFT[x] += ModFT[x];
@@ -6863,15 +6863,15 @@ namespace EveHQ.PosManager
                             LocN.Nodes.Add(ModN);
                             if (locE)
                             {
-                                for (int x = 1; x < 15; x++)
+                                for (int x = 1; x < 14; x++)
                                 {
-                                    LocN.Cells[x].Text = String.Format("{0:#,0.#}", LocFT[x-1]);
-                                    FuelTotals[x-1] += ModFT[x-1];
+                                    LocN.Cells[x].Text = String.Format("{0:#,0.#}", LocFT[x]);
+                                    FuelTotals[x] += ModFT[x];
                                 }
                             }
                             else
                             {
-                                for (int x = 0; x < 14; x++)
+                                for (int x = 1; x < 14; x++)
                                 {
                                     Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", LocFT[x]));
                                     FuelTotals[x] += LocFT[x];
@@ -6884,7 +6884,7 @@ namespace EveHQ.PosManager
 
                     if (hasFIM)
                     {
-                        for (int x = 0; x < 14; x++)
+                        for (int x = 1; x < 14; x++)
                         {
                             Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", FuelTotals[x]));
                             Owner.Cells.Add(Qtys);
@@ -6925,7 +6925,7 @@ namespace EveHQ.PosManager
                         }
                         else
                         {
-                            for (int x = 1; x < 15; x++)
+                            for (int x = 1; x < 14; x++)
                             {
                                 LocFT[x - 1] = Convert.ToInt64(Double.Parse(LocN.Cells[x].Text));
                             }
@@ -6935,9 +6935,6 @@ namespace EveHQ.PosManager
                         ModFT = new long[14];
                         ModN = new DevComponents.AdvTree.Node(APM.name);
 
-                        if (APM.name.Contains("Hangar"))
-                        {
-                        }
                         if (APM.Items.Count > 0)
                         {
                             hasFI = PopulateModuleItemNodes(APM.Items, ModFT, ModN);
@@ -6956,24 +6953,26 @@ namespace EveHQ.PosManager
                         if (hasFI)
                         {
                             hasFIM = true;
-                            for (int x = 0; x < 14; x++)
+
+                            for (int x = 1; x < 14; x++)
                             {
                                 Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", ModFT[x]));
                                 LocFT[x] += ModFT[x];
                                 ModN.Cells.Add(Qtys);
                             }
                             LocN.Nodes.Add(ModN);
+
                             if (locE)
                             {
-                                for (int x = 1; x < 15; x++)
+                                for (int x = 1; x < 14; x++)
                                 {
-                                    LocN.Cells[x].Text = String.Format("{0:#,0.#}", LocFT[x - 1]);
-                                    FuelTotals[x - 1] += ModFT[x - 1];
+                                    LocN.Cells[x].Text = String.Format("{0:#,0.#}", LocFT[x]);
+                                    FuelTotals[x] += ModFT[x];
                                 }
                             }
                             else
                             {
-                                for (int x = 0; x < 14; x++)
+                                for (int x = 1; x < 14; x++)
                                 {
                                     Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", LocFT[x]));
                                     FuelTotals[x] += LocFT[x];
@@ -6986,11 +6985,12 @@ namespace EveHQ.PosManager
 
                     if (hasFIM)
                     {
-                        for (int x = 0; x < 14; x++)
+                        for (int x = 1; x < 14; x++)
                         {
                             Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", FuelTotals[x]));
                             Owner.Cells.Add(Qtys);
                         }
+
                         at_StoredFuel.Nodes.Add(Owner);
                     }
                 }
@@ -7034,7 +7034,7 @@ namespace EveHQ.PosManager
                 {
                     hasAnyFI = true;
 
-                    for (int x = 0; x < 14; x++)
+                    for (int x = 1; x < 14; x++)
                     {
                         Qtys = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", FTotes[x]));
                         FT[x] += FTotes[x];
