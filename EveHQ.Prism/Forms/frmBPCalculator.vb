@@ -529,80 +529,82 @@ Public Class frmBPCalculator
 #Region "Blueprint Selection & Calculation Routines"
 
     Private Sub cboBPs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
-        If StartUp = False Then
-            ' Enable the various parts
-            gpPilotSkills.Enabled = True
-            UpdateBPInfo = False
-            If TypeOf (cboBPs.SelectedItem) Is BPAssetComboboxItem Then
-                ' This is an owner blueprint!
-                Dim selBP As BPAssetComboboxItem = CType(cboBPs.SelectedItem, BPAssetComboboxItem)
-                Dim bpID As String = EveHQ.Core.HQ.itemList(selBP.Name)
-                CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
-                CurrentBP.MELevel = selBP.MELevel
-                CurrentBP.PELevel = selBP.PELevel
-                CurrentBP.Runs = selBP.Runs
-                CurrentBP.AssetID = CLng(selBP.AssetID)
-                ' Update the research boxes
-                nudMELevel.MinValue = CurrentBP.MELevel : nudMELevel.Value = CurrentBP.MELevel
-                nudPELevel.MinValue = CurrentBP.PELevel : nudPELevel.Value = CurrentBP.PELevel
-            Else
-                ' This is a standard blueprint
-                Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
-                CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
-                CurrentBP.MELevel = 0
-                CurrentBP.PELevel = 0
-                CurrentBP.Runs = -1
-                CurrentBP.AssetID = CLng(bpID)
-                ' Update the research boxes
-                nudMELevel.MinValue = -10 : nudMELevel.Value = CurrentBP.MELevel
-                nudPELevel.MinValue = -10 : nudPELevel.Value = CurrentBP.PELevel
+        If cboBPs.SelectedItem IsNot Nothing Then
+            If StartUp = False Then
+                ' Enable the various parts
+                gpPilotSkills.Enabled = True
+                UpdateBPInfo = False
+                If TypeOf (cboBPs.SelectedItem) Is BPAssetComboboxItem Then
+                    ' This is an owner blueprint!
+                    Dim selBP As BPAssetComboboxItem = CType(cboBPs.SelectedItem, BPAssetComboboxItem)
+                    Dim bpID As String = EveHQ.Core.HQ.itemList(selBP.Name)
+                    CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
+                    CurrentBP.MELevel = selBP.MELevel
+                    CurrentBP.PELevel = selBP.PELevel
+                    CurrentBP.Runs = selBP.Runs
+                    CurrentBP.AssetID = CLng(selBP.AssetID)
+                    ' Update the research boxes
+                    nudMELevel.MinValue = CurrentBP.MELevel : nudMELevel.Value = CurrentBP.MELevel
+                    nudPELevel.MinValue = CurrentBP.PELevel : nudPELevel.Value = CurrentBP.PELevel
+                Else
+                    ' This is a standard blueprint
+                    Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
+                    CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
+                    CurrentBP.MELevel = 0
+                    CurrentBP.PELevel = 0
+                    CurrentBP.Runs = -1
+                    CurrentBP.AssetID = CLng(bpID)
+                    ' Update the research boxes
+                    nudMELevel.MinValue = -10 : nudMELevel.Value = CurrentBP.MELevel
+                    nudPELevel.MinValue = -10 : nudPELevel.Value = CurrentBP.PELevel
+                End If
+                ' Set change flag
+                Me.ProductionChanged = True
             End If
-            ' Set change flag
-            Me.ProductionChanged = True
+            ' Check if all the invention data is present
+            Call BlueprintSelection.CheckForInventionItems(CurrentBP)
+            ' Disable the invention tab if we have no inventable items
+            If CurrentBP.InventFrom.Count > 0 Then
+                ' Populate invention data
+                Call Me.UpdateInventionUI()
+                tiInvention.Visible = True
+            Else
+                If CurrentBP.Inventions.Count > 0 Then
+                    ' Populate invention data
+                    Call Me.UpdateInventionUI()
+                    tiInvention.Visible = True
+                Else
+                    tiInvention.Visible = False
+                End If
+            End If
+            ' Update the form title
+            If Me.StartMode <> BPCalcStartMode.ProductionJob Then
+                Me.Text = "BPCalc - " & cboBPs.SelectedItem.ToString
+            End If
+            ' First get the image
+            pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CurrentBP.ID.ToString)
+            ' Update the standard BP Info
+            lblBPME.Text = CurrentBP.MELevel.ToString
+            lblBPPE.Text = CurrentBP.PELevel.ToString
+            lblBPRuns.Text = CurrentBP.Runs.ToString
+            lblBPMaxRuns.Text = CurrentBP.MaxProdLimit.ToString("N0")
+            ' Update the prices
+            lblBPOMarketValue.Text = FormatNumber(CDbl(EveHQ.Core.HQ.BasePriceList(CurrentBP.ID.ToString)) * 0.9, 2) & " Isk"
+            ' Update the limits on the Runs
+            nudCopyRuns.MaxValue = CurrentBP.MaxProdLimit
+            If CurrentBP.Runs = -1 Then
+                nudRuns.MaxValue = 1000000
+            Else
+                nudRuns.MaxValue = Math.Min(CurrentBP.MaxProdLimit, CurrentBP.Runs)
+            End If
+            ToolTip1.SetToolTip(nudCopyRuns, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
+            ToolTip1.SetToolTip(lblRunsPerCopy, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
+            UpdateBPInfo = True
+            ' Calculate what arrays we can use to manufacture this
+            Call Me.CalculateAssemblyLocations()
+            ' Calculate the remaining blueprint information
+            Call Me.SetBlueprintInformation(StartUp)
         End If
-        ' Check if all the invention data is present
-        Call BlueprintSelection.CheckForInventionItems(CurrentBP)
-        ' Disable the invention tab if we have no inventable items
-		If CurrentBP.InventFrom.Count > 0 Then
-			' Populate invention data
-			Call Me.UpdateInventionUI()
-			tiInvention.Visible = True
-		Else
-			If CurrentBP.Inventions.Count > 0 Then
-				' Populate invention data
-				Call Me.UpdateInventionUI()
-				tiInvention.Visible = True
-			Else
-				tiInvention.Visible = False
-			End If
-		End If
-		' Update the form title
-        If Me.StartMode <> BPCalcStartMode.ProductionJob Then
-            Me.Text = "BPCalc - " & cboBPs.SelectedItem.ToString
-        End If
-        ' First get the image
-        pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CurrentBP.ID.ToString)
-        ' Update the standard BP Info
-        lblBPME.Text = CurrentBP.MELevel.ToString
-        lblBPPE.Text = CurrentBP.PELevel.ToString
-        lblBPRuns.Text = CurrentBP.Runs.ToString
-        lblBPMaxRuns.Text = CurrentBP.MaxProdLimit.ToString("N0")
-        ' Update the prices
-        lblBPOMarketValue.Text = FormatNumber(CDbl(EveHQ.Core.HQ.BasePriceList(CurrentBP.ID.ToString)) * 0.9, 2) & " Isk"
-        ' Update the limits on the Runs
-        nudCopyRuns.MaxValue = CurrentBP.MaxProdLimit
-        If CurrentBP.Runs = -1 Then
-            nudRuns.MaxValue = 1000000
-        Else
-            nudRuns.MaxValue = Math.Min(CurrentBP.MaxProdLimit, CurrentBP.Runs)
-        End If
-        ToolTip1.SetToolTip(nudCopyRuns, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
-        ToolTip1.SetToolTip(lblRunsPerCopy, "Limited to " & CurrentBP.MaxProdLimit.ToString & " runs by the Blueprint data")
-        UpdateBPInfo = True
-        ' Calculate what arrays we can use to manufacture this
-        Call Me.CalculateAssemblyLocations()
-        ' Calculate the remaining blueprint information
-        Call Me.SetBlueprintInformation(StartUp)
     End Sub
 
     Private Sub UpdateInventionUI()
