@@ -1019,14 +1019,6 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub UpdatePilotInfo(Optional ByVal startUp As Boolean = False)
-        ' Creates a list of all available pilots and enters it into the pilot selection area
-        Dim currentPilot As New EveHQ.Core.Pilot
-        Dim allPilots As SortedList = New SortedList
-        For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If currentPilot.Active = True Then
-                allPilots.Add(currentPilot.Name, currentPilot.Name)
-            End If
-        Next
 
         ' Setup the Training Status Bar
         Call Me.SetupTrainingStatus()
@@ -1153,7 +1145,7 @@ Public Class frmEveHQ
                             End If
                         End If
                     End If
-                    End If
+                End If
             Next
 
             ' Add training pilots to the training bar
