@@ -76,18 +76,6 @@ Partial Class ShipSlotControl
         Me.lblBoosterPenalties2 = New System.Windows.Forms.Label()
         Me.lblBoosterPenalties1 = New System.Windows.Forms.Label()
         Me.lblBoosterSlot3 = New System.Windows.Forms.Label()
-        Me.ctxBoosters = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShowBoosterInfo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnuBoosterPenalty1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuBoosterPenalty2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuBoosterPenalty3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuBoosterPenalty4 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuSepPenalties = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnuRandomSideEffects = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuAlterBoosterSkills = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnuRemoveBooster = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblBoosterSlot2 = New System.Windows.Forms.Label()
         Me.lblBoosterSlot1 = New System.Windows.Forms.Label()
         Me.lblWHClass = New System.Windows.Forms.Label()
@@ -111,23 +99,50 @@ Partial Class ShipSlotControl
         Me.colChargeOnly = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.tcStorage = New DevComponents.DotNetBar.TabControl()
-        Me.tcpCargoBay = New DevComponents.DotNetBar.TabControlPanel()
-        Me.btnMergeCargo = New DevComponents.DotNetBar.ButtonX()
-        Me.tiCargoBay = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpBoosters = New DevComponents.DotNetBar.TabControlPanel()
+        Me.btnBoosterSlot3 = New DevComponents.DotNetBar.ButtonX()
+        Me.btnShowInfo3 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty13 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty23 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty33 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty43 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRandomPenalty3 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnAlterSkills3 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRemoveBooster3 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnBoosterSlot2 = New DevComponents.DotNetBar.ButtonX()
+        Me.btnShowInfo2 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty12 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty22 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty32 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty42 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRandomPenalty2 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnAlterSkills2 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRemoveBooster2 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnBoosterSlot1 = New DevComponents.DotNetBar.ButtonX()
+        Me.btnShowInfo1 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty11 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty21 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty31 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnPenalty41 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRandomPenalty1 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnAlterSkills1 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRemoveBooster1 = New DevComponents.DotNetBar.ButtonItem()
+        Me.cboBoosterSlot2 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboBoosterSlot3 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboBoosterSlot1 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.tiBoosters = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpDroneBay = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnMergeDrones = New DevComponents.DotNetBar.ButtonX()
         Me.tiDroneBay = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpCargoBay = New DevComponents.DotNetBar.TabControlPanel()
+        Me.btnMergeCargo = New DevComponents.DotNetBar.ButtonX()
+        Me.tiCargoBay = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpRemoteEffects = New DevComponents.DotNetBar.TabControlPanel()
         Me.cboPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.btnUpdateRemoteEffects = New DevComponents.DotNetBar.ButtonX()
         Me.btnAddRemoteFitting = New DevComponents.DotNetBar.ButtonX()
         Me.tiRemoteEffects = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpBoosters = New DevComponents.DotNetBar.TabControlPanel()
-        Me.cboBoosterSlot2 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboBoosterSlot3 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboBoosterSlot1 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.tiBoosters = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpHistory = New DevComponents.DotNetBar.TabControlPanel()
         Me.tiHistory = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpShipBay = New DevComponents.DotNetBar.TabControlPanel()
@@ -191,13 +206,12 @@ Partial Class ShipSlotControl
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxShipSkills.SuspendLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ctxBoosters.SuspendLayout()
         CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcStorage.SuspendLayout()
-        Me.tcpCargoBay.SuspendLayout()
-        Me.tcpDroneBay.SuspendLayout()
-        Me.tcpRemoteEffects.SuspendLayout()
         Me.tcpBoosters.SuspendLayout()
+        Me.tcpDroneBay.SuspendLayout()
+        Me.tcpCargoBay.SuspendLayout()
+        Me.tcpRemoteEffects.SuspendLayout()
         Me.tcpHistory.SuspendLayout()
         Me.tcpShipBay.SuspendLayout()
         Me.tcpFleetEffects.SuspendLayout()
@@ -231,13 +245,13 @@ Partial Class ShipSlotControl
         Me.ctxSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(124, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'ctxBays
@@ -245,40 +259,40 @@ Partial Class ShipSlotControl
         Me.ctxBays.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(156, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(155, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(152, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(155, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(155, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(152, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(155, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'ctxRemoteFittings
@@ -286,13 +300,13 @@ Partial Class ShipSlotControl
         Me.ctxRemoteFittings.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
         Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
-        Me.ctxRemoteFittings.Size = New System.Drawing.Size(169, 26)
+        Me.ctxRemoteFittings.Size = New System.Drawing.Size(180, 26)
         '
         'RemoveFittingToolStripMenuItem
         '
         Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
         Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
         Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
         '
         'ctxRemoteModule
@@ -300,12 +314,12 @@ Partial Class ShipSlotControl
         Me.ctxRemoteModule.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
         Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(124, 26)
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(135, 26)
         '
         'mnuShowRemoteModInfo
         '
         Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(123, 22)
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(134, 22)
         Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'ToolTip1
@@ -329,12 +343,12 @@ Partial Class ShipSlotControl
         Me.ctxShipSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxShipSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRelevantSkills})
         Me.ctxShipSkills.Name = "ctxShipSkills"
-        Me.ctxShipSkills.Size = New System.Drawing.Size(169, 48)
+        Me.ctxShipSkills.Size = New System.Drawing.Size(180, 26)
         '
         'mnuAlterRelevantSkills
         '
         Me.mnuAlterRelevantSkills.Name = "mnuAlterRelevantSkills"
-        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(168, 22)
+        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(179, 22)
         Me.mnuAlterRelevantSkills.Text = "Alter Relevant Skills"
         '
         'pbShipInfo
@@ -350,7 +364,7 @@ Partial Class ShipSlotControl
         'pbDroneBay
         '
         Me.pbDroneBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -377,8 +391,8 @@ Partial Class ShipSlotControl
         '
         Me.lvwDroneBay.AllowDrop = True
         Me.lvwDroneBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -411,7 +425,7 @@ Partial Class ShipSlotControl
         'pbCargoBay
         '
         Me.pbCargoBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -438,8 +452,8 @@ Partial Class ShipSlotControl
         '
         Me.lvwCargoBay.AllowDrop = True
         Me.lvwCargoBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -481,7 +495,7 @@ Partial Class ShipSlotControl
         'lvwRemoteFittings
         '
         Me.lvwRemoteFittings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -517,8 +531,8 @@ Partial Class ShipSlotControl
         'lvwRemoteEffects
         '
         Me.lvwRemoteEffects.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -700,80 +714,6 @@ Partial Class ShipSlotControl
         Me.lblBoosterSlot3.TabIndex = 5
         Me.lblBoosterSlot3.Text = "Slot 3:"
         '
-        'ctxBoosters
-        '
-        Me.ctxBoosters.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ctxBoosters.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowBoosterInfo, Me.ToolStripMenuItem3, Me.mnuBoosterPenalty1, Me.mnuBoosterPenalty2, Me.mnuBoosterPenalty3, Me.mnuBoosterPenalty4, Me.mnuSepPenalties, Me.mnuRandomSideEffects, Me.mnuAlterBoosterSkills, Me.ToolStripMenuItem4, Me.mnuRemoveBooster})
-        Me.ctxBoosters.Name = "ctx"
-        Me.ctxBoosters.Size = New System.Drawing.Size(174, 198)
-        '
-        'mnuShowBoosterInfo
-        '
-        Me.mnuShowBoosterInfo.Name = "mnuShowBoosterInfo"
-        Me.mnuShowBoosterInfo.Size = New System.Drawing.Size(173, 22)
-        Me.mnuShowBoosterInfo.Text = "Show Info"
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(170, 6)
-        '
-        'mnuBoosterPenalty1
-        '
-        Me.mnuBoosterPenalty1.CheckOnClick = True
-        Me.mnuBoosterPenalty1.Name = "mnuBoosterPenalty1"
-        Me.mnuBoosterPenalty1.Size = New System.Drawing.Size(173, 22)
-        Me.mnuBoosterPenalty1.Text = "Penalty1"
-        '
-        'mnuBoosterPenalty2
-        '
-        Me.mnuBoosterPenalty2.CheckOnClick = True
-        Me.mnuBoosterPenalty2.Name = "mnuBoosterPenalty2"
-        Me.mnuBoosterPenalty2.Size = New System.Drawing.Size(173, 22)
-        Me.mnuBoosterPenalty2.Text = "Penalty2"
-        '
-        'mnuBoosterPenalty3
-        '
-        Me.mnuBoosterPenalty3.CheckOnClick = True
-        Me.mnuBoosterPenalty3.Name = "mnuBoosterPenalty3"
-        Me.mnuBoosterPenalty3.Size = New System.Drawing.Size(173, 22)
-        Me.mnuBoosterPenalty3.Text = "Penalty3"
-        '
-        'mnuBoosterPenalty4
-        '
-        Me.mnuBoosterPenalty4.CheckOnClick = True
-        Me.mnuBoosterPenalty4.Name = "mnuBoosterPenalty4"
-        Me.mnuBoosterPenalty4.Size = New System.Drawing.Size(173, 22)
-        Me.mnuBoosterPenalty4.Text = "Penalty4"
-        '
-        'mnuSepPenalties
-        '
-        Me.mnuSepPenalties.Name = "mnuSepPenalties"
-        Me.mnuSepPenalties.Size = New System.Drawing.Size(170, 6)
-        '
-        'mnuRandomSideEffects
-        '
-        Me.mnuRandomSideEffects.Name = "mnuRandomSideEffects"
-        Me.mnuRandomSideEffects.Size = New System.Drawing.Size(173, 22)
-        Me.mnuRandomSideEffects.Text = "Random Side Effects"
-        '
-        'mnuAlterBoosterSkills
-        '
-        Me.mnuAlterBoosterSkills.Name = "mnuAlterBoosterSkills"
-        Me.mnuAlterBoosterSkills.Size = New System.Drawing.Size(173, 22)
-        Me.mnuAlterBoosterSkills.Text = "Alter Relevant Skills"
-        '
-        'ToolStripMenuItem4
-        '
-        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(170, 6)
-        '
-        'mnuRemoveBooster
-        '
-        Me.mnuRemoveBooster.Name = "mnuRemoveBooster"
-        Me.mnuRemoveBooster.Size = New System.Drawing.Size(173, 22)
-        Me.mnuRemoveBooster.Text = "Remove Booster"
-        '
         'lblBoosterSlot2
         '
         Me.lblBoosterSlot2.AutoSize = True
@@ -817,7 +757,7 @@ Partial Class ShipSlotControl
         'pbShipBay
         '
         Me.pbShipBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -844,8 +784,8 @@ Partial Class ShipSlotControl
         '
         Me.lvwShipBay.AllowDrop = True
         Me.lvwShipBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -976,10 +916,10 @@ Partial Class ShipSlotControl
         'tcStorage
         '
         Me.tcStorage.CanReorderTabs = True
+        Me.tcStorage.Controls.Add(Me.tcpBoosters)
         Me.tcStorage.Controls.Add(Me.tcpDroneBay)
         Me.tcStorage.Controls.Add(Me.tcpCargoBay)
         Me.tcStorage.Controls.Add(Me.tcpRemoteEffects)
-        Me.tcStorage.Controls.Add(Me.tcpBoosters)
         Me.tcStorage.Controls.Add(Me.tcpHistory)
         Me.tcStorage.Controls.Add(Me.tcpShipBay)
         Me.tcStorage.Controls.Add(Me.tcpFleetEffects)
@@ -1004,44 +944,265 @@ Partial Class ShipSlotControl
         Me.tcStorage.Tabs.Add(Me.tiHistory)
         Me.tcStorage.Text = "TabControl1"
         '
-        'tcpCargoBay
+        'tcpBoosters
         '
-        Me.tcpCargoBay.Controls.Add(Me.btnMergeCargo)
-        Me.tcpCargoBay.Controls.Add(Me.pbCargoBay)
-        Me.tcpCargoBay.Controls.Add(Me.lblCargoBay)
-        Me.tcpCargoBay.Controls.Add(Me.lvwCargoBay)
-        Me.tcpCargoBay.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpCargoBay.Location = New System.Drawing.Point(0, 23)
-        Me.tcpCargoBay.Name = "tcpCargoBay"
-        Me.tcpCargoBay.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpCargoBay.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpCargoBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpCargoBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpCargoBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpCargoBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpCargoBay.Style.GradientAngle = 90
-        Me.tcpCargoBay.TabIndex = 2
-        Me.tcpCargoBay.TabItem = Me.tiCargoBay
+        Me.tcpBoosters.Controls.Add(Me.btnBoosterSlot3)
+        Me.tcpBoosters.Controls.Add(Me.btnBoosterSlot2)
+        Me.tcpBoosters.Controls.Add(Me.btnBoosterSlot1)
+        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot2)
+        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot3)
+        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot1)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties3)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot1)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties2)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties1)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot3)
+        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot2)
+        Me.tcpBoosters.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpBoosters.Location = New System.Drawing.Point(0, 23)
+        Me.tcpBoosters.Name = "tcpBoosters"
+        Me.tcpBoosters.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpBoosters.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpBoosters.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpBoosters.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpBoosters.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpBoosters.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpBoosters.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpBoosters.Style.GradientAngle = 90
+        Me.tcpBoosters.TabIndex = 5
+        Me.tcpBoosters.TabItem = Me.tiBoosters
         '
-        'btnMergeCargo
+        'btnBoosterSlot3
         '
-        Me.btnMergeCargo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeCargo.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnMergeCargo.Location = New System.Drawing.Point(977, 7)
-        Me.btnMergeCargo.Name = "btnMergeCargo"
-        Me.btnMergeCargo.Size = New System.Drawing.Size(80, 20)
-        Me.btnMergeCargo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnMergeCargo.TabIndex = 8
-        Me.btnMergeCargo.Text = "Merge Cargo"
+        Me.btnBoosterSlot3.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnBoosterSlot3.AutoExpandOnClick = True
+        Me.btnBoosterSlot3.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnBoosterSlot3.Enabled = False
+        Me.btnBoosterSlot3.Location = New System.Drawing.Point(256, 116)
+        Me.btnBoosterSlot3.Name = "btnBoosterSlot3"
+        Me.btnBoosterSlot3.Size = New System.Drawing.Size(125, 21)
+        Me.btnBoosterSlot3.SplitButton = True
+        Me.btnBoosterSlot3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnBoosterSlot3.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnShowInfo3, Me.btnPenalty13, Me.btnPenalty23, Me.btnPenalty33, Me.btnPenalty43, Me.btnRandomPenalty3, Me.btnAlterSkills3, Me.btnRemoveBooster3})
+        Me.btnBoosterSlot3.TabIndex = 14
+        Me.btnBoosterSlot3.Text = "Booster Options"
         '
-        'tiCargoBay
+        'btnShowInfo3
         '
-        Me.tiCargoBay.AttachedControl = Me.tcpCargoBay
-        Me.tiCargoBay.Name = "tiCargoBay"
-        Me.tiCargoBay.Text = "Cargo Bay"
+        Me.btnShowInfo3.Name = "btnShowInfo3"
+        Me.btnShowInfo3.Text = "Show Booster Info"
+        '
+        'btnPenalty13
+        '
+        Me.btnPenalty13.AutoCheckOnClick = True
+        Me.btnPenalty13.BeginGroup = True
+        Me.btnPenalty13.Name = "btnPenalty13"
+        Me.btnPenalty13.Text = "Penalty 1"
+        '
+        'btnPenalty23
+        '
+        Me.btnPenalty23.AutoCheckOnClick = True
+        Me.btnPenalty23.Name = "btnPenalty23"
+        Me.btnPenalty23.Text = "Penalty 2"
+        '
+        'btnPenalty33
+        '
+        Me.btnPenalty33.AutoCheckOnClick = True
+        Me.btnPenalty33.Name = "btnPenalty33"
+        Me.btnPenalty33.Text = "Penalty 3"
+        '
+        'btnPenalty43
+        '
+        Me.btnPenalty43.AutoCheckOnClick = True
+        Me.btnPenalty43.Name = "btnPenalty43"
+        Me.btnPenalty43.Text = "Penalty 4"
+        '
+        'btnRandomPenalty3
+        '
+        Me.btnRandomPenalty3.BeginGroup = True
+        Me.btnRandomPenalty3.Name = "btnRandomPenalty3"
+        Me.btnRandomPenalty3.Text = "Random Penalties"
+        '
+        'btnAlterSkills3
+        '
+        Me.btnAlterSkills3.Name = "btnAlterSkills3"
+        Me.btnAlterSkills3.Text = "Alter Skills"
+        '
+        'btnRemoveBooster3
+        '
+        Me.btnRemoveBooster3.BeginGroup = True
+        Me.btnRemoveBooster3.Name = "btnRemoveBooster3"
+        Me.btnRemoveBooster3.Text = "Remove Booster"
+        '
+        'btnBoosterSlot2
+        '
+        Me.btnBoosterSlot2.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnBoosterSlot2.AutoExpandOnClick = True
+        Me.btnBoosterSlot2.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnBoosterSlot2.Enabled = False
+        Me.btnBoosterSlot2.Location = New System.Drawing.Point(256, 67)
+        Me.btnBoosterSlot2.Name = "btnBoosterSlot2"
+        Me.btnBoosterSlot2.Size = New System.Drawing.Size(125, 21)
+        Me.btnBoosterSlot2.SplitButton = True
+        Me.btnBoosterSlot2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnBoosterSlot2.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnShowInfo2, Me.btnPenalty12, Me.btnPenalty22, Me.btnPenalty32, Me.btnPenalty42, Me.btnRandomPenalty2, Me.btnAlterSkills2, Me.btnRemoveBooster2})
+        Me.btnBoosterSlot2.TabIndex = 13
+        Me.btnBoosterSlot2.Text = "Booster Options"
+        '
+        'btnShowInfo2
+        '
+        Me.btnShowInfo2.Name = "btnShowInfo2"
+        Me.btnShowInfo2.Text = "Show Booster Info"
+        '
+        'btnPenalty12
+        '
+        Me.btnPenalty12.AutoCheckOnClick = True
+        Me.btnPenalty12.BeginGroup = True
+        Me.btnPenalty12.Name = "btnPenalty12"
+        Me.btnPenalty12.Text = "Penalty 1"
+        '
+        'btnPenalty22
+        '
+        Me.btnPenalty22.AutoCheckOnClick = True
+        Me.btnPenalty22.Name = "btnPenalty22"
+        Me.btnPenalty22.Text = "Penalty 2"
+        '
+        'btnPenalty32
+        '
+        Me.btnPenalty32.AutoCheckOnClick = True
+        Me.btnPenalty32.Name = "btnPenalty32"
+        Me.btnPenalty32.Text = "Penalty 3"
+        '
+        'btnPenalty42
+        '
+        Me.btnPenalty42.AutoCheckOnClick = True
+        Me.btnPenalty42.Name = "btnPenalty42"
+        Me.btnPenalty42.Text = "Penalty 4"
+        '
+        'btnRandomPenalty2
+        '
+        Me.btnRandomPenalty2.BeginGroup = True
+        Me.btnRandomPenalty2.Name = "btnRandomPenalty2"
+        Me.btnRandomPenalty2.Text = "Random Penalties"
+        '
+        'btnAlterSkills2
+        '
+        Me.btnAlterSkills2.Name = "btnAlterSkills2"
+        Me.btnAlterSkills2.Text = "Alter Skills"
+        '
+        'btnRemoveBooster2
+        '
+        Me.btnRemoveBooster2.BeginGroup = True
+        Me.btnRemoveBooster2.Name = "btnRemoveBooster2"
+        Me.btnRemoveBooster2.Text = "Remove Booster"
+        '
+        'btnBoosterSlot1
+        '
+        Me.btnBoosterSlot1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnBoosterSlot1.AutoExpandOnClick = True
+        Me.btnBoosterSlot1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnBoosterSlot1.Enabled = False
+        Me.btnBoosterSlot1.Location = New System.Drawing.Point(256, 18)
+        Me.btnBoosterSlot1.Name = "btnBoosterSlot1"
+        Me.btnBoosterSlot1.Size = New System.Drawing.Size(125, 21)
+        Me.btnBoosterSlot1.SplitButton = True
+        Me.btnBoosterSlot1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnBoosterSlot1.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnShowInfo1, Me.btnPenalty11, Me.btnPenalty21, Me.btnPenalty31, Me.btnPenalty41, Me.btnRandomPenalty1, Me.btnAlterSkills1, Me.btnRemoveBooster1})
+        Me.btnBoosterSlot1.TabIndex = 12
+        Me.btnBoosterSlot1.Text = "Booster Options"
+        '
+        'btnShowInfo1
+        '
+        Me.btnShowInfo1.Name = "btnShowInfo1"
+        Me.btnShowInfo1.Text = "Show Booster Info"
+        '
+        'btnPenalty11
+        '
+        Me.btnPenalty11.AutoCheckOnClick = True
+        Me.btnPenalty11.BeginGroup = True
+        Me.btnPenalty11.Name = "btnPenalty11"
+        Me.btnPenalty11.Text = "Penalty 1"
+        '
+        'btnPenalty21
+        '
+        Me.btnPenalty21.AutoCheckOnClick = True
+        Me.btnPenalty21.Name = "btnPenalty21"
+        Me.btnPenalty21.Text = "Penalty 2"
+        '
+        'btnPenalty31
+        '
+        Me.btnPenalty31.AutoCheckOnClick = True
+        Me.btnPenalty31.Name = "btnPenalty31"
+        Me.btnPenalty31.Text = "Penalty 3"
+        '
+        'btnPenalty41
+        '
+        Me.btnPenalty41.AutoCheckOnClick = True
+        Me.btnPenalty41.Name = "btnPenalty41"
+        Me.btnPenalty41.Text = "Penalty 4"
+        '
+        'btnRandomPenalty1
+        '
+        Me.btnRandomPenalty1.BeginGroup = True
+        Me.btnRandomPenalty1.Name = "btnRandomPenalty1"
+        Me.btnRandomPenalty1.Text = "Random Penalties"
+        '
+        'btnAlterSkills1
+        '
+        Me.btnAlterSkills1.Name = "btnAlterSkills1"
+        Me.btnAlterSkills1.Text = "Alter Skills"
+        '
+        'btnRemoveBooster1
+        '
+        Me.btnRemoveBooster1.BeginGroup = True
+        Me.btnRemoveBooster1.Name = "btnRemoveBooster1"
+        Me.btnRemoveBooster1.Text = "Remove Booster"
+        '
+        'cboBoosterSlot2
+        '
+        Me.cboBoosterSlot2.DisplayMember = "Text"
+        Me.cboBoosterSlot2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBoosterSlot2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot2.FormattingEnabled = True
+        Me.cboBoosterSlot2.ItemHeight = 15
+        Me.cboBoosterSlot2.Location = New System.Drawing.Point(66, 67)
+        Me.cboBoosterSlot2.Name = "cboBoosterSlot2"
+        Me.cboBoosterSlot2.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBoosterSlot2.TabIndex = 11
+        '
+        'cboBoosterSlot3
+        '
+        Me.cboBoosterSlot3.DisplayMember = "Text"
+        Me.cboBoosterSlot3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBoosterSlot3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot3.FormattingEnabled = True
+        Me.cboBoosterSlot3.ItemHeight = 15
+        Me.cboBoosterSlot3.Location = New System.Drawing.Point(65, 116)
+        Me.cboBoosterSlot3.Name = "cboBoosterSlot3"
+        Me.cboBoosterSlot3.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBoosterSlot3.TabIndex = 10
+        '
+        'cboBoosterSlot1
+        '
+        Me.cboBoosterSlot1.DisplayMember = "Text"
+        Me.cboBoosterSlot1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBoosterSlot1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBoosterSlot1.FormattingEnabled = True
+        Me.cboBoosterSlot1.ItemHeight = 15
+        Me.cboBoosterSlot1.Location = New System.Drawing.Point(66, 18)
+        Me.cboBoosterSlot1.Name = "cboBoosterSlot1"
+        Me.cboBoosterSlot1.Size = New System.Drawing.Size(163, 21)
+        Me.cboBoosterSlot1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBoosterSlot1.TabIndex = 9
+        '
+        'tiBoosters
+        '
+        Me.tiBoosters.AttachedControl = Me.tcpBoosters
+        Me.tiBoosters.Name = "tiBoosters"
+        Me.tiBoosters.Text = "Boosters"
         '
         'tcpDroneBay
         '
@@ -1059,7 +1220,7 @@ Partial Class ShipSlotControl
         Me.tcpDroneBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpDroneBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpDroneBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpDroneBay.Style.GradientAngle = 90
         Me.tcpDroneBay.TabIndex = 1
         Me.tcpDroneBay.TabItem = Me.tiDroneBay
@@ -1082,6 +1243,45 @@ Partial Class ShipSlotControl
         Me.tiDroneBay.Name = "tiDroneBay"
         Me.tiDroneBay.Text = "Drone Bay"
         '
+        'tcpCargoBay
+        '
+        Me.tcpCargoBay.Controls.Add(Me.btnMergeCargo)
+        Me.tcpCargoBay.Controls.Add(Me.pbCargoBay)
+        Me.tcpCargoBay.Controls.Add(Me.lblCargoBay)
+        Me.tcpCargoBay.Controls.Add(Me.lvwCargoBay)
+        Me.tcpCargoBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpCargoBay.Location = New System.Drawing.Point(0, 23)
+        Me.tcpCargoBay.Name = "tcpCargoBay"
+        Me.tcpCargoBay.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpCargoBay.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpCargoBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpCargoBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpCargoBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpCargoBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpCargoBay.Style.GradientAngle = 90
+        Me.tcpCargoBay.TabIndex = 2
+        Me.tcpCargoBay.TabItem = Me.tiCargoBay
+        '
+        'btnMergeCargo
+        '
+        Me.btnMergeCargo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeCargo.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnMergeCargo.Location = New System.Drawing.Point(977, 7)
+        Me.btnMergeCargo.Name = "btnMergeCargo"
+        Me.btnMergeCargo.Size = New System.Drawing.Size(80, 20)
+        Me.btnMergeCargo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnMergeCargo.TabIndex = 8
+        Me.btnMergeCargo.Text = "Merge Cargo"
+        '
+        'tiCargoBay
+        '
+        Me.tiCargoBay.AttachedControl = Me.tcpCargoBay
+        Me.tiCargoBay.Name = "tiCargoBay"
+        Me.tiCargoBay.Text = "Cargo Bay"
+        '
         'tcpRemoteEffects
         '
         Me.tcpRemoteEffects.Controls.Add(Me.cboPilot)
@@ -1102,7 +1302,7 @@ Partial Class ShipSlotControl
         Me.tcpRemoteEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpRemoteEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpRemoteEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpRemoteEffects.Style.GradientAngle = 90
         Me.tcpRemoteEffects.TabIndex = 3
         Me.tcpRemoteEffects.TabItem = Me.tiRemoteEffects
@@ -1161,80 +1361,6 @@ Partial Class ShipSlotControl
         Me.tiRemoteEffects.Name = "tiRemoteEffects"
         Me.tiRemoteEffects.Text = "Remote Effects"
         '
-        'tcpBoosters
-        '
-        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot2)
-        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot3)
-        Me.tcpBoosters.Controls.Add(Me.cboBoosterSlot1)
-        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties3)
-        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot1)
-        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties2)
-        Me.tcpBoosters.Controls.Add(Me.lblBoosterPenalties1)
-        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot3)
-        Me.tcpBoosters.Controls.Add(Me.lblBoosterSlot2)
-        Me.tcpBoosters.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpBoosters.Location = New System.Drawing.Point(0, 23)
-        Me.tcpBoosters.Name = "tcpBoosters"
-        Me.tcpBoosters.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpBoosters.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpBoosters.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpBoosters.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpBoosters.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpBoosters.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpBoosters.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpBoosters.Style.GradientAngle = 90
-        Me.tcpBoosters.TabIndex = 5
-        Me.tcpBoosters.TabItem = Me.tiBoosters
-        '
-        'cboBoosterSlot2
-        '
-        Me.cboBoosterSlot2.ContextMenuStrip = Me.ctxBoosters
-        Me.cboBoosterSlot2.DisplayMember = "Text"
-        Me.cboBoosterSlot2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboBoosterSlot2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBoosterSlot2.FormattingEnabled = True
-        Me.cboBoosterSlot2.ItemHeight = 15
-        Me.cboBoosterSlot2.Location = New System.Drawing.Point(66, 67)
-        Me.cboBoosterSlot2.Name = "cboBoosterSlot2"
-        Me.cboBoosterSlot2.Size = New System.Drawing.Size(163, 21)
-        Me.cboBoosterSlot2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboBoosterSlot2.TabIndex = 11
-        '
-        'cboBoosterSlot3
-        '
-        Me.cboBoosterSlot3.ContextMenuStrip = Me.ctxBoosters
-        Me.cboBoosterSlot3.DisplayMember = "Text"
-        Me.cboBoosterSlot3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboBoosterSlot3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBoosterSlot3.FormattingEnabled = True
-        Me.cboBoosterSlot3.ItemHeight = 15
-        Me.cboBoosterSlot3.Location = New System.Drawing.Point(65, 116)
-        Me.cboBoosterSlot3.Name = "cboBoosterSlot3"
-        Me.cboBoosterSlot3.Size = New System.Drawing.Size(163, 21)
-        Me.cboBoosterSlot3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboBoosterSlot3.TabIndex = 10
-        '
-        'cboBoosterSlot1
-        '
-        Me.cboBoosterSlot1.ContextMenuStrip = Me.ctxBoosters
-        Me.cboBoosterSlot1.DisplayMember = "Text"
-        Me.cboBoosterSlot1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboBoosterSlot1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBoosterSlot1.FormattingEnabled = True
-        Me.cboBoosterSlot1.ItemHeight = 15
-        Me.cboBoosterSlot1.Location = New System.Drawing.Point(66, 18)
-        Me.cboBoosterSlot1.Name = "cboBoosterSlot1"
-        Me.cboBoosterSlot1.Size = New System.Drawing.Size(163, 21)
-        Me.cboBoosterSlot1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboBoosterSlot1.TabIndex = 9
-        '
-        'tiBoosters
-        '
-        Me.tiBoosters.AttachedControl = Me.tcpBoosters
-        Me.tiBoosters.Name = "tiBoosters"
-        Me.tiBoosters.Text = "Boosters"
-        '
         'tcpHistory
         '
         Me.tcpHistory.Controls.Add(Me.lvwHistory)
@@ -1248,7 +1374,7 @@ Partial Class ShipSlotControl
         Me.tcpHistory.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpHistory.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpHistory.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpHistory.Style.GradientAngle = 90
         Me.tcpHistory.TabIndex = 8
         Me.tcpHistory.TabItem = Me.tiHistory
@@ -1274,7 +1400,7 @@ Partial Class ShipSlotControl
         Me.tcpShipBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpShipBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpShipBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpShipBay.Style.GradientAngle = 90
         Me.tcpShipBay.TabIndex = 7
         Me.tcpShipBay.TabItem = Me.tiShipBay
@@ -1315,7 +1441,7 @@ Partial Class ShipSlotControl
         Me.tcpFleetEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpFleetEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpFleetEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpFleetEffects.Style.GradientAngle = 90
         Me.tcpFleetEffects.TabIndex = 4
         Me.tcpFleetEffects.TabItem = Me.tiFleetEffects
@@ -1431,7 +1557,7 @@ Partial Class ShipSlotControl
         Me.tcpWHEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpWHEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpWHEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpWHEffects.Style.GradientAngle = 90
         Me.tcpWHEffects.TabIndex = 6
         Me.tcpWHEffects.TabItem = Me.tiWHEffects
@@ -1560,7 +1686,7 @@ Partial Class ShipSlotControl
         Me.btnRedo.SplitButton = True
         Me.btnRedo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.SlotTip.SetSuperTooltip(Me.btnRedo, New DevComponents.DotNetBar.SuperTooltipInfo("", "Redo Operation", "This button will redo the most recent changes undone." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to " & _
-            "undo multiple operations at once.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.redo, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                    "undo multiple operations at once.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.redo, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnRedo.TabIndex = 15
         '
         'btnUndo
@@ -1577,7 +1703,7 @@ Partial Class ShipSlotControl
         Me.btnUndo.SplitButton = True
         Me.btnUndo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.SlotTip.SetSuperTooltip(Me.btnUndo, New DevComponents.DotNetBar.SuperTooltipInfo("", "Undo Operation", "This button will undo the most recent loading or unloading of a module or charge." & _
-            "" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to undo multiple operations at once." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Nothing, Global.EveHQ.HQF.My.Resources.Resources.undo, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                    "" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to undo multiple operations at once." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Nothing, Global.EveHQ.HQF.My.Resources.Resources.undo, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnUndo.TabIndex = 14
         '
         'adtSlots
@@ -1803,17 +1929,16 @@ Partial Class ShipSlotControl
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxShipSkills.ResumeLayout(False)
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ctxBoosters.ResumeLayout(False)
         CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcStorage.ResumeLayout(False)
-        Me.tcpCargoBay.ResumeLayout(False)
-        Me.tcpCargoBay.PerformLayout()
-        Me.tcpDroneBay.ResumeLayout(False)
-        Me.tcpDroneBay.PerformLayout()
-        Me.tcpRemoteEffects.ResumeLayout(False)
-        Me.tcpRemoteEffects.PerformLayout()
         Me.tcpBoosters.ResumeLayout(False)
         Me.tcpBoosters.PerformLayout()
+        Me.tcpDroneBay.ResumeLayout(False)
+        Me.tcpDroneBay.PerformLayout()
+        Me.tcpCargoBay.ResumeLayout(False)
+        Me.tcpCargoBay.PerformLayout()
+        Me.tcpRemoteEffects.ResumeLayout(False)
+        Me.tcpRemoteEffects.PerformLayout()
         Me.tcpHistory.ResumeLayout(False)
         Me.tcpShipBay.ResumeLayout(False)
         Me.tcpShipBay.PerformLayout()
@@ -1827,163 +1952,178 @@ Partial Class ShipSlotControl
         Me.ResumeLayout(False)
 
     End Sub
-	Friend WithEvents lblFittingMarketPrice As System.Windows.Forms.Label
-	Friend WithEvents lblShipMarketPrice As System.Windows.Forms.Label
-	Friend WithEvents ctxSlots As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents ShowInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents lblDroneBay As System.Windows.Forms.Label
-	Friend WithEvents lvwDroneBay As DevComponents.DotNetBar.Controls.ListViewEx
-	Friend WithEvents lblCargoBay As System.Windows.Forms.Label
-	Friend WithEvents colDroneBayType As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colDroneBayQty As System.Windows.Forms.ColumnHeader
-	Friend WithEvents lvwCargoBay As DevComponents.DotNetBar.Controls.ListViewEx
-	Friend WithEvents colCargoBayType As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colCargoBayQty As System.Windows.Forms.ColumnHeader
-	Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-	Friend WithEvents ctxBays As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents ctxRemoveItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ctxAlterQuantity As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ctxSplitBatch As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ctxShowBayInfoItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents pbShipInfo As System.Windows.Forms.PictureBox
-	Friend WithEvents lvwRemoteEffects As DevComponents.DotNetBar.Controls.ListViewEx
-	Friend WithEvents lblPilot As System.Windows.Forms.Label
-	Friend WithEvents lblFitting As System.Windows.Forms.Label
-	Friend WithEvents colModule As System.Windows.Forms.ColumnHeader
-	Friend WithEvents ctxRemoteModule As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents mnuShowRemoteModInfo As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents lvwRemoteFittings As DevComponents.DotNetBar.Controls.ListViewEx
-	Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-	Friend WithEvents ctxRemoteFittings As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents RemoveFittingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents lblWC As System.Windows.Forms.Label
-	Friend WithEvents lblFC As System.Windows.Forms.Label
-	Friend WithEvents lblSC As System.Windows.Forms.Label
-	Friend WithEvents lblSCShip As System.Windows.Forms.Label
-	Friend WithEvents lblWCShip As System.Windows.Forms.Label
-	Friend WithEvents lblFCShip As System.Windows.Forms.Label
-	Friend WithEvents lblFleetStatus As System.Windows.Forms.Label
-	Friend WithEvents lblFleetStatusLabel As System.Windows.Forms.Label
-	Friend WithEvents chkFCActive As System.Windows.Forms.CheckBox
-	Friend WithEvents chkWCActive As System.Windows.Forms.CheckBox
-	Friend WithEvents chkSCActive As System.Windows.Forms.CheckBox
-	Friend WithEvents pbShip As System.Windows.Forms.PictureBox
-	Friend WithEvents ctxShipSkills As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents mnuAlterRelevantSkills As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents lblShipBay As System.Windows.Forms.Label
-	Friend WithEvents lvwShipBay As DevComponents.DotNetBar.Controls.ListViewEx
-	Friend WithEvents colShipBayShip As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colShipBayQuantity As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colShipBayVolume As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colShipBayTotalVolume As System.Windows.Forms.ColumnHeader
-	Friend WithEvents lblWHClass As System.Windows.Forms.Label
-	Friend WithEvents lblWHEffect As System.Windows.Forms.Label
-	Friend WithEvents lblBoosterSlot3 As System.Windows.Forms.Label
-	Friend WithEvents lblBoosterSlot2 As System.Windows.Forms.Label
-	Friend WithEvents lblBoosterSlot1 As System.Windows.Forms.Label
-	Friend WithEvents lblBoosterPenalties1 As System.Windows.Forms.Label
-	Friend WithEvents ctxBoosters As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents mnuBoosterPenalty1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents mnuBoosterPenalty2 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents mnuBoosterPenalty3 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents mnuBoosterPenalty4 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents lblBoosterPenalties3 As System.Windows.Forms.Label
-	Friend WithEvents lblBoosterPenalties2 As System.Windows.Forms.Label
-	Friend WithEvents mnuShowBoosterInfo As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents mnuRemoveBooster As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents mnuSepPenalties As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents mnuRandomSideEffects As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents mnuAlterBoosterSkills As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ExpandableSplitter1 As DevComponents.DotNetBar.ExpandableSplitter
-	Friend WithEvents panelFunctions As DevComponents.DotNetBar.PanelEx
-	Friend WithEvents adtSlots As DevComponents.AdvTree.AdvTree
-	Friend WithEvents Node1 As DevComponents.AdvTree.Node
-	Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
-	Friend WithEvents colTestHeader1 As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents lblFittingMarketPrice As System.Windows.Forms.Label
+    Friend WithEvents lblShipMarketPrice As System.Windows.Forms.Label
+    Friend WithEvents ctxSlots As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ShowInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblDroneBay As System.Windows.Forms.Label
+    Friend WithEvents lvwDroneBay As DevComponents.DotNetBar.Controls.ListViewEx
+    Friend WithEvents lblCargoBay As System.Windows.Forms.Label
+    Friend WithEvents colDroneBayType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colDroneBayQty As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lvwCargoBay As DevComponents.DotNetBar.Controls.ListViewEx
+    Friend WithEvents colCargoBayType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colCargoBayQty As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents ctxBays As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ctxRemoveItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ctxAlterQuantity As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ctxSplitBatch As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ctxShowBayInfoItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents pbShipInfo As System.Windows.Forms.PictureBox
+    Friend WithEvents lvwRemoteEffects As DevComponents.DotNetBar.Controls.ListViewEx
+    Friend WithEvents lblPilot As System.Windows.Forms.Label
+    Friend WithEvents lblFitting As System.Windows.Forms.Label
+    Friend WithEvents colModule As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ctxRemoteModule As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuShowRemoteModInfo As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lvwRemoteFittings As DevComponents.DotNetBar.Controls.ListViewEx
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ctxRemoteFittings As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents RemoveFittingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblWC As System.Windows.Forms.Label
+    Friend WithEvents lblFC As System.Windows.Forms.Label
+    Friend WithEvents lblSC As System.Windows.Forms.Label
+    Friend WithEvents lblSCShip As System.Windows.Forms.Label
+    Friend WithEvents lblWCShip As System.Windows.Forms.Label
+    Friend WithEvents lblFCShip As System.Windows.Forms.Label
+    Friend WithEvents lblFleetStatus As System.Windows.Forms.Label
+    Friend WithEvents lblFleetStatusLabel As System.Windows.Forms.Label
+    Friend WithEvents chkFCActive As System.Windows.Forms.CheckBox
+    Friend WithEvents chkWCActive As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSCActive As System.Windows.Forms.CheckBox
+    Friend WithEvents pbShip As System.Windows.Forms.PictureBox
+    Friend WithEvents ctxShipSkills As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuAlterRelevantSkills As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblShipBay As System.Windows.Forms.Label
+    Friend WithEvents lvwShipBay As DevComponents.DotNetBar.Controls.ListViewEx
+    Friend WithEvents colShipBayShip As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colShipBayQuantity As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colShipBayVolume As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colShipBayTotalVolume As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lblWHClass As System.Windows.Forms.Label
+    Friend WithEvents lblWHEffect As System.Windows.Forms.Label
+    Friend WithEvents lblBoosterSlot3 As System.Windows.Forms.Label
+    Friend WithEvents lblBoosterSlot2 As System.Windows.Forms.Label
+    Friend WithEvents lblBoosterSlot1 As System.Windows.Forms.Label
+    Friend WithEvents lblBoosterPenalties1 As System.Windows.Forms.Label
+    Friend WithEvents lblBoosterPenalties3 As System.Windows.Forms.Label
+    Friend WithEvents lblBoosterPenalties2 As System.Windows.Forms.Label
+    Friend WithEvents ExpandableSplitter1 As DevComponents.DotNetBar.ExpandableSplitter
+    Friend WithEvents panelFunctions As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents adtSlots As DevComponents.AdvTree.AdvTree
+    Friend WithEvents Node1 As DevComponents.AdvTree.Node
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents colTestHeader1 As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents Cell2 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell1 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell3 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell4 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell5 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell6 As DevComponents.AdvTree.Cell
-	Friend WithEvents SlotStyle As DevComponents.DotNetBar.ElementStyle
-	Friend WithEvents Cell7 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell8 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell9 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell10 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell11 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell12 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell13 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell14 As DevComponents.AdvTree.Cell
-	Friend WithEvents Cell15 As DevComponents.AdvTree.Cell
-	Friend WithEvents HeaderStyle As DevComponents.DotNetBar.ElementStyle
-	Friend WithEvents SlotTip As DevComponents.DotNetBar.SuperTooltip
-	Friend WithEvents lvwHistory As DevComponents.DotNetBar.Controls.ListViewEx
-	Friend WithEvents colTransaction As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colSlotType As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colOldSlotNo As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colOldModName As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colOldChargeName As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colNewSlotNo As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colNewModName As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colNewChargeName As System.Windows.Forms.ColumnHeader
-	Friend WithEvents colChargeOnly As System.Windows.Forms.ColumnHeader
-	Friend WithEvents btnUndo As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents btnRedo As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents pbDroneBay As DevComponents.DotNetBar.Controls.ProgressBarX
-	Friend WithEvents pbCargoBay As DevComponents.DotNetBar.Controls.ProgressBarX
-	Friend WithEvents pbShipBay As DevComponents.DotNetBar.Controls.ProgressBarX
-	Friend WithEvents tcStorage As DevComponents.DotNetBar.TabControl
-	Friend WithEvents tcpCargoBay As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiCargoBay As DevComponents.DotNetBar.TabItem
-	Friend WithEvents tcpDroneBay As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiDroneBay As DevComponents.DotNetBar.TabItem
-	Friend WithEvents tcpRemoteEffects As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiRemoteEffects As DevComponents.DotNetBar.TabItem
-	Friend WithEvents tcpFleetEffects As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiFleetEffects As DevComponents.DotNetBar.TabItem
-	Friend WithEvents tcpBoosters As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiBoosters As DevComponents.DotNetBar.TabItem
-	Friend WithEvents tcpWHEffects As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiWHEffects As DevComponents.DotNetBar.TabItem
-	Friend WithEvents tcpShipBay As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiShipBay As DevComponents.DotNetBar.TabItem
-	Friend WithEvents tcpHistory As DevComponents.DotNetBar.TabControlPanel
-	Friend WithEvents tiHistory As DevComponents.DotNetBar.TabItem
-	Friend WithEvents btnMergeCargo As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents btnMergeDrones As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents cboPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboFitting As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents btnUpdateRemoteEffects As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents btnAddRemoteFitting As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents cboBoosterSlot2 As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboBoosterSlot3 As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboBoosterSlot1 As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboFCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboWCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboSCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboFCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboWCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents cboSCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents btnLeaveFleet As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents cboWHClass As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents ComboItem1 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem2 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem3 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem4 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem5 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem6 As DevComponents.Editors.ComboItem
-	Friend WithEvents cboWHEffect As DevComponents.DotNetBar.Controls.ComboBoxEx
-	Friend WithEvents ComboItem7 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem8 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem9 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem10 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem11 As DevComponents.Editors.ComboItem
-	Friend WithEvents ComboItem12 As DevComponents.Editors.ComboItem
+    Friend WithEvents Cell1 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell3 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell4 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell5 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell6 As DevComponents.AdvTree.Cell
+    Friend WithEvents SlotStyle As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents Cell7 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell8 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell9 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell10 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell11 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell12 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell13 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell14 As DevComponents.AdvTree.Cell
+    Friend WithEvents Cell15 As DevComponents.AdvTree.Cell
+    Friend WithEvents HeaderStyle As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents SlotTip As DevComponents.DotNetBar.SuperTooltip
+    Friend WithEvents lvwHistory As DevComponents.DotNetBar.Controls.ListViewEx
+    Friend WithEvents colTransaction As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colSlotType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colOldSlotNo As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colOldModName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colOldChargeName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colNewSlotNo As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colNewModName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colNewChargeName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colChargeOnly As System.Windows.Forms.ColumnHeader
+    Friend WithEvents btnUndo As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnRedo As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents pbDroneBay As DevComponents.DotNetBar.Controls.ProgressBarX
+    Friend WithEvents pbCargoBay As DevComponents.DotNetBar.Controls.ProgressBarX
+    Friend WithEvents pbShipBay As DevComponents.DotNetBar.Controls.ProgressBarX
+    Friend WithEvents tcStorage As DevComponents.DotNetBar.TabControl
+    Friend WithEvents tcpCargoBay As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiCargoBay As DevComponents.DotNetBar.TabItem
+    Friend WithEvents tcpDroneBay As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiDroneBay As DevComponents.DotNetBar.TabItem
+    Friend WithEvents tcpRemoteEffects As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiRemoteEffects As DevComponents.DotNetBar.TabItem
+    Friend WithEvents tcpFleetEffects As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiFleetEffects As DevComponents.DotNetBar.TabItem
+    Friend WithEvents tcpBoosters As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiBoosters As DevComponents.DotNetBar.TabItem
+    Friend WithEvents tcpWHEffects As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiWHEffects As DevComponents.DotNetBar.TabItem
+    Friend WithEvents tcpShipBay As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiShipBay As DevComponents.DotNetBar.TabItem
+    Friend WithEvents tcpHistory As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiHistory As DevComponents.DotNetBar.TabItem
+    Friend WithEvents btnMergeCargo As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnMergeDrones As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents cboPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboFitting As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents btnUpdateRemoteEffects As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnAddRemoteFitting As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents cboBoosterSlot2 As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboBoosterSlot3 As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboBoosterSlot1 As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboFCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboWCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboSCShip As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboFCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboWCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboSCPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents btnLeaveFleet As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents cboWHClass As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ComboItem1 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem2 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem3 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem4 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem5 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem6 As DevComponents.Editors.ComboItem
+    Friend WithEvents cboWHEffect As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ComboItem7 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem8 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem9 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem10 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem11 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem12 As DevComponents.Editors.ComboItem
     Friend WithEvents ComboItem13 As DevComponents.Editors.ComboItem
     Friend WithEvents Node2 As DevComponents.AdvTree.Node
+    Friend WithEvents btnBoosterSlot1 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnShowInfo1 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty11 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty21 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty31 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty41 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnRandomPenalty1 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnAlterSkills1 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnRemoveBooster1 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnBoosterSlot3 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnShowInfo3 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty13 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty23 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty33 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty43 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnRandomPenalty3 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnAlterSkills3 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnRemoveBooster3 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnBoosterSlot2 As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents btnShowInfo2 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty12 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty22 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty32 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPenalty42 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnRandomPenalty2 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnAlterSkills2 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnRemoveBooster2 As DevComponents.DotNetBar.ButtonItem
 End Class
