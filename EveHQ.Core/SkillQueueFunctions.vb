@@ -971,7 +971,9 @@ Public Class SkillQueueFunctions
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In cSkill.PreReqSkills.Keys
                 subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call GetSkillPreReqs(qPilot, subSkill, cSkill.PreReqSkills(subSkillID), curNode, strReqs)
+                If subSkill.ID <> cSkill.ID Then
+                    Call GetSkillPreReqs(qPilot, subSkill, cSkill.PreReqSkills(subSkillID), curNode, strReqs)
+                End If
             Next
         End If
         Return strReqs
@@ -1005,7 +1007,9 @@ Public Class SkillQueueFunctions
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newskill.PreReqSkills.Keys
                 subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call GetSkillPreReqs(qPilot, subSkill, newskill.PreReqSkills(subSkillID), curNode, strReqs)
+                If subSkill.ID <> newskill.ID Then
+                    Call GetSkillPreReqs(qPilot, subSkill, newskill.PreReqSkills(subSkillID), curNode, strReqs)
+                End If
             Next
         End If
     End Sub

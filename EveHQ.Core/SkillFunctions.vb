@@ -963,7 +963,9 @@ Public Class SkillFunctions
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In cSkill.PreReqSkills.Keys
                 subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call PreReqTimeBeforeCanTrain(rPilot, subSkill, cSkill.PreReqSkills(subSkillID), skillsNeeded, False)
+                If subSkill.ID <> cSkill.ID Then
+                    Call PreReqTimeBeforeCanTrain(rPilot, subSkill, cSkill.PreReqSkills(subSkillID), skillsNeeded, False)
+                End If
             Next
         End If
     End Sub
