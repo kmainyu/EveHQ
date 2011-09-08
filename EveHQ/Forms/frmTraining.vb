@@ -1790,7 +1790,9 @@ Public Class frmTraining
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
                 subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
+                If subSkill.ID <> newSkill.ID Then
+                    Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
+                End If
             Next
         End If
     End Sub
