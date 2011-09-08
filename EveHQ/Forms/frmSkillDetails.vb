@@ -177,7 +177,9 @@ Public Class frmSkillDetails
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In cSkill.PreReqSkills.Keys
                 subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
+                If subSkill.ID <> cSkill.ID Then
+                    Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
+                End If
             Next
         End If
         tvwReqs.ExpandAll()
@@ -224,7 +226,9 @@ Public Class frmSkillDetails
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
                 subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
+                If subSkill.ID <> newSkill.ID Then
+                    Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
+                End If
             Next
         End If
     End Sub
