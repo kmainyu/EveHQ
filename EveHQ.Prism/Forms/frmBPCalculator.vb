@@ -1443,7 +1443,7 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub SaveCurrentProductionJob()
-        If Me.InitialJob IsNot Nothing Then
+        If Me.InitialJob IsNot Nothing And currentJob IsNot Nothing Then
             ProductionJobs.Jobs(currentJob.JobName) = currentJob.Clone
             Me.ProductionChanged = False
             Me.InitialJob = currentJob.Clone
