@@ -117,7 +117,11 @@ Namespace My
                     e.ExitApplication = True
                 End If
             Catch ex As Exception
-                MessageBox.Show("The Professor is on leave trying to sell his atom of Jumbonium. He will no doubt be back later!", "Farnsworth is busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Dim msg As New System.Text.StringBuilder
+                msg.AppendLine("The Professor is on leave trying to sell his atom of Jumbonium. He will no doubt be back later!")
+                msg.AppendLine("")
+                msg.AppendLine("In the mean time, the following message has been left for him: " & ex.Message)
+                MessageBox.Show(msg.ToString, "Farnsworth is Busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
         End Sub
     End Class
