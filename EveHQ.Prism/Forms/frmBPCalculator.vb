@@ -131,7 +131,9 @@ Public Class frmBPCalculator
         CurrentBP = currentJob.CurrentBP
         StartMode = BPCalcStartMode.ProductionJob
         cBPOwnerName = ExistingJob.BPOwner
-        cOwnedBPID = CStr(CurrentBP.AssetID)
+        If CurrentBP IsNot Nothing Then
+            cOwnedBPID = CStr(CurrentBP.AssetID)
+        End If
         Me.Text = "BPCalc - Production Job: " & currentJob.JobName
 
     End Sub
@@ -226,8 +228,10 @@ Public Class frmBPCalculator
         cboPilot.EndUpdate()
         cboOwner.EndUpdate()
 
-        If cboOwner.Items.Contains(cBPOwnerName) = True Then
-            cboOwner.SelectedItem = cBPOwnerName
+        If cBPOwnerName IsNot Nothing Then
+            If cboOwner.Items.Contains(cBPOwnerName) = True Then
+                cboOwner.SelectedItem = cBPOwnerName
+            End If
         End If
 
         If CType(PPRProduction.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items.ContainsKey(Settings.PrismSettings.DefaultBPCalcAssetOwner) = True Then
@@ -333,14 +337,16 @@ Public Class frmBPCalculator
                     nudPELevel.Value = CInt(currentJob.OverridingPE)
                 End If
 
-                If PlugInData.Blueprints.ContainsKey(CurrentBP.AssetID.ToString) Then
-                    ' This is a standard BP, not an owned one
-                    Call Me.DisplayAllBlueprints()
-                    cboBPs.SelectedItem = PlugInData.Blueprints(CurrentBP.AssetID.ToString).Name
-                Else
-                    ' This is an owned BP
-                    chkOwnedBPOs.Checked = True
-                    cboBPs.SelectedItem = OwnedBP
+                If CurrentBP IsNot Nothing Then
+                    If PlugInData.Blueprints.ContainsKey(CurrentBP.AssetID.ToString) Then
+                        ' This is a standard BP, not an owned one
+                        Call Me.DisplayAllBlueprints()
+                        cboBPs.SelectedItem = PlugInData.Blueprints(CurrentBP.AssetID.ToString).Name
+                    Else
+                        ' This is an owned BP
+                        chkOwnedBPOs.Checked = True
+                        cboBPs.SelectedItem = OwnedBP
+                    End If
                 End If
 
                 nudRuns.Value = currentJob.Runs
