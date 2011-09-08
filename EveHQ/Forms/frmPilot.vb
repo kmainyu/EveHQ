@@ -75,10 +75,12 @@ Public Class frmPilot
 
         ' Select a pilot
         If cDisplayPilotName <> "" Then
-            If cboPilots.Items.Contains(cDisplayPilotName) = True Then
-                cboPilots.SelectedItem = cDisplayPilotName
-            Else
-                cboPilots.SelectedIndex = 0
+            If cboPilots.Items.Count > 0 Then
+                If cboPilots.Items.Contains(cDisplayPilotName) = True Then
+                    cboPilots.SelectedItem = cDisplayPilotName
+                Else
+                    cboPilots.SelectedIndex = 0
+                End If
             End If
         Else
             If oldPilot = "" Then
