@@ -6428,16 +6428,22 @@ Public Class frmPrism
             NewJob.Name = cJob.JobName
             NewJob.Text = cJob.JobName
             NewJob.Cells.Add(New Cell(cJob.TypeName))
-            Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(CStr(cJob.CurrentBP.ProductID))
-            Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
-            Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2)
-            Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(cJob.CurrentBP.ProductID))
-            Dim profit As Double = value - unitcosts
-            Dim rate As Double = profit / ((cJob.RunTime / cJob.Runs) / 3600)
-            Dim margin As Double = (profit / value * 100)
-            NewJob.Cells.Add(New Cell(profit.ToString("N2")))
-            NewJob.Cells.Add(New Cell(rate.ToString("N2")))
-            NewJob.Cells.Add(New Cell(margin.ToString("N2")))
+            If cJob.CurrentBP IsNot Nothing Then
+                Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(CStr(cJob.CurrentBP.ProductID))
+                Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
+                Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2)
+                Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(cJob.CurrentBP.ProductID))
+                Dim profit As Double = value - unitcosts
+                Dim rate As Double = profit / ((cJob.RunTime / cJob.Runs) / 3600)
+                Dim margin As Double = (profit / value * 100)
+                NewJob.Cells.Add(New Cell(profit.ToString("N2")))
+                NewJob.Cells.Add(New Cell(rate.ToString("N2")))
+                NewJob.Cells.Add(New Cell(margin.ToString("N2")))
+            Else
+                NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                NewJob.Cells.Add(New Cell(0.ToString("N2")))
+            End If
             adtProdJobs.Nodes.Add(NewJob)
         Next
         EveHQ.Core.AdvTreeSorter.Sort(adtProdJobs, 1, True, True)
