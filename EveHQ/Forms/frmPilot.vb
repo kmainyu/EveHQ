@@ -364,6 +364,11 @@ Public Class frmPilot
                 If EveSkillsQueued.ContainsKey(cSkill.ID) Then
                     If EveSkillsQueued(cSkill.ID) > cSkill.Level Then
                         newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & EveSkillsQueued(cSkill.ID).ToString & "0"), Image)
+                        If groupCLV.Cells(2).Tag IsNot Nothing Then
+                            groupCLV.Cells(2).Tag = CInt(groupCLV.Cells(2).Tag) + 1
+                        Else
+                            groupCLV.Cells(2).Tag = 1
+                        End If
                     Else
                         newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & "00"), Image)
                     End If
@@ -403,7 +408,12 @@ Public Class frmPilot
                             'newLine.Group = lvSkills.Groups.Item(skillGroup)
                             groupHeaders(skillGroup, 2) = CStr(CDbl(groupHeaders(skillGroup, 2)) + cSkill.SP)
                             groupHeaders(skillGroup, 3) = CStr(CDbl(groupHeaders(skillGroup, 3)) + 1)
-                            groupCLV.Text = groupHeaders(skillGroup, 0) & " (" & groupHeaders(skillGroup, 3) & " skills)"
+                            groupCLV.Text = groupHeaders(skillGroup, 0) & " - skills: " & groupHeaders(skillGroup, 3)
+                            If groupCLV.Cells(2).Tag IsNot Nothing Then
+                                If CInt(groupCLV.Cells(2).Tag) > 0 Then
+                                    groupCLV.Text &= "<font color=""#0085AB"">  (" & groupCLV.Cells(2).TagString & " in queue)</font>"
+                                End If
+                            End If
                             groupCLV.Tag = groupCLV.Text
                             groupCLV.Cells(4).Text = FormatNumber(groupHeaders(skillGroup, 2), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
                             groupCLV.Cells(4).Tag = groupHeaders(skillGroup, 2)
