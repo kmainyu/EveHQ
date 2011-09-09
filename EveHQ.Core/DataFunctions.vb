@@ -1630,7 +1630,7 @@ Public Class DataFunctions
         End If
     End Sub
 
-    Public Shared Sub WriteMailingListIDsToDatabase(ByVal mPilot As EveHQ.Core.Pilot)
+    Public Shared Function WriteMailingListIDsToDatabase(ByVal mPilot As EveHQ.Core.Pilot) As SortedList(Of Long, String)
         Dim accountName As String = mPilot.Account
         Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
         ' Send this to the API
@@ -1664,7 +1664,8 @@ Public Class DataFunctions
                 'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Next
-    End Sub
+        Return FinalIDs
+    End Function
 
     Public Shared Function CheckDatabaseConnection(ByVal silentResponse As Boolean) As Boolean
         Dim strConnection As String = ""

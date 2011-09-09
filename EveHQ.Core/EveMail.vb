@@ -58,6 +58,7 @@ Public Class EveMail
         ' Add to the auto timer
         EveHQ.Core.HQ.NextAutoMailAPITime = Now.AddMinutes(30)
         Dim Mails As New SortedList(Of String, EveHQ.Core.EveMailMessage)
+        Dim MailingListIDs As New SortedList(Of Long, String)
         For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             ' Stage 1: Download the latest EveMail API using the standard API method
             If mPilot.Active = True Then
@@ -66,7 +67,7 @@ Public Class EveMail
                     Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
                     ' Add in the data for mailing lists
                     RaiseEvent MailProgress("Processing Mailing Lists for " & mPilot.Name & "...")
-                    Call EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
+                    MailingListIDs = EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
                     ' Make a call to the EveHQ.Core.API to fetch the EveMail
                     RaiseEvent MailProgress("Fetching EveMails for " & mPilot.Name & "...")
                     Dim mailXML As New XmlDocument
@@ -213,7 +214,13 @@ Public Class EveMail
 			EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCharacterIDs)
 			' Get Corp/Alliance IDs
 			EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCorpAllianceIDs)
-		Next
+        Next
+        ' Remove any mailing list IDs
+        For Each MailingListID As Long In MailingListIDs.Keys
+            If IDs.Contains(MailingListID.ToString) = True Then
+                IDs.Remove(MailingListID.ToString)
+            End If
+        Next
 		Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
 
 		' Add in the Mailing List IDs

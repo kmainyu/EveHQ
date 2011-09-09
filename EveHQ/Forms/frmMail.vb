@@ -176,6 +176,21 @@ Public Class frmMail
 	Private Sub btnGetEveIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetEveIDs.Click
         ' Fetch all the emails in the database
         Try
+            Dim MailingListIDs As New SortedList(Of Long, String)
+            For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                ' Stage 1: Download the latest EveMail API using the standard API method
+                Dim NewMailingListIDs As New SortedList(Of Long, String)
+                If mPilot.Active = True Then
+                    NewMailingListIDs = EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
+                End If
+                If NewMailingListIDs.Count > 0 Then
+                    For Each ID As Long In NewMailingListIDs.Keys
+                        If MailingListIDs.ContainsKey(ID) = False Then
+                            MailingListIDs.Add(ID, NewMailingListIDs(ID))
+                        End If
+                    Next
+                End If
+            Next
             Dim strSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
             Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
             If mailData IsNot Nothing Then
@@ -188,6 +203,12 @@ Public Class frmMail
                         EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(MailRow.Item("toCharacterIDs")))
                         ' Get Corp/Alliance IDs
                         EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(MailRow.Item("toCorpOrAllianceID")))
+                    Next
+                    ' Remove any mailing list IDs
+                    For Each MailingListID As Long In MailingListIDs.Keys
+                        If IDs.Contains(MailingListID.ToString) = True Then
+                            IDs.Remove(MailingListID.ToString)
+                        End If
                     Next
                     Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
                 End If
