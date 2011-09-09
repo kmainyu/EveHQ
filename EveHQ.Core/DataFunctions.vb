@@ -275,6 +275,8 @@ Public Class DataFunctions
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
+                    EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
+                    EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
                     Return False
                 Finally
                     If conn.State = ConnectionState.Open Then
@@ -292,6 +294,8 @@ Public Class DataFunctions
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
+                    EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
+                    EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
                     Return False
                 Finally
                     If conn.State = ConnectionState.Open Then
@@ -1558,7 +1562,11 @@ Public Class DataFunctions
                 Next
                 strID.Remove(0, 1)
 
+                ' Write to log file about ID request
+                EveHQ.Core.HQ.WriteLogEvent("***** Start: Request Eve IDs From API *****")
+
                 ' Send this to the API
+                EveHQ.Core.HQ.WriteLogEvent("Requesting ID List: " & strID.ToString)
                 Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                 Dim IDXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.IDToName, strID.ToString, EveAPI.APIReturnMethods.ReturnActual)
                 ' Parse this XML
@@ -1570,6 +1578,7 @@ Public Class DataFunctions
                 If IDXML IsNot Nothing Then
                     IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
                     If IDList.Count > 0 Then
+                        EveHQ.Core.HQ.WriteLogEvent("Parsing " & IDList.Count.ToString & " IDs in the XML file")
                         For Each IDNode In IDList
                             eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
                             eveName = IDNode.Attributes.GetNamedItem("name").Value
@@ -1577,8 +1586,13 @@ Public Class DataFunctions
                                 FinalIDs.Add(eveID, eveName)
                             End If
                         Next
+                    Else
+                        If APIReq.LastAPIError = 130 Then
+                            EveHQ.Core.HQ.WriteLogEvent("Error 130 returned by the API!")
+                        End If
                     End If
                     ' Get a list of everything we already have
+                    EveHQ.Core.HQ.WriteLogEvent("Querying existing IDToName data")
                     Dim ExistingIDs As New List(Of String)
                     Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
                     Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
@@ -1590,6 +1604,7 @@ Public Class DataFunctions
                         End If
                     End If
                     ' Add all the data to the database
+                    EveHQ.Core.HQ.WriteLogEvent("Creating SQL Query for IDToName data")
                     Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
                     For Each eveID In FinalIDs.Keys
                         If ExistingIDs.Contains(eveID.ToString) = False Then
@@ -1598,12 +1613,19 @@ Public Class DataFunctions
                             uSQL.Append(strIDInsert)
                             uSQL.Append("(" & eveID & ", ")
                             uSQL.Append("'" & eveName.Replace("'", "''") & "');")
+                            EveHQ.Core.HQ.WriteLogEvent("Writing IDToName data to database")
                             If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                                'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
                             End If
                         End If
                     Next
+                Else
+                    EveHQ.Core.HQ.WriteLogEvent("ID XML returned nothing from the API")
                 End If
+
+                ' Write to log file about ID request
+                EveHQ.Core.HQ.WriteLogEvent("***** End: Request Eve IDs From API *****")
+
             Loop Until MainIDList.Count = 0
         End If
     End Sub
