@@ -820,6 +820,27 @@
     <None Include="Resources\icon22_29.png" />
     <None Include="Resources\LoadRSS2.gif" />
     <None Include="Resources\LoadRSS.gif" />
+    <None Include="Resources\level_450.gif" />
+    <None Include="Resources\level_350.gif" />
+    <None Include="Resources\level_340.gif" />
+    <None Include="Resources\level_250.gif" />
+    <None Include="Resources\level_240.gif" />
+    <None Include="Resources\level_230.gif" />
+    <None Include="Resources\level_150.gif" />
+    <None Include="Resources\level_140.gif" />
+    <None Include="Resources\level_130.gif" />
+    <None Include="Resources\level_120.gif" />
+    <None Include="Resources\level_050.gif" />
+    <None Include="Resources\level_040.gif" />
+    <None Include="Resources\level_030.gif" />
+    <None Include="Resources\level_020.gif" />
+    <None Include="Resources\level_010.gif" />
+    <None Include="Resources\level_500.gif" />
+    <None Include="Resources\level_400.gif" />
+    <None Include="Resources\level_300.gif" />
+    <None Include="Resources\level_200.gif" />
+    <None Include="Resources\level_100.gif" />
+    <None Include="Resources\level_000.gif" />
     <Content Include="v2.txt" />
     <Content Include="_message.xml">
       <SubType>Designer</SubType>

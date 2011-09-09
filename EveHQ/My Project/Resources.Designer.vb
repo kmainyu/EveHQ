@@ -210,12 +210,13 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;
         '''&lt;eveapi version=&quot;2&quot;&gt;
+        '''  &lt;currentTime&gt;2011-08-13 18:37:28&lt;/currentTime&gt;
         '''  &lt;result&gt;
         '''    &lt;rowset name=&quot;errors&quot; key=&quot;errorCode&quot; columns=&quot;errorCode,errorText&quot;&gt;
         '''      &lt;row errorCode=&quot;100&quot; errorText=&quot;Expected before ref/trans ID = 0: wallet not previously loaded.&quot; /&gt;
         '''      &lt;row errorCode=&quot;101&quot; errorText=&quot;Wallet exhausted: retry after {0}.&quot; /&gt;
         '''      &lt;row errorCode=&quot;102&quot; errorText=&quot;Expected before ref/trans ID [{0}] but supplied [{1}]: wallet previously loaded.&quot; /&gt;
-        '''      &lt;row errorCode=&quot;103&quot; errorText=&quot;Already returned  [rest of string was truncated]&quot;;.
+        '''      [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property Errors() As String
             Get
@@ -373,6 +374,153 @@ Namespace My.Resources
         Friend ReadOnly Property Ki_NunniBlood() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Ki_NunniBlood", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_000() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_000", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_010() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_010", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_020() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_020", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_030() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_030", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_040() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_040", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_050() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_050", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_100() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_100", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_120() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_120", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_130() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_130", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_140() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_140", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_150() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_150", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_200() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_200", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_230() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_230", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_240() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_240", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_250() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_250", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_300() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_300", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_340() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_340", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_350() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_350", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_400() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_400", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_450() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_450", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property level_500() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("level_500", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
