@@ -331,6 +331,18 @@ Public Class frmPilot
             Next
         End If
 
+        ' Parse in-game skill queue
+        Dim EveSkillsQueued As New SortedList(Of String, Integer)
+        For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In displayPilot.QueuedSkills.Values
+            If EveSkillsQueued.ContainsKey(QueuedSkill.SkillID.ToString) = False Then
+                EveSkillsQueued.Add(QueuedSkill.SkillID.ToString, QueuedSkill.Level)
+            Else
+                If QueuedSkill.Level > EveSkillsQueued(QueuedSkill.SkillID.ToString) Then
+                    EveSkillsQueued(QueuedSkill.SkillID.ToString) = QueuedSkill.Level
+                End If
+            End If
+        Next
+
         ' Set up items
         For Each cSkill As EveHQ.Core.PilotSkill In displayPilot.PilotSkills
             Try
@@ -348,12 +360,16 @@ Public Class frmPilot
                 newCLVItem.Cells.Add(New Cell(cSkill.Rank.ToString))
                 newCLVItem.Cells(1).Tag = cSkill.Rank
 
-                Dim pb As New PictureBox
-                pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & cSkill.Level.ToString), Image)
-                pb.Width = 48 : pb.Height = 8
                 newCLVItem.Cells.Add(New Cell)
-                newCLVItem.Cells(2).HostedControl = pb
-                newCLVItem.Cells(2).HostedControl.BackColor = Color.Transparent
+                If EveSkillsQueued.ContainsKey(cSkill.ID) Then
+                    If EveSkillsQueued(cSkill.ID) > cSkill.Level Then
+                        newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & EveSkillsQueued(cSkill.ID).ToString & "0"), Image)
+                    Else
+                        newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & "00"), Image)
+                    End If
+                Else
+                    newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & "00"), Image)
+                End If
                 newCLVItem.Cells(2).Tag = cSkill.Level
 
                 Dim percent As Double
@@ -402,7 +418,6 @@ Public Class frmPilot
                 If displayPilot.TrainingSkillID = cSkill.ID Then
                     TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                     currentTime = displayPilot.TrainingCurrentTime
-                    pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & (cSkill.Level + 1).ToString & "_act"), Image)
                     TrainingSkill = newCLVItem
                     TrainingGroup = groupCLV
                 Else
@@ -594,7 +609,7 @@ Public Class frmPilot
                     TrainingSkill.Cells(4).Tag = cSkill.SP
                     TrainingSkill.Cells(5).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                     TrainingSkill.Cells(5).Tag = displayPilot.TrainingCurrentTime
-                    TrainingSkill.Cells(2).HostedControl.Refresh()
+                    'TrainingSkill.Cells(2).HostedControl.Refresh()
                     If chkGroupSkills.Checked = True Then
                         TrainingGroup.Cells(4).Text = "<font color=""#FFD700"">" & (CLng(TrainingGroup.Cells(4).Tag) + displayPilot.TrainingCurrentSP).ToString("N0") & "</font>"
                         TrainingGroup.Text = TrainingGroup.Tag.ToString & "<font color=""#FFD700"">  - Training</font>"
