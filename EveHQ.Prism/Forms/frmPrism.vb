@@ -3868,7 +3868,7 @@ Public Class frmPrism
         Dim strSQL As String = "SELECT * FROM walletJournal"
         strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = STR(walletTransactions.transRef)"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -3911,7 +3911,7 @@ Public Class frmPrism
         Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletJournal"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -4173,7 +4173,7 @@ Public Class frmPrism
         ' Step 4: Delete existing transactions
         Dim strSQL As String = "DELETE FROM walletJournal"
         strSQL &= " WHERE (walletJournal.walletID = " & WalletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & StartDate.ToString(IndustryTimeFormat) & "' AND walletJournal.transDate < '" & EndDate.ToString(IndustryTimeFormat) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & StartDate.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate < '" & EndDate.ToString(IndustryTimeFormat, culture) & "'"
         strSQL &= " AND walletJournal.charName IN ('" & OwnerName.Replace("'", "''") & "')"
         Try
             EveHQ.Core.DataFunctions.SetData(strSQL)
@@ -4225,7 +4225,7 @@ Public Class frmPrism
         Dim walletID As String = (1000 + cboWalletTransDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletTransactions"
         strSQL &= " WHERE (walletTransactions.walletID = " & walletID & ")"
-        strSQL &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(IndustryTimeFormat) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(IndustryTimeFormat) & "'"
+        strSQL &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then

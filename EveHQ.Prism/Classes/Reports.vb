@@ -87,7 +87,7 @@ Public Class Reports
     Public Shared Function GetJournalReportData(StartDate As Date, EndDate As Date, OwnerNames As List(Of String)) As DataSet
 
         Dim strSQL As String = "SELECT * FROM walletJournal"
-        strSQL &= " WHERE walletJournal.transDate >= '" & StartDate.ToString(IndustryTimeFormat) & "' AND walletJournal.transDate < '" & EndDate.ToString(IndustryTimeFormat) & "'"
+        strSQL &= " WHERE walletJournal.transDate >= '" & StartDate.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate < '" & EndDate.ToString(IndustryTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If OwnerNames.Count > 0 Then
@@ -466,7 +466,7 @@ Public Class Reports
     Public Shared Function GetTransactionReportData(StartDate As Date, EndDate As Date, OwnerNames As List(Of String)) As DataSet
 
         Dim strSQL As String = "SELECT * FROM walletTransactions"
-        strSQL &= " WHERE walletTransactions.transDate >= '" & StartDate.ToString(IndustryTimeFormat) & "' AND walletTransactions.transDate < '" & EndDate.ToString(IndustryTimeFormat) & "'"
+        strSQL &= " WHERE walletTransactions.transDate >= '" & StartDate.ToString(IndustryTimeFormat, culture) & "' AND walletTransactions.transDate < '" & EndDate.ToString(IndustryTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If OwnerNames.Count > 0 Then
