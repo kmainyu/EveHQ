@@ -422,7 +422,8 @@ Public Class frmPilot
                         'newCLVItem.Font = lvFont
                         newCLVItem.Style = TrainingSkillStyle
                         If chkGroupSkills.Checked = True Then
-                            groupCLV.Text = groupCLV.Tag.ToString & "  - Training"
+                            groupCLV.Text = groupCLV.Tag.ToString & "<font color=""#FFD700"">  - Training</font>"
+                            groupCLV.Cells(4).Text = "<font color=""#FFD700"">" & groupCLV.Cells(4).Text & "</font>"
                             'groupCLV.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
                         End If
                     Else
@@ -455,8 +456,8 @@ Public Class frmPilot
         adtSkills.EndUpdate()
         If chkGroupSkills.Checked = True Then
             If TrainingGroup IsNot Nothing Then
-                TrainingGroup.Cells(4).Text = FormatNumber(CLng(TrainingGroup.Cells(4).Tag) + displayPilot.TrainingCurrentSP, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                TrainingGroup.Text = TrainingGroup.Tag.ToString & "  - Training"
+                TrainingGroup.Cells(4).Text = "<font color=""#FFD700"">" & (CLng(TrainingGroup.Cells(4).Tag) + displayPilot.TrainingCurrentSP).ToString("N0") & "</font>"
+                TrainingGroup.Text = TrainingGroup.Tag.ToString & "<font color=""#FFD700"">  - Training</font>"
                 'TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
             End If
         End If
@@ -595,8 +596,8 @@ Public Class frmPilot
                     TrainingSkill.Cells(5).Tag = displayPilot.TrainingCurrentTime
                     TrainingSkill.Cells(2).HostedControl.Refresh()
                     If chkGroupSkills.Checked = True Then
-                        TrainingGroup.Cells(4).Text = FormatNumber(CLng(TrainingGroup.Cells(4).Tag) + displayPilot.TrainingCurrentSP, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                        TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
+                        TrainingGroup.Cells(4).Text = "<font color=""#FFD700"">" & (CLng(TrainingGroup.Cells(4).Tag) + displayPilot.TrainingCurrentSP).ToString("N0") & "</font>"
+                        TrainingGroup.Text = TrainingGroup.Tag.ToString & "<font color=""#FFD700"">  - Training</font>"
                         'TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
                     End If
                     Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.TrainingEndTime)
