@@ -1556,71 +1556,101 @@ Public Class DataFunctions
                     MainIDList.RemoveAt(0)
                 Next
 
+                ' Write to log file about ID request
+                EveHQ.Core.HQ.WriteLogEvent("***** Start: Request Eve IDs From API *****")
+
+                EveHQ.Core.HQ.WriteLogEvent("Building Required ID List")
                 Dim strID As New StringBuilder
                 For Each ID As String In ReqIDList
                     strID.Append("," & ID)
                 Next
                 strID.Remove(0, 1)
+                EveHQ.Core.HQ.WriteLogEvent("Finishing building list of " & ReqIDList.Count.ToString & " IDs")
 
-                ' Write to log file about ID request
-                EveHQ.Core.HQ.WriteLogEvent("***** Start: Request Eve IDs From API *****")
+                ' Get a list of everything we already have
+                EveHQ.Core.HQ.WriteLogEvent("Querying existing IDToName data")
+                Dim ExistingIDs As New List(Of String)
+                Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
+                Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                If IDData IsNot Nothing Then
+                    If IDData.Tables(0).Rows.Count > 0 Then
+                        For Each IDRow As DataRow In IDData.Tables(0).Rows
+                            ExistingIDs.Add(CStr(IDRow.Item("eveID")))
+                        Next
+                    End If
+                End If
 
-                ' Send this to the API
-                EveHQ.Core.HQ.WriteLogEvent("Requesting ID List: " & strID.ToString)
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                Dim IDXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.IDToName, strID.ToString, EveAPI.APIReturnMethods.ReturnActual)
-                ' Parse this XML
-                Dim FinalIDs As New SortedList(Of Long, String)
-                Dim IDList As XmlNodeList
-                Dim IDNode As XmlNode
-                Dim eveID As Long = 0
-                Dim eveName As String = ""
-                If IDXML IsNot Nothing Then
-                    IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
-                    If IDList.Count > 0 Then
-                        EveHQ.Core.HQ.WriteLogEvent("Parsing " & IDList.Count.ToString & " IDs in the XML file")
-                        For Each IDNode In IDList
-                            eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
-                            eveName = IDNode.Attributes.GetNamedItem("name").Value
-                            If FinalIDs.ContainsKey(eveID) = False Then
-                                FinalIDs.Add(eveID, eveName)
+                EveHQ.Core.HQ.WriteLogEvent("Removing existing IDs from the list")
+                ' Remove existing IDs from the parsed list
+                Dim RemoveCount As Integer = 0
+                For Each existingID As String In ExistingIDs
+                    If ReqIDList.Contains(existingID) Then
+                        ReqIDList.Remove(existingID)
+                        RemoveCount += 1
+                    End If
+                Next
+                EveHQ.Core.HQ.WriteLogEvent("Finished Removing " & RemoveCount.ToString & " existing IDs from the list")
+
+                If ReqIDList.Count > 0 Then
+
+                    EveHQ.Core.HQ.WriteLogEvent("Rebuilding Required ID List for sending to the API")
+                    strID = New StringBuilder
+                    For Each ID As String In ReqIDList
+                        strID.Append("," & ID)
+                    Next
+                    If strID.Length > 1 Then
+                        strID.Remove(0, 1)
+                    End If
+                    EveHQ.Core.HQ.WriteLogEvent("Finishing building list of " & ReqIDList.Count.ToString & " IDs for the API")
+
+                    ' Send this to the API if we have something!
+                    EveHQ.Core.HQ.WriteLogEvent("Requesting ID List From the API: " & strID.ToString)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim IDXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.IDToName, strID.ToString, EveAPI.APIReturnMethods.ReturnActual)
+                    ' Parse this XML
+                    Dim FinalIDs As New SortedList(Of Long, String)
+                    Dim IDList As XmlNodeList
+                    Dim IDNode As XmlNode
+                    Dim eveID As Long = 0
+                    Dim eveName As String = ""
+                    If IDXML IsNot Nothing Then
+                        IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
+                        If IDList.Count > 0 Then
+                            EveHQ.Core.HQ.WriteLogEvent("Parsing " & IDList.Count.ToString & " IDs in the XML file")
+                            For Each IDNode In IDList
+                                eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
+                                eveName = IDNode.Attributes.GetNamedItem("name").Value
+                                If FinalIDs.ContainsKey(eveID) = False Then
+                                    FinalIDs.Add(eveID, eveName)
+                                End If
+                            Next
+                        Else
+                            If APIReq.LastAPIError > 0 Then
+                                EveHQ.Core.HQ.WriteLogEvent("Error " & APIReq.LastAPIError.ToString & " returned by the API!")
+                            End If
+                        End If
+
+                        ' Add all the data to the database
+                        EveHQ.Core.HQ.WriteLogEvent("Creating SQL Query for IDToName data")
+                        Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
+                        For Each eveID In FinalIDs.Keys
+                            If ExistingIDs.Contains(eveID.ToString) = False Then
+                                eveName = FinalIDs(eveID)
+                                Dim uSQL As New StringBuilder
+                                uSQL.Append(strIDInsert)
+                                uSQL.Append("(" & eveID & ", ")
+                                uSQL.Append("'" & eveName.Replace("'", "''") & "');")
+                                EveHQ.Core.HQ.WriteLogEvent("Writing IDToName data to database")
+                                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                                    'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
+                                End If
                             End If
                         Next
                     Else
-                        If APIReq.LastAPIError = 130 Then
-                            EveHQ.Core.HQ.WriteLogEvent("Error 130 returned by the API!")
-                        End If
+                        EveHQ.Core.HQ.WriteLogEvent("ID XML returned nothing from the API")
                     End If
-                    ' Get a list of everything we already have
-                    EveHQ.Core.HQ.WriteLogEvent("Querying existing IDToName data")
-                    Dim ExistingIDs As New List(Of String)
-                    Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-                    Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-                    If IDData IsNot Nothing Then
-                        If IDData.Tables(0).Rows.Count > 0 Then
-                            For Each IDRow As DataRow In IDData.Tables(0).Rows
-                                ExistingIDs.Add(CStr(IDRow.Item("eveID")))
-                            Next
-                        End If
-                    End If
-                    ' Add all the data to the database
-                    EveHQ.Core.HQ.WriteLogEvent("Creating SQL Query for IDToName data")
-                    Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
-                    For Each eveID In FinalIDs.Keys
-                        If ExistingIDs.Contains(eveID.ToString) = False Then
-                            eveName = FinalIDs(eveID)
-                            Dim uSQL As New StringBuilder
-                            uSQL.Append(strIDInsert)
-                            uSQL.Append("(" & eveID & ", ")
-                            uSQL.Append("'" & eveName.Replace("'", "''") & "');")
-                            EveHQ.Core.HQ.WriteLogEvent("Writing IDToName data to database")
-                            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                                'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
-                            End If
-                        End If
-                    Next
                 Else
-                    EveHQ.Core.HQ.WriteLogEvent("ID XML returned nothing from the API")
+                    EveHQ.Core.HQ.WriteLogEvent("All IDs present in the database, no request required to the API")
                 End If
 
                 ' Write to log file about ID request
@@ -1631,39 +1661,41 @@ Public Class DataFunctions
     End Sub
 
     Public Shared Function WriteMailingListIDsToDatabase(ByVal mPilot As EveHQ.Core.Pilot) As SortedList(Of Long, String)
-        Dim accountName As String = mPilot.Account
-        Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-        ' Send this to the API
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        Dim IDXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.MailingLists, mAccount.ToAPIAccount, mPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
-        ' Parse this XML
         Dim FinalIDs As New SortedList(Of Long, String)
-        Dim IDList As XmlNodeList
-        Dim IDNode As XmlNode
-        Dim eveID As Long = 0
-        Dim eveName As String = ""
-        IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
-        If IDList.Count > 0 Then
-            For Each IDNode In IDList
-                eveID = CLng(IDNode.Attributes.GetNamedItem("listID").Value)
-                eveName = IDNode.Attributes.GetNamedItem("displayName").Value
-                If FinalIDs.ContainsKey(eveID) = False Then
-                    FinalIDs.Add(eveID, eveName)
+        Dim accountName As String = mPilot.Account
+        If accountName <> "" Then
+            Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            ' Send this to the API
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim IDXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.MailingLists, mAccount.ToAPIAccount, mPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
+            ' Parse this XML
+            Dim IDList As XmlNodeList
+            Dim IDNode As XmlNode
+            Dim eveID As Long = 0
+            Dim eveName As String = ""
+            IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
+            If IDList.Count > 0 Then
+                For Each IDNode In IDList
+                    eveID = CLng(IDNode.Attributes.GetNamedItem("listID").Value)
+                    eveName = IDNode.Attributes.GetNamedItem("displayName").Value
+                    If FinalIDs.ContainsKey(eveID) = False Then
+                        FinalIDs.Add(eveID, eveName)
+                    End If
+                Next
+            End If
+            ' Add all the data to the database
+            Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
+            For Each eveID In FinalIDs.Keys
+                eveName = FinalIDs(eveID)
+                Dim uSQL As New StringBuilder
+                uSQL.Append(strIDInsert)
+                uSQL.Append("(" & eveID & ", ")
+                uSQL.Append("'" & eveName & "');")
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                    'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             Next
         End If
-        ' Add all the data to the database
-        Dim strIDInsert As String = "INSERT INTO eveIDToName (eveID, eveName) VALUES "
-        For Each eveID In FinalIDs.Keys
-            eveName = FinalIDs(eveID)
-            Dim uSQL As New StringBuilder
-            uSQL.Append(strIDInsert)
-            uSQL.Append("(" & eveID & ", ")
-            uSQL.Append("'" & eveName & "');")
-            If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
-                'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End If
-        Next
         Return FinalIDs
     End Function
 
