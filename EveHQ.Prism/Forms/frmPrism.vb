@@ -4194,6 +4194,11 @@ Public Class frmPrism
 
     End Sub
 
+    Private Sub adtJournal_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtJournal.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
+    End Sub
+
 #End Region
 
 #Region "Wallet Transaction Routines"
