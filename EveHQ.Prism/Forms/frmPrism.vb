@@ -4436,6 +4436,11 @@ Public Class frmPrism
         dtiTransEndDate.Value = Now
     End Sub
 
+    Private Sub adtTransactions_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
+    End Sub
+
 #End Region
 
 #Region "Industry Jobs Routines"
