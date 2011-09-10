@@ -148,10 +148,10 @@ Public Class AdvTreeSortComparer
         Dim TempDate As Date = Now
 
         If sorttag = False Then
-            If Double.TryParse(CType(x, Node).Cells(col).Text, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Text, TempDbl) Then
+            If Double.TryParse(CType(x, Node).Cells(col).Text, Globalization.NumberStyles.Any, Nothing, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Text, Globalization.NumberStyles.Any, Nothing, TempDbl) Then
                 'Parse the two objects passed as a parameter as a Double
-                DoubleX = CDbl((CType(x, Node).Cells(col).Text))
-                DoubleY = CDbl((CType(y, Node).Cells(col).Text))
+                DoubleX = Double.Parse((CType(x, Node).Cells(col).Text), Globalization.NumberStyles.Any)
+                DoubleY = Double.Parse((CType(y, Node).Cells(col).Text), Globalization.NumberStyles.Any)
                 'Compare the two numbers
                 returnVal = DoubleX.CompareTo(DoubleY)
             ElseIf IsDate(CType(x, Node).Cells(col).Text) And IsDate(CType(y, Node).Cells(col).Text) Then
@@ -164,10 +164,10 @@ Public Class AdvTreeSortComparer
                 returnVal = CType(x, Node).Cells(col).Text.CompareTo(CType(y, Node).Cells(col).Text)
             End If
         Else
-            If Double.TryParse(CType(x, Node).Cells(col).Tag.ToString, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Tag.ToString, TempDbl) Then
+            If Double.TryParse(CType(x, Node).Cells(col).Tag.ToString, Globalization.NumberStyles.Any, Nothing, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Tag.ToString, Globalization.NumberStyles.Any, Nothing, TempDbl) Then
                 'Parse the two objects passed as a parameter as a Double
-                DoubleX = CDbl((CType(x, Node).Cells(col).Tag))
-                DoubleY = CDbl((CType(y, Node).Cells(col).Tag))
+                DoubleX = Double.Parse((CType(x, Node).Cells(col).Tag.ToString), Globalization.NumberStyles.Any)
+                DoubleY = Double.Parse((CType(y, Node).Cells(col).Tag.ToString), Globalization.NumberStyles.Any)
                 'Compare the two numbers
                 returnVal = DoubleX.CompareTo(DoubleY)
             ElseIf IsDate(CType(x, Node).Cells(col).Tag) And IsDate(CType(y, Node).Cells(col).Tag) Then
