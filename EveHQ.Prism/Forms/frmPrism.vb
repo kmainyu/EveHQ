@@ -4657,9 +4657,11 @@ Public Class frmPrism
                         If C.Items.Count > 0 Then
                             Dim ItemCH As New DevComponents.AdvTree.ColumnHeader("Item Name")
                             ItemCH.Width.Absolute = 300
+                            ItemCH.DisplayIndex = 1
                             NewContract.NodesColumns.Add(ItemCH)
                             Dim QtyCH As New DevComponents.AdvTree.ColumnHeader("Quantity")
                             QtyCH.Width.Absolute = 100
+                            QtyCH.DisplayIndex = 2
                             NewContract.NodesColumns.Add(QtyCH)
                             For Each TypeID As String In C.Items.Keys
                                 Dim ItemNode As New Node
@@ -4694,8 +4696,14 @@ Public Class frmPrism
 
         End If
 
+        EveHQ.Core.AdvTreeSorter.Sort(adtContracts, 1, True, False)
         adtContracts.EndUpdate()
 
+    End Sub
+
+    Private Sub adtContracts_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtContracts.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
 
 #End Region

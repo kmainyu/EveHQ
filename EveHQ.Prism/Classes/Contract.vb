@@ -126,11 +126,11 @@ Public Class Contracts
                         NewContract.DateAccepted = Contract.Attributes.GetNamedItem("dateAccepted").Value
                         NewContract.NumDays = CInt(Contract.Attributes.GetNamedItem("numDays").Value)
                         NewContract.DateCompleted = Contract.Attributes.GetNamedItem("dateCompleted").Value
-                        NewContract.Price = Double.Parse(Contract.Attributes.GetNamedItem("price").Value, culture)
-                        NewContract.Reward = Double.Parse(Contract.Attributes.GetNamedItem("reward").Value, culture)
-                        NewContract.Collateral = Double.Parse(Contract.Attributes.GetNamedItem("collateral").Value, culture)
-                        NewContract.Buyout = Double.Parse(Contract.Attributes.GetNamedItem("buyout").Value, culture)
-                        NewContract.Volume = Double.Parse(Contract.Attributes.GetNamedItem("volume").Value, culture)
+                        NewContract.Price = Double.Parse(Contract.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
+                        NewContract.Reward = Double.Parse(Contract.Attributes.GetNamedItem("reward").Value, Globalization.NumberStyles.Any, culture)
+                        NewContract.Collateral = Double.Parse(Contract.Attributes.GetNamedItem("collateral").Value, Globalization.NumberStyles.Any, culture)
+                        NewContract.Buyout = Double.Parse(Contract.Attributes.GetNamedItem("buyout").Value, Globalization.NumberStyles.Any, culture)
+                        NewContract.Volume = Double.Parse(Contract.Attributes.GetNamedItem("volume").Value, Globalization.NumberStyles.Any, culture)
 
                         ' Check for items
                         If Owner.IsCorp = True Then
