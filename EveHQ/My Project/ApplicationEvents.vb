@@ -118,7 +118,7 @@ Namespace My
                 End If
             Catch ex As Exception
                 Dim msg As New System.Text.StringBuilder
-                msg.AppendLine("This would normally be the Professor message! Hopefully it's been copied to the clipboard but you may need to provide this message in a screenshot.")
+                msg.AppendLine("A critical error has occurred which has prevented the UI from displaying! The following message should have been copied to the clipboard but you may need to provide this message in a screenshot for any bug report.")
                 msg.AppendLine("")
                 msg.AppendLine("Original Error: " & e.Exception.Message)
                 msg.AppendLine("")
