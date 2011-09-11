@@ -118,9 +118,24 @@ Namespace My
                 End If
             Catch ex As Exception
                 Dim msg As New System.Text.StringBuilder
-                msg.AppendLine("The Professor is on leave trying to sell his atom of Jumbonium. He will no doubt be back later!")
+                msg.AppendLine("This would normally be the Professor message! Hopefully it's been copied to the clipboard but you may need to provide this message in a screenshot.")
                 msg.AppendLine("")
-                msg.AppendLine("In the mean time, the following message has been left for him: " & ex.Message)
+                msg.AppendLine("Original Error: " & e.Exception.Message)
+                msg.AppendLine("")
+                msg.AppendLine("Original Stacktrace: " & e.Exception.StackTrace)
+                msg.AppendLine("")
+                msg.AppendLine("Error Form Error: " & ex.Message)
+                msg.AppendLine("")
+                msg.AppendLine("Error Form Stacktrace: " & ex.StackTrace)
+                msg.AppendLine("")
+                If ex.InnerException IsNot Nothing Then
+                    msg.AppendLine("Error Form Inner Exception: " & ex.InnerException.Message)
+                End If
+                Try
+                    Clipboard.SetText(msg.ToString)
+                Catch ex2 As Exception
+                    ' do nothing
+                End Try
                 MessageBox.Show(msg.ToString, "Farnsworth is Busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
         End Sub

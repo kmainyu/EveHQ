@@ -239,9 +239,13 @@ Public Class ShipInfoControl
         lblCapacitor.Text = FormatNumber(ParentFitting.FittedShip.CapCapacity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " GJ"
         lblCapRecharge.Text = FormatNumber(ParentFitting.FittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
         'lblCapAverage.Text = FormatNumber(parentfitting.fittedship.CapCapacity / parentfitting.fittedship.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " GJ/s"
-        lblCapPeak.Text = FormatNumber(HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " GJ/s"
-        lblCapBalP.Text = "+" & FormatNumber((CDbl(ParentFitting.FittedShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblCapBalN.Text = "- " & FormatNumber(ParentFitting.FittedShip.Attributes("10049"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCapPeak.Text = FormatNumber(HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        Dim CapBalP As Double = (CDbl(ParentFitting.FittedShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge)
+        Dim CapBalN As Double = ParentFitting.FittedShip.Attributes("10049")
+        lblCapBalP.Text = "+" & CapBalP.ToString("N2")
+        lblCapBalN.Text = "- " & CapBalN.ToString("N2")
+        lblCapBal.Text = "Δ " & (CapBalP - CapBalN).ToString("N2")
+
         Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(ParentFitting.FittedShip, False)
         If csr.CapIsDrained = False Then
             epCapacitor.TitleText = "Capacitor (Stable at " & FormatNumber(csr.MinimumCap / ParentFitting.FittedShip.CapCapacity * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"

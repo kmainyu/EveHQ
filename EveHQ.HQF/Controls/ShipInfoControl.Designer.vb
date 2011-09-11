@@ -130,6 +130,7 @@ Partial Class ShipInfoControl
         Me.ControlContainerItem5 = New DevComponents.DotNetBar.ControlContainerItem()
         Me.ControlContainerItem6 = New DevComponents.DotNetBar.ControlContainerItem()
         Me.ControlContainerItem7 = New DevComponents.DotNetBar.ControlContainerItem()
+        Me.lblCapBal = New System.Windows.Forms.Label()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbArmorHP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -734,7 +735,7 @@ Partial Class ShipInfoControl
         'lblCapPeak
         '
         Me.lblCapPeak.AutoSize = True
-        Me.lblCapPeak.Location = New System.Drawing.Point(124, 48)
+        Me.lblCapPeak.Location = New System.Drawing.Point(182, 48)
         Me.lblCapPeak.Name = "lblCapPeak"
         Me.lblCapPeak.Size = New System.Drawing.Size(41, 13)
         Me.lblCapPeak.TabIndex = 11
@@ -744,7 +745,7 @@ Partial Class ShipInfoControl
         'pbCapPeak
         '
         Me.pbCapPeak.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapPeak
-        Me.pbCapPeak.Location = New System.Drawing.Point(100, 45)
+        Me.pbCapPeak.Location = New System.Drawing.Point(158, 45)
         Me.pbCapPeak.Name = "pbCapPeak"
         Me.pbCapPeak.Size = New System.Drawing.Size(24, 24)
         Me.pbCapPeak.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -755,7 +756,7 @@ Partial Class ShipInfoControl
         'lblCapRecharge
         '
         Me.lblCapRecharge.AutoSize = True
-        Me.lblCapRecharge.Location = New System.Drawing.Point(124, 24)
+        Me.lblCapRecharge.Location = New System.Drawing.Point(182, 24)
         Me.lblCapRecharge.Name = "lblCapRecharge"
         Me.lblCapRecharge.Size = New System.Drawing.Size(43, 13)
         Me.lblCapRecharge.TabIndex = 8
@@ -765,7 +766,7 @@ Partial Class ShipInfoControl
         'pbCapRecharge
         '
         Me.pbCapRecharge.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTimer
-        Me.pbCapRecharge.Location = New System.Drawing.Point(100, 21)
+        Me.pbCapRecharge.Location = New System.Drawing.Point(158, 21)
         Me.pbCapRecharge.Name = "pbCapRecharge"
         Me.pbCapRecharge.Size = New System.Drawing.Size(24, 24)
         Me.pbCapRecharge.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1296,6 +1297,7 @@ Partial Class ShipInfoControl
         '
         Me.epCapacitor.CanvasColor = System.Drawing.SystemColors.Control
         Me.epCapacitor.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.epCapacitor.Controls.Add(Me.lblCapBal)
         Me.epCapacitor.Controls.Add(Me.lblCapBalN)
         Me.epCapacitor.Controls.Add(Me.pbCapacitor)
         Me.epCapacitor.Controls.Add(Me.pbCapPeak)
@@ -1513,6 +1515,16 @@ Partial Class ShipInfoControl
         Me.ControlContainerItem7.MenuVisibility = DevComponents.DotNetBar.eMenuVisibility.VisibleAlways
         Me.ControlContainerItem7.Name = "ControlContainerItem7"
         '
+        'lblCapBal
+        '
+        Me.lblCapBal.AutoSize = True
+        Me.lblCapBal.Location = New System.Drawing.Point(92, 45)
+        Me.lblCapBal.Name = "lblCapBal"
+        Me.lblCapBal.Size = New System.Drawing.Size(31, 13)
+        Me.lblCapBal.TabIndex = 15
+        Me.lblCapBal.Text = "Δ +0"
+        Me.ToolTip1.SetToolTip(Me.lblCapBal, "Total Consumption Rate (GJ/s)")
+        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1675,5 +1687,6 @@ Partial Class ShipInfoControl
     Friend WithEvents ControlContainerItem5 As DevComponents.DotNetBar.ControlContainerItem
     Friend WithEvents ControlContainerItem6 As DevComponents.DotNetBar.ControlContainerItem
     Friend WithEvents ControlContainerItem7 As DevComponents.DotNetBar.ControlContainerItem
+    Friend WithEvents lblCapBal As System.Windows.Forms.Label
 
 End Class
