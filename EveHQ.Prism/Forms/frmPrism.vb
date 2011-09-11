@@ -535,64 +535,6 @@ Public Class frmPrism
 
 #End Region
 
-    Private Sub UpdatePrismOwners()
-
-        ' Check for old items
-        Dim OldBPOwner As String = ""
-        Dim OldJobOwner As String = ""
-        Dim OldOrdersOwner As String = ""
-        Dim OldContractOwner As String = ""
-
-        Dim OldTransactionOwner As String = ""
-        If cboBPOwner.SelectedItem IsNot Nothing Then
-            OldBPOwner = cboBPOwner.SelectedItem.ToString
-        End If
-        If cboJobOwner.SelectedItem IsNot Nothing Then
-            OldJobOwner = cboJobOwner.SelectedItem.ToString
-        End If
-        If cboOrdersOwner.SelectedItem IsNot Nothing Then
-            OldOrdersOwner = cboOrdersOwner.SelectedItem.ToString
-        End If
-        If cboContractOwner.SelectedItem IsNot Nothing Then
-            OldContractOwner = cboContractOwner.SelectedItem.ToString
-        End If
-
-        ' Prepare each of the owner lists for loading
-        cboBPOwner.BeginUpdate() : cboBPOwner.Items.Clear()
-        cboJobOwner.BeginUpdate() : cboJobOwner.Items.Clear()
-        cboOrdersOwner.BeginUpdate() : cboOrdersOwner.Items.Clear()
-        cboContractOwner.BeginUpdate() : cboContractOwner.Items.Clear()
-
-        ' Populate the lists
-        For Each Owner As String In PlugInData.PrismOwners.Keys
-            cboBPOwner.Items.Add(Owner)
-            cboJobOwner.Items.Add(Owner)
-            cboOrdersOwner.Items.Add(Owner)
-            cboContractOwner.Items.Add(Owner)
-        Next
-
-        ' Finalise the loading
-        cboBPOwner.Sorted = True : cboBPOwner.EndUpdate()
-        cboJobOwner.Sorted = True : cboJobOwner.EndUpdate()
-        cboOrdersOwner.Sorted = True : cboOrdersOwner.EndUpdate()
-        cboContractOwner.Sorted = True : cboContractOwner.EndUpdate()
-
-        ' Set the old values if applicable
-        If OldBPOwner <> "" And cboBPOwner.Items.Contains(OldBPOwner) Then
-            cboBPOwner.SelectedItem = OldBPOwner
-        End If
-        If OldJobOwner <> "" And cboJobOwner.Items.Contains(OldJobOwner) Then
-            cboJobOwner.SelectedItem = OldJobOwner
-        End If
-        If OldOrdersOwner <> "" And cboOrdersOwner.Items.Contains(OldOrdersOwner) Then
-            cboOrdersOwner.SelectedItem = OldOrdersOwner
-        End If
-        If OldContractOwner <> "" And cboContractOwner.Items.Contains(OldContractOwner) Then
-            cboContractOwner.SelectedItem = OldContractOwner
-        End If
-
-    End Sub
-
 #Region "XML Retrieval and Parsing"
 
     Private Sub StartGetXMLDataThread()
@@ -904,6 +846,64 @@ Public Class frmPrism
         If startup = False Then
             MessageBox.Show("Prism has completed the download of the API data. You may need to refresh your views to get updated information.", "API Download complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+    End Sub
+
+    Private Sub UpdatePrismOwners()
+
+        ' Check for old items
+        Dim OldBPOwner As String = ""
+        Dim OldJobOwner As String = ""
+        Dim OldOrdersOwner As String = ""
+        Dim OldContractOwner As String = ""
+
+        Dim OldTransactionOwner As String = ""
+        If cboBPOwner.SelectedItem IsNot Nothing Then
+            OldBPOwner = cboBPOwner.SelectedItem.ToString
+        End If
+        If cboJobOwner.SelectedItem IsNot Nothing Then
+            OldJobOwner = cboJobOwner.SelectedItem.ToString
+        End If
+        If cboOrdersOwner.SelectedItem IsNot Nothing Then
+            OldOrdersOwner = cboOrdersOwner.SelectedItem.ToString
+        End If
+        If cboContractOwner.SelectedItem IsNot Nothing Then
+            OldContractOwner = cboContractOwner.SelectedItem.ToString
+        End If
+
+        ' Prepare each of the owner lists for loading
+        cboBPOwner.BeginUpdate() : cboBPOwner.Items.Clear()
+        cboJobOwner.BeginUpdate() : cboJobOwner.Items.Clear()
+        cboOrdersOwner.BeginUpdate() : cboOrdersOwner.Items.Clear()
+        cboContractOwner.BeginUpdate() : cboContractOwner.Items.Clear()
+
+        ' Populate the lists
+        For Each Owner As String In PlugInData.PrismOwners.Keys
+            cboBPOwner.Items.Add(Owner)
+            cboJobOwner.Items.Add(Owner)
+            cboOrdersOwner.Items.Add(Owner)
+            cboContractOwner.Items.Add(Owner)
+        Next
+
+        ' Finalise the loading
+        cboBPOwner.Sorted = True : cboBPOwner.EndUpdate()
+        cboJobOwner.Sorted = True : cboJobOwner.EndUpdate()
+        cboOrdersOwner.Sorted = True : cboOrdersOwner.EndUpdate()
+        cboContractOwner.Sorted = True : cboContractOwner.EndUpdate()
+
+        ' Set the old values if applicable
+        If OldBPOwner <> "" And cboBPOwner.Items.Contains(OldBPOwner) Then
+            cboBPOwner.SelectedItem = OldBPOwner
+        End If
+        If OldJobOwner <> "" And cboJobOwner.Items.Contains(OldJobOwner) Then
+            cboJobOwner.SelectedItem = OldJobOwner
+        End If
+        If OldOrdersOwner <> "" And cboOrdersOwner.Items.Contains(OldOrdersOwner) Then
+            cboOrdersOwner.SelectedItem = OldOrdersOwner
+        End If
+        If OldContractOwner <> "" And cboContractOwner.Items.Contains(OldContractOwner) Then
+            cboContractOwner.SelectedItem = OldContractOwner
+        End If
+
     End Sub
 
 #Region "APIv1"
@@ -5275,6 +5275,71 @@ Public Class frmPrism
         End If
     End Sub
 
+    Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+    End Sub
+
+    Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, ControlChars.Tab)
+    End Sub
+
+    Private Sub mnuExportTotalsToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToCSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+    End Sub
+
+    Private Sub mnuExportTotalsToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToTSV.Click
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, ControlChars.Tab)
+    End Sub
+
+    Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As AdvTree, ByVal sepChar As String)
+        Dim str As New StringBuilder
+        ' Add a line for the current build job
+        str.AppendLine(title)
+        str.AppendLine("")
+        ' Add some headings
+        For c As Integer = 0 To sourceList.Columns.Count - 2
+            str.Append(sourceList.Columns(c).Text & sepChar)
+        Next
+        str.AppendLine(sourceList.Columns(sourceList.Columns.Count - 1).Text)
+        ' Add the details
+        For Each req As Node In sourceList.Nodes
+            For c As Integer = 0 To sourceList.Columns.Count - 2
+                str.Append(req.Cells(c).Text & sepChar)
+            Next
+            str.AppendLine(req.Cells(sourceList.Columns.Count - 1).Text)
+        Next
+        ' Copy to the clipboard
+        Try
+            Clipboard.SetText(str.ToString)
+        Catch ex As Exception
+            MessageBox.Show("Unable to copy Resource Data to the clipboard.", "Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Sub
+
+    Private Sub ctxRecycleItem_Opening(sender As System.Object, e As System.ComponentModel.CancelEventArgs) Handles ctxRecycleItem.Opening
+        If adtRecycle.SelectedNodes.Count > 0 Then
+            mnuAlterRecycleQuantity.Enabled = True
+            mnuRemoveRecycleItem.Enabled = True
+        Else
+            mnuAlterRecycleQuantity.Enabled = False
+            mnuRemoveRecycleItem.Enabled = False
+        End If
+    End Sub
+
+    Private Sub mnuAddRecycleItem_Click_1(sender As System.Object, e As System.EventArgs) Handles mnuAddRecycleItem.Click
+        Dim newI As New frmSelectItem
+        newI.ShowDialog()
+        Dim itemName As String = newI.Item
+        If itemName IsNot Nothing Then
+            Dim itemID As String = EveHQ.Core.HQ.itemList(itemName)
+            If RecyclerAssetList.ContainsKey(itemID) = False Then
+                RecyclerAssetList.Add(itemID, 1)
+            End If
+            newI.Dispose()
+            Call Me.LoadRecyclingInfo()
+        End If
+    End Sub
+
 #End Region
 
 #Region "CSV Export Routines"
@@ -6103,47 +6168,6 @@ Public Class frmPrism
 
 #End Region
 
-    Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-    End Sub
-
-    Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, ControlChars.Tab)
-    End Sub
-
-    Private Sub mnuExportTotalsToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-    End Sub
-
-    Private Sub mnuExportTotalsToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToTSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, ControlChars.Tab)
-    End Sub
-
-    Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As AdvTree, ByVal sepChar As String)
-        Dim str As New StringBuilder
-        ' Add a line for the current build job
-        str.AppendLine(title)
-        str.AppendLine("")
-        ' Add some headings
-        For c As Integer = 0 To sourceList.Columns.Count - 2
-            str.Append(sourceList.Columns(c).Text & sepChar)
-        Next
-        str.AppendLine(sourceList.Columns(sourceList.Columns.Count - 1).Text)
-        ' Add the details
-        For Each req As Node In sourceList.Nodes
-            For c As Integer = 0 To sourceList.Columns.Count - 2
-                str.Append(req.Cells(c).Text & sepChar)
-            Next
-            str.AppendLine(req.Cells(sourceList.Columns.Count - 1).Text)
-        Next
-        ' Copy to the clipboard
-        Try
-            Clipboard.SetText(str.ToString)
-        Catch ex As Exception
-            MessageBox.Show("Unable to copy Resource Data to the clipboard.", "Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End Try
-    End Sub
-
 #Region "Transaction List Menu Options"
 
     Private Sub ctxTransactions_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxTransactions.Opening
@@ -6166,7 +6190,20 @@ Public Class frmPrism
 
 #End Region
 
-#Region "Ribbon UI Functions"
+#Region "Ribbon and Tab UI Functions"
+
+    Private Sub tabPrism_SelectedTabChanging(sender As Object, e As DevComponents.DotNetBar.TabStripTabChangingEventArgs) Handles tabPrism.SelectedTabChanging
+        SelectedTab = e.NewTab
+    End Sub
+
+    Private Sub tabPrism_TabItemClose(ByVal sender As Object, ByVal e As DevComponents.DotNetBar.TabStripActionEventArgs) Handles tabPrism.TabItemClose
+        e.Cancel = True
+        If SelectedTab IsNot Nothing Then
+            If SelectedTab.Name <> "tiPrismHome" Then
+                SelectedTab.Visible = False
+            End If
+        End If
+    End Sub
 
     Private Sub btnOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptions.Click
         Dim NewSettings As New frmPrismSettings
@@ -6266,13 +6303,26 @@ Public Class frmPrism
         InvCalc.Dispose()
     End Sub
 
-#End Region
-
     Private Sub btnBlueprintCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBlueprintCalc.Click
         ' Start a blank BP Calc
         Dim BPCalc As New frmBPCalculator(chkShowOwnedBPs.Checked)
         Call OpenBPCalculator(BPCalc)
     End Sub
+
+    Private Sub btnProductionManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnProductionManager.Click
+        tabPrism.SelectedTab = tiProductionManager
+        tiProductionManager.Visible = True
+    End Sub
+
+    Private Sub btnQuickProduction_Click(sender As System.Object, e As System.EventArgs) Handles btnQuickProduction.Click
+        Dim QP As New frmQuickProduction
+        QP.ShowDialog()
+        QP.Dispose()
+    End Sub
+
+#End Region
+
+#Region "Search and Search UI Functions"
 
     Private Sub txtItemSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtItemSearch.TextChanged
         If Len(txtItemSearch.Text) > 2 Then
@@ -6316,6 +6366,109 @@ Public Class frmPrism
                 End If
             Next
             adtSearch.EndUpdate()
+        End If
+    End Sub
+
+    Private Sub btnLinkBPCalc_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkBPCalc.Click
+        Dim KeyName As String = adtSearch.SelectedNodes(0).Name
+        Select Case adtSearch.SelectedNodes(0).TagString
+            Case "Item"
+                Dim BPName As String = lblSelectedBP.Tag.ToString
+                ' Start a standard BP Calc
+                Dim BPCalc As New frmBPCalculator(BPName)
+                Call OpenBPCalculator(BPCalc)
+            Case "Production"
+                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
+                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
+                    Dim BPCalc As New frmBPCalculator(PJob)
+                    Call OpenBPCalculator(BPCalc)
+                End If
+        End Select
+    End Sub
+
+    Private Sub btnLinkRequisition_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkRequisition.Click
+        Dim KeyName As String = adtSearch.SelectedNodes(0).Name
+        Select Case adtSearch.SelectedNodes(0).TagString
+            Case "Item"
+                ' Set up a new Sortedlist to store the required items
+                Dim Orders As New SortedList(Of String, Integer)
+                ' Add the current item
+                Orders.Add(KeyName, 1)
+                ' Setup the Requisition form for Prism and open it
+                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+                newReq.ShowDialog()
+                newReq.Dispose()
+            Case "Production"
+                ' Set up a new Sortedlist to store the required items
+                Dim Orders As New SortedList(Of String, Integer)
+                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
+                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
+                    Call Me.CreateRequisitionFromJob(Orders, PJob)
+                End If
+                ' Setup the Requisition form for Prism and open it
+                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+                newReq.ShowDialog()
+                newReq.Dispose()
+            Case "Batch"
+                ' Set up a new Sortedlist to store the required items
+                Dim Orders As New SortedList(Of String, Integer)
+                If Prism.BatchJobs.Jobs.ContainsKey(KeyName) Then
+                    For Each PJobName As String In Prism.BatchJobs.Jobs(KeyName).ProductionJobs
+                        If Prism.ProductionJobs.Jobs.ContainsKey(PJobName) Then
+                            Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(PJobName)
+                            Call Me.CreateRequisitionFromJob(Orders, PJob)
+                        End If
+                    Next
+                End If
+                ' Setup the Requisition form for Prism and open it
+                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+                newReq.ShowDialog()
+                newReq.Dispose()
+        End Select
+    End Sub
+
+    Private Sub btnLinkProduction_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkProduction.Click
+        Dim QP As New frmQuickProduction(lblSelectedBP.Tag.ToString)
+        QP.ShowDialog()
+        QP.Dispose()
+    End Sub
+
+    Private Sub CreateRequisitionFromJob(Orders As SortedList(Of String, Integer), CurrentJob As ProductionJob)
+
+        Dim maxProducableUnits As Long = -1
+        Dim UnitMaterial As Double = 0
+        Dim UnitWaste As Double = 0
+
+        If CurrentJob IsNot Nothing Then
+            For Each resource As Object In CurrentJob.RequiredResources.Values
+                If TypeOf (resource) Is RequiredResource Then
+                    ' This is a resource so add it
+                    Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                    If rResource.TypeCategory <> 16 Then
+                        Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
+                        Dim waste As Integer = CInt(rResource.WasteUnits)
+                        Dim total As Integer = perfectRaw + waste
+                        Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
+                        Dim value As Double = total * price
+                        If total > 0 Then
+                            UnitMaterial += value
+                            UnitWaste += waste * price
+                            Dim PerfectTotal As Long = CLng(perfectRaw) * CLng(CurrentJob.Runs)
+                            Dim WasteTotal As Long = CLng(waste) * CLng(CurrentJob.Runs)
+                            Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
+                            If Orders.ContainsKey(rResource.TypeName) = False Then
+                                Orders.Add(rResource.TypeName, CInt(TotalTotal))
+                            Else
+                                Orders(rResource.TypeName) += CInt(TotalTotal)
+                            End If
+                        End If
+                    End If
+                Else
+                    ' This is another production job
+                    Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                    Call CreateRequisitionFromJob(Orders, subJob)
+                End If
+            Next
         End If
     End Sub
 
@@ -6418,23 +6571,7 @@ Public Class frmPrism
         End Select
     End Sub
 
-    Private Sub tabPrism_SelectedTabChanging(sender As Object, e As DevComponents.DotNetBar.TabStripTabChangingEventArgs) Handles tabPrism.SelectedTabChanging
-        SelectedTab = e.NewTab
-    End Sub
-
-    Private Sub tabPrism_TabItemClose(ByVal sender As Object, ByVal e As DevComponents.DotNetBar.TabStripActionEventArgs) Handles tabPrism.TabItemClose
-        e.Cancel = True
-        If SelectedTab IsNot Nothing Then
-            If SelectedTab.Name <> "tiPrismHome" Then
-                SelectedTab.Visible = False
-            End If
-        End If
-    End Sub
-
-    Private Sub btnProductionManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnProductionManager.Click
-        tabPrism.SelectedTab = tiProductionManager
-        tiProductionManager.Visible = True
-    End Sub
+#End Region
 
 #Region "Production Manager Routines"
 
@@ -6871,138 +7008,5 @@ Public Class frmPrism
     End Sub
 
 #End Region
-
-    Private Sub btnLinkBPCalc_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkBPCalc.Click
-        Dim KeyName As String = adtSearch.SelectedNodes(0).Name
-        Select Case adtSearch.SelectedNodes(0).TagString
-            Case "Item"
-                Dim BPName As String = lblSelectedBP.Tag.ToString
-                ' Start a standard BP Calc
-                Dim BPCalc As New frmBPCalculator(BPName)
-                Call OpenBPCalculator(BPCalc)
-            Case "Production"
-                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
-                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
-                    Dim BPCalc As New frmBPCalculator(PJob)
-                    Call OpenBPCalculator(BPCalc)
-                End If
-        End Select
-    End Sub
-
-    Private Sub btnLinkRequisition_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkRequisition.Click
-        Dim KeyName As String = adtSearch.SelectedNodes(0).Name
-        Select Case adtSearch.SelectedNodes(0).TagString
-            Case "Item"
-                ' Set up a new Sortedlist to store the required items
-                Dim Orders As New SortedList(Of String, Integer)
-                ' Add the current item
-                Orders.Add(KeyName, 1)
-                ' Setup the Requisition form for Prism and open it
-                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
-                newReq.ShowDialog()
-                newReq.Dispose()
-            Case "Production"
-                ' Set up a new Sortedlist to store the required items
-                Dim Orders As New SortedList(Of String, Integer)
-                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
-                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
-                    Call Me.CreateRequisitionFromJob(Orders, PJob)
-                End If
-                ' Setup the Requisition form for Prism and open it
-                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
-                newReq.ShowDialog()
-                newReq.Dispose()
-            Case "Batch"
-                ' Set up a new Sortedlist to store the required items
-                Dim Orders As New SortedList(Of String, Integer)
-                If Prism.BatchJobs.Jobs.ContainsKey(KeyName) Then
-                    For Each PJobName As String In Prism.BatchJobs.Jobs(KeyName).ProductionJobs
-                        If Prism.ProductionJobs.Jobs.ContainsKey(PJobName) Then
-                            Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(PJobName)
-                            Call Me.CreateRequisitionFromJob(Orders, PJob)
-                        End If
-                    Next
-                End If
-                ' Setup the Requisition form for Prism and open it
-                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
-                newReq.ShowDialog()
-                newReq.Dispose()
-        End Select
-    End Sub
-
-    Private Sub btnLinkProduction_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkProduction.Click
-        Dim QP As New frmQuickProduction(lblSelectedBP.Tag.ToString)
-        QP.ShowDialog()
-        QP.Dispose()
-    End Sub
-
-    Private Sub btnQuickProduction_Click(sender As System.Object, e As System.EventArgs) Handles btnQuickProduction.Click
-        Dim QP As New frmQuickProduction
-        QP.ShowDialog()
-        QP.Dispose()
-    End Sub
-
-    Private Sub CreateRequisitionFromJob(Orders As SortedList(Of String, Integer), CurrentJob As ProductionJob)
-
-        Dim maxProducableUnits As Long = -1
-        Dim UnitMaterial As Double = 0
-        Dim UnitWaste As Double = 0
-
-        If CurrentJob IsNot Nothing Then
-            For Each resource As Object In CurrentJob.RequiredResources.Values
-                If TypeOf (resource) Is RequiredResource Then
-                    ' This is a resource so add it
-                    Dim rResource As RequiredResource = CType(resource, RequiredResource)
-                    If rResource.TypeCategory <> 16 Then
-                        Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
-                        Dim waste As Integer = CInt(rResource.WasteUnits)
-                        Dim total As Integer = perfectRaw + waste
-                        Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
-                        Dim value As Double = total * price
-                        If total > 0 Then
-                            UnitMaterial += value
-                            UnitWaste += waste * price
-                            Dim PerfectTotal As Long = CLng(perfectRaw) * CLng(CurrentJob.Runs)
-                            Dim WasteTotal As Long = CLng(waste) * CLng(CurrentJob.Runs)
-                            Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
-                            If Orders.ContainsKey(rResource.TypeName) = False Then
-                                Orders.Add(rResource.TypeName, CInt(TotalTotal))
-                            Else
-                                Orders(rResource.TypeName) += CInt(TotalTotal)
-                            End If
-                        End If
-                    End If
-                Else
-                    ' This is another production job
-                    Dim subJob As ProductionJob = CType(resource, ProductionJob)
-                    Call CreateRequisitionFromJob(Orders, subJob)
-                End If
-            Next
-        End If
-    End Sub
-
-    Private Sub ctxRecycleItem_Opening(sender As System.Object, e As System.ComponentModel.CancelEventArgs) Handles ctxRecycleItem.Opening
-        If adtRecycle.SelectedNodes.Count > 0 Then
-            mnuAlterRecycleQuantity.Enabled = True
-            mnuRemoveRecycleItem.Enabled = True
-        Else
-            mnuAlterRecycleQuantity.Enabled = False
-            mnuRemoveRecycleItem.Enabled = False
-        End If
-    End Sub
-
-    Private Sub mnuAddRecycleItem_Click_1(sender As System.Object, e As System.EventArgs) Handles mnuAddRecycleItem.Click
-        Dim newI As New frmSelectItem
-        newI.ShowDialog()
-        Dim itemName As String = newI.Item
-        If itemName IsNot Nothing Then
-            Dim itemID As String = EveHQ.Core.HQ.itemList(itemName)
-            If RecyclerAssetList.ContainsKey(itemID) = False Then
-                RecyclerAssetList.Add(itemID, 1)
-            End If
-            newI.Dispose()
-            Call Me.LoadRecyclingInfo()
-        End If
-    End Sub
 
 End Class
