@@ -332,7 +332,11 @@ Public Class frmMarketOrders
         priceArray.Add(avgBuy) : priceArray.Add(medBuy) : priceArray.Add(minBuy) : priceArray.Add(maxBuy)
         priceArray.Add(avgSell) : priceArray.Add(medSell) : priceArray.Add(minSell) : priceArray.Add(maxSell)
         priceArray.Add(avgAll) : priceArray.Add(medAll) : priceArray.Add(minAll) : priceArray.Add(maxAll)
-        typeID = oTypeID : UserPrice = CalculateUserPrice(priceArray)
+        typeID = oTypeID
+
+        ' Get the price
+        UserPrice = EveHQ.Core.MarketFunctions.CalculateUserPriceFromPriceArray(priceArray, oReg.ToString, oTypeID.ToString)
+
         lblYourPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblCurrentPrice.Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(oTypeID.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
@@ -342,19 +346,6 @@ Public Class frmMarketOrders
         End If
 
     End Sub
-
-    Private Function CalculateUserPrice(ByVal priceArray As ArrayList) As Double
-        'EveHQ.Core.HQ.EveHQSettings.PriceCriteria(idx) = chk.Checked
-        Dim price As Double = 0
-        Dim count As Double = 0
-        For crit As Integer = 0 To 11
-            If EveHQ.Core.HQ.EveHQSettings.PriceCriteria(crit) = True Then
-                count += 1
-                price += CDbl(priceArray(crit))
-            End If
-        Next
-        Return CDbl(price / count)
-    End Function
 
     Private Sub CheckIndustry()
         ' Check for the existence of the CorpHQ plug-in and try and get the standing data

@@ -58,7 +58,6 @@ Public Class frmMarketPrices
     Dim UpdatePriceGroup As Boolean = False
     Dim PriceGroupFlagBoxes As New List(Of CheckBox)
     Dim CurrentPriceGroup As New EveHQ.Core.PriceGroup
-    Dim ItemMarketGroups As New SortedList(Of String, String) ' TypeID, MarketGroupID
     Dim AdtItems As New AdvTree
     Dim WithEvents MarketGroupItemsWorker As New BackgroundWorker
     Dim WithEvents MarketDownloadWorker As New BackgroundWorker
@@ -96,9 +95,6 @@ Public Class frmMarketPrices
         Else
             marketCacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "MarketCache")
         End If
-
-        ' Load the Item Market Groups
-        Call Me.LoadItemMarketGroups()
 
         ' Get Regions
         Call Me.LoadRegionNames()
@@ -138,19 +134,6 @@ Public Class frmMarketPrices
 
         startUp = False
 
-    End Sub
-
-    Private Sub LoadItemMarketGroups()
-        Me.ItemMarketGroups.Clear()
-        ' Get the stuff that can have market prices
-        Dim priceData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT typeID, marketGroupID FROM invTypes WHERE marketGroupID IS NOT NULL;")
-        If priceData IsNot Nothing Then
-            If priceData.Tables(0).Rows.Count > 0 Then
-                For Each ItemRow As DataRow In priceData.Tables(0).Rows
-                    Me.ItemMarketGroups.Add(ItemRow.Item("typeID").ToString, ItemRow.Item("marketGroupID").ToString)
-                Next
-            End If
-        End If
     End Sub
 
     Private Sub LoadRegionNames()
@@ -620,8 +603,8 @@ Public Class frmMarketPrices
                     Loop Until Orphans.Count = 0
 
                     ' Finally, add our items
-                    For Each TypeID As String In Me.ItemMarketGroups.Keys
-                        TestNode = AdtItems.FindNodeByName(ItemMarketGroups(TypeID))
+                    For Each TypeID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
+                        TestNode = AdtItems.FindNodeByName(EveHQ.Core.HQ.ItemMarketGroups(TypeID))
                         If TestNode IsNot Nothing Then
                             Dim MGNode As New Node(EveHQ.Core.HQ.itemData(TypeID).Name)
                             MGNode.Name = "i" & TypeID
@@ -855,7 +838,7 @@ Public Class frmMarketPrices
     Private Sub btnAddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddItem.Click
         ' Add a new item
         If CurrentPriceGroup.Name <> "<Global>" Then
-            Dim NewPrice As New frmModifyPriceGroupItem(AdtItems, Me.ItemMarketGroups)
+            Dim NewPrice As New frmModifyPriceGroupItem(AdtItems, EveHQ.Core.HQ.ItemMarketGroups)
             Dim ItemUsed As Boolean = False
             NewPrice.ShowDialog()
             If NewPrice.SelectedItems IsNot Nothing Then
@@ -1161,127 +1144,127 @@ Public Class frmMarketPrices
 
     End Function
 
-    Private Sub ParseMarketPriceGroup(ByRef GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), ByRef UsedPriceList As List(Of String), MPG As EveHQ.Core.PriceGroup)
+    'Private Sub ParseMarketPriceGroup(ByRef GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), ByRef UsedPriceList As List(Of String), MPG As EveHQ.Core.PriceGroup)
 
-        Dim MarketPrice As Double = 0
-        Dim PriceCount As Integer = 0
-        Dim PriceFlagList As New List(Of EveHQ.Core.PriceGroupFlags)
-        Dim RegionPrices As New SortedList(Of String, MarketData)
-        Dim ItemPrices As New MarketData
+    '    Dim MarketPrice As Double = 0
+    '    Dim PriceCount As Integer = 0
+    '    Dim PriceFlagList As New List(Of EveHQ.Core.PriceGroupFlags)
+    '    Dim RegionPrices As New SortedList(Of String, MarketData)
+    '    Dim ItemPrices As New MarketData
 
-        ' Establish which price criteria we should be using
-        Dim PFS As Integer = MPG.PriceFlags
-        PriceFlagList.Clear()
-        For i As Integer = 0 To 30
-            If (PFS Or CInt(2 ^ i)) = PFS Then
-                PriceFlagList.Add(CType(CInt(2 ^ i), Core.PriceGroupFlags))
-            End If
-        Next
+    '    ' Establish which price criteria we should be using
+    '    Dim PFS As Integer = MPG.PriceFlags
+    '    PriceFlagList.Clear()
+    '    For i As Integer = 0 To 30
+    '        If (PFS Or CInt(2 ^ i)) = PFS Then
+    '            PriceFlagList.Add(CType(CInt(2 ^ i), Core.PriceGroupFlags))
+    '        End If
+    '    Next
 
-        ' Get each itemID
-        For Each ItemID As String In MPG.TypeIDs
-            ' Set the market price and price count to nil
-            MarketPrice = 0
-            PriceCount = 0
+    '    ' Get each itemID
+    '    For Each ItemID As String In MPG.TypeIDs
+    '        ' Set the market price and price count to nil
+    '        MarketPrice = 0
+    '        PriceCount = 0
 
-            ' Go through each region and apply the correct prices
-            For Each RegionID As String In MPG.RegionIDs
+    '        ' Go through each region and apply the correct prices
+    '        For Each RegionID As String In MPG.RegionIDs
 
-                If GlobalPriceData.ContainsKey(RegionID) Then
-                    RegionPrices = GlobalPriceData(RegionID)
+    '            If GlobalPriceData.ContainsKey(RegionID) Then
+    '                RegionPrices = GlobalPriceData(RegionID)
 
-                    If RegionPrices.ContainsKey(ItemID) = True Then
+    '                If RegionPrices.ContainsKey(ItemID) = True Then
 
-                        ItemPrices = RegionPrices(ItemID)
+    '                    ItemPrices = RegionPrices(ItemID)
 
-                        For Each PF As EveHQ.Core.PriceGroupFlags In PriceFlagList
-                            ' Determine what we do here!
-                            Select Case PF
-                                Case Core.PriceGroupFlags.MinAll
-                                    If ItemPrices.MinAll <> 0 Then
-                                        MarketPrice += ItemPrices.MinAll
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MinBuy
-                                    If ItemPrices.MinBuy <> 0 Then
-                                        MarketPrice += ItemPrices.MinBuy
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MinSell
-                                    If ItemPrices.MinSell <> 0 Then
-                                        MarketPrice += ItemPrices.MinSell
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MaxAll
-                                    If ItemPrices.MaxAll <> 0 Then
-                                        MarketPrice += ItemPrices.MaxAll
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MaxBuy
-                                    If ItemPrices.MaxBuy <> 0 Then
-                                        MarketPrice += ItemPrices.MaxBuy
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MaxSell
-                                    If ItemPrices.MaxSell <> 0 Then
-                                        MarketPrice += ItemPrices.MaxSell
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.AvgAll
-                                    If ItemPrices.AvgAll <> 0 Then
-                                        MarketPrice += ItemPrices.AvgAll
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.AvgBuy
-                                    If ItemPrices.AvgBuy <> 0 Then
-                                        MarketPrice += ItemPrices.AvgBuy
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.AvgSell
-                                    If ItemPrices.AvgSell <> 0 Then
-                                        MarketPrice += ItemPrices.AvgSell
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MedAll
-                                    If ItemPrices.MedAll <> 0 Then
-                                        MarketPrice += ItemPrices.MedAll
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MedBuy
-                                    If ItemPrices.MedBuy <> 0 Then
-                                        MarketPrice += ItemPrices.MedBuy
-                                        PriceCount += 1
-                                    End If
-                                Case Core.PriceGroupFlags.MedSell
-                                    If ItemPrices.MedSell <> 0 Then
-                                        MarketPrice += ItemPrices.MedSell
-                                        PriceCount += 1
-                                    End If
+    '                    For Each PF As EveHQ.Core.PriceGroupFlags In PriceFlagList
+    '                        ' Determine what we do here!
+    '                        Select Case PF
+    '                            Case Core.PriceGroupFlags.MinAll
+    '                                If ItemPrices.MinAll <> 0 Then
+    '                                    MarketPrice += ItemPrices.MinAll
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MinBuy
+    '                                If ItemPrices.MinBuy <> 0 Then
+    '                                    MarketPrice += ItemPrices.MinBuy
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MinSell
+    '                                If ItemPrices.MinSell <> 0 Then
+    '                                    MarketPrice += ItemPrices.MinSell
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MaxAll
+    '                                If ItemPrices.MaxAll <> 0 Then
+    '                                    MarketPrice += ItemPrices.MaxAll
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MaxBuy
+    '                                If ItemPrices.MaxBuy <> 0 Then
+    '                                    MarketPrice += ItemPrices.MaxBuy
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MaxSell
+    '                                If ItemPrices.MaxSell <> 0 Then
+    '                                    MarketPrice += ItemPrices.MaxSell
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.AvgAll
+    '                                If ItemPrices.AvgAll <> 0 Then
+    '                                    MarketPrice += ItemPrices.AvgAll
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.AvgBuy
+    '                                If ItemPrices.AvgBuy <> 0 Then
+    '                                    MarketPrice += ItemPrices.AvgBuy
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.AvgSell
+    '                                If ItemPrices.AvgSell <> 0 Then
+    '                                    MarketPrice += ItemPrices.AvgSell
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MedAll
+    '                                If ItemPrices.MedAll <> 0 Then
+    '                                    MarketPrice += ItemPrices.MedAll
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MedBuy
+    '                                If ItemPrices.MedBuy <> 0 Then
+    '                                    MarketPrice += ItemPrices.MedBuy
+    '                                    PriceCount += 1
+    '                                End If
+    '                            Case Core.PriceGroupFlags.MedSell
+    '                                If ItemPrices.MedSell <> 0 Then
+    '                                    MarketPrice += ItemPrices.MedSell
+    '                                    PriceCount += 1
+    '                                End If
 
-                            End Select
+    '                        End Select
 
-                        Next
+    '                    Next
 
-                    End If
+    '                End If
 
-                End If
+    '            End If
 
-            Next
+    '        Next
 
-            ' Calculate an average of the prices if we need to
-            If PriceCount > 0 Then
-                MarketPrice = Math.Round(MarketPrice / PriceCount, 2)
+    '        ' Calculate an average of the prices if we need to
+    '        If PriceCount > 0 Then
+    '            MarketPrice = Math.Round(MarketPrice / PriceCount, 2)
 
-                ' Set the price
-                EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
-            End If
+    '            ' Set the price
+    '            EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
+    '        End If
 
-            ' Add the price to the used list
-            UsedPriceList.Add(ItemID)
+    '        ' Add the price to the used list
+    '        UsedPriceList.Add(ItemID)
 
-        Next
+    '    Next
 
-    End Sub
+    'End Sub
 
 #End Region
 
@@ -1439,7 +1422,7 @@ Public Class frmMarketPrices
         ' Step 1: Create a list of all market price items
         lblMarketPriceUpdateStatus.Text = "Establishing Market item list..." : lblMarketPriceUpdateStatus.Refresh()
         Dim MarketItems As New List(Of String)
-        For Each Item As String In ItemMarketGroups.Keys
+        For Each Item As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
             MarketItems.Add(Item)
         Next
 
@@ -1546,14 +1529,14 @@ Public Class frmMarketPrices
 
             ' Step 6: Go through the price groups and apply the prices to them
             ' Make a note of which item we have used here so we can apply general prices to everything else
-            Dim UsedPriceList As New List(Of String)
+            Dim UsedPriceList As New SortedList(Of String, Double)
 
             For Each MPG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHQSettings.PriceGroups.Values
 
                 If MPG.Name <> "<Global>" Then
 
                     lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                    Call Me.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
 
                 End If
 
@@ -1563,14 +1546,14 @@ Public Class frmMarketPrices
             If EveHQ.Core.HQ.EveHQSettings.PriceGroups.ContainsKey("<Global>") = True Then
 
                 Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.EveHQSettings.PriceGroups("<Global>")
-                For Each ItemID As String In ItemMarketGroups.Keys
-                    If UsedPriceList.Contains(ItemID) = False Then
+                For Each ItemID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
+                    If UsedPriceList.ContainsKey(ItemID) = False Then
                         MPG.TypeIDs.Add(ItemID)
                     End If
                 Next
 
                 lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                Call Me.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
 
                 ' Clear the typeIDs
                 MPG.TypeIDs.Clear()
@@ -1751,7 +1734,7 @@ Public Class frmMarketPrices
         ' Step 1: Create a list of all market price items
         lblMarketPriceUpdateStatus.Text = "Establishing Market item list..." : lblMarketPriceUpdateStatus.Refresh()
         Dim MarketItems As New List(Of String)
-        For Each Item As String In ItemMarketGroups.Keys
+        For Each Item As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
             MarketItems.Add(Item)
         Next
 
@@ -1882,14 +1865,14 @@ Public Class frmMarketPrices
 
             ' Step 6: Go through the price groups and apply the prices to them
             ' Make a note of which item we have used here so we can apply general prices to everything else
-            Dim UsedPriceList As New List(Of String)
+            Dim UsedPriceList As New SortedList(Of String, Double)
 
             For Each MPG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHQSettings.PriceGroups.Values
 
                 If MPG.Name <> "<Global>" Then
 
                     lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                    Call Me.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
 
                 End If
 
@@ -1899,14 +1882,14 @@ Public Class frmMarketPrices
             If EveHQ.Core.HQ.EveHQSettings.PriceGroups.ContainsKey("<Global>") = True Then
 
                 Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.EveHQSettings.PriceGroups("<Global>")
-                For Each ItemID As String In ItemMarketGroups.Keys
-                    If UsedPriceList.Contains(ItemID) = False Then
+                For Each ItemID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
+                    If UsedPriceList.ContainsKey(ItemID) = False Then
                         MPG.TypeIDs.Add(ItemID)
                     End If
                 Next
 
                 lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                Call Me.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
 
                 ' Clear the typeIDs
                 MPG.TypeIDs.Clear()

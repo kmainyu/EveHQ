@@ -90,6 +90,7 @@ Public Class HQ
     Public Shared BCAppKey As String = "B23079B49E1FCBB9C224C9D9CC591DF9904C193F"
     Public Shared EveHQAPIServerInfo As New EveHQ.EveAPI.APIServerInfo
     Public Shared EveHQIsUpdating As Boolean = False
+    Public Shared ItemMarketGroups As New SortedList(Of String, String) ' TypeID, MarketGroupID
 
     Shared Property StartShutdownEveHQ() As Boolean
         Get

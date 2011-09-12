@@ -572,6 +572,7 @@ Public Class DataFunctions
 
         ' Initally load the new item data routine
         Call LoadItemData()
+        Call EveHQ.Core.MarketFunctions.LoadItemMarketGroups()
 
         EveHQ.Core.HQ.itemList.Clear()
         EveHQ.Core.HQ.itemGroups.Clear()
@@ -1326,22 +1327,13 @@ Public Class DataFunctions
         priceArray.Add(avgBuy) : priceArray.Add(medBuy) : priceArray.Add(minBuy) : priceArray.Add(maxBuy)
         priceArray.Add(avgSell) : priceArray.Add(medSell) : priceArray.Add(minSell) : priceArray.Add(maxSell)
         priceArray.Add(avgAll) : priceArray.Add(medAll) : priceArray.Add(minAll) : priceArray.Add(maxAll)
-        priceArray.Add(CalculateUserPrice(priceArray)) : priceArray.Add(oTypeID)
+
+        priceArray.Add(EveHQ.Core.MarketFunctions.CalculateUserPriceFromPriceArray(priceArray, oReg.ToString, oTypeID.ToString))
+
+        priceArray.Add(oTypeID)
         priceArray.Add(volBuy) : priceArray.Add(volSell) : priceArray.Add(volAll)
 
         Return priceArray
-    End Function
-    Public Shared Function CalculateUserPrice(ByVal priceArray As ArrayList) As Double
-        'EveHQ.Core.HQ.EveHQSettings.PriceCriteria(idx) = chk.Checked
-        Dim price As Double = 0
-        Dim count As Double = 0
-        For crit As Integer = 0 To 11
-            If EveHQ.Core.HQ.EveHQSettings.PriceCriteria(crit) = True Then
-                count += 1
-                price += CDbl(priceArray(crit))
-            End If
-        Next
-        Return CDbl(price / count)
     End Function
 
     Public Shared Function CheckForIDNameTable() As Boolean
