@@ -1301,9 +1301,9 @@ Public Class PrismAssetsControl
             End If
             RNode.Cells(AssetColumn("AssetMeta")).Text = FormatNumber(ResearchItem.MetaLevel.ToString, 0)
             RNode.Cells(AssetColumn("AssetVolume")).Text = FormatNumber(ResearchItem.Volume.ToString, 2)
-            RNode.Cells(AssetColumn("AssetQuantity")).Text = FormatNumber(Job.Runs, 0)
+            RNode.Cells(AssetColumn("AssetQuantity")).Text = FormatNumber(Job.Runs * ResearchItem.PortionSize, 0)
             Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(Job.OutputTypeID.ToString)
-            Dim value As Double = Job.Runs * price
+            Dim value As Double = Job.Runs * ResearchItem.PortionSize * price
             RNode.Cells(AssetColumn("AssetPrice")).Text = FormatNumber(price, 2)
             RNode.Cells(AssetColumn("AssetValue")).Text = FormatNumber(value, 2)
             Return value
