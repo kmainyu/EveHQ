@@ -1990,10 +1990,10 @@ Public Class ShipSlotControl
 
     Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles pbShipInfo.MouseHover
         ToolTip1.SetToolTip(pbShipInfo, SquishText(ParentFitting.BaseShip.Description))
-	End Sub
+    End Sub
 
     Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim mnuPilotLevel As ButtonItem = CType(sender, ButtonItem)
+        Dim mnuPilotLevel As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot)
         Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)), HQFSkill)
         Dim level As Integer = CInt(mnuPilotLevel.Name.Substring(mnuPilotLevel.Name.Length - 1))
@@ -2003,7 +2003,7 @@ Public Class ShipSlotControl
         End If
         ' Trigger an update of all open ship fittings!
         HQFEvents.StartUpdateShipInfo = hPilot.PilotName
-	End Sub
+    End Sub
 
     Private Function SquishText(ByVal text As String) As String
         Dim MaxLength As Integer = 80
@@ -2022,10 +2022,10 @@ Public Class ShipSlotControl
             End If
         Next
         Return newText.ToString
-	End Function
+    End Function
 
     Private Sub ExpandableSplitter1_SplitterMoved(ByVal sender As Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles ExpandableSplitter1.SplitterMoved
-		HQF.Settings.HQFSettings.StorageBayHeight = tcStorage.Height
+        HQF.Settings.HQFSettings.StorageBayHeight = tcStorage.Height
     End Sub
 
     Private Sub CopyModule(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -2751,80 +2751,80 @@ Public Class ShipSlotControl
         End Select
     End Sub
 
-	Private Sub btnMergeDrones_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMergeDrones.Click
-		UpdateDrones = True
-		lvwDroneBay.BeginUpdate()
-		lvwDroneBay.Items.Clear()
-		ParentFitting.BaseShip.DroneBay_Used = 0
-		Dim DBI As DroneBayItem
-		Dim HoldingBay As New SortedList
-		Dim DroneQuantities As New SortedList
-		For Each DBI In ParentFitting.BaseShip.DroneBayItems.Values
-			If HoldingBay.Contains(DBI.DroneType.Name) = False Then
-				HoldingBay.Add(DBI.DroneType.Name, DBI.DroneType)
-			End If
-			If DroneQuantities.Contains(DBI.DroneType.Name) = True Then
-				Dim CQ As Integer = CInt(DroneQuantities(DBI.DroneType.Name))
-				DroneQuantities(DBI.DroneType.Name) = CQ + DBI.Quantity
-			Else
-				DroneQuantities.Add(DBI.DroneType.Name, DBI.Quantity)
-			End If
-		Next
-		ParentFitting.BaseShip.DroneBayItems.Clear()
-		For Each drone As String In HoldingBay.Keys
-			DBI = New DroneBayItem
-			DBI.DroneType = CType(HoldingBay(drone), ShipModule)
-			DBI.IsActive = False
-			DBI.Quantity = CInt(DroneQuantities(drone))
-			Dim newDroneItem As New ListViewItem(DBI.DroneType.Name)
-			newDroneItem.Name = CStr(lvwDroneBay.Items.Count)
-			newDroneItem.SubItems.Add(CStr(DBI.Quantity))
-			ParentFitting.BaseShip.DroneBayItems.Add(lvwDroneBay.Items.Count, DBI)
-			ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
-			lvwDroneBay.Items.Add(newDroneItem)
-		Next
-		lvwDroneBay.EndUpdate()
-		Call Me.RedrawDroneBayCapacity()
-		UpdateDrones = False
-		' Rebuild the ship to account for any disabled drones
-		ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
-	End Sub
+    Private Sub btnMergeDrones_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMergeDrones.Click
+        UpdateDrones = True
+        lvwDroneBay.BeginUpdate()
+        lvwDroneBay.Items.Clear()
+        ParentFitting.BaseShip.DroneBay_Used = 0
+        Dim DBI As DroneBayItem
+        Dim HoldingBay As New SortedList
+        Dim DroneQuantities As New SortedList
+        For Each DBI In ParentFitting.BaseShip.DroneBayItems.Values
+            If HoldingBay.Contains(DBI.DroneType.Name) = False Then
+                HoldingBay.Add(DBI.DroneType.Name, DBI.DroneType)
+            End If
+            If DroneQuantities.Contains(DBI.DroneType.Name) = True Then
+                Dim CQ As Integer = CInt(DroneQuantities(DBI.DroneType.Name))
+                DroneQuantities(DBI.DroneType.Name) = CQ + DBI.Quantity
+            Else
+                DroneQuantities.Add(DBI.DroneType.Name, DBI.Quantity)
+            End If
+        Next
+        ParentFitting.BaseShip.DroneBayItems.Clear()
+        For Each drone As String In HoldingBay.Keys
+            DBI = New DroneBayItem
+            DBI.DroneType = CType(HoldingBay(drone), ShipModule)
+            DBI.IsActive = False
+            DBI.Quantity = CInt(DroneQuantities(drone))
+            Dim newDroneItem As New ListViewItem(DBI.DroneType.Name)
+            newDroneItem.Name = CStr(lvwDroneBay.Items.Count)
+            newDroneItem.SubItems.Add(CStr(DBI.Quantity))
+            ParentFitting.BaseShip.DroneBayItems.Add(lvwDroneBay.Items.Count, DBI)
+            ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
+            lvwDroneBay.Items.Add(newDroneItem)
+        Next
+        lvwDroneBay.EndUpdate()
+        Call Me.RedrawDroneBayCapacity()
+        UpdateDrones = False
+        ' Rebuild the ship to account for any disabled drones
+        ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
+    End Sub
 
-	Private Sub btnMergeCargo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMergeCargo.Click
-		lvwCargoBay.BeginUpdate()
-		lvwCargoBay.Items.Clear()
-		ParentFitting.BaseShip.CargoBay_Used = 0
-		ParentFitting.BaseShip.CargoBay_Additional = 0
-		Dim CBI As CargoBayItem
-		Dim HoldingBay As New SortedList
-		Dim CargoQuantities As New SortedList
-		For Each CBI In ParentFitting.BaseShip.CargoBayItems.Values
-			If HoldingBay.Contains(CBI.ItemType.Name) = False Then
-				HoldingBay.Add(CBI.ItemType.Name, CBI.ItemType)
-			End If
-			If CargoQuantities.Contains(CBI.ItemType.Name) = True Then
-				Dim CQ As Integer = CInt(CargoQuantities(CBI.ItemType.Name))
-				CargoQuantities(CBI.ItemType.Name) = CQ + CBI.Quantity
-			Else
-				CargoQuantities.Add(CBI.ItemType.Name, CBI.Quantity)
-			End If
-		Next
-		ParentFitting.BaseShip.CargoBayItems.Clear()
-		For Each Cargo As String In HoldingBay.Keys
-			CBI = New CargoBayItem
-			CBI.ItemType = CType(HoldingBay(Cargo), ShipModule)
-			CBI.Quantity = CInt(CargoQuantities(Cargo))
-			Dim newCargoItem As New ListViewItem(CBI.ItemType.Name)
-			newCargoItem.Name = CStr(lvwCargoBay.Items.Count)
-			newCargoItem.SubItems.Add(CStr(CBI.Quantity))
-			ParentFitting.BaseShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
-			ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
-			If CBI.ItemType.IsContainer Then ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
-			lvwCargoBay.Items.Add(newCargoItem)
-		Next
-		lvwCargoBay.EndUpdate()
-		Call Me.RedrawCargoBayCapacity()
-	End Sub
+    Private Sub btnMergeCargo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMergeCargo.Click
+        lvwCargoBay.BeginUpdate()
+        lvwCargoBay.Items.Clear()
+        ParentFitting.BaseShip.CargoBay_Used = 0
+        ParentFitting.BaseShip.CargoBay_Additional = 0
+        Dim CBI As CargoBayItem
+        Dim HoldingBay As New SortedList
+        Dim CargoQuantities As New SortedList
+        For Each CBI In ParentFitting.BaseShip.CargoBayItems.Values
+            If HoldingBay.Contains(CBI.ItemType.Name) = False Then
+                HoldingBay.Add(CBI.ItemType.Name, CBI.ItemType)
+            End If
+            If CargoQuantities.Contains(CBI.ItemType.Name) = True Then
+                Dim CQ As Integer = CInt(CargoQuantities(CBI.ItemType.Name))
+                CargoQuantities(CBI.ItemType.Name) = CQ + CBI.Quantity
+            Else
+                CargoQuantities.Add(CBI.ItemType.Name, CBI.Quantity)
+            End If
+        Next
+        ParentFitting.BaseShip.CargoBayItems.Clear()
+        For Each Cargo As String In HoldingBay.Keys
+            CBI = New CargoBayItem
+            CBI.ItemType = CType(HoldingBay(Cargo), ShipModule)
+            CBI.Quantity = CInt(CargoQuantities(Cargo))
+            Dim newCargoItem As New ListViewItem(CBI.ItemType.Name)
+            newCargoItem.Name = CStr(lvwCargoBay.Items.Count)
+            newCargoItem.SubItems.Add(CStr(CBI.Quantity))
+            ParentFitting.BaseShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
+            ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
+            If CBI.ItemType.IsContainer Then ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
+            lvwCargoBay.Items.Add(newCargoItem)
+        Next
+        lvwCargoBay.EndUpdate()
+        Call Me.RedrawCargoBayCapacity()
+    End Sub
 
 #End Region
 
@@ -3026,8 +3026,8 @@ Public Class ShipSlotControl
                         RemoveModule(nLVI, False, False)
                     End If
                     ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
-				End If
-			End If
+                End If
+            End If
         End If
         ' Update the ship details
         Call UpdateShipDetails()
@@ -3043,9 +3043,9 @@ Public Class ShipSlotControl
 
 #Region "Remote Effects"
 
-	Private Sub btnUpdateRemoteEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateRemoteEffects.Click
-		Call Me.UpdateRemoteEffects()
-	End Sub
+    Private Sub btnUpdateRemoteEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateRemoteEffects.Click
+        Call Me.UpdateRemoteEffects()
+    End Sub
     Private Sub UpdateRemoteEffects()
         ' Check if we have any remote fittings and if so, generate the fitting
         If lvwRemoteFittings.Items.Count > 0 Then
@@ -3149,22 +3149,22 @@ Public Class ShipSlotControl
         End If
     End Sub
 
-	Private Sub btnAddRemoteFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddRemoteFitting.Click
-		' Check if we have a fitting and a pilot and if so, generate the fitting
-		If cboFitting.SelectedItem IsNot Nothing And cboPilot.SelectedItem IsNot Nothing Then
-			If lvwRemoteFittings.Items.ContainsKey(cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString) = False Then
-				Dim newFitting As New ListViewItem
-				newFitting.Name = cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString
-				newFitting.Text = cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString
-				newFitting.Tag = cboFitting.SelectedItem.ToString
-				newFitting.Checked = True
-				lvwRemoteFittings.Items.Add(newFitting)
-				Call Me.UpdateRemoteEffects()
-			Else
-				MessageBox.Show("Fitting and Pilot combination already exists!", "Duplicate Remote Setup Detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
-			End If
-		End If
-	End Sub
+    Private Sub btnAddRemoteFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddRemoteFitting.Click
+        ' Check if we have a fitting and a pilot and if so, generate the fitting
+        If cboFitting.SelectedItem IsNot Nothing And cboPilot.SelectedItem IsNot Nothing Then
+            If lvwRemoteFittings.Items.ContainsKey(cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString) = False Then
+                Dim newFitting As New ListViewItem
+                newFitting.Name = cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString
+                newFitting.Text = cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString
+                newFitting.Tag = cboFitting.SelectedItem.ToString
+                newFitting.Checked = True
+                lvwRemoteFittings.Items.Add(newFitting)
+                Call Me.UpdateRemoteEffects()
+            Else
+                MessageBox.Show("Fitting and Pilot combination already exists!", "Duplicate Remote Setup Detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End If
+    End Sub
 
     Private Sub RemoveFittingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveFittingToolStripMenuItem.Click
         lvwRemoteFittings.BeginUpdate()
@@ -3211,68 +3211,68 @@ Public Class ShipSlotControl
             cboWCPilot.Items.Add(cPilot.Name)
             cboFCPilot.Items.Add(cPilot.Name)
         Next
-		cboPilot.EndUpdate() : cboFitting.EndUpdate()
-		cboSCPilot.EndUpdate() : cboSCShip.EndUpdate()
-		cboWCPilot.EndUpdate() : cboWCShip.EndUpdate()
-		cboFCPilot.EndUpdate() : cboFCShip.EndUpdate()
+        cboPilot.EndUpdate() : cboFitting.EndUpdate()
+        cboSCPilot.EndUpdate() : cboSCShip.EndUpdate()
+        cboWCPilot.EndUpdate() : cboWCShip.EndUpdate()
+        cboFCPilot.EndUpdate() : cboFCShip.EndUpdate()
     End Sub
 
-	Private Sub cboSCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSCPilot.SelectedIndexChanged
-		' Set the fleet status
-		If cboSCPilot.SelectedIndex <> -1 Then
-			lblFleetStatus.Text = "Active"
-			btnLeaveFleet.Enabled = True
-			lblSCShip.Enabled = True
-			cboSCShip.Enabled = True
-			If cboSCShip.SelectedIndex = -1 Then
-				Call Me.CalculateFleetEffects()
-			Else
-				Call Me.UpdateSCShipEffects()
-			End If
-		End If
-	End Sub
+    Private Sub cboSCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSCPilot.SelectedIndexChanged
+        ' Set the fleet status
+        If cboSCPilot.SelectedIndex <> -1 Then
+            lblFleetStatus.Text = "Active"
+            btnLeaveFleet.Enabled = True
+            lblSCShip.Enabled = True
+            cboSCShip.Enabled = True
+            If cboSCShip.SelectedIndex = -1 Then
+                Call Me.CalculateFleetEffects()
+            Else
+                Call Me.UpdateSCShipEffects()
+            End If
+        End If
+    End Sub
 
-	Private Sub cboWCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCPilot.SelectedIndexChanged
-		' Set the fleet status
-		If cboWCPilot.SelectedIndex <> -1 Then
-			lblFleetStatus.Text = "Active"
-			btnLeaveFleet.Enabled = True
-			lblWCShip.Enabled = True
-			cboWCShip.Enabled = True
-			If cboWCShip.SelectedIndex = -1 Then
-				Call Me.CalculateFleetEffects()
-			Else
-				Call Me.UpdateWCShipEffects()
-			End If
-		End If
-	End Sub
+    Private Sub cboWCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCPilot.SelectedIndexChanged
+        ' Set the fleet status
+        If cboWCPilot.SelectedIndex <> -1 Then
+            lblFleetStatus.Text = "Active"
+            btnLeaveFleet.Enabled = True
+            lblWCShip.Enabled = True
+            cboWCShip.Enabled = True
+            If cboWCShip.SelectedIndex = -1 Then
+                Call Me.CalculateFleetEffects()
+            Else
+                Call Me.UpdateWCShipEffects()
+            End If
+        End If
+    End Sub
 
-	Private Sub cboFCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCPilot.SelectedIndexChanged
-		' Set the fleet status
-		If cboFCPilot.SelectedIndex <> -1 Then
-			lblFleetStatus.Text = "Active"
-			btnLeaveFleet.Enabled = True
-			lblFCShip.Enabled = True
-			cboFCShip.Enabled = True
-			If cboFCShip.SelectedIndex = -1 Then
-				Call Me.CalculateFleetEffects()
-			Else
-				Call Me.UpdateFCShipEffects()
-			End If
-		End If
-	End Sub
+    Private Sub cboFCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCPilot.SelectedIndexChanged
+        ' Set the fleet status
+        If cboFCPilot.SelectedIndex <> -1 Then
+            lblFleetStatus.Text = "Active"
+            btnLeaveFleet.Enabled = True
+            lblFCShip.Enabled = True
+            cboFCShip.Enabled = True
+            If cboFCShip.SelectedIndex = -1 Then
+                Call Me.CalculateFleetEffects()
+            Else
+                Call Me.UpdateFCShipEffects()
+            End If
+        End If
+    End Sub
 
-	Private Sub btnLeaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLeaveFleet.Click
-		' Set the fleet status
-		cboSCShip.SelectedIndex = -1 : cboWCShip.SelectedIndex = -1 : cboFCShip.SelectedIndex = -1
-		cboSCPilot.SelectedIndex = -1 : cboWCPilot.SelectedIndex = -1 : cboFCPilot.SelectedIndex = -1
-		cboSCShip.Enabled = False : cboWCShip.Enabled = False : cboFCShip.Enabled = False
-		lblSCShip.Enabled = False : lblWCShip.Enabled = False : lblFCShip.Enabled = False
-		cboSCShip.Tag = Nothing : cboWCShip.Tag = Nothing : cboFCShip.Tag = Nothing
-		lblFleetStatus.Text = "Inactive"
-		btnLeaveFleet.Enabled = False
-		Call Me.CalculateFleetEffects()
-	End Sub
+    Private Sub btnLeaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLeaveFleet.Click
+        ' Set the fleet status
+        cboSCShip.SelectedIndex = -1 : cboWCShip.SelectedIndex = -1 : cboFCShip.SelectedIndex = -1
+        cboSCPilot.SelectedIndex = -1 : cboWCPilot.SelectedIndex = -1 : cboFCPilot.SelectedIndex = -1
+        cboSCShip.Enabled = False : cboWCShip.Enabled = False : cboFCShip.Enabled = False
+        lblSCShip.Enabled = False : lblWCShip.Enabled = False : lblFCShip.Enabled = False
+        cboSCShip.Tag = Nothing : cboWCShip.Tag = Nothing : cboFCShip.Tag = Nothing
+        lblFleetStatus.Text = "Inactive"
+        btnLeaveFleet.Enabled = False
+        Call Me.CalculateFleetEffects()
+    End Sub
 
     Private Sub CalculateFleetSkillEffects()
 
@@ -3374,15 +3374,15 @@ Public Class ShipSlotControl
 
     End Sub
 
-	Private Sub cboSCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSCShip.SelectedIndexChanged
-		Call UpdateSCShipEffects()
-	End Sub
-	Private Sub cboWCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCShip.SelectedIndexChanged
-		Call UpdateWCShipEffects()
-	End Sub
-	Private Sub cboFCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCShip.SelectedIndexChanged
-		Call UpdateFCShipEffects()
-	End Sub
+    Private Sub cboSCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSCShip.SelectedIndexChanged
+        Call UpdateSCShipEffects()
+    End Sub
+    Private Sub cboWCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCShip.SelectedIndexChanged
+        Call UpdateWCShipEffects()
+    End Sub
+    Private Sub cboFCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCShip.SelectedIndexChanged
+        Call UpdateFCShipEffects()
+    End Sub
     Private Sub chkSCActive_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSCActive.CheckedChanged
         Call UpdateSCShipEffects()
     End Sub
@@ -3878,16 +3878,16 @@ Public Class ShipSlotControl
         UpdateBoosters = True
         For Each Booster As ShipModule In ParentFitting.BaseShip.BoosterSlotCollection
             Dim slot As Integer = CInt(Booster.Attributes("1087"))
-			Dim cb As ComboBox = CType(Me.tcStorage.Controls("tcpBoosters").Controls("cboBoosterSlot" & slot.ToString), ComboBox)
+            Dim cb As ComboBox = CType(Me.tcStorage.Controls("tcpBoosters").Controls("cboBoosterSlot" & slot.ToString), ComboBox)
             If cb.Items.Contains(Booster.Name) = True Then
                 cb.SelectedItem = Booster.Name
-			End If
+            End If
         Next
         UpdateBoosters = False
     End Sub
 
-	Private Sub cboBoosterSlots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBoosterSlot1.SelectedIndexChanged, cboBoosterSlot2.SelectedIndexChanged, cboBoosterSlot3.SelectedIndexChanged
-		Dim cb As ComboBox = CType(sender, ComboBox)
+    Private Sub cboBoosterSlots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBoosterSlot1.SelectedIndexChanged, cboBoosterSlot2.SelectedIndexChanged, cboBoosterSlot3.SelectedIndexChanged
+        Dim cb As ComboBox = CType(sender, ComboBox)
         Dim idx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
         Dim cblabel As Label = CType(Me.tcStorage.Controls("tcpBoosters").Controls("lblBoosterPenalties" & idx.ToString), Label)
         Dim bt As ButtonX = New ButtonX
@@ -3922,7 +3922,7 @@ Public Class ShipSlotControl
         Else
             bt.Enabled = False
         End If
-	End Sub
+    End Sub
 
     Private Sub ApplyBoosters(ByVal cb As ComboBox, ByVal ParentButton As ButtonX, ByVal idx As Integer)
         If UpdateBoosters = False Then
@@ -4223,6 +4223,8 @@ Public Class ShipSlotControl
 
 #End Region
 
+#Region "Booster UI Regions"
+
     Private Sub btnShowInfo1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowInfo1.Click
         Call ShowBoosterInfo(cboBoosterSlot1)
     End Sub
@@ -4382,7 +4384,7 @@ Public Class ShipSlotControl
                         If skillLevel = pilotLevel Then
                             newRelSkillLevel.Checked = True
                         End If
-                        AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                        AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotBoosterSkillLevel
                         newRelSkill.SubItems.Add(newRelSkillLevel)
                     Next
                     Dim defaultLevel As Integer = 0
@@ -4394,7 +4396,7 @@ Public Class ShipSlotControl
                     newRelSkillDefault.BeginGroup = True
                     newRelSkillDefault.Name = relSkill & defaultLevel.ToString
                     newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
-                    AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                    AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotBoosterSkillLevel
                     newRelSkill.SubItems.Add(newRelSkillDefault)
                     ParentButton.SubItems("btnAlterSkills" & idx.ToString).SubItems.Add(newRelSkill)
                 Next
@@ -4522,6 +4524,25 @@ Public Class ShipSlotControl
             Call Me.ApplyBoosters(cb, ParentButton, ButtonIdx)
         End If
     End Sub
+
+    Private Sub SetPilotBoosterSkillLevel(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim mnuPilotLevel As ButtonItem = CType(sender, ButtonItem)
+        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot)
+        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)), HQFSkill)
+        Dim level As Integer = CInt(mnuPilotLevel.Name.Substring(mnuPilotLevel.Name.Length - 1))
+        If level <> pilotSkill.Level Then
+            pilotSkill.Level = level
+            ParentFitting.ApplyFitting(BuildType.BuildEverything)
+        End If
+        ' Trigger an update of all open ship fittings!
+        HQFEvents.StartUpdateShipInfo = hPilot.PilotName
+        ' Rebuild all the menus for the boosters
+        Call Me.BuildBoosterSkills(cboBoosterSlot1, btnBoosterSlot1, 1)
+        Call Me.BuildBoosterSkills(cboBoosterSlot2, btnBoosterSlot2, 2)
+        Call Me.BuildBoosterSkills(cboBoosterSlot3, btnBoosterSlot3, 3)
+    End Sub
+
+#End Region
 
 End Class
 
