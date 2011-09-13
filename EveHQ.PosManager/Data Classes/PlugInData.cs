@@ -69,9 +69,6 @@ namespace EveHQ.PosManager
             }
         };
 
-        public static long Starbase_Config = 9007199254740992;
-        public static long ACME_ID = 1137908185;
-        public static long SOLJA_ID = 212476591;
         public static ArrayList POSSecList = new ArrayList();
         public static ArrayList IHubSecList = new ArrayList();
         public static SortedList<long, Player> SecUsers = new SortedList<long, Player>();
@@ -250,24 +247,14 @@ namespace EveHQ.PosManager
             foreach (Sov_Data sd in SLs.Systems.Values)
                 SystemIDToStr.Add((int)sd.systemID, sd.systemName);
 
-            // If we re-parsed the DB, need to update tower data structure for any possible changes
-            // to existing tower data information
-            // 11/30/2009 --> Update to include fuel itemID in FuelType data
-            PDL.LoadDesignListing();
-
-            if (!UseSerializableData)
-            {
-                PDL.UpdatePOSDesignData(TL);
-                PDL.SaveDesignListing();
-            }
-
+            PDL.LoadDesignListing();        // Load Tower Designs from Disk
             Config.LoadConfiguration();     // Load PoS Manager Configuration Information
-            API_D.LoadAPIListing();       // Load Tower API Data from Disk
-            PL.LoadPlayerList();
-            NL.LoadNotificationList();
-            LoadIHubListing();
-            LoadModuleLinkListFromDisk();
-            LoadBFStatsFromDB();
+            API_D.LoadAPIListing();         // Load Tower API Data from Disk
+            PL.LoadPlayerList();            // Load Player Listing
+            NL.LoadNotificationList();      // Load Notifications
+            LoadIHubListing();              // Load I-Hub data - if it exists
+            LoadModuleLinkListFromDisk();   // Load Module Link List data
+            LoadBFStatsFromDB();            // Load Base Fuel Stats
             LoadSecurityListing();
             if (Config.data.Extra.Count <= 0)
                 Config.data.Extra.Add((int)400);

@@ -2322,8 +2322,8 @@ namespace EveHQ.PosManager
             load = true;
 
             CurrentName = ct_PoSName.Text;
-            if (CurrentName.Contains(" <"))
-                CurrentName = CurrentName.Substring(0, CurrentName.IndexOf(" <"));
+            //if (CurrentName.Contains(" <"))
+            //    CurrentName = CurrentName.Substring(0, CurrentName.IndexOf(" <"));
 
             // 1. Get new PoS Data from List
             if (PlugInData.PDL.Designs.ContainsKey(CurrentName))
@@ -2857,7 +2857,7 @@ namespace EveHQ.PosManager
 
                     foreach (DataGridViewRow dr in dg_MonitoredTowers.Rows)
                     {
-                        if (dr.Cells[(int)MonDG.Name].Value.ToString().Contains(p.Name))
+                        if ((dr.Cells.Count >= (int)MonDG.Name) && dr.Cells[(int)MonDG.Name].Value.ToString().Contains(p.Name))
                         {
                             dg_ind = ind_ct;
                             break;
@@ -3669,15 +3669,13 @@ namespace EveHQ.PosManager
             SetReactionValuesAndUpdateDisplay();
             PopulateMonitoredPoSDisplay();
 
-            if ((Mon_dg_indx >= 0) && (dg_MonitoredTowers.Rows.Count >= Mon_dg_indx))
+            if ((Mon_dg_indx >= 0) && (dg_MonitoredTowers.Rows.Count > 0))
             {
                 dg_MonitoredTowers.CurrentCell = dg_MonitoredTowers.Rows[Mon_dg_indx].Cells[(int)MonDG.Name];
                 Object o = new Object();
                 EventArgs ea = new EventArgs();
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
-
-            //PlugInData.bgw_SendNotify.RunWorkerAsync();
 
             timeCheck = false;
         }
