@@ -3339,7 +3339,9 @@ Public Class frmPrism
                         Else
                             adtSellOrders.Enabled = True
                         End If
+                        EveHQ.Core.AdvTreeSorter.Sort(adtBuyOrders, 1, True, False)
                         adtBuyOrders.EndUpdate()
+                        EveHQ.Core.AdvTreeSorter.Sort(adtSellOrders, 1, True, False)
                         adtSellOrders.EndUpdate()
                     End If
 
@@ -3462,6 +3464,16 @@ Public Class frmPrism
                 Return "limited to Region"
         End Select
     End Function
+
+    Private Sub adtBuyOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtBuyOrders.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
+    End Sub
+
+    Private Sub adtSellOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtSellOrders.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
+    End Sub
 
 #End Region
 
@@ -7009,4 +7021,5 @@ Public Class frmPrism
 
 #End Region
 
+   
 End Class
