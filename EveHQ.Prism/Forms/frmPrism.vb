@@ -1871,6 +1871,7 @@ Public Class frmPrism
                         ' Write the installerIDs to the database
                         If APIXML IsNot Nothing Then
                             Call Prism.DataFunctions.WriteInstallerIDsToDB(APIXML)
+                            Call Prism.DataFunctions.WriteInventionResultsToDB(APIXML)
                         End If
 
                     End If
@@ -2249,6 +2250,7 @@ Public Class frmPrism
                             ' Write the installerIDs to the database
                             If APIXML IsNot Nothing Then
                                 Call Prism.DataFunctions.WriteInstallerIDsToDB(APIXML)
+                                Call Prism.DataFunctions.WriteInventionResultsToDB(APIXML)
                             End If
 
                         End If

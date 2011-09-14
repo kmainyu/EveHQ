@@ -31,11 +31,64 @@ Public Class DataFunctions
         If CheckAssetItemNameDBTable() = True Then
             If CheckWalletJournalDBTable() = True Then
                 If CheckWalletTransDBTable() = True Then
-                    Return True
+                    If CheckInventionResultsDBTable() = True Then
+                        Return True
+                    End If
                 End If
             End If
         End If
         Return False
+    End Function
+
+    Private Shared Function CheckInventionResultsDBTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("inventionResults") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE inventionResults")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  resultID       bigint IDENTITY(1,1),") ' Autonumber for this entry
+            strSQL.AppendLine("  jobID          bigint,")
+            strSQL.AppendLine("  resultDate     datetime,")
+            strSQL.AppendLine("  BPID           int,")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  installerID    bigint,")
+            strSQL.AppendLine("  result         int,") ' 0=failed, 1=success
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT inventionResults_PK PRIMARY KEY (resultID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+
     End Function
 
     Private Shared Function CheckAssetItemNameDBTable() As Boolean
@@ -657,6 +710,51 @@ Public Class DataFunctions
 
         ' Write the IDs to the database
         Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDList)
+
+    End Function
+
+    Public Shared Function WriteInventionResultsToDB(ByVal JobXML As XmlDocument) As Boolean
+
+        ' Parse the list of jobs
+        Dim InventionList As SortedList(Of Long, InventionJob) = InventionJob.ParseInventionJobsFromAPI(JobXML)
+
+        ' Prepare a list of job IDs that could already be in the DB
+        Dim DBList As New List(Of Long)
+        Dim IDList As New StringBuilder
+        For Each ID As Long In InventionList.Keys
+            IDList.Append("," & ID.ToString)
+        Next
+        If IDList.Length > 1 Then
+            IDList.Remove(0, 1)
+            ' Get the list from the DB
+            Dim strSQL As String = "SELECT * FROM inventionResults WHERE jobID IN (" & IDList.ToString & ");"
+            Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            If IDData IsNot Nothing Then
+                If IDData.Tables(0).Rows.Count > 0 Then
+                    For Each IDRow As DataRow In IDData.Tables(0).Rows
+                        DBList.Add(CLng(IDRow.Item("jobID")))
+                    Next
+                End If
+            End If
+        End If
+
+        ' Write new jobs to the database
+        Dim strIDInsert As String = "INSERT INTO inventionResults (jobID, resultDate, BPID, typeID, installerID, result) VALUES ("
+        For Each Job As InventionJob In InventionList.Values
+            If DBList.Contains(Job.JobID) = False Then
+                Dim uSQL As New StringBuilder
+                uSQL.Append(strIDInsert)
+                uSQL.Append(Job.JobID & ", ")
+                uSQL.Append("'" & Job.ResultDate.ToString(IndustryTimeFormat, culture) & "', ")
+                uSQL.Append(Job.BPID & ", ")
+                uSQL.Append(Job.TypeID & ", ")
+                uSQL.Append(Job.InstallerID & ", ")
+                uSQL.Append(Job.result & ");")
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                    'MessageBox.Show("There was an error writing data to the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
+                End If
+            End If
+        Next
 
     End Function
 
