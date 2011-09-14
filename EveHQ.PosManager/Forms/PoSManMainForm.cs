@@ -5329,10 +5329,59 @@ namespace EveHQ.PosManager
             lb_ReacSave.Text = ln;
         }
 
+        private void EqualizeCouplingLinkValues()
+        {
+            bool hasIn, hasOut;
+            ReactionLink inL, outL;
+
+            inL = new ReactionLink();
+            outL = new ReactionLink();
+
+            foreach (POS p in PlugInData.PDL.Designs.Values)
+            {
+                foreach (Module m in p.Modules)
+                {
+                    if (Convert.ToInt64(m.ModType).Equals(10))
+                    {
+                        hasIn = false;
+                        hasOut = false;
+
+                        foreach (ReactionLink rl in p.ReactionLinks)
+                        {
+                            if (rl.InpID == m.ModuleID)
+                            {
+                                hasIn = true;
+                                inL = rl;
+                            }
+
+                            if (rl.OutID == m.ModuleID)
+                            {
+                                hasOut = true;
+                                outL = rl;
+                            }
+
+                            if (hasIn && hasOut)
+                                break;
+                        }
+
+                        if (hasIn && hasOut)
+                        {
+                            // We are a coupling, and have both input and output links
+                            // Adjust the links for equal quantities
+                            inL.XferQty = outL.XferQty;
+                            inL.XferVol = outL.XferVol;
+                        }
+                    }
+                }
+            }
+        }
+
         public void SetModuleWarnOnValueAndTime()
         {
             bool fInp, fOutp;
             decimal xfIn, xfOut;
+
+            EqualizeCouplingLinkValues();
 
             foreach (POS p in PlugInData.PDL.Designs.Values)
             {
@@ -5385,7 +5434,13 @@ namespace EveHQ.PosManager
                             }
                             else if (fInp && fOutp)
                             {
-                                if (xfIn >= xfOut)
+                                if (xfIn == xfOut)
+                                {
+                                    // Silo is both an input and an output - WarnOn Full (1)
+                                    m.WarnOn = 1;
+                                    m.FillEmptyTime = Math.Floor((m.MaxQty - m.CapQty) / xfIn);
+                                }
+                                else if (xfIn > xfOut)
                                 {
                                     // Silo is both an input and an output - WarnOn Full (1)
                                     m.WarnOn = 1;
@@ -5996,7 +6051,6 @@ namespace EveHQ.PosManager
             if ((SrcMod.Category == "Silo") || (SrcMod.Category == "Moon Mining"))
             {
                 // Plain mineral incomming
-
                 // There are some cases, where the destination is a reaction, that the reaction
                 // should override on silo due to the selMineral.reactQty being just plain Wrong!
                 if ((DstMod.ModType == 5) || (DstMod.ModType == 6) || (DstMod.ModType == 7))

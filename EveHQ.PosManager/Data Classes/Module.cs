@@ -78,8 +78,8 @@ namespace EveHQ.PosManager
 
         // 0 = undefined
         // 1 = Full, 2 = Empty
-        public decimal WarnOn;          // When to warn about module fill amount / cap used
-        public decimal FillEmptyTime;   // Time until module if full or Empty
+        public decimal WarnOn;         // When to warn about module fill amount / cap used
+        public decimal FillEmptyTime;  // Time until module if full or Empty
         public decimal CapVol;         // How full the module might be
         public decimal CapQty;         // How full the module might be
         public decimal MaxQty;         // How much the module can hold
