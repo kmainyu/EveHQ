@@ -385,7 +385,7 @@ Public Class frmPrism
                 Call CheckCharXMLs(Owner)
         End Select
     End Sub
-    
+
     Private Sub CheckCharXMLs(Owner As PrismOwner)
 
         If Owner.IsCorp = False Then
@@ -398,38 +398,38 @@ Public Class frmPrism
                 Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                 ' Check for char assets
-                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, pilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
+                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
                 Call CheckXML(apiXML, Owner, CorpRepType.Assets)
 
                 ' Check for char balances
-                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesChar, pilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
+                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesChar, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
                 Call CheckXML(apiXML, Owner, CorpRepType.Balances)
 
                 ' Check for char jobs
-                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.IndustryChar, pilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
+                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.IndustryChar, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
                 Call CheckXML(apiXML, Owner, CorpRepType.Jobs)
 
                 ' Check for char journal
-                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, SelPilot.ID, 1000, 0, 256, ReturnMethod)
+                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.WalletJournalChar, PilotAccount.ToAPIAccount, SelPilot.ID, 1000, 0, 256, ReturnMethod)
                 Call CheckXML(apiXML, Owner, CorpRepType.WalletJournal)
 
                 ' Check for char orders
-                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.OrdersChar, pilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
+                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.OrdersChar, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
                 Call CheckXML(apiXML, Owner, CorpRepType.Orders)
 
                 ' Check for char transactions
-                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.WalletTransChar, pilotAccount.ToAPIAccount, SelPilot.ID, 1000, "", ReturnMethod)
+                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.WalletTransChar, PilotAccount.ToAPIAccount, SelPilot.ID, 1000, "", ReturnMethod)
                 Call CheckXML(apiXML, Owner, CorpRepType.WalletTransactions)
 
                 ' Check for char contracts
-                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.ContractsChar, pilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
+                apiXML = APIReq.GetAPIXML(EveAPI.APITypes.ContractsChar, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
                 Call CheckXML(apiXML, Owner, CorpRepType.Contracts)
 
                 ' Check for corp sheets
                 If Settings.PrismSettings.CorpReps.ContainsKey(SelPilot.Corp) Then
                     If Settings.PrismSettings.CorpReps(SelPilot.Corp).ContainsKey(CorpRepType.CorpSheet) Then
                         If Settings.PrismSettings.CorpReps(SelPilot.Corp).Item(CorpRepType.CorpSheet) = SelPilot.Name Then
-                            apiXML = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, pilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
+                            apiXML = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
                             Call CheckXML(apiXML, Owner, CorpRepType.CorpSheet)
                         Else
                             apiXML = Nothing
@@ -444,7 +444,7 @@ Public Class frmPrism
             End If
         End If
     End Sub
-   
+
     Private Sub CheckCorpXMLs(Owner As PrismOwner)
 
         If Owner.IsCorp = True Then
@@ -510,7 +510,7 @@ Public Class frmPrism
 
 #Region "Form Closing Routines"
 
-    Private Sub frmPrism_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmPrism_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
 
         ' Save the current blueprints
         Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Create)
@@ -2564,7 +2564,7 @@ Public Class frmPrism
 
 #End Region
 
-   
+
     Private Function CacheDate(ByVal APIXML As XmlDocument) As DateTime
         ' Get Cache time details
         Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
@@ -3465,12 +3465,12 @@ Public Class frmPrism
         End Select
     End Function
 
-    Private Sub adtBuyOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtBuyOrders.ColumnHeaderMouseUp
+    Private Sub adtBuyOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs)
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
 
-    Private Sub adtSellOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtSellOrders.ColumnHeaderMouseUp
+    Private Sub adtSellOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs)
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
@@ -6332,6 +6332,11 @@ Public Class frmPrism
         QP.Dispose()
     End Sub
 
+    Private Sub btnRigBuilder_Click(sender As System.Object, e As System.EventArgs) Handles btnRigBuilder.Click
+        tabPrism.SelectedTab = tiRigBuilder
+        tiRigBuilder.Visible = True
+    End Sub
+
 #End Region
 
 #Region "Search and Search UI Functions"
@@ -7021,5 +7026,302 @@ Public Class frmPrism
 
 #End Region
 
+#Region "Rig Builder Routines"
+    Private Sub GetSalvage()
+
+        Dim Owner As New PrismOwner
+        SalvageList.Clear()
+
+        For Each cOwner As ListViewItem In PSCRigOwners.ItemList.CheckedItems
+
+            If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
+                Owner = PlugInData.PrismOwners(cOwner.Text)
+                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
+
+                If OwnerAccount IsNot Nothing Then
+
+                    Dim AssetXML As New XmlDocument
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    If Owner.IsCorp = True Then
+                        AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    Else
+                        AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    End If
+
+                    If AssetXML IsNot Nothing Then
+                        Dim locList As XmlNodeList
+                        Dim loc As XmlNode
+                        locList = AssetXML.SelectNodes("/eveapi/result/rowset/row")
+                        If locList.Count > 0 Then
+                            For Each loc In locList
+                                Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
+                                If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                    Dim groupID As String = EveHQ.Core.HQ.itemData(itemID).Group.ToString
+                                    If CLng(groupID) = 754 Then
+
+                                        Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
+                                        Dim itemName As String = EveHQ.Core.HQ.itemData(itemID).Name
+                                        If SalvageList.Contains(itemName) = False Then
+                                            SalvageList.Add(itemName, quantity)
+                                        Else
+                                            SalvageList.Item(itemName) = CLng(SalvageList.Item(itemName)) + quantity
+                                        End If
+                                    End If
+                                End If
+
+                                ' Check if this row has child nodes and repeat
+                                If loc.HasChildNodes = True Then
+                                    Call Me.GetSalvageNode(SalvageList, loc)
+                                End If
+                            Next
+                        End If
+                    End If
+                End If
+            End If
+        Next
+    End Sub
+    Private Sub GetSalvageNode(ByVal SalvageList As SortedList, ByVal loc As XmlNode)
+        Dim subLocList As XmlNodeList
+        Dim subLoc As XmlNode
+        subLocList = loc.ChildNodes(0).ChildNodes
+        For Each subLoc In subLocList
+            Try
+                Dim itemID As String = subLoc.Attributes.GetNamedItem("typeID").Value
+                If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                    Dim groupID As String = EveHQ.Core.HQ.itemData(itemID).Group.ToString
+                    If CLng(groupID) = 754 Then
+                        Dim quantity As Long = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
+                        Dim itemName As String = EveHQ.Core.HQ.itemData(itemID).Name
+                        If SalvageList.Contains(itemName) = False Then
+                            SalvageList.Add(itemName, quantity)
+                        Else
+                            SalvageList.Item(itemName) = CLng(SalvageList.Item(itemName)) + quantity
+                        End If
+                    End If
+                End If
+
+                If subLoc.HasChildNodes = True Then
+                    Call Me.GetSalvageNode(SalvageList, subLoc)
+                End If
+
+            Catch ex As Exception
+               
+            End Try
+        Next
+    End Sub
+    Private Sub PrepareRigData()
+        ' Clear the build list
+        adtRigBuildList.Nodes.Clear()
+
+        ' Build a Salvage List
+        Call Me.GetSalvage()
+
+        ' Calculate the true Waste Factor
+        Dim BPWF As Double = 10
+        If nudRigMELevel.Value >= 0 Then
+            BPWF = 1 + ((1 / BPWF) / (1 + nudRigMELevel.Value))
+        Else
+            BPWF = 1 + ((1 / BPWF) * (1 - nudRigMELevel.Value))
+        End If
+
+        RigBPData = New SortedList
+        RigBuildData = New SortedList
+
+        ' Get the BP Details and build requirements
+        Dim strSQL As String = "SELECT invBuildMaterials.typeID AS invBuildMaterials_typeID, invBuildMaterials.activityID, invBuildMaterials.requiredTypeID, invBuildMaterials.quantity, invBuildMaterials.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
+        strSQL &= " FROM invTypes INNER JOIN invBuildMaterials ON invTypes.typeID = invBuildMaterials.typeID"
+        strSQL &= " WHERE (((invBuildMaterials.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
+        Dim rigData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Dim BPID As String = ""
+        Dim BPName As String = ""
+        Dim SalvageID As String = ""
+        Dim SalvageName As String = ""
+        Dim SalvageQ As Double = 0
+        Dim groupID As String = ""
+        For Each rigRow As DataRow In rigData.Tables(0).Rows
+            BPID = rigRow.Item("invTypes_typeID").ToString
+            BPName = EveHQ.Core.HQ.itemData(BPID).Name.TrimEnd(" Blueprint".ToCharArray)
+            If EveHQ.Core.HQ.itemList.ContainsKey(BPName) = True Then
+                ' Add it to the BPList if not already in
+                If RigBPData.Contains(BPName) = False Then
+                    RigBPData.Add(BPName, New SortedList)
+                End If
+                ' Read the required type and see if it is salvage (read groupID = 754)
+                SalvageID = rigRow.Item("requiredTypeID").ToString
+                groupID = EveHQ.Core.HQ.itemData(SalvageID).Group.ToString
+                If groupID = "754" Then
+                    SalvageName = EveHQ.Core.HQ.itemData(SalvageID).Name
+                    SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0)
+                    RigBuildData = CType(RigBPData.Item(BPName), Collections.SortedList)
+                    RigBuildData.Add(SalvageName, SalvageQ)
+                End If
+            End If
+        Next
+
+    End Sub
+    Private Sub GetBuildList()
+        Dim buildableBP As Boolean = False
+        Dim material As String = ""
+        Dim minQuantity As Double = 1.0E+99
+        Dim buildCost As Double = 0
+        Dim rigCost As Double = 0
+        adtRigs.BeginUpdate()
+        adtRigs.Nodes.Clear()
+        For Each BP As String In RigBPData.Keys
+            If EveHQ.Core.HQ.itemList.ContainsKey(BP) = True Then
+                buildableBP = True
+                minQuantity = 1.0E+99
+                buildCost = 0
+                ' Fetch the build requirements
+                RigBuildData = CType(RigBPData(BP), Collections.SortedList)
+                ' Go through the requirements and see if have sufficient materials
+                For Each material In RigBuildData.Keys
+                    If SalvageList.Contains(material) = True Then
+                        ' Check quantity
+                        If CDbl(SalvageList(material)) > CDbl(RigBuildData(material)) Then
+                            ' We have enough so let's calculate the quantity we can use
+                            minQuantity = Math.Min(minQuantity, (CDbl(SalvageList(material)) / CDbl(RigBuildData(material))))
+                        Else
+                            ' We are lacking
+                            buildableBP = False
+                            Exit For
+                        End If
+                    Else
+                        buildableBP = False
+                        Exit For
+                    End If
+                Next
+                ' Find the results
+                If buildableBP = True Then
+                    ' Caluclate the build cost
+                    For Each material In RigBuildData.Keys
+                        ' Get price
+                        buildCost += CInt(RigBuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(material))
+                    Next
+                    rigCost = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(BP))
+                    Dim lviBP2 As New Node
+                    lviBP2.Text = BP
+                    Dim Qty As Integer = CInt(Int(minQuantity))
+                    lviBP2.Cells.Add(New Cell(Qty.ToString("N0")))
+                    lviBP2.Cells.Add(New Cell(rigCost.ToString("N2")))
+                    lviBP2.Cells.Add(New Cell(buildCost.ToString("N2")))
+                    lviBP2.Cells.Add(New Cell((rigCost - buildCost).ToString("N2")))
+                    lviBP2.Cells.Add(New Cell((Qty * rigCost).ToString("N2")))
+                    lviBP2.Cells.Add(New Cell((Qty * buildCost).ToString("N2")))
+                    lviBP2.Cells.Add(New Cell((Qty * (rigCost - buildCost)).ToString("N2")))
+                    lviBP2.Cells.Add(New Cell((Qty * (rigCost - buildCost) / (Qty * rigCost) * 100).ToString("N2")))
+
+                    adtRigs.Nodes.Add(lviBP2)
+                End If
+            End If
+        Next
+        EveHQ.Core.AdvTreeSorter.Sort(adtRigs, 1, True, True)
+        adtRigs.EndUpdate()
+    End Sub
+    Private Sub adtRigs_NodeDoubleClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
+        Call AddRigToBuildList(e.Node)
+        Call Me.GetBuildList()
+        Call Me.CalculateRigBuildInfo()
+    End Sub
+    Private Sub adtRigBuildList_NodeDoubleClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
+        Call RemoveRigFromBuildList(e.Node)
+        Call Me.GetBuildList()
+        Call Me.CalculateRigBuildInfo()
+    End Sub
+    Private Sub AddRigToBuildList(ByVal currentRig As Node)
+        Dim newRig As New Node(currentRig.Text)
+        ' Add the selected rig to the build list
+        adtRigBuildList.Nodes.Add(newRig)
+        ' Copy details
+        For subI As Integer = 1 To currentRig.Cells.Count - 1
+            newRig.Cells.Add(New Cell(currentRig.Cells(subI).Text))
+        Next
+        'Get the salvage used by the rig and reduce the main list
+        Dim RigSalvageList As SortedList = CType(RigBPData(currentRig.Text), Collections.SortedList)
+        For Each salvage As String In RigSalvageList.Keys
+            SalvageList(salvage) = CInt(SalvageList(salvage)) - (CInt(RigSalvageList(salvage)) * CInt(currentRig.Cells(1).Text))
+        Next
+    End Sub
+    Private Sub RemoveRigFromBuildList(ByVal currentRig As Node)
+        ' Remove the selected rig to the build list
+        adtRigBuildList.Nodes.Remove(currentRig)
+        ' Get the salvage used by the rig and reduce the main list
+        Dim RigSalvageList As SortedList = CType(RigBPData(currentRig.Text), Collections.SortedList)
+        For Each salvage As String In RigSalvageList.Keys
+            SalvageList(salvage) = CInt(SalvageList(salvage)) + (CInt(RigSalvageList(salvage)) * CInt(currentRig.Cells(1).Text))
+        Next
+    End Sub
+    Private Sub chkRigSaleprice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRigSalePrice.CheckedChanged
+        If chkRigSalePrice.Checked = True Then
+            btnAutoRig.Tag = 3
+        End If
+    End Sub
+    Private Sub chkRigProfit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRigProfit.CheckedChanged
+        If chkRigProfit.Checked = True Then
+            btnAutoRig.Tag = 5
+        End If
+    End Sub
+    Private Sub chkRigMargin_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRigMargin.CheckedChanged
+        If chkRigMargin.Checked = True Then
+            btnAutoRig.Tag = 9
+        End If
+    End Sub
+    Private Sub chkTotalSalePrice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTotalSalePrice.CheckedChanged
+        If chkTotalSalePrice.Checked = True Then
+            btnAutoRig.Tag = 6
+        End If
+    End Sub
+    Private Sub chkTotalProfit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTotalProfit.CheckedChanged
+        If chkTotalProfit.Checked = True Then
+            btnAutoRig.Tag = 8
+        End If
+    End Sub
+    Private Sub CalculateRigBuildInfo()
+        Dim totalRSP, totalRP As Double
+        For Each rigItem As Node In adtRigBuildList.Nodes
+            totalRSP += CDbl(rigItem.Cells(5).Text)
+            totalRP += CDbl(rigItem.Cells(7).Text)
+        Next
+        lblTotalRigSalePrice.Text = "Total Rig Sale Price: " & FormatNumber(totalRSP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblTotalRigProfit.Text = "Total Rig Profit: " & FormatNumber(totalRP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblTotalRigMargin.Text = "Margin: " & FormatNumber(totalRP / totalRSP * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+    End Sub
+    Private Sub btnAutoRig_Click(sender As System.Object, e As System.EventArgs) Handles btnAutoRig.Click
+        ' Get the rig and salvage info
+        Call Me.PrepareRigData()
+        ' Get the list of available rigs
+        Call Me.GetBuildList()
+        Do While adtRigs.Nodes.Count > 0
+            EveHQ.Core.AdvTreeSorter.Sort(adtRigs, New EveHQ.Core.AdvTreeSortResult(CInt(btnAutoRig.Tag), Core.AdvTreeSortOrder.Descending), False)
+            AddRigToBuildList(adtRigs.Nodes(0))
+            Call Me.GetBuildList()
+        Loop
+        EveHQ.Core.AdvTreeSorter.Sort(adtRigBuildList, New EveHQ.Core.AdvTreeSortResult(CInt(btnAutoRig.Tag), Core.AdvTreeSortOrder.Descending), False)
+        Call Me.CalculateRigBuildInfo()
+    End Sub
+    Private Sub btnBuildRigs_Click(sender As System.Object, e As System.EventArgs) Handles btnBuildRigs.Click
+
+        ' Get the rig and salvage info
+        Call Me.PrepareRigData()
+
+        ' Get the list of available rigs
+        Call Me.GetBuildList()
+    End Sub
+    Private Sub btnExportRigList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportRigList.Click
+        Call Me.GenerateCSVFileFromCLV(PSCRigOwners.cboHost.Text, "Rig List", adtRigs)
+    End Sub
+    Private Sub btnExportRigBuildList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportRigBuildList.Click
+        Call Me.GenerateCSVFileFromCLV(PSCRigOwners.cboHost.Text, "Rig Build List", adtRigBuildList)
+    End Sub
+    Private Sub adtRigs_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtRigs.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+    End Sub
+    Private Sub adtRigBuildList_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtRigBuildList.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+    End Sub
+#End Region
    
 End Class
