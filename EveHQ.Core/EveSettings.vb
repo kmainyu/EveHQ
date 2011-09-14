@@ -52,7 +52,7 @@ Imports System.Data.OleDb
     Private cBackupFreq As Integer = 1
     Private cBackupLast As Date = CDate("01/01/1999")
     Private cBackupLastResult As Integer = 0
-    Private cQColumns(16, 1) As String
+    Private cQColumns(20, 1) As String
     Private cQColumnsSet As Boolean = False
     Private cDBFormat As Integer = -1
     Private cDBName As String = "EveHQ"
@@ -1494,7 +1494,7 @@ Imports System.Data.OleDb
     Public Property QColumns(ByVal col As Integer, ByVal ref As Integer) As String
         Get
             If cQColumns Is Nothing Then
-                ReDim cQColumns(16, 1)
+                ReDim cQColumns(20, 1)
             End If
             Return cQColumns(col, ref)
         End Get
