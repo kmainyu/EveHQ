@@ -673,7 +673,7 @@ Public Class frmPrism
             Dim cache As Date = CacheDate(apiXML)
             If cache <= Now Then
                 APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Blue
-                APIOwner.SubItems(Pos).Text = "Data Available"
+                APIOwner.SubItems(Pos).Text = "Cache Expired!"
             Else
                 APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
                 APIOwner.SubItems(Pos).Text = Format(cache, "dd MMM HH:mm")
