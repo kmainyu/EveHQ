@@ -76,7 +76,9 @@ Public Class DataFunctions
             strSQL.AppendLine("  resultDate     datetime,")
             strSQL.AppendLine("  BPID           int,")
             strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  typeName       nvarchar(100),")
             strSQL.AppendLine("  installerID    bigint,")
+            strSQL.AppendLine("  installerName  nvarchar(100),")
             strSQL.AppendLine("  result         int,") ' 0=failed, 1=success
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT inventionResults_PK PRIMARY KEY (resultID)")
@@ -739,7 +741,7 @@ Public Class DataFunctions
         End If
 
         ' Write new jobs to the database
-        Dim strIDInsert As String = "INSERT INTO inventionResults (jobID, resultDate, BPID, typeID, installerID, result) VALUES ("
+        Dim strIDInsert As String = "INSERT INTO inventionResults (jobID, resultDate, BPID, typeID, typeName, installerID, installerName, result) VALUES ("
         For Each Job As InventionJob In InventionList.Values
             If DBList.Contains(Job.JobID) = False Then
                 Dim uSQL As New StringBuilder
@@ -748,7 +750,9 @@ Public Class DataFunctions
                 uSQL.Append("'" & Job.ResultDate.ToString(IndustryTimeFormat, culture) & "', ")
                 uSQL.Append(Job.BPID & ", ")
                 uSQL.Append(Job.TypeID & ", ")
+                uSQL.Append("'" & Job.TypeName.Replace("'", "''") & "', ")
                 uSQL.Append(Job.InstallerID & ", ")
+                uSQL.Append("'" & Job.InstallerName.Replace("'", "''") & "', ")
                 uSQL.Append(Job.result & ");")
                 If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
                     'MessageBox.Show("There was an error writing data to the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  

@@ -25,7 +25,9 @@ Imports System.Text
     Public ResultDate As Date
     Public BPID As Integer
     Public TypeID As Integer
+    Public TypeName As String
     Public InstallerID As Long
+    Public InstallerName As String
     Public result As Integer
 
     Private Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
@@ -49,11 +51,21 @@ Imports System.Text
                         NewJob.JobID = CLng(Tran.Attributes.GetNamedItem("jobID").Value)
                         NewJob.ResultDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, culture)
                         NewJob.InstallerID = CLng(Tran.Attributes.GetNamedItem("installerID").Value)
+                        NewJob.InstallerName = ""
                         NewJob.BPID = CInt(Tran.Attributes.GetNamedItem("installedItemTypeID").Value)
                         NewJob.TypeID = CInt(Tran.Attributes.GetNamedItem("outputTypeID").Value)
+                        NewJob.TypeName = EveHQ.Core.HQ.itemData(NewJob.TypeID.ToString).Name
                         NewJob.result = CInt(Tran.Attributes.GetNamedItem("completedStatus").Value)
                         JobList.Add(NewJob.JobID, NewJob)
                     End If
+                End If
+            Next
+            ' Get Installer Names
+            Dim IDList As SortedList(Of Long, String) = InventionJob.GetInstallerList(JobList)
+            ' Add installer names
+            For Each Job As InventionJob In JobList.Values
+                If IDList.ContainsKey(Job.InstallerID) Then
+                    Job.InstallerName = IDList(Job.InstallerID)
                 End If
             Next
             Return JobList
@@ -63,9 +75,9 @@ Imports System.Text
 
     End Function
 
-    Public Shared Function GetInstallerList(ByVal JobList As List(Of IndustryJob)) As SortedList(Of Long, String)
+    Public Shared Function GetInstallerList(ByVal JobList As SortedList(Of Long, InventionJob)) As SortedList(Of Long, String)
         Dim IDList As New List(Of String)
-        For Each Job As IndustryJob In JobList
+        For Each Job As InventionJob In JobList.Values
             If IDList.Contains(Job.InstallerID.ToString) = False Then
                 IDList.Add(Job.InstallerID.ToString)
             End If
