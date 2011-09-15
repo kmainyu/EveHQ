@@ -285,6 +285,29 @@ Public Class PrismSelectionControl
                     Next
                 End If
 
+            Case PrismSelectionType.InventionInstallers
+                Dim strSQL As String = "SELECT DISTINCT installerName from inventionResults;"
+                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                If ItemData IsNot Nothing Then
+                    For Each DR As DataRow In ItemData.Tables(0).Rows
+                        Dim NewItem As New ListViewItem(DR.Item(0).ToString.Trim)
+                        NewItem.Name = DR.Item(0).ToString.Trim
+                        lvwItems.Items.Add(NewItem)
+                    Next
+                End If
+                CheckDefaultCharacter()
+
+            Case PrismSelectionType.InventionItems
+                Dim strSQL As String = "SELECT DISTINCT typeName from inventionResults;"
+                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                If ItemData IsNot Nothing Then
+                    For Each DR As DataRow In ItemData.Tables(0).Rows
+                        Dim NewItem As New ListViewItem(DR.Item(0).ToString.Trim)
+                        NewItem.Name = DR.Item(0).ToString.Trim
+                        lvwItems.Items.Add(NewItem)
+                    Next
+                End If
+
         End Select
 
         ' Finalise list
@@ -325,4 +348,6 @@ Public Enum PrismSelectionType
     JournalOwnersCorps = 7
     TransactionOwnersChars = 8
     TransactionOwnersCorps = 9
+    InventionInstallers = 10
+    InventionItems = 11
 End Enum
