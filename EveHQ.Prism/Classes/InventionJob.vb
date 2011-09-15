@@ -75,6 +75,41 @@ Imports System.Text
 
     End Function
 
+    Public Shared Function ParseInventionJobsFromDB(strSQL As String) As SortedList(Of Long, InventionJob)
+
+        Dim JobList As New SortedList(Of Long, InventionJob)
+
+        Try
+            If strSQL <> "" Then
+                ' Fetch the data
+                Dim JobData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                If JobData IsNot Nothing Then
+                    If JobData.Tables(0).Rows.Count > 0 Then
+                        For Each JE As DataRow In JobData.Tables(0).Rows
+                            Dim Job As New InventionJob
+                            Job.JobID = CLng(JE.Item("jobID"))
+                            Job.ResultDate = DateTime.Parse(JE.Item("resultDate").ToString)
+                            Job.BPID = CInt(JE.Item("BPID"))
+                            Job.TypeID = CInt(JE.Item("typeID"))
+                            Job.TypeName = JE.Item("typeName").ToString
+                            Job.InstallerID = CLng(JE.Item("installerID"))
+                            Job.InstallerName = JE.Item("installerName").ToString
+                            Job.result = CInt(JE.Item("result"))
+
+                            JobList.Add(Job.JobID, Job)
+
+                        Next
+                    End If
+                End If
+            End If
+        Catch e As Exception
+
+        End Try
+
+        Return JobList
+
+    End Function
+
     Public Shared Function GetInstallerList(ByVal JobList As SortedList(Of Long, InventionJob)) As SortedList(Of Long, String)
         Dim IDList As New List(Of String)
         For Each Job As InventionJob In JobList.Values
@@ -110,4 +145,53 @@ Imports System.Text
         Next
         Return InstallerList
     End Function
+
+    Public Shared Function CalculateInventionStats(JobList As SortedList(Of Long, InventionJob)) As SortedList(Of String, SortedList(Of String, InventionResults))
+
+        Dim Stats As New SortedList(Of String, SortedList(Of String, InventionResults))
+
+        For Each Job As InventionJob In JobList.Values
+
+            ' Check for existing installer
+            Dim Types As New SortedList(Of String, InventionResults)
+            If Stats.ContainsKey(Job.InstallerName) = True Then
+                ' Fetch the types
+                Types = Stats(Job.InstallerName)
+            Else
+                ' Add a new list of types
+                Stats.Add(Job.InstallerName, Types)
+            End If
+
+            ' We got the types, let's see if the module already exists
+            Dim TypeResults As New InventionResults
+            If Types.ContainsKey(Job.TypeName) = True Then
+                ' Fetch the results for this type
+                TypeResults = Types(Job.TypeName)
+            Else
+                ' Add this type
+                TypeResults.InstallerName = Job.InstallerName
+                TypeResults.TypeName = Job.TypeName
+                Types.Add(Job.TypeName, TypeResults)
+            End If
+
+            ' Add the specific data
+            Select Case Job.result
+                Case 1
+                    TypeResults.Successes += 1
+                Case Else
+                    TypeResults.Failures += 1
+            End Select
+
+        Next
+
+        Return Stats
+
+    End Function
+End Class
+
+Public Class InventionResults
+    Public InstallerName As String
+    Public TypeName As String
+    Public Successes As Long
+    Public Failures As Long
 End Class

@@ -167,6 +167,7 @@ Public Class frmPrism
         ' Initialise the Journal and Transaction Data
         Call Me.InitialiseJournal()
         Call Me.InitialiseTransactions()
+        Call Me.InitialiseInventionResults()
 
         ' Build the BP Manager category lists
         cboCategoryFilter.BeginUpdate()
@@ -6339,6 +6340,11 @@ Public Class frmPrism
         tiRigBuilder.Visible = True
     End Sub
 
+    Private Sub btnInventionResults_Click(sender As System.Object, e As System.EventArgs) Handles btnInventionResults.Click
+        tabPrism.SelectedTab = tiInventionResults
+        tiInventionResults.Visible = True
+    End Sub
+
 #End Region
 
 #Region "Search and Search UI Functions"
@@ -7325,5 +7331,234 @@ Public Class frmPrism
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
 #End Region
+
+#Region "Invention Results Routines"
+
+    Private Sub InitialiseInventionResults()
+        ' Prepare info
+        dtiInventionEndDate.Value = Now
+        dtiInventionStartDate.Value = Now.AddMonths(-1)
+        cboInventionInstallers.DropDownControl = New PrismSelectionControl(PrismSelectionType.InventionInstallers, True, cboInventionInstallers)
+        cboInventionItems.DropDownControl = New PrismSelectionControl(PrismSelectionType.InventionItems, True, cboInventionItems)
+    End Sub
+
+    Private Sub DisplayInventionResults()
+        Dim strSQL As String = "SELECT * FROM inventionResults"
+        strSQL &= " WHERE inventionResults.resultDate >= '" & dtiInventionStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND inventionResults.resultDate <= '" & dtiInventionEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
+
+        ' Build the Owners List
+        If cboInventionInstallers.Text <> "<All>" Then
+            Dim OwnerList As New StringBuilder
+            For Each LVI As ListViewItem In CType(cboInventionInstallers.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems
+                OwnerList.Append(", '" & LVI.Name.Replace("'", "''") & "'")
+            Next
+            If OwnerList.Length > 2 Then
+                OwnerList.Remove(0, 2)
+            End If
+            ' Default to None
+            strSQL &= " AND inventionResults.installerName IN (" & OwnerList.ToString & ")"
+        End If
+
+        ' Filter item type
+        If cboInventionItems.Text <> "All" Then
+            ' Build a ref type list
+            Dim ItemTypeList As New StringBuilder
+            For Each LVI As ListViewItem In CType(cboInventionItems.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems
+                ItemTypeList.Append(", '" & LVI.Name.Replace("'", "''") & "'")
+            Next
+            If ItemTypeList.Length > 2 Then
+                ItemTypeList.Remove(0, 2)
+                strSQL &= " AND inventionResults.typeName IN (" & ItemTypeList.ToString & ")"
+            End If
+        End If
+
+        ' Order the data
+        strSQL &= " ORDER BY inventionResults.resultDate ASC;"
+
+        ' Get the data
+        Dim JobList As SortedList(Of Long, InventionJob) = InventionJob.ParseInventionJobsFromDB(strSQL)
+
+        ' Populate the list
+        adtInventionResults.BeginUpdate()
+        adtInventionResults.Nodes.Clear()
+
+        If JobList.Count > 0 Then
+
+            For Each job As InventionJob In JobList.Values
+                Dim JobItem As New Node
+                JobItem.Name = job.JobID.ToString
+                JobItem.Text = job.ResultDate.ToString
+                JobItem.Cells.Add(New Cell(job.TypeName))
+                JobItem.Cells.Add(New Cell(job.InstallerName))
+                Select Case job.result
+                    Case 1
+                        JobItem.Cells.Add(New Cell("Successful"))
+                    Case Else
+                        JobItem.Cells.Add(New Cell("Failed"))
+                End Select
+                adtInventionResults.Nodes.Add(JobItem)
+            Next
+            adtInventionResults.Enabled = True
+        Else
+            adtInventionResults.Nodes.Add(New Node("No Data Available..."))
+            adtInventionResults.Enabled = False
+        End If
+
+        adtInventionResults.EndUpdate()
+
+        ' Update the Stats
+        Call Me.DisplayInventionStats(JobList)
+
+    End Sub
+
+    Private Sub DisplayInventionStats(JobList As SortedList(Of Long, InventionJob))
+
+        adtInventionStats.BeginUpdate()
+        adtInventionStats.Nodes.Clear()
+
+        ' Clear and add default column
+        adtInventionStats.Columns.Clear()
+        Dim TypeNameCol As New DevComponents.AdvTree.ColumnHeader
+        TypeNameCol.Name = "TypeName"
+        TypeNameCol.Text = "Item Type"
+        TypeNameCol.Width.Absolute = 250
+        TypeNameCol.DisplayIndex = 1
+        adtInventionStats.Columns.Add(TypeNameCol)
+
+        ' Get the Invention Stats
+        Dim Stats As SortedList(Of String, SortedList(Of String, InventionResults)) = InventionJob.CalculateInventionStats(JobList)
+
+        If Stats.Count > 0 Then
+
+            ' Add columns and rows based
+            Dim ColIdx As Integer = 0
+            For Each installerName As String In Stats.Keys
+                Dim ICol As New DevComponents.AdvTree.ColumnHeader
+                ColIdx += 1
+                ICol.Name = installerName
+                ICol.Text = installerName
+                ICol.Width.Absolute = 150
+                ICol.DisplayIndex = ColIdx + 1
+                ICol.EditorType = eCellEditorType.Custom
+                adtInventionStats.Columns.Add(ICol)
+
+                ' Check for modules
+                For Each TypeName As String In Stats(installerName).Keys
+                    ' Check it doesn't already exist
+                    Dim TypeNode As Node = adtInventionStats.FindNodeByName(TypeName)
+                    If TypeNode Is Nothing Then
+                        ' Node doesn't exist, so add it
+                        TypeNode = New Node
+                        TypeNode.Name = TypeName
+                        TypeNode.Text = TypeName
+                        adtInventionStats.Nodes.Add(TypeNode)
+                    End If
+                Next
+            Next
+
+            ' Add the "Average Column"
+            Dim AvgCol As New DevComponents.AdvTree.ColumnHeader
+            ColIdx += 1
+            AvgCol.Name = "Item Average"
+            AvgCol.Text = "Item Average"
+            AvgCol.Width.Absolute = 150
+            AvgCol.DisplayIndex = ColIdx + 1
+            AvgCol.EditorType = eCellEditorType.Custom
+            adtInventionStats.Columns.Add(AvgCol)
+
+            ' Populate the grid with blank cells
+            For n As Integer = 0 To adtInventionStats.Nodes.Count - 1
+                For c As Integer = 1 To adtInventionStats.Columns.Count - 1
+                    adtInventionStats.Nodes(n).Cells.Add(New Cell("n/a"))
+                    adtInventionStats.Nodes(n).Cells(c).Tag = -1
+                Next
+            Next
+
+            ' Populate the grid with proper data
+            Dim TypeAvgs As New SortedList(Of String, InventionResults)
+            ColIdx = 0
+            For Each installerName As String In Stats.Keys
+                ColIdx += 1
+
+                ' Check for modules
+                For Each TypeName As String In Stats(installerName).Keys
+                    ' Check it doesn't already exist
+                    Dim TypeNode As Node = adtInventionStats.FindNodeByName(TypeName)
+                    If TypeNode IsNot Nothing Then
+                        ' Get the results
+                        Dim Results As InventionResults = Stats(installerName).Item(TypeName)
+                        Dim Percent As Double = Results.Successes / (Results.Successes + Results.Failures) * 100
+                        TypeNode.Cells(ColIdx).Text = Results.Successes.ToString & " / " & (Results.Successes + Results.Failures).ToString & " (" & Percent.ToString("N2") & "%)"
+                        TypeNode.Cells(ColIdx).Tag = Percent
+                        ' Add results to the averages
+                        Dim TypeAvg As New InventionResults
+                        If TypeAvgs.ContainsKey(TypeName) = True Then
+                            TypeAvg = TypeAvgs(TypeName)
+                        Else
+                            TypeAvgs.Add(TypeName, TypeAvg)
+                        End If
+                        TypeAvg.Successes += Results.Successes
+                        TypeAvg.Failures += Results.Failures
+                    End If
+                Next
+            Next
+
+            ' Display Averages
+            ColIdx = adtInventionStats.Columns.Count - 1
+            For Each TypeNode As Node In adtInventionStats.Nodes
+                If TypeAvgs.ContainsKey(TypeNode.Name) = True Then
+                    Dim Results As InventionResults = TypeAvgs(TypeNode.Name)
+                    Dim Percent As Double = Results.Successes / (Results.Successes + Results.Failures) * 100
+                    TypeNode.Cells(ColIdx).Text = Results.Successes.ToString & " / " & (Results.Successes + Results.Failures).ToString & " (" & Percent.ToString("N2") & "%)"
+                    TypeNode.Cells(ColIdx).Tag = Percent
+                End If
+            Next
+
+            EveHQ.Core.AdvTreeSorter.Sort(adtInventionStats, 1, False, False)
+
+            adtInventionStats.Enabled = True
+        Else
+            adtInventionStats.Nodes.Add(New Node("No Data Available..."))
+            adtInventionStats.Enabled = False
+        End If
+
+        adtInventionStats.EndUpdate()
+
+    End Sub
+
+    Private Sub btnGetResults_Click(sender As System.Object, e As System.EventArgs) Handles btnGetResults.Click
+        Call Me.DisplayInventionResults()
+    End Sub
+
+    Private Sub dtiInventionStartDate_ButtonCustom2Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiInventionStartDate.ButtonCustom2Click
+        dtiInventionStartDate.Value = New Date(dtiInventionStartDate.Value.Year, dtiInventionStartDate.Value.Month, dtiInventionStartDate.Value.Day)
+    End Sub
+
+    Private Sub dtiInventionStartDate_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiInventionStartDate.ButtonCustomClick
+        dtiInventionStartDate.Value = Now
+    End Sub
+
+    Private Sub dtiInventionEndDate_ButtonCustom2Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiInventionEndDate.ButtonCustom2Click
+        dtiInventionEndDate.Value = New Date(dtiInventionEndDate.Value.Year, dtiInventionEndDate.Value.Month, dtiInventionEndDate.Value.Day)
+    End Sub
+
+    Private Sub dtiInventionEndDate_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiInventionEndDate.ButtonCustomClick
+        dtiInventionEndDate.Value = Now
+    End Sub
+
+    Private Sub adtInventionResults_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtInventionResults.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
+    End Sub
+
+    Private Sub adtInventionStats_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
+    End Sub
+
+#End Region
+
+    
+
    
 End Class

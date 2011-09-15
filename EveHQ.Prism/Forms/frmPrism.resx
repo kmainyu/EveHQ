@@ -186,9 +186,6 @@
   <metadata name="ctxBPManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>360, 17</value>
   </metadata>
-  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>261, 17</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnProductionManager.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1080,6 +1077,105 @@
         68H3cAl/C79TAUgAdrfrv/ICh8WQAIAfwAfg/QG8deYEwCMCw/4DOEbhTM3yJ+BnePqCy5/38PPPd/C3
         cD3YveF7uK2fbcIlz4938Bpg79f9v1LN/f+1r8C+AvsK7Cuwr8C+AvsK7Cuwr8CvU+DfLnMYPVmHqbQA
         AAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btnInventionResults.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
 </value>
   </data>
   <data name="btnOrders.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2334,59 +2430,17 @@
         gg==
 </value>
   </data>
-  <metadata name="colRigListType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1204, 329</value>
+  <metadata name="colInventionDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1188, 368</value>
   </metadata>
-  <metadata name="colRigListQuantity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 368</value>
+  <metadata name="colInventionItem.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 407</value>
   </metadata>
-  <metadata name="colRigListRigPrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>164, 368</value>
+  <metadata name="colInventionInstaller.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>164, 407</value>
   </metadata>
-  <metadata name="colRigListSalvagePrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>311, 368</value>
-  </metadata>
-  <metadata name="colRigListBuildBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>458, 368</value>
-  </metadata>
-  <metadata name="colRigListRigValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>605, 368</value>
-  </metadata>
-  <metadata name="colRigListSalvageValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>752, 368</value>
-  </metadata>
-  <metadata name="colRigListTotalBuildBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>899, 368</value>
-  </metadata>
-  <metadata name="colRigListMargin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1046, 368</value>
-  </metadata>
-  <metadata name="colRigBuildType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1225, 2</value>
-  </metadata>
-  <metadata name="colRigBuildQuantity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>24, 329</value>
-  </metadata>
-  <metadata name="colRigBuidRigPrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>171, 329</value>
-  </metadata>
-  <metadata name="colRigBuildSalvagePrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>318, 329</value>
-  </metadata>
-  <metadata name="colRigBuildBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>465, 329</value>
-  </metadata>
-  <metadata name="colRigBuildRigValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>612, 329</value>
-  </metadata>
-  <metadata name="colRigBuildSalvageValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>759, 329</value>
-  </metadata>
-  <metadata name="colRigBuildTotalBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>906, 329</value>
-  </metadata>
-  <metadata name="colRigBuildMargin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1053, 329</value>
+  <metadata name="colInventionResult.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>311, 407</value>
   </metadata>
   <data name="btnRefreshAPI.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2544,6 +2598,27 @@
   <metadata name="colItemSearch.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>186, 95</value>
   </metadata>
+  <metadata name="colIJobsItem.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>723, 17</value>
+  </metadata>
+  <metadata name="colIJobsActivity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>242, 134</value>
+  </metadata>
+  <metadata name="colIJobsRuns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>377, 134</value>
+  </metadata>
+  <metadata name="colIJobsInstaller.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>499, 134</value>
+  </metadata>
+  <metadata name="colIJobsLocation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>637, 134</value>
+  </metadata>
+  <metadata name="colIJobsEndTime.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>778, 134</value>
+  </metadata>
+  <metadata name="colIJobsStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>920, 134</value>
+  </metadata>
   <metadata name="colJournalDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>680, 56</value>
   </metadata>
@@ -2558,33 +2633,6 @@
   </metadata>
   <metadata name="colJournalDescription.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 95</value>
-  </metadata>
-  <metadata name="colContractTitle.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>147, 290</value>
-  </metadata>
-  <metadata name="colContractLocation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>284, 290</value>
-  </metadata>
-  <metadata name="colContractTransaction.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1141, 17</value>
-  </metadata>
-  <metadata name="colContractType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>444, 290</value>
-  </metadata>
-  <metadata name="colContractStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>584, 290</value>
-  </metadata>
-  <metadata name="colContractDateIssued.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>731, 290</value>
-  </metadata>
-  <metadata name="colContractDateExpired.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>905, 290</value>
-  </metadata>
-  <metadata name="colContractPrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1085, 290</value>
-  </metadata>
-  <metadata name="colContractVolume.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>985, 17</value>
   </metadata>
   <metadata name="colTransDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 56</value>
@@ -2607,50 +2655,59 @@
   <metadata name="colTransClient.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>554, 212</value>
   </metadata>
-  <metadata name="colIJobsItem.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>723, 17</value>
+  <metadata name="colRigListType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1204, 329</value>
   </metadata>
-  <metadata name="colIJobsActivity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>242, 134</value>
+  <metadata name="colRigListQuantity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 368</value>
   </metadata>
-  <metadata name="colIJobsRuns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>377, 134</value>
+  <metadata name="colRigListRigPrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>164, 368</value>
   </metadata>
-  <metadata name="colIJobsInstaller.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>499, 134</value>
+  <metadata name="colRigListSalvagePrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>311, 368</value>
   </metadata>
-  <metadata name="colIJobsLocation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>637, 134</value>
+  <metadata name="colRigListBuildBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>458, 368</value>
   </metadata>
-  <metadata name="colIJobsEndTime.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>778, 134</value>
+  <metadata name="colRigListRigValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>605, 368</value>
   </metadata>
-  <metadata name="colIJobsStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>920, 134</value>
+  <metadata name="colRigListSalvageValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>752, 368</value>
   </metadata>
-  <metadata name="colBPMBlueprint.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>403, 56</value>
+  <metadata name="colRigListTotalBuildBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>899, 368</value>
   </metadata>
-  <metadata name="colBPMLocation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>821, 95</value>
+  <metadata name="colRigListMargin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1046, 368</value>
   </metadata>
-  <metadata name="colBPMLocation2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>960, 95</value>
+  <metadata name="colRigBuildType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1225, 2</value>
   </metadata>
-  <metadata name="colBPMTechLevel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1106, 95</value>
+  <metadata name="colRigBuildQuantity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 329</value>
   </metadata>
-  <metadata name="colBPMME.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1252, 95</value>
+  <metadata name="colRigBuidRigPrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>171, 329</value>
   </metadata>
-  <metadata name="colBPMPE.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 134</value>
+  <metadata name="colRigBuildSalvagePrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>318, 329</value>
   </metadata>
-  <metadata name="colBPMRuns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>123, 134</value>
+  <metadata name="colRigBuildBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>465, 329</value>
   </metadata>
-  <metadata name="colBPMStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>314, 95</value>
+  <metadata name="colRigBuildRigValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>612, 329</value>
+  </metadata>
+  <metadata name="colRigBuildSalvageValue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>759, 329</value>
+  </metadata>
+  <metadata name="colRigBuildTotalBenefit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>906, 329</value>
+  </metadata>
+  <metadata name="colRigBuildMargin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1053, 329</value>
   </metadata>
   <metadata name="colSellType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>529, 173</value>
@@ -2688,6 +2745,33 @@
   <metadata name="colBuyExpires.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>403, 173</value>
   </metadata>
+  <metadata name="colContractTitle.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>147, 290</value>
+  </metadata>
+  <metadata name="colContractLocation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>284, 290</value>
+  </metadata>
+  <metadata name="colContractTransaction.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1141, 17</value>
+  </metadata>
+  <metadata name="colContractType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>444, 290</value>
+  </metadata>
+  <metadata name="colContractStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>584, 290</value>
+  </metadata>
+  <metadata name="colContractDateIssued.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>731, 290</value>
+  </metadata>
+  <metadata name="colContractDateExpired.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>905, 290</value>
+  </metadata>
+  <metadata name="colContractPrice.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1085, 290</value>
+  </metadata>
+  <metadata name="colContractVolume.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>985, 17</value>
+  </metadata>
   <metadata name="colJobName.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>604, 17</value>
   </metadata>
@@ -2705,6 +2789,30 @@
   </metadata>
   <metadata name="colBatchName.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>691, 95</value>
+  </metadata>
+  <metadata name="colBPMBlueprint.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>403, 56</value>
+  </metadata>
+  <metadata name="colBPMLocation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>821, 95</value>
+  </metadata>
+  <metadata name="colBPMLocation2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>960, 95</value>
+  </metadata>
+  <metadata name="colBPMTechLevel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1106, 95</value>
+  </metadata>
+  <metadata name="colBPMME.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1252, 95</value>
+  </metadata>
+  <metadata name="colBPMPE.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 134</value>
+  </metadata>
+  <metadata name="colBPMRuns.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>123, 134</value>
+  </metadata>
+  <metadata name="colBPMStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>314, 95</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
