@@ -206,6 +206,10 @@ namespace EveHQ.PosManager
                         PlugInData.LogAPIError(9999, "API Bypassed for POS ", pilotAccount.APIKeyType.ToString() + " | " + pilotAccount.APIKeyExpiryDate.ToString() + " | " + pilotAccount.APIAccountStatus.ToString() + " for " + pilotAccount.FriendlyName);
                     }
                 }
+                else
+                {
+                    PlugInData.LogAPIError(9999, "API Bypassed for POS ", " for " + pilotAccount.FriendlyName + " as Account is Not Active!");
+                }
             }
 
         }
