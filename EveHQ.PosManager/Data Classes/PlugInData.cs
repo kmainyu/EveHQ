@@ -1957,17 +1957,20 @@ namespace EveHQ.PosManager
                 PMF.DataUpdateInProgress();
             }
 
-            // Get Category Listing
-            strSQL = "SELECT invGroups.groupID FROM invGroups WHERE invGroups.categoryID=23 AND invGroups.published=1;";
-            cd = EveHQ.Core.DataFunctions.GetData(strSQL);
-            foreach (DataRow dr in cd.Tables[0].Rows)
+            if (TowerMods.Count < 1)
             {
+                // Get Category Listing
+                strSQL = "SELECT invGroups.groupID FROM invGroups WHERE invGroups.categoryID=23 AND invGroups.published=1;";
+                cd = EveHQ.Core.DataFunctions.GetData(strSQL);
+                foreach (DataRow dr in cd.Tables[0].Rows)
+                {
 
-                strSQL = "SELECT invTypes.typeID FROM invTypes WHERE invTypes.groupID=" + Convert.ToInt32(dr.ItemArray[0].ToString()) + ";";
-                mt = EveHQ.Core.DataFunctions.GetData(strSQL);
+                    strSQL = "SELECT invTypes.typeID FROM invTypes WHERE invTypes.groupID=" + Convert.ToInt32(dr.ItemArray[0].ToString()) + ";";
+                    mt = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-                foreach (DataRow mr in mt.Tables[0].Rows)
-                    TowerMods.Add(Convert.ToInt32(mr.ItemArray[0].ToString()));    
+                    foreach (DataRow mr in mt.Tables[0].Rows)
+                        TowerMods.Add(Convert.ToInt32(mr.ItemArray[0].ToString()));
+                }
             }
 
             if ((Config.data.AutoAPI > 0) || ManualUpdate)
