@@ -2937,7 +2937,13 @@ namespace EveHQ.PosManager
                     ScanModuleAssetts(siNode.ChildNodes, mitm);
                 }
 
-                APMI.Items.Add(mitm.itemID, mitm);
+                try
+                {
+                    APMI.Items.Add(mitm.itemID, mitm);
+                }
+                catch
+                { 
+                }
             }
         }
 
@@ -2947,9 +2953,6 @@ namespace EveHQ.PosManager
             ModuleItem mitm;
             string strSQL;
             DataSet itmNM;
-
-            if (MI.SubItems == null)
-                MI.SubItems = new SortedList<long, ModuleItem>();
 
             foreach (XmlNode itN in XNL)
             {
@@ -2969,6 +2972,8 @@ namespace EveHQ.PosManager
                     if (!ItemIDToName.ContainsKey(mitm.itemID))
                         ItemIDToName.Add(mitm.itemID, mitm.name);
 
+                    mitm.SubItems = new SortedList<long, ModuleItem>();
+
                     if (itN.ChildNodes.Count > 0)
                     {
                         // Contents of Cans, Ships, Etc... (in theory)
@@ -2976,7 +2981,13 @@ namespace EveHQ.PosManager
                         ScanModuleAssetts(siNode.ChildNodes, mitm);
                     }
 
-                    MI.SubItems.Add(mitm.itemID, mitm);
+                    try
+                    {
+                        MI.SubItems.Add(mitm.itemID, mitm);
+                    }
+                    catch 
+                    { 
+                    }
                 }
             }
         }
