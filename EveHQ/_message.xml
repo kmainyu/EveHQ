@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>04/09/2011 16:00:00</lastUpdated>
-  <title>WELCOME TO EVEHQ v2!</title>
+  <lastUpdated>16/09/2011 16:00:00</lastUpdated>
+  <title>HOW'S YOUR INVENTION?</title>
   <allowIgnore>1</allowIgnore>
   <message>
   <![CDATA[
-Welcome to this new version of EveHQ!<br /><br />
+EveHQ version 2.1.3 has been released which contains fixes to the POS Manager and adds a new Invention Results Analyser into Prism. Based on completed jobs in the API, this will show the results on selected characters, items and dates. Head into Prism to check it out!<br /><br /><br />
 For the latest information, don't forget to keep an eye on the forums and on messages similar to these when starting EveHQ!<br /><br />
 Also, check the Wiki at <a href="http://wiki.indiceve.com/doku.php">http://wiki.indiceve.com/doku.php</a> for additional help and support.<br /><br /><br />
-<b>UPDATE</b>: For RouteMap users, get the <a href="http://forum.battleclinic.com/index.php/topic,150597.0.html">latest binary files</a> now!<br /><br /><br />
+<br /><br />
 - The EveHQ Development Team]]></message>
   <disabledPlugins>
     <plugin name="Invention Calculator" version="3.5.0.0" />
