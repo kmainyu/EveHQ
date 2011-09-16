@@ -5100,6 +5100,80 @@ namespace EveHQ.PosManager
 
         }
 
+        private void b_MainTwrCSV_Click(object sender, EventArgs e)
+        {
+            string line = "", fname;
+            string[] split;
+            decimal valu;
+            StreamWriter SW;
+
+            sfd_Export.InitialDirectory = PlugInData.PosExport_Path;
+            sfd_Export.Filter = "CSV (*.csv)|*.csv";
+            sfd_Export.FilterIndex = 0;
+            DialogResult DR = sfd_Export.ShowDialog();
+
+            if (DR == DialogResult.Cancel)
+                return;
+
+            fname = sfd_Export.FileName;
+
+            SW = File.CreateText(fname);
+
+            tt = null;
+
+            // First get columns and populate that on one line
+            foreach (DataGridViewColumn dgvc in dg_TowerFuelList.Columns)
+            {
+                if (line.Length > 0)
+                    line += EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar + dgvc.HeaderText;
+                else
+                    line = dgvc.HeaderText;
+            }
+
+            SW.WriteLine(line);
+
+            foreach (DataGridViewRow dgr in dg_TowerFuelList.Rows)
+            {
+                line = "";
+                foreach (DataGridViewCell dgc in dgr.Cells)
+                {
+                    if (line.Length > 0)
+                    {
+                        if (dgc.Value.ToString().Contains(','))
+                        {
+                            if (dgc.Value.ToString().Contains(' '))
+                            {
+                                split = dgc.Value.ToString().Split(' ');
+                                if (split.Length.Equals(2))
+                                {
+                                    valu = Decimal.Parse(split[0]);
+                                    line += EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar + valu + " " + split[1];
+                                }
+                                else
+                                {
+                                    line += EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar + dgc.Value.ToString().Replace(',', ' ');
+                                }
+                            }
+                            else
+                            {
+                                valu = Decimal.Parse(dgc.Value.ToString());
+                                line += EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar + valu;
+                            }
+                        }
+                        else
+                        {
+                            line += EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar + dgc.Value.ToString();
+                        }
+                    }
+                    else
+                        line = dgc.Value.ToString();
+                }
+                SW.WriteLine(line);
+            }
+
+            SW.Close();
+        }
+
 
         #endregion
 
