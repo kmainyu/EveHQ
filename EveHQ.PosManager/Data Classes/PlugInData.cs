@@ -2948,6 +2948,9 @@ namespace EveHQ.PosManager
             string strSQL;
             DataSet itmNM;
 
+            if (MI.SubItems == null)
+                MI.SubItems = new SortedList<long, ModuleItem>();
+
             foreach (XmlNode itN in XNL)
             {
                 mitm = new ModuleItem();
@@ -2959,22 +2962,22 @@ namespace EveHQ.PosManager
                 strSQL = "SELECT invTypes.typeName FROM invTypes WHERE invTypes.typeID=" + mitm.typeID + ";";
                 itmNM = EveHQ.Core.DataFunctions.GetData(strSQL);
 
-                if ((itmNM == null) || (itmNM.Tables[0].Rows.Count < 1))
-                    continue;
-
-                mitm.name = itmNM.Tables[0].Rows[0].ItemArray[0].ToString();
-
-                if (!ItemIDToName.ContainsKey(mitm.itemID))
-                    ItemIDToName.Add(mitm.itemID, mitm.name);
-
-                if (itN.ChildNodes.Count > 0)
+                if ((itmNM != null) || (itmNM.Tables[0].Rows.Count >= 1))
                 {
-                    // Contents of Cans, Ships, Etc... (in theory)
-                    siNode = itN.ChildNodes[0];
-                    ScanModuleAssetts(siNode.ChildNodes, mitm);
-                }
+                    mitm.name = itmNM.Tables[0].Rows[0].ItemArray[0].ToString();
 
-                MI.SubItems.Add(mitm.itemID, mitm);
+                    if (!ItemIDToName.ContainsKey(mitm.itemID))
+                        ItemIDToName.Add(mitm.itemID, mitm.name);
+
+                    if (itN.ChildNodes.Count > 0)
+                    {
+                        // Contents of Cans, Ships, Etc... (in theory)
+                        siNode = itN.ChildNodes[0];
+                        ScanModuleAssetts(siNode.ChildNodes, mitm);
+                    }
+
+                    MI.SubItems.Add(mitm.itemID, mitm);
+                }
             }
         }
 
