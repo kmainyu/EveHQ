@@ -219,6 +219,8 @@ Partial Class frmPrism
         Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
         Me.tabPrism = New DevComponents.DotNetBar.TabControl()
         Me.TabControlPanel16 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lblInventionItems = New System.Windows.Forms.Label()
+        Me.lblInventionInstallers = New System.Windows.Forms.Label()
         Me.adtInventionStats = New DevComponents.AdvTree.AdvTree()
         Me.NodeConnector16 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle13 = New DevComponents.DotNetBar.ElementStyle()
@@ -477,8 +479,6 @@ Partial Class frmPrism
         Me.PAC = New EveHQ.Prism.PrismAssetsControl()
         Me.tiAssets = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.lblInventionInstallers = New System.Windows.Forms.Label()
-        Me.lblInventionItems = New System.Windows.Forms.Label()
         Me.ctxTransactions.SuspendLayout()
         CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2675,8 +2675,8 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPrism.Controls.Add(Me.TabControlPanel16)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel16)
         Me.tabPrism.Controls.Add(Me.TabControlPanel7)
         Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel5)
@@ -2741,6 +2741,26 @@ Partial Class frmPrism
         Me.TabControlPanel16.Style.GradientAngle = 90
         Me.TabControlPanel16.TabIndex = 16
         Me.TabControlPanel16.TabItem = Me.tiInventionResults
+        '
+        'lblInventionItems
+        '
+        Me.lblInventionItems.AutoSize = True
+        Me.lblInventionItems.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionItems.Location = New System.Drawing.Point(12, 36)
+        Me.lblInventionItems.Name = "lblInventionItems"
+        Me.lblInventionItems.Size = New System.Drawing.Size(38, 13)
+        Me.lblInventionItems.TabIndex = 58
+        Me.lblInventionItems.Text = "Items:"
+        '
+        'lblInventionInstallers
+        '
+        Me.lblInventionInstallers.AutoSize = True
+        Me.lblInventionInstallers.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionInstallers.Location = New System.Drawing.Point(12, 12)
+        Me.lblInventionInstallers.Name = "lblInventionInstallers"
+        Me.lblInventionInstallers.Size = New System.Drawing.Size(55, 13)
+        Me.lblInventionInstallers.TabIndex = 57
+        Me.lblInventionInstallers.Text = "Installers:"
         '
         'adtInventionStats
         '
@@ -6269,26 +6289,6 @@ Partial Class frmPrism
         '
         Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
         Me.NodeConnector1.LineWidth = 0
-        '
-        'lblInventionInstallers
-        '
-        Me.lblInventionInstallers.AutoSize = True
-        Me.lblInventionInstallers.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionInstallers.Location = New System.Drawing.Point(12, 12)
-        Me.lblInventionInstallers.Name = "lblInventionInstallers"
-        Me.lblInventionInstallers.Size = New System.Drawing.Size(55, 13)
-        Me.lblInventionInstallers.TabIndex = 57
-        Me.lblInventionInstallers.Text = "Installers:"
-        '
-        'lblInventionItems
-        '
-        Me.lblInventionItems.AutoSize = True
-        Me.lblInventionItems.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionItems.Location = New System.Drawing.Point(12, 36)
-        Me.lblInventionItems.Name = "lblInventionItems"
-        Me.lblInventionItems.Size = New System.Drawing.Size(38, 13)
-        Me.lblInventionItems.TabIndex = 58
-        Me.lblInventionItems.Text = "Items:"
         '
         'frmPrism
         '
