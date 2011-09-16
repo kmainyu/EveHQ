@@ -190,9 +190,20 @@ namespace EveHQ.PosManager
                             }
                         }
                     }
-                    else if (pilotAccount.APIKeySystem.Equals(Core.APIKeySystems.Version2) && pilotAccount.APIKeyType.Equals(Core.APIKeyTypes.Corporation))
+                    else if (pilotAccount.APIKeySystem.Equals(Core.APIKeySystems.Version2))
                     {
-                        LoadPOSDataFromV2API(pilotAccount);
+                        if (pilotAccount.APIKeyType.Equals(Core.APIKeyTypes.Corporation))
+                        {
+                            LoadPOSDataFromV2API(pilotAccount);
+                        }
+                        else
+                        {
+                            PlugInData.LogAPIError(9999, "V2 API Bypassed for POS ", pilotAccount.APIKeyType.ToString() + " | " + pilotAccount.APIKeyExpiryDate.ToString() + " | " + pilotAccount.APIAccountStatus.ToString() + " for " + pilotAccount.FriendlyName);
+                        }
+                    }
+                    else
+                    {
+                        PlugInData.LogAPIError(9999, "API Bypassed for POS ", pilotAccount.APIKeyType.ToString() + " | " + pilotAccount.APIKeyExpiryDate.ToString() + " | " + pilotAccount.APIAccountStatus.ToString() + " for " + pilotAccount.FriendlyName);
                     }
                 }
             }
@@ -206,7 +217,7 @@ namespace EveHQ.PosManager
             XmlNode RsltL;
             APITowerData aptd;
             DataSet locData;
-            string corpName, corpID, strSQL;
+            string corpName, corpID, strSQL, errS;
             long typeID;
             decimal qty;
 
@@ -418,6 +429,16 @@ namespace EveHQ.PosManager
                     DialogResult dr = MessageBox.Show("An Error was encountered while Parsing Tower API Data.\n"
                                                         + " for Pilot [ " + pilotAccount.FriendlyName + " ]", "PoSManager: API Error", MessageBoxButtons.OK);
                 }
+            }
+            else
+            {
+                errS = "";
+                if (!pilotAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.StarbaseList))
+                    errS += " No StarbaseList Access!";
+                if (!pilotAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.StarbaseDetail))
+                    errS += " No StarbaseDetail Access!";
+
+                PlugInData.LogAPIError(9999, "V2 API Bypassed for POS ", errS + " for " + pilotAccount.FriendlyName);
             }
         }
 
