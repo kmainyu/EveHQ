@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gp_TwrReactBG = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.l_Location = new DevComponents.DotNetBar.LabelX();
+            this.lbx_ReactUpdateIn = new DevComponents.DotNetBar.LabelX();
+            this.t_TimeUpdate = new System.Windows.Forms.Timer(this.components);
             this.gp_TwrReactBG.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,11 +44,12 @@
             this.gp_TwrReactBG.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_TwrReactBG.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_TwrReactBG.Controls.Add(this.l_Location);
+            this.gp_TwrReactBG.Controls.Add(this.lbx_ReactUpdateIn);
             this.gp_TwrReactBG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_TwrReactBG.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gp_TwrReactBG.Location = new System.Drawing.Point(0, 0);
             this.gp_TwrReactBG.Name = "gp_TwrReactBG";
-            this.gp_TwrReactBG.Size = new System.Drawing.Size(205, 115);
+            this.gp_TwrReactBG.Size = new System.Drawing.Size(205, 135);
             // 
             // 
             // 
@@ -92,11 +96,33 @@
             this.l_Location.ForeColor = System.Drawing.Color.Teal;
             this.l_Location.Location = new System.Drawing.Point(0, -1);
             this.l_Location.Name = "l_Location";
-            this.l_Location.Size = new System.Drawing.Size(180, 14);
+            this.l_Location.Size = new System.Drawing.Size(181, 14);
             this.l_Location.TabIndex = 1;
             this.l_Location.Text = "Tower Location";
             this.l_Location.TextAlignment = System.Drawing.StringAlignment.Center;
             this.l_Location.Click += new System.EventHandler(this.gp_TwrReactBG_Click);
+            // 
+            // lbx_ReactUpdateIn
+            // 
+            // 
+            // 
+            // 
+            this.lbx_ReactUpdateIn.BackgroundStyle.Class = "";
+            this.lbx_ReactUpdateIn.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lbx_ReactUpdateIn.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbx_ReactUpdateIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lbx_ReactUpdateIn.Location = new System.Drawing.Point(0, 11);
+            this.lbx_ReactUpdateIn.Name = "lbx_ReactUpdateIn";
+            this.lbx_ReactUpdateIn.Size = new System.Drawing.Size(181, 14);
+            this.lbx_ReactUpdateIn.TabIndex = 2;
+            this.lbx_ReactUpdateIn.Text = "Next Update";
+            this.lbx_ReactUpdateIn.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.lbx_ReactUpdateIn.Click += new System.EventHandler(this.gp_TwrReactBG_Click);
+            // 
+            // t_TimeUpdate
+            // 
+            this.t_TimeUpdate.Interval = 5000;
+            this.t_TimeUpdate.Tick += new System.EventHandler(this.t_TimeUpdate_Tick);
             // 
             // ReactionTower
             // 
@@ -105,7 +131,7 @@
             this.Controls.Add(this.gp_TwrReactBG);
             this.DoubleBuffered = true;
             this.Name = "ReactionTower";
-            this.Size = new System.Drawing.Size(205, 115);
+            this.Size = new System.Drawing.Size(205, 135);
             this.gp_TwrReactBG.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -115,5 +141,7 @@
 
         private DevComponents.DotNetBar.Controls.GroupPanel gp_TwrReactBG;
         private DevComponents.DotNetBar.LabelX l_Location;
+        private DevComponents.DotNetBar.LabelX lbx_ReactUpdateIn;
+        private System.Windows.Forms.Timer t_TimeUpdate;
     }
 }

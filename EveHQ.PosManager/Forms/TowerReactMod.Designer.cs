@@ -43,8 +43,8 @@
             this.output2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.pb_FillLevel = new DevComponents.DotNetBar.Controls.ProgressBarX();
             this.l_ModuleName = new DevComponents.DotNetBar.LabelX();
+            this.pb_FillLevel = new DevComponents.DotNetBar.Controls.ProgressBarX();
             this.l_RunTime = new DevComponents.DotNetBar.LabelX();
             this.l_ExtraInfo = new DevComponents.DotNetBar.LabelX();
             this.b_SetFull = new DevComponents.DotNetBar.ButtonX();
@@ -207,8 +207,8 @@
             this.groupPanel1.BackColor = System.Drawing.Color.Transparent;
             this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.groupPanel1.Controls.Add(this.pb_FillLevel);
             this.groupPanel1.Controls.Add(this.l_ModuleName);
+            this.groupPanel1.Controls.Add(this.pb_FillLevel);
             this.groupPanel1.Controls.Add(this.l_RunTime);
             this.groupPanel1.Controls.Add(this.l_ExtraInfo);
             this.groupPanel1.Controls.Add(this.b_SetFull);
@@ -251,6 +251,23 @@
             this.groupPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel1.TabIndex = 28;
             // 
+            // l_ModuleName
+            // 
+            // 
+            // 
+            // 
+            this.l_ModuleName.BackgroundStyle.Class = "";
+            this.l_ModuleName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.l_ModuleName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_ModuleName.ForeColor = System.Drawing.Color.Navy;
+            this.l_ModuleName.Location = new System.Drawing.Point(128, 53);
+            this.l_ModuleName.Name = "l_ModuleName";
+            this.l_ModuleName.Size = new System.Drawing.Size(189, 25);
+            this.l_ModuleName.TabIndex = 34;
+            this.l_ModuleName.Text = "Module Name";
+            this.l_ModuleName.TextLineAlignment = System.Drawing.StringAlignment.Near;
+            this.l_ModuleName.WordWrap = true;
+            // 
             // pb_FillLevel
             // 
             this.pb_FillLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -268,23 +285,6 @@
             this.pb_FillLevel.Size = new System.Drawing.Size(319, 18);
             this.pb_FillLevel.TabIndex = 338;
             this.pb_FillLevel.TextVisible = true;
-            // 
-            // l_ModuleName
-            // 
-            // 
-            // 
-            // 
-            this.l_ModuleName.BackgroundStyle.Class = "";
-            this.l_ModuleName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.l_ModuleName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_ModuleName.ForeColor = System.Drawing.Color.Navy;
-            this.l_ModuleName.Location = new System.Drawing.Point(128, 53);
-            this.l_ModuleName.Name = "l_ModuleName";
-            this.l_ModuleName.Size = new System.Drawing.Size(189, 24);
-            this.l_ModuleName.TabIndex = 34;
-            this.l_ModuleName.Text = "Module Name";
-            this.l_ModuleName.TextLineAlignment = System.Drawing.StringAlignment.Near;
-            this.l_ModuleName.WordWrap = true;
             // 
             // l_RunTime
             // 

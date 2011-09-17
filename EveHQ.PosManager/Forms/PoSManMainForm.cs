@@ -5571,7 +5571,7 @@ namespace EveHQ.PosManager
                 {
                     if (m.ModuleID == tr.ReactMod.ModuleID)
                     {
-                        tr.SetModuleData(m, sMult);
+                        tr.SetModuleData(m, sMult);//, pl.React_TS);
                         break;
                     }
                 }
@@ -5581,6 +5581,11 @@ namespace EveHQ.PosManager
         private void gp_ReacTower_Resize(object sender, EventArgs e)
         {
             PopulateTowerModuleDisplay();
+        }
+
+        public void UpdatePOSReactionDisplay()
+        {
+           // PopulateTowerModuleDisplay();
         }
 
         public void PopulateTowerModuleDisplay()
@@ -5623,7 +5628,7 @@ namespace EveHQ.PosManager
                     SiloMods.Sort();
                     // Populate the controls display
                     RT = new ReactionTower();
-                    RT.UpdateReactionInformation(pl.Name, pl.Moon, SiloMods, this, pl.itemID);
+                    RT.UpdateReactionInformation(pl, SiloMods, this);
                     width = gp_ReacTower.Width;
                     numWide = (int)(width / RT.Width);
 
@@ -5671,7 +5676,7 @@ namespace EveHQ.PosManager
                     trm.Location = new Point(0, (num * 86));
                     p_PosMods.Controls.Add(trm);
                     sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
-                    trm.SetModuleData(m, sMult);
+                    trm.SetModuleData(m, sMult);//, pl.React_TS);
 
                     num++;
                 }

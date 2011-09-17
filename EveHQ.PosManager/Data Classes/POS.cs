@@ -906,6 +906,7 @@ namespace EveHQ.PosManager
             bool changed = false;
             bool reacIn = false;
             bool reacOut = false;
+            bool CoupleToReact = false;
 
             // I now have some additional info possible from a link
             // Check for linked module, and if linked use the module link timestamp instead
@@ -931,7 +932,10 @@ namespace EveHQ.PosManager
                     {
                         if ((Convert.ToInt64(m.ModType)) == 10)
                         {
-                            // Junction, need to move materials from here to downstream Silo/Etc if present and has room
+                            CoupleToReact = false;
+                            // Junction
+                            // If downstream is Silo, need to move materials from here to downstream Silo/Etc if present and has room
+                            // Otherwise if downstram is a Reaction, do like silo
                             if (m.State == "Online")
                             {
                                 if (m.Extra.Count > 0)
@@ -943,12 +947,28 @@ namespace EveHQ.PosManager
                                 {
                                     if (rl.InpID == m.ModuleID)
                                     {
-                                        if (MoveQtyAndVolToModuleID(rl.OutID, m.CapQty, m.CapVol))
+                                        // Check type of module, if not a silo - then we need to do something different.
+                                        foreach (Module imt in Modules)
                                         {
-                                            // Qty added to output, subtract from current input
-                                            m.CapQty = 0;
-                                            m.CapVol = 0;
-                                            changed = true;
+                                            if (rl.OutID == imt.ModuleID)
+                                            {
+                                                if (IsModuleReactionType(Convert.ToInt32(imt.ModType)))
+                                                {
+                                                    CoupleToReact = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if (!CoupleToReact)
+                                        {
+                                            if (MoveQtyAndVolToModuleID(rl.OutID, m.CapQty, m.CapVol))
+                                            {
+                                                // Qty added to output, subtract from current input
+                                                m.CapQty = 0;
+                                                m.CapVol = 0;
+                                                changed = true;
+                                            }
                                         }
                                         break;
                                     }

@@ -93,6 +93,7 @@ namespace EveHQ.PosManager
         public static SortedList<string, SortedList<string, SystemIHub>> iHubs; // corp name, iHub location, IHub
         public static FuelBay BFStats;
         public static SortedList<string, throttlePlayer> ThrottleList;
+        public static bool UpdateReactTime = false;
 
         public static string PoSManage_Path;
         public static string PoSBase_Path, PoSSave_Path;
@@ -105,7 +106,7 @@ namespace EveHQ.PosManager
         public static PoSManMainForm PMF = null;
         public static BackgroundWorker bgw_APIUpdate = new System.ComponentModel.BackgroundWorker();
         public static BackgroundWorker bgw_SendNotify = new System.ComponentModel.BackgroundWorker();
-        private System.Timers.Timer t_MonitorUpdate;
+        private System.Timers.Timer t_MonitorUpdate, ReactionTimer;
         DateTime timeStart;
         static string ActiveReactTower = "";
         const int RandomSeed = 2;  
@@ -267,6 +268,15 @@ namespace EveHQ.PosManager
             // bgw_SendNotify
             // 
             bgw_SendNotify.DoWork += new System.ComponentModel.DoWorkEventHandler(bgw_SendNotify_DoWork);
+            //
+            // Reaction Calculation Timer
+            //
+            ReactionTimer = new System.Timers.Timer();
+            ReactionTimer.Interval = 30000;
+            ReactionTimer.Elapsed += new ElapsedEventHandler(ReactionTimer_Tick);
+            ReactionTimer.Enabled = true;
+            ReactionTimer.AutoReset = true;
+            ReactionTimer.Start();
 
             endT = DateTime.Now;
             runT = endT.Subtract(startT);
@@ -1891,6 +1901,11 @@ namespace EveHQ.PosManager
 
         #region Background Data Workers (API and Notifications)
 
+        private void ReactionTimer_Tick(object sender, EventArgs e)
+        {
+            PDL.CalculatePOSReactions();
+        }
+
         private void bgw_SendNotify_DoWork(object sender, DoWorkEventArgs e)
         {
             NL.CheckAndSendNotificationIfActive();
@@ -1942,6 +1957,7 @@ namespace EveHQ.PosManager
                 PMF.UpdatePOSForNewData();
                 PMF.PopulateStoredFuelDisplay();
                 PMF.PopulateIHUBOwners();
+                UpdateReactTime = true;
             }
             PDL.SaveDesignListing();
             SaveIHubListing();
@@ -1975,9 +1991,9 @@ namespace EveHQ.PosManager
 
             if ((Config.data.AutoAPI > 0) || ManualUpdate)
             {
-                GetCharAndCorpAssets();
                 API_D.LoadPOSDataFromAPI();
                 GetAllySovLists();
+                GetCharAndCorpAssets();
                 ManualUpdate = false;
             }
 
@@ -3371,7 +3387,7 @@ namespace EveHQ.PosManager
 
         public static string ConvertSecondsToTextDisplay(decimal secs)
         {
-            string retVal = "";
+            string retVal = "Pending...";
             long hours, mins;
 
             hours = Convert.ToInt32(Math.Truncate(secs / 3600));

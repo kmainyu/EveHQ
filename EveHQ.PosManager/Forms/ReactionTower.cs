@@ -40,33 +40,41 @@ namespace EveHQ.PosManager
 {
     public partial class ReactionTower : UserControl
     {
-        string TName = "";
-        string TLocation = "";
-        long ID;
         ArrayList ReactInfo; // 1 = 0-3, 2 = 4-7, 3 = 8-11, 4 = 12-15, 5 = 16-19, etc...
         PoSManMainForm PMMF;
+        DateTime rTime;
+        POS rPos;
 
         public ReactionTower()
         {
             InitializeComponent();
         }
 
-        public void UpdateReactionInformation(string nm, string loc, ArrayList ri, PoSManMainForm pm, long id)
+        public void UpdateReactionInformation(POS p, ArrayList ri, PoSManMainForm pm)
         {
             int totBar;
             ReactBar rBar;
             PMMF = pm;
-            TName = nm;
-            ID = id;
-            TLocation = loc;
             ReactInfo = new ArrayList(ri);
+            TimeSpan ts;
 
-            gp_TwrReactBG.Text = TName;
-            if (TLocation.Length < 1)
-                TLocation = "Undefined";
-            l_Location.Text = TLocation;
+            rPos = p;
+
+            rTime = p.React_TS;
+
+            gp_TwrReactBG.Text = rPos.Name;
+
+            if (rPos.Moon.Length < 1)
+                l_Location.Text = "Undefined";
+            else
+                l_Location.Text = rPos.Moon;
 
             totBar = 0;
+
+            // Time till next update
+            ts = rTime.Subtract(DateTime.Now);
+            lbx_ReactUpdateIn.Text = "Next Cycle in: " + PlugInData.ConvertSecondsToTextDisplay(3600 - (Math.Abs(Convert.ToDecimal(ts.TotalSeconds))));
+            t_TimeUpdate.Enabled = true;
 
             foreach (ReactMod rm in ReactInfo)
             {
@@ -78,18 +86,28 @@ namespace EveHQ.PosManager
                 rBar.pBar.Maximum = rm.maxQ;
                 rBar.pBar.Value = rm.capQ;
 
-                rBar.Location = new Point(0, (13 + ((totBar -1) * 18)));
+                rBar.Location = new Point(0, (25 + ((totBar -1) * 18)));
                 rBar.Click += new System.EventHandler(this.gp_TwrReactBG_Click);
                 rBar.pBar.Click += new System.EventHandler(this.gp_TwrReactBG_Click);
                 
                 gp_TwrReactBG.Controls.Add(rBar);
             }
+
+            t_TimeUpdate.Start();
         }
 
         private void gp_TwrReactBG_Click(object sender, EventArgs e)
         {
             // Do RMA. Call to give selected tower
-            PMMF.TowerSelectedForReactionLinks(TName);
+            PMMF.TowerSelectedForReactionLinks(rPos.Name);
+        }
+
+        private void t_TimeUpdate_Tick(object sender, EventArgs e)
+        {
+            TimeSpan ts;
+            // Time till next update
+            ts = rTime.Subtract(DateTime.Now);
+            lbx_ReactUpdateIn.Text = "Next Cycle in: " + PlugInData.ConvertSecondsToTextDisplay(3600 - (Math.Abs(Convert.ToDecimal(ts.TotalSeconds))));
         }
     }
 }

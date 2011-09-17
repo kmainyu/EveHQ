@@ -44,6 +44,7 @@ namespace EveHQ.PosManager
         public PoSManMainForm myData;
         public PictureBox pb;
         public decimal GetVal;
+        //public DateTime rTime;
         string csmSel;
 
         public TowerReactMod()
@@ -63,11 +64,12 @@ namespace EveHQ.PosManager
             l_ModuleName.Text = nm;
         }
 
-        public void SetModuleData(Module m, decimal sm)
+        public void SetModuleData(Module m, decimal sm)//, DateTime rtm)
         {
             ReactMod = new Module(m);
             SiloMult = sm;
             ToolStripMenuItem tsmi;
+            //rTime = rtm;
 
             // Build the R-Click Menu list here
             l_ExtraInfo.Text = "";
@@ -203,6 +205,7 @@ namespace EveHQ.PosManager
         {
             decimal SiloCap;
             string CapText;
+            //TimeSpan ts;
 
             // Must determine the following
             // 1. Actual Silo Capacity - in m3 and in Qty of sel Mineral
@@ -218,6 +221,10 @@ namespace EveHQ.PosManager
 
             // In/Out Warn Setting
             l_RunTime.Text = PlugInData.ConvertReactionHoursToTextDisplay(ReactMod.FillEmptyTime);
+
+            // Time till next update
+            //ts = rTime.Subtract(DateTime.Now);
+            //lbx_UpdateTimer.Text = "Next Update: " + PlugInData.ConvertSecondsToTextDisplay(3600 - (Math.Abs(Convert.ToDecimal(ts.TotalSeconds))));
         }
 
         private void ShowHideInOut()
