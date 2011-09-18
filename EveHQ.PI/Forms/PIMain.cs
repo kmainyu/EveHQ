@@ -255,7 +255,13 @@ namespace EveHQ.PI
             int dg_index = 0;
             double days = Convert.ToDouble(nud_Days.Value);
             bool[] show = new bool[5];
-            double delta;
+            double delta, dHour;
+            DataGridViewCellStyle redText = new DataGridViewCellStyle();
+            DataGridViewCellStyle blueText = new DataGridViewCellStyle();
+            DataGridViewCellStyle greenText = new DataGridViewCellStyle();
+            redText.ForeColor = Color.Red;
+            blueText.ForeColor = Color.Blue;
+            greenText.ForeColor = Color.Green;
 
             show[0] = cb_P0.Checked;
             show[1] = cb_P1.Checked;
@@ -295,18 +301,34 @@ namespace EveHQ.PI
                         dg_index = dg_Overview.Rows.Add();
                         dg_Overview.Rows[dg_index].Cells[0].Value = mt.Name;
                         dg_Overview.Rows[dg_index].Cells[1].Value = "P" + mt.Rank;
+                        
                         dg_Overview.Rows[dg_index].Cells[2].Value = String.Format("{0:#,0.#}", mt.NeedHour);
                         dg_Overview.Rows[dg_index].Cells[3].Value = String.Format("{0:#,0.#}", mt.ProdHour);
-                        dg_Overview.Rows[dg_index].Cells[4].Value = String.Format("{0:#,0.#}", (mt.ProdHour - mt.NeedHour));
-                        delta = (mt.ProdHour - mt.NeedHour) * days;
+                        dHour = mt.ProdHour - mt.NeedHour;
+                        dg_Overview.Rows[dg_index].Cells[4].Value = String.Format("{0:#,0.#}", dHour);
+                        delta = dHour * days;
                         dg_Overview.Rows[dg_index].Cells[5].Value = String.Format("{0:#,0.#}", delta);
-                        
-                        //if (delta > 0)
                         dg_Overview.Rows[dg_index].Cells[6].Value = String.Format("{0:#,0.#}", (delta * mt.Value));
-                        //else
-                        //    dg_Overview.Rows[dg_index].Cells[6].Value = 0;
 
+                        for (int x = 2; x < 7; x++)
+                        {
+                            if (dHour > 0)
+                            {
+                                dg_Overview.Rows[dg_index].Cells[x].Style = greenText;
+                            }
+                            else if (dHour < 0)
+                            {
+                                dg_Overview.Rows[dg_index].Cells[x].Style = redText;
+                            }
+                            else
+                            {
+                                dg_Overview.Rows[dg_index].Cells[x].Style = blueText;
+                            }
+                        }
+                       
                         dg_Overview.Rows[dg_index].Cells[7].Value = mt.FacName;
+
+                       
                     }
                 }
             }
@@ -953,7 +975,7 @@ namespace EveHQ.PI
             ArrayList Nodes = new ArrayList();
             DevComponents.AdvTree.Node atn;
             DevComponents.AdvTree.Cell atc;
-
+           
             at_ProduceView.Nodes.Clear();
             for (int x = 4; x >= 0; x--)
             {
@@ -970,38 +992,73 @@ namespace EveHQ.PI
                     atn.CheckBoxVisible = false;
 
                     // Needed
-                    atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.NeedHour));
-                    atc.StyleNormal = at_PCost1.Styles["es_CenterAlign"];
+                    atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.NeedHour));                 
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
                     atn.Cells.Add(atc);
 
                     // Producing
                     atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.ProdHour));
-                    atc.StyleNormal = at_PCost1.Styles["es_CenterAlign"];
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
                     atn.Cells.Add(atc);
 
                     // Using
                     atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.UseHour));
-                    atc.StyleNormal = at_PCost1.Styles["es_CenterAlign"];
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
                     atn.Cells.Add(atc);
 
                     // Delta
                     atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.DeltaHour));
-                    atc.StyleNormal = at_PCost1.Styles["es_CenterAlign"];
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
                     atn.Cells.Add(atc);
 
                     // Need Volumne
                     atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.NeedVol));
-                    atc.StyleNormal = at_PCost1.Styles["es_CenterAlign"];
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
                     atn.Cells.Add(atc);
 
                     // Produce Volumne
                     atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.ProdVol));
-                    atc.StyleNormal = at_PCost1.Styles["es_CenterAlign"];
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
                     atn.Cells.Add(atc);
 
                     // Delta Volumne
                     atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.DeltaVol));
-                    atc.StyleNormal = at_PCost1.Styles["es_CenterAlign"];
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
                     atn.Cells.Add(atc);
 
                     Nodes = GetComponentsForPrdItem(m.Name);

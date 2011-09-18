@@ -49,9 +49,12 @@
             this.prd_Producing = new DevComponents.AdvTree.ColumnHeader();
             this.prd_Using = new DevComponents.AdvTree.ColumnHeader();
             this.prd_Delta = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_NeedM3 = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_ProdM3 = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_DeltaM3 = new DevComponents.AdvTree.ColumnHeader();
             this.node1 = new DevComponents.AdvTree.Node();
             this.nodeConnector3 = new DevComponents.AdvTree.NodeConnector();
-            this.elementStyle5 = new DevComponents.DotNetBar.ElementStyle();
+            this.NormalProd = new DevComponents.DotNetBar.ElementStyle();
             this.cb_AdjustNumbersForPartial = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.labelX23 = new DevComponents.DotNetBar.LabelX();
             this.pb_PlanetType = new System.Windows.Forms.PictureBox();
@@ -189,9 +192,8 @@
             this.il_SelCat = new System.Windows.Forms.ImageList(this.components);
             this.il_PI_Images = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.prd_NeedM3 = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_ProdM3 = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_DeltaM3 = new DevComponents.AdvTree.ColumnHeader();
+            this.OverProd = new DevComponents.DotNetBar.ElementStyle();
+            this.UnderProd = new DevComponents.DotNetBar.ElementStyle();
             ((System.ComponentModel.ISupportInitialize)(this.tc_PIMain)).BeginInit();
             this.tc_PIMain.SuspendLayout();
             this.tabControlPanel9.SuspendLayout();
@@ -231,8 +233,8 @@
             this.tc_PIMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.tc_PIMain.CanReorderTabs = true;
             this.tc_PIMain.Controls.Add(this.tabControlPanel9);
-            this.tc_PIMain.Controls.Add(this.tabControlPanel8);
             this.tc_PIMain.Controls.Add(this.tabControlPanel2);
+            this.tc_PIMain.Controls.Add(this.tabControlPanel8);
             this.tc_PIMain.Controls.Add(this.tabControlPanel3);
             this.tc_PIMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tc_PIMain.Location = new System.Drawing.Point(0, 0);
@@ -421,10 +423,12 @@
             this.at_ProduceView.Nodes.AddRange(new DevComponents.AdvTree.Node[] {
             this.node1});
             this.at_ProduceView.NodesConnector = this.nodeConnector3;
-            this.at_ProduceView.NodeStyle = this.elementStyle5;
+            this.at_ProduceView.NodeStyle = this.NormalProd;
             this.at_ProduceView.PathSeparator = ";";
             this.at_ProduceView.Size = new System.Drawing.Size(550, 188);
-            this.at_ProduceView.Styles.Add(this.elementStyle5);
+            this.at_ProduceView.Styles.Add(this.NormalProd);
+            this.at_ProduceView.Styles.Add(this.OverProd);
+            this.at_ProduceView.Styles.Add(this.UnderProd);
             this.at_ProduceView.TabIndex = 0;
             // 
             // prd_Material
@@ -462,6 +466,24 @@
             this.prd_Delta.Text = "Delta";
             this.prd_Delta.Width.Absolute = 70;
             // 
+            // prd_NeedM3
+            // 
+            this.prd_NeedM3.Name = "prd_NeedM3";
+            this.prd_NeedM3.Text = "Vol Need m3";
+            this.prd_NeedM3.Width.Absolute = 70;
+            // 
+            // prd_ProdM3
+            // 
+            this.prd_ProdM3.Name = "prd_ProdM3";
+            this.prd_ProdM3.Text = "Vol Prod m3";
+            this.prd_ProdM3.Width.Absolute = 70;
+            // 
+            // prd_DeltaM3
+            // 
+            this.prd_DeltaM3.Name = "prd_DeltaM3";
+            this.prd_DeltaM3.Text = "Delta Vol m3";
+            this.prd_DeltaM3.Width.Absolute = 70;
+            // 
             // node1
             // 
             this.node1.Expanded = true;
@@ -472,12 +494,13 @@
             // 
             this.nodeConnector3.LineColor = System.Drawing.SystemColors.ControlText;
             // 
-            // elementStyle5
+            // NormalProd
             // 
-            this.elementStyle5.Class = "";
-            this.elementStyle5.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.elementStyle5.Name = "elementStyle5";
-            this.elementStyle5.TextColor = System.Drawing.SystemColors.ControlText;
+            this.NormalProd.Class = "";
+            this.NormalProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.NormalProd.Name = "NormalProd";
+            this.NormalProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.NormalProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             // 
             // cb_AdjustNumbersForPartial
             // 
@@ -2590,23 +2613,21 @@
             // 
             this.toolTip1.IsBalloon = true;
             // 
-            // prd_NeedM3
+            // OverProd
             // 
-            this.prd_NeedM3.Name = "prd_NeedM3";
-            this.prd_NeedM3.Text = "Vol Need m3";
-            this.prd_NeedM3.Width.Absolute = 70;
+            this.OverProd.Class = "";
+            this.OverProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.OverProd.Name = "OverProd";
+            this.OverProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.OverProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(195)))), ((int)(((byte)(0)))));
             // 
-            // prd_ProdM3
+            // UnderProd
             // 
-            this.prd_ProdM3.Name = "prd_ProdM3";
-            this.prd_ProdM3.Text = "Vol Prod m3";
-            this.prd_ProdM3.Width.Absolute = 70;
-            // 
-            // prd_DeltaM3
-            // 
-            this.prd_DeltaM3.Name = "prd_DeltaM3";
-            this.prd_DeltaM3.Text = "Delta Vol m3";
-            this.prd_DeltaM3.Width.Absolute = 70;
+            this.UnderProd.Class = "";
+            this.UnderProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.UnderProd.Name = "UnderProd";
+            this.UnderProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.UnderProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             // 
             // PIMain
             // 
@@ -2791,7 +2812,7 @@
         private DevComponents.AdvTree.ColumnHeader prd_Material;
         private DevComponents.AdvTree.Node node1;
         private DevComponents.AdvTree.NodeConnector nodeConnector3;
-        private DevComponents.DotNetBar.ElementStyle elementStyle5;
+        private DevComponents.DotNetBar.ElementStyle NormalProd;
         private DevComponents.AdvTree.ColumnHeader prd_Needed;
         private DevComponents.AdvTree.ColumnHeader prd_Producing;
         private DevComponents.AdvTree.ColumnHeader prd_Using;
@@ -2814,5 +2835,7 @@
         private DevComponents.AdvTree.ColumnHeader prd_NeedM3;
         private DevComponents.AdvTree.ColumnHeader prd_ProdM3;
         private DevComponents.AdvTree.ColumnHeader prd_DeltaM3;
+        private DevComponents.DotNetBar.ElementStyle OverProd;
+        private DevComponents.DotNetBar.ElementStyle UnderProd;
     }
 }
