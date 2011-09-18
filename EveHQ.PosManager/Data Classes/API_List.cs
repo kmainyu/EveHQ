@@ -198,7 +198,7 @@ namespace EveHQ.PosManager
                         }
                         else
                         {
-                            PlugInData.LogAPIError(9999, "V2 API Bypassed for POS - Key is NOT Corporate ", pilotAccount.APIKeyType.ToString() + " | " + pilotAccount.APIKeyExpiryDate.ToString() + " | " + pilotAccount.APIAccountStatus.ToString() + " for " + pilotAccount.FriendlyName);
+                            //PlugInData.LogAPIError(9999, "V2 API Bypassed for POS - Key is NOT Corporate ", pilotAccount.APIKeyType.ToString() + " | " + pilotAccount.APIKeyExpiryDate.ToString() + " | " + pilotAccount.APIAccountStatus.ToString() + " for " + pilotAccount.FriendlyName);
                         }
                     }
                     else
