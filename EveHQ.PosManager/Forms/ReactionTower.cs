@@ -42,7 +42,6 @@ namespace EveHQ.PosManager
     {
         ArrayList ReactInfo; // 1 = 0-3, 2 = 4-7, 3 = 8-11, 4 = 12-15, 5 = 16-19, etc...
         PoSManMainForm PMMF;
-        DateTime rTime;
         POS rPos;
 
         public ReactionTower()
@@ -60,8 +59,6 @@ namespace EveHQ.PosManager
 
             rPos = p;
 
-            rTime = p.React_TS;
-
             gp_TwrReactBG.Text = rPos.Name;
 
             if (rPos.Moon.Length < 1)
@@ -72,7 +69,7 @@ namespace EveHQ.PosManager
             totBar = 0;
 
             // Time till next update
-            ts = rTime.Subtract(DateTime.Now);
+            ts = rPos.React_TS.Subtract(DateTime.Now);
             lbx_ReactUpdateIn.Text = "Next Cycle in: " + PlugInData.ConvertSecondsToTextDisplay(3600 - (Math.Abs(Convert.ToDecimal(ts.TotalSeconds))));
             t_TimeUpdate.Enabled = true;
 
@@ -106,7 +103,7 @@ namespace EveHQ.PosManager
         {
             TimeSpan ts;
             // Time till next update
-            ts = rTime.Subtract(DateTime.Now);
+            ts = rPos.React_TS.Subtract(DateTime.Now);
             lbx_ReactUpdateIn.Text = "Next Cycle in: " + PlugInData.ConvertSecondsToTextDisplay(3600 - (Math.Abs(Convert.ToDecimal(ts.TotalSeconds))));
         }
     }

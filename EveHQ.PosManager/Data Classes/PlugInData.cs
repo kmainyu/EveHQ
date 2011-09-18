@@ -259,6 +259,8 @@ namespace EveHQ.PosManager
             LoadSecurityListing();
             if (Config.data.Extra.Count <= 0)
                 Config.data.Extra.Add((int)400);
+            if (Config.data.Extra.Count < 2)
+                Config.data.Extra.Add((int)0);
             // 
             // bgw_APIUpdate
             // 

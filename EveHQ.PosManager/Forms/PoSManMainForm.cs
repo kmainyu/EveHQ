@@ -219,12 +219,23 @@ namespace EveHQ.PosManager
             }
 
             if (PlugInData.Config.data.Extra.Count > 0)
+            {
                 sc_MainPanels.SplitterDistance = Convert.ToInt32(PlugInData.Config.data.Extra[0]);
+            }
             else
             {
                 PlugInData.Config.data.Extra.Add(sc_MainPanels.SplitterDistance);
                 PlugInData.Config.SaveConfiguration();
             }
+            if (PlugInData.Config.data.Extra.Count > 1)
+            {
+                if (PlugInData.Config.data.Extra[1].Equals(1))
+                    sb_ShowSiloOnly.Value = true;
+                else
+                    sb_ShowSiloOnly.Value = false;
+            }
+            else
+                sb_ShowSiloOnly.Value = false;
         }
 
         private void UpdatePOSNameSelections()
@@ -5397,6 +5408,16 @@ namespace EveHQ.PosManager
 
         #region Reaction Monitor
 
+        private void sb_ShowSiloOnly_ValueChanged(object sender, EventArgs e)
+        {
+            if (sb_ShowSiloOnly.Value.Equals(true))
+                PlugInData.Config.data.Extra[1] = 1;
+            else
+                PlugInData.Config.data.Extra[1] = 0;
+
+            DisplayReactionModules();
+        }
+
         private void SetReactChangedStatus(bool st, string ln)
         {
             ReactChanged = st;
@@ -5628,6 +5649,7 @@ namespace EveHQ.PosManager
                     SiloMods.Sort();
                     // Populate the controls display
                     RT = new ReactionTower();
+                    RT.Parent = gp_ReacTower;
                     RT.UpdateReactionInformation(pl, SiloMods, this);
                     width = gp_ReacTower.Width;
                     numWide = (int)(width / RT.Width);
@@ -5656,6 +5678,12 @@ namespace EveHQ.PosManager
             int num = 0;
             decimal sMult;
             POS pl;
+
+            if (SelReactPos == null)
+                return;
+            if (!PlugInData.PDL.Designs.ContainsKey(SelReactPos))
+                return;
+
             // Get corret POS Object
             pl = PlugInData.PDL.Designs[SelReactPos];
 
@@ -5668,17 +5696,34 @@ namespace EveHQ.PosManager
 
             foreach (Module m in pl.Modules)
             {
-                if (((m.Category == "Mobile Reactor") || (m.Category == "Moon Mining") ||
-                    (m.Category == "Silo")) && (m.State == "Online"))
+                if (PlugInData.Config.data.Extra[1].Equals(0))
                 {
-                    trm = new TowerReactMod(m.Name);
-                    trm.myData = this;
-                    trm.Location = new Point(0, (num * 86));
-                    p_PosMods.Controls.Add(trm);
-                    sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
-                    trm.SetModuleData(m, sMult);//, pl.React_TS);
+                    if (((m.Category == "Mobile Reactor") || (m.Category == "Moon Mining") ||
+                        (m.Category == "Silo")) && (m.State == "Online"))
+                    {
+                        trm = new TowerReactMod(m.Name);
+                        trm.myData = this;
+                        trm.Location = new Point(0, (num * 86));
+                        p_PosMods.Controls.Add(trm);
+                        sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
+                        trm.SetModuleData(m, sMult);//, pl.React_TS);
 
-                    num++;
+                        num++;
+                    }
+                }
+                else
+                {
+                    if ((m.Category == "Silo") && (m.State == "Online"))
+                    {
+                        trm = new TowerReactMod(m.Name);
+                        trm.myData = this;
+                        trm.Location = new Point(0, (num * 86));
+                        p_PosMods.Controls.Add(trm);
+                        sMult = 1 + (decimal)(pl.PosTower.Bonuses.SiloCap / 100);
+                        trm.SetModuleData(m, sMult);//, pl.React_TS);
+
+                        num++;
+                    }
                 }
             }
             SetActiveLinkColorBG(pl);
