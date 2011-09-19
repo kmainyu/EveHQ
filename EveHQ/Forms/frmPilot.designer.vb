@@ -1207,8 +1207,8 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
-        Me.tabPilotInfo.Controls.Add(Me.tcpStandings)
         Me.tabPilotInfo.Controls.Add(Me.tcpCerts)
+        Me.tabPilotInfo.Controls.Add(Me.tcpStandings)
         Me.tabPilotInfo.Controls.Add(Me.tcpSkillQueue)
         Me.tabPilotInfo.Location = New System.Drawing.Point(348, 184)
         Me.tabPilotInfo.Name = "tabPilotInfo"
@@ -1441,6 +1441,7 @@ Partial Public Class frmPilot
         Me.adtCerts.Location = New System.Drawing.Point(1, 1)
         Me.adtCerts.Name = "adtCerts"
         Me.adtCerts.Nodes.AddRange(New DevComponents.AdvTree.Node() {Me.Node3, Me.Node4})
+        Me.adtCerts.NodeSpacing = 1
         Me.adtCerts.NodeStyle = Me.ElementStyle2
         Me.adtCerts.PathSeparator = ";"
         Me.adtCerts.SelectionBox = False
