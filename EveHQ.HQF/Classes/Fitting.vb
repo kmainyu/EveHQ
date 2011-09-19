@@ -2249,6 +2249,7 @@ Imports System.Runtime.Serialization
         Next
 
         ' Add Boosters
+        Me.BaseShip.BoosterSlotCollection.Clear()
         For Each MWS As ModuleWithState In Me.Boosters
             Dim sMod As ShipModule = CType(ModuleLists.moduleList(MWS.ID), ShipModule).Clone
             Me.BaseShip.BoosterSlotCollection.Add(sMod)
