@@ -1018,5 +1018,17 @@ Public Class frmPilot
         pnlInfo.Focus()
     End Sub
 
+    Private Sub adtSkills_NodeClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSkills.NodeClick
+        If e.Node.Level = 0 Then
+            e.Node.Toggle()
+        End If
+    End Sub
+
+    Private Sub adtCerts_NodeClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtCerts.NodeClick
+        If e.Node.Level = 0 Then
+            e.Node.Toggle()
+        End If
+    End Sub
+
 End Class
 
