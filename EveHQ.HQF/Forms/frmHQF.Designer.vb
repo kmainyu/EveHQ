@@ -128,6 +128,7 @@ Partial Class frmHQF
         Me.rbTools = New DevComponents.DotNetBar.RibbonBar()
         Me.btnPilotManager = New DevComponents.DotNetBar.ButtonItem()
         Me.btnImplantManager = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnFleetManager = New DevComponents.DotNetBar.ButtonItem()
         Me.rbOptions = New DevComponents.DotNetBar.RibbonBar()
         Me.btnOptions = New DevComponents.DotNetBar.ButtonItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
@@ -346,7 +347,7 @@ Partial Class frmHQF
         'cboFlyable
         '
         Me.cboFlyable.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cboFlyable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboFlyable.FormattingEnabled = True
         Me.cboFlyable.Location = New System.Drawing.Point(53, 298)
@@ -368,7 +369,7 @@ Partial Class frmHQF
         'txtShipSearch
         '
         Me.txtShipSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtShipSearch.Location = New System.Drawing.Point(31, 271)
         Me.txtShipSearch.Name = "txtShipSearch"
         Me.txtShipSearch.Size = New System.Drawing.Size(141, 21)
@@ -533,7 +534,7 @@ Partial Class frmHQF
         'txtSearchModules
         '
         Me.txtSearchModules.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtSearchModules.Location = New System.Drawing.Point(56, 328)
         Me.txtSearchModules.Name = "txtSearchModules"
         Me.txtSearchModules.Size = New System.Drawing.Size(171, 21)
@@ -653,8 +654,8 @@ Partial Class frmHQF
         Me.tvwModules.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.tvwModules.AllowDrop = True
         Me.tvwModules.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwModules.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -802,8 +803,8 @@ Partial Class frmHQF
         Me.tvwItems.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.tvwItems.AllowDrop = True
         Me.tvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwItems.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -951,8 +952,8 @@ Partial Class frmHQF
         Me.tvwFittings.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.tvwFittings.AllowDrop = True
         Me.tvwFittings.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwFittings.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -1083,7 +1084,7 @@ Partial Class frmHQF
         Me.rbEditor.ContainerControlProcessDialogKey = True
         Me.rbEditor.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEditor})
         Me.rbEditor.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbEditor.Location = New System.Drawing.Point(680, 0)
+        Me.rbEditor.Location = New System.Drawing.Point(731, 0)
         Me.rbEditor.Name = "rbEditor"
         Me.rbEditor.Size = New System.Drawing.Size(65, 100)
         Me.rbEditor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1126,7 +1127,7 @@ Partial Class frmHQF
         Me.rbImport.ContainerControlProcessDialogKey = True
         Me.rbImport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnImport})
         Me.rbImport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbImport.Location = New System.Drawing.Point(485, 0)
+        Me.rbImport.Location = New System.Drawing.Point(536, 0)
         Me.rbImport.Name = "rbImport"
         Me.rbImport.Size = New System.Drawing.Size(193, 100)
         Me.rbImport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1198,7 +1199,7 @@ Partial Class frmHQF
         Me.rbExport.ContainerControlProcessDialogKey = True
         Me.rbExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnScreenGrab, Me.btnExportEve, Me.ItemContainer1, Me.btnExportReq})
         Me.rbExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbExport.Location = New System.Drawing.Point(179, 0)
+        Me.rbExport.Location = New System.Drawing.Point(230, 0)
         Me.rbExport.Name = "rbExport"
         Me.rbExport.Size = New System.Drawing.Size(304, 100)
         Me.rbExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1321,11 +1322,11 @@ Partial Class frmHQF
         Me.rbTools.BackgroundStyle.Class = ""
         Me.rbTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbTools.ContainerControlProcessDialogKey = True
-        Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnPilotManager, Me.btnImplantManager})
+        Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnPilotManager, Me.btnImplantManager, Me.btnFleetManager})
         Me.rbTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.rbTools.Location = New System.Drawing.Point(67, 0)
         Me.rbTools.Name = "rbTools"
-        Me.rbTools.Size = New System.Drawing.Size(110, 100)
+        Me.rbTools.Size = New System.Drawing.Size(161, 100)
         Me.rbTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbTools.TabIndex = 1
         Me.rbTools.Text = "Tools"
@@ -1364,6 +1365,17 @@ Partial Class frmHQF
         Me.btnImplantManager.Stretch = True
         Me.btnImplantManager.SubItemsExpandWidth = 14
         Me.btnImplantManager.Text = "Implant Manager"
+        '
+        'btnFleetManager
+        '
+        Me.btnFleetManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnFleetManager.Image = CType(resources.GetObject("btnFleetManager.Image"), System.Drawing.Image)
+        Me.btnFleetManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnFleetManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnFleetManager.Name = "btnFleetManager"
+        Me.btnFleetManager.Stretch = True
+        Me.btnFleetManager.SubItemsExpandWidth = 14
+        Me.btnFleetManager.Text = "Fleet Manager"
         '
         'rbOptions
         '
@@ -1426,6 +1438,7 @@ Partial Class frmHQF
         Me.Controls.Add(Me.panelShips)
         Me.Controls.Add(Me.SplitterModules)
         Me.Controls.Add(Me.panelModules)
+        Me.DoubleBuffered = True
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.KeyPreview = True
         Me.Name = "frmHQF"
@@ -1557,5 +1570,6 @@ Partial Class frmHQF
     Friend WithEvents btnEditor As DevComponents.DotNetBar.ButtonItem
 	Friend WithEvents btnExportReq As DevComponents.DotNetBar.ButtonItem
 	Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents mnuExportToRequisitions As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuExportToRequisitions As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnFleetManager As DevComponents.DotNetBar.ButtonItem
 End Class

@@ -2204,6 +2204,13 @@ Public Class frmHQF
         Call Me.OpenPilotManagerForm(2)
     End Sub
 
+    Private Sub btnFleetManager_Click(sender As System.Object, e As System.EventArgs) Handles btnFleetManager.Click
+        'Open Fleet Manager form
+        Dim myFM As New frmFleetManager
+        myFM.ShowDialog()
+        myFM.Dispose()
+    End Sub
+
     Private Sub OpenPilotManagerForm(ByVal TabIndex As Integer)
         If myPilotManager.IsHandleCreated = False Then
             myPilotManager = New frmPilotManager

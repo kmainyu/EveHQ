@@ -2667,6 +2667,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property Mod00() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Mod00", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property Mod01() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Mod01", resourceCulture)
