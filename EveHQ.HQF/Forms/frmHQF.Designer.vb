@@ -153,98 +153,98 @@ Partial Class frmHQF
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.ToolStripMenuItem7, Me.mnuExportToEve, Me.mnuExportToRequisitions})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(193, 276)
+        Me.ctxFittings.Size = New System.Drawing.Size(192, 276)
         '
         'mnuFittingsFittingName
         '
         Me.mnuFittingsFittingName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mnuFittingsFittingName.Name = "mnuFittingsFittingName"
-        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(192, 22)
+        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsFittingName.Text = "Fitting Name"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(189, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(188, 6)
         '
         'mnuPreviewShip2
         '
         Me.mnuPreviewShip2.Name = "mnuPreviewShip2"
-        Me.mnuPreviewShip2.Size = New System.Drawing.Size(192, 22)
+        Me.mnuPreviewShip2.Size = New System.Drawing.Size(191, 22)
         Me.mnuPreviewShip2.Text = "Preview Ship Details"
         '
         'mnuFittingsShowFitting
         '
         Me.mnuFittingsShowFitting.Name = "mnuFittingsShowFitting"
-        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(192, 22)
+        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsShowFitting.Text = "Show Fitting"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(189, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(188, 6)
         '
         'mnuFittingsRenameFitting
         '
         Me.mnuFittingsRenameFitting.Name = "mnuFittingsRenameFitting"
-        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(192, 22)
+        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsRenameFitting.Text = "Rename Fitting"
         '
         'mnuFittingsCopyFitting
         '
         Me.mnuFittingsCopyFitting.Name = "mnuFittingsCopyFitting"
-        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(192, 22)
+        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsCopyFitting.Text = "Copy Fitting"
         '
         'mnuFittingsDeleteFitting
         '
         Me.mnuFittingsDeleteFitting.Name = "mnuFittingsDeleteFitting"
-        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(192, 22)
+        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsDeleteFitting.Text = "Delete Fitting"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(189, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(188, 6)
         '
         'mnuFittingsCreateFitting
         '
         Me.mnuFittingsCreateFitting.Name = "mnuFittingsCreateFitting"
-        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(192, 22)
+        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsCreateFitting.Text = "Create New Fitting"
         '
         'mnuFittingsBCBrowser
         '
         Me.mnuFittingsBCBrowser.Name = "mnuFittingsBCBrowser"
-        Me.mnuFittingsBCBrowser.Size = New System.Drawing.Size(192, 22)
+        Me.mnuFittingsBCBrowser.Size = New System.Drawing.Size(191, 22)
         Me.mnuFittingsBCBrowser.Text = "BattleClinic Browser"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(189, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(188, 6)
         '
         'mnuCompareFittings
         '
         Me.mnuCompareFittings.Name = "mnuCompareFittings"
-        Me.mnuCompareFittings.Size = New System.Drawing.Size(192, 22)
+        Me.mnuCompareFittings.Size = New System.Drawing.Size(191, 22)
         Me.mnuCompareFittings.Text = "Compare Fittings"
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(189, 6)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(188, 6)
         '
         'mnuExportToEve
         '
         Me.mnuExportToEve.Name = "mnuExportToEve"
-        Me.mnuExportToEve.Size = New System.Drawing.Size(192, 22)
+        Me.mnuExportToEve.Size = New System.Drawing.Size(191, 22)
         Me.mnuExportToEve.Text = "Export To Eve"
         '
         'mnuExportToRequisitions
         '
         Me.mnuExportToRequisitions.Name = "mnuExportToRequisitions"
-        Me.mnuExportToRequisitions.Size = New System.Drawing.Size(192, 22)
+        Me.mnuExportToRequisitions.Size = New System.Drawing.Size(191, 22)
         Me.mnuExportToRequisitions.Text = "Export To Requisitions"
         '
         'tvwShips
@@ -277,49 +277,49 @@ Partial Class frmHQF
         '
         Me.ctxShipBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShipBrowserShipName, Me.ToolStripMenuItem2, Me.mnuPreviewShip, Me.mnuCreateNewFitting, Me.mnuAddToShipBay, Me.ToolStripMenuItem6, Me.mnuBattleClinicBrowser})
         Me.ctxShipBrowser.Name = "ctxShipBrowser"
-        Me.ctxShipBrowser.Size = New System.Drawing.Size(226, 126)
+        Me.ctxShipBrowser.Size = New System.Drawing.Size(231, 126)
         '
         'mnuShipBrowserShipName
         '
         Me.mnuShipBrowserShipName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuShipBrowserShipName.Name = "mnuShipBrowserShipName"
-        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(225, 22)
+        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(230, 22)
         Me.mnuShipBrowserShipName.Text = "Ship Name"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(222, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(227, 6)
         '
         'mnuPreviewShip
         '
         Me.mnuPreviewShip.Name = "mnuPreviewShip"
-        Me.mnuPreviewShip.Size = New System.Drawing.Size(225, 22)
+        Me.mnuPreviewShip.Size = New System.Drawing.Size(230, 22)
         Me.mnuPreviewShip.Text = "Preview Ship Details"
         Me.mnuPreviewShip.ToolTipText = "View Ship Stats and Attributes"
         '
         'mnuCreateNewFitting
         '
         Me.mnuCreateNewFitting.Name = "mnuCreateNewFitting"
-        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(225, 22)
+        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(230, 22)
         Me.mnuCreateNewFitting.Text = "Create New Fitting"
         Me.mnuCreateNewFitting.ToolTipText = "Create a new fitting for this ship type"
         '
         'mnuAddToShipBay
         '
         Me.mnuAddToShipBay.Name = "mnuAddToShipBay"
-        Me.mnuAddToShipBay.Size = New System.Drawing.Size(225, 22)
+        Me.mnuAddToShipBay.Size = New System.Drawing.Size(230, 22)
         Me.mnuAddToShipBay.Text = "Add to Ship Maintenance Bay"
         '
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(222, 6)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(227, 6)
         '
         'mnuBattleClinicBrowser
         '
         Me.mnuBattleClinicBrowser.Name = "mnuBattleClinicBrowser"
-        Me.mnuBattleClinicBrowser.Size = New System.Drawing.Size(225, 22)
+        Me.mnuBattleClinicBrowser.Size = New System.Drawing.Size(230, 22)
         Me.mnuBattleClinicBrowser.Text = "Battleclinic Browser"
         Me.mnuBattleClinicBrowser.ToolTipText = "View Ship Loadouts from BattleClinic"
         '
@@ -554,46 +554,46 @@ Partial Class frmHQF
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup, Me.mnuShowMetaVariations})
         Me.ctxModuleList.Name = "ctxModuleList"
-        Me.ctxModuleList.Size = New System.Drawing.Size(217, 126)
+        Me.ctxModuleList.Size = New System.Drawing.Size(224, 126)
         '
         'mnuShowModuleInfo
         '
         Me.mnuShowModuleInfo.Name = "mnuShowModuleInfo"
-        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(216, 22)
+        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleInfo.Text = "Show Info"
         '
         'mnuSep1
         '
         Me.mnuSep1.Name = "mnuSep1"
-        Me.mnuSep1.Size = New System.Drawing.Size(213, 6)
+        Me.mnuSep1.Size = New System.Drawing.Size(220, 6)
         '
         'mnuAddToFavourites_List
         '
         Me.mnuAddToFavourites_List.Name = "mnuAddToFavourites_List"
-        Me.mnuAddToFavourites_List.Size = New System.Drawing.Size(216, 22)
+        Me.mnuAddToFavourites_List.Size = New System.Drawing.Size(223, 22)
         Me.mnuAddToFavourites_List.Text = "Add To Favourites"
         '
         'mnuRemoveFromFavourites
         '
         Me.mnuRemoveFromFavourites.Name = "mnuRemoveFromFavourites"
-        Me.mnuRemoveFromFavourites.Size = New System.Drawing.Size(216, 22)
+        Me.mnuRemoveFromFavourites.Size = New System.Drawing.Size(223, 22)
         Me.mnuRemoveFromFavourites.Text = "Remove From Favourites"
         '
         'mnuSep2
         '
         Me.mnuSep2.Name = "mnuSep2"
-        Me.mnuSep2.Size = New System.Drawing.Size(213, 6)
+        Me.mnuSep2.Size = New System.Drawing.Size(220, 6)
         '
         'mnuShowModuleMarketGroup
         '
         Me.mnuShowModuleMarketGroup.Name = "mnuShowModuleMarketGroup"
-        Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(216, 22)
+        Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleMarketGroup.Text = "Show Module Market Group"
         '
         'mnuShowMetaVariations
         '
         Me.mnuShowMetaVariations.Name = "mnuShowMetaVariations"
-        Me.mnuShowMetaVariations.Size = New System.Drawing.Size(216, 22)
+        Me.mnuShowMetaVariations.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowMetaVariations.Text = "Show Meta Variations"
         '
         'imgAttributes
@@ -1369,6 +1369,7 @@ Partial Class frmHQF
         'btnFleetManager
         '
         Me.btnFleetManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnFleetManager.Enabled = False
         Me.btnFleetManager.Image = CType(resources.GetObject("btnFleetManager.Image"), System.Drawing.Image)
         Me.btnFleetManager.ImageFixedSize = New System.Drawing.Size(40, 40)
         Me.btnFleetManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
