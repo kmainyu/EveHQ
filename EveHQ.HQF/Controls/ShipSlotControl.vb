@@ -258,7 +258,7 @@ Public Class ShipSlotControl
             If shipMod IsNot Nothing Then
                 shipMod.ModuleState = oldMod.ModuleState
                 Dim slotNode As Node = adtSlots.FindNodeByName(shipMod.SlotType & "_" & slotNo)
-                slotNode.Image = New Bitmap(CType(My.Resources.ResourceManager.GetObject("Mod0" & CInt(shipMod.ModuleState).ToString), Image), 14, 14)
+                slotNode.Image = CType(My.Resources.ResourceManager.GetObject("Mod0" & CInt(shipMod.ModuleState).ToString), Image)
                 Call Me.UpdateUserColumnData(shipMod, slotNode)
             End If
         End If
