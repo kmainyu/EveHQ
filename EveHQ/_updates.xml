@@ -75,7 +75,7 @@
     <file>
       <name>EveHQ.PI.dll</name>
       <type>Plug-in</type>
-      <version>2.1.0.3304</version>
+      <version>2.1.5.3376</version>
       <hasDebug>True</hasDebug>
       <description>PI Manager Plug-in</description>
     </file>
@@ -89,7 +89,7 @@
     <file>
       <name>EveHQ.PosManager.dll</name>
       <type>Plug-in</type>
-      <version>2.1.4.3371</version>
+      <version>2.1.5.3376</version>
       <hasDebug>True</hasDebug>
       <description>POS Design and Management Plug-in</description>
     </file>
