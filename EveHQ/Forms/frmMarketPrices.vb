@@ -1930,9 +1930,11 @@ Public Class frmMarketPrices
     End Sub
 
     Private Sub MarketDownloadWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles MarketDownloadWorker.RunWorkerCompleted
-        btnDownloadMarketPrices.Enabled = True
-        btnUpdateMarketPrices.Enabled = True
+        btnDownloadMarketPrices.Enabled = False
+        btnUpdateMarketPrices.Enabled = False
         UpdateCacheFileList()
+        MarketUpdateWorker.WorkerReportsProgress = True
+        MarketUpdateWorker.RunWorkerAsync()
     End Sub
 
     Private Sub MarketUpdateWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MarketUpdateWorker.DoWork
