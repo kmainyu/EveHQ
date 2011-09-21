@@ -3875,13 +3875,14 @@ Public Class frmPrism
             adtJournal.Nodes.Add(New Node("No Data Available..."))
             adtJournal.Enabled = False
         End If
+        'EveHQ.Core.AdvTreeSorter.Sort(adtJournal, New EveHQ.Core.AdvTreeSortResult(1, Core.AdvTreeSortOrder.Descending), False)
         adtJournal.EndUpdate()
     End Sub
 
     Private Function FetchWalletJournalData() As DataSet
         Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletJournal"
-        strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = STR(walletTransactions.transRef)"
+        strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = CONVERT(varchar(20), walletTransactions.transRef)"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
         strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
 
@@ -3913,7 +3914,7 @@ Public Class frmPrism
         End If
 
         ' Order the data
-        strSQL &= " ORDER BY walletJournal.transKey ASC;"
+        strSQL &= " ORDER BY walletJournal.transKey DESC;"
 
         ' Fetch the data
         Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
@@ -3956,7 +3957,7 @@ Public Class frmPrism
         'End If
 
         ' Order the data
-        strSQL &= " ORDER BY walletJournal.transKey ASC;"
+        strSQL &= " ORDER BY walletJournal.transKey DESC;"
 
         ' Fetch the data
         Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
@@ -4286,7 +4287,7 @@ Public Class frmPrism
         End If
 
         ' Order the data
-        strSQL &= " ORDER BY walletTransactions.transKey ASC;"
+        strSQL &= " ORDER BY walletTransactions.transKey DESC;"
 
         ' Fetch the data
         Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
@@ -4354,6 +4355,7 @@ Public Class frmPrism
             adtTransactions.Nodes.Add(New Node("No Data Available..."))
             adtTransactions.Enabled = False
         End If
+        'EveHQ.Core.AdvTreeSorter.Sort(adtTransactions, New EveHQ.Core.AdvTreeSortResult(1, Core.AdvTreeSortOrder.Descending), False)
         adtTransactions.EndUpdate()
 
         ' Display Figures:
