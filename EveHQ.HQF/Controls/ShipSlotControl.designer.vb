@@ -25,6 +25,7 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label()
         Me.lblShipMarketPrice = New System.Windows.Forms.Label()
         Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -199,6 +200,7 @@ Partial Class ShipSlotControl
         Me.Cell11 = New DevComponents.AdvTree.Cell()
         Me.Cell12 = New DevComponents.AdvTree.Cell()
         Me.SlotTip = New DevComponents.DotNetBar.SuperTooltip()
+        Me.btnAutoSize = New DevComponents.DotNetBar.ButtonX()
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
@@ -245,13 +247,13 @@ Partial Class ShipSlotControl
         Me.ctxSlots.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(124, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'ctxBays
@@ -364,7 +366,7 @@ Partial Class ShipSlotControl
         'pbDroneBay
         '
         Me.pbDroneBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -391,8 +393,8 @@ Partial Class ShipSlotControl
         '
         Me.lvwDroneBay.AllowDrop = True
         Me.lvwDroneBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -425,7 +427,7 @@ Partial Class ShipSlotControl
         'pbCargoBay
         '
         Me.pbCargoBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -452,8 +454,8 @@ Partial Class ShipSlotControl
         '
         Me.lvwCargoBay.AllowDrop = True
         Me.lvwCargoBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -495,7 +497,7 @@ Partial Class ShipSlotControl
         'lvwRemoteFittings
         '
         Me.lvwRemoteFittings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -531,8 +533,8 @@ Partial Class ShipSlotControl
         'lvwRemoteEffects
         '
         Me.lvwRemoteEffects.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -757,7 +759,7 @@ Partial Class ShipSlotControl
         'pbShipBay
         '
         Me.pbShipBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -784,8 +786,8 @@ Partial Class ShipSlotControl
         '
         Me.lvwShipBay.AllowDrop = True
         Me.lvwShipBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -916,8 +918,8 @@ Partial Class ShipSlotControl
         'tcStorage
         '
         Me.tcStorage.CanReorderTabs = True
-        Me.tcStorage.Controls.Add(Me.tcpBoosters)
         Me.tcStorage.Controls.Add(Me.tcpDroneBay)
+        Me.tcStorage.Controls.Add(Me.tcpBoosters)
         Me.tcStorage.Controls.Add(Me.tcpCargoBay)
         Me.tcStorage.Controls.Add(Me.tcpRemoteEffects)
         Me.tcStorage.Controls.Add(Me.tcpHistory)
@@ -968,7 +970,7 @@ Partial Class ShipSlotControl
         Me.tcpBoosters.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpBoosters.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpBoosters.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpBoosters.Style.GradientAngle = 90
         Me.tcpBoosters.TabIndex = 5
         Me.tcpBoosters.TabItem = Me.tiBoosters
@@ -1220,7 +1222,7 @@ Partial Class ShipSlotControl
         Me.tcpDroneBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpDroneBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpDroneBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpDroneBay.Style.GradientAngle = 90
         Me.tcpDroneBay.TabIndex = 1
         Me.tcpDroneBay.TabItem = Me.tiDroneBay
@@ -1259,7 +1261,7 @@ Partial Class ShipSlotControl
         Me.tcpCargoBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpCargoBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpCargoBay.Style.GradientAngle = 90
         Me.tcpCargoBay.TabIndex = 2
         Me.tcpCargoBay.TabItem = Me.tiCargoBay
@@ -1302,7 +1304,7 @@ Partial Class ShipSlotControl
         Me.tcpRemoteEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpRemoteEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpRemoteEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpRemoteEffects.Style.GradientAngle = 90
         Me.tcpRemoteEffects.TabIndex = 3
         Me.tcpRemoteEffects.TabItem = Me.tiRemoteEffects
@@ -1374,7 +1376,7 @@ Partial Class ShipSlotControl
         Me.tcpHistory.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpHistory.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpHistory.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpHistory.Style.GradientAngle = 90
         Me.tcpHistory.TabIndex = 8
         Me.tcpHistory.TabItem = Me.tiHistory
@@ -1400,7 +1402,7 @@ Partial Class ShipSlotControl
         Me.tcpShipBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpShipBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpShipBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpShipBay.Style.GradientAngle = 90
         Me.tcpShipBay.TabIndex = 7
         Me.tcpShipBay.TabItem = Me.tiShipBay
@@ -1441,7 +1443,7 @@ Partial Class ShipSlotControl
         Me.tcpFleetEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpFleetEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpFleetEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpFleetEffects.Style.GradientAngle = 90
         Me.tcpFleetEffects.TabIndex = 4
         Me.tcpFleetEffects.TabItem = Me.tiFleetEffects
@@ -1557,7 +1559,7 @@ Partial Class ShipSlotControl
         Me.tcpWHEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.tcpWHEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.tcpWHEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpWHEffects.Style.GradientAngle = 90
         Me.tcpWHEffects.TabIndex = 6
         Me.tcpWHEffects.TabItem = Me.tiWHEffects
@@ -1652,6 +1654,7 @@ Partial Class ShipSlotControl
         '
         Me.panelFunctions.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelFunctions.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelFunctions.Controls.Add(Me.btnAutoSize)
         Me.panelFunctions.Controls.Add(Me.btnRedo)
         Me.panelFunctions.Controls.Add(Me.btnUndo)
         Me.panelFunctions.Controls.Add(Me.pbShip)
@@ -1686,7 +1689,7 @@ Partial Class ShipSlotControl
         Me.btnRedo.SplitButton = True
         Me.btnRedo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.SlotTip.SetSuperTooltip(Me.btnRedo, New DevComponents.DotNetBar.SuperTooltipInfo("", "Redo Operation", "This button will redo the most recent changes undone." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to " & _
-                    "undo multiple operations at once.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.redo, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            "undo multiple operations at once.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.redo, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnRedo.TabIndex = 15
         '
         'btnUndo
@@ -1703,7 +1706,7 @@ Partial Class ShipSlotControl
         Me.btnUndo.SplitButton = True
         Me.btnUndo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.SlotTip.SetSuperTooltip(Me.btnUndo, New DevComponents.DotNetBar.SuperTooltipInfo("", "Undo Operation", "This button will undo the most recent loading or unloading of a module or charge." & _
-                    "" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to undo multiple operations at once." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Nothing, Global.EveHQ.HQF.My.Resources.Resources.undo, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            "" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use the split button to undo multiple operations at once." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Nothing, Global.EveHQ.HQF.My.Resources.Resources.undo, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnUndo.TabIndex = 14
         '
         'adtSlots
@@ -1911,6 +1914,23 @@ Partial Class ShipSlotControl
         Me.SlotTip.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SlotTip.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.SlotTip.PositionBelowControl = False
+        '
+        'btnAutoSize
+        '
+        Me.btnAutoSize.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAutoSize.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAutoSize.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAutoSize.FocusCuesEnabled = False
+        Me.btnAutoSize.Image = CType(resources.GetObject("btnAutoSize.Image"), System.Drawing.Image)
+        Me.btnAutoSize.ImageFixedSize = New System.Drawing.Size(32, 32)
+        Me.btnAutoSize.Location = New System.Drawing.Point(887, 3)
+        Me.btnAutoSize.Name = "btnAutoSize"
+        Me.btnAutoSize.Size = New System.Drawing.Size(48, 32)
+        Me.btnAutoSize.SplitButton = True
+        Me.btnAutoSize.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.SlotTip.SetSuperTooltip(Me.btnAutoSize, New DevComponents.DotNetBar.SuperTooltipInfo("", "Autosize Slot Columns", "Automatically resizes all columns to match the size of the contents that they con" & _
+            "tain." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Does not affect the user-selected size.", Nothing, CType(resources.GetObject("btnAutoSize.SuperTooltip"), System.Drawing.Image), DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnAutoSize.TabIndex = 16
         '
         'ShipSlotControl
         '
@@ -2126,4 +2146,5 @@ Partial Class ShipSlotControl
     Friend WithEvents btnRandomPenalty2 As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnAlterSkills2 As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnRemoveBooster2 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnAutoSize As DevComponents.DotNetBar.ButtonX
 End Class

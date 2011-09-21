@@ -1935,7 +1935,7 @@ Public Class ShipSlotControl
         mySettings.Tag = "nodeSlotFormat"
         mySettings.ShowDialog()
         mySettings = Nothing
-	End Sub
+    End Sub
 
 	Private Sub AddModuleToRequisitions(ByVal sender As Object, ByVal e As System.EventArgs)
 		' Set up a new Sortedlist to store the required items
@@ -2034,6 +2034,18 @@ Public Class ShipSlotControl
 
     Private Sub PasteModule(ByVal sender As Object, ByVal e As System.EventArgs)
         Call Me.PasteModuleFromClipboard()
+    End Sub
+
+    Private Sub btnAutoSize_Click(sender As System.Object, e As System.EventArgs) Handles btnAutoSize.Click
+        Call Me.AutoSizeAllColumns()
+    End Sub
+
+    Private Sub AutoSizeAllColumns()
+        adtSlots.SuspendLayout()
+        For Each c As DevComponents.AdvTree.ColumnHeader In adtSlots.Columns
+            c.AutoSize()
+        Next
+        adtSlots.ResumeLayout()
     End Sub
 
 #End Region
