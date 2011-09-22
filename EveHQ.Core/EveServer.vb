@@ -53,7 +53,7 @@ Public Class EveServer
     Public Sub GetServerStatus()
         Try
             Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-            Dim StatusXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.ServerStatus, EveAPI.APIReturnMethods.ReturnActual)
+            Dim StatusXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.ServerStatus, EveAPI.APIReturnMethods.BypassCache)
             If StatusXML IsNot Nothing Then
                 Dim StatusDetails As XmlNodeList = StatusXML.SelectNodes("/eveapi/result")
                 Dim ServerIsUp As Boolean = CBool(StatusDetails(0).ChildNodes(0).InnerText)
