@@ -20,12 +20,13 @@ Partial Public Class frmEveHQ
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEveHQ))
-        Me.ToolTip = New System.Windows.Forms.ToolTip()
+        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.rpPlugins = New DevComponents.DotNetBar.RibbonPanel()
         Me.rbPlugins = New DevComponents.DotNetBar.RibbonBar()
-        Me.tmrEve = New System.Windows.Forms.Timer()
-        Me.EveIconMenu = New System.Windows.Forms.ContextMenuStrip()
+        Me.tmrEve = New System.Windows.Forms.Timer(Me.components)
+        Me.EveIconMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ctxmnuLaunchEve1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxmnuLaunchEve2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxmnuLaunchEve3 = New System.Windows.Forms.ToolStripMenuItem()
@@ -37,14 +38,14 @@ Partial Public Class frmEveHQ
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.ctxAbout = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxExit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tmrSkillUpdate = New System.Windows.Forms.Timer()
-        Me.tmrBackup = New System.Windows.Forms.Timer()
-        Me.tmrModules = New System.Windows.Forms.Timer()
-        Me.ctxTabbedMDI = New System.Windows.Forms.ContextMenuStrip()
+        Me.tmrSkillUpdate = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrBackup = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrModules = New System.Windows.Forms.Timer(Me.components)
+        Me.ctxTabbedMDI = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuCloseMDITab = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.iconEveHQMLW = New System.Windows.Forms.NotifyIcon()
-        Me.tmrMemory = New System.Windows.Forms.Timer()
+        Me.iconEveHQMLW = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
         Me.RibbonControl1 = New DevComponents.DotNetBar.RibbonControl()
         Me.rpCore = New DevComponents.DotNetBar.RibbonPanel()
         Me.rbHelp = New DevComponents.DotNetBar.RibbonBar()
@@ -139,7 +140,7 @@ Partial Public Class frmEveHQ
         Me.rtiReports = New DevComponents.DotNetBar.RibbonTabItem()
         Me.btnTheme = New DevComponents.DotNetBar.ButtonItem()
         Me.btnOffice2007Black = New DevComponents.DotNetBar.ButtonItem()
-        Me.AppCommandTheme = New DevComponents.DotNetBar.Command()
+        Me.AppCommandTheme = New DevComponents.DotNetBar.Command(Me.components)
         Me.btnOffice2007Blue = New DevComponents.DotNetBar.ButtonItem()
         Me.btnOffice2007Silver = New DevComponents.DotNetBar.ButtonItem()
         Me.btnOffice2010Black = New DevComponents.DotNetBar.ButtonItem()
@@ -158,9 +159,9 @@ Partial Public Class frmEveHQ
         Me.btnAbout = New DevComponents.DotNetBar.ButtonItem()
         Me.btnFileExit = New DevComponents.DotNetBar.ButtonItem()
         Me.QatCustomizeItem1 = New DevComponents.DotNetBar.QatCustomizeItem()
-        Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager()
-        Me.StyleManager2 = New DevComponents.DotNetBar.StyleManager()
-        Me.DotNetBarManager1 = New DevComponents.DotNetBar.DotNetBarManager()
+        Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
+        Me.StyleManager2 = New DevComponents.DotNetBar.StyleManager(Me.components)
+        Me.DotNetBarManager1 = New DevComponents.DotNetBar.DotNetBarManager(Me.components)
         Me.DockSite4 = New DevComponents.DotNetBar.DockSite()
         Me.Bar1 = New DevComponents.DotNetBar.Bar()
         Me.pdc1 = New DevComponents.DotNetBar.PanelDockContainer()
@@ -173,7 +174,7 @@ Partial Public Class frmEveHQ
         Me.DockSite7 = New DevComponents.DotNetBar.DockSite()
         Me.DockSite3 = New DevComponents.DotNetBar.DockSite()
         Me.tabEveHQMDI = New DevComponents.DotNetBar.TabStrip()
-        Me.TabItem1 = New DevComponents.DotNetBar.TabItem()
+        Me.TabItem1 = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.barStatus = New DevComponents.DotNetBar.Bar()
         Me.lblTQStatus = New DevComponents.DotNetBar.LabelItem()
         Me.lblAPIStatus = New DevComponents.DotNetBar.LabelItem()
@@ -181,7 +182,7 @@ Partial Public Class frmEveHQ
         Me.lblCharAPITime = New DevComponents.DotNetBar.LabelItem()
         Me.lblEveTime = New DevComponents.DotNetBar.LabelItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
-        Me.EveStatusIcon = New EveHQ.Core.EveHQIcon()
+        Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
         Me.rpPlugins.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
@@ -225,7 +226,8 @@ Partial Public Class frmEveHQ
         '
         'rbPlugins
         '
-        Me.rbPlugins.AutoOverflowEnabled = True
+        Me.rbPlugins.AutoOverflowEnabled = False
+        Me.rbPlugins.AutoSizeItems = False
         '
         '
         '
@@ -241,6 +243,7 @@ Partial Public Class frmEveHQ
         Me.rbPlugins.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.rbPlugins.Location = New System.Drawing.Point(3, 0)
         Me.rbPlugins.Name = "rbPlugins"
+        Me.rbPlugins.OverflowButtonText = "Click for more plug-ins!"
         Me.rbPlugins.Size = New System.Drawing.Size(1017, 93)
         Me.rbPlugins.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbPlugins.TabIndex = 0
@@ -376,8 +379,8 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonControl1.CaptionVisible = True
         Me.RibbonControl1.Controls.Add(Me.rpCore)
-        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Controls.Add(Me.rpPlugins)
+        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Dock = System.Windows.Forms.DockStyle.Top
         Me.RibbonControl1.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.rtiCore, Me.rtiPlugins, Me.rtiReports, Me.btnTheme})
         Me.RibbonControl1.KeyTipsFont = New System.Drawing.Font("Tahoma", 7.0!)
