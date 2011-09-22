@@ -156,53 +156,55 @@ Public Class frmEveHQ
     End Sub
     Private Sub eveTQWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles eveTQWorker.RunWorkerCompleted
         ' Sub raised on the completion of a call to read the Eve TQ data
-        ' Depending on server status, set the notify icon text and the statusbar text
-        Select Case EveHQ.Core.HQ.myTQServer.Status
-            Case EveHQ.Core.EveServer.ServerStatus.Down
-                'EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
-                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Unable to connect to server"
-                If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_offline IsNot Nothing Then
-                    EveStatusIcon.Icon = My.Resources.EveHQ_offline
-                End If
-            Case EveHQ.Core.EveServer.ServerStatus.Starting
-                EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
-                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
-                If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_starting IsNot Nothing Then
-                    EveStatusIcon.Icon = My.Resources.EveHQ_starting
-                End If
-            Case EveHQ.Core.EveServer.ServerStatus.Shutting
-                EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
-                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
-                If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_starting IsNot Nothing Then
-                    EveStatusIcon.Icon = My.Resources.EveHQ_starting
-                End If
-            Case EveHQ.Core.EveServer.ServerStatus.Full
-                EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
-                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
-                If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_online IsNot Nothing Then
-                    EveStatusIcon.Icon = My.Resources.EveHQ_online
-                End If
-            Case EveHQ.Core.EveServer.ServerStatus.ProxyDown
-                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
-                EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
-                If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_offline IsNot Nothing Then
-                    EveStatusIcon.Icon = My.Resources.EveHQ_offline
-                End If
-            Case EveHQ.Core.EveServer.ServerStatus.Unknown
-                EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
-                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Status unknown"
-                If EveStatusIcon IsNot Nothing And My.Resources.EveHQ IsNot Nothing Then
-                    EveStatusIcon.Icon = My.Resources.EveHQ
-                End If
-            Case EveHQ.Core.EveServer.ServerStatus.Up
-                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Online (" & EveHQ.Core.HQ.myTQServer.Players & " Players)"
-                If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_online IsNot Nothing Then
-                    EveStatusIcon.Icon = My.Resources.EveHQ_online
-                End If
-        End Select
 
         ' Check if the server status has changed since the last result and notify user
         If EveHQ.Core.HQ.myTQServer.Status <> EveHQ.Core.HQ.myTQServer.LastStatus Then
+
+            ' Depending on server status, set the notify icon text and the statusbar text
+            Select Case EveHQ.Core.HQ.myTQServer.Status
+                Case EveHQ.Core.EveServer.ServerStatus.Down
+                    'EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Unable to connect to server"
+                    If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_offline IsNot Nothing Then
+                        EveStatusIcon.Icon = My.Resources.EveHQ_offline
+                    End If
+                Case EveHQ.Core.EveServer.ServerStatus.Starting
+                    EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
+                    If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_starting IsNot Nothing Then
+                        EveStatusIcon.Icon = My.Resources.EveHQ_starting
+                    End If
+                Case EveHQ.Core.EveServer.ServerStatus.Shutting
+                    EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
+                    If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_starting IsNot Nothing Then
+                        EveStatusIcon.Icon = My.Resources.EveHQ_starting
+                    End If
+                Case EveHQ.Core.EveServer.ServerStatus.Full
+                    EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
+                    If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_online IsNot Nothing Then
+                        EveStatusIcon.Icon = My.Resources.EveHQ_online
+                    End If
+                Case EveHQ.Core.EveServer.ServerStatus.ProxyDown
+                    lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": " & EveHQ.Core.HQ.myTQServer.StatusText
+                    EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_offline IsNot Nothing Then
+                        EveStatusIcon.Icon = My.Resources.EveHQ_offline
+                    End If
+                Case EveHQ.Core.EveServer.ServerStatus.Unknown
+                    EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Status unknown"
+                    If EveStatusIcon IsNot Nothing And My.Resources.EveHQ IsNot Nothing Then
+                        EveStatusIcon.Icon = My.Resources.EveHQ
+                    End If
+                Case EveHQ.Core.EveServer.ServerStatus.Up
+                    lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Online (" & EveHQ.Core.HQ.myTQServer.Players & " Players)"
+                    If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_online IsNot Nothing Then
+                        EveStatusIcon.Icon = My.Resources.EveHQ_online
+                    End If
+            End Select
+
             If EveStatusIcon IsNot Nothing Then
                 EveStatusIcon.BalloonTipIcon = ToolTipIcon.Info
                 EveStatusIcon.BalloonTipTitle = EveHQ.Core.HQ.myTQServer.ServerName & " Status Notification"
@@ -217,6 +219,11 @@ Public Class frmEveHQ
                         EveStatusIcon.BalloonTipText = EveHQ.Core.HQ.myTQServer.ServerName & " is Up"
                 End Select
                 EveStatusIcon.ShowBalloonTip(3000)
+            End If
+        Else
+            ' Report the players regardless
+            If EveHQ.Core.HQ.myTQServer.Status = EveHQ.Core.EveServer.ServerStatus.Up Then
+                lblTQStatus.Text = EveHQ.Core.HQ.myTQServer.ServerName & ": Online (" & EveHQ.Core.HQ.myTQServer.Players & " Players)"
             End If
         End If
         ' Update last status
