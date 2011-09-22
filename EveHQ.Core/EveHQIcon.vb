@@ -91,7 +91,7 @@ Public Class EveHQIcon
             Return Me.notifyIcon.Icon
         End Get
         Set(ByVal value As Icon)
-            Me.notifyIcon.Icon = New Icon(value, New Size(&H10, &H10))
+            Me.notifyIcon.Icon = value
         End Set
     End Property
     <Category("Behaviour"), DefaultValue(250), Description("The length of time, in milliseconds, for which the mouse must remain stationary over the control before the MouseHover event is raised")> _
