@@ -20,17 +20,18 @@
 Imports System.Windows.Forms
 Imports System.Drawing
 
-Public Class frmFleetManager
+Public Class FleetDashboard
     Dim IsDragging As Boolean = False
     Dim initialCoords As Point
     Dim sourceControl As Control
     Dim parentControl As Control
-    Dim LinkPen As New Pen(Color.FromArgb(16, 0, 0, 0), 2)
-    Dim ActiveLinkPen As New Pen(Color.FromArgb(255, 0, 0, 0), 2)
+    Dim LinkPen As New Pen(Color.FromArgb(16, Color.Black), 2)
+    Dim RLinkPen As New Pen(Color.FromArgb(64, Color.Red), 2)
+    Dim GLinkPen As New Pen(Color.FromArgb(255, Color.LightGreen), 2)
 
 #Region "Form Loading Routines"
 
-    Private Sub frmFleetManager_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub FleetDashboard_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         Me.DoubleBuffered = True
 
@@ -50,15 +51,17 @@ Public Class frmFleetManager
 
     Private Sub AddShipWidget()
 
-        Dim ShipFit As Fitting = Fittings.FittingList("Guardian, Test").Clone
-        Dim NewSW As New ShipWidget(ShipFit)
-        NewSW.Name = Now.Ticks.ToString
+        If Fittings.FittingList.ContainsKey("Guardian, Test") Then
+            Dim ShipFit As Fitting = Fittings.FittingList("Guardian, Test").Clone
+            Dim NewSW As New ShipWidget(ShipFit)
+            NewSW.Name = Now.Ticks.ToString
 
-        AddHandler NewSW.Controls("pnlHeader").MouseDown, AddressOf MyMouseDown
-        AddHandler NewSW.Controls("pnlHeader").MouseUp, AddressOf MyMouseUp
-        AddHandler NewSW.Controls("pnlHeader").MouseMove, AddressOf MyMouseMove
-        AddHandler NewSW.Controls("pnlHeader").MouseLeave, AddressOf MyMouseLeave
-        Me.Controls.Add(NewSW)
+            AddHandler NewSW.Controls("pnlHeader").MouseDown, AddressOf MyMouseDown
+            AddHandler NewSW.Controls("pnlHeader").MouseUp, AddressOf MyMouseUp
+            AddHandler NewSW.Controls("pnlHeader").MouseMove, AddressOf MyMouseMove
+            AddHandler NewSW.Controls("pnlHeader").MouseLeave, AddressOf MyMouseLeave
+            Me.Controls.Add(NewSW)
+        End If
     End Sub
 
 #End Region
@@ -143,7 +146,9 @@ Public Class frmFleetManager
 
                     If parentControl IsNot Nothing Then
                         If c.Name = parentControl.Name Then
-                            e.DrawLine(ActiveLinkPen, SX, SY, FX, FY)
+                            e.DrawLine(GLinkPen, SX, SY, FX, FY)
+                        ElseIf c2.Name = parentControl.Name Then
+                            e.DrawLine(RLinkPen, SX, SY, FX, FY)
                         Else
                             e.DrawLine(LinkPen, SX, SY, FX, FY)
                         End If
@@ -164,5 +169,4 @@ Public Class frmFleetManager
     End Sub
 
 #End Region
-
 End Class

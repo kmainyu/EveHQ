@@ -29,6 +29,7 @@ Partial Class frmFleetManager
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuClearDashboard = New System.Windows.Forms.ToolStripMenuItem()
         Me.panelDB = New DevComponents.DotNetBar.PanelEx()
+        Me.FleetDashboard1 = New EveHQ.HQF.FleetDashboard()
         Me.ctxDashboard.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -58,28 +59,37 @@ Partial Class frmFleetManager
         '
         'panelDB
         '
-        Me.panelDB.AutoScroll = True
         Me.panelDB.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelDB.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.panelDB.ContextMenuStrip = Me.ctxDashboard
-        Me.panelDB.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelDB.Location = New System.Drawing.Point(0, 0)
+        Me.panelDB.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.panelDB.Location = New System.Drawing.Point(0, 655)
         Me.panelDB.Name = "panelDB"
-        Me.panelDB.Size = New System.Drawing.Size(1232, 824)
+        Me.panelDB.Size = New System.Drawing.Size(1232, 169)
         Me.panelDB.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.panelDB.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2
-        Me.panelDB.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2
+        Me.panelDB.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelDB.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.panelDB.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.panelDB.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.panelDB.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.panelDB.Style.GradientAngle = 90
         Me.panelDB.TabIndex = 1
+        Me.panelDB.Text = "PanelEx1"
+        '
+        'FleetDashboard1
+        '
+        Me.FleetDashboard1.BackColor = System.Drawing.SystemColors.ControlDark
+        Me.FleetDashboard1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FleetDashboard1.Location = New System.Drawing.Point(0, 0)
+        Me.FleetDashboard1.Name = "FleetDashboard1"
+        Me.FleetDashboard1.Size = New System.Drawing.Size(1232, 655)
+        Me.FleetDashboard1.TabIndex = 2
         '
         'frmFleetManager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1232, 824)
+        Me.Controls.Add(Me.FleetDashboard1)
         Me.Controls.Add(Me.panelDB)
         Me.DoubleBuffered = True
         Me.EnableGlass = False
@@ -94,7 +104,8 @@ Partial Class frmFleetManager
     End Sub
     Friend WithEvents ctxDashboard As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuRefreshDB As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents panelDB As DevComponents.DotNetBar.PanelEx
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuClearDashboard As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents panelDB As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents FleetDashboard1 As EveHQ.HQF.FleetDashboard
 End Class

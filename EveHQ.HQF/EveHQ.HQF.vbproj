@@ -121,6 +121,12 @@
     <Compile Include="Controls\EveSpace.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\FleetDashboard.Designer.vb">
+      <DependentUpon>FleetDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FleetDashboard.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\ShipWidget.Designer.vb">
       <DependentUpon>ShipWidget.vb</DependentUpon>
     </Compile>
@@ -350,6 +356,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\EveSpace.resx">
       <DependentUpon>EveSpace.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FleetDashboard.resx">
+      <DependentUpon>FleetDashboard.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ShipWidget.resx">
       <DependentUpon>ShipWidget.vb</DependentUpon>
