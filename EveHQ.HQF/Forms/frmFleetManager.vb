@@ -95,6 +95,7 @@ Public Class frmFleetManager
 
         Dim ShipFit As Fitting = Fittings.FittingList("Guardian, Test").Clone
         Dim NewSW As New ShipWidget(ShipFit)
+        NewSW.Name = Now.Ticks.ToString
 
         AddHandler NewSW.Controls("pnlHeader").MouseDown, AddressOf MyMouseDown
         AddHandler NewSW.Controls("pnlHeader").MouseUp, AddressOf MyMouseUp
@@ -172,6 +173,30 @@ Public Class frmFleetManager
             'Dim pi As System.Reflection.PropertyInfo = parentControl.GetType().GetProperty("ControlLocation")
             'pi.SetValue(parentControl, parentControl.Location, Nothing)
             IsDragging = False
+            Dim pe As Graphics = panelDB.CreateGraphics
+
+            ' Set the graphics modes
+            pe.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+
+            Dim BPen As New Pen(Color.FromArgb(255, 0, 0, 0), 1) : BPen.DashStyle = Drawing2D.DashStyle.Dash
+
+            ' ***** Test code
+
+            ' Draw from the right hand edge to the left
+            For Each c As Control In Me.panelDB.Controls
+                For Each c2 As Control In Me.panelDB.Controls
+                    If c.Name <> c2.Name Then
+                        Dim SX As Integer = c.Location.X + c.Width
+                        Dim SY As Integer = c.Location.Y + CInt(c.Height / 2)
+                        Dim FX As Integer = c2.Location.X
+                        Dim FY As Integer = c2.Location.Y + CInt(c2.Height / 2)
+
+                        ' Draw the horizontal and vertical vector lines
+                        pe.DrawLine(BPen, SX, SY, FX, FY)
+
+                    End If
+                Next
+            Next
         End If
         'lblStatus.Text = "Status: Waiting..."
         parentControl.Cursor = Cursors.Default
