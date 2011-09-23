@@ -167,7 +167,7 @@ Public Class ShipWidgetModules
                 If RemoteGroups.Contains(CInt(ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup)) Then
                     Dim SlotNode As New Node("", HiSlotStyle)
                     SlotNode.Name = "8_" & slot
-                    SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
+                    SlotNode.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
                     SlotNode.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
                     SlotNode.StyleSelected = SelSlotStyle
                     Call Me.AddUserColumnData(ParentFitting.BaseShip.HiSlot(slot), SlotNode)
@@ -182,7 +182,7 @@ Public Class ShipWidgetModules
                 If RemoteGroups.Contains(CInt(ParentFitting.BaseShip.MidSlot(slot).DatabaseGroup)) Then
                     Dim SlotNode As New Node("", MidSlotStyle)
                     SlotNode.Name = "4_" & slot
-                    SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
+                    SlotNode.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
                     SlotNode.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
                     SlotNode.StyleSelected = SelSlotStyle
                     Call Me.AddUserColumnData(ParentFitting.BaseShip.MidSlot(slot), SlotNode)
@@ -197,7 +197,7 @@ Public Class ShipWidgetModules
                 If RemoteGroups.Contains(CInt(ParentFitting.BaseShip.LowSlot(slot).DatabaseGroup)) Then
                     Dim SlotNode As New Node("", LowSlotStyle)
                     SlotNode.Name = "2_" & slot
-                    SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
+                    SlotNode.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
                     SlotNode.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
                     SlotNode.StyleSelected = SelSlotStyle
                     Call Me.AddUserColumnData(ParentFitting.BaseShip.LowSlot(slot), SlotNode)
@@ -212,7 +212,7 @@ Public Class ShipWidgetModules
                 If RemoteGroups.Contains(CInt(ParentFitting.BaseShip.RigSlot(slot).DatabaseGroup)) Then
                     Dim SlotNode As New Node("", RigSlotStyle)
                     SlotNode.Name = "1_" & slot
-                    SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
+                    SlotNode.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
                     SlotNode.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
                     SlotNode.StyleSelected = SelSlotStyle
                     Call Me.AddUserColumnData(ParentFitting.BaseShip.RigSlot(slot), SlotNode)
@@ -227,7 +227,7 @@ Public Class ShipWidgetModules
                 If RemoteGroups.Contains(CInt(ParentFitting.BaseShip.SubSlot(slot).DatabaseGroup)) Then
                     Dim SlotNode As New Node("", SubSlotStyle)
                     SlotNode.Name = "16_" & slot
-                    SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
+                    SlotNode.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
                     SlotNode.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
                     SlotNode.StyleSelected = SelSlotStyle
                     Call Me.AddUserColumnData(ParentFitting.BaseShip.SubSlot(slot), SlotNode)
@@ -243,7 +243,7 @@ Public Class ShipWidgetModules
                     remoteDrone.DroneType.ModuleState = ModuleStates.Gang
                     Dim SlotNode As New Node("", SubSlotStyle)
                     SlotNode.Name = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
-                    SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
+                    SlotNode.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
                     SlotNode.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
                     SlotNode.StyleSelected = SelSlotStyle
                     SlotNode.Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"

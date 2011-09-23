@@ -38,7 +38,9 @@ Partial Class ShipWidget
         Me.pbBooster = New System.Windows.Forms.PictureBox()
         Me.pbImplants = New System.Windows.Forms.PictureBox()
         Me.pbPilot = New System.Windows.Forms.PictureBox()
+        Me.ctxPilot = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.pbFitting = New System.Windows.Forms.PictureBox()
+        Me.ctxFitting = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.pnlModules = New DevComponents.DotNetBar.ExpandablePanel()
         Me.pnlHeader = New DevComponents.DotNetBar.PanelEx()
         Me.pbSkillsStability = New System.Windows.Forms.PictureBox()
@@ -47,8 +49,6 @@ Partial Class ShipWidget
         Me.pbCPUStability = New System.Windows.Forms.PictureBox()
         Me.pbRemove = New System.Windows.Forms.PictureBox()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.ctxFitting = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ctxPilot = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.pnlShipWidget.SuspendLayout()
         CType(Me.pbGangLinks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbInfo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -249,6 +249,11 @@ Partial Class ShipWidget
         Me.pbPilot.TabIndex = 1
         Me.pbPilot.TabStop = False
         '
+        'ctxPilot
+        '
+        Me.ctxPilot.Name = "ctxPilot"
+        Me.ctxPilot.Size = New System.Drawing.Size(61, 4)
+        '
         'pbFitting
         '
         Me.pbFitting.ContextMenuStrip = Me.ctxFitting
@@ -259,6 +264,11 @@ Partial Class ShipWidget
         Me.pbFitting.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.pbFitting.TabIndex = 0
         Me.pbFitting.TabStop = False
+        '
+        'ctxFitting
+        '
+        Me.ctxFitting.Name = "ctxFitting"
+        Me.ctxFitting.Size = New System.Drawing.Size(61, 4)
         '
         'pnlModules
         '
@@ -289,7 +299,7 @@ Partial Class ShipWidget
         Me.pnlModules.TitleStyle.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.pnlModules.TitleStyle.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlModules.TitleStyle.GradientAngle = 90
-        Me.pnlModules.TitleText = "Module List"
+        Me.pnlModules.TitleText = "Remote Module List"
         '
         'pnlHeader
         '
@@ -364,16 +374,6 @@ Partial Class ShipWidget
         'STT
         '
         Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        '
-        'ctxFitting
-        '
-        Me.ctxFitting.Name = "ctxFitting"
-        Me.ctxFitting.Size = New System.Drawing.Size(61, 4)
-        '
-        'ctxPilot
-        '
-        Me.ctxPilot.Name = "ctxPilot"
-        Me.ctxPilot.Size = New System.Drawing.Size(61, 4)
         '
         'ShipWidget
         '

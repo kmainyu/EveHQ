@@ -60,7 +60,7 @@ Public Class ShipWidget
         pbFitting.Image = EveHQ.Core.ImageHandler.GetImage(baseID, 32)
 
         ' Set up ShipWidgetsModules
-        Me.pnlModules.Controls.Clear()
+        'Me.pnlModules.Controls.Clear()
         Dim SWM As New ShipWidgetModules(Me, WidgetFit)
         SWM.Name = "SWM"
         SWM.Dock = DockStyle.Fill

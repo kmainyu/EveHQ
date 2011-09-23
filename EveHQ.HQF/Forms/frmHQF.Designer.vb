@@ -1369,7 +1369,6 @@ Partial Class frmHQF
         'btnFleetManager
         '
         Me.btnFleetManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-        Me.btnFleetManager.Enabled = False
         Me.btnFleetManager.Image = CType(resources.GetObject("btnFleetManager.Image"), System.Drawing.Image)
         Me.btnFleetManager.ImageFixedSize = New System.Drawing.Size(40, 40)
         Me.btnFleetManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top

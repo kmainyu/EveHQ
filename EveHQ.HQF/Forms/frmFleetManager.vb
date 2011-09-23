@@ -41,7 +41,7 @@ Public Class frmFleetManager
 
         panelDB.SuspendLayout()
 
-        For a As Integer = 1 To 10
+        For a As Integer = 1 To 4
             Call Me.AddShipWidget()
         Next
 
