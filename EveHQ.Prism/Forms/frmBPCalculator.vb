@@ -160,7 +160,7 @@ Public Class frmBPCalculator
                 End If
 
                 ' Kill the event handlers from the PrismProductionResources controls
-                RemoveHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.DisplayInventionProfitInfo
+                RemoveHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.InventionResourcesChanged
                 RemoveHandler PPRProduction.ProductionResourcesChanged, AddressOf Me.ProductionResourcesChanged
 
 				' Remove handlers for the price modification controls
@@ -178,7 +178,7 @@ Public Class frmBPCalculator
     Private Sub frmBPCalculator_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         ' Set up the event handlers from the PrismProductionResources controls
-        AddHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.DisplayInventionProfitInfo
+        AddHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.InventionResourcesChanged
         AddHandler PPRProduction.ProductionResourcesChanged, AddressOf Me.ProductionResourcesChanged
 
 		' Set up handlers for the price modification controls
@@ -1445,6 +1445,7 @@ Public Class frmBPCalculator
 
             ' Calculate and show Resources
             PPRInvention.ProductionJob = currentJob.InventionJob.ProductionJob
+            Call Me.DisplayInventionProfitInfo()
 
         End If
 
@@ -1582,6 +1583,14 @@ Public Class frmBPCalculator
         currentJob.HasInventionJob = chkInventionFlag.Checked
         If InventionStartUp = False Then
             Me.ProductionChanged = True
+        End If
+    End Sub
+
+    Private Sub InventionResourcesChanged()
+        If StartUp = False Then
+            ' Set change flag
+            Me.ProductionChanged = True
+            Call Me.DisplayInventionProfitInfo()
         End If
     End Sub
 
