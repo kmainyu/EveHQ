@@ -6817,7 +6817,8 @@ Public Class frmPrism
                     Dim InventionSuccessCost As Double = InventionAttempts * InvCost.TotalCost
 
                     ' Calculate Production Cost of invented item
-                    Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2) + cJob.InventionJob.ProductionJob.Cost) / BatchQty
+                    Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
+                    Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2) + cJob.InventionJob.ProductionJob.Cost + FactoryCost) / BatchQty
                     Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
                     Dim UnitProfit As Double = SalesPrice - AvgCost
                     Dim TotalProfit As Double = UnitProfit * IBP.Runs * BatchQty
