@@ -94,10 +94,11 @@
     <Compile Include="Classes\Blueprint.vb" />
     <Compile Include="Classes\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
-    <Compile Include="Classes\InventionJob.vb" />
+    <Compile Include="Classes\InventionAPIJob.vb" />
     <Compile Include="Classes\DataFunctions.vb" />
     <Compile Include="Classes\IndustryJob.vb" />
     <Compile Include="Classes\Invention.vb" />
+    <Compile Include="Classes\InventionJob.vb" />
     <Compile Include="Classes\PrismEvents.vb" />
     <Compile Include="Classes\PrismOwner.vb" />
     <Compile Include="Classes\ProductionJob.vb" />

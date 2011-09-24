@@ -65,20 +65,20 @@ Public Class Invention
         ' Load all the meta level data for invention
         strSQL = "SELECT invBlueprintTypes.blueprintTypeID, invMetaTypes.typeID, invMetaTypes.parentTypeID FROM invBlueprintTypes INNER JOIN"
         strSQL &= " invMetaTypes ON invBlueprintTypes.productTypeID = invMetaTypes.parentTypeID"
-		strSQL &= " WHERE (techLevel = 1)"
+        strSQL &= " WHERE (techLevel = 1)"
         strSQL &= " ORDER BY parentTypeID ;"
         InvData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If InvData IsNot Nothing Then
             If InvData.Tables(0).Rows.Count > 0 Then
                 For Each InvRow As DataRow In InvData.Tables(0).Rows
-					Dim CurrentBP As Blueprint = PlugInData.Blueprints(InvRow.Item("blueprintTypeID").ToString)
-					If CurrentBP.InventionMetaItems.ContainsKey(InvRow.Item("parentTypeID").ToString) = False Then
-						CurrentBP.InventionMetaItems.Add(InvRow.Item("parentTypeID").ToString, InvRow.Item("parentTypeID").ToString)
-					End If
-					If EveHQ.Core.HQ.itemData(InvRow.Item("typeID").ToString).MetaLevel < 5 Then
-						CurrentBP.InventionMetaItems.Add(InvRow.Item("typeID").ToString, InvRow.Item("typeID").ToString)
-					End If
-				Next
+                    Dim CurrentBP As Blueprint = PlugInData.Blueprints(InvRow.Item("blueprintTypeID").ToString)
+                    If CurrentBP.InventionMetaItems.ContainsKey(InvRow.Item("parentTypeID").ToString) = False Then
+                        CurrentBP.InventionMetaItems.Add(InvRow.Item("parentTypeID").ToString, InvRow.Item("parentTypeID").ToString)
+                    End If
+                    If EveHQ.Core.HQ.itemData(InvRow.Item("typeID").ToString).MetaLevel < 5 Then
+                        CurrentBP.InventionMetaItems.Add(InvRow.Item("typeID").ToString, InvRow.Item("typeID").ToString)
+                    End If
+                Next
             Else
                 MessageBox.Show("Invention Meta Data returned no valid rows.", "Prism Invention Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return False

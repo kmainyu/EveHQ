@@ -718,7 +718,7 @@ Public Class DataFunctions
     Public Shared Function WriteInventionResultsToDB(ByVal JobXML As XmlDocument) As Boolean
 
         ' Parse the list of jobs
-        Dim InventionList As SortedList(Of Long, InventionJob) = InventionJob.ParseInventionJobsFromAPI(JobXML)
+        Dim InventionList As SortedList(Of Long, InventionAPIJob) = InventionAPIJob.ParseInventionJobsFromAPI(JobXML)
 
         ' Prepare a list of job IDs that could already be in the DB
         Dim DBList As New List(Of Long)
@@ -742,7 +742,7 @@ Public Class DataFunctions
 
         ' Write new jobs to the database
         Dim strIDInsert As String = "INSERT INTO inventionResults (jobID, resultDate, BPID, typeID, typeName, installerID, installerName, result) VALUES ("
-        For Each Job As InventionJob In InventionList.Values
+        For Each Job As InventionAPIJob In InventionList.Values
             If DBList.Contains(Job.JobID) = False Then
                 Dim uSQL As New StringBuilder
                 uSQL.Append(strIDInsert)

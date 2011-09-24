@@ -7378,7 +7378,7 @@ Public Class frmPrism
         strSQL &= " ORDER BY inventionResults.resultDate ASC;"
 
         ' Get the data
-        Dim JobList As SortedList(Of Long, InventionJob) = InventionJob.ParseInventionJobsFromDB(strSQL)
+        Dim JobList As SortedList(Of Long, InventionAPIJob) = InventionAPIJob.ParseInventionJobsFromDB(strSQL)
 
         ' Populate the list
         adtInventionResults.BeginUpdate()
@@ -7386,7 +7386,7 @@ Public Class frmPrism
 
         If JobList.Count > 0 Then
 
-            For Each job As InventionJob In JobList.Values
+            For Each job As InventionAPIJob In JobList.Values
                 Dim JobItem As New Node
                 JobItem.Name = job.JobID.ToString
                 JobItem.Text = job.ResultDate.ToString
@@ -7413,7 +7413,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub DisplayInventionStats(JobList As SortedList(Of Long, InventionJob))
+    Private Sub DisplayInventionStats(JobList As SortedList(Of Long, InventionAPIJob))
 
         adtInventionStats.BeginUpdate()
         adtInventionStats.Nodes.Clear()
@@ -7428,7 +7428,7 @@ Public Class frmPrism
         adtInventionStats.Columns.Add(TypeNameCol)
 
         ' Get the Invention Stats
-        Dim Stats As SortedList(Of String, SortedList(Of String, InventionResults)) = InventionJob.CalculateInventionStats(JobList)
+        Dim Stats As SortedList(Of String, SortedList(Of String, InventionResults)) = InventionAPIJob.CalculateInventionStats(JobList)
 
         If Stats.Count > 0 Then
 

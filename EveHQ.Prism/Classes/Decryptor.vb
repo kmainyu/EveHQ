@@ -1,4 +1,4 @@
-﻿Public Class Decryptor
+﻿<Serializable()> Public Class Decryptor
     Public Name As String
     Public ID As String
     Public ProbMod As Double
