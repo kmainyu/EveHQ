@@ -38,6 +38,7 @@ namespace EveHQ.PI
     {
         public string Name;
         public string FacName;
+        public string ID;
         public double NeedHour;
         public double ProdHour;
         public double DeltaHour;
@@ -50,6 +51,7 @@ namespace EveHQ.PI
         {
             Name = "";
             FacName = "";
+            ID = "";
             NeedHour = 0;
             ProdHour = 0;
             DeltaHour = 0;
@@ -64,6 +66,7 @@ namespace EveHQ.PI
         {
             Name = m.Name;
             FacName = m.FacName;
+            ID = m.ID;
             NeedHour = m.NeedHour;
             ProdHour = m.ProdHour;
             DeltaHour = m.DeltaHour;
@@ -74,9 +77,10 @@ namespace EveHQ.PI
             ProdVol = m.ProdVol;
             DeltaVol = m.DeltaVol;
         }
-        public Material(string nm, double nh, double ph, double dh, int r, string fn, double uh, double vl)
+        public Material(string nm, string id, double nh, double ph, double dh, int r, string fn, double uh, double vl)
         {
             Name = nm;
+            ID = id;
             FacName = fn;
             NeedHour = nh;
             ProdHour = ph;

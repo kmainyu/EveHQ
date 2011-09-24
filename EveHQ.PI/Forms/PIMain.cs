@@ -461,7 +461,7 @@ namespace EveHQ.PI
                     if (!MatL.ContainsKey(rank))
                     {
                         MatL.Add(rank, new SortedList<string, Material>()); 
-                        MatL[rank].Add(c.Name, new Material(c.Name, qtyNeed, 0, (qtyNeed * -1), rank, "", 0, val));
+                        MatL[rank].Add(c.Name, new Material(c.Name, c.ID.ToString(), qtyNeed, 0, (qtyNeed * -1), rank, "", 0, val));
                     }
                     else
                     {
@@ -471,7 +471,7 @@ namespace EveHQ.PI
                             MatL[rank][c.Name].Value = val;
                         }
                         else
-                            MatL[rank].Add(c.Name, new Material(c.Name, qtyNeed, 0, (qtyNeed * -1), rank, "", 0, val));
+                            MatL[rank].Add(c.Name, new Material(c.Name, c.ID.ToString(), qtyNeed, 0, (qtyNeed * -1), rank, "", 0, val));
                     }
                 }
                 foreach (Component c in p.Reacting.outputs.Values)
@@ -491,7 +491,7 @@ namespace EveHQ.PI
                     if (!MatL.ContainsKey(rank))
                     {
                         MatL.Add(rank, new SortedList<string, Material>());
-                        MatL[rank].Add(c.Name, new Material(c.Name, 0, qtyProd, 0, rank, fName, 0, val));
+                        MatL[rank].Add(c.Name, new Material(c.Name, c.ID.ToString(), 0, qtyProd, 0, rank, fName, 0, val));
                     }
                     else
                     {
@@ -508,7 +508,7 @@ namespace EveHQ.PI
                         }
                         else
                         {
-                            MatL[rank].Add(c.Name, new Material(c.Name, 0, qtyProd, 0, rank, fName, 0, val));
+                            MatL[rank].Add(c.Name, new Material(c.Name, c.ID.ToString(), 0, qtyProd, 0, rank, fName, 0, val));
                         }
                     }
                 }
@@ -601,8 +601,6 @@ namespace EveHQ.PI
             qh = ecu.ExtRate;
             qh = qh * tMult * qty;
 
-            //val = EveHQ.Core.DataFunctions.GetPrice(c.ID.ToString());
-            
             if (!MatL.ContainsKey(0))
                 MatL.Add(0, new SortedList<string, Material>());
 
@@ -614,7 +612,7 @@ namespace EveHQ.PI
             }
             else
             {
-                MatL[0].Add(mat, new Material(mat, 0, qh, 0, 0, fName, 0, val));
+                MatL[0].Add(mat, new Material(mat, "", 0, qh, 0, 0, fName, 0, val));
             }
 
             return MatL;
@@ -648,7 +646,7 @@ namespace EveHQ.PI
             }
             else
             {
-                MatL[0].Add(mat, new Material(mat, 0, qh, 0, 0, fName, 0, val));
+                MatL[0].Add(mat, new Material(mat, "", 0, qh, 0, 0, fName, 0, val));
             }
 
             return MatL;
@@ -824,7 +822,7 @@ namespace EveHQ.PI
 
                             if (!MatsList.ContainsKey(c.Name))
                             {
-                                MatsList.Add(c.Name, new Material(c.Name, qtyNeed, 0, 0, rank, "", qtyNeed * inpMult, 0));
+                                MatsList.Add(c.Name, new Material(c.Name, c.ID.ToString(), qtyNeed, 0, 0, rank, "", qtyNeed * inpMult, 0));
                             }
                             else
                             {
@@ -851,7 +849,7 @@ namespace EveHQ.PI
                             
                             if (!MatsList.ContainsKey(c.Name))
                             {
-                                MatsList.Add(c.Name, new Material(c.Name, 0, qtyProd, 0, rank, "", 0, 0));
+                                MatsList.Add(c.Name, new Material(c.Name, c.ID.ToString(), 0, qtyProd, 0, rank, "", 0, 0));
                             }
                             else
                             {
@@ -909,7 +907,7 @@ namespace EveHQ.PI
 
             if (!MatsList.ContainsKey(mat))
             {
-                MatsList.Add(mat, new Material(mat, 0, qh, 0, 0, "", 0, 0));
+                MatsList.Add(mat, new Material(mat, "", 0, qh, 0, 0, "", 0, 0));
             }
             else
             {
@@ -944,7 +942,7 @@ namespace EveHQ.PI
 
             if (!MatsList.ContainsKey(mat))
             {
-                MatsList.Add(mat, new Material(mat, 0, qh, 0, 0, "", 0, 0));
+                MatsList.Add(mat, new Material(mat, "", 0, qh, 0, 0, "", 0, 0));
             }
             else
             {
@@ -1053,6 +1051,17 @@ namespace EveHQ.PI
 
                     // Delta Volumne
                     atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", m.DeltaVol));
+                    if (m.DeltaHour > 0)
+                        atc.StyleNormal = at_ProduceView.Styles["OverProd"];
+                    else if (m.DeltaHour < 0)
+                        atc.StyleNormal = at_ProduceView.Styles["UnderProd"];
+                    else
+                        atc.StyleNormal = at_ProduceView.Styles["NormalProd"];
+                    atn.Cells.Add(atc);
+
+                    // Isk Cost / Value
+                    double iskVal = EveHQ.Core.DataFunctions.GetPrice(m.ID);
+                    atc = new DevComponents.AdvTree.Cell(String.Format("{0:#,0.#}", (m.DeltaHour * iskVal)));
                     if (m.DeltaHour > 0)
                         atc.StyleNormal = at_ProduceView.Styles["OverProd"];
                     else if (m.DeltaHour < 0)
@@ -2341,23 +2350,23 @@ namespace EveHQ.PI
                 if ((r.inputs.Count == 1) && (r.inputs.Values[0].Qty > 40))
                 {
                     // P0 & P1
-                    P0s.Add(r.inputs.Values[0].Name, r.inputs.Values[0].Qty);
-                    P1s.Add(r.outputs.Values[0].Name, r.outputs.Values[0].Qty);
+                    P0s.Add(r.reactName, r.inputs.Values[0].Qty);
+                    P1s.Add(r.reactName, r.outputs.Values[0].Qty);
                 }
                 else if ((r.inputs.Count == 2) && (r.outputs.Values[0].Qty == 5))
                 {
                     // P2
-                    P2s.Add(r.outputs.Values[0].Name, r.outputs.Values[0].Qty);
+                    P2s.Add(r.reactName, r.outputs.Values[0].Qty);
                 }
                 else if ((r.inputs.Count >= 2) && (r.outputs.Values[0].Qty == 3))
                 {
                     // P3
-                    P3s.Add(r.outputs.Values[0].Name, r.outputs.Values[0].Qty);
+                    P3s.Add(r.reactName, r.outputs.Values[0].Qty);
                 }
                 else if ((r.inputs.Count > 2) && (r.outputs.Values[0].Qty == 1))
                 {
                     // P4
-                    P4s.Add(r.outputs.Values[0].Name, r.outputs.Values[0].Qty);
+                    P4s.Add(r.reactName, r.outputs.Values[0].Qty);
                 }
             }
         }
@@ -2463,7 +2472,7 @@ namespace EveHQ.PI
 
             if (r.inputs.Count > 0)
             {
-                Nodes = GetComponentsForTVItem(r.outputs.Values[0].Name);
+                Nodes = GetComponentsForTVItem(r.reactName);
             }
             // Now I have my components, time to populate the Data Grid
             foreach (LineItem li in Nodes)
@@ -2510,7 +2519,7 @@ namespace EveHQ.PI
 
             if (r.inputs.Count > 0)
             {
-                Nodes = GetComponentsForTVItem(r.outputs.Values[0].Name);
+                Nodes = GetComponentsForTVItem(r.reactName);
             }
             // Now I have my components, time to populate the Data Grid
             foreach (LineItem li in Nodes)
@@ -2770,7 +2779,6 @@ namespace EveHQ.PI
             ArrayList RootNodes = new ArrayList();
             LineItem Comp = new LineItem();
             Reaction r;
-            string snm;
 
             if (!PlugInData.Reactions.ContainsKey(item))
                 return RootNodes;
@@ -2793,13 +2801,6 @@ namespace EveHQ.PI
                     // This component has Sub-Components, Go Get EM!
                     GetSubComponentsForTVItem(c.Name, Comp);
                 }
-                else
-                {
-                    snm = c.Name.TrimEnd('s');
-                    if (PlugInData.Reactions.ContainsKey(snm))
-                        GetSubComponentsForTVItem(snm, Comp);
-                }
-
                 RootNodes.Add(Comp);
             }
 
@@ -2810,7 +2811,6 @@ namespace EveHQ.PI
         {
             Reaction r;
             LineItem SubComp = new LineItem();
-            string snm;
             int mult = 1;
 
             r = PlugInData.Reactions[sItem];
@@ -2833,13 +2833,6 @@ namespace EveHQ.PI
                     // This component has Sub-Components, Go Get EM!
                     GetSubComponentsForTVItem(c.Name, SubComp);
                 }
-                else
-                {
-                    snm = c.Name.TrimEnd('s');
-                    if (PlugInData.Reactions.ContainsKey(snm))
-                        GetSubComponentsForTVItem(snm, SubComp);
-                }
-
                 item.MadeFrom.Add(c.Name, SubComp);
             }
 
@@ -3159,5 +3152,5 @@ namespace EveHQ.PI
 
         #endregion
 
-     }
+      }
 }

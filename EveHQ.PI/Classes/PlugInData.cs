@@ -59,7 +59,7 @@ namespace EveHQ.PI
         public static int ExtractRate, CycleTime;
 
         private bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.99.35.19";
+        public string LastCacheRefresh = "1.99.35.39";
 
         #region Plug-in Interface Functions
 
@@ -740,6 +740,7 @@ namespace EveHQ.PI
             string strSQL;
             Reaction r;
             Component c;
+            SortedList<string, string> repName = new SortedList<string, string>();
 
             // Get Table With Schematic Information
             strSQL = "SELECT * FROM planetSchematics;";
@@ -772,15 +773,12 @@ namespace EveHQ.PI
                     DataRow id = itemData.Tables[0].Rows[0];
                     if (!id.ItemArray[4].Equals(System.DBNull.Value))
                         c.graphicID = Convert.ToInt32(id.ItemArray[4].ToString());
-
                     c.Name = id.ItemArray[2].ToString();
-                    if (c.Name.Equals("Superconductors"))
-                        c.Name = "Super Conductors";
-                    else if (c.Name.Equals("Ukomi Super Conductors"))
-                        c.Name = "Ukomi Super Conductor";
-
                     c.Desc = id.ItemArray[3].ToString();
                     c.Volume = Convert.ToDouble(id.ItemArray[7].ToString());
+
+                    if (repName.ContainsKey(c.Name))
+                        c.Name = repName[c.Name];
 
                     if (input < 1)
                     {
@@ -792,6 +790,13 @@ namespace EveHQ.PI
                             r.level = 2;
                         else
                             r.level = 1;
+
+                        if (!r.reactName.Equals(c.Name))
+                        {
+                            repName.Add(c.Name, r.reactName);
+                            c.Name = r.reactName;
+                        }
+
                         r.outputs.Add(compID, c);
                     }
                     else

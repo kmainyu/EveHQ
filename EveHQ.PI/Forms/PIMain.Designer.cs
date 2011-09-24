@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PIMain));
             this.tc_PIMain = new DevComponents.DotNetBar.TabControl();
             this.tabControlPanel9 = new DevComponents.DotNetBar.TabControlPanel();
@@ -55,6 +55,8 @@
             this.node1 = new DevComponents.AdvTree.Node();
             this.nodeConnector3 = new DevComponents.AdvTree.NodeConnector();
             this.NormalProd = new DevComponents.DotNetBar.ElementStyle();
+            this.OverProd = new DevComponents.DotNetBar.ElementStyle();
+            this.UnderProd = new DevComponents.DotNetBar.ElementStyle();
             this.cb_AdjustNumbersForPartial = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.labelX23 = new DevComponents.DotNetBar.LabelX();
             this.pb_PlanetType = new System.Windows.Forms.PictureBox();
@@ -83,6 +85,31 @@
             this.labelItem3 = new DevComponents.DotNetBar.LabelItem();
             this.pb_Power = new DevComponents.DotNetBar.ProgressBarItem();
             this.tp_Desginer2 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
+            this.gp_Overview = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.cbx_PartialOverview = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.dgv_OverviewSelection = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.SelectFacility = new DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn();
+            this.FacilityName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NumberFacility = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
+            this.nud_Days = new System.Windows.Forms.NumericUpDown();
+            this.labelX10 = new DevComponents.DotNetBar.LabelX();
+            this.dg_Overview = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.CompName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompNeed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompDelta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OV_DeltaForDays = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProdValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompFacil = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.cb_P4 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P3 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P2 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P0 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.ti_PlanetOverview = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel8 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_PIProductCost = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.at_PCost2 = new DevComponents.AdvTree.AdvTree();
@@ -126,31 +153,6 @@
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.ct_SelectProduct1 = new DevComponents.DotNetBar.Controls.ComboTree();
             this.ti_PIProductCost = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
-            this.gp_Overview = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.cbx_PartialOverview = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.dgv_OverviewSelection = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.SelectFacility = new DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn();
-            this.FacilityName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NumberFacility = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
-            this.nud_Days = new System.Windows.Forms.NumericUpDown();
-            this.labelX10 = new DevComponents.DotNetBar.LabelX();
-            this.dg_Overview = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.CompName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompNeed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompDelta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OV_DeltaForDays = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProdValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompFacil = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.cb_P4 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P3 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P2 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P0 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.ti_PlanetOverview = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_CommodBG = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.cb_HLCommodities = new DevComponents.DotNetBar.Controls.CheckBoxX();
@@ -192,8 +194,7 @@
             this.il_SelCat = new System.Windows.Forms.ImageList(this.components);
             this.il_PI_Images = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.OverProd = new DevComponents.DotNetBar.ElementStyle();
-            this.UnderProd = new DevComponents.DotNetBar.ElementStyle();
+            this.prd_Isk = new DevComponents.AdvTree.ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)(this.tc_PIMain)).BeginInit();
             this.tc_PIMain.SuspendLayout();
             this.tabControlPanel9.SuspendLayout();
@@ -207,17 +208,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_LinkLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumLinks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bar_Designer)).BeginInit();
+            this.tabControlPanel2.SuspendLayout();
+            this.gp_Overview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Days)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_Overview)).BeginInit();
             this.tabControlPanel8.SuspendLayout();
             this.gp_PIProductCost.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).BeginInit();
-            this.tabControlPanel2.SuspendLayout();
-            this.gp_Overview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Days)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_Overview)).BeginInit();
             this.tabControlPanel3.SuspendLayout();
             this.gp_CommodBG.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).BeginInit();
@@ -232,10 +233,10 @@
             // 
             this.tc_PIMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.tc_PIMain.CanReorderTabs = true;
-            this.tc_PIMain.Controls.Add(this.tabControlPanel9);
-            this.tc_PIMain.Controls.Add(this.tabControlPanel2);
             this.tc_PIMain.Controls.Add(this.tabControlPanel8);
             this.tc_PIMain.Controls.Add(this.tabControlPanel3);
+            this.tc_PIMain.Controls.Add(this.tabControlPanel9);
+            this.tc_PIMain.Controls.Add(this.tabControlPanel2);
             this.tc_PIMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tc_PIMain.Location = new System.Drawing.Point(0, 0);
             this.tc_PIMain.Name = "tc_PIMain";
@@ -417,6 +418,7 @@
             this.at_ProduceView.Columns.Add(this.prd_NeedM3);
             this.at_ProduceView.Columns.Add(this.prd_ProdM3);
             this.at_ProduceView.Columns.Add(this.prd_DeltaM3);
+            this.at_ProduceView.Columns.Add(this.prd_Isk);
             this.at_ProduceView.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             this.at_ProduceView.Location = new System.Drawing.Point(127, 0);
             this.at_ProduceView.Name = "at_ProduceView";
@@ -501,6 +503,22 @@
             this.NormalProd.Name = "NormalProd";
             this.NormalProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
             this.NormalProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            // 
+            // OverProd
+            // 
+            this.OverProd.Class = "";
+            this.OverProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.OverProd.Name = "OverProd";
+            this.OverProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.OverProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(195)))), ((int)(((byte)(0)))));
+            // 
+            // UnderProd
+            // 
+            this.UnderProd.Class = "";
+            this.UnderProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.UnderProd.Name = "UnderProd";
+            this.UnderProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.UnderProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             // 
             // cb_AdjustNumbersForPartial
             // 
@@ -892,6 +910,432 @@
             this.tp_Desginer2.AttachedControl = this.tabControlPanel9;
             this.tp_Desginer2.Name = "tp_Desginer2";
             this.tp_Desginer2.Text = "Designer";
+            // 
+            // tabControlPanel2
+            // 
+            this.tabControlPanel2.Controls.Add(this.gp_Overview);
+            this.tabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel2.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel2.Name = "tabControlPanel2";
+            this.tabControlPanel2.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel2.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel2.Style.GradientAngle = 90;
+            this.tabControlPanel2.TabIndex = 2;
+            this.tabControlPanel2.TabItem = this.ti_PlanetOverview;
+            // 
+            // gp_Overview
+            // 
+            this.gp_Overview.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_Overview.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_Overview.Controls.Add(this.cbx_PartialOverview);
+            this.gp_Overview.Controls.Add(this.dgv_OverviewSelection);
+            this.gp_Overview.Controls.Add(this.nud_Days);
+            this.gp_Overview.Controls.Add(this.labelX10);
+            this.gp_Overview.Controls.Add(this.dg_Overview);
+            this.gp_Overview.Controls.Add(this.labelX1);
+            this.gp_Overview.Controls.Add(this.cb_P4);
+            this.gp_Overview.Controls.Add(this.cb_P3);
+            this.gp_Overview.Controls.Add(this.cb_P2);
+            this.gp_Overview.Controls.Add(this.cb_P1);
+            this.gp_Overview.Controls.Add(this.cb_P0);
+            this.gp_Overview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_Overview.Location = new System.Drawing.Point(1, 1);
+            this.gp_Overview.Name = "gp_Overview";
+            this.gp_Overview.Size = new System.Drawing.Size(1006, 705);
+            // 
+            // 
+            // 
+            this.gp_Overview.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_Overview.Style.BackColorGradientAngle = 90;
+            this.gp_Overview.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_Overview.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Overview.Style.BorderBottomWidth = 1;
+            this.gp_Overview.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_Overview.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Overview.Style.BorderLeftWidth = 1;
+            this.gp_Overview.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Overview.Style.BorderRightWidth = 1;
+            this.gp_Overview.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Overview.Style.BorderTopWidth = 1;
+            this.gp_Overview.Style.Class = "";
+            this.gp_Overview.Style.CornerDiameter = 4;
+            this.gp_Overview.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_Overview.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_Overview.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_Overview.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_Overview.StyleMouseDown.Class = "";
+            this.gp_Overview.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_Overview.StyleMouseOver.Class = "";
+            this.gp_Overview.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_Overview.TabIndex = 1;
+            // 
+            // cbx_PartialOverview
+            // 
+            this.cbx_PartialOverview.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cbx_PartialOverview.BackgroundStyle.Class = "";
+            this.cbx_PartialOverview.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cbx_PartialOverview.Location = new System.Drawing.Point(698, 5);
+            this.cbx_PartialOverview.Name = "cbx_PartialOverview";
+            this.cbx_PartialOverview.Size = new System.Drawing.Size(208, 19);
+            this.cbx_PartialOverview.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cbx_PartialOverview.TabIndex = 37;
+            this.cbx_PartialOverview.Text = "Adjust Overview for Partial Production";
+            this.cbx_PartialOverview.TextColor = System.Drawing.Color.Navy;
+            this.cbx_PartialOverview.CheckedChanged += new System.EventHandler(this.cbx_PartialOverview_CheckedChanged);
+            // 
+            // dgv_OverviewSelection
+            // 
+            this.dgv_OverviewSelection.AllowUserToAddRows = false;
+            this.dgv_OverviewSelection.AllowUserToDeleteRows = false;
+            this.dgv_OverviewSelection.AllowUserToResizeRows = false;
+            this.dgv_OverviewSelection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgv_OverviewSelection.BackgroundColor = System.Drawing.Color.White;
+            this.dgv_OverviewSelection.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_OverviewSelection.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelectFacility,
+            this.FacilityName,
+            this.NumberFacility});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_OverviewSelection.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgv_OverviewSelection.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
+            this.dgv_OverviewSelection.Location = new System.Drawing.Point(1, 32);
+            this.dgv_OverviewSelection.Name = "dgv_OverviewSelection";
+            this.dgv_OverviewSelection.RowHeadersVisible = false;
+            this.dgv_OverviewSelection.Size = new System.Drawing.Size(353, 667);
+            this.dgv_OverviewSelection.TabIndex = 18;
+            this.dgv_OverviewSelection.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OverviewSelection_CellValueChanged);
+            // 
+            // SelectFacility
+            // 
+            this.SelectFacility.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
+            this.SelectFacility.Checked = false;
+            this.SelectFacility.CheckState = System.Windows.Forms.CheckState.Unchecked;
+            this.SelectFacility.CheckValue = "N";
+            this.SelectFacility.HeaderText = "Sel";
+            this.SelectFacility.Name = "SelectFacility";
+            this.SelectFacility.Width = 30;
+            // 
+            // FacilityName
+            // 
+            this.FacilityName.HeaderText = "Facility";
+            this.FacilityName.Name = "FacilityName";
+            this.FacilityName.ReadOnly = true;
+            this.FacilityName.Width = 260;
+            // 
+            // NumberFacility
+            // 
+            // 
+            // 
+            // 
+            this.NumberFacility.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
+            this.NumberFacility.BackgroundStyle.Class = "DataGridViewNumericBorder";
+            this.NumberFacility.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.NumberFacility.BackgroundStyle.TextColor = System.Drawing.SystemColors.ControlText;
+            this.NumberFacility.HeaderText = "#";
+            this.NumberFacility.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Left;
+            this.NumberFacility.MaxValue = 99;
+            this.NumberFacility.MinValue = 1;
+            this.NumberFacility.Name = "NumberFacility";
+            this.NumberFacility.Width = 40;
+            // 
+            // nud_Days
+            // 
+            this.nud_Days.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_Days.ForeColor = System.Drawing.Color.Navy;
+            this.nud_Days.Location = new System.Drawing.Point(600, 4);
+            this.nud_Days.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_Days.Name = "nud_Days";
+            this.nud_Days.Size = new System.Drawing.Size(78, 22);
+            this.nud_Days.TabIndex = 16;
+            this.nud_Days.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_Days.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_Days.ValueChanged += new System.EventHandler(this.nud_Days_ValueChanged);
+            // 
+            // labelX10
+            // 
+            this.labelX10.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX10.BackgroundStyle.Class = "";
+            this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX10.ForeColor = System.Drawing.Color.Navy;
+            this.labelX10.Location = new System.Drawing.Point(536, 4);
+            this.labelX10.Name = "labelX10";
+            this.labelX10.Size = new System.Drawing.Size(65, 23);
+            this.labelX10.TabIndex = 17;
+            this.labelX10.Text = "# of Days:";
+            // 
+            // dg_Overview
+            // 
+            this.dg_Overview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_Overview.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dg_Overview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_Overview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.CompName,
+            this.CompLevel,
+            this.CompNeed,
+            this.CompProd,
+            this.CompDelta,
+            this.OV_DeltaForDays,
+            this.ProdValue,
+            this.CompFacil});
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_Overview.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dg_Overview.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
+            this.dg_Overview.Location = new System.Drawing.Point(358, 32);
+            this.dg_Overview.Name = "dg_Overview";
+            this.dg_Overview.ReadOnly = true;
+            this.dg_Overview.RowHeadersVisible = false;
+            this.dg_Overview.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_Overview.Size = new System.Drawing.Size(642, 667);
+            this.dg_Overview.TabIndex = 15;
+            this.dg_Overview.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_Overview_CellMouseClick);
+            // 
+            // CompName
+            // 
+            this.CompName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.CompName.Frozen = true;
+            this.CompName.HeaderText = "Component Name";
+            this.CompName.Name = "CompName";
+            this.CompName.ReadOnly = true;
+            this.CompName.Width = 107;
+            // 
+            // CompLevel
+            // 
+            this.CompLevel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CompLevel.DefaultCellStyle = dataGridViewCellStyle2;
+            this.CompLevel.Frozen = true;
+            this.CompLevel.HeaderText = "Level";
+            this.CompLevel.Name = "CompLevel";
+            this.CompLevel.ReadOnly = true;
+            this.CompLevel.Width = 57;
+            // 
+            // CompNeed
+            // 
+            this.CompNeed.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CompNeed.DefaultCellStyle = dataGridViewCellStyle3;
+            this.CompNeed.Frozen = true;
+            this.CompNeed.HeaderText = "Need";
+            this.CompNeed.Name = "CompNeed";
+            this.CompNeed.ReadOnly = true;
+            this.CompNeed.Width = 57;
+            // 
+            // CompProd
+            // 
+            this.CompProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CompProd.DefaultCellStyle = dataGridViewCellStyle4;
+            this.CompProd.Frozen = true;
+            this.CompProd.HeaderText = "Produce";
+            this.CompProd.Name = "CompProd";
+            this.CompProd.ReadOnly = true;
+            this.CompProd.Width = 71;
+            // 
+            // CompDelta
+            // 
+            this.CompDelta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CompDelta.DefaultCellStyle = dataGridViewCellStyle5;
+            this.CompDelta.Frozen = true;
+            this.CompDelta.HeaderText = "Delta";
+            this.CompDelta.Name = "CompDelta";
+            this.CompDelta.ReadOnly = true;
+            this.CompDelta.Width = 57;
+            // 
+            // OV_DeltaForDays
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.OV_DeltaForDays.DefaultCellStyle = dataGridViewCellStyle6;
+            this.OV_DeltaForDays.HeaderText = "Delta/Days";
+            this.OV_DeltaForDays.Name = "OV_DeltaForDays";
+            this.OV_DeltaForDays.ReadOnly = true;
+            this.OV_DeltaForDays.Width = 85;
+            // 
+            // ProdValue
+            // 
+            this.ProdValue.HeaderText = "Isk Value";
+            this.ProdValue.Name = "ProdValue";
+            this.ProdValue.ReadOnly = true;
+            this.ProdValue.ToolTipText = "Right Click to Set Item Value (each)";
+            this.ProdValue.Width = 70;
+            // 
+            // CompFacil
+            // 
+            this.CompFacil.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.CompFacil.HeaderText = "Facilities Produced At";
+            this.CompFacil.Name = "CompFacil";
+            this.CompFacil.ReadOnly = true;
+            this.CompFacil.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.CompFacil.Width = 94;
+            // 
+            // labelX1
+            // 
+            this.labelX1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.Class = "";
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX1.ForeColor = System.Drawing.Color.Navy;
+            this.labelX1.Location = new System.Drawing.Point(8, 3);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(160, 23);
+            this.labelX1.TabIndex = 13;
+            this.labelX1.Text = "Select Levels to Display:";
+            // 
+            // cb_P4
+            // 
+            this.cb_P4.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_P4.BackgroundStyle.Class = "";
+            this.cb_P4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_P4.Checked = true;
+            this.cb_P4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_P4.CheckValue = "Y";
+            this.cb_P4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_P4.Location = new System.Drawing.Point(438, 3);
+            this.cb_P4.Name = "cb_P4";
+            this.cb_P4.Size = new System.Drawing.Size(50, 23);
+            this.cb_P4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_P4.TabIndex = 5;
+            this.cb_P4.Text = "P4";
+            this.cb_P4.TextColor = System.Drawing.Color.Navy;
+            this.cb_P4.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
+            // 
+            // cb_P3
+            // 
+            this.cb_P3.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_P3.BackgroundStyle.Class = "";
+            this.cb_P3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_P3.Checked = true;
+            this.cb_P3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_P3.CheckValue = "Y";
+            this.cb_P3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_P3.Location = new System.Drawing.Point(372, 3);
+            this.cb_P3.Name = "cb_P3";
+            this.cb_P3.Size = new System.Drawing.Size(50, 23);
+            this.cb_P3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_P3.TabIndex = 4;
+            this.cb_P3.Text = "P3";
+            this.cb_P3.TextColor = System.Drawing.Color.Navy;
+            this.cb_P3.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
+            // 
+            // cb_P2
+            // 
+            this.cb_P2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_P2.BackgroundStyle.Class = "";
+            this.cb_P2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_P2.Checked = true;
+            this.cb_P2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_P2.CheckValue = "Y";
+            this.cb_P2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_P2.Location = new System.Drawing.Point(306, 3);
+            this.cb_P2.Name = "cb_P2";
+            this.cb_P2.Size = new System.Drawing.Size(50, 23);
+            this.cb_P2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_P2.TabIndex = 3;
+            this.cb_P2.Text = "P2";
+            this.cb_P2.TextColor = System.Drawing.Color.Navy;
+            this.cb_P2.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
+            // 
+            // cb_P1
+            // 
+            this.cb_P1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_P1.BackgroundStyle.Class = "";
+            this.cb_P1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_P1.Checked = true;
+            this.cb_P1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_P1.CheckValue = "Y";
+            this.cb_P1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_P1.Location = new System.Drawing.Point(240, 3);
+            this.cb_P1.Name = "cb_P1";
+            this.cb_P1.Size = new System.Drawing.Size(50, 23);
+            this.cb_P1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_P1.TabIndex = 2;
+            this.cb_P1.Text = "P1";
+            this.cb_P1.TextColor = System.Drawing.Color.Navy;
+            this.cb_P1.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
+            // 
+            // cb_P0
+            // 
+            this.cb_P0.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_P0.BackgroundStyle.Class = "";
+            this.cb_P0.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_P0.Checked = true;
+            this.cb_P0.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_P0.CheckValue = "Y";
+            this.cb_P0.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_P0.Location = new System.Drawing.Point(174, 3);
+            this.cb_P0.Name = "cb_P0";
+            this.cb_P0.Size = new System.Drawing.Size(50, 23);
+            this.cb_P0.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_P0.TabIndex = 1;
+            this.cb_P0.Text = "P0";
+            this.cb_P0.TextColor = System.Drawing.Color.Navy;
+            this.cb_P0.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
+            // 
+            // ti_PlanetOverview
+            // 
+            this.ti_PlanetOverview.AttachedControl = this.tabControlPanel2;
+            this.ti_PlanetOverview.Name = "ti_PlanetOverview";
+            this.ti_PlanetOverview.Text = "Planet Overview";
             // 
             // tabControlPanel8
             // 
@@ -1640,432 +2084,6 @@
             this.ti_PIProductCost.Name = "ti_PIProductCost";
             this.ti_PIProductCost.Text = "Product Cost Matrix";
             // 
-            // tabControlPanel2
-            // 
-            this.tabControlPanel2.Controls.Add(this.gp_Overview);
-            this.tabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel2.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel2.Name = "tabControlPanel2";
-            this.tabControlPanel2.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel2.Size = new System.Drawing.Size(1008, 707);
-            this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
-            this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel2.Style.GradientAngle = 90;
-            this.tabControlPanel2.TabIndex = 2;
-            this.tabControlPanel2.TabItem = this.ti_PlanetOverview;
-            // 
-            // gp_Overview
-            // 
-            this.gp_Overview.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_Overview.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_Overview.Controls.Add(this.cbx_PartialOverview);
-            this.gp_Overview.Controls.Add(this.dgv_OverviewSelection);
-            this.gp_Overview.Controls.Add(this.nud_Days);
-            this.gp_Overview.Controls.Add(this.labelX10);
-            this.gp_Overview.Controls.Add(this.dg_Overview);
-            this.gp_Overview.Controls.Add(this.labelX1);
-            this.gp_Overview.Controls.Add(this.cb_P4);
-            this.gp_Overview.Controls.Add(this.cb_P3);
-            this.gp_Overview.Controls.Add(this.cb_P2);
-            this.gp_Overview.Controls.Add(this.cb_P1);
-            this.gp_Overview.Controls.Add(this.cb_P0);
-            this.gp_Overview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_Overview.Location = new System.Drawing.Point(1, 1);
-            this.gp_Overview.Name = "gp_Overview";
-            this.gp_Overview.Size = new System.Drawing.Size(1006, 705);
-            // 
-            // 
-            // 
-            this.gp_Overview.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_Overview.Style.BackColorGradientAngle = 90;
-            this.gp_Overview.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_Overview.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Overview.Style.BorderBottomWidth = 1;
-            this.gp_Overview.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_Overview.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Overview.Style.BorderLeftWidth = 1;
-            this.gp_Overview.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Overview.Style.BorderRightWidth = 1;
-            this.gp_Overview.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Overview.Style.BorderTopWidth = 1;
-            this.gp_Overview.Style.Class = "";
-            this.gp_Overview.Style.CornerDiameter = 4;
-            this.gp_Overview.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_Overview.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_Overview.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_Overview.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_Overview.StyleMouseDown.Class = "";
-            this.gp_Overview.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_Overview.StyleMouseOver.Class = "";
-            this.gp_Overview.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_Overview.TabIndex = 1;
-            // 
-            // cbx_PartialOverview
-            // 
-            this.cbx_PartialOverview.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cbx_PartialOverview.BackgroundStyle.Class = "";
-            this.cbx_PartialOverview.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cbx_PartialOverview.Location = new System.Drawing.Point(698, 5);
-            this.cbx_PartialOverview.Name = "cbx_PartialOverview";
-            this.cbx_PartialOverview.Size = new System.Drawing.Size(208, 19);
-            this.cbx_PartialOverview.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cbx_PartialOverview.TabIndex = 37;
-            this.cbx_PartialOverview.Text = "Adjust Overview for Partial Production";
-            this.cbx_PartialOverview.TextColor = System.Drawing.Color.Navy;
-            this.cbx_PartialOverview.CheckedChanged += new System.EventHandler(this.cbx_PartialOverview_CheckedChanged);
-            // 
-            // dgv_OverviewSelection
-            // 
-            this.dgv_OverviewSelection.AllowUserToAddRows = false;
-            this.dgv_OverviewSelection.AllowUserToDeleteRows = false;
-            this.dgv_OverviewSelection.AllowUserToResizeRows = false;
-            this.dgv_OverviewSelection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.dgv_OverviewSelection.BackgroundColor = System.Drawing.Color.White;
-            this.dgv_OverviewSelection.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_OverviewSelection.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SelectFacility,
-            this.FacilityName,
-            this.NumberFacility});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_OverviewSelection.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dgv_OverviewSelection.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
-            this.dgv_OverviewSelection.Location = new System.Drawing.Point(1, 32);
-            this.dgv_OverviewSelection.Name = "dgv_OverviewSelection";
-            this.dgv_OverviewSelection.RowHeadersVisible = false;
-            this.dgv_OverviewSelection.Size = new System.Drawing.Size(353, 667);
-            this.dgv_OverviewSelection.TabIndex = 18;
-            this.dgv_OverviewSelection.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OverviewSelection_CellValueChanged);
-            // 
-            // SelectFacility
-            // 
-            this.SelectFacility.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
-            this.SelectFacility.Checked = false;
-            this.SelectFacility.CheckState = System.Windows.Forms.CheckState.Unchecked;
-            this.SelectFacility.CheckValue = "N";
-            this.SelectFacility.HeaderText = "Sel";
-            this.SelectFacility.Name = "SelectFacility";
-            this.SelectFacility.Width = 30;
-            // 
-            // FacilityName
-            // 
-            this.FacilityName.HeaderText = "Facility";
-            this.FacilityName.Name = "FacilityName";
-            this.FacilityName.ReadOnly = true;
-            this.FacilityName.Width = 260;
-            // 
-            // NumberFacility
-            // 
-            // 
-            // 
-            // 
-            this.NumberFacility.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
-            this.NumberFacility.BackgroundStyle.Class = "DataGridViewNumericBorder";
-            this.NumberFacility.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.NumberFacility.BackgroundStyle.TextColor = System.Drawing.SystemColors.ControlText;
-            this.NumberFacility.HeaderText = "#";
-            this.NumberFacility.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Left;
-            this.NumberFacility.MaxValue = 99;
-            this.NumberFacility.MinValue = 1;
-            this.NumberFacility.Name = "NumberFacility";
-            this.NumberFacility.Width = 40;
-            // 
-            // nud_Days
-            // 
-            this.nud_Days.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_Days.ForeColor = System.Drawing.Color.Navy;
-            this.nud_Days.Location = new System.Drawing.Point(600, 4);
-            this.nud_Days.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_Days.Name = "nud_Days";
-            this.nud_Days.Size = new System.Drawing.Size(78, 22);
-            this.nud_Days.TabIndex = 16;
-            this.nud_Days.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_Days.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_Days.ValueChanged += new System.EventHandler(this.nud_Days_ValueChanged);
-            // 
-            // labelX10
-            // 
-            this.labelX10.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX10.BackgroundStyle.Class = "";
-            this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX10.ForeColor = System.Drawing.Color.Navy;
-            this.labelX10.Location = new System.Drawing.Point(536, 4);
-            this.labelX10.Name = "labelX10";
-            this.labelX10.Size = new System.Drawing.Size(65, 23);
-            this.labelX10.TabIndex = 17;
-            this.labelX10.Text = "# of Days:";
-            // 
-            // dg_Overview
-            // 
-            this.dg_Overview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dg_Overview.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dg_Overview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_Overview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CompName,
-            this.CompLevel,
-            this.CompNeed,
-            this.CompProd,
-            this.CompDelta,
-            this.OV_DeltaForDays,
-            this.ProdValue,
-            this.CompFacil});
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_Overview.DefaultCellStyle = dataGridViewCellStyle14;
-            this.dg_Overview.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
-            this.dg_Overview.Location = new System.Drawing.Point(358, 32);
-            this.dg_Overview.Name = "dg_Overview";
-            this.dg_Overview.ReadOnly = true;
-            this.dg_Overview.RowHeadersVisible = false;
-            this.dg_Overview.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_Overview.Size = new System.Drawing.Size(642, 667);
-            this.dg_Overview.TabIndex = 15;
-            this.dg_Overview.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_Overview_CellMouseClick);
-            // 
-            // CompName
-            // 
-            this.CompName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.CompName.Frozen = true;
-            this.CompName.HeaderText = "Component Name";
-            this.CompName.Name = "CompName";
-            this.CompName.ReadOnly = true;
-            this.CompName.Width = 107;
-            // 
-            // CompLevel
-            // 
-            this.CompLevel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CompLevel.DefaultCellStyle = dataGridViewCellStyle9;
-            this.CompLevel.Frozen = true;
-            this.CompLevel.HeaderText = "Level";
-            this.CompLevel.Name = "CompLevel";
-            this.CompLevel.ReadOnly = true;
-            this.CompLevel.Width = 57;
-            // 
-            // CompNeed
-            // 
-            this.CompNeed.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CompNeed.DefaultCellStyle = dataGridViewCellStyle10;
-            this.CompNeed.Frozen = true;
-            this.CompNeed.HeaderText = "Need";
-            this.CompNeed.Name = "CompNeed";
-            this.CompNeed.ReadOnly = true;
-            this.CompNeed.Width = 57;
-            // 
-            // CompProd
-            // 
-            this.CompProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CompProd.DefaultCellStyle = dataGridViewCellStyle11;
-            this.CompProd.Frozen = true;
-            this.CompProd.HeaderText = "Produce";
-            this.CompProd.Name = "CompProd";
-            this.CompProd.ReadOnly = true;
-            this.CompProd.Width = 71;
-            // 
-            // CompDelta
-            // 
-            this.CompDelta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CompDelta.DefaultCellStyle = dataGridViewCellStyle12;
-            this.CompDelta.Frozen = true;
-            this.CompDelta.HeaderText = "Delta";
-            this.CompDelta.Name = "CompDelta";
-            this.CompDelta.ReadOnly = true;
-            this.CompDelta.Width = 57;
-            // 
-            // OV_DeltaForDays
-            // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.OV_DeltaForDays.DefaultCellStyle = dataGridViewCellStyle13;
-            this.OV_DeltaForDays.HeaderText = "Delta/Days";
-            this.OV_DeltaForDays.Name = "OV_DeltaForDays";
-            this.OV_DeltaForDays.ReadOnly = true;
-            this.OV_DeltaForDays.Width = 85;
-            // 
-            // ProdValue
-            // 
-            this.ProdValue.HeaderText = "Isk Value";
-            this.ProdValue.Name = "ProdValue";
-            this.ProdValue.ReadOnly = true;
-            this.ProdValue.ToolTipText = "Right Click to Set Item Value (each)";
-            this.ProdValue.Width = 70;
-            // 
-            // CompFacil
-            // 
-            this.CompFacil.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.CompFacil.HeaderText = "Facilities Produced At";
-            this.CompFacil.Name = "CompFacil";
-            this.CompFacil.ReadOnly = true;
-            this.CompFacil.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.CompFacil.Width = 94;
-            // 
-            // labelX1
-            // 
-            this.labelX1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX1.BackgroundStyle.Class = "";
-            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX1.ForeColor = System.Drawing.Color.Navy;
-            this.labelX1.Location = new System.Drawing.Point(8, 3);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(160, 23);
-            this.labelX1.TabIndex = 13;
-            this.labelX1.Text = "Select Levels to Display:";
-            // 
-            // cb_P4
-            // 
-            this.cb_P4.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_P4.BackgroundStyle.Class = "";
-            this.cb_P4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_P4.Checked = true;
-            this.cb_P4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_P4.CheckValue = "Y";
-            this.cb_P4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_P4.Location = new System.Drawing.Point(438, 3);
-            this.cb_P4.Name = "cb_P4";
-            this.cb_P4.Size = new System.Drawing.Size(50, 23);
-            this.cb_P4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_P4.TabIndex = 5;
-            this.cb_P4.Text = "P4";
-            this.cb_P4.TextColor = System.Drawing.Color.Navy;
-            this.cb_P4.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
-            // 
-            // cb_P3
-            // 
-            this.cb_P3.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_P3.BackgroundStyle.Class = "";
-            this.cb_P3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_P3.Checked = true;
-            this.cb_P3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_P3.CheckValue = "Y";
-            this.cb_P3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_P3.Location = new System.Drawing.Point(372, 3);
-            this.cb_P3.Name = "cb_P3";
-            this.cb_P3.Size = new System.Drawing.Size(50, 23);
-            this.cb_P3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_P3.TabIndex = 4;
-            this.cb_P3.Text = "P3";
-            this.cb_P3.TextColor = System.Drawing.Color.Navy;
-            this.cb_P3.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
-            // 
-            // cb_P2
-            // 
-            this.cb_P2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_P2.BackgroundStyle.Class = "";
-            this.cb_P2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_P2.Checked = true;
-            this.cb_P2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_P2.CheckValue = "Y";
-            this.cb_P2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_P2.Location = new System.Drawing.Point(306, 3);
-            this.cb_P2.Name = "cb_P2";
-            this.cb_P2.Size = new System.Drawing.Size(50, 23);
-            this.cb_P2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_P2.TabIndex = 3;
-            this.cb_P2.Text = "P2";
-            this.cb_P2.TextColor = System.Drawing.Color.Navy;
-            this.cb_P2.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
-            // 
-            // cb_P1
-            // 
-            this.cb_P1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_P1.BackgroundStyle.Class = "";
-            this.cb_P1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_P1.Checked = true;
-            this.cb_P1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_P1.CheckValue = "Y";
-            this.cb_P1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_P1.Location = new System.Drawing.Point(240, 3);
-            this.cb_P1.Name = "cb_P1";
-            this.cb_P1.Size = new System.Drawing.Size(50, 23);
-            this.cb_P1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_P1.TabIndex = 2;
-            this.cb_P1.Text = "P1";
-            this.cb_P1.TextColor = System.Drawing.Color.Navy;
-            this.cb_P1.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
-            // 
-            // cb_P0
-            // 
-            this.cb_P0.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_P0.BackgroundStyle.Class = "";
-            this.cb_P0.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_P0.Checked = true;
-            this.cb_P0.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_P0.CheckValue = "Y";
-            this.cb_P0.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_P0.Location = new System.Drawing.Point(174, 3);
-            this.cb_P0.Name = "cb_P0";
-            this.cb_P0.Size = new System.Drawing.Size(50, 23);
-            this.cb_P0.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_P0.TabIndex = 1;
-            this.cb_P0.Text = "P0";
-            this.cb_P0.TextColor = System.Drawing.Color.Navy;
-            this.cb_P0.CheckedChanged += new System.EventHandler(this.Overview_Selections_Changed);
-            // 
-            // ti_PlanetOverview
-            // 
-            this.ti_PlanetOverview.AttachedControl = this.tabControlPanel2;
-            this.ti_PlanetOverview.Name = "ti_PlanetOverview";
-            this.ti_PlanetOverview.Text = "Planet Overview";
-            // 
             // tabControlPanel3
             // 
             this.tabControlPanel3.Controls.Add(this.gp_CommodBG);
@@ -2613,21 +2631,11 @@
             // 
             this.toolTip1.IsBalloon = true;
             // 
-            // OverProd
+            // prd_Isk
             // 
-            this.OverProd.Class = "";
-            this.OverProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.OverProd.Name = "OverProd";
-            this.OverProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.OverProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(195)))), ((int)(((byte)(0)))));
-            // 
-            // UnderProd
-            // 
-            this.UnderProd.Class = "";
-            this.UnderProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.UnderProd.Name = "UnderProd";
-            this.UnderProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.UnderProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.prd_Isk.Name = "prd_Isk";
+            this.prd_Isk.Text = "Isk";
+            this.prd_Isk.Width.Absolute = 150;
             // 
             // PIMain
             // 
@@ -2655,17 +2663,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_LinkLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumLinks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bar_Designer)).EndInit();
+            this.tabControlPanel2.ResumeLayout(false);
+            this.gp_Overview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Days)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_Overview)).EndInit();
             this.tabControlPanel8.ResumeLayout(false);
             this.gp_PIProductCost.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).EndInit();
-            this.tabControlPanel2.ResumeLayout(false);
-            this.gp_Overview.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Days)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_Overview)).EndInit();
             this.tabControlPanel3.ResumeLayout(false);
             this.gp_CommodBG.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).EndInit();
@@ -2837,5 +2845,6 @@
         private DevComponents.AdvTree.ColumnHeader prd_DeltaM3;
         private DevComponents.DotNetBar.ElementStyle OverProd;
         private DevComponents.DotNetBar.ElementStyle UnderProd;
+        private DevComponents.AdvTree.ColumnHeader prd_Isk;
     }
 }
