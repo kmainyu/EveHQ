@@ -44,7 +44,7 @@ Imports System.Runtime.Serialization
     Public Cost As Double
     Public RequiredResources As New SortedList(Of String, Object)
     Public HasInventionJob As Boolean
-    Public InventionJob As InventionJob
+    Public InventionJob As New InventionJob
 
     Public Function Clone() As ProductionJob
         Dim CloneMemoryStream As New MemoryStream

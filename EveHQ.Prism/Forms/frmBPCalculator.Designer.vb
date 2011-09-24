@@ -194,13 +194,13 @@ Partial Class frmBPCalculator
         Me.btnExportToCSV = New DevComponents.DotNetBar.ButtonItem()
         Me.btnExportToTSV = New DevComponents.DotNetBar.ButtonItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
+        Me.chkInventionFlag = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.PPRInvention = New EveHQ.Prism.PrismResources()
         Me.PACDecryptor = New EveHQ.Prism.PriceAdjustmentControl()
         Me.PACSalesPrice = New EveHQ.Prism.PriceAdjustmentControl()
         Me.PACMetaItem = New EveHQ.Prism.PriceAdjustmentControl()
         Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
         Me.PPRProduction = New EveHQ.Prism.PrismResources()
-        Me.chkInventionFlag = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.PanelEx1.SuspendLayout()
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -859,7 +859,9 @@ Partial Class frmBPCalculator
         Me.PanelEx1.Controls.Add(Me.tabBPCalcFunctions)
         Me.PanelEx1.Controls.Add(Me.nudPELevel)
         Me.PanelEx1.Controls.Add(Me.lblNewMELbl)
+        Me.PanelEx1.Controls.Add(Me.btnSaveProductionJobAs)
         Me.PanelEx1.Controls.Add(Me.nudMELevel)
+        Me.PanelEx1.Controls.Add(Me.btnSaveProductionJob)
         Me.PanelEx1.Controls.Add(Me.gpPilotSkills)
         Me.PanelEx1.Controls.Add(Me.txtNewWasteFactor)
         Me.PanelEx1.Controls.Add(Me.gpBPSelection)
@@ -908,9 +910,9 @@ Partial Class frmBPCalculator
         Me.tabBPCalcFunctions.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
-        Me.tabBPCalcFunctions.Controls.Add(Me.tcpProduction)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpResearch)
+        Me.tabBPCalcFunctions.Controls.Add(Me.tcpProduction)
+        Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
         Me.tabBPCalcFunctions.Location = New System.Drawing.Point(3, 187)
         Me.tabBPCalcFunctions.Name = "tabBPCalcFunctions"
         Me.tabBPCalcFunctions.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -1712,8 +1714,6 @@ Partial Class frmBPCalculator
         Me.tcpProduction.Controls.Add(Me.lblProfitMargin)
         Me.tcpProduction.Controls.Add(Me.lblProfitMarkupLbl)
         Me.tcpProduction.Controls.Add(Me.lblProfitMarginLbl)
-        Me.tcpProduction.Controls.Add(Me.btnSaveProductionJobAs)
-        Me.tcpProduction.Controls.Add(Me.btnSaveProductionJob)
         Me.tcpProduction.Controls.Add(Me.lblProdQuantity)
         Me.tcpProduction.Controls.Add(Me.lblBatchSize)
         Me.tcpProduction.Controls.Add(Me.lblFactoryCostsLbl)
@@ -1807,9 +1807,9 @@ Partial Class frmBPCalculator
         '
         Me.btnSaveProductionJobAs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnSaveProductionJobAs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnSaveProductionJobAs.Location = New System.Drawing.Point(727, 12)
+        Me.btnSaveProductionJobAs.Location = New System.Drawing.Point(759, 12)
         Me.btnSaveProductionJobAs.Name = "btnSaveProductionJobAs"
-        Me.btnSaveProductionJobAs.Size = New System.Drawing.Size(100, 23)
+        Me.btnSaveProductionJobAs.Size = New System.Drawing.Size(56, 56)
         Me.btnSaveProductionJobAs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnSaveProductionJobAs.TabIndex = 185
         Me.btnSaveProductionJobAs.Text = "Save Job As..."
@@ -1819,9 +1819,9 @@ Partial Class frmBPCalculator
         Me.btnSaveProductionJob.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnSaveProductionJob.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnSaveProductionJob.Enabled = False
-        Me.btnSaveProductionJob.Location = New System.Drawing.Point(621, 12)
+        Me.btnSaveProductionJob.Location = New System.Drawing.Point(759, 74)
         Me.btnSaveProductionJob.Name = "btnSaveProductionJob"
-        Me.btnSaveProductionJob.Size = New System.Drawing.Size(100, 23)
+        Me.btnSaveProductionJob.Size = New System.Drawing.Size(56, 56)
         Me.btnSaveProductionJob.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnSaveProductionJob.TabIndex = 184
         Me.btnSaveProductionJob.Text = "Save Job"
@@ -2379,6 +2379,22 @@ Partial Class frmBPCalculator
         '
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         '
+        'chkInventionFlag
+        '
+        Me.chkInventionFlag.AutoSize = True
+        Me.chkInventionFlag.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkInventionFlag.BackgroundStyle.Class = ""
+        Me.chkInventionFlag.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkInventionFlag.Location = New System.Drawing.Point(337, 199)
+        Me.chkInventionFlag.Name = "chkInventionFlag"
+        Me.chkInventionFlag.Size = New System.Drawing.Size(153, 16)
+        Me.chkInventionFlag.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkInventionFlag.TabIndex = 213
+        Me.chkInventionFlag.Text = "Save in Invention Manager"
+        '
         'PPRInvention
         '
         Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -2442,22 +2458,6 @@ Partial Class frmBPCalculator
         Me.PPRProduction.ProductionJob = Nothing
         Me.PPRProduction.Size = New System.Drawing.Size(836, 362)
         Me.PPRProduction.TabIndex = 0
-        '
-        'chkInventionFlag
-        '
-        Me.chkInventionFlag.AutoSize = True
-        Me.chkInventionFlag.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkInventionFlag.BackgroundStyle.Class = ""
-        Me.chkInventionFlag.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkInventionFlag.Location = New System.Drawing.Point(337, 199)
-        Me.chkInventionFlag.Name = "chkInventionFlag"
-        Me.chkInventionFlag.Size = New System.Drawing.Size(153, 16)
-        Me.chkInventionFlag.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkInventionFlag.TabIndex = 213
-        Me.chkInventionFlag.Text = "Save in Invention Manager"
         '
         'frmBPCalculator
         '

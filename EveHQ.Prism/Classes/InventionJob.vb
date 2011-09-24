@@ -8,6 +8,9 @@
     Public MetaItemLevel As Integer
     Public OverrideBPCRuns As Boolean
     Public BPCRuns As Integer
+    Public OverrideEncSkill As Boolean
+    Public OverrideDCSkill1 As Boolean
+    Public OverrideDCSkill2 As Boolean
     Public EncryptionSkill As Integer
     Public DatacoreSkill1 As Integer
     Public DatacoreSkill2 As Integer

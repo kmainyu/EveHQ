@@ -319,17 +319,15 @@ Public Class frmBPCalculator
                     End If
                 End If
 
-
             Case BPCalcStartMode.ProductionJob
 
                 Call Me.DisplayProductionJobDetails()
-                
+                tabBPCalcFunctions.SelectedTab = tiProduction
 
             Case BPCalcStartMode.InventionJob
 
                 Call Me.DisplayProductionJobDetails()
-                Call Me.DisplayInventionDetails()
-
+                tabBPCalcFunctions.SelectedTab = tiInvention
         End Select
 
     End Sub
@@ -377,7 +375,20 @@ Public Class frmBPCalculator
 
     Private Sub DisplayInventionDetails()
 
+        ' Set InventionBP
+        cboDecryptor.SelectedItem = EveHQ.Core.HQ.itemData(currentJob.InventionJob.InventedBPID.ToString).Name
 
+        ' Set Decryptor
+        If currentJob.InventionJob.DecryptorUsed IsNot Nothing Then
+            cboDecryptor.SelectedItem = currentJob.InventionJob.DecryptorUsed.Name & " (" & currentJob.InventionJob.DecryptorUsed.ProbMod.ToString & "x, " & currentJob.InventionJob.DecryptorUsed.MEMod.ToString & "ME, " & currentJob.InventionJob.DecryptorUsed.PEMod.ToString & "PE, " & currentJob.InventionJob.DecryptorUsed.RunMod.ToString & "r)"
+        End If
+
+        ' Set MetaItem
+        If currentJob.InventionJob.MetaItemID <> 0 Then
+            cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemID.ToString).MetaLevel & ": " & EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemID.ToString).Name)
+        End If
+
+        Call Me.CalculateInvention()
 
     End Sub
 
@@ -772,9 +783,9 @@ Public Class frmBPCalculator
 		lblBaseChance.Text = "Base Invention Chance: " & InventionBaseChance.ToString & "%"
 
 		' Update the BPC Override Values
-		nudInventionBPCRuns.MaxValue = CurrentInventionBP.MaxProdLimit
+        nudInventionBPCRuns.MaxValue = CurrentInventionBP.MaxProdLimit
 
-		InventionStartUp = False
+        Call Me.DisplayInventionDetails()
 
 		If cboInventions.Items.Count > 0 Then
 			If cboInventions.Items.Contains(CurrentBP.Name) Then
@@ -783,6 +794,9 @@ Public Class frmBPCalculator
 				cboInventions.SelectedIndex = 0
 			End If
 		End If
+
+        InventionStartUp = False
+        Call Me.CalculateInvention()
 
 	End Sub
 
@@ -1198,63 +1212,69 @@ Public Class frmBPCalculator
 	End Sub
 	
     Private Sub cboInventions_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboInventions.SelectedIndexChanged
+        InventionBPID = CInt(EveHQ.Core.HQ.itemList(Me.cboInventions.SelectedItem.ToString))
         If InventionStartUp = False Then
-            InventionBPID = CInt(EveHQ.Core.HQ.itemList(Me.cboInventions.SelectedItem.ToString))
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
     Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDecryptor.SelectedIndexChanged
-        If InventionStartUp = False Then
-            If cboDecryptor.SelectedItem IsNot Nothing Then
-                Dim Didx As Integer = cboDecryptor.SelectedItem.ToString.IndexOf("(")
-                If Didx > 0 Then
-                    Dim DecryptorName As String = cboDecryptor.SelectedItem.ToString.Substring(0, Didx - 1).Trim
-                    If PlugInData.Decryptors.ContainsKey(DecryptorName) Then
-                        InventionDecryptorName = DecryptorName
-                        InventionDecryptorMod = PlugInData.Decryptors(DecryptorName).ProbMod
-                        InventionDecryptorID = CInt(PlugInData.Decryptors(DecryptorName).ID)
-                    Else
-                        InventionDecryptorName = ""
-                        InventionDecryptorMod = 1
-                        InventionDecryptorID = 0
-                    End If
+
+        If cboDecryptor.SelectedItem IsNot Nothing Then
+            Dim Didx As Integer = cboDecryptor.SelectedItem.ToString.IndexOf("(")
+            If Didx > 0 Then
+                Dim DecryptorName As String = cboDecryptor.SelectedItem.ToString.Substring(0, Didx - 1).Trim
+                If PlugInData.Decryptors.ContainsKey(DecryptorName) Then
+                    InventionDecryptorName = DecryptorName
+                    InventionDecryptorMod = PlugInData.Decryptors(DecryptorName).ProbMod
+                    InventionDecryptorID = CInt(PlugInData.Decryptors(DecryptorName).ID)
                 Else
                     InventionDecryptorName = ""
                     InventionDecryptorMod = 1
                     InventionDecryptorID = 0
                 End If
+            Else
+                InventionDecryptorName = ""
+                InventionDecryptorMod = 1
+                InventionDecryptorID = 0
             End If
-            PACDecryptor.TypeID = InventionDecryptorID
+        End If
+        PACDecryptor.TypeID = InventionDecryptorID
+        If InventionStartUp = False Then
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
     Private Sub cboMetaItem_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetaItem.SelectedIndexChanged
-        If InventionStartUp = False Then
-            If cboMetaItem.SelectedItem IsNot Nothing Then
-                If cboMetaItem.SelectedItem.ToString <> "<None>" Then
-                    InventionMetaLevel = CInt(cboMetaItem.SelectedItem.ToString.Substring(0, 1))
-                    InventionMetaItemID = CInt(EveHQ.Core.HQ.itemList(cboMetaItem.SelectedItem.ToString.Remove(0, 3)))
-                Else
-                    InventionMetaLevel = 0
-                    InventionMetaItemID = 0
-                End If
+        If cboMetaItem.SelectedItem IsNot Nothing Then
+            If cboMetaItem.SelectedItem.ToString <> "<None>" Then
+                InventionMetaLevel = CInt(cboMetaItem.SelectedItem.ToString.Substring(0, 1))
+                InventionMetaItemID = CInt(EveHQ.Core.HQ.itemList(cboMetaItem.SelectedItem.ToString.Remove(0, 3)))
+            Else
+                InventionMetaLevel = 0
+                InventionMetaItemID = 0
             End If
-            PACMetaItem.TypeID = InventionMetaItemID
+        End If
+        PACMetaItem.TypeID = InventionMetaItemID
+        If InventionStartUp = False Then
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
     Private Sub nudInventionBPCRuns_LockUpdateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.LockUpdateChanged
-        If StartUp = False Then
+        If InventionStartUp = False Then
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
     Private Sub nudInventionBPCRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ValueChanged
-        If StartUp = False Then
+        If InventionStartUp = False Then
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
@@ -1307,12 +1327,21 @@ Public Class frmBPCalculator
         Else
             nudInventionSkill1.Value = 0
         End If
+        currentJob.InventionJob.EncryptionSkill = nudInventionSkill1.Value
+        If InventionStartUp = False Then
+            Me.ProductionChanged = True
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill1_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill1.LockUpdateChanged
+        currentJob.InventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
     End Sub
 
     Private Sub nudInventionSkill1_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill1.ValueChanged
-        If StartUp = False Then
-            InventionSkill1 = nudInventionSkill1.Value
+        InventionSkill1 = nudInventionSkill1.Value
+        If InventionStartUp = False Then
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
@@ -1322,12 +1351,21 @@ Public Class frmBPCalculator
         Else
             nudInventionSkill2.Value = 0
         End If
+        currentJob.InventionJob.DatacoreSkill1 = nudInventionSkill2.Value
+        If InventionStartUp = False Then
+            Me.ProductionChanged = True
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill2_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill2.LockUpdateChanged
+        currentJob.InventionJob.OverrideDCSkill1 = nudInventionSkill2.LockUpdateChecked
     End Sub
 
     Private Sub nudInventionSkill2_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill2.ValueChanged
-        If StartUp = False Then
-            InventionSkill2 = nudInventionSkill2.Value
+        InventionSkill2 = nudInventionSkill2.Value
+        If InventionStartUp = False Then
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
@@ -1337,12 +1375,21 @@ Public Class frmBPCalculator
         Else
             nudInventionSkill3.Value = 0
         End If
+        currentJob.InventionJob.DatacoreSkill2 = nudInventionSkill3.Value
+        If InventionStartUp = False Then
+            Me.ProductionChanged = True
+        End If
+    End Sub
+
+    Private Sub nudInventionSkill3_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill3.LockUpdateChanged
+        currentJob.InventionJob.OverrideDCSkill2 = nudInventionSkill3.LockUpdateChecked
     End Sub
 
     Private Sub nudInventionSkill3_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill3.ValueChanged
-        If StartUp = False Then
+        If InventionStartUp = False Then
             InventionSkill3 = nudInventionSkill3.Value
             Call Me.CalculateInvention()
+            Me.ProductionChanged = True
         End If
     End Sub
 
@@ -1506,7 +1553,9 @@ Public Class frmBPCalculator
 
     Private Sub chkInventionFlag_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkInventionFlag.CheckedChanged
         currentJob.HasInventionJob = chkInventionFlag.Checked
-        Me.ProductionChanged = True
+        If InventionStartUp = False Then
+            Me.ProductionChanged = True
+        End If
     End Sub
 
 #End Region
