@@ -21,11 +21,13 @@
 Public Class PrismEvents
 
     Public Shared Event UpdateProductionJobs()
+    Public Shared Event UpdateInventionJobs()
     Public Shared Event UpdateBatchJobs()
     Public Shared Event RecyclingInfoAvailable()
 
     Public Shared Sub StartUpdateProductionJobs()
         RaiseEvent UpdateProductionJobs()
+        RaiseEvent UpdateInventionJobs()
     End Sub
 
     Public Shared Sub StartUpdateBatchJobs()

@@ -101,6 +101,7 @@ Public Class frmPrism
 
         ' Add events
         AddHandler PrismEvents.UpdateProductionJobs, AddressOf UpdateProductionJobList
+        AddHandler PrismEvents.UpdateInventionJobs, AddressOf UpdateInventionJobList
         AddHandler PrismEvents.UpdateBatchJobs, AddressOf UpdateBatchList
         AddHandler PrismEvents.RecyclingInfoAvailable, AddressOf RecycleInfoFromAssets
 
@@ -6331,6 +6332,11 @@ Public Class frmPrism
         tiProductionManager.Visible = True
     End Sub
 
+    Private Sub btnInventionManager_Click(sender As System.Object, e As System.EventArgs) Handles btnInventionManager.Click
+        tabPrism.SelectedTab = tiInventionManager
+        tiInventionManager.Visible = True
+    End Sub
+
     Private Sub btnQuickProduction_Click(sender As System.Object, e As System.EventArgs) Handles btnQuickProduction.Click
         Dim QP As New frmQuickProduction
         QP.ShowDialog()
@@ -6407,7 +6413,7 @@ Public Class frmPrism
             Case "Production"
                 If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
                     Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
-                    Dim BPCalc As New frmBPCalculator(PJob)
+                    Dim BPCalc As New frmBPCalculator(PJob, False)
                     Call OpenBPCalculator(BPCalc)
                 End If
         End Select
@@ -6592,7 +6598,7 @@ Public Class frmPrism
             Case "Production"
                 If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
                     Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
-                    Dim BPCalc As New frmBPCalculator(PJob)
+                    Dim BPCalc As New frmBPCalculator(PJob, False)
                     Call OpenBPCalculator(BPCalc)
                 End If
         End Select
@@ -6684,7 +6690,7 @@ Public Class frmPrism
     Private Sub adtProdJobs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtProdJobs.NodeDoubleClick
         Dim JobName As String = e.Node.Name
         Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
-        Dim BPCalc As New frmBPCalculator(ExistingJob)
+        Dim BPCalc As New frmBPCalculator(ExistingJob, False)
         BPCalc.Location = New Point(CInt(Me.ParentForm.Left + ((Me.ParentForm.Width - BPCalc.Width) / 2)), CInt(Me.ParentForm.Top + ((Me.ParentForm.Height - BPCalc.Height) / 2)))
         BPCalc.Show()
     End Sub
@@ -6785,6 +6791,72 @@ Public Class frmPrism
             BatchJobs.Jobs.Clear()
             Call Me.UpdateBatchList()
         End If
+    End Sub
+
+#End Region
+
+#Region "Invention Manager Routines"
+
+    Private Sub UpdateInventionJobList()
+        adtInventionJobs.BeginUpdate()
+        adtInventionJobs.Nodes.Clear()
+        For Each cJob As ProductionJob In ProductionJobs.Jobs.Values
+            ' Check for the Invention Manager Flag
+            If cJob.HasInventionJob = True Then
+                Dim NewJob As New Node
+                NewJob.Name = cJob.JobName
+                NewJob.Text = cJob.JobName
+                If cJob.InventionJob.InventedBPID <> 0 Then
+
+                    ' Calculate costs
+                    Dim InvCost As InventionCost = cJob.InventionJob.CalculateInventionCost
+                    Dim IBP As BlueprintSelection = cJob.InventionJob.CalculateInventedBPC
+                    Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(IBP.ProductID.ToString).PortionSize
+                    Dim InventionChance As Double = cJob.InventionJob.CalculateInventionChance
+                    Dim InventionAttempts As Double = Math.Max(Math.Round(100 / InventionChance, 4), 1)
+                    Dim InventionSuccessCost As Double = InventionAttempts * InvCost.TotalCost
+
+                    ' Calculate Production Cost of invented item
+                    Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2) + cJob.InventionJob.ProductionJob.Cost) / BatchQty
+                    Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
+                    Dim UnitProfit As Double = SalesPrice - AvgCost
+                    Dim TotalProfit As Double = UnitProfit * IBP.Runs * BatchQty
+                    Dim Margin As Double = UnitProfit / SalesPrice * 100
+
+                    NewJob.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(cJob.InventionJob.InventedBPID)).Name))
+                    NewJob.Cells.Add(New Cell(InventionChance.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(InventionSuccessCost.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(AvgCost.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(SalesPrice.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(UnitProfit.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(Margin.ToString("N2")))
+                Else
+                    NewJob.Cells.Add(New Cell("n/a"))
+                    NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                    NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                End If
+                adtInventionJobs.Nodes.Add(NewJob)
+            End If
+        Next
+        EveHQ.Core.AdvTreeSorter.Sort(adtInventionJobs, 1, True, True)
+        adtInventionJobs.EndUpdate()
+    End Sub
+
+    Private Sub adtInventionJobs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtInventionJobs.NodeDoubleClick
+        Dim JobName As String = e.Node.Name
+        Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
+        Dim BPCalc As New frmBPCalculator(ExistingJob, True)
+        BPCalc.Location = New Point(CInt(Me.ParentForm.Left + ((Me.ParentForm.Width - BPCalc.Width) / 2)), CInt(Me.ParentForm.Top + ((Me.ParentForm.Height - BPCalc.Height) / 2)))
+        BPCalc.Show()
+    End Sub
+
+    Private Sub adtInventionJobs_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
 
 #End Region

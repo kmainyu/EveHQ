@@ -120,7 +120,7 @@ Public Class frmBPCalculator
 
     End Sub
 
-    Public Sub New(ByVal ExistingJob As ProductionJob)
+    Public Sub New(ByVal ExistingJob As ProductionJob, ForInvention As Boolean)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -129,7 +129,11 @@ Public Class frmBPCalculator
         Me.InitialJob = ExistingJob
         currentJob = ExistingJob.Clone
         CurrentBP = currentJob.CurrentBP
-        StartMode = BPCalcStartMode.ProductionJob
+        If ForInvention = False Then
+            StartMode = BPCalcStartMode.ProductionJob
+        Else
+            StartMode = BPCalcStartMode.InventionJob
+        End If
         cBPOwnerName = ExistingJob.BPOwner
         If CurrentBP IsNot Nothing Then
             cOwnedBPID = CStr(CurrentBP.AssetID)
@@ -318,42 +322,13 @@ Public Class frmBPCalculator
 
             Case BPCalcStartMode.ProductionJob
 
-                ' Set Manufacturer
-                If cboPilot.Items.Contains(currentJob.Manufacturer) Then
-                    cboPilot.SelectedItem = currentJob.Manufacturer
-                Else
-                    If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
-                        cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
-                    Else
-                        cboPilot.SelectedIndex = 0
-                    End If
-                End If
-
-                ' Set BP values
-                If currentJob.OverridingME <> "" Then
-                    nudMELevel.Value = CInt(currentJob.OverridingME)
-                End If
-                If currentJob.OverridingPE <> "" Then
-                    nudPELevel.Value = CInt(currentJob.OverridingPE)
-                End If
-
-                If CurrentBP IsNot Nothing Then
-                    If PlugInData.Blueprints.ContainsKey(CurrentBP.AssetID.ToString) Then
-                        ' This is a standard BP, not an owned one
-                        Call Me.DisplayAllBlueprints()
-                        cboBPs.SelectedItem = PlugInData.Blueprints(CurrentBP.AssetID.ToString).Name
-                    Else
-                        ' This is an owned BP
-                        chkOwnedBPOs.Checked = True
-                        cboBPs.SelectedItem = OwnedBP
-                    End If
-                End If
-
-                nudRuns.Value = currentJob.Runs
-
-                PPRProduction.ProductionJob = currentJob
+                Call Me.DisplayProductionJobDetails()
+                
 
             Case BPCalcStartMode.InventionJob
+
+                Call Me.DisplayProductionJobDetails()
+                Call Me.DisplayInventionDetails()
 
         End Select
 
@@ -361,6 +336,49 @@ Public Class frmBPCalculator
 
     Private Sub frmBPCalculator_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         StartUp = False
+    End Sub
+
+    Private Sub DisplayProductionJobDetails()
+        ' Set Manufacturer
+        If cboPilot.Items.Contains(currentJob.Manufacturer) Then
+            cboPilot.SelectedItem = currentJob.Manufacturer
+        Else
+            If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
+                cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+            Else
+                cboPilot.SelectedIndex = 0
+            End If
+        End If
+
+        ' Set BP values
+        If currentJob.OverridingME <> "" Then
+            nudMELevel.Value = CInt(currentJob.OverridingME)
+        End If
+        If currentJob.OverridingPE <> "" Then
+            nudPELevel.Value = CInt(currentJob.OverridingPE)
+        End If
+
+        If CurrentBP IsNot Nothing Then
+            If PlugInData.Blueprints.ContainsKey(CurrentBP.AssetID.ToString) Then
+                ' This is a standard BP, not an owned one
+                Call Me.DisplayAllBlueprints()
+                cboBPs.SelectedItem = PlugInData.Blueprints(CurrentBP.AssetID.ToString).Name
+            Else
+                ' This is an owned BP
+                chkOwnedBPOs.Checked = True
+                cboBPs.SelectedItem = OwnedBP
+            End If
+        End If
+
+        nudRuns.Value = currentJob.Runs
+
+        PPRProduction.ProductionJob = currentJob
+    End Sub
+
+    Private Sub DisplayInventionDetails()
+
+
+
     End Sub
 
     Private Sub DisplayAllBlueprints()
@@ -1486,8 +1504,14 @@ Public Class frmBPCalculator
         adtInventionProfits.EndUpdate()
     End Sub
 
+    Private Sub chkInventionFlag_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkInventionFlag.CheckedChanged
+        currentJob.HasInventionJob = chkInventionFlag.Checked
+        Me.ProductionChanged = True
+    End Sub
+
 #End Region
 
+   
 End Class
 
 Public Enum BPCalcStartMode
