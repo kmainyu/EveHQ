@@ -43,6 +43,7 @@ Imports System.Runtime.Serialization
     Public RunTime As Long
     Public Cost As Double
     Public RequiredResources As New SortedList(Of String, Object)
+    Public InventionJob As InventionJob
 
     Public Function Clone() As ProductionJob
         Dim CloneMemoryStream As New MemoryStream
@@ -402,6 +403,7 @@ Imports System.Runtime.Serialization
 				subPJ.UpdateJobProdImplant(NewProdImplant)
 			End If
 		Next
-	End Sub
+    End Sub
 
 End Class
+

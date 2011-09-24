@@ -41,8 +41,6 @@ Public Class frmBPCalculator
     Dim InitialJob As ProductionJob = Nothing
 
     ' Invention Specific Variables
-    Dim CurrentInvJob As New InventionJob
-    Dim InitialInvJob As New InventionJob
     Dim InventionBPID As Integer = 0
     Dim InventionBaseChance As Double = 20
     Dim InventionSkill1 As Integer = 0
@@ -52,8 +50,8 @@ Public Class frmBPCalculator
     Dim InventionMetaItemID As Integer = 0
     Dim InventionDecryptorID As Integer = 0
     Dim InventionDecryptorMod As Double = 1
+    Dim InventionDecryptorName As String = ""
     Dim InventionChance As Double = 20
-    Dim InventionCost As Double = 0
     Dim InventedBP As New BlueprintSelection
     Dim InventionAttempts As Double = 0
     Dim InventionSuccessCost As Double = 0
@@ -1195,13 +1193,16 @@ Public Class frmBPCalculator
                 If Didx > 0 Then
                     Dim DecryptorName As String = cboDecryptor.SelectedItem.ToString.Substring(0, Didx - 1).Trim
                     If PlugInData.Decryptors.ContainsKey(DecryptorName) Then
+                        InventionDecryptorName = DecryptorName
                         InventionDecryptorMod = PlugInData.Decryptors(DecryptorName).ProbMod
                         InventionDecryptorID = CInt(PlugInData.Decryptors(DecryptorName).ID)
                     Else
+                        InventionDecryptorName = ""
                         InventionDecryptorMod = 1
                         InventionDecryptorID = 0
                     End If
                 Else
+                    InventionDecryptorName = ""
                     InventionDecryptorMod = 1
                     InventionDecryptorID = 0
                 End If
@@ -1331,48 +1332,25 @@ Public Class frmBPCalculator
 
         If InventionBPID <> 0 Then
 
+            ' Set the Invention Job Data
+            Call Me.SetInventionJobData()
+
             ' Calculate Invention Chance
-            InventionChance = Invention.CalculateInventionChance(InventionBaseChance, InventionSkill1, InventionSkill2, InventionSkill3, InventionMetaLevel, InventionDecryptorMod)
+            InventionChance = currentJob.InventionJob.CalculateInventionChance
+
+            ' Calculate Cost
+            Dim InvCost As InventionCost = currentJob.InventionJob.CalculateInventionCost
+
             lblInventionChance.Text = "Total Invention Chance: " & InventionChance.ToString("N2") & "%"
+            lblInventionBaseCost.Text = InvCost.DatacoreCost.ToString("N2") & " Isk"
+            lblInventionDecryptorCost.Text = InvCost.DecryptorCost.ToString("N2") & " Isk"
+            lblInventionMetaItemCost.Text = InvCost.MetaItemCost.ToString("N2") & " Isk"
+            lblInventionLabCosts.Text = InvCost.LabCost.ToString("N2") & " Isk"
+            lblInventionBPCCost.Text = InvCost.BPCCost.ToString("N2") & " Isk"
+            lblInventionCost.Text = InvCost.TotalCost.ToString("N2") & " Isk"
 
-            Dim BPCRuns As Integer = CurrentBP.Runs
-            If nudInventionBPCRuns.LockUpdateChecked = False Then
-                ' Use current BP Runs, replacing max for unlimited
-                If CurrentBP.Runs = -1 Then
-                    ' Use max runs
-                    BPCRuns = CurrentBP.MaxProdLimit
-                End If
-            Else
-                BPCRuns = nudInventionBPCRuns.Value
-            End If
-
-            InventionCost = CurrentInventionBP.CalculateInventionCost(InventionMetaItemID.ToString, InventionDecryptorID.ToString, BPCRuns)
-            Dim IDC As Double = EveHQ.Core.DataFunctions.GetPrice(InventionDecryptorID.ToString)
-            Dim IIC As Double = EveHQ.Core.DataFunctions.GetPrice(InventionMetaItemID.ToString)
-            Dim ILC As Double = Settings.PrismSettings.LabInstallCost + Math.Round(Settings.PrismSettings.LabRunningCost * (CurrentInventionBP.ResearchTechTime / 3600), 2)
-
-            Dim IRC As Double = 0
-            If Settings.PrismSettings.BPCCosts.ContainsKey(CurrentInventionBP.ID.ToString) Then
-                Dim pricerange As Double = Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MaxRunCost - Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MinRunCost
-                Dim runrange As Integer = CurrentInventionBP.MaxProdLimit - 1
-                If runrange = 0 Then
-                    IRC += Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MinRunCost
-                Else
-                    IRC += Settings.PrismSettings.BPCCosts(CurrentInventionBP.ID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (BPCRuns - 1), 2)
-                End If
-            End If
-            Dim IBC As Double = InventionCost - IDC - IIC - ILC - IRC
-
-            lblInventionBaseCost.Text = IBC.ToString("N2") & " Isk"
-            lblInventionDecryptorCost.Text = IDC.ToString("N2") & " Isk"
-            lblInventionMetaItemCost.Text = IIC.ToString("N2") & " Isk"
-            lblInventionLabCosts.Text = ILC.ToString("N2") & " Isk"
-            lblInventionBPCCost.Text = IRC.ToString("N2") & " Isk"
-            lblInventionCost.Text = InventionCost.ToString("N2") & " Isk"
-
-            InventedBP = CurrentBP.CalculateInventedBPC(InventionBPID, InventionDecryptorID, BPCRuns)
             InventionAttempts = Math.Max(Math.Round(100 / InventionChance, 4), 1)
-            InventionSuccessCost = InventionAttempts * InventionCost
+            InventionSuccessCost = InventionAttempts * InvCost.TotalCost
 
             lblInventedBP.Text = "ME:" & InventedBP.MELevel.ToString & "  PE:" & InventedBP.PELevel.ToString & "  Runs: " & InventedBP.Runs.ToString("N0")
             lblInventionTime.Text = EveHQ.Core.SkillFunctions.TimeToString(CurrentInventionBP.ResearchTechTime, False)
@@ -1381,25 +1359,39 @@ Public Class frmBPCalculator
             PACSalesPrice.TypeID = InventedBP.ProductID
 
             ' Calculate and show Resources
-            CurrentInvJob.PJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
-            PPRInvention.ProductionJob = CurrentInvJob.PJob
-
-            ' Set information into Invention Job
-            CurrentInvJob.BPCRuns = nudInventionBPCRuns.Value
-            If PlugInData.Decryptors.ContainsKey(cboDecryptor.SelectedItem.ToString) Then
-                CurrentInvJob.DecryptorUsed = PlugInData.Decryptors(cboDecryptor.SelectedItem.ToString)
-            Else
-                CurrentInvJob.DecryptorUsed = Nothing
-            End If
-            CurrentInvJob.InventedBPID = InventionBPID
-            CurrentInvJob.InventionSkill1 = InventionSkill1
-            CurrentInvJob.InventionSkill2 = InventionSkill2
-            CurrentInvJob.InventionSkill3 = InventionSkill3
-            CurrentInvJob.MetaItemID = InventionMetaItemID
-            CurrentInvJob.OverrideBPCRuns = nudInventionBPCRuns.LockUpdateChecked
+            PPRInvention.ProductionJob = currentJob.InventionJob.ProductionJob
 
         End If
 
+    End Sub
+
+    Private Sub SetInventionJobData()
+        ' Set the relevant parts of the current job
+        Dim CurrentInventionJob As New InventionJob
+        currentJob.InventionJob = CurrentInventionJob
+        CurrentInventionJob.BPCRuns = nudInventionBPCRuns.Value
+        If nudInventionBPCRuns.LockUpdateChecked = False Then
+            ' Use current BP Runs, replacing max for unlimited
+            If CurrentBP.Runs = -1 Then
+                ' Use max runs
+                CurrentInventionJob.BPCRuns = CurrentBP.MaxProdLimit
+            End If
+        End If
+        If PlugInData.Decryptors.ContainsKey(InventionDecryptorName) Then
+            CurrentInventionJob.DecryptorUsed = PlugInData.Decryptors(InventionDecryptorName)
+        Else
+            CurrentInventionJob.DecryptorUsed = Nothing
+        End If
+        CurrentInventionJob.InventedBPID = InventionBPID
+        CurrentInventionJob.EncryptionSkill = InventionSkill1
+        CurrentInventionJob.DatacoreSkill1 = InventionSkill2
+        CurrentInventionJob.DatacoreSkill2 = InventionSkill3
+        CurrentInventionJob.MetaItemID = InventionMetaItemID
+        CurrentInventionJob.MetaItemLevel = InventionMetaLevel
+        CurrentInventionJob.OverrideBPCRuns = nudInventionBPCRuns.LockUpdateChecked
+        CurrentInventionJob.BaseChance = InventionBaseChance
+        InventedBP = currentJob.InventionJob.CalculateInventedBPC
+        CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
     End Sub
 
     Private Sub DisplayInventionProfitInfo()
