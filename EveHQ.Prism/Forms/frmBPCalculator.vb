@@ -408,6 +408,9 @@ Public Class frmBPCalculator
             nudInventionSkill3.Value = currentJob.InventionJob.DatacoreSkill2
         End If
 
+        ' Set InventionFlag
+        chkInventionFlag.Checked = currentJob.HasInventionJob
+
         Call Me.CalculateInvention()
 
     End Sub
@@ -928,7 +931,15 @@ Public Class frmBPCalculator
 
         ' Get resources
         Dim ProdImplant As Integer = CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%")))
+        ' Save stuff for copying
+        Dim OldJobName As String = ""
+        If currentJob.JobName <> "" Then
+            OldJobName = currentJob.JobName
+        End If
         currentJob = CurrentBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, ProdImplant, nudMELevel.Value.ToString, nudPELevel.Value.ToString, Runs, ProductionArray, False)
+        If OldJobName <> "" Then
+            currentJob.JobName = OldJobName
+        End If
         PPRProduction.ProductionJob = currentJob
 
     End Sub
@@ -1453,8 +1464,7 @@ Public Class frmBPCalculator
 
     Private Sub SetInventionJobData()
         ' Set the relevant parts of the current job
-        Dim CurrentInventionJob As New InventionJob
-        currentJob.InventionJob = CurrentInventionJob
+        Dim CurrentInventionJob As InventionJob = currentJob.InventionJob
         CurrentInventionJob.OverrideBPCRuns = nudInventionBPCRuns.LockUpdateChecked
         CurrentInventionJob.BPCRuns = nudInventionBPCRuns.Value
         If nudInventionBPCRuns.LockUpdateChecked = False Then
@@ -1484,7 +1494,9 @@ Public Class frmBPCalculator
         CurrentInventionJob.DatacoreSkill1 = nudInventionSkill2.Value
         CurrentInventionJob.DatacoreSkill2 = nudInventionSkill3.Value
         InventedBP = currentJob.InventionJob.CalculateInventedBPC
-        CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
+        If CurrentInventionJob.ProductionJob Is Nothing Then
+            CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
+        End If
     End Sub
 
     Private Sub DisplayInventionProfitInfo()
@@ -1590,6 +1602,7 @@ Public Class frmBPCalculator
         If StartUp = False Then
             ' Set change flag
             Me.ProductionChanged = True
+            currentJob.InventionJob.ProductionJob = PPRInvention.ProductionJob
             Call Me.DisplayInventionProfitInfo()
         End If
     End Sub
