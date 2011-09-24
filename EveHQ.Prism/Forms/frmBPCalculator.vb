@@ -1366,6 +1366,9 @@ Public Class frmBPCalculator
 
     Private Sub nudInventionSkill1_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill1.LockUpdateChanged
         currentJob.InventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
+        If InventionStartUp = False Then
+            Me.ProductionChanged = True
+        End If
     End Sub
 
     Private Sub nudInventionSkill1_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill1.ValueChanged
@@ -1390,6 +1393,9 @@ Public Class frmBPCalculator
 
     Private Sub nudInventionSkill2_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill2.LockUpdateChanged
         currentJob.InventionJob.OverrideDCSkill1 = nudInventionSkill2.LockUpdateChecked
+        If InventionStartUp = False Then
+            Me.ProductionChanged = True
+        End If
     End Sub
 
     Private Sub nudInventionSkill2_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill2.ValueChanged
@@ -1414,6 +1420,9 @@ Public Class frmBPCalculator
 
     Private Sub nudInventionSkill3_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill3.LockUpdateChanged
         currentJob.InventionJob.OverrideDCSkill2 = nudInventionSkill3.LockUpdateChecked
+        If InventionStartUp = False Then
+            Me.ProductionChanged = True
+        End If
     End Sub
 
     Private Sub nudInventionSkill3_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill3.ValueChanged
@@ -1501,8 +1510,10 @@ Public Class frmBPCalculator
 
     Private Sub DisplayInventionProfitInfo()
         ' Show Production Cost
+
         Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
-        Dim AvgCost As Double = (Math.Round(InventionSuccessCost / InventedBP.Runs, 2) + PPRInvention.ProductionJob.Cost) / BatchQty
+        Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
+        Dim AvgCost As Double = (Math.Round(InventionSuccessCost / InventedBP.Runs, 2) + PPRInvention.ProductionJob.Cost + FactoryCost) / BatchQty
         Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(InventedBP.ProductID.ToString)
         Dim UnitProfit As Double = SalesPrice - AvgCost
         Dim TotalProfit As Double = UnitProfit * InventedBP.Runs * BatchQty
