@@ -388,6 +388,26 @@ Public Class frmBPCalculator
             cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemID.ToString).MetaLevel & ": " & EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemID.ToString).Name)
         End If
 
+        ' Set Runs
+        nudInventionBPCRuns.LockUpdateChecked = currentJob.InventionJob.OverrideBPCRuns
+        If currentJob.InventionJob.OverrideBPCRuns = True Then
+            nudInventionBPCRuns.Value = currentJob.InventionJob.BPCRuns
+        End If
+
+        ' Set Skills
+        nudInventionSkill1.LockUpdateChecked = currentJob.InventionJob.OverrideEncSkill
+        If currentJob.InventionJob.OverrideEncSkill = True Then
+            nudInventionSkill1.Value = currentJob.InventionJob.EncryptionSkill
+        End If
+        nudInventionSkill2.LockUpdateChecked = currentJob.InventionJob.OverrideDCSkill1
+        If currentJob.InventionJob.OverrideDCSkill1 = True Then
+            nudInventionSkill2.Value = currentJob.InventionJob.DatacoreSkill1
+        End If
+        nudInventionSkill3.LockUpdateChecked = currentJob.InventionJob.OverrideDCSkill2
+        If currentJob.InventionJob.OverrideDCSkill2 = True Then
+            nudInventionSkill3.Value = currentJob.InventionJob.DatacoreSkill2
+        End If
+
         Call Me.CalculateInvention()
 
     End Sub
@@ -1434,6 +1454,7 @@ Public Class frmBPCalculator
         ' Set the relevant parts of the current job
         Dim CurrentInventionJob As New InventionJob
         currentJob.InventionJob = CurrentInventionJob
+        CurrentInventionJob.OverrideBPCRuns = nudInventionBPCRuns.LockUpdateChecked
         CurrentInventionJob.BPCRuns = nudInventionBPCRuns.Value
         If nudInventionBPCRuns.LockUpdateChecked = False Then
             ' Use current BP Runs, replacing max for unlimited
@@ -1455,6 +1476,12 @@ Public Class frmBPCalculator
         CurrentInventionJob.MetaItemLevel = InventionMetaLevel
         CurrentInventionJob.OverrideBPCRuns = nudInventionBPCRuns.LockUpdateChecked
         CurrentInventionJob.BaseChance = InventionBaseChance
+        CurrentInventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
+        CurrentInventionJob.OverrideDCSkill1 = nudInventionSkill2.LockUpdateChecked
+        CurrentInventionJob.OverrideDCSkill2 = nudInventionSkill3.LockUpdateChecked
+        CurrentInventionJob.EncryptionSkill = nudInventionSkill1.Value
+        CurrentInventionJob.DatacoreSkill1 = nudInventionSkill2.Value
+        CurrentInventionJob.DatacoreSkill2 = nudInventionSkill3.Value
         InventedBP = currentJob.InventionJob.CalculateInventedBPC
         CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
     End Sub
