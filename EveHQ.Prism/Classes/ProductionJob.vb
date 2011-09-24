@@ -43,6 +43,7 @@ Imports System.Runtime.Serialization
     Public RunTime As Long
     Public Cost As Double
     Public RequiredResources As New SortedList(Of String, Object)
+    Public HasInventionJob As Boolean
     Public InventionJob As InventionJob
 
     Public Function Clone() As ProductionJob
