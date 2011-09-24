@@ -435,7 +435,14 @@ Public Class frmBPCalculator
 
 #End Region
 
-#Region "Pilot Selection Routines"
+#Region "Pilot & Owner Selection Routines"
+
+    Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
+        If cboOwner.SelectedItem IsNot Nothing Then
+            cBPOwnerName = cboOwner.SelectedItem.ToString
+            Call Me.DisplayOwnedBlueprints()
+        End If
+    End Sub
 
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
         ' Set the pilot
@@ -1111,6 +1118,45 @@ Public Class frmBPCalculator
         End If
     End Sub
 
+    Private Sub btnSaveProductionJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJob.Click
+        Call Me.SaveCurrentProductionJob()
+    End Sub
+
+    Private Sub SaveCurrentProductionJob()
+        If Me.InitialJob IsNot Nothing And currentJob IsNot Nothing Then
+            ProductionJobs.Jobs(currentJob.JobName) = currentJob.Clone
+            Me.ProductionChanged = False
+            Me.InitialJob = currentJob.Clone
+            PrismEvents.StartUpdateProductionJobs()
+        Else
+            Dim NewJobName As New frmAddProductionJob
+            NewJobName.ShowDialog()
+            If NewJobName.DialogResult = DialogResult.OK Then
+                currentJob.JobName = NewJobName.JobName
+                ProductionJobs.Jobs.Add(NewJobName.JobName, currentJob.Clone)
+                Me.ProductionChanged = False
+                Me.InitialJob = currentJob.Clone
+                Me.Text = "BPCalc - Production Job: " & currentJob.JobName
+            End If
+            NewJobName.Dispose()
+            PrismEvents.StartUpdateProductionJobs()
+        End If
+    End Sub
+
+    Private Sub btnSaveProductionJobAs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJobAs.Click
+        Dim NewJobName As New frmAddProductionJob
+        NewJobName.ShowDialog()
+        If NewJobName.DialogResult = DialogResult.OK Then
+            currentJob.JobName = NewJobName.JobName
+            ProductionJobs.Jobs.Add(NewJobName.JobName, currentJob.Clone)
+            Me.ProductionChanged = False
+            Me.InitialJob = currentJob.Clone
+            Me.Text = "BPCalc - Production Job: " & currentJob.JobName
+        End If
+        NewJobName.Dispose()
+        PrismEvents.StartUpdateProductionJobs()
+    End Sub
+
 #End Region
 
 #Region "Invention UI Routines"
@@ -1432,52 +1478,6 @@ Public Class frmBPCalculator
     End Sub
 
 #End Region
-
-    Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
-        If cboOwner.SelectedItem IsNot Nothing Then
-            cBPOwnerName = cboOwner.SelectedItem.ToString
-            Call Me.DisplayOwnedBlueprints()
-        End If
-    End Sub
-
-    Private Sub btnSaveProductionJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJob.Click
-        Call Me.SaveCurrentProductionJob()
-    End Sub
-
-    Private Sub SaveCurrentProductionJob()
-        If Me.InitialJob IsNot Nothing And currentJob IsNot Nothing Then
-            ProductionJobs.Jobs(currentJob.JobName) = currentJob.Clone
-            Me.ProductionChanged = False
-            Me.InitialJob = currentJob.Clone
-            PrismEvents.StartUpdateProductionJobs()
-        Else
-            Dim NewJobName As New frmAddProductionJob
-            NewJobName.ShowDialog()
-            If NewJobName.DialogResult = DialogResult.OK Then
-                currentJob.JobName = NewJobName.JobName
-                ProductionJobs.Jobs.Add(NewJobName.JobName, currentJob.Clone)
-                Me.ProductionChanged = False
-                Me.InitialJob = currentJob.Clone
-                Me.Text = "BPCalc - Production Job: " & currentJob.JobName
-            End If
-            NewJobName.Dispose()
-            PrismEvents.StartUpdateProductionJobs()
-        End If
-    End Sub
-
-    Private Sub btnSaveProductionJobAs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJobAs.Click
-        Dim NewJobName As New frmAddProductionJob
-        NewJobName.ShowDialog()
-        If NewJobName.DialogResult = DialogResult.OK Then
-            currentJob.JobName = NewJobName.JobName
-            ProductionJobs.Jobs.Add(NewJobName.JobName, currentJob.Clone)
-            Me.ProductionChanged = False
-            Me.InitialJob = currentJob.Clone
-            Me.Text = "BPCalc - Production Job: " & currentJob.JobName
-        End If
-        NewJobName.Dispose()
-        PrismEvents.StartUpdateProductionJobs()
-    End Sub
 
 End Class
 

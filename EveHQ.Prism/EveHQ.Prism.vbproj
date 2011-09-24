@@ -92,6 +92,7 @@
     <Compile Include="Classes\BatchJob.vb" />
     <Compile Include="Classes\BatchJobs.vb" />
     <Compile Include="Classes\Blueprint.vb" />
+    <Compile Include="Classes\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
     <Compile Include="Classes\InventionJob.vb" />
     <Compile Include="Classes\DataFunctions.vb" />
