@@ -1582,7 +1582,7 @@ Public Class frmMarketPrices
 
         ' Setup variables
         Dim PriceRegions As New List(Of String)
-        Dim FeedName As String = "MarketPrices"
+        Dim FeedName As String = "EveMarketeerPrices"
 
         ' Step 1: Determine which regions we need from the price groups
         For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHQSettings.PriceGroups.Values
@@ -1609,26 +1609,26 @@ Public Class frmMarketPrices
 
             ' ***** No cache checking at present!
 
-            'If My.Computer.FileSystem.FileExists(localfile) = True Then
-            '    ' Load the file
-            '    Dim PriceXML As New XmlDocument
-            '    Try
-            '        PriceXML.Load(localfile)
-            '        ' Check the Cache details
-            '        Dim CacheNodes As XmlNodeList = PriceXML.SelectNodes("/GetCalculatedPrice/cacheExpires")
-            '        If CacheNodes.Count > 0 Then
-            '            Dim CacheDate As Date
-            '            If Date.TryParse(CacheNodes(0).InnerText, CacheDate) = True Then
-            '                If Date.Compare(Now.ToUniversalTime, CacheDate.ToUniversalTime) < 0 Then
-            '                    DownloadRequired = False
-            '                End If
-            '            End If
-            '        End If
-            '    Catch e As Exception
-            '        ' Catch cases of corrupt XML files and re-download
-            '        DownloadRequired = True
-            '    End Try
-            'End If
+            If My.Computer.FileSystem.FileExists(localfile) = True Then
+                ' Load the file
+                Dim PriceXML As New XmlDocument
+                Try
+                    PriceXML.Load(localfile)
+                    ' Check the Cache details
+                    Dim CacheNodes As XmlNodeList = PriceXML.SelectNodes("/result/cacheExpires")
+                    If CacheNodes.Count > 0 Then
+                        Dim CacheDate As Date
+                        If Date.TryParse(CacheNodes(0).InnerText, CacheDate) = True Then
+                            If Date.Compare(Now.ToUniversalTime, CacheDate.ToUniversalTime) < 0 Then
+                                DownloadRequired = False
+                            End If
+                        End If
+                    End If
+                Catch e As Exception
+                    ' Catch cases of corrupt XML files and re-download
+                    DownloadRequired = True
+                End Try
+            End If
 
             ' Download the correct data file
             If DownloadRequired = True Then
@@ -1714,6 +1714,8 @@ Public Class frmMarketPrices
             If SuppressProgress = False Then
                 StatusLabel.Text = "Download of '" & FeedName & "' Complete!" : StatusLabel.Refresh()
             End If
+            ' Add in our own internal caching timer
+            Call Me.AddCacheTimeToMarketFile(localfile)
             Return True
         Catch ex As Exception
             ' Suppress this message for now - just return
@@ -1723,10 +1725,36 @@ Public Class frmMarketPrices
 
     End Function
 
+    Private Sub AddCacheTimeToMarketFile(LocalFile As String)
+        Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+        Dim EveDateFormat As String = "yyyy-MM-dd HH:mm:ss"
+        Try
+            ' Load in the XML file
+            Dim mXML As New XmlDocument
+            mXML.Load(LocalFile)
+            ' <cacheExpires>2011-09-21T15:04:18-08:00</cacheExpires>
+
+            Dim dec As XmlDeclaration = mXML.CreateXmlDeclaration("1.0", Nothing, Nothing)
+            'xmlDoc.AppendChild(dec)
+            mXML.InsertBefore(dec, mXML.ChildNodes(0))
+
+            ' Create XML cache tag
+            Dim xmlCache As XmlElement = mXML.CreateElement("cacheExpires")
+            xmlCache.InnerText = Now.AddHours(12).ToString(EveDateFormat)
+            mXML.ChildNodes(1).AppendChild(xmlCache)
+
+            ' Save the new XML file
+            mXML.Save(LocalFile)
+
+        Catch ex As Exception
+            ' Adding cache time failed, probably not a valid XML file to start with, so allow another download attempt
+        End Try
+    End Sub
+
     Private Sub ParseEveMarketeerPrices()
         ' New method of how we should roll!
         Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-        Dim EveDateFormat As String = "yyyy-MM-dd HH:mm:ss"""
+        Dim EveDateFormat As String = "yyyy-MM-dd HH:mm:ss"
 
         Dim PriceRegions As New List(Of String)
         Dim FeedName As String = "EveMarketeerPrices"
