@@ -4748,11 +4748,9 @@ Public Class frmPrism
         tiRecycler.Visible = True
     End Sub
     Private Function GetLocationID(ByVal item As Node) As String
-        If item.Level > 0 Then
-            Do While item.Parent.Parent IsNot Nothing
-                item = item.Parent
-            Loop
-        End If
+        Do While item.Level > 0
+            item = item.Parent
+        Loop
         Return item.Tag.ToString
     End Function
     Private Sub LoadRecyclingInfo()
