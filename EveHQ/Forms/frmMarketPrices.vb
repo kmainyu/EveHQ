@@ -1986,6 +1986,5 @@ Public Class frmMarketPrices
 
 #End Region
 
-   
 End Class
 
