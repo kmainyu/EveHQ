@@ -375,8 +375,12 @@ Public Class frmBPCalculator
 
     Private Sub DisplayInventionDetails()
 
+        If currentJob.InventionJob Is Nothing Then
+            currentJob.InventionJob = New InventionJob
+        End If
+
         ' Set InventionBP
-        cboDecryptor.SelectedItem = EveHQ.Core.HQ.itemData(currentJob.InventionJob.InventedBPID.ToString).Name
+        cboInventions.SelectedItem = EveHQ.Core.HQ.itemData(currentJob.InventionJob.InventedBPID.ToString).Name
 
         ' Set Decryptor
         If currentJob.InventionJob.DecryptorUsed IsNot Nothing Then
@@ -412,6 +416,7 @@ Public Class frmBPCalculator
         chkInventionFlag.Checked = currentJob.HasInventionJob
 
         Call Me.CalculateInvention()
+
 
     End Sub
 
