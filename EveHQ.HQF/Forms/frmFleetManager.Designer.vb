@@ -62,9 +62,9 @@ Partial Class frmFleetManager
         Me.panelDB.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelDB.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.panelDB.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.panelDB.Location = New System.Drawing.Point(0, 655)
+        Me.panelDB.Location = New System.Drawing.Point(0, 788)
         Me.panelDB.Name = "panelDB"
-        Me.panelDB.Size = New System.Drawing.Size(1232, 169)
+        Me.panelDB.Size = New System.Drawing.Size(1232, 36)
         Me.panelDB.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.panelDB.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.panelDB.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -81,7 +81,7 @@ Partial Class frmFleetManager
         Me.FleetDashboard1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FleetDashboard1.Location = New System.Drawing.Point(0, 0)
         Me.FleetDashboard1.Name = "FleetDashboard1"
-        Me.FleetDashboard1.Size = New System.Drawing.Size(1232, 655)
+        Me.FleetDashboard1.Size = New System.Drawing.Size(1232, 788)
         Me.FleetDashboard1.TabIndex = 2
         '
         'frmFleetManager

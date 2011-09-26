@@ -1376,6 +1376,7 @@ Partial Class frmHQF
         Me.btnFleetManager.Stretch = True
         Me.btnFleetManager.SubItemsExpandWidth = 14
         Me.btnFleetManager.Text = "Fleet Manager"
+        Me.btnFleetManager.Visible = False
         '
         'rbOptions
         '
