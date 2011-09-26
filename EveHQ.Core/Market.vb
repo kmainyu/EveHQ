@@ -265,7 +265,7 @@ Public Class MarketFunctions
                 MarketPrice = Math.Round(MarketPrice / PriceCount, 2)
 
                 ' Set the price
-                'EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
+                EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
             End If
 
             ' Add the price to the used list
