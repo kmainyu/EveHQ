@@ -1315,10 +1315,12 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub nudInventionBPCRuns_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ButtonCustomClick
-        nudInventionBPCRuns.Value = CurrentBP.MaxProdLimit
+        ' Set max runs
+        nudInventionBPCRuns.Value = CurrentInventionBP.MaxProdLimit
     End Sub
 
     Private Sub nudInventionBPCRuns_ButtonCustom2Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ButtonCustom2Click
+        ' Set single run
         nudInventionBPCRuns.Value = 1
     End Sub
 
