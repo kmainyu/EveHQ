@@ -1579,9 +1579,9 @@ Public Class frmBPCalculator
                     Case 6
                         BPCRuns = 1
                     Case Else
-                        If CurrentBP.Runs = -1 Then
+                        If CurrentInventionBP.Runs = -1 Then
                             ' Use max runs
-                            BPCRuns = CurrentBP.MaxProdLimit
+                            BPCRuns = CurrentInventionBP.MaxProdLimit
                         End If
                 End Select
             Else
@@ -1590,7 +1590,7 @@ Public Class frmBPCalculator
 
             Dim IC As Double = Invention.CalculateInventionChance(InventionBaseChance, InventionSkill1, InventionSkill2, InventionSkill3, InventionMetaLevel, DecryptorMod)
             Dim ICost As Double = CurrentInventionBP.CalculateInventionCost(InventionMetaItemID.ToString, DecryptorID.ToString, BPCRuns)
-            Dim IBP As BlueprintSelection = CurrentBP.CalculateInventedBPC(InventionBPID, DecryptorID, BPCRuns)
+            Dim IBP As BlueprintSelection = CurrentInventionBP.CalculateInventedBPC(InventionBPID, DecryptorID, BPCRuns)
             Dim IA As Double = Math.Max(Math.Round(100 / IC, 4), 1)
             Dim ISC As Double = IA * ICost
             Dim IJ As ProductionJob = IBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, PPRInvention.BuildResources)
