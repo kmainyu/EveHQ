@@ -71,6 +71,10 @@
     End Function
 
     Public Function CalculateInventedBPC() As BlueprintSelection
+
+        ' Get base item BP for this invention
+        Dim BaseBP As Blueprint = GetBaseBP()
+
         Dim IBP As BlueprintSelection = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(InventedBPID.ToString))
 
         Dim IME As Integer = -4
@@ -82,12 +86,12 @@
                 Dim UseDecryptor As Decryptor = PlugInData.Decryptors(DecryptorUsed.Name)
                 IME += UseDecryptor.MEMod
                 IPE += UseDecryptor.PEMod
-                IRC = Math.Min(Math.Max(CInt((BPCRuns / IBP.MaxProdLimit) * (IBP.MaxProdLimit / 10) + UseDecryptor.RunMod), 1), IBP.MaxProdLimit)
+                IRC = Math.Min(Math.Max(CInt((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10) + UseDecryptor.RunMod), 1), IBP.MaxProdLimit)
             Else
-                IRC = Math.Min(Math.Max(CInt((BPCRuns / IBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit)
+                IRC = Math.Min(Math.Max(CInt((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit)
             End If
         Else
-            IRC = Math.Min(Math.Max(CInt((BPCRuns / IBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit)
+            IRC = Math.Min(Math.Max(CInt((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit)
         End If
 
         IBP.MELevel = IME
