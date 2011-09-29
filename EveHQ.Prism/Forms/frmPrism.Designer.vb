@@ -219,6 +219,19 @@ Partial Class frmPrism
         Me.btnDownloadAPIData = New DevComponents.DotNetBar.ButtonItem()
         Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
         Me.tabPrism = New DevComponents.DotNetBar.TabControl()
+        Me.TabControlPanel17 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.adtInventionJobs = New DevComponents.AdvTree.AdvTree()
+        Me.colInvJobName = New DevComponents.AdvTree.ColumnHeader()
+        Me.colInvJobItem = New DevComponents.AdvTree.ColumnHeader()
+        Me.colSuccessChance = New DevComponents.AdvTree.ColumnHeader()
+        Me.colSuccessCost = New DevComponents.AdvTree.ColumnHeader()
+        Me.colInvProductionCost = New DevComponents.AdvTree.ColumnHeader()
+        Me.colInvSalesPrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colInvUnitProfit = New DevComponents.AdvTree.ColumnHeader()
+        Me.colInvProfitMargin = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector17 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle14 = New DevComponents.DotNetBar.ElementStyle()
+        Me.tiInventionManager = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
         Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
@@ -233,16 +246,6 @@ Partial Class frmPrism
         Me.txtItemSearch = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.lblSearch = New System.Windows.Forms.Label()
         Me.tiPrismHome = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel17 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.adtInventionJobs = New DevComponents.AdvTree.AdvTree()
-        Me.colInvJobName = New DevComponents.AdvTree.ColumnHeader()
-        Me.colInvJobItem = New DevComponents.AdvTree.ColumnHeader()
-        Me.colInvUnitProfit = New DevComponents.AdvTree.ColumnHeader()
-        Me.colInvSalesPrice = New DevComponents.AdvTree.ColumnHeader()
-        Me.colInvProfitMargin = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector17 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle14 = New DevComponents.DotNetBar.ElementStyle()
-        Me.tiInventionManager = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
         Me.wbReport = New System.Windows.Forms.WebBrowser()
         Me.pnlReportControls = New DevComponents.DotNetBar.PanelEx()
@@ -490,9 +493,6 @@ Partial Class frmPrism
         Me.PAC = New EveHQ.Prism.PrismAssetsControl()
         Me.tiAssets = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.colSuccessChance = New DevComponents.AdvTree.ColumnHeader()
-        Me.colSuccessCost = New DevComponents.AdvTree.ColumnHeader()
-        Me.colInvProductionCost = New DevComponents.AdvTree.ColumnHeader()
         Me.ctxTransactions.SuspendLayout()
         CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -512,10 +512,10 @@ Partial Class frmPrism
         Me.pnlPrism.SuspendLayout()
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrism.SuspendLayout()
-        Me.TabControlPanel1.SuspendLayout()
-        CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel17.SuspendLayout()
         CType(Me.adtInventionJobs, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControlPanel1.SuspendLayout()
+        CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel3.SuspendLayout()
         Me.pnlReportControls.SuspendLayout()
         CType(Me.dtiReportEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2701,13 +2701,13 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPrism.Controls.Add(Me.TabControlPanel17)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel17)
         Me.tabPrism.Controls.Add(Me.TabControlPanel3)
         Me.tabPrism.Controls.Add(Me.TabControlPanel11)
         Me.tabPrism.Controls.Add(Me.TabControlPanel16)
         Me.tabPrism.Controls.Add(Me.TabControlPanel7)
-        Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel5)
         Me.tabPrism.Controls.Add(Me.TabControlPanel10)
         Me.tabPrism.Controls.Add(Me.TabControlPanel15)
@@ -2741,6 +2741,131 @@ Partial Class frmPrism
         Me.tabPrism.Tabs.Add(Me.tiRigBuilder)
         Me.tabPrism.Tabs.Add(Me.tiInventionResults)
         Me.tabPrism.Text = "TabControl2"
+        '
+        'TabControlPanel17
+        '
+        Me.TabControlPanel17.Controls.Add(Me.adtInventionJobs)
+        Me.TabControlPanel17.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel17.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel17.Name = "TabControlPanel17"
+        Me.TabControlPanel17.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel17.Size = New System.Drawing.Size(1284, 650)
+        Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel17.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel17.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel17.Style.GradientAngle = 90
+        Me.TabControlPanel17.TabIndex = 17
+        Me.TabControlPanel17.TabItem = Me.tiInventionManager
+        '
+        'adtInventionJobs
+        '
+        Me.adtInventionJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtInventionJobs.AllowDrop = True
+        Me.adtInventionJobs.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtInventionJobs.BackgroundStyle.Class = ""
+        Me.adtInventionJobs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtInventionJobs.Columns.Add(Me.colInvJobName)
+        Me.adtInventionJobs.Columns.Add(Me.colInvJobItem)
+        Me.adtInventionJobs.Columns.Add(Me.colSuccessChance)
+        Me.adtInventionJobs.Columns.Add(Me.colSuccessCost)
+        Me.adtInventionJobs.Columns.Add(Me.colInvProductionCost)
+        Me.adtInventionJobs.Columns.Add(Me.colInvSalesPrice)
+        Me.adtInventionJobs.Columns.Add(Me.colInvUnitProfit)
+        Me.adtInventionJobs.Columns.Add(Me.colInvProfitMargin)
+        Me.adtInventionJobs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.adtInventionJobs.DragDropEnabled = False
+        Me.adtInventionJobs.DragDropNodeCopyEnabled = False
+        Me.adtInventionJobs.ExpandWidth = 0
+        Me.adtInventionJobs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtInventionJobs.Location = New System.Drawing.Point(1, 1)
+        Me.adtInventionJobs.MultiSelect = True
+        Me.adtInventionJobs.Name = "adtInventionJobs"
+        Me.adtInventionJobs.NodesConnector = Me.NodeConnector17
+        Me.adtInventionJobs.NodeStyle = Me.ElementStyle14
+        Me.adtInventionJobs.PathSeparator = ";"
+        Me.adtInventionJobs.Size = New System.Drawing.Size(1282, 648)
+        Me.adtInventionJobs.Styles.Add(Me.ElementStyle14)
+        Me.adtInventionJobs.TabIndex = 1
+        Me.adtInventionJobs.Text = "AdvTree1"
+        '
+        'colInvJobName
+        '
+        Me.colInvJobName.DisplayIndex = 1
+        Me.colInvJobName.Name = "colInvJobName"
+        Me.colInvJobName.Text = "Invention Job Name"
+        Me.colInvJobName.Width.Absolute = 150
+        '
+        'colInvJobItem
+        '
+        Me.colInvJobItem.DisplayIndex = 2
+        Me.colInvJobItem.Name = "colInvJobItem"
+        Me.colInvJobItem.Text = "Invented BP"
+        Me.colInvJobItem.Width.Absolute = 150
+        '
+        'colSuccessChance
+        '
+        Me.colSuccessChance.DisplayIndex = 3
+        Me.colSuccessChance.Name = "colSuccessChance"
+        Me.colSuccessChance.Text = "% Success"
+        Me.colSuccessChance.Width.Absolute = 75
+        '
+        'colSuccessCost
+        '
+        Me.colSuccessCost.DisplayIndex = 4
+        Me.colSuccessCost.Name = "colSuccessCost"
+        Me.colSuccessCost.Text = "Success Cost"
+        Me.colSuccessCost.Width.Absolute = 150
+        '
+        'colInvProductionCost
+        '
+        Me.colInvProductionCost.DisplayIndex = 5
+        Me.colInvProductionCost.Name = "colInvProductionCost"
+        Me.colInvProductionCost.Text = "Production Cost"
+        Me.colInvProductionCost.Width.Absolute = 150
+        '
+        'colInvSalesPrice
+        '
+        Me.colInvSalesPrice.DisplayIndex = 6
+        Me.colInvSalesPrice.Name = "colInvSalesPrice"
+        Me.colInvSalesPrice.Text = "Sales Price"
+        Me.colInvSalesPrice.Width.Absolute = 120
+        '
+        'colInvUnitProfit
+        '
+        Me.colInvUnitProfit.DisplayIndex = 7
+        Me.colInvUnitProfit.Name = "colInvUnitProfit"
+        Me.colInvUnitProfit.Text = "Unit Profit"
+        Me.colInvUnitProfit.Width.Absolute = 120
+        '
+        'colInvProfitMargin
+        '
+        Me.colInvProfitMargin.DisplayIndex = 8
+        Me.colInvProfitMargin.Name = "colInvProfitMargin"
+        Me.colInvProfitMargin.Text = "Margin (%)"
+        Me.colInvProfitMargin.Width.Absolute = 75
+        '
+        'NodeConnector17
+        '
+        Me.NodeConnector17.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle14
+        '
+        Me.ElementStyle14.Class = ""
+        Me.ElementStyle14.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle14.Name = "ElementStyle14"
+        Me.ElementStyle14.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'tiInventionManager
+        '
+        Me.tiInventionManager.AttachedControl = Me.TabControlPanel17
+        Me.tiInventionManager.Name = "tiInventionManager"
+        Me.tiInventionManager.Text = "Invention Manager"
         '
         'TabControlPanel1
         '
@@ -2926,110 +3051,6 @@ Partial Class frmPrism
         Me.tiPrismHome.AttachedControl = Me.TabControlPanel1
         Me.tiPrismHome.Name = "tiPrismHome"
         Me.tiPrismHome.Text = "Prism Home"
-        '
-        'TabControlPanel17
-        '
-        Me.TabControlPanel17.Controls.Add(Me.adtInventionJobs)
-        Me.TabControlPanel17.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel17.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel17.Name = "TabControlPanel17"
-        Me.TabControlPanel17.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel17.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel17.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel17.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel17.Style.GradientAngle = 90
-        Me.TabControlPanel17.TabIndex = 17
-        Me.TabControlPanel17.TabItem = Me.tiInventionManager
-        '
-        'adtInventionJobs
-        '
-        Me.adtInventionJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtInventionJobs.AllowDrop = True
-        Me.adtInventionJobs.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtInventionJobs.BackgroundStyle.Class = ""
-        Me.adtInventionJobs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtInventionJobs.Columns.Add(Me.colInvJobName)
-        Me.adtInventionJobs.Columns.Add(Me.colInvJobItem)
-        Me.adtInventionJobs.Columns.Add(Me.colSuccessChance)
-        Me.adtInventionJobs.Columns.Add(Me.colSuccessCost)
-        Me.adtInventionJobs.Columns.Add(Me.colInvProductionCost)
-        Me.adtInventionJobs.Columns.Add(Me.colInvSalesPrice)
-        Me.adtInventionJobs.Columns.Add(Me.colInvUnitProfit)
-        Me.adtInventionJobs.Columns.Add(Me.colInvProfitMargin)
-        Me.adtInventionJobs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.adtInventionJobs.DragDropEnabled = False
-        Me.adtInventionJobs.DragDropNodeCopyEnabled = False
-        Me.adtInventionJobs.ExpandWidth = 0
-        Me.adtInventionJobs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtInventionJobs.Location = New System.Drawing.Point(1, 1)
-        Me.adtInventionJobs.MultiSelect = True
-        Me.adtInventionJobs.Name = "adtInventionJobs"
-        Me.adtInventionJobs.NodesConnector = Me.NodeConnector17
-        Me.adtInventionJobs.NodeStyle = Me.ElementStyle14
-        Me.adtInventionJobs.PathSeparator = ";"
-        Me.adtInventionJobs.Size = New System.Drawing.Size(1282, 648)
-        Me.adtInventionJobs.Styles.Add(Me.ElementStyle14)
-        Me.adtInventionJobs.TabIndex = 1
-        Me.adtInventionJobs.Text = "AdvTree1"
-        '
-        'colInvJobName
-        '
-        Me.colInvJobName.DisplayIndex = 1
-        Me.colInvJobName.Name = "colInvJobName"
-        Me.colInvJobName.Text = "Invention Job Name"
-        Me.colInvJobName.Width.Absolute = 150
-        '
-        'colInvJobItem
-        '
-        Me.colInvJobItem.DisplayIndex = 2
-        Me.colInvJobItem.Name = "colInvJobItem"
-        Me.colInvJobItem.Text = "Invented BP"
-        Me.colInvJobItem.Width.Absolute = 150
-        '
-        'colInvUnitProfit
-        '
-        Me.colInvUnitProfit.DisplayIndex = 7
-        Me.colInvUnitProfit.Name = "colInvUnitProfit"
-        Me.colInvUnitProfit.Text = "Unit Profit"
-        Me.colInvUnitProfit.Width.Absolute = 120
-        '
-        'colInvSalesPrice
-        '
-        Me.colInvSalesPrice.DisplayIndex = 6
-        Me.colInvSalesPrice.Name = "colInvSalesPrice"
-        Me.colInvSalesPrice.Text = "Sales Price"
-        Me.colInvSalesPrice.Width.Absolute = 120
-        '
-        'colInvProfitMargin
-        '
-        Me.colInvProfitMargin.DisplayIndex = 8
-        Me.colInvProfitMargin.Name = "colInvProfitMargin"
-        Me.colInvProfitMargin.Text = "Margin (%)"
-        Me.colInvProfitMargin.Width.Absolute = 75
-        '
-        'NodeConnector17
-        '
-        Me.NodeConnector17.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle14
-        '
-        Me.ElementStyle14.Class = ""
-        Me.ElementStyle14.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle14.Name = "ElementStyle14"
-        Me.ElementStyle14.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'tiInventionManager
-        '
-        Me.tiInventionManager.AttachedControl = Me.TabControlPanel17
-        Me.tiInventionManager.Name = "tiInventionManager"
-        Me.tiInventionManager.Text = "Invention Manager"
         '
         'TabControlPanel3
         '
@@ -6422,27 +6443,6 @@ Partial Class frmPrism
         Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
         Me.NodeConnector1.LineWidth = 0
         '
-        'colSuccessChance
-        '
-        Me.colSuccessChance.DisplayIndex = 3
-        Me.colSuccessChance.Name = "colSuccessChance"
-        Me.colSuccessChance.Text = "% Success"
-        Me.colSuccessChance.Width.Absolute = 75
-        '
-        'colSuccessCost
-        '
-        Me.colSuccessCost.DisplayIndex = 4
-        Me.colSuccessCost.Name = "colSuccessCost"
-        Me.colSuccessCost.Text = "Success Cost"
-        Me.colSuccessCost.Width.Absolute = 150
-        '
-        'colInvProductionCost
-        '
-        Me.colInvProductionCost.DisplayIndex = 5
-        Me.colInvProductionCost.Name = "colInvProductionCost"
-        Me.colInvProductionCost.Text = "Production Cost"
-        Me.colInvProductionCost.Width.Absolute = 150
-        '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6474,11 +6474,11 @@ Partial Class frmPrism
         Me.pnlPrism.ResumeLayout(False)
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrism.ResumeLayout(False)
+        Me.TabControlPanel17.ResumeLayout(False)
+        CType(Me.adtInventionJobs, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel1.ResumeLayout(False)
         Me.TabControlPanel1.PerformLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabControlPanel17.ResumeLayout(False)
-        CType(Me.adtInventionJobs, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel3.ResumeLayout(False)
         Me.pnlReportControls.ResumeLayout(False)
         Me.pnlReportControls.PerformLayout()

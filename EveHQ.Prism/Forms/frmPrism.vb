@@ -3883,7 +3883,7 @@ Public Class frmPrism
     Private Function FetchWalletJournalData() As DataSet
         Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletJournal"
-        strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = CONVERT(varchar(20), walletTransactions.transRef)"
+        strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = STR(walletTransactions.transRef)"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
         strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
 
