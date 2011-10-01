@@ -38,78 +38,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PIMain));
             this.tc_PIMain = new DevComponents.DotNetBar.TabControl();
-            this.tabControlPanel9 = new DevComponents.DotNetBar.TabControlPanel();
-            this.gp_BGP = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.DesignerSplitPanel = new System.Windows.Forms.SplitContainer();
-            this.lbx_HoursDays = new DevComponents.DotNetBar.LabelX();
-            this.ii_NumberOfHoursDays = new DevComponents.Editors.IntegerInput();
-            this.at_ProduceView = new DevComponents.AdvTree.AdvTree();
-            this.prd_Material = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_Needed = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_Producing = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_Using = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_Delta = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_NeedM3 = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_ProdM3 = new DevComponents.AdvTree.ColumnHeader();
-            this.prd_DeltaM3 = new DevComponents.AdvTree.ColumnHeader();
-            this.node1 = new DevComponents.AdvTree.Node();
-            this.nodeConnector3 = new DevComponents.AdvTree.NodeConnector();
-            this.NormalProd = new DevComponents.DotNetBar.ElementStyle();
-            this.OverProd = new DevComponents.DotNetBar.ElementStyle();
-            this.UnderProd = new DevComponents.DotNetBar.ElementStyle();
-            this.cb_AdjustNumbersForPartial = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.labelX23 = new DevComponents.DotNetBar.LabelX();
-            this.pb_PlanetType = new System.Windows.Forms.PictureBox();
-            this.rb_RunPerHour = new System.Windows.Forms.RadioButton();
-            this.rtb_PlanetDescription = new System.Windows.Forms.RichTextBox();
-            this.labelX16 = new DevComponents.DotNetBar.LabelX();
-            this.rb_PerDay = new System.Windows.Forms.RadioButton();
-            this.labelX14 = new DevComponents.DotNetBar.LabelX();
-            this.nud_LinkLength = new System.Windows.Forms.NumericUpDown();
-            this.nud_NumLinks = new System.Windows.Forms.NumericUpDown();
-            this.labelX12 = new DevComponents.DotNetBar.LabelX();
-            this.gp_Planner = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.bar_Designer = new DevComponents.DotNetBar.Bar();
-            this.labelItem1 = new DevComponents.DotNetBar.LabelItem();
-            this.cb_SelectFacility = new DevComponents.DotNetBar.ComboBoxItem();
-            this.b_New = new DevComponents.DotNetBar.ButtonItem();
-            this.b_CopyFacility = new DevComponents.DotNetBar.ButtonItem();
-            this.b_RenameFacility = new DevComponents.DotNetBar.ButtonItem();
-            this.b_ExportFacility = new DevComponents.DotNetBar.ButtonItem();
-            this.b_FileExport = new DevComponents.DotNetBar.ButtonItem();
-            this.b_CopyToClipboard = new DevComponents.DotNetBar.ButtonItem();
-            this.b_ImportFacility = new DevComponents.DotNetBar.ButtonItem();
-            this.b_DeleteFacility = new DevComponents.DotNetBar.ButtonItem();
-            this.labelItem2 = new DevComponents.DotNetBar.LabelItem();
-            this.pb_CPU = new DevComponents.DotNetBar.ProgressBarItem();
-            this.labelItem3 = new DevComponents.DotNetBar.LabelItem();
-            this.pb_Power = new DevComponents.DotNetBar.ProgressBarItem();
-            this.tp_Desginer2 = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
-            this.gp_Overview = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.cbx_PartialOverview = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.dgv_OverviewSelection = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.SelectFacility = new DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn();
-            this.FacilityName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NumberFacility = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
-            this.nud_Days = new System.Windows.Forms.NumericUpDown();
-            this.labelX10 = new DevComponents.DotNetBar.LabelX();
-            this.dg_Overview = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.CompName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompNeed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompDelta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OV_DeltaForDays = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProdValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompFacil = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.cb_P4 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P3 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P2 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.cb_P0 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.ti_PlanetOverview = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel8 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_PIProductCost = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.at_PCost2 = new DevComponents.AdvTree.AdvTree();
@@ -191,12 +119,98 @@
             this.ch_p2UsedFor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ti_RefinedP2 = new DevComponents.DotNetBar.TabItem(this.components);
             this.ti_PIInformation = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel9 = new DevComponents.DotNetBar.TabControlPanel();
+            this.gp_BGP = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.DesignerSplitPanel = new System.Windows.Forms.SplitContainer();
+            this.lbx_HoursDays = new DevComponents.DotNetBar.LabelX();
+            this.ii_NumberOfHoursDays = new DevComponents.Editors.IntegerInput();
+            this.at_ProduceView = new DevComponents.AdvTree.AdvTree();
+            this.prd_Material = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_Needed = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_Producing = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_Using = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_Delta = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_NeedM3 = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_ProdM3 = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_DeltaM3 = new DevComponents.AdvTree.ColumnHeader();
+            this.prd_Isk = new DevComponents.AdvTree.ColumnHeader();
+            this.node1 = new DevComponents.AdvTree.Node();
+            this.nodeConnector3 = new DevComponents.AdvTree.NodeConnector();
+            this.NormalProd = new DevComponents.DotNetBar.ElementStyle();
+            this.OverProd = new DevComponents.DotNetBar.ElementStyle();
+            this.UnderProd = new DevComponents.DotNetBar.ElementStyle();
+            this.cb_AdjustNumbersForPartial = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.labelX23 = new DevComponents.DotNetBar.LabelX();
+            this.pb_PlanetType = new System.Windows.Forms.PictureBox();
+            this.rb_RunPerHour = new System.Windows.Forms.RadioButton();
+            this.rtb_PlanetDescription = new System.Windows.Forms.RichTextBox();
+            this.labelX16 = new DevComponents.DotNetBar.LabelX();
+            this.rb_PerDay = new System.Windows.Forms.RadioButton();
+            this.labelX14 = new DevComponents.DotNetBar.LabelX();
+            this.nud_LinkLength = new System.Windows.Forms.NumericUpDown();
+            this.nud_NumLinks = new System.Windows.Forms.NumericUpDown();
+            this.labelX12 = new DevComponents.DotNetBar.LabelX();
+            this.gp_Planner = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.bar_Designer = new DevComponents.DotNetBar.Bar();
+            this.labelItem1 = new DevComponents.DotNetBar.LabelItem();
+            this.cb_SelectFacility = new DevComponents.DotNetBar.ComboBoxItem();
+            this.b_New = new DevComponents.DotNetBar.ButtonItem();
+            this.b_CopyFacility = new DevComponents.DotNetBar.ButtonItem();
+            this.b_RenameFacility = new DevComponents.DotNetBar.ButtonItem();
+            this.b_ExportFacility = new DevComponents.DotNetBar.ButtonItem();
+            this.b_FileExport = new DevComponents.DotNetBar.ButtonItem();
+            this.b_CopyToClipboard = new DevComponents.DotNetBar.ButtonItem();
+            this.b_ImportFacility = new DevComponents.DotNetBar.ButtonItem();
+            this.b_DeleteFacility = new DevComponents.DotNetBar.ButtonItem();
+            this.labelItem2 = new DevComponents.DotNetBar.LabelItem();
+            this.pb_CPU = new DevComponents.DotNetBar.ProgressBarItem();
+            this.labelItem3 = new DevComponents.DotNetBar.LabelItem();
+            this.pb_Power = new DevComponents.DotNetBar.ProgressBarItem();
+            this.tp_Desginer2 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
+            this.gp_Overview = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.cbx_PartialOverview = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.dgv_OverviewSelection = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.SelectFacility = new DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn();
+            this.FacilityName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NumberFacility = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
+            this.nud_Days = new System.Windows.Forms.NumericUpDown();
+            this.labelX10 = new DevComponents.DotNetBar.LabelX();
+            this.dg_Overview = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.CompName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompNeed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompDelta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OV_DeltaForDays = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProdValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CompFacil = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.cb_P4 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P3 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P2 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.cb_P0 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.ti_PlanetOverview = new DevComponents.DotNetBar.TabItem(this.components);
             this.il_SelCat = new System.Windows.Forms.ImageList(this.components);
             this.il_PI_Images = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.prd_Isk = new DevComponents.AdvTree.ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)(this.tc_PIMain)).BeginInit();
             this.tc_PIMain.SuspendLayout();
+            this.tabControlPanel8.SuspendLayout();
+            this.gp_PIProductCost.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).BeginInit();
+            this.tabControlPanel3.SuspendLayout();
+            this.gp_CommodBG.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).BeginInit();
+            this.tc_CommoditySubmenu.SuspendLayout();
+            this.tabControlPanel4.SuspendLayout();
+            this.tabControlPanel7.SuspendLayout();
+            this.tabControlPanel6.SuspendLayout();
+            this.tabControlPanel5.SuspendLayout();
             this.tabControlPanel9.SuspendLayout();
             this.gp_BGP.SuspendLayout();
             this.DesignerSplitPanel.Panel1.SuspendLayout();
@@ -213,20 +227,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg_Overview)).BeginInit();
-            this.tabControlPanel8.SuspendLayout();
-            this.gp_PIProductCost.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).BeginInit();
-            this.tabControlPanel3.SuspendLayout();
-            this.gp_CommodBG.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).BeginInit();
-            this.tc_CommoditySubmenu.SuspendLayout();
-            this.tabControlPanel4.SuspendLayout();
-            this.tabControlPanel7.SuspendLayout();
-            this.tabControlPanel6.SuspendLayout();
-            this.tabControlPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tc_PIMain
@@ -234,8 +234,8 @@
             this.tc_PIMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.tc_PIMain.CanReorderTabs = true;
             this.tc_PIMain.Controls.Add(this.tabControlPanel8);
-            this.tc_PIMain.Controls.Add(this.tabControlPanel3);
             this.tc_PIMain.Controls.Add(this.tabControlPanel9);
+            this.tc_PIMain.Controls.Add(this.tabControlPanel3);
             this.tc_PIMain.Controls.Add(this.tabControlPanel2);
             this.tc_PIMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tc_PIMain.Location = new System.Drawing.Point(0, 0);
@@ -252,6 +252,1174 @@
             this.tc_PIMain.Tabs.Add(this.ti_PIInformation);
             this.tc_PIMain.Tabs.Add(this.ti_PIProductCost);
             this.tc_PIMain.ThemeAware = true;
+            // 
+            // tabControlPanel8
+            // 
+            this.tabControlPanel8.Controls.Add(this.gp_PIProductCost);
+            this.tabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel8.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel8.Name = "tabControlPanel8";
+            this.tabControlPanel8.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel8.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel8.Style.GradientAngle = 90;
+            this.tabControlPanel8.TabIndex = 4;
+            this.tabControlPanel8.TabItem = this.ti_PIProductCost;
+            // 
+            // gp_PIProductCost
+            // 
+            this.gp_PIProductCost.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_PIProductCost.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_PIProductCost.Controls.Add(this.at_PCost2);
+            this.gp_PIProductCost.Controls.Add(this.at_PCost1);
+            this.gp_PIProductCost.Controls.Add(this.lb_jt2);
+            this.gp_PIProductCost.Controls.Add(this.lb_jt1);
+            this.gp_PIProductCost.Controls.Add(this.lb_Profit1);
+            this.gp_PIProductCost.Controls.Add(this.lb_Profit2);
+            this.gp_PIProductCost.Controls.Add(this.lb_BuildCost2);
+            this.gp_PIProductCost.Controls.Add(this.lb_CompBuy2);
+            this.gp_PIProductCost.Controls.Add(this.lb_BuildCost1);
+            this.gp_PIProductCost.Controls.Add(this.lb_CompBuy1);
+            this.gp_PIProductCost.Controls.Add(this.labelX15);
+            this.gp_PIProductCost.Controls.Add(this.labelX17);
+            this.gp_PIProductCost.Controls.Add(this.lb_MarketCost2);
+            this.gp_PIProductCost.Controls.Add(this.labelX19);
+            this.gp_PIProductCost.Controls.Add(this.labelX13);
+            this.gp_PIProductCost.Controls.Add(this.labelX11);
+            this.gp_PIProductCost.Controls.Add(this.lb_MarketCost1);
+            this.gp_PIProductCost.Controls.Add(this.labelX9);
+            this.gp_PIProductCost.Controls.Add(this.labelX4);
+            this.gp_PIProductCost.Controls.Add(this.nud_NumProduct2);
+            this.gp_PIProductCost.Controls.Add(this.labelX8);
+            this.gp_PIProductCost.Controls.Add(this.ct_SelectProduct2);
+            this.gp_PIProductCost.Controls.Add(this.labelX3);
+            this.gp_PIProductCost.Controls.Add(this.nud_NumProduct1);
+            this.gp_PIProductCost.Controls.Add(this.labelX2);
+            this.gp_PIProductCost.Controls.Add(this.ct_SelectProduct1);
+            this.gp_PIProductCost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_PIProductCost.Location = new System.Drawing.Point(1, 1);
+            this.gp_PIProductCost.Name = "gp_PIProductCost";
+            this.gp_PIProductCost.Size = new System.Drawing.Size(1006, 705);
+            // 
+            // 
+            // 
+            this.gp_PIProductCost.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_PIProductCost.Style.BackColorGradientAngle = 90;
+            this.gp_PIProductCost.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_PIProductCost.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_PIProductCost.Style.BorderBottomWidth = 1;
+            this.gp_PIProductCost.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_PIProductCost.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_PIProductCost.Style.BorderLeftWidth = 1;
+            this.gp_PIProductCost.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_PIProductCost.Style.BorderRightWidth = 1;
+            this.gp_PIProductCost.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_PIProductCost.Style.BorderTopWidth = 1;
+            this.gp_PIProductCost.Style.Class = "";
+            this.gp_PIProductCost.Style.CornerDiameter = 4;
+            this.gp_PIProductCost.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_PIProductCost.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_PIProductCost.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_PIProductCost.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_PIProductCost.StyleMouseDown.Class = "";
+            this.gp_PIProductCost.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_PIProductCost.StyleMouseOver.Class = "";
+            this.gp_PIProductCost.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_PIProductCost.TabIndex = 0;
+            // 
+            // at_PCost2
+            // 
+            this.at_PCost2.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
+            this.at_PCost2.AllowDrop = true;
+            this.at_PCost2.AllowUserToResizeColumns = false;
+            this.at_PCost2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.at_PCost2.BackColor = System.Drawing.SystemColors.Window;
+            // 
+            // 
+            // 
+            this.at_PCost2.BackgroundStyle.Class = "TreeBorderKey";
+            this.at_PCost2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.at_PCost2.Columns.Add(this.columnHeader1);
+            this.at_PCost2.Columns.Add(this.columnHeader2);
+            this.at_PCost2.Columns.Add(this.columnHeader3);
+            this.at_PCost2.GridLinesColor = System.Drawing.Color.Gray;
+            this.at_PCost2.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.at_PCost2.Location = new System.Drawing.Point(507, 97);
+            this.at_PCost2.Name = "at_PCost2";
+            this.at_PCost2.NodesConnector = this.nodeConnector2;
+            this.at_PCost2.NodeStyle = this.elementStyle2;
+            this.at_PCost2.PathSeparator = ";";
+            this.at_PCost2.Size = new System.Drawing.Size(488, 602);
+            this.at_PCost2.Styles.Add(this.elementStyle2);
+            this.at_PCost2.Styles.Add(this.elementStyle3);
+            this.at_PCost2.Styles.Add(this.elementStyle4);
+            this.at_PCost2.TabIndex = 42;
+            this.at_PCost2.Text = "advTree1";
+            this.at_PCost2.AfterCheck += new DevComponents.AdvTree.AdvTreeCellEventHandler(this.at_PCost2_AfterCheck);
+            this.at_PCost2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.at_PCost2_MouseClick);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Name = "columnHeader1";
+            this.columnHeader1.Text = "Name";
+            this.columnHeader1.Width.Absolute = 300;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Editable = false;
+            this.columnHeader2.Name = "columnHeader2";
+            this.columnHeader2.Text = "Quantity";
+            this.columnHeader2.Width.Absolute = 75;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Editable = false;
+            this.columnHeader3.Name = "columnHeader3";
+            this.columnHeader3.Text = "Cost";
+            this.columnHeader3.Width.Absolute = 75;
+            // 
+            // nodeConnector2
+            // 
+            this.nodeConnector2.LineColor = System.Drawing.SystemColors.ControlText;
+            // 
+            // elementStyle2
+            // 
+            this.elementStyle2.Class = "";
+            this.elementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.elementStyle2.Name = "elementStyle2";
+            this.elementStyle2.TextColor = System.Drawing.SystemColors.ControlText;
+            // 
+            // elementStyle3
+            // 
+            this.elementStyle3.Class = "";
+            this.elementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.elementStyle3.Name = "elementStyle3";
+            this.elementStyle3.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            // 
+            // elementStyle4
+            // 
+            this.elementStyle4.Class = "";
+            this.elementStyle4.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.elementStyle4.Name = "elementStyle4";
+            this.elementStyle4.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far;
+            // 
+            // at_PCost1
+            // 
+            this.at_PCost1.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
+            this.at_PCost1.AllowDrop = true;
+            this.at_PCost1.AllowUserToResizeColumns = false;
+            this.at_PCost1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.at_PCost1.BackColor = System.Drawing.SystemColors.Window;
+            // 
+            // 
+            // 
+            this.at_PCost1.BackgroundStyle.Class = "TreeBorderKey";
+            this.at_PCost1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.at_PCost1.Columns.Add(this.ch_Name1);
+            this.at_PCost1.Columns.Add(this.ch_Qty1);
+            this.at_PCost1.Columns.Add(this.ch_Cost1);
+            this.at_PCost1.GridLinesColor = System.Drawing.Color.Gray;
+            this.at_PCost1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.at_PCost1.Location = new System.Drawing.Point(4, 97);
+            this.at_PCost1.Name = "at_PCost1";
+            this.at_PCost1.NodesConnector = this.nodeConnector1;
+            this.at_PCost1.NodeStyle = this.elementStyle1;
+            this.at_PCost1.PathSeparator = ";";
+            this.at_PCost1.Size = new System.Drawing.Size(488, 602);
+            this.at_PCost1.Styles.Add(this.elementStyle1);
+            this.at_PCost1.Styles.Add(this.es_CenterAlign);
+            this.at_PCost1.Styles.Add(this.es_RightAlign);
+            this.at_PCost1.TabIndex = 41;
+            this.toolTip1.SetToolTip(this.at_PCost1, "R-Click on a line will allow you to Set the Custom Price for that Item.");
+            this.at_PCost1.AfterCheck += new DevComponents.AdvTree.AdvTreeCellEventHandler(this.at_PCost1_AfterCheck);
+            this.at_PCost1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.at_PCost1_MouseClick);
+            // 
+            // ch_Name1
+            // 
+            this.ch_Name1.Name = "ch_Name1";
+            this.ch_Name1.Text = "Name";
+            this.ch_Name1.Width.Absolute = 300;
+            // 
+            // ch_Qty1
+            // 
+            this.ch_Qty1.Editable = false;
+            this.ch_Qty1.Name = "ch_Qty1";
+            this.ch_Qty1.Text = "Quantity";
+            this.ch_Qty1.Width.Absolute = 75;
+            // 
+            // ch_Cost1
+            // 
+            this.ch_Cost1.Editable = false;
+            this.ch_Cost1.Name = "ch_Cost1";
+            this.ch_Cost1.Text = "Cost";
+            this.ch_Cost1.Width.Absolute = 75;
+            // 
+            // nodeConnector1
+            // 
+            this.nodeConnector1.LineColor = System.Drawing.SystemColors.ControlText;
+            // 
+            // elementStyle1
+            // 
+            this.elementStyle1.Class = "";
+            this.elementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.elementStyle1.Name = "elementStyle1";
+            this.elementStyle1.TextColor = System.Drawing.SystemColors.ControlText;
+            // 
+            // es_CenterAlign
+            // 
+            this.es_CenterAlign.Class = "";
+            this.es_CenterAlign.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.es_CenterAlign.Name = "es_CenterAlign";
+            this.es_CenterAlign.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            // 
+            // es_RightAlign
+            // 
+            this.es_RightAlign.Class = "";
+            this.es_RightAlign.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.es_RightAlign.Name = "es_RightAlign";
+            this.es_RightAlign.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far;
+            // 
+            // lb_jt2
+            // 
+            this.lb_jt2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_jt2.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_jt2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_jt2.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_jt2.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_jt2.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_jt2.BackgroundStyle.Class = "";
+            this.lb_jt2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_jt2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_jt2.ForeColor = System.Drawing.Color.Navy;
+            this.lb_jt2.Location = new System.Drawing.Point(700, 52);
+            this.lb_jt2.Name = "lb_jt2";
+            this.lb_jt2.Size = new System.Drawing.Size(164, 19);
+            this.lb_jt2.TabIndex = 38;
+            this.lb_jt2.Text = "Component Purchase Cost:";
+            this.lb_jt2.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_jt1
+            // 
+            this.lb_jt1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_jt1.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_jt1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_jt1.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_jt1.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_jt1.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_jt1.BackgroundStyle.Class = "";
+            this.lb_jt1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_jt1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_jt1.ForeColor = System.Drawing.Color.Navy;
+            this.lb_jt1.Location = new System.Drawing.Point(196, 52);
+            this.lb_jt1.Name = "lb_jt1";
+            this.lb_jt1.Size = new System.Drawing.Size(164, 19);
+            this.lb_jt1.TabIndex = 37;
+            this.lb_jt1.Text = "Component Purchase Cost:";
+            this.lb_jt1.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_Profit1
+            // 
+            this.lb_Profit1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_Profit1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit1.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_Profit1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_Profit1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit1.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_Profit1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit1.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_Profit1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit1.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_Profit1.BackgroundStyle.Class = "";
+            this.lb_Profit1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_Profit1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_Profit1.ForeColor = System.Drawing.Color.Navy;
+            this.lb_Profit1.Location = new System.Drawing.Point(362, 72);
+            this.lb_Profit1.Name = "lb_Profit1";
+            this.lb_Profit1.Size = new System.Drawing.Size(130, 19);
+            this.lb_Profit1.TabIndex = 25;
+            this.lb_Profit1.Text = "0 isk";
+            this.lb_Profit1.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_Profit2
+            // 
+            this.lb_Profit2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_Profit2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit2.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_Profit2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_Profit2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit2.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_Profit2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit2.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_Profit2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_Profit2.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_Profit2.BackgroundStyle.Class = "";
+            this.lb_Profit2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_Profit2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_Profit2.ForeColor = System.Drawing.Color.Navy;
+            this.lb_Profit2.Location = new System.Drawing.Point(865, 72);
+            this.lb_Profit2.Name = "lb_Profit2";
+            this.lb_Profit2.Size = new System.Drawing.Size(130, 19);
+            this.lb_Profit2.TabIndex = 31;
+            this.lb_Profit2.Text = "0 isk";
+            this.lb_Profit2.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_BuildCost2
+            // 
+            this.lb_BuildCost2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_BuildCost2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost2.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_BuildCost2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_BuildCost2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost2.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_BuildCost2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost2.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_BuildCost2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost2.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_BuildCost2.BackgroundStyle.Class = "";
+            this.lb_BuildCost2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_BuildCost2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_BuildCost2.ForeColor = System.Drawing.Color.Navy;
+            this.lb_BuildCost2.Location = new System.Drawing.Point(622, 72);
+            this.lb_BuildCost2.Name = "lb_BuildCost2";
+            this.lb_BuildCost2.Size = new System.Drawing.Size(130, 19);
+            this.lb_BuildCost2.TabIndex = 29;
+            this.lb_BuildCost2.Text = "0 isk";
+            this.lb_BuildCost2.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_CompBuy2
+            // 
+            this.lb_CompBuy2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_CompBuy2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy2.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_CompBuy2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_CompBuy2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy2.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_CompBuy2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy2.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_CompBuy2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy2.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_CompBuy2.BackgroundStyle.Class = "";
+            this.lb_CompBuy2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_CompBuy2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_CompBuy2.ForeColor = System.Drawing.Color.Navy;
+            this.lb_CompBuy2.Location = new System.Drawing.Point(865, 52);
+            this.lb_CompBuy2.Name = "lb_CompBuy2";
+            this.lb_CompBuy2.Size = new System.Drawing.Size(130, 19);
+            this.lb_CompBuy2.TabIndex = 36;
+            this.lb_CompBuy2.Text = "0 isk";
+            this.lb_CompBuy2.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_BuildCost1
+            // 
+            this.lb_BuildCost1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_BuildCost1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost1.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_BuildCost1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_BuildCost1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost1.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_BuildCost1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost1.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_BuildCost1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_BuildCost1.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_BuildCost1.BackgroundStyle.Class = "";
+            this.lb_BuildCost1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_BuildCost1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_BuildCost1.ForeColor = System.Drawing.Color.Navy;
+            this.lb_BuildCost1.Location = new System.Drawing.Point(119, 72);
+            this.lb_BuildCost1.Name = "lb_BuildCost1";
+            this.lb_BuildCost1.Size = new System.Drawing.Size(130, 19);
+            this.lb_BuildCost1.TabIndex = 23;
+            this.lb_BuildCost1.Text = "0 isk";
+            this.lb_BuildCost1.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_CompBuy1
+            // 
+            this.lb_CompBuy1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_CompBuy1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy1.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_CompBuy1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_CompBuy1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy1.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_CompBuy1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy1.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_CompBuy1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_CompBuy1.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_CompBuy1.BackgroundStyle.Class = "";
+            this.lb_CompBuy1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_CompBuy1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_CompBuy1.ForeColor = System.Drawing.Color.Navy;
+            this.lb_CompBuy1.Location = new System.Drawing.Point(362, 52);
+            this.lb_CompBuy1.Name = "lb_CompBuy1";
+            this.lb_CompBuy1.Size = new System.Drawing.Size(130, 19);
+            this.lb_CompBuy1.TabIndex = 34;
+            this.lb_CompBuy1.Text = "0 isk";
+            this.lb_CompBuy1.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX15
+            // 
+            this.labelX15.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX15.BackgroundStyle.Class = "";
+            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX15.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX15.ForeColor = System.Drawing.Color.Navy;
+            this.labelX15.Location = new System.Drawing.Point(826, 72);
+            this.labelX15.Name = "labelX15";
+            this.labelX15.Size = new System.Drawing.Size(38, 19);
+            this.labelX15.TabIndex = 30;
+            this.labelX15.Text = "Profit:";
+            this.labelX15.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX17
+            // 
+            this.labelX17.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX17.BackgroundStyle.Class = "";
+            this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX17.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX17.ForeColor = System.Drawing.Color.Navy;
+            this.labelX17.Location = new System.Drawing.Point(507, 72);
+            this.labelX17.Name = "labelX17";
+            this.labelX17.Size = new System.Drawing.Size(113, 19);
+            this.labelX17.TabIndex = 28;
+            this.labelX17.Text = "Product Build Cost:";
+            this.labelX17.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_MarketCost2
+            // 
+            this.lb_MarketCost2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_MarketCost2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost2.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_MarketCost2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_MarketCost2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost2.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_MarketCost2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost2.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_MarketCost2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost2.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_MarketCost2.BackgroundStyle.Class = "";
+            this.lb_MarketCost2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_MarketCost2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_MarketCost2.ForeColor = System.Drawing.Color.Navy;
+            this.lb_MarketCost2.Location = new System.Drawing.Point(865, 32);
+            this.lb_MarketCost2.Name = "lb_MarketCost2";
+            this.lb_MarketCost2.Size = new System.Drawing.Size(130, 19);
+            this.lb_MarketCost2.TabIndex = 27;
+            this.lb_MarketCost2.Text = "0 isk";
+            this.lb_MarketCost2.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX19
+            // 
+            this.labelX19.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX19.BackgroundStyle.Class = "";
+            this.labelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX19.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX19.ForeColor = System.Drawing.Color.Navy;
+            this.labelX19.Location = new System.Drawing.Point(738, 32);
+            this.labelX19.Name = "labelX19";
+            this.labelX19.Size = new System.Drawing.Size(126, 19);
+            this.labelX19.TabIndex = 26;
+            this.labelX19.Text = "Product Market Price:";
+            this.labelX19.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX13
+            // 
+            this.labelX13.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX13.BackgroundStyle.Class = "";
+            this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX13.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX13.ForeColor = System.Drawing.Color.Navy;
+            this.labelX13.Location = new System.Drawing.Point(322, 72);
+            this.labelX13.Name = "labelX13";
+            this.labelX13.Size = new System.Drawing.Size(38, 19);
+            this.labelX13.TabIndex = 24;
+            this.labelX13.Text = "Profit:";
+            this.labelX13.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX11
+            // 
+            this.labelX11.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX11.BackgroundStyle.Class = "";
+            this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX11.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX11.ForeColor = System.Drawing.Color.Navy;
+            this.labelX11.Location = new System.Drawing.Point(4, 72);
+            this.labelX11.Name = "labelX11";
+            this.labelX11.Size = new System.Drawing.Size(113, 19);
+            this.labelX11.TabIndex = 22;
+            this.labelX11.Text = "Product Build Cost:";
+            this.labelX11.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // lb_MarketCost1
+            // 
+            this.lb_MarketCost1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_MarketCost1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost1.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_MarketCost1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_MarketCost1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost1.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_MarketCost1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost1.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_MarketCost1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_MarketCost1.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_MarketCost1.BackgroundStyle.Class = "";
+            this.lb_MarketCost1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_MarketCost1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_MarketCost1.ForeColor = System.Drawing.Color.Navy;
+            this.lb_MarketCost1.Location = new System.Drawing.Point(362, 32);
+            this.lb_MarketCost1.Name = "lb_MarketCost1";
+            this.lb_MarketCost1.Size = new System.Drawing.Size(130, 19);
+            this.lb_MarketCost1.TabIndex = 21;
+            this.lb_MarketCost1.Text = "0 isk";
+            this.lb_MarketCost1.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX9
+            // 
+            this.labelX9.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX9.BackgroundStyle.Class = "";
+            this.labelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX9.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX9.ForeColor = System.Drawing.Color.Navy;
+            this.labelX9.Location = new System.Drawing.Point(234, 32);
+            this.labelX9.Name = "labelX9";
+            this.labelX9.Size = new System.Drawing.Size(126, 19);
+            this.labelX9.TabIndex = 20;
+            this.labelX9.Text = "Product Market Price:";
+            this.labelX9.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX4
+            // 
+            this.labelX4.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX4.BackgroundStyle.Class = "";
+            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX4.ForeColor = System.Drawing.Color.Navy;
+            this.labelX4.Location = new System.Drawing.Point(507, 32);
+            this.labelX4.Name = "labelX4";
+            this.labelX4.Size = new System.Drawing.Size(98, 23);
+            this.labelX4.TabIndex = 8;
+            this.labelX4.Text = "Enter # of Runs:";
+            // 
+            // nud_NumProduct2
+            // 
+            this.nud_NumProduct2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_NumProduct2.ForeColor = System.Drawing.Color.Navy;
+            this.nud_NumProduct2.Location = new System.Drawing.Point(606, 32);
+            this.nud_NumProduct2.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.nud_NumProduct2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_NumProduct2.Name = "nud_NumProduct2";
+            this.nud_NumProduct2.Size = new System.Drawing.Size(72, 23);
+            this.nud_NumProduct2.TabIndex = 7;
+            this.nud_NumProduct2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_NumProduct2.ThousandsSeparator = true;
+            this.nud_NumProduct2.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_NumProduct2.ValueChanged += new System.EventHandler(this.nud_NumProduct2_ValueChanged);
+            // 
+            // labelX8
+            // 
+            this.labelX8.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX8.BackgroundStyle.Class = "";
+            this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX8.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX8.ForeColor = System.Drawing.Color.Navy;
+            this.labelX8.Location = new System.Drawing.Point(506, 3);
+            this.labelX8.Name = "labelX8";
+            this.labelX8.Size = new System.Drawing.Size(90, 23);
+            this.labelX8.TabIndex = 6;
+            this.labelX8.Text = "Select Product:";
+            // 
+            // ct_SelectProduct2
+            // 
+            this.ct_SelectProduct2.BackColor = System.Drawing.SystemColors.Window;
+            // 
+            // 
+            // 
+            this.ct_SelectProduct2.BackgroundStyle.Class = "TextBoxBorder";
+            this.ct_SelectProduct2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ct_SelectProduct2.ButtonDropDown.Visible = true;
+            this.ct_SelectProduct2.DropDownHeight = 500;
+            this.ct_SelectProduct2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ct_SelectProduct2.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.ct_SelectProduct2.Location = new System.Drawing.Point(597, 3);
+            this.ct_SelectProduct2.Name = "ct_SelectProduct2";
+            this.ct_SelectProduct2.Size = new System.Drawing.Size(398, 23);
+            this.ct_SelectProduct2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ct_SelectProduct2.TabIndex = 5;
+            this.ct_SelectProduct2.SelectedIndexChanged += new System.EventHandler(this.ct_SelectProduct2_SelectedIndexChanged);
+            // 
+            // labelX3
+            // 
+            this.labelX3.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.Class = "";
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX3.ForeColor = System.Drawing.Color.Navy;
+            this.labelX3.Location = new System.Drawing.Point(4, 32);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(97, 23);
+            this.labelX3.TabIndex = 3;
+            this.labelX3.Text = "Enter # of Runs:";
+            // 
+            // nud_NumProduct1
+            // 
+            this.nud_NumProduct1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_NumProduct1.ForeColor = System.Drawing.Color.Navy;
+            this.nud_NumProduct1.Location = new System.Drawing.Point(103, 32);
+            this.nud_NumProduct1.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.nud_NumProduct1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_NumProduct1.Name = "nud_NumProduct1";
+            this.nud_NumProduct1.Size = new System.Drawing.Size(72, 23);
+            this.nud_NumProduct1.TabIndex = 2;
+            this.nud_NumProduct1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_NumProduct1.ThousandsSeparator = true;
+            this.nud_NumProduct1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_NumProduct1.ValueChanged += new System.EventHandler(this.nud_NumProduct1_ValueChanged);
+            // 
+            // labelX2
+            // 
+            this.labelX2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.Class = "";
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX2.ForeColor = System.Drawing.Color.Navy;
+            this.labelX2.Location = new System.Drawing.Point(4, 3);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(90, 23);
+            this.labelX2.TabIndex = 1;
+            this.labelX2.Text = "Select Product:";
+            // 
+            // ct_SelectProduct1
+            // 
+            this.ct_SelectProduct1.BackColor = System.Drawing.SystemColors.Window;
+            // 
+            // 
+            // 
+            this.ct_SelectProduct1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.ct_SelectProduct1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.ct_SelectProduct1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.ct_SelectProduct1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.ct_SelectProduct1.BackgroundStyle.Class = "TextBoxBorder";
+            this.ct_SelectProduct1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ct_SelectProduct1.ButtonDropDown.Visible = true;
+            this.ct_SelectProduct1.DropDownHeight = 500;
+            this.ct_SelectProduct1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ct_SelectProduct1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.ct_SelectProduct1.Location = new System.Drawing.Point(94, 3);
+            this.ct_SelectProduct1.Name = "ct_SelectProduct1";
+            this.ct_SelectProduct1.Size = new System.Drawing.Size(398, 23);
+            this.ct_SelectProduct1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ct_SelectProduct1.TabIndex = 0;
+            this.ct_SelectProduct1.SelectedIndexChanged += new System.EventHandler(this.ct_SelectProduct1_SelectedIndexChanged);
+            // 
+            // ti_PIProductCost
+            // 
+            this.ti_PIProductCost.AttachedControl = this.tabControlPanel8;
+            this.ti_PIProductCost.Name = "ti_PIProductCost";
+            this.ti_PIProductCost.Text = "Product Cost Matrix";
+            // 
+            // tabControlPanel3
+            // 
+            this.tabControlPanel3.Controls.Add(this.gp_CommodBG);
+            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel3.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel3.Name = "tabControlPanel3";
+            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel3.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel3.Style.GradientAngle = 90;
+            this.tabControlPanel3.TabIndex = 3;
+            this.tabControlPanel3.TabItem = this.ti_PIInformation;
+            // 
+            // gp_CommodBG
+            // 
+            this.gp_CommodBG.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_CommodBG.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_CommodBG.Controls.Add(this.cb_HLCommodities);
+            this.gp_CommodBG.Controls.Add(this.tc_CommoditySubmenu);
+            this.gp_CommodBG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_CommodBG.Location = new System.Drawing.Point(1, 1);
+            this.gp_CommodBG.Name = "gp_CommodBG";
+            this.gp_CommodBG.Size = new System.Drawing.Size(1006, 705);
+            // 
+            // 
+            // 
+            this.gp_CommodBG.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_CommodBG.Style.BackColorGradientAngle = 90;
+            this.gp_CommodBG.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_CommodBG.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderBottomWidth = 1;
+            this.gp_CommodBG.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_CommodBG.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderLeftWidth = 1;
+            this.gp_CommodBG.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderRightWidth = 1;
+            this.gp_CommodBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderTopWidth = 1;
+            this.gp_CommodBG.Style.Class = "";
+            this.gp_CommodBG.Style.CornerDiameter = 4;
+            this.gp_CommodBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_CommodBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_CommodBG.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_CommodBG.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_CommodBG.StyleMouseDown.Class = "";
+            this.gp_CommodBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_CommodBG.StyleMouseOver.Class = "";
+            this.gp_CommodBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_CommodBG.TabIndex = 1;
+            // 
+            // cb_HLCommodities
+            // 
+            this.cb_HLCommodities.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_HLCommodities.BackgroundStyle.Class = "";
+            this.cb_HLCommodities.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_HLCommodities.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
+            this.cb_HLCommodities.Checked = true;
+            this.cb_HLCommodities.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_HLCommodities.CheckValue = "Y";
+            this.cb_HLCommodities.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_HLCommodities.Location = new System.Drawing.Point(8, 3);
+            this.cb_HLCommodities.Name = "cb_HLCommodities";
+            this.cb_HLCommodities.Size = new System.Drawing.Size(306, 23);
+            this.cb_HLCommodities.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_HLCommodities.TabIndex = 2;
+            this.cb_HLCommodities.Text = "Highlight Commodities In Production from Overview";
+            this.cb_HLCommodities.TextColor = System.Drawing.Color.Navy;
+            this.cb_HLCommodities.CheckedChanged += new System.EventHandler(this.cb_HLCommodities_CheckedChanged);
+            // 
+            // tc_CommoditySubmenu
+            // 
+            this.tc_CommoditySubmenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tc_CommoditySubmenu.CanReorderTabs = true;
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel4);
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel7);
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel6);
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel5);
+            this.tc_CommoditySubmenu.Location = new System.Drawing.Point(-1, 32);
+            this.tc_CommoditySubmenu.Name = "tc_CommoditySubmenu";
+            this.tc_CommoditySubmenu.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.tc_CommoditySubmenu.SelectedTabIndex = 0;
+            this.tc_CommoditySubmenu.Size = new System.Drawing.Size(1001, 667);
+            this.tc_CommoditySubmenu.TabIndex = 0;
+            this.tc_CommoditySubmenu.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_ProcessedP1);
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_RefinedP2);
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_SpecializedP3);
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_AdvancedP4);
+            this.tc_CommoditySubmenu.Text = "tabControl1";
+            // 
+            // tabControlPanel4
+            // 
+            this.tabControlPanel4.Controls.Add(this.lv_P1);
+            this.tabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel4.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel4.Name = "tabControlPanel4";
+            this.tabControlPanel4.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel4.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel4.Style.GradientAngle = 90;
+            this.tabControlPanel4.TabIndex = 1;
+            this.tabControlPanel4.TabItem = this.ti_ProcessedP1;
+            // 
+            // lv_P1
+            // 
+            // 
+            // 
+            // 
+            this.lv_P1.Border.Class = "ListViewBorder";
+            this.lv_P1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p1Result,
+            this.ch_p1Resource,
+            this.ch_p1Planets,
+            this.ch_p1CompIn});
+            this.lv_P1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P1.FullRowSelect = true;
+            this.lv_P1.GridLines = true;
+            this.lv_P1.Location = new System.Drawing.Point(1, 1);
+            this.lv_P1.Name = "lv_P1";
+            this.lv_P1.Size = new System.Drawing.Size(999, 639);
+            this.lv_P1.TabIndex = 0;
+            this.lv_P1.UseCompatibleStateImageBehavior = false;
+            this.lv_P1.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p1Result
+            // 
+            this.ch_p1Result.Text = "P1 Result";
+            this.ch_p1Result.Width = 225;
+            // 
+            // ch_p1Resource
+            // 
+            this.ch_p1Resource.Text = "Resource";
+            this.ch_p1Resource.Width = 200;
+            // 
+            // ch_p1Planets
+            // 
+            this.ch_p1Planets.Text = "Planets Found On";
+            this.ch_p1Planets.Width = 275;
+            // 
+            // ch_p1CompIn
+            // 
+            this.ch_p1CompIn.Text = "Used For:";
+            this.ch_p1CompIn.Width = 600;
+            // 
+            // ti_ProcessedP1
+            // 
+            this.ti_ProcessedP1.AttachedControl = this.tabControlPanel4;
+            this.ti_ProcessedP1.Name = "ti_ProcessedP1";
+            this.ti_ProcessedP1.Text = "(P1) Processed Materials";
+            // 
+            // tabControlPanel7
+            // 
+            this.tabControlPanel7.Controls.Add(this.lv_P4);
+            this.tabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel7.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel7.Name = "tabControlPanel7";
+            this.tabControlPanel7.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel7.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel7.Style.GradientAngle = 90;
+            this.tabControlPanel7.TabIndex = 4;
+            this.tabControlPanel7.TabItem = this.ti_AdvancedP4;
+            // 
+            // lv_P4
+            // 
+            // 
+            // 
+            // 
+            this.lv_P4.Border.Class = "ListViewBorder";
+            this.lv_P4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p4Result,
+            this.ch_p4inp1,
+            this.ch_p4inp2,
+            this.ch_p4inp3,
+            this.ch_p4Planets,
+            this.ch_p4UsedFor});
+            this.lv_P4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P4.FullRowSelect = true;
+            this.lv_P4.GridLines = true;
+            this.lv_P4.Location = new System.Drawing.Point(1, 1);
+            this.lv_P4.Name = "lv_P4";
+            this.lv_P4.Size = new System.Drawing.Size(999, 639);
+            this.lv_P4.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lv_P4.TabIndex = 3;
+            this.lv_P4.UseCompatibleStateImageBehavior = false;
+            this.lv_P4.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p4Result
+            // 
+            this.ch_p4Result.Text = "P4 Result";
+            this.ch_p4Result.Width = 225;
+            // 
+            // ch_p4inp1
+            // 
+            this.ch_p4inp1.Text = "P3 Input 1";
+            this.ch_p4inp1.Width = 150;
+            // 
+            // ch_p4inp2
+            // 
+            this.ch_p4inp2.Text = "P3 Input 2";
+            this.ch_p4inp2.Width = 150;
+            // 
+            // ch_p4inp3
+            // 
+            this.ch_p4inp3.Text = "P1 / P3 Input 3";
+            this.ch_p4inp3.Width = 150;
+            // 
+            // ch_p4Planets
+            // 
+            this.ch_p4Planets.Text = "Planets Required";
+            this.ch_p4Planets.Width = 275;
+            // 
+            // ch_p4UsedFor
+            // 
+            this.ch_p4UsedFor.Text = "Used For:";
+            this.ch_p4UsedFor.Width = 450;
+            // 
+            // ti_AdvancedP4
+            // 
+            this.ti_AdvancedP4.AttachedControl = this.tabControlPanel7;
+            this.ti_AdvancedP4.Name = "ti_AdvancedP4";
+            this.ti_AdvancedP4.Text = "(P4) Advanced Commodities";
+            // 
+            // tabControlPanel6
+            // 
+            this.tabControlPanel6.Controls.Add(this.lv_P3);
+            this.tabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel6.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel6.Name = "tabControlPanel6";
+            this.tabControlPanel6.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel6.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel6.Style.GradientAngle = 90;
+            this.tabControlPanel6.TabIndex = 3;
+            this.tabControlPanel6.TabItem = this.ti_SpecializedP3;
+            // 
+            // lv_P3
+            // 
+            // 
+            // 
+            // 
+            this.lv_P3.Border.Class = "ListViewBorder";
+            this.lv_P3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p3result,
+            this.ch_p3inp1,
+            this.ch_p3inp2,
+            this.ch_p3inp3,
+            this.ch_p3planets,
+            this.ch_p3UsedFor});
+            this.lv_P3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P3.FullRowSelect = true;
+            this.lv_P3.GridLines = true;
+            this.lv_P3.Location = new System.Drawing.Point(1, 1);
+            this.lv_P3.Name = "lv_P3";
+            this.lv_P3.Size = new System.Drawing.Size(999, 639);
+            this.lv_P3.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lv_P3.TabIndex = 2;
+            this.lv_P3.UseCompatibleStateImageBehavior = false;
+            this.lv_P3.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p3result
+            // 
+            this.ch_p3result.Text = "P3 Result";
+            this.ch_p3result.Width = 225;
+            // 
+            // ch_p3inp1
+            // 
+            this.ch_p3inp1.Text = "P2 Input 1";
+            this.ch_p3inp1.Width = 150;
+            // 
+            // ch_p3inp2
+            // 
+            this.ch_p3inp2.Text = "P2 Input 2";
+            this.ch_p3inp2.Width = 150;
+            // 
+            // ch_p3inp3
+            // 
+            this.ch_p3inp3.Text = "P2 Input 3";
+            this.ch_p3inp3.Width = 150;
+            // 
+            // ch_p3planets
+            // 
+            this.ch_p3planets.Text = "Build Planets";
+            this.ch_p3planets.Width = 400;
+            // 
+            // ch_p3UsedFor
+            // 
+            this.ch_p3UsedFor.Text = "Used For:";
+            this.ch_p3UsedFor.Width = 200;
+            // 
+            // ti_SpecializedP3
+            // 
+            this.ti_SpecializedP3.AttachedControl = this.tabControlPanel6;
+            this.ti_SpecializedP3.Name = "ti_SpecializedP3";
+            this.ti_SpecializedP3.Text = "(P3) Specialized Commodities";
+            // 
+            // tabControlPanel5
+            // 
+            this.tabControlPanel5.Controls.Add(this.lv_P2);
+            this.tabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel5.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel5.Name = "tabControlPanel5";
+            this.tabControlPanel5.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel5.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
+                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel5.Style.GradientAngle = 90;
+            this.tabControlPanel5.TabIndex = 2;
+            this.tabControlPanel5.TabItem = this.ti_RefinedP2;
+            // 
+            // lv_P2
+            // 
+            // 
+            // 
+            // 
+            this.lv_P2.Border.Class = "ListViewBorder";
+            this.lv_P2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p2Result,
+            this.ch_p2Input1,
+            this.ch_p2Input2,
+            this.ch_P2ReqPlanets,
+            this.ch_p2UsedFor});
+            this.lv_P2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P2.FullRowSelect = true;
+            this.lv_P2.GridLines = true;
+            this.lv_P2.Location = new System.Drawing.Point(1, 1);
+            this.lv_P2.Name = "lv_P2";
+            this.lv_P2.Size = new System.Drawing.Size(999, 639);
+            this.lv_P2.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lv_P2.TabIndex = 1;
+            this.lv_P2.UseCompatibleStateImageBehavior = false;
+            this.lv_P2.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p2Result
+            // 
+            this.ch_p2Result.Text = "P2 Result";
+            this.ch_p2Result.Width = 225;
+            // 
+            // ch_p2Input1
+            // 
+            this.ch_p2Input1.Text = "P1 Input 1";
+            this.ch_p2Input1.Width = 150;
+            // 
+            // ch_p2Input2
+            // 
+            this.ch_p2Input2.Text = "P1 Input 2";
+            this.ch_p2Input2.Width = 150;
+            // 
+            // ch_P2ReqPlanets
+            // 
+            this.ch_P2ReqPlanets.Text = "Planet(s) Required for Build";
+            this.ch_P2ReqPlanets.Width = 300;
+            // 
+            // ch_p2UsedFor
+            // 
+            this.ch_p2UsedFor.Text = "Used For:";
+            this.ch_p2UsedFor.Width = 350;
+            // 
+            // ti_RefinedP2
+            // 
+            this.ti_RefinedP2.AttachedControl = this.tabControlPanel5;
+            this.ti_RefinedP2.Name = "ti_RefinedP2";
+            this.ti_RefinedP2.Text = "(P2) Refined Commodities";
+            // 
+            // ti_PIInformation
+            // 
+            this.ti_PIInformation.AttachedControl = this.tabControlPanel3;
+            this.ti_PIInformation.Name = "ti_PIInformation";
+            this.ti_PIInformation.Text = "Planetary Commodities";
             // 
             // tabControlPanel9
             // 
@@ -485,6 +1653,12 @@
             this.prd_DeltaM3.Name = "prd_DeltaM3";
             this.prd_DeltaM3.Text = "Delta Vol m3";
             this.prd_DeltaM3.Width.Absolute = 70;
+            // 
+            // prd_Isk
+            // 
+            this.prd_Isk.Name = "prd_Isk";
+            this.prd_Isk.Text = "Isk";
+            this.prd_Isk.Width.Absolute = 150;
             // 
             // node1
             // 
@@ -1337,1162 +2511,6 @@
             this.ti_PlanetOverview.Name = "ti_PlanetOverview";
             this.ti_PlanetOverview.Text = "Planet Overview";
             // 
-            // tabControlPanel8
-            // 
-            this.tabControlPanel8.Controls.Add(this.gp_PIProductCost);
-            this.tabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel8.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel8.Name = "tabControlPanel8";
-            this.tabControlPanel8.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel8.Size = new System.Drawing.Size(1008, 707);
-            this.tabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
-            this.tabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel8.Style.GradientAngle = 90;
-            this.tabControlPanel8.TabIndex = 4;
-            this.tabControlPanel8.TabItem = this.ti_PIProductCost;
-            // 
-            // gp_PIProductCost
-            // 
-            this.gp_PIProductCost.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_PIProductCost.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_PIProductCost.Controls.Add(this.at_PCost2);
-            this.gp_PIProductCost.Controls.Add(this.at_PCost1);
-            this.gp_PIProductCost.Controls.Add(this.lb_jt2);
-            this.gp_PIProductCost.Controls.Add(this.lb_jt1);
-            this.gp_PIProductCost.Controls.Add(this.lb_Profit1);
-            this.gp_PIProductCost.Controls.Add(this.lb_Profit2);
-            this.gp_PIProductCost.Controls.Add(this.lb_BuildCost2);
-            this.gp_PIProductCost.Controls.Add(this.lb_CompBuy2);
-            this.gp_PIProductCost.Controls.Add(this.lb_BuildCost1);
-            this.gp_PIProductCost.Controls.Add(this.lb_CompBuy1);
-            this.gp_PIProductCost.Controls.Add(this.labelX15);
-            this.gp_PIProductCost.Controls.Add(this.labelX17);
-            this.gp_PIProductCost.Controls.Add(this.lb_MarketCost2);
-            this.gp_PIProductCost.Controls.Add(this.labelX19);
-            this.gp_PIProductCost.Controls.Add(this.labelX13);
-            this.gp_PIProductCost.Controls.Add(this.labelX11);
-            this.gp_PIProductCost.Controls.Add(this.lb_MarketCost1);
-            this.gp_PIProductCost.Controls.Add(this.labelX9);
-            this.gp_PIProductCost.Controls.Add(this.labelX4);
-            this.gp_PIProductCost.Controls.Add(this.nud_NumProduct2);
-            this.gp_PIProductCost.Controls.Add(this.labelX8);
-            this.gp_PIProductCost.Controls.Add(this.ct_SelectProduct2);
-            this.gp_PIProductCost.Controls.Add(this.labelX3);
-            this.gp_PIProductCost.Controls.Add(this.nud_NumProduct1);
-            this.gp_PIProductCost.Controls.Add(this.labelX2);
-            this.gp_PIProductCost.Controls.Add(this.ct_SelectProduct1);
-            this.gp_PIProductCost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_PIProductCost.Location = new System.Drawing.Point(1, 1);
-            this.gp_PIProductCost.Name = "gp_PIProductCost";
-            this.gp_PIProductCost.Size = new System.Drawing.Size(1006, 705);
-            // 
-            // 
-            // 
-            this.gp_PIProductCost.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_PIProductCost.Style.BackColorGradientAngle = 90;
-            this.gp_PIProductCost.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_PIProductCost.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_PIProductCost.Style.BorderBottomWidth = 1;
-            this.gp_PIProductCost.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_PIProductCost.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_PIProductCost.Style.BorderLeftWidth = 1;
-            this.gp_PIProductCost.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_PIProductCost.Style.BorderRightWidth = 1;
-            this.gp_PIProductCost.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_PIProductCost.Style.BorderTopWidth = 1;
-            this.gp_PIProductCost.Style.Class = "";
-            this.gp_PIProductCost.Style.CornerDiameter = 4;
-            this.gp_PIProductCost.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_PIProductCost.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_PIProductCost.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_PIProductCost.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_PIProductCost.StyleMouseDown.Class = "";
-            this.gp_PIProductCost.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_PIProductCost.StyleMouseOver.Class = "";
-            this.gp_PIProductCost.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_PIProductCost.TabIndex = 0;
-            // 
-            // at_PCost2
-            // 
-            this.at_PCost2.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
-            this.at_PCost2.AllowDrop = true;
-            this.at_PCost2.AllowUserToResizeColumns = false;
-            this.at_PCost2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.at_PCost2.BackColor = System.Drawing.SystemColors.Window;
-            // 
-            // 
-            // 
-            this.at_PCost2.BackgroundStyle.Class = "TreeBorderKey";
-            this.at_PCost2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.at_PCost2.Columns.Add(this.columnHeader1);
-            this.at_PCost2.Columns.Add(this.columnHeader2);
-            this.at_PCost2.Columns.Add(this.columnHeader3);
-            this.at_PCost2.GridLinesColor = System.Drawing.Color.Gray;
-            this.at_PCost2.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.at_PCost2.Location = new System.Drawing.Point(507, 97);
-            this.at_PCost2.Name = "at_PCost2";
-            this.at_PCost2.NodesConnector = this.nodeConnector2;
-            this.at_PCost2.NodeStyle = this.elementStyle2;
-            this.at_PCost2.PathSeparator = ";";
-            this.at_PCost2.Size = new System.Drawing.Size(488, 602);
-            this.at_PCost2.Styles.Add(this.elementStyle2);
-            this.at_PCost2.Styles.Add(this.elementStyle3);
-            this.at_PCost2.Styles.Add(this.elementStyle4);
-            this.at_PCost2.TabIndex = 42;
-            this.at_PCost2.Text = "advTree1";
-            this.at_PCost2.AfterCheck += new DevComponents.AdvTree.AdvTreeCellEventHandler(this.at_PCost2_AfterCheck);
-            this.at_PCost2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.at_PCost2_MouseClick);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Name = "columnHeader1";
-            this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width.Absolute = 300;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Editable = false;
-            this.columnHeader2.Name = "columnHeader2";
-            this.columnHeader2.Text = "Quantity";
-            this.columnHeader2.Width.Absolute = 75;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Editable = false;
-            this.columnHeader3.Name = "columnHeader3";
-            this.columnHeader3.Text = "Cost";
-            this.columnHeader3.Width.Absolute = 75;
-            // 
-            // nodeConnector2
-            // 
-            this.nodeConnector2.LineColor = System.Drawing.SystemColors.ControlText;
-            // 
-            // elementStyle2
-            // 
-            this.elementStyle2.Class = "";
-            this.elementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.elementStyle2.Name = "elementStyle2";
-            this.elementStyle2.TextColor = System.Drawing.SystemColors.ControlText;
-            // 
-            // elementStyle3
-            // 
-            this.elementStyle3.Class = "";
-            this.elementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.elementStyle3.Name = "elementStyle3";
-            this.elementStyle3.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            // 
-            // elementStyle4
-            // 
-            this.elementStyle4.Class = "";
-            this.elementStyle4.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.elementStyle4.Name = "elementStyle4";
-            this.elementStyle4.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far;
-            // 
-            // at_PCost1
-            // 
-            this.at_PCost1.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
-            this.at_PCost1.AllowDrop = true;
-            this.at_PCost1.AllowUserToResizeColumns = false;
-            this.at_PCost1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.at_PCost1.BackColor = System.Drawing.SystemColors.Window;
-            // 
-            // 
-            // 
-            this.at_PCost1.BackgroundStyle.Class = "TreeBorderKey";
-            this.at_PCost1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.at_PCost1.Columns.Add(this.ch_Name1);
-            this.at_PCost1.Columns.Add(this.ch_Qty1);
-            this.at_PCost1.Columns.Add(this.ch_Cost1);
-            this.at_PCost1.GridLinesColor = System.Drawing.Color.Gray;
-            this.at_PCost1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.at_PCost1.Location = new System.Drawing.Point(4, 97);
-            this.at_PCost1.Name = "at_PCost1";
-            this.at_PCost1.NodesConnector = this.nodeConnector1;
-            this.at_PCost1.NodeStyle = this.elementStyle1;
-            this.at_PCost1.PathSeparator = ";";
-            this.at_PCost1.Size = new System.Drawing.Size(488, 602);
-            this.at_PCost1.Styles.Add(this.elementStyle1);
-            this.at_PCost1.Styles.Add(this.es_CenterAlign);
-            this.at_PCost1.Styles.Add(this.es_RightAlign);
-            this.at_PCost1.TabIndex = 41;
-            this.toolTip1.SetToolTip(this.at_PCost1, "R-Click on a line will allow you to Set the Custom Price for that Item.");
-            this.at_PCost1.AfterCheck += new DevComponents.AdvTree.AdvTreeCellEventHandler(this.at_PCost1_AfterCheck);
-            this.at_PCost1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.at_PCost1_MouseClick);
-            // 
-            // ch_Name1
-            // 
-            this.ch_Name1.Name = "ch_Name1";
-            this.ch_Name1.Text = "Name";
-            this.ch_Name1.Width.Absolute = 300;
-            // 
-            // ch_Qty1
-            // 
-            this.ch_Qty1.Editable = false;
-            this.ch_Qty1.Name = "ch_Qty1";
-            this.ch_Qty1.Text = "Quantity";
-            this.ch_Qty1.Width.Absolute = 75;
-            // 
-            // ch_Cost1
-            // 
-            this.ch_Cost1.Editable = false;
-            this.ch_Cost1.Name = "ch_Cost1";
-            this.ch_Cost1.Text = "Cost";
-            this.ch_Cost1.Width.Absolute = 75;
-            // 
-            // nodeConnector1
-            // 
-            this.nodeConnector1.LineColor = System.Drawing.SystemColors.ControlText;
-            // 
-            // elementStyle1
-            // 
-            this.elementStyle1.Class = "";
-            this.elementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.elementStyle1.Name = "elementStyle1";
-            this.elementStyle1.TextColor = System.Drawing.SystemColors.ControlText;
-            // 
-            // es_CenterAlign
-            // 
-            this.es_CenterAlign.Class = "";
-            this.es_CenterAlign.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.es_CenterAlign.Name = "es_CenterAlign";
-            this.es_CenterAlign.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            // 
-            // es_RightAlign
-            // 
-            this.es_RightAlign.Class = "";
-            this.es_RightAlign.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.es_RightAlign.Name = "es_RightAlign";
-            this.es_RightAlign.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far;
-            // 
-            // lb_jt2
-            // 
-            this.lb_jt2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_jt2.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_jt2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_jt2.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_jt2.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_jt2.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_jt2.BackgroundStyle.Class = "";
-            this.lb_jt2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_jt2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_jt2.ForeColor = System.Drawing.Color.Navy;
-            this.lb_jt2.Location = new System.Drawing.Point(700, 52);
-            this.lb_jt2.Name = "lb_jt2";
-            this.lb_jt2.Size = new System.Drawing.Size(164, 19);
-            this.lb_jt2.TabIndex = 38;
-            this.lb_jt2.Text = "Component Purchase Cost:";
-            this.lb_jt2.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_jt1
-            // 
-            this.lb_jt1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_jt1.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_jt1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_jt1.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_jt1.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_jt1.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_jt1.BackgroundStyle.Class = "";
-            this.lb_jt1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_jt1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_jt1.ForeColor = System.Drawing.Color.Navy;
-            this.lb_jt1.Location = new System.Drawing.Point(196, 52);
-            this.lb_jt1.Name = "lb_jt1";
-            this.lb_jt1.Size = new System.Drawing.Size(164, 19);
-            this.lb_jt1.TabIndex = 37;
-            this.lb_jt1.Text = "Component Purchase Cost:";
-            this.lb_jt1.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_Profit1
-            // 
-            this.lb_Profit1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_Profit1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit1.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_Profit1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_Profit1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit1.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_Profit1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit1.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_Profit1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit1.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_Profit1.BackgroundStyle.Class = "";
-            this.lb_Profit1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_Profit1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_Profit1.ForeColor = System.Drawing.Color.Navy;
-            this.lb_Profit1.Location = new System.Drawing.Point(362, 72);
-            this.lb_Profit1.Name = "lb_Profit1";
-            this.lb_Profit1.Size = new System.Drawing.Size(130, 19);
-            this.lb_Profit1.TabIndex = 25;
-            this.lb_Profit1.Text = "0 isk";
-            this.lb_Profit1.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_Profit2
-            // 
-            this.lb_Profit2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_Profit2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit2.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_Profit2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_Profit2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit2.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_Profit2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit2.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_Profit2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_Profit2.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_Profit2.BackgroundStyle.Class = "";
-            this.lb_Profit2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_Profit2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_Profit2.ForeColor = System.Drawing.Color.Navy;
-            this.lb_Profit2.Location = new System.Drawing.Point(865, 72);
-            this.lb_Profit2.Name = "lb_Profit2";
-            this.lb_Profit2.Size = new System.Drawing.Size(130, 19);
-            this.lb_Profit2.TabIndex = 31;
-            this.lb_Profit2.Text = "0 isk";
-            this.lb_Profit2.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_BuildCost2
-            // 
-            this.lb_BuildCost2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_BuildCost2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost2.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_BuildCost2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_BuildCost2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost2.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_BuildCost2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost2.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_BuildCost2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost2.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_BuildCost2.BackgroundStyle.Class = "";
-            this.lb_BuildCost2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_BuildCost2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_BuildCost2.ForeColor = System.Drawing.Color.Navy;
-            this.lb_BuildCost2.Location = new System.Drawing.Point(622, 72);
-            this.lb_BuildCost2.Name = "lb_BuildCost2";
-            this.lb_BuildCost2.Size = new System.Drawing.Size(130, 19);
-            this.lb_BuildCost2.TabIndex = 29;
-            this.lb_BuildCost2.Text = "0 isk";
-            this.lb_BuildCost2.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_CompBuy2
-            // 
-            this.lb_CompBuy2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_CompBuy2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy2.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_CompBuy2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_CompBuy2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy2.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_CompBuy2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy2.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_CompBuy2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy2.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_CompBuy2.BackgroundStyle.Class = "";
-            this.lb_CompBuy2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_CompBuy2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_CompBuy2.ForeColor = System.Drawing.Color.Navy;
-            this.lb_CompBuy2.Location = new System.Drawing.Point(865, 52);
-            this.lb_CompBuy2.Name = "lb_CompBuy2";
-            this.lb_CompBuy2.Size = new System.Drawing.Size(130, 19);
-            this.lb_CompBuy2.TabIndex = 36;
-            this.lb_CompBuy2.Text = "0 isk";
-            this.lb_CompBuy2.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_BuildCost1
-            // 
-            this.lb_BuildCost1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_BuildCost1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost1.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_BuildCost1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_BuildCost1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost1.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_BuildCost1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost1.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_BuildCost1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_BuildCost1.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_BuildCost1.BackgroundStyle.Class = "";
-            this.lb_BuildCost1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_BuildCost1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_BuildCost1.ForeColor = System.Drawing.Color.Navy;
-            this.lb_BuildCost1.Location = new System.Drawing.Point(119, 72);
-            this.lb_BuildCost1.Name = "lb_BuildCost1";
-            this.lb_BuildCost1.Size = new System.Drawing.Size(130, 19);
-            this.lb_BuildCost1.TabIndex = 23;
-            this.lb_BuildCost1.Text = "0 isk";
-            this.lb_BuildCost1.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_CompBuy1
-            // 
-            this.lb_CompBuy1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_CompBuy1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy1.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_CompBuy1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_CompBuy1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy1.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_CompBuy1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy1.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_CompBuy1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_CompBuy1.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_CompBuy1.BackgroundStyle.Class = "";
-            this.lb_CompBuy1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_CompBuy1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_CompBuy1.ForeColor = System.Drawing.Color.Navy;
-            this.lb_CompBuy1.Location = new System.Drawing.Point(362, 52);
-            this.lb_CompBuy1.Name = "lb_CompBuy1";
-            this.lb_CompBuy1.Size = new System.Drawing.Size(130, 19);
-            this.lb_CompBuy1.TabIndex = 34;
-            this.lb_CompBuy1.Text = "0 isk";
-            this.lb_CompBuy1.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX15
-            // 
-            this.labelX15.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX15.BackgroundStyle.Class = "";
-            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX15.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX15.ForeColor = System.Drawing.Color.Navy;
-            this.labelX15.Location = new System.Drawing.Point(826, 72);
-            this.labelX15.Name = "labelX15";
-            this.labelX15.Size = new System.Drawing.Size(38, 19);
-            this.labelX15.TabIndex = 30;
-            this.labelX15.Text = "Profit:";
-            this.labelX15.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX17
-            // 
-            this.labelX17.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX17.BackgroundStyle.Class = "";
-            this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX17.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX17.ForeColor = System.Drawing.Color.Navy;
-            this.labelX17.Location = new System.Drawing.Point(507, 72);
-            this.labelX17.Name = "labelX17";
-            this.labelX17.Size = new System.Drawing.Size(113, 19);
-            this.labelX17.TabIndex = 28;
-            this.labelX17.Text = "Product Build Cost:";
-            this.labelX17.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_MarketCost2
-            // 
-            this.lb_MarketCost2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_MarketCost2.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost2.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_MarketCost2.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_MarketCost2.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost2.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_MarketCost2.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost2.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_MarketCost2.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost2.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_MarketCost2.BackgroundStyle.Class = "";
-            this.lb_MarketCost2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_MarketCost2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_MarketCost2.ForeColor = System.Drawing.Color.Navy;
-            this.lb_MarketCost2.Location = new System.Drawing.Point(865, 32);
-            this.lb_MarketCost2.Name = "lb_MarketCost2";
-            this.lb_MarketCost2.Size = new System.Drawing.Size(130, 19);
-            this.lb_MarketCost2.TabIndex = 27;
-            this.lb_MarketCost2.Text = "0 isk";
-            this.lb_MarketCost2.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX19
-            // 
-            this.labelX19.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX19.BackgroundStyle.Class = "";
-            this.labelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX19.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX19.ForeColor = System.Drawing.Color.Navy;
-            this.labelX19.Location = new System.Drawing.Point(738, 32);
-            this.labelX19.Name = "labelX19";
-            this.labelX19.Size = new System.Drawing.Size(126, 19);
-            this.labelX19.TabIndex = 26;
-            this.labelX19.Text = "Product Market Price:";
-            this.labelX19.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX13
-            // 
-            this.labelX13.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX13.BackgroundStyle.Class = "";
-            this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX13.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX13.ForeColor = System.Drawing.Color.Navy;
-            this.labelX13.Location = new System.Drawing.Point(322, 72);
-            this.labelX13.Name = "labelX13";
-            this.labelX13.Size = new System.Drawing.Size(38, 19);
-            this.labelX13.TabIndex = 24;
-            this.labelX13.Text = "Profit:";
-            this.labelX13.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX11
-            // 
-            this.labelX11.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX11.BackgroundStyle.Class = "";
-            this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX11.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX11.ForeColor = System.Drawing.Color.Navy;
-            this.labelX11.Location = new System.Drawing.Point(4, 72);
-            this.labelX11.Name = "labelX11";
-            this.labelX11.Size = new System.Drawing.Size(113, 19);
-            this.labelX11.TabIndex = 22;
-            this.labelX11.Text = "Product Build Cost:";
-            this.labelX11.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // lb_MarketCost1
-            // 
-            this.lb_MarketCost1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_MarketCost1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost1.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_MarketCost1.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_MarketCost1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost1.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_MarketCost1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost1.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_MarketCost1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_MarketCost1.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_MarketCost1.BackgroundStyle.Class = "";
-            this.lb_MarketCost1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_MarketCost1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_MarketCost1.ForeColor = System.Drawing.Color.Navy;
-            this.lb_MarketCost1.Location = new System.Drawing.Point(362, 32);
-            this.lb_MarketCost1.Name = "lb_MarketCost1";
-            this.lb_MarketCost1.Size = new System.Drawing.Size(130, 19);
-            this.lb_MarketCost1.TabIndex = 21;
-            this.lb_MarketCost1.Text = "0 isk";
-            this.lb_MarketCost1.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX9
-            // 
-            this.labelX9.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX9.BackgroundStyle.Class = "";
-            this.labelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX9.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX9.ForeColor = System.Drawing.Color.Navy;
-            this.labelX9.Location = new System.Drawing.Point(234, 32);
-            this.labelX9.Name = "labelX9";
-            this.labelX9.Size = new System.Drawing.Size(126, 19);
-            this.labelX9.TabIndex = 20;
-            this.labelX9.Text = "Product Market Price:";
-            this.labelX9.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX4
-            // 
-            this.labelX4.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX4.BackgroundStyle.Class = "";
-            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX4.ForeColor = System.Drawing.Color.Navy;
-            this.labelX4.Location = new System.Drawing.Point(507, 32);
-            this.labelX4.Name = "labelX4";
-            this.labelX4.Size = new System.Drawing.Size(98, 23);
-            this.labelX4.TabIndex = 8;
-            this.labelX4.Text = "Enter # of Runs:";
-            // 
-            // nud_NumProduct2
-            // 
-            this.nud_NumProduct2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_NumProduct2.ForeColor = System.Drawing.Color.Navy;
-            this.nud_NumProduct2.Location = new System.Drawing.Point(606, 32);
-            this.nud_NumProduct2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_NumProduct2.Name = "nud_NumProduct2";
-            this.nud_NumProduct2.Size = new System.Drawing.Size(52, 23);
-            this.nud_NumProduct2.TabIndex = 7;
-            this.nud_NumProduct2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_NumProduct2.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_NumProduct2.ValueChanged += new System.EventHandler(this.nud_NumProduct2_ValueChanged);
-            // 
-            // labelX8
-            // 
-            this.labelX8.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX8.BackgroundStyle.Class = "";
-            this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX8.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX8.ForeColor = System.Drawing.Color.Navy;
-            this.labelX8.Location = new System.Drawing.Point(506, 3);
-            this.labelX8.Name = "labelX8";
-            this.labelX8.Size = new System.Drawing.Size(90, 23);
-            this.labelX8.TabIndex = 6;
-            this.labelX8.Text = "Select Product:";
-            // 
-            // ct_SelectProduct2
-            // 
-            this.ct_SelectProduct2.BackColor = System.Drawing.SystemColors.Window;
-            // 
-            // 
-            // 
-            this.ct_SelectProduct2.BackgroundStyle.Class = "TextBoxBorder";
-            this.ct_SelectProduct2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ct_SelectProduct2.ButtonDropDown.Visible = true;
-            this.ct_SelectProduct2.DropDownHeight = 500;
-            this.ct_SelectProduct2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ct_SelectProduct2.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.ct_SelectProduct2.Location = new System.Drawing.Point(597, 3);
-            this.ct_SelectProduct2.Name = "ct_SelectProduct2";
-            this.ct_SelectProduct2.Size = new System.Drawing.Size(398, 23);
-            this.ct_SelectProduct2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ct_SelectProduct2.TabIndex = 5;
-            this.ct_SelectProduct2.SelectedIndexChanged += new System.EventHandler(this.ct_SelectProduct2_SelectedIndexChanged);
-            // 
-            // labelX3
-            // 
-            this.labelX3.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX3.BackgroundStyle.Class = "";
-            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX3.ForeColor = System.Drawing.Color.Navy;
-            this.labelX3.Location = new System.Drawing.Point(4, 32);
-            this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(97, 23);
-            this.labelX3.TabIndex = 3;
-            this.labelX3.Text = "Enter # of Runs:";
-            // 
-            // nud_NumProduct1
-            // 
-            this.nud_NumProduct1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_NumProduct1.ForeColor = System.Drawing.Color.Navy;
-            this.nud_NumProduct1.Location = new System.Drawing.Point(103, 32);
-            this.nud_NumProduct1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_NumProduct1.Name = "nud_NumProduct1";
-            this.nud_NumProduct1.Size = new System.Drawing.Size(52, 23);
-            this.nud_NumProduct1.TabIndex = 2;
-            this.nud_NumProduct1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_NumProduct1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_NumProduct1.ValueChanged += new System.EventHandler(this.nud_NumProduct1_ValueChanged);
-            // 
-            // labelX2
-            // 
-            this.labelX2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX2.BackgroundStyle.Class = "";
-            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX2.ForeColor = System.Drawing.Color.Navy;
-            this.labelX2.Location = new System.Drawing.Point(4, 3);
-            this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(90, 23);
-            this.labelX2.TabIndex = 1;
-            this.labelX2.Text = "Select Product:";
-            // 
-            // ct_SelectProduct1
-            // 
-            this.ct_SelectProduct1.BackColor = System.Drawing.SystemColors.Window;
-            // 
-            // 
-            // 
-            this.ct_SelectProduct1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.ct_SelectProduct1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.ct_SelectProduct1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.ct_SelectProduct1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.ct_SelectProduct1.BackgroundStyle.Class = "TextBoxBorder";
-            this.ct_SelectProduct1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ct_SelectProduct1.ButtonDropDown.Visible = true;
-            this.ct_SelectProduct1.DropDownHeight = 500;
-            this.ct_SelectProduct1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ct_SelectProduct1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.ct_SelectProduct1.Location = new System.Drawing.Point(94, 3);
-            this.ct_SelectProduct1.Name = "ct_SelectProduct1";
-            this.ct_SelectProduct1.Size = new System.Drawing.Size(398, 23);
-            this.ct_SelectProduct1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ct_SelectProduct1.TabIndex = 0;
-            this.ct_SelectProduct1.SelectedIndexChanged += new System.EventHandler(this.ct_SelectProduct1_SelectedIndexChanged);
-            // 
-            // ti_PIProductCost
-            // 
-            this.ti_PIProductCost.AttachedControl = this.tabControlPanel8;
-            this.ti_PIProductCost.Name = "ti_PIProductCost";
-            this.ti_PIProductCost.Text = "Product Cost Matrix";
-            // 
-            // tabControlPanel3
-            // 
-            this.tabControlPanel3.Controls.Add(this.gp_CommodBG);
-            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel3.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel3.Name = "tabControlPanel3";
-            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel3.Size = new System.Drawing.Size(1008, 707);
-            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
-            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel3.Style.GradientAngle = 90;
-            this.tabControlPanel3.TabIndex = 3;
-            this.tabControlPanel3.TabItem = this.ti_PIInformation;
-            // 
-            // gp_CommodBG
-            // 
-            this.gp_CommodBG.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_CommodBG.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_CommodBG.Controls.Add(this.cb_HLCommodities);
-            this.gp_CommodBG.Controls.Add(this.tc_CommoditySubmenu);
-            this.gp_CommodBG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_CommodBG.Location = new System.Drawing.Point(1, 1);
-            this.gp_CommodBG.Name = "gp_CommodBG";
-            this.gp_CommodBG.Size = new System.Drawing.Size(1006, 705);
-            // 
-            // 
-            // 
-            this.gp_CommodBG.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_CommodBG.Style.BackColorGradientAngle = 90;
-            this.gp_CommodBG.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_CommodBG.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderBottomWidth = 1;
-            this.gp_CommodBG.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_CommodBG.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderLeftWidth = 1;
-            this.gp_CommodBG.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderRightWidth = 1;
-            this.gp_CommodBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderTopWidth = 1;
-            this.gp_CommodBG.Style.Class = "";
-            this.gp_CommodBG.Style.CornerDiameter = 4;
-            this.gp_CommodBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_CommodBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_CommodBG.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_CommodBG.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_CommodBG.StyleMouseDown.Class = "";
-            this.gp_CommodBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_CommodBG.StyleMouseOver.Class = "";
-            this.gp_CommodBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_CommodBG.TabIndex = 1;
-            // 
-            // cb_HLCommodities
-            // 
-            this.cb_HLCommodities.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_HLCommodities.BackgroundStyle.Class = "";
-            this.cb_HLCommodities.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_HLCommodities.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
-            this.cb_HLCommodities.Checked = true;
-            this.cb_HLCommodities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_HLCommodities.CheckValue = "Y";
-            this.cb_HLCommodities.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_HLCommodities.Location = new System.Drawing.Point(8, 3);
-            this.cb_HLCommodities.Name = "cb_HLCommodities";
-            this.cb_HLCommodities.Size = new System.Drawing.Size(306, 23);
-            this.cb_HLCommodities.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_HLCommodities.TabIndex = 2;
-            this.cb_HLCommodities.Text = "Highlight Commodities In Production from Overview";
-            this.cb_HLCommodities.TextColor = System.Drawing.Color.Navy;
-            this.cb_HLCommodities.CheckedChanged += new System.EventHandler(this.cb_HLCommodities_CheckedChanged);
-            // 
-            // tc_CommoditySubmenu
-            // 
-            this.tc_CommoditySubmenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tc_CommoditySubmenu.CanReorderTabs = true;
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel4);
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel7);
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel6);
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel5);
-            this.tc_CommoditySubmenu.Location = new System.Drawing.Point(-1, 32);
-            this.tc_CommoditySubmenu.Name = "tc_CommoditySubmenu";
-            this.tc_CommoditySubmenu.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.tc_CommoditySubmenu.SelectedTabIndex = 0;
-            this.tc_CommoditySubmenu.Size = new System.Drawing.Size(1001, 667);
-            this.tc_CommoditySubmenu.TabIndex = 0;
-            this.tc_CommoditySubmenu.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_ProcessedP1);
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_RefinedP2);
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_SpecializedP3);
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_AdvancedP4);
-            this.tc_CommoditySubmenu.Text = "tabControl1";
-            // 
-            // tabControlPanel4
-            // 
-            this.tabControlPanel4.Controls.Add(this.lv_P1);
-            this.tabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel4.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel4.Name = "tabControlPanel4";
-            this.tabControlPanel4.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel4.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel4.Style.GradientAngle = 90;
-            this.tabControlPanel4.TabIndex = 1;
-            this.tabControlPanel4.TabItem = this.ti_ProcessedP1;
-            // 
-            // lv_P1
-            // 
-            // 
-            // 
-            // 
-            this.lv_P1.Border.Class = "ListViewBorder";
-            this.lv_P1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p1Result,
-            this.ch_p1Resource,
-            this.ch_p1Planets,
-            this.ch_p1CompIn});
-            this.lv_P1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P1.FullRowSelect = true;
-            this.lv_P1.GridLines = true;
-            this.lv_P1.Location = new System.Drawing.Point(1, 1);
-            this.lv_P1.Name = "lv_P1";
-            this.lv_P1.Size = new System.Drawing.Size(999, 639);
-            this.lv_P1.TabIndex = 0;
-            this.lv_P1.UseCompatibleStateImageBehavior = false;
-            this.lv_P1.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p1Result
-            // 
-            this.ch_p1Result.Text = "P1 Result";
-            this.ch_p1Result.Width = 225;
-            // 
-            // ch_p1Resource
-            // 
-            this.ch_p1Resource.Text = "Resource";
-            this.ch_p1Resource.Width = 200;
-            // 
-            // ch_p1Planets
-            // 
-            this.ch_p1Planets.Text = "Planets Found On";
-            this.ch_p1Planets.Width = 275;
-            // 
-            // ch_p1CompIn
-            // 
-            this.ch_p1CompIn.Text = "Used For:";
-            this.ch_p1CompIn.Width = 600;
-            // 
-            // ti_ProcessedP1
-            // 
-            this.ti_ProcessedP1.AttachedControl = this.tabControlPanel4;
-            this.ti_ProcessedP1.Name = "ti_ProcessedP1";
-            this.ti_ProcessedP1.Text = "(P1) Processed Materials";
-            // 
-            // tabControlPanel7
-            // 
-            this.tabControlPanel7.Controls.Add(this.lv_P4);
-            this.tabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel7.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel7.Name = "tabControlPanel7";
-            this.tabControlPanel7.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel7.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel7.Style.GradientAngle = 90;
-            this.tabControlPanel7.TabIndex = 4;
-            this.tabControlPanel7.TabItem = this.ti_AdvancedP4;
-            // 
-            // lv_P4
-            // 
-            // 
-            // 
-            // 
-            this.lv_P4.Border.Class = "ListViewBorder";
-            this.lv_P4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p4Result,
-            this.ch_p4inp1,
-            this.ch_p4inp2,
-            this.ch_p4inp3,
-            this.ch_p4Planets,
-            this.ch_p4UsedFor});
-            this.lv_P4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P4.FullRowSelect = true;
-            this.lv_P4.GridLines = true;
-            this.lv_P4.Location = new System.Drawing.Point(1, 1);
-            this.lv_P4.Name = "lv_P4";
-            this.lv_P4.Size = new System.Drawing.Size(999, 639);
-            this.lv_P4.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lv_P4.TabIndex = 3;
-            this.lv_P4.UseCompatibleStateImageBehavior = false;
-            this.lv_P4.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p4Result
-            // 
-            this.ch_p4Result.Text = "P4 Result";
-            this.ch_p4Result.Width = 225;
-            // 
-            // ch_p4inp1
-            // 
-            this.ch_p4inp1.Text = "P3 Input 1";
-            this.ch_p4inp1.Width = 150;
-            // 
-            // ch_p4inp2
-            // 
-            this.ch_p4inp2.Text = "P3 Input 2";
-            this.ch_p4inp2.Width = 150;
-            // 
-            // ch_p4inp3
-            // 
-            this.ch_p4inp3.Text = "P1 / P3 Input 3";
-            this.ch_p4inp3.Width = 150;
-            // 
-            // ch_p4Planets
-            // 
-            this.ch_p4Planets.Text = "Planets Required";
-            this.ch_p4Planets.Width = 275;
-            // 
-            // ch_p4UsedFor
-            // 
-            this.ch_p4UsedFor.Text = "Used For:";
-            this.ch_p4UsedFor.Width = 450;
-            // 
-            // ti_AdvancedP4
-            // 
-            this.ti_AdvancedP4.AttachedControl = this.tabControlPanel7;
-            this.ti_AdvancedP4.Name = "ti_AdvancedP4";
-            this.ti_AdvancedP4.Text = "(P4) Advanced Commodities";
-            // 
-            // tabControlPanel6
-            // 
-            this.tabControlPanel6.Controls.Add(this.lv_P3);
-            this.tabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel6.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel6.Name = "tabControlPanel6";
-            this.tabControlPanel6.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel6.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel6.Style.GradientAngle = 90;
-            this.tabControlPanel6.TabIndex = 3;
-            this.tabControlPanel6.TabItem = this.ti_SpecializedP3;
-            // 
-            // lv_P3
-            // 
-            // 
-            // 
-            // 
-            this.lv_P3.Border.Class = "ListViewBorder";
-            this.lv_P3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p3result,
-            this.ch_p3inp1,
-            this.ch_p3inp2,
-            this.ch_p3inp3,
-            this.ch_p3planets,
-            this.ch_p3UsedFor});
-            this.lv_P3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P3.FullRowSelect = true;
-            this.lv_P3.GridLines = true;
-            this.lv_P3.Location = new System.Drawing.Point(1, 1);
-            this.lv_P3.Name = "lv_P3";
-            this.lv_P3.Size = new System.Drawing.Size(999, 639);
-            this.lv_P3.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lv_P3.TabIndex = 2;
-            this.lv_P3.UseCompatibleStateImageBehavior = false;
-            this.lv_P3.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p3result
-            // 
-            this.ch_p3result.Text = "P3 Result";
-            this.ch_p3result.Width = 225;
-            // 
-            // ch_p3inp1
-            // 
-            this.ch_p3inp1.Text = "P2 Input 1";
-            this.ch_p3inp1.Width = 150;
-            // 
-            // ch_p3inp2
-            // 
-            this.ch_p3inp2.Text = "P2 Input 2";
-            this.ch_p3inp2.Width = 150;
-            // 
-            // ch_p3inp3
-            // 
-            this.ch_p3inp3.Text = "P2 Input 3";
-            this.ch_p3inp3.Width = 150;
-            // 
-            // ch_p3planets
-            // 
-            this.ch_p3planets.Text = "Build Planets";
-            this.ch_p3planets.Width = 400;
-            // 
-            // ch_p3UsedFor
-            // 
-            this.ch_p3UsedFor.Text = "Used For:";
-            this.ch_p3UsedFor.Width = 200;
-            // 
-            // ti_SpecializedP3
-            // 
-            this.ti_SpecializedP3.AttachedControl = this.tabControlPanel6;
-            this.ti_SpecializedP3.Name = "ti_SpecializedP3";
-            this.ti_SpecializedP3.Text = "(P3) Specialized Commodities";
-            // 
-            // tabControlPanel5
-            // 
-            this.tabControlPanel5.Controls.Add(this.lv_P2);
-            this.tabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel5.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel5.Name = "tabControlPanel5";
-            this.tabControlPanel5.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel5.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel5.Style.GradientAngle = 90;
-            this.tabControlPanel5.TabIndex = 2;
-            this.tabControlPanel5.TabItem = this.ti_RefinedP2;
-            // 
-            // lv_P2
-            // 
-            // 
-            // 
-            // 
-            this.lv_P2.Border.Class = "ListViewBorder";
-            this.lv_P2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p2Result,
-            this.ch_p2Input1,
-            this.ch_p2Input2,
-            this.ch_P2ReqPlanets,
-            this.ch_p2UsedFor});
-            this.lv_P2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P2.FullRowSelect = true;
-            this.lv_P2.GridLines = true;
-            this.lv_P2.Location = new System.Drawing.Point(1, 1);
-            this.lv_P2.Name = "lv_P2";
-            this.lv_P2.Size = new System.Drawing.Size(999, 639);
-            this.lv_P2.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lv_P2.TabIndex = 1;
-            this.lv_P2.UseCompatibleStateImageBehavior = false;
-            this.lv_P2.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p2Result
-            // 
-            this.ch_p2Result.Text = "P2 Result";
-            this.ch_p2Result.Width = 225;
-            // 
-            // ch_p2Input1
-            // 
-            this.ch_p2Input1.Text = "P1 Input 1";
-            this.ch_p2Input1.Width = 150;
-            // 
-            // ch_p2Input2
-            // 
-            this.ch_p2Input2.Text = "P1 Input 2";
-            this.ch_p2Input2.Width = 150;
-            // 
-            // ch_P2ReqPlanets
-            // 
-            this.ch_P2ReqPlanets.Text = "Planet(s) Required for Build";
-            this.ch_P2ReqPlanets.Width = 300;
-            // 
-            // ch_p2UsedFor
-            // 
-            this.ch_p2UsedFor.Text = "Used For:";
-            this.ch_p2UsedFor.Width = 350;
-            // 
-            // ti_RefinedP2
-            // 
-            this.ti_RefinedP2.AttachedControl = this.tabControlPanel5;
-            this.ti_RefinedP2.Name = "ti_RefinedP2";
-            this.ti_RefinedP2.Text = "(P2) Refined Commodities";
-            // 
-            // ti_PIInformation
-            // 
-            this.ti_PIInformation.AttachedControl = this.tabControlPanel3;
-            this.ti_PIInformation.Name = "ti_PIInformation";
-            this.ti_PIInformation.Text = "Planetary Commodities";
-            // 
             // il_SelCat
             // 
             this.il_SelCat.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
@@ -2631,12 +2649,6 @@
             // 
             this.toolTip1.IsBalloon = true;
             // 
-            // prd_Isk
-            // 
-            this.prd_Isk.Name = "prd_Isk";
-            this.prd_Isk.Text = "Isk";
-            this.prd_Isk.Width.Absolute = 150;
-            // 
             // PIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2651,6 +2663,20 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PIMain_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.tc_PIMain)).EndInit();
             this.tc_PIMain.ResumeLayout(false);
+            this.tabControlPanel8.ResumeLayout(false);
+            this.gp_PIProductCost.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).EndInit();
+            this.tabControlPanel3.ResumeLayout(false);
+            this.gp_CommodBG.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).EndInit();
+            this.tc_CommoditySubmenu.ResumeLayout(false);
+            this.tabControlPanel4.ResumeLayout(false);
+            this.tabControlPanel7.ResumeLayout(false);
+            this.tabControlPanel6.ResumeLayout(false);
+            this.tabControlPanel5.ResumeLayout(false);
             this.tabControlPanel9.ResumeLayout(false);
             this.gp_BGP.ResumeLayout(false);
             this.DesignerSplitPanel.Panel1.ResumeLayout(false);
@@ -2668,20 +2694,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Days)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg_Overview)).EndInit();
-            this.tabControlPanel8.ResumeLayout(false);
-            this.gp_PIProductCost.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).EndInit();
-            this.tabControlPanel3.ResumeLayout(false);
-            this.gp_CommodBG.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).EndInit();
-            this.tc_CommoditySubmenu.ResumeLayout(false);
-            this.tabControlPanel4.ResumeLayout(false);
-            this.tabControlPanel7.ResumeLayout(false);
-            this.tabControlPanel6.ResumeLayout(false);
-            this.tabControlPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
