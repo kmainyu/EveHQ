@@ -1510,9 +1510,7 @@ Public Class frmBPCalculator
         CurrentInventionJob.DatacoreSkill1 = nudInventionSkill2.Value
         CurrentInventionJob.DatacoreSkill2 = nudInventionSkill3.Value
         InventedBP = currentJob.InventionJob.CalculateInventedBPC
-        If CurrentInventionJob.ProductionJob Is Nothing Then
-            CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
-        End If
+        CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
     End Sub
 
     Private Sub DisplayInventionProfitInfo()
