@@ -1588,14 +1588,18 @@ Public Class frmBPCalculator
                 BPCRuns = nudInventionBPCRuns.Value
             End If
 
+            Dim InvCost As InventionCost = currentJob.InventionJob.CalculateInventionCost
+
             Dim IC As Double = Invention.CalculateInventionChance(InventionBaseChance, InventionSkill1, InventionSkill2, InventionSkill3, InventionMetaLevel, DecryptorMod)
+
             Dim ICost As Double = CurrentInventionBP.CalculateInventionCost(InventionMetaItemID.ToString, DecryptorID.ToString, BPCRuns)
             Dim IBP As BlueprintSelection = CurrentInventionBP.CalculateInventedBPC(InventionBPID, DecryptorID, BPCRuns)
             Dim IA As Double = Math.Max(Math.Round(100 / IC, 4), 1)
             Dim ISC As Double = IA * ICost
             Dim IJ As ProductionJob = IBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, PPRInvention.BuildResources)
             Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
-            Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2) + IJ.Cost) / BatchQty
+            Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * IJ.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
+            Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2) + IJ.Cost + FactoryCost) / BatchQty
             Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
             Dim UnitProfit As Double = SalesPrice - AvgCost
             Dim TotalProfit As Double = (UnitProfit * IBP.Runs) * BatchQty
