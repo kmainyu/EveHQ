@@ -190,7 +190,7 @@ Public Class Reports
                     Dim Owner As String = CStr(WalletItem.Item("ownerName2"))
 
                     Select Case RefTypeID
-                        Case "33", "34", "85"
+                        Case "33", "34", "85", "99"
                             If CorpTaxList.ContainsKey(Owner) = False Then
                                 CorpTaxList.Add(Owner, Value)
                             Else
