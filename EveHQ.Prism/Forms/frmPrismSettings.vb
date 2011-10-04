@@ -175,7 +175,19 @@ Public Class frmPrismSettings
     End Sub
 
     Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteDuplicateJournals.Click
-        Dim strSQL As String = "DELETE T1 FROM walletJournal T1, walletJournal T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
+        Dim strSQL As String = ""
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' SQLCE
+                strSQL = "DELETE FROM walletJournal WHERE transID IN ("
+                strSQL &= " SELECT walletJournal.transID"
+                strSQL &= " FROM walletJournal INNER JOIN"
+                strSQL &= " (SELECT transKey, MIN(transID) AS MinTransID, MAX(transID) AS MaxTransID"
+                strSQL &= " FROM walletJournal"
+                strSQL &= " GROUP BY transKey"
+                strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletJournal.transKey = Dupes.transKey AND walletJournal.transID <> Dupes.MinTransID)"
+            Case 1 ' SQL
+                strSQL = "DELETE T1 FROM walletJournal T1, walletJournal T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
+        End Select
         If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Journal table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
@@ -184,7 +196,19 @@ Public Class frmPrismSettings
     End Sub
 
     Private Sub btnDeleteDuplicateTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteDuplicateTransactions.Click
-        Dim strSQL As String = "DELETE T1 FROM walletTransactions T1, walletTransactions T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
+        Dim strSQL As String = ""
+        Select EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' SQLCE
+                strSQL = "DELETE FROM walletTransactions WHERE transID IN ("
+                strSQL &= " SELECT walletTransactions.transID"
+                strSQL &= " FROM walletTransactions INNER JOIN"
+                strSQL &= " (SELECT transKey, MIN(transID) AS MinTransID, MAX(transID) AS MaxTransID"
+                strSQL &= " FROM walletTransactions"
+                strSQL &= " GROUP BY transKey"
+                strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletTransactions.transKey = Dupes.transKey AND walletTransactions.transID <> Dupes.MinTransID)"
+            Case 1 ' SQL
+                strSQL = "DELETE T1 FROM walletTransactions T1, walletTransactions T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
+        End Select
         If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Transactions table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
@@ -650,5 +674,20 @@ Public Class frmPrismSettings
     End Sub
 
 #End Region
+
+    Private Sub btnDeleteUndefinedJournals_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteUndefinedJournals.Click
+        Dim strSQL As String = ""
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' SQLCE
+                strSQL = "DELETE FROM walletJournal WHERE refTypeID = 0;"
+            Case 1 ' SQL
+                strSQL = "DELETE FROM walletJournal WHERE refTypeID = 0;"
+        End Select
+        If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
+            MessageBox.Show("Error deleting undefined entries from the Wallet Journal table!", "Delete Undefined Entries Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            MessageBox.Show("Successfully deleted undefined entries from the Wallet Journal table!", "Delete Undefined Entries Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
 
 End Class

@@ -29,7 +29,22 @@ Partial Public Class frmPrismSettings
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnClose = New DevComponents.DotNetBar.ButtonX()
         Me.pnlSettings = New DevComponents.DotNetBar.PanelEx()
+        Me.gpGeneral = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.btnDeleteUndefinedJournals = New DevComponents.DotNetBar.ButtonX()
+        Me.btnDeleteDuplicateTransactions = New DevComponents.DotNetBar.ButtonX()
+        Me.btnDeleteDuplicateJournals = New DevComponents.DotNetBar.ButtonX()
+        Me.lblDefaultBPCalcAssetOwner = New System.Windows.Forms.Label()
+        Me.cboDefaultBPCalcAssetOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblDefaultBPCalcManufacturer = New System.Windows.Forms.Label()
+        Me.cboDefaultBPCalcManufacturer = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblDefaultBPCalcBPOwner = New System.Windows.Forms.Label()
+        Me.cboDefaultBPCalcBPOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblDefaultPrismCharacter = New System.Windows.Forms.Label()
+        Me.cboDefaultPrismCharacter = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.gpCorpReps = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.btnNoRepContracts = New DevComponents.DotNetBar.ButtonX()
+        Me.cboContractsRep = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblContractsRep = New System.Windows.Forms.Label()
         Me.btnNoRepAll = New DevComponents.DotNetBar.ButtonX()
         Me.btnNoRepJournal = New DevComponents.DotNetBar.ButtonX()
         Me.btnNoRepOrders = New DevComponents.DotNetBar.ButtonX()
@@ -64,17 +79,6 @@ Partial Public Class frmPrismSettings
         Me.btnMoveUp = New System.Windows.Forms.Button()
         Me.lvwColumns = New System.Windows.Forms.ListView()
         Me.colSlotColumns = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.gpGeneral = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.btnDeleteDuplicateTransactions = New DevComponents.DotNetBar.ButtonX()
-        Me.btnDeleteDuplicateJournals = New DevComponents.DotNetBar.ButtonX()
-        Me.lblDefaultBPCalcAssetOwner = New System.Windows.Forms.Label()
-        Me.cboDefaultBPCalcAssetOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.lblDefaultBPCalcManufacturer = New System.Windows.Forms.Label()
-        Me.cboDefaultBPCalcManufacturer = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.lblDefaultBPCalcBPOwner = New System.Windows.Forms.Label()
-        Me.cboDefaultBPCalcBPOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.lblDefaultPrismCharacter = New System.Windows.Forms.Label()
-        Me.cboDefaultPrismCharacter = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.gpCosts = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.lvwBPCCosts = New DevComponents.DotNetBar.Controls.ListViewEx()
         Me.colBPCName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -88,14 +92,11 @@ Partial Public Class frmPrismSettings
         Me.nudLabInstallCost = New DevComponents.Editors.DoubleInput()
         Me.nudLabRunningCost = New DevComponents.Editors.DoubleInput()
         Me.nudFactoryInstallCost = New DevComponents.Editors.DoubleInput()
-        Me.btnNoRepContracts = New DevComponents.DotNetBar.ButtonX()
-        Me.cboContractsRep = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.lblContractsRep = New System.Windows.Forms.Label()
         Me.pnlSettings.SuspendLayout()
+        Me.gpGeneral.SuspendLayout()
         Me.gpCorpReps.SuspendLayout()
         CType(Me.adtCorpReps, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpAssetColumns.SuspendLayout()
-        Me.gpGeneral.SuspendLayout()
         Me.gpCosts.SuspendLayout()
         CType(Me.nudFactoryRunningCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudLabInstallCost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,9 +136,9 @@ Partial Public Class frmPrismSettings
         '
         Me.pnlSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.pnlSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlSettings.Controls.Add(Me.gpGeneral)
         Me.pnlSettings.Controls.Add(Me.gpCorpReps)
         Me.pnlSettings.Controls.Add(Me.gpAssetColumns)
-        Me.pnlSettings.Controls.Add(Me.gpGeneral)
         Me.pnlSettings.Controls.Add(Me.gpCosts)
         Me.pnlSettings.Controls.Add(Me.btnClose)
         Me.pnlSettings.Controls.Add(Me.tvwSettings)
@@ -153,6 +154,175 @@ Partial Public Class frmPrismSettings
         Me.pnlSettings.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlSettings.Style.GradientAngle = 90
         Me.pnlSettings.TabIndex = 32
+        '
+        'gpGeneral
+        '
+        Me.gpGeneral.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpGeneral.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpGeneral.Controls.Add(Me.btnDeleteUndefinedJournals)
+        Me.gpGeneral.Controls.Add(Me.btnDeleteDuplicateTransactions)
+        Me.gpGeneral.Controls.Add(Me.btnDeleteDuplicateJournals)
+        Me.gpGeneral.Controls.Add(Me.lblDefaultBPCalcAssetOwner)
+        Me.gpGeneral.Controls.Add(Me.cboDefaultBPCalcAssetOwner)
+        Me.gpGeneral.Controls.Add(Me.lblDefaultBPCalcManufacturer)
+        Me.gpGeneral.Controls.Add(Me.cboDefaultBPCalcManufacturer)
+        Me.gpGeneral.Controls.Add(Me.lblDefaultBPCalcBPOwner)
+        Me.gpGeneral.Controls.Add(Me.cboDefaultBPCalcBPOwner)
+        Me.gpGeneral.Controls.Add(Me.lblDefaultPrismCharacter)
+        Me.gpGeneral.Controls.Add(Me.cboDefaultPrismCharacter)
+        Me.gpGeneral.Location = New System.Drawing.Point(194, 12)
+        Me.gpGeneral.Name = "gpGeneral"
+        Me.gpGeneral.Size = New System.Drawing.Size(582, 497)
+        '
+        '
+        '
+        Me.gpGeneral.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpGeneral.Style.BackColorGradientAngle = 90
+        Me.gpGeneral.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpGeneral.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpGeneral.Style.BorderBottomWidth = 1
+        Me.gpGeneral.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpGeneral.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpGeneral.Style.BorderLeftWidth = 1
+        Me.gpGeneral.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpGeneral.Style.BorderRightWidth = 1
+        Me.gpGeneral.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpGeneral.Style.BorderTopWidth = 1
+        Me.gpGeneral.Style.Class = ""
+        Me.gpGeneral.Style.CornerDiameter = 4
+        Me.gpGeneral.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpGeneral.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpGeneral.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpGeneral.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpGeneral.StyleMouseDown.Class = ""
+        Me.gpGeneral.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpGeneral.StyleMouseOver.Class = ""
+        Me.gpGeneral.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpGeneral.TabIndex = 32
+        Me.gpGeneral.Text = "General Settings"
+        '
+        'btnDeleteUndefinedJournals
+        '
+        Me.btnDeleteUndefinedJournals.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnDeleteUndefinedJournals.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnDeleteUndefinedJournals.Location = New System.Drawing.Point(262, 318)
+        Me.btnDeleteUndefinedJournals.Name = "btnDeleteUndefinedJournals"
+        Me.btnDeleteUndefinedJournals.Size = New System.Drawing.Size(200, 23)
+        Me.btnDeleteUndefinedJournals.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnDeleteUndefinedJournals.TabIndex = 8
+        Me.btnDeleteUndefinedJournals.Text = "Delete Undefined Journals"
+        '
+        'btnDeleteDuplicateTransactions
+        '
+        Me.btnDeleteDuplicateTransactions.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnDeleteDuplicateTransactions.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnDeleteDuplicateTransactions.Location = New System.Drawing.Point(39, 347)
+        Me.btnDeleteDuplicateTransactions.Name = "btnDeleteDuplicateTransactions"
+        Me.btnDeleteDuplicateTransactions.Size = New System.Drawing.Size(200, 23)
+        Me.btnDeleteDuplicateTransactions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnDeleteDuplicateTransactions.TabIndex = 7
+        Me.btnDeleteDuplicateTransactions.Text = "Delete Duplicate Transactions"
+        '
+        'btnDeleteDuplicateJournals
+        '
+        Me.btnDeleteDuplicateJournals.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnDeleteDuplicateJournals.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnDeleteDuplicateJournals.Location = New System.Drawing.Point(39, 318)
+        Me.btnDeleteDuplicateJournals.Name = "btnDeleteDuplicateJournals"
+        Me.btnDeleteDuplicateJournals.Size = New System.Drawing.Size(200, 23)
+        Me.btnDeleteDuplicateJournals.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnDeleteDuplicateJournals.TabIndex = 6
+        Me.btnDeleteDuplicateJournals.Text = "Delete Duplicate Journals"
+        '
+        'lblDefaultBPCalcAssetOwner
+        '
+        Me.lblDefaultBPCalcAssetOwner.AutoSize = True
+        Me.lblDefaultBPCalcAssetOwner.Location = New System.Drawing.Point(12, 73)
+        Me.lblDefaultBPCalcAssetOwner.Name = "lblDefaultBPCalcAssetOwner"
+        Me.lblDefaultBPCalcAssetOwner.Size = New System.Drawing.Size(146, 13)
+        Me.lblDefaultBPCalcAssetOwner.TabIndex = 5
+        Me.lblDefaultBPCalcAssetOwner.Text = "Default BPCalc Asset Owner:"
+        '
+        'cboDefaultBPCalcAssetOwner
+        '
+        Me.cboDefaultBPCalcAssetOwner.DisplayMember = "Text"
+        Me.cboDefaultBPCalcAssetOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboDefaultBPCalcAssetOwner.FormattingEnabled = True
+        Me.cboDefaultBPCalcAssetOwner.ItemHeight = 15
+        Me.cboDefaultBPCalcAssetOwner.Location = New System.Drawing.Point(244, 69)
+        Me.cboDefaultBPCalcAssetOwner.Name = "cboDefaultBPCalcAssetOwner"
+        Me.cboDefaultBPCalcAssetOwner.Size = New System.Drawing.Size(170, 21)
+        Me.cboDefaultBPCalcAssetOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboDefaultBPCalcAssetOwner.TabIndex = 4
+        '
+        'lblDefaultBPCalcManufacturer
+        '
+        Me.lblDefaultBPCalcManufacturer.AutoSize = True
+        Me.lblDefaultBPCalcManufacturer.Location = New System.Drawing.Point(12, 46)
+        Me.lblDefaultBPCalcManufacturer.Name = "lblDefaultBPCalcManufacturer"
+        Me.lblDefaultBPCalcManufacturer.Size = New System.Drawing.Size(149, 13)
+        Me.lblDefaultBPCalcManufacturer.TabIndex = 3
+        Me.lblDefaultBPCalcManufacturer.Text = "Default BPCalc Manufacturer:"
+        '
+        'cboDefaultBPCalcManufacturer
+        '
+        Me.cboDefaultBPCalcManufacturer.DisplayMember = "Text"
+        Me.cboDefaultBPCalcManufacturer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboDefaultBPCalcManufacturer.FormattingEnabled = True
+        Me.cboDefaultBPCalcManufacturer.ItemHeight = 15
+        Me.cboDefaultBPCalcManufacturer.Location = New System.Drawing.Point(244, 42)
+        Me.cboDefaultBPCalcManufacturer.Name = "cboDefaultBPCalcManufacturer"
+        Me.cboDefaultBPCalcManufacturer.Size = New System.Drawing.Size(170, 21)
+        Me.cboDefaultBPCalcManufacturer.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboDefaultBPCalcManufacturer.TabIndex = 2
+        '
+        'lblDefaultBPCalcBPOwner
+        '
+        Me.lblDefaultBPCalcBPOwner.AutoSize = True
+        Me.lblDefaultBPCalcBPOwner.Location = New System.Drawing.Point(12, 19)
+        Me.lblDefaultBPCalcBPOwner.Name = "lblDefaultBPCalcBPOwner"
+        Me.lblDefaultBPCalcBPOwner.Size = New System.Drawing.Size(161, 13)
+        Me.lblDefaultBPCalcBPOwner.TabIndex = 1
+        Me.lblDefaultBPCalcBPOwner.Text = "Default BPCalc Blueprint Owner:"
+        '
+        'cboDefaultBPCalcBPOwner
+        '
+        Me.cboDefaultBPCalcBPOwner.DisplayMember = "Text"
+        Me.cboDefaultBPCalcBPOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboDefaultBPCalcBPOwner.FormattingEnabled = True
+        Me.cboDefaultBPCalcBPOwner.ItemHeight = 15
+        Me.cboDefaultBPCalcBPOwner.Location = New System.Drawing.Point(244, 15)
+        Me.cboDefaultBPCalcBPOwner.Name = "cboDefaultBPCalcBPOwner"
+        Me.cboDefaultBPCalcBPOwner.Size = New System.Drawing.Size(170, 21)
+        Me.cboDefaultBPCalcBPOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboDefaultBPCalcBPOwner.TabIndex = 0
+        '
+        'lblDefaultPrismCharacter
+        '
+        Me.lblDefaultPrismCharacter.AutoSize = True
+        Me.lblDefaultPrismCharacter.Location = New System.Drawing.Point(12, 100)
+        Me.lblDefaultPrismCharacter.Name = "lblDefaultPrismCharacter"
+        Me.lblDefaultPrismCharacter.Size = New System.Drawing.Size(125, 13)
+        Me.lblDefaultPrismCharacter.TabIndex = 1
+        Me.lblDefaultPrismCharacter.Text = "Default Prism Character:"
+        '
+        'cboDefaultPrismCharacter
+        '
+        Me.cboDefaultPrismCharacter.DisplayMember = "Text"
+        Me.cboDefaultPrismCharacter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboDefaultPrismCharacter.FormattingEnabled = True
+        Me.cboDefaultPrismCharacter.ItemHeight = 15
+        Me.cboDefaultPrismCharacter.Location = New System.Drawing.Point(244, 96)
+        Me.cboDefaultPrismCharacter.Name = "cboDefaultPrismCharacter"
+        Me.cboDefaultPrismCharacter.Size = New System.Drawing.Size(170, 21)
+        Me.cboDefaultPrismCharacter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboDefaultPrismCharacter.TabIndex = 0
         '
         'gpCorpReps
         '
@@ -186,9 +356,9 @@ Partial Public Class frmPrismSettings
         Me.gpCorpReps.Controls.Add(Me.cboAssetsRep)
         Me.gpCorpReps.Controls.Add(Me.lblAssetsRep)
         Me.gpCorpReps.Controls.Add(Me.adtCorpReps)
-        Me.gpCorpReps.Location = New System.Drawing.Point(194, 12)
+        Me.gpCorpReps.Location = New System.Drawing.Point(477, 330)
         Me.gpCorpReps.Name = "gpCorpReps"
-        Me.gpCorpReps.Size = New System.Drawing.Size(582, 500)
+        Me.gpCorpReps.Size = New System.Drawing.Size(258, 65)
         '
         '
         '
@@ -222,6 +392,40 @@ Partial Public Class frmPrismSettings
         Me.gpCorpReps.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpCorpReps.TabIndex = 36
         Me.gpCorpReps.Text = "Corporate Representatives"
+        '
+        'btnNoRepContracts
+        '
+        Me.btnNoRepContracts.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnNoRepContracts.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnNoRepContracts.FocusCuesEnabled = False
+        Me.btnNoRepContracts.Image = Global.EveHQ.Prism.My.Resources.Resources.icon38_111
+        Me.btnNoRepContracts.Location = New System.Drawing.Point(550, 270)
+        Me.btnNoRepContracts.Name = "btnNoRepContracts"
+        Me.btnNoRepContracts.Size = New System.Drawing.Size(21, 21)
+        Me.btnNoRepContracts.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnNoRepContracts.TabIndex = 29
+        '
+        'cboContractsRep
+        '
+        Me.cboContractsRep.DisplayMember = "Text"
+        Me.cboContractsRep.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboContractsRep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboContractsRep.FormattingEnabled = True
+        Me.cboContractsRep.ItemHeight = 15
+        Me.cboContractsRep.Location = New System.Drawing.Point(370, 270)
+        Me.cboContractsRep.Name = "cboContractsRep"
+        Me.cboContractsRep.Size = New System.Drawing.Size(177, 21)
+        Me.cboContractsRep.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboContractsRep.TabIndex = 28
+        '
+        'lblContractsRep
+        '
+        Me.lblContractsRep.AutoSize = True
+        Me.lblContractsRep.Location = New System.Drawing.Point(292, 270)
+        Me.lblContractsRep.Name = "lblContractsRep"
+        Me.lblContractsRep.Size = New System.Drawing.Size(58, 13)
+        Me.lblContractsRep.TabIndex = 27
+        Me.lblContractsRep.Text = "Contracts:"
         '
         'btnNoRepAll
         '
@@ -521,7 +725,7 @@ Partial Public Class frmPrismSettings
         Me.adtCorpReps.NodesConnector = Me.NodeConnector1
         Me.adtCorpReps.NodeStyle = Me.ElementStyle1
         Me.adtCorpReps.PathSeparator = ";"
-        Me.adtCorpReps.Size = New System.Drawing.Size(281, 472)
+        Me.adtCorpReps.Size = New System.Drawing.Size(281, 37)
         Me.adtCorpReps.Styles.Add(Me.ElementStyle1)
         Me.adtCorpReps.TabIndex = 0
         Me.adtCorpReps.Text = "AdvTree1"
@@ -632,163 +836,6 @@ Partial Public Class frmPrismSettings
         '
         Me.colSlotColumns.Text = "Slot Columns"
         Me.colSlotColumns.Width = 200
-        '
-        'gpGeneral
-        '
-        Me.gpGeneral.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpGeneral.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpGeneral.Controls.Add(Me.btnDeleteDuplicateTransactions)
-        Me.gpGeneral.Controls.Add(Me.btnDeleteDuplicateJournals)
-        Me.gpGeneral.Controls.Add(Me.lblDefaultBPCalcAssetOwner)
-        Me.gpGeneral.Controls.Add(Me.cboDefaultBPCalcAssetOwner)
-        Me.gpGeneral.Controls.Add(Me.lblDefaultBPCalcManufacturer)
-        Me.gpGeneral.Controls.Add(Me.cboDefaultBPCalcManufacturer)
-        Me.gpGeneral.Controls.Add(Me.lblDefaultBPCalcBPOwner)
-        Me.gpGeneral.Controls.Add(Me.cboDefaultBPCalcBPOwner)
-        Me.gpGeneral.Controls.Add(Me.lblDefaultPrismCharacter)
-        Me.gpGeneral.Controls.Add(Me.cboDefaultPrismCharacter)
-        Me.gpGeneral.Location = New System.Drawing.Point(218, 347)
-        Me.gpGeneral.Name = "gpGeneral"
-        Me.gpGeneral.Size = New System.Drawing.Size(143, 31)
-        '
-        '
-        '
-        Me.gpGeneral.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpGeneral.Style.BackColorGradientAngle = 90
-        Me.gpGeneral.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpGeneral.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpGeneral.Style.BorderBottomWidth = 1
-        Me.gpGeneral.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpGeneral.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpGeneral.Style.BorderLeftWidth = 1
-        Me.gpGeneral.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpGeneral.Style.BorderRightWidth = 1
-        Me.gpGeneral.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpGeneral.Style.BorderTopWidth = 1
-        Me.gpGeneral.Style.Class = ""
-        Me.gpGeneral.Style.CornerDiameter = 4
-        Me.gpGeneral.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpGeneral.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpGeneral.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpGeneral.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpGeneral.StyleMouseDown.Class = ""
-        Me.gpGeneral.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpGeneral.StyleMouseOver.Class = ""
-        Me.gpGeneral.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpGeneral.TabIndex = 32
-        Me.gpGeneral.Text = "General Settings"
-        '
-        'btnDeleteDuplicateTransactions
-        '
-        Me.btnDeleteDuplicateTransactions.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnDeleteDuplicateTransactions.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnDeleteDuplicateTransactions.Location = New System.Drawing.Point(39, 347)
-        Me.btnDeleteDuplicateTransactions.Name = "btnDeleteDuplicateTransactions"
-        Me.btnDeleteDuplicateTransactions.Size = New System.Drawing.Size(200, 23)
-        Me.btnDeleteDuplicateTransactions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnDeleteDuplicateTransactions.TabIndex = 7
-        Me.btnDeleteDuplicateTransactions.Text = "Delete Duplicate Transactions"
-        '
-        'btnDeleteDuplicateJournals
-        '
-        Me.btnDeleteDuplicateJournals.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnDeleteDuplicateJournals.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnDeleteDuplicateJournals.Location = New System.Drawing.Point(39, 318)
-        Me.btnDeleteDuplicateJournals.Name = "btnDeleteDuplicateJournals"
-        Me.btnDeleteDuplicateJournals.Size = New System.Drawing.Size(200, 23)
-        Me.btnDeleteDuplicateJournals.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnDeleteDuplicateJournals.TabIndex = 6
-        Me.btnDeleteDuplicateJournals.Text = "Delete Duplicate Journals"
-        '
-        'lblDefaultBPCalcAssetOwner
-        '
-        Me.lblDefaultBPCalcAssetOwner.AutoSize = True
-        Me.lblDefaultBPCalcAssetOwner.Location = New System.Drawing.Point(12, 73)
-        Me.lblDefaultBPCalcAssetOwner.Name = "lblDefaultBPCalcAssetOwner"
-        Me.lblDefaultBPCalcAssetOwner.Size = New System.Drawing.Size(146, 13)
-        Me.lblDefaultBPCalcAssetOwner.TabIndex = 5
-        Me.lblDefaultBPCalcAssetOwner.Text = "Default BPCalc Asset Owner:"
-        '
-        'cboDefaultBPCalcAssetOwner
-        '
-        Me.cboDefaultBPCalcAssetOwner.DisplayMember = "Text"
-        Me.cboDefaultBPCalcAssetOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboDefaultBPCalcAssetOwner.FormattingEnabled = True
-        Me.cboDefaultBPCalcAssetOwner.ItemHeight = 15
-        Me.cboDefaultBPCalcAssetOwner.Location = New System.Drawing.Point(244, 69)
-        Me.cboDefaultBPCalcAssetOwner.Name = "cboDefaultBPCalcAssetOwner"
-        Me.cboDefaultBPCalcAssetOwner.Size = New System.Drawing.Size(170, 21)
-        Me.cboDefaultBPCalcAssetOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboDefaultBPCalcAssetOwner.TabIndex = 4
-        '
-        'lblDefaultBPCalcManufacturer
-        '
-        Me.lblDefaultBPCalcManufacturer.AutoSize = True
-        Me.lblDefaultBPCalcManufacturer.Location = New System.Drawing.Point(12, 46)
-        Me.lblDefaultBPCalcManufacturer.Name = "lblDefaultBPCalcManufacturer"
-        Me.lblDefaultBPCalcManufacturer.Size = New System.Drawing.Size(149, 13)
-        Me.lblDefaultBPCalcManufacturer.TabIndex = 3
-        Me.lblDefaultBPCalcManufacturer.Text = "Default BPCalc Manufacturer:"
-        '
-        'cboDefaultBPCalcManufacturer
-        '
-        Me.cboDefaultBPCalcManufacturer.DisplayMember = "Text"
-        Me.cboDefaultBPCalcManufacturer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboDefaultBPCalcManufacturer.FormattingEnabled = True
-        Me.cboDefaultBPCalcManufacturer.ItemHeight = 15
-        Me.cboDefaultBPCalcManufacturer.Location = New System.Drawing.Point(244, 42)
-        Me.cboDefaultBPCalcManufacturer.Name = "cboDefaultBPCalcManufacturer"
-        Me.cboDefaultBPCalcManufacturer.Size = New System.Drawing.Size(170, 21)
-        Me.cboDefaultBPCalcManufacturer.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboDefaultBPCalcManufacturer.TabIndex = 2
-        '
-        'lblDefaultBPCalcBPOwner
-        '
-        Me.lblDefaultBPCalcBPOwner.AutoSize = True
-        Me.lblDefaultBPCalcBPOwner.Location = New System.Drawing.Point(12, 19)
-        Me.lblDefaultBPCalcBPOwner.Name = "lblDefaultBPCalcBPOwner"
-        Me.lblDefaultBPCalcBPOwner.Size = New System.Drawing.Size(161, 13)
-        Me.lblDefaultBPCalcBPOwner.TabIndex = 1
-        Me.lblDefaultBPCalcBPOwner.Text = "Default BPCalc Blueprint Owner:"
-        '
-        'cboDefaultBPCalcBPOwner
-        '
-        Me.cboDefaultBPCalcBPOwner.DisplayMember = "Text"
-        Me.cboDefaultBPCalcBPOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboDefaultBPCalcBPOwner.FormattingEnabled = True
-        Me.cboDefaultBPCalcBPOwner.ItemHeight = 15
-        Me.cboDefaultBPCalcBPOwner.Location = New System.Drawing.Point(244, 15)
-        Me.cboDefaultBPCalcBPOwner.Name = "cboDefaultBPCalcBPOwner"
-        Me.cboDefaultBPCalcBPOwner.Size = New System.Drawing.Size(170, 21)
-        Me.cboDefaultBPCalcBPOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboDefaultBPCalcBPOwner.TabIndex = 0
-        '
-        'lblDefaultPrismCharacter
-        '
-        Me.lblDefaultPrismCharacter.AutoSize = True
-        Me.lblDefaultPrismCharacter.Location = New System.Drawing.Point(12, 100)
-        Me.lblDefaultPrismCharacter.Name = "lblDefaultPrismCharacter"
-        Me.lblDefaultPrismCharacter.Size = New System.Drawing.Size(140, 13)
-        Me.lblDefaultPrismCharacter.TabIndex = 1
-        Me.lblDefaultPrismCharacter.Text = "Default Prism Character:"
-        '
-        'cboDefaultPrismCharacter
-        '
-        Me.cboDefaultPrismCharacter.DisplayMember = "Text"
-        Me.cboDefaultPrismCharacter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboDefaultPrismCharacter.FormattingEnabled = True
-        Me.cboDefaultPrismCharacter.ItemHeight = 15
-        Me.cboDefaultPrismCharacter.Location = New System.Drawing.Point(244, 96)
-        Me.cboDefaultPrismCharacter.Name = "cboDefaultPrismCharacter"
-        Me.cboDefaultPrismCharacter.Size = New System.Drawing.Size(170, 21)
-        Me.cboDefaultPrismCharacter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboDefaultPrismCharacter.TabIndex = 0
         '
         'gpCosts
         '
@@ -982,40 +1029,6 @@ Partial Public Class frmPrismSettings
         Me.nudFactoryInstallCost.TabIndex = 0
         Me.nudFactoryInstallCost.Value = 1000.0R
         '
-        'btnNoRepContracts
-        '
-        Me.btnNoRepContracts.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnNoRepContracts.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnNoRepContracts.FocusCuesEnabled = False
-        Me.btnNoRepContracts.Image = Global.EveHQ.Prism.My.Resources.Resources.icon38_111
-        Me.btnNoRepContracts.Location = New System.Drawing.Point(550, 270)
-        Me.btnNoRepContracts.Name = "btnNoRepContracts"
-        Me.btnNoRepContracts.Size = New System.Drawing.Size(21, 21)
-        Me.btnNoRepContracts.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnNoRepContracts.TabIndex = 29
-        '
-        'cboContractsRep
-        '
-        Me.cboContractsRep.DisplayMember = "Text"
-        Me.cboContractsRep.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboContractsRep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboContractsRep.FormattingEnabled = True
-        Me.cboContractsRep.ItemHeight = 15
-        Me.cboContractsRep.Location = New System.Drawing.Point(370, 270)
-        Me.cboContractsRep.Name = "cboContractsRep"
-        Me.cboContractsRep.Size = New System.Drawing.Size(177, 21)
-        Me.cboContractsRep.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboContractsRep.TabIndex = 28
-        '
-        'lblContractsRep
-        '
-        Me.lblContractsRep.AutoSize = True
-        Me.lblContractsRep.Location = New System.Drawing.Point(292, 270)
-        Me.lblContractsRep.Name = "lblContractsRep"
-        Me.lblContractsRep.Size = New System.Drawing.Size(58, 13)
-        Me.lblContractsRep.TabIndex = 27
-        Me.lblContractsRep.Text = "Contracts:"
-        '
         'frmPrismSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1035,13 +1048,13 @@ Partial Public Class frmPrismSettings
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Prism Settings"
         Me.pnlSettings.ResumeLayout(False)
+        Me.gpGeneral.ResumeLayout(False)
+        Me.gpGeneral.PerformLayout()
         Me.gpCorpReps.ResumeLayout(False)
         Me.gpCorpReps.PerformLayout()
         CType(Me.adtCorpReps, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gpAssetColumns.ResumeLayout(False)
         Me.gpAssetColumns.PerformLayout()
-        Me.gpGeneral.ResumeLayout(False)
-        Me.gpGeneral.PerformLayout()
         Me.gpCosts.ResumeLayout(False)
         Me.gpCosts.PerformLayout()
         CType(Me.nudFactoryRunningCost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1117,4 +1130,5 @@ Partial Public Class frmPrismSettings
     Friend WithEvents btnNoRepContracts As DevComponents.DotNetBar.ButtonX
     Friend WithEvents cboContractsRep As DevComponents.DotNetBar.Controls.ComboBoxEx
     Friend WithEvents lblContractsRep As System.Windows.Forms.Label
+    Friend WithEvents btnDeleteUndefinedJournals As DevComponents.DotNetBar.ButtonX
 End Class
