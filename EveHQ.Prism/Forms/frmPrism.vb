@@ -3860,7 +3860,7 @@ Public Class frmPrism
                             TransItem.Cells.Add(New Cell("[t] " & BuildJournalDescription(CInt(refType), JE.Item("ownerName1").ToString, JE.Item("ownerName2").ToString, JE.Item("argID1").ToString, JE.Item("argName1").ToString)))
                             Dim transReason As New Node
                             transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell)
-                            transReason.Cells.Add(New Cell(Item.Name))
+                            transReason.Cells.Add(New Cell(Item.Name & " (" & CDbl(JE.Item("quantity")).ToString("N0") & " @ " & CDbl(JE.Item("price")).ToString("N2") & " isk p/u)"))
                             TransItem.Nodes.Add(transReason)
                         Else
                             TransItem.Cells.Add(New Cell(BuildJournalDescription(CInt(refType), JE.Item("ownerName1").ToString, JE.Item("ownerName2").ToString, JE.Item("argID1").ToString, JE.Item("argName1").ToString)))
