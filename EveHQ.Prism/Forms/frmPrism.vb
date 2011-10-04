@@ -3800,6 +3800,8 @@ Public Class frmPrism
                 cboWalletJournalDivision.EndUpdate()
                 cboWalletJournalDivision.SelectedIndex = 0
             Else
+                cboWalletJournalDivision.Items.Add("1000")
+                cboWalletJournalDivision.SelectedIndex = 0
                 cboWalletJournalDivision.Enabled = False
             End If
 
