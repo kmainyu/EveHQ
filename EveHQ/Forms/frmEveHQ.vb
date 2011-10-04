@@ -42,6 +42,7 @@ Public Class frmEveHQ
     Dim EveHQMLF As New frmMarketPrices
     Dim appStartUp As Boolean = True
     Private EveHQTrayForm As Form = Nothing
+    Dim IconShutdown As Boolean = False
 
 #Region "Icon Routines"
 
@@ -109,7 +110,8 @@ Public Class frmEveHQ
         End If
     End Sub
     Private Sub ctxExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxExit.Click
-        Call Me.ShutdownRoutine()
+        IconShutdown = True
+        Me.Close()
     End Sub
     Private Sub ctxAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxAbout.Click
         If frmAbout.Visible = False Then
@@ -252,7 +254,7 @@ Public Class frmEveHQ
             If EveHQ.Core.HQ.RestoredSettings = False Then
                 ' Check if we should minimise rather than exit?
                 If e.CloseReason <> CloseReason.TaskManagerClosing And e.CloseReason <> CloseReason.WindowsShutDown Then
-                    If EveHQ.Core.HQ.EveHQSettings.MinimiseExit = True Then
+                    If EveHQ.Core.HQ.EveHQSettings.MinimiseExit = True And IconShutdown = False Then
                         Me.WindowState = FormWindowState.Minimized
                         EveHQ.Core.HQ.WriteLogEvent("Shutdown: EveHQ Form Closure aborted due to 'Minimise on Exit' setting")
                         e.Cancel = True
