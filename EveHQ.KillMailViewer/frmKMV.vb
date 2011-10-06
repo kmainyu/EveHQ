@@ -406,7 +406,7 @@ Public Class frmKMV
         End If
         KMText.AppendLine("Destroyed: " & EveHQ.Core.HQ.itemData(selKM.Victim.shipTypeID).Name)
         KMText.AppendLine("System: " & ss.Name)
-        KMText.AppendLine("Security: " & FormatNumber(Math.Max(ss.Security, 0), 1))
+        KMText.AppendLine("Security: " & Math.Max(ss.Security, 0).ToString("N1"))
         KMText.AppendLine("Damage Taken: " & selKM.Victim.damageTaken.ToString)
 
         ' Put the attackers into the correct order
@@ -428,7 +428,7 @@ Public Class frmKMV
                 Else
                     KMText.AppendLine("")
                 End If
-                KMText.AppendLine("Security: " & FormatNumber(attacker.secStatus, 1))
+                KMText.AppendLine("Security: " & attacker.secStatus.ToString("N1"))
                 KMText.AppendLine("Corp: " & attacker.corpName)
                 If attacker.allianceName = "" Then
                     KMText.AppendLine("Alliance: NONE")
