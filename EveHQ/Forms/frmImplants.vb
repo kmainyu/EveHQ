@@ -203,7 +203,7 @@ Public Class frmImplants
                     Case 4
                         Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Willpower:"
                 End Select
-                Me.gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = FormatNumber(pointScores(tagArray(att), 1), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                Me.gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = pointScores(tagArray(att), 1).ToString("N2")
             Next
             If nTime <= iTime Then
                 lblTimeSaving.Text = "Time Saving: " & EveHQ.Core.SkillFunctions.TimeToString(iTime - nTime, False)

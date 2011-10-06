@@ -99,7 +99,7 @@ Public Class frmCharCreate
             lvwSkills.Items.Add(skill)
             skillPoints += CInt(skill.SubItems(2).Text)
         Next
-        lblSP.Text = "Skillpoints: " & FormatNumber(skillPoints, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblSP.Text = "Skillpoints: " & skillPoints.ToString("N0")
 
         ' Enable character options
         lblSelectAttributes.Enabled = True

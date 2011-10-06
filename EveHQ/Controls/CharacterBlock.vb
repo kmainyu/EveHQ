@@ -44,7 +44,7 @@ Public Class CharacterBlock
         lblSkill.Text = dPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel)
         Dim currentDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
         lblTime.Text = Format(currentDate, "ddd") & " " & currentDate & " (" & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime) & ")"
-        lblIsk.Text = "Isk: " & FormatNumber(dPilot.Isk, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblIsk.Text = "Isk: " & dPilot.Isk.ToString("N2")
 
     End Sub
 End Class

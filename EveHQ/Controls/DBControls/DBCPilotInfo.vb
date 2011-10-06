@@ -97,7 +97,7 @@ Public Class DBCPilotInfo
             ' Update the info
             pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(cPilot)
             lblCorp.Text = "Member of " & cPilot.Corp
-            lblIsk.Text = "Balance: " & FormatNumber(cPilot.Isk, 2)
+            lblIsk.Text = "Balance: " & cPilot.Isk.ToString("N2")
             Call Me.UpdateTrainingInfo()
         Else
             ' Clear the info
@@ -117,14 +117,14 @@ Public Class DBCPilotInfo
         If cPilot IsNot Nothing Then
             If cPilot.Training = True Then
                 ' Training
-                lblSP.Text = "Skillpoints: " & FormatNumber(cPilot.SkillPoints + cPilot.TrainingCurrentSP, 0)
+                lblSP.Text = "Skillpoints: " & (cPilot.SkillPoints + cPilot.TrainingCurrentSP).ToString("N0")
                 Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingEndTime)
                 lblTraining.Text = "Training: " & cPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel)
                 lblTrainingEnd.Text = "Training Ends: " & Format(localdate, "ddd") & " " & localdate
                 lblTrainingTime.Text = "Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
             Else
                 ' Not training
-                lblSP.Text = "Skillpoints: " & FormatNumber(cPilot.SkillPoints, 0)
+                lblSP.Text = "Skillpoints: " & cPilot.SkillPoints.ToString("N0")
                 lblTraining.Text = "Not currently training"
                 lblTrainingEnd.Text = "Training Ends: n/a"
                 lblTrainingTime.Text = "Time Remaining: n/a"

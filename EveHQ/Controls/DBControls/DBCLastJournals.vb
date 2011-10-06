@@ -140,12 +140,12 @@ Public Class DBCLastJournals
                         transB = Double.Parse(transaction.Attributes.GetNamedItem("balance").Value, culture)
                         If transA >= 0 Then
                             newTransaction.Style = StyleGreen
-                            newTransaction.Cells.Add(New Cell(FormatNumber(transA, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault), StyleGreenRight))
-                            newTransaction.Cells.Add(New Cell(FormatNumber(transB, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault), StyleGreenRight))
+                            newTransaction.Cells.Add(New Cell(transA.ToString("N2"), StyleGreenRight))
+                            newTransaction.Cells.Add(New Cell(transB.ToString("N2"), StyleGreenRight))
                         Else
                             newTransaction.Style = StyleRed
-                            newTransaction.Cells.Add(New Cell(FormatNumber(transA, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault), StyleRedRight))
-                            newTransaction.Cells.Add(New Cell(FormatNumber(transB, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault), StyleRedRight))
+                            newTransaction.Cells.Add(New Cell(transA.ToString("N2"), StyleRedRight))
+                            newTransaction.Cells.Add(New Cell(transB.ToString("N2"), StyleRedRight))
                         End If
                         adtLastTransactions.Nodes.Add(newTransaction)
                     End If

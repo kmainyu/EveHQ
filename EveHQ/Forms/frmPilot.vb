@@ -183,7 +183,7 @@ Public Class frmPilot
                         MessageBox.Show("Missing the training skill from the skills!!")
                     End If
                     lblTrainingSkill.Text = currentSkill.Name & " (Level " & EveHQ.Core.SkillFunctions.Roman(displayPilot.TrainingSkillLevel) & ")"
-                    lblTrainingRate.Text = "Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, EveHQ.Core.HQ.SkillListID(currentSkill.ID)), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " SP/Hr"
+                    lblTrainingRate.Text = "Rank " & currentSkill.Rank & " @ " & EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, EveHQ.Core.HQ.SkillListID(currentSkill.ID)).ToString("N0") & " SP/Hr"
                     Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.TrainingEndTime)
                     lblTrainingEnds.Text = Format(localdate, "ddd") & " " & localdate
                     lblTrainingTime.Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
@@ -395,11 +395,11 @@ Public Class frmPilot
                     End If
                 End If
                 ' Write percentage
-                newCLVItem.Cells.Add(New Cell(FormatNumber(percent, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"))
-                newCLVItem.Cells(3).Tag = FormatNumber(percent, 0)
+                newCLVItem.Cells.Add(New Cell(percent.ToString("N0") & "%"))
+                newCLVItem.Cells(3).Tag = percent.ToString("N2")
 
                 ' Write skillpoints
-                newCLVItem.Cells.Add(New Cell(FormatNumber(cSkill.SP, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)))
+                newCLVItem.Cells.Add(New Cell(cSkill.SP.ToString("N0")))
                 newCLVItem.Cells(4).Tag = cSkill.SP
 
                 If chkGroupSkills.Checked = True Then
@@ -415,7 +415,7 @@ Public Class frmPilot
                                 End If
                             End If
                             groupCLV.Tag = groupCLV.Text
-                            groupCLV.Cells(4).Text = FormatNumber(groupHeaders(skillGroup, 2), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                            groupCLV.Cells(4).Text = CDbl(groupHeaders(skillGroup, 2)).ToString("N0")
                             groupCLV.Cells(4).Tag = groupHeaders(skillGroup, 2)
                             Exit For
                         End If
@@ -613,9 +613,9 @@ Public Class frmPilot
                             percent = (Math.Min(Math.Max(CDbl((cSkill.SP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
                         End If
                     End If
-                    TrainingSkill.Cells(3).Text = FormatNumber(percent, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                    TrainingSkill.Cells(3).Text = percent.ToString("N0") & "%"
                     TrainingSkill.Cells(3).Tag = percent
-                    TrainingSkill.Cells(4).Text = FormatNumber(cSkill.SP + displayPilot.TrainingCurrentSP, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                    TrainingSkill.Cells(4).Text = (cSkill.SP + displayPilot.TrainingCurrentSP).ToString("N0")
                     TrainingSkill.Cells(4).Tag = cSkill.SP
                     TrainingSkill.Cells(5).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                     TrainingSkill.Cells(5).Tag = displayPilot.TrainingCurrentTime

@@ -91,7 +91,7 @@ Public Class frmExtraStandings
             Else
                 missionGain = gainTotal / gainCount
             End If
-            lblGainAverage.Text = "Average: " & FormatNumber(missionGain, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            lblGainAverage.Text = "Average: " & missionGain.ToString("N4")
         End If
         Dim missionCount As Integer = 0
         lvwStandings.BeginUpdate()
@@ -102,11 +102,11 @@ Public Class frmExtraStandings
                 missionCount += 1
                 newStand = New ListViewItem
                 newStand.Text = missionCount.ToString
-                newStand.SubItems.Add(FormatNumber(curStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                newStand.SubItems.Add(FormatNumber(missionGain, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newStand.SubItems.Add(curStanding.ToString("N10"))
+                newStand.SubItems.Add(missionGain.ToString("N4"))
                 newStanding = curStanding + (missionGain * (10 - curStanding) / 100)
                 If newStanding <= -10 Then newStanding = -10
-                newStand.SubItems.Add(FormatNumber(newStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newStand.SubItems.Add(newStanding.ToString("N10"))
                 If Int(curStanding) <> Int(newStanding) Then
                     newStand.BackColor = Drawing.Color.LightSteelBlue
                 End If
@@ -116,7 +116,7 @@ Public Class frmExtraStandings
             If newStanding = -10 Then
                 lblMissionsRequired.Text = "Infinite Missions Required!"
             Else
-                lblMissionsRequired.Text = "Missions Required: " & FormatNumber(missionCount, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                lblMissionsRequired.Text = "Missions Required: " & missionCount.ToString("N0")
             End If
         Else
             lblMissionsRequired.Text = "Infinite Missions Required!"
@@ -127,8 +127,8 @@ Public Class frmExtraStandings
 
     Private Sub frmExtraStandings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Text = "Standings Extrapolation - " & Party
-        Me.lblCurrentStanding.Text = FormatNumber(cStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        Me.lblCurrentBaseStanding.Text = FormatNumber(cBaseStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        Me.lblCurrentStanding.Text = cStanding.ToString("N10")
+        Me.lblCurrentBaseStanding.Text = cBaseStanding.ToString("N10")
         Me.CalculateMissions()
     End Sub
 

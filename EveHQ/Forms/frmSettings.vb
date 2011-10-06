@@ -1645,15 +1645,12 @@ Public Class frmSettings
             lblEveDir = CType(gbFolderHost.Controls("lblEveDir" & CStr(folder).Trim), Label)
             chkLUA = CType(gbFolderHost.Controls("chkLUA" & CStr(folder).Trim), CheckBox)
             txtFName = CType(gbFolderHost.Controls("txtFriendlyName" & CStr(folder).Trim), TextBox)
-            'lblCacheSize = CType(gbFolderHost.Controls("lblCacheSize" & CStr(folder).Trim), Label)
             lblEveDir.Text = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)
             If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)) = True Then
-                'lblCacheSize.Text = "Cache Size: " & FormatNumber(Me.CheckCacheSize(folder) / 1024 / 1024, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "Mb"
                 chkLUA.Enabled = True
                 txtFName.Enabled = True
                 txtFName.Text = EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(folder)
             Else
-                'lblCacheSize.Text = ""
                 chkLUA.Enabled = False
                 txtFName.Enabled = False
                 txtFName.Text = ""
@@ -1691,7 +1688,6 @@ Public Class frmSettings
                 Dim txtFName As TextBox = CType(gbFolderHost.Controls("txtFriendlyName" & CStr(folder).Trim), TextBox)
                 txtFName.Enabled = True
                 Dim lblCacheSize As Label = CType(gbFolderHost.Controls("lblCacheSize" & CStr(folder).Trim), Label)
-                'lblCacheSize.Text = "Cache Size: " & FormatNumber(Me.CheckCacheSize(folder) / 1024 / 1024, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "Mb"
                 If chkLUA.Checked = False Then
                     'lblCacheSize.Text &= " (shared)"
                 End If
@@ -1720,7 +1716,6 @@ Public Class frmSettings
         Call CheckLUA(chkLUA, folder)
         Dim gbFolderHost As GroupBox = CType(Me.gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
         Dim lblCacheSize As Label = CType(gbFolderHost.Controls("lblCacheSize" & CStr(folder).Trim), Label)
-        'lblCacheSize.Text = "Cache Size: " & FormatNumber(Me.CheckCacheSize(folder) / 1024 / 1024, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "Mb"
         If chkLUA.Checked = False Then
             lblCacheSize.Text &= " (shared)"
         End If

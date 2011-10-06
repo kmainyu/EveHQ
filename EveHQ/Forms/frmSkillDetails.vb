@@ -108,13 +108,13 @@ Public Class frmSkillDetails
             Else
                 .Items(2).SubItems(1).Text = "<Unknown>"
             End If
-            .Items(3).SubItems(1).Text = FormatNumber(cSkill.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            .Items(4).SubItems(1).Text = (cSkill.PA)
-            .Items(5).SubItems(1).Text = (cSkill.SA)
-            .Items(6).SubItems(1).Text = (cLevel)
-            .Items(7).SubItems(1).Text = (FormatNumber(cSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            .Items(8).SubItems(1).Text = (cTime)
-            .Items(9).SubItems(1).Text = (FormatNumber(cRate, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            .Items(3).SubItems(1).Text = cSkill.BasePrice.ToString("N2")
+            .Items(4).SubItems(1).Text = cSkill.PA
+            .Items(5).SubItems(1).Text = cSkill.SA
+            .Items(6).SubItems(1).Text = cLevel.ToString
+            .Items(7).SubItems(1).Text = CLng(cSP).ToString("N0")
+            .Items(8).SubItems(1).Text = cTime
+            .Items(9).SubItems(1).Text = CDbl(cRate).ToString("N0")
         End With
 
     End Sub
@@ -363,8 +363,8 @@ Public Class frmSkillDetails
             Dim newGroup As ListViewItem = New ListViewItem
             newGroup.Text = toLevel.ToString
             Dim SP As Long = CLng(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(cSkill.Rank, toLevel)))
-            newGroup.SubItems.Add(FormatNumber(SP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newGroup.SubItems.Add(FormatNumber(SP - lastSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            newGroup.SubItems.Add(SP.ToString("N0"))
+            newGroup.SubItems.Add((SP - lastSP).ToString("N0"))
             lastSP = SP
             lvwSPs.Items.Add(newGroup)
         Next
@@ -478,7 +478,7 @@ Public Class frmSkillDetails
             If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
                 lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                 Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
-                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                lvwDetails.Items(7).SubItems(1).Text = (mySkill.SP + displayPilot.TrainingCurrentSP).ToString("N0")
                 Dim totalTime As Long = 0
                 For toLevel As Integer = 1 To 5
                     Select Case toLevel

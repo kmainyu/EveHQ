@@ -114,9 +114,9 @@ Public Class DBCMarketOrders
                             End If
                             sOrder.Text = itemName
                             Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
-                            sOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems.Add(quantity.ToString("N0") & " / " & CDbl(Order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
-                            sOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
                             loc = EveHQ.Core.DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
                             sOrder.SubItems.Add(loc)
@@ -143,9 +143,9 @@ Public Class DBCMarketOrders
                             End If
                             sOrder.Text = itemName
                             Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
-                            sOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems.Add(quantity.ToString("N0") & " / " & CDbl(Order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
-                            sOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
                             loc = EveHQ.Core.DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
                             sOrder.SubItems.Add(loc)
@@ -163,24 +163,12 @@ Public Class DBCMarketOrders
                             End If
                             bOrder.Text = itemName
                             Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
-                            bOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            bOrder.SubItems.Add(quantity.ToString("N0") & " / " & CDbl(Order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
-                            bOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            bOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
                             loc = EveHQ.Core.DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
                             bOrder.SubItems.Add(loc)
-                            'Select Case CInt(Order.Attributes.GetNamedItem("range").Value)
-                            '    Case -1
-                            '        bOrder.SubItems.Add("Station")
-                            '    Case 0
-                            '        bOrder.SubItems.Add("System")
-                            '    Case 32767
-                            '        bOrder.SubItems.Add("Region")
-                            '    Case Is > 0, Is < 32767
-                            '        bOrder.SubItems.Add(Order.Attributes.GetNamedItem("range").Value & " Jumps")
-                            'End Select
-                            'bOrder.SubItems(4).Tag = CInt(Order.Attributes.GetNamedItem("range").Value)
-                            'bOrder.SubItems.Add(FormatNumber(Double.Parse(Order.Attributes.GetNamedItem("minVolume").Value, culture), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                             Dim orderExpires As TimeSpan = issueDate - Now
                             orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
@@ -205,9 +193,9 @@ Public Class DBCMarketOrders
                             End If
                             bOrder.Text = itemName
                             Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
-                            bOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            bOrder.SubItems.Add(quantity.ToString("N0") & " / " & CDbl(Order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
-                            bOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            bOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
                             loc = EveHQ.Core.DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
                             bOrder.SubItems.Add(loc)
@@ -236,15 +224,15 @@ Public Class DBCMarketOrders
             Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
             lblTotalOrders.Text = maxorders.ToString
             lblOrders.Text = (maxorders - TotalOrders).ToString
-            lblSellTotal.Text = FormatNumber(sellTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
-            lblBuyTotal.Text = FormatNumber(buyTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
-            lblEscrow.Text = FormatNumber(TotalEscrow, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk (additional " + FormatNumber(cover, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk to cover)"
+            lblSellTotal.Text = sellTotal.ToString("N2") & " isk"
+            lblBuyTotal.Text = buyTotal.ToString("N2") & " isk"
+            lblEscrow.Text = TotalEscrow.ToString("N2") & " isk (additional " + cover.ToString("N2") & " isk to cover)"
             lblAskRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement)))
             lblBidRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing)))
             lblModRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading)))
             lblRemoteRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility)))
-            lblBrokerFee.Text = FormatNumber(BrokerFee, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
-            lblTransTax.Text = FormatNumber(TransTax, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
+            lblBrokerFee.Text = BrokerFee.ToString("N2") & "%"
+            lblTransTax.Text = TransTax.ToString("N2") & "%"
         Else
             clvBuyOrders.BeginUpdate()
             clvBuyOrders.Items.Clear()

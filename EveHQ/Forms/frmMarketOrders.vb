@@ -179,8 +179,8 @@ Public Class frmMarketOrders
             Else
                 newOrder.Text = oStation.ToString
             End If
-            newOrder.Cells.Add(New Cell(FormatNumber(oVol, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-            newOrder.Cells.Add(New Cell(FormatNumber(oPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+            newOrder.Cells.Add(New Cell(oVol.ToString("N0")))
+            newOrder.Cells.Add(New Cell(oPrice.ToString("N2")))
             newOrder.Cells.Add(New Cell(orderExpiry))
             newOrder.Cells(3).Tag = orderExpires.TotalSeconds
             If oType = 0 Then
@@ -308,24 +308,24 @@ Public Class frmMarketOrders
         End If
 
         ' Show the order data
-        LblSellOrderVol.Text = FormatNumber(volSell, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblSellOrderMin.Text = FormatNumber(minSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblSellOrderMax.Text = FormatNumber(maxSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblSellOrderMean.Text = FormatNumber(avgSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblSellOrderMedian.Text = FormatNumber(medSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblSellOrderStd.Text = FormatNumber(stdSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblBuyOrderVol.Text = FormatNumber(volBuy, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblBuyOrderMin.Text = FormatNumber(minBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblBuyOrderMax.Text = FormatNumber(maxBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblBuyOrderMean.Text = FormatNumber(avgBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblBuyOrderMedian.Text = FormatNumber(medBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblBuyOrderStd.Text = FormatNumber(stdBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblAllOrderVol.Text = FormatNumber(volAll, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblAllOrderMin.Text = FormatNumber(minAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblAllOrderMax.Text = FormatNumber(maxAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblAllOrderMean.Text = FormatNumber(avgAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblAllOrderMedian.Text = FormatNumber(medAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblAllOrderStd.Text = FormatNumber(stdAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        LblSellOrderVol.Text = volSell.ToString("N0")
+        lblSellOrderMin.Text = minSell.ToString("N2")
+        lblSellOrderMax.Text = maxSell.ToString("N2")
+        lblSellOrderMean.Text = avgSell.ToString("N2")
+        lblSellOrderMedian.Text = medSell.ToString("N2")
+        lblSellOrderStd.Text = stdSell.ToString("N2")
+        lblBuyOrderVol.Text = volBuy.ToString("N0")
+        lblBuyOrderMin.Text = minBuy.ToString("N2")
+        lblBuyOrderMax.Text = maxBuy.ToString("N2")
+        lblBuyOrderMean.Text = avgBuy.ToString("N2")
+        lblBuyOrderMedian.Text = medBuy.ToString("N2")
+        lblBuyOrderStd.Text = stdBuy.ToString("N2")
+        lblAllOrderVol.Text = volAll.ToString("N0")
+        lblAllOrderMin.Text = minAll.ToString("N2")
+        lblAllOrderMax.Text = maxAll.ToString("N2")
+        lblAllOrderMean.Text = avgAll.ToString("N2")
+        lblAllOrderMedian.Text = medAll.ToString("N2")
+        lblAllOrderStd.Text = stdAll.ToString("N2")
 
         'Calculate the user price
         Dim priceArray As New ArrayList
@@ -337,8 +337,8 @@ Public Class frmMarketOrders
         ' Get the price
         UserPrice = EveHQ.Core.MarketFunctions.CalculateUserPriceFromPriceArray(priceArray, oReg.ToString, oTypeID.ToString)
 
-        lblYourPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblCurrentPrice.Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(oTypeID.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblYourPrice.Text = UserPrice.ToString("N2")
+        lblCurrentPrice.Text = EveHQ.Core.DataFunctions.GetPrice(oTypeID.ToString).ToString("N2")
 
         ' Draw the graph
         If avgAll <> 0 And stdAll <> 0 Then
@@ -428,13 +428,13 @@ Public Class frmMarketOrders
     Private Sub btnSetMarketPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetMarketPrice.Click
         ' Store the user's price in the database
         Call EveHQ.Core.DataFunctions.SetMarketPrice(typeID, UserPrice, False)
-        lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCurrentPrice.Text = UserPrice.ToString("N2")
     End Sub
 
     Private Sub btnSetCustomPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetCustomPrice.Click
         ' Store the user's price in the database
         Call EveHQ.Core.DataFunctions.SetCustomPrice(typeID, UserPrice, False)
-        lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCurrentPrice.Text = UserPrice.ToString("N2")
     End Sub
 
     Private Sub adtBuyers_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtBuyers.ColumnHeaderMouseDown
