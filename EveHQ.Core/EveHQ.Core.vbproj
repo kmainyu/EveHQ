@@ -157,7 +157,6 @@
     <Compile Include="frmUpdatePricesDB.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="G15LCD.vb" />
     <Compile Include="G15LCDB.vb" />
     <Compile Include="G15LCDv2.vb" />
     <Compile Include="HQ.vb" />

@@ -287,9 +287,9 @@ Public Class G15LCDv2
             Dim strLCD As String = ""
             strLCD &= cPilot.Name & ControlChars.CrLf
             strLCD &= cPilot.Corp & ControlChars.CrLf
-            Dim SP As String = FormatNumber(cPilot.SkillPoints + cPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Dim SP As String = (cPilot.SkillPoints + cPilot.TrainingCurrentSP).ToString("N0")
             strLCD &= "SP: " & SP & ControlChars.CrLf
-            strLCD &= "ISK: " & FormatNumber(cPilot.Isk, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            strLCD &= "ISK: " & cPilot.Isk.ToString("N2")
             screen.DrawString(strLCD, lcdFont, Brushes.Black, New RectangleF(0, 0, 160, 43), strformat)
             If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)

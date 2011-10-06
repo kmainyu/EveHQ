@@ -50,7 +50,7 @@ Public Class Reports
         strHTML &= "<tr><td>Character Name</td><td>" & rpilot.Name & "</td></tr>"
         strHTML &= "<tr><td>Corporation</td><td>" & rpilot.Corp & "</td></tr>"
         strHTML &= "<tr><td>Total Cash</td><td>" & Format(CDbl(rpilot.Isk), "Standard") & "</td></tr>"
-        strHTML &= "<tr><td>Total Skillpoints</td><td>" & FormatNumber(CLng(rpilot.SkillPoints) + CLng(currentSP), 0, , , ) & " (in " & rpilot.PilotSkills.Count & " skills)</td></tr>"
+        strHTML &= "<tr><td>Total Skillpoints</td><td>" & (CLng(rpilot.SkillPoints) + CLng(currentSP)).ToString("N0") & " (in " & rpilot.PilotSkills.Count & " skills)</td></tr>"
         strHTML &= "<tr><td>Currently Training</td><td>"
         If rpilot.Training = True Then
             strHTML &= currentSkill.Name & " (Level " & rpilot.TrainingSkillLevel & ")</td></tr>"
@@ -152,8 +152,8 @@ Public Class Reports
         strText.AppendLine(String.Format("{0,16} {1,-18}", "Race:", rpilot.Race))
         strText.AppendLine(String.Format("{0,16} {1,-18}", "Bloodline:", rpilot.Blood))
         strText.AppendLine(String.Format("{0,16} {1,-18}", "Corporation:", rpilot.Corp))
-        strText.AppendLine(String.Format("{0,16} {1,-18}", "Isk:", FormatNumber(rpilot.Isk, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-        strText.AppendLine(String.Format("{0,16} {1,-18}", "Skillpoints:", FormatNumber(CLng(rpilot.SkillPoints) + CLng(currentSP), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+        strText.AppendLine(String.Format("{0,16} {1,-18}", "Isk:", rpilot.Isk.ToString("N2")))
+        strText.AppendLine(String.Format("{0,16} {1,-18}", "Skillpoints:", (CLng(rpilot.SkillPoints) + CLng(currentSP)).ToString("N0")))
         strText.AppendLine(String.Format("{0,16} {1,-18}", "Skills:", rpilot.PilotSkills.Count))
         strText.AppendLine()
         strText.AppendLine(String.Format("{0,16} {1,-18}", "Charisma:", Format(CDbl(rpilot.CAttT), "##.00")))
@@ -188,8 +188,8 @@ Public Class Reports
         strText.AppendLine("Race: " & rpilot.Race)
         strText.AppendLine("Bloodline: " & rpilot.Blood)
         strText.AppendLine("Corporation: " & rpilot.Corp)
-        strText.AppendLine("Isk: " & FormatNumber(rpilot.Isk, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-        strText.AppendLine("Skillpoints: " & FormatNumber(CLng(rpilot.SkillPoints) + CLng(currentSP), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        strText.AppendLine("Isk: " & rpilot.Isk.ToString("N2"))
+        strText.AppendLine("Skillpoints: " & (CLng(rpilot.SkillPoints) + CLng(currentSP)).ToString("N0"))
         strText.AppendLine("Skills: " & rpilot.PilotSkills.Count)
         strText.AppendLine()
         strText.AppendLine("Charisma: " & Format(CDbl(rpilot.CAttT), "##.00"))
@@ -1045,7 +1045,7 @@ Public Class Reports
             strHTML &= "<td align=center>" & curLevel.ToString & "</td>"
             strHTML &= "<td align=center>" & startLevel.ToString & "</td>"
             strHTML &= "<td align=center>" & endLevel.ToString & "</td>"
-            strHTML &= "<td align=center>" & FormatNumber(percent, 0) & "</td>"
+            strHTML &= "<td align=center>" & percent.ToString("N0") & "</td>"
             strHTML &= "<td>" & timeToEnd & "</td>"
             strHTML &= "<td>" & endTime & "</td>"
             strHTML &= "</tr>"
@@ -1112,13 +1112,13 @@ Public Class Reports
             Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
             strHTML &= "<tr height=20px>"
             strHTML &= "<td width=350px>" & skillName & "</td>"
-            strHTML &= "<td align=left>" & FormatNumber(cSkill.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>"
+            strHTML &= "<td align=left>" & cSkill.BasePrice.ToString("N2") & "</td>"
             strHTML &= "</tr>"
             totalCost += cSkill.BasePrice
         Next
 
         strHTML &= "<tr height=20px><td>&nbsp;</td><td></td></tr>"
-        strHTML &= "<tr height=20px><td width=350px>Total Queue Shopping List Cost:</td><td>" & FormatNumber(totalCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td></tr>"
+        strHTML &= "<tr height=20px><td width=350px>Total Queue Shopping List Cost:</td><td>" & totalCost.ToString("N2") & "</td></tr>"
         strHTML &= "</table><p></p>"
 
         Return strHTML
@@ -1761,23 +1761,23 @@ Public Class Reports
                 strHTML &= "<td width=70px><img src='http://image.eveonline.com/Character/" & rPilot.ID & "_256.jpg' style='border:0px;width:64px;height:64px;' alt='" & rPilot.Name & "'></td>"
                 strHTML &= "<td width=165px>" & rPilot.Name & "</td>"
                 strHTML &= "<td width=165px>" & rPilot.Corp & "</td>"
-                strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.Isk, 2) & "</td>"
+                strHTML &= "<td width=125px align=right>" & rPilot.Isk.ToString("N2") & "</td>"
                 totalIsk += rPilot.Isk
                 If rPilot.Training = True Then
                     Dim skillname As String = EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)
                     currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rPilot))
                     currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rPilot))
-                    strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints + rPilot.TrainingCurrentSP, 0) & "</td>"
+                    strHTML &= "<td width=125px align=right>" & (rPilot.SkillPoints + rPilot.TrainingCurrentSP).ToString("N0") & "</td>"
 					strHTML &= "<td width=200px align=right>" & skillname & " " & EveHQ.Core.SkillFunctions.Roman(rPilot.TrainingSkillLevel) & "<br>" & currentTime & "</td>"
                 Else
-                    strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints, 0) & "</td>"
+                    strHTML &= "<td width=125px align=right>" & rPilot.SkillPoints.ToString("N0") & "</td>"
                     strHTML &= "<td width=200px align=right>n/a</td>"
                 End If
                 strHTML &= "</tr>"
             End If
         Next
         ' Write the total wealth line
-        strHTML &= "<tr height=75px><td colspan=2></td><td>Total Wealth:</td><td align=right>" & FormatNumber(totalIsk, 2) & "</td><td colspan=2></tr>"
+        strHTML &= "<tr height=75px><td colspan=2></td><td>Total Wealth:</td><td align=right>" & totalIsk.ToString("N2") & "</td><td colspan=2></tr>"
         strHTML &= "</table><p></p>"
 
         Return strHTML
@@ -1815,7 +1815,7 @@ Public Class Reports
             strHTML &= "<tr><td colspan=6 class=thead>Skill Rank " & rank & "</td></tr>"
             strHTML &= "<tr><td>&nbsp;</td>"
             For level As Integer = 1 To 5
-                strHTML &= "<td align=center>" & FormatNumber(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(rank, level)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>"
+                strHTML &= "<td align=center>" & Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(rank, level)).ToString("N0") & "</td>"
             Next
             strHTML &= "</tr>"
         Next
@@ -2159,17 +2159,17 @@ Public Class Reports
         For group As Integer = 1 To EveHQ.Core.HQ.SkillGroups.Count
             If CDbl(repGroup(group, 3)) > 0 Then
                 If CDbl(repGroup(group, 3)) / totalSPCount * 100 > 2.5 Then
-                    segment(group) = myPane.AddPieSlice(CDbl(repGroup(group, 3)), EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, repGroup(group, 1) & " (" & FormatNumber(repGroup(group, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")")
+                    segment(group) = myPane.AddPieSlice(CDbl(repGroup(group, 3)), EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, repGroup(group, 1) & " (" & CDbl(repGroup(group, 3)).ToString("N0") & ")")
                     segment(group).LabelType = ZedGraph.PieLabelType.Name_Percent
                     segment(group).LabelDetail.FontSpec.Size = 8
                 Else
                     otherGroup += CDbl(repGroup(group, 3))
-                    otherList.Add(repGroup(group, 1) & ": " & FormatNumber(repGroup(group, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    otherList.Add(repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0"))
                 End If
             End If
         Next
         If otherGroup > 0 Then
-            segment(0) = myPane.AddPieSlice(otherGroup, EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, "Other Groups (" & FormatNumber(otherGroup, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")")
+            segment(0) = myPane.AddPieSlice(otherGroup, EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, "Other Groups (" & otherGroup.ToString("N0") & ")")
             segment(0).LabelType = ZedGraph.PieLabelType.Name_Percent
             segment(0).LabelDetail.FontSpec.Size = 8
             ' Make a text label to highlight the total value
@@ -2268,17 +2268,17 @@ Public Class Reports
         For group As Integer = 1 To EveHQ.Core.HQ.SkillGroups.Count
             If CDbl(repGroup(group, 3)) > 0 Then
                 If CDbl(repGroup(group, 3)) / totalSkillCost * 100 > 1.25 Then
-                    segment(group) = myPane.AddPieSlice(CDbl(repGroup(group, 3)), EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, repGroup(group, 1) & " (" & FormatNumber(repGroup(group, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK)")
+                    segment(group) = myPane.AddPieSlice(CDbl(repGroup(group, 3)), EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, repGroup(group, 1) & " (" & CDbl(repGroup(group, 3)).ToString("N0") & " ISK)")
                     segment(group).LabelType = ZedGraph.PieLabelType.Name_Percent
                     segment(group).LabelDetail.FontSpec.Size = 8
                 Else
                     otherGroup += CDbl(repGroup(group, 3))
-                    otherList.Add(repGroup(group, 1) & ": " & FormatNumber(repGroup(group, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK")
+                    otherList.Add(repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0") & " ISK")
                 End If
             End If
         Next
         If otherGroup > 0 Then
-            segment(0) = myPane.AddPieSlice(otherGroup, EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, "Other Groups (" & FormatNumber(otherGroup, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK)")
+            segment(0) = myPane.AddPieSlice(otherGroup, EveHQ.Core.Reports.RandomRGBColor, Color.White, 45, 0.05, "Other Groups (" & otherGroup.ToString("N0") & " ISK)")
             segment(0).LabelType = ZedGraph.PieLabelType.Name_Percent
             segment(0).LabelDetail.FontSpec.Size = 8
             ' Make a text label to highlight the total value
@@ -2378,7 +2378,7 @@ Public Class Reports
                     txtData(0) = "  * " & repSkill(group, skill, 1)
                     txtData(1) = "Rank " & repSkill(group, skill, 2)
                     txtData(2) = "Level " & repSkill(group, skill, 5)
-                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(3) = "SP " & CDbl(repSkill(group, skill, 3)).ToString("N0")
                     txtData(4) = "TTNL " & repSkill(group, skill, 4)
                     strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
                 Next
@@ -2519,7 +2519,7 @@ Public Class Reports
                     txtData(0) = "  * " & repSkill(group, skill, 1)
                     txtData(1) = "Rank " & repSkill(group, skill, 2)
                     txtData(2) = "Level " & repSkill(group, skill, 5)
-                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(3) = "SP " & CDbl(repSkill(group, skill, 3)).ToString("N0")
                     txtData(4) = "TTNL " & repSkill(group, skill, 4)
                     strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
                 Next
@@ -2650,7 +2650,7 @@ Public Class Reports
                     txtData(0) = "  * " & repSkill(group, skill, 1)
                     txtData(1) = "Rank " & repSkill(group, skill, 2)
                     txtData(2) = "Level " & repSkill(group, skill, 5)
-                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(3) = "SP " & CDbl(repSkill(group, skill, 3)).ToString("N0")
                     txtData(4) = "TTNL " & repSkill(group, skill, 4)
                     strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
                 Next
@@ -2770,7 +2770,7 @@ Public Class Reports
                     txtData(0) = "  * " & repSkill(group, skill, 1)
                     txtData(1) = "Rank " & repSkill(group, skill, 2)
                     txtData(2) = "Level " & repSkill(group, skill, 5)
-                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(3) = "SP " & CDbl(repSkill(group, skill, 3)).ToString("N0")
                     txtData(4) = "TTNL " & repSkill(group, skill, 4)
                     strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
                 Next
@@ -3028,7 +3028,7 @@ Public Class Reports
             txtData(1) = curLevel.ToString
             txtData(2) = startLevel.ToString
             txtData(3) = endLevel.ToString
-            txtData(4) = FormatNumber(percent, 0)
+            txtData(4) = percent.ToString("N0")
             txtData(5) = timeToEnd
             txtData(6) = endTime
             strText.AppendLine(String.Format("{0,-49} {1,-10} {2,-9} {3,-9} {4,-8} {5,-20} {6,-20}", txtData))
@@ -3092,14 +3092,14 @@ Public Class Reports
         For Each skillName As String In skillPriceList
             Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
             txtData(0) = skillName
-            txtData(1) = FormatNumber(cSkill.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            txtData(1) = cSkill.BasePrice.ToString("N2")
             strText.AppendLine(String.Format("{0,-45} {1,-10}", txtData))
             totalCost += cSkill.BasePrice
         Next
 
         strText.AppendLine("")
         txtData(0) = "Total Queue Shopping List Cost:"
-        txtData(1) = FormatNumber(totalCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        txtData(1) = totalCost.ToString("N2")
         strText.AppendLine(String.Format("{0,-45} {1,-10}", txtData))
 
         Return strText.ToString
@@ -3412,7 +3412,7 @@ Public Class Reports
                     txtData(0) = "  * " & repSkill(group, skill, 1)
                     txtData(1) = "Rank " & repSkill(group, skill, 2)
                     txtData(2) = "Level " & repSkill(group, skill, 5)
-                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(3) = "SP " & CDbl(repSkill(group, skill, 3)).ToString("N0")
                     txtData(4) = "TTNL " & repSkill(group, skill, 4)
                     strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
                 Next
@@ -3658,7 +3658,7 @@ Public Class Reports
                     txtData(0) = "  * " & repSkill(group, skill, 1)
                     txtData(1) = "Rank " & repSkill(group, skill, 2)
                     txtData(2) = "Level " & repSkill(group, skill, 5)
-                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(3) = "SP " & CDbl(repSkill(group, skill, 3)).ToString("N0")
                     txtData(4) = "Cost " & repSkill(group, skill, 4)
                     strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
                 Next
@@ -3669,7 +3669,7 @@ Public Class Reports
         Dim txtFinalData(1) As String
         strText.AppendLine("")
         txtFinalData(0) = "Total Skill Cost:"
-        txtFinalData(1) = FormatNumber(totalCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        txtFinalData(1) = totalCost.ToString("N2")
         strText.AppendLine(String.Format("{0,-45} {1,-10}", txtFinalData))
 
         Return strText.ToString
@@ -3764,7 +3764,7 @@ Public Class Reports
                         strText.Append("[img]http://www.eveonline.com/bitmaps/character/level" & repSkill(group, skill, 5) & ".gif[/img]")
                     End If
                     strText.Append("  " & repSkill(group, skill, 1))
-                    strText.Append(" (Rank " & repSkill(group, skill, 2) & " - " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP)")
+                    strText.Append(" (Rank " & repSkill(group, skill, 2) & " - " & CDbl(repSkill(group, skill, 3)).ToString("N0") & " SP)")
                     If trainingFlag = True Then
                         strText.AppendLine("[/color]")
                     Else

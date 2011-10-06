@@ -119,7 +119,7 @@ Public Class Ticker
                 itemName = EveHQ.Core.HQ.itemData(itemID).Name
                 itemPrice = EveHQ.Core.DataFunctions.GetPrice(itemID)
             Loop Until itemPrice > 0 And EveHQ.Core.HQ.itemData(itemID).Published = True
-            imgText = itemName & " - " & FormatNumber(itemPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            imgText = itemName & " - " & itemPrice.ToString("N2")
         Else
             imgText = "Placeholder"
         End If

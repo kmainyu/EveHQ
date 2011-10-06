@@ -43,7 +43,7 @@ Public Class frmModifyPrice
         End If
 
         ' Set the prices
-		Me.lblBasePrice.Text = FormatNumber(EveHQ.Core.HQ.BasePriceList(Me.ItemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        Me.lblBasePrice.Text = EveHQ.Core.HQ.BasePriceList(Me.ItemID).ToString("N2")
 		If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Me.ItemID) = True Then
 			Me.lblMarketPrice.Text = EveHQ.Core.HQ.MarketPriceList(Me.ItemID).ToString("N2")
 		Else
