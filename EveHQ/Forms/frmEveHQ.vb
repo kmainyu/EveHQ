@@ -63,9 +63,11 @@ Public Class frmEveHQ
             If EveHQ.Core.HQ.EveHQSettings.TrainingBarDockPosition = DevComponents.DotNetBar.eDockSide.None Then
                 EveHQ.Core.HQ.EveHQSettings.TrainingBarDockPosition = DevComponents.DotNetBar.eDockSide.Bottom
             End If
-            Me.Bar1.DockSide = CType(EveHQ.Core.HQ.EveHQSettings.TrainingBarDockPosition, DevComponents.DotNetBar.eDockSide)
-            DockContainerItem1.Height = EveHQ.Core.HQ.EveHQSettings.TrainingBarHeight
-            DockContainerItem1.Width = EveHQ.Core.HQ.EveHQSettings.TrainingBarWidth
+            If EveHQ.Core.HQ.EveHQSettings.DisableTrainingBar = False Then
+                Me.Bar1.DockSide = CType(EveHQ.Core.HQ.EveHQSettings.TrainingBarDockPosition, DevComponents.DotNetBar.eDockSide)
+                DockContainerItem1.Height = EveHQ.Core.HQ.EveHQSettings.TrainingBarHeight
+                DockContainerItem1.Width = EveHQ.Core.HQ.EveHQSettings.TrainingBarWidth
+            End If
             MyBase.ShowInTaskbar = True
             MyBase.Activate()
             If EveHQTrayForm IsNot Nothing Then
