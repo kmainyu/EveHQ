@@ -450,7 +450,7 @@ Public Class frmItemBrowser
             For node As Integer = 0 To 11
                 Dim nodeText As String = MarketItem.ChildNodes(node + 1).InnerText
                 If IsNumeric(nodeText) = True Then
-                    lstEveCentral.Items(node).SubItems.Add(FormatNumber(Double.Parse(nodeText, Globalization.NumberStyles.Any, culture), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lstEveCentral.Items(node).SubItems.Add(Double.Parse(nodeText, Globalization.NumberStyles.Any, culture).ToString("N2"))
                 Else
                     Me.EveCentralDataFound = False
                     Exit Sub
@@ -1137,15 +1137,15 @@ Public Class frmItemBrowser
                                 Dim newItem As New ListViewItem
                                 newItem.Name = materials(item, 1)
                                 newItem.Text = materials(item, 2)
-                                newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
+                                newItem.SubItems.Add(materials(item, 3).ToString("N0"))
                                 newItem.Group = materialsView.Groups.Item(matCatID & matGroupID)
                                 If act = 1 Then
                                     If materials(item, 5) = "4" Or materials(item, 7) = "280" Or materials(item, 7) = "334" Or materials(item, 7) = "873" Or materials(item, 7) = "536" Then
                                         newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFM) * CDbl(materials(item, 3)), 0))
                                         newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFP) * CDbl(materials(item, 3)), 0))
                                     Else
-                                        newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
-                                        newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
+                                        newItem.SubItems.Add(materials(item, 3).ToString("N0"))
+                                        newItem.SubItems.Add(materials(item, 3).ToString("N0"))
                                     End If
                                 End If
                                 materialsView.Items.Add(newItem)
@@ -1214,7 +1214,7 @@ Public Class frmItemBrowser
                             Dim newItem As New ListViewItem
                             newItem.Name = materials(item, 1)
                             newItem.Text = materials(item, 2)
-                            newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
+                            newItem.SubItems.Add(materials(item, 3).ToString("N0"))
                             newItem.Group = materialsView.Groups.Item(matCatID & matGroupID)
                             materialsView.Items.Add(newItem)
                             materials(item, 0) = "1"
@@ -1314,7 +1314,7 @@ Public Class frmItemBrowser
                                 Dim newItem As New ListViewItem
                                 newItem.Name = materials(item, 1)
                                 newItem.Text = materials(item, 2)
-                                newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
+                                newItem.SubItems.Add(materials(item, 3).ToString("N0"))
                                 newItem.Group = materialsView.Groups.Item(matCatID & matGroupID)
                                 If act = 1 Then
                                     If itemCatID = "4" Or itemGroupID = "280" Or itemGroupID = "334" Or itemGroupID = "873" Or itemGroupID = "536" Then
@@ -1325,8 +1325,8 @@ Public Class frmItemBrowser
                                         newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFMC) * CDbl(materials(item, 3)), 0))
                                         newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFPC) * CDbl(materials(item, 3)), 0))
                                     Else
-                                        newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
-                                        newItem.SubItems.Add(FormatNumber(materials(item, 3), 0, TriState.True, TriState.True, TriState.True))
+                                        newItem.SubItems.Add(materials(item, 3).ToString("N0"))
+                                        newItem.SubItems.Add(materials(item, 3).ToString("N0"))
                                     End If
                                 End If
                                 materialsView.Items.Add(newItem)
