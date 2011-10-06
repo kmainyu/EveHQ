@@ -125,7 +125,7 @@ Public Class ShipInfoControl
         Select Case Math.Round(ParentFitting.FittedShip.CPU_Used, 4) / ParentFitting.FittedShip.CPU
             Case Is > 1
                 pbxCPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error
-                lblCPUReqd.Text = FormatNumber((ParentFitting.FittedShip.CPU_Used - ParentFitting.FittedShip.CPU) / ParentFitting.FittedShip.CPU * 100, 2) & "%"
+                lblCPUReqd.Text = ((ParentFitting.FittedShip.CPU_Used - ParentFitting.FittedShip.CPU) / ParentFitting.FittedShip.CPU * 100).ToString("N2") & "%"
                 lblCPUReqd.ForeColor = Drawing.Color.Red
             Case Is < 0.9
                 pbxCPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal
@@ -134,7 +134,7 @@ Public Class ShipInfoControl
                 pbxCPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Paused
                 lblCPUReqd.Text = ""
         End Select
-        lblCPU.Text = FormatNumber(ParentFitting.FittedShip.CPU_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(ParentFitting.FittedShip.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCPU.Text = ParentFitting.FittedShip.CPU_Used.ToString("N2") & " / " & ParentFitting.FittedShip.CPU.ToString("N2")
 
         ' Powergrid
         If ParentFitting.FittedShip.PG > 0 Then
@@ -146,7 +146,7 @@ Public Class ShipInfoControl
         Select Case Math.Round(ParentFitting.FittedShip.PG_Used, 4) / ParentFitting.FittedShip.PG
             Case Is > 1
                 pbxPG.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error
-                lblPGReqd.Text = FormatNumber((ParentFitting.FittedShip.PG_Used - ParentFitting.FittedShip.PG) / ParentFitting.FittedShip.PG * 100, 2) & "%"
+                lblPGReqd.Text = ((ParentFitting.FittedShip.PG_Used - ParentFitting.FittedShip.PG) / ParentFitting.FittedShip.PG * 100).ToString("N2") & "%"
                 lblPGReqd.ForeColor = Drawing.Color.Red
             Case Is < 0.9
                 pbxPG.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal
@@ -155,7 +155,7 @@ Public Class ShipInfoControl
                 pbxPG.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Paused
                 lblPGReqd.Text = ""
         End Select
-        lblPG.Text = FormatNumber(ParentFitting.FittedShip.PG_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(ParentFitting.FittedShip.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblPG.Text = ParentFitting.FittedShip.PG_Used.ToString("N2") & " / " & ParentFitting.FittedShip.PG.ToString("N2")
 
         ' Calibration
         If ParentFitting.FittedShip.Calibration > 0 Then
@@ -176,47 +176,47 @@ Public Class ShipInfoControl
         Else
             pbxCalibration.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal
         End If
-        lblCalibration.Text = FormatNumber(ParentFitting.FittedShip.Calibration_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(ParentFitting.FittedShip.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCalibration.Text = ParentFitting.FittedShip.Calibration_Used.ToString("N2") & " / " & ParentFitting.FittedShip.Calibration.ToString("N2")
 
         ' Shield
-        lblShieldHP.Text = FormatNumber(ParentFitting.FittedShip.ShieldCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblShieldEM.Text = FormatNumber(ParentFitting.FittedShip.ShieldEMResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblShieldExplosive.Text = FormatNumber(ParentFitting.FittedShip.ShieldExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblShieldKinetic.Text = FormatNumber(ParentFitting.FittedShip.ShieldKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblShieldThermal.Text = FormatNumber(ParentFitting.FittedShip.ShieldThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        lblShieldHP.Text = ParentFitting.FittedShip.ShieldCapacity.ToString("N0")
+        lblShieldEM.Text = ParentFitting.FittedShip.ShieldEMResist.ToString("N2") & "%"
+        lblShieldExplosive.Text = ParentFitting.FittedShip.ShieldExResist.ToString("N2") & "%"
+        lblShieldKinetic.Text = ParentFitting.FittedShip.ShieldKiResist.ToString("N2") & "%"
+        lblShieldThermal.Text = ParentFitting.FittedShip.ShieldThResist.ToString("N2") & "%"
         ttt = "Shield Hitpoints: " & lblShieldHP.Text & ControlChars.CrLf
-        ttt &= "Effective Hitpoints: " & FormatNumber(ParentFitting.FittedShip.EffectiveShieldHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf
-        ttt &= "Recharge Time: " & FormatNumber(ParentFitting.FittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s" & ControlChars.CrLf
-        ttt &= "Average Recharge Rate: " & FormatNumber(ParentFitting.FittedShip.ShieldCapacity / ParentFitting.FittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s" & ControlChars.CrLf
-        ttt &= "Peak Recharge Rate: " & FormatNumber(HQF.Settings.HQFSettings.ShieldRechargeConstant * ParentFitting.FittedShip.ShieldCapacity / ParentFitting.FittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
+        ttt &= "Effective Hitpoints: " & ParentFitting.FittedShip.EffectiveShieldHP.ToString("N0") & ControlChars.CrLf
+        ttt &= "Recharge Time: " & ParentFitting.FittedShip.ShieldRecharge.ToString("N2") & " s" & ControlChars.CrLf
+        ttt &= "Average Recharge Rate: " & (ParentFitting.FittedShip.ShieldCapacity / ParentFitting.FittedShip.ShieldRecharge).ToString("N2") & " HP/s" & ControlChars.CrLf
+        ttt &= "Peak Recharge Rate: " & (HQF.Settings.HQFSettings.ShieldRechargeConstant * ParentFitting.FittedShip.ShieldCapacity / ParentFitting.FittedShip.ShieldRecharge).ToString("N2") & " HP/s"
         ToolTip1.SetToolTip(pbShieldHP, ttt)
         ToolTip1.SetToolTip(lblShieldHP, ttt)
 
         ' Armor
-        lblArmorHP.Text = FormatNumber(ParentFitting.FittedShip.ArmorCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblArmorEM.Text = FormatNumber(ParentFitting.FittedShip.ArmorEMResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblArmorExplosive.Text = FormatNumber(ParentFitting.FittedShip.ArmorExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblArmorKinetic.Text = FormatNumber(ParentFitting.FittedShip.ArmorKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblArmorThermal.Text = FormatNumber(ParentFitting.FittedShip.ArmorThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        lblArmorHP.Text = ParentFitting.FittedShip.ArmorCapacity.ToString("N0")
+        lblArmorEM.Text = ParentFitting.FittedShip.ArmorEMResist.ToString("N2") & "%"
+        lblArmorExplosive.Text = ParentFitting.FittedShip.ArmorExResist.ToString("N2") & "%"
+        lblArmorKinetic.Text = ParentFitting.FittedShip.ArmorKiResist.ToString("N2") & "%"
+        lblArmorThermal.Text = ParentFitting.FittedShip.ArmorThResist.ToString("N2") & "%"
         ttt = "Armor Hitpoints: " & lblArmorHP.Text & ControlChars.CrLf
-        ttt &= "Effective Hitpoints: " & FormatNumber(ParentFitting.FittedShip.EffectiveArmorHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        ttt &= "Effective Hitpoints: " & ParentFitting.FittedShip.EffectiveArmorHP.ToString("N0")
         ToolTip1.SetToolTip(pbArmorHP, ttt)
         ToolTip1.SetToolTip(lblArmorHP, ttt)
 
         ' Structure
-        lblStructureHP.Text = FormatNumber(ParentFitting.FittedShip.StructureCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblStructureEM.Text = FormatNumber(ParentFitting.FittedShip.StructureEMResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblStructureExplosive.Text = FormatNumber(ParentFitting.FittedShip.StructureExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblStructureKinetic.Text = FormatNumber(ParentFitting.FittedShip.StructureKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        lblStructureThermal.Text = FormatNumber(ParentFitting.FittedShip.StructureThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        lblStructureHP.Text = ParentFitting.FittedShip.StructureCapacity.ToString("N0")
+        lblStructureEM.Text = ParentFitting.FittedShip.StructureEMResist.ToString("N2") & "%"
+        lblStructureExplosive.Text = ParentFitting.FittedShip.StructureExResist.ToString("N2") & "%"
+        lblStructureKinetic.Text = ParentFitting.FittedShip.StructureKiResist.ToString("N2") & "%"
+        lblStructureThermal.Text = ParentFitting.FittedShip.StructureThResist.ToString("N2") & "%"
         ttt = "Structure Hitpoints: " & lblStructureHP.Text & ControlChars.CrLf
-        ttt &= "Effective Hitpoints: " & FormatNumber(ParentFitting.FittedShip.EffectiveStructureHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        ttt &= "Effective Hitpoints: " & ParentFitting.FittedShip.EffectiveStructureHP.ToString("N0")
         ToolTip1.SetToolTip(pbStructureHP, ttt)
         ToolTip1.SetToolTip(lblStructureHP, ttt)
 
         ' EffectiveHP
-        lblEffectiveHP.Text = "Effective HP: " & FormatNumber(ParentFitting.FittedShip.EffectiveHP, 0) & " (Eve: " & FormatNumber(ParentFitting.FittedShip.EveEffectiveHP, 0) & ")"
-        epDefence.TitleText = "Defense (EHP: " & FormatNumber(ParentFitting.FittedShip.EffectiveHP, 0) & ")"
+        lblEffectiveHP.Text = "Effective HP: " & ParentFitting.FittedShip.EffectiveHP.ToString("N0") & " (Eve: " & ParentFitting.FittedShip.EveEffectiveHP.ToString("N0") & ")"
+        epDefence.TitleText = "Defense (EHP: " & ParentFitting.FittedShip.EffectiveHP.ToString("N0") & ")"
 
         ' Tank Ability
         lblTankAbility.Text = "Tank Ability: " & CDbl(ParentFitting.FittedShip.Attributes("10062")).ToString("N2") & " DPS"
@@ -225,7 +225,7 @@ Public Class ShipInfoControl
         ttt &= "Armor Tank: " & CDbl(ParentFitting.FittedShip.Attributes("10060")).ToString("N2") & " DPS" & ControlChars.CrLf
         ttt &= "Structure Tank: " & CDbl(ParentFitting.FittedShip.Attributes("10061")).ToString("N2") & " DPS" & ControlChars.CrLf
         ttt &= ControlChars.CrLf
-        ttt &= "Damage Profile DPS: " & FormatNumber(ParentFitting.FittedShip.DamageProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
+        ttt &= "Damage Profile DPS: " & ParentFitting.FittedShip.DamageProfile.DPS.ToString("N2") & " DPS" & ControlChars.CrLf
         If CDbl(ParentFitting.FittedShip.Attributes("10062")) >= ParentFitting.FittedShip.DamageProfile.DPS Then
             ttt &= "Can tank damage profile"
             lblTankAbility.ForeColor = Drawing.Color.Green
@@ -236,10 +236,9 @@ Public Class ShipInfoControl
         ToolTip1.SetToolTip(lblTankAbility, ttt)
 
         ' Capacitor
-        lblCapacitor.Text = FormatNumber(ParentFitting.FittedShip.CapCapacity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " GJ"
-        lblCapRecharge.Text = FormatNumber(ParentFitting.FittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
-        'lblCapAverage.Text = FormatNumber(parentfitting.fittedship.CapCapacity / parentfitting.fittedship.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " GJ/s"
-        lblCapPeak.Text = FormatNumber(HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCapacitor.Text = ParentFitting.FittedShip.CapCapacity.ToString("N2") & " GJ"
+        lblCapRecharge.Text = ParentFitting.FittedShip.CapRecharge.ToString("N2") & " s"
+        lblCapPeak.Text = (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge).ToString("N2")
         Dim CapBalP As Double = (CDbl(ParentFitting.FittedShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge)
         Dim CapBalN As Double = ParentFitting.FittedShip.Attributes("10049")
         lblCapBalP.Text = "+" & CapBalP.ToString("N2")
@@ -248,41 +247,41 @@ Public Class ShipInfoControl
 
         Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(ParentFitting.FittedShip, False)
         If csr.CapIsDrained = False Then
-            epCapacitor.TitleText = "Capacitor (Stable at " & FormatNumber(csr.MinimumCap / ParentFitting.FittedShip.CapCapacity * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+            epCapacitor.TitleText = "Capacitor (Stable at " & (csr.MinimumCap / ParentFitting.FittedShip.CapCapacity * 100).ToString("N2") & "%)"
         Else
             epCapacitor.TitleText = "Capacitor (Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False) & ")"
         End If
 
         ' Propulsion
-        lblSpeed.Text = FormatNumber(ParentFitting.FittedShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
-        lblWarpSpeed.Text = FormatNumber(ParentFitting.FittedShip.WarpSpeed, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au/s"
+        lblSpeed.Text = ParentFitting.FittedShip.MaxVelocity.ToString("N2") & " m/s"
+        lblWarpSpeed.Text = ParentFitting.FittedShip.WarpSpeed.ToString("N2") & " au/s"
         ttt = "Warp Capacitor Need: " & ParentFitting.FittedShip.WarpCapNeed & ControlChars.CrLf
-        ttt &= "Max Warp Distance: " & FormatNumber(ParentFitting.FittedShip.CapCapacity / (ParentFitting.FittedShip.WarpCapNeed * ParentFitting.FittedShip.Mass), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au"
+        ttt &= "Max Warp Distance: " & (ParentFitting.FittedShip.CapCapacity / (ParentFitting.FittedShip.WarpCapNeed * ParentFitting.FittedShip.Mass)).ToString("N2") & " au"
         ToolTip1.SetToolTip(lblWarpSpeed, ttt)
-        lblInertia.Text = FormatNumber(ParentFitting.FittedShip.Inertia, 6, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblInertia.Text = ParentFitting.FittedShip.Inertia.ToString("N6")
         ' Time to warp based on calculation from http://myeve.eve-online.com/ingameboard.asp?a=topic&threadID=502836
         ' Time to warp (in seconds) = Inertial Modifier * (Mass / 1.000.000) * 1.61
         '-ln(0.25) * Inertia Modifier * Mass / 1.000.000
-        lblAlignTime.Text = FormatNumber(-Math.Log(0.25) * ParentFitting.FittedShip.Inertia * ParentFitting.FittedShip.Mass / 1000000, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
+        lblAlignTime.Text = (-Math.Log(0.25) * ParentFitting.FittedShip.Inertia * ParentFitting.FittedShip.Mass / 1000000).ToString("N2") & " s"
         epPropulsion.TitleText = "Propulsion (Speed: " & ParentFitting.FittedShip.MaxVelocity.ToString("N2") & " m/s)"
 
         ' Targeting
-        lblTargetRange.Text = FormatNumber(ParentFitting.FittedShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m"
-        lblTargets.Text = FormatNumber(ParentFitting.FittedShip.MaxLockedTargets, 0) & " / " & FormatNumber(CDbl(ParentFitting.FittedShip.Attributes("10064")), 0)
-        ttt = "Max Ship Targets: " & FormatNumber(ParentFitting.FittedShip.MaxLockedTargets, 0) & ControlChars.CrLf
-        ttt &= "Max Pilot Targets: " & FormatNumber(CDbl(ParentFitting.FittedShip.Attributes("10064")), 0)
+        lblTargetRange.Text = ParentFitting.FittedShip.MaxTargetRange.ToString("N0") & " m"
+        lblTargets.Text = ParentFitting.FittedShip.MaxLockedTargets.ToString("N0") & " / " & ParentFitting.FittedShip.Attributes("10064").ToString("N0")
+        ttt = "Max Ship Targets: " & ParentFitting.FittedShip.MaxLockedTargets.ToString("N0") & ControlChars.CrLf
+        ttt &= "Max Pilot Targets: " & ParentFitting.FittedShip.Attributes("10064").ToString("N0")
         ToolTip1.SetToolTip(lblTargets, ttt)
-        lblScanResolution.Text = FormatNumber(ParentFitting.FittedShip.ScanResolution, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " mm"
+        lblScanResolution.Text = ParentFitting.FittedShip.ScanResolution.ToString("N2") & " mm"
         Dim SensorStrength As Double = Math.Max(Math.Max(Math.Max(ParentFitting.FittedShip.GravSensorStrenth, ParentFitting.FittedShip.LadarSensorStrenth), ParentFitting.FittedShip.MagSensorStrenth), ParentFitting.FittedShip.RadarSensorStrenth)
-        lblSensorStrength.Text = FormatNumber(SensorStrength, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        ttt = "Gravimetric Strength: " & FormatNumber(ParentFitting.FittedShip.GravSensorStrenth, 2) & ControlChars.CrLf
-        ttt &= "Ladar Strength: " & FormatNumber(ParentFitting.FittedShip.LadarSensorStrenth, 2) & ControlChars.CrLf
-        ttt &= "Magnetometric Strength: " & FormatNumber(ParentFitting.FittedShip.MagSensorStrenth, 2) & ControlChars.CrLf
-        ttt &= "Radar Strength: " & FormatNumber(ParentFitting.FittedShip.RadarSensorStrenth, 2) & ControlChars.CrLf
+        lblSensorStrength.Text = SensorStrength.ToString("N2")
+        ttt = "Gravimetric Strength: " & ParentFitting.FittedShip.GravSensorStrenth.ToString("N2") & ControlChars.CrLf
+        ttt &= "Ladar Strength: " & ParentFitting.FittedShip.LadarSensorStrenth.ToString("N2") & ControlChars.CrLf
+        ttt &= "Magnetometric Strength: " & ParentFitting.FittedShip.MagSensorStrenth.ToString("N2") & ControlChars.CrLf
+        ttt &= "Radar Strength: " & ParentFitting.FittedShip.RadarSensorStrenth.ToString("N2") & ControlChars.CrLf
         ToolTip1.SetToolTip(lblSensorStrength, ttt)
-        lblSigRadius.Text = FormatNumber(ParentFitting.FittedShip.SigRadius, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m"
+        lblSigRadius.Text = ParentFitting.FittedShip.SigRadius.ToString("N0") & " m"
         Dim ProbeableIndicator As Double = SensorStrength / ParentFitting.FittedShip.SigRadius
-        lblProbeable.Text = FormatNumber(ProbeableIndicator, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblProbeable.Text = ProbeableIndicator.ToString("N2")
         Select Case ProbeableIndicator
             Case Is >= 1.08
                 lblProbeable.ForeColor = Drawing.Color.LimeGreen
@@ -297,8 +296,8 @@ Public Class ShipInfoControl
         epTargeting.TitleText = "Targeting (Range: " & ParentFitting.FittedShip.MaxTargetRange.ToString("N0") & "m)"
 
         ' Cargo and Drones
-        lblCargoBay.Text = FormatNumber(ParentFitting.FittedShip.CargoBay, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
-        lblDroneBay.Text = FormatNumber(ParentFitting.FittedShip.DroneBay, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
+        lblCargoBay.Text = ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3"
+        lblDroneBay.Text = ParentFitting.FittedShip.DroneBay.ToString("N0") & " m3"
         Select Case ParentFitting.FittedShip.DatabaseGroup
             Case "28", "380", "463", "513", "543", "902", "941"
                 epCargo.TitleText = "Storage (Cargo: " & ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3)"
@@ -314,25 +313,25 @@ Public Class ShipInfoControl
             pbDamage.Image = My.Resources.imgMining
             cboDefenceProfiles.Enabled = False
             btnEditDefenceProfiles.Enabled = False
-            lblDamage.Text = FormatNumber(ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3 / " & FormatNumber(ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3/s"
+            lblDamage.Text = (ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount).ToString("N2") & " m3 / " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & " m3/s"
             epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & ")"
             If ParentFitting.FittedShip.OreTotalAmount > 0 Or ParentFitting.FittedShip.IceTotalAmount > 0 Then
                 ttt = ""
                 If ParentFitting.FittedShip.OreTurretAmount > 0 Then
-                    ttt &= "Mining Turret Yield: " & FormatNumber(ParentFitting.FittedShip.OreTurretAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (m3/s: " & FormatNumber(ParentFitting.FittedShip.OreTurretRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Mining Turret Yield: " & ParentFitting.FittedShip.OreTurretAmount.ToString("N2")
+                    ttt &= " (m3/s: " & ParentFitting.FittedShip.OreTurretRate.ToString("N2") & ")" & ControlChars.CrLf
                 End If
                 If ParentFitting.FittedShip.OreDroneAmount > 0 Then
-                    ttt &= "Mining Drone Yield: " & FormatNumber(ParentFitting.FittedShip.OreDroneAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (m3/s: " & FormatNumber(ParentFitting.FittedShip.OreDroneRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Mining Drone Yield: " & ParentFitting.FittedShip.OreDroneAmount.ToString("N2")
+                    ttt &= " (m3/s: " & ParentFitting.FittedShip.OreDroneRate.ToString("N2") & ")" & ControlChars.CrLf
                 End If
                 If ParentFitting.FittedShip.IceTurretAmount > 0 Then
-                    ttt &= "Ice Turret Yield: " & FormatNumber(ParentFitting.FittedShip.IceTurretAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (m3/s: " & FormatNumber(ParentFitting.FittedShip.IceTurretRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Ice Turret Yield: " & ParentFitting.FittedShip.IceTurretAmount.ToString("N2")
+                    ttt &= " (m3/s: " & ParentFitting.FittedShip.IceTurretRate.ToString("N2") & ")" & ControlChars.CrLf
                 End If
                 If ParentFitting.FittedShip.IceDroneAmount > 0 Then
-                    ttt &= "Ice Drone Yield: " & FormatNumber(ParentFitting.FittedShip.IceDroneAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (m3/s: " & FormatNumber(ParentFitting.FittedShip.IceDroneRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Ice Drone Yield: " & ParentFitting.FittedShip.IceDroneAmount.ToString("N2")
+                    ttt &= " (m3/s: " & ParentFitting.FittedShip.IceDroneRate.ToString("N2") & ")" & ControlChars.CrLf
                 End If
                 ToolTip1.SetToolTip(lblDamage, ttt)
             End If
@@ -341,27 +340,27 @@ Public Class ShipInfoControl
             pbDamage.Image = My.Resources.imgTurretSlots
             cboDefenceProfiles.Enabled = True
             btnEditDefenceProfiles.Enabled = True
-            lblDamage.Text = FormatNumber(ParentFitting.FittedShip.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(ParentFitting.FittedShip.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
+            lblDamage.Text = ParentFitting.FittedShip.TotalVolley.ToString("N2") & " / " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & " DPS"
             epDamage.TitleText = "Damage (DPS: " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & ")"
             If ParentFitting.FittedShip.TotalVolley > 0 Then
                 ttt = ""
                 If ParentFitting.FittedShip.TurretVolley > 0 Then
-                    ttt &= "Turret Volley: " & FormatNumber(ParentFitting.FittedShip.TurretVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (DPS: " & FormatNumber(ParentFitting.FittedShip.TurretDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Turret Volley: " & ParentFitting.FittedShip.TurretVolley.ToString("N2")
+                    ttt &= " (DPS: " & ParentFitting.FittedShip.TurretDPS.ToString("N2") & ")" & ControlChars.CrLf
                     turretShip = True
                 End If
                 If ParentFitting.FittedShip.MissileVolley > 0 Then
-                    ttt &= "Missile Volley: " & FormatNumber(ParentFitting.FittedShip.MissileVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (DPS: " & FormatNumber(ParentFitting.FittedShip.MissileDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Missile Volley: " & ParentFitting.FittedShip.MissileVolley.ToString("N2")
+                    ttt &= " (DPS: " & ParentFitting.FittedShip.MissileDPS.ToString("N2") & ")" & ControlChars.CrLf
                     missileShip = True
                 End If
                 If ParentFitting.FittedShip.SBVolley > 0 Then
-                    ttt &= "Smartbomb Volley: " & FormatNumber(ParentFitting.FittedShip.SBVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (DPS: " & FormatNumber(ParentFitting.FittedShip.SBDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Smartbomb Volley: " & ParentFitting.FittedShip.SBVolley.ToString("N2")
+                    ttt &= " (DPS: " & ParentFitting.FittedShip.SBDPS.ToString("N2") & ")" & ControlChars.CrLf
                 End If
                 If ParentFitting.FittedShip.DroneVolley > 0 Then
-                    ttt &= "Drone Volley: " & FormatNumber(ParentFitting.FittedShip.DroneVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    ttt &= " (DPS: " & FormatNumber(ParentFitting.FittedShip.DroneDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+                    ttt &= "Drone Volley: " & ParentFitting.FittedShip.DroneVolley.ToString("N2")
+                    ttt &= " (DPS: " & ParentFitting.FittedShip.DroneDPS.ToString("N2") & ")" & ControlChars.CrLf
                 End If
                 ToolTip1.SetToolTip(lblDamage, ttt)
                 Dim dpr As DefenceProfileResults = ParentFitting.CalculateDamageStatsForDefenceProfile(ParentFitting.FittedShip)
@@ -420,9 +419,9 @@ Public Class ShipInfoControl
                 ParentFitting.FittedShip.DroneBandwidth_Used += CDbl(DBI.DroneType.Attributes("1272")) * DBI.Quantity
             End If
         Next
-        lblDroneBandwidth.Text = FormatNumber(ParentFitting.FittedShip.DroneBandwidth_Used, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(ParentFitting.FittedShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblDroneBandwidth.Text = ParentFitting.FittedShip.DroneBandwidth_Used.ToString("N0") & " / " & ParentFitting.FittedShip.DroneBandwidth.ToString("N0")
         lblDroneControl.Text = ParentFitting.FittedShip.UsedDrones & " / " & ParentFitting.FittedShip.MaxDrones
-        Dim ttt As String = "Drone Control Range: " & FormatNumber(ParentFitting.FittedShip.Attributes("10007"), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+        Dim ttt As String = "Drone Control Range: " & ParentFitting.FittedShip.Attributes("10007").ToString("N0") & "m"
         ToolTip1.SetToolTip(lblDroneControl, ttt)
         ToolTip1.SetToolTip(pbDroneControl, ttt)
     End Sub
@@ -438,11 +437,11 @@ Public Class ShipInfoControl
         ' State damage profile info
         Dim info As New System.Text.StringBuilder
         info.AppendLine(ParentFitting.BaseShip.DamageProfile.Name & " Profile Info:")
-        info.AppendLine("EM: " & FormatNumber(ParentFitting.BaseShip.DamageProfile.EM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-        info.AppendLine("Explosive: " & FormatNumber(ParentFitting.BaseShip.DamageProfile.Explosive, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-        info.AppendLine("Kinetic: " & FormatNumber(ParentFitting.BaseShip.DamageProfile.Kinetic, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-        info.AppendLine("Thermal: " & FormatNumber(ParentFitting.BaseShip.DamageProfile.Thermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-        info.AppendLine("DPS: " & FormatNumber(ParentFitting.BaseShip.DamageProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        info.AppendLine("EM: " & ParentFitting.BaseShip.DamageProfile.EM.ToString("N2"))
+        info.AppendLine("Explosive: " & ParentFitting.BaseShip.DamageProfile.Explosive.ToString("N2"))
+        info.AppendLine("Kinetic: " & ParentFitting.BaseShip.DamageProfile.Kinetic.ToString("N2"))
+        info.AppendLine("Thermal: " & ParentFitting.BaseShip.DamageProfile.Thermal.ToString("N2"))
+        info.AppendLine("DPS: " & ParentFitting.BaseShip.DamageProfile.DPS.ToString("N2"))
         ToolTip1.SetToolTip(cboDamageProfiles, info.ToString)
         ' Only perform this if we aren't setting the item at startup
         If StartUp = False Then
@@ -595,8 +594,8 @@ Public Class ShipInfoControl
             newLog = New ListViewItem
             newLog.Text = logData(0).Trim
             newLog.SubItems.Add(logData(1).Trim)
-            newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            newLog.SubItems.Add(CDbl(logData(2).Trim).ToString("N3"))
+            newLog.SubItems.Add(CDbl(logData(3).Trim).ToString("N3"))
             myAuditLog.lvwAudit.Items.Add(newLog)
             'End If
         Next

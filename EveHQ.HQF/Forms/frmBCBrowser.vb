@@ -411,29 +411,29 @@ Public Class frmBCBrowser
                     currentFitting.ApplyFitting()
                     Dim loadoutShip As Ship = currentFitting.FittedShip
 
-                    lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                    lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " DPS"
-                    lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                    lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                    lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
-                    lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
+                    lblEHP.Text = loadoutShip.EffectiveHP.ToString("N0")
+                    lblTank.Text = loadoutShip.Attributes("10062").ToString("N2") & " DPS"
+                    lblVolley.Text = loadoutShip.Attributes("10028").ToString("N2")
+                    lblDPS.Text = loadoutShip.Attributes("10029").ToString("N2")
+                    lblShieldResists.Text = loadoutShip.ShieldEMResist.ToString("N0") & "/" & loadoutShip.ShieldExResist.ToString("N0") & "/" & loadoutShip.ShieldKiResist.ToString("N0") & "/" & loadoutShip.ShieldThResist.ToString("N0")
+                    lblArmorResists.Text = loadoutShip.ArmorEMResist.ToString("N0") & "/" & loadoutShip.ArmorExResist.ToString("N0") & "/" & loadoutShip.ArmorKiResist.ToString("N0") & "/" & loadoutShip.ArmorThResist.ToString("N0")
                     Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(loadoutShip, False)
                     If csr.CapIsDrained = False Then
-                        lblCapacitor.Text = "Stable at " & FormatNumber(csr.MinimumCap / loadoutShip.CapCapacity * 100, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                        lblCapacitor.Text = "Stable at " & (csr.MinimumCap / loadoutShip.CapCapacity * 100).ToString("N0") & "%"
                     Else
                         lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False)
                     End If
-                    lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " m/s"
-                    lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "m"
+                    lblVelocity.Text = loadoutShip.MaxVelocity.ToString("N2") & " m/s"
+                    lblMaxRange.Text = loadoutShip.MaxTargetRange.ToString("N0") & "m"
                     Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
-                    lblCPU.Text = FormatNumber(CPU, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                    lblCPU.Text = CPU.ToString("N2") & "%"
                     If CPU > 100 Then
                         lblCPU.ForeColor = Color.Red
                     Else
                         lblCPU.ForeColor = Color.Black
                     End If
                     Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
-                    lblPG.Text = FormatNumber(PG, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                    lblPG.Text = PG.ToString("N2") & "%"
                     If PG > 100 Then
                         lblPG.ForeColor = Color.Red
                     Else
@@ -448,7 +448,7 @@ Public Class frmBCBrowser
                             End If
                         End If
                     Next
-                    lblOptimalRange.Text = FormatNumber(maxOpt, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "m"
+                    lblOptimalRange.Text = maxOpt.ToString("N0") & "m"
                 Else
                     gpStatistics.Enabled = False
                 End If

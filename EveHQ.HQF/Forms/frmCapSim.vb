@@ -50,14 +50,14 @@ Public Class frmCapSim
         ' Populate the Summary Labels
         lblCapacity.Text = "Capacity: " & CalcShip.CapCapacity & " GJ"
         lblRecharge.Text = "Recharge Time: " & CalcShip.CapRecharge & " s"
-        lblPeakRate.Text = "Peak Recharge Rate: " & FormatNumber(HQF.Settings.HQFSettings.CapRechargeConstant * CalcShip.CapCapacity / CalcShip.CapRecharge, 2) & " GJ/s"
+        lblPeakRate.Text = "Peak Recharge Rate: " & (HQF.Settings.HQFSettings.CapRechargeConstant * CalcShip.CapCapacity / CalcShip.CapRecharge).ToString("N2") & " GJ/s"
         Dim PI As Double = (CDbl(CalcShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * CalcShip.CapCapacity / CalcShip.CapRecharge)
         Dim PO As Double = CDbl(CalcShip.Attributes("10049"))
-        lblPeakIn.Text = "Peak In: " & FormatNumber(PI, 2) & " GJ"
-        lblPeakOut.Text = "Peak Out: " & FormatNumber(PO, 2) & " GJ"
-        lblPeakDelta.Text = "Peak Delta: " & FormatNumber(PI - PO, 2) & " GJ"
+        lblPeakIn.Text = "Peak In: " & PI.ToString("N2") & " GJ"
+        lblPeakOut.Text = "Peak Out: " & PO.ToString("N2") & " GJ"
+        lblPeakDelta.Text = "Peak Delta: " & (PI - PO).ToString("N2") & " GJ"
         If CSR.CapIsDrained = False Then
-            lblStability.Text = "Stability: Stable at " & FormatNumber(CSR.MinimumCap / CalcShip.CapCapacity * 100, 2) & "%"
+            lblStability.Text = "Stability: Stable at " & (CSR.MinimumCap / CalcShip.CapCapacity * 100).ToString("N2") & "%"
         Else
             lblStability.Text = "Stability: Lasts " & EveHQ.Core.SkillFunctions.TimeToString(CSR.TimeToDrain, False)
         End If

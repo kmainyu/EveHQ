@@ -782,17 +782,17 @@ Public Class frmHQFSettings
                         lblNPCName.Text &= NPC & ", "
                     Next
             End Select
-            lblEMDamageAmount.Text = FormatNumber(selProfile.EM, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            lblEXDamageAmount.Text = FormatNumber(selProfile.Explosive, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            lblKIDamageAmount.Text = FormatNumber(selProfile.Kinetic, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            lblTHDamageAmount.Text = FormatNumber(selProfile.Thermal, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblEMDamageAmount.Text = selProfile.EM.ToString("N2")
+            lblEXDamageAmount.Text = selProfile.Explosive.ToString("N2")
+            lblKIDamageAmount.Text = selProfile.Kinetic.ToString("N2")
+            lblTHDamageAmount.Text = selProfile.Thermal.ToString("N2")
             Dim total As Double = selProfile.EM + selProfile.Explosive + selProfile.Kinetic + selProfile.Thermal
-            lblTotalDamageAmount.Text = FormatNumber(total, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            lblEMDamagePercentage.Text = "= " & FormatNumber(selProfile.EM / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-            lblEXDamagePercentage.Text = "= " & FormatNumber(selProfile.Explosive / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-            lblKIDamagePercentage.Text = "= " & FormatNumber(selProfile.Kinetic / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-            lblTHDamagePercentage.Text = "= " & FormatNumber(selProfile.Thermal / total * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-            lblDPS.Text = FormatNumber(selProfile.DPS, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblTotalDamageAmount.Text = total.ToString("N2")
+            lblEMDamagePercentage.Text = "= " & (selProfile.EM / total * 100).ToString("N2") & "%"
+            lblEXDamagePercentage.Text = "= " & (selProfile.Explosive / total * 100).ToString("N2") & "%"
+            lblKIDamagePercentage.Text = "= " & (selProfile.Kinetic / total * 100).ToString("N2") & "%"
+            lblTHDamagePercentage.Text = "= " & (selProfile.Thermal / total * 100).ToString("N2") & "%"
+            lblDPS.Text = selProfile.DPS.ToString("N2")
             If gpProfile.Visible = False Then
                 gpProfile.Visible = True
             End If

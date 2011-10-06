@@ -113,24 +113,24 @@ Public Class frmShipComparison
                 newShipNode.Tag = newShip.Modules
                 adtShips.Nodes.Add(newShipNode)
                 STT.SetSuperTooltip(newShipNode, New DevComponents.DotNetBar.SuperTooltipInfo("Fitting Info", newShip.Fitting, newShip.Modules, Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.EHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.Tank, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(newShip.EHP.ToString("N0")))
+                newShipNode.Cells.Add(New Cell(newShip.Tank.ToString("N0")))
                 If newShip.Capacitor > 0 Then
-                    newShipNode.Cells.Add(New Cell("Stable at " & FormatNumber(newShip.Capacitor, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"))
+                    newShipNode.Cells.Add(New Cell("Stable at " & newShip.Capacitor.ToString("N0") & "%"))
                 Else
                     newShipNode.Cells.Add(New Cell("Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-newShip.Capacitor)))
                 End If
                 newShipNode.Cells(3).Tag = newShip.Capacitor
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.Volley, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.DPS, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.SEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.SEx, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.SKi, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.STh, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.AEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.AEx, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.AKi, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
-                newShipNode.Cells.Add(New Cell(FormatNumber(newShip.ATh, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                newShipNode.Cells.Add(New Cell(newShip.Volley.ToString("N0")))
+                newShipNode.Cells.Add(New Cell(newShip.DPS.ToString("N0")))
+                newShipNode.Cells.Add(New Cell(newShip.SEM.ToString("N2")))
+                newShipNode.Cells.Add(New Cell(newShip.SEx.ToString("N2")))
+                newShipNode.Cells.Add(New Cell(newShip.SKi.ToString("N2")))
+                newShipNode.Cells.Add(New Cell(newShip.STh.ToString("N2")))
+                newShipNode.Cells.Add(New Cell(newShip.AEM.ToString("N2")))
+                newShipNode.Cells.Add(New Cell(newShip.AEx.ToString("N2")))
+                newShipNode.Cells.Add(New Cell(newShip.AKi.ToString("N2")))
+                newShipNode.Cells.Add(New Cell(newShip.ATh.ToString("N2")))
             Next
             EveHQ.Core.AdvTreeSorter.Sort(adtShips, 1, True, True)
             adtShips.EndUpdate()

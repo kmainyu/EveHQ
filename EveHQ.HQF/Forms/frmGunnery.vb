@@ -123,30 +123,30 @@ Public Class frmGunnery
             newMod = ammoShip.HiSlot(ammo)
             newAmmo = New ListViewItem
             newAmmo.Text = newMod.LoadedCharge.Name
-            newAmmo.SubItems.Add(FormatNumber(newMod.CapUsage, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("54"), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            newAmmo.SubItems.Add(newMod.CapUsage.ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes("54").ToString("N2"))
             If newMod.Attributes.ContainsKey("158") Then
-                newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("158"), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newAmmo.SubItems.Add(newMod.Attributes("158").ToString("N2"))
             Else
                 newAmmo.SubItems.Add("0")
             End If
             If newMod.Attributes.ContainsKey("160") Then
-                newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("160"), 5, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newAmmo.SubItems.Add(newMod.Attributes("160").ToString("N2"))
             Else
                 newAmmo.SubItems.Add("0.00000")
             End If
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10051"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10052"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10053"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10054"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10018"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newAmmo.SubItems.Add(FormatNumber(newMod.Attributes("10019"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            newAmmo.SubItems.Add(newMod.Attributes("10051").ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes("10052").ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes("10053").ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes("10054").ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes("10018").ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes("10019").ToString("N2"))
             lvGuns.Items.Add(newAmmo)
         Next
         lvGuns.EndUpdate()
         ' Update the weapon standard information
-        lblCPU.Text = "CPU: " & FormatNumber(ammoShip.HiSlot(1).CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblPG.Text = "PG: " & FormatNumber(ammoShip.HiSlot(1).PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCPU.Text = "CPU: " & ammoShip.HiSlot(1).CPU.ToString("N2")
+        lblPG.Text = "PG: " & ammoShip.HiSlot(1).PG.ToString("N2")
         Dim Dmg As Double = 0
         Dim ROF As Double = 0
         Select Case ammoShip.HiSlot(1).DatabaseGroup
@@ -160,8 +160,8 @@ Public Class frmGunnery
                 dmg = ammoShip.HiSlot(1).Attributes("10016")
                 ROF = ammoShip.HiSlot(1).Attributes("10013")
         End Select
-        lblDmgMod.Text = "Damage Mod: " & FormatNumber(Dmg, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x"
-        lblROF.Text = "ROF: " & FormatNumber(ROF, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s"
+        lblDmgMod.Text = "Damage Mod: " & Dmg.ToString("N2") & "x"
+        lblROF.Text = "ROF: " & ROF.ToString("N2") & "s"
     End Sub
 
     Private Sub lvGuns_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvGuns.ColumnClick

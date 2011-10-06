@@ -44,7 +44,7 @@ Public Class frmTargetSpeed
         Dim myPane As GraphPane = zgcTargetSpeed.GraphPane
 
         ' Set the titles and axis labels
-        myPane.Title.Text = "Targeting Speed Analysis - " & cShipType.Name & " (" & FormatNumber(cShipType.ScanResolution, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "mm)"
+        myPane.Title.Text = "Targeting Speed Analysis - " & cShipType.Name & " (" & cShipType.ScanResolution.ToString("N2") & "mm)"
         myPane.XAxis.Title.Text = "Target Signature Radius (m)"
         myPane.XAxis.Scale.Min = 1
         myPane.XAxis.Scale.Max = 500

@@ -622,10 +622,10 @@ Imports System.Runtime.Serialization
             For stage As Integer = 1 To stages
                 perfMsg &= pStages(stage)
                 dTime = pStageTime(stage) - pStageTime(stage - 1)
-                perfMsg &= FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
+                perfMsg &= dTime.TotalMilliseconds.ToString("N2") & "ms" & ControlChars.CrLf
             Next
             dTime = pStageTime(stages) - pStageTime(0)
-            perfMsg &= "Total Time: " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
+            perfMsg &= "Total Time: " & dTime.TotalMilliseconds.ToString("N2") & "ms" & ControlChars.CrLf
             MessageBox.Show(perfMsg, "Performance Data Results: Method " & BuildMethod, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
         Ship.MapShipAttributes(newShip)
@@ -783,7 +783,7 @@ Imports System.Runtime.Serialization
                                     If Engine.PirateImplants.ContainsKey(aImplant.Name) = True Then
                                         PIGroup = CStr(Engine.PirateImplants.Item(hImplant))
                                         fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(PIGroup))
-                                        fEffect.Cause = aImplant.Name & " (Set Bonus: " & FormatNumber(cPirateImplantGroups.Item(PIGroup), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x)"
+                                        fEffect.Cause = aImplant.Name & " (Set Bonus: " & CDbl(cPirateImplantGroups.Item(PIGroup)).ToString("N3") & "x)"
                                     Else
                                         fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
                                         fEffect.Cause = aImplant.Name
@@ -1473,7 +1473,7 @@ Imports System.Runtime.Serialization
                         Case Else
                             sEffect.AffectedValue = sEffect.AffectedValue * penalty
                     End Select
-                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
                     finalEffectList.Add(sEffect)
                 Next
             End If
@@ -1506,7 +1506,7 @@ Imports System.Runtime.Serialization
                         Case Else
                             sEffect.AffectedValue = sEffect.AffectedValue * penalty
                     End Select
-                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
                     finalEffectList.Add(sEffect)
                 Next
             End If
@@ -1540,7 +1540,7 @@ Imports System.Runtime.Serialization
                         Case Else
                             sEffect.AffectedValue = sEffect.AffectedValue * penalty
                     End Select
-                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
                     finalEffectList.Add(sEffect)
                 Next
             End If
@@ -1573,7 +1573,7 @@ Imports System.Runtime.Serialization
                         Case Else
                             sEffect.AffectedValue = sEffect.AffectedValue * penalty
                     End Select
-                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
                     finalEffectList.Add(sEffect)
                 Next
             End If

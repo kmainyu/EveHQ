@@ -163,11 +163,11 @@ Public Class frmAddDamageProfile
         If Me.Tag.ToString = "Add" Then
             cboProfileType.SelectedIndex = 0
             Me.txtProfileName.Tag = ""
-            Me.txtEMDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtEXDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtKIDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtTHDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtDPS.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Me.txtEMDamage.Text = CDbl(0).ToString("N2")
+            Me.txtEXDamage.Text = CDbl(0).ToString("N2")
+            Me.txtKIDamage.Text = CDbl(0).ToString("N2")
+            Me.txtTHDamage.Text = CDbl(0).ToString("N2")
+            Me.txtDPS.Text = CDbl(0).ToString("N2")
         Else
             Dim editProfile As DamageProfile = CType(Me.Tag, DamageProfile)
             Me.txtProfileName.Tag = editProfile.Name
@@ -175,11 +175,11 @@ Public Class frmAddDamageProfile
             Me.txtProfileName.Text = editProfile.Name
             Select Case editProfile.Type
                 Case 0 ' Manual
-                    Me.txtEMDamage.Text = FormatNumber(editProfile.EM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtEXDamage.Text = FormatNumber(editProfile.Explosive, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtKIDamage.Text = FormatNumber(editProfile.Kinetic, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtTHDamage.Text = FormatNumber(editProfile.Thermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtDPS.Text = FormatNumber(editProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Me.txtEMDamage.Text = editProfile.EM.ToString("N2")
+                    Me.txtEXDamage.Text = editProfile.Explosive.ToString("N2")
+                    Me.txtKIDamage.Text = editProfile.Kinetic.ToString("N2")
+                    Me.txtTHDamage.Text = editProfile.Thermal.ToString("N2")
+                    Me.txtDPS.Text = editProfile.DPS.ToString("N2")
                 Case 1 ' Fitting
                     Me.cboFittingName.SelectedItem = editProfile.Fitting
                     Me.cboPilotName.SelectedItem = editProfile.Pilot
@@ -219,17 +219,17 @@ Public Class frmAddDamageProfile
                 NewFit.ApplyFitting(BuildType.BuildEverything)
                 Dim profileShip As Ship = NewFit.FittedShip
                 ' Place details of ship damage and DPS into text boxes
-                txtEMDamage.Text = FormatNumber(profileShip.Attributes("10055").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtEXDamage.Text = FormatNumber(profileShip.Attributes("10056").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtKIDamage.Text = FormatNumber(profileShip.Attributes("10057").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtTHDamage.Text = FormatNumber(profileShip.Attributes("10058").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtDPS.Text = FormatNumber(profileShip.Attributes("10029").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtEMDamage.Text = profileShip.Attributes("10055").ToString("N2")
+                txtEXDamage.Text = profileShip.Attributes("10056").ToString("N2")
+                txtKIDamage.Text = profileShip.Attributes("10057").ToString("N2")
+                txtTHDamage.Text = profileShip.Attributes("10058").ToString("N2")
+                txtDPS.Text = profileShip.Attributes("10029").ToString("N2")
             Else
-                txtEMDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtEXDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtKIDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtTHDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtDPS.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtEMDamage.Text = CDbl(0).ToString("N2")
+                txtEXDamage.Text = CDbl(0).ToString("N2")
+                txtKIDamage.Text = CDbl(0).ToString("N2")
+                txtTHDamage.Text = CDbl(0).ToString("N2")
+                txtDPS.Text = CDbl(0).ToString("N2")
             End If
         End If
     End Sub
@@ -258,11 +258,11 @@ Public Class frmAddDamageProfile
                 TH += NPCData.Thermal
                 DPS += NPCData.DPS
             Next
-            txtEMDamage.Text = FormatNumber(EM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtEXDamage.Text = FormatNumber(EX, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtKIDamage.Text = FormatNumber(KI, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtTHDamage.Text = FormatNumber(TH, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtDPS.Text = FormatNumber(DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            txtEMDamage.Text = EM.ToString("N2")
+            txtEXDamage.Text = EX.ToString("N2")
+            txtKIDamage.Text = KI.ToString("N2")
+            txtTHDamage.Text = TH.ToString("N2")
+            txtDPS.Text = DPS.ToString("N2")
         End If
     End Sub
 End Class

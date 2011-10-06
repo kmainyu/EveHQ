@@ -198,8 +198,8 @@ Public Class ShipSlotControl
     End Sub
     Private Sub UpdatePrices()
         ParentFitting.BaseShip.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(ParentFitting.BaseShip.ID)
-        lblShipMarketPrice.Text = "Ship Price: " & FormatNumber(ParentFitting.BaseShip.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblFittingMarketPrice.Text = "Total Price: " & FormatNumber(ParentFitting.BaseShip.MarketPrice + ParentFitting.BaseShip.FittingMarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblShipMarketPrice.Text = "Ship Price: " & ParentFitting.BaseShip.MarketPrice.ToString("N2")
+        lblFittingMarketPrice.Text = "Total Price: " & (ParentFitting.BaseShip.MarketPrice + ParentFitting.BaseShip.FittingMarketPrice).ToString("N2")
     End Sub
     Public Sub UpdateAllSlotLocations()
         Dim sTime, eTime As Date
@@ -447,18 +447,18 @@ Public Class ShipSlotControl
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "CPU"
-                            slotNode.Cells.Add(New Cell(FormatNumber(shipMod.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                            slotNode.Cells.Add(New Cell(shipMod.CPU.ToString("N2")))
                         Case "PG"
-                            slotNode.Cells.Add(New Cell(FormatNumber(shipMod.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                            slotNode.Cells.Add(New Cell(shipMod.PG.ToString("N2")))
                         Case "Calib"
-                            slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                            slotNode.Cells.Add(New Cell(shipMod.Calibration.ToString("N2")))
                         Case "Price"
                             shipMod.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(shipMod.ID)
-                            slotNode.Cells.Add(New Cell(FormatNumber(shipMod.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                            slotNode.Cells.Add(New Cell(shipMod.MarketPrice.ToString("N2")))
                         Case "ActCost"
                             If shipMod.Attributes.ContainsKey("6") Then
                                 If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                    slotNode.Cells.Add(New Cell(FormatNumber(shipMod.CapUsage, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                    slotNode.Cells.Add(New Cell(shipMod.CapUsage.ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -468,7 +468,7 @@ Public Class ShipSlotControl
                         Case "ActTime"
                             If shipMod.Attributes.ContainsKey("73") Then
                                 If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                    slotNode.Cells.Add(New Cell(FormatNumber(shipMod.ActivationTime, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                    slotNode.Cells.Add(New Cell(shipMod.ActivationTime.ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -478,7 +478,7 @@ Public Class ShipSlotControl
                         Case "CapRate"
                             If shipMod.Attributes.ContainsKey("10032") Then
                                 If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                    slotNode.Cells.Add(New Cell(FormatNumber(shipMod.CapUsageRate * -1, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                    slotNode.Cells.Add(New Cell((shipMod.CapUsageRate * -1).ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -487,62 +487,62 @@ Public Class ShipSlotControl
                             End If
                         Case "OptRange"
                             If shipMod.Attributes.ContainsKey("54") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("54"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("54").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("87") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("87"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("87").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("91") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("91"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("91").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("98") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("98"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("98").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("99") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("99"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("99").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("103") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("103"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("103").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("142") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("142"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("142").ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "ROF"
                             If shipMod.Attributes.ContainsKey("51") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("51"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("51").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("10011") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("10011"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10011").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("10012") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("10012"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10012").ToString("N2")))
                             ElseIf shipMod.Attributes.ContainsKey("10013") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("10013"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10013").ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "Damage"
                             If shipMod.Attributes.ContainsKey("10018") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("10018"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10018").ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "DPS"
                             If shipMod.Attributes.ContainsKey("10019") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("10019"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10019").ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "Falloff"
                             If shipMod.Attributes.ContainsKey("158") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("158"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("158").ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "Tracking"
                             If shipMod.Attributes.ContainsKey("160") Then
-                                slotNode.Cells.Add(New Cell(FormatNumber(shipMod.Attributes("160"), 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes("160").ToString("N4")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "ExpRad"
                             If shipMod.LoadedCharge IsNot Nothing Then
                                 If shipMod.LoadedCharge.Attributes.ContainsKey("654") Then
-                                    slotNode.Cells.Add(New Cell(FormatNumber(shipMod.LoadedCharge.Attributes("654"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                    slotNode.Cells.Add(New Cell(shipMod.LoadedCharge.Attributes("654").ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -552,7 +552,7 @@ Public Class ShipSlotControl
                         Case "ExpVel"
                             If shipMod.LoadedCharge IsNot Nothing Then
                                 If shipMod.LoadedCharge.Attributes.ContainsKey("653") Then
-                                    slotNode.Cells.Add(New Cell(FormatNumber(shipMod.LoadedCharge.Attributes("653"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)))
+                                    slotNode.Cells.Add(New Cell(shipMod.LoadedCharge.Attributes("653").ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -603,22 +603,22 @@ Public Class ShipSlotControl
                         End If
                         idx += 1
                     Case "CPU"
-                        slotNode.Cells(idx).Text = FormatNumber(shipMod.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        slotNode.Cells(idx).Text = shipMod.CPU.ToString("N2")
                         idx += 1
                     Case "PG"
-                        slotNode.Cells(idx).Text = FormatNumber(shipMod.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        slotNode.Cells(idx).Text = shipMod.PG.ToString("N2")
                         idx += 1
                     Case "Calib"
-                        slotNode.Cells(idx).Text = FormatNumber(shipMod.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        slotNode.Cells(idx).Text = shipMod.Calibration.ToString("N2")
                         idx += 1
                     Case "Price"
                         shipMod.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(shipMod.ID)
-                        slotNode.Cells(idx).Text = FormatNumber(shipMod.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        slotNode.Cells(idx).Text = shipMod.MarketPrice.ToString("N2")
                         idx += 1
                     Case "ActCost"
                         If shipMod.Attributes.ContainsKey("6") Then
                             If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                slotNode.Cells(idx).Text = FormatNumber(shipMod.CapUsage, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                slotNode.Cells(idx).Text = shipMod.CapUsage.ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -629,7 +629,7 @@ Public Class ShipSlotControl
                     Case "ActTime"
                         If shipMod.Attributes.ContainsKey("73") Then
                             If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                slotNode.Cells(idx).Text = FormatNumber(shipMod.ActivationTime, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                slotNode.Cells(idx).Text = shipMod.ActivationTime.ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -640,7 +640,7 @@ Public Class ShipSlotControl
                     Case "CapRate"
                         If shipMod.Attributes.ContainsKey("10032") Then
                             If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                slotNode.Cells(idx).Text = FormatNumber(shipMod.CapUsageRate * -1, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                slotNode.Cells(idx).Text = (shipMod.CapUsageRate * -1).ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -650,60 +650,60 @@ Public Class ShipSlotControl
                         idx += 1
                     Case "OptRange"
                         If shipMod.Attributes.ContainsKey("54") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("54"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("54").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("87") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("87"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("87").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("91") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("91"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("91").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("98") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("98"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("98").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("99") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("99"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("99").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("103") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("103"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("103").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("142") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("142"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("142").ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "ROF"
                         If shipMod.Attributes.ContainsKey("51") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("51"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("51").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("10011") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("10011"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("10011").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("10012") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("10012"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("10012").ToString("N2")
                         ElseIf shipMod.Attributes.ContainsKey("10013") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("10013"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("10013").ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "Damage"
                         If shipMod.Attributes.ContainsKey("10018") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("10018"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("10018").ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "DPS"
                         If shipMod.Attributes.ContainsKey("10019") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("10019"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("10019").ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "Falloff"
                         If shipMod.Attributes.ContainsKey("158") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("158"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("158").ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "Tracking"
                         If shipMod.Attributes.ContainsKey("160") Then
-                            slotNode.Cells(idx).Text = FormatNumber(shipMod.Attributes("160"), 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotNode.Cells(idx).Text = shipMod.Attributes("160").ToString("N4")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
@@ -711,7 +711,7 @@ Public Class ShipSlotControl
                     Case "ExpRad"
                         If shipMod.LoadedCharge IsNot Nothing Then
                             If shipMod.LoadedCharge.Attributes.ContainsKey("654") Then
-                                slotNode.Cells(idx).Text = FormatNumber(shipMod.LoadedCharge.Attributes("654"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                slotNode.Cells(idx).Text = shipMod.LoadedCharge.Attributes("654").ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -722,7 +722,7 @@ Public Class ShipSlotControl
                     Case "ExpVel"
                         If shipMod.LoadedCharge IsNot Nothing Then
                             If shipMod.LoadedCharge.Attributes.ContainsKey("653") Then
-                                slotNode.Cells(idx).Text = FormatNumber(shipMod.LoadedCharge.Attributes("653"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                slotNode.Cells(idx).Text = shipMod.LoadedCharge.Attributes("653").ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -2332,8 +2332,8 @@ Public Class ShipSlotControl
             Dim newCargoItem As New ListViewItem(SBI.ShipType.Name)
             newCargoItem.Name = CStr(lvwShipBay.Items.Count)
             newCargoItem.SubItems.Add(CStr(SBI.Quantity))
-            newCargoItem.SubItems.Add(FormatNumber(SBI.ShipType.Volume, 0))
-            newCargoItem.SubItems.Add(FormatNumber(SBI.ShipType.Volume * SBI.Quantity, 0))
+            newCargoItem.SubItems.Add(SBI.ShipType.Volume.ToString("N0"))
+            newCargoItem.SubItems.Add((SBI.ShipType.Volume * SBI.Quantity).ToString("N0"))
             ParentFitting.BaseShip.ShipBayItems.Add(lvwShipBay.Items.Count, SBI)
             ParentFitting.BaseShip.ShipBay_Used += SBI.ShipType.Volume * SBI.Quantity
             lvwShipBay.Items.Add(newCargoItem)
@@ -2344,12 +2344,9 @@ Public Class ShipSlotControl
 
     Private Sub RedrawCargoBayCapacity()
         If ParentFitting.BaseShip.CargoBay_Additional > 0 Then
-            lblCargoBay.Text = FormatNumber(ParentFitting.BaseShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & _
-                            " / " & FormatNumber(ParentFitting.FittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & _
-                            " (" & FormatNumber(ParentFitting.FittedShip.CargoBay + ParentFitting.BaseShip.CargoBay_Additional, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ") m³"
+            lblCargoBay.Text = ParentFitting.BaseShip.CargoBay_Used.ToString("N2") & " / " & ParentFitting.FittedShip.CargoBay.ToString("N2") & " (" & (ParentFitting.FittedShip.CargoBay + ParentFitting.BaseShip.CargoBay_Additional).ToString("N2") & ") m³"
         Else
-            lblCargoBay.Text = FormatNumber(ParentFitting.BaseShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & _
-                            " / " & FormatNumber(ParentFitting.FittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+            lblCargoBay.Text = ParentFitting.BaseShip.CargoBay_Used.ToString("N2") & " / " & ParentFitting.FittedShip.CargoBay.ToString("N2") & " m³"
         End If
         If ParentFitting.FittedShip.CargoBay > 0 Then
             pbCargoBay.Maximum = CInt(ParentFitting.FittedShip.CargoBay)
@@ -2365,7 +2362,7 @@ Public Class ShipSlotControl
 
     Private Sub RedrawDroneBayCapacity()
         lvwDroneBay.EndUpdate()
-        lblDroneBay.Text = FormatNumber(ParentFitting.BaseShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(ParentFitting.FittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        lblDroneBay.Text = ParentFitting.BaseShip.DroneBay_Used.ToString("N2") & " / " & ParentFitting.FittedShip.DroneBay.ToString("N2") & " m³"
         If ParentFitting.FittedShip.DroneBay > 0 Then
             pbDroneBay.Maximum = CInt(ParentFitting.FittedShip.DroneBay)
         Else
@@ -2379,7 +2376,7 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub RedrawShipBayCapacity()
-        lblShipBay.Text = FormatNumber(ParentFitting.BaseShip.ShipBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(ParentFitting.FittedShip.ShipBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        lblShipBay.Text = ParentFitting.BaseShip.ShipBay_Used.ToString("N2") & " / " & ParentFitting.FittedShip.ShipBay.ToString("N2") & " m³"
         If ParentFitting.FittedShip.ShipBay > 0 Then
             pbShipBay.Maximum = CInt(ParentFitting.FittedShip.ShipBay)
         Else

@@ -2618,14 +2618,14 @@ Public Class frmHQF
         stats.AppendLine("")
         stats.AppendLine(ActiveFitting.ShipInfoCtrl.lblEffectiveHP.Text)
         stats.AppendLine(ActiveFitting.ShipInfoCtrl.lblTankAbility.Text)
-        stats.AppendLine("Damage Profile - " & currentship.DamageProfile.Name & " (EM: " & FormatNumber(currentship.DamageProfileEM * 100, 2) & "%, Ex: " & FormatNumber(currentship.DamageProfileEX * 100, 2) & "%, Ki: " & FormatNumber(currentship.DamageProfileKI * 100, 2) & "%, Th: " & FormatNumber(currentship.DamageProfileTH * 100, 2) & "%)")
+        stats.AppendLine("Damage Profile - " & currentship.DamageProfile.Name & " (EM: " & (currentship.DamageProfileEM * 100).ToString("N2") & "%, Ex: " & (currentship.DamageProfileEX * 100).ToString("N2") & "%, Ki: " & (currentship.DamageProfileKI * 100).ToString("N2") & "%, Th: " & (currentship.DamageProfileTH * 100).ToString("N2") & "%)")
         stats.AppendLine("Shield Resists - EM: " & ActiveFitting.ShipInfoCtrl.lblShieldEM.Text & ", Ex: " & ActiveFitting.ShipInfoCtrl.lblShieldExplosive.Text & ", Ki: " & ActiveFitting.ShipInfoCtrl.lblShieldKinetic.Text & ", Th: " & ActiveFitting.ShipInfoCtrl.lblShieldThermal.Text)
         stats.AppendLine("Armor Resists - EM: " & ActiveFitting.ShipInfoCtrl.lblArmorEM.Text & ", Ex: " & ActiveFitting.ShipInfoCtrl.lblArmorExplosive.Text & ", Ki: " & ActiveFitting.ShipInfoCtrl.lblArmorKinetic.Text & ", Th: " & ActiveFitting.ShipInfoCtrl.lblArmorThermal.Text)
         stats.AppendLine("")
         stats.AppendLine(ActiveFitting.ShipInfoCtrl.epCapacitor.TitleText)
         stats.AppendLine("")
-        stats.AppendLine("Volley Damage: " & FormatNumber(currentship.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-        stats.AppendLine("DPS: " & FormatNumber(currentship.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        stats.AppendLine("Volley Damage: " & currentship.TotalVolley.ToString("N2"))
+        stats.AppendLine("DPS: " & currentship.TotalDPS.ToString("N2"))
         Try
             Clipboard.SetText(stats.ToString)
         Catch ex As Exception

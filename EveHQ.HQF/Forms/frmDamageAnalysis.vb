@@ -360,8 +360,8 @@ Public Class frmDamageAnalysis
 
                 ' Write some detail
                 Dim info As New StringBuilder
-                info.AppendLine("Current chance to hit = " & FormatNumber(CTH, 2) & "% @ " & FormatNumber(d, 0) & "m")
-                info.AppendLine("Highest chance to hit = " & FormatNumber(bestChance, 2) & "% @ " & FormatNumber(bestRange, 0) & "m")
+                info.AppendLine("Current chance to hit = " & CTH.ToString("N2") & "% @ " & d.ToString("N0") & "m")
+                info.AppendLine("Highest chance to hit = " & bestChance.ToString("N2") & "% @ " & bestRange.ToString("N0") & "m")
                 GraphForm.lblGraphInfo.Text = info.ToString
 
                 GraphForm.Show()
@@ -428,8 +428,8 @@ Public Class frmDamageAnalysis
 
         ' Write some detail
         Dim info As New StringBuilder
-        info.AppendLine("Current chance to hit = " & FormatNumber(CTH, 2) & "% @ " & FormatNumber(d, 0) & "m")
-        info.AppendLine("Highest chance to hit = " & FormatNumber(bestChance, 2) & "% @ " & FormatNumber(bestRange, 0) & "m")
+        info.AppendLine("Current chance to hit = " & CTH.ToString("N2") & "% @ " & d.ToString("N0") & "m")
+        info.AppendLine("Highest chance to hit = " & bestChance.ToString("N2") & "% @ " & bestRange.ToString("N0") & "m")
         GraphForm.lblGraphInfo.Text = info.ToString
 
 

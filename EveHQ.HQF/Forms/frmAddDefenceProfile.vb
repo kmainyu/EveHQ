@@ -175,18 +175,18 @@ Public Class frmAddDefenceProfile
         If Me.Tag.ToString = "Add" Then
             cboProfileType.SelectedIndex = 0
             Me.txtProfileName.Tag = ""
-            Me.txtSEM.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtSEx.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtSKi.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtSTh.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtAEM.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtAEx.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtAKi.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtATh.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtHEM.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtHEx.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtHKi.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Me.txtHTh.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            txtSEM.Text = CDbl(0).ToString("N2")
+            txtSEx.Text = CDbl(0).ToString("N2")
+            txtSKi.Text = CDbl(0).ToString("N2")
+            txtSTh.Text = CDbl(0).ToString("N2")
+            txtAEM.Text = CDbl(0).ToString("N2")
+            txtAEx.Text = CDbl(0).ToString("N2")
+            txtAKi.Text = CDbl(0).ToString("N2")
+            txtATh.Text = CDbl(0).ToString("N2")
+            txtHEM.Text = CDbl(0).ToString("N2")
+            txtHEx.Text = CDbl(0).ToString("N2")
+            txtHKi.Text = CDbl(0).ToString("N2")
+            txtHTh.Text = CDbl(0).ToString("N2")
             startUp = False
         Else
             Dim editProfile As DefenceProfile = CType(Me.Tag, DefenceProfile)
@@ -195,18 +195,18 @@ Public Class frmAddDefenceProfile
             Me.txtProfileName.Text = editProfile.Name
             Select Case editProfile.Type
                 Case 0 ' Manual
-                    Me.txtSEM.Text = FormatNumber(editProfile.SEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtSEx.Text = FormatNumber(editProfile.SExplosive, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtSKi.Text = FormatNumber(editProfile.SKinetic, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtSTh.Text = FormatNumber(editProfile.SThermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtAEM.Text = FormatNumber(editProfile.AEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtAEx.Text = FormatNumber(editProfile.AExplosive, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtAKi.Text = FormatNumber(editProfile.AKinetic, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtATh.Text = FormatNumber(editProfile.AThermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtHEM.Text = FormatNumber(editProfile.HEM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtHEx.Text = FormatNumber(editProfile.HExplosive, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtHKi.Text = FormatNumber(editProfile.HKinetic, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    Me.txtHTh.Text = FormatNumber(editProfile.HThermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Me.txtSEM.Text = editProfile.SEM.ToString("N2")
+                    Me.txtSEx.Text = editProfile.SExplosive.ToString("N2")
+                    Me.txtSKi.Text = editProfile.SKinetic.ToString("N2")
+                    Me.txtSTh.Text = editProfile.SThermal.ToString("N2")
+                    Me.txtAEM.Text = editProfile.AEM.ToString("N2")
+                    Me.txtAEx.Text = editProfile.AExplosive.ToString("N2")
+                    Me.txtAKi.Text = editProfile.AKinetic.ToString("N2")
+                    Me.txtATh.Text = editProfile.AThermal.ToString("N2")
+                    Me.txtHEM.Text = editProfile.HEM.ToString("N2")
+                    Me.txtHEx.Text = editProfile.HExplosive.ToString("N2")
+                    Me.txtHKi.Text = editProfile.HKinetic.ToString("N2")
+                    Me.txtHTh.Text = editProfile.HThermal.ToString("N2")
                 Case 1 ' Fitting
                     Me.cboFittingName.SelectedItem = editProfile.Fitting
                     Me.cboPilotName.SelectedItem = editProfile.Pilot
@@ -252,18 +252,18 @@ Public Class frmAddDefenceProfile
                 txtHKi.Text = profileShip.StructureKiResist.ToString("N2")
                 txtHTh.Text = profileShip.StructureThResist.ToString("N2")
             Else
-                txtSEM.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtSEx.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtSKi.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtSTh.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtAEM.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtAEx.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtAKi.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtATh.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtHEM.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtHEx.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtHKi.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                txtHTh.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtSEM.Text = CDbl(0).ToString("N2")
+                txtSEx.Text = CDbl(0).ToString("N2")
+                txtSKi.Text = CDbl(0).ToString("N2")
+                txtSTh.Text = CDbl(0).ToString("N2")
+                txtAEM.Text = CDbl(0).ToString("N2")
+                txtAEx.Text = CDbl(0).ToString("N2")
+                txtAKi.Text = CDbl(0).ToString("N2")
+                txtATh.Text = CDbl(0).ToString("N2")
+                txtHEM.Text = CDbl(0).ToString("N2")
+                txtHEx.Text = CDbl(0).ToString("N2")
+                txtHKi.Text = CDbl(0).ToString("N2")
+                txtHTh.Text = CDbl(0).ToString("N2")
             End If
         End If
     End Sub
