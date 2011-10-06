@@ -2608,389 +2608,6 @@ Public Class frmPrism
 
 #End Region
 
-#Region "Reports"
-
-    '#Region "Common Routines"
-    '    Private Function HTMLHeader(ByVal browserHeader As String, ByVal forIGB As Boolean) As String
-
-    '        Dim strHTML As String = "<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd"">"
-    '        strHTML &= "<html lang=""" & System.Globalization.CultureInfo.CurrentCulture.ToString & """>"
-    '        If forIGB = False Then
-    '            strHTML &= "<head>"
-    '            strHTML &= "<META http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">"
-    '            strHTML &= "<title>" & browserHeader & "</title>" & CharacterCSS() & "</head>"
-    '        Else
-    '            strHTML &= "<head><title>" & browserHeader & "</title></head>"
-    '        End If
-    '        strHTML &= "<body>"
-    '        strHTML &= "<p align='center'><img src='http://www.evehq.net/images/evehq_igb.png' alt='EveHQ Logo'></p>"
-    '        Return strHTML
-
-    '    End Function
-    '    Private Function HTMLTitle(ByVal Title As String, ByVal forIGB As Boolean) As String
-    '        Dim strHTML As String = ""
-
-    '        If forIGB = False Then
-    '            strHTML &= "<table width=800px border=0 align=center>"
-    '            strHTML &= "<tr height=30px><td><p class=title>" & Title & "</p></td></tr>"
-    '            strHTML &= "</table>"
-    '        Else
-    '            strHTML &= "<h1>" & Title & "</h1>"
-    '        End If
-    '        strHTML &= "<p></p>"
-    '        Return strHTML
-    '    End Function
-    '    Private Function HTMLFooter(ByVal forIGB As Boolean) As String
-    '        Dim strHTML As String = ""
-    '        If forIGB = False Then
-    '            strHTML &= "<table width=800px align=center border=0><hr>"
-    '        Else
-    '            strHTML &= "<table width=800px border=0><hr>"
-    '        End If
-
-    '        strHTML &= "<tr><td><p align=center class=footer>Generated on " & Format(Now, "dd/MM/yyyy HH:mm:ss") & " by <a href='http://www.evehq.net'>" & My.Application.Info.ProductName & "</a> v" & My.Application.Info.Version.ToString & "</p></td></tr>"
-    '        strHTML &= "</table>"
-    '        strHTML &= "</body></html>"
-
-    '        Return strHTML
-    '    End Function
-    '    Private Function CharacterCSS() As String
-    '        Dim strCSS As String = ""
-    '        strCSS &= "<STYLE><!--"
-    '        strCSS &= "BODY { font-family: Tahoma, Arial; font-size: 12px; bgcolor: #000000; background: #000000 }"
-    '        strCSS &= "TD, P { font-family: Tahoma, Arial; font-size: 12px; color: #ffffff }"
-    '        strCSS &= ".thead { font-family: Tahoma, Arial; font-size: 12px; color: #ffffff; font-variant: small-caps; background-color: #444444 }"
-    '        strCSS &= ".footer { font-family: Tahoma, Arial; font-size: 9px; color: #ffffff; font-variant: small-caps }"
-    '        strCSS &= ".title { font-family: Tahoma, Arial; font-size: 20px; color: #ffffff; font-variant: small-caps }"
-    '        strCSS &= "--></STYLE>"
-    '        Return strCSS
-    '    End Function
-    '#End Region
-
-    '#Region "Comparers for Multi-dimensional arrays"
-
-    '    Class RectangularComparer
-    '        Implements IComparer
-    '        ' maintain a reference to the 2-dimensional array being sorted
-
-    '        Private sortArray(,) As Long
-
-    '        ' constructor initializes the sortArray reference
-    '        Public Sub New(ByVal theArray(,) As Long)
-    '            sortArray = theArray
-    '        End Sub
-
-    '        Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
-    '            ' x and y are integer row numbers into the sortArray
-    '            Dim i1 As Long = DirectCast(x, Integer)
-    '            Dim i2 As Long = DirectCast(y, Integer)
-
-    '            ' compare the items in the sortArray
-    '            Return sortArray(CInt(i1), 1).CompareTo(sortArray(CInt(i2), 1))
-    '        End Function
-    '    End Class
-
-    '    Class ArrayComparerString
-    '        Implements IComparer
-    '        ' maintain a reference to the 2-dimensional array being sorted
-
-    '        Private sortArray(,) As String
-
-    '        ' constructor initializes the sortArray reference
-    '        Public Sub New(ByVal theArray(,) As String)
-    '            sortArray = theArray
-    '        End Sub
-
-    '        Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
-    '            ' x and y are integer row numbers into the sortArray
-    '            Dim i1 As String = CStr(DirectCast(x, Integer))
-    '            Dim i2 As String = CStr(DirectCast(y, Integer))
-
-    '            ' compare the items in the sortArray
-    '            Return sortArray(CInt(i1), 1).CompareTo(sortArray(CInt(i2), 1))
-    '        End Function
-    '    End Class
-
-    '    Class ArrayComparerDouble
-    '        Implements IComparer
-    '        ' maintain a reference to the 2-dimensional array being sorted
-
-    '        Private sortArray(,) As Double
-
-    '        ' constructor initializes the sortArray reference
-    '        Public Sub New(ByVal theArray(,) As Double)
-    '            sortArray = theArray
-    '        End Sub
-
-    '        Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
-    '            ' x and y are integer row numbers into the sortArray
-    '            Dim i1 As Double = CDbl(DirectCast(x, Integer))
-    '            Dim i2 As Double = CDbl(DirectCast(y, Integer))
-
-    '            ' compare the items in the sortArray
-    '            Return sortArray(CInt(i1), 1).CompareTo(sortArray(CInt(i2), 1))
-    '        End Function
-    '    End Class
-
-    '#End Region
-
-    '#Region "Asset Location Report"
-
-    '    Private Function AssetLocationReport() As String
-    '        Dim strHTML As New StringBuilder
-    '        Dim TotalValue As Double = 0
-    '        Dim LocationValue As Double = 0
-    '        Dim GroupValue As Double = 0
-    '        strHTML.Append("<table width=800px align=center>")
-    '        For Each Loc As Node In adtAssets.Nodes
-    '            LocationValue = 0
-    '            strHTML.Append("<tr bgcolor=444488><td colspan=6>" & Loc.Text & "</td></tr>")
-    '            Dim assets As New SortedList
-    '            Dim assetsList As New SortedList
-    '            Dim newAsset As New AssetItem
-    '            For Each item As Node In Loc.Nodes
-    '                If item.Cells(AssetColumn.Group).Text <> "" Then
-    '                    If (filters.Count > 0 And catFilters.Contains(item.Cells(AssetColumn.Category).Text) = False And groupFilters.Contains(item.Cells(AssetColumn.Group).Text) = False) Or (searchText <> "" And item.Text.ToLower.Contains(searchText.ToLower) = False) Then
-    '                    Else
-    '                        If assets.ContainsKey(item.Cells(AssetColumn.Category).Text & "_" & item.Cells(AssetColumn.Group).Text) = True Then
-    '                            assetsList = CType(assets.Item(item.Cells(AssetColumn.Category).Text & "_" & item.Cells(AssetColumn.Group).Text), Collections.SortedList)
-    '                            assetsList.Add(item.Tag.ToString, item.Tag.ToString)
-    '                        Else
-    '                            Dim assetList As New SortedList
-    '                            assetsList = New SortedList
-    '                            assetsList.Add(item.Tag.ToString, item.Tag.ToString)
-    '                            assets.Add(item.Cells(AssetColumn.Category).Text & "_" & item.Cells(AssetColumn.Group).Text, assetsList)
-    '                        End If
-    '                    End If
-    '                    If item.Nodes.Count > 0 Then
-    '                        Call GetGroupsInNodes(item, assets, assetsList)
-    '                    End If
-    '                End If
-    '            Next
-    '            For Each assetGroup As String In assets.Keys
-    '                GroupValue = 0
-    '                Dim groupings() As String = assetGroup.Split("_".ToCharArray)
-    '                strHTML.Append("<tr bgcolor=222244>")
-    '                strHTML.Append("<td>" & groupings(0) & " / " & groupings(1) & "</td>")
-    '                strHTML.Append("<td align=center>Owner</td>")
-    '                strHTML.Append("<td align=center>Location</td>")
-    '                strHTML.Append("<td align=center>Quantity</td>")
-    '                strHTML.Append("<td align=center>Unit Price</td>")
-    '                strHTML.Append("<td align=center>Total Price</td>")
-    '                strHTML.Append("</tr>")
-    '                assetsList = CType(assets(assetGroup), Collections.SortedList)
-    '                For Each asset As String In assetsList.Keys
-    '                    newAsset = CType(assetList.Item(asset), AssetItem)
-    '                    strHTML.Append("<tr bgcolor=448844>")
-    '                    strHTML.Append("<td>" & newAsset.typeName & "</td>")
-    '                    strHTML.Append("<td align=center>" & newAsset.owner & "</td>")
-    '                    strHTML.Append("<td align=center>" & newAsset.location & "</td>")
-    '                    strHTML.Append("<td align=center>" & FormatNumber(newAsset.quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '                    strHTML.Append("<td align=right>" & FormatNumber(Math.Round(newAsset.price, 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '                    strHTML.Append("<td align=right>" & FormatNumber(CDbl(newAsset.quantity) * CDbl(Math.Round(newAsset.price, 2)), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '                    strHTML.Append("</tr>")
-    '                    GroupValue += CDbl(newAsset.quantity) * CDbl(Math.Round(newAsset.price, 2))
-    '                Next
-    '                strHTML.Append("<tr bgcolor=000000>")
-    '                strHTML.Append("<td></td>")
-    '                strHTML.Append("<td colspan=4>TOTAL GROUP VALUE</td>")
-    '                strHTML.Append("<td align=right>" & FormatNumber(GroupValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '                LocationValue += GroupValue
-    '            Next
-    '            strHTML.Append("<tr>")
-    '            strHTML.Append("<td bgcolor=000000></td>")
-    '            strHTML.Append("<td bgcolor=aa00aa colspan=4>TOTAL LOCATION VALUE</td>")
-    '            strHTML.Append("<td bgcolor=aa00aa align=right>" & FormatNumber(LocationValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '            TotalValue += LocationValue
-    '            strHTML.Append("<tr bgcolor=000000><td colspan=6>&nbsp;</td></tr>")
-    '        Next
-    '        strHTML.Append("<tr>")
-    '        strHTML.Append("<td></td>")
-    '        strHTML.Append("<td  bgcolor=aa6600 colspan=4>TOTAL VALUE</td>")
-    '        strHTML.Append("<td  bgcolor=aa6600 align=right>" & FormatNumber(TotalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '        strHTML.Append("</table>")
-    '        Return strHTML.ToString
-    '    End Function
-    '    Private Sub GetGroupsInNodes(ByVal parent As Node, ByVal assets As SortedList, ByVal assetslist As SortedList)
-    '        For Each item As Node In parent.Nodes
-    '            If item.Cells(AssetColumn.Group).Text <> "" Then
-    '                If (filters.Count > 0 And catFilters.Contains(item.Cells(AssetColumn.Category).Text) = False And groupFilters.Contains(item.Cells(AssetColumn.Group).Text) = False) Or (searchText <> "" And item.Text.ToLower.Contains(searchText.ToLower) = False) Then
-    '                Else
-    '                    If assets.ContainsKey(item.Cells(AssetColumn.Category).Text & "_" & item.Cells(AssetColumn.Group).Text) = True Then
-    '                        assetslist = CType(assets.Item(item.Cells(AssetColumn.Category).Text & "_" & item.Cells(AssetColumn.Group).Text), Collections.SortedList)
-    '                        assetslist.Add(item.Tag.ToString, item.Tag.ToString)
-    '                    Else
-    '                        assetslist = New SortedList
-    '                        assetslist.Add(item.Tag.ToString, item.Tag.ToString)
-    '                        assets.Add(item.Cells(AssetColumn.Category).Text & "_" & item.Cells(AssetColumn.Group).Text, assetslist)
-    '                    End If
-    '                End If
-    '                If item.Nodes.Count > 0 Then
-    '                    Call GetGroupsInNodes(item, assets, assetslist)
-    '                End If
-    '            End If
-    '        Next
-    '    End Sub
-    '#End Region
-
-    '#Region "Asset List Reports"
-    '    Private Function AssetListReportByName() As String
-    '        Dim strHTML As New StringBuilder
-    '        Dim TotalValue As Double = 0
-    '        ' Create a new sortedlist with all the stuff in it
-    '        Dim assets As New SortedList
-    '        Dim newAsset As New AssetItem
-    '        Dim currentValue As Double = 0
-    '        For Each asset As String In assetList.Keys
-    '            newAsset = CType(assetList(asset), AssetItem)
-    '            If assets.ContainsKey(newAsset.typeName) = False Then
-    '                assets.Add(newAsset.typeName, 0)
-    '            End If
-    '            currentValue = CDbl(assets(newAsset.typeName))
-    '            currentValue += newAsset.quantity
-    '            assets(newAsset.typeName) = currentValue
-    '        Next
-    '        strHTML.Append("<table width=800px align=center>")
-    '        strHTML.Append("<tr bgcolor=222244>")
-    '        strHTML.Append("<td>Asset Type</td>")
-    '        strHTML.Append("<td align=center>Quantity</td>")
-    '        strHTML.Append("<td align=center>Unit Price</td>")
-    '        strHTML.Append("<td align=center>Total Price</td>")
-    '        strHTML.Append("</tr>")
-    '        Dim price As Double = 0
-    '        Dim quantity As Double = 0
-    '        For Each asset As String In assets.Keys
-    '            ' Get price
-    '            If asset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-    '                price = 0
-    '            Else
-    '                If EveHQ.Core.HQ.itemList.ContainsKey(asset) Then
-    '                    price = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(asset))
-    '                Else
-    '                    price = 0
-    '                End If
-    '            End If
-    '            price = Math.Round(price, 2)
-    '            ' Get quantity
-    '            quantity = CDbl(assets(asset))
-    '            strHTML.Append("<tr bgcolor=448844>")
-    '            strHTML.Append("<td>" & asset & "</td>")
-    '            strHTML.Append("<td align=center>" & FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '            strHTML.Append("<td align=right>" & FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '            strHTML.Append("<td align=right>" & FormatNumber(quantity * price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '            strHTML.Append("</tr>")
-    '            TotalValue += quantity * price
-    '        Next
-    '        strHTML.Append("<tr bgcolor=000000>")
-    '        strHTML.Append("<td></td>")
-    '        strHTML.Append("<td colspan=2>TOTAL ASSET VALUE</td>")
-    '        strHTML.Append("<td align=right>" & FormatNumber(TotalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '        strHTML.Append("</table>")
-    '        Return strHTML.ToString
-    '    End Function
-    '    Private Function AssetListReportByNumeric(ByVal field As Integer, Optional ByVal reverse As Boolean = False) As String
-    '        Dim strHTML As New StringBuilder
-    '        Dim TotalValue As Double = 0
-    '        ' Create a new sortedlist with all the stuff in it
-    '        Dim assets As New SortedList
-    '        Dim newAsset As New AssetItem
-    '        Dim currentValue As Double = 0
-    '        For Each asset As String In assetList.Keys
-    '            newAsset = CType(assetList(asset), AssetItem)
-    '            If assets.ContainsKey(newAsset.typeName) = False Then
-    '                assets.Add(newAsset.typeName, 0)
-    '            End If
-    '            currentValue = CDbl(assets(newAsset.typeName))
-    '            currentValue += newAsset.quantity
-    '            assets(newAsset.typeName) = currentValue
-    '        Next
-
-    '        Dim sortSkill(assets.Count, 1) As Double
-    '        Dim count As Integer = 0
-    '        For Each asset As String In assets.Keys
-    '            sortSkill(count, 0) = count
-    '            Dim cPrice As Double = 0
-    '            If asset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-    '                cPrice = 0
-    '            Else
-    '                If EveHQ.Core.HQ.itemList.ContainsKey(asset) Then
-    '                    cPrice = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(asset))
-    '                Else
-    '                    cPrice = 0
-    '                End If
-    '            End If
-    '            cPrice = Math.Round(cPrice, 2)
-    '            Select Case field
-    '                Case 1 ' Quantity
-    '                    sortSkill(count, 1) = CDbl(assets(asset))
-    '                Case 2 ' Unit Price
-    '                    ' Get price
-    '                    sortSkill(count, 1) = cPrice
-    '                Case 3 ' Total Price
-    '                    sortSkill(count, 1) = CDbl(assets(asset)) * cPrice
-    '            End Select
-    '            count += 1
-    '        Next
-    '        ' Create a tag array ready to sort the skill times
-    '        Dim tagArray(assets.Count - 1) As Integer
-    '        For a As Integer = 0 To assets.Count - 1
-    '            tagArray(a) = a
-    '        Next
-    '        ' Initialize the comparer and sort
-    '        Dim myComparer As New ArrayComparerDouble(sortSkill)
-    '        Array.Sort(tagArray, myComparer)
-    '        If reverse = True Then
-    '            Array.Reverse(tagArray)
-    '        End If
-
-    '        strHTML.Append("<table width=800px align=center>")
-    '        strHTML.Append("<tr bgcolor=222244>")
-    '        strHTML.Append("<td>Asset Type</td>")
-    '        strHTML.Append("<td align=center>Quantity</td>")
-    '        strHTML.Append("<td align=center>Unit Price</td>")
-    '        strHTML.Append("<td align=center>Total Price</td>")
-    '        strHTML.Append("</tr>")
-    '        Dim idx As Integer = 0
-    '        Dim price As Double = 0
-    '        Dim quantity As Double = 0
-    '        Dim cAsset As String = ""
-    '        For i As Integer = 0 To tagArray.Length - 1
-    '            idx = CInt(sortSkill(tagArray(i), 0))
-    '            cAsset = CStr(assets.GetKey(idx))
-    '            'For Each asset As String In assets.Keys
-    '            ' Get price
-    '            If cAsset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-    '                price = 0
-    '            Else
-    '                If EveHQ.Core.HQ.itemList.ContainsKey(cAsset) Then
-    '                    price = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(cAsset))
-    '                Else
-    '                    price = 0
-    '                End If
-    '            End If
-    '            price = Math.Round(price, 2)
-    '            ' Get quantity
-    '            quantity = CDbl(assets(cAsset))
-    '            strHTML.Append("<tr bgcolor=448844>")
-    '            strHTML.Append("<td>" & cAsset & "</td>")
-    '            strHTML.Append("<td align=center>" & FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '            strHTML.Append("<td align=right>" & FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '            strHTML.Append("<td align=right>" & FormatNumber(quantity * price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '            strHTML.Append("</tr>")
-    '            TotalValue += quantity * price
-    '        Next
-    '        strHTML.Append("<tr bgcolor=000000>")
-    '        strHTML.Append("<td></td>")
-    '        strHTML.Append("<td colspan=2>TOTAL ASSET VALUE</td>")
-    '        strHTML.Append("<td align=right>" & FormatNumber(TotalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-    '        strHTML.Append("</table>")
-    '        Return strHTML.ToString
-    '    End Function
-
-    '#End Region
-
-#End Region
-
 #Region "Toolbar Menu Routines"
 
     'Private Sub mnuLocation_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -3258,9 +2875,9 @@ Public Class frmPrism
                                     End If
                                     sOrder.Text = itemName
                                     Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
-                                    sOrder.Cells(1).Text = FormatNumber(quantity, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                                    sOrder.Cells(1).Text = quantity.ToString("N0") & " / " & CDbl(Order.Attributes.GetNamedItem("volEntered").Value).ToString("N0")
                                     Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
-                                    sOrder.Cells(2).Text = FormatNumber(price, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                                    sOrder.Cells(2).Text = price.ToString("N2")
                                     Dim loc As String = ""
                                     If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
                                         loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
@@ -3294,9 +2911,9 @@ Public Class frmPrism
                                     End If
                                     bOrder.Text = itemName
                                     Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
-                                    bOrder.Cells(1).Text = FormatNumber(quantity, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                                    bOrder.Cells(1).Text = quantity.ToString("N0") & " / " & CDbl(Order.Attributes.GetNamedItem("volEntered").Value).ToString("N0")
                                     Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, culture)
-                                    bOrder.Cells(2).Text = FormatNumber(price, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                                    bOrder.Cells(2).Text = price.ToString("N2")
                                     Dim loc As String = ""
                                     If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
                                         loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
@@ -3315,7 +2932,7 @@ Public Class frmPrism
                                         Case Is > 0, Is < 32767
                                             bOrder.Cells(4).Text = Order.Attributes.GetNamedItem("range").Value & " Jumps"
                                     End Select
-                                    bOrder.Cells(5).Text = FormatNumber(Double.Parse(Order.Attributes.GetNamedItem("minVolume").Value, culture), 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                                    bOrder.Cells(5).Text = Double.Parse(Order.Attributes.GetNamedItem("minVolume").Value, culture).ToString("N0")
                                     Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                                     Dim orderExpires As TimeSpan = issueDate - Now
                                     orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
@@ -4802,28 +4419,28 @@ Public Class frmPrism
                     lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
                     lblCorp.Tag = aLocation.corpID.ToString
                     StationYield = aLocation.refiningEff
-                    lblBaseYield.Text = FormatNumber(StationYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                    lblBaseYield.Text = (StationYield * 100).ToString("N2")
                 Else
                     If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
                         lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
-                        lblBaseYield.Text = FormatNumber(aLocation.refiningEff * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                        lblBaseYield.Text = (aLocation.refiningEff * 100).ToString("N2")
                     Else
                         lblCorp.Text = "Unknown"
                         lblCorp.Tag = Nothing
-                        lblBaseYield.Text = FormatNumber(50, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                        lblBaseYield.Text = CDbl(50).ToString("N2")
                     End If
                 End If
             Else ' Is a system
                 lblStation.Text = "n/a"
                 lblCorp.Text = "n/a"
                 lblCorp.Tag = Nothing
-                lblBaseYield.Text = FormatNumber(50, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                lblBaseYield.Text = CDbl(50).ToString("N2")
             End If
         Else
             lblStation.Text = "n/a"
             lblCorp.Text = "n/a"
             lblCorp.Tag = Nothing
-            lblBaseYield.Text = FormatNumber(50, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblBaseYield.Text = CDbl(50).ToString("N2")
         End If
 
         ' Set the pilot to the recycling one
@@ -4925,16 +4542,16 @@ Public Class frmPrism
             value = price * quantity
             fees = Math.Round(value * (RTotalFees / 100), 2)
             sale = value - fees
-            newCLVItem.Cells(1).Text = FormatNumber(itemInfo.MetaLevel, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            newCLVItem.Cells(2).Text = FormatNumber(quantity, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            newCLVItem.Cells(3).Text = FormatNumber(batches, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            newCLVItem.Cells(4).Text = FormatNumber(price, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-            newCLVItem.Cells(5).Text = FormatNumber(value, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            newCLVItem.Cells(1).Text = itemInfo.MetaLevel.ToString("N0")
+            newCLVItem.Cells(2).Text = quantity.ToString("N0")
+            newCLVItem.Cells(3).Text = batches.ToString("N0")
+            newCLVItem.Cells(4).Text = price.ToString("N2")
+            newCLVItem.Cells(5).Text = value.ToString("N2")
             If chkFeesOnItems.Checked = True Then
-                newCLVItem.Cells(6).Text = FormatNumber(fees, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                newCLVItem.Cells(7).Text = FormatNumber(sale, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                newCLVItem.Cells(6).Text = fees.ToString("N2")
+                newCLVItem.Cells(7).Text = sale.ToString("N2")
             Else
-                newCLVItem.Cells(7).Text = FormatNumber(value, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                newCLVItem.Cells(7).Text = value.ToString("N2")
             End If
             recycleTotal = 0
             If matList IsNot Nothing Then ' i.e. it can be refined
@@ -4952,13 +4569,13 @@ Public Class frmPrism
                     For NewCell As Integer = 1 To adtRecycle.Columns.Count : newCLVSubItem.Cells.Add(New Cell) : Next
                     newCLVSubItem.Text = mat
                     newCLVItem.Nodes.Add(newCLVSubItem)
-                    newCLVSubItem.Cells(2).Text = FormatNumber(quant, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                    newCLVSubItem.Cells(3).Text = FormatNumber(quant, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                    newCLVSubItem.Cells(4).Text = FormatNumber(price, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                    newCLVSubItem.Cells(5).Text = FormatNumber(value, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                    newCLVSubItem.Cells(2).Text = quant.ToString("N0")
+                    newCLVSubItem.Cells(3).Text = quant.ToString("N0")
+                    newCLVSubItem.Cells(4).Text = price.ToString("N2")
+                    newCLVSubItem.Cells(5).Text = value.ToString("N2")
                     If chkFeesOnRefine.Checked = True Then
-                        newCLVSubItem.Cells(6).Text = FormatNumber(fees, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                        newCLVSubItem.Cells(8).Text = FormatNumber(sale, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                        newCLVSubItem.Cells(6).Text = fees.ToString("N2")
+                        newCLVSubItem.Cells(8).Text = sale.ToString("N2")
                         recycleTotal += sale
                     Else
                         newCLVSubItem.Cells(8).Text = newCLVSubItem.Cells(5).Text
@@ -4984,7 +4601,7 @@ Public Class frmPrism
                     End If
                 Next
             End If
-            newCLVItem.Cells(8).Text = FormatNumber(recycleTotal, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            newCLVItem.Cells(8).Text = recycleTotal.ToString("N2")
             If CDbl(newCLVItem.Cells(8).Text) > CDbl(newCLVItem.Cells(7).Text) Then
                 newCLVItem.Style = adtRecycle.Styles("ItemGood")
                 newCLVItem.Cells(9).Text = newCLVItem.Cells(8).Text
@@ -4993,19 +4610,19 @@ Public Class frmPrism
             End If
             benefit = CDbl(newCLVItem.Cells(8).Text) - CDbl(newCLVItem.Cells(7).Text)
             newCLVItem.Cells(10).Tag = benefit
-            newCLVItem.Cells(10).Text = FormatNumber(benefit, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            newCLVItem.Cells(10).Text = benefit.ToString("N2")
             newCLVItem.Cells(11).Tag = (benefit / quantity)
-            newCLVItem.Cells(11).Text = FormatNumber(benefit / quantity, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            newCLVItem.Cells(11).Text = (benefit / quantity).ToString("N2")
             salePriceTotal += CDbl(newCLVItem.Cells(7).Text)
             refinePriceTotal += CDbl(newCLVItem.Cells(8).Text)
             bestPriceTotal += CDbl(newCLVItem.Cells(9).Text)
         Next
-        lblPriceTotals.Text = "Sale / Refine / Best Totals: " & FormatNumber(salePriceTotal, 2) & " / " & FormatNumber(refinePriceTotal, 2) & " / " & FormatNumber(bestPriceTotal, 2)
+        lblPriceTotals.Text = "Sale / Refine / Best Totals: " & salePriceTotal.ToString("N2") & " / " & refinePriceTotal.ToString("N2") & " / " & bestPriceTotal.ToString("N2")
         EveHQ.Core.AdvTreeSorter.Sort(adtRecycle, 1, True, True)
         adtRecycle.EndUpdate()
-        lblVolume.Text = FormatNumber(volume, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & " m³"
-        lblItems.Text = FormatNumber(adtRecycle.Nodes.Count, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-        lblItems.Text &= " (" & FormatNumber(items, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & ")"
+        lblVolume.Text = volume.ToString("N2") & " m³"
+        lblItems.Text = adtRecycle.Nodes.Count.ToString("N0")
+        lblItems.Text &= " (" & items.ToString("N0") & ")"
         ' Create the totals list
         adtTotals.BeginUpdate()
         adtTotals.Nodes.Clear()
@@ -5019,11 +4636,11 @@ Public Class frmPrism
                 For NewCell As Integer = 1 To adtTotals.Columns.Count : newCLVItem.Cells.Add(New Cell) : Next
                 newCLVItem.Text = mat
                 adtTotals.Nodes.Add(newCLVItem)
-                newCLVItem.Cells(1).Text = FormatNumber(taken, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                newCLVItem.Cells(2).Text = FormatNumber(wastage, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                newCLVItem.Cells(3).Text = FormatNumber(quant, 0, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                newCLVItem.Cells(4).Text = FormatNumber(price, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
-                newCLVItem.Cells(5).Text = FormatNumber(price * quant, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                newCLVItem.Cells(1).Text = taken.ToString("N0")
+                newCLVItem.Cells(2).Text = wastage.ToString("N0")
+                newCLVItem.Cells(3).Text = quant.ToString("N0")
+                newCLVItem.Cells(4).Text = price.ToString("N2")
+                newCLVItem.Cells(5).Text = (price * quant).ToString("N2")
             Next
         End If
         EveHQ.Core.AdvTreeSorter.Sort(adtTotals, 1, True, True)
@@ -5037,8 +4654,8 @@ Public Class frmPrism
         Else
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         End If
-        lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-        lblNetYield.Text = FormatNumber(NetYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+        lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
+        lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
         If lblCorp.Tag IsNot Nothing Then
             StationStanding = EveHQ.Core.Standings.GetStanding(rPilot.Name, lblCorp.Tag.ToString, True)
         Else
@@ -5046,12 +4663,12 @@ Public Class frmPrism
         End If
         ' Update Standings
         If chkOverrideStandings.Checked = True Then
-            lblStandings.Text = FormatNumber(nudStandings.Value, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblStandings.Text = nudStandings.Value.ToString("N2")
         Else
             If lblCorp.Tag Is Nothing Then
-                lblStandings.Text = FormatNumber(0, 4, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                lblStandings.Text = CDbl(0).ToString("N2")
             Else
-                lblStandings.Text = FormatNumber(StationStanding, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                lblStandings.Text = StationStanding.ToString("N2")
             End If
         End If
         ' Update Broker Fee
@@ -5067,7 +4684,7 @@ Public Class frmPrism
             RTransTax = nudTax.Value
         End If
         RTotalFees = RBrokerFee + RTransTax
-        lblTotalFees.Text = FormatNumber(RTotalFees, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+        lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
         Call Me.RecalcRecycling()
     End Sub
 
@@ -5098,9 +4715,9 @@ Public Class frmPrism
         End If
         If cboRecyclePilots.SelectedItem IsNot Nothing Then
             Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
-            lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
-            lblNetYield.Text = FormatNumber(NetYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
             Call Me.RecalcRecycling()
         End If
     End Sub
@@ -5108,10 +4725,10 @@ Public Class frmPrism
     Private Sub nudBaseYield_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudBaseYield.ValueChanged
         If chkOverrideBaseYield.Checked = True Then
             BaseYield = CDbl(nudBaseYield.Value) / 100
-            lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
             Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
-            lblNetYield.Text = FormatNumber(NetYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
             Call Me.RecalcRecycling()
         End If
     End Sub
@@ -5120,12 +4737,12 @@ Public Class frmPrism
 #Region "Override Standings functions"
     Private Sub chkOverrideStandings_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideStandings.CheckedChanged
         If chkOverrideStandings.Checked = True Then
-            lblStandings.Text = FormatNumber(nudStandings.Value, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblStandings.Text = nudStandings.Value.ToString("N2")
         Else
             If lblCorp.Tag Is Nothing Then
-                lblStandings.Text = FormatNumber(0, 4, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                lblStandings.Text = CDbl(0).ToString("N2")
             Else
-                lblStandings.Text = FormatNumber(StationStanding, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                lblStandings.Text = StationStanding.ToString("N2")
             End If
         End If
         Call Me.RecalcRecycling()
@@ -5133,12 +4750,12 @@ Public Class frmPrism
 
     Private Sub lblStandings_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblStandings.TextChanged
         StationTake = Math.Max(5 - (0.75 * CDbl(lblStandings.Text)), 0)
-        lblStationTake.Text = FormatNumber(StationTake, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+        lblStationTake.Text = StationTake.ToString("N2") & "%"
     End Sub
 
     Private Sub nudStandings_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudStandings.ValueChanged
         If chkOverrideStandings.Checked = True Then
-            lblStandings.Text = FormatNumber(nudStandings.Value, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+            lblStandings.Text = nudStandings.Value.ToString("N2")
             Call Me.RecalcRecycling()
         End If
     End Sub
@@ -5153,12 +4770,12 @@ Public Class frmPrism
             Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         End If
-        lblNetYield.Text = FormatNumber(NetYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+        lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
         Call Me.RecalcRecycling()
     End Sub
 #End Region
 
-#Region "Overrdie Fees functions"
+#Region "Override Fees functions"
     Private Sub chkOverrideBrokerFee_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideBrokerFee.CheckedChanged
         Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
         If chkOverrideBrokerFee.Checked = False Then
@@ -5167,7 +4784,7 @@ Public Class frmPrism
             RBrokerFee = nudBrokerFee.Value
         End If
         RTotalFees = RBrokerFee + RTransTax
-        lblTotalFees.Text = FormatNumber(RTotalFees, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+        lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
         Call Me.RecalcRecycling()
     End Sub
     Private Sub chkOverrideTax_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideTax.CheckedChanged
@@ -5178,14 +4795,14 @@ Public Class frmPrism
             RTransTax = nudTax.Value
         End If
         RTotalFees = RBrokerFee + RTransTax
-        lblTotalFees.Text = FormatNumber(RTotalFees, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+        lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
         Call Me.RecalcRecycling()
     End Sub
     Private Sub nudBrokerFee_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudBrokerFee.ValueChanged
         If chkOverrideBrokerFee.Checked = True Then
             RBrokerFee = nudBrokerFee.Value
             RTotalFees = RBrokerFee + RTransTax
-            lblTotalFees.Text = FormatNumber(RTotalFees, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
             Call Me.RecalcRecycling()
         End If
     End Sub
@@ -5193,7 +4810,7 @@ Public Class frmPrism
         If chkOverrideTax.Checked = True Then
             RTransTax = nudTax.Value
             RTotalFees = RBrokerFee + RTransTax
-            lblTotalFees.Text = FormatNumber(RTotalFees, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+            lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
             Call Me.RecalcRecycling()
         End If
     End Sub
@@ -5208,7 +4825,7 @@ Public Class frmPrism
                 Else
                     BaseYield = StationYield
                 End If
-                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
                 If chkPerfectRefine.Checked = True Then
                     NetYield = 1
                 Else
@@ -5226,14 +4843,14 @@ Public Class frmPrism
                         End If
                     End If
                 End If
-                lblNetYield.Text = FormatNumber(NetYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
+                lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
                 If chkOverrideStandings.Checked = True Then
-                    lblStandings.Text = FormatNumber(nudStandings.Value, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                    lblStandings.Text = nudStandings.Value.ToString("N2")
                 Else
                     If lblCorp.Tag Is Nothing Then
-                        lblStandings.Text = FormatNumber(0, 4, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                        lblStandings.Text = CDbl(0).ToString("N2")
                     Else
-                        lblStandings.Text = FormatNumber(StationStanding, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                        lblStandings.Text = StationStanding.ToString("N2")
                     End If
                 End If
                 chkOverrideBaseYield.Enabled = True
@@ -5245,9 +4862,9 @@ Public Class frmPrism
             Case 1 ' Refining Array
                 BaseYield = 0.35
                 NetYield = 0.35
-                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-                lblNetYield.Text = FormatNumber(NetYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-                lblStandings.Text = FormatNumber(10, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
+                lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
+                lblStandings.Text = CDbl(10).ToString("N2")
                 chkOverrideBaseYield.Enabled = False
                 chkOverrideStandings.Enabled = False
                 chkPerfectRefine.Enabled = False
@@ -5257,9 +4874,9 @@ Public Class frmPrism
             Case 2 ' Intensive Refining Array
                 BaseYield = 0.75
                 NetYield = 0.75
-                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-                lblNetYield.Text = FormatNumber(NetYield * 100, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault) & "%"
-                lblStandings.Text = FormatNumber(10, 2, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault, Microsoft.VisualBasic.TriState.UseDefault)
+                lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
+                lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
+                lblStandings.Text = CDbl(10).ToString("N2")
                 chkOverrideBaseYield.Enabled = False
                 chkOverrideStandings.Enabled = False
                 chkPerfectRefine.Enabled = False
@@ -5564,8 +5181,8 @@ Public Class frmPrism
         End If
     End Sub
     Private Sub UpdateOwnerBPItem(ByVal Owner As String, ByVal LocationName As String, ByVal BP As BlueprintAsset, ByVal newBPItem As Node)
-        newBPItem.Cells(4).Text = FormatNumber(BP.MELevel, 0)
-        newBPItem.Cells(5).Text = FormatNumber(BP.PELevel, 0)
+        newBPItem.Cells(4).Text = BP.MELevel.ToString("N0")
+        newBPItem.Cells(5).Text = BP.PELevel.ToString("N0")
         Select Case BP.BPType
             Case BPType.Unknown  ' Undetermined
                 newBPItem.Cells(1).Text = LocationName
@@ -5582,7 +5199,7 @@ Public Class frmPrism
             Case BPType.BPC  ' BPC
                 newBPItem.Cells(1).Text = LocationName
                 newBPItem.Cells(2).Text = BP.LocationDetails
-                newBPItem.Cells(6).Text = FormatNumber(BP.Runs, 0)
+                newBPItem.Cells(6).Text = BP.Runs.ToString("N0")
                 newBPItem.Cells(6).Tag = BP.Runs
                 newBPItem.Style = BPMStyleBPC
             Case BPType.User
@@ -7366,9 +6983,9 @@ Public Class frmPrism
             totalRSP += CDbl(rigItem.Cells(5).Text)
             totalRP += CDbl(rigItem.Cells(7).Text)
         Next
-        lblTotalRigSalePrice.Text = "Total Rig Sale Price: " & FormatNumber(totalRSP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblTotalRigProfit.Text = "Total Rig Profit: " & FormatNumber(totalRP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblTotalRigMargin.Text = "Margin: " & FormatNumber(totalRP / totalRSP * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        lblTotalRigSalePrice.Text = "Total Rig Sale Price: " & totalRSP.ToString("N2")
+        lblTotalRigProfit.Text = "Total Rig Profit: " & totalRP.ToString("N2")
+        lblTotalRigMargin.Text = "Margin: " & (totalRP / totalRSP * 100).ToString("N2") & "%"
     End Sub
     Private Sub btnAutoRig_Click(sender As System.Object, e As System.EventArgs) Handles btnAutoRig.Click
         ' Get the rig and salvage info

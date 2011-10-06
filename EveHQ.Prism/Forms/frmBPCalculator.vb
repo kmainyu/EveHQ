@@ -653,7 +653,7 @@ Public Class frmBPCalculator
             lblBPRuns.Text = CurrentBP.Runs.ToString
             lblBPMaxRuns.Text = CurrentBP.MaxProdLimit.ToString("N0")
             ' Update the prices
-            lblBPOMarketValue.Text = FormatNumber(CDbl(EveHQ.Core.HQ.BasePriceList(CurrentBP.ID.ToString)) * 0.9, 2) & " Isk"
+            lblBPOMarketValue.Text = (CDbl(EveHQ.Core.HQ.BasePriceList(CurrentBP.ID.ToString)) * 0.9).ToString("N2") & " Isk"
             ' Update the limits on the Runs
             nudCopyRuns.MaxValue = CurrentBP.MaxProdLimit
             If CurrentBP.Runs = -1 Then
@@ -886,7 +886,7 @@ Public Class frmBPCalculator
                 CurrentBPWF = ((CurrentBP.WasteFactor / 100) / (1 + nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
             End If
         End If
-        txtNewWasteFactor.Text = FormatNumber(CurrentBPWF * 100, 6) & "%"
+        txtNewWasteFactor.Text = (CurrentBPWF * 100).ToString("N6") & "%"
     End Sub
 
     Private Sub CalculateBlueprintTimes()
@@ -1148,28 +1148,28 @@ Public Class frmBPCalculator
         ' Calculate the batch size
         Dim productID As String = CurrentBP.ProductID.ToString
         Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(productID)
-        lblBatchSize.Text = FormatNumber(product.PortionSize, 0)
-        lblProdQuantity.Text = FormatNumber(product.PortionSize * currentJob.Runs, 0)
+        lblBatchSize.Text = product.PortionSize.ToString("N0")
+        lblProdQuantity.Text = (product.PortionSize * currentJob.Runs).ToString("N0")
         ' Calculate the factory costs
         Dim FactoryCosts As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
         ' Display Build Time Information
         lblUnitBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime / currentJob.Runs, False)
         lblTotalBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime, False)
         ' Display Materials costs
-        lblUnitBuildCost.Text = FormatNumber(currentJob.Cost / currentJob.Runs, 2) & " isk"
-        lblTotalBuildCost.Text = FormatNumber(currentJob.Cost, 2) & " isk"
+        lblUnitBuildCost.Text = (currentJob.Cost / currentJob.Runs).ToString("N2") & " isk"
+        lblTotalBuildCost.Text = currentJob.Cost.ToString("N2") & " isk"
         ' Display Factory costs
-        lblFactoryCosts.Text = FormatNumber(FactoryCosts, 2) & " isk"
+        lblFactoryCosts.Text = FactoryCosts.ToString("N2") & " isk"
         Dim totalCosts As Double = currentJob.Cost + FactoryCosts
         Dim unitcosts As Double = Math.Round(totalCosts / (currentJob.Runs * product.PortionSize), 2)
         Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(productID)
         Dim profit As Double = value - unitcosts
         PACUnitValue.TypeID = CLng(productID)
-        lblTotalCosts.Text = FormatNumber(totalCosts, 2) & " isk"
-        lblUnitCost.Text = FormatNumber(unitcosts, 2) & " isk"
-        lblUnitValue.Text = FormatNumber(value, 2) & " isk"
-        lblUnitProfit.Text = FormatNumber(profit, 2) & " isk"
-        lblProfitRate.Text = FormatNumber(profit / ((currentJob.RunTime / currentJob.Runs) / 3600), 2) & " isk"
+        lblTotalCosts.Text = totalCosts.ToString("N2") & " isk"
+        lblUnitCost.Text = unitcosts.ToString("N2") & " isk"
+        lblUnitValue.Text = value.ToString("N2") & " isk"
+        lblUnitProfit.Text = profit.ToString("N2") & " isk"
+        lblProfitRate.Text = (profit / ((currentJob.RunTime / currentJob.Runs) / 3600)).ToString("N2") & " isk"
         lblProfitMargin.Text = CDbl(profit / value * 100).ToString("N2") & " %"
         lblProfitMarkup.Text = CDbl(profit / unitcosts * 100).ToString("N2") & " %"
         If profit > 0 Then
