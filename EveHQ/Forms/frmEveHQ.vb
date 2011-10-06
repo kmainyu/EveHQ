@@ -2180,15 +2180,27 @@ Public Class frmEveHQ
 #Region "Eve Mail Functions"
 
     Public Sub UpdateEveMailButton()
+
+        Dim strSQL As String = ""
+        Dim mailData As Data.DataSet
+        Dim UnreadMail As Integer = 0
+
         ' Get a list of the mail messages that are unread
-        Dim strSQL As String = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
-        Dim mailData As Data.DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-        Dim unreadMail As Integer = 0
-        If mailData IsNot Nothing Then
-            If mailData.Tables(0).Rows.Count > 0 Then
-                unreadMail = CInt(mailData.Tables(0).Rows(0).Item(0))
+        Try
+            strSQL = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
+            mailData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            If mailData IsNot Nothing Then
+                If mailData.Tables(0).Rows.Count > 0 Then
+                    UnreadMail = CInt(mailData.Tables(0).Rows(0).Item(0))
+                End If
             End If
-        End If
+        Catch ex As Exception
+            Dim msg As String = ex.Message & ControlChars.CrLf & ControlChars.CrLf
+            If ex.InnerException IsNot Nothing Then
+                msg &= ex.InnerException.Message & ControlChars.CrLf & ex.InnerException.StackTrace
+            End If
+            MessageBox.Show(msg, "Update EveMail Button Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
         ' Get a list of the notifications that are unread
         strSQL = "SELECT COUNT(*) FROM eveNotifications WHERE readMail=0;"
