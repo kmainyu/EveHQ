@@ -30,7 +30,7 @@ Public Class PrismResources
     Dim CurrentJob As Prism.ProductionJob
     Dim CurrentBP As BlueprintSelection
     Dim CurrentBatch As Prism.BatchJob
-    Dim OwnedResources As New SortedList(Of String, Long)
+    Dim OwnedResources As New SortedList(Of String, SortedList(Of String, Long)) ' ItemID, (Location, Long)
     Dim GroupResources As New SortedList(Of String, Long)
     Dim SwapResources As New SortedList(Of String, SwapResource)
 
@@ -451,7 +451,7 @@ Public Class PrismResources
             If reqd > 0 Then
                 ItemData = EveHQ.Core.HQ.itemData(itemID)
                 If OwnedResources.ContainsKey(itemID) = True Then
-                    owned = OwnedResources(itemID)
+                    owned = OwnedResources(itemID).Item("TotalOwned")
                     If MaxProducableUnits = -1 Then
                         MaxProducableUnits = CLng(Int(owned / reqd))
                     Else
@@ -464,10 +464,24 @@ Public Class PrismResources
                 surplus = owned - reqd
                 Dim newORes As New Node(ItemData.Name)
 
-                newORes.Cells.Add(New Cell(reqd.ToString))
-                newORes.Cells.Add(New Cell(owned.ToString))
-                newORes.Cells.Add(New Cell(CStr(surplus)))
+                newORes.Cells.Add(New Cell(reqd.ToString("N0")))
+                newORes.Cells.Add(New Cell(owned.ToString("N0")))
+                newORes.Cells.Add(New Cell(surplus.ToString("N0")))
                 newORes.Cells(3).Tag = surplus
+                ' Add locations
+                If OwnedResources.ContainsKey(itemID) = True Then
+                    If OwnedResources(itemID).Count > 1 Then
+                        For Each Location As String In OwnedResources(itemID).Keys
+                            If Location <> "TotalOwned" Then
+                                Dim newLoc As New Node(GetLocationName(Location))
+                                newLoc.Cells.Add(New Cell(""))
+                                newLoc.Cells.Add(New Cell(OwnedResources(itemID).Item(Location).ToString("N0")))
+                                newLoc.Cells.Add(New Cell(""))
+                                newORes.Nodes.Add(newLoc)
+                            End If
+                        Next
+                    End If
+                End If
                 adtOwnedResources.Nodes.Add(newORes)
                 ' TODO: Fix styles
                 'If surplus < 0 Then
@@ -548,7 +562,7 @@ Public Class PrismResources
                 ' Check if we have a partial or full match
                 If OwnedResources.ContainsKey(SwapID) Then
                     ' We own something for the swap, let's see how much
-                    Dim owned As Long = OwnedResources(SwapID)
+                    Dim owned As Long = OwnedResources(SwapID).Item("TotalOwned")
                     ' How many do we need?
                     Dim reqs As Long = SR.Quantity
                     ' Can we make at least some saving of production?
@@ -603,7 +617,7 @@ Public Class PrismResources
                             ' Define what we want to obtain
                             Dim categories, groups As New ArrayList
                             For Each loc As XmlNode In locList
-                                Call GetAssetQuantitesFromNode(loc, categories, groups, OwnedResources)
+                                Call GetAssetQuantitesFromNode(loc, loc, categories, groups, OwnedResources)
                             Next
                         End If
                     End If
@@ -613,7 +627,7 @@ Public Class PrismResources
 
     End Sub
 
-    Private Sub GetAssetQuantitesFromNode(ByVal item As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef Assets As SortedList(Of String, Long))
+    Private Sub GetAssetQuantitesFromNode(ByVal Root As XmlNode, ByVal item As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef Assets As SortedList(Of String, SortedList(Of String, Long)))
         Dim ItemData As New EveHQ.Core.EveItem
         Dim AssetID As String = ""
         Dim itemID As String = ""
@@ -624,16 +638,26 @@ Public Class PrismResources
             If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or GroupResources.ContainsKey(CStr(ItemData.ID)) Or SwapResources.ContainsKey(CStr(ItemData.ID)) Then
                 ' Check if the item is in the list
                 If Assets.ContainsKey(CStr(ItemData.ID)) = False Then
-                    Assets.Add(CStr(ItemData.ID), CLng(item.Attributes.GetNamedItem("quantity").Value))
+                    Dim Locations As New SortedList(Of String, Long)
+                    Locations.Add(Root.Attributes.GetNamedItem("locationID").Value, CLng(item.Attributes.GetNamedItem("quantity").Value))
+                    Locations.Add("TotalOwned", CLng(item.Attributes.GetNamedItem("quantity").Value))
+                    Assets.Add(CStr(ItemData.ID), Locations)
                 Else
-                    Assets(CStr(ItemData.ID)) = Assets(CStr(ItemData.ID)) + CLng(item.Attributes.GetNamedItem("quantity").Value)
+                    Dim Locations As SortedList(Of String, Long) = Assets(CStr(ItemData.ID))
+                    If Locations.ContainsKey(Root.Attributes.GetNamedItem("locationID").Value) = False Then
+                        Locations.Add(Root.Attributes.GetNamedItem("locationID").Value, CLng(item.Attributes.GetNamedItem("quantity").Value))
+                        Locations("TotalOwned") += CLng(item.Attributes.GetNamedItem("quantity").Value)
+                    Else
+                        Locations(Root.Attributes.GetNamedItem("locationID").Value) += CLng(item.Attributes.GetNamedItem("quantity").Value)
+                        Locations("TotalOwned") += CLng(item.Attributes.GetNamedItem("quantity").Value)
+                    End If
                 End If
             End If
         End If
         ' Check child items if they exist
         If item.ChildNodes.Count > 0 Then
             For Each subitem As XmlNode In item.ChildNodes(0).ChildNodes
-                Call GetAssetQuantitesFromNode(subitem, categories, groups, Assets)
+                Call GetAssetQuantitesFromNode(item, subitem, categories, groups, Assets)
             Next
         End If
     End Sub
@@ -705,7 +729,7 @@ Public Class PrismResources
             reqd = GroupResources(itemID)
             If reqd > 0 Then
                 If OwnedResources.ContainsKey(itemID) = True Then
-                    owned = OwnedResources(itemID)
+                    owned = OwnedResources(itemID).Item("TotalOwned")
                 Else
                     owned = 0
                 End If
@@ -721,6 +745,35 @@ Public Class PrismResources
             End If
         Next
         Return ReqOrders
+    End Function
+
+    Private Function GetLocationName(LocID As String) As String
+        If CDbl(LocID) >= 66000000 Then
+            If CDbl(LocID) < 66014933 Then
+                LocID = (CDbl(LocID) - 6000001).ToString
+            Else
+                LocID = (CDbl(LocID) - 6000000).ToString
+            End If
+        End If
+        If CDbl(LocID) >= 61000000 And CDbl(LocID) <= 61999999 Then
+            If PlugInData.stations.Contains(LocID) = True Then
+                ' Known Outpost
+                Return CType(PlugInData.stations(LocID), Prism.Station).stationName
+            Else
+                ' Unknown outpost!
+                Return "Unknown Outpost"
+            End If
+        Else
+            If CDbl(LocID) < 60000000 Then
+                Return CType(PlugInData.stations(LocID), SolarSystem).Name
+            Else
+                If PlugInData.stations.ContainsKey(LocID) = True Then
+                    Return CType(PlugInData.stations(LocID), Prism.Station).stationName
+                Else
+                    Return "Unknown Location"
+                End If
+            End If
+        End If
     End Function
 
     Private Sub chkAdvancedResourceAllocation_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAdvancedResourceAllocation.CheckedChanged
