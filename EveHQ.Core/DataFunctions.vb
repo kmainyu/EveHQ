@@ -481,16 +481,6 @@ Public Class DataFunctions
         End If
         Return BPWF
     End Function
-    Public Shared Function Round(ByVal data As String, Optional ByVal places As Integer = 6) As String
-        If IsNumeric(data) = True Then
-            Dim figure As Double = 0
-            figure = Int((CDbl(data) * 10 ^ places) + 0.5) / 10 ^ places
-            Return Format(figure, "#,###,##0.######")
-        Else
-            Return data
-        End If
-    End Function
-
     Public Shared Function LoadItemData() As Boolean
         Dim itemData As New DataSet
         Try

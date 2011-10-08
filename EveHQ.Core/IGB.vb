@@ -727,7 +727,7 @@ Public Class IGB
                                     attNo += 1
                                     attributes(attNo, 1) = "Z" & col - 2
                                     attributes(attNo, 2) = eveData.Tables(0).Columns(col).Caption
-                                    attributes(attNo, 3) = EveHQ.Core.DataFunctions.Round(CStr(eveData.Tables(0).Rows(0).Item(col)))
+                                    attributes(attNo, 3) = CDbl(eveData.Tables(0).Rows(0).Item(col)).ToString("N6")
                                     attributes(attNo, 4) = ""
                                     attributes(attNo, 5) = "15"
                                 Next
@@ -760,14 +760,14 @@ Public Class IGB
                                     ' Do modifier calculations here!
                                     Select Case eveData.Tables(0).Rows(row).Item("unitID").ToString
                                         Case "108"
-                                            attributes(attNo, 3) = EveHQ.Core.DataFunctions.Round(CStr(100 - (Val(attributes(attNo, 3)) * 100)))
+                                            attributes(attNo, 3) = CDbl(100 - (Val(attributes(attNo, 3)) * 100)).ToString("N6")
                                         Case "109"
-                                            attributes(attNo, 3) = EveHQ.Core.DataFunctions.Round(CStr((Val(attributes(attNo, 3)) * 100) - 100))
+                                            attributes(attNo, 3) = CDbl((Val(attributes(attNo, 3)) * 100) - 100).ToString("N6")
                                         Case "111"
-                                            attributes(attNo, 3) = EveHQ.Core.DataFunctions.Round(CStr((Val(attributes(attNo, 3)) - 1) * 100))
+                                            attributes(attNo, 3) = CDbl((Val(attributes(attNo, 3)) - 1) * 100).ToString("N6")
                                         Case "101"
                                             If Val(attributes(attNo, 3)) > 1000 Then
-                                                attributes(attNo, 3) = EveHQ.Core.DataFunctions.Round(CStr(Val(attributes(attNo, 3)) / 1000))
+                                                attributes(attNo, 3) = CDbl((Val(attributes(attNo, 3)) / 1000)).ToString("N6")
                                                 attributes(attNo, 4) = " s"
                                             End If
                                     End Select
@@ -800,7 +800,7 @@ Public Class IGB
                                     If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                                     attributes(att, 4) = ""
                                 Else
-                                    attributes(att, 3) = EveHQ.Core.DataFunctions.Round(attributes(att, 3))
+                                    attributes(att, 3) = CDbl(attributes(att, 3)).ToString("N6")
                                 End If
                             Next
 

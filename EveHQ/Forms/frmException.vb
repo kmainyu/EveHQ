@@ -33,7 +33,7 @@ Public Class frmException
         errReport.AppendLine("[size=12pt][b]EveHQ Error Report[/b][/size]")
         errReport.AppendLine("")
         errReport.AppendLine("EveHQ Version: " & My.Application.Info.Version.ToString)
-        errReport.AppendLine("Date: " & Now.ToString 
+        errReport.AppendLine("Date: " & Now.ToString)
         errReport.AppendLine("Error: " & lblError.Text)
         errReport.AppendLine("Stack Trace:")
         errReport.AppendLine("[code]" & txtStackTrace.Text & "[/code]")

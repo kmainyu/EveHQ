@@ -388,7 +388,7 @@ Public Class frmItemBrowser
                     Dim lstSubItem As New ListViewItem.ListViewSubItem
                     lstSubItem.Name = CompMatrix(item, att, 0)
                     If IsNumeric(CompMatrix(item, att, 0)) = True Then
-                        lstSubItem.Text = Format(CDbl(CompMatrix(item, att, 0)), "#,###,##0.#") & " " & CompMatrix(item, att, 1)
+                        lstSubItem.Text = CDbl(CompMatrix(item, att, 0)).ToString("N1") & " " & CompMatrix(item, att, 1)
                     Else
                         lstSubItem.Text = CompMatrix(item, att, 0) & " " & CompMatrix(item, att, 1)
                     End If
@@ -1012,7 +1012,7 @@ Public Class frmItemBrowser
                         Else
                             lstItem.Tag = ""
                             If IsNumeric(attributes(item, 3)) = True Then
-                                lstItem.SubItems.Add(Format(CDbl(attributes(item, 3)), "#,###,##0.###") & attributes(item, 4))
+                                lstItem.SubItems.Add(CDbl(attributes(item, 3)).ToString("N3") & attributes(item, 4))
                             Else
                                 lstItem.SubItems.Add(attributes(item, 3) & attributes(item, 4))
                             End If
@@ -1141,8 +1141,8 @@ Public Class frmItemBrowser
                                 newItem.Group = materialsView.Groups.Item(matCatID & matGroupID)
                                 If act = 1 Then
                                     If materials(item, 5) = "4" Or materials(item, 7) = "280" Or materials(item, 7) = "334" Or materials(item, 7) = "873" Or materials(item, 7) = "536" Then
-                                        newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFM) * CDbl(materials(item, 3)), 0))
-                                        newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFP) * CDbl(materials(item, 3)), 0))
+                                        newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFM) * CDbl(materials(item, 3)), 0))
+                                        newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFP) * CDbl(materials(item, 3)), 0))
                                     Else
                                         newItem.SubItems.Add(materials(item, 3).ToString("N0"))
                                         newItem.SubItems.Add(materials(item, 3).ToString("N0"))
@@ -1322,8 +1322,8 @@ Public Class frmItemBrowser
                                         BPWFC = EveHQ.Core.DataFunctions.GetBPWF(materials(item, 1))
                                         BPWFMC = ((1 / BPWFC) / (1 + nudMELevelC.Value))
                                         BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
-                                        newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFMC) * CDbl(materials(item, 3)), 0))
-                                        newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFPC) * CDbl(materials(item, 3)), 0))
+                                        newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFMC) * CDbl(materials(item, 3)), 0))
+                                        newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFPC) * CDbl(materials(item, 3)), 0))
                                     Else
                                         newItem.SubItems.Add(materials(item, 3).ToString("N0"))
                                         newItem.SubItems.Add(materials(item, 3).ToString("N0"))
