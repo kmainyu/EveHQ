@@ -209,7 +209,7 @@ Public Class frmPilot
             If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(displayPilot.Account) = True Then
                 Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(displayPilot.Account), Core.EveAccount)
                 If dAccount.APIKeyType = Core.APIKeyTypes.Full Then
-                    lblAccountExpiry.Text = "Expiry: " & FormatDateTime(dAccount.PaidUntil, DateFormat.GeneralDate) & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
+                    lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
                     lblAccountLogins.Text = "Login Count: " & dAccount.LogonCount & " (" & EveHQ.Core.SkillFunctions.TimeToString(dAccount.LogonMinutes * 60, False) & ")"
                     If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
                         Dim AccountTime As Date = dAccount.PaidUntil
@@ -649,7 +649,7 @@ Public Class frmPilot
             ' Display Account Info
             If grpAccount.Visible = True Then
                 Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(displayPilot.Account), Core.EveAccount)
-                lblAccountExpiry.Text = "Expiry: " & FormatDateTime(dAccount.PaidUntil, DateFormat.GeneralDate) & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
+                lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
                 If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
                     Dim AccountTime As Date = dAccount.PaidUntil
                     If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit Then
@@ -860,7 +860,7 @@ Public Class frmPilot
                 If lvwStandings.Items.Count > 0 Then
                     ' Export the current list of standings
                     Dim sw As New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "Standings (" & cboPilots.SelectedItem.ToString & ").csv"))
-                    sw.WriteLine("Standings Export for " & cboPilots.SelectedItem.ToString & " (dated: " & FormatDateTime(Now, DateFormat.GeneralDate) & ")")
+                    sw.WriteLine("Standings Export for " & cboPilots.SelectedItem.ToString & " (dated: " & Now.ToString & ")")
                     sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
                     For Each iStanding As ListViewItem In lvwStandings.Items
                         sw.Write(iStanding.Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)

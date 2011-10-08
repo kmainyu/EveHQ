@@ -134,7 +134,7 @@ Public Class DBCLastJournals
                     Dim transaction As XmlNode = transactionList(currentTransactionCounter)
                     If transaction IsNot Nothing Then
                         Dim transDate As Date = DateTime.ParseExact(transaction.Attributes.GetNamedItem("date").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
-                        newTransaction.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                        newTransaction.Text = transDate.ToString
                         newTransaction.Cells.Add(New Cell(RefTypes(transaction.Attributes.GetNamedItem("refTypeID").Value)))
                         transA = Double.Parse(transaction.Attributes.GetNamedItem("amount").Value, culture)
                         transB = Double.Parse(transaction.Attributes.GetNamedItem("balance").Value, culture)

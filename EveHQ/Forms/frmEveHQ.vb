@@ -1291,7 +1291,7 @@ Public Class frmEveHQ
         Call frmBackup.CalcNextBackup()
         Call frmBackup.ScanBackups()
         If EveHQ.Core.HQ.EveHQSettings.BackupLastResult = -1 Then
-            lblAPIStatus.Text = "Eve Settings Backup Successful: " & FormatDateTime(EveHQ.Core.HQ.EveHQSettings.BackupLast, DateFormat.GeneralDate)
+            lblAPIStatus.Text = "Eve Settings Backup Successful: " & EveHQ.Core.HQ.EveHQSettings.BackupLast.ToString
         Else
             lblAPIStatus.Text = "Eve Settings Backup Aborted - No Source Folders"
         End If
@@ -1307,7 +1307,7 @@ Public Class frmEveHQ
             Call frmBackupEveHQ.ScanBackups()
         End If
         If EveHQ.Core.HQ.EveHQSettings.EveHQBackupLastResult = -1 Then
-            lblAPIStatus.Text = "EveHQ Settings Backup Successful: " & FormatDateTime(EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast, DateFormat.GeneralDate)
+            lblAPIStatus.Text = "EveHQ Settings Backup Successful: " & EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.ToString
         Else
             lblAPIStatus.Text = "EveHQ Settings Backup Failed!"
         End If

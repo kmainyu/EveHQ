@@ -534,8 +534,8 @@ Public Class frmSettings
                     STT.SetSuperTooltip(newLine, STI)
                 Case Core.APIKeyTypes.Full, Core.APIKeyTypes.Character, Core.APIKeyTypes.Corporation
                     Dim TTT As String = ""
-                    TTT &= "Account Creation Date: " & FormatDateTime(newAccount.CreateDate, DateFormat.GeneralDate) & ControlChars.CrLf
-                    TTT &= "Account Expiry Date: " & FormatDateTime(newAccount.PaidUntil, DateFormat.GeneralDate) & ControlChars.CrLf
+                    TTT &= "Account Creation Date: " & newAccount.CreateDate.ToString & ControlChars.CrLf
+                    TTT &= "Account Expiry Date: " & newAccount.PaidUntil.ToString & ControlChars.CrLf
                     TTT &= "Logon Count: " & newAccount.LogonCount.ToString("N0") & ControlChars.CrLf
                     TTT &= "Time Online: " & EveHQ.Core.SkillFunctions.TimeToString(newAccount.LogonMinutes * 60, False)
                     Dim STI As New SuperTooltipInfo("Account Name: " & newAccount.FriendlyName, "Eve API Account Information", TTT, Nothing, My.Resources.Info32, eTooltipColor.Yellow)

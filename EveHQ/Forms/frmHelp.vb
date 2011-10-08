@@ -40,7 +40,7 @@ Public Class frmHelp
             RSSItem.lblFeedItemTitle.Tag = item.Link
             Dim itemDate As Date
             Date.TryParse(item.PubDate, itemDate)
-            RSSItem.lblFeeItemDate.Text = FormatDateTime(itemDate, DateFormat.LongDate) & " " & FormatDateTime(itemDate, DateFormat.LongTime)
+            RSSItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
             pnlBlogFeedItems.Controls.Add(RSSItem)
             RSSItem.Dock = DockStyle.Top
             RSSItem.BringToFront()

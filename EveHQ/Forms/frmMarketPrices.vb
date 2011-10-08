@@ -224,7 +224,7 @@ Public Class frmMarketPrices
                 LogItem.Text = region
                 adtLogs.Nodes.Add(LogItem)
                 LogItem.Cells.Add(New Cell(item))
-                LogItem.Cells.Add(New Cell(FormatDateTime(logDate, DateFormat.GeneralDate)))
+                LogItem.Cells.Add(New Cell(logDate.ToString))
                 logAge = DateDiff("h", logDate, Date.Now)
                 LogItem.Cells.Add(New Cell(CStr(logAge)))
                 If logAge > CLng(nudAge.Value) Then
@@ -1102,10 +1102,10 @@ Public Class frmMarketPrices
                 If RegionNames.ContainsKey(regionID) = True Then
                     Dim regionName As String = RegionNames(regionID)
                     Dim RegionNode As New Node(regionName)
-                    RegionNode.Cells.Add(New Cell(FormatDateTime(FI.LastWriteTime, DateFormat.GeneralDate)))
+                    RegionNode.Cells.Add(New Cell(FI.LastWriteTime.ToString))
                     ' Get the cache file time
                     Dim MarketFileCacheTime As DateTime = GetMarketFileCacheTime(file)
-                    RegionNode.Cells.Add(New Cell(FormatDateTime(GetMarketFileCacheTime(file), DateFormat.GeneralDate)))
+                    RegionNode.Cells.Add(New Cell(GetMarketFileCacheTime(file).ToString))
                     adtMarketCache.Nodes.Add(RegionNode)
                 End If
             Next

@@ -199,7 +199,7 @@ Public Class DBCSkillQueueInfo
                                 newitem.Text = qItem.Name & " (" & EveHQ.Core.SkillFunctions.Roman(CInt(qItem.FromLevel)) & " -> " & EveHQ.Core.SkillFunctions.Roman(CInt(qItem.ToLevel)) & ")"
                                 newitem.Name = qItem.ID
                                 lvwSkills.Items.Add(newitem)
-                                newitem.ToolTipText = "Skill ends: " & Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
+                                newitem.ToolTipText = "Skill ends: " & Format(qItem.DateFinished, "ddd") & " " & qItem.DateFinished.ToString
                             End If
                         Next
                     End If

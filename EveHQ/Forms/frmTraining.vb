@@ -409,7 +409,7 @@ Public Class frmTraining
             newItem.SubItems.Add(qTimeItem)
             totalQTime += qTime
             Dim eTime As Date = Now.AddSeconds(tTime)
-            newItem.SubItems.Add(Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
+            newItem.SubItems.Add(Format(eTime, "ddd") & " " & eTime.ToString)
             lvQueues.Items.Add(newItem)
         Next
     End Sub
@@ -857,7 +857,7 @@ Public Class frmTraining
                         newSI.Tag = qitem.TimeBeforeTrained
                     Case "DateEnded"
                         newSI.Name = qitem.DateFinished.ToBinary.ToString
-                        newSI.Text = Format(qitem.DateFinished, "ddd") & " " & FormatDateTime(qitem.DateFinished, DateFormat.GeneralDate)
+                        newSI.Text = Format(qitem.DateFinished, "ddd") & " " & qitem.DateFinished.ToString
                     Case "Rank"
                         newSI.Name = qitem.Rank.ToString
                         newSI.Text = qitem.Rank.ToString
@@ -1137,7 +1137,7 @@ Public Class frmTraining
                         lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
                         lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
                         Dim eTime As Date = Now.AddSeconds(tTime)
-                        lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
+                        lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & eTime.ToString)
                     Catch e As Exception
                         ' Error will most likely be if a skill queue is in the process of deletion.
                     End Try
