@@ -59,7 +59,7 @@ Public Class frmBackup
         If EveHQ.Core.HQ.EveHQSettings.BackupLast.Year < 2000 Then
             lblLastBackup.Text = "<not backed up>"
         Else
-            lblLastBackup.Text = Format(EveHQ.Core.HQ.EveHQSettings.BackupLast, "dd/MM/yyyy HH:mm")
+            lblLastBackup.Text = EveHQ.Core.HQ.EveHQSettings.BackupLast.ToString
         End If
         Call ScanBackups()
     End Sub
@@ -109,7 +109,7 @@ Public Class frmBackup
         Loop Until noLocations = False
 
         If BackupEveSettings() = True Then
-            lblLastBackup.Text = Format(EveHQ.Core.HQ.EveHQSettings.BackupLast, "dd/MM/yyyy HH:mm")
+            lblLastBackup.Text = EveHQ.Core.HQ.EveHQSettings.BackupLast.ToString
         End If
         Call CalcNextBackup()
         Call ScanBackups()
@@ -165,7 +165,7 @@ Public Class frmBackup
             nextBackup = EveHQ.Core.HQ.EveHQSettings.BackupLast
         End If
         nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.EveHQSettings.BackupFreq, nextBackup)
-        lblNextBackup.Text = Format(nextBackup, "dd/MM/yyyy HH:mm")
+        lblNextBackup.Text = nextBackup.ToString
     End Sub
 
     Public Function BackupEveSettings() As Boolean

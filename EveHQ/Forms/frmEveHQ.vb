@@ -1286,7 +1286,7 @@ Public Class frmEveHQ
     Private Sub BackupWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackupWorker.RunWorkerCompleted
 
         If EveHQ.Core.HQ.EveHQSettings.BackupLastResult = -1 Then
-            frmBackup.lblLastBackup.Text = Format(EveHQ.Core.HQ.EveHQSettings.BackupLast, "dd/MM/yyyy HH:mm")
+            frmBackup.lblLastBackup.Text = EveHQ.Core.HQ.EveHQSettings.BackupLast.ToString
         End If
         Call frmBackup.CalcNextBackup()
         Call frmBackup.ScanBackups()

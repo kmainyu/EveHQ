@@ -112,7 +112,7 @@ Public Class frmMarketPrices
         Call Me.UpdateCacheFileList()
 
         ' Set the faction price snapshot data
-        lblLastFactionPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+        lblLastFactionPriceUpdate.Text = EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.ToString
         If EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.AddSeconds(86400) < Now Then
             btnUpdateFactionPrices.Enabled = True
             lblFactionPriceUpdateStatus.Text = "Status: Awaiting update."
@@ -934,7 +934,7 @@ Public Class frmMarketPrices
                 ' Close the connection
                 EveHQ.Core.DataFunctions.CloseCustomDatabase()
                 EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate = Now
-                lblLastFactionPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+                lblLastFactionPriceUpdate.Text = EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.ToString
                 If EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.AddSeconds(86400) < Now Then
                     btnUpdateFactionPrices.Enabled = True
                     lblFactionPriceUpdateStatus.Text = "Status: Awaiting update."

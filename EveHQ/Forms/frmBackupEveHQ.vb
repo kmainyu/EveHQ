@@ -23,14 +23,14 @@ Public Class frmBackupEveHQ
 
     Private Sub btnBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBackup.Click
         If EveHQ.Core.EveHQBackup.BackupEveHQSettings() = True Then
-            lblLastBackup.Text = Format(EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast, "dd/MM/yyyy HH:mm")
+            lblLastBackup.Text = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.ToString
         End If
         Call CalcNextBackup()
         Call ScanBackups()
     End Sub
 
     Private Sub CalcNextBackup()
-        lblNextBackup.Text = Format(EveHQ.Core.EveHQBackup.CalcNextBackup(), "dd/MM/yyyy HH:mm")
+        lblNextBackup.Text = EveHQ.Core.EveHQBackup.CalcNextBackup().ToString
     End Sub
 
     Public Sub ScanBackups()
@@ -79,7 +79,7 @@ Public Class frmBackupEveHQ
         If EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.Year < 2000 Then
             lblLastBackup.Text = "<not backed up>"
         Else
-            lblLastBackup.Text = Format(EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast, "dd/MM/yyyy HH:mm")
+            lblLastBackup.Text = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.ToString
         End If
         chkBackupBeforeUpdate.Checked = EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate
         Call ScanBackups()
