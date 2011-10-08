@@ -66,7 +66,7 @@ Public Class SkillQueueTimeControl
             End If
             lastTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime)
         Next
-        lblQueueEnds.Text = "Finishes: " & FormatDateTime(lastTime, DateFormat.GeneralDate)
+        lblQueueEnds.Text = "Finishes: " & lastTime.ToString
         lblQueueRemaining.Text = EveHQ.Core.SkillFunctions.TimeToString((lastTime - Now).TotalSeconds)
         Call Me.DrawMarks()
     End Sub

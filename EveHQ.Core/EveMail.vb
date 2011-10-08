@@ -447,7 +447,7 @@ Public Class EveMail
                             strBody.AppendLine("To: Mailing List")
                         End If
                     End If
-                    strBody.AppendLine("Date: " & FormatDateTime(cMail.MessageDate))
+                    strBody.AppendLine("Date: " & cMail.MessageDate.ToString)
 					strBody.AppendLine("Subject: " & cMail.MessageTitle)
 					strBody.AppendLine("Message:")
 					strBody.AppendLine(cMail.MessageBody.Replace("<br>", "<br />").Replace("<BR>", "<br />").Replace("<br />", ControlChars.CrLf))
@@ -486,7 +486,7 @@ Public Class EveMail
             strBody.AppendLine("Mail " & MessageCount.ToString & " of " & NewNotifys.Count.ToString)
             strBody.AppendLine("From: " & FinalIDs(cMail.SenderID))
             strBody.AppendLine("To: " & FinalIDs(cMail.OriginatorID))
-            strBody.AppendLine("Date: " & FormatDateTime(cMail.MessageDate))
+            strBody.AppendLine("Date: " & cMail.MessageDate.ToString)
             Dim strNotice As String = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), cMail.TypeID)
             strNotice = strNotice.Replace("_", " ")
             strBody.AppendLine("Subject: " & strNotice)

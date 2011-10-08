@@ -614,7 +614,7 @@ Public Class frmRequisitions
             str.AppendLine("ItemName" & sepChar & "Date" & sepChar & "Quantity")
             For Each order As EveHQ.Core.RequisitionOrder In req.Orders.Values
                 str.Append(order.ItemName & sepChar)
-                str.Append(FormatDateTime(order.RequestDate, DateFormat.GeneralDate) & sepChar)
+                str.Append(order.RequestDate.ToString & sepChar)
                 str.AppendLine(order.ItemQuantity.ToString("N2"))
             Next
             Try

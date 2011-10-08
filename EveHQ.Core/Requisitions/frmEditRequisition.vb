@@ -91,7 +91,7 @@ Public Class frmEditRequisition
             tc2.Text = newOrder.Source
             tn.Cells.Add(tc2)
             Dim tc3 As New DevComponents.AdvTree.Cell
-            tc3.Text = FormatDateTime(newOrder.RequestDate, DateFormat.GeneralDate)
+            tc3.Text = newOrder.RequestDate.ToString
             tn.Cells.Add(tc3)
             adtOrders.Nodes.Add(tn)
         Next

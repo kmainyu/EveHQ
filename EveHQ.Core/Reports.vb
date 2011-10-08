@@ -1038,7 +1038,7 @@ Public Class Reports
             Dim endLevel As Integer = qItem.ToLevel
             Dim percent As Double = qItem.Percent
             Dim timeToEnd As String = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime))
-            Dim endTime As String = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
+            Dim endTime As String = Format(qItem.DateFinished, "ddd") & " " & qItem.DateFinished.ToString
 
             strHTML &= "<tr height=20px>"
             strHTML &= "<td>" & skillName & "</td>"
@@ -3022,7 +3022,7 @@ Public Class Reports
             Dim endLevel As Integer = qItem.ToLevel
             Dim percent As Double = qItem.Percent
             Dim timeToEnd As String = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime))
-            Dim endTime As String = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
+            Dim endTime As String = Format(qItem.DateFinished, "ddd") & " " & qItem.DateFinished.ToString
 
             txtData(0) = skillName
             txtData(1) = curLevel.ToString
