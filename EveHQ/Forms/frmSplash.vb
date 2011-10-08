@@ -345,7 +345,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("End: Activate G15")
 
         ' Force DBDataDirectory location if using SQL CE
-        EveHQ.Core.HQ.WriteLogEvent("Start: Set SQL CE data directory")
+        EveHQ.Core.HQ.WriteLogEvent("Start: Set data directory")
         If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf") Then
 
             If EveHQ.Core.HQ.EveHQSettings.DBDataFilename = "" Then
@@ -428,7 +428,7 @@ Public Class frmSplash
         End If
         EveHQ.Core.HQ.EveHQSettings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
         Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
-        EveHQ.Core.HQ.WriteLogEvent("End: Set SQL CE data directory")
+        EveHQ.Core.HQ.WriteLogEvent("End: Set data directory")
 
         ' Check for new database
         EveHQ.Core.HQ.WriteLogEvent("Start: Check custom database")
