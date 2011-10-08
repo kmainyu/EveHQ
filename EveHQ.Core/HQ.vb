@@ -42,6 +42,7 @@ Public Class HQ
     Public Shared appDataFolder As String = ""
     Public Shared appFolder As String = ""
     Public Shared cacheFolder As String = ""
+    Public Shared coreCacheFolder As String = ""
     Public Shared imageCacheFolder As String = ""
     Public Shared reportFolder As String = ""
     Public Shared dataFolder As String = ""
@@ -66,7 +67,6 @@ Public Class HQ
     Public Shared IsG15LCDActive As Boolean = False
     Public Shared lcdPilot As String = ""
     Public Shared lcdCharMode As Integer = 0
-    Public Shared BasePriceList As New SortedList(Of String, Double) ' TypeID, Price
     Public Shared MarketPriceList As New SortedList(Of String, Double) ' TypeID, Price
     Public Shared CustomPriceList As New SortedList(Of String, Double) ' TypeID, Price
     Public Shared APIUpdateAvailable As Boolean = False

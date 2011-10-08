@@ -2236,7 +2236,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.itemData(cSkill.ID).BasePrice) * 0.9).ToString("N0")
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
                     TotalCost += CLng(repSkill(groupCount, CInt(skillCount), 4))
                 End If
@@ -3520,12 +3520,12 @@ Public Class Reports
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     SPCount += cSkill.SP
-                    groupCost = CLng(groupCost + (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9))
+                    groupCost = CLng(groupCost + (CLng(EveHQ.Core.HQ.itemData(cSkill.ID).BasePrice) * 0.9))
                     repSkill(groupCount, CInt(skillCount), 0) = cSkill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.itemData(cSkill.ID).BasePrice) * 0.9).ToString("N0")
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
 
                     If rpilot.Training = True Then
@@ -3628,12 +3628,12 @@ Public Class Reports
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     SPCount += cSkill.SP
-                    groupCost = CLng(groupCost + (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9))
+                    groupCost = CLng(groupCost + (CLng(EveHQ.Core.HQ.itemData(cSkill.ID).BasePrice) * 0.9))
                     repSkill(groupCount, CInt(skillCount), 0) = cSkill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.BasePriceList(cSkill.ID)) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(EveHQ.Core.HQ.itemData(cSkill.ID).BasePrice) * 0.9).ToString("N0")
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
 
                     If rpilot.Training = True Then

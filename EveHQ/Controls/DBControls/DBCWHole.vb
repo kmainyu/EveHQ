@@ -35,9 +35,11 @@ Public Class DBCWHole
         ' Try and load the wormhole information
         Call Me.LoadWormholeData()
 
-        ' Load the combo box with wormhole information
-        Call Me.PopulateWormholeData()
+    End Sub
 
+    Private Sub DBCWHole_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+        'Load the combo box with wormhole information
+        Call Me.PopulateWormholeData()
     End Sub
 
     Private Sub PopulateWormholeData()
@@ -164,6 +166,7 @@ Public Class DBCWHole
         End If
     End Sub
 
+    
 End Class
 
 Public Class WormHole

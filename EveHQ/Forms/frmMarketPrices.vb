@@ -350,7 +350,7 @@ Public Class frmMarketPrices
                         lvItem = New Node
                         lvItem.Text = itemData.Name
                         lvItem.Name = itemID
-                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.BasePriceList(itemID).ToString("N2")))
+                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
                         If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
                             price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
                             lvItem.Cells.Add(New Cell(price.ToString("N2")))
@@ -376,7 +376,7 @@ Public Class frmMarketPrices
                         lvItem = New Node
                         lvItem.Text = itemData.Name
                         lvItem.Name = CStr(itemData.ID)
-                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.BasePriceList(itemID).ToString("N2")))
+                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
                         If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
                             price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
                             lvItem.Cells.Add(New Cell(price.ToString("N2")))

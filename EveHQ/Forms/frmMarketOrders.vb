@@ -194,7 +194,7 @@ Public Class frmMarketOrders
             ' Check if we process this
             ProcessOrder = True
             If oType = 0 Then ' Sell Order
-                If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit * CDbl(EveHQ.Core.HQ.BasePriceList(oTypeID.ToString))) Then
+                If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit * CDbl(EveHQ.Core.HQ.itemData(oTypeID.ToString).BasePrice)) Then
                     ProcessOrder = False
                 End If
             Else ' Buy Order

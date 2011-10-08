@@ -39,9 +39,11 @@ Public Class DBCWSystem
         Call Me.LoadWHSystemData()
         Call Me.LoadWHAttributeData()
 
+    End Sub
+
+    Private Sub DBCWSystem_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         ' Load the combo box with wormhole information
         Call Me.PopulateWormholeData()
-
     End Sub
 
 #Region "Public Overriding Propeties"
@@ -236,6 +238,7 @@ Public Class DBCWSystem
             lblSystemClass.Text = WH.WClass
         End If
     End Sub
+
 End Class
 
 Public Class WormholeSystem

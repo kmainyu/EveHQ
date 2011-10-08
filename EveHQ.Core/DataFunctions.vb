@@ -26,6 +26,7 @@ Imports System.Text
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Data.SqlServerCe
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class DataFunctions
 
@@ -33,7 +34,7 @@ Public Class DataFunctions
     Shared customSQLConnection As New SqlConnection
     Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-    
+
     Public Shared Function CreateEveHQDataDB() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' SQL CE
@@ -486,7 +487,7 @@ Public Class DataFunctions
         Try
             EveHQ.Core.HQ.itemData.Clear()
             ' Get type data
-            Dim strSQL As String = "SELECT invGroups.categoryID, invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.volume, invTypes.portionSize, invTypes.published, invTypes.marketGroupID FROM invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID;"
+            Dim strSQL As String = "SELECT invGroups.categoryID, invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.volume, invTypes.portionSize, invTypes.basePrice, invTypes.published, invTypes.marketGroupID FROM invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID;"
             itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
             ' Get meta data
             strSQL = ""
@@ -507,6 +508,7 @@ Public Class DataFunctions
                         End If
                         newItem.Volume = CDbl(itemRow.Item("volume"))
                         newItem.PortionSize = CInt(itemRow.Item("portionSize"))
+                        newItem.BasePrice = CDbl(itemRow.Item("basePrice"))
                         EveHQ.Core.HQ.itemData.Add(newItem.ID.ToString, newItem)
                     Next
                     ' Get the MetaLevel data
@@ -602,9 +604,6 @@ Public Class DataFunctions
                 iPublished = CBool(eveData.Tables(0).Rows(item).Item("published"))
                 If EveHQ.Core.HQ.itemList.ContainsKey(iKey) = False Then
                     EveHQ.Core.HQ.itemList.Add(iKey, iValue)
-                End If
-                If EveHQ.Core.HQ.BasePriceList.ContainsKey(iValue) = False Then
-                    EveHQ.Core.HQ.BasePriceList.Add(iValue, CDbl(iBasePrice))
                 End If
             Next
             ' Load Certificate data
@@ -774,15 +773,19 @@ Public Class DataFunctions
                     If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
                         Return CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
                     Else
-                        If EveHQ.Core.HQ.BasePriceList.ContainsKey(itemID) Then
-                            Return CDbl(EveHQ.Core.HQ.BasePriceList(itemID))
+                        If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
+                            Return EveHQ.Core.HQ.itemData(itemID).BasePrice
                         Else
                             Return 0
                         End If
                     End If
                 End If
             Catch e As Exception
-                Return CDbl(EveHQ.Core.HQ.BasePriceList(itemID))
+                If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
+                    Return EveHQ.Core.HQ.itemData(itemID).BasePrice
+                Else
+                    Return 0
+                End If
             End Try
         Else
             Return 0
@@ -863,98 +866,98 @@ Public Class DataFunctions
             End If
         End Try
     End Function
-	Public Shared Function CreateCustomPricesTable() As Boolean
-		Dim CreateTable As Boolean = False
-		Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-		If tables IsNot Nothing Then
-			If tables.Contains("customPrices") = False Then
-				' The DB exists but the table doesn't so we'll create this
-				CreateTable = True
-			Else
-				' We have the Db and table so we can return a good result
-				Return True
-			End If
-		Else
-			' Database doesn't exist?
-			Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-			msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-			msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-			MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-			If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-				MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			Else
-				MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-				CreateTable = True
-			End If
-		End If
+    Public Shared Function CreateCustomPricesTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("customPrices") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
 
-		' Create the database table 
-		If CreateTable = True Then
-			Dim strSQL As New StringBuilder
-			strSQL.AppendLine("CREATE TABLE customPrices")
-			strSQL.AppendLine("(")
-			strSQL.AppendLine("  typeID         int,")
-			strSQL.AppendLine("  price          float,")
-			strSQL.AppendLine("  priceDate      datetime,")
-			strSQL.AppendLine("")
-			strSQL.AppendLine("  CONSTRAINT customPrices_PK PRIMARY KEY (typeID)")
-			strSQL.AppendLine(")")
-			If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-				Return True
-			Else
-				MessageBox.Show("There was an error creating the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			End If
-		End If
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE customPrices")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  price          float,")
+            strSQL.AppendLine("  priceDate      datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT customPrices_PK PRIMARY KEY (typeID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
 
-	End Function
-	Public Shared Function CreateMarketPricesTable() As Boolean
-		Dim CreateTable As Boolean = False
-		Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-		If tables IsNot Nothing Then
-			If tables.Contains("marketPrices") = False Then
-				' The DB exists but the table doesn't so we'll create this
-				CreateTable = True
-			Else
-				' We have the Db and table so we can return a good result
-				Return True
-			End If
-		Else
-			' Database doesn't exist?
-			Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-			msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-			msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-			MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-			If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-				MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			Else
-				MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-				CreateTable = True
-			End If
-		End If
+    End Function
+    Public Shared Function CreateMarketPricesTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("marketPrices") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
 
-		' Create the database table 
-		If CreateTable = True Then
-			Dim strSQL As New StringBuilder
-			strSQL.AppendLine("CREATE TABLE marketPrices")
-			strSQL.AppendLine("(")
-			strSQL.AppendLine("  typeID         int,")
-			strSQL.AppendLine("  price          float,")
-			strSQL.AppendLine("  priceDate      datetime,")
-			strSQL.AppendLine("")
-			strSQL.AppendLine("  CONSTRAINT marketPrices_PK PRIMARY KEY (typeID)")
-			strSQL.AppendLine(")")
-			If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-				Return True
-			Else
-				MessageBox.Show("There was an error creating the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			End If
-		End If
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE marketPrices")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  price          float,")
+            strSQL.AppendLine("  priceDate      datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT marketPrices_PK PRIMARY KEY (typeID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
 
-	End Function
+    End Function
     Public Shared Function SetCustomPrice(ByVal typeID As Long, ByVal UserPrice As Double, ByVal DBOpen As Boolean) As Boolean
         ' Store the user's price in the database
         If EveHQ.Core.HQ.CustomPriceList.ContainsKey(typeID.ToString) = False Then
@@ -1204,7 +1207,7 @@ Public Class DataFunctions
             ' Check if we process this
             ProcessOrder = True
             If oType = 0 Then ' Sell Order
-                If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit * CDbl(EveHQ.Core.HQ.BasePriceList(oTypeID.ToString))) Then
+                If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit * EveHQ.Core.HQ.itemData(oTypeID.ToString).BasePrice) Then
                     ProcessOrder = False
                 End If
             Else ' Buy Order
@@ -1379,7 +1382,7 @@ Public Class DataFunctions
                 CreateTable = True
             Else
                 ' We have the DB and table so we can check the existence of the messagebody field
-				Return CheckForEveMailBodyColumn()
+                Return CheckForEveMailBodyColumn()
             End If
         Else
             ' Database doesn't exist?
@@ -1410,8 +1413,8 @@ Public Class DataFunctions
             strSQL.AppendLine("  toCorpOrAllianceID   nvarchar(1000) NULL,")
             strSQL.AppendLine("  toCharacterIDs       nvarchar(1000) NULL,")
             strSQL.AppendLine("  toListIDs            nvarchar(1000) NULL,")
-			strSQL.AppendLine("  readMail             bit NOT NULL,")
-			strSQL.AppendLine("  messageBody          ntext NULL,")
+            strSQL.AppendLine("  readMail             bit NOT NULL,")
+            strSQL.AppendLine("  messageBody          ntext NULL,")
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY (messageKey)")
             strSQL.AppendLine(")")
@@ -1474,22 +1477,22 @@ Public Class DataFunctions
         End If
     End Function
 
-	Public Shared Function CheckForEveMailBodyColumn() As Boolean
-		Dim strSQL As String = "SELECT * FROM eveMail;"
-		Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+    Public Shared Function CheckForEveMailBodyColumn() As Boolean
+        Dim strSQL As String = "SELECT * FROM eveMail;"
+        Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
 
-		' Get the index of the field name
-		Dim i As Integer = ColData.Tables(0).Columns.IndexOf("messageBody")
+        ' Get the index of the field name
+        Dim i As Integer = ColData.Tables(0).Columns.IndexOf("messageBody")
 
-		If i = -1 Then
-			'Field is missing
-			Dim MailSQL As String = "ALTER TABLE eveMail ADD messageBody ntext NULL;"
-			Return (EveHQ.Core.DataFunctions.SetData(MailSQL))
-		Else
-			Return True
-		End If
+        If i = -1 Then
+            'Field is missing
+            Dim MailSQL As String = "ALTER TABLE eveMail ADD messageBody ntext NULL;"
+            Return (EveHQ.Core.DataFunctions.SetData(MailSQL))
+        Else
+            Return True
+        End If
 
-	End Function
+    End Function
 
     Public Shared Function CheckForEveNotificationBodyColumn() As Boolean
         Dim strSQL As String = "SELECT * FROM eveNotifications;"
@@ -1507,7 +1510,7 @@ Public Class DataFunctions
         End If
 
     End Function
-  
+
 
     Public Shared Sub ParseIDs(ByRef IDs As List(Of String), ByVal strID As String)
         Dim strIDs() As String = strID.Split(",".ToCharArray)
@@ -1777,6 +1780,7 @@ Public Class DataFunctions
             If systemData IsNot Nothing Then
                 If systemData.Tables(0).Rows.Count > 0 Then
                     Dim cSystem As SolarSystem = New SolarSystem
+                    EveHQ.Core.HQ.SolarSystems.Clear()
                     For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
                         cSystem = New SolarSystem
                         cSystem.ID = CInt(systemData.Tables(0).Rows(solar).Item("solarSystemID"))
@@ -2021,9 +2025,265 @@ Public Class DataFunctions
     End Function
 #End Region
 
+#Region "Core Cache Routines"
+
+    Public Shared Function CreateCoreCache() As Boolean
+
+        ' Check for existence of a core cache folder in the application directory
+        Dim CoreCacheFolder As String = ""
+        If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
+            CoreCacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "CoreCache")
+        Else
+            CoreCacheFolder = Path.Combine(Application.StartupPath, "CoreCache")
+        End If
+        If My.Computer.FileSystem.DirectoryExists(CoreCacheFolder) = False Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.CreateDirectory(CoreCacheFolder)
+        End If
+
+        ' Dump core data to folder
+        Dim s As FileStream
+        Dim f As BinaryFormatter
+
+        ' Item Data
+        s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.itemData)
+        s.Flush()
+        s.Close()
+
+        ' Item Market Groups
+        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.ItemMarketGroups)
+        s.Flush()
+        s.Close()
+
+        ' Item List
+        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.itemList)
+        s.Flush()
+        s.Close()
+
+        ' Item Groups
+        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.itemGroups)
+        s.Flush()
+        s.Close()
+
+        ' Items Cats
+        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.itemCats)
+        s.Flush()
+        s.Close()
+
+        ' Group Cats
+        s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.groupCats)
+        s.Flush()
+        s.Close()
+
+        ' Cert Categories
+        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.CertificateCategories)
+        s.Flush()
+        s.Close()
+
+        ' Cert Classes
+        s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.CertificateClasses)
+        s.Flush()
+        s.Close()
+
+        ' Certs
+        s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.Certificates)
+        s.Flush()
+        s.Close()
+
+        ' Unlocks
+        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.ItemUnlocks)
+        s.Flush()
+        s.Close()
+
+        ' SkillUnlocks
+        s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.SkillUnlocks)
+        s.Flush()
+        s.Close()
+
+        ' CertCerts
+        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.CertUnlockCerts)
+        s.Flush()
+        s.Close()
+
+        ' CertSkills
+        s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.CertUnlockSkills)
+        s.Flush()
+        s.Close()
+
+        ' Solar Systems
+        s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.SolarSystems)
+        s.Flush()
+        s.Close()
+
+        ' Stations
+        s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.Stations)
+        s.Flush()
+        s.Close()
+
+        Return True
+
+    End Function
+
+    Public Shared Function LoadCoreCache() As Boolean
+
+        Try
+
+            ' Check for existence of a core cache folder in the application directory
+            Dim CoreCacheFolder As String = ""
+            If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
+                CoreCacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "CoreCache")
+            Else
+                CoreCacheFolder = Path.Combine(Application.StartupPath, "CoreCache")
+            End If
+            If My.Computer.FileSystem.DirectoryExists(CoreCacheFolder) = True Then
+
+                ' Get files from dump
+                Dim s As FileStream
+                Dim f As BinaryFormatter
+
+                ' Item Data
+                s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.itemData = CType(f.Deserialize(s), SortedList(Of String, EveItem))
+                s.Close()
+
+                ' Item Market Groups
+                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.ItemMarketGroups = CType(f.Deserialize(s), SortedList(Of String, String))
+                s.Close()
+
+                ' Item List
+                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.itemList = CType(f.Deserialize(s), SortedList(Of String, String))
+                s.Close()
+
+                ' Item Groups
+                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of String, String))
+                s.Close()
+
+                ' Items Cats
+                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.itemCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                s.Close()
+
+                ' Group Cats
+                s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.groupCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                s.Close()
+
+                ' Cert Categories
+                s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.CertificateCategories = CType(f.Deserialize(s), SortedList(Of String, CertificateCategory))
+                s.Close()
+
+                ' Cert Classes
+                s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.CertificateClasses = CType(f.Deserialize(s), SortedList(Of String, CertificateClass))
+                s.Close()
+
+                ' Certs
+                s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.Certificates = CType(f.Deserialize(s), SortedList(Of String, Certificate))
+                s.Close()
+
+                ' Unlocks
+                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.ItemUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                s.Close()
+
+                ' SkillUnlocks
+                s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.SkillUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                s.Close()
+
+                ' CertCerts
+                s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.CertUnlockCerts = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                s.Close()
+
+                ' CertSkills
+                s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.CertUnlockSkills = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                s.Close()
+
+                ' SolarSystems
+                s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.SolarSystems = CType(f.Deserialize(s), SortedList(Of String, SolarSystem))
+                s.Close()
+
+                ' Stations
+                s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Open)
+                f = New BinaryFormatter
+                EveHQ.Core.HQ.Stations = CType(f.Deserialize(s), SortedList(Of String, Station))
+                s.Close()
+
+                ' Load price data
+                EveHQ.Core.DataFunctions.LoadMarketPricesFromDB()
+                EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
+
+                Return True
+
+            Else
+                Return False
+            End If
+
+        Catch e As Exception
+            ' Load Core Cache failed
+            Return False
+        End Try
+
+    End Function
+
+#End Region
+
+
 End Class
 
 Public Enum DatabaseFormat
-	SQLCE = 0
-	SQL = 1
+    SQLCE = 0
+    SQL = 1
 End Enum

@@ -48,6 +48,10 @@ Partial Public Class frmEveHQ
         Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
         Me.RibbonControl1 = New DevComponents.DotNetBar.RibbonControl()
         Me.rpCore = New DevComponents.DotNetBar.RibbonPanel()
+        Me.rbCache = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnCreateCoreCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnDeleteCoreCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRebuildCoreCache = New DevComponents.DotNetBar.ButtonItem()
         Me.rbHelp = New DevComponents.DotNetBar.RibbonBar()
         Me.btnInfoHelp = New DevComponents.DotNetBar.ButtonItem()
         Me.rbSQLTools = New DevComponents.DotNetBar.RibbonBar()
@@ -413,6 +417,7 @@ Partial Public Class frmEveHQ
         'rpCore
         '
         Me.rpCore.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rpCore.Controls.Add(Me.rbCache)
         Me.rpCore.Controls.Add(Me.rbHelp)
         Me.rpCore.Controls.Add(Me.rbSQLTools)
         Me.rpCore.Controls.Add(Me.rbAPITools)
@@ -442,6 +447,70 @@ Partial Public Class frmEveHQ
         Me.rpCore.StyleMouseOver.Class = ""
         Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpCore.TabIndex = 1
+        '
+        'rbCache
+        '
+        Me.rbCache.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbCache.BackgroundMouseOverStyle.Class = ""
+        Me.rbCache.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbCache.BackgroundStyle.Class = ""
+        Me.rbCache.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbCache.ContainerControlProcessDialogKey = True
+        Me.rbCache.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbCache.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnCreateCoreCache, Me.btnDeleteCoreCache, Me.btnRebuildCoreCache})
+        Me.rbCache.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbCache.Location = New System.Drawing.Point(1028, 0)
+        Me.rbCache.Name = "rbCache"
+        Me.rbCache.Size = New System.Drawing.Size(135, 93)
+        Me.rbCache.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbCache.TabIndex = 9
+        Me.rbCache.Text = "Core Cache"
+        '
+        '
+        '
+        Me.rbCache.TitleStyle.Class = ""
+        Me.rbCache.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbCache.TitleStyleMouseOver.Class = ""
+        Me.rbCache.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnCreateCoreCache
+        '
+        Me.btnCreateCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnCreateCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnCreateCoreCache.Name = "btnCreateCoreCache"
+        Me.btnCreateCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnCreateCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Pilot Information", "Opens the pilot information screen which provides basic details, as well as skill" & _
+            "s, certificates and standings.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Aura32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnCreateCoreCache.Text = "Create Cache"
+        '
+        'btnDeleteCoreCache
+        '
+        Me.btnDeleteCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnDeleteCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnDeleteCoreCache.Name = "btnDeleteCoreCache"
+        Me.btnDeleteCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnDeleteCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Skill Planner", "Opens the skill planning feature which allows you to plan the future training for" & _
+            " each of the pilots.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnDeleteCoreCache.Text = "Delete Cache"
+        '
+        'btnRebuildCoreCache
+        '
+        Me.btnRebuildCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnRebuildCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnRebuildCoreCache.Name = "btnRebuildCoreCache"
+        Me.btnRebuildCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnRebuildCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Skill Planner", "Opens the skill planning feature which allows you to plan the future training for" & _
+            " each of the pilots.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnRebuildCoreCache.Text = "Rebuild Cache"
         '
         'rbHelp
         '
@@ -2348,5 +2417,9 @@ Partial Public Class frmEveHQ
     Friend WithEvents btnOpenCacheFolder As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents rbHelp As DevComponents.DotNetBar.RibbonBar
     Friend WithEvents btnInfoHelp As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbCache As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnCreateCoreCache As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnDeleteCoreCache As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnRebuildCoreCache As DevComponents.DotNetBar.ButtonItem
 
 End Class

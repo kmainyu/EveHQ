@@ -33,7 +33,11 @@ Public Class frmSplash
 	Dim showSplash As Boolean = True
 	Dim showSettings As Boolean = False
 	Dim PlugInLoading As New SortedList(Of String, String)
-	Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    Dim PluginsLoaded As Boolean = False
+    Dim WidgetsLoaded As Boolean = False
+    Dim ItemsLoaded As Boolean = False
+    Dim MessageLoaded As Boolean = False
 
     Private is64BitProcess As Boolean = (IntPtr.Size = 8)
     Private is64BitOperatingSystem As Boolean = (is64BitProcess Or InternalCheckIsWow64())
@@ -152,6 +156,21 @@ Public Class frmSplash
             MessageBox.Show("Unable to delete update files, please delete any .old files manually that exist in the installation folder.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
         EveHQ.Core.HQ.WriteLogEvent("End: Old update file check")
+
+        ' Check for existence of a cache folder in the application directory
+        EveHQ.Core.HQ.WriteLogEvent("Start: Set core cache directory")
+        lblStatus.Text = "> Checking core cache directory..."
+        lblStatus.Refresh()
+        If isLocal = False Then
+            EveHQ.Core.HQ.coreCacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "CoreCache")
+        Else
+            EveHQ.Core.HQ.coreCacheFolder = Path.Combine(Application.StartupPath, "CoreCache")
+        End If
+        If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.coreCacheFolder) = False Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.coreCacheFolder)
+        End If
+        EveHQ.Core.HQ.WriteLogEvent("End: Set core cache directory")
 
         ' Check for existence of a cache folder in the application directory
         EveHQ.Core.HQ.WriteLogEvent("Start: Set XML cache directory")
@@ -277,6 +296,23 @@ Public Class frmSplash
         Loop
         EveHQ.Core.HQ.WriteLogEvent("End: Loading settings")
 
+        ' Check for Widgets
+        EveHQ.Core.HQ.WriteLogEvent("Start: Enumerate widgets")
+        lblStatus.Text = "> Enumerating Widgets..."
+        lblStatus.Refresh()
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.EnumerateWidgets)
+        EveHQ.Core.HQ.WriteLogEvent("End: Enumerate widgets")
+
+        ' Check for server messages (only if auto-web connections enabled)
+        If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = False Then
+            EveHQ.Core.HQ.WriteLogEvent("Start: Fetch Server Messages")
+            lblStatus.Text = "> Fetching messages..."
+            lblStatus.Refresh()
+            ' Store a message ready for when the main form comes up
+            Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetServerMessage)
+            EveHQ.Core.HQ.WriteLogEvent("End: Fetch Server Messages")
+        End If
+
         ' Determine the visual style
         EveHQ.Core.HQ.WriteLogEvent("Start: Process Visual Styles")
         If EveHQ.Core.HQ.EveHQSettings.DisableVisualStyles = True Then
@@ -358,39 +394,38 @@ Public Class frmSplash
                 End If
             End If
 
+            ' We don't need to relocate the DB if we've upgraded
 
-                ' We don't need to relocate the DB if we've upgraded
-
-                Dim oldLocation As String = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
-                Dim newLocation As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
-                If UpgradeDB = False Then
-                    If My.Computer.FileSystem.FileExists(oldLocation) = True And oldLocation <> newLocation Then
-                        ' Attempt to copy to the new location
-                        Try
-                            Dim msg As String = "Attempting to copy the custom database from " & ControlChars.CrLf & oldLocation & " to " & ControlChars.CrLf & newLocation & "."
-                            MessageBox.Show(msg, "Relocating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            My.Computer.FileSystem.CopyFile(oldLocation, newLocation)
-                        Catch ex As Exception
-                            Dim msg As String = "Unable to copy the custom database from " & ControlChars.CrLf & oldLocation & " to " & ControlChars.CrLf & newLocation & ". This will need to be copied manually."
-                            MessageBox.Show(msg, "Unable to Copy Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Try
-                        MessageBox.Show("Copying successful. Attempting to delete the old file at " & ControlChars.CrLf & oldLocation, "Copy Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Try
-                            My.Computer.FileSystem.DeleteFile(oldLocation)
-                        Catch ex As Exception
-                            Dim msg As String = "Unable to delete the old custom database from " & ControlChars.CrLf & oldLocation & ". This will need to be deleted manually if required."
-                            MessageBox.Show(msg, "Unable to Delete Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Try
-                    End If
-                Else
+            Dim oldLocation As String = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
+            Dim newLocation As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
+            If UpgradeDB = False Then
+                If My.Computer.FileSystem.FileExists(oldLocation) = True And oldLocation <> newLocation Then
+                    ' Attempt to copy to the new location
+                    Try
+                        Dim msg As String = "Attempting to copy the custom database from " & ControlChars.CrLf & oldLocation & " to " & ControlChars.CrLf & newLocation & "."
+                        MessageBox.Show(msg, "Relocating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        My.Computer.FileSystem.CopyFile(oldLocation, newLocation)
+                    Catch ex As Exception
+                        Dim msg As String = "Unable to copy the custom database from " & ControlChars.CrLf & oldLocation & " to " & ControlChars.CrLf & newLocation & ". This will need to be copied manually."
+                        MessageBox.Show(msg, "Unable to Copy Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Try
+                    MessageBox.Show("Copying successful. Attempting to delete the old file at " & ControlChars.CrLf & oldLocation, "Copy Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Try
                         My.Computer.FileSystem.DeleteFile(oldLocation)
                     Catch ex As Exception
-                        'Dim msg As String = "Unable to delete the old custom database from " & ControlChars.CrLf & oldLocation & ". This will need to be deleted manually if required."
-                        'MessageBox.Show(msg, "Unable to Delete Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Dim msg As String = "Unable to delete the old custom database from " & ControlChars.CrLf & oldLocation & ". This will need to be deleted manually if required."
+                        MessageBox.Show(msg, "Unable to Delete Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Try
                 End If
+            Else
+                Try
+                    My.Computer.FileSystem.DeleteFile(oldLocation)
+                Catch ex As Exception
+                    'Dim msg As String = "Unable to delete the old custom database from " & ControlChars.CrLf & oldLocation & ". This will need to be deleted manually if required."
+                    'MessageBox.Show(msg, "Unable to Delete Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Try
             End If
+        End If
         EveHQ.Core.HQ.EveHQSettings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
         Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
         EveHQ.Core.HQ.WriteLogEvent("End: Set SQL CE data directory")
@@ -465,30 +500,8 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Load skills and item data")
         lblStatus.Text = "> Loading skills and items..."
         lblStatus.Refresh()
-        Do While EveHQ.Core.DataFunctions.LoadItems = False
-            Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Would you like to select a Database now?" & ControlChars.CrLf
-            Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.No Then
-                End
-            End If
-            frmSettings.ShowDialog()
-        Loop
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.LoadItemData)
         EveHQ.Core.HQ.WriteLogEvent("End: Load skills and item data")
-
-        ' Load solar system and station data
-        EveHQ.Core.HQ.WriteLogEvent("Start: Load location data")
-        lblStatus.Text = "> Loading location data..."
-        lblStatus.Refresh()
-        Call EveHQ.Core.DataFunctions.LoadSolarSystems()
-        Call EveHQ.Core.DataFunctions.LoadStations()
-        EveHQ.Core.HQ.WriteLogEvent("End: Load location data")
-
-        ' Add custom message :)
-        lblStatus.Text = "> Reticulating splines..."
-        lblStatus.Refresh()
-        Threading.Thread.Sleep(500)
 
         ' If we get this far we have loaded a DB so check for SQL format and check the custom data
         EveHQ.Core.HQ.WriteLogEvent("Start: Customise database")
@@ -514,22 +527,11 @@ Public Class frmSplash
         End If
         EveHQ.Core.HQ.WriteLogEvent("End: Customise database")
 
-        ' Check for server messages (only if auto-web connections enabled)
-        ' Done on a new thread!
-        If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = False Then
-            EveHQ.Core.HQ.WriteLogEvent("Start: Fetch Server Messages")
-            lblStatus.Text = "> Fetching messages..."
-            lblStatus.Refresh()
-            ' Store a message ready for when the main form comes up
-            EveHQ.Core.HQ.EveHQServerMessage = ParseServerMessage()
-            EveHQ.Core.HQ.WriteLogEvent("End: Fetch Server Messages")
-        End If
-
         ' Check for modules
         EveHQ.Core.HQ.WriteLogEvent("Start: Load Plug-ins")
         lblStatus.Text = "> Loading modules..."
         lblStatus.Refresh()
-        Call LoadModules()
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.LoadModules)
         EveHQ.Core.HQ.WriteLogEvent("End: Load Plug-ins")
 
         'Set the servers to their server details
@@ -550,8 +552,8 @@ Public Class frmSplash
             Next
         End If
         Call EveHQ.Core.PilotParseFunctions.CheckMissingTrainingSkills()
-        Call frmSettings.UpdateAccounts()
-        Call frmEveHQ.UpdatePilotInfo(True)
+        'Call frmSettings.UpdateAccounts()
+        'Call frmEveHQ.UpdatePilotInfo(True)
         EveHQ.Core.HQ.WriteLogEvent("End: Check key skill information")
 
         ' Load the API Errors
@@ -572,21 +574,8 @@ Public Class frmSplash
         lblStatus.Text = "> Checking Custom Database..."
         lblStatus.Refresh()
         Call EveHQ.Core.DataFunctions.CheckForEveMailTable()
-        Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
+        'Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
         Call EveHQ.Core.DataFunctions.CheckForIDNameTable()
-        ' Check for updating prices tables
-        'Dim CreatePriceTables As Boolean = True
-        'Dim PriceTables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-        'If PriceTables IsNot Nothing Then
-        '    If PriceTables.Contains("priceLists") = True Then
-        '        ' The DB exists but the table doesn't so we'll create this
-        '        CreatePriceTables = False
-        '    End If
-        'End If
-        'If CreatePriceTables = True Then
-        '    Dim NewPriceUpdate As New EveHQ.Core.frmUpdatePricesDB
-        '    NewPriceUpdate.ShowDialog()
-        'End If
         EveHQ.Core.HQ.WriteLogEvent("End: Check Custom Database")
 
         ' Check if we need to start the market watcher
@@ -603,10 +592,97 @@ Public Class frmSplash
         End If
         EveHQ.Core.HQ.WriteLogEvent("End: Enable Market Watcher")
 
-        ' Check for Widgets
-        EveHQ.Core.HQ.WriteLogEvent("Start: Enumerate widgets")
-        lblStatus.Text = "> Enumerating Widgets..."
+        ' Show the main form
+        EveHQ.Core.HQ.WriteLogEvent("Start: Initialise main form")
+        lblStatus.Text = "> Initialising EveHQ..."
         lblStatus.Refresh()
+        EveHQ.Core.G15LCDv2.SplashFlag = False
+        EveHQ.Core.HQ.MainForm = frmEveHQ
+        EveHQ.Core.HQ.WriteLogEvent("End: Initialise main form")
+
+        ' Await all loading
+        EveHQ.Core.HQ.WriteLogEvent("Start: Awaiting final data loading")
+        Do
+        Loop Until PluginsLoaded = True And WidgetsLoaded = True And ItemsLoaded = True And MessageLoaded = True
+        EveHQ.Core.HQ.WriteLogEvent("End: Awaiting final data loading")
+
+        EveHQ.Core.HQ.WriteLogEvent("***** End: EveHQ Startup Routine via Splash Screen *****")
+        frmEveHQ.Show()
+
+    End Sub
+
+    Private Sub LoadItemData(state As Object)
+        If EveHQ.Core.DataFunctions.LoadCoreCache = False Then
+            Do While EveHQ.Core.DataFunctions.LoadItems = False
+                Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "Would you like to select a Database now?" & ControlChars.CrLf
+                Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = Windows.Forms.DialogResult.No Then
+                    End
+                End If
+                frmSettings.ShowDialog()
+            Loop
+            Call EveHQ.Core.DataFunctions.LoadSolarSystems()
+            Call EveHQ.Core.DataFunctions.LoadStations()
+        End If
+        EveHQ.Core.HQ.WriteLogEvent(" *** Items Finished Loading")
+        ItemsLoaded = True
+    End Sub
+
+    Private Sub LoadModules(state As Object)
+        For Each filename As String In My.Computer.FileSystem.GetFiles(Application.StartupPath, FileIO.SearchOption.SearchTopLevelOnly, "*.dll")
+            If IsDotNetAssembly(filename) = True Then
+                Try
+                    Dim myAssembly As Assembly = Assembly.LoadFrom(filename)
+                    Dim types() As Type = myAssembly.GetTypes
+                    For Each t As Type In types
+                        If t.IsPublic = True Then
+                            If t.GetInterface("EveHQ.Core.IEveHQPlugIn") IsNot Nothing Then
+                                Dim myPlugIn As EveHQ.Core.IEveHQPlugIn = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
+                                Dim EveHQPlugIn As EveHQ.Core.PlugIn = myPlugIn.GetEveHQPlugInInfo
+                                EveHQPlugIn.FileName = filename
+                                Dim fi As New IO.FileInfo(filename)
+                                EveHQPlugIn.ShortFileName = fi.Name
+                                EveHQPlugIn.FileType = t.FullName
+                                EveHQPlugIn.Version = myAssembly.GetName.Version.ToString
+                                EveHQPlugIn.Instance = myPlugIn
+                                ' Get status of plug-ins from settings (should already exist!)
+                                If EveHQ.Core.HQ.EveHQSettings.Plugins.Contains(EveHQPlugIn.Name) = True Then
+                                    Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
+                                    EveHQPlugIn.Disabled = oldPlugIn.Disabled
+                                    EveHQPlugIn.Available = True
+                                    EveHQ.Core.HQ.EveHQSettings.Plugins.Remove(EveHQPlugIn.Name)
+                                Else
+                                    ' If not listed, it must be new
+                                    EveHQPlugIn.Disabled = False
+                                    EveHQPlugIn.Available = True
+                                End If
+                                ' Check for opening parameters
+                                If PlugInLoading.ContainsKey(EveHQPlugIn.Name) = True Then
+                                    EveHQPlugIn.PostStartupData = PlugInLoading(EveHQPlugIn.Name)
+                                End If
+                                EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
+                                EveHQ.Core.HQ.EveHQSettings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
+                            End If
+                        End If
+                    Next
+                    types = Nothing
+                    myAssembly = Nothing
+                Catch bife As BadImageFormatException
+                    'Ignore non .Net dlls (ones without manifests i.e. the G15 lglcd.dll) i.e. don't error
+                Catch rtle As ReflectionTypeLoadException
+                    ' Assume it's a bad/old version and ignore it
+                Catch e As Exception
+                    MessageBox.Show("Error loading module: " & filename & ControlChars.CrLf & e.Message.ToString, "Module Error!", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                End Try
+            End If
+        Next
+        EveHQ.Core.HQ.WriteLogEvent(" *** Plug-ins Finished Loading")
+        PluginsLoaded = True
+    End Sub
+
+    Private Sub EnumerateWidgets(state As Object)
         Dim myAssembly As Assembly = Assembly.GetExecutingAssembly()
         For Each myType As Type In myAssembly.GetTypes
             If myType.BaseType.Name = "Widget" Then
@@ -618,42 +694,37 @@ Public Class frmSplash
                 myInstance = Nothing
             End If
         Next
-        EveHQ.Core.HQ.WriteLogEvent("End: Enumerate widgets")
-
-        ' Show the main form
-        EveHQ.Core.HQ.WriteLogEvent("Start: Initialise main form")
-        lblStatus.Text = "> Initialising EveHQ..."
-        lblStatus.Refresh()
-        EveHQ.Core.G15LCDv2.SplashFlag = False
-        EveHQ.Core.HQ.MainForm = frmEveHQ
-        EveHQ.Core.HQ.WriteLogEvent("End: Initialise main form")
-
-        EveHQ.Core.HQ.WriteLogEvent("***** End: EveHQ Startup Routine via Splash Screen *****")
-        frmEveHQ.Show()
-
+        EveHQ.Core.HQ.WriteLogEvent(" *** Widgets Finished Loading")
+        WidgetsLoaded = True
     End Sub
 
-	Private Function ParseServerMessage() As EveHQ.Core.EveHQMessage
-		' Download the message from the server
-		Dim MsgXML As XmlDocument = FetchMessageXML()
-		If MsgXML IsNot Nothing Then
-			Dim NewMessage As New EveHQ.Core.EveHQMessage
-			Dim data As XmlNodeList = MsgXML.SelectNodes("/eveHQMessage")
-			NewMessage.MessageDate = DateTime.Parse(data(0).ChildNodes(0).InnerText, culture)
-			NewMessage.MessageTitle = data(0).ChildNodes(1).InnerText
-			NewMessage.AllowIgnore = CBool(data(0).ChildNodes(2).InnerText)
-			NewMessage.Message = data(0).ChildNodes(3).InnerText
-			If data(0).ChildNodes(4).ChildNodes.Count > 0 Then
-				NewMessage.DisabledPlugins.Clear()
-				For Each DisabledPlugin As XmlNode In data(0).ChildNodes(4).ChildNodes
-					NewMessage.DisabledPlugins.Add(DisabledPlugin.Attributes.GetNamedItem("name").Value, DisabledPlugin.Attributes.GetNamedItem("version").Value)
-				Next
-			End If
-			Return NewMessage
-		Else
-			Return Nothing
-		End If
-	End Function
+    Private Sub GetServerMessage(state As Object)
+        ' Download the message from the server
+        Dim MsgXML As XmlDocument = FetchMessageXML()
+        Try
+            If MsgXML IsNot Nothing Then
+                Dim NewMessage As New EveHQ.Core.EveHQMessage
+                Dim data As XmlNodeList = MsgXML.SelectNodes("/eveHQMessage")
+                NewMessage.MessageDate = DateTime.Parse(data(0).ChildNodes(0).InnerText, culture)
+                NewMessage.MessageTitle = data(0).ChildNodes(1).InnerText
+                NewMessage.AllowIgnore = CBool(data(0).ChildNodes(2).InnerText)
+                NewMessage.Message = data(0).ChildNodes(3).InnerText
+                If data(0).ChildNodes(4).ChildNodes.Count > 0 Then
+                    NewMessage.DisabledPlugins.Clear()
+                    For Each DisabledPlugin As XmlNode In data(0).ChildNodes(4).ChildNodes
+                        NewMessage.DisabledPlugins.Add(DisabledPlugin.Attributes.GetNamedItem("name").Value, DisabledPlugin.Attributes.GetNamedItem("version").Value)
+                    Next
+                End If
+                EveHQ.Core.HQ.EveHQServerMessage = NewMessage
+            Else
+                EveHQ.Core.HQ.EveHQServerMessage = Nothing
+            End If
+        Catch e As Exception
+            EveHQ.Core.HQ.EveHQServerMessage = Nothing
+        End Try
+        EveHQ.Core.HQ.WriteLogEvent(" *** Message Finished Loading")
+        MessageLoaded = True
+    End Sub
 
 	Private Function FetchMessageXML() As XmlDocument
 		' Set a default policy level for the "http:" and "https" schemes.
@@ -687,73 +758,23 @@ Public Class frmSplash
 		End Try
 	End Function
 
-	Private Sub LoadModules()
-		For Each filename As String In My.Computer.FileSystem.GetFiles(Application.StartupPath, FileIO.SearchOption.SearchTopLevelOnly, "*.dll")
-			If IsDotNetAssembly(filename) = True Then
-				Try
-					Dim myAssembly As Assembly = Assembly.LoadFrom(filename)
-					Dim types() As Type = myAssembly.GetTypes
-					For Each t As Type In types
-						If t.IsPublic = True Then
-							If t.GetInterface("EveHQ.Core.IEveHQPlugIn") IsNot Nothing Then
-								Dim myPlugIn As EveHQ.Core.IEveHQPlugIn = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-								Dim EveHQPlugIn As EveHQ.Core.PlugIn = myPlugIn.GetEveHQPlugInInfo
-								EveHQPlugIn.FileName = filename
-								Dim fi As New IO.FileInfo(filename)
-								EveHQPlugIn.ShortFileName = fi.Name
-								EveHQPlugIn.FileType = t.FullName
-								EveHQPlugIn.Version = myAssembly.GetName.Version.ToString
-								EveHQPlugIn.Instance = myPlugIn
-								' Get status of plug-ins from settings (should already exist!)
-								If EveHQ.Core.HQ.EveHQSettings.Plugins.Contains(EveHQPlugIn.Name) = True Then
-									Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
-									EveHQPlugIn.Disabled = oldPlugIn.Disabled
-									EveHQPlugIn.Available = True
-									EveHQ.Core.HQ.EveHQSettings.Plugins.Remove(EveHQPlugIn.Name)
-								Else
-									' If not listed, it must be new
-									EveHQPlugIn.Disabled = False
-									EveHQPlugIn.Available = True
-								End If
-								' Check for opening parameters
-								If PlugInLoading.ContainsKey(EveHQPlugIn.Name) = True Then
-									EveHQPlugIn.PostStartupData = PlugInLoading(EveHQPlugIn.Name)
-								End If
-								EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
-								EveHQ.Core.HQ.EveHQSettings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
-							End If
-						End If
-					Next
-					types = Nothing
-					myAssembly = Nothing
-				Catch bife As BadImageFormatException
-					'Ignore non .Net dlls (ones without manifests i.e. the G15 lglcd.dll) i.e. don't error
-				Catch rtle As ReflectionTypeLoadException
-					' Assume it's a bad/old version and ignore it
-				Catch e As Exception
-					MessageBox.Show("Error loading module: " & filename & ControlChars.CrLf & e.Message.ToString, "Module Error!", MessageBoxButtons.OK, MessageBoxIcon.Stop)
-				End Try
-			End If
-		Next
-	End Sub
-
-	Private Function CompareVersions(ByVal thisVersion As String, ByVal requiredVersion As String) As Boolean
-		Dim localVers() As String = thisVersion.Split(CChar("."))
-		Dim remoteVers() As String = requiredVersion.Split(CChar("."))
-		Dim requiresUpdate As Boolean = False
-		For ver As Integer = 0 To 3
-			If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
-				If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
-					requiresUpdate = True
-					Exit For
-				Else
-					requiresUpdate = False
-					Exit For
-				End If
-			End If
-		Next
-		Return requiresUpdate
-	End Function
+    Private Function CompareVersions(ByVal thisVersion As String, ByVal requiredVersion As String) As Boolean
+        Dim localVers() As String = thisVersion.Split(CChar("."))
+        Dim remoteVers() As String = requiredVersion.Split(CChar("."))
+        Dim requiresUpdate As Boolean = False
+        For ver As Integer = 0 To 3
+            If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
+                If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
+                    requiresUpdate = True
+                    Exit For
+                Else
+                    requiresUpdate = False
+                    Exit For
+                End If
+            End If
+        Next
+        Return requiresUpdate
+    End Function
 
 	Private Function IsDotNetAssembly(ByVal fileName As String) As Boolean
 		'private bool IsDotNetAssembly(string fileName)

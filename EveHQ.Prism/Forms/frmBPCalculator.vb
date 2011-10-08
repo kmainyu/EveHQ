@@ -653,7 +653,7 @@ Public Class frmBPCalculator
             lblBPRuns.Text = CurrentBP.Runs.ToString
             lblBPMaxRuns.Text = CurrentBP.MaxProdLimit.ToString("N0")
             ' Update the prices
-            lblBPOMarketValue.Text = (CDbl(EveHQ.Core.HQ.BasePriceList(CurrentBP.ID.ToString)) * 0.9).ToString("N2") & " Isk"
+            lblBPOMarketValue.Text = (CDbl(EveHQ.Core.HQ.itemData(CurrentBP.ID.ToString).BasePrice) * 0.9).ToString("N2") & " Isk"
             ' Update the limits on the Runs
             nudCopyRuns.MaxValue = CurrentBP.MaxProdLimit
             If CurrentBP.Runs = -1 Then

@@ -17,7 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class EveItem
+<Serializable()> Public Class EveItem
     Public ID As Long
     Public Name As String
     Public Group As Integer
@@ -28,4 +28,5 @@ Public Class EveItem
     Public MetaLevel As Integer = 1
     Public PortionSize As Integer
     Public Icon As String = ""
+    Public BasePrice As Double = 0
 End Class

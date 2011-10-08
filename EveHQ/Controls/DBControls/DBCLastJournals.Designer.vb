@@ -22,18 +22,18 @@ Partial Class DBCLastJournals
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblPilot = New System.Windows.Forms.Label
-        Me.lblTransactionsDisplayCount = New System.Windows.Forms.Label
-        Me.cboPilotList = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.btnRefresh = New DevComponents.DotNetBar.ButtonX
-        Me.nudEntries = New DevComponents.Editors.IntegerInput
-        Me.adtLastTransactions = New DevComponents.AdvTree.AdvTree
-        Me.colDate = New DevComponents.AdvTree.ColumnHeader
-        Me.colType = New DevComponents.AdvTree.ColumnHeader
-        Me.colAmount = New DevComponents.AdvTree.ColumnHeader
-        Me.colBalance = New DevComponents.AdvTree.ColumnHeader
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector
-        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle
+        Me.lblPilot = New System.Windows.Forms.Label()
+        Me.lblTransactionsDisplayCount = New System.Windows.Forms.Label()
+        Me.cboPilotList = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.btnRefresh = New DevComponents.DotNetBar.ButtonX()
+        Me.nudEntries = New DevComponents.Editors.IntegerInput()
+        Me.adtLastTransactions = New DevComponents.AdvTree.AdvTree()
+        Me.colDate = New DevComponents.AdvTree.ColumnHeader()
+        Me.colType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAmount = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBalance = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.AGPContent.SuspendLayout()
         CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudEntries, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -117,7 +117,6 @@ Partial Class DBCLastJournals
         'btnRefresh
         '
         Me.btnRefresh.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnRefresh.CallBasePaintBackground = True
         Me.btnRefresh.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnRefresh.Location = New System.Drawing.Point(205, 35)
         Me.btnRefresh.Name = "btnRefresh"
@@ -147,20 +146,19 @@ Partial Class DBCLastJournals
         'adtLastTransactions
         '
         Me.adtLastTransactions.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtLastTransactions.AllowDrop = True
+        Me.adtLastTransactions.AllowDrop = False
         Me.adtLastTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtLastTransactions.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
         Me.adtLastTransactions.BackgroundStyle.Class = "TreeBorderKey"
         Me.adtLastTransactions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.adtLastTransactions.Columns.Add(Me.colDate)
         Me.adtLastTransactions.Columns.Add(Me.colType)
         Me.adtLastTransactions.Columns.Add(Me.colAmount)
         Me.adtLastTransactions.Columns.Add(Me.colBalance)
+        Me.adtLastTransactions.DragDropEnabled = False
+        Me.adtLastTransactions.DragDropNodeCopyEnabled = False
         Me.adtLastTransactions.ExpandWidth = 0
         Me.adtLastTransactions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.adtLastTransactions.Location = New System.Drawing.Point(6, 62)

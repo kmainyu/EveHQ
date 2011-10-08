@@ -3189,6 +3189,35 @@ Public Class frmEveHQ
 
     End Function
 
-   
+    Private Sub btnCreateCoreCache_Click(sender As System.Object, e As System.EventArgs) Handles btnCreateCoreCache.Click
+        Call EveHQ.Core.DataFunctions.CreateCoreCache()
+    End Sub
+
+    Private Sub btnDeleteCoreCache_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteCoreCache.Click
+        Try
+            If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.coreCacheFolder) = True Then
+                ' Create the cache folder if it doesn't exist
+                My.Computer.FileSystem.DeleteDirectory(EveHQ.Core.HQ.coreCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnRebuildCoreCache_Click(sender As System.Object, e As System.EventArgs) Handles btnRebuildCoreCache.Click
+        Try
+            If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.coreCacheFolder) = True Then
+                ' Create the cache folder if it doesn't exist
+                My.Computer.FileSystem.DeleteDirectory(EveHQ.Core.HQ.coreCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+        Call EveHQ.Core.DataFunctions.LoadItems()
+        Call EveHQ.Core.DataFunctions.LoadSolarSystems()
+        Call EveHQ.Core.DataFunctions.LoadStations()
+        Call EveHQ.Core.DataFunctions.CreateCoreCache()
+    End Sub
+
 End Class
 

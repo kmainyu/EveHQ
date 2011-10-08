@@ -18,7 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-Public Class Station
+<Serializable()> Public Class Station
     Public stationID As Long
     Public stationName As String
     Public systemID As Long
