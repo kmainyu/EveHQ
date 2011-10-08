@@ -3443,7 +3443,7 @@ Public Class frmPrism
                 For Each JE As DataRow In WalletData.Tables(0).Rows
                     TransItem = New Node
                     transDate = DateTime.Parse(JE.Item("transDate").ToString)
-                    TransItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                    TransItem.Text = transDate.ToString
 
                     refType = JE.Item("refTypeID").ToString
                     TransItem.Cells.Add(New Cell(PlugInData.RefTypes(refType)))
@@ -3942,7 +3942,7 @@ Public Class frmPrism
                     If (JE.Item("transFor").ToString = "personal" And IsPersonal = True) Or IsCorp = True Or (IsPersonal = False And IsCorp = False) Then
                         TransItem = New Node
                         transDate = DateTime.Parse(JE.Item("transDate").ToString)
-                        TransItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                        TransItem.Text = transDate.ToString
                         TransItem.Cells.Add(New Cell(JE.Item("typeName").ToString))
 
                         price = Double.Parse(JE.Item("price").ToString)
@@ -4196,7 +4196,7 @@ Public Class frmPrism
                                 transItem.Cells(4).Text = "POS in " & CType(PlugInData.stations(Job.InstalledInSolarSystemID.ToString), SolarSystem).Name
                             End If
                         End If
-                        transItem.Cells(5).Text = FormatDateTime(Job.EndProductionTime, DateFormat.GeneralDate)
+                        transItem.Cells(5).Text = Job.EndProductionTime.ToString
                         If Job.Completed = 0 Then
                             If Job.EndProductionTime < DateTime.Now.ToUniversalTime Then
                                 transItem.Cells(6).Text = PlugInData.Statuses("B")

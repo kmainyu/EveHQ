@@ -25,7 +25,7 @@ Public Class frmEveAPIProxy
         If myEveAPIProxy.Messages.Count > 0 Then
             For m As Integer = 0 To myEveAPIProxy.Messages.Count - 1
                 Dim newEvent As EveAPI.EveAPIProxyEvent = CType(myEveAPIProxy.Messages.Dequeue, EveAPI.EveAPIProxyEvent)
-                Dim newLI As New ListViewItem(FormatDateTime(newEvent.EventDate, DateFormat.GeneralDate))
+                Dim newLI As New ListViewItem(newEvent.EventDate.ToString)
                 newLI.SubItems.Add(newEvent.EventType.ToString)
                 newLI.SubItems.Add(newEvent.EventRef.ToString)
                 newLI.SubItems.Add(newEvent.Description)

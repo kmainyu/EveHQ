@@ -336,7 +336,7 @@ Public Class frmKMV
             End If
             adtKillmails.Nodes.Add(newKM)
             newKM.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(charKM.Victim.shipTypeID).Name))
-            newKM.Cells.Add(New Cell(FormatDateTime(charKM.killTime, DateFormat.GeneralDate)))
+            newKM.Cells.Add(New Cell(charKM.killTime.ToString))
         Next
         adtKillmails.EndUpdate()
         ' Update the summary label

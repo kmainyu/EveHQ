@@ -59,7 +59,7 @@ Public Class Reports
     Public Shared Function HTMLFooter() As String
         Dim HTML As New StringBuilder
         HTML.AppendLine("<table width=800px align=center border=0><hr>")
-        HTML.AppendLine("<tr><td><p align=center class=footer>Generated on " & FormatDateTime(Now, DateFormat.GeneralDate) & " by <a href='http://www.evehq.net'>" & My.Application.Info.ProductName & "</a> v" & My.Application.Info.Version.ToString & "</p></td></tr>")
+        HTML.AppendLine("<tr><td><p align=center class=footer>Generated on " & Now.ToString & " by <a href='http://www.evehq.net'>" & My.Application.Info.ProductName & "</a> v" & My.Application.Info.Version.ToString & "</p></td></tr>")
         HTML.AppendLine("</table>")
         HTML.AppendLine("</body></html>")
         Return HTML.ToString

@@ -151,7 +151,7 @@ Public Class frmBCBrowser
                 nLoadout.Cells.Add(New Cell(loadout.Attributes("Author").Value))
                 nLoadout.Cells(1).Tag = loadout.Attributes("topic").Value
                 nLoadout.Cells.Add(New Cell(loadout.Attributes("rating").Value))
-                nLoadout.Cells.Add(New Cell(FormatDateTime(DateTime.Parse(loadout.Attributes("date").Value), DateFormat.ShortDate)))
+                nLoadout.Cells.Add(New Cell(DateTime.Parse(loadout.Attributes("date").Value).ToShortDateString))
             Next
             EveHQ.Core.AdvTreeSorter.Sort(adtLoadouts, 1, True, True)
             adtLoadouts.EndUpdate()
