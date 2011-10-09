@@ -47,7 +47,7 @@ Public Class frmPrism
     Dim PrismThreadMax As Integer = 16
     Dim PrismThreadCurrent As Integer = 0
     Dim MaxAPIRetries As Integer = 3
-    Dim MaxAPIJournals As Integer = 500
+    Dim MaxAPIJournals As Integer = 2000
 
     Dim BPManagerUpdate As Boolean = False
 

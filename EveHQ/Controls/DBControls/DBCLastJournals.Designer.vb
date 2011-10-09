@@ -146,11 +146,13 @@ Partial Class DBCLastJournals
         'adtLastTransactions
         '
         Me.adtLastTransactions.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtLastTransactions.AllowDrop = False
         Me.adtLastTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtLastTransactions.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
         Me.adtLastTransactions.BackgroundStyle.Class = "TreeBorderKey"
         Me.adtLastTransactions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.adtLastTransactions.Columns.Add(Me.colDate)
