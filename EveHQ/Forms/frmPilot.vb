@@ -364,10 +364,12 @@ Public Class frmPilot
                 If EveSkillsQueued.ContainsKey(cSkill.ID) Then
                     If EveSkillsQueued(cSkill.ID) > cSkill.Level Then
                         newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & EveSkillsQueued(cSkill.ID).ToString & "0"), Image)
-                        If groupCLV.Cells(2).Tag IsNot Nothing Then
-                            groupCLV.Cells(2).Tag = CInt(groupCLV.Cells(2).Tag) + 1
-                        Else
-                            groupCLV.Cells(2).Tag = 1
+                        If groupCLV IsNot Nothing Then
+                            If groupCLV.Cells(2).Tag IsNot Nothing Then
+                                groupCLV.Cells(2).Tag = CInt(groupCLV.Cells(2).Tag) + 1
+                            Else
+                                groupCLV.Cells(2).Tag = 1
+                            End If
                         End If
                     Else
                         newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & "00"), Image)
