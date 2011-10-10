@@ -574,11 +574,13 @@ Public Class frmEveHQ
                 ' Check each account to see if something is training.
                 Dim strAccountNotify As String = ""
                 For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-                    If accounts.Contains(cAccount.userID) = False Then
-                        If cAccount.FriendlyName <> "" Then
-                            strAccountNotify &= cAccount.FriendlyName & " (UserID: " & cAccount.userID & ")" & ControlChars.CrLf
-                        Else
-                            strAccountNotify &= "UserID: " & cAccount.userID & ControlChars.CrLf
+                    If cAccount.APIKeyType <> Core.APIKeyTypes.Corporation Then
+                        If accounts.Contains(cAccount.userID) = False Then
+                            If cAccount.FriendlyName <> "" Then
+                                strAccountNotify &= cAccount.FriendlyName & " (UserID: " & cAccount.userID & ")" & ControlChars.CrLf
+                            Else
+                                strAccountNotify &= "UserID: " & cAccount.userID & ControlChars.CrLf
+                            End If
                         End If
                     End If
                 Next
