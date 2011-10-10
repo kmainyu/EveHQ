@@ -4370,7 +4370,11 @@ Public Class frmPrism
         Do While item.Level > 0
             item = item.Parent
         Loop
-        Return item.Tag.ToString
+        If item.Tag IsNot Nothing Then
+            Return item.Tag.ToString
+        Else
+            Return ""
+        End If
     End Function
     Private Sub LoadRecyclingInfo()
         ' Form a string of the asset IDs in the AssetList Property
