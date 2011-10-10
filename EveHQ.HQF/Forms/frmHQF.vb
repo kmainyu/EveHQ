@@ -2129,7 +2129,7 @@ Public Class frmHQF
 			Dim Orders As New SortedList(Of String, Integer)
 
 			For Each ShipFit As String In ShipFits.Keys
-				Dim currentFit As Fitting = Fittings.FittingList.Item(ShipFit)
+                Dim currentFit As Fitting = Fittings.FittingList.Item(ShipFit).Clone
 				currentFit.UpdateBaseShipFromFitting()
 
 				' Collect the orders
