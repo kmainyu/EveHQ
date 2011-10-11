@@ -186,17 +186,31 @@ Public Class PrismAssetsControl
                         If chkBPO.Runs > -1 Or chkBPO.BPType = BPType.Unknown Then
                             IsBPO = False
                             If chkBPO.BPType <> BPType.Unknown Then
-                                AssetNode.Text = AssetNode.Text.Replace("Blueprint", "BPC")
+                                AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Copy)")
                             End If
                         Else
-                            AssetNode.Text = AssetNode.Text.Replace("Blueprint", "BPO")
+                            AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                         End If
+                    Else
+                        If AssetData.rawquantity = -2 Then
+                            IsBPO = False
+                        Else
+                            IsBPO = True
+                        End If
+                    End If
+                Else
+                    If AssetData.rawquantity = -2 Then
+                        IsBPO = False
+                    Else
+                        IsBPO = True
                     End If
                 End If
                 If IsBPO = True Then
                     AssetData.price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.typeID), 2)
+                    AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                 Else
                     AssetData.price = 0
+                    AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Copy)")
                 End If
             End If
         Else
@@ -626,6 +640,11 @@ Public Class PrismAssetsControl
                                 newAssetList.meta = metaLevel
                                 newAssetList.volume = volume
                                 newAssetList.quantity = CLng(loc.Attributes.GetNamedItem("quantity").Value)
+                                If loc.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
+                                    newAssetList.rawquantity = CInt(loc.Attributes.GetNamedItem("rawQuantity").Value)
+                                Else
+                                    newAssetList.rawquantity = 0
+                                End If
                                 newAssetList.price = 0
                                 totalAssetCount += newAssetList.quantity
                                 If assetList.ContainsKey(newAssetList.itemID) = False Then
@@ -808,6 +827,11 @@ Public Class PrismAssetsControl
                 newAssetList.meta = metaLevel
                 newAssetList.volume = volume
                 newAssetList.quantity = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
+                If subLoc.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
+                    newAssetList.rawquantity = CInt(subLoc.Attributes.GetNamedItem("rawQuantity").Value)
+                Else
+                    newAssetList.rawquantity = 0
+                End If
                 newAssetList.price = 0
                 totalAssetCount += newAssetList.quantity
 

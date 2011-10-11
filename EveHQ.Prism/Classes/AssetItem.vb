@@ -33,5 +33,6 @@ Public Class AssetItem
     Public location As String
     Public quantity As Long
     Public price As Double
+    Public rawquantity As Integer
 End Class
 
