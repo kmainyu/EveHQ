@@ -214,7 +214,11 @@ Public Class PrismResources
                             newRes.Cells.Add(New Cell(TotalTotal.ToString))
                             newRes.Cells.Add(New Cell(price.ToString))
                             newRes.Cells.Add(New Cell((value * CurrentJob.Runs).ToString))
-                            newRes.Cells.Add(New Cell((Int(rResource.BaseUnits / CurrentJob.CurrentBP.MatMod * (10 / CurrentJob.CurrentBP.WasteFactor))).ToString))
+                            If CurrentJob.CurrentBP.MatMod = 0 Or CurrentJob.CurrentBP.WasteFactor = 0 Then
+                                newRes.Cells.Add(New Cell("0"))
+                            Else
+                                newRes.Cells.Add(New Cell((Int(rResource.BaseUnits / CurrentJob.CurrentBP.MatMod * (10 / CurrentJob.CurrentBP.WasteFactor))).ToString("N0")))
+                            End If
                             For c As Integer = 1 To 7
                                 Select Case c
                                     Case 2, 3, 4, 7
