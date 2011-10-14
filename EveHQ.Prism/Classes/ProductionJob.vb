@@ -87,7 +87,7 @@ Imports System.Runtime.Serialization
                 Dim perfectRaw As Integer = resource.Quantity
 
                 ' Calculate Waste - Mark II!
-                waste = CInt(Math.Round((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
+                waste = CalculateWasteUnits(resource, BPWF, MatMod)
 
                 ' Check if we have component iteration active
                 If ComponentIteration = True Then
@@ -158,7 +158,7 @@ Imports System.Runtime.Serialization
                     newResource.BaseUnits = resource.BaseMaterial
                     ReqdResources.Add(resource.TypeID.ToString, newResource)
                 End If
-                End If
+            End If
         Next
         Me.RequiredResources = ReqdResources
         Me.Cost = Me.CalculateCost()
@@ -209,7 +209,7 @@ Imports System.Runtime.Serialization
             Dim perfectRaw As Integer = resource.Quantity
 
             ' Calculate Waste - Mark II!
-            waste = CInt(Math.Round((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
+            waste = CalculateWasteUnits(resource, BPWF, MatMod)
 
             ' Remove the existing production job
             Me.RequiredResources.Remove(TypeID.ToString)
@@ -260,7 +260,7 @@ Imports System.Runtime.Serialization
             Dim perfectRaw As Integer = resource.Quantity
 
             ' Calculate Waste - Mark II!
-            waste = CInt(Math.Round((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
+            waste = CalculateWasteUnits(resource, BPWF, MatMod)
 
             ' Remove the resource
             Me.RequiredResources.Remove(TypeID.ToString)
@@ -330,7 +330,7 @@ Imports System.Runtime.Serialization
                 Dim key As String = newResource.TypeID.ToString & "_1"
                 Dim BPResource As BlueprintResource = CurrentBP.Resources(key)
                 ' Calculate Waste - Mark II!
-                waste = CInt(Math.Round((BPWF * BPResource.BaseMaterial) + (BPResource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
+                waste = CalculateWasteUnits(BPResource, BPWF, MatMod)
                 newResource.WasteUnits = waste
             Else
                 ' Get the production job
@@ -338,7 +338,7 @@ Imports System.Runtime.Serialization
                 Dim key As String = subPJ.TypeID.ToString & "_1"
                 Dim BPResource As BlueprintResource = CurrentBP.Resources(key)
                 ' Calculate Waste - Mark II!
-                waste = CInt(Math.Round((BPWF * BPResource.BaseMaterial) + (BPResource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
+                waste = CalculateWasteUnits(BPResource, BPWF, MatMod)
                 subPJ.WasteUnits = waste
                 subPJ.Runs = CInt((subPJ.PerfectUnits + waste) * Runs)
                 subPJ.RecalculateResourceRequirements()
@@ -347,7 +347,17 @@ Imports System.Runtime.Serialization
 
         Me.Cost = Me.CalculateCost()
 
-	End Sub
+    End Sub
+
+    Public Function CalculateWasteUnits(resource As BlueprintResource, BPWF As Double, MatMod As Double) As Integer
+        Dim waste As Integer = 0
+        ' Calculate Waste - Mark II!
+        waste = CInt(Math.Round((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
+        ' Provisional adjustment for "extra" mats
+        Dim ExtraWaste As Integer = CInt(Math.Round(((resource.Quantity - resource.BaseMaterial) * (1.25 - (0.05 * Me.PESkill))) - (resource.Quantity - resource.BaseMaterial), 0, MidpointRounding.AwayFromZero))
+        waste += ExtraWaste
+        Return waste
+    End Function
 
 	Public Sub UpdateManufacturer(ByVal PilotName As String)
 		Me.Manufacturer = PilotName
