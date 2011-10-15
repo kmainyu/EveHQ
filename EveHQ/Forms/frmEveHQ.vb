@@ -337,15 +337,6 @@ Public Class frmEveHQ
             End If
         End If
 
-        ' Create a new instance of the APIRS and check if the APIRS should be started 
-        EveHQ.Core.HQ.myAPIRS = New EveHQ.EveAPI.EveAPIProxy(EveHQ.Core.HQ.EveHQSettings.APIRSPort, EveHQ.Core.HQ.cacheFolder)
-        If EveHQ.Core.HQ.EveHQSettings.APIRSAutoStart = True Then
-            If System.Net.HttpListener.IsSupported Then
-                EveHQ.Core.HQ.myAPIRS.StartServer()
-                EveHQ.Core.HQ.APIRSActive = True
-            End If
-        End If
-
         ' Set the tab position
         Select Case EveHQ.Core.HQ.EveHQSettings.MDITabPosition
             Case "Top"

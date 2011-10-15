@@ -119,8 +119,6 @@ Imports System.Data.OleDb
     Private cPilotPartTrainedSkillColor As Long = System.Drawing.Color.Gold.ToArgb
     Private cPilotCurrentTrainSkillColor As Long = System.Drawing.Color.LimeGreen.ToArgb
     Private cEveFolderLabel(4) As String
-    Private cAPIRSPort As Integer = 26002
-    Private cAPIRSAutoStart As Boolean = False
     Private cCCPAPIServerAddress As String = "http://api.eveonline.com"
     Private cAPIRSAddress As String = ""
     Private cUseAPIRS As Boolean = False
@@ -813,22 +811,6 @@ Imports System.Data.OleDb
         End Get
         Set(ByVal value As String)
             cCCPAPIServerAddress = value
-        End Set
-    End Property
-    Public Property APIRSPort() As Integer
-        Get
-            Return cAPIRSPort
-        End Get
-        Set(ByVal value As Integer)
-            cAPIRSPort = value
-        End Set
-    End Property
-    Public Property APIRSAutoStart() As Boolean
-        Get
-            Return cAPIRSAutoStart
-        End Get
-        Set(ByVal value As Boolean)
-            cAPIRSAutoStart = value
         End Set
     End Property
     Public Property EveFolderLabel(ByVal index As Integer) As String

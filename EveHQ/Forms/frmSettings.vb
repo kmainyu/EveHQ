@@ -1148,18 +1148,6 @@ Public Class frmSettings
         chkEnableEveStatus.Checked = EveHQ.Core.HQ.EveHQSettings.EnableEveStatus
         chkAutoAPI.Checked = EveHQ.Core.HQ.EveHQSettings.AutoAPI
         chkAutoMailAPI.Checked = EveHQ.Core.HQ.EveHQSettings.AutoMailAPI
-        If System.Net.HttpListener.IsSupported Then
-            nudAPIRSPort.Value = EveHQ.Core.HQ.EveHQSettings.APIRSPort
-            chkAPIRSAutoStart.Checked = EveHQ.Core.HQ.EveHQSettings.APIRSAutoStart
-            If EveHQ.Core.HQ.APIRSActive = True Then
-                chkActivateAPIRS.Checked = True
-            End If
-        Else
-            chkActivateAPIRS.Checked = False
-            chkActivateAPIRS.Enabled = False
-            nudAPIRSPort.Enabled = False
-            chkAPIRSAutoStart.Enabled = False
-        End If
         txtCCPAPIServer.Text = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
         txtAPIRSServer.Text = EveHQ.Core.HQ.EveHQSettings.APIRSAddress
         chkUseAPIRSServer.Checked = EveHQ.Core.HQ.EveHQSettings.UseAPIRS
@@ -1172,15 +1160,6 @@ Public Class frmSettings
             txtAPIRSServer.Enabled = True
         End If
         txtAPIFileExtension.Text = EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-        If EveHQ.Core.HQ.myAPIRS IsNot Nothing Then
-            If EveHQ.Core.HQ.myAPIRS.IsActive = True Then
-                lblAPIRSStatus.Text = "API Relay Server Status: Active"
-            Else
-                lblAPIRSStatus.Text = "API Relay Server Status: Inactive"
-            End If
-        Else
-            lblAPIRSStatus.Text = "API Relay Server Status: Uninitialised"
-        End If
         trackServerOffset.Value = EveHQ.Core.HQ.EveHQSettings.ServerOffset
         Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
         lblCurrentOffset.Text = "Current Offset: " & offset
@@ -1221,35 +1200,6 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = True
         Else
             EveHQ.Core.HQ.EveHQSettings.AutoMailAPI = False
-        End If
-    End Sub
-    Private Sub chkActivateAPIRS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkActivateAPIRS.CheckedChanged
-        If chkActivateAPIRS.Checked = True Then
-            If EveHQ.Core.HQ.myAPIRS.IsActive = False Then
-                EveHQ.Core.HQ.myAPIRS.StartServer()
-                lblAPIRSStatus.Text = "API Relay Server Status: Active"
-            End If
-        Else
-            EveHQ.Core.HQ.myAPIRS.StopServer()
-            lblAPIRSStatus.Text = "API Relay Server Status: Inactive"
-        End If
-    End Sub
-    Private Sub nudAPIRSPort_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAPIRSPort.Click
-        EveHQ.Core.HQ.EveHQSettings.APIRSPort = CInt(nudAPIRSPort.Value)
-    End Sub
-    Private Sub nudAPIRSPort_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAPIRSPort.HandleDestroyed
-        EveHQ.Core.HQ.EveHQSettings.APIRSPort = CInt(nudAPIRSPort.Value)
-    End Sub
-    Private Sub nudAPIRSPort_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles nudAPIRSPort.KeyUp
-        If e.KeyCode = Keys.Enter Then
-            EveHQ.Core.HQ.EveHQSettings.APIRSPort = CInt(nudAPIRSPort.Value)
-        End If
-    End Sub
-    Private Sub chkAPIRSAutoStart_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAPIRSAutoStart.CheckedChanged
-        If chkAPIRSAutoStart.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.APIRSAutoStart = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.APIRSAutoStart = False
         End If
     End Sub
     Private Sub chkUseAPIRSServer_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseAPIRSServer.CheckedChanged

@@ -28,7 +28,6 @@ Public Class HQ
     Public Shared TCorps As New SortedList(Of String, EveHQ.Core.Corporation)
     Public Shared EveHQSettings As New EveSettings
     Public Shared myIGB As New IGB
-    Public Shared myAPIRS As EveAPI.EveAPIProxy
     Public Shared myTQServer As EveServer = New EveServer
     Public Shared SkillListName As New SortedList(Of String, EveHQ.Core.EveSkill)
     Public Shared SkillListID As New SortedList(Of String, EveHQ.Core.EveSkill)
@@ -52,7 +51,6 @@ Public Class HQ
     Public Shared EveHQDataConnectionString As String = ""
     Public Shared dataError As String = ""
     Public Shared IGBActive As Boolean = False
-    Public Shared APIRSActive As Boolean = False
     Public Shared APIResults As New SortedList
     Public Shared APIErrors As New SortedList
     Public Shared itemList As New SortedList(Of String, String)

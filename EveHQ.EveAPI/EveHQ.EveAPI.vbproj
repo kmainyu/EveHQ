@@ -85,9 +85,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EveAPIProxy.vb" />
     <Compile Include="EveAPIAccount.vb" />
-    <Compile Include="EveAPIProxyMessageQueue.vb" />
     <Compile Include="EveAPIRequest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

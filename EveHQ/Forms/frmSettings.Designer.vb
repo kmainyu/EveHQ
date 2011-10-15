@@ -213,12 +213,6 @@ Partial Public Class frmSettings
         Me.lblAPIRSServer = New System.Windows.Forms.Label()
         Me.txtCCPAPIServer = New System.Windows.Forms.TextBox()
         Me.lblCCPAPIServer = New System.Windows.Forms.Label()
-        Me.gbAPIRelayServer = New System.Windows.Forms.GroupBox()
-        Me.lblAPIRSStatus = New System.Windows.Forms.Label()
-        Me.chkAPIRSAutoStart = New System.Windows.Forms.CheckBox()
-        Me.nudAPIRSPort = New System.Windows.Forms.NumericUpDown()
-        Me.lblAPIRSPort = New System.Windows.Forms.Label()
-        Me.chkActivateAPIRS = New System.Windows.Forms.CheckBox()
         Me.chkEnableEveStatus = New System.Windows.Forms.CheckBox()
         Me.lblCurrentOffset = New System.Windows.Forms.Label()
         Me.lblServerOffset = New System.Windows.Forms.Label()
@@ -344,8 +338,6 @@ Partial Public Class frmSettings
         Me.gbProxyServerInfo.SuspendLayout()
         Me.gbEveServer.SuspendLayout()
         Me.gbAPIServer.SuspendLayout()
-        Me.gbAPIRelayServer.SuspendLayout()
-        CType(Me.nudAPIRSPort, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbPlugIns.SuspendLayout()
         Me.gbNotifications.SuspendLayout()
         CType(Me.nudAccountTimeLimit, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -769,9 +761,9 @@ Partial Public Class frmSettings
         Me.gbEveAccounts.Controls.Add(Me.btnDeleteAccount)
         Me.gbEveAccounts.Controls.Add(Me.btnEditAccount)
         Me.gbEveAccounts.Controls.Add(Me.btnAddAccount)
-        Me.gbEveAccounts.Location = New System.Drawing.Point(195, 12)
+        Me.gbEveAccounts.Location = New System.Drawing.Point(435, 291)
         Me.gbEveAccounts.Name = "gbEveAccounts"
-        Me.gbEveAccounts.Size = New System.Drawing.Size(697, 498)
+        Me.gbEveAccounts.Size = New System.Drawing.Size(185, 76)
         Me.gbEveAccounts.TabIndex = 16
         Me.gbEveAccounts.TabStop = False
         Me.gbEveAccounts.Text = "API Account Management"
@@ -802,7 +794,7 @@ Partial Public Class frmSettings
         Me.adtAccounts.NodesConnector = Me.NodeConnector1
         Me.adtAccounts.NodeStyle = Me.ElementStyle1
         Me.adtAccounts.PathSeparator = ";"
-        Me.adtAccounts.Size = New System.Drawing.Size(676, 431)
+        Me.adtAccounts.Size = New System.Drawing.Size(164, 9)
         Me.adtAccounts.Styles.Add(Me.ElementStyle1)
         Me.adtAccounts.TabIndex = 26
         Me.adtAccounts.Text = "AdvTree1"
@@ -852,7 +844,7 @@ Partial Public Class frmSettings
         '
         Me.btnDisableAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDisableAccount.Enabled = False
-        Me.btnDisableAccount.Location = New System.Drawing.Point(240, 457)
+        Me.btnDisableAccount.Location = New System.Drawing.Point(240, 35)
         Me.btnDisableAccount.Name = "btnDisableAccount"
         Me.btnDisableAccount.Size = New System.Drawing.Size(70, 35)
         Me.btnDisableAccount.TabIndex = 25
@@ -862,7 +854,7 @@ Partial Public Class frmSettings
         'btnCheckAPIKeys
         '
         Me.btnCheckAPIKeys.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnCheckAPIKeys.Location = New System.Drawing.Point(356, 457)
+        Me.btnCheckAPIKeys.Location = New System.Drawing.Point(356, 35)
         Me.btnCheckAPIKeys.Name = "btnCheckAPIKeys"
         Me.btnCheckAPIKeys.Size = New System.Drawing.Size(70, 35)
         Me.btnCheckAPIKeys.TabIndex = 23
@@ -872,7 +864,7 @@ Partial Public Class frmSettings
         'btnGetData
         '
         Me.btnGetData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnGetData.Location = New System.Drawing.Point(618, 457)
+        Me.btnGetData.Location = New System.Drawing.Point(106, 35)
         Me.btnGetData.Name = "btnGetData"
         Me.btnGetData.Size = New System.Drawing.Size(70, 35)
         Me.btnGetData.TabIndex = 22
@@ -882,7 +874,7 @@ Partial Public Class frmSettings
         'btnDeleteAccount
         '
         Me.btnDeleteAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDeleteAccount.Location = New System.Drawing.Point(164, 457)
+        Me.btnDeleteAccount.Location = New System.Drawing.Point(164, 35)
         Me.btnDeleteAccount.Name = "btnDeleteAccount"
         Me.btnDeleteAccount.Size = New System.Drawing.Size(70, 35)
         Me.btnDeleteAccount.TabIndex = 21
@@ -892,7 +884,7 @@ Partial Public Class frmSettings
         'btnEditAccount
         '
         Me.btnEditAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnEditAccount.Location = New System.Drawing.Point(88, 457)
+        Me.btnEditAccount.Location = New System.Drawing.Point(88, 35)
         Me.btnEditAccount.Name = "btnEditAccount"
         Me.btnEditAccount.Size = New System.Drawing.Size(70, 35)
         Me.btnEditAccount.TabIndex = 20
@@ -902,7 +894,7 @@ Partial Public Class frmSettings
         'btnAddAccount
         '
         Me.btnAddAccount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAddAccount.Location = New System.Drawing.Point(12, 457)
+        Me.btnAddAccount.Location = New System.Drawing.Point(12, 35)
         Me.btnAddAccount.Name = "btnAddAccount"
         Me.btnAddAccount.Size = New System.Drawing.Size(70, 35)
         Me.btnAddAccount.TabIndex = 19
@@ -2074,14 +2066,13 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoMailAPI)
         Me.gbEveServer.Controls.Add(Me.gbAPIServer)
-        Me.gbEveServer.Controls.Add(Me.gbAPIRelayServer)
         Me.gbEveServer.Controls.Add(Me.chkEnableEveStatus)
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbEveServer.Location = New System.Drawing.Point(678, 155)
+        Me.gbEveServer.Location = New System.Drawing.Point(195, 12)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(201, 50)
+        Me.gbEveServer.Size = New System.Drawing.Size(706, 501)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2109,7 +2100,7 @@ Partial Public Class frmSettings
         Me.chkAutoMailAPI.AutoSize = True
         Me.chkAutoMailAPI.Location = New System.Drawing.Point(18, 420)
         Me.chkAutoMailAPI.Name = "chkAutoMailAPI"
-        Me.chkAutoMailAPI.Size = New System.Drawing.Size(304, 17)
+        Me.chkAutoMailAPI.Size = New System.Drawing.Size(303, 17)
         Me.chkAutoMailAPI.TabIndex = 21
         Me.chkAutoMailAPI.Text = "Automatically Check for Mail and Notification XML Updates"
         Me.chkAutoMailAPI.UseVisualStyleBackColor = True
@@ -2152,7 +2143,7 @@ Partial Public Class frmSettings
         Me.chkUseCCPBackup.AutoSize = True
         Me.chkUseCCPBackup.Location = New System.Drawing.Point(152, 52)
         Me.chkUseCCPBackup.Name = "chkUseCCPBackup"
-        Me.chkUseCCPBackup.Size = New System.Drawing.Size(177, 17)
+        Me.chkUseCCPBackup.Size = New System.Drawing.Size(173, 17)
         Me.chkUseCCPBackup.TabIndex = 26
         Me.chkUseCCPBackup.Text = "Use CCP API Server as Backup"
         Me.chkUseCCPBackup.UseVisualStyleBackColor = True
@@ -2162,9 +2153,9 @@ Partial Public Class frmSettings
         Me.chkUseAPIRSServer.AutoSize = True
         Me.chkUseAPIRSServer.Location = New System.Drawing.Point(12, 52)
         Me.chkUseAPIRSServer.Name = "chkUseAPIRSServer"
-        Me.chkUseAPIRSServer.Size = New System.Drawing.Size(129, 17)
+        Me.chkUseAPIRSServer.Size = New System.Drawing.Size(130, 17)
         Me.chkUseAPIRSServer.TabIndex = 25
-        Me.chkUseAPIRSServer.Text = "Use API Relay Server"
+        Me.chkUseAPIRSServer.Text = "Use API Proxy Server"
         Me.chkUseAPIRSServer.UseVisualStyleBackColor = True
         '
         'txtAPIRSServer
@@ -2179,9 +2170,9 @@ Partial Public Class frmSettings
         Me.lblAPIRSServer.AutoSize = True
         Me.lblAPIRSServer.Location = New System.Drawing.Point(9, 78)
         Me.lblAPIRSServer.Name = "lblAPIRSServer"
-        Me.lblAPIRSServer.Size = New System.Drawing.Size(138, 13)
+        Me.lblAPIRSServer.Size = New System.Drawing.Size(136, 13)
         Me.lblAPIRSServer.TabIndex = 23
-        Me.lblAPIRSServer.Text = "APIRS API Server Address:"
+        Me.lblAPIRSServer.Text = "API Proxy Server Address:"
         '
         'txtCCPAPIServer
         '
@@ -2199,74 +2190,12 @@ Partial Public Class frmSettings
         Me.lblCCPAPIServer.TabIndex = 21
         Me.lblCCPAPIServer.Text = "CCP API Server Address:"
         '
-        'gbAPIRelayServer
-        '
-        Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSStatus)
-        Me.gbAPIRelayServer.Controls.Add(Me.chkAPIRSAutoStart)
-        Me.gbAPIRelayServer.Controls.Add(Me.nudAPIRSPort)
-        Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSPort)
-        Me.gbAPIRelayServer.Controls.Add(Me.chkActivateAPIRS)
-        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 291)
-        Me.gbAPIRelayServer.Name = "gbAPIRelayServer"
-        Me.gbAPIRelayServer.Size = New System.Drawing.Size(668, 83)
-        Me.gbAPIRelayServer.TabIndex = 15
-        Me.gbAPIRelayServer.TabStop = False
-        Me.gbAPIRelayServer.Text = "API Relay Server"
-        '
-        'lblAPIRSStatus
-        '
-        Me.lblAPIRSStatus.AutoSize = True
-        Me.lblAPIRSStatus.Location = New System.Drawing.Point(12, 29)
-        Me.lblAPIRSStatus.Name = "lblAPIRSStatus"
-        Me.lblAPIRSStatus.Size = New System.Drawing.Size(174, 13)
-        Me.lblAPIRSStatus.TabIndex = 28
-        Me.lblAPIRSStatus.Text = "API Relay Server Status: Unknown"
-        '
-        'chkAPIRSAutoStart
-        '
-        Me.chkAPIRSAutoStart.AutoSize = True
-        Me.chkAPIRSAutoStart.Location = New System.Drawing.Point(407, 55)
-        Me.chkAPIRSAutoStart.Name = "chkAPIRSAutoStart"
-        Me.chkAPIRSAutoStart.Size = New System.Drawing.Size(182, 17)
-        Me.chkAPIRSAutoStart.TabIndex = 5
-        Me.chkAPIRSAutoStart.Text = "Run API Relay Server on Startup"
-        Me.chkAPIRSAutoStart.UseVisualStyleBackColor = True
-        '
-        'nudAPIRSPort
-        '
-        Me.nudAPIRSPort.Location = New System.Drawing.Point(126, 53)
-        Me.nudAPIRSPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
-        Me.nudAPIRSPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.nudAPIRSPort.Name = "nudAPIRSPort"
-        Me.nudAPIRSPort.Size = New System.Drawing.Size(90, 21)
-        Me.nudAPIRSPort.TabIndex = 4
-        Me.nudAPIRSPort.Value = New Decimal(New Integer() {26002, 0, 0, 0})
-        '
-        'lblAPIRSPort
-        '
-        Me.lblAPIRSPort.AutoSize = True
-        Me.lblAPIRSPort.Location = New System.Drawing.Point(10, 55)
-        Me.lblAPIRSPort.Name = "lblAPIRSPort"
-        Me.lblAPIRSPort.Size = New System.Drawing.Size(112, 13)
-        Me.lblAPIRSPort.TabIndex = 3
-        Me.lblAPIRSPort.Text = "API Relay Server Port"
-        '
-        'chkActivateAPIRS
-        '
-        Me.chkActivateAPIRS.AutoSize = True
-        Me.chkActivateAPIRS.Location = New System.Drawing.Point(244, 55)
-        Me.chkActivateAPIRS.Name = "chkActivateAPIRS"
-        Me.chkActivateAPIRS.Size = New System.Drawing.Size(149, 17)
-        Me.chkActivateAPIRS.TabIndex = 0
-        Me.chkActivateAPIRS.Text = "Activate API Relay Server"
-        Me.chkActivateAPIRS.UseVisualStyleBackColor = True
-        '
         'chkEnableEveStatus
         '
         Me.chkEnableEveStatus.AutoSize = True
         Me.chkEnableEveStatus.Location = New System.Drawing.Point(19, 31)
         Me.chkEnableEveStatus.Name = "chkEnableEveStatus"
-        Me.chkEnableEveStatus.Size = New System.Drawing.Size(126, 17)
+        Me.chkEnableEveStatus.Size = New System.Drawing.Size(127, 17)
         Me.chkEnableEveStatus.TabIndex = 13
         Me.chkEnableEveStatus.Text = "Enable Server Status"
         Me.chkEnableEveStatus.UseVisualStyleBackColor = True
@@ -2294,7 +2223,7 @@ Partial Public Class frmSettings
         Me.chkAutoAPI.AutoSize = True
         Me.chkAutoAPI.Location = New System.Drawing.Point(18, 397)
         Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(254, 17)
+        Me.chkAutoAPI.Size = New System.Drawing.Size(255, 17)
         Me.chkAutoAPI.TabIndex = 20
         Me.chkAutoAPI.Text = "Automatically Check for Character XML Updates"
         Me.chkAutoAPI.UseVisualStyleBackColor = True
@@ -3128,11 +3057,11 @@ Partial Public Class frmSettings
         '
         Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelSettings.Controls.Add(Me.gbEveServer)
         Me.panelSettings.Controls.Add(Me.gbEveAccounts)
         Me.panelSettings.Controls.Add(Me.gbNotifications)
         Me.panelSettings.Controls.Add(Me.gbDashboard)
         Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
-        Me.panelSettings.Controls.Add(Me.gbEveServer)
         Me.panelSettings.Controls.Add(Me.gbEveFolders)
         Me.panelSettings.Controls.Add(Me.gbIGB)
         Me.panelSettings.Controls.Add(Me.gbGeneral)
@@ -3275,9 +3204,6 @@ Partial Public Class frmSettings
         Me.gbEveServer.PerformLayout()
         Me.gbAPIServer.ResumeLayout(False)
         Me.gbAPIServer.PerformLayout()
-        Me.gbAPIRelayServer.ResumeLayout(False)
-        Me.gbAPIRelayServer.PerformLayout()
-        CType(Me.nudAPIRSPort, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbPlugIns.ResumeLayout(False)
         Me.gbPlugIns.PerformLayout()
         Me.gbNotifications.ResumeLayout(False)
@@ -3478,11 +3404,6 @@ Partial Public Class frmSettings
     Friend WithEvents txtFriendlyName3 As System.Windows.Forms.TextBox
     Friend WithEvents lblFriendlyName2 As System.Windows.Forms.Label
     Friend WithEvents txtFriendlyName2 As System.Windows.Forms.TextBox
-    Friend WithEvents gbAPIRelayServer As System.Windows.Forms.GroupBox
-    Friend WithEvents nudAPIRSPort As System.Windows.Forms.NumericUpDown
-    Friend WithEvents lblAPIRSPort As System.Windows.Forms.Label
-    Friend WithEvents chkActivateAPIRS As System.Windows.Forms.CheckBox
-    Friend WithEvents chkAPIRSAutoStart As System.Windows.Forms.CheckBox
     Friend WithEvents gbAPIServer As System.Windows.Forms.GroupBox
     Friend WithEvents txtAPIRSServer As System.Windows.Forms.TextBox
     Friend WithEvents lblAPIRSServer As System.Windows.Forms.Label
@@ -3549,7 +3470,6 @@ Partial Public Class frmSettings
     Friend WithEvents panelSettings As DevComponents.DotNetBar.PanelEx
     Friend WithEvents gpNav As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents btnCreateBlankPilot As System.Windows.Forms.Button
-    Friend WithEvents lblAPIRSStatus As System.Windows.Forms.Label
     Friend WithEvents chkUseSSL As System.Windows.Forms.CheckBox
     Friend WithEvents chkProxyUseBasic As System.Windows.Forms.CheckBox
     Friend WithEvents chkDisableTrainingBar As System.Windows.Forms.CheckBox
