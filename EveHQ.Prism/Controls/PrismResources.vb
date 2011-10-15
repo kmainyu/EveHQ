@@ -814,6 +814,8 @@ Public Class PrismResources
     Private Sub DisplayBatchResources()
         Dim ItemData As EveHQ.Core.EveItem
         Dim reqd As Long
+        Dim BatchValue As Double = 0
+        Dim BatchVolume As Double = 0
         adtBatchResources.BeginUpdate()
         adtBatchResources.Nodes.Clear()
         For Each itemID As String In GroupResources.Keys
@@ -822,9 +824,12 @@ Public Class PrismResources
                 ItemData = EveHQ.Core.HQ.itemData(itemID)
                 Dim newORes As New Node(ItemData.Name)
                 Dim Price As Double = EveHQ.Core.DataFunctions.GetPrice(itemID)
-                newORes.Cells.Add(New Cell(reqd.ToString))
-                newORes.Cells.Add(New Cell(Price.ToString))
-                newORes.Cells.Add(New Cell((Price * reqd).ToString))
+                newORes.Cells.Add(New Cell(reqd.ToString("N0")))
+                newORes.Cells.Add(New Cell(Price.ToString("N2")))
+                newORes.Cells.Add(New Cell((Price * reqd).ToString("N2")))
+                newORes.Cells.Add(New Cell((ItemData.Volume * reqd).ToString("N2")))
+                BatchValue += (Price * reqd)
+                BatchVolume += (ItemData.Volume * reqd)
                 adtBatchResources.Nodes.Add(newORes)
                 ' TODO: Fix styles
                 'If surplus < 0 Then
@@ -832,13 +837,11 @@ Public Class PrismResources
                 'Else
                 '    newORes.SubItems(3).ForeColor = Drawing.Color.Green
                 'End If
-                For c As Integer = 1 To 3
-                    newORes.Cells(c).TextDisplayFormat = "N0"
-                Next
             End If
         Next
         EveHQ.Core.AdvTreeSorter.Sort(adtBatchResources, 1, True, True)
         adtBatchResources.EndUpdate()
+        lblBatchTotals.Text = "Batch Value: " & BatchValue.ToString("N2") & " isk  ,  Batch Volume: " & BatchVolume.ToString("N2") & " m³"
     End Sub
 
 #End Region
