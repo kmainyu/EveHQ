@@ -1096,7 +1096,7 @@ Public Class DataFunctions
             Return True
         End If
     End Function
-    Public Shared Function ProcessMarketExportFile(ByVal orderFile As String) As ArrayList
+    Public Shared Function ProcessMarketExportFile(ByVal orderFile As String, WriteToDB As Boolean) As ArrayList
 
         Dim orderFI As New FileInfo(orderFile)
         Dim orderdate As Date = Now
@@ -1144,7 +1144,7 @@ Public Class DataFunctions
             Dim count As Integer = 0
             For Each item As String In items.Keys
                 count += 1
-                PriceData = CalculateMarketExportStats(CType(items(item), ArrayList), orderdate)
+                PriceData = CalculateMarketExportStats(CType(items(item), ArrayList), orderdate, WriteToDB)
             Next
 
             items.Clear() : items = Nothing
@@ -1155,7 +1155,7 @@ Public Class DataFunctions
 
         End If
     End Function
-    Private Shared Function CalculateMarketExportStats(ByVal orderList As ArrayList, ByVal orderDate As Date) As ArrayList
+    Private Shared Function CalculateMarketExportStats(ByVal orderList As ArrayList, ByVal orderDate As Date, WriteToDB As Boolean) As ArrayList
         Dim orderDetails(), oDate As String
         Dim oReg, oSys, oStation As Long
         Dim oID, oRange, oVolEntered, oJumps As Long
@@ -1321,7 +1321,7 @@ Public Class DataFunctions
         priceArray.Add(avgSell) : priceArray.Add(medSell) : priceArray.Add(minSell) : priceArray.Add(maxSell)
         priceArray.Add(avgAll) : priceArray.Add(medAll) : priceArray.Add(minAll) : priceArray.Add(maxAll)
 
-        priceArray.Add(EveHQ.Core.MarketFunctions.CalculateUserPriceFromPriceArray(priceArray, oReg.ToString, oTypeID.ToString))
+        priceArray.Add(EveHQ.Core.MarketFunctions.CalculateUserPriceFromPriceArray(priceArray, oReg.ToString, oTypeID.ToString, WriteToDB))
 
         priceArray.Add(oTypeID)
         priceArray.Add(volBuy) : priceArray.Add(volSell) : priceArray.Add(volAll)

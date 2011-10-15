@@ -1411,7 +1411,7 @@ Public Class frmMarketPrices
 
     End Sub
 
-    Private Sub ParseBCPrices()
+    Private Sub ParseBCPrices(WriteToDB As Boolean)
         ' New method of how we should roll!
         Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim EveDateFormat As String = "yyyy-MM-dd"
@@ -1536,7 +1536,7 @@ Public Class frmMarketPrices
                 If MPG.Name <> "<Global>" Then
 
                     lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
 
                 End If
 
@@ -1553,7 +1553,7 @@ Public Class frmMarketPrices
                 Next
 
                 lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
 
                 ' Clear the typeIDs
                 MPG.TypeIDs.Clear()
@@ -1751,7 +1751,7 @@ Public Class frmMarketPrices
         End Try
     End Sub
 
-    Private Sub ParseEveMarketeerPrices()
+    Private Sub ParseEveMarketeerPrices(WriteToDB As Boolean)
         ' New method of how we should roll!
         Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim EveDateFormat As String = "yyyy-MM-dd HH:mm:ss"
@@ -1900,7 +1900,7 @@ Public Class frmMarketPrices
                 If MPG.Name <> "<Global>" Then
 
                     lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
 
                 End If
 
@@ -1917,7 +1917,7 @@ Public Class frmMarketPrices
                 Next
 
                 lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
 
                 ' Clear the typeIDs
                 MPG.TypeIDs.Clear()
@@ -1968,9 +1968,9 @@ Public Class frmMarketPrices
     Private Sub MarketUpdateWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MarketUpdateWorker.DoWork
         Select Case EveHQ.Core.HQ.EveHQSettings.MarketDataSource
             Case MarketSite.Battleclinic
-                Call Me.ParseBCPrices()
+                Call Me.ParseBCPrices(True)
             Case MarketSite.EveMarketeer
-                Call Me.ParseEveMarketeerPrices()
+                Call Me.ParseEveMarketeerPrices(True)
         End Select
     End Sub
 

@@ -71,7 +71,7 @@ Public Class MarketFunctions
         End If
     End Sub
 
-    Public Shared Function CalculateUserPriceFromPriceArray(PriceArray As ArrayList, regionID As String, typeID As String) As Double
+    Public Shared Function CalculateUserPriceFromPriceArray(PriceArray As ArrayList, regionID As String, typeID As String, WriteToDB As Boolean) As Double
 
         ' Get user price
         Dim GlobalPriceData As New SortedList(Of String, SortedList(Of String, EveHQ.Core.MarketData))
@@ -109,11 +109,11 @@ Public Class MarketFunctions
         NewPriceData.QtySell = 0
 
         ' Get the price
-        Return EveHQ.Core.MarketFunctions.CalculateUserPrice(GlobalPriceData, NewPriceData.ItemID)
+        Return EveHQ.Core.MarketFunctions.CalculateUserPrice(GlobalPriceData, NewPriceData.ItemID, WriteToDB)
 
     End Function
 
-    Public Shared Function CalculateUserPrice(ByVal GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), typeID As String) As Double
+    Public Shared Function CalculateUserPrice(ByVal GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), typeID As String, WriteToDB As Boolean) As Double
 
         ' Make a note of which item we have used here so we can apply general prices to everything else
         Dim UsedPriceList As New SortedList(Of String, Double)
@@ -122,7 +122,7 @@ Public Class MarketFunctions
 
             If MPG.Name <> "<Global>" Then
 
-                Call ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+                Call ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
 
             End If
 
@@ -138,7 +138,7 @@ Public Class MarketFunctions
                 End If
             Next
 
-            Call ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG)
+            Call ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
 
             ' Clear the typeIDs
             MPG.TypeIDs.Clear()
@@ -153,7 +153,7 @@ Public Class MarketFunctions
 
     End Function
 
-    Public Shared Sub ParseMarketPriceGroup(ByRef GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), ByRef UsedPriceList As SortedList(Of String, Double), MPG As EveHQ.Core.PriceGroup)
+    Public Shared Sub ParseMarketPriceGroup(ByRef GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), ByRef UsedPriceList As SortedList(Of String, Double), MPG As EveHQ.Core.PriceGroup, WriteToDB As Boolean)
 
         Dim MarketPrice As Double = 0
         Dim PriceCount As Integer = 0
@@ -265,7 +265,9 @@ Public Class MarketFunctions
                 MarketPrice = Math.Round(MarketPrice / PriceCount, 2)
 
                 ' Set the price
-                EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
+                If WriteToDB = True Then
+                    EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
+                End If
             End If
 
             ' Add the price to the used list

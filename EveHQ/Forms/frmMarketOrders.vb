@@ -36,11 +36,11 @@ Public Class frmMarketOrders
         Set(ByVal value As String)
             cOrdersFile = value
             Call Me.CheckIndustry()
-            Call Me.ProcessMLPrices(cOrdersFile)
+            Call Me.ProcessMLPrices(cOrdersFile, True)
         End Set
     End Property
 
-    Private Function ProcessMLPrices(ByVal orderFile As String) As Boolean
+    Private Function ProcessMLPrices(ByVal orderFile As String, WriteToDB As Boolean) As Boolean
         Dim startTime, endTime As Date
         Dim timeTaken As TimeSpan
         Dim orderFI As New FileInfo(orderFile)
@@ -93,7 +93,7 @@ Public Class frmMarketOrders
             Dim count As Integer = 0
             For Each item As String In items.Keys
                 count += 1
-                Call CalculateMLStats(CType(items(item), ArrayList), orderdate)
+                Call CalculateMLStats(CType(items(item), ArrayList), orderdate, WriteToDB)
             Next
 
             endTime = Now
@@ -105,7 +105,7 @@ Public Class frmMarketOrders
         End If
     End Function
 
-    Private Sub CalculateMLStats(ByVal orderList As ArrayList, ByVal orderDate As Date)
+    Private Sub CalculateMLStats(ByVal orderList As ArrayList, ByVal orderDate As Date, WriteToDB As Boolean)
         Dim orderDetails(), oDate As String
         Dim issueDate As Date
         Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss.fff"
@@ -335,7 +335,7 @@ Public Class frmMarketOrders
         typeID = oTypeID
 
         ' Get the price
-        UserPrice = EveHQ.Core.MarketFunctions.CalculateUserPriceFromPriceArray(priceArray, oReg.ToString, oTypeID.ToString)
+        UserPrice = EveHQ.Core.MarketFunctions.CalculateUserPriceFromPriceArray(priceArray, oReg.ToString, oTypeID.ToString, WriteToDB)
 
         lblYourPrice.Text = UserPrice.ToString("N2")
         lblCurrentPrice.Text = EveHQ.Core.DataFunctions.GetPrice(oTypeID.ToString).ToString("N2")

@@ -1897,7 +1897,7 @@ Public Class frmEveHQ
         End If
         If EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = True Or EveHQ.Core.HQ.EveHQSettings.MarketLogUpdateData = True Then
             ' Get the price information
-            Dim priceData As ArrayList = EveHQ.Core.DataFunctions.ProcessMarketExportFile(e.FullPath)
+            Dim priceData As ArrayList = EveHQ.Core.DataFunctions.ProcessMarketExportFile(e.FullPath, False)
             If priceData IsNot Nothing Then
                 Dim UserPrice As Double = CDbl(priceData(12)) : Dim typeID As Long = CLng(priceData(13))
                 If EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = True Then
