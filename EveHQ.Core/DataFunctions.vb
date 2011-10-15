@@ -43,7 +43,7 @@ Public Class DataFunctions
                 outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
                 'MessageBox.Show("Creating database using path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 ' Try to create a new SQL CE DB
-                Dim strConnection As String = "Data Source = '" & outputFile & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                Dim strConnection As String = "Data Source = " & ControlChars.Quote & outputFile & ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                 Try
                     Dim SQLCE As New SqlCeEngine(strConnection)
                     SQLCE.CreateDatabase()
@@ -123,11 +123,11 @@ Public Class DataFunctions
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' SQL CE
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
-                    EveHQ.Core.HQ.itemDBConnectionString = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBFilename & "';" & "Max Database Size = 512; ; Max Buffer Size = 2048;"
+                    EveHQ.Core.HQ.itemDBConnectionString = "Data Source = " & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.Quote & ";" & "Max Database Size = 512; ; Max Buffer Size = 2048;"
                 Else
                     Try
                         Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                        EveHQ.Core.HQ.itemDBConnectionString = "Data Source = '" & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name) & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                        EveHQ.Core.HQ.itemDBConnectionString = "Data Source = " & ControlChars.Quote & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name) & ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                     Catch e As Exception
                         MessageBox.Show("There was an error setting the EveHQ connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Return False
@@ -147,11 +147,11 @@ Public Class DataFunctions
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' SQL CE
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
-                    EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                    EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source = " & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                 Else
                     Try
                         Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source = '" & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name) & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source = " & ControlChars.Quote & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name) & ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                     Catch e As Exception
                         MessageBox.Show("There was an error setting the EveHQData connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Return False
