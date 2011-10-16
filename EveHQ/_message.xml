@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
   <lastUpdated>16/09/2011 16:00:00</lastUpdated>
-  <title>HOW'S YOUR INVENTION?</title>
+  <title>UPDATE YOUR API KEYS</title>
   <allowIgnore>1</allowIgnore>
   <message>
   <![CDATA[
-EveHQ version 2.1.3 has been released which contains fixes to the POS Manager and adds a new Invention Results Analyser into Prism. Based on completed jobs in the API, this will show the results on selected characters, items and dates. Head into Prism to check it out!<br /><br /><br />
-For the latest information, don't forget to keep an eye on the forums and on messages similar to these when starting EveHQ!<br /><br />
+As CCP are due to remove legacy API keys within the next few weeks, all EveHQ users should update to the new CAK system as soon as possible.<br /><br /><br />
+For some guidance, see the Wiki article at <a href="http://wiki.indiceve.com/doku.php?id=guide:user_guide:add_api_keys!">http://wiki.indiceve.com/doku.php?id=guide:user_guide:add_api_keys</a><br /><br />
 Also, check the Wiki at <a href="http://wiki.indiceve.com/doku.php">http://wiki.indiceve.com/doku.php</a> for additional help and support.<br /><br /><br />
 <br /><br />
 - The EveHQ Development Team]]></message>
