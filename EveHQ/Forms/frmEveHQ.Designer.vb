@@ -417,9 +417,9 @@ Partial Public Class frmEveHQ
         'rpCore
         '
         Me.rpCore.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rpCore.Controls.Add(Me.rbCache)
         Me.rpCore.Controls.Add(Me.rbHelp)
         Me.rpCore.Controls.Add(Me.rbSQLTools)
+        Me.rpCore.Controls.Add(Me.rbCache)
         Me.rpCore.Controls.Add(Me.rbAPITools)
         Me.rpCore.Controls.Add(Me.rbBackup)
         Me.rpCore.Controls.Add(Me.rbIGB)
@@ -465,7 +465,7 @@ Partial Public Class frmEveHQ
         Me.rbCache.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbCache.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnCreateCoreCache, Me.btnDeleteCoreCache, Me.btnRebuildCoreCache})
         Me.rbCache.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbCache.Location = New System.Drawing.Point(1028, 0)
+        Me.rbCache.Location = New System.Drawing.Point(863, 0)
         Me.rbCache.Name = "rbCache"
         Me.rbCache.Size = New System.Drawing.Size(135, 93)
         Me.rbCache.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -488,8 +488,8 @@ Partial Public Class frmEveHQ
         Me.btnCreateCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnCreateCoreCache.Name = "btnCreateCoreCache"
         Me.btnCreateCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnCreateCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Pilot Information", "Opens the pilot information screen which provides basic details, as well as skill" & _
-            "s, certificates and standings.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Aura32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnCreateCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Create Core Cache Files", "Creates a set of cache files used to speed up the opening of EveHQ. These files i" & _
+            "nclude data for items, locations, skills and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnCreateCoreCache.Text = "Create Cache"
         '
         'btnDeleteCoreCache
@@ -498,8 +498,8 @@ Partial Public Class frmEveHQ
         Me.btnDeleteCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnDeleteCoreCache.Name = "btnDeleteCoreCache"
         Me.btnDeleteCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnDeleteCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Skill Planner", "Opens the skill planning feature which allows you to plan the future training for" & _
-            " each of the pilots.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnDeleteCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Delete Core Cache Files", "Deletes the Core Cache files so that EveHQ will always start with data extracted " & _
+            "from the static database." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnDeleteCoreCache.Text = "Delete Cache"
         '
         'btnRebuildCoreCache
@@ -508,8 +508,8 @@ Partial Public Class frmEveHQ
         Me.btnRebuildCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnRebuildCoreCache.Name = "btnRebuildCoreCache"
         Me.btnRebuildCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnRebuildCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Skill Planner", "Opens the skill planning feature which allows you to plan the future training for" & _
-            " each of the pilots.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnRebuildCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Rebuild Core Cache Files", "Rebuilds the Core Cache files from data in the current static database. This over" & _
+            "writes any existing Core Cache files.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnRebuildCoreCache.Text = "Rebuild Cache"
         '
         'rbHelp
@@ -529,7 +529,7 @@ Partial Public Class frmEveHQ
         Me.rbHelp.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbHelp.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInfoHelp})
         Me.rbHelp.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbHelp.Location = New System.Drawing.Point(955, 0)
+        Me.rbHelp.Location = New System.Drawing.Point(1090, 0)
         Me.rbHelp.Name = "rbHelp"
         Me.rbHelp.Size = New System.Drawing.Size(73, 93)
         Me.rbHelp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -572,7 +572,7 @@ Partial Public Class frmEveHQ
         Me.rbSQLTools.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbSQLTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer3})
         Me.rbSQLTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbSQLTools.Location = New System.Drawing.Point(863, 0)
+        Me.rbSQLTools.Location = New System.Drawing.Point(998, 0)
         Me.rbSQLTools.Name = "rbSQLTools"
         Me.rbSQLTools.Size = New System.Drawing.Size(92, 93)
         Me.rbSQLTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
