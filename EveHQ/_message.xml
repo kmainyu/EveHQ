@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>16/09/2011 16:00:00</lastUpdated>
+  <lastUpdated>16/10/2011 21:00:00</lastUpdated>
   <title>UPDATE YOUR API KEYS</title>
   <allowIgnore>1</allowIgnore>
   <message>
   <![CDATA[
-As CCP are due to remove legacy API keys within the next few weeks, all EveHQ users should update to the new CAK system as soon as possible.<br /><br /><br />
+As CCP are due to remove legacy API keys within the next few weeks, all EveHQ users should update to the new CAK system as soon as possible.<br /><br />
 For some guidance, see the Wiki article at <a href="http://wiki.indiceve.com/doku.php?id=guide:user_guide:add_api_keys!">http://wiki.indiceve.com/doku.php?id=guide:user_guide:add_api_keys</a><br /><br />
 Also, check the Wiki at <a href="http://wiki.indiceve.com/doku.php">http://wiki.indiceve.com/doku.php</a> for additional help and support.<br /><br /><br />
 <br /><br />
