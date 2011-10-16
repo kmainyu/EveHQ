@@ -60,5 +60,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.2.0.$WCREV$")]
 [assembly: AssemblyFileVersion("2.2.0.$WCREV$")]
-
-

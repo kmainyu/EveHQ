@@ -52,5 +52,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("2.2.0.$WCREV$")> 
 <Assembly: AssemblyFileVersion("2.2.0.$WCREV$")> 
-
-
