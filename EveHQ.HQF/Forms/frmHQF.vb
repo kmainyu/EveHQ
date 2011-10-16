@@ -1049,35 +1049,39 @@ Public Class frmHQF
 							ActiveFitting.ApplySkillEffectsToModule(sMod, True)
 						End If
 					End If
-					If ActiveFitting IsNot Nothing Then
-						If ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem IsNot Nothing Then
-							If chkOnlyShowUsable.Checked = True Then
-								If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-									If chkOnlyShowFittable.Checked = True Then
-										If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
-											results.Add(sMod.Name, sMod)
-										End If
-									Else
-										results.Add(sMod.Name, sMod)
-									End If
-								End If
-							Else
-								If chkOnlyShowFittable.Checked = True Then
-									If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
-										results.Add(sMod.Name, sMod)
-									End If
-								Else
-									results.Add(sMod.Name, sMod)
-								End If
-							End If
-						Else
-							results.Add(sMod.Name, sMod)
-						End If
-					Else
-						results.Add(sMod.Name, sMod)
-					End If
-				End If
-			Next
+                    If ActiveFitting IsNot Nothing Then
+                        If ActiveFitting.ShipInfoCtrl IsNot Nothing Then
+                            If ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem IsNot Nothing Then
+                                If chkOnlyShowUsable.Checked = True Then
+                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                        If chkOnlyShowFittable.Checked = True Then
+                                            If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                                results.Add(sMod.Name, sMod)
+                                            End If
+                                        Else
+                                            results.Add(sMod.Name, sMod)
+                                        End If
+                                    End If
+                                Else
+                                    If chkOnlyShowFittable.Checked = True Then
+                                        If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                            results.Add(sMod.Name, sMod)
+                                        End If
+                                    Else
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                End If
+                            Else
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        Else
+                            results.Add(sMod.Name, sMod)
+                        End If
+                    Else
+                        results.Add(sMod.Name, sMod)
+                    End If
+                End If
+            Next
 			LastModuleResults = results
 			lblModuleDisplayType.Tag = "Displaying: Matching *" & txtSearchModules.Text & "*"
 			Call Me.ShowSearchedModules()
