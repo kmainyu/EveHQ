@@ -1280,7 +1280,7 @@ Public Class frmHQF
     End Sub
     Private Sub tvwModules_ColumnResized(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvwModules.ColumnResized
         Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-        Dim idx As Integer = ch.DisplayIndex
+        Dim idx As Integer = ch.DisplayIndex - 1
         HQF.Settings.HQFSettings.ModuleListColWidths(CLng(idx)) = ch.Width.Absolute
     End Sub
 	Private Sub tvwModules_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwModules.NodeDoubleClick
