@@ -63,7 +63,7 @@ Public Class frmSQLUpgrade
 
             ' Try and upgrade the database
             Try
-                Dim strConnection As String = "Data Source = '" & SQLCEFile & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                Dim strConnection As String = "Data Source = " & ControlChars.Quote & SQLCEFile & ControlChars.Quote & "; Max Database Size = 512; Max Buffer Size = 2048;"
                 Dim SQLCEE As New SqlServerCe.SqlCeEngine(strConnection)
                 SQLCEE.Upgrade()
                 MessageBox.Show("The upgrade of EveHQData.sdf from v3.5 to v4.0 is complete!", "Upgrade Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)

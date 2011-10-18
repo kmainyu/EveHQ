@@ -1688,7 +1688,7 @@ Public Class DataFunctions
         Dim strConnection As String = ""
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' SQL CE
-                strConnection = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBFilename & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                strConnection = "Data Source = " & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                 Dim connection As New SqlCeConnection(strConnection)
                 Try
                     connection.Open()
@@ -1731,7 +1731,7 @@ Public Class DataFunctions
         Dim strConnection As String = ""
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' SQL CE
-                strConnection = "Data Source = '" & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+                strConnection = "Data Source = " & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                 Dim connection As New SqlCeConnection(strConnection)
                 Try
                     connection.Open()

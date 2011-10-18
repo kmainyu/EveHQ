@@ -52,7 +52,7 @@ Public Class frmDataConvert
     End Sub
 
     Private Sub AddSQLCEVersionTable(ByVal SourceDB As String)
-        Dim strConn As String = "Data Source = '" & SourceDB & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+        Dim strConn As String = "Data Source = " & ControlChars.Quote & SourceDB & ControlChars.Quote & "; Max Database Size = 512; Max Buffer Size = 2048;"
         Dim MySQLCEConnection As New SqlCeConnection(strConn)
         MySQLCEConnection.Open()
         ' Create the table

@@ -109,7 +109,7 @@ Public Class frmUpgradeMDB
             Dim outputfile As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
             'MessageBox.Show("Creating database using path: " & outputfile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ' Try to create a new SQL CE DB
-            Dim strConnection As String = "Data Source = '" & outputfile & "';" & "Max Database Size = 512; Max Buffer Size = 2048;"
+            Dim strConnection As String = "Data Source = " & ControlChars.Quote & outputfile & ControlChars.Quote & "; Max Database Size = 512; Max Buffer Size = 2048;"
             Try
                 Dim SQLCE As New SqlCeEngine(strConnection)
                 SQLCE.CreateDatabase()
