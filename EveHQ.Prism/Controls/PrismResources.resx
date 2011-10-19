@@ -176,10 +176,6 @@ Manual amendments can be made in the materials list if required.
   <metadata name="colORSurplus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>599, 56</value>
   </metadata>
-  <data name="chkAdvancedResourceAllocation.SuperTooltip" xml:space="preserve">
-    <value>Advanced Resource Allocation is used when you use options to build any components that make up a job. Instead of assuming that you will always use the most basic components available, this option will scan higher level components to see if they are available in assets.
-</value>
-  </data>
   <metadata name="colBatchItem.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>805, 56</value>
   </metadata>
@@ -195,4 +191,8 @@ Manual amendments can be made in the materials list if required.
   <metadata name="colBatchVolume.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 95</value>
   </metadata>
+  <data name="chkAdvancedResourceAllocation.SuperTooltip" xml:space="preserve">
+    <value>Advanced Resource Allocation is used when you use options to build any components that make up a job. Instead of assuming that you will always use the most basic components available, this option will scan higher level components to see if they are available in assets.
+</value>
+  </data>
 </root>

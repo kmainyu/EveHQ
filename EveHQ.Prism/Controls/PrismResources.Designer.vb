@@ -85,8 +85,6 @@ Partial Class PrismResources
         Me.lblAssetSelection = New System.Windows.Forms.Label()
         Me.tiResourcesOwned = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.pnlInvention = New DevComponents.DotNetBar.PanelEx()
-        Me.btnExportInvention = New DevComponents.DotNetBar.ButtonX()
         Me.ButtonItem1 = New DevComponents.DotNetBar.ButtonItem()
         Me.ButtonItem2 = New DevComponents.DotNetBar.ButtonItem()
         Me.ButtonItem3 = New DevComponents.DotNetBar.ButtonItem()
@@ -104,7 +102,6 @@ Partial Class PrismResources
         Me.TabControlPanel3.SuspendLayout()
         CType(Me.adtOwnedResources, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlResources.SuspendLayout()
-        Me.pnlInvention.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlProduction
@@ -465,7 +462,6 @@ Partial Class PrismResources
         'TabControlPanel1
         '
         Me.TabControlPanel1.Controls.Add(Me.adtInventionResources)
-        Me.TabControlPanel1.Controls.Add(Me.pnlInvention)
         Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel1.Name = "TabControlPanel1"
@@ -498,12 +494,12 @@ Partial Class PrismResources
         Me.adtInventionResources.Dock = System.Windows.Forms.DockStyle.Fill
         Me.adtInventionResources.ExpandWidth = 0
         Me.adtInventionResources.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtInventionResources.Location = New System.Drawing.Point(1, 25)
+        Me.adtInventionResources.Location = New System.Drawing.Point(1, 1)
         Me.adtInventionResources.Name = "adtInventionResources"
         Me.adtInventionResources.NodesConnector = Me.NodeConnector2
         Me.adtInventionResources.NodeStyle = Me.ElementStyle2
         Me.adtInventionResources.PathSeparator = ";"
-        Me.adtInventionResources.Size = New System.Drawing.Size(866, 308)
+        Me.adtInventionResources.Size = New System.Drawing.Size(866, 332)
         Me.adtInventionResources.Styles.Add(Me.ElementStyle2)
         Me.adtInventionResources.TabIndex = 1
         Me.adtInventionResources.Text = "AdvTree1"
@@ -802,42 +798,6 @@ Partial Class PrismResources
         Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.STT.PositionBelowControl = False
         '
-        'pnlInvention
-        '
-        Me.pnlInvention.CanvasColor = System.Drawing.SystemColors.Control
-        Me.pnlInvention.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.pnlInvention.Controls.Add(Me.btnExportInvention)
-        Me.pnlInvention.Dock = System.Windows.Forms.DockStyle.Top
-        Me.pnlInvention.Location = New System.Drawing.Point(1, 1)
-        Me.pnlInvention.Name = "pnlInvention"
-        Me.pnlInvention.Size = New System.Drawing.Size(866, 24)
-        Me.pnlInvention.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.pnlInvention.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.pnlInvention.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.pnlInvention.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.pnlInvention.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.pnlInvention.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.pnlInvention.Style.GradientAngle = 90
-        Me.STT.SetSuperTooltip(Me.pnlInvention, New DevComponents.DotNetBar.SuperTooltipInfo("", "Update Prices", "Provides a single form to update all prices of items listed in the Production Res" & _
-            "ources panel.", Nothing, Global.EveHQ.Prism.My.Resources.Resources.Question32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.pnlInvention.TabIndex = 2
-        '
-        'btnExportInvention
-        '
-        Me.btnExportInvention.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnExportInvention.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportInvention.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnExportInvention.Location = New System.Drawing.Point(788, 2)
-        Me.btnExportInvention.Name = "btnExportInvention"
-        Me.btnExportInvention.Size = New System.Drawing.Size(75, 20)
-        Me.btnExportInvention.SplitButton = True
-        Me.btnExportInvention.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnExportInvention.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ButtonItem1, Me.ButtonItem2, Me.ButtonItem3, Me.ButtonItem4})
-        Me.STT.SetSuperTooltip(Me.btnExportInvention, New DevComponents.DotNetBar.SuperTooltipInfo("", "Resources Export", "Exports resources to a variety of targets, including Excel and EveHQ Requisitions" & _
-            ".", Global.EveHQ.Prism.My.Resources.Resources.Question32, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnExportInvention.TabIndex = 16
-        Me.btnExportInvention.Text = "Export"
-        '
         'ButtonItem1
         '
         Me.ButtonItem1.Name = "ButtonItem1"
@@ -884,7 +844,6 @@ Partial Class PrismResources
         CType(Me.adtOwnedResources, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlResources.ResumeLayout(False)
         Me.pnlResources.PerformLayout()
-        Me.pnlInvention.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -949,8 +908,6 @@ Partial Class PrismResources
     Friend WithEvents btnUpdateBatchPrices As DevComponents.DotNetBar.ButtonX
     Friend WithEvents colBatchVolume As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents lblBatchTotals As System.Windows.Forms.Label
-    Friend WithEvents pnlInvention As DevComponents.DotNetBar.PanelEx
-    Friend WithEvents btnExportInvention As DevComponents.DotNetBar.ButtonX
     Friend WithEvents ButtonItem1 As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents ButtonItem2 As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents ButtonItem3 As DevComponents.DotNetBar.ButtonItem
