@@ -661,7 +661,7 @@ Public Class PrismResources
         ' Check child items if they exist
         If item.ChildNodes.Count > 0 Then
             For Each subitem As XmlNode In item.ChildNodes(0).ChildNodes
-                Call GetAssetQuantitesFromNode(item, subitem, categories, groups, Assets)
+                Call GetAssetQuantitesFromNode(Root, subitem, categories, groups, Assets)
             Next
         End If
     End Sub
