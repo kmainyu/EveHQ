@@ -92,7 +92,7 @@ Public Class ShipWidgetModules
 
         Select Case Math.Round(ParentFitting.FittedShip.CPU_Used, 4) / ParentFitting.FittedShip.CPU
             Case Is > 1
-                HostControl.pbCPUStability.Image = My.Resources.Mod00
+                HostControl.pbCPUStability.Image = My.Resources.Mod02
                 Dim STI As New SuperTooltipInfo("", "CPU Stability Information", "This fitting has overloaded the CPU requirement. Deactivate modules or find more CPU capacity.", Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow)
                 HostControl.STT.SetSuperTooltip(HostControl.pbCPUStability, STI)
             Case Else
@@ -102,8 +102,8 @@ Public Class ShipWidgetModules
         End Select
 
         Select Case Math.Round(ParentFitting.FittedShip.PG_Used, 4) / ParentFitting.FittedShip.PG
-             Case Is > 1
-                HostControl.pbPGStability.Image = My.Resources.Mod00
+            Case Is > 1
+                HostControl.pbPGStability.Image = My.Resources.Mod02
                 Dim STI As New SuperTooltipInfo("", "PG Stability Information", "This fitting has overloaded the PG requirement. Deactivate modules or find more PG capacity.", Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow)
                 HostControl.STT.SetSuperTooltip(HostControl.pbPGStability, STI)
             Case Else
@@ -118,7 +118,7 @@ Public Class ShipWidgetModules
             Dim STI As New SuperTooltipInfo("", "Capacitor Stability Information", "This fitting is cap stable. The minimum capacitor value is approximately " & (csr.MinimumCap / ParentFitting.FittedShip.CapCapacity * 100).ToString("N2") & "% of capacity.", Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow)
             HostControl.STT.SetSuperTooltip(HostControl.pbCapStability, STI)
         Else
-            HostControl.pbCapStability.Image = My.Resources.Mod00
+            HostControl.pbCapStability.Image = My.Resources.Mod02
             Dim STI As New SuperTooltipInfo("", "Capacitor Stability Information", "This fitting is not cap stable. Capacitor will run out in " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False), Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow)
             HostControl.STT.SetSuperTooltip(HostControl.pbCapStability, STI)
         End If
