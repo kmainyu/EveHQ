@@ -347,6 +347,14 @@ Public Class PrismAssetsControl
             Call Me.DisplayContracts()
         End If
         lblTotalAssetsLabel.Text = "Total Displayed Asset Value: " & totalAssetValue.ToString("N2") & " ISK  (" & totalAssetCount.ToString("N0") & " total quantity)"
+
+        If adtAssets.Nodes.Count = 0 Then
+            adtAssets.Nodes.Add(New Node("No assets to display - check API and filters."))
+            adtAssets.Enabled = False
+        Else
+            adtAssets.Enabled = True
+        End If
+
         EveHQ.Core.AdvTreeSorter.Sort(adtAssets, 1, True, True)
         adtAssets.EndUpdate()
     End Sub
@@ -704,13 +712,6 @@ Public Class PrismAssetsControl
                 End If
                 cL += 1
             Loop Until cL = adtAssets.Nodes.Count
-        End If
-
-        If adtAssets.Nodes.Count = 0 Then
-            adtAssets.Nodes.Add(New Node("Unable to get Assets data - check API."))
-            adtAssets.Enabled = False
-        Else
-            adtAssets.Enabled = True
         End If
 
     End Sub
