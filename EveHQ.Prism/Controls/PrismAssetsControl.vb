@@ -941,6 +941,12 @@ Public Class PrismAssetsControl
                                             corpWalletDivisions.Add(Owner.ID & "_" & accountKey, isk)
                                         End If
                                     Next
+                                    ' Check for missing account keys
+                                    For key As Integer = 1000 To 1006
+                                        If corpWalletDivisions.ContainsKey(OwnerID & "_" & key.ToString) = False Then
+                                            corpWalletDivisions.Add(OwnerID & "_" & key.ToString, 0)
+                                        End If
+                                    Next
                                 End If
                             End If
                         End If
