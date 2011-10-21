@@ -279,7 +279,6 @@
             this.tp_MalongainTowers = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
             this.p_Tower = new System.Windows.Forms.Panel();
-            this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
             this.cms_PosItem = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsm_Online = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Offline = new System.Windows.Forms.ToolStripMenuItem();
@@ -296,54 +295,6 @@
             this.tsm_Qty_9 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Qty_10 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_SetModuleCharge = new System.Windows.Forms.ToolStripMenuItem();
-            this.poS_Item52 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item49 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item50 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item43 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item44 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item45 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item47 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item48 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item37 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item38 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item39 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item41 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item42 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item31 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item32 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item33 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item35 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item36 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item25 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item26 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item27 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item29 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item30 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item20 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item21 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item22 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item23 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item24 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item15 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item16 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item17 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item18 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item19 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item8 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item13 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item14 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item5 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item6 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item7 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item11 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item12 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item9 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item10 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item3 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item4 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item2 = new EveHQ.PosManager.PoS_Item();
-            this.poS_Item1 = new EveHQ.PosManager.PoS_Item();
-            this.pi_Tower = new EveHQ.PosManager.PoS_Item();
             this.gp_TowerModSelect = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.cb_ItemType = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.lv_ItemSelList = new System.Windows.Forms.ListView();
@@ -734,6 +685,56 @@
             this.il_system = new System.Windows.Forms.ImageList(this.components);
             this.ofd_Import = new System.Windows.Forms.OpenFileDialog();
             this.sfd_Export = new System.Windows.Forms.SaveFileDialog();
+            this.gpPOSDeisgn = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item52 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item49 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item50 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item43 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item44 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item45 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item47 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item48 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item37 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item38 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item39 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item41 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item42 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item31 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item32 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item33 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item35 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item36 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item25 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item26 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item27 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item29 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item30 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item20 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item21 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item22 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item23 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item24 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item15 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item16 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item17 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item18 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item19 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item8 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item13 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item14 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item5 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item6 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item7 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item11 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item12 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item9 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item10 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item3 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item4 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item2 = new EveHQ.PosManager.PoS_Item();
+            this.poS_Item1 = new EveHQ.PosManager.PoS_Item();
+            this.pi_Tower = new EveHQ.PosManager.PoS_Item();
             ((System.ComponentModel.ISupportInitialize)(this.tc_MainTabs)).BeginInit();
             this.tc_MainTabs.SuspendLayout();
             this.tcp_MonitorTower.SuspendLayout();
@@ -862,6 +863,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.at_TowerMods)).BeginInit();
             this.gp_PopPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_PosMods)).BeginInit();
+            this.gpPOSDeisgn.SuspendLayout();
             this.SuspendLayout();
             // 
             // tc_MainTabs
@@ -870,22 +872,22 @@
             this.tc_MainTabs.CanReorderTabs = true;
             this.tc_MainTabs.ColorScheme.TabBackground = System.Drawing.Color.Transparent;
             this.tc_MainTabs.ColorScheme.TabItemBackgroundColorBlend.AddRange(new DevComponents.DotNetBar.BackgroundColorBlend[] {
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(230)))), ((int)(((byte)(249))))), 0F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(220)))), ((int)(((byte)(248))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(208)))), ((int)(((byte)(245))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(229)))), ((int)(((byte)(247))))), 1F)});
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(220)))), ((int)(((byte)(226))))), 0F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(189)))), ((int)(((byte)(199))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(217)))), ((int)(((byte)(223))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235))))), 1F)});
             this.tc_MainTabs.ColorScheme.TabItemHotBackground = System.Drawing.Color.Gold;
             this.tc_MainTabs.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(new DevComponents.DotNetBar.BackgroundColorBlend[] {
             new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254))))), 0.45F),
-            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254))))), 1F)});
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247))))), 0.45F),
+            new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247))))), 1F)});
             this.tc_MainTabs.ColorScheme.TabPanelBackground = System.Drawing.Color.Silver;
             this.tc_MainTabs.ColorScheme.TabPanelBackground2 = System.Drawing.Color.Transparent;
+            this.tc_MainTabs.Controls.Add(this.tabControlPanel2);
             this.tc_MainTabs.Controls.Add(this.tcp_MonitorTower);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel5);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel3);
-            this.tc_MainTabs.Controls.Add(this.tabControlPanel2);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel6);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel1);
             this.tc_MainTabs.Controls.Add(this.tabControlPanel4);
@@ -898,7 +900,7 @@
             this.tc_MainTabs.Name = "tc_MainTabs";
             this.tc_MainTabs.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
             this.tc_MainTabs.SelectedTabIndex = 0;
-            this.tc_MainTabs.Size = new System.Drawing.Size(1008, 730);
+            this.tc_MainTabs.Size = new System.Drawing.Size(1300, 838);
             this.tc_MainTabs.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document;
             this.tc_MainTabs.TabIndex = 0;
             this.tc_MainTabs.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
@@ -922,13 +924,13 @@
             this.tcp_MonitorTower.Location = new System.Drawing.Point(0, 23);
             this.tcp_MonitorTower.Name = "tcp_MonitorTower";
             this.tcp_MonitorTower.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_MonitorTower.Size = new System.Drawing.Size(1008, 707);
+            this.tcp_MonitorTower.Size = new System.Drawing.Size(1299, 807);
             this.tcp_MonitorTower.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tcp_MonitorTower.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tcp_MonitorTower.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tcp_MonitorTower.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tcp_MonitorTower.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tcp_MonitorTower.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tcp_MonitorTower.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tcp_MonitorTower.Style.GradientAngle = 90;
             this.tcp_MonitorTower.TabIndex = 1;
             this.tcp_MonitorTower.TabItem = this.tp_TowerMonitor;
@@ -1032,9 +1034,9 @@
             this.gp_FuelSettings.Controls.Add(this.label26);
             this.gp_FuelSettings.Controls.Add(this.label33);
             this.gp_FuelSettings.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gp_FuelSettings.Location = new System.Drawing.Point(1, 501);
+            this.gp_FuelSettings.Location = new System.Drawing.Point(1, 601);
             this.gp_FuelSettings.Name = "gp_FuelSettings";
-            this.gp_FuelSettings.Size = new System.Drawing.Size(1006, 205);
+            this.gp_FuelSettings.Size = new System.Drawing.Size(1297, 205);
             // 
             // 
             // 
@@ -2237,9 +2239,9 @@
             this.dg_MonitoredTowers.AllowUserToAddRows = false;
             this.dg_MonitoredTowers.AllowUserToDeleteRows = false;
             this.dg_MonitoredTowers.AllowUserToResizeRows = false;
-            this.dg_MonitoredTowers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_MonitoredTowers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_MonitoredTowers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dg_MonitoredTowers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_MonitoredTowers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
@@ -2307,7 +2309,7 @@
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dg_MonitoredTowers.RowTemplate.ReadOnly = true;
             this.dg_MonitoredTowers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dg_MonitoredTowers.Size = new System.Drawing.Size(1006, 473);
+            this.dg_MonitoredTowers.Size = new System.Drawing.Size(1297, 573);
             this.dg_MonitoredTowers.TabIndex = 0;
             this.dg_MonitoredTowers.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_MonitoredTowers_CellMouseClick);
             this.dg_MonitoredTowers.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_MonitoredTowers_ColumnHeaderMouseClick);
@@ -2603,7 +2605,7 @@
             this.bb_MonitorBar.Location = new System.Drawing.Point(1, 1);
             this.bb_MonitorBar.Name = "bb_MonitorBar";
             this.bb_MonitorBar.SingleLineColor = System.Drawing.Color.Transparent;
-            this.bb_MonitorBar.Size = new System.Drawing.Size(1006, 25);
+            this.bb_MonitorBar.Size = new System.Drawing.Size(1297, 25);
             this.bb_MonitorBar.Stretch = true;
             this.bb_MonitorBar.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.bb_MonitorBar.TabIndex = 0;
@@ -2748,29 +2750,29 @@
             this.tabControlPanel5.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel5.Name = "tabControlPanel5";
             this.tabControlPanel5.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel5.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel5.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel5.Style.GradientAngle = 90;
             this.tabControlPanel5.TabIndex = 5;
             this.tabControlPanel5.TabItem = this.tp_TowerReactions;
             // 
             // gp_ReacTower
             // 
-            this.gp_ReacTower.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_ReacTower.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_ReacTower.AutoScroll = true;
             this.gp_ReacTower.BackColor = System.Drawing.Color.Transparent;
             this.gp_ReacTower.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_ReacTower.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_ReacTower.Location = new System.Drawing.Point(1, 0);
             this.gp_ReacTower.Name = "gp_ReacTower";
-            this.gp_ReacTower.Size = new System.Drawing.Size(425, 703);
+            this.gp_ReacTower.Size = new System.Drawing.Size(717, 811);
             // 
             // 
             // 
@@ -2812,7 +2814,7 @@
             this.gp_BarPanel.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_BarPanel.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_BarPanel.Controls.Add(this.bar_ReactionSet);
-            this.gp_BarPanel.Location = new System.Drawing.Point(425, 0);
+            this.gp_BarPanel.Location = new System.Drawing.Point(717, 0);
             this.gp_BarPanel.Name = "gp_BarPanel";
             this.gp_BarPanel.Size = new System.Drawing.Size(583, 31);
             // 
@@ -2925,13 +2927,13 @@
             // 
             // p_PosMods
             // 
-            this.p_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.p_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.p_PosMods.AutoScroll = true;
             this.p_PosMods.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.p_PosMods.Location = new System.Drawing.Point(426, 32);
+            this.p_PosMods.Location = new System.Drawing.Point(718, 32);
             this.p_PosMods.Name = "p_PosMods";
-            this.p_PosMods.Size = new System.Drawing.Size(581, 671);
+            this.p_PosMods.Size = new System.Drawing.Size(581, 779);
             this.p_PosMods.TabIndex = 2;
             // 
             // tp_TowerReactions
@@ -2947,13 +2949,13 @@
             this.tabControlPanel3.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel3.Name = "tabControlPanel3";
             this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel3.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel3.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel3.Style.GradientAngle = 90;
             this.tabControlPanel3.TabIndex = 3;
             this.tabControlPanel3.TabItem = this.tp_MalongainTowers;
@@ -2973,8 +2975,8 @@
             // sc_MainPanels.Panel2
             // 
             this.sc_MainPanels.Panel2.Controls.Add(this.gp_MalongFuelNeeds);
-            this.sc_MainPanels.Size = new System.Drawing.Size(1006, 705);
-            this.sc_MainPanels.SplitterDistance = 400;
+            this.sc_MainPanels.Size = new System.Drawing.Size(1298, 813);
+            this.sc_MainPanels.SplitterDistance = 452;
             this.sc_MainPanels.TabIndex = 5;
             this.sc_MainPanels.SplitterMoving += new System.Windows.Forms.SplitterCancelEventHandler(this.sc_MainPanels_SplitterMoving);
             this.sc_MainPanels.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.sc_MainPanels_SplitterMoved);
@@ -2997,7 +2999,7 @@
             this.groupPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupPanel1.Location = new System.Drawing.Point(0, 0);
             this.groupPanel1.Name = "groupPanel1";
-            this.groupPanel1.Size = new System.Drawing.Size(1006, 53);
+            this.groupPanel1.Size = new System.Drawing.Size(1298, 53);
             // 
             // 
             // 
@@ -3092,7 +3094,7 @@
             this.label17.Size = new System.Drawing.Size(180, 42);
             this.label17.TabIndex = 191;
             this.label17.Text = "The \'Fill\' longerval will CAP each POS to the maximum fuel it can hold. The other" +
-                " longervals will not do this.";
+    " longervals will not do this.";
             // 
             // nud_PeriodValue
             // 
@@ -3200,16 +3202,16 @@
             // 
             // gp_MalongDisplay
             // 
-            this.gp_MalongDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_MalongDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_MalongDisplay.BackColor = System.Drawing.Color.Transparent;
             this.gp_MalongDisplay.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_MalongDisplay.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_MalongDisplay.Controls.Add(this.dg_TowerFuelList);
             this.gp_MalongDisplay.Location = new System.Drawing.Point(1, 53);
             this.gp_MalongDisplay.Name = "gp_MalongDisplay";
-            this.gp_MalongDisplay.Size = new System.Drawing.Size(1005, 347);
+            this.gp_MalongDisplay.Size = new System.Drawing.Size(1420, 412);
             // 
             // 
             // 
@@ -3286,7 +3288,7 @@
             dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TowerFuelList.Size = new System.Drawing.Size(999, 341);
+            this.dg_TowerFuelList.Size = new System.Drawing.Size(1414, 406);
             this.dg_TowerFuelList.TabIndex = 175;
             this.dg_TowerFuelList.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_TowerFuelList_CellMouseClick);
             this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
@@ -3402,7 +3404,7 @@
             this.gp_MalongFuelNeeds.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_MalongFuelNeeds.Location = new System.Drawing.Point(0, 0);
             this.gp_MalongFuelNeeds.Name = "gp_MalongFuelNeeds";
-            this.gp_MalongFuelNeeds.Size = new System.Drawing.Size(1006, 301);
+            this.gp_MalongFuelNeeds.Size = new System.Drawing.Size(1298, 357);
             // 
             // 
             // 
@@ -3438,17 +3440,17 @@
             // 
             // gp_AllTowers
             // 
-            this.gp_AllTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_AllTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_AllTowers.BackColor = System.Drawing.Color.Transparent;
             this.gp_AllTowers.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_AllTowers.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_AllTowers.Controls.Add(this.cb_AllDataForCopy);
             this.gp_AllTowers.Controls.Add(this.b_CopyAllPos);
             this.gp_AllTowers.Controls.Add(this.dg_TotalFuel);
-            this.gp_AllTowers.Location = new System.Drawing.Point(500, 0);
+            this.gp_AllTowers.Location = new System.Drawing.Point(792, 0);
             this.gp_AllTowers.Name = "gp_AllTowers";
-            this.gp_AllTowers.Size = new System.Drawing.Size(501, 294);
+            this.gp_AllTowers.Size = new System.Drawing.Size(501, 342);
             // 
             // 
             // 
@@ -3529,9 +3531,9 @@
             this.dg_TotalFuel.AllowUserToAddRows = false;
             this.dg_TotalFuel.AllowUserToDeleteRows = false;
             this.dg_TotalFuel.AllowUserToResizeRows = false;
-            this.dg_TotalFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_TotalFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_TotalFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_TotalFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -3551,7 +3553,7 @@
             dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle22;
             this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TotalFuel.Size = new System.Drawing.Size(497, 244);
+            this.dg_TotalFuel.Size = new System.Drawing.Size(497, 292);
             this.dg_TotalFuel.TabIndex = 185;
             this.dg_TotalFuel.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_TotalFuel_CellMouseClick);
             // 
@@ -3584,8 +3586,8 @@
             // 
             // gp_SelectedTowers
             // 
-            this.gp_SelectedTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_SelectedTowers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_SelectedTowers.BackColor = System.Drawing.Color.Transparent;
             this.gp_SelectedTowers.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_SelectedTowers.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
@@ -3595,7 +3597,7 @@
             this.gp_SelectedTowers.Controls.Add(this.dg_SelectedFuel);
             this.gp_SelectedTowers.Location = new System.Drawing.Point(-1, 0);
             this.gp_SelectedTowers.Name = "gp_SelectedTowers";
-            this.gp_SelectedTowers.Size = new System.Drawing.Size(501, 294);
+            this.gp_SelectedTowers.Size = new System.Drawing.Size(501, 342);
             // 
             // 
             // 
@@ -3688,9 +3690,9 @@
             this.dg_SelectedFuel.AllowUserToAddRows = false;
             this.dg_SelectedFuel.AllowUserToDeleteRows = false;
             this.dg_SelectedFuel.AllowUserToResizeRows = false;
-            this.dg_SelectedFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_SelectedFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_SelectedFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_SelectedFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -3710,7 +3712,7 @@
             dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle23;
             this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_SelectedFuel.Size = new System.Drawing.Size(497, 244);
+            this.dg_SelectedFuel.Size = new System.Drawing.Size(497, 292);
             this.dg_SelectedFuel.TabIndex = 184;
             this.dg_SelectedFuel.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_SelectedFuel_CellMouseClick);
             // 
@@ -3749,9 +3751,8 @@
             // 
             // tabControlPanel2
             // 
-            this.tabControlPanel2.Controls.Add(this.p_Tower);
             this.tabControlPanel2.Controls.Add(this.gp_TowerModSelect);
-            this.tabControlPanel2.Controls.Add(this.gp_FuelUsage);
+            this.tabControlPanel2.Controls.Add(this.gpPOSDeisgn);
             this.tabControlPanel2.Controls.Add(this.gp_InfoFuel);
             this.tabControlPanel2.Controls.Add(this.gp_TowerAndStats);
             this.tabControlPanel2.Controls.Add(this.bar1);
@@ -3759,13 +3760,13 @@
             this.tabControlPanel2.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel2.Name = "tabControlPanel2";
             this.tabControlPanel2.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel2.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel2.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel2.Style.GradientAngle = 90;
             this.tabControlPanel2.TabIndex = 0;
             this.tabControlPanel2.TabItem = this.tp_POSDesign;
@@ -3826,30 +3827,10 @@
             this.p_Tower.Controls.Add(this.poS_Item1);
             this.p_Tower.Controls.Add(this.pi_Tower);
             this.p_Tower.ForeColor = System.Drawing.Color.Black;
-            this.p_Tower.Location = new System.Drawing.Point(256, 146);
+            this.p_Tower.Location = new System.Drawing.Point(3, 3);
             this.p_Tower.Name = "p_Tower";
             this.p_Tower.Size = new System.Drawing.Size(500, 420);
             this.p_Tower.TabIndex = 178;
-            // 
-            // poS_Item51
-            // 
-            this.poS_Item51.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.poS_Item51.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item51.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item51.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item51.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item51.ItemNumber = ((long)(0));
-            this.poS_Item51.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item51.Location = new System.Drawing.Point(451, 211);
-            this.poS_Item51.Name = "poS_Item51";
-            this.poS_Item51.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item51.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item51.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item51.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item51.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item51.TabIndex = 60;
-            this.poS_Item51.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
             // 
             // cms_PosItem
             // 
@@ -3979,988 +3960,19 @@
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
             // 
-            // poS_Item52
-            // 
-            this.poS_Item52.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.poS_Item52.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item52.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item52.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item52.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item52.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item52.ItemNumber = ((long)(0));
-            this.poS_Item52.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item52.Location = new System.Drawing.Point(451, 165);
-            this.poS_Item52.Name = "poS_Item52";
-            this.poS_Item52.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item52.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item52.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item52.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item52.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item52.TabIndex = 59;
-            this.poS_Item52.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item49
-            // 
-            this.poS_Item49.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.poS_Item49.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item49.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item49.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item49.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item49.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item49.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item49.ItemNumber = ((long)(0));
-            this.poS_Item49.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item49.Location = new System.Drawing.Point(5, 211);
-            this.poS_Item49.Name = "poS_Item49";
-            this.poS_Item49.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item49.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item49.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item49.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item49.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item49.TabIndex = 58;
-            this.poS_Item49.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item50
-            // 
-            this.poS_Item50.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.poS_Item50.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item50.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item50.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item50.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item50.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item50.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item50.ItemNumber = ((long)(0));
-            this.poS_Item50.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item50.Location = new System.Drawing.Point(5, 165);
-            this.poS_Item50.Name = "poS_Item50";
-            this.poS_Item50.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item50.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item50.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item50.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item50.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item50.TabIndex = 57;
-            this.poS_Item50.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item43
-            // 
-            this.poS_Item43.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item43.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item43.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item43.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item43.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item43.ItemNumber = ((long)(0));
-            this.poS_Item43.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item43.Location = new System.Drawing.Point(451, 280);
-            this.poS_Item43.Name = "poS_Item43";
-            this.poS_Item43.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item43.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item43.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item43.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item43.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item43.TabIndex = 56;
-            this.poS_Item43.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item44
-            // 
-            this.poS_Item44.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item44.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item44.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item44.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item44.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item44.ItemNumber = ((long)(0));
-            this.poS_Item44.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item44.Location = new System.Drawing.Point(361, 372);
-            this.poS_Item44.Name = "poS_Item44";
-            this.poS_Item44.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item44.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item44.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item44.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item44.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item44.TabIndex = 55;
-            this.poS_Item44.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item45
-            // 
-            this.poS_Item45.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item45.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item45.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item45.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item45.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item45.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item45.ItemNumber = ((long)(0));
-            this.poS_Item45.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item45.Location = new System.Drawing.Point(406, 372);
-            this.poS_Item45.Name = "poS_Item45";
-            this.poS_Item45.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item45.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item45.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item45.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item45.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item45.TabIndex = 54;
-            this.poS_Item45.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item47
-            // 
-            this.poS_Item47.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item47.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item47.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item47.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item47.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item47.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item47.ItemNumber = ((long)(0));
-            this.poS_Item47.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item47.Location = new System.Drawing.Point(451, 372);
-            this.poS_Item47.Name = "poS_Item47";
-            this.poS_Item47.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item47.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item47.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item47.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item47.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item47.TabIndex = 52;
-            this.poS_Item47.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item48
-            // 
-            this.poS_Item48.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item48.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item48.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item48.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item48.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item48.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item48.ItemNumber = ((long)(0));
-            this.poS_Item48.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item48.Location = new System.Drawing.Point(451, 326);
-            this.poS_Item48.Name = "poS_Item48";
-            this.poS_Item48.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item48.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item48.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item48.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item48.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item48.TabIndex = 51;
-            this.poS_Item48.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item37
-            // 
-            this.poS_Item37.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item37.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item37.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item37.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item37.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item37.ItemNumber = ((long)(0));
-            this.poS_Item37.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item37.Location = new System.Drawing.Point(361, 5);
-            this.poS_Item37.Name = "poS_Item37";
-            this.poS_Item37.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item37.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item37.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item37.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item37.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item37.TabIndex = 50;
-            this.poS_Item37.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item38
-            // 
-            this.poS_Item38.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item38.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item38.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item38.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item38.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item38.ItemNumber = ((long)(0));
-            this.poS_Item38.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item38.Location = new System.Drawing.Point(451, 97);
-            this.poS_Item38.Name = "poS_Item38";
-            this.poS_Item38.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item38.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item38.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item38.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item38.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item38.TabIndex = 49;
-            this.poS_Item38.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item39
-            // 
-            this.poS_Item39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item39.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item39.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item39.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item39.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item39.ItemNumber = ((long)(0));
-            this.poS_Item39.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item39.Location = new System.Drawing.Point(406, 5);
-            this.poS_Item39.Name = "poS_Item39";
-            this.poS_Item39.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item39.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item39.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item39.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item39.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item39.TabIndex = 48;
-            this.poS_Item39.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item41
-            // 
-            this.poS_Item41.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item41.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item41.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item41.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item41.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item41.ItemNumber = ((long)(0));
-            this.poS_Item41.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item41.Location = new System.Drawing.Point(451, 5);
-            this.poS_Item41.Name = "poS_Item41";
-            this.poS_Item41.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item41.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item41.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item41.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item41.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item41.TabIndex = 46;
-            this.poS_Item41.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item42
-            // 
-            this.poS_Item42.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.poS_Item42.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item42.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item42.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item42.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item42.ItemNumber = ((long)(0));
-            this.poS_Item42.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item42.Location = new System.Drawing.Point(451, 51);
-            this.poS_Item42.Name = "poS_Item42";
-            this.poS_Item42.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item42.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item42.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item42.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item42.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item42.TabIndex = 45;
-            this.poS_Item42.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item31
-            // 
-            this.poS_Item31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.poS_Item31.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item31.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item31.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item31.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item31.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item31.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item31.ItemNumber = ((long)(0));
-            this.poS_Item31.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item31.Location = new System.Drawing.Point(97, 372);
-            this.poS_Item31.Name = "poS_Item31";
-            this.poS_Item31.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item31.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item31.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item31.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item31.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item31.TabIndex = 44;
-            this.poS_Item31.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item32
-            // 
-            this.poS_Item32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.poS_Item32.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item32.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item32.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item32.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item32.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item32.ItemNumber = ((long)(0));
-            this.poS_Item32.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item32.Location = new System.Drawing.Point(5, 280);
-            this.poS_Item32.Name = "poS_Item32";
-            this.poS_Item32.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item32.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item32.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item32.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item32.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item32.TabIndex = 43;
-            this.poS_Item32.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item33
-            // 
-            this.poS_Item33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.poS_Item33.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item33.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item33.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item33.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item33.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item33.ItemNumber = ((long)(0));
-            this.poS_Item33.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item33.Location = new System.Drawing.Point(51, 372);
-            this.poS_Item33.Name = "poS_Item33";
-            this.poS_Item33.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item33.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item33.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item33.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item33.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item33.TabIndex = 42;
-            this.poS_Item33.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item35
-            // 
-            this.poS_Item35.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.poS_Item35.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item35.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item35.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item35.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item35.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item35.ItemNumber = ((long)(0));
-            this.poS_Item35.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item35.Location = new System.Drawing.Point(5, 372);
-            this.poS_Item35.Name = "poS_Item35";
-            this.poS_Item35.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item35.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item35.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item35.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item35.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item35.TabIndex = 40;
-            this.poS_Item35.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item36
-            // 
-            this.poS_Item36.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.poS_Item36.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item36.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item36.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item36.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item36.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item36.ItemNumber = ((long)(0));
-            this.poS_Item36.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item36.Location = new System.Drawing.Point(5, 326);
-            this.poS_Item36.Name = "poS_Item36";
-            this.poS_Item36.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item36.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item36.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item36.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item36.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item36.TabIndex = 39;
-            this.poS_Item36.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item25
-            // 
-            this.poS_Item25.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item25.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item25.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item25.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item25.ItemNumber = ((long)(0));
-            this.poS_Item25.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item25.Location = new System.Drawing.Point(97, 4);
-            this.poS_Item25.Name = "poS_Item25";
-            this.poS_Item25.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item25.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item25.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item25.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item25.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item25.TabIndex = 38;
-            this.poS_Item25.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item26
-            // 
-            this.poS_Item26.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item26.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item26.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item26.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item26.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item26.ItemNumber = ((long)(0));
-            this.poS_Item26.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item26.Location = new System.Drawing.Point(5, 96);
-            this.poS_Item26.Name = "poS_Item26";
-            this.poS_Item26.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item26.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item26.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item26.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item26.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item26.TabIndex = 37;
-            this.poS_Item26.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item27
-            // 
-            this.poS_Item27.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item27.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item27.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item27.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item27.ItemNumber = ((long)(0));
-            this.poS_Item27.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item27.Location = new System.Drawing.Point(51, 4);
-            this.poS_Item27.Name = "poS_Item27";
-            this.poS_Item27.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item27.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item27.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item27.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item27.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item27.TabIndex = 36;
-            this.poS_Item27.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item29
-            // 
-            this.poS_Item29.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item29.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item29.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item29.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item29.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item29.ItemNumber = ((long)(0));
-            this.poS_Item29.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item29.Location = new System.Drawing.Point(5, 4);
-            this.poS_Item29.Name = "poS_Item29";
-            this.poS_Item29.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item29.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item29.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item29.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item29.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item29.TabIndex = 34;
-            this.poS_Item29.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item30
-            // 
-            this.poS_Item30.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item30.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item30.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item30.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item30.ForeColor = System.Drawing.Color.Black;
-            this.poS_Item30.ItemNumber = ((long)(0));
-            this.poS_Item30.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item30.Location = new System.Drawing.Point(5, 50);
-            this.poS_Item30.Name = "poS_Item30";
-            this.poS_Item30.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item30.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item30.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item30.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item30.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item30.TabIndex = 33;
-            this.poS_Item30.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item20
-            // 
-            this.poS_Item20.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item20.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item20.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item20.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item20.ItemNumber = ((long)(0));
-            this.poS_Item20.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item20.Location = new System.Drawing.Point(371, 188);
-            this.poS_Item20.Name = "poS_Item20";
-            this.poS_Item20.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item20.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item20.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item20.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item20.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item20.TabIndex = 32;
-            this.poS_Item20.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item21
-            // 
-            this.poS_Item21.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item21.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item21.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item21.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item21.ItemNumber = ((long)(0));
-            this.poS_Item21.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item21.Location = new System.Drawing.Point(228, 45);
-            this.poS_Item21.Name = "poS_Item21";
-            this.poS_Item21.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item21.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item21.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item21.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item21.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item21.TabIndex = 31;
-            this.poS_Item21.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item22
-            // 
-            this.poS_Item22.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item22.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item22.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item22.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item22.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item22.ItemNumber = ((long)(0));
-            this.poS_Item22.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item22.Location = new System.Drawing.Point(228, 91);
-            this.poS_Item22.Name = "poS_Item22";
-            this.poS_Item22.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item22.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item22.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item22.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item22.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item22.TabIndex = 30;
-            this.poS_Item22.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item23
-            // 
-            this.poS_Item23.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item23.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item23.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item23.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item23.ItemNumber = ((long)(0));
-            this.poS_Item23.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item23.Location = new System.Drawing.Point(279, 91);
-            this.poS_Item23.Name = "poS_Item23";
-            this.poS_Item23.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item23.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item23.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item23.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item23.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item23.TabIndex = 29;
-            this.poS_Item23.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item24
-            // 
-            this.poS_Item24.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item24.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item24.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item24.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item24.ItemNumber = ((long)(0));
-            this.poS_Item24.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item24.Location = new System.Drawing.Point(177, 91);
-            this.poS_Item24.Name = "poS_Item24";
-            this.poS_Item24.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item24.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item24.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item24.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item24.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item24.TabIndex = 28;
-            this.poS_Item24.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item15
-            // 
-            this.poS_Item15.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item15.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item15.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item15.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item15.ItemNumber = ((long)(0));
-            this.poS_Item15.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item15.Location = new System.Drawing.Point(228, 331);
-            this.poS_Item15.Name = "poS_Item15";
-            this.poS_Item15.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item15.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item15.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item15.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item15.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item15.TabIndex = 27;
-            this.poS_Item15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item16
-            // 
-            this.poS_Item16.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item16.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item16.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item16.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item16.ItemNumber = ((long)(0));
-            this.poS_Item16.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item16.Location = new System.Drawing.Point(85, 188);
-            this.poS_Item16.Name = "poS_Item16";
-            this.poS_Item16.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item16.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item16.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item16.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item16.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item16.TabIndex = 26;
-            this.poS_Item16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item17
-            // 
-            this.poS_Item17.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item17.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item17.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item17.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item17.ItemNumber = ((long)(0));
-            this.poS_Item17.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item17.Location = new System.Drawing.Point(228, 285);
-            this.poS_Item17.Name = "poS_Item17";
-            this.poS_Item17.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item17.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item17.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item17.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item17.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item17.TabIndex = 25;
-            this.poS_Item17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item18
-            // 
-            this.poS_Item18.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item18.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item18.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item18.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item18.ItemNumber = ((long)(0));
-            this.poS_Item18.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item18.Location = new System.Drawing.Point(279, 285);
-            this.poS_Item18.Name = "poS_Item18";
-            this.poS_Item18.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item18.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item18.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item18.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item18.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item18.TabIndex = 24;
-            this.poS_Item18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item19
-            // 
-            this.poS_Item19.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item19.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item19.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item19.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item19.ItemNumber = ((long)(0));
-            this.poS_Item19.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item19.Location = new System.Drawing.Point(177, 285);
-            this.poS_Item19.Name = "poS_Item19";
-            this.poS_Item19.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item19.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item19.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item19.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item19.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item19.TabIndex = 23;
-            this.poS_Item19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item8
-            // 
-            this.poS_Item8.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item8.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item8.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item8.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item8.ItemNumber = ((long)(0));
-            this.poS_Item8.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item8.Location = new System.Drawing.Point(325, 188);
-            this.poS_Item8.Name = "poS_Item8";
-            this.poS_Item8.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item8.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item8.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item8.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item8.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item8.TabIndex = 22;
-            this.poS_Item8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item13
-            // 
-            this.poS_Item13.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item13.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item13.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item13.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item13.ItemNumber = ((long)(0));
-            this.poS_Item13.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item13.Location = new System.Drawing.Point(325, 239);
-            this.poS_Item13.Name = "poS_Item13";
-            this.poS_Item13.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item13.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item13.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item13.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item13.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item13.TabIndex = 21;
-            this.poS_Item13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item14
-            // 
-            this.poS_Item14.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item14.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item14.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item14.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item14.ItemNumber = ((long)(0));
-            this.poS_Item14.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item14.Location = new System.Drawing.Point(325, 137);
-            this.poS_Item14.Name = "poS_Item14";
-            this.poS_Item14.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item14.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item14.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item14.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item14.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item14.TabIndex = 20;
-            this.poS_Item14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item5
-            // 
-            this.poS_Item5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item5.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item5.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item5.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item5.ItemNumber = ((long)(0));
-            this.poS_Item5.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item5.Location = new System.Drawing.Point(131, 188);
-            this.poS_Item5.Name = "poS_Item5";
-            this.poS_Item5.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item5.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item5.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item5.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item5.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item5.TabIndex = 19;
-            this.poS_Item5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item6
-            // 
-            this.poS_Item6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item6.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item6.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item6.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item6.ItemNumber = ((long)(0));
-            this.poS_Item6.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item6.Location = new System.Drawing.Point(131, 239);
-            this.poS_Item6.Name = "poS_Item6";
-            this.poS_Item6.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item6.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item6.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item6.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item6.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item6.TabIndex = 18;
-            this.poS_Item6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item7
-            // 
-            this.poS_Item7.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item7.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item7.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item7.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item7.ItemNumber = ((long)(0));
-            this.poS_Item7.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item7.Location = new System.Drawing.Point(131, 137);
-            this.poS_Item7.Name = "poS_Item7";
-            this.poS_Item7.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item7.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item7.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item7.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item7.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item7.TabIndex = 17;
-            this.poS_Item7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item11
-            // 
-            this.poS_Item11.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item11.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item11.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item11.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item11.ItemNumber = ((long)(0));
-            this.poS_Item11.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item11.Location = new System.Drawing.Point(228, 239);
-            this.poS_Item11.Name = "poS_Item11";
-            this.poS_Item11.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item11.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item11.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item11.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item11.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item11.TabIndex = 16;
-            this.poS_Item11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item12
-            // 
-            this.poS_Item12.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item12.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item12.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item12.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item12.ItemNumber = ((long)(0));
-            this.poS_Item12.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item12.Location = new System.Drawing.Point(228, 137);
-            this.poS_Item12.Name = "poS_Item12";
-            this.poS_Item12.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item12.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item12.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item12.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item12.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item12.TabIndex = 15;
-            this.poS_Item12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item9
-            // 
-            this.poS_Item9.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item9.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item9.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item9.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item9.ItemNumber = ((long)(0));
-            this.poS_Item9.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item9.Location = new System.Drawing.Point(279, 188);
-            this.poS_Item9.Name = "poS_Item9";
-            this.poS_Item9.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item9.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item9.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item9.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item9.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item9.TabIndex = 14;
-            this.poS_Item9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item10
-            // 
-            this.poS_Item10.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item10.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item10.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item10.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item10.ItemNumber = ((long)(0));
-            this.poS_Item10.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item10.Location = new System.Drawing.Point(177, 188);
-            this.poS_Item10.Name = "poS_Item10";
-            this.poS_Item10.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item10.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item10.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item10.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item10.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item10.TabIndex = 13;
-            this.poS_Item10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item3
-            // 
-            this.poS_Item3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item3.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item3.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item3.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item3.ItemNumber = ((long)(0));
-            this.poS_Item3.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item3.Location = new System.Drawing.Point(279, 239);
-            this.poS_Item3.Name = "poS_Item3";
-            this.poS_Item3.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item3.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item3.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item3.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item3.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item3.TabIndex = 8;
-            this.poS_Item3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item4
-            // 
-            this.poS_Item4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item4.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item4.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item4.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item4.ItemNumber = ((long)(0));
-            this.poS_Item4.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item4.Location = new System.Drawing.Point(177, 239);
-            this.poS_Item4.Name = "poS_Item4";
-            this.poS_Item4.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item4.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item4.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item4.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item4.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item4.TabIndex = 7;
-            this.poS_Item4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item2
-            // 
-            this.poS_Item2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item2.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item2.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item2.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item2.ItemNumber = ((long)(0));
-            this.poS_Item2.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item2.Location = new System.Drawing.Point(279, 137);
-            this.poS_Item2.Name = "poS_Item2";
-            this.poS_Item2.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item2.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item2.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item2.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item2.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item2.TabIndex = 6;
-            this.poS_Item2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // poS_Item1
-            // 
-            this.poS_Item1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.poS_Item1.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item1.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item1.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item1.ItemNumber = ((long)(0));
-            this.poS_Item1.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
-            this.poS_Item1.Location = new System.Drawing.Point(177, 137);
-            this.poS_Item1.Name = "poS_Item1";
-            this.poS_Item1.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item1.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item1.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item1.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item1.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item1.TabIndex = 5;
-            this.poS_Item1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
-            // pi_Tower
-            // 
-            this.pi_Tower.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pi_Tower.BackColor = System.Drawing.Color.Transparent;
-            this.pi_Tower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pi_Tower.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pi_Tower.ContextMenuStrip = this.cms_PosItem;
-            this.pi_Tower.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.pi_Tower.ItemNumber = ((long)(0));
-            this.pi_Tower.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Tower;
-            this.pi_Tower.Location = new System.Drawing.Point(223, 183);
-            this.pi_Tower.Name = "pi_Tower";
-            this.pi_Tower.OfflineColor = System.Drawing.Color.Red;
-            this.pi_Tower.OnlineColor = System.Drawing.Color.Lime;
-            this.pi_Tower.QuantityColor = System.Drawing.Color.Blue;
-            this.pi_Tower.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.pi_Tower.Size = new System.Drawing.Size(50, 50);
-            this.pi_Tower.TabIndex = 0;
-            this.pi_Tower.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
             // gp_TowerModSelect
             // 
-            this.gp_TowerModSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_TowerModSelect.AutoScroll = true;
             this.gp_TowerModSelect.AutoScrollMinSize = new System.Drawing.Size(240, 548);
             this.gp_TowerModSelect.BackColor = System.Drawing.Color.Transparent;
             this.gp_TowerModSelect.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_TowerModSelect.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_TowerModSelect.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.gp_TowerModSelect.Controls.Add(this.cb_ItemType);
             this.gp_TowerModSelect.Controls.Add(this.lv_ItemSelList);
-            this.gp_TowerModSelect.Location = new System.Drawing.Point(756, 145);
+            this.gp_TowerModSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_TowerModSelect.Location = new System.Drawing.Point(789, 144);
             this.gp_TowerModSelect.Name = "gp_TowerModSelect";
-            this.gp_TowerModSelect.Size = new System.Drawing.Size(251, 556);
+            this.gp_TowerModSelect.Size = new System.Drawing.Size(510, 670);
             // 
             // 
             // 
@@ -4993,18 +4005,19 @@
             this.gp_TowerModSelect.StyleMouseOver.Class = "";
             this.gp_TowerModSelect.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_TowerModSelect.TabIndex = 0;
+            this.gp_TowerModSelect.Text = "POS Module Selection";
             // 
             // cb_ItemType
             // 
-            this.cb_ItemType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_ItemType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_ItemType.DisplayMember = "Text";
             this.cb_ItemType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cb_ItemType.FormattingEnabled = true;
             this.cb_ItemType.ItemHeight = 15;
             this.cb_ItemType.Location = new System.Drawing.Point(0, 2);
             this.cb_ItemType.Name = "cb_ItemType";
-            this.cb_ItemType.Size = new System.Drawing.Size(245, 21);
+            this.cb_ItemType.Size = new System.Drawing.Size(504, 21);
             this.cb_ItemType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cb_ItemType.TabIndex = 0;
             this.cb_ItemType.Text = "Select Module Type";
@@ -5012,9 +4025,9 @@
             // 
             // lv_ItemSelList
             // 
-            this.lv_ItemSelList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lv_ItemSelList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lv_ItemSelList.BackColor = System.Drawing.SystemColors.Window;
             this.lv_ItemSelList.ForeColor = System.Drawing.Color.Black;
             this.lv_ItemSelList.LargeImageList = this.il_SelCat;
@@ -5022,7 +4035,7 @@
             this.lv_ItemSelList.MultiSelect = false;
             this.lv_ItemSelList.Name = "lv_ItemSelList";
             this.lv_ItemSelList.ShowItemToolTips = true;
-            this.lv_ItemSelList.Size = new System.Drawing.Size(245, 492);
+            this.lv_ItemSelList.Size = new System.Drawing.Size(504, 590);
             this.lv_ItemSelList.TabIndex = 2;
             this.lv_ItemSelList.UseCompatibleStateImageBehavior = false;
             this.lv_ItemSelList.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lv_ItemSelList_ItemDrag);
@@ -5036,8 +4049,6 @@
             // 
             // gp_FuelUsage
             // 
-            this.gp_FuelUsage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_FuelUsage.BackColor = System.Drawing.Color.Transparent;
             this.gp_FuelUsage.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_FuelUsage.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
@@ -5086,9 +4097,9 @@
             this.gp_FuelUsage.Controls.Add(this.l_FactionCharters);
             this.gp_FuelUsage.Controls.Add(this.l_LiquidOzone);
             this.gp_FuelUsage.Controls.Add(this.l_HeavyWater);
-            this.gp_FuelUsage.Location = new System.Drawing.Point(255, 566);
+            this.gp_FuelUsage.Location = new System.Drawing.Point(3, 429);
             this.gp_FuelUsage.Name = "gp_FuelUsage";
-            this.gp_FuelUsage.Size = new System.Drawing.Size(501, 135);
+            this.gp_FuelUsage.Size = new System.Drawing.Size(501, 139);
             // 
             // 
             // 
@@ -5124,8 +4135,8 @@
             // 
             // pb_Stront
             // 
-            this.pb_Stront.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Stront.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -5142,8 +4153,8 @@
             // 
             // pb_Fuel
             // 
-            this.pb_Fuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Fuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -5710,13 +4721,11 @@
             // 
             // gp_InfoFuel
             // 
-            this.gp_InfoFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_InfoFuel.AutoScroll = true;
             this.gp_InfoFuel.AutoScrollMinSize = new System.Drawing.Size(245, 520);
             this.gp_InfoFuel.BackColor = System.Drawing.Color.Transparent;
             this.gp_InfoFuel.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_InfoFuel.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_InfoFuel.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.gp_InfoFuel.Controls.Add(this.l_shield_exp);
             this.gp_InfoFuel.Controls.Add(this.l_shield_kin);
             this.gp_InfoFuel.Controls.Add(this.l_shield_em);
@@ -5746,9 +4755,10 @@
             this.gp_InfoFuel.Controls.Add(this.pictureBox25);
             this.gp_InfoFuel.Controls.Add(this.pictureBox27);
             this.gp_InfoFuel.Controls.Add(this.pictureBox26);
-            this.gp_InfoFuel.Location = new System.Drawing.Point(0, 146);
+            this.gp_InfoFuel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gp_InfoFuel.Location = new System.Drawing.Point(1, 144);
             this.gp_InfoFuel.Name = "gp_InfoFuel";
-            this.gp_InfoFuel.Size = new System.Drawing.Size(255, 558);
+            this.gp_InfoFuel.Size = new System.Drawing.Size(255, 670);
             // 
             // 
             // 
@@ -5879,11 +4889,11 @@
             // 
             // rtb_Other
             // 
-            this.rtb_Other.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.rtb_Other.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.rtb_Other.Location = new System.Drawing.Point(0, 186);
             this.rtb_Other.Name = "rtb_Other";
-            this.rtb_Other.Size = new System.Drawing.Size(248, 348);
+            this.rtb_Other.Size = new System.Drawing.Size(248, 460);
             this.rtb_Other.TabIndex = 194;
             this.rtb_Other.Text = "";
             // 
@@ -6199,12 +5209,10 @@
             // 
             // gp_TowerAndStats
             // 
-            this.gp_TowerAndStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_TowerAndStats.AutoScroll = true;
             this.gp_TowerAndStats.AutoScrollMinSize = new System.Drawing.Size(1002, 112);
             this.gp_TowerAndStats.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_TowerAndStats.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_TowerAndStats.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.gp_TowerAndStats.Controls.Add(this.pb_Power);
             this.gp_TowerAndStats.Controls.Add(this.pb_CPU);
             this.gp_TowerAndStats.Controls.Add(this.ct_PoSName);
@@ -6263,9 +5271,10 @@
             this.gp_TowerAndStats.Controls.Add(this.l_TowerAKRes);
             this.gp_TowerAndStats.Controls.Add(this.pictureBox9);
             this.gp_TowerAndStats.Controls.Add(this.pictureBox3);
-            this.gp_TowerAndStats.Location = new System.Drawing.Point(0, 27);
+            this.gp_TowerAndStats.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gp_TowerAndStats.Location = new System.Drawing.Point(1, 26);
             this.gp_TowerAndStats.Name = "gp_TowerAndStats";
-            this.gp_TowerAndStats.Size = new System.Drawing.Size(1008, 118);
+            this.gp_TowerAndStats.Size = new System.Drawing.Size(1298, 118);
             // 
             // 
             // 
@@ -6301,8 +5310,8 @@
             // 
             // pb_Power
             // 
-            this.pb_Power.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Power.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -6313,14 +5322,14 @@
             this.pb_Power.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pb_Power.Location = new System.Drawing.Point(415, 32);
             this.pb_Power.Name = "pb_Power";
-            this.pb_Power.Size = new System.Drawing.Size(241, 23);
+            this.pb_Power.Size = new System.Drawing.Size(531, 23);
             this.pb_Power.TabIndex = 195;
             this.pb_Power.TextVisible = true;
             // 
             // pb_CPU
             // 
-            this.pb_CPU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_CPU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -6331,7 +5340,7 @@
             this.pb_CPU.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pb_CPU.Location = new System.Drawing.Point(415, 4);
             this.pb_CPU.Name = "pb_CPU";
-            this.pb_CPU.Size = new System.Drawing.Size(241, 23);
+            this.pb_CPU.Size = new System.Drawing.Size(531, 23);
             this.pb_CPU.TabIndex = 194;
             this.pb_CPU.TextVisible = true;
             // 
@@ -6569,7 +5578,7 @@
             this.l_PoS_DPS.BackgroundStyle.Class = "";
             this.l_PoS_DPS.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.l_PoS_DPS.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_PoS_DPS.Location = new System.Drawing.Point(750, 71);
+            this.l_PoS_DPS.Location = new System.Drawing.Point(1040, 71);
             this.l_PoS_DPS.Name = "l_PoS_DPS";
             this.l_PoS_DPS.Size = new System.Drawing.Size(90, 41);
             this.l_PoS_DPS.TabIndex = 183;
@@ -6584,7 +5593,7 @@
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(721, 73);
+            this.label8.Location = new System.Drawing.Point(1011, 73);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(31, 16);
             this.label8.TabIndex = 182;
@@ -6612,7 +5621,7 @@
             this.l_PoS_Tank.BackgroundStyle.Class = "";
             this.l_PoS_Tank.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.l_PoS_Tank.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_PoS_Tank.Location = new System.Drawing.Point(874, 92);
+            this.l_PoS_Tank.Location = new System.Drawing.Point(1164, 92);
             this.l_PoS_Tank.Name = "l_PoS_Tank";
             this.l_PoS_Tank.Size = new System.Drawing.Size(126, 20);
             this.l_PoS_Tank.TabIndex = 181;
@@ -6625,7 +5634,7 @@
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(840, 94);
+            this.label7.Location = new System.Drawing.Point(1130, 94);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(36, 16);
             this.label7.TabIndex = 180;
@@ -6653,7 +5662,7 @@
             this.l_PoS_EHP.BackgroundStyle.Class = "";
             this.l_PoS_EHP.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.l_PoS_EHP.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.l_PoS_EHP.Location = new System.Drawing.Point(874, 71);
+            this.l_PoS_EHP.Location = new System.Drawing.Point(1164, 71);
             this.l_PoS_EHP.Name = "l_PoS_EHP";
             this.l_PoS_EHP.Size = new System.Drawing.Size(126, 20);
             this.l_PoS_EHP.TabIndex = 179;
@@ -6734,7 +5743,7 @@
             this.cb_DamageProfile.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cb_DamageProfile.FormattingEnabled = true;
             this.cb_DamageProfile.ItemHeight = 15;
-            this.cb_DamageProfile.Location = new System.Drawing.Point(385, 90);
+            this.cb_DamageProfile.Location = new System.Drawing.Point(675, 90);
             this.cb_DamageProfile.Name = "cb_DamageProfile";
             this.cb_DamageProfile.Size = new System.Drawing.Size(155, 21);
             this.cb_DamageProfile.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -6747,7 +5756,7 @@
             this.b_SaveResistProfile.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_SaveResistProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_SaveResistProfile.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_SaveResistProfile.Location = new System.Drawing.Point(543, 90);
+            this.b_SaveResistProfile.Location = new System.Drawing.Point(833, 90);
             this.b_SaveResistProfile.Name = "b_SaveResistProfile";
             this.b_SaveResistProfile.Size = new System.Drawing.Size(32, 21);
             this.b_SaveResistProfile.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -6773,7 +5782,7 @@
             this.pictureBox32.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox32.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
             this.pictureBox32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox32.Location = new System.Drawing.Point(578, 70);
+            this.pictureBox32.Location = new System.Drawing.Point(868, 70);
             this.pictureBox32.Name = "pictureBox32";
             this.pictureBox32.Size = new System.Drawing.Size(20, 20);
             this.pictureBox32.TabIndex = 118;
@@ -6786,7 +5795,7 @@
             this.l_TowerSKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerSKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_TowerSKRes.Location = new System.Drawing.Point(951, 0);
+            this.l_TowerSKRes.Location = new System.Drawing.Point(1241, 0);
             this.l_TowerSKRes.Name = "l_TowerSKRes";
             this.l_TowerSKRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerSKRes.TabIndex = 153;
@@ -6810,7 +5819,7 @@
             this.pictureBox31.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox31.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
             this.pictureBox31.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox31.Location = new System.Drawing.Point(653, 70);
+            this.pictureBox31.Location = new System.Drawing.Point(943, 70);
             this.pictureBox31.Name = "pictureBox31";
             this.pictureBox31.Size = new System.Drawing.Size(20, 20);
             this.pictureBox31.TabIndex = 119;
@@ -6823,7 +5832,7 @@
             this.l_TowerStKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerStKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_TowerStKRes.Location = new System.Drawing.Point(951, 10);
+            this.l_TowerStKRes.Location = new System.Drawing.Point(1241, 10);
             this.l_TowerStKRes.Name = "l_TowerStKRes";
             this.l_TowerStKRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerStKRes.TabIndex = 148;
@@ -6847,7 +5856,7 @@
             this.pictureBox30.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox30.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
             this.pictureBox30.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox30.Location = new System.Drawing.Point(578, 91);
+            this.pictureBox30.Location = new System.Drawing.Point(868, 91);
             this.pictureBox30.Name = "pictureBox30";
             this.pictureBox30.Size = new System.Drawing.Size(20, 20);
             this.pictureBox30.TabIndex = 120;
@@ -6859,7 +5868,7 @@
             this.label10.AutoSize = true;
             this.label10.BackColor = System.Drawing.Color.Transparent;
             this.label10.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(846, 73);
+            this.label10.Location = new System.Drawing.Point(1136, 73);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(30, 16);
             this.label10.TabIndex = 136;
@@ -6872,7 +5881,7 @@
             this.l_TowerSTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerSTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSTRes.ForeColor = System.Drawing.Color.Red;
-            this.l_TowerSTRes.Location = new System.Drawing.Point(951, 34);
+            this.l_TowerSTRes.Location = new System.Drawing.Point(1241, 34);
             this.l_TowerSTRes.Name = "l_TowerSTRes";
             this.l_TowerSTRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerSTRes.TabIndex = 154;
@@ -6886,7 +5895,7 @@
             this.l_TowerATRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerATRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerATRes.ForeColor = System.Drawing.Color.Red;
-            this.l_TowerATRes.Location = new System.Drawing.Point(951, 44);
+            this.l_TowerATRes.Location = new System.Drawing.Point(1241, 44);
             this.l_TowerATRes.Name = "l_TowerATRes";
             this.l_TowerATRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerATRes.TabIndex = 159;
@@ -6898,7 +5907,7 @@
             this.pictureBox29.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox29.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
             this.pictureBox29.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox29.Location = new System.Drawing.Point(653, 91);
+            this.pictureBox29.Location = new System.Drawing.Point(943, 91);
             this.pictureBox29.Name = "pictureBox29";
             this.pictureBox29.Size = new System.Drawing.Size(20, 20);
             this.pictureBox29.TabIndex = 121;
@@ -6911,7 +5920,7 @@
             this.l_TowerStTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerStTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStTRes.ForeColor = System.Drawing.Color.Red;
-            this.l_TowerStTRes.Location = new System.Drawing.Point(951, 54);
+            this.l_TowerStTRes.Location = new System.Drawing.Point(1241, 54);
             this.l_TowerStTRes.Name = "l_TowerStTRes";
             this.l_TowerStTRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerStTRes.TabIndex = 149;
@@ -6924,7 +5933,7 @@
             this.l_TowerStruct.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerStruct.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStruct.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.l_TowerStruct.Location = new System.Drawing.Point(687, 49);
+            this.l_TowerStruct.Location = new System.Drawing.Point(977, 49);
             this.l_TowerStruct.Name = "l_TowerStruct";
             this.l_TowerStruct.Size = new System.Drawing.Size(111, 16);
             this.l_TowerStruct.TabIndex = 145;
@@ -6938,7 +5947,7 @@
             this.l_TowerSEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerSEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSEmRes.ForeColor = System.Drawing.Color.Teal;
-            this.l_TowerSEmRes.Location = new System.Drawing.Point(872, 0);
+            this.l_TowerSEmRes.Location = new System.Drawing.Point(1162, 0);
             this.l_TowerSEmRes.Name = "l_TowerSEmRes";
             this.l_TowerSEmRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerSEmRes.TabIndex = 151;
@@ -6952,7 +5961,7 @@
             this.l_TowerStEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerStEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStEmRes.ForeColor = System.Drawing.Color.Teal;
-            this.l_TowerStEmRes.Location = new System.Drawing.Point(872, 10);
+            this.l_TowerStEmRes.Location = new System.Drawing.Point(1162, 10);
             this.l_TowerStEmRes.Name = "l_TowerStEmRes";
             this.l_TowerStEmRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerStEmRes.TabIndex = 146;
@@ -6966,7 +5975,7 @@
             this.l_TowerSExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerSExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSExRes.ForeColor = System.Drawing.Color.Indigo;
-            this.l_TowerSExRes.Location = new System.Drawing.Point(872, 34);
+            this.l_TowerSExRes.Location = new System.Drawing.Point(1162, 34);
             this.l_TowerSExRes.Name = "l_TowerSExRes";
             this.l_TowerSExRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerSExRes.TabIndex = 152;
@@ -6979,7 +5988,7 @@
             this.pictureBox7.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox7.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon02_12;
             this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox7.Location = new System.Drawing.Point(662, 45);
+            this.pictureBox7.Location = new System.Drawing.Point(952, 45);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(25, 25);
             this.pictureBox7.TabIndex = 162;
@@ -6992,7 +6001,7 @@
             this.l_TowerAExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerAExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerAExRes.ForeColor = System.Drawing.Color.Indigo;
-            this.l_TowerAExRes.Location = new System.Drawing.Point(872, 44);
+            this.l_TowerAExRes.Location = new System.Drawing.Point(1162, 44);
             this.l_TowerAExRes.Name = "l_TowerAExRes";
             this.l_TowerAExRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerAExRes.TabIndex = 157;
@@ -7004,7 +6013,7 @@
             this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox6.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_06;
             this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox6.Location = new System.Drawing.Point(662, 22);
+            this.pictureBox6.Location = new System.Drawing.Point(952, 22);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(25, 25);
             this.pictureBox6.TabIndex = 161;
@@ -7016,7 +6025,7 @@
             this.nud_EMRes.BackColor = System.Drawing.SystemColors.Window;
             this.nud_EMRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_EMRes.ForeColor = System.Drawing.Color.Teal;
-            this.nud_EMRes.Location = new System.Drawing.Point(601, 70);
+            this.nud_EMRes.Location = new System.Drawing.Point(891, 70);
             this.nud_EMRes.Name = "nud_EMRes";
             this.nud_EMRes.Size = new System.Drawing.Size(42, 20);
             this.nud_EMRes.TabIndex = 50;
@@ -7036,7 +6045,7 @@
             this.l_TowerStExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerStExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStExRes.ForeColor = System.Drawing.Color.Indigo;
-            this.l_TowerStExRes.Location = new System.Drawing.Point(872, 54);
+            this.l_TowerStExRes.Location = new System.Drawing.Point(1162, 54);
             this.l_TowerStExRes.Name = "l_TowerStExRes";
             this.l_TowerStExRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerStExRes.TabIndex = 147;
@@ -7048,7 +6057,7 @@
             this.pictureBox5.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox5.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_07;
             this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox5.Location = new System.Drawing.Point(662, -1);
+            this.pictureBox5.Location = new System.Drawing.Point(952, -1);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(25, 25);
             this.pictureBox5.TabIndex = 160;
@@ -7060,7 +6069,7 @@
             this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox4.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_18;
             this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox4.Location = new System.Drawing.Point(922, 34);
+            this.pictureBox4.Location = new System.Drawing.Point(1212, 34);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(35, 35);
             this.pictureBox4.TabIndex = 172;
@@ -7072,7 +6081,7 @@
             this.nud_ExpRes.BackColor = System.Drawing.SystemColors.Window;
             this.nud_ExpRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_ExpRes.ForeColor = System.Drawing.Color.Indigo;
-            this.nud_ExpRes.Location = new System.Drawing.Point(676, 70);
+            this.nud_ExpRes.Location = new System.Drawing.Point(966, 70);
             this.nud_ExpRes.Name = "nud_ExpRes";
             this.nud_ExpRes.Size = new System.Drawing.Size(42, 20);
             this.nud_ExpRes.TabIndex = 51;
@@ -7092,7 +6101,7 @@
             this.l_TowerShield.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerShield.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerShield.ForeColor = System.Drawing.Color.Blue;
-            this.l_TowerShield.Location = new System.Drawing.Point(687, 3);
+            this.l_TowerShield.Location = new System.Drawing.Point(977, 3);
             this.l_TowerShield.Name = "l_TowerShield";
             this.l_TowerShield.Size = new System.Drawing.Size(111, 16);
             this.l_TowerShield.TabIndex = 150;
@@ -7105,7 +6114,7 @@
             this.nud_KinRes.BackColor = System.Drawing.SystemColors.Window;
             this.nud_KinRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_KinRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.nud_KinRes.Location = new System.Drawing.Point(601, 91);
+            this.nud_KinRes.Location = new System.Drawing.Point(891, 91);
             this.nud_KinRes.Name = "nud_KinRes";
             this.nud_KinRes.Size = new System.Drawing.Size(42, 20);
             this.nud_KinRes.TabIndex = 52;
@@ -7124,7 +6133,7 @@
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_19;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(844, 34);
+            this.pictureBox2.Location = new System.Drawing.Point(1134, 34);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(35, 35);
             this.pictureBox2.TabIndex = 170;
@@ -7137,7 +6146,7 @@
             this.l_TowerArmor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerArmor.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerArmor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.l_TowerArmor.Location = new System.Drawing.Point(687, 26);
+            this.l_TowerArmor.Location = new System.Drawing.Point(977, 26);
             this.l_TowerArmor.Name = "l_TowerArmor";
             this.l_TowerArmor.Size = new System.Drawing.Size(111, 16);
             this.l_TowerArmor.TabIndex = 155;
@@ -7150,7 +6159,7 @@
             this.nud_ThmRes.BackColor = System.Drawing.SystemColors.Window;
             this.nud_ThmRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_ThmRes.ForeColor = System.Drawing.Color.Red;
-            this.nud_ThmRes.Location = new System.Drawing.Point(676, 91);
+            this.nud_ThmRes.Location = new System.Drawing.Point(966, 91);
             this.nud_ThmRes.Name = "nud_ThmRes";
             this.nud_ThmRes.Size = new System.Drawing.Size(42, 20);
             this.nud_ThmRes.TabIndex = 53;
@@ -7170,7 +6179,7 @@
             this.l_TowerAEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerAEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerAEmRes.ForeColor = System.Drawing.Color.Teal;
-            this.l_TowerAEmRes.Location = new System.Drawing.Point(872, 20);
+            this.l_TowerAEmRes.Location = new System.Drawing.Point(1162, 20);
             this.l_TowerAEmRes.Name = "l_TowerAEmRes";
             this.l_TowerAEmRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerAEmRes.TabIndex = 156;
@@ -7183,7 +6192,7 @@
             this.l_TowerAKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.l_TowerAKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerAKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.l_TowerAKRes.Location = new System.Drawing.Point(951, 20);
+            this.l_TowerAKRes.Location = new System.Drawing.Point(1241, 20);
             this.l_TowerAKRes.Name = "l_TowerAKRes";
             this.l_TowerAKRes.Size = new System.Drawing.Size(50, 14);
             this.l_TowerAKRes.TabIndex = 158;
@@ -7195,7 +6204,7 @@
             this.pictureBox9.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox9.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_20;
             this.pictureBox9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox9.Location = new System.Drawing.Point(844, 0);
+            this.pictureBox9.Location = new System.Drawing.Point(1134, 0);
             this.pictureBox9.Name = "pictureBox9";
             this.pictureBox9.Size = new System.Drawing.Size(35, 35);
             this.pictureBox9.TabIndex = 168;
@@ -7207,7 +6216,7 @@
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox3.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.icon22_17;
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(922, 0);
+            this.pictureBox3.Location = new System.Drawing.Point(1212, 0);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(35, 35);
             this.pictureBox3.TabIndex = 171;
@@ -7230,7 +6239,7 @@
             this.l_SaveStatus});
             this.bar1.Location = new System.Drawing.Point(1, 1);
             this.bar1.Name = "bar1";
-            this.bar1.Size = new System.Drawing.Size(1006, 25);
+            this.bar1.Size = new System.Drawing.Size(1298, 25);
             this.bar1.Stretch = true;
             this.bar1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.bar1.TabIndex = 168;
@@ -7331,13 +6340,13 @@
             this.tabControlPanel6.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel6.Name = "tabControlPanel6";
             this.tabControlPanel6.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel6.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel6.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel6.Style.GradientAngle = 90;
             this.tabControlPanel6.TabIndex = 6;
             this.tabControlPanel6.TabItem = this.tp_Config;
@@ -7356,7 +6365,7 @@
             this.gp_ConfigBG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_ConfigBG.Location = new System.Drawing.Point(1, 1);
             this.gp_ConfigBG.Name = "gp_ConfigBG";
-            this.gp_ConfigBG.Size = new System.Drawing.Size(1006, 705);
+            this.gp_ConfigBG.Size = new System.Drawing.Size(1298, 813);
             // 
             // 
             // 
@@ -7443,7 +6452,7 @@
             this.rb_ManualAPI.TabStop = true;
             this.rb_ManualAPI.Text = "Manual API Download ";
             this.tt_InfoTips.SetToolTip(this.rb_ManualAPI, "In this mode, in order to update Silo Levels, or available Fuel, you must manuall" +
-                    "y download API Data - through API download or Prism.");
+        "y download API Data - through API download or Prism.");
             this.rb_ManualAPI.UseVisualStyleBackColor = true;
             // 
             // rb_AutoAPI
@@ -7456,7 +6465,7 @@
             this.rb_AutoAPI.TabStop = true;
             this.rb_AutoAPI.Text = "Automated Download - Every Hour";
             this.tt_InfoTips.SetToolTip(this.rb_AutoAPI, "This option will automatically download corp and character Assetts API Data Every" +
-                    " Hour (or as often as the API Allows)");
+        " Hour (or as often as the API Allows)");
             this.rb_AutoAPI.UseVisualStyleBackColor = true;
             this.rb_AutoAPI.CheckedChanged += new System.EventHandler(this.rb_AutoAPI_CheckedChanged);
             // 
@@ -7513,7 +6522,7 @@
             this.rb_CustomCost.TabStop = true;
             this.rb_CustomCost.Text = "Use Custom Prices (Custom > Market > Default)";
             this.tt_InfoTips.SetToolTip(this.rb_CustomCost, "In this mode, it will use a custom price if defined, else a market price if it ex" +
-                    "ists, otherwise default price.");
+        "ists, otherwise default price.");
             this.rb_CustomCost.UseVisualStyleBackColor = true;
             // 
             // rb_MarketCost
@@ -8535,13 +7544,13 @@
             this.tabControlPanel1.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel1.Name = "tabControlPanel1";
             this.tabControlPanel1.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel1.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel1.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel1.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel1.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel1.Style.GradientAngle = 90;
             this.tabControlPanel1.TabIndex = 7;
             this.tabControlPanel1.TabItem = this.tp_ModLinker;
@@ -8558,7 +7567,7 @@
             this.gp_ModLinkBG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_ModLinkBG.Location = new System.Drawing.Point(1, 1);
             this.gp_ModLinkBG.Name = "gp_ModLinkBG";
-            this.gp_ModLinkBG.Size = new System.Drawing.Size(1006, 705);
+            this.gp_ModLinkBG.Size = new System.Drawing.Size(1298, 813);
             // 
             // 
             // 
@@ -8594,15 +7603,15 @@
             // 
             // gp_TowerSelectList
             // 
-            this.gp_TowerSelectList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_TowerSelectList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_TowerSelectList.AutoScroll = true;
             this.gp_TowerSelectList.BackColor = System.Drawing.Color.Transparent;
             this.gp_TowerSelectList.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_TowerSelectList.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_TowerSelectList.Location = new System.Drawing.Point(0, 27);
             this.gp_TowerSelectList.Name = "gp_TowerSelectList";
-            this.gp_TowerSelectList.Size = new System.Drawing.Size(499, 669);
+            this.gp_TowerSelectList.Size = new System.Drawing.Size(499, 777);
             // 
             // 
             // 
@@ -8656,15 +7665,15 @@
             // 
             // gp_SystemModules
             // 
-            this.gp_SystemModules.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gp_SystemModules.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_SystemModules.AutoScroll = true;
             this.gp_SystemModules.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_SystemModules.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_SystemModules.Location = new System.Drawing.Point(501, 27);
             this.gp_SystemModules.Name = "gp_SystemModules";
-            this.gp_SystemModules.Size = new System.Drawing.Size(499, 669);
+            this.gp_SystemModules.Size = new System.Drawing.Size(791, 777);
             // 
             // 
             // 
@@ -8728,13 +7737,13 @@
             this.tabControlPanel4.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel4.Name = "tabControlPanel4";
             this.tabControlPanel4.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel4.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel4.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel4.Style.GradientAngle = 90;
             this.tabControlPanel4.TabIndex = 4;
             this.tabControlPanel4.TabItem = this.tp_TowerNotifications;
@@ -8750,7 +7759,7 @@
             this.tsb_Test});
             this.bb_NotifyBar.Location = new System.Drawing.Point(1, 1);
             this.bb_NotifyBar.Name = "bb_NotifyBar";
-            this.bb_NotifyBar.Size = new System.Drawing.Size(1006, 25);
+            this.bb_NotifyBar.Size = new System.Drawing.Size(1298, 25);
             this.bb_NotifyBar.Stretch = true;
             this.bb_NotifyBar.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.bb_NotifyBar.TabIndex = 2;
@@ -8785,7 +7794,7 @@
             this.gp_SNoteBG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_SNoteBG.Location = new System.Drawing.Point(1, 1);
             this.gp_SNoteBG.Name = "gp_SNoteBG";
-            this.gp_SNoteBG.Size = new System.Drawing.Size(1006, 705);
+            this.gp_SNoteBG.Size = new System.Drawing.Size(1298, 813);
             // 
             // 
             // 
@@ -8821,14 +7830,14 @@
             // 
             // gp_NotifyPlayerList
             // 
-            this.gp_NotifyPlayerList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_NotifyPlayerList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_NotifyPlayerList.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_NotifyPlayerList.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_NotifyPlayerList.Controls.Add(this.tv_Players);
             this.gp_NotifyPlayerList.Location = new System.Drawing.Point(342, 24);
             this.gp_NotifyPlayerList.Name = "gp_NotifyPlayerList";
-            this.gp_NotifyPlayerList.Size = new System.Drawing.Size(335, 672);
+            this.gp_NotifyPlayerList.Size = new System.Drawing.Size(335, 780);
             // 
             // 
             // 
@@ -8869,7 +7878,7 @@
             this.tv_Players.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tv_Players.Location = new System.Drawing.Point(0, 0);
             this.tv_Players.Name = "tv_Players";
-            this.tv_Players.Size = new System.Drawing.Size(329, 650);
+            this.tv_Players.Size = new System.Drawing.Size(329, 758);
             this.tv_Players.TabIndex = 18;
             // 
             // cms_Player
@@ -8896,14 +7905,14 @@
             // 
             // gp_NotifyActions
             // 
-            this.gp_NotifyActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gp_NotifyActions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.gp_NotifyActions.CanvasColor = System.Drawing.SystemColors.Control;
             this.gp_NotifyActions.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.gp_NotifyActions.Controls.Add(this.tv_Notifications);
             this.gp_NotifyActions.Location = new System.Drawing.Point(3, 24);
             this.gp_NotifyActions.Name = "gp_NotifyActions";
-            this.gp_NotifyActions.Size = new System.Drawing.Size(335, 672);
+            this.gp_NotifyActions.Size = new System.Drawing.Size(335, 780);
             // 
             // 
             // 
@@ -8945,7 +7954,7 @@
             this.tv_Notifications.FullRowSelect = true;
             this.tv_Notifications.Location = new System.Drawing.Point(0, 0);
             this.tv_Notifications.Name = "tv_Notifications";
-            this.tv_Notifications.Size = new System.Drawing.Size(329, 650);
+            this.tv_Notifications.Size = new System.Drawing.Size(329, 758);
             this.tv_Notifications.TabIndex = 16;
             // 
             // cms_Notification
@@ -8983,13 +7992,13 @@
             this.tabControlPanel11.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel11.Name = "tabControlPanel11";
             this.tabControlPanel11.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel11.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel11.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel11.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel11.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel11.Style.GradientAngle = 90;
             this.tabControlPanel11.TabIndex = 9;
             this.tabControlPanel11.TabItem = this.ti_ReactionPlanner;
@@ -9002,7 +8011,7 @@
             this.gp_ReactPlannerBG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_ReactPlannerBG.Location = new System.Drawing.Point(1, 1);
             this.gp_ReactPlannerBG.Name = "gp_ReactPlannerBG";
-            this.gp_ReactPlannerBG.Size = new System.Drawing.Size(1006, 705);
+            this.gp_ReactPlannerBG.Size = new System.Drawing.Size(1298, 813);
             // 
             // 
             // 
@@ -9060,7 +8069,7 @@
             this.at_ReactionPlan.NodesConnector = this.nodeConnector3;
             this.at_ReactionPlan.NodeStyle = this.elementStyle7;
             this.at_ReactionPlan.PathSeparator = ";";
-            this.at_ReactionPlan.Size = new System.Drawing.Size(1000, 699);
+            this.at_ReactionPlan.Size = new System.Drawing.Size(1292, 807);
             this.at_ReactionPlan.Styles.Add(this.elementStyle7);
             this.at_ReactionPlan.TabIndex = 0;
             this.at_ReactionPlan.Text = "advTree1";
@@ -9125,13 +8134,13 @@
             this.tabControlPanel7.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel7.Name = "tabControlPanel7";
             this.tabControlPanel7.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel7.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel7.Size = new System.Drawing.Size(1300, 815);
             this.tabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.Silver;
             this.tabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.Transparent;
             this.tabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel7.Style.GradientAngle = 90;
             this.tabControlPanel7.TabIndex = 8;
             this.tabControlPanel7.TabItem = this.tp_ModsAndFuel;
@@ -9149,7 +8158,7 @@
             this.gp_FPBG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_FPBG.Location = new System.Drawing.Point(1, 1);
             this.gp_FPBG.Name = "gp_FPBG";
-            this.gp_FPBG.Size = new System.Drawing.Size(1006, 705);
+            this.gp_FPBG.Size = new System.Drawing.Size(1298, 813);
             // 
             // 
             // 
@@ -9198,9 +8207,9 @@
             // 
             // tc_FuelMods
             // 
-            this.tc_FuelMods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tc_FuelMods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tc_FuelMods.CanReorderTabs = true;
             this.tc_FuelMods.Controls.Add(this.tabControlPanel8);
             this.tc_FuelMods.Controls.Add(this.tabControlPanel10);
@@ -9209,7 +8218,7 @@
             this.tc_FuelMods.Name = "tc_FuelMods";
             this.tc_FuelMods.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
             this.tc_FuelMods.SelectedTabIndex = 0;
-            this.tc_FuelMods.Size = new System.Drawing.Size(1000, 642);
+            this.tc_FuelMods.Size = new System.Drawing.Size(1292, 750);
             this.tc_FuelMods.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document;
             this.tc_FuelMods.TabIndex = 1;
             this.tc_FuelMods.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
@@ -9222,16 +8231,16 @@
             // 
             this.tabControlPanel8.Controls.Add(this.gp_StoredFuel);
             this.tabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel8.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel8.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel8.Name = "tabControlPanel8";
             this.tabControlPanel8.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel8.Size = new System.Drawing.Size(1000, 616);
-            this.tabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel8.Size = new System.Drawing.Size(1292, 727);
+            this.tabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.tabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             this.tabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel8.Style.GradientAngle = 90;
             this.tabControlPanel8.TabIndex = 1;
             this.tabControlPanel8.TabItem = this.tp_StoredFuel;
@@ -9244,7 +8253,7 @@
             this.gp_StoredFuel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_StoredFuel.Location = new System.Drawing.Point(1, 1);
             this.gp_StoredFuel.Name = "gp_StoredFuel";
-            this.gp_StoredFuel.Size = new System.Drawing.Size(998, 614);
+            this.gp_StoredFuel.Size = new System.Drawing.Size(1290, 725);
             // 
             // 
             // 
@@ -9318,7 +8327,7 @@
             this.at_StoredFuel.NodesConnector = this.nodeConnector1;
             this.at_StoredFuel.NodeStyle = this.elementStyle1;
             this.at_StoredFuel.PathSeparator = ";";
-            this.at_StoredFuel.Size = new System.Drawing.Size(992, 608);
+            this.at_StoredFuel.Size = new System.Drawing.Size(1284, 719);
             this.at_StoredFuel.Styles.Add(this.elementStyle1);
             this.at_StoredFuel.Styles.Add(this.elementStyle2);
             this.at_StoredFuel.Styles.Add(this.elementStyle3);
@@ -9497,16 +8506,16 @@
             // 
             this.tabControlPanel10.Controls.Add(this.gp_IHBG);
             this.tabControlPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel10.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel10.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel10.Name = "tabControlPanel10";
             this.tabControlPanel10.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel10.Size = new System.Drawing.Size(1000, 616);
-            this.tabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel10.Size = new System.Drawing.Size(1292, 727);
+            this.tabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.tabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             this.tabControlPanel10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel10.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel10.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel10.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel10.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel10.Style.GradientAngle = 90;
             this.tabControlPanel10.TabIndex = 3;
             this.tabControlPanel10.TabItem = this.tp_IHubs;
@@ -9523,7 +8532,7 @@
             this.gp_IHBG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_IHBG.Location = new System.Drawing.Point(1, 1);
             this.gp_IHBG.Name = "gp_IHBG";
-            this.gp_IHBG.Size = new System.Drawing.Size(998, 614);
+            this.gp_IHBG.Size = new System.Drawing.Size(1290, 725);
             // 
             // 
             // 
@@ -9600,9 +8609,9 @@
             this.dgv_iHubs.AllowUserToAddRows = false;
             this.dgv_iHubs.AllowUserToDeleteRows = false;
             this.dgv_iHubs.AllowUserToResizeRows = false;
-            this.dgv_iHubs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_iHubs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle24.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -9659,7 +8668,7 @@
             this.dgv_iHubs.ReadOnly = true;
             this.dgv_iHubs.RowHeadersVisible = false;
             this.dgv_iHubs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgv_iHubs.Size = new System.Drawing.Size(992, 580);
+            this.dgv_iHubs.Size = new System.Drawing.Size(1284, 691);
             this.dgv_iHubs.TabIndex = 0;
             // 
             // iHub
@@ -9946,16 +8955,16 @@
             // 
             this.tabControlPanel9.Controls.Add(this.gp_StoredMods);
             this.tabControlPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel9.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel9.Location = new System.Drawing.Point(0, 23);
             this.tabControlPanel9.Name = "tabControlPanel9";
             this.tabControlPanel9.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel9.Size = new System.Drawing.Size(1000, 616);
-            this.tabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel9.Size = new System.Drawing.Size(1292, 727);
+            this.tabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             this.tabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel9.Style.GradientAngle = 90;
             this.tabControlPanel9.TabIndex = 2;
             this.tabControlPanel9.TabItem = this.tp_Modules;
@@ -9968,7 +8977,7 @@
             this.gp_StoredMods.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp_StoredMods.Location = new System.Drawing.Point(1, 1);
             this.gp_StoredMods.Name = "gp_StoredMods";
-            this.gp_StoredMods.Size = new System.Drawing.Size(998, 614);
+            this.gp_StoredMods.Size = new System.Drawing.Size(1290, 725);
             // 
             // 
             // 
@@ -10031,7 +9040,7 @@
             this.at_TowerMods.NodesConnector = this.nodeConnector2;
             this.at_TowerMods.NodeStyle = this.elementStyle4;
             this.at_TowerMods.PathSeparator = ";";
-            this.at_TowerMods.Size = new System.Drawing.Size(992, 608);
+            this.at_TowerMods.Size = new System.Drawing.Size(1284, 719);
             this.at_TowerMods.Styles.Add(this.elementStyle4);
             this.at_TowerMods.Styles.Add(this.elementStyle5);
             this.at_TowerMods.Styles.Add(this.elementStyle6);
@@ -10416,35 +9425,35 @@
             // 
             // es_PopPanel
             // 
-            this.es_PopPanel.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            this.es_PopPanel.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
             this.es_PopPanel.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
             this.es_PopPanel.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
             this.es_PopPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.es_PopPanel.ExpandableControl = this.gp_PopPanel;
             this.es_PopPanel.Expanded = false;
-            this.es_PopPanel.ExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            this.es_PopPanel.ExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
             this.es_PopPanel.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
             this.es_PopPanel.ExpandLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.es_PopPanel.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText;
             this.es_PopPanel.GripDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.es_PopPanel.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText;
-            this.es_PopPanel.GripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(239)))), ((int)(((byte)(255)))));
+            this.es_PopPanel.GripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(208)))), ((int)(((byte)(213)))));
             this.es_PopPanel.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
             this.es_PopPanel.HotBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(151)))), ((int)(((byte)(61)))));
             this.es_PopPanel.HotBackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(184)))), ((int)(((byte)(94)))));
             this.es_PopPanel.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2;
             this.es_PopPanel.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground;
-            this.es_PopPanel.HotExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            this.es_PopPanel.HotExpandFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
             this.es_PopPanel.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
             this.es_PopPanel.HotExpandLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.es_PopPanel.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText;
-            this.es_PopPanel.HotGripDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            this.es_PopPanel.HotGripDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(173)))), ((int)(((byte)(182)))));
             this.es_PopPanel.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.es_PopPanel.HotGripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(239)))), ((int)(((byte)(255)))));
+            this.es_PopPanel.HotGripLightColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(208)))), ((int)(((byte)(213)))));
             this.es_PopPanel.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
-            this.es_PopPanel.Location = new System.Drawing.Point(0, 724);
+            this.es_PopPanel.Location = new System.Drawing.Point(0, 832);
             this.es_PopPanel.Name = "es_PopPanel";
-            this.es_PopPanel.Size = new System.Drawing.Size(1008, 6);
+            this.es_PopPanel.Size = new System.Drawing.Size(1300, 6);
             this.es_PopPanel.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007;
             this.es_PopPanel.TabIndex = 82;
             this.es_PopPanel.TabStop = false;
@@ -10463,11 +9472,1044 @@
             this.il_system.TransparentColor = System.Drawing.Color.Transparent;
             this.il_system.Images.SetKeyName(0, "noitem.jpg");
             // 
+            // gpPOSDeisgn
+            // 
+            this.gpPOSDeisgn.AutoScroll = true;
+            this.gpPOSDeisgn.BackColor = System.Drawing.Color.Transparent;
+            this.gpPOSDeisgn.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gpPOSDeisgn.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.gpPOSDeisgn.Controls.Add(this.p_Tower);
+            this.gpPOSDeisgn.Controls.Add(this.gp_FuelUsage);
+            this.gpPOSDeisgn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gpPOSDeisgn.Location = new System.Drawing.Point(256, 144);
+            this.gpPOSDeisgn.Name = "gpPOSDeisgn";
+            this.gpPOSDeisgn.Size = new System.Drawing.Size(533, 670);
+            // 
+            // 
+            // 
+            this.gpPOSDeisgn.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gpPOSDeisgn.Style.BackColorGradientAngle = 90;
+            this.gpPOSDeisgn.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gpPOSDeisgn.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gpPOSDeisgn.Style.BorderBottomWidth = 1;
+            this.gpPOSDeisgn.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gpPOSDeisgn.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gpPOSDeisgn.Style.BorderLeftWidth = 1;
+            this.gpPOSDeisgn.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gpPOSDeisgn.Style.BorderRightWidth = 1;
+            this.gpPOSDeisgn.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gpPOSDeisgn.Style.BorderTopWidth = 1;
+            this.gpPOSDeisgn.Style.Class = "";
+            this.gpPOSDeisgn.Style.CornerDiameter = 4;
+            this.gpPOSDeisgn.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gpPOSDeisgn.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gpPOSDeisgn.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gpPOSDeisgn.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gpPOSDeisgn.StyleMouseDown.Class = "";
+            this.gpPOSDeisgn.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gpPOSDeisgn.StyleMouseOver.Class = "";
+            this.gpPOSDeisgn.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gpPOSDeisgn.TabIndex = 179;
+            this.gpPOSDeisgn.Text = "POS Design";
+            // 
+            // poS_Item51
+            // 
+            this.poS_Item51.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.poS_Item51.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item51.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item51.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item51.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item51.ItemNumber = ((long)(0));
+            this.poS_Item51.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item51.Location = new System.Drawing.Point(451, 211);
+            this.poS_Item51.Name = "poS_Item51";
+            this.poS_Item51.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item51.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item51.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item51.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item51.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item51.TabIndex = 60;
+            this.poS_Item51.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item52
+            // 
+            this.poS_Item52.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.poS_Item52.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item52.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item52.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item52.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item52.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item52.ItemNumber = ((long)(0));
+            this.poS_Item52.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item52.Location = new System.Drawing.Point(451, 165);
+            this.poS_Item52.Name = "poS_Item52";
+            this.poS_Item52.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item52.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item52.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item52.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item52.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item52.TabIndex = 59;
+            this.poS_Item52.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item49
+            // 
+            this.poS_Item49.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.poS_Item49.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item49.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item49.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item49.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item49.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item49.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item49.ItemNumber = ((long)(0));
+            this.poS_Item49.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item49.Location = new System.Drawing.Point(5, 211);
+            this.poS_Item49.Name = "poS_Item49";
+            this.poS_Item49.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item49.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item49.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item49.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item49.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item49.TabIndex = 58;
+            this.poS_Item49.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item50
+            // 
+            this.poS_Item50.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.poS_Item50.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item50.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item50.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item50.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item50.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item50.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item50.ItemNumber = ((long)(0));
+            this.poS_Item50.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item50.Location = new System.Drawing.Point(5, 165);
+            this.poS_Item50.Name = "poS_Item50";
+            this.poS_Item50.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item50.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item50.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item50.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item50.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item50.TabIndex = 57;
+            this.poS_Item50.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item43
+            // 
+            this.poS_Item43.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item43.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item43.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item43.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item43.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item43.ItemNumber = ((long)(0));
+            this.poS_Item43.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item43.Location = new System.Drawing.Point(451, 280);
+            this.poS_Item43.Name = "poS_Item43";
+            this.poS_Item43.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item43.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item43.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item43.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item43.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item43.TabIndex = 56;
+            this.poS_Item43.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item44
+            // 
+            this.poS_Item44.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item44.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item44.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item44.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item44.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item44.ItemNumber = ((long)(0));
+            this.poS_Item44.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item44.Location = new System.Drawing.Point(361, 372);
+            this.poS_Item44.Name = "poS_Item44";
+            this.poS_Item44.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item44.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item44.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item44.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item44.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item44.TabIndex = 55;
+            this.poS_Item44.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item45
+            // 
+            this.poS_Item45.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item45.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item45.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item45.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item45.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item45.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item45.ItemNumber = ((long)(0));
+            this.poS_Item45.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item45.Location = new System.Drawing.Point(406, 372);
+            this.poS_Item45.Name = "poS_Item45";
+            this.poS_Item45.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item45.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item45.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item45.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item45.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item45.TabIndex = 54;
+            this.poS_Item45.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item47
+            // 
+            this.poS_Item47.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item47.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item47.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item47.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item47.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item47.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item47.ItemNumber = ((long)(0));
+            this.poS_Item47.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item47.Location = new System.Drawing.Point(451, 372);
+            this.poS_Item47.Name = "poS_Item47";
+            this.poS_Item47.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item47.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item47.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item47.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item47.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item47.TabIndex = 52;
+            this.poS_Item47.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item48
+            // 
+            this.poS_Item48.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item48.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item48.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item48.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item48.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item48.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item48.ItemNumber = ((long)(0));
+            this.poS_Item48.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item48.Location = new System.Drawing.Point(451, 326);
+            this.poS_Item48.Name = "poS_Item48";
+            this.poS_Item48.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item48.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item48.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item48.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item48.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item48.TabIndex = 51;
+            this.poS_Item48.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item37
+            // 
+            this.poS_Item37.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item37.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item37.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item37.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item37.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item37.ItemNumber = ((long)(0));
+            this.poS_Item37.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item37.Location = new System.Drawing.Point(361, 5);
+            this.poS_Item37.Name = "poS_Item37";
+            this.poS_Item37.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item37.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item37.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item37.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item37.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item37.TabIndex = 50;
+            this.poS_Item37.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item38
+            // 
+            this.poS_Item38.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item38.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item38.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item38.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item38.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item38.ItemNumber = ((long)(0));
+            this.poS_Item38.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item38.Location = new System.Drawing.Point(451, 97);
+            this.poS_Item38.Name = "poS_Item38";
+            this.poS_Item38.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item38.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item38.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item38.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item38.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item38.TabIndex = 49;
+            this.poS_Item38.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item39
+            // 
+            this.poS_Item39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item39.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item39.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item39.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item39.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item39.ItemNumber = ((long)(0));
+            this.poS_Item39.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item39.Location = new System.Drawing.Point(406, 5);
+            this.poS_Item39.Name = "poS_Item39";
+            this.poS_Item39.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item39.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item39.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item39.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item39.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item39.TabIndex = 48;
+            this.poS_Item39.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item41
+            // 
+            this.poS_Item41.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item41.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item41.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item41.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item41.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item41.ItemNumber = ((long)(0));
+            this.poS_Item41.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item41.Location = new System.Drawing.Point(451, 5);
+            this.poS_Item41.Name = "poS_Item41";
+            this.poS_Item41.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item41.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item41.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item41.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item41.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item41.TabIndex = 46;
+            this.poS_Item41.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item42
+            // 
+            this.poS_Item42.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.poS_Item42.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item42.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item42.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item42.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item42.ItemNumber = ((long)(0));
+            this.poS_Item42.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item42.Location = new System.Drawing.Point(451, 51);
+            this.poS_Item42.Name = "poS_Item42";
+            this.poS_Item42.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item42.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item42.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item42.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item42.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item42.TabIndex = 45;
+            this.poS_Item42.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item31
+            // 
+            this.poS_Item31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poS_Item31.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item31.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item31.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item31.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item31.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item31.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item31.ItemNumber = ((long)(0));
+            this.poS_Item31.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item31.Location = new System.Drawing.Point(97, 372);
+            this.poS_Item31.Name = "poS_Item31";
+            this.poS_Item31.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item31.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item31.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item31.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item31.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item31.TabIndex = 44;
+            this.poS_Item31.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item32
+            // 
+            this.poS_Item32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poS_Item32.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item32.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item32.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item32.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item32.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item32.ItemNumber = ((long)(0));
+            this.poS_Item32.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item32.Location = new System.Drawing.Point(5, 280);
+            this.poS_Item32.Name = "poS_Item32";
+            this.poS_Item32.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item32.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item32.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item32.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item32.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item32.TabIndex = 43;
+            this.poS_Item32.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item33
+            // 
+            this.poS_Item33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poS_Item33.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item33.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item33.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item33.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item33.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item33.ItemNumber = ((long)(0));
+            this.poS_Item33.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item33.Location = new System.Drawing.Point(51, 372);
+            this.poS_Item33.Name = "poS_Item33";
+            this.poS_Item33.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item33.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item33.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item33.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item33.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item33.TabIndex = 42;
+            this.poS_Item33.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item35
+            // 
+            this.poS_Item35.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poS_Item35.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item35.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item35.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item35.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item35.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item35.ItemNumber = ((long)(0));
+            this.poS_Item35.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item35.Location = new System.Drawing.Point(5, 372);
+            this.poS_Item35.Name = "poS_Item35";
+            this.poS_Item35.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item35.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item35.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item35.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item35.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item35.TabIndex = 40;
+            this.poS_Item35.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item36
+            // 
+            this.poS_Item36.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poS_Item36.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item36.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item36.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item36.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item36.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item36.ItemNumber = ((long)(0));
+            this.poS_Item36.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item36.Location = new System.Drawing.Point(5, 326);
+            this.poS_Item36.Name = "poS_Item36";
+            this.poS_Item36.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item36.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item36.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item36.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item36.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item36.TabIndex = 39;
+            this.poS_Item36.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item25
+            // 
+            this.poS_Item25.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item25.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item25.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item25.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item25.ItemNumber = ((long)(0));
+            this.poS_Item25.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item25.Location = new System.Drawing.Point(97, 4);
+            this.poS_Item25.Name = "poS_Item25";
+            this.poS_Item25.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item25.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item25.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item25.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item25.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item25.TabIndex = 38;
+            this.poS_Item25.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item26
+            // 
+            this.poS_Item26.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item26.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item26.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item26.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item26.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item26.ItemNumber = ((long)(0));
+            this.poS_Item26.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item26.Location = new System.Drawing.Point(5, 96);
+            this.poS_Item26.Name = "poS_Item26";
+            this.poS_Item26.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item26.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item26.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item26.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item26.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item26.TabIndex = 37;
+            this.poS_Item26.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item27
+            // 
+            this.poS_Item27.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item27.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item27.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item27.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item27.ItemNumber = ((long)(0));
+            this.poS_Item27.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item27.Location = new System.Drawing.Point(51, 4);
+            this.poS_Item27.Name = "poS_Item27";
+            this.poS_Item27.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item27.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item27.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item27.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item27.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item27.TabIndex = 36;
+            this.poS_Item27.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item29
+            // 
+            this.poS_Item29.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item29.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item29.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item29.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item29.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item29.ItemNumber = ((long)(0));
+            this.poS_Item29.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item29.Location = new System.Drawing.Point(5, 4);
+            this.poS_Item29.Name = "poS_Item29";
+            this.poS_Item29.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item29.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item29.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item29.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item29.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item29.TabIndex = 34;
+            this.poS_Item29.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item30
+            // 
+            this.poS_Item30.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item30.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item30.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item30.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item30.ForeColor = System.Drawing.Color.Black;
+            this.poS_Item30.ItemNumber = ((long)(0));
+            this.poS_Item30.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item30.Location = new System.Drawing.Point(5, 50);
+            this.poS_Item30.Name = "poS_Item30";
+            this.poS_Item30.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item30.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item30.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item30.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item30.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item30.TabIndex = 33;
+            this.poS_Item30.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item20
+            // 
+            this.poS_Item20.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item20.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item20.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item20.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item20.ItemNumber = ((long)(0));
+            this.poS_Item20.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item20.Location = new System.Drawing.Point(371, 188);
+            this.poS_Item20.Name = "poS_Item20";
+            this.poS_Item20.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item20.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item20.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item20.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item20.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item20.TabIndex = 32;
+            this.poS_Item20.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item21
+            // 
+            this.poS_Item21.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item21.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item21.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item21.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item21.ItemNumber = ((long)(0));
+            this.poS_Item21.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item21.Location = new System.Drawing.Point(228, 45);
+            this.poS_Item21.Name = "poS_Item21";
+            this.poS_Item21.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item21.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item21.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item21.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item21.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item21.TabIndex = 31;
+            this.poS_Item21.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item22
+            // 
+            this.poS_Item22.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item22.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item22.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item22.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item22.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item22.ItemNumber = ((long)(0));
+            this.poS_Item22.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item22.Location = new System.Drawing.Point(228, 91);
+            this.poS_Item22.Name = "poS_Item22";
+            this.poS_Item22.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item22.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item22.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item22.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item22.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item22.TabIndex = 30;
+            this.poS_Item22.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item23
+            // 
+            this.poS_Item23.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item23.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item23.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item23.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item23.ItemNumber = ((long)(0));
+            this.poS_Item23.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item23.Location = new System.Drawing.Point(279, 91);
+            this.poS_Item23.Name = "poS_Item23";
+            this.poS_Item23.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item23.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item23.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item23.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item23.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item23.TabIndex = 29;
+            this.poS_Item23.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item24
+            // 
+            this.poS_Item24.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item24.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item24.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item24.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item24.ItemNumber = ((long)(0));
+            this.poS_Item24.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item24.Location = new System.Drawing.Point(177, 91);
+            this.poS_Item24.Name = "poS_Item24";
+            this.poS_Item24.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item24.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item24.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item24.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item24.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item24.TabIndex = 28;
+            this.poS_Item24.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item15
+            // 
+            this.poS_Item15.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item15.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item15.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item15.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item15.ItemNumber = ((long)(0));
+            this.poS_Item15.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item15.Location = new System.Drawing.Point(228, 331);
+            this.poS_Item15.Name = "poS_Item15";
+            this.poS_Item15.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item15.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item15.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item15.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item15.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item15.TabIndex = 27;
+            this.poS_Item15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item16
+            // 
+            this.poS_Item16.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item16.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item16.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item16.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item16.ItemNumber = ((long)(0));
+            this.poS_Item16.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item16.Location = new System.Drawing.Point(85, 188);
+            this.poS_Item16.Name = "poS_Item16";
+            this.poS_Item16.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item16.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item16.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item16.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item16.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item16.TabIndex = 26;
+            this.poS_Item16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item17
+            // 
+            this.poS_Item17.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item17.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item17.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item17.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item17.ItemNumber = ((long)(0));
+            this.poS_Item17.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item17.Location = new System.Drawing.Point(228, 285);
+            this.poS_Item17.Name = "poS_Item17";
+            this.poS_Item17.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item17.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item17.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item17.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item17.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item17.TabIndex = 25;
+            this.poS_Item17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item18
+            // 
+            this.poS_Item18.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item18.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item18.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item18.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item18.ItemNumber = ((long)(0));
+            this.poS_Item18.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item18.Location = new System.Drawing.Point(279, 285);
+            this.poS_Item18.Name = "poS_Item18";
+            this.poS_Item18.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item18.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item18.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item18.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item18.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item18.TabIndex = 24;
+            this.poS_Item18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item19
+            // 
+            this.poS_Item19.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item19.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item19.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item19.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item19.ItemNumber = ((long)(0));
+            this.poS_Item19.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item19.Location = new System.Drawing.Point(177, 285);
+            this.poS_Item19.Name = "poS_Item19";
+            this.poS_Item19.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item19.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item19.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item19.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item19.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item19.TabIndex = 23;
+            this.poS_Item19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item8
+            // 
+            this.poS_Item8.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item8.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item8.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item8.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item8.ItemNumber = ((long)(0));
+            this.poS_Item8.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item8.Location = new System.Drawing.Point(325, 188);
+            this.poS_Item8.Name = "poS_Item8";
+            this.poS_Item8.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item8.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item8.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item8.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item8.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item8.TabIndex = 22;
+            this.poS_Item8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item13
+            // 
+            this.poS_Item13.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item13.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item13.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item13.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item13.ItemNumber = ((long)(0));
+            this.poS_Item13.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item13.Location = new System.Drawing.Point(325, 239);
+            this.poS_Item13.Name = "poS_Item13";
+            this.poS_Item13.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item13.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item13.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item13.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item13.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item13.TabIndex = 21;
+            this.poS_Item13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item14
+            // 
+            this.poS_Item14.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item14.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item14.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item14.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item14.ItemNumber = ((long)(0));
+            this.poS_Item14.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item14.Location = new System.Drawing.Point(325, 137);
+            this.poS_Item14.Name = "poS_Item14";
+            this.poS_Item14.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item14.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item14.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item14.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item14.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item14.TabIndex = 20;
+            this.poS_Item14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item5
+            // 
+            this.poS_Item5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item5.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item5.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item5.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item5.ItemNumber = ((long)(0));
+            this.poS_Item5.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item5.Location = new System.Drawing.Point(131, 188);
+            this.poS_Item5.Name = "poS_Item5";
+            this.poS_Item5.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item5.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item5.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item5.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item5.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item5.TabIndex = 19;
+            this.poS_Item5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item6
+            // 
+            this.poS_Item6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item6.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item6.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item6.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item6.ItemNumber = ((long)(0));
+            this.poS_Item6.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item6.Location = new System.Drawing.Point(131, 239);
+            this.poS_Item6.Name = "poS_Item6";
+            this.poS_Item6.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item6.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item6.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item6.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item6.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item6.TabIndex = 18;
+            this.poS_Item6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item7
+            // 
+            this.poS_Item7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item7.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item7.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item7.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item7.ItemNumber = ((long)(0));
+            this.poS_Item7.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item7.Location = new System.Drawing.Point(131, 137);
+            this.poS_Item7.Name = "poS_Item7";
+            this.poS_Item7.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item7.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item7.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item7.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item7.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item7.TabIndex = 17;
+            this.poS_Item7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item11
+            // 
+            this.poS_Item11.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item11.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item11.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item11.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item11.ItemNumber = ((long)(0));
+            this.poS_Item11.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item11.Location = new System.Drawing.Point(228, 239);
+            this.poS_Item11.Name = "poS_Item11";
+            this.poS_Item11.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item11.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item11.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item11.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item11.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item11.TabIndex = 16;
+            this.poS_Item11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item12
+            // 
+            this.poS_Item12.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item12.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item12.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item12.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item12.ItemNumber = ((long)(0));
+            this.poS_Item12.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item12.Location = new System.Drawing.Point(228, 137);
+            this.poS_Item12.Name = "poS_Item12";
+            this.poS_Item12.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item12.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item12.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item12.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item12.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item12.TabIndex = 15;
+            this.poS_Item12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item9
+            // 
+            this.poS_Item9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item9.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item9.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item9.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item9.ItemNumber = ((long)(0));
+            this.poS_Item9.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item9.Location = new System.Drawing.Point(279, 188);
+            this.poS_Item9.Name = "poS_Item9";
+            this.poS_Item9.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item9.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item9.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item9.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item9.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item9.TabIndex = 14;
+            this.poS_Item9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item10
+            // 
+            this.poS_Item10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item10.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item10.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item10.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item10.ItemNumber = ((long)(0));
+            this.poS_Item10.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item10.Location = new System.Drawing.Point(177, 188);
+            this.poS_Item10.Name = "poS_Item10";
+            this.poS_Item10.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item10.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item10.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item10.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item10.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item10.TabIndex = 13;
+            this.poS_Item10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item3
+            // 
+            this.poS_Item3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item3.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item3.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item3.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item3.ItemNumber = ((long)(0));
+            this.poS_Item3.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item3.Location = new System.Drawing.Point(279, 239);
+            this.poS_Item3.Name = "poS_Item3";
+            this.poS_Item3.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item3.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item3.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item3.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item3.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item3.TabIndex = 8;
+            this.poS_Item3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item4
+            // 
+            this.poS_Item4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item4.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item4.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item4.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item4.ItemNumber = ((long)(0));
+            this.poS_Item4.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item4.Location = new System.Drawing.Point(177, 239);
+            this.poS_Item4.Name = "poS_Item4";
+            this.poS_Item4.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item4.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item4.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item4.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item4.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item4.TabIndex = 7;
+            this.poS_Item4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item2
+            // 
+            this.poS_Item2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item2.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item2.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item2.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item2.ItemNumber = ((long)(0));
+            this.poS_Item2.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item2.Location = new System.Drawing.Point(279, 137);
+            this.poS_Item2.Name = "poS_Item2";
+            this.poS_Item2.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item2.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item2.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item2.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item2.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item2.TabIndex = 6;
+            this.poS_Item2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // poS_Item1
+            // 
+            this.poS_Item1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.poS_Item1.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item1.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item1.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item1.ItemNumber = ((long)(0));
+            this.poS_Item1.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Inner;
+            this.poS_Item1.Location = new System.Drawing.Point(177, 137);
+            this.poS_Item1.Name = "poS_Item1";
+            this.poS_Item1.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item1.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item1.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item1.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item1.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item1.TabIndex = 5;
+            this.poS_Item1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
+            // pi_Tower
+            // 
+            this.pi_Tower.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pi_Tower.BackColor = System.Drawing.Color.Transparent;
+            this.pi_Tower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pi_Tower.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pi_Tower.ContextMenuStrip = this.cms_PosItem;
+            this.pi_Tower.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.pi_Tower.ItemNumber = ((long)(0));
+            this.pi_Tower.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Tower;
+            this.pi_Tower.Location = new System.Drawing.Point(223, 183);
+            this.pi_Tower.Name = "pi_Tower";
+            this.pi_Tower.OfflineColor = System.Drawing.Color.Red;
+            this.pi_Tower.OnlineColor = System.Drawing.Color.Lime;
+            this.pi_Tower.QuantityColor = System.Drawing.Color.Blue;
+            this.pi_Tower.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.pi_Tower.Size = new System.Drawing.Size(50, 50);
+            this.pi_Tower.TabIndex = 0;
+            this.pi_Tower.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
+            // 
             // PoSManMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 730);
+            this.ClientSize = new System.Drawing.Size(1300, 838);
             this.Controls.Add(this.es_PopPanel);
             this.Controls.Add(this.gp_PopPanel);
             this.Controls.Add(this.tc_MainTabs);
@@ -10614,6 +10656,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.at_TowerMods)).EndInit();
             this.gp_PopPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dg_PosMods)).EndInit();
+            this.gpPOSDeisgn.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -11296,5 +11339,6 @@
         private DevComponents.DotNetBar.LabelItem labelItem1;
         private DevComponents.DotNetBar.LabelItem labelItem3;
         private DevComponents.DotNetBar.LabelItem labelItem2;
+        private DevComponents.DotNetBar.Controls.GroupPanel gpPOSDeisgn;
     }
 }
