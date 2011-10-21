@@ -2405,8 +2405,10 @@ Imports System.Runtime.Serialization
         End If
 
         ' Check fitting constraints
-        If IsModulePermitted(shipMod) = False Then
-            Exit Sub
+        If IsSwappingModules = False Then
+            If IsModulePermitted(shipMod) = False Then
+                Exit Sub
+            End If
         End If
 
         ' Get old module if applicable
