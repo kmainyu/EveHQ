@@ -4190,22 +4190,36 @@ Public Class ShipSlotControl
                         Call Me.RemoveModule(SlotNode, False, True)
                     Case UndoInfo.TransType.SwapModules, UndoInfo.TransType.ReplacedModule
                         ' Swap modules back to their original positions
-                        Dim OldModID As String = CStr(ModuleLists.moduleListName(UI.OldModName))
-                        Dim OldMod As ShipModule = CType(ModuleLists.moduleList.Item(OldModID), ShipModule).Clone
-                        If UI.OldChargeName <> "" Then
-                            Dim ChargeID As String = CStr(ModuleLists.moduleListName(UI.OldChargeName))
-                            Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(ChargeID), ShipModule).Clone
-                            OldMod.LoadedCharge = Charge
+                        Dim OldMod As ShipModule = Nothing
+                        If UI.OldModName <> "" Then
+                            Dim OldModID As String = CStr(ModuleLists.moduleListName(UI.OldModName))
+                            OldMod = CType(ModuleLists.moduleList.Item(OldModID), ShipModule).Clone
+                            If UI.OldChargeName <> "" Then
+                                Dim ChargeID As String = CStr(ModuleLists.moduleListName(UI.OldChargeName))
+                                Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(ChargeID), ShipModule).Clone
+                                OldMod.LoadedCharge = Charge
+                            End If
                         End If
-                        Dim NewModID As String = CStr(ModuleLists.moduleListName(UI.NewModName))
-                        Dim NewMod As ShipModule = CType(ModuleLists.moduleList.Item(NewModID), ShipModule).Clone
-                        If UI.NewChargeName <> "" Then
-                            Dim ChargeID As String = CStr(ModuleLists.moduleListName(UI.NewChargeName))
-                            Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(ChargeID), ShipModule).Clone
-                            NewMod.LoadedCharge = Charge
+                        Dim newMod As ShipModule = Nothing
+                        If UI.NewModName <> "" Then ' = not empty
+                            Dim NewModID As String = CStr(ModuleLists.moduleListName(UI.NewModName))
+                            newMod = CType(ModuleLists.moduleList.Item(NewModID), ShipModule).Clone
+                            If UI.NewChargeName <> "" Then
+                                Dim ChargeID As String = CStr(ModuleLists.moduleListName(UI.NewChargeName))
+                                Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(ChargeID), ShipModule).Clone
+                                newMod.LoadedCharge = Charge
+                            End If
                         End If
-                        Call ParentFitting.AddModule(OldMod, UI.NewSlotNo, False, False, Nothing, True, True)
-                        Call ParentFitting.AddModule(NewMod, UI.OldSlotNo, False, False, Nothing, True, True)
+                        If OldMod IsNot Nothing Then
+                            Call ParentFitting.AddModule(OldMod, UI.NewSlotNo, False, False, Nothing, True, True)
+                        Else
+                            Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.NewSlotNo), False, True)
+                        End If
+                        If newMod IsNot Nothing Then
+                            Call ParentFitting.AddModule(newMod, UI.OldSlotNo, False, False, Nothing, True, True)
+                        Else
+                            Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.OldSlotNo), False, True)
+                        End If
                         ' Switch the UndoInfo for Replaced Modules
                         If UI.Transaction = UndoInfo.TransType.ReplacedModule Then
                             Dim TempMod As String = UI.OldModName
