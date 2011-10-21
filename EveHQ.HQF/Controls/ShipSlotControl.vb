@@ -564,6 +564,7 @@ Public Class ShipSlotControl
             Next
         Else
             slotNode.Text = "<Empty>"
+            slotNode.Image = CType(My.Resources.ResourceManager.GetObject("Mod01"), Image)
             SlotTip.SetSuperTooltip(slotNode, Nothing)
             For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
                 If UserCol.Active = True Then
@@ -1178,7 +1179,7 @@ Public Class ShipSlotControl
                 Next
                 slot.Text = "<Empty>"
                 SlotTip.SetSuperTooltip(slot, Nothing)
-                slot.Image = Nothing
+                slot.Image = CType(My.Resources.ResourceManager.GetObject("Mod01"), Image)
             End If
         Next
         adtSlots.EndUpdate()
@@ -1243,7 +1244,7 @@ Public Class ShipSlotControl
                 Next
                 slot.Text = "<Empty>"
                 SlotTip.SetSuperTooltip(slot, Nothing)
-                slot.Image = Nothing
+                slot.Image = CType(My.Resources.ResourceManager.GetObject("Mod01"), Image)
                 adtSlots.EndUpdate()
                 If updateShip = True Then
                     If slotType = 16 Then
