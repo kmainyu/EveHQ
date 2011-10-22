@@ -1122,7 +1122,7 @@
 828,2,786,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
 294,2,786,54,2,201;208;291;379,1,0,0,15,Particle Dispersion Projector
 308,2,786,73,2,47;48;49,0,0,0,15,Signal Focusing Kit
-565,2,786,564,3,6,1,0,0,15,Targeting System Subcontroller
+565,2,786,564,3,6,2,0,0,15,Targeting System Subcontroller
 619,2,786,560,2,330,0,0,0,15,Targeting Systems Stabiizer
 828,2,786,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines
 828,2,786,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines
