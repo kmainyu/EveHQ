@@ -317,6 +317,8 @@ Public Class DataFunctions
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
+                    EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
+                    EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
                     Return False
                 End Try
             Case 1 ' MSSQL
@@ -327,6 +329,8 @@ Public Class DataFunctions
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
+                    EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
+                    EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
                     Return False
                 End Try
             Case Else
