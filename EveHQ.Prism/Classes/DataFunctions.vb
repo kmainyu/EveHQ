@@ -749,7 +749,7 @@ Public Class DataFunctions
                 Dim uSQL As New StringBuilder
                 uSQL.Append(strIDInsert)
                 uSQL.Append(Job.JobID & ", ")
-                uSQL.Append("'" & Job.ResultDate.ToString(IndustryTimeFormat, culture) & "', ")
+                uSQL.Append("'" & Job.ResultDate.ToString(SQLTimeFormat, culture) & "', ")
                 uSQL.Append(Job.BPID & ", ")
                 uSQL.Append(Job.TypeID & ", ")
                 uSQL.Append("'" & Job.TypeName.Replace("'", "''") & "', ")
