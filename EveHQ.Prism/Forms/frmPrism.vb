@@ -38,6 +38,7 @@ Public Class frmPrism
 #Region "Class Wide Variables"
 
     Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Dim SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
     Dim startup As Boolean = True
@@ -3504,7 +3505,7 @@ Public Class frmPrism
         Dim strSQL As String = "SELECT * FROM walletJournal"
         strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = STR(walletTransactions.transRef)"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -3547,7 +3548,7 @@ Public Class frmPrism
         Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletJournal"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -3809,7 +3810,7 @@ Public Class frmPrism
         ' Step 4: Delete existing transactions
         Dim strSQL As String = "DELETE FROM walletJournal"
         strSQL &= " WHERE (walletJournal.walletID = " & WalletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & StartDate.ToString(IndustryTimeFormat, culture) & "' AND walletJournal.transDate < '" & EndDate.ToString(IndustryTimeFormat, culture) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & StartDate.ToString(SQLTimeFormat, culture) & "' AND walletJournal.transDate < '" & EndDate.ToString(SQLTimeFormat, culture) & "'"
         strSQL &= " AND walletJournal.charName IN ('" & OwnerName.Replace("'", "''") & "')"
         Try
             EveHQ.Core.DataFunctions.SetData(strSQL)
@@ -3866,7 +3867,7 @@ Public Class frmPrism
         Dim walletID As String = (1000 + cboWalletTransDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletTransactions"
         strSQL &= " WHERE (walletTransactions.walletID = " & walletID & ")"
-        strSQL &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
+        strSQL &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -7040,7 +7041,7 @@ Public Class frmPrism
 
     Private Sub DisplayInventionResults()
         Dim strSQL As String = "SELECT * FROM inventionResults"
-        strSQL &= " WHERE inventionResults.resultDate >= '" & dtiInventionStartDate.Value.ToString(IndustryTimeFormat, culture) & "' AND inventionResults.resultDate <= '" & dtiInventionEndDate.Value.ToString(IndustryTimeFormat, culture) & "'"
+        strSQL &= " WHERE inventionResults.resultDate >= '" & dtiInventionStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND inventionResults.resultDate <= '" & dtiInventionEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboInventionInstallers.Text <> "<All>" Then
