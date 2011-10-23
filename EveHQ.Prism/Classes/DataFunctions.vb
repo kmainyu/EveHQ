@@ -25,6 +25,7 @@ Imports System.Xml
 Public Class DataFunctions
 
     Private Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Private Shared SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Private Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
     Public Shared Function CheckDatabaseTables() As Boolean
@@ -309,7 +310,8 @@ Public Class DataFunctions
         strSQL.Append(Header)
         strSQL.Append("(")
         ' Start of record
-        strSQL.Append("'" & Trans.Attributes.GetNamedItem("transactionDateTime").Value & "',")
+        Dim RecDate As DateTime = Date.ParseExact(Trans.Attributes.GetNamedItem("transactionDateTime").Value, IndustryTimeFormat, culture)
+        strSQL.Append("'" & RecDate.ToString(SQLTimeFormat, culture) & "',")
         strSQL.Append(Trans.Attributes.GetNamedItem("transactionID").Value & ",")
         strSQL.Append("'" & TransKey & "',")
         strSQL.Append(Trans.Attributes.GetNamedItem("quantity").Value & ",")
@@ -335,7 +337,7 @@ Public Class DataFunctions
         strSQL.Append(CharID.ToString & ",")
         strSQL.Append("'" & CharName.Replace("'", "''") & "',")
         strSQL.Append(WalletID.ToString & ",")
-        strSQL.Append("'" & Now.ToString(IndustryTimeFormat, culture) & "'")
+        strSQL.Append("'" & Now.ToString(SQLTimeFormat, culture) & "'")
         ' End of record
         strSQL.Append(");")
         ' Store the record and return the result
@@ -584,7 +586,7 @@ Public Class DataFunctions
 		strSQL.Append(Header)
 		strSQL.Append("(")
 		' Start of record
-        strSQL.Append("'" & Trans.JournalDate.ToString(IndustryTimeFormat, culture) & "',")
+        strSQL.Append("'" & Trans.JournalDate.ToString(SQLTimeFormat, culture) & "',")
 		strSQL.Append(Trans.RefID.ToString & ",")
 		strSQL.Append("'" & TransKey & "',")
 		strSQL.Append(Trans.RefTypeID.ToString & ",")
@@ -604,7 +606,7 @@ Public Class DataFunctions
 		strSQL.Append(CharID.ToString & ",")
 		strSQL.Append("'" & CharName.Replace("'", "''") & "',")
 		strSQL.Append(WalletID.ToString & ",")
-        strSQL.Append("'" & Now.ToString(IndustryTimeFormat, culture) & "'")
+        strSQL.Append("'" & Now.ToString(SQLTimeFormat, culture) & "'")
 		' End of record
 		strSQL.Append(");")
 
@@ -648,7 +650,7 @@ Public Class DataFunctions
 		strSQL.Append(Header)
 		strSQL.Append("(")
 		' Start of record
-        strSQL.Append("'" & Trans.JournalDate.ToString(IndustryTimeFormat, culture) & "',")
+        strSQL.Append("'" & Trans.JournalDate.ToString(SQLTimeFormat, culture) & "',")
 		strSQL.Append(Trans.RefID.ToString & ",")
 		strSQL.Append("'" & TransKey & "',")
 		strSQL.Append(RefID.ToString & ",")
@@ -668,7 +670,7 @@ Public Class DataFunctions
 		strSQL.Append(CharID.ToString & ",")
 		strSQL.Append("'" & CharName.Replace("'", "''") & "',")
 		strSQL.Append(WalletID.ToString & ",")
-        strSQL.Append("'" & Now.ToString(IndustryTimeFormat, culture) & "'")
+        strSQL.Append("'" & Now.ToString(SQLTimeFormat, culture) & "'")
 		' End of record
 		strSQL.Append(");")
 
