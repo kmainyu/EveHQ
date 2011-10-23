@@ -33,7 +33,8 @@ Public Class Requisition
     Dim cSource As String = "" ' Original Source
     Dim cOrders As New SortedList(Of String, RequisitionOrder) ' Collection of items
 
-    Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Dim SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
     ''' <summary>
@@ -286,7 +287,7 @@ Public Class Requisition
         strSQL.Append(newOrder.ItemQuantity & ",")
         strSQL.Append("'" & newOrder.Source.Replace("'", "''") & "',")
         strSQL.Append("'" & Me.Requestor.Replace("'", "''") & "',")
-        strSQL.Append("'" & newOrder.RequestDate.ToString(TimeFormat, culture) & "', ")
+        strSQL.Append("'" & newOrder.RequestDate.ToString(SQLTimeFormat, culture) & "', ")
         strSQL.Append("'" & Me.Name.Replace("'", "''") & "'")
         strSQL.Append(");")
         Return strSQL.ToString
@@ -304,7 +305,7 @@ Public Class Requisition
         strSQL.Append("itemQuantity=" & UpdateOrder.ItemQuantity & ", ")
         strSQL.Append("source='" & UpdateOrder.Source.Replace("'", "''") & "', ")
         strSQL.Append("requestor='" & UpdateReq.Requestor.Replace("'", "''") & "', ")
-        strSQL.Append("requestDate='" & UpdateOrder.RequestDate.ToString(TimeFormat, culture) & "', ")
+        strSQL.Append("requestDate='" & UpdateOrder.RequestDate.ToString(SQLTimeFormat, culture) & "', ")
         strSQL.Append("requisition='" & UpdateReq.Name.Replace("'", "''") & "' ")
         strSQL.Append("WHERE orderID=" & UpdateOrder.ID & ";")
         Return strSQL.ToString
