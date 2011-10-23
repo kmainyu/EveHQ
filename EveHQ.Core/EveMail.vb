@@ -40,6 +40,7 @@ End Class
 Public Class EveMail
 
     Dim MailTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Dim SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
     Public Event MailProgress(ByVal Status As String)
 
@@ -182,7 +183,7 @@ Public Class EveMail
 				uSQL.Append(cMail.MessageID & ", ")
 				uSQL.Append(cMail.OriginatorID & ", ")
 				uSQL.Append(cMail.SenderID & ", ")
-                uSQL.Append("'" & cMail.MessageDate.ToString(MailTimeFormat, culture) & "', ")
+                uSQL.Append("'" & cMail.MessageDate.ToString(SQLTimeFormat, culture) & "', ")
 				uSQL.Append("'" & cMail.MessageTitle.Replace("'", "''") & "', ")
 				uSQL.Append("'" & cMail.ToCorpAllianceIDs & "', ")
 				uSQL.Append("'" & cMail.ToCharacterIDs & "', ")
@@ -364,7 +365,7 @@ Public Class EveMail
                 uSQL.Append(cMail.OriginatorID & ", ")
                 uSQL.Append(cMail.SenderID & ", ")
                 uSQL.Append(cMail.TypeID & ", ")
-                uSQL.Append("'" & cMail.MessageDate.ToString(MailTimeFormat, culture) & "', ")
+                uSQL.Append("'" & cMail.MessageDate.ToString(SQLTimeFormat, culture) & "', ")
                 uSQL.Append(CInt(cMail.ReadFlag) & ", ")
                 If cMail.MessageBody IsNot Nothing Then
                     uSQL.Append("'" & cMail.MessageBody.Replace("'", "''") & "');")
