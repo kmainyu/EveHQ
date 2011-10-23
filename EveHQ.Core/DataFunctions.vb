@@ -33,6 +33,7 @@ Public Class DataFunctions
     Shared customSQLCEConnection As New SqlCeConnection
     Shared customSQLConnection As New SqlConnection
     Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Shared SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
     Public Shared Function CreateEveHQDataDB() As Boolean
@@ -982,7 +983,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function AddCustomPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.CustomPriceList(itemID) = price
-        Dim priceSQL As String = "INSERT INTO customPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(IndustryTimeFormat, culture) & "');"
+        Dim priceSQL As String = "INSERT INTO customPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(SQLTimeFormat, culture) & "');"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1001,7 +1002,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function EditCustomPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.CustomPriceList(itemID) = price
-        Dim priceSQL As String = "UPDATE customPrices SET price=" & price.ToString(culture) & ", priceDate='" & Now.ToString(IndustryTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
+        Dim priceSQL As String = "UPDATE customPrices SET price=" & price.ToString(culture) & ", priceDate='" & Now.ToString(SQLTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1051,7 +1052,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function AddMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
-        Dim priceSQL As String = "INSERT INTO marketPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(IndustryTimeFormat, culture) & "');"
+        Dim priceSQL As String = "INSERT INTO marketPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(SQLTimeFormat, culture) & "');"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1070,7 +1071,7 @@ Public Class DataFunctions
     End Function
     Public Shared Function EditMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
-        Dim priceSQL As String = "UPDATE marketPrices SET price=" & price.ToString(culture) & ", priceDate = '" & Now.ToString(IndustryTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
+        Dim priceSQL As String = "UPDATE marketPrices SET price=" & price.ToString(culture) & ", priceDate = '" & Now.ToString(SQLTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
         If DBOpen = False Then
             If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1514,7 +1515,6 @@ Public Class DataFunctions
         End If
 
     End Function
-
 
     Public Shared Sub ParseIDs(ByRef IDs As List(Of String), ByVal strID As String)
         Dim strIDs() As String = strID.Split(",".ToCharArray)
@@ -2283,7 +2283,6 @@ Public Class DataFunctions
     End Function
 
 #End Region
-
 
 End Class
 
