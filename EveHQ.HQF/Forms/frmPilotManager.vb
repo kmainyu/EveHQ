@@ -741,6 +741,18 @@ Public Class frmPilotManager
                 End If
             End If
         End If
+        ' Update the pilots for this group
+        For Each cPilot As HQF.HQFPilot In HQF.HQFPilotCollection.HQFPilots.Values
+            If cPilot.ImplantName(0) = currentGroup.GroupName Then
+                If e.Node.Nodes.Count = 0 And e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
+                    cPilot.ImplantName(currentSlot) = e.Node.Text
+                Else
+                    cPilot.ImplantName(currentSlot) = ""
+                End If
+            End If
+        Next
+        Call Me.DrawImplantTree()
+        ForceUpdate = True
     End Sub
     Private Sub cboImplantFilterM_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboImplantFilterM.SelectedIndexChanged
         Call DrawImplantManagerTree()
