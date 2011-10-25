@@ -456,13 +456,19 @@ Public Class frmEveHQ
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.UpdateThemeThread)
     End Sub
     Private Sub UpdateThemeThread(state As Object)
-        DevComponents.DotNetBar.StyleManager.ChangeStyle(NewTheme, NewTint)
+        Try
+            DevComponents.DotNetBar.StyleManager.ChangeStyle(NewTheme, NewTint)
+        Catch e As Exception
+        End Try
     End Sub
     Private Sub UpdateTint(Tint As Color)
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.UpdateTintThread, Tint)
     End Sub
     Private Sub UpdateTintThread(Tint As Object)
-        DevComponents.DotNetBar.StyleManager.ColorTint = CType(Tint, Color)
+        Try
+            DevComponents.DotNetBar.StyleManager.ColorTint = CType(Tint, Color)
+        Catch e As Exception
+        End Try
     End Sub
     Private Sub frmEveHQ_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ' Determine which view to display!
@@ -3130,7 +3136,7 @@ Public Class frmEveHQ
             EveHQ.Core.HQ.EveHQSettings.ThemeStyle = cs
             EveHQ.Core.HQ.EveHQSettings.ThemeSetByUser = True
             UpdateTint(Color.Empty)
-            EveHQ.Core.HQ.EveHQSettings.ThemeTint = DevComponents.DotNetBar.StyleManager.ColorTint
+            EveHQ.Core.HQ.EveHQSettings.ThemeTint = Color.Empty
         ElseIf TypeOf (source.CommandParameter) Is Color Then
             UpdateTint(CType(source.CommandParameter, Color))
             EveHQ.Core.HQ.EveHQSettings.ThemeTint = DevComponents.DotNetBar.StyleManager.ColorTint

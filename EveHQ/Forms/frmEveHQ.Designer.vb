@@ -152,7 +152,7 @@ Partial Public Class frmEveHQ
         Me.btnOffice2010Silver = New DevComponents.DotNetBar.ButtonItem()
         Me.btnOffice2007VistaGlass = New DevComponents.DotNetBar.ButtonItem()
         Me.btnWindows7Blue = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnVisualStudio2010 = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnVisualStudio2010Blue = New DevComponents.DotNetBar.ButtonItem()
         Me.btnCustomTheme = New DevComponents.DotNetBar.ColorPickerDropDown()
         Me.Office2007StartButton1 = New DevComponents.DotNetBar.Office2007StartButton()
         Me.ItemContainer1 = New DevComponents.DotNetBar.ItemContainer()
@@ -164,8 +164,6 @@ Partial Public Class frmEveHQ
         Me.btnAbout = New DevComponents.DotNetBar.ButtonItem()
         Me.btnFileExit = New DevComponents.DotNetBar.ButtonItem()
         Me.QatCustomizeItem1 = New DevComponents.DotNetBar.QatCustomizeItem()
-        Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
-        Me.StyleManager2 = New DevComponents.DotNetBar.StyleManager(Me.components)
         Me.DotNetBarManager1 = New DevComponents.DotNetBar.DotNetBarManager(Me.components)
         Me.DockSite4 = New DevComponents.DotNetBar.DockSite()
         Me.Bar1 = New DevComponents.DotNetBar.Bar()
@@ -188,6 +186,7 @@ Partial Public Class frmEveHQ
         Me.lblEveTime = New DevComponents.DotNetBar.LabelItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
+        Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
         Me.rpPlugins.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
@@ -1769,7 +1768,7 @@ Partial Public Class frmEveHQ
         Me.btnTheme.AutoExpandOnClick = True
         Me.btnTheme.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Far
         Me.btnTheme.Name = "btnTheme"
-        Me.btnTheme.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOffice2007Black, Me.btnOffice2007Blue, Me.btnOffice2007Silver, Me.btnOffice2010Black, Me.btnOffice2010Blue, Me.btnOffice2010Silver, Me.btnOffice2007VistaGlass, Me.btnWindows7Blue, Me.btnVisualStudio2010, Me.btnCustomTheme})
+        Me.btnTheme.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOffice2007Black, Me.btnOffice2007Blue, Me.btnOffice2007Silver, Me.btnOffice2010Black, Me.btnOffice2010Blue, Me.btnOffice2010Silver, Me.btnOffice2007VistaGlass, Me.btnWindows7Blue, Me.btnVisualStudio2010Blue, Me.btnCustomTheme})
         Me.btnTheme.Text = "Theme"
         '
         'btnOffice2007Black
@@ -1841,13 +1840,13 @@ Partial Public Class frmEveHQ
         Me.btnWindows7Blue.OptionGroup = "Style"
         Me.btnWindows7Blue.Text = "Windows 7 Blue"
         '
-        'btnVisualStudio2010
+        'btnVisualStudio2010Blue
         '
-        Me.btnVisualStudio2010.Command = Me.AppCommandTheme
-        Me.btnVisualStudio2010.CommandParameter = "VisualStudio2010Blue"
-        Me.btnVisualStudio2010.Name = "btnVisualStudio2010"
-        Me.btnVisualStudio2010.OptionGroup = "Style"
-        Me.btnVisualStudio2010.Text = "VS 2010 Blue"
+        Me.btnVisualStudio2010Blue.Command = Me.AppCommandTheme
+        Me.btnVisualStudio2010Blue.CommandParameter = "VisualStudio2010Blue"
+        Me.btnVisualStudio2010Blue.Name = "btnVisualStudio2010Blue"
+        Me.btnVisualStudio2010Blue.OptionGroup = "Style"
+        Me.btnVisualStudio2010Blue.Text = "VS 2010 Blue"
         '
         'btnCustomTheme
         '
@@ -1941,16 +1940,6 @@ Partial Public Class frmEveHQ
         'QatCustomizeItem1
         '
         Me.QatCustomizeItem1.Name = "QatCustomizeItem1"
-        '
-        'StyleManager1
-        '
-        Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
-        Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
-        '
-        'StyleManager2
-        '
-        Me.StyleManager2.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
-        Me.StyleManager2.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
         '
         'DotNetBarManager1
         '
@@ -2229,6 +2218,11 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
         '
+        'StyleManager1
+        '
+        Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
+        Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2266,151 +2260,149 @@ Partial Public Class frmEveHQ
         Me.ResumeLayout(False)
 
     End Sub
-	Friend WithEvents ToolTip As System.Windows.Forms.ToolTip
-	Friend WithEvents tmrEve As System.Windows.Forms.Timer
-	Friend WithEvents EveIconMenu As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents ForceServerCheckToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents RestoreWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents HideWhenMinimisedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ctxAbout As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ctxExit As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents tmrSkillUpdate As System.Windows.Forms.Timer
-	Friend WithEvents ctxmnuLaunchEve1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ctxmnuLaunchEve2 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ctxmnuLaunchEve3 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ctxmnuLaunchEve4 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents tmrBackup As System.Windows.Forms.Timer
-	Friend WithEvents tmrModules As System.Windows.Forms.Timer
-	Friend WithEvents ctxTabbedMDI As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents mnuCloseMDITab As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents fbd1 As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents ToolTip As System.Windows.Forms.ToolTip
+    Friend WithEvents tmrEve As System.Windows.Forms.Timer
+    Friend WithEvents EveIconMenu As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ForceServerCheckToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RestoreWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HideWhenMinimisedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ctxAbout As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ctxExit As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tmrSkillUpdate As System.Windows.Forms.Timer
+    Friend WithEvents ctxmnuLaunchEve1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ctxmnuLaunchEve2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ctxmnuLaunchEve3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ctxmnuLaunchEve4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tmrBackup As System.Windows.Forms.Timer
+    Friend WithEvents tmrModules As System.Windows.Forms.Timer
+    Friend WithEvents ctxTabbedMDI As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuCloseMDITab As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents fbd1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents iconEveHQMLW As System.Windows.Forms.NotifyIcon
-	Friend WithEvents tmrMemory As System.Windows.Forms.Timer
-	Friend WithEvents EveStatusIcon As EveHQ.Core.EveHQIcon
-	Friend WithEvents RibbonControl1 As DevComponents.DotNetBar.RibbonControl
-	Friend WithEvents rpCore As DevComponents.DotNetBar.RibbonPanel
-	Friend WithEvents rbView As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents rpPlugins As DevComponents.DotNetBar.RibbonPanel
-	Friend WithEvents rtiCore As DevComponents.DotNetBar.RibbonTabItem
-	Friend WithEvents rtiPlugins As DevComponents.DotNetBar.RibbonTabItem
-	Friend WithEvents Office2007StartButton1 As DevComponents.DotNetBar.Office2007StartButton
-	Friend WithEvents ItemContainer1 As DevComponents.DotNetBar.ItemContainer
-	Friend WithEvents btnFileSettings As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnFileExit As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents QatCustomizeItem1 As DevComponents.DotNetBar.QatCustomizeItem
-	Friend WithEvents StyleManager1 As DevComponents.DotNetBar.StyleManager
-	Friend WithEvents rbEveMail As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents btnViewPilotInfo As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnViewSkillTraining As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnViewPrices As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnViewDashboard As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnEveMail As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents lblEveMail As DevComponents.DotNetBar.LabelItem
-	Friend WithEvents rbIGB As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents btnIGB As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents lblIGB As DevComponents.DotNetBar.LabelItem
-	Friend WithEvents rbBackup As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents btnBackupEveHQ As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents ItemContainer5 As DevComponents.DotNetBar.ItemContainer
-	Friend WithEvents btnBackupEve As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents rbAPI As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents btnManageAPI As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnQueryAPI As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents rbAPITools As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents ItemContainer2 As DevComponents.DotNetBar.ItemContainer
-	Friend WithEvents btnAPIChecker As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnClearCache As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnClearCharacterCache As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnClearImageCache As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnClearAllCache As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents tmrMemory As System.Windows.Forms.Timer
+    Friend WithEvents EveStatusIcon As EveHQ.Core.EveHQIcon
+    Friend WithEvents RibbonControl1 As DevComponents.DotNetBar.RibbonControl
+    Friend WithEvents rpCore As DevComponents.DotNetBar.RibbonPanel
+    Friend WithEvents rbView As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents rpPlugins As DevComponents.DotNetBar.RibbonPanel
+    Friend WithEvents rtiCore As DevComponents.DotNetBar.RibbonTabItem
+    Friend WithEvents rtiPlugins As DevComponents.DotNetBar.RibbonTabItem
+    Friend WithEvents Office2007StartButton1 As DevComponents.DotNetBar.Office2007StartButton
+    Friend WithEvents ItemContainer1 As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents btnFileSettings As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnFileExit As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents QatCustomizeItem1 As DevComponents.DotNetBar.QatCustomizeItem
+    Friend WithEvents rbEveMail As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnViewPilotInfo As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnViewSkillTraining As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnViewPrices As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnViewDashboard As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnEveMail As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents lblEveMail As DevComponents.DotNetBar.LabelItem
+    Friend WithEvents rbIGB As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnIGB As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents lblIGB As DevComponents.DotNetBar.LabelItem
+    Friend WithEvents rbBackup As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnBackupEveHQ As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents ItemContainer5 As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents btnBackupEve As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbAPI As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnManageAPI As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnQueryAPI As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbAPITools As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents ItemContainer2 As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents btnAPIChecker As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnClearCache As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnClearCharacterCache As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnClearImageCache As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnClearAllCache As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnHelp As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnCheckForUpdates As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnUpdateEveHQ As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnViewHistory As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnAbout As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents rbPlugins As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents rpReports As DevComponents.DotNetBar.RibbonPanel
-	Friend WithEvents rtiReports As DevComponents.DotNetBar.RibbonTabItem
-	Friend WithEvents rbReportOptions As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents icReportOptions As DevComponents.DotNetBar.ItemContainer
-	Friend WithEvents icReportPilot As DevComponents.DotNetBar.ItemContainer
-	Friend WithEvents lblReportPilot As DevComponents.DotNetBar.LabelItem
-	Friend WithEvents cboReportPilot As DevComponents.DotNetBar.ComboBoxItem
-	Friend WithEvents icReportFormat As DevComponents.DotNetBar.ItemContainer
-	Friend WithEvents lblReportFormat As DevComponents.DotNetBar.LabelItem
-	Friend WithEvents cboReportFormat As DevComponents.DotNetBar.ComboBoxItem
-	Friend WithEvents ciReportHTML As DevComponents.Editors.ComboItem
-	Friend WithEvents ciReportText As DevComponents.Editors.ComboItem
-	Friend WithEvents ciReportXML As DevComponents.Editors.ComboItem
-	Friend WithEvents ciReportPHPBB As DevComponents.Editors.ComboItem
-	Friend WithEvents ciReportChart As DevComponents.Editors.ComboItem
-	Friend WithEvents rbXML As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents rbText As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents rbHTML As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents rbCharts As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents rbPHPBB As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents btnHTMLCharSheet As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLTrainingTimes As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLSkillLevels As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLTrainingQueue As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLQueueShoppingList As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLSkillsAvailable As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLPartiallyTrained As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnHTMLSkillsCost As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnPHPBBCharacterSheet As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextCharacterSheet As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextTrainingTimes As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextSkillLevels As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextTrainingQueue As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextQueueShoppingList As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextSkillsAvailable As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextPartiallyTrained As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTextSkillsCost As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnChartSkillGroup As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnXMLCharacterXML As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnXMLTrainingXML As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnXMLCurrentCharOld As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnXMLCurrentCharNew As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnXMLCurrentTrainingOld As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnXMLECMExport As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents rbStandard As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents btnStdCharSummary As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnStdSkillLevels As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnStdAlloyReport As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnStdAsteroidReport As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnStdIceReport As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnOpenReportFolder As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents StyleManager2 As DevComponents.DotNetBar.StyleManager
-	Friend WithEvents DotNetBarManager1 As DevComponents.DotNetBar.DotNetBarManager
-	Friend WithEvents DockSite4 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents DockSite1 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents DockSite2 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents DockSite3 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents DockSite5 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents DockSite6 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents DockSite7 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents DockSite8 As DevComponents.DotNetBar.DockSite
-	Friend WithEvents Bar1 As DevComponents.DotNetBar.Bar
-	Friend WithEvents pdc1 As DevComponents.DotNetBar.PanelDockContainer
-	Friend WithEvents DockContainerItem1 As DevComponents.DotNetBar.DockContainerItem
-	Friend WithEvents btnChartSkillCost As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnViewReqs As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents rbSQLTools As DevComponents.DotNetBar.RibbonBar
-	Friend WithEvents ItemContainer3 As DevComponents.DotNetBar.ItemContainer
-	Friend WithEvents btnSQLQueryTool As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnTheme As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnOffice2007Black As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnOffice2007Blue As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnOffice2007Silver As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnOffice2010Blue As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnOffice2010Silver As DevComponents.DotNetBar.ButtonItem
-	Friend WithEvents btnOffice2007VistaGlass As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnCheckForUpdates As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnUpdateEveHQ As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnViewHistory As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnAbout As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbPlugins As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents rpReports As DevComponents.DotNetBar.RibbonPanel
+    Friend WithEvents rtiReports As DevComponents.DotNetBar.RibbonTabItem
+    Friend WithEvents rbReportOptions As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents icReportOptions As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents icReportPilot As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents lblReportPilot As DevComponents.DotNetBar.LabelItem
+    Friend WithEvents cboReportPilot As DevComponents.DotNetBar.ComboBoxItem
+    Friend WithEvents icReportFormat As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents lblReportFormat As DevComponents.DotNetBar.LabelItem
+    Friend WithEvents cboReportFormat As DevComponents.DotNetBar.ComboBoxItem
+    Friend WithEvents ciReportHTML As DevComponents.Editors.ComboItem
+    Friend WithEvents ciReportText As DevComponents.Editors.ComboItem
+    Friend WithEvents ciReportXML As DevComponents.Editors.ComboItem
+    Friend WithEvents ciReportPHPBB As DevComponents.Editors.ComboItem
+    Friend WithEvents ciReportChart As DevComponents.Editors.ComboItem
+    Friend WithEvents rbXML As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents rbText As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents rbHTML As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents rbCharts As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents rbPHPBB As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnHTMLCharSheet As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLTrainingTimes As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLSkillLevels As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLTrainingQueue As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLQueueShoppingList As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLSkillsAvailable As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLPartiallyTrained As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnHTMLSkillsCost As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnPHPBBCharacterSheet As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextCharacterSheet As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextTrainingTimes As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextSkillLevels As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextTrainingQueue As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextQueueShoppingList As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextSkillsAvailable As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextPartiallyTrained As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTextSkillsCost As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnChartSkillGroup As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnXMLCharacterXML As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnXMLTrainingXML As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnXMLCurrentCharOld As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnXMLCurrentCharNew As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnXMLCurrentTrainingOld As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnXMLECMExport As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbStandard As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnStdCharSummary As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnStdSkillLevels As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnStdAlloyReport As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnStdAsteroidReport As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnStdIceReport As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnOpenReportFolder As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents DotNetBarManager1 As DevComponents.DotNetBar.DotNetBarManager
+    Friend WithEvents DockSite4 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents DockSite1 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents DockSite2 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents DockSite3 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents DockSite5 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents DockSite6 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents DockSite7 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents DockSite8 As DevComponents.DotNetBar.DockSite
+    Friend WithEvents Bar1 As DevComponents.DotNetBar.Bar
+    Friend WithEvents pdc1 As DevComponents.DotNetBar.PanelDockContainer
+    Friend WithEvents DockContainerItem1 As DevComponents.DotNetBar.DockContainerItem
+    Friend WithEvents btnChartSkillCost As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnViewReqs As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbSQLTools As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents ItemContainer3 As DevComponents.DotNetBar.ItemContainer
+    Friend WithEvents btnSQLQueryTool As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnTheme As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnOffice2007Black As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnOffice2007Blue As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnOffice2007Silver As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnOffice2010Blue As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnOffice2010Silver As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnOffice2007VistaGlass As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnWindows7Blue As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents AppCommandTheme As DevComponents.DotNetBar.Command
     Friend WithEvents btnCustomTheme As DevComponents.DotNetBar.ColorPickerDropDown
@@ -2431,6 +2423,7 @@ Partial Public Class frmEveHQ
     Friend WithEvents btnCreateCoreCache As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnDeleteCoreCache As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnRebuildCoreCache As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btnVisualStudio2010 As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnVisualStudio2010Blue As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents StyleManager1 As DevComponents.DotNetBar.StyleManager
 
 End Class
