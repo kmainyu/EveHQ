@@ -108,7 +108,6 @@ Public Class frmTraining
 
     Private Sub frmTraining_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ' Force an update of the ribbon
-        DevComponents.DotNetBar.StyleManager.ColorTint = DevComponents.DotNetBar.StyleManager.ColorTint
         panelInfo.Visible = True
         tabQueues.Visible = True
     End Sub

@@ -390,7 +390,6 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.KeyTipsFont = New System.Drawing.Font("Tahoma", 7.0!)
         Me.RibbonControl1.Location = New System.Drawing.Point(5, 1)
         Me.RibbonControl1.Name = "RibbonControl1"
-        Me.RibbonControl1.Office2007ColorTable = DevComponents.DotNetBar.Rendering.eOffice2007ColorScheme.Black
         Me.RibbonControl1.Padding = New System.Windows.Forms.Padding(0, 0, 0, 2)
         Me.RibbonControl1.QuickToolbarItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.Office2007StartButton1, Me.QatCustomizeItem1})
         Me.RibbonControl1.Size = New System.Drawing.Size(1231, 154)

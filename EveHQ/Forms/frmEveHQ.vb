@@ -43,6 +43,8 @@ Public Class frmEveHQ
     Dim appStartUp As Boolean = True
     Private EveHQTrayForm As Form = Nothing
     Dim IconShutdown As Boolean = False
+    Dim NewTheme As DevComponents.DotNetBar.eStyle
+    Dim NewTint As Color
 
 #Region "Icon Routines"
 
@@ -306,7 +308,7 @@ Public Class frmEveHQ
         Me.EveStatusIcon.Visible = True
 
         ' Set Theme Stuff
-        DevComponents.DotNetBar.StyleManager.ChangeStyle(EveHQ.Core.HQ.EveHQSettings.ThemeStyle, EveHQ.Core.HQ.EveHQSettings.ThemeTint)
+        UpdateTheme(EveHQ.Core.HQ.EveHQSettings.ThemeStyle, EveHQ.Core.HQ.EveHQSettings.ThemeTint)
         Dim ThemeBtn As DevComponents.DotNetBar.ButtonItem = CType(btnTheme.SubItems("btn" & EveHQ.Core.HQ.EveHQSettings.ThemeStyle.ToString), DevComponents.DotNetBar.ButtonItem)
         ThemeBtn.Checked = True
 
@@ -449,6 +451,20 @@ Public Class frmEveHQ
             Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.CheckForUpdates)
         End If
 
+    End Sub
+    Private Sub UpdateTheme(Theme As DevComponents.DotNetBar.eStyle, Tint As Color)
+        NewTheme = Theme
+        NewTint = Tint
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.UpdateThemeThread)
+    End Sub
+    Private Sub UpdateThemeThread(state As Object)
+        DevComponents.DotNetBar.StyleManager.ChangeStyle(NewTheme, NewTint)
+    End Sub
+    Private Sub UpdateTint(Tint As Color)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.UpdateTintThread, Tint)
+    End Sub
+    Private Sub UpdateTintThread(Tint As Object)
+        DevComponents.DotNetBar.StyleManager.ColorTint = CType(Tint, Color)
     End Sub
     Private Sub frmEveHQ_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ' Determine which view to display!
@@ -3089,15 +3105,15 @@ Public Class frmEveHQ
             m_ManagerStyle = DevComponents.DotNetBar.StyleManager.Style
         Else
             If Not m_ColorSelected Then
-                DevComponents.DotNetBar.StyleManager.ColorTint = Color.Empty
-                DevComponents.DotNetBar.StyleManager.ChangeStyle(m_ManagerStyle, Color.Empty)
+                UpdateTint(Color.Empty)
+                UpdateTheme(m_ManagerStyle, Color.Empty)
             End If
         End If
     End Sub
 
     Private Sub buttonStyleCustom_ColorPreview(ByVal sender As Object, ByVal e As DevComponents.DotNetBar.ColorPreviewEventArgs) Handles btnCustomTheme.ColorPreview
         Try
-            DevComponents.DotNetBar.StyleManager.ColorTint = e.Color
+            UpdateTint(e.Color)
         Catch ex As Exception
         End Try
     End Sub
@@ -3112,13 +3128,13 @@ Public Class frmEveHQ
         If TypeOf (source.CommandParameter) Is String Then
             Dim cs As DevComponents.DotNetBar.eStyle = CType(System.Enum.Parse(GetType(DevComponents.DotNetBar.eStyle), source.CommandParameter.ToString()), DevComponents.DotNetBar.eStyle)
             ' This is all that is needed to change the color table for all controls on the form
-            DevComponents.DotNetBar.StyleManager.ChangeStyle(cs, Color.Empty)
+            UpdateTheme(cs, Color.Empty)
             EveHQ.Core.HQ.EveHQSettings.ThemeStyle = cs
             EveHQ.Core.HQ.EveHQSettings.ThemeSetByUser = True
-            DevComponents.DotNetBar.StyleManager.ColorTint = Color.Empty
+            UpdateTint(Color.Empty)
             EveHQ.Core.HQ.EveHQSettings.ThemeTint = DevComponents.DotNetBar.StyleManager.ColorTint
         ElseIf TypeOf (source.CommandParameter) Is Color Then
-            DevComponents.DotNetBar.StyleManager.ColorTint = CType(source.CommandParameter, Color)
+            UpdateTint(CType(source.CommandParameter, Color))
             EveHQ.Core.HQ.EveHQSettings.ThemeTint = DevComponents.DotNetBar.StyleManager.ColorTint
             EveHQ.Core.HQ.EveHQSettings.ThemeSetByUser = True
         End If
