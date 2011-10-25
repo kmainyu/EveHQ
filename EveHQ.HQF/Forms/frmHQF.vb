@@ -109,6 +109,12 @@ Public Class frmHQF
             ' Save pilots
             Call HQFPilotCollection.SaveHQFPilotData()
 
+            ' Save the open fittings
+            HQF.Settings.HQFSettings.OpenFittingList.Clear()
+            For Each fitting As String In ShipLists.fittedShipList.Keys
+                HQF.Settings.HQFSettings.OpenFittingList.Add(fitting)
+            Next
+
             ' Save the Settings
             Call Settings.HQFSettings.SaveHQFSettings()
 
@@ -187,7 +193,6 @@ Public Class frmHQF
 
         startUp = False
         ' Temporarily disable the performance setting
-        Dim performanceSetting As Boolean = HQF.Settings.HQFSettings.ShowPerformanceData
         HQF.Settings.HQFSettings.ShowPerformanceData = False
 
         ' Check if we need to restore tabs from the previous setup
@@ -200,7 +205,10 @@ Public Class frmHQF
                     newfit.ShipSlotCtrl.UpdateEverything()
                 End If
             Next
-            tabHQF.SelectedTabIndex = 0
+            If HQF.Settings.HQFSettings.OpenFittingList.Count > 0 Then
+                ActiveFitting = Fittings.FittingList(HQF.Settings.HQFSettings.OpenFittingList(0).ToString)
+                tabHQF.SelectedTabIndex = 0
+            End If
         End If
 
         ' Set default widths of module list
@@ -222,8 +230,6 @@ Public Class frmHQF
         panelModules.Width = Settings.HQFSettings.ModPanelWidth
         panelFittings.Height = Settings.HQFSettings.ShipSplitterWidth
         panelModFilters.Height = Settings.HQFSettings.ModSplitterWidth
-
-        HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
 
         Me.ResumeLayout()
 
@@ -1359,7 +1365,17 @@ Public Class frmHQF
                 If thisFit IsNot Nothing Then
                     msg.AppendLine("Fitting: " & thisFit.KeyName)
                 Else
-                    msg.AppendLine("Fitting: <Nothing!!!>")
+                    msg.AppendLine("Fitting: Nothing!!")
+                End If
+                If thisFit.ShipInfoCtrl IsNot Nothing Then
+                    msg.AppendLine("ShipInfo: Present")
+                Else
+                    msg.AppendLine("ShipInfo: Missing!!")
+                End If
+                If thisFit.ShipSlotCtrl IsNot Nothing Then
+                    msg.AppendLine("ShipSlot: Present")
+                Else
+                    msg.AppendLine("ShipSlot: Missing!!")
                 End If
                 MessageBox.Show(msg.ToString, "Error Updating Implants", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
