@@ -152,6 +152,7 @@ Partial Public Class frmEveHQ
         Me.btnOffice2010Silver = New DevComponents.DotNetBar.ButtonItem()
         Me.btnOffice2007VistaGlass = New DevComponents.DotNetBar.ButtonItem()
         Me.btnWindows7Blue = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnVisualStudio2010 = New DevComponents.DotNetBar.ButtonItem()
         Me.btnCustomTheme = New DevComponents.DotNetBar.ColorPickerDropDown()
         Me.Office2007StartButton1 = New DevComponents.DotNetBar.Office2007StartButton()
         Me.ItemContainer1 = New DevComponents.DotNetBar.ItemContainer()
@@ -187,7 +188,6 @@ Partial Public Class frmEveHQ
         Me.lblEveTime = New DevComponents.DotNetBar.LabelItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
-        Me.btnVisualStudio2010 = New DevComponents.DotNetBar.ButtonItem()
         Me.rpPlugins.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
@@ -1841,6 +1841,14 @@ Partial Public Class frmEveHQ
         Me.btnWindows7Blue.OptionGroup = "Style"
         Me.btnWindows7Blue.Text = "Windows 7 Blue"
         '
+        'btnVisualStudio2010
+        '
+        Me.btnVisualStudio2010.Command = Me.AppCommandTheme
+        Me.btnVisualStudio2010.CommandParameter = "VisualStudio2010Blue"
+        Me.btnVisualStudio2010.Name = "btnVisualStudio2010"
+        Me.btnVisualStudio2010.OptionGroup = "Style"
+        Me.btnVisualStudio2010.Text = "VS 2010 Blue"
+        '
         'btnCustomTheme
         '
         Me.btnCustomTheme.BeginGroup = True
@@ -2220,14 +2228,6 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.ContextMenuStrip = Me.EveIconMenu
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
-        '
-        'btnVisualStudio2010
-        '
-        Me.btnVisualStudio2010.Command = Me.AppCommandTheme
-        Me.btnVisualStudio2010.CommandParameter = "VisualStudio2010Blue"
-        Me.btnVisualStudio2010.Name = "btnVisualStudio2010"
-        Me.btnVisualStudio2010.OptionGroup = "Style"
-        Me.btnVisualStudio2010.Text = "VS 2010 Blue"
         '
         'frmEveHQ
         '

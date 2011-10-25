@@ -33,10 +33,8 @@ Public Class frmEveHQ
     Dim WithEvents eveTQWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents IGBWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents SkillWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
-    Dim WithEvents ImportWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents BackupWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Dim WithEvents EveHQBackupWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
-    Dim WithEvents ReportWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
     Private Delegate Sub QueryMyEveServerDelegate()
     Dim EveHQMLW As New SortedList
     Dim EveHQMLF As New frmMarketPrices
