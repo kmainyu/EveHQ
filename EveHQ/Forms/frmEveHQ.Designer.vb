@@ -48,15 +48,15 @@ Partial Public Class frmEveHQ
         Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
         Me.RibbonControl1 = New DevComponents.DotNetBar.RibbonControl()
         Me.rpCore = New DevComponents.DotNetBar.RibbonPanel()
-        Me.rbCache = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnCreateCoreCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnDeleteCoreCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnRebuildCoreCache = New DevComponents.DotNetBar.ButtonItem()
         Me.rbHelp = New DevComponents.DotNetBar.RibbonBar()
         Me.btnInfoHelp = New DevComponents.DotNetBar.ButtonItem()
         Me.rbSQLTools = New DevComponents.DotNetBar.RibbonBar()
         Me.ItemContainer3 = New DevComponents.DotNetBar.ItemContainer()
         Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbCache = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnCreateCoreCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnDeleteCoreCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRebuildCoreCache = New DevComponents.DotNetBar.ButtonItem()
         Me.rbAPITools = New DevComponents.DotNetBar.RibbonBar()
         Me.ItemContainer2 = New DevComponents.DotNetBar.ItemContainer()
         Me.btnAPIChecker = New DevComponents.DotNetBar.ButtonItem()
@@ -187,6 +187,7 @@ Partial Public Class frmEveHQ
         Me.lblEveTime = New DevComponents.DotNetBar.LabelItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
+        Me.btnVisualStudio2010 = New DevComponents.DotNetBar.ButtonItem()
         Me.rpPlugins.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
@@ -447,70 +448,6 @@ Partial Public Class frmEveHQ
         Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpCore.TabIndex = 1
         '
-        'rbCache
-        '
-        Me.rbCache.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbCache.BackgroundMouseOverStyle.Class = ""
-        Me.rbCache.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbCache.BackgroundStyle.Class = ""
-        Me.rbCache.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbCache.ContainerControlProcessDialogKey = True
-        Me.rbCache.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbCache.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnCreateCoreCache, Me.btnDeleteCoreCache, Me.btnRebuildCoreCache})
-        Me.rbCache.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbCache.Location = New System.Drawing.Point(863, 0)
-        Me.rbCache.Name = "rbCache"
-        Me.rbCache.Size = New System.Drawing.Size(135, 93)
-        Me.rbCache.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbCache.TabIndex = 9
-        Me.rbCache.Text = "Core Cache"
-        '
-        '
-        '
-        Me.rbCache.TitleStyle.Class = ""
-        Me.rbCache.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbCache.TitleStyleMouseOver.Class = ""
-        Me.rbCache.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnCreateCoreCache
-        '
-        Me.btnCreateCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
-        Me.btnCreateCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnCreateCoreCache.Name = "btnCreateCoreCache"
-        Me.btnCreateCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnCreateCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Create Core Cache Files", "Creates a set of cache files used to speed up the opening of EveHQ. These files i" & _
-            "nclude data for items, locations, skills and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnCreateCoreCache.Text = "Create Cache"
-        '
-        'btnDeleteCoreCache
-        '
-        Me.btnDeleteCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
-        Me.btnDeleteCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnDeleteCoreCache.Name = "btnDeleteCoreCache"
-        Me.btnDeleteCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnDeleteCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Delete Core Cache Files", "Deletes the Core Cache files so that EveHQ will always start with data extracted " & _
-            "from the static database." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnDeleteCoreCache.Text = "Delete Cache"
-        '
-        'btnRebuildCoreCache
-        '
-        Me.btnRebuildCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
-        Me.btnRebuildCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnRebuildCoreCache.Name = "btnRebuildCoreCache"
-        Me.btnRebuildCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnRebuildCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Rebuild Core Cache Files", "Rebuilds the Core Cache files from data in the current static database. This over" & _
-            "writes any existing Core Cache files.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnRebuildCoreCache.Text = "Rebuild Cache"
-        '
         'rbHelp
         '
         Me.rbHelp.AutoOverflowEnabled = True
@@ -605,6 +542,70 @@ Partial Public Class frmEveHQ
         Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
         Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnSQLQueryTool.Text = "SQL Query Tool"
+        '
+        'rbCache
+        '
+        Me.rbCache.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbCache.BackgroundMouseOverStyle.Class = ""
+        Me.rbCache.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbCache.BackgroundStyle.Class = ""
+        Me.rbCache.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbCache.ContainerControlProcessDialogKey = True
+        Me.rbCache.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbCache.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnCreateCoreCache, Me.btnDeleteCoreCache, Me.btnRebuildCoreCache})
+        Me.rbCache.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbCache.Location = New System.Drawing.Point(863, 0)
+        Me.rbCache.Name = "rbCache"
+        Me.rbCache.Size = New System.Drawing.Size(135, 93)
+        Me.rbCache.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbCache.TabIndex = 9
+        Me.rbCache.Text = "Core Cache"
+        '
+        '
+        '
+        Me.rbCache.TitleStyle.Class = ""
+        Me.rbCache.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbCache.TitleStyleMouseOver.Class = ""
+        Me.rbCache.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnCreateCoreCache
+        '
+        Me.btnCreateCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnCreateCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnCreateCoreCache.Name = "btnCreateCoreCache"
+        Me.btnCreateCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnCreateCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Create Core Cache Files", "Creates a set of cache files used to speed up the opening of EveHQ. These files i" & _
+            "nclude data for items, locations, skills and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnCreateCoreCache.Text = "Create Cache"
+        '
+        'btnDeleteCoreCache
+        '
+        Me.btnDeleteCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnDeleteCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnDeleteCoreCache.Name = "btnDeleteCoreCache"
+        Me.btnDeleteCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnDeleteCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Delete Core Cache Files", "Deletes the Core Cache files so that EveHQ will always start with data extracted " & _
+            "from the static database." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnDeleteCoreCache.Text = "Delete Cache"
+        '
+        'btnRebuildCoreCache
+        '
+        Me.btnRebuildCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnRebuildCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnRebuildCoreCache.Name = "btnRebuildCoreCache"
+        Me.btnRebuildCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnRebuildCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Rebuild Core Cache Files", "Rebuilds the Core Cache files from data in the current static database. This over" & _
+            "writes any existing Core Cache files.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnRebuildCoreCache.Text = "Rebuild Cache"
         '
         'rbAPITools
         '
@@ -1768,7 +1769,7 @@ Partial Public Class frmEveHQ
         Me.btnTheme.AutoExpandOnClick = True
         Me.btnTheme.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Far
         Me.btnTheme.Name = "btnTheme"
-        Me.btnTheme.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOffice2007Black, Me.btnOffice2007Blue, Me.btnOffice2007Silver, Me.btnOffice2010Black, Me.btnOffice2010Blue, Me.btnOffice2010Silver, Me.btnOffice2007VistaGlass, Me.btnWindows7Blue, Me.btnCustomTheme})
+        Me.btnTheme.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOffice2007Black, Me.btnOffice2007Blue, Me.btnOffice2007Silver, Me.btnOffice2010Black, Me.btnOffice2010Blue, Me.btnOffice2010Silver, Me.btnOffice2007VistaGlass, Me.btnWindows7Blue, Me.btnVisualStudio2010, Me.btnCustomTheme})
         Me.btnTheme.Text = "Theme"
         '
         'btnOffice2007Black
@@ -1936,10 +1937,12 @@ Partial Public Class frmEveHQ
         'StyleManager1
         '
         Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
+        Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
         '
         'StyleManager2
         '
         Me.StyleManager2.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
+        Me.StyleManager2.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
         '
         'DotNetBarManager1
         '
@@ -2218,6 +2221,14 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
         '
+        'btnVisualStudio2010
+        '
+        Me.btnVisualStudio2010.Command = Me.AppCommandTheme
+        Me.btnVisualStudio2010.CommandParameter = "VisualStudio2010Blue"
+        Me.btnVisualStudio2010.Name = "btnVisualStudio2010"
+        Me.btnVisualStudio2010.OptionGroup = "Style"
+        Me.btnVisualStudio2010.Text = "VS 2010 Blue"
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2420,5 +2431,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents btnCreateCoreCache As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnDeleteCoreCache As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnRebuildCoreCache As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnVisualStudio2010 As DevComponents.DotNetBar.ButtonItem
 
 End Class
