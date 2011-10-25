@@ -605,7 +605,7 @@ Public Class frmPilot
                 lblPilotSP.Text = (displayPilot.SkillPoints + displayPilot.TrainingCurrentSP).ToString("N0")
                 If displayPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
                     Dim cSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
-                    Dim percent As Double
+                    Dim percent As Double = 0
                     If cSkill.Level = 5 Then
                         percent = 100
                     Else
