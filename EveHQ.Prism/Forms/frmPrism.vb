@@ -6915,8 +6915,11 @@ Public Class frmPrism
                     lviBP2.Cells.Add(New Cell((Qty * rigCost).ToString("N2")))
                     lviBP2.Cells.Add(New Cell((Qty * buildCost).ToString("N2")))
                     lviBP2.Cells.Add(New Cell((Qty * (rigCost - buildCost)).ToString("N2")))
-                    lviBP2.Cells.Add(New Cell((Qty * (rigCost - buildCost) / (Qty * rigCost) * 100).ToString("N2")))
-
+                    If Qty = 0 Or rigCost = 0 Then
+                        lviBP2.Cells.Add(New Cell(CInt(0).ToString("N2")))
+                    Else
+                        lviBP2.Cells.Add(New Cell((Qty * (rigCost - buildCost) / (Qty * rigCost) * 100).ToString("N2")))
+                    End If
                     adtRigs.Nodes.Add(lviBP2)
                 End If
             End If
