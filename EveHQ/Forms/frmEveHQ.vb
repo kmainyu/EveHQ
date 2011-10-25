@@ -324,6 +324,11 @@ Public Class frmEveHQ
         'Setup the Modules menu if applicable
         Call Me.SetupModuleMenu()
 
+        ' Update the QAT config if applicable
+        If EveHQ.Core.HQ.EveHQSettings.QATLayout <> "" Then
+            RibbonControl1.QatLayout = EveHQ.Core.HQ.EveHQSettings.QATLayout
+        End If
+
         ' Check if the IGB should be started here
         If IGBCanBeInitialised() = True Then
             If EveHQ.Core.HQ.EveHQSettings.IGBAutoStart = True Then
@@ -372,11 +377,6 @@ Public Class frmEveHQ
                     Me.WindowState = FormWindowState.Maximized
                     Me.Show()
             End Select
-        End If
-
-        ' Update the QAT config if applicable
-        If EveHQ.Core.HQ.EveHQSettings.QATLayout <> "" Then
-            RibbonControl1.QatLayout = EveHQ.Core.HQ.EveHQSettings.QATLayout
         End If
 
         ' Start the timers
