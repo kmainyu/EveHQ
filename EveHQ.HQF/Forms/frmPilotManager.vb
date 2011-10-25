@@ -492,9 +492,7 @@ Public Class frmPilotManager
             Else
                 tvwImplants.Nodes.Add("Slot " & slot.ToString, currentPilot.ImplantName(slot))
             End If
-            If cboImplantFilter.SelectedItem.ToString = "<All Groups>" Then
-                tvwImplants.Nodes("Slot " & slot.ToString).Nodes.Add("No Implant")
-            End If
+            tvwImplants.Nodes("Slot " & slot.ToString).Nodes.Add("No Implant")
         Next
         For Each cImplant As ShipModule In Implants.implantList.Values
             If cboImplantFilter.SelectedItem.ToString = "<All Groups>" Then
@@ -666,9 +664,7 @@ Public Class frmPilotManager
                 Else
                     tvwImplantsM.Nodes.Add("Slot " & slot.ToString, currentGroup.ImplantName(slot))
                 End If
-                If cboImplantFilterM.SelectedItem.ToString = "<All Groups>" Then
-                    tvwImplantsM.Nodes("Slot " & slot.ToString).Nodes.Add("No Implant")
-                End If
+                tvwImplantsM.Nodes("Slot " & slot.ToString).Nodes.Add("No Implant")
             Next
             For Each cImplant As ShipModule In Implants.implantList.Values
                 If cboImplantFilterM.SelectedItem.ToString = "<All Groups>" Then
