@@ -94,14 +94,20 @@ namespace EveHQ.PosManager
                         cStr = File.OpenRead(fname);
 
                         OLDDesigns = (ArrayList)myBf.Deserialize(cStr);
+                        cStr.Close();
+
+                        // Preserve the old design file
+                        File.Move(fname, fname.Replace("PoS_Designs.bin", "PoS_Designs_Old.bin"));
+
+                        // Convert old to new, and save
                         ConvertOldToNewDesign(OLDDesigns);
                     }
                     catch
                     {
+                        cStr.Close();
                     }
                 }
 
-                cStr.Close();
             }
         }
 
