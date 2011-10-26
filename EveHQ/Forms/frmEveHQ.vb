@@ -41,8 +41,6 @@ Public Class frmEveHQ
     Dim appStartUp As Boolean = True
     Private EveHQTrayForm As Form = Nothing
     Dim IconShutdown As Boolean = False
-    Dim NewTheme As DevComponents.DotNetBar.eStyle
-    Dim NewTint As Color
 
 #Region "Icon Routines"
 
@@ -451,24 +449,10 @@ Public Class frmEveHQ
 
     End Sub
     Private Sub UpdateTheme(Theme As DevComponents.DotNetBar.eStyle, Tint As Color)
-        NewTheme = Theme
-        NewTint = Tint
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.UpdateThemeThread)
-    End Sub
-    Private Sub UpdateThemeThread(state As Object)
-        Try
-            DevComponents.DotNetBar.StyleManager.ChangeStyle(NewTheme, NewTint)
-        Catch e As Exception
-        End Try
+        DevComponents.DotNetBar.StyleManager.ChangeStyle(Theme, Tint)
     End Sub
     Private Sub UpdateTint(Tint As Color)
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.UpdateTintThread, Tint)
-    End Sub
-    Private Sub UpdateTintThread(Tint As Object)
-        Try
-            DevComponents.DotNetBar.StyleManager.ColorTint = CType(Tint, Color)
-        Catch e As Exception
-        End Try
+        DevComponents.DotNetBar.StyleManager.ColorTint = CType(Tint, Color)
     End Sub
     Private Sub frmEveHQ_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ' Determine which view to display!

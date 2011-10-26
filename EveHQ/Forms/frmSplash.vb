@@ -687,11 +687,11 @@ Public Class frmSplash
         For Each myType As Type In myAssembly.GetTypes
             If myType.BaseType.Name = "Widget" Then
                 ' Get the control name based on the property of an instance of the control
-                Dim myInstance As Object = Activator.CreateInstance(myType)
+                Dim myInstance As Control = CType(Activator.CreateInstance(myType), Control)
                 Dim pi As System.Reflection.PropertyInfo = myType.GetProperty("ControlName")
                 Dim myControlName As String = pi.GetValue(myInstance, Nothing).ToString
                 EveHQ.Core.HQ.Widgets.Add(myControlName, myType.FullName)
-                myInstance = Nothing
+                myInstance.Dispose()
             End If
         Next
         EveHQ.Core.HQ.WriteLogEvent(" *** Widgets Finished Loading")
