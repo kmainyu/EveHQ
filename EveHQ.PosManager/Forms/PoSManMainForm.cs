@@ -59,7 +59,7 @@ namespace EveHQ.PosManager
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
         private string Sel_React_Pos = "";
-        public string selName, AllPosFillText, SelPosFillText, SelReactPos;
+        public string AllPosFillText, SelPosFillText, SelReactPos;
         public string CurrentName = "", NewName = "";
         enum MonDG { Name, LocN, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, React, Owner, FTech, fHrs, sHrs, hCPU, hPow, hIso };
         enum dgPM { Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost, Cap };
@@ -263,15 +263,20 @@ namespace EveHQ.PosManager
             DataGridViewColumn dgvc;
             string cName;
 
-            if (selName == null)
+            if (PlugInData.SelectedTower == null)
             {
-                selName = "New POS";
+                PlugInData.SelectedTower = "New POS";
             }
 
             if (tc_MainTabs.SelectedTab == tp_POSDesign) // POS Designer
             {
-                SetSelectedTowerNode(selName);
+                if (ct_PoSName.Text.Equals(PlugInData.SelectedTower))
+                    load = true;
+
+                SetSelectedTowerNode(PlugInData.SelectedTower);
                 SaveConfiguration();
+
+                load = false;
             }
             else if (tc_MainTabs.SelectedTab == tp_TowerMonitor) // PoS Monitor
             {
@@ -2339,6 +2344,8 @@ namespace EveHQ.PosManager
             // 1. Get new PoS Data from List
             if (PlugInData.PDL.Designs.ContainsKey(CurrentName))
             {
+                PlugInData.SelectedTower = CurrentName;
+
                 // 2. Clear Current PoS Display
                 foreach (Control c in p_Tower.Controls)
                 {
@@ -2483,6 +2490,9 @@ namespace EveHQ.PosManager
 
         private void cb_SovLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (Design.SovLevel.Equals(cb_SovLevel.SelectedIndex))
+                return;
+
             Design.SovLevel = cb_SovLevel.SelectedIndex;
 
             if (!load)
@@ -2550,11 +2560,11 @@ namespace EveHQ.PosManager
 
         private void cb_CorpName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Design.itemID != 0)
-            {
-                cb_CorpName.Text = Design.CorpName;
-                return;
-            }
+            //if (Design.itemID != 0)
+            //{
+            //    cb_CorpName.Text = Design.CorpName;
+            //    return;
+            //}
             if (Design.CorpName != cb_CorpName.Text)
             {
                 Design.CorpName = cb_CorpName.Text;
@@ -2597,9 +2607,9 @@ namespace EveHQ.PosManager
             long mCnt = 0, rlCnt = 0;
             string TowerExport;
 
-            if (PlugInData.PDL.Designs.ContainsKey(selName))
+            if (PlugInData.PDL.Designs.ContainsKey(PlugInData.SelectedTower))
             {
-                p = PlugInData.PDL.Designs[selName];
+                p = PlugInData.PDL.Designs[PlugInData.SelectedTower];
             }
             else
             {
@@ -2646,9 +2656,9 @@ namespace EveHQ.PosManager
             POS p;
             string fname = "C:\\UNKNOWN.twr";
 
-            if (PlugInData.PDL.Designs.ContainsKey(selName))
+            if (PlugInData.PDL.Designs.ContainsKey(PlugInData.SelectedTower))
             {
-                p = PlugInData.PDL.Designs[selName];
+                p = PlugInData.PDL.Designs[PlugInData.SelectedTower];
             }
             else
             {
@@ -2714,6 +2724,8 @@ namespace EveHQ.PosManager
 
         private void UpdateAllTowerSovLevels()
         {
+            load = true;
+
             foreach (POS p in PlugInData.PDL.Designs.Values)
             {
                 UpdateLinkedTowerSovLevel(p);
@@ -2721,6 +2733,7 @@ namespace EveHQ.PosManager
 
             PlugInData.PDL.SaveDesignListing();
             SetChangedStatus(false, "");
+            load = false;
         }
 
         private void UpdateLinkedTowerSovLevel(POS p)
@@ -3248,7 +3261,7 @@ namespace EveHQ.PosManager
         private void dg_MonitoredTowers_SelectionChanged(object sender, EventArgs e)
         {
             //decimal qty;
-            string posName; //posItm, line;
+            string posName, fullPosName; //posItm, line;
             APITowerData td;
             POS pl;
 
@@ -3257,9 +3270,8 @@ namespace EveHQ.PosManager
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
-                posName = selName.Substring(0, selName.IndexOf(" ["));
-                selName = posName;
+                fullPosName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
+                posName = fullPosName.Substring(0, fullPosName.IndexOf(" ["));
                 Mon_dg_Pos = posName;
 
                 if (Mon_dg_indx == dg_MonitoredTowers.CurrentRow.Index)
@@ -3267,9 +3279,9 @@ namespace EveHQ.PosManager
 
                 Mon_dg_indx = dg_MonitoredTowers.CurrentRow.Index;
 
-                if (PlugInData.PDL.Designs.ContainsKey(selName))
+                if (PlugInData.PDL.Designs.ContainsKey(Mon_dg_Pos))
                 {
-                    pl = PlugInData.PDL.Designs[selName];
+                    pl = PlugInData.PDL.Designs[Mon_dg_Pos];
                     // OK, this is the PoS that was just selected. Need to work the display.
                     // 1. Display current fuel levels for the POS & Run times for each type of fuel
                     // 2. Calculate and Display Bay usage (percentage on bars)
@@ -3367,9 +3379,9 @@ namespace EveHQ.PosManager
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                if (PlugInData.PDL.Designs.ContainsKey(selName))
+                if (PlugInData.PDL.Designs.ContainsKey(Mon_dg_Pos))
                 {
-                    pl = PlugInData.PDL.Designs[selName];
+                    pl = PlugInData.PDL.Designs[Mon_dg_Pos];
                     nud_fuel = new FuelBay(pl.PosTower.Fuel);
                     nud_fuel.EnrUran.Qty = nud_EnrUran.Value;
                     nud_fuel.Oxygen.Qty = nud_Oxy.Value;
@@ -3697,14 +3709,14 @@ namespace EveHQ.PosManager
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                if (PlugInData.PDL.Designs.ContainsKey(selName))
+                if (PlugInData.PDL.Designs.ContainsKey(Mon_dg_Pos))
                 {
-                    PlugInData.PDL.Designs[selName].PosTower.State = state;
+                    PlugInData.PDL.Designs[Mon_dg_Pos].PosTower.State = state;
 
                     if (state == "Reinforced")
-                        PlugInData.PDL.Designs[selName].Stront_TS = DateTime.Now;
+                        PlugInData.PDL.Designs[Mon_dg_Pos].Stront_TS = DateTime.Now;
                     else
-                        PlugInData.PDL.Designs[selName].Fuel_TS = DateTime.Now;
+                        PlugInData.PDL.Designs[Mon_dg_Pos].Fuel_TS = DateTime.Now;
                 }
             }
 
@@ -4461,9 +4473,9 @@ namespace EveHQ.PosManager
             b_SetFuelLevel.Enabled = false;
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                if (PlugInData.PDL.Designs.ContainsKey(selName))
+                if (PlugInData.PDL.Designs.ContainsKey(PlugInData.SelectedTower))
                 {
-                    pl = PlugInData.PDL.Designs[selName];
+                    pl = PlugInData.PDL.Designs[PlugInData.SelectedTower];
                     // Enr Uranium
                     pl.PosTower.Fuel.EnrUran.Qty = pl.PosTower.A_Fuel.EnrUran.Qty;
 
@@ -8779,16 +8791,35 @@ namespace EveHQ.PosManager
         #endregion
 
 
-        #region Tower Fuel Update - Seperate Window
+        #region Tower Fuel Update - Seperate Window, Tower Actions from Monitor TAB
+
+        private void designTowerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string fullPosName;
+
+            fullPosName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
+            PlugInData.SelectedTower = fullPosName.Substring(0, fullPosName.IndexOf(" ["));
+
+            tc_MainTabs.SelectedTab = tp_POSDesign;          
+        }
+
+        private void towerReactionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void tsmi_UpdateTowerFuel_Click(object sender, EventArgs e)
         {
             POS pl;
             UpdateTowerFuel UTF;
+            string fullPosName;
 
-            if (PlugInData.PDL.Designs.ContainsKey(selName))
+            fullPosName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
+            fullPosName = fullPosName.Substring(0, fullPosName.IndexOf(" ["));
+
+            if (PlugInData.PDL.Designs.ContainsKey(fullPosName))
             {
-                pl = PlugInData.PDL.Designs[selName];
+                pl = PlugInData.PDL.Designs[fullPosName];
 
                 UTF = new UpdateTowerFuel(pl);
                 DialogResult DR = UTF.ShowDialog();

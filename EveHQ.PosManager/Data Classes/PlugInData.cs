@@ -109,7 +109,7 @@ namespace EveHQ.PosManager
         private System.Timers.Timer t_MonitorUpdate, ReactionTimer;
         DateTime timeStart;
         static string ActiveReactTower = "";
-        static string SelectedTower = "";
+        public static string SelectedTower = "New POS";
         const int RandomSeed = 2;  
         static Random _random;
         public List<long> TowerMods;

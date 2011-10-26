@@ -47,7 +47,7 @@ namespace EveHQ.PosManager
             string twrName;
             POS pl;
 
-            twrName = myData.selName;
+            twrName = PlugInData.SelectedTower;
 
            if (PlugInData.PDL.Designs.ContainsKey(twrName))
            {
@@ -94,7 +94,7 @@ namespace EveHQ.PosManager
         {
             string twrName;
 
-            twrName = myData.selName;
+            twrName = PlugInData.SelectedTower;
             if (PlugInData.PDL.Designs.ContainsKey(twrName))
             {
                 if (PlugInData.PDL.Designs[twrName].Owner == PlugInData.PDL.Designs[twrName].CorpName)
@@ -111,7 +111,7 @@ namespace EveHQ.PosManager
             string ownName = "";
             string twrName;
 
-            twrName = myData.selName;
+            twrName = PlugInData.SelectedTower;
 
             if (PlugInData.PDL.Designs.ContainsKey(twrName))
             {
@@ -143,7 +143,7 @@ namespace EveHQ.PosManager
         {
             string twrName;
 
-            twrName = myData.selName;
+            twrName = PlugInData.SelectedTower;
             cb_FuelTechName.Items.Clear();
             foreach (EveHQ.Core.Pilot selPilot in EveHQ.Core.HQ.EveHQSettings.Pilots)
             {
