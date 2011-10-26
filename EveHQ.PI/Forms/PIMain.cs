@@ -1319,7 +1319,7 @@ namespace EveHQ.PI
                         }
                     }
                 }
-                if (p1.ProcLevel == 1)
+                else if (p1.ProcLevel == 1)
                 {
                     foreach (Processor c in PlugInData.Planets[Working.PlanetType].Processors.Values)
                     {

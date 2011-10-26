@@ -2378,6 +2378,7 @@ namespace EveHQ.PosManager
                     pi_Tower.UpdateItemState();
 
                     nud_StrontInterval.Maximum = Design.ComputeMaxPosStrontTime();
+                    nud_DesFuelPeriod.Maximum = Design.ComputeMaxPosRunTimeForLoad();
 
                     foreach (Module mc in Design.Modules)
                     {
@@ -2404,28 +2405,33 @@ namespace EveHQ.PosManager
                 }
             }
 
+            if (nud_DesFuelPeriod.Minimum < 0)
+                nud_DesFuelPeriod.Minimum = 1;
+            if (nud_DesFuelPeriod.Maximum < 0)
+                nud_DesFuelPeriod.Minimum = 99999;
+            if (nud_StrontInterval.Minimum < 0)
+                nud_StrontInterval.Minimum = 1;
+            if (nud_StrontInterval.Maximum < 0)
+                nud_StrontInterval.Maximum = 99999;
+
             cb_SovLevel.SelectedIndex = Design.SovLevel;
             cb_System.Text = Design.System;
             cb_CorpName.Text = Design.CorpName;
             cb_systemMoon.Text = Design.Moon;
 
-            nud_DesFuelPeriod.Maximum = Design.ComputeMaxPosRunTimeForLoad();
-            if (nud_DesFuelPeriod.Minimum < 0)
-                nud_DesFuelPeriod.Minimum = 0;
-            if (nud_DesFuelPeriod.Maximum <= 0)
-                nud_DesFuelPeriod.Maximum = 100;
-            if (nud_StrontInterval.Minimum < 0)
-                nud_StrontInterval.Minimum = 0;
-            if (nud_StrontInterval.Maximum <= 0)
-                nud_StrontInterval.Maximum = 100;
-
             if (Design.PosTower.typeID != 0)
             {
                 cb_Interval.SelectedIndex = (int)Design.PosTower.Design_Interval;
                 if (Design.PosTower.Design_Int_Qty > 0)
-                    nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
+                {
+                    if (Design.PosTower.Design_Int_Qty > nud_DesFuelPeriod.Maximum)
+                        nud_DesFuelPeriod.Value = nud_DesFuelPeriod.Maximum;
+                    else
+                        nud_DesFuelPeriod.Value = Design.PosTower.Design_Int_Qty;
+                }
                 else
                     nud_DesFuelPeriod.Value = 1;
+
                 if (Design.PosTower.Design_Stront_Qty > nud_StrontInterval.Maximum)
                     nud_StrontInterval.Value = nud_StrontInterval.Maximum;
                 else
@@ -2435,10 +2441,8 @@ namespace EveHQ.PosManager
             {
                 cb_Interval.SelectedIndex = 1;
                 nud_DesFuelPeriod.Minimum = 0;
-                nud_DesFuelPeriod.Maximum = 1;
                 nud_DesFuelPeriod.Value = 0;
                 nud_StrontInterval.Minimum = 0;
-                nud_StrontInterval.Maximum = 1;
                 nud_StrontInterval.Value = 0;
             }
 
