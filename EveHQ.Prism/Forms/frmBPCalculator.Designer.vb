@@ -97,6 +97,10 @@ Partial Class frmBPCalculator
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.nudCopyRuns = New DevComponents.Editors.IntegerInput()
         Me.tabBPCalcFunctions = New DevComponents.DotNetBar.TabControl()
+        Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
+        Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkResearchAtPOS = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.tiResearch = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpInvention = New DevComponents.DotNetBar.TabControlPanel()
         Me.chkInventionFlag = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.lblBatchTotalCost = New System.Windows.Forms.Label()
@@ -164,10 +168,6 @@ Partial Class frmBPCalculator
         Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
-        Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkResearchAtPOS = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.tiResearch = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.nudPELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJobAs = New DevComponents.DotNetBar.ButtonX()
         Me.nudMELevel = New DevComponents.Editors.IntegerInput()
@@ -205,6 +205,7 @@ Partial Class frmBPCalculator
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabBPCalcFunctions.SuspendLayout()
+        Me.tcpResearch.SuspendLayout()
         Me.tcpInvention.SuspendLayout()
         CType(Me.adtInventionProfits, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudInventionSkill2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -213,7 +214,6 @@ Partial Class frmBPCalculator
         CType(Me.nudInventionBPCRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcpProduction.SuspendLayout()
         CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tcpResearch.SuspendLayout()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpPilotSkills.SuspendLayout()
@@ -855,6 +855,8 @@ Partial Class frmBPCalculator
         '
         Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.gpPilotSkills)
+        Me.PanelEx1.Controls.Add(Me.gpBPSelection)
         Me.PanelEx1.Controls.Add(Me.nudCopyRuns)
         Me.PanelEx1.Controls.Add(Me.tabBPCalcFunctions)
         Me.PanelEx1.Controls.Add(Me.nudPELevel)
@@ -862,9 +864,7 @@ Partial Class frmBPCalculator
         Me.PanelEx1.Controls.Add(Me.btnSaveProductionJobAs)
         Me.PanelEx1.Controls.Add(Me.nudMELevel)
         Me.PanelEx1.Controls.Add(Me.btnSaveProductionJob)
-        Me.PanelEx1.Controls.Add(Me.gpPilotSkills)
         Me.PanelEx1.Controls.Add(Me.txtNewWasteFactor)
-        Me.PanelEx1.Controls.Add(Me.gpBPSelection)
         Me.PanelEx1.Controls.Add(Me.LblNewWFLbl)
         Me.PanelEx1.Controls.Add(Me.lblNewPELbl)
         Me.PanelEx1.Controls.Add(Me.lblRunsPerCopy)
@@ -925,6 +925,70 @@ Partial Class frmBPCalculator
         Me.tabBPCalcFunctions.Tabs.Add(Me.tiProduction)
         Me.tabBPCalcFunctions.Tabs.Add(Me.tiInvention)
         Me.tabBPCalcFunctions.Text = "TabControl1"
+        '
+        'tcpResearch
+        '
+        Me.tcpResearch.Controls.Add(Me.lblMETime)
+        Me.tcpResearch.Controls.Add(Me.lblPETimeLbl)
+        Me.tcpResearch.Controls.Add(Me.chkAdvancedLab)
+        Me.tcpResearch.Controls.Add(Me.lblPETime)
+        Me.tcpResearch.Controls.Add(Me.chkResearchAtPOS)
+        Me.tcpResearch.Controls.Add(Me.lblMETimeLbl)
+        Me.tcpResearch.Controls.Add(Me.lblBPCopyTimeLbl)
+        Me.tcpResearch.Controls.Add(Me.lblCopyTime)
+        Me.tcpResearch.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpResearch.Location = New System.Drawing.Point(0, 23)
+        Me.tcpResearch.Name = "tcpResearch"
+        Me.tcpResearch.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpResearch.Size = New System.Drawing.Size(836, 525)
+        Me.tcpResearch.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpResearch.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpResearch.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpResearch.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpResearch.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpResearch.Style.GradientAngle = 90
+        Me.tcpResearch.TabIndex = 1
+        Me.tcpResearch.TabItem = Me.tiResearch
+        '
+        'chkAdvancedLab
+        '
+        Me.chkAdvancedLab.AutoSize = True
+        Me.chkAdvancedLab.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkAdvancedLab.BackgroundStyle.Class = ""
+        Me.chkAdvancedLab.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkAdvancedLab.Enabled = False
+        Me.chkAdvancedLab.Location = New System.Drawing.Point(160, 13)
+        Me.chkAdvancedLab.Name = "chkAdvancedLab"
+        Me.chkAdvancedLab.Size = New System.Drawing.Size(126, 16)
+        Me.chkAdvancedLab.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkAdvancedLab.TabIndex = 33
+        Me.chkAdvancedLab.Text = "Advanced Lab (Copy)"
+        '
+        'chkResearchAtPOS
+        '
+        Me.chkResearchAtPOS.AutoSize = True
+        Me.chkResearchAtPOS.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkResearchAtPOS.BackgroundStyle.Class = ""
+        Me.chkResearchAtPOS.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkResearchAtPOS.Location = New System.Drawing.Point(22, 13)
+        Me.chkResearchAtPOS.Name = "chkResearchAtPOS"
+        Me.chkResearchAtPOS.Size = New System.Drawing.Size(108, 16)
+        Me.chkResearchAtPOS.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkResearchAtPOS.TabIndex = 32
+        Me.chkResearchAtPOS.Text = "Research at POS?"
+        '
+        'tiResearch
+        '
+        Me.tiResearch.AttachedControl = Me.tcpResearch
+        Me.tiResearch.Name = "tiResearch"
+        Me.tiResearch.Text = "Research"
         '
         'tcpInvention
         '
@@ -1843,70 +1907,6 @@ Partial Class frmBPCalculator
         Me.tiProduction.Name = "tiProduction"
         Me.tiProduction.Text = "Production"
         '
-        'tcpResearch
-        '
-        Me.tcpResearch.Controls.Add(Me.lblMETime)
-        Me.tcpResearch.Controls.Add(Me.lblPETimeLbl)
-        Me.tcpResearch.Controls.Add(Me.chkAdvancedLab)
-        Me.tcpResearch.Controls.Add(Me.lblPETime)
-        Me.tcpResearch.Controls.Add(Me.chkResearchAtPOS)
-        Me.tcpResearch.Controls.Add(Me.lblMETimeLbl)
-        Me.tcpResearch.Controls.Add(Me.lblBPCopyTimeLbl)
-        Me.tcpResearch.Controls.Add(Me.lblCopyTime)
-        Me.tcpResearch.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpResearch.Location = New System.Drawing.Point(0, 23)
-        Me.tcpResearch.Name = "tcpResearch"
-        Me.tcpResearch.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpResearch.Size = New System.Drawing.Size(836, 525)
-        Me.tcpResearch.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpResearch.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpResearch.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpResearch.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpResearch.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpResearch.Style.GradientAngle = 90
-        Me.tcpResearch.TabIndex = 1
-        Me.tcpResearch.TabItem = Me.tiResearch
-        '
-        'chkAdvancedLab
-        '
-        Me.chkAdvancedLab.AutoSize = True
-        Me.chkAdvancedLab.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkAdvancedLab.BackgroundStyle.Class = ""
-        Me.chkAdvancedLab.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkAdvancedLab.Enabled = False
-        Me.chkAdvancedLab.Location = New System.Drawing.Point(160, 13)
-        Me.chkAdvancedLab.Name = "chkAdvancedLab"
-        Me.chkAdvancedLab.Size = New System.Drawing.Size(126, 16)
-        Me.chkAdvancedLab.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkAdvancedLab.TabIndex = 33
-        Me.chkAdvancedLab.Text = "Advanced Lab (Copy)"
-        '
-        'chkResearchAtPOS
-        '
-        Me.chkResearchAtPOS.AutoSize = True
-        Me.chkResearchAtPOS.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkResearchAtPOS.BackgroundStyle.Class = ""
-        Me.chkResearchAtPOS.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkResearchAtPOS.Location = New System.Drawing.Point(22, 13)
-        Me.chkResearchAtPOS.Name = "chkResearchAtPOS"
-        Me.chkResearchAtPOS.Size = New System.Drawing.Size(108, 16)
-        Me.chkResearchAtPOS.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkResearchAtPOS.TabIndex = 32
-        Me.chkResearchAtPOS.Text = "Research at POS?"
-        '
-        'tiResearch
-        '
-        Me.tiResearch.AttachedControl = Me.tcpResearch
-        Me.tiResearch.Name = "tiResearch"
-        Me.tiResearch.Text = "Research"
-        '
         'nudPELevel
         '
         '
@@ -1965,12 +1965,13 @@ Partial Class frmBPCalculator
         'gpPilotSkills
         '
         Me.gpPilotSkills.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpPilotSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpPilotSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.gpPilotSkills.Controls.Add(Me.gpProductionSkills)
         Me.gpPilotSkills.Controls.Add(Me.gpResearchSkills)
         Me.gpPilotSkills.Controls.Add(Me.chkOverrideSkills)
         Me.gpPilotSkills.Controls.Add(Me.cboPilot)
         Me.gpPilotSkills.Controls.Add(Me.lblPilot)
+        Me.gpPilotSkills.IsShadowEnabled = True
         Me.gpPilotSkills.Location = New System.Drawing.Point(413, 3)
         Me.gpPilotSkills.Name = "gpPilotSkills"
         Me.gpPilotSkills.Size = New System.Drawing.Size(340, 151)
@@ -2205,7 +2206,7 @@ Partial Class frmBPCalculator
         'gpBPSelection
         '
         Me.gpBPSelection.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpBPSelection.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpBPSelection.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.gpBPSelection.Controls.Add(Me.lblToggleInvention)
         Me.gpBPSelection.Controls.Add(Me.btnToggleInvention)
         Me.gpBPSelection.Controls.Add(Me.cboOwner)
@@ -2225,6 +2226,7 @@ Partial Class frmBPCalculator
         Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValue)
         Me.gpBPSelection.Controls.Add(Me.pbBP)
         Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValueLbl)
+        Me.gpBPSelection.IsShadowEnabled = True
         Me.gpBPSelection.Location = New System.Drawing.Point(3, 3)
         Me.gpBPSelection.Name = "gpBPSelection"
         Me.gpBPSelection.Size = New System.Drawing.Size(404, 151)
@@ -2479,6 +2481,8 @@ Partial Class frmBPCalculator
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabBPCalcFunctions.ResumeLayout(False)
+        Me.tcpResearch.ResumeLayout(False)
+        Me.tcpResearch.PerformLayout()
         Me.tcpInvention.ResumeLayout(False)
         Me.tcpInvention.PerformLayout()
         CType(Me.adtInventionProfits, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2489,8 +2493,6 @@ Partial Class frmBPCalculator
         Me.tcpProduction.ResumeLayout(False)
         Me.tcpProduction.PerformLayout()
         CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tcpResearch.ResumeLayout(False)
-        Me.tcpResearch.PerformLayout()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gpPilotSkills.ResumeLayout(False)
