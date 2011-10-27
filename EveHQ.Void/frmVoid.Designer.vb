@@ -23,27 +23,27 @@ Partial Class frmVoid
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVoid))
-        Me.lblMaxJumpableMass = New System.Windows.Forms.Label
-        Me.lblMaxJumpableMassLbl = New System.Windows.Forms.Label
-        Me.lblMaxTotalMass = New System.Windows.Forms.Label
-        Me.lblMaxTotalMassLbl = New System.Windows.Forms.Label
-        Me.lblStabilityWindow = New System.Windows.Forms.Label
-        Me.lblStabilityWindowLbl = New System.Windows.Forms.Label
-        Me.lblTargetSystemClass = New System.Windows.Forms.Label
-        Me.lblTargetSystemClassLbl = New System.Windows.Forms.Label
-        Me.cboWHType = New System.Windows.Forms.ComboBox
-        Me.lblWHType = New System.Windows.Forms.Label
-        Me.lvwEffects = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.lblAnomalyName = New System.Windows.Forms.Label
-        Me.lblAnomalyNameLbl = New System.Windows.Forms.Label
-        Me.lblSystemClass = New System.Windows.Forms.Label
-        Me.lblSystemClassLbl = New System.Windows.Forms.Label
-        Me.cboWHSystem = New System.Windows.Forms.ComboBox
-        Me.lblLocus = New System.Windows.Forms.Label
-        Me.gpWHInfo = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.gpWHSystemInfo = New DevComponents.DotNetBar.Controls.GroupPanel
+        Me.lblMaxJumpableMass = New System.Windows.Forms.Label()
+        Me.lblMaxJumpableMassLbl = New System.Windows.Forms.Label()
+        Me.lblMaxTotalMass = New System.Windows.Forms.Label()
+        Me.lblMaxTotalMassLbl = New System.Windows.Forms.Label()
+        Me.lblStabilityWindow = New System.Windows.Forms.Label()
+        Me.lblStabilityWindowLbl = New System.Windows.Forms.Label()
+        Me.lblTargetSystemClass = New System.Windows.Forms.Label()
+        Me.lblTargetSystemClassLbl = New System.Windows.Forms.Label()
+        Me.cboWHType = New System.Windows.Forms.ComboBox()
+        Me.lblWHType = New System.Windows.Forms.Label()
+        Me.lvwEffects = New System.Windows.Forms.ListView()
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lblAnomalyName = New System.Windows.Forms.Label()
+        Me.lblAnomalyNameLbl = New System.Windows.Forms.Label()
+        Me.lblSystemClass = New System.Windows.Forms.Label()
+        Me.lblSystemClassLbl = New System.Windows.Forms.Label()
+        Me.cboWHSystem = New System.Windows.Forms.ComboBox()
+        Me.lblLocus = New System.Windows.Forms.Label()
+        Me.gpWHInfo = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.gpWHSystemInfo = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.gpWHInfo.SuspendLayout()
         Me.gpWHSystemInfo.SuspendLayout()
         Me.SuspendLayout()
@@ -150,7 +150,7 @@ Partial Class frmVoid
         'lvwEffects
         '
         Me.lvwEffects.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwEffects.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvwEffects.FullRowSelect = True
         Me.lvwEffects.GridLines = True
@@ -245,6 +245,7 @@ Partial Class frmVoid
         Me.gpWHInfo.Controls.Add(Me.lblTargetSystemClass)
         Me.gpWHInfo.Controls.Add(Me.lblStabilityWindow)
         Me.gpWHInfo.Controls.Add(Me.lblStabilityWindowLbl)
+        Me.gpWHInfo.IsShadowEnabled = True
         Me.gpWHInfo.Location = New System.Drawing.Point(12, 12)
         Me.gpWHInfo.Name = "gpWHInfo"
         Me.gpWHInfo.Size = New System.Drawing.Size(354, 185)
@@ -285,7 +286,7 @@ Partial Class frmVoid
         'gpWHSystemInfo
         '
         Me.gpWHSystemInfo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.gpWHSystemInfo.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpWHSystemInfo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpWHSystemInfo.Controls.Add(Me.lvwEffects)
@@ -295,6 +296,7 @@ Partial Class frmVoid
         Me.gpWHSystemInfo.Controls.Add(Me.lblAnomalyNameLbl)
         Me.gpWHSystemInfo.Controls.Add(Me.lblSystemClassLbl)
         Me.gpWHSystemInfo.Controls.Add(Me.lblSystemClass)
+        Me.gpWHSystemInfo.IsShadowEnabled = True
         Me.gpWHSystemInfo.Location = New System.Drawing.Point(12, 213)
         Me.gpWHSystemInfo.Name = "gpWHSystemInfo"
         Me.gpWHSystemInfo.Size = New System.Drawing.Size(354, 392)
