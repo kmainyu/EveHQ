@@ -1356,29 +1356,31 @@ Public Class frmHQF
         ' Updates all implant lists in the open fittings
         For Each thisTab As DevComponents.DotNetBar.TabItem In tabHQF.Tabs
             Dim thisFit As Fitting = Fittings.FittingList(thisTab.Text)
-            Try
-                thisFit.ShipInfoCtrl.UpdateImplantList()
-            Catch e As Exception
-                Dim msg As New StringBuilder
-                msg.AppendLine("Error: " & e.Message)
-                msg.AppendLine("Tab Text: " & thisTab.Text)
-                If thisFit IsNot Nothing Then
-                    msg.AppendLine("Fitting: " & thisFit.KeyName)
-                Else
-                    msg.AppendLine("Fitting: Nothing!!")
-                End If
-                If thisFit.ShipInfoCtrl IsNot Nothing Then
-                    msg.AppendLine("ShipInfo: Present")
-                Else
-                    msg.AppendLine("ShipInfo: Missing!!")
-                End If
-                If thisFit.ShipSlotCtrl IsNot Nothing Then
-                    msg.AppendLine("ShipSlot: Present")
-                Else
-                    msg.AppendLine("ShipSlot: Missing!!")
-                End If
-                MessageBox.Show(msg.ToString, "Error Updating Implants", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+            If thisFit.ShipInfoCtrl IsNot Nothing Then
+                Try
+                    thisFit.ShipInfoCtrl.UpdateImplantList()
+                Catch e As Exception
+                    Dim msg As New StringBuilder
+                    msg.AppendLine("Error: " & e.Message)
+                    msg.AppendLine("Tab Text: " & thisTab.Text)
+                    If thisFit IsNot Nothing Then
+                        msg.AppendLine("Fitting: " & thisFit.KeyName)
+                    Else
+                        msg.AppendLine("Fitting: Nothing!!")
+                    End If
+                    If thisFit.ShipInfoCtrl IsNot Nothing Then
+                        msg.AppendLine("ShipInfo: Present")
+                    Else
+                        msg.AppendLine("ShipInfo: Missing!!")
+                    End If
+                    If thisFit.ShipSlotCtrl IsNot Nothing Then
+                        msg.AppendLine("ShipSlot: Present")
+                    Else
+                        msg.AppendLine("ShipSlot: Missing!!")
+                    End If
+                    'MessageBox.Show(msg.ToString, "Error Updating Implants", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
         Next
         Me.Cursor = Cursors.Default
     End Sub
