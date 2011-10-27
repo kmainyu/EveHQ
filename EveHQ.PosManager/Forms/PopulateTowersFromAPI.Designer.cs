@@ -49,8 +49,8 @@
             this.label1.Size = new System.Drawing.Size(423, 52);
             this.label1.TabIndex = 0;
             this.label1.Text = "Caution - Adding PoS Towers from the API List can lead to duplicate designs if th" +
-                "e name is in any way different. Towers and designs that are already linked will " +
-                "not be shown.";
+    "e name is in any way different. Towers and designs that are already linked will " +
+    "not be shown.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // clb_TowerListing
