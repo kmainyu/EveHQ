@@ -1677,6 +1677,7 @@ Partial Class frmPrism
         '
         Me.colRecItem.DisplayIndex = 1
         Me.colRecItem.Name = "colRecItem"
+        Me.colRecItem.SortingEnabled = False
         Me.colRecItem.Text = "Item"
         Me.colRecItem.Width.Absolute = 250
         '
@@ -1684,6 +1685,7 @@ Partial Class frmPrism
         '
         Me.colRecMeta.DisplayIndex = 2
         Me.colRecMeta.Name = "colRecMeta"
+        Me.colRecMeta.SortingEnabled = False
         Me.colRecMeta.Text = "Meta"
         Me.colRecMeta.Width.Absolute = 50
         '
@@ -1691,6 +1693,7 @@ Partial Class frmPrism
         '
         Me.colRecQty.DisplayIndex = 3
         Me.colRecQty.Name = "colRecQty"
+        Me.colRecQty.SortingEnabled = False
         Me.colRecQty.Text = "Quantity"
         Me.colRecQty.Width.Absolute = 75
         '
@@ -1698,6 +1701,7 @@ Partial Class frmPrism
         '
         Me.colRecBatches.DisplayIndex = 4
         Me.colRecBatches.Name = "colRecBatches"
+        Me.colRecBatches.SortingEnabled = False
         Me.colRecBatches.Text = "Batches"
         Me.colRecBatches.Width.Absolute = 50
         '
@@ -1705,6 +1709,7 @@ Partial Class frmPrism
         '
         Me.colRecPrice.DisplayIndex = 5
         Me.colRecPrice.Name = "colRecPrice"
+        Me.colRecPrice.SortingEnabled = False
         Me.colRecPrice.Text = "Item Price"
         Me.colRecPrice.Width.Absolute = 125
         '
@@ -1712,6 +1717,7 @@ Partial Class frmPrism
         '
         Me.colRecValue.DisplayIndex = 6
         Me.colRecValue.Name = "colRecValue"
+        Me.colRecValue.SortingEnabled = False
         Me.colRecValue.Text = "Total Price"
         Me.colRecValue.Width.Absolute = 125
         '
@@ -1719,6 +1725,7 @@ Partial Class frmPrism
         '
         Me.colRecFees.DisplayIndex = 7
         Me.colRecFees.Name = "colRecFees"
+        Me.colRecFees.SortingEnabled = False
         Me.colRecFees.Text = "Sale Fees"
         Me.colRecFees.Width.Absolute = 125
         '
@@ -1726,6 +1733,7 @@ Partial Class frmPrism
         '
         Me.colRecSalePrice.DisplayIndex = 8
         Me.colRecSalePrice.Name = "colRecSalePrice"
+        Me.colRecSalePrice.SortingEnabled = False
         Me.colRecSalePrice.Text = "Sale Price"
         Me.colRecSalePrice.Width.Absolute = 125
         '
@@ -1733,6 +1741,7 @@ Partial Class frmPrism
         '
         Me.colRecRefinePrice.DisplayIndex = 9
         Me.colRecRefinePrice.Name = "colRecRefinePrice"
+        Me.colRecRefinePrice.SortingEnabled = False
         Me.colRecRefinePrice.Text = "Refine Price"
         Me.colRecRefinePrice.Width.Absolute = 125
         '
@@ -1740,6 +1749,7 @@ Partial Class frmPrism
         '
         Me.colRecBestPrice.DisplayIndex = 10
         Me.colRecBestPrice.Name = "colRecBestPrice"
+        Me.colRecBestPrice.SortingEnabled = False
         Me.colRecBestPrice.Text = "Best Price"
         Me.colRecBestPrice.Width.Absolute = 125
         '
@@ -1747,6 +1757,7 @@ Partial Class frmPrism
         '
         Me.colRecTotalBen.DisplayIndex = 11
         Me.colRecTotalBen.Name = "colRecTotalBen"
+        Me.colRecTotalBen.SortingEnabled = False
         Me.colRecTotalBen.Text = "Total Benefit"
         Me.colRecTotalBen.Width.Absolute = 125
         '
@@ -1754,6 +1765,7 @@ Partial Class frmPrism
         '
         Me.colRecUnitBen.DisplayIndex = 12
         Me.colRecUnitBen.Name = "colRecUnitBen"
+        Me.colRecUnitBen.SortingEnabled = False
         Me.colRecUnitBen.Text = "Unit Benefit"
         Me.colRecUnitBen.Width.Absolute = 125
         '
@@ -1855,6 +1867,7 @@ Partial Class frmPrism
         '
         Me.colRTMaterial.DisplayIndex = 1
         Me.colRTMaterial.Name = "colRTMaterial"
+        Me.colRTMaterial.SortingEnabled = False
         Me.colRTMaterial.Text = "Material"
         Me.colRTMaterial.Width.Absolute = 300
         '
@@ -1862,6 +1875,7 @@ Partial Class frmPrism
         '
         Me.colRTStationTake.DisplayIndex = 2
         Me.colRTStationTake.Name = "colRTStationTake"
+        Me.colRTStationTake.SortingEnabled = False
         Me.colRTStationTake.Text = "Station Take"
         Me.colRTStationTake.Width.Absolute = 150
         '
@@ -1869,6 +1883,7 @@ Partial Class frmPrism
         '
         Me.colRTUnrecoverable.DisplayIndex = 3
         Me.colRTUnrecoverable.Name = "colRTUnrecoverable"
+        Me.colRTUnrecoverable.SortingEnabled = False
         Me.colRTUnrecoverable.Text = "Unrecoverable"
         Me.colRTUnrecoverable.Width.Absolute = 150
         '
@@ -1876,6 +1891,7 @@ Partial Class frmPrism
         '
         Me.colRTReceivable.DisplayIndex = 4
         Me.colRTReceivable.Name = "colRTReceivable"
+        Me.colRTReceivable.SortingEnabled = False
         Me.colRTReceivable.Text = "Receivable"
         Me.colRTReceivable.Width.Absolute = 150
         '
@@ -1883,6 +1899,7 @@ Partial Class frmPrism
         '
         Me.colRTPrice.DisplayIndex = 5
         Me.colRTPrice.Name = "colRTPrice"
+        Me.colRTPrice.SortingEnabled = False
         Me.colRTPrice.Text = "Price"
         Me.colRTPrice.Width.Absolute = 150
         '
@@ -1890,6 +1907,7 @@ Partial Class frmPrism
         '
         Me.colRTTotal.DisplayIndex = 6
         Me.colRTTotal.Name = "colRTTotal"
+        Me.colRTTotal.SortingEnabled = False
         Me.colRTTotal.Text = "Total"
         Me.colRTTotal.Width.Absolute = 150
         '
@@ -2700,9 +2718,9 @@ Partial Class frmPrism
         Me.tabPrism.CloseButtonVisible = True
         Me.tabPrism.ColorScheme.TabBackground = System.Drawing.Color.Transparent
         Me.tabPrism.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-        Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+        Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-        Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
         Me.tabPrism.Controls.Add(Me.TabControlPanel15)
         Me.tabPrism.Controls.Add(Me.TabControlPanel6)
@@ -2762,10 +2780,10 @@ Partial Class frmPrism
         Me.TabControlPanel1.Name = "TabControlPanel1"
         Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel1.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel1.Style.GradientAngle = 90
@@ -2887,6 +2905,7 @@ Partial Class frmPrism
         'colItemSearch
         '
         Me.colItemSearch.Name = "colItemSearch"
+        Me.colItemSearch.SortingEnabled = False
         Me.colItemSearch.Text = "Item Name"
         Me.colItemSearch.Width.Absolute = 360
         '
@@ -2947,10 +2966,10 @@ Partial Class frmPrism
         Me.TabControlPanel15.Name = "TabControlPanel15"
         Me.TabControlPanel15.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel15.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel15.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel15.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel15.Style.GradientAngle = 90
@@ -3018,6 +3037,7 @@ Partial Class frmPrism
         '
         Me.colRigListType.DisplayIndex = 1
         Me.colRigListType.Name = "colRigListType"
+        Me.colRigListType.SortingEnabled = False
         Me.colRigListType.Text = "Rig Type"
         Me.colRigListType.Width.Absolute = 200
         '
@@ -3025,6 +3045,7 @@ Partial Class frmPrism
         '
         Me.colRigListQuantity.DisplayIndex = 2
         Me.colRigListQuantity.Name = "colRigListQuantity"
+        Me.colRigListQuantity.SortingEnabled = False
         Me.colRigListQuantity.Text = "Quantity"
         Me.colRigListQuantity.Width.Absolute = 100
         '
@@ -3032,6 +3053,7 @@ Partial Class frmPrism
         '
         Me.colRigListRigPrice.DisplayIndex = 3
         Me.colRigListRigPrice.Name = "colRigListRigPrice"
+        Me.colRigListRigPrice.SortingEnabled = False
         Me.colRigListRigPrice.Text = "Rig Price"
         Me.colRigListRigPrice.Width.Absolute = 120
         '
@@ -3039,6 +3061,7 @@ Partial Class frmPrism
         '
         Me.colRigListSalvagePrice.DisplayIndex = 4
         Me.colRigListSalvagePrice.Name = "colRigListSalvagePrice"
+        Me.colRigListSalvagePrice.SortingEnabled = False
         Me.colRigListSalvagePrice.Text = "Salvage Price"
         Me.colRigListSalvagePrice.Width.Absolute = 120
         '
@@ -3046,6 +3069,7 @@ Partial Class frmPrism
         '
         Me.colRigListBuildBenefit.DisplayIndex = 5
         Me.colRigListBuildBenefit.Name = "colRigListBuildBenefit"
+        Me.colRigListBuildBenefit.SortingEnabled = False
         Me.colRigListBuildBenefit.Text = "Build Benefit"
         Me.colRigListBuildBenefit.Width.Absolute = 120
         '
@@ -3053,6 +3077,7 @@ Partial Class frmPrism
         '
         Me.colRigListRigValue.DisplayIndex = 6
         Me.colRigListRigValue.Name = "colRigListRigValue"
+        Me.colRigListRigValue.SortingEnabled = False
         Me.colRigListRigValue.Text = "Total Rig Value"
         Me.colRigListRigValue.Width.Absolute = 120
         '
@@ -3060,6 +3085,7 @@ Partial Class frmPrism
         '
         Me.colRigListSalvageValue.DisplayIndex = 7
         Me.colRigListSalvageValue.Name = "colRigListSalvageValue"
+        Me.colRigListSalvageValue.SortingEnabled = False
         Me.colRigListSalvageValue.Text = "Total Salvage Value"
         Me.colRigListSalvageValue.Width.Absolute = 120
         '
@@ -3067,6 +3093,7 @@ Partial Class frmPrism
         '
         Me.colRigListTotalBuildBenefit.DisplayIndex = 8
         Me.colRigListTotalBuildBenefit.Name = "colRigListTotalBuildBenefit"
+        Me.colRigListTotalBuildBenefit.SortingEnabled = False
         Me.colRigListTotalBuildBenefit.Text = "Total Build Benefit"
         Me.colRigListTotalBuildBenefit.Width.Absolute = 120
         '
@@ -3074,6 +3101,7 @@ Partial Class frmPrism
         '
         Me.colRigListMargin.DisplayIndex = 9
         Me.colRigListMargin.Name = "colRigListMargin"
+        Me.colRigListMargin.SortingEnabled = False
         Me.colRigListMargin.Text = "% Margin"
         Me.colRigListMargin.Width.Absolute = 100
         '
@@ -3090,29 +3118,29 @@ Partial Class frmPrism
         '
         'ExpandableSplitter1
         '
-        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
         Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
         Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
         Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
         Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.ExpandableSplitter1.Location = New System.Drawing.Point(0, 259)
         Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
@@ -3159,6 +3187,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildType.DisplayIndex = 1
         Me.colRigBuildType.Name = "colRigBuildType"
+        Me.colRigBuildType.SortingEnabled = False
         Me.colRigBuildType.Text = "Rig Type"
         Me.colRigBuildType.Width.Absolute = 200
         '
@@ -3166,6 +3195,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildQuantity.DisplayIndex = 2
         Me.colRigBuildQuantity.Name = "colRigBuildQuantity"
+        Me.colRigBuildQuantity.SortingEnabled = False
         Me.colRigBuildQuantity.Text = "Quantity"
         Me.colRigBuildQuantity.Width.Absolute = 100
         '
@@ -3173,6 +3203,7 @@ Partial Class frmPrism
         '
         Me.colRigBuidRigPrice.DisplayIndex = 3
         Me.colRigBuidRigPrice.Name = "colRigBuidRigPrice"
+        Me.colRigBuidRigPrice.SortingEnabled = False
         Me.colRigBuidRigPrice.Text = "Rig Price"
         Me.colRigBuidRigPrice.Width.Absolute = 120
         '
@@ -3180,6 +3211,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildSalvagePrice.DisplayIndex = 4
         Me.colRigBuildSalvagePrice.Name = "colRigBuildSalvagePrice"
+        Me.colRigBuildSalvagePrice.SortingEnabled = False
         Me.colRigBuildSalvagePrice.Text = "Salvage Price"
         Me.colRigBuildSalvagePrice.Width.Absolute = 120
         '
@@ -3187,6 +3219,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildBenefit.DisplayIndex = 5
         Me.colRigBuildBenefit.Name = "colRigBuildBenefit"
+        Me.colRigBuildBenefit.SortingEnabled = False
         Me.colRigBuildBenefit.Text = "Build Benefit"
         Me.colRigBuildBenefit.Width.Absolute = 120
         '
@@ -3194,6 +3227,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildRigValue.DisplayIndex = 6
         Me.colRigBuildRigValue.Name = "colRigBuildRigValue"
+        Me.colRigBuildRigValue.SortingEnabled = False
         Me.colRigBuildRigValue.Text = "Total Rig Value"
         Me.colRigBuildRigValue.Width.Absolute = 120
         '
@@ -3201,6 +3235,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildSalvageValue.DisplayIndex = 7
         Me.colRigBuildSalvageValue.Name = "colRigBuildSalvageValue"
+        Me.colRigBuildSalvageValue.SortingEnabled = False
         Me.colRigBuildSalvageValue.Text = "Total Salvage Value"
         Me.colRigBuildSalvageValue.Width.Absolute = 120
         '
@@ -3208,6 +3243,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildTotalBenefit.DisplayIndex = 8
         Me.colRigBuildTotalBenefit.Name = "colRigBuildTotalBenefit"
+        Me.colRigBuildTotalBenefit.SortingEnabled = False
         Me.colRigBuildTotalBenefit.Text = "Total Build Benefit"
         Me.colRigBuildTotalBenefit.Width.Absolute = 120
         '
@@ -3215,6 +3251,7 @@ Partial Class frmPrism
         '
         Me.colRigBuildMargin.DisplayIndex = 9
         Me.colRigBuildMargin.Name = "colRigBuildMargin"
+        Me.colRigBuildMargin.SortingEnabled = False
         Me.colRigBuildMargin.Text = "% Margin"
         Me.colRigBuildMargin.Width.Absolute = 100
         '
@@ -3505,10 +3542,10 @@ Partial Class frmPrism
         Me.TabControlPanel6.Name = "TabControlPanel6"
         Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel6.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel6.Style.GradientAngle = 90
@@ -3583,6 +3620,7 @@ Partial Class frmPrism
         '
         Me.colJournalDate.DisplayIndex = 1
         Me.colJournalDate.Name = "colJournalDate"
+        Me.colJournalDate.SortingEnabled = False
         Me.colJournalDate.Text = "Date"
         Me.colJournalDate.Width.Absolute = 150
         '
@@ -3590,6 +3628,7 @@ Partial Class frmPrism
         '
         Me.colJournalType.DisplayIndex = 2
         Me.colJournalType.Name = "colJournalType"
+        Me.colJournalType.SortingEnabled = False
         Me.colJournalType.Text = "Type"
         Me.colJournalType.Width.Absolute = 250
         '
@@ -3597,6 +3636,7 @@ Partial Class frmPrism
         '
         Me.colJournalAmount.DisplayIndex = 3
         Me.colJournalAmount.Name = "colJournalAmount"
+        Me.colJournalAmount.SortingEnabled = False
         Me.colJournalAmount.Text = "Amount"
         Me.colJournalAmount.Width.Absolute = 125
         '
@@ -3604,6 +3644,7 @@ Partial Class frmPrism
         '
         Me.colJournalBalance.DisplayIndex = 4
         Me.colJournalBalance.Name = "colJournalBalance"
+        Me.colJournalBalance.SortingEnabled = False
         Me.colJournalBalance.Text = "Balance"
         Me.colJournalBalance.Width.Absolute = 125
         '
@@ -3611,6 +3652,7 @@ Partial Class frmPrism
         '
         Me.colJournalDescription.DisplayIndex = 5
         Me.colJournalDescription.Name = "colJournalDescription"
+        Me.colJournalDescription.SortingEnabled = False
         Me.colJournalDescription.Text = "Description"
         Me.colJournalDescription.Width.Absolute = 500
         '
@@ -3635,10 +3677,10 @@ Partial Class frmPrism
         Me.TabControlPanel17.Name = "TabControlPanel17"
         Me.TabControlPanel17.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel17.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel17.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel17.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel17.Style.GradientAngle = 90
@@ -3683,6 +3725,7 @@ Partial Class frmPrism
         '
         Me.colInvJobName.DisplayIndex = 1
         Me.colInvJobName.Name = "colInvJobName"
+        Me.colInvJobName.SortingEnabled = False
         Me.colInvJobName.Text = "Invention Job Name"
         Me.colInvJobName.Width.Absolute = 150
         '
@@ -3690,6 +3733,7 @@ Partial Class frmPrism
         '
         Me.colInvJobItem.DisplayIndex = 2
         Me.colInvJobItem.Name = "colInvJobItem"
+        Me.colInvJobItem.SortingEnabled = False
         Me.colInvJobItem.Text = "Invented BP"
         Me.colInvJobItem.Width.Absolute = 150
         '
@@ -3697,6 +3741,7 @@ Partial Class frmPrism
         '
         Me.colSuccessChance.DisplayIndex = 3
         Me.colSuccessChance.Name = "colSuccessChance"
+        Me.colSuccessChance.SortingEnabled = False
         Me.colSuccessChance.Text = "% Success"
         Me.colSuccessChance.Width.Absolute = 75
         '
@@ -3704,6 +3749,7 @@ Partial Class frmPrism
         '
         Me.colSuccessCost.DisplayIndex = 4
         Me.colSuccessCost.Name = "colSuccessCost"
+        Me.colSuccessCost.SortingEnabled = False
         Me.colSuccessCost.Text = "Success Cost"
         Me.colSuccessCost.Width.Absolute = 150
         '
@@ -3711,6 +3757,7 @@ Partial Class frmPrism
         '
         Me.colInvProductionCost.DisplayIndex = 5
         Me.colInvProductionCost.Name = "colInvProductionCost"
+        Me.colInvProductionCost.SortingEnabled = False
         Me.colInvProductionCost.Text = "Production Cost"
         Me.colInvProductionCost.Width.Absolute = 150
         '
@@ -3718,6 +3765,7 @@ Partial Class frmPrism
         '
         Me.colInvSalesPrice.DisplayIndex = 6
         Me.colInvSalesPrice.Name = "colInvSalesPrice"
+        Me.colInvSalesPrice.SortingEnabled = False
         Me.colInvSalesPrice.Text = "Sales Price"
         Me.colInvSalesPrice.Width.Absolute = 120
         '
@@ -3725,6 +3773,7 @@ Partial Class frmPrism
         '
         Me.colInvUnitProfit.DisplayIndex = 7
         Me.colInvUnitProfit.Name = "colInvUnitProfit"
+        Me.colInvUnitProfit.SortingEnabled = False
         Me.colInvUnitProfit.Text = "Unit Profit"
         Me.colInvUnitProfit.Width.Absolute = 120
         '
@@ -3732,6 +3781,7 @@ Partial Class frmPrism
         '
         Me.colInvProfitMargin.DisplayIndex = 8
         Me.colInvProfitMargin.Name = "colInvProfitMargin"
+        Me.colInvProfitMargin.SortingEnabled = False
         Me.colInvProfitMargin.Text = "Margin (%)"
         Me.colInvProfitMargin.Width.Absolute = 75
         '
@@ -3761,10 +3811,10 @@ Partial Class frmPrism
         Me.TabControlPanel3.Name = "TabControlPanel3"
         Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel3.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel3.Style.GradientAngle = 90
@@ -4004,10 +4054,10 @@ Partial Class frmPrism
         Me.TabControlPanel11.Name = "TabControlPanel11"
         Me.TabControlPanel11.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel11.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel11.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel11.Style.GradientAngle = 90
@@ -4022,9 +4072,9 @@ Partial Class frmPrism
         Me.tcPM.CanReorderTabs = True
         Me.tcPM.ColorScheme.TabBackground = System.Drawing.Color.Transparent
         Me.tcPM.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-        Me.tcPM.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+        Me.tcPM.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.tcPM.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-        Me.tcPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tcPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
         Me.tcPM.Controls.Add(Me.TabControlPanel12)
         Me.tcPM.Controls.Add(Me.TabControlPanel13)
         Me.tcPM.Location = New System.Drawing.Point(7, 5)
@@ -4048,10 +4098,10 @@ Partial Class frmPrism
         Me.TabControlPanel12.Name = "TabControlPanel12"
         Me.TabControlPanel12.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel12.Size = New System.Drawing.Size(664, 618)
-        Me.TabControlPanel12.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel12.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel12.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel12.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel12.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel12.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel12.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel12.Style.GradientAngle = 90
@@ -4093,6 +4143,7 @@ Partial Class frmPrism
         '
         Me.colJobName.DisplayIndex = 1
         Me.colJobName.Name = "colJobName"
+        Me.colJobName.SortingEnabled = False
         Me.colJobName.Text = "Job Name"
         Me.colJobName.Width.Absolute = 150
         '
@@ -4100,6 +4151,7 @@ Partial Class frmPrism
         '
         Me.colJobItem.DisplayIndex = 2
         Me.colJobItem.Name = "colJobItem"
+        Me.colJobItem.SortingEnabled = False
         Me.colJobItem.Text = "Produced Item"
         Me.colJobItem.Width.Absolute = 150
         '
@@ -4107,6 +4159,7 @@ Partial Class frmPrism
         '
         Me.colJobUnitProfit.DisplayIndex = 3
         Me.colJobUnitProfit.Name = "colJobUnitProfit"
+        Me.colJobUnitProfit.SortingEnabled = False
         Me.colJobUnitProfit.Text = "Unit Profit"
         Me.colJobUnitProfit.Width.Absolute = 120
         '
@@ -4114,6 +4167,7 @@ Partial Class frmPrism
         '
         Me.colJobProfitRate.DisplayIndex = 4
         Me.colJobProfitRate.Name = "colJobProfitRate"
+        Me.colJobProfitRate.SortingEnabled = False
         Me.colJobProfitRate.Text = "Profit Rate (isk/hr)"
         Me.colJobProfitRate.Width.Absolute = 120
         '
@@ -4121,6 +4175,7 @@ Partial Class frmPrism
         '
         Me.colJobMargin.DisplayIndex = 5
         Me.colJobMargin.Name = "colJobMargin"
+        Me.colJobMargin.SortingEnabled = False
         Me.colJobMargin.Text = "Margin (%)"
         Me.colJobMargin.Width.Absolute = 75
         '
@@ -4221,10 +4276,10 @@ Partial Class frmPrism
         Me.TabControlPanel13.Name = "TabControlPanel13"
         Me.TabControlPanel13.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel13.Size = New System.Drawing.Size(664, 618)
-        Me.TabControlPanel13.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel13.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel13.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel13.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel13.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel13.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel13.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel13.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel13.Style.GradientAngle = 90
@@ -4261,6 +4316,7 @@ Partial Class frmPrism
         'colBatchName
         '
         Me.colBatchName.Name = "colBatchName"
+        Me.colBatchName.SortingEnabled = False
         Me.colBatchName.Text = "Batch Name"
         Me.colBatchName.Width.Absolute = 300
         '
@@ -4349,10 +4405,10 @@ Partial Class frmPrism
         Me.TabControlPanel16.Name = "TabControlPanel16"
         Me.TabControlPanel16.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel16.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel16.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel16.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel16.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel16.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel16.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel16.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel16.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel16.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel16.Style.GradientAngle = 90
@@ -4455,6 +4511,7 @@ Partial Class frmPrism
         '
         Me.colInventionDate.DisplayIndex = 1
         Me.colInventionDate.Name = "colInventionDate"
+        Me.colInventionDate.SortingEnabled = False
         Me.colInventionDate.Text = "Date"
         Me.colInventionDate.Width.Absolute = 150
         '
@@ -4462,6 +4519,7 @@ Partial Class frmPrism
         '
         Me.colInventionItem.DisplayIndex = 2
         Me.colInventionItem.Name = "colInventionItem"
+        Me.colInventionItem.SortingEnabled = False
         Me.colInventionItem.Text = "Item Type"
         Me.colInventionItem.Width.Absolute = 300
         '
@@ -4469,6 +4527,7 @@ Partial Class frmPrism
         '
         Me.colInventionInstaller.DisplayIndex = 3
         Me.colInventionInstaller.Name = "colInventionInstaller"
+        Me.colInventionInstaller.SortingEnabled = False
         Me.colInventionInstaller.Text = "Installer"
         Me.colInventionInstaller.Width.Absolute = 200
         '
@@ -4476,6 +4535,7 @@ Partial Class frmPrism
         '
         Me.colInventionResult.DisplayIndex = 4
         Me.colInventionResult.Name = "colInventionResult"
+        Me.colInventionResult.SortingEnabled = False
         Me.colInventionResult.Text = "Result"
         Me.colInventionResult.Width.Absolute = 100
         '
@@ -4706,10 +4766,10 @@ Partial Class frmPrism
         Me.TabControlPanel7.Name = "TabControlPanel7"
         Me.TabControlPanel7.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel7.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel7.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel7.Style.GradientAngle = 90
@@ -4839,6 +4899,7 @@ Partial Class frmPrism
         '
         Me.colIJobsItem.DisplayIndex = 1
         Me.colIJobsItem.Name = "colIJobsItem"
+        Me.colIJobsItem.SortingEnabled = False
         Me.colIJobsItem.Text = "Installed Item"
         Me.colIJobsItem.Width.Absolute = 300
         '
@@ -4846,6 +4907,7 @@ Partial Class frmPrism
         '
         Me.colIJobsActivity.DisplayIndex = 2
         Me.colIJobsActivity.Name = "colIJobsActivity"
+        Me.colIJobsActivity.SortingEnabled = False
         Me.colIJobsActivity.Text = "Activity"
         Me.colIJobsActivity.Width.Absolute = 100
         '
@@ -4853,6 +4915,7 @@ Partial Class frmPrism
         '
         Me.colIJobsRuns.DisplayIndex = 3
         Me.colIJobsRuns.Name = "colIJobsRuns"
+        Me.colIJobsRuns.SortingEnabled = False
         Me.colIJobsRuns.Text = "Runs"
         Me.colIJobsRuns.Width.Absolute = 50
         '
@@ -4860,6 +4923,7 @@ Partial Class frmPrism
         '
         Me.colIJobsInstaller.DisplayIndex = 4
         Me.colIJobsInstaller.Name = "colIJobsInstaller"
+        Me.colIJobsInstaller.SortingEnabled = False
         Me.colIJobsInstaller.Text = "Installer"
         Me.colIJobsInstaller.Width.Absolute = 150
         '
@@ -4867,6 +4931,7 @@ Partial Class frmPrism
         '
         Me.colIJobsLocation.DisplayIndex = 5
         Me.colIJobsLocation.Name = "colIJobsLocation"
+        Me.colIJobsLocation.SortingEnabled = False
         Me.colIJobsLocation.Text = "Location"
         Me.colIJobsLocation.Width.Absolute = 300
         '
@@ -4874,6 +4939,7 @@ Partial Class frmPrism
         '
         Me.colIJobsEndTime.DisplayIndex = 6
         Me.colIJobsEndTime.Name = "colIJobsEndTime"
+        Me.colIJobsEndTime.SortingEnabled = False
         Me.colIJobsEndTime.Text = "End Time"
         Me.colIJobsEndTime.Width.Absolute = 100
         '
@@ -4881,6 +4947,7 @@ Partial Class frmPrism
         '
         Me.colIJobsStatus.DisplayIndex = 7
         Me.colIJobsStatus.Name = "colIJobsStatus"
+        Me.colIJobsStatus.SortingEnabled = False
         Me.colIJobsStatus.Text = "Status"
         Me.colIJobsStatus.Width.Absolute = 100
         '
@@ -4926,10 +4993,10 @@ Partial Class frmPrism
         Me.TabControlPanel5.Name = "TabControlPanel5"
         Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel5.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel5.Style.GradientAngle = 90
@@ -5265,6 +5332,7 @@ Partial Class frmPrism
         '
         Me.colTransDate.DisplayIndex = 1
         Me.colTransDate.Name = "colTransDate"
+        Me.colTransDate.SortingEnabled = False
         Me.colTransDate.Text = "Date"
         Me.colTransDate.Width.Absolute = 120
         '
@@ -5272,6 +5340,7 @@ Partial Class frmPrism
         '
         Me.colTransItem.DisplayIndex = 2
         Me.colTransItem.Name = "colTransItem"
+        Me.colTransItem.SortingEnabled = False
         Me.colTransItem.Text = "Item"
         Me.colTransItem.Width.Absolute = 300
         '
@@ -5279,6 +5348,7 @@ Partial Class frmPrism
         '
         Me.colTransQuantity.DisplayIndex = 3
         Me.colTransQuantity.Name = "colTransQuantity"
+        Me.colTransQuantity.SortingEnabled = False
         Me.colTransQuantity.StyleNormal = "Numeric"
         Me.colTransQuantity.Text = "Quantity"
         Me.colTransQuantity.Width.Absolute = 75
@@ -5287,6 +5357,7 @@ Partial Class frmPrism
         '
         Me.colTransPrice.DisplayIndex = 4
         Me.colTransPrice.Name = "colTransPrice"
+        Me.colTransPrice.SortingEnabled = False
         Me.colTransPrice.StyleNormal = "Numeric"
         Me.colTransPrice.Text = "Price"
         Me.colTransPrice.Width.Absolute = 120
@@ -5295,6 +5366,7 @@ Partial Class frmPrism
         '
         Me.colTransValue.DisplayIndex = 5
         Me.colTransValue.Name = "colTransValue"
+        Me.colTransValue.SortingEnabled = False
         Me.colTransValue.StyleNormal = "Numeric"
         Me.colTransValue.Text = "Total Value"
         Me.colTransValue.Width.Absolute = 120
@@ -5303,6 +5375,7 @@ Partial Class frmPrism
         '
         Me.colTransLocation.DisplayIndex = 6
         Me.colTransLocation.Name = "colTransLocation"
+        Me.colTransLocation.SortingEnabled = False
         Me.colTransLocation.Text = "Location"
         Me.colTransLocation.Width.Absolute = 300
         '
@@ -5310,6 +5383,7 @@ Partial Class frmPrism
         '
         Me.colTransClient.DisplayIndex = 7
         Me.colTransClient.Name = "colTransClient"
+        Me.colTransClient.SortingEnabled = False
         Me.colTransClient.Text = "Client"
         Me.colTransClient.Width.Absolute = 150
         '
@@ -5370,10 +5444,10 @@ Partial Class frmPrism
         Me.TabControlPanel10.Name = "TabControlPanel10"
         Me.TabControlPanel10.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel10.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel10.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel10.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel10.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel10.Style.GradientAngle = 90
@@ -5622,10 +5696,10 @@ Partial Class frmPrism
         Me.TabControlPanel4.Name = "TabControlPanel4"
         Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel4.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel4.Style.GradientAngle = 90
@@ -5713,6 +5787,7 @@ Partial Class frmPrism
         '
         Me.colSellType.DisplayIndex = 1
         Me.colSellType.Name = "colSellType"
+        Me.colSellType.SortingEnabled = False
         Me.colSellType.Text = "Type"
         Me.colSellType.Width.Absolute = 250
         '
@@ -5720,6 +5795,7 @@ Partial Class frmPrism
         '
         Me.colSellQty.DisplayIndex = 2
         Me.colSellQty.Name = "colSellQty"
+        Me.colSellQty.SortingEnabled = False
         Me.colSellQty.Text = "Quantity"
         Me.colSellQty.Width.Absolute = 125
         '
@@ -5727,6 +5803,7 @@ Partial Class frmPrism
         '
         Me.colSellPrice.DisplayIndex = 3
         Me.colSellPrice.Name = "colSellPrice"
+        Me.colSellPrice.SortingEnabled = False
         Me.colSellPrice.Text = "Price"
         Me.colSellPrice.Width.Absolute = 125
         '
@@ -5734,6 +5811,7 @@ Partial Class frmPrism
         '
         Me.colSellLocation.DisplayIndex = 4
         Me.colSellLocation.Name = "colSellLocation"
+        Me.colSellLocation.SortingEnabled = False
         Me.colSellLocation.Text = "Location"
         Me.colSellLocation.Width.Absolute = 300
         '
@@ -5741,6 +5819,7 @@ Partial Class frmPrism
         '
         Me.colSellExpires.DisplayIndex = 5
         Me.colSellExpires.Name = "colSellExpires"
+        Me.colSellExpires.SortingEnabled = False
         Me.colSellExpires.Text = "Expires In"
         Me.colSellExpires.Width.Absolute = 125
         '
@@ -5757,30 +5836,30 @@ Partial Class frmPrism
         '
         'splitterMarketOrders
         '
-        Me.splitterMarketOrders.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterMarketOrders.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterMarketOrders.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.splitterMarketOrders.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.splitterMarketOrders.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.splitterMarketOrders.ExpandableControl = Me.pnlBuyOrders
-        Me.splitterMarketOrders.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterMarketOrders.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterMarketOrders.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.splitterMarketOrders.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.splitterMarketOrders.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
         Me.splitterMarketOrders.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.splitterMarketOrders.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.splitterMarketOrders.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.splitterMarketOrders.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.splitterMarketOrders.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.splitterMarketOrders.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
         Me.splitterMarketOrders.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
         Me.splitterMarketOrders.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
         Me.splitterMarketOrders.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-        Me.splitterMarketOrders.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterMarketOrders.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterMarketOrders.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.splitterMarketOrders.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.splitterMarketOrders.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.splitterMarketOrders.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterMarketOrders.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterMarketOrders.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.splitterMarketOrders.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.splitterMarketOrders.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.splitterMarketOrders.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.splitterMarketOrders.Location = New System.Drawing.Point(1, 284)
         Me.splitterMarketOrders.Name = "splitterMarketOrders"
@@ -5846,6 +5925,7 @@ Partial Class frmPrism
         '
         Me.colBuyType.DisplayIndex = 1
         Me.colBuyType.Name = "colBuyType"
+        Me.colBuyType.SortingEnabled = False
         Me.colBuyType.Text = "Type"
         Me.colBuyType.Width.Absolute = 250
         '
@@ -5853,6 +5933,7 @@ Partial Class frmPrism
         '
         Me.colBuyQty.DisplayIndex = 2
         Me.colBuyQty.Name = "colBuyQty"
+        Me.colBuyQty.SortingEnabled = False
         Me.colBuyQty.Text = "Quantity"
         Me.colBuyQty.Width.Absolute = 125
         '
@@ -5860,6 +5941,7 @@ Partial Class frmPrism
         '
         Me.colBuyPrice.DisplayIndex = 3
         Me.colBuyPrice.Name = "colBuyPrice"
+        Me.colBuyPrice.SortingEnabled = False
         Me.colBuyPrice.Text = "Price"
         Me.colBuyPrice.Width.Absolute = 125
         '
@@ -5867,6 +5949,7 @@ Partial Class frmPrism
         '
         Me.colBuyLocation.DisplayIndex = 4
         Me.colBuyLocation.Name = "colBuyLocation"
+        Me.colBuyLocation.SortingEnabled = False
         Me.colBuyLocation.Text = "Location"
         Me.colBuyLocation.Width.Absolute = 300
         '
@@ -5874,6 +5957,7 @@ Partial Class frmPrism
         '
         Me.colBuyRange.DisplayIndex = 5
         Me.colBuyRange.Name = "colBuyRange"
+        Me.colBuyRange.SortingEnabled = False
         Me.colBuyRange.Text = "Range"
         Me.colBuyRange.Width.Absolute = 50
         '
@@ -5881,6 +5965,7 @@ Partial Class frmPrism
         '
         Me.colBuyVolume.DisplayIndex = 6
         Me.colBuyVolume.Name = "colBuyVolume"
+        Me.colBuyVolume.SortingEnabled = False
         Me.colBuyVolume.Text = "Min Volume"
         Me.colBuyVolume.Width.Absolute = 100
         '
@@ -5888,6 +5973,7 @@ Partial Class frmPrism
         '
         Me.colBuyExpires.DisplayIndex = 7
         Me.colBuyExpires.Name = "colBuyExpires"
+        Me.colBuyExpires.SortingEnabled = False
         Me.colBuyExpires.Text = "Expires In"
         Me.colBuyExpires.Width.Absolute = 125
         '
@@ -5955,10 +6041,10 @@ Partial Class frmPrism
         Me.TabControlPanel14.Name = "TabControlPanel14"
         Me.TabControlPanel14.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel14.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel14.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel14.Style.GradientAngle = 90
@@ -6005,6 +6091,7 @@ Partial Class frmPrism
         '
         Me.colContractTitle.DisplayIndex = 1
         Me.colContractTitle.Name = "colContractTitle"
+        Me.colContractTitle.SortingEnabled = False
         Me.colContractTitle.Text = "Contract Title (or ID)"
         Me.colContractTitle.Width.Absolute = 250
         '
@@ -6012,6 +6099,7 @@ Partial Class frmPrism
         '
         Me.colContractLocation.DisplayIndex = 2
         Me.colContractLocation.Name = "colContractLocation"
+        Me.colContractLocation.SortingEnabled = False
         Me.colContractLocation.Text = "Contract Location"
         Me.colContractLocation.Width.Absolute = 350
         '
@@ -6019,6 +6107,7 @@ Partial Class frmPrism
         '
         Me.colContractTransaction.DisplayIndex = 3
         Me.colContractTransaction.Name = "colContractTransaction"
+        Me.colContractTransaction.SortingEnabled = False
         Me.colContractTransaction.Text = "Transaction"
         Me.colContractTransaction.Width.Absolute = 80
         '
@@ -6026,6 +6115,7 @@ Partial Class frmPrism
         '
         Me.colContractType.DisplayIndex = 4
         Me.colContractType.Name = "colContractType"
+        Me.colContractType.SortingEnabled = False
         Me.colContractType.Text = "Type"
         Me.colContractType.Width.Absolute = 100
         '
@@ -6033,6 +6123,7 @@ Partial Class frmPrism
         '
         Me.colContractStatus.DisplayIndex = 5
         Me.colContractStatus.Name = "colContractStatus"
+        Me.colContractStatus.SortingEnabled = False
         Me.colContractStatus.Text = "Status"
         Me.colContractStatus.Width.Absolute = 150
         '
@@ -6040,6 +6131,7 @@ Partial Class frmPrism
         '
         Me.colContractDateIssued.DisplayIndex = 6
         Me.colContractDateIssued.Name = "colContractDateIssued"
+        Me.colContractDateIssued.SortingEnabled = False
         Me.colContractDateIssued.Text = "Date Issued"
         Me.colContractDateIssued.Width.Absolute = 125
         '
@@ -6047,6 +6139,7 @@ Partial Class frmPrism
         '
         Me.colContractDateExpired.DisplayIndex = 7
         Me.colContractDateExpired.Name = "colContractDateExpired"
+        Me.colContractDateExpired.SortingEnabled = False
         Me.colContractDateExpired.Text = "Expiry Date"
         Me.colContractDateExpired.Width.Absolute = 125
         '
@@ -6054,6 +6147,7 @@ Partial Class frmPrism
         '
         Me.colContractPrice.DisplayIndex = 8
         Me.colContractPrice.Name = "colContractPrice"
+        Me.colContractPrice.SortingEnabled = False
         Me.colContractPrice.Text = "Price/Reward"
         Me.colContractPrice.Width.Absolute = 125
         '
@@ -6061,6 +6155,7 @@ Partial Class frmPrism
         '
         Me.colContractVolume.DisplayIndex = 9
         Me.colContractVolume.Name = "colContractVolume"
+        Me.colContractVolume.SortingEnabled = False
         Me.colContractVolume.Text = "Volume"
         Me.colContractVolume.Width.Absolute = 100
         '
@@ -6148,10 +6243,10 @@ Partial Class frmPrism
         Me.TabControlPanel8.Name = "TabControlPanel8"
         Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel8.Style.GradientAngle = 90
@@ -6201,10 +6296,10 @@ Partial Class frmPrism
         Me.TabControlPanel9.Name = "TabControlPanel9"
         Me.TabControlPanel9.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel9.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel9.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel9.Style.GradientAngle = 90
@@ -6277,6 +6372,7 @@ Partial Class frmPrism
         '
         Me.colBPMBlueprint.DisplayIndex = 1
         Me.colBPMBlueprint.Name = "colBPMBlueprint"
+        Me.colBPMBlueprint.SortingEnabled = False
         Me.colBPMBlueprint.Text = "Blueprint"
         Me.colBPMBlueprint.Width.Absolute = 250
         '
@@ -6284,6 +6380,7 @@ Partial Class frmPrism
         '
         Me.colBPMLocation.DisplayIndex = 2
         Me.colBPMLocation.Name = "colBPMLocation"
+        Me.colBPMLocation.SortingEnabled = False
         Me.colBPMLocation.Text = "Location"
         Me.colBPMLocation.Width.Absolute = 300
         '
@@ -6291,6 +6388,7 @@ Partial Class frmPrism
         '
         Me.colBPMLocation2.DisplayIndex = 3
         Me.colBPMLocation2.Name = "colBPMLocation2"
+        Me.colBPMLocation2.SortingEnabled = False
         Me.colBPMLocation2.Text = "Specific Location"
         Me.colBPMLocation2.Width.Absolute = 300
         '
@@ -6298,6 +6396,7 @@ Partial Class frmPrism
         '
         Me.colBPMTechLevel.DisplayIndex = 4
         Me.colBPMTechLevel.Name = "colBPMTechLevel"
+        Me.colBPMTechLevel.SortingEnabled = False
         Me.colBPMTechLevel.Text = "Tech"
         Me.colBPMTechLevel.Width.Absolute = 40
         '
@@ -6305,6 +6404,7 @@ Partial Class frmPrism
         '
         Me.colBPMME.DisplayIndex = 5
         Me.colBPMME.Name = "colBPMME"
+        Me.colBPMME.SortingEnabled = False
         Me.colBPMME.Text = "ME"
         Me.colBPMME.Width.Absolute = 40
         '
@@ -6312,6 +6412,7 @@ Partial Class frmPrism
         '
         Me.colBPMPE.DisplayIndex = 6
         Me.colBPMPE.Name = "colBPMPE"
+        Me.colBPMPE.SortingEnabled = False
         Me.colBPMPE.Text = "PE"
         Me.colBPMPE.Width.Absolute = 40
         '
@@ -6320,6 +6421,7 @@ Partial Class frmPrism
         Me.colBPMRuns.DisplayIndex = 7
         Me.colBPMRuns.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
         Me.colBPMRuns.Name = "colBPMRuns"
+        Me.colBPMRuns.SortingEnabled = False
         Me.colBPMRuns.Text = "Runs"
         Me.colBPMRuns.Width.Absolute = 75
         '
@@ -6327,6 +6429,7 @@ Partial Class frmPrism
         '
         Me.colBPMStatus.DisplayIndex = 8
         Me.colBPMStatus.Name = "colBPMStatus"
+        Me.colBPMStatus.SortingEnabled = False
         Me.colBPMStatus.Text = "Status"
         Me.colBPMStatus.Width.Absolute = 100
         '
@@ -6423,10 +6526,10 @@ Partial Class frmPrism
         Me.TabControlPanel2.Name = "TabControlPanel2"
         Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel2.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel2.Style.GradientAngle = 90

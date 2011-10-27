@@ -23,23 +23,23 @@ Partial Class frmQuickProduction
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.pnlQIC = New DevComponents.DotNetBar.PanelEx()
-        Me.cboBPs = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.adtResources = New DevComponents.AdvTree.AdvTree()
+        Me.colMaterial = New DevComponents.AdvTree.ColumnHeader()
+        Me.colQty = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.nudCopyRuns = New DevComponents.Editors.IntegerInput()
         Me.nudPELevel = New DevComponents.Editors.IntegerInput()
         Me.lblNewMELbl = New System.Windows.Forms.Label()
         Me.nudMELevel = New DevComponents.Editors.IntegerInput()
         Me.lblNewPELbl = New System.Windows.Forms.Label()
         Me.lblRunsPerCopy = New System.Windows.Forms.Label()
-        Me.adtResources = New DevComponents.AdvTree.AdvTree()
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
-        Me.colMaterial = New DevComponents.AdvTree.ColumnHeader()
-        Me.colQty = New DevComponents.AdvTree.ColumnHeader()
+        Me.cboBPs = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.pnlQIC.SuspendLayout()
+        CType(Me.adtResources, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.adtResources, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'pnlQIC
@@ -67,18 +67,57 @@ Partial Class frmQuickProduction
         Me.pnlQIC.Style.GradientAngle = 90
         Me.pnlQIC.TabIndex = 0
         '
-        'cboBPs
+        'adtResources
         '
-        Me.cboBPs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
-        Me.cboBPs.DisplayMember = "Text"
-        Me.cboBPs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboBPs.FormattingEnabled = True
-        Me.cboBPs.ItemHeight = 15
-        Me.cboBPs.Location = New System.Drawing.Point(12, 12)
-        Me.cboBPs.Name = "cboBPs"
-        Me.cboBPs.Size = New System.Drawing.Size(392, 21)
-        Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboBPs.TabIndex = 22
+        Me.adtResources.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtResources.AllowDrop = True
+        Me.adtResources.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.adtResources.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtResources.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtResources.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtResources.Columns.Add(Me.colMaterial)
+        Me.adtResources.Columns.Add(Me.colQty)
+        Me.adtResources.ExpandWidth = 0
+        Me.adtResources.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtResources.Location = New System.Drawing.Point(12, 66)
+        Me.adtResources.Name = "adtResources"
+        Me.adtResources.NodesConnector = Me.NodeConnector1
+        Me.adtResources.NodeStyle = Me.ElementStyle1
+        Me.adtResources.PathSeparator = ";"
+        Me.adtResources.Size = New System.Drawing.Size(392, 274)
+        Me.adtResources.Styles.Add(Me.ElementStyle1)
+        Me.adtResources.TabIndex = 43
+        Me.adtResources.Text = "AdvTree1"
+        '
+        'colMaterial
+        '
+        Me.colMaterial.Name = "colMaterial"
+        Me.colMaterial.SortingEnabled = False
+        Me.colMaterial.Text = "Material"
+        Me.colMaterial.Width.Absolute = 250
+        '
+        'colQty
+        '
+        Me.colQty.Name = "colQty"
+        Me.colQty.SortingEnabled = False
+        Me.colQty.Text = "Quantity"
+        Me.colQty.Width.Absolute = 100
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
         '
         'nudCopyRuns
         '
@@ -159,55 +198,18 @@ Partial Class frmQuickProduction
         Me.lblRunsPerCopy.TabIndex = 39
         Me.lblRunsPerCopy.Text = "Runs:"
         '
-        'adtResources
+        'cboBPs
         '
-        Me.adtResources.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtResources.AllowDrop = True
-        Me.adtResources.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.adtResources.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtResources.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtResources.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtResources.Columns.Add(Me.colMaterial)
-        Me.adtResources.Columns.Add(Me.colQty)
-        Me.adtResources.ExpandWidth = 0
-        Me.adtResources.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtResources.Location = New System.Drawing.Point(12, 66)
-        Me.adtResources.Name = "adtResources"
-        Me.adtResources.NodesConnector = Me.NodeConnector1
-        Me.adtResources.NodeStyle = Me.ElementStyle1
-        Me.adtResources.PathSeparator = ";"
-        Me.adtResources.Size = New System.Drawing.Size(392, 274)
-        Me.adtResources.Styles.Add(Me.ElementStyle1)
-        Me.adtResources.TabIndex = 43
-        Me.adtResources.Text = "AdvTree1"
-        '
-        'NodeConnector1
-        '
-        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle1
-        '
-        Me.ElementStyle1.Class = ""
-        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle1.Name = "ElementStyle1"
-        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'colMaterial
-        '
-        Me.colMaterial.Name = "colMaterial"
-        Me.colMaterial.Text = "Material"
-        Me.colMaterial.Width.Absolute = 250
-        '
-        'colQty
-        '
-        Me.colQty.Name = "colQty"
-        Me.colQty.Text = "Quantity"
-        Me.colQty.Width.Absolute = 100
+        Me.cboBPs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me.cboBPs.DisplayMember = "Text"
+        Me.cboBPs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBPs.FormattingEnabled = True
+        Me.cboBPs.ItemHeight = 15
+        Me.cboBPs.Location = New System.Drawing.Point(12, 12)
+        Me.cboBPs.Name = "cboBPs"
+        Me.cboBPs.Size = New System.Drawing.Size(392, 21)
+        Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBPs.TabIndex = 22
         '
         'frmQuickProduction
         '
@@ -227,10 +229,10 @@ Partial Class frmQuickProduction
         Me.Text = "Quick Production"
         Me.pnlQIC.ResumeLayout(False)
         Me.pnlQIC.PerformLayout()
+        CType(Me.adtResources, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.adtResources, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

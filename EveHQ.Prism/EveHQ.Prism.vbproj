@@ -183,12 +183,6 @@
     <Compile Include="Forms\frmBPCalculator.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmBPOreCalculator.Designer.vb">
-      <DependentUpon>frmBPOreCalculator.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmBPOreCalculator.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmEditBPDetails.Designer.vb">
       <DependentUpon>frmEditBPDetails.vb</DependentUpon>
     </Compile>
@@ -291,9 +285,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBPCalculator.resx">
       <DependentUpon>frmBPCalculator.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBPOreCalculator.resx">
-      <DependentUpon>frmBPOreCalculator.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEditBPDetails.resx">
       <DependentUpon>frmEditBPDetails.vb</DependentUpon>

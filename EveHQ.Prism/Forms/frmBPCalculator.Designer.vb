@@ -95,6 +95,26 @@ Partial Class frmBPCalculator
         Me.ComboItem15 = New DevComponents.Editors.ComboItem()
         Me.ComboItem16 = New DevComponents.Editors.ComboItem()
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.gpPilotSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.gpProductionSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.cboIndustrySkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboProdEffSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.gpResearchSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.cboScienceSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboResearchSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboMetallurgySkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.chkOverrideSkills = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.cboPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.gpBPSelection = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.lblToggleInvention = New DevComponents.DotNetBar.LabelX()
+        Me.btnToggleInvention = New DevComponents.DotNetBar.Controls.SwitchButton()
+        Me.cboOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblBPMaxRuns = New System.Windows.Forms.Label()
+        Me.lblBPMaxRunsLbl = New System.Windows.Forms.Label()
+        Me.cboBPs = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.chkOwnedBPOs = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkInventBPOs = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.pbBP = New System.Windows.Forms.PictureBox()
         Me.nudCopyRuns = New DevComponents.Editors.IntegerInput()
         Me.tabBPCalcFunctions = New DevComponents.DotNetBar.TabControl()
         Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
@@ -155,6 +175,10 @@ Partial Class frmBPCalculator
         Me.cboMetaItem = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboDecryptor = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboInventions = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.PPRInvention = New EveHQ.Prism.PrismResources()
+        Me.PACDecryptor = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PACSalesPrice = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PACMetaItem = New EveHQ.Prism.PriceAdjustmentControl()
         Me.tiInvention = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpProduction = New DevComponents.DotNetBar.TabControlPanel()
         Me.lblProfitMarkup = New System.Windows.Forms.Label()
@@ -167,41 +191,22 @@ Partial Class frmBPCalculator
         Me.nudRuns = New DevComponents.Editors.IntegerInput()
         Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PPRProduction = New EveHQ.Prism.PrismResources()
         Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.nudPELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJobAs = New DevComponents.DotNetBar.ButtonX()
         Me.nudMELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJob = New DevComponents.DotNetBar.ButtonX()
-        Me.gpPilotSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.gpProductionSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.cboIndustrySkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboProdEffSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.gpResearchSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.cboScienceSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboResearchSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboMetallurgySkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.chkOverrideSkills = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.cboPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.gpBPSelection = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.lblToggleInvention = New DevComponents.DotNetBar.LabelX()
-        Me.btnToggleInvention = New DevComponents.DotNetBar.Controls.SwitchButton()
-        Me.cboOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.lblBPMaxRuns = New System.Windows.Forms.Label()
-        Me.lblBPMaxRunsLbl = New System.Windows.Forms.Label()
-        Me.cboBPs = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.chkOwnedBPOs = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkInventBPOs = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.pbBP = New System.Windows.Forms.PictureBox()
         Me.btnExportToCSV = New DevComponents.DotNetBar.ButtonItem()
         Me.btnExportToTSV = New DevComponents.DotNetBar.ButtonItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
-        Me.PPRInvention = New EveHQ.Prism.PrismResources()
-        Me.PACDecryptor = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACSalesPrice = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACMetaItem = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PPRProduction = New EveHQ.Prism.PrismResources()
         Me.PanelEx1.SuspendLayout()
+        Me.gpPilotSkills.SuspendLayout()
+        Me.gpProductionSkills.SuspendLayout()
+        Me.gpResearchSkills.SuspendLayout()
+        Me.gpBPSelection.SuspendLayout()
+        CType(Me.pbBP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabBPCalcFunctions.SuspendLayout()
@@ -216,11 +221,6 @@ Partial Class frmBPCalculator
         CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gpPilotSkills.SuspendLayout()
-        Me.gpProductionSkills.SuspendLayout()
-        Me.gpResearchSkills.SuspendLayout()
-        Me.gpBPSelection.SuspendLayout()
-        CType(Me.pbBP, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblBPRuns
@@ -881,6 +881,427 @@ Partial Class frmBPCalculator
         Me.PanelEx1.Style.GradientAngle = 90
         Me.PanelEx1.TabIndex = 155
         '
+        'gpPilotSkills
+        '
+        Me.gpPilotSkills.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpPilotSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.gpPilotSkills.Controls.Add(Me.gpProductionSkills)
+        Me.gpPilotSkills.Controls.Add(Me.gpResearchSkills)
+        Me.gpPilotSkills.Controls.Add(Me.chkOverrideSkills)
+        Me.gpPilotSkills.Controls.Add(Me.cboPilot)
+        Me.gpPilotSkills.Controls.Add(Me.lblPilot)
+        Me.gpPilotSkills.IsShadowEnabled = True
+        Me.gpPilotSkills.Location = New System.Drawing.Point(413, 3)
+        Me.gpPilotSkills.Name = "gpPilotSkills"
+        Me.gpPilotSkills.Size = New System.Drawing.Size(340, 151)
+        '
+        '
+        '
+        Me.gpPilotSkills.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpPilotSkills.Style.BackColorGradientAngle = 90
+        Me.gpPilotSkills.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpPilotSkills.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpPilotSkills.Style.BorderBottomWidth = 1
+        Me.gpPilotSkills.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpPilotSkills.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpPilotSkills.Style.BorderLeftWidth = 1
+        Me.gpPilotSkills.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpPilotSkills.Style.BorderRightWidth = 1
+        Me.gpPilotSkills.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpPilotSkills.Style.BorderTopWidth = 1
+        Me.gpPilotSkills.Style.Class = ""
+        Me.gpPilotSkills.Style.CornerDiameter = 4
+        Me.gpPilotSkills.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpPilotSkills.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpPilotSkills.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpPilotSkills.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpPilotSkills.StyleMouseDown.Class = ""
+        Me.gpPilotSkills.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpPilotSkills.StyleMouseOver.Class = ""
+        Me.gpPilotSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpPilotSkills.TabIndex = 1
+        Me.gpPilotSkills.Text = "Pilot & Skill Selection"
+        '
+        'gpProductionSkills
+        '
+        Me.gpProductionSkills.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpProductionSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpProductionSkills.Controls.Add(Me.cboIndustryImplant)
+        Me.gpProductionSkills.Controls.Add(Me.cboIndustrySkill)
+        Me.gpProductionSkills.Controls.Add(Me.cboProdEffSkill)
+        Me.gpProductionSkills.Controls.Add(Me.lblIndustrySkill)
+        Me.gpProductionSkills.Controls.Add(Me.lblPESkill)
+        Me.gpProductionSkills.Location = New System.Drawing.Point(171, 32)
+        Me.gpProductionSkills.Name = "gpProductionSkills"
+        Me.gpProductionSkills.Size = New System.Drawing.Size(160, 95)
+        '
+        '
+        '
+        Me.gpProductionSkills.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpProductionSkills.Style.BackColorGradientAngle = 90
+        Me.gpProductionSkills.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpProductionSkills.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpProductionSkills.Style.BorderBottomWidth = 1
+        Me.gpProductionSkills.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpProductionSkills.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpProductionSkills.Style.BorderLeftWidth = 1
+        Me.gpProductionSkills.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpProductionSkills.Style.BorderRightWidth = 1
+        Me.gpProductionSkills.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpProductionSkills.Style.BorderTopWidth = 1
+        Me.gpProductionSkills.Style.Class = ""
+        Me.gpProductionSkills.Style.CornerDiameter = 4
+        Me.gpProductionSkills.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpProductionSkills.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpProductionSkills.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpProductionSkills.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpProductionSkills.StyleMouseDown.Class = ""
+        Me.gpProductionSkills.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpProductionSkills.StyleMouseOver.Class = ""
+        Me.gpProductionSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpProductionSkills.TabIndex = 10
+        Me.gpProductionSkills.Text = "Production Skills / Implants"
+        '
+        'cboIndustrySkill
+        '
+        Me.cboIndustrySkill.DisplayMember = "Text"
+        Me.cboIndustrySkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboIndustrySkill.Enabled = False
+        Me.cboIndustrySkill.FormattingEnabled = True
+        Me.cboIndustrySkill.ItemHeight = 15
+        Me.cboIndustrySkill.Location = New System.Drawing.Point(61, 3)
+        Me.cboIndustrySkill.Name = "cboIndustrySkill"
+        Me.cboIndustrySkill.Size = New System.Drawing.Size(35, 21)
+        Me.cboIndustrySkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboIndustrySkill.TabIndex = 12
+        Me.cboIndustrySkill.Text = "0"
+        '
+        'cboProdEffSkill
+        '
+        Me.cboProdEffSkill.DisplayMember = "Text"
+        Me.cboProdEffSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboProdEffSkill.Enabled = False
+        Me.cboProdEffSkill.FormattingEnabled = True
+        Me.cboProdEffSkill.ItemHeight = 15
+        Me.cboProdEffSkill.Location = New System.Drawing.Point(61, 24)
+        Me.cboProdEffSkill.Name = "cboProdEffSkill"
+        Me.cboProdEffSkill.Size = New System.Drawing.Size(35, 21)
+        Me.cboProdEffSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboProdEffSkill.TabIndex = 11
+        Me.cboProdEffSkill.Text = "0"
+        '
+        'gpResearchSkills
+        '
+        Me.gpResearchSkills.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpResearchSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpResearchSkills.Controls.Add(Me.cboScienceImplant)
+        Me.gpResearchSkills.Controls.Add(Me.cboMetallurgyImplant)
+        Me.gpResearchSkills.Controls.Add(Me.cboResearchImplant)
+        Me.gpResearchSkills.Controls.Add(Me.cboScienceSkill)
+        Me.gpResearchSkills.Controls.Add(Me.cboResearchSkill)
+        Me.gpResearchSkills.Controls.Add(Me.cboMetallurgySkill)
+        Me.gpResearchSkills.Controls.Add(Me.lblResearchSkill)
+        Me.gpResearchSkills.Controls.Add(Me.lblMetallurgySkill)
+        Me.gpResearchSkills.Controls.Add(Me.lblScienceSkill)
+        Me.gpResearchSkills.Location = New System.Drawing.Point(6, 32)
+        Me.gpResearchSkills.Name = "gpResearchSkills"
+        Me.gpResearchSkills.Size = New System.Drawing.Size(160, 95)
+        '
+        '
+        '
+        Me.gpResearchSkills.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpResearchSkills.Style.BackColorGradientAngle = 90
+        Me.gpResearchSkills.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpResearchSkills.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpResearchSkills.Style.BorderBottomWidth = 1
+        Me.gpResearchSkills.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpResearchSkills.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpResearchSkills.Style.BorderLeftWidth = 1
+        Me.gpResearchSkills.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpResearchSkills.Style.BorderRightWidth = 1
+        Me.gpResearchSkills.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpResearchSkills.Style.BorderTopWidth = 1
+        Me.gpResearchSkills.Style.Class = ""
+        Me.gpResearchSkills.Style.CornerDiameter = 4
+        Me.gpResearchSkills.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpResearchSkills.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpResearchSkills.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpResearchSkills.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpResearchSkills.StyleMouseDown.Class = ""
+        Me.gpResearchSkills.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpResearchSkills.StyleMouseOver.Class = ""
+        Me.gpResearchSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpResearchSkills.TabIndex = 9
+        Me.gpResearchSkills.Text = "Research Skills / Implants"
+        '
+        'cboScienceSkill
+        '
+        Me.cboScienceSkill.DisplayMember = "Text"
+        Me.cboScienceSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboScienceSkill.Enabled = False
+        Me.cboScienceSkill.FormattingEnabled = True
+        Me.cboScienceSkill.ItemHeight = 15
+        Me.cboScienceSkill.Location = New System.Drawing.Point(65, 45)
+        Me.cboScienceSkill.Name = "cboScienceSkill"
+        Me.cboScienceSkill.Size = New System.Drawing.Size(35, 21)
+        Me.cboScienceSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboScienceSkill.TabIndex = 14
+        Me.cboScienceSkill.Text = "0"
+        '
+        'cboResearchSkill
+        '
+        Me.cboResearchSkill.DisplayMember = "Text"
+        Me.cboResearchSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboResearchSkill.Enabled = False
+        Me.cboResearchSkill.FormattingEnabled = True
+        Me.cboResearchSkill.ItemHeight = 15
+        Me.cboResearchSkill.Location = New System.Drawing.Point(65, 3)
+        Me.cboResearchSkill.Name = "cboResearchSkill"
+        Me.cboResearchSkill.Size = New System.Drawing.Size(35, 21)
+        Me.cboResearchSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboResearchSkill.TabIndex = 13
+        Me.cboResearchSkill.Text = "0"
+        '
+        'cboMetallurgySkill
+        '
+        Me.cboMetallurgySkill.DisplayMember = "Text"
+        Me.cboMetallurgySkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboMetallurgySkill.Enabled = False
+        Me.cboMetallurgySkill.FormattingEnabled = True
+        Me.cboMetallurgySkill.ItemHeight = 15
+        Me.cboMetallurgySkill.Location = New System.Drawing.Point(65, 24)
+        Me.cboMetallurgySkill.Name = "cboMetallurgySkill"
+        Me.cboMetallurgySkill.Size = New System.Drawing.Size(35, 21)
+        Me.cboMetallurgySkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboMetallurgySkill.TabIndex = 13
+        Me.cboMetallurgySkill.Text = "0"
+        '
+        'chkOverrideSkills
+        '
+        Me.chkOverrideSkills.AutoSize = True
+        '
+        '
+        '
+        Me.chkOverrideSkills.BackgroundStyle.Class = ""
+        Me.chkOverrideSkills.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkOverrideSkills.Location = New System.Drawing.Point(212, 6)
+        Me.chkOverrideSkills.Name = "chkOverrideSkills"
+        Me.chkOverrideSkills.Size = New System.Drawing.Size(91, 16)
+        Me.chkOverrideSkills.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkOverrideSkills.TabIndex = 8
+        Me.chkOverrideSkills.Text = "Override Skills"
+        '
+        'cboPilot
+        '
+        Me.cboPilot.DisplayMember = "Text"
+        Me.cboPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPilot.FormattingEnabled = True
+        Me.cboPilot.ItemHeight = 15
+        Me.cboPilot.Location = New System.Drawing.Point(37, 3)
+        Me.cboPilot.Name = "cboPilot"
+        Me.cboPilot.Size = New System.Drawing.Size(168, 21)
+        Me.cboPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboPilot.TabIndex = 7
+        '
+        'gpBPSelection
+        '
+        Me.gpBPSelection.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpBPSelection.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.gpBPSelection.Controls.Add(Me.lblToggleInvention)
+        Me.gpBPSelection.Controls.Add(Me.btnToggleInvention)
+        Me.gpBPSelection.Controls.Add(Me.cboOwner)
+        Me.gpBPSelection.Controls.Add(Me.lblBPMaxRuns)
+        Me.gpBPSelection.Controls.Add(Me.lblBPMaxRunsLbl)
+        Me.gpBPSelection.Controls.Add(Me.cboBPs)
+        Me.gpBPSelection.Controls.Add(Me.chkOwnedBPOs)
+        Me.gpBPSelection.Controls.Add(Me.chkInventBPOs)
+        Me.gpBPSelection.Controls.Add(Me.lblBPRuns)
+        Me.gpBPSelection.Controls.Add(Me.lblBPRunsLbl)
+        Me.gpBPSelection.Controls.Add(Me.lblBPPELbl)
+        Me.gpBPSelection.Controls.Add(Me.lblBPME)
+        Me.gpBPSelection.Controls.Add(Me.lblBPWFLbl)
+        Me.gpBPSelection.Controls.Add(Me.lblBPPE)
+        Me.gpBPSelection.Controls.Add(Me.lblBPWF)
+        Me.gpBPSelection.Controls.Add(Me.lblBPMELbl)
+        Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValue)
+        Me.gpBPSelection.Controls.Add(Me.pbBP)
+        Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValueLbl)
+        Me.gpBPSelection.IsShadowEnabled = True
+        Me.gpBPSelection.Location = New System.Drawing.Point(3, 3)
+        Me.gpBPSelection.Name = "gpBPSelection"
+        Me.gpBPSelection.Size = New System.Drawing.Size(404, 151)
+        '
+        '
+        '
+        Me.gpBPSelection.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpBPSelection.Style.BackColorGradientAngle = 90
+        Me.gpBPSelection.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpBPSelection.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBPSelection.Style.BorderBottomWidth = 1
+        Me.gpBPSelection.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpBPSelection.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBPSelection.Style.BorderLeftWidth = 1
+        Me.gpBPSelection.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBPSelection.Style.BorderRightWidth = 1
+        Me.gpBPSelection.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpBPSelection.Style.BorderTopWidth = 1
+        Me.gpBPSelection.Style.Class = ""
+        Me.gpBPSelection.Style.CornerDiameter = 4
+        Me.gpBPSelection.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpBPSelection.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpBPSelection.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpBPSelection.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpBPSelection.StyleMouseDown.Class = ""
+        Me.gpBPSelection.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpBPSelection.StyleMouseOver.Class = ""
+        Me.gpBPSelection.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpBPSelection.TabIndex = 0
+        Me.gpBPSelection.Text = "Blueprint Selection & Information"
+        '
+        'lblToggleInvention
+        '
+        Me.lblToggleInvention.AutoSize = True
+        '
+        '
+        '
+        Me.lblToggleInvention.BackgroundStyle.Class = ""
+        Me.lblToggleInvention.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblToggleInvention.Location = New System.Drawing.Point(207, 32)
+        Me.lblToggleInvention.Name = "lblToggleInvention"
+        Me.lblToggleInvention.Size = New System.Drawing.Size(124, 16)
+        Me.lblToggleInvention.TabIndex = 27
+        Me.lblToggleInvention.Text = "Invention BP Tech Level:"
+        '
+        'btnToggleInvention
+        '
+        '
+        '
+        '
+        Me.btnToggleInvention.BackgroundStyle.Class = ""
+        Me.btnToggleInvention.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.btnToggleInvention.Enabled = False
+        Me.btnToggleInvention.Location = New System.Drawing.Point(334, 30)
+        Me.btnToggleInvention.Name = "btnToggleInvention"
+        Me.btnToggleInvention.OffBackColor = System.Drawing.Color.Gold
+        Me.btnToggleInvention.OffText = "T2"
+        Me.btnToggleInvention.OnBackColor = System.Drawing.Color.LimeGreen
+        Me.btnToggleInvention.OnText = "T1"
+        Me.btnToggleInvention.Size = New System.Drawing.Size(60, 18)
+        Me.btnToggleInvention.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnToggleInvention, New DevComponents.DotNetBar.SuperTooltipInfo("", "Invention BP Tech Level", "Toggles between displaying T2 Blueprints to invent (default) or T1 Blueprints to " & _
+            "invent from.", Nothing, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnToggleInvention.TabIndex = 26
+        '
+        'cboOwner
+        '
+        Me.cboOwner.DisplayMember = "Text"
+        Me.cboOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboOwner.Enabled = False
+        Me.cboOwner.FormattingEnabled = True
+        Me.cboOwner.ItemHeight = 15
+        Me.cboOwner.Location = New System.Drawing.Point(146, 3)
+        Me.cboOwner.Name = "cboOwner"
+        Me.cboOwner.Size = New System.Drawing.Size(249, 21)
+        Me.cboOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboOwner.TabIndex = 25
+        '
+        'lblBPMaxRuns
+        '
+        Me.lblBPMaxRuns.AutoSize = True
+        Me.lblBPMaxRuns.Location = New System.Drawing.Point(257, 98)
+        Me.lblBPMaxRuns.Name = "lblBPMaxRuns"
+        Me.lblBPMaxRuns.Size = New System.Drawing.Size(13, 13)
+        Me.lblBPMaxRuns.TabIndex = 23
+        Me.lblBPMaxRuns.Text = "0"
+        '
+        'lblBPMaxRunsLbl
+        '
+        Me.lblBPMaxRunsLbl.AutoSize = True
+        Me.lblBPMaxRunsLbl.Location = New System.Drawing.Point(194, 98)
+        Me.lblBPMaxRunsLbl.Name = "lblBPMaxRunsLbl"
+        Me.lblBPMaxRunsLbl.Size = New System.Drawing.Size(58, 13)
+        Me.lblBPMaxRunsLbl.TabIndex = 22
+        Me.lblBPMaxRunsLbl.Text = "Max Runs:"
+        '
+        'cboBPs
+        '
+        Me.cboBPs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me.cboBPs.DisplayMember = "Text"
+        Me.cboBPs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboBPs.FormattingEnabled = True
+        Me.cboBPs.ItemHeight = 15
+        Me.cboBPs.Location = New System.Drawing.Point(2, 52)
+        Me.cboBPs.Name = "cboBPs"
+        Me.cboBPs.Size = New System.Drawing.Size(392, 21)
+        Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboBPs.TabIndex = 21
+        '
+        'chkOwnedBPOs
+        '
+        Me.chkOwnedBPOs.AutoSize = True
+        '
+        '
+        '
+        Me.chkOwnedBPOs.BackgroundStyle.Class = ""
+        Me.chkOwnedBPOs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkOwnedBPOs.Location = New System.Drawing.Point(1, 6)
+        Me.chkOwnedBPOs.Name = "chkOwnedBPOs"
+        Me.chkOwnedBPOs.Size = New System.Drawing.Size(133, 16)
+        Me.chkOwnedBPOs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkOwnedBPOs.TabIndex = 20
+        Me.chkOwnedBPOs.Text = "Owned Blueprints Only"
+        '
+        'chkInventBPOs
+        '
+        Me.chkInventBPOs.AutoSize = True
+        '
+        '
+        '
+        Me.chkInventBPOs.BackgroundStyle.Class = ""
+        Me.chkInventBPOs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkInventBPOs.Location = New System.Drawing.Point(1, 30)
+        Me.chkInventBPOs.Name = "chkInventBPOs"
+        Me.chkInventBPOs.Size = New System.Drawing.Size(184, 16)
+        Me.chkInventBPOs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkInventBPOs.TabIndex = 20
+        Me.chkInventBPOs.Text = "Invention Related Blueprints only"
+        '
+        'pbBP
+        '
+        Me.pbBP.BackColor = System.Drawing.Color.Transparent
+        Me.pbBP.Location = New System.Drawing.Point(3, 78)
+        Me.pbBP.Name = "pbBP"
+        Me.pbBP.Size = New System.Drawing.Size(48, 48)
+        Me.pbBP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbBP.TabIndex = 10
+        Me.pbBP.TabStop = False
+        '
         'nudCopyRuns
         '
         '
@@ -907,9 +1328,9 @@ Partial Class frmBPCalculator
         Me.tabBPCalcFunctions.CanReorderTabs = True
         Me.tabBPCalcFunctions.ColorScheme.TabBackground = System.Drawing.Color.Transparent
         Me.tabBPCalcFunctions.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-        Me.tabBPCalcFunctions.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+        Me.tabBPCalcFunctions.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-        Me.tabBPCalcFunctions.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tabBPCalcFunctions.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpResearch)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpProduction)
@@ -941,10 +1362,10 @@ Partial Class frmBPCalculator
         Me.tcpResearch.Name = "tcpResearch"
         Me.tcpResearch.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpResearch.Size = New System.Drawing.Size(836, 525)
-        Me.tcpResearch.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpResearch.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpResearch.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpResearch.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpResearch.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpResearch.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpResearch.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpResearch.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpResearch.Style.GradientAngle = 90
@@ -1050,10 +1471,10 @@ Partial Class frmBPCalculator
         Me.tcpInvention.Name = "tcpInvention"
         Me.tcpInvention.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpInvention.Size = New System.Drawing.Size(836, 525)
-        Me.tcpInvention.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpInvention.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpInvention.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpInvention.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpInvention.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpInvention.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpInvention.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpInvention.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpInvention.Style.GradientAngle = 90
@@ -1127,12 +1548,14 @@ Partial Class frmBPCalculator
         'colIPDecryptor
         '
         Me.colIPDecryptor.Name = "colIPDecryptor"
+        Me.colIPDecryptor.SortingEnabled = False
         Me.colIPDecryptor.Text = "Decryptor"
         Me.colIPDecryptor.Width.Absolute = 90
         '
         'colIPProfit
         '
         Me.colIPProfit.Name = "colIPProfit"
+        Me.colIPProfit.SortingEnabled = False
         Me.colIPProfit.Text = "Unit/Total Profit"
         Me.colIPProfit.Width.Absolute = 125
         '
@@ -1717,6 +2140,47 @@ Partial Class frmBPCalculator
         Me.cboInventions.WatermarkColor = System.Drawing.Color.Silver
         Me.cboInventions.WatermarkText = "Select Blueprint to invent..."
         '
+        'PPRInvention
+        '
+        Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PPRInvention.BatchJob = Nothing
+        Me.PPRInvention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PPRInvention.InventionBP = Nothing
+        Me.PPRInvention.Location = New System.Drawing.Point(0, 229)
+        Me.PPRInvention.Name = "PPRInvention"
+        Me.PPRInvention.ProductionJob = Nothing
+        Me.PPRInvention.Size = New System.Drawing.Size(833, 296)
+        Me.PPRInvention.TabIndex = 0
+        '
+        'PACDecryptor
+        '
+        Me.PACDecryptor.Location = New System.Drawing.Point(429, 18)
+        Me.PACDecryptor.Name = "PACDecryptor"
+        Me.PACDecryptor.Price = 0.0R
+        Me.PACDecryptor.Size = New System.Drawing.Size(20, 12)
+        Me.PACDecryptor.TabIndex = 209
+        Me.PACDecryptor.TypeID = CType(0, Long)
+        '
+        'PACSalesPrice
+        '
+        Me.PACSalesPrice.Location = New System.Drawing.Point(429, 154)
+        Me.PACSalesPrice.Name = "PACSalesPrice"
+        Me.PACSalesPrice.Price = 0.0R
+        Me.PACSalesPrice.Size = New System.Drawing.Size(20, 12)
+        Me.PACSalesPrice.TabIndex = 208
+        Me.PACSalesPrice.TypeID = CType(0, Long)
+        '
+        'PACMetaItem
+        '
+        Me.PACMetaItem.Location = New System.Drawing.Point(429, 31)
+        Me.PACMetaItem.Name = "PACMetaItem"
+        Me.PACMetaItem.Price = 0.0R
+        Me.PACMetaItem.Size = New System.Drawing.Size(20, 12)
+        Me.PACMetaItem.TabIndex = 207
+        Me.PACMetaItem.TypeID = CType(0, Long)
+        '
         'tiInvention
         '
         Me.tiInvention.AttachedControl = Me.tcpInvention
@@ -1765,10 +2229,10 @@ Partial Class frmBPCalculator
         Me.tcpProduction.Name = "tcpProduction"
         Me.tcpProduction.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpProduction.Size = New System.Drawing.Size(836, 525)
-        Me.tcpProduction.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpProduction.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpProduction.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpProduction.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpProduction.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpProduction.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpProduction.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpProduction.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpProduction.Style.GradientAngle = 90
@@ -1901,6 +2365,29 @@ Partial Class frmBPCalculator
         Me.cboPOSArrays.WatermarkFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboPOSArrays.WatermarkText = "Select your POS array..."
         '
+        'PACUnitValue
+        '
+        Me.PACUnitValue.Location = New System.Drawing.Point(381, 113)
+        Me.PACUnitValue.Name = "PACUnitValue"
+        Me.PACUnitValue.Price = 0.0R
+        Me.PACUnitValue.Size = New System.Drawing.Size(20, 12)
+        Me.PACUnitValue.TabIndex = 209
+        Me.PACUnitValue.TypeID = CType(0, Long)
+        '
+        'PPRProduction
+        '
+        Me.PPRProduction.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PPRProduction.BatchJob = Nothing
+        Me.PPRProduction.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PPRProduction.InventionBP = Nothing
+        Me.PPRProduction.Location = New System.Drawing.Point(0, 163)
+        Me.PPRProduction.Name = "PPRProduction"
+        Me.PPRProduction.ProductionJob = Nothing
+        Me.PPRProduction.Size = New System.Drawing.Size(836, 362)
+        Me.PPRProduction.TabIndex = 0
+        '
         'tiProduction
         '
         Me.tiProduction.AttachedControl = Me.tcpProduction
@@ -1962,427 +2449,6 @@ Partial Class frmBPCalculator
         Me.btnSaveProductionJob.TabIndex = 184
         Me.btnSaveProductionJob.Text = "Save Job"
         '
-        'gpPilotSkills
-        '
-        Me.gpPilotSkills.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpPilotSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.gpPilotSkills.Controls.Add(Me.gpProductionSkills)
-        Me.gpPilotSkills.Controls.Add(Me.gpResearchSkills)
-        Me.gpPilotSkills.Controls.Add(Me.chkOverrideSkills)
-        Me.gpPilotSkills.Controls.Add(Me.cboPilot)
-        Me.gpPilotSkills.Controls.Add(Me.lblPilot)
-        Me.gpPilotSkills.IsShadowEnabled = True
-        Me.gpPilotSkills.Location = New System.Drawing.Point(413, 3)
-        Me.gpPilotSkills.Name = "gpPilotSkills"
-        Me.gpPilotSkills.Size = New System.Drawing.Size(340, 151)
-        '
-        '
-        '
-        Me.gpPilotSkills.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpPilotSkills.Style.BackColorGradientAngle = 90
-        Me.gpPilotSkills.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpPilotSkills.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpPilotSkills.Style.BorderBottomWidth = 1
-        Me.gpPilotSkills.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpPilotSkills.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpPilotSkills.Style.BorderLeftWidth = 1
-        Me.gpPilotSkills.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpPilotSkills.Style.BorderRightWidth = 1
-        Me.gpPilotSkills.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpPilotSkills.Style.BorderTopWidth = 1
-        Me.gpPilotSkills.Style.Class = ""
-        Me.gpPilotSkills.Style.CornerDiameter = 4
-        Me.gpPilotSkills.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpPilotSkills.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpPilotSkills.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpPilotSkills.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpPilotSkills.StyleMouseDown.Class = ""
-        Me.gpPilotSkills.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpPilotSkills.StyleMouseOver.Class = ""
-        Me.gpPilotSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpPilotSkills.TabIndex = 1
-        Me.gpPilotSkills.Text = "Pilot & Skill Selection"
-        '
-        'gpProductionSkills
-        '
-        Me.gpProductionSkills.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpProductionSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpProductionSkills.Controls.Add(Me.cboIndustryImplant)
-        Me.gpProductionSkills.Controls.Add(Me.cboIndustrySkill)
-        Me.gpProductionSkills.Controls.Add(Me.cboProdEffSkill)
-        Me.gpProductionSkills.Controls.Add(Me.lblIndustrySkill)
-        Me.gpProductionSkills.Controls.Add(Me.lblPESkill)
-        Me.gpProductionSkills.Location = New System.Drawing.Point(171, 32)
-        Me.gpProductionSkills.Name = "gpProductionSkills"
-        Me.gpProductionSkills.Size = New System.Drawing.Size(160, 95)
-        '
-        '
-        '
-        Me.gpProductionSkills.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpProductionSkills.Style.BackColorGradientAngle = 90
-        Me.gpProductionSkills.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpProductionSkills.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpProductionSkills.Style.BorderBottomWidth = 1
-        Me.gpProductionSkills.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpProductionSkills.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpProductionSkills.Style.BorderLeftWidth = 1
-        Me.gpProductionSkills.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpProductionSkills.Style.BorderRightWidth = 1
-        Me.gpProductionSkills.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpProductionSkills.Style.BorderTopWidth = 1
-        Me.gpProductionSkills.Style.Class = ""
-        Me.gpProductionSkills.Style.CornerDiameter = 4
-        Me.gpProductionSkills.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpProductionSkills.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpProductionSkills.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpProductionSkills.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpProductionSkills.StyleMouseDown.Class = ""
-        Me.gpProductionSkills.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpProductionSkills.StyleMouseOver.Class = ""
-        Me.gpProductionSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpProductionSkills.TabIndex = 10
-        Me.gpProductionSkills.Text = "Production Skills / Implants"
-        '
-        'cboIndustrySkill
-        '
-        Me.cboIndustrySkill.DisplayMember = "Text"
-        Me.cboIndustrySkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboIndustrySkill.Enabled = False
-        Me.cboIndustrySkill.FormattingEnabled = True
-        Me.cboIndustrySkill.ItemHeight = 15
-        Me.cboIndustrySkill.Location = New System.Drawing.Point(61, 3)
-        Me.cboIndustrySkill.Name = "cboIndustrySkill"
-        Me.cboIndustrySkill.Size = New System.Drawing.Size(35, 21)
-        Me.cboIndustrySkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboIndustrySkill.TabIndex = 12
-        Me.cboIndustrySkill.Text = "0"
-        '
-        'cboProdEffSkill
-        '
-        Me.cboProdEffSkill.DisplayMember = "Text"
-        Me.cboProdEffSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboProdEffSkill.Enabled = False
-        Me.cboProdEffSkill.FormattingEnabled = True
-        Me.cboProdEffSkill.ItemHeight = 15
-        Me.cboProdEffSkill.Location = New System.Drawing.Point(61, 24)
-        Me.cboProdEffSkill.Name = "cboProdEffSkill"
-        Me.cboProdEffSkill.Size = New System.Drawing.Size(35, 21)
-        Me.cboProdEffSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboProdEffSkill.TabIndex = 11
-        Me.cboProdEffSkill.Text = "0"
-        '
-        'gpResearchSkills
-        '
-        Me.gpResearchSkills.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpResearchSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpResearchSkills.Controls.Add(Me.cboScienceImplant)
-        Me.gpResearchSkills.Controls.Add(Me.cboMetallurgyImplant)
-        Me.gpResearchSkills.Controls.Add(Me.cboResearchImplant)
-        Me.gpResearchSkills.Controls.Add(Me.cboScienceSkill)
-        Me.gpResearchSkills.Controls.Add(Me.cboResearchSkill)
-        Me.gpResearchSkills.Controls.Add(Me.cboMetallurgySkill)
-        Me.gpResearchSkills.Controls.Add(Me.lblResearchSkill)
-        Me.gpResearchSkills.Controls.Add(Me.lblMetallurgySkill)
-        Me.gpResearchSkills.Controls.Add(Me.lblScienceSkill)
-        Me.gpResearchSkills.Location = New System.Drawing.Point(6, 32)
-        Me.gpResearchSkills.Name = "gpResearchSkills"
-        Me.gpResearchSkills.Size = New System.Drawing.Size(160, 95)
-        '
-        '
-        '
-        Me.gpResearchSkills.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpResearchSkills.Style.BackColorGradientAngle = 90
-        Me.gpResearchSkills.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpResearchSkills.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpResearchSkills.Style.BorderBottomWidth = 1
-        Me.gpResearchSkills.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpResearchSkills.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpResearchSkills.Style.BorderLeftWidth = 1
-        Me.gpResearchSkills.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpResearchSkills.Style.BorderRightWidth = 1
-        Me.gpResearchSkills.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpResearchSkills.Style.BorderTopWidth = 1
-        Me.gpResearchSkills.Style.Class = ""
-        Me.gpResearchSkills.Style.CornerDiameter = 4
-        Me.gpResearchSkills.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpResearchSkills.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpResearchSkills.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpResearchSkills.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpResearchSkills.StyleMouseDown.Class = ""
-        Me.gpResearchSkills.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpResearchSkills.StyleMouseOver.Class = ""
-        Me.gpResearchSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpResearchSkills.TabIndex = 9
-        Me.gpResearchSkills.Text = "Research Skills / Implants"
-        '
-        'cboScienceSkill
-        '
-        Me.cboScienceSkill.DisplayMember = "Text"
-        Me.cboScienceSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboScienceSkill.Enabled = False
-        Me.cboScienceSkill.FormattingEnabled = True
-        Me.cboScienceSkill.ItemHeight = 15
-        Me.cboScienceSkill.Location = New System.Drawing.Point(65, 45)
-        Me.cboScienceSkill.Name = "cboScienceSkill"
-        Me.cboScienceSkill.Size = New System.Drawing.Size(35, 21)
-        Me.cboScienceSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboScienceSkill.TabIndex = 14
-        Me.cboScienceSkill.Text = "0"
-        '
-        'cboResearchSkill
-        '
-        Me.cboResearchSkill.DisplayMember = "Text"
-        Me.cboResearchSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboResearchSkill.Enabled = False
-        Me.cboResearchSkill.FormattingEnabled = True
-        Me.cboResearchSkill.ItemHeight = 15
-        Me.cboResearchSkill.Location = New System.Drawing.Point(65, 3)
-        Me.cboResearchSkill.Name = "cboResearchSkill"
-        Me.cboResearchSkill.Size = New System.Drawing.Size(35, 21)
-        Me.cboResearchSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboResearchSkill.TabIndex = 13
-        Me.cboResearchSkill.Text = "0"
-        '
-        'cboMetallurgySkill
-        '
-        Me.cboMetallurgySkill.DisplayMember = "Text"
-        Me.cboMetallurgySkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboMetallurgySkill.Enabled = False
-        Me.cboMetallurgySkill.FormattingEnabled = True
-        Me.cboMetallurgySkill.ItemHeight = 15
-        Me.cboMetallurgySkill.Location = New System.Drawing.Point(65, 24)
-        Me.cboMetallurgySkill.Name = "cboMetallurgySkill"
-        Me.cboMetallurgySkill.Size = New System.Drawing.Size(35, 21)
-        Me.cboMetallurgySkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboMetallurgySkill.TabIndex = 13
-        Me.cboMetallurgySkill.Text = "0"
-        '
-        'chkOverrideSkills
-        '
-        Me.chkOverrideSkills.AutoSize = True
-        '
-        '
-        '
-        Me.chkOverrideSkills.BackgroundStyle.Class = ""
-        Me.chkOverrideSkills.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkOverrideSkills.Location = New System.Drawing.Point(212, 6)
-        Me.chkOverrideSkills.Name = "chkOverrideSkills"
-        Me.chkOverrideSkills.Size = New System.Drawing.Size(91, 16)
-        Me.chkOverrideSkills.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkOverrideSkills.TabIndex = 8
-        Me.chkOverrideSkills.Text = "Override Skills"
-        '
-        'cboPilot
-        '
-        Me.cboPilot.DisplayMember = "Text"
-        Me.cboPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboPilot.FormattingEnabled = True
-        Me.cboPilot.ItemHeight = 15
-        Me.cboPilot.Location = New System.Drawing.Point(37, 3)
-        Me.cboPilot.Name = "cboPilot"
-        Me.cboPilot.Size = New System.Drawing.Size(168, 21)
-        Me.cboPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboPilot.TabIndex = 7
-        '
-        'gpBPSelection
-        '
-        Me.gpBPSelection.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpBPSelection.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.gpBPSelection.Controls.Add(Me.lblToggleInvention)
-        Me.gpBPSelection.Controls.Add(Me.btnToggleInvention)
-        Me.gpBPSelection.Controls.Add(Me.cboOwner)
-        Me.gpBPSelection.Controls.Add(Me.lblBPMaxRuns)
-        Me.gpBPSelection.Controls.Add(Me.lblBPMaxRunsLbl)
-        Me.gpBPSelection.Controls.Add(Me.cboBPs)
-        Me.gpBPSelection.Controls.Add(Me.chkOwnedBPOs)
-        Me.gpBPSelection.Controls.Add(Me.chkInventBPOs)
-        Me.gpBPSelection.Controls.Add(Me.lblBPRuns)
-        Me.gpBPSelection.Controls.Add(Me.lblBPRunsLbl)
-        Me.gpBPSelection.Controls.Add(Me.lblBPPELbl)
-        Me.gpBPSelection.Controls.Add(Me.lblBPME)
-        Me.gpBPSelection.Controls.Add(Me.lblBPWFLbl)
-        Me.gpBPSelection.Controls.Add(Me.lblBPPE)
-        Me.gpBPSelection.Controls.Add(Me.lblBPWF)
-        Me.gpBPSelection.Controls.Add(Me.lblBPMELbl)
-        Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValue)
-        Me.gpBPSelection.Controls.Add(Me.pbBP)
-        Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValueLbl)
-        Me.gpBPSelection.IsShadowEnabled = True
-        Me.gpBPSelection.Location = New System.Drawing.Point(3, 3)
-        Me.gpBPSelection.Name = "gpBPSelection"
-        Me.gpBPSelection.Size = New System.Drawing.Size(404, 151)
-        '
-        '
-        '
-        Me.gpBPSelection.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpBPSelection.Style.BackColorGradientAngle = 90
-        Me.gpBPSelection.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpBPSelection.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpBPSelection.Style.BorderBottomWidth = 1
-        Me.gpBPSelection.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpBPSelection.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpBPSelection.Style.BorderLeftWidth = 1
-        Me.gpBPSelection.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpBPSelection.Style.BorderRightWidth = 1
-        Me.gpBPSelection.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpBPSelection.Style.BorderTopWidth = 1
-        Me.gpBPSelection.Style.Class = ""
-        Me.gpBPSelection.Style.CornerDiameter = 4
-        Me.gpBPSelection.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpBPSelection.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpBPSelection.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpBPSelection.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpBPSelection.StyleMouseDown.Class = ""
-        Me.gpBPSelection.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpBPSelection.StyleMouseOver.Class = ""
-        Me.gpBPSelection.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpBPSelection.TabIndex = 0
-        Me.gpBPSelection.Text = "Blueprint Selection & Information"
-        '
-        'lblToggleInvention
-        '
-        Me.lblToggleInvention.AutoSize = True
-        '
-        '
-        '
-        Me.lblToggleInvention.BackgroundStyle.Class = ""
-        Me.lblToggleInvention.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.lblToggleInvention.Location = New System.Drawing.Point(207, 32)
-        Me.lblToggleInvention.Name = "lblToggleInvention"
-        Me.lblToggleInvention.Size = New System.Drawing.Size(124, 16)
-        Me.lblToggleInvention.TabIndex = 27
-        Me.lblToggleInvention.Text = "Invention BP Tech Level:"
-        '
-        'btnToggleInvention
-        '
-        '
-        '
-        '
-        Me.btnToggleInvention.BackgroundStyle.Class = ""
-        Me.btnToggleInvention.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.btnToggleInvention.Enabled = False
-        Me.btnToggleInvention.Location = New System.Drawing.Point(334, 30)
-        Me.btnToggleInvention.Name = "btnToggleInvention"
-        Me.btnToggleInvention.OffBackColor = System.Drawing.Color.Gold
-        Me.btnToggleInvention.OffText = "T2"
-        Me.btnToggleInvention.OnBackColor = System.Drawing.Color.LimeGreen
-        Me.btnToggleInvention.OnText = "T1"
-        Me.btnToggleInvention.Size = New System.Drawing.Size(60, 18)
-        Me.btnToggleInvention.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnToggleInvention, New DevComponents.DotNetBar.SuperTooltipInfo("", "Invention BP Tech Level", "Toggles between displaying T2 Blueprints to invent (default) or T1 Blueprints to " & _
-            "invent from.", Nothing, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnToggleInvention.TabIndex = 26
-        '
-        'cboOwner
-        '
-        Me.cboOwner.DisplayMember = "Text"
-        Me.cboOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboOwner.Enabled = False
-        Me.cboOwner.FormattingEnabled = True
-        Me.cboOwner.ItemHeight = 15
-        Me.cboOwner.Location = New System.Drawing.Point(146, 3)
-        Me.cboOwner.Name = "cboOwner"
-        Me.cboOwner.Size = New System.Drawing.Size(249, 21)
-        Me.cboOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboOwner.TabIndex = 25
-        '
-        'lblBPMaxRuns
-        '
-        Me.lblBPMaxRuns.AutoSize = True
-        Me.lblBPMaxRuns.Location = New System.Drawing.Point(257, 98)
-        Me.lblBPMaxRuns.Name = "lblBPMaxRuns"
-        Me.lblBPMaxRuns.Size = New System.Drawing.Size(13, 13)
-        Me.lblBPMaxRuns.TabIndex = 23
-        Me.lblBPMaxRuns.Text = "0"
-        '
-        'lblBPMaxRunsLbl
-        '
-        Me.lblBPMaxRunsLbl.AutoSize = True
-        Me.lblBPMaxRunsLbl.Location = New System.Drawing.Point(194, 98)
-        Me.lblBPMaxRunsLbl.Name = "lblBPMaxRunsLbl"
-        Me.lblBPMaxRunsLbl.Size = New System.Drawing.Size(58, 13)
-        Me.lblBPMaxRunsLbl.TabIndex = 22
-        Me.lblBPMaxRunsLbl.Text = "Max Runs:"
-        '
-        'cboBPs
-        '
-        Me.cboBPs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
-        Me.cboBPs.DisplayMember = "Text"
-        Me.cboBPs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboBPs.FormattingEnabled = True
-        Me.cboBPs.ItemHeight = 15
-        Me.cboBPs.Location = New System.Drawing.Point(2, 52)
-        Me.cboBPs.Name = "cboBPs"
-        Me.cboBPs.Size = New System.Drawing.Size(392, 21)
-        Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboBPs.TabIndex = 21
-        '
-        'chkOwnedBPOs
-        '
-        Me.chkOwnedBPOs.AutoSize = True
-        '
-        '
-        '
-        Me.chkOwnedBPOs.BackgroundStyle.Class = ""
-        Me.chkOwnedBPOs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkOwnedBPOs.Location = New System.Drawing.Point(1, 6)
-        Me.chkOwnedBPOs.Name = "chkOwnedBPOs"
-        Me.chkOwnedBPOs.Size = New System.Drawing.Size(133, 16)
-        Me.chkOwnedBPOs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkOwnedBPOs.TabIndex = 20
-        Me.chkOwnedBPOs.Text = "Owned Blueprints Only"
-        '
-        'chkInventBPOs
-        '
-        Me.chkInventBPOs.AutoSize = True
-        '
-        '
-        '
-        Me.chkInventBPOs.BackgroundStyle.Class = ""
-        Me.chkInventBPOs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkInventBPOs.Location = New System.Drawing.Point(1, 30)
-        Me.chkInventBPOs.Name = "chkInventBPOs"
-        Me.chkInventBPOs.Size = New System.Drawing.Size(184, 16)
-        Me.chkInventBPOs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkInventBPOs.TabIndex = 20
-        Me.chkInventBPOs.Text = "Invention Related Blueprints only"
-        '
-        'pbBP
-        '
-        Me.pbBP.BackColor = System.Drawing.Color.Transparent
-        Me.pbBP.Location = New System.Drawing.Point(3, 78)
-        Me.pbBP.Name = "pbBP"
-        Me.pbBP.Size = New System.Drawing.Size(48, 48)
-        Me.pbBP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbBP.TabIndex = 10
-        Me.pbBP.TabStop = False
-        '
         'btnExportToCSV
         '
         Me.btnExportToCSV.Name = "btnExportToCSV"
@@ -2396,70 +2462,6 @@ Partial Class frmBPCalculator
         'SuperTooltip1
         '
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        '
-        'PPRInvention
-        '
-        Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PPRInvention.BatchJob = Nothing
-        Me.PPRInvention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PPRInvention.InventionBP = Nothing
-        Me.PPRInvention.Location = New System.Drawing.Point(0, 229)
-        Me.PPRInvention.Name = "PPRInvention"
-        Me.PPRInvention.ProductionJob = Nothing
-        Me.PPRInvention.Size = New System.Drawing.Size(833, 296)
-        Me.PPRInvention.TabIndex = 0
-        '
-        'PACDecryptor
-        '
-        Me.PACDecryptor.Location = New System.Drawing.Point(429, 18)
-        Me.PACDecryptor.Name = "PACDecryptor"
-        Me.PACDecryptor.Price = 0.0R
-        Me.PACDecryptor.Size = New System.Drawing.Size(20, 12)
-        Me.PACDecryptor.TabIndex = 209
-        Me.PACDecryptor.TypeID = CType(0, Long)
-        '
-        'PACSalesPrice
-        '
-        Me.PACSalesPrice.Location = New System.Drawing.Point(429, 154)
-        Me.PACSalesPrice.Name = "PACSalesPrice"
-        Me.PACSalesPrice.Price = 0.0R
-        Me.PACSalesPrice.Size = New System.Drawing.Size(20, 12)
-        Me.PACSalesPrice.TabIndex = 208
-        Me.PACSalesPrice.TypeID = CType(0, Long)
-        '
-        'PACMetaItem
-        '
-        Me.PACMetaItem.Location = New System.Drawing.Point(429, 31)
-        Me.PACMetaItem.Name = "PACMetaItem"
-        Me.PACMetaItem.Price = 0.0R
-        Me.PACMetaItem.Size = New System.Drawing.Size(20, 12)
-        Me.PACMetaItem.TabIndex = 207
-        Me.PACMetaItem.TypeID = CType(0, Long)
-        '
-        'PACUnitValue
-        '
-        Me.PACUnitValue.Location = New System.Drawing.Point(381, 113)
-        Me.PACUnitValue.Name = "PACUnitValue"
-        Me.PACUnitValue.Price = 0.0R
-        Me.PACUnitValue.Size = New System.Drawing.Size(20, 12)
-        Me.PACUnitValue.TabIndex = 209
-        Me.PACUnitValue.TypeID = CType(0, Long)
-        '
-        'PPRProduction
-        '
-        Me.PPRProduction.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PPRProduction.BatchJob = Nothing
-        Me.PPRProduction.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PPRProduction.InventionBP = Nothing
-        Me.PPRProduction.Location = New System.Drawing.Point(0, 163)
-        Me.PPRProduction.Name = "PPRProduction"
-        Me.PPRProduction.ProductionJob = Nothing
-        Me.PPRProduction.Size = New System.Drawing.Size(836, 362)
-        Me.PPRProduction.TabIndex = 0
         '
         'frmBPCalculator
         '
@@ -2478,6 +2480,15 @@ Partial Class frmBPCalculator
         Me.TransparencyKey = System.Drawing.Color.Silver
         Me.PanelEx1.ResumeLayout(False)
         Me.PanelEx1.PerformLayout()
+        Me.gpPilotSkills.ResumeLayout(False)
+        Me.gpPilotSkills.PerformLayout()
+        Me.gpProductionSkills.ResumeLayout(False)
+        Me.gpProductionSkills.PerformLayout()
+        Me.gpResearchSkills.ResumeLayout(False)
+        Me.gpResearchSkills.PerformLayout()
+        Me.gpBPSelection.ResumeLayout(False)
+        Me.gpBPSelection.PerformLayout()
+        CType(Me.pbBP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabBPCalcFunctions.ResumeLayout(False)
@@ -2495,15 +2506,6 @@ Partial Class frmBPCalculator
         CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gpPilotSkills.ResumeLayout(False)
-        Me.gpPilotSkills.PerformLayout()
-        Me.gpProductionSkills.ResumeLayout(False)
-        Me.gpProductionSkills.PerformLayout()
-        Me.gpResearchSkills.ResumeLayout(False)
-        Me.gpResearchSkills.PerformLayout()
-        Me.gpBPSelection.ResumeLayout(False)
-        Me.gpBPSelection.PerformLayout()
-        CType(Me.pbBP, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

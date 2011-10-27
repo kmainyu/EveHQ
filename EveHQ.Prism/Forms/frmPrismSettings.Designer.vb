@@ -733,6 +733,7 @@ Partial Public Class frmPrismSettings
         'colCorpRepCorp
         '
         Me.colCorpRepCorp.Name = "colCorpRepCorp"
+        Me.colCorpRepCorp.SortingEnabled = False
         Me.colCorpRepCorp.Text = "Corporation Name"
         Me.colCorpRepCorp.Width.Absolute = 250
         '
