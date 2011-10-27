@@ -153,7 +153,7 @@ Partial Class frmHQF
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.ToolStripMenuItem7, Me.mnuExportToEve, Me.mnuExportToRequisitions})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(192, 298)
+        Me.ctxFittings.Size = New System.Drawing.Size(192, 276)
         '
         'mnuFittingsFittingName
         '
@@ -1091,7 +1091,7 @@ Partial Class frmHQF
         Me.rbEditor.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.rbEditor.Location = New System.Drawing.Point(731, 0)
         Me.rbEditor.Name = "rbEditor"
-        Me.rbEditor.Size = New System.Drawing.Size(65, 100)
+        Me.rbEditor.Size = New System.Drawing.Size(53, 100)
         Me.rbEditor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbEditor.TabIndex = 5
         Me.rbEditor.Text = "Editor"
@@ -1110,7 +1110,7 @@ Partial Class frmHQF
         '
         Me.btnEditor.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnEditor.Image = CType(resources.GetObject("btnEditor.Image"), System.Drawing.Image)
-        Me.btnEditor.ImageFixedSize = New System.Drawing.Size(48, 48)
+        Me.btnEditor.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnEditor.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnEditor.Name = "btnEditor"
         Me.btnEditor.SubItemsExpandWidth = 14
@@ -1182,7 +1182,7 @@ Partial Class frmHQF
         Me.btnImport.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnImport.Enabled = False
         Me.btnImport.Image = CType(resources.GetObject("btnImport.Image"), System.Drawing.Image)
-        Me.btnImport.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnImport.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnImport.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnImport.Name = "btnImport"
         Me.btnImport.SubItemsExpandWidth = 14
@@ -1227,7 +1227,7 @@ Partial Class frmHQF
         Me.btnScreenGrab.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnScreenGrab.Enabled = False
         Me.btnScreenGrab.Image = CType(resources.GetObject("btnScreenGrab.Image"), System.Drawing.Image)
-        Me.btnScreenGrab.ImageFixedSize = New System.Drawing.Size(48, 48)
+        Me.btnScreenGrab.ImageFixedSize = New System.Drawing.Size(40, 40)
         Me.btnScreenGrab.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnScreenGrab.Name = "btnScreenGrab"
         Me.btnScreenGrab.SubItemsExpandWidth = 14
@@ -1238,7 +1238,7 @@ Partial Class frmHQF
         Me.btnExportEve.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnExportEve.Enabled = False
         Me.btnExportEve.Image = CType(resources.GetObject("btnExportEve.Image"), System.Drawing.Image)
-        Me.btnExportEve.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnExportEve.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnExportEve.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnExportEve.Name = "btnExportEve"
         Me.btnExportEve.SubItemsExpandWidth = 14
@@ -1307,7 +1307,7 @@ Partial Class frmHQF
         Me.btnExportReq.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnExportReq.Enabled = False
         Me.btnExportReq.Image = CType(resources.GetObject("btnExportReq.Image"), System.Drawing.Image)
-        Me.btnExportReq.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnExportReq.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnExportReq.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnExportReq.Name = "btnExportReq"
         Me.btnExportReq.SubItemsExpandWidth = 14
@@ -1352,7 +1352,7 @@ Partial Class frmHQF
         Me.btnPilotManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnPilotManager.Enabled = False
         Me.btnPilotManager.Image = CType(resources.GetObject("btnPilotManager.Image"), System.Drawing.Image)
-        Me.btnPilotManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnPilotManager.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnPilotManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnPilotManager.Name = "btnPilotManager"
         Me.btnPilotManager.Stretch = True
@@ -1364,7 +1364,7 @@ Partial Class frmHQF
         Me.btnImplantManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnImplantManager.Enabled = False
         Me.btnImplantManager.Image = CType(resources.GetObject("btnImplantManager.Image"), System.Drawing.Image)
-        Me.btnImplantManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnImplantManager.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnImplantManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnImplantManager.Name = "btnImplantManager"
         Me.btnImplantManager.Stretch = True
@@ -1375,7 +1375,7 @@ Partial Class frmHQF
         '
         Me.btnFleetManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnFleetManager.Image = CType(resources.GetObject("btnFleetManager.Image"), System.Drawing.Image)
-        Me.btnFleetManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnFleetManager.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnFleetManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnFleetManager.Name = "btnFleetManager"
         Me.btnFleetManager.Stretch = True
@@ -1421,7 +1421,7 @@ Partial Class frmHQF
         '
         Me.btnOptions.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnOptions.Image = CType(resources.GetObject("btnOptions.Image"), System.Drawing.Image)
-        Me.btnOptions.ImageFixedSize = New System.Drawing.Size(48, 48)
+        Me.btnOptions.ImageFixedSize = New System.Drawing.Size(40, 40)
         Me.btnOptions.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnOptions.Name = "btnOptions"
         Me.btnOptions.SubItemsExpandWidth = 14
