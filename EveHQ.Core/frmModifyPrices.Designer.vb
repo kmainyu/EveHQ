@@ -128,6 +128,7 @@ Partial Class frmModifyPrices
         '
         Me.colItemName.Editable = False
         Me.colItemName.Name = "colItemName"
+        Me.colItemName.SortingEnabled = False
         Me.colItemName.Text = "Item Name"
         Me.colItemName.Width.Absolute = 300
         '
@@ -135,6 +136,7 @@ Partial Class frmModifyPrices
         '
         Me.colMarketPrice.EditorType = DevComponents.AdvTree.eCellEditorType.NumericDouble
         Me.colMarketPrice.Name = "colMarketPrice"
+        Me.colMarketPrice.SortingEnabled = False
         Me.colMarketPrice.Text = "Market Price"
         Me.colMarketPrice.Width.Absolute = 150
         '
@@ -142,6 +144,7 @@ Partial Class frmModifyPrices
         '
         Me.colCustomPrice.EditorType = DevComponents.AdvTree.eCellEditorType.NumericDouble
         Me.colCustomPrice.Name = "colCustomPrice"
+        Me.colCustomPrice.SortingEnabled = False
         Me.colCustomPrice.Text = "Custom Price"
         Me.colCustomPrice.Width.Absolute = 150
         '

@@ -31,6 +31,8 @@ Partial Class frmEditRequisition
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.panelReq = New DevComponents.DotNetBar.PanelEx()
+        Me.lblMultiplier = New DevComponents.DotNetBar.LabelX()
+        Me.nudMultiplier = New DevComponents.Editors.IntegerInput()
         Me.btnRemoveItem = New DevComponents.DotNetBar.ButtonX()
         Me.btnCancel = New DevComponents.DotNetBar.ButtonX()
         Me.btnRevert = New DevComponents.DotNetBar.ButtonX()
@@ -40,8 +42,6 @@ Partial Class frmEditRequisition
         Me.lblRequestor = New DevComponents.DotNetBar.LabelX()
         Me.txtReqName = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.lblReqName = New DevComponents.DotNetBar.LabelX()
-        Me.lblMultiplier = New DevComponents.DotNetBar.LabelX()
-        Me.nudMultiplier = New DevComponents.Editors.IntegerInput()
         CType(Me.adtOrders, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelReq.SuspendLayout()
         CType(Me.nudMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -53,8 +53,8 @@ Partial Class frmEditRequisition
         Me.adtOrders.AllowDrop = True
         Me.adtOrders.AlternateRowColor = System.Drawing.Color.Honeydew
         Me.adtOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtOrders.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -81,24 +81,28 @@ Partial Class frmEditRequisition
         'colItemName
         '
         Me.colItemName.Name = "colItemName"
+        Me.colItemName.SortingEnabled = False
         Me.colItemName.Text = "Item Name"
         Me.colItemName.Width.Absolute = 350
         '
         'colItemQuantity
         '
         Me.colItemQuantity.Name = "colItemQuantity"
+        Me.colItemQuantity.SortingEnabled = False
         Me.colItemQuantity.Text = "Quantity"
         Me.colItemQuantity.Width.Absolute = 100
         '
         'colItemOriginator
         '
         Me.colItemOriginator.Name = "colItemOriginator"
+        Me.colItemOriginator.SortingEnabled = False
         Me.colItemOriginator.Text = "Originator"
         Me.colItemOriginator.Width.Absolute = 150
         '
         'colItemDate
         '
         Me.colItemDate.Name = "colItemDate"
+        Me.colItemDate.SortingEnabled = False
         Me.colItemDate.Text = "Date Created"
         Me.colItemDate.Width.Absolute = 150
         '
@@ -146,6 +150,37 @@ Partial Class frmEditRequisition
         Me.panelReq.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.panelReq.Style.GradientAngle = 90
         Me.panelReq.TabIndex = 1
+        '
+        'lblMultiplier
+        '
+        Me.lblMultiplier.AutoSize = True
+        '
+        '
+        '
+        Me.lblMultiplier.BackgroundStyle.Class = ""
+        Me.lblMultiplier.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblMultiplier.Location = New System.Drawing.Point(395, 88)
+        Me.lblMultiplier.Name = "lblMultiplier"
+        Me.lblMultiplier.Size = New System.Drawing.Size(51, 16)
+        Me.lblMultiplier.TabIndex = 10
+        Me.lblMultiplier.Text = "Multiplier:"
+        '
+        'nudMultiplier
+        '
+        '
+        '
+        '
+        Me.nudMultiplier.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudMultiplier.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudMultiplier.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudMultiplier.Location = New System.Drawing.Point(452, 83)
+        Me.nudMultiplier.MaxValue = 100000
+        Me.nudMultiplier.MinValue = 1
+        Me.nudMultiplier.Name = "nudMultiplier"
+        Me.nudMultiplier.ShowUpDown = True
+        Me.nudMultiplier.Size = New System.Drawing.Size(88, 21)
+        Me.nudMultiplier.TabIndex = 9
+        Me.nudMultiplier.Value = 1
         '
         'btnRemoveItem
         '
@@ -264,37 +299,6 @@ Partial Class frmEditRequisition
         Me.lblReqName.Size = New System.Drawing.Size(91, 16)
         Me.lblReqName.TabIndex = 0
         Me.lblReqName.Text = "Requisition Name:"
-        '
-        'lblMultiplier
-        '
-        Me.lblMultiplier.AutoSize = True
-        '
-        '
-        '
-        Me.lblMultiplier.BackgroundStyle.Class = ""
-        Me.lblMultiplier.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.lblMultiplier.Location = New System.Drawing.Point(395, 88)
-        Me.lblMultiplier.Name = "lblMultiplier"
-        Me.lblMultiplier.Size = New System.Drawing.Size(51, 16)
-        Me.lblMultiplier.TabIndex = 10
-        Me.lblMultiplier.Text = "Multiplier:"
-        '
-        'nudMultiplier
-        '
-        '
-        '
-        '
-        Me.nudMultiplier.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudMultiplier.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudMultiplier.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudMultiplier.Location = New System.Drawing.Point(452, 83)
-        Me.nudMultiplier.MaxValue = 100000
-        Me.nudMultiplier.MinValue = 1
-        Me.nudMultiplier.Name = "nudMultiplier"
-        Me.nudMultiplier.ShowUpDown = True
-        Me.nudMultiplier.Size = New System.Drawing.Size(88, 21)
-        Me.nudMultiplier.TabIndex = 9
-        Me.nudMultiplier.Value = 1
         '
         'frmEditRequisition
         '
