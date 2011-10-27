@@ -941,7 +941,9 @@ Public Class frmBPCalculator
         If currentJob.JobName <> "" Then
             OldJobName = currentJob.JobName
         End If
+        Dim TIJ As InventionJob = currentJob.InventionJob
         currentJob = CurrentBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, ProdImplant, nudMELevel.Value.ToString, nudPELevel.Value.ToString, Runs, ProductionArray, False)
+        currentJob.InventionJob = TIJ
         If OldJobName <> "" Then
             currentJob.JobName = OldJobName
         End If

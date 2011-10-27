@@ -97,22 +97,6 @@ Partial Class frmBPCalculator
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.nudCopyRuns = New DevComponents.Editors.IntegerInput()
         Me.tabBPCalcFunctions = New DevComponents.DotNetBar.TabControl()
-        Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
-        Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkResearchAtPOS = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.tiResearch = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpProduction = New DevComponents.DotNetBar.TabControlPanel()
-        Me.lblProfitMarkup = New System.Windows.Forms.Label()
-        Me.lblProfitMargin = New System.Windows.Forms.Label()
-        Me.lblProfitMarkupLbl = New System.Windows.Forms.Label()
-        Me.lblProfitMarginLbl = New System.Windows.Forms.Label()
-        Me.lblProdQuantity = New System.Windows.Forms.Label()
-        Me.lblBatchSize = New System.Windows.Forms.Label()
-        Me.lblFactoryCostsLbl = New System.Windows.Forms.LinkLabel()
-        Me.nudRuns = New DevComponents.Editors.IntegerInput()
-        Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpInvention = New DevComponents.DotNetBar.TabControlPanel()
         Me.chkInventionFlag = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.lblBatchTotalCost = New System.Windows.Forms.Label()
@@ -168,6 +152,22 @@ Partial Class frmBPCalculator
         Me.cboDecryptor = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboInventions = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.tiInvention = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpProduction = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lblProfitMarkup = New System.Windows.Forms.Label()
+        Me.lblProfitMargin = New System.Windows.Forms.Label()
+        Me.lblProfitMarkupLbl = New System.Windows.Forms.Label()
+        Me.lblProfitMarginLbl = New System.Windows.Forms.Label()
+        Me.lblProdQuantity = New System.Windows.Forms.Label()
+        Me.lblBatchSize = New System.Windows.Forms.Label()
+        Me.lblFactoryCostsLbl = New System.Windows.Forms.LinkLabel()
+        Me.nudRuns = New DevComponents.Editors.IntegerInput()
+        Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
+        Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkResearchAtPOS = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.tiResearch = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.nudPELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJobAs = New DevComponents.DotNetBar.ButtonX()
         Me.nudMELevel = New DevComponents.Editors.IntegerInput()
@@ -195,25 +195,25 @@ Partial Class frmBPCalculator
         Me.btnExportToCSV = New DevComponents.DotNetBar.ButtonItem()
         Me.btnExportToTSV = New DevComponents.DotNetBar.ButtonItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
-        Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PPRProduction = New EveHQ.Prism.PrismResources()
         Me.PPRInvention = New EveHQ.Prism.PrismResources()
         Me.PACDecryptor = New EveHQ.Prism.PriceAdjustmentControl()
         Me.PACSalesPrice = New EveHQ.Prism.PriceAdjustmentControl()
         Me.PACMetaItem = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PPRProduction = New EveHQ.Prism.PrismResources()
         Me.PanelEx1.SuspendLayout()
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabBPCalcFunctions.SuspendLayout()
-        Me.tcpResearch.SuspendLayout()
-        Me.tcpProduction.SuspendLayout()
-        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcpInvention.SuspendLayout()
         CType(Me.adtInventionProfits, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudInventionSkill2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudInventionSkill3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudInventionSkill1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudInventionBPCRuns, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tcpProduction.SuspendLayout()
+        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tcpResearch.SuspendLayout()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpPilotSkills.SuspendLayout()
@@ -910,9 +910,9 @@ Partial Class frmBPCalculator
         Me.tabBPCalcFunctions.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tabBPCalcFunctions.Controls.Add(Me.tcpResearch)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpProduction)
-        Me.tabBPCalcFunctions.Controls.Add(Me.tcpResearch)
         Me.tabBPCalcFunctions.Location = New System.Drawing.Point(3, 187)
         Me.tabBPCalcFunctions.Name = "tabBPCalcFunctions"
         Me.tabBPCalcFunctions.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -925,253 +925,6 @@ Partial Class frmBPCalculator
         Me.tabBPCalcFunctions.Tabs.Add(Me.tiProduction)
         Me.tabBPCalcFunctions.Tabs.Add(Me.tiInvention)
         Me.tabBPCalcFunctions.Text = "TabControl1"
-        '
-        'tcpResearch
-        '
-        Me.tcpResearch.Controls.Add(Me.lblMETime)
-        Me.tcpResearch.Controls.Add(Me.lblPETimeLbl)
-        Me.tcpResearch.Controls.Add(Me.chkAdvancedLab)
-        Me.tcpResearch.Controls.Add(Me.lblPETime)
-        Me.tcpResearch.Controls.Add(Me.chkResearchAtPOS)
-        Me.tcpResearch.Controls.Add(Me.lblMETimeLbl)
-        Me.tcpResearch.Controls.Add(Me.lblBPCopyTimeLbl)
-        Me.tcpResearch.Controls.Add(Me.lblCopyTime)
-        Me.tcpResearch.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpResearch.Location = New System.Drawing.Point(0, 23)
-        Me.tcpResearch.Name = "tcpResearch"
-        Me.tcpResearch.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpResearch.Size = New System.Drawing.Size(836, 525)
-        Me.tcpResearch.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpResearch.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpResearch.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpResearch.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpResearch.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpResearch.Style.GradientAngle = 90
-        Me.tcpResearch.TabIndex = 1
-        Me.tcpResearch.TabItem = Me.tiResearch
-        '
-        'chkAdvancedLab
-        '
-        Me.chkAdvancedLab.AutoSize = True
-        Me.chkAdvancedLab.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkAdvancedLab.BackgroundStyle.Class = ""
-        Me.chkAdvancedLab.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkAdvancedLab.Enabled = False
-        Me.chkAdvancedLab.Location = New System.Drawing.Point(160, 13)
-        Me.chkAdvancedLab.Name = "chkAdvancedLab"
-        Me.chkAdvancedLab.Size = New System.Drawing.Size(126, 16)
-        Me.chkAdvancedLab.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkAdvancedLab.TabIndex = 33
-        Me.chkAdvancedLab.Text = "Advanced Lab (Copy)"
-        '
-        'chkResearchAtPOS
-        '
-        Me.chkResearchAtPOS.AutoSize = True
-        Me.chkResearchAtPOS.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkResearchAtPOS.BackgroundStyle.Class = ""
-        Me.chkResearchAtPOS.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkResearchAtPOS.Location = New System.Drawing.Point(22, 13)
-        Me.chkResearchAtPOS.Name = "chkResearchAtPOS"
-        Me.chkResearchAtPOS.Size = New System.Drawing.Size(108, 16)
-        Me.chkResearchAtPOS.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkResearchAtPOS.TabIndex = 32
-        Me.chkResearchAtPOS.Text = "Research at POS?"
-        '
-        'tiResearch
-        '
-        Me.tiResearch.AttachedControl = Me.tcpResearch
-        Me.tiResearch.Name = "tiResearch"
-        Me.tiResearch.Text = "Research"
-        '
-        'tcpProduction
-        '
-        Me.tcpProduction.Controls.Add(Me.lblProfitMarkup)
-        Me.tcpProduction.Controls.Add(Me.lblProfitMargin)
-        Me.tcpProduction.Controls.Add(Me.lblProfitMarkupLbl)
-        Me.tcpProduction.Controls.Add(Me.lblProfitMarginLbl)
-        Me.tcpProduction.Controls.Add(Me.lblProdQuantity)
-        Me.tcpProduction.Controls.Add(Me.lblBatchSize)
-        Me.tcpProduction.Controls.Add(Me.lblFactoryCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.nudRuns)
-        Me.tcpProduction.Controls.Add(Me.chkPOSProduction)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.cboPOSArrays)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTime)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCost)
-        Me.tcpProduction.Controls.Add(Me.lblProfitRate)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTime)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCost)
-        Me.tcpProduction.Controls.Add(Me.lblProfitRateLbl)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTimeLbl)
-        Me.tcpProduction.Controls.Add(Me.lblUnitProfit)
-        Me.tcpProduction.Controls.Add(Me.lblUnitProfitlbl)
-        Me.tcpProduction.Controls.Add(Me.lblBatchSizeLbl)
-        Me.tcpProduction.Controls.Add(Me.lblFactoryCosts)
-        Me.tcpProduction.Controls.Add(Me.lblUnitValue)
-        Me.tcpProduction.Controls.Add(Me.lblUnitValuelbl)
-        Me.tcpProduction.Controls.Add(Me.lblTotalCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTimeLbl)
-        Me.tcpProduction.Controls.Add(Me.lblUnitCost)
-        Me.tcpProduction.Controls.Add(Me.lblTotalCosts)
-        Me.tcpProduction.Controls.Add(Me.lblRuns)
-        Me.tcpProduction.Controls.Add(Me.lblUnitCostLbl)
-        Me.tcpProduction.Controls.Add(Me.lblProdQuantityLbl)
-        Me.tcpProduction.Controls.Add(Me.PACUnitValue)
-        Me.tcpProduction.Controls.Add(Me.PPRProduction)
-        Me.tcpProduction.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpProduction.Location = New System.Drawing.Point(0, 23)
-        Me.tcpProduction.Name = "tcpProduction"
-        Me.tcpProduction.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpProduction.Size = New System.Drawing.Size(836, 525)
-        Me.tcpProduction.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpProduction.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpProduction.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpProduction.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpProduction.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpProduction.Style.GradientAngle = 90
-        Me.tcpProduction.TabIndex = 2
-        Me.tcpProduction.TabItem = Me.tiProduction
-        '
-        'lblProfitMarkup
-        '
-        Me.lblProfitMarkup.AutoSize = True
-        Me.lblProfitMarkup.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMarkup.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMarkup.Location = New System.Drawing.Point(709, 138)
-        Me.lblProfitMarkup.Name = "lblProfitMarkup"
-        Me.lblProfitMarkup.Size = New System.Drawing.Size(27, 13)
-        Me.lblProfitMarkup.TabIndex = 213
-        Me.lblProfitMarkup.Text = "0 %"
-        '
-        'lblProfitMargin
-        '
-        Me.lblProfitMargin.AutoSize = True
-        Me.lblProfitMargin.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMargin.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMargin.Location = New System.Drawing.Point(709, 125)
-        Me.lblProfitMargin.Name = "lblProfitMargin"
-        Me.lblProfitMargin.Size = New System.Drawing.Size(27, 13)
-        Me.lblProfitMargin.TabIndex = 212
-        Me.lblProfitMargin.Text = "0 %"
-        '
-        'lblProfitMarkupLbl
-        '
-        Me.lblProfitMarkupLbl.AutoSize = True
-        Me.lblProfitMarkupLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMarkupLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMarkupLbl.Location = New System.Drawing.Point(618, 138)
-        Me.lblProfitMarkupLbl.Name = "lblProfitMarkupLbl"
-        Me.lblProfitMarkupLbl.Size = New System.Drawing.Size(75, 13)
-        Me.lblProfitMarkupLbl.TabIndex = 211
-        Me.lblProfitMarkupLbl.Text = "Profit Markup:"
-        '
-        'lblProfitMarginLbl
-        '
-        Me.lblProfitMarginLbl.AutoSize = True
-        Me.lblProfitMarginLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMarginLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMarginLbl.Location = New System.Drawing.Point(618, 125)
-        Me.lblProfitMarginLbl.Name = "lblProfitMarginLbl"
-        Me.lblProfitMarginLbl.Size = New System.Drawing.Size(72, 13)
-        Me.lblProfitMarginLbl.TabIndex = 210
-        Me.lblProfitMarginLbl.Text = "Profit Margin:"
-        '
-        'lblProdQuantity
-        '
-        Me.lblProdQuantity.AutoSize = True
-        Me.lblProdQuantity.BackColor = System.Drawing.Color.Transparent
-        Me.lblProdQuantity.Location = New System.Drawing.Point(123, 120)
-        Me.lblProdQuantity.Name = "lblProdQuantity"
-        Me.lblProdQuantity.Size = New System.Drawing.Size(13, 13)
-        Me.lblProdQuantity.TabIndex = 183
-        Me.lblProdQuantity.Text = "1"
-        '
-        'lblBatchSize
-        '
-        Me.lblBatchSize.AutoSize = True
-        Me.lblBatchSize.BackColor = System.Drawing.Color.Transparent
-        Me.lblBatchSize.Location = New System.Drawing.Point(123, 94)
-        Me.lblBatchSize.Name = "lblBatchSize"
-        Me.lblBatchSize.Size = New System.Drawing.Size(13, 13)
-        Me.lblBatchSize.TabIndex = 182
-        Me.lblBatchSize.Text = "1"
-        '
-        'lblFactoryCostsLbl
-        '
-        Me.lblFactoryCostsLbl.AutoSize = True
-        Me.lblFactoryCostsLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblFactoryCostsLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
-        Me.lblFactoryCostsLbl.Location = New System.Drawing.Point(272, 69)
-        Me.lblFactoryCostsLbl.Name = "lblFactoryCostsLbl"
-        Me.lblFactoryCostsLbl.Size = New System.Drawing.Size(78, 13)
-        Me.SuperTooltip1.SetSuperTooltip(Me.lblFactoryCostsLbl, New DevComponents.DotNetBar.SuperTooltipInfo("Factory Costs", "Click to edit Factory Costs", "Factory Costs comprise of two components: an amount for the original installation" & _
-            " and a cost per hour running cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.lblFactoryCostsLbl.TabIndex = 181
-        Me.lblFactoryCostsLbl.TabStop = True
-        Me.lblFactoryCostsLbl.Text = "Factory Costs:"
-        '
-        'nudRuns
-        '
-        '
-        '
-        '
-        Me.nudRuns.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudRuns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudRuns.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudRuns.Location = New System.Drawing.Point(119, 65)
-        Me.nudRuns.MaxValue = 1500
-        Me.nudRuns.MinValue = 1
-        Me.nudRuns.Name = "nudRuns"
-        Me.nudRuns.ShowUpDown = True
-        Me.nudRuns.Size = New System.Drawing.Size(93, 21)
-        Me.nudRuns.TabIndex = 180
-        Me.nudRuns.Value = 1
-        '
-        'chkPOSProduction
-        '
-        Me.chkPOSProduction.AutoSize = True
-        Me.chkPOSProduction.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkPOSProduction.BackgroundStyle.Class = ""
-        Me.chkPOSProduction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkPOSProduction.Location = New System.Drawing.Point(9, 13)
-        Me.chkPOSProduction.Name = "chkPOSProduction"
-        Me.chkPOSProduction.Size = New System.Drawing.Size(165, 16)
-        Me.chkPOSProduction.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkPOSProduction.TabIndex = 176
-        Me.chkPOSProduction.Text = "Use POS Array for production"
-        '
-        'cboPOSArrays
-        '
-        Me.cboPOSArrays.DisplayMember = "Text"
-        Me.cboPOSArrays.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboPOSArrays.Enabled = False
-        Me.cboPOSArrays.FormattingEnabled = True
-        Me.cboPOSArrays.ItemHeight = 15
-        Me.cboPOSArrays.Location = New System.Drawing.Point(9, 35)
-        Me.cboPOSArrays.Name = "cboPOSArrays"
-        Me.cboPOSArrays.Size = New System.Drawing.Size(224, 21)
-        Me.cboPOSArrays.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboPOSArrays.TabIndex = 177
-        Me.cboPOSArrays.WatermarkFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboPOSArrays.WatermarkText = "Select your POS array..."
-        '
-        'tiProduction
-        '
-        Me.tiProduction.AttachedControl = Me.tcpProduction
-        Me.tiProduction.Name = "tiProduction"
-        Me.tiProduction.Text = "Production"
         '
         'tcpInvention
         '
@@ -1907,6 +1660,253 @@ Partial Class frmBPCalculator
         Me.tiInvention.Text = "Invention"
         Me.tiInvention.Visible = False
         '
+        'tcpProduction
+        '
+        Me.tcpProduction.Controls.Add(Me.lblProfitMarkup)
+        Me.tcpProduction.Controls.Add(Me.lblProfitMargin)
+        Me.tcpProduction.Controls.Add(Me.lblProfitMarkupLbl)
+        Me.tcpProduction.Controls.Add(Me.lblProfitMarginLbl)
+        Me.tcpProduction.Controls.Add(Me.lblProdQuantity)
+        Me.tcpProduction.Controls.Add(Me.lblBatchSize)
+        Me.tcpProduction.Controls.Add(Me.lblFactoryCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.nudRuns)
+        Me.tcpProduction.Controls.Add(Me.chkPOSProduction)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.cboPOSArrays)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTime)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCost)
+        Me.tcpProduction.Controls.Add(Me.lblProfitRate)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTime)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCost)
+        Me.tcpProduction.Controls.Add(Me.lblProfitRateLbl)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTimeLbl)
+        Me.tcpProduction.Controls.Add(Me.lblUnitProfit)
+        Me.tcpProduction.Controls.Add(Me.lblUnitProfitlbl)
+        Me.tcpProduction.Controls.Add(Me.lblBatchSizeLbl)
+        Me.tcpProduction.Controls.Add(Me.lblFactoryCosts)
+        Me.tcpProduction.Controls.Add(Me.lblUnitValue)
+        Me.tcpProduction.Controls.Add(Me.lblUnitValuelbl)
+        Me.tcpProduction.Controls.Add(Me.lblTotalCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTimeLbl)
+        Me.tcpProduction.Controls.Add(Me.lblUnitCost)
+        Me.tcpProduction.Controls.Add(Me.lblTotalCosts)
+        Me.tcpProduction.Controls.Add(Me.lblRuns)
+        Me.tcpProduction.Controls.Add(Me.lblUnitCostLbl)
+        Me.tcpProduction.Controls.Add(Me.lblProdQuantityLbl)
+        Me.tcpProduction.Controls.Add(Me.PACUnitValue)
+        Me.tcpProduction.Controls.Add(Me.PPRProduction)
+        Me.tcpProduction.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpProduction.Location = New System.Drawing.Point(0, 23)
+        Me.tcpProduction.Name = "tcpProduction"
+        Me.tcpProduction.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpProduction.Size = New System.Drawing.Size(836, 525)
+        Me.tcpProduction.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpProduction.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpProduction.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpProduction.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpProduction.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpProduction.Style.GradientAngle = 90
+        Me.tcpProduction.TabIndex = 2
+        Me.tcpProduction.TabItem = Me.tiProduction
+        '
+        'lblProfitMarkup
+        '
+        Me.lblProfitMarkup.AutoSize = True
+        Me.lblProfitMarkup.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMarkup.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMarkup.Location = New System.Drawing.Point(709, 138)
+        Me.lblProfitMarkup.Name = "lblProfitMarkup"
+        Me.lblProfitMarkup.Size = New System.Drawing.Size(27, 13)
+        Me.lblProfitMarkup.TabIndex = 213
+        Me.lblProfitMarkup.Text = "0 %"
+        '
+        'lblProfitMargin
+        '
+        Me.lblProfitMargin.AutoSize = True
+        Me.lblProfitMargin.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMargin.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMargin.Location = New System.Drawing.Point(709, 125)
+        Me.lblProfitMargin.Name = "lblProfitMargin"
+        Me.lblProfitMargin.Size = New System.Drawing.Size(27, 13)
+        Me.lblProfitMargin.TabIndex = 212
+        Me.lblProfitMargin.Text = "0 %"
+        '
+        'lblProfitMarkupLbl
+        '
+        Me.lblProfitMarkupLbl.AutoSize = True
+        Me.lblProfitMarkupLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMarkupLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMarkupLbl.Location = New System.Drawing.Point(618, 138)
+        Me.lblProfitMarkupLbl.Name = "lblProfitMarkupLbl"
+        Me.lblProfitMarkupLbl.Size = New System.Drawing.Size(75, 13)
+        Me.lblProfitMarkupLbl.TabIndex = 211
+        Me.lblProfitMarkupLbl.Text = "Profit Markup:"
+        '
+        'lblProfitMarginLbl
+        '
+        Me.lblProfitMarginLbl.AutoSize = True
+        Me.lblProfitMarginLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMarginLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMarginLbl.Location = New System.Drawing.Point(618, 125)
+        Me.lblProfitMarginLbl.Name = "lblProfitMarginLbl"
+        Me.lblProfitMarginLbl.Size = New System.Drawing.Size(72, 13)
+        Me.lblProfitMarginLbl.TabIndex = 210
+        Me.lblProfitMarginLbl.Text = "Profit Margin:"
+        '
+        'lblProdQuantity
+        '
+        Me.lblProdQuantity.AutoSize = True
+        Me.lblProdQuantity.BackColor = System.Drawing.Color.Transparent
+        Me.lblProdQuantity.Location = New System.Drawing.Point(123, 120)
+        Me.lblProdQuantity.Name = "lblProdQuantity"
+        Me.lblProdQuantity.Size = New System.Drawing.Size(13, 13)
+        Me.lblProdQuantity.TabIndex = 183
+        Me.lblProdQuantity.Text = "1"
+        '
+        'lblBatchSize
+        '
+        Me.lblBatchSize.AutoSize = True
+        Me.lblBatchSize.BackColor = System.Drawing.Color.Transparent
+        Me.lblBatchSize.Location = New System.Drawing.Point(123, 94)
+        Me.lblBatchSize.Name = "lblBatchSize"
+        Me.lblBatchSize.Size = New System.Drawing.Size(13, 13)
+        Me.lblBatchSize.TabIndex = 182
+        Me.lblBatchSize.Text = "1"
+        '
+        'lblFactoryCostsLbl
+        '
+        Me.lblFactoryCostsLbl.AutoSize = True
+        Me.lblFactoryCostsLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblFactoryCostsLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
+        Me.lblFactoryCostsLbl.Location = New System.Drawing.Point(272, 69)
+        Me.lblFactoryCostsLbl.Name = "lblFactoryCostsLbl"
+        Me.lblFactoryCostsLbl.Size = New System.Drawing.Size(78, 13)
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblFactoryCostsLbl, New DevComponents.DotNetBar.SuperTooltipInfo("Factory Costs", "Click to edit Factory Costs", "Factory Costs comprise of two components: an amount for the original installation" & _
+            " and a cost per hour running cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.lblFactoryCostsLbl.TabIndex = 181
+        Me.lblFactoryCostsLbl.TabStop = True
+        Me.lblFactoryCostsLbl.Text = "Factory Costs:"
+        '
+        'nudRuns
+        '
+        '
+        '
+        '
+        Me.nudRuns.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudRuns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudRuns.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudRuns.Location = New System.Drawing.Point(119, 65)
+        Me.nudRuns.MaxValue = 1500
+        Me.nudRuns.MinValue = 1
+        Me.nudRuns.Name = "nudRuns"
+        Me.nudRuns.ShowUpDown = True
+        Me.nudRuns.Size = New System.Drawing.Size(93, 21)
+        Me.nudRuns.TabIndex = 180
+        Me.nudRuns.Value = 1
+        '
+        'chkPOSProduction
+        '
+        Me.chkPOSProduction.AutoSize = True
+        Me.chkPOSProduction.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkPOSProduction.BackgroundStyle.Class = ""
+        Me.chkPOSProduction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkPOSProduction.Location = New System.Drawing.Point(9, 13)
+        Me.chkPOSProduction.Name = "chkPOSProduction"
+        Me.chkPOSProduction.Size = New System.Drawing.Size(165, 16)
+        Me.chkPOSProduction.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkPOSProduction.TabIndex = 176
+        Me.chkPOSProduction.Text = "Use POS Array for production"
+        '
+        'cboPOSArrays
+        '
+        Me.cboPOSArrays.DisplayMember = "Text"
+        Me.cboPOSArrays.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboPOSArrays.Enabled = False
+        Me.cboPOSArrays.FormattingEnabled = True
+        Me.cboPOSArrays.ItemHeight = 15
+        Me.cboPOSArrays.Location = New System.Drawing.Point(9, 35)
+        Me.cboPOSArrays.Name = "cboPOSArrays"
+        Me.cboPOSArrays.Size = New System.Drawing.Size(224, 21)
+        Me.cboPOSArrays.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboPOSArrays.TabIndex = 177
+        Me.cboPOSArrays.WatermarkFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboPOSArrays.WatermarkText = "Select your POS array..."
+        '
+        'tiProduction
+        '
+        Me.tiProduction.AttachedControl = Me.tcpProduction
+        Me.tiProduction.Name = "tiProduction"
+        Me.tiProduction.Text = "Production"
+        '
+        'tcpResearch
+        '
+        Me.tcpResearch.Controls.Add(Me.lblMETime)
+        Me.tcpResearch.Controls.Add(Me.lblPETimeLbl)
+        Me.tcpResearch.Controls.Add(Me.chkAdvancedLab)
+        Me.tcpResearch.Controls.Add(Me.lblPETime)
+        Me.tcpResearch.Controls.Add(Me.chkResearchAtPOS)
+        Me.tcpResearch.Controls.Add(Me.lblMETimeLbl)
+        Me.tcpResearch.Controls.Add(Me.lblBPCopyTimeLbl)
+        Me.tcpResearch.Controls.Add(Me.lblCopyTime)
+        Me.tcpResearch.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpResearch.Location = New System.Drawing.Point(0, 23)
+        Me.tcpResearch.Name = "tcpResearch"
+        Me.tcpResearch.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpResearch.Size = New System.Drawing.Size(836, 525)
+        Me.tcpResearch.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpResearch.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpResearch.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpResearch.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpResearch.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpResearch.Style.GradientAngle = 90
+        Me.tcpResearch.TabIndex = 1
+        Me.tcpResearch.TabItem = Me.tiResearch
+        '
+        'chkAdvancedLab
+        '
+        Me.chkAdvancedLab.AutoSize = True
+        Me.chkAdvancedLab.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkAdvancedLab.BackgroundStyle.Class = ""
+        Me.chkAdvancedLab.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkAdvancedLab.Enabled = False
+        Me.chkAdvancedLab.Location = New System.Drawing.Point(160, 13)
+        Me.chkAdvancedLab.Name = "chkAdvancedLab"
+        Me.chkAdvancedLab.Size = New System.Drawing.Size(126, 16)
+        Me.chkAdvancedLab.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkAdvancedLab.TabIndex = 33
+        Me.chkAdvancedLab.Text = "Advanced Lab (Copy)"
+        '
+        'chkResearchAtPOS
+        '
+        Me.chkResearchAtPOS.AutoSize = True
+        Me.chkResearchAtPOS.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkResearchAtPOS.BackgroundStyle.Class = ""
+        Me.chkResearchAtPOS.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkResearchAtPOS.Location = New System.Drawing.Point(22, 13)
+        Me.chkResearchAtPOS.Name = "chkResearchAtPOS"
+        Me.chkResearchAtPOS.Size = New System.Drawing.Size(108, 16)
+        Me.chkResearchAtPOS.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkResearchAtPOS.TabIndex = 32
+        Me.chkResearchAtPOS.Text = "Research at POS?"
+        '
+        'tiResearch
+        '
+        Me.tiResearch.AttachedControl = Me.tcpResearch
+        Me.tiResearch.Name = "tiResearch"
+        Me.tiResearch.Text = "Research"
+        '
         'nudPELevel
         '
         '
@@ -2395,29 +2395,6 @@ Partial Class frmBPCalculator
         '
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         '
-        'PACUnitValue
-        '
-        Me.PACUnitValue.Location = New System.Drawing.Point(381, 113)
-        Me.PACUnitValue.Name = "PACUnitValue"
-        Me.PACUnitValue.Price = 0.0R
-        Me.PACUnitValue.Size = New System.Drawing.Size(20, 12)
-        Me.PACUnitValue.TabIndex = 209
-        Me.PACUnitValue.TypeID = CType(0, Long)
-        '
-        'PPRProduction
-        '
-        Me.PPRProduction.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PPRProduction.BatchJob = Nothing
-        Me.PPRProduction.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PPRProduction.InventionBP = Nothing
-        Me.PPRProduction.Location = New System.Drawing.Point(0, 163)
-        Me.PPRProduction.Name = "PPRProduction"
-        Me.PPRProduction.ProductionJob = Nothing
-        Me.PPRProduction.Size = New System.Drawing.Size(836, 362)
-        Me.PPRProduction.TabIndex = 0
-        '
         'PPRInvention
         '
         Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -2459,6 +2436,29 @@ Partial Class frmBPCalculator
         Me.PACMetaItem.TabIndex = 207
         Me.PACMetaItem.TypeID = CType(0, Long)
         '
+        'PACUnitValue
+        '
+        Me.PACUnitValue.Location = New System.Drawing.Point(381, 113)
+        Me.PACUnitValue.Name = "PACUnitValue"
+        Me.PACUnitValue.Price = 0.0R
+        Me.PACUnitValue.Size = New System.Drawing.Size(20, 12)
+        Me.PACUnitValue.TabIndex = 209
+        Me.PACUnitValue.TypeID = CType(0, Long)
+        '
+        'PPRProduction
+        '
+        Me.PPRProduction.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PPRProduction.BatchJob = Nothing
+        Me.PPRProduction.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PPRProduction.InventionBP = Nothing
+        Me.PPRProduction.Location = New System.Drawing.Point(0, 163)
+        Me.PPRProduction.Name = "PPRProduction"
+        Me.PPRProduction.ProductionJob = Nothing
+        Me.PPRProduction.Size = New System.Drawing.Size(836, 362)
+        Me.PPRProduction.TabIndex = 0
+        '
         'frmBPCalculator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2479,11 +2479,6 @@ Partial Class frmBPCalculator
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabBPCalcFunctions.ResumeLayout(False)
-        Me.tcpResearch.ResumeLayout(False)
-        Me.tcpResearch.PerformLayout()
-        Me.tcpProduction.ResumeLayout(False)
-        Me.tcpProduction.PerformLayout()
-        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcpInvention.ResumeLayout(False)
         Me.tcpInvention.PerformLayout()
         CType(Me.adtInventionProfits, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2491,6 +2486,11 @@ Partial Class frmBPCalculator
         CType(Me.nudInventionSkill3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudInventionSkill1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudInventionBPCRuns, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tcpProduction.ResumeLayout(False)
+        Me.tcpProduction.PerformLayout()
+        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tcpResearch.ResumeLayout(False)
+        Me.tcpResearch.PerformLayout()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gpPilotSkills.ResumeLayout(False)

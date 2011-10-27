@@ -233,6 +233,50 @@ Partial Class frmPrism
         Me.txtItemSearch = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.lblSearch = New System.Windows.Forms.Label()
         Me.tiPrismHome = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel15 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.pnlRigs = New DevComponents.DotNetBar.PanelEx()
+        Me.adtRigs = New DevComponents.AdvTree.AdvTree()
+        Me.colRigListType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListQuantity = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListRigPrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListSalvagePrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListBuildBenefit = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListRigValue = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListSalvageValue = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListTotalBuildBenefit = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigListMargin = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector14 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle11 = New DevComponents.DotNetBar.ElementStyle()
+        Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.adtRigBuildList = New DevComponents.AdvTree.AdvTree()
+        Me.colRigBuildType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuildQuantity = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuidRigPrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuildSalvagePrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuildBenefit = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuildRigValue = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuildSalvageValue = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuildTotalBenefit = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRigBuildMargin = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector13 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle10 = New DevComponents.DotNetBar.ElementStyle()
+        Me.PSCRigOwners = New EveHQ.Prism.PrismSelectionHostControl()
+        Me.lblTotalRigMargin = New System.Windows.Forms.Label()
+        Me.lblTotalRigProfit = New System.Windows.Forms.Label()
+        Me.lblTotalRigSalePrice = New System.Windows.Forms.Label()
+        Me.gpAutoRig = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.btnAutoRig = New DevComponents.DotNetBar.ButtonX()
+        Me.chkRigMargin = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkRigSalePrice = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkTotalProfit = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkTotalSalePrice = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkRigProfit = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.btnBuildRigs = New DevComponents.DotNetBar.ButtonX()
+        Me.btnExportRigBuildList = New DevComponents.DotNetBar.ButtonX()
+        Me.btnExportRigList = New DevComponents.DotNetBar.ButtonX()
+        Me.nudRigMELevel = New System.Windows.Forms.NumericUpDown()
+        Me.lblRigMELevel = New System.Windows.Forms.Label()
+        Me.tiRigBuilder = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnImportEntries = New DevComponents.DotNetBar.ButtonX()
         Me.btnExportEntries = New DevComponents.DotNetBar.ButtonX()
@@ -380,50 +424,6 @@ Partial Class frmPrism
         Me.dtiChartStartDate = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
         Me.cboChartOwners = New DevComponents.DotNetBar.Controls.TextBoxDropDown()
         Me.tiCharts = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel15 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.pnlRigs = New DevComponents.DotNetBar.PanelEx()
-        Me.adtRigs = New DevComponents.AdvTree.AdvTree()
-        Me.colRigListType = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListQuantity = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListRigPrice = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListSalvagePrice = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListBuildBenefit = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListRigValue = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListSalvageValue = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListTotalBuildBenefit = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigListMargin = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector14 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle11 = New DevComponents.DotNetBar.ElementStyle()
-        Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
-        Me.adtRigBuildList = New DevComponents.AdvTree.AdvTree()
-        Me.colRigBuildType = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuildQuantity = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuidRigPrice = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuildSalvagePrice = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuildBenefit = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuildRigValue = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuildSalvageValue = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuildTotalBenefit = New DevComponents.AdvTree.ColumnHeader()
-        Me.colRigBuildMargin = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector13 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle10 = New DevComponents.DotNetBar.ElementStyle()
-        Me.PSCRigOwners = New EveHQ.Prism.PrismSelectionHostControl()
-        Me.lblTotalRigMargin = New System.Windows.Forms.Label()
-        Me.lblTotalRigProfit = New System.Windows.Forms.Label()
-        Me.lblTotalRigSalePrice = New System.Windows.Forms.Label()
-        Me.gpAutoRig = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.btnAutoRig = New DevComponents.DotNetBar.ButtonX()
-        Me.chkRigMargin = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkRigSalePrice = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkTotalProfit = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkTotalSalePrice = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkRigProfit = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.btnBuildRigs = New DevComponents.DotNetBar.ButtonX()
-        Me.btnExportRigBuildList = New DevComponents.DotNetBar.ButtonX()
-        Me.btnExportRigList = New DevComponents.DotNetBar.ButtonX()
-        Me.nudRigMELevel = New System.Windows.Forms.NumericUpDown()
-        Me.lblRigMELevel = New System.Windows.Forms.Label()
-        Me.tiRigBuilder = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
         Me.pnlSellOrders = New DevComponents.DotNetBar.PanelEx()
         Me.cboOrdersOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
@@ -514,6 +514,12 @@ Partial Class frmPrism
         Me.tabPrism.SuspendLayout()
         Me.TabControlPanel1.SuspendLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControlPanel15.SuspendLayout()
+        Me.pnlRigs.SuspendLayout()
+        CType(Me.adtRigs, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.adtRigBuildList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gpAutoRig.SuspendLayout()
+        CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel6.SuspendLayout()
         CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel17.SuspendLayout()
@@ -546,12 +552,6 @@ Partial Class frmPrism
         Me.PanelEx2.SuspendLayout()
         CType(Me.dtiChartEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtiChartStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabControlPanel15.SuspendLayout()
-        Me.pnlRigs.SuspendLayout()
-        CType(Me.adtRigs, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.adtRigBuildList, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gpAutoRig.SuspendLayout()
-        CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel4.SuspendLayout()
         Me.pnlSellOrders.SuspendLayout()
         CType(Me.adtSellOrders, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1072,6 +1072,7 @@ Partial Class frmPrism
         Me.dtiJournalEndDate.ButtonDropDown.Visible = True
         Me.dtiJournalEndDate.CustomFormat = "yyyy-MM-dd HH-mm-ss"
         Me.dtiJournalEndDate.Format = DevComponents.Editors.eDateTimePickerFormat.Custom
+        Me.dtiJournalEndDate.IsPopupCalendarOpen = False
         Me.dtiJournalEndDate.Location = New System.Drawing.Point(98, 61)
         '
         '
@@ -1131,6 +1132,7 @@ Partial Class frmPrism
         Me.dtiJournalStartDate.ButtonDropDown.Visible = True
         Me.dtiJournalStartDate.CustomFormat = "yyyy-MM-dd HH-mm-ss"
         Me.dtiJournalStartDate.Format = DevComponents.Editors.eDateTimePickerFormat.Custom
+        Me.dtiJournalStartDate.IsPopupCalendarOpen = False
         Me.dtiJournalStartDate.Location = New System.Drawing.Point(98, 34)
         '
         '
@@ -2268,7 +2270,7 @@ Partial Class frmPrism
         Me.rbProduction.ContainerControlProcessDialogKey = True
         Me.rbProduction.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnProductionManager, Me.btnInventionManager, Me.btnBlueprintCalc, Me.btnRigBuilder})
         Me.rbProduction.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbProduction.Location = New System.Drawing.Point(859, 0)
+        Me.rbProduction.Location = New System.Drawing.Point(857, 0)
         Me.rbProduction.Name = "rbProduction"
         Me.rbProduction.Size = New System.Drawing.Size(231, 100)
         Me.rbProduction.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -2289,7 +2291,7 @@ Partial Class frmPrism
         '
         Me.btnProductionManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnProductionManager.Image = CType(resources.GetObject("btnProductionManager.Image"), System.Drawing.Image)
-        Me.btnProductionManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnProductionManager.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnProductionManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnProductionManager.Name = "btnProductionManager"
         Me.btnProductionManager.SubItemsExpandWidth = 14
@@ -2299,7 +2301,7 @@ Partial Class frmPrism
         '
         Me.btnInventionManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnInventionManager.Image = CType(resources.GetObject("btnInventionManager.Image"), System.Drawing.Image)
-        Me.btnInventionManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnInventionManager.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnInventionManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnInventionManager.Name = "btnInventionManager"
         Me.btnInventionManager.SubItemsExpandWidth = 14
@@ -2309,7 +2311,7 @@ Partial Class frmPrism
         '
         Me.btnBlueprintCalc.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnBlueprintCalc.Image = CType(resources.GetObject("btnBlueprintCalc.Image"), System.Drawing.Image)
-        Me.btnBlueprintCalc.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnBlueprintCalc.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnBlueprintCalc.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnBlueprintCalc.Name = "btnBlueprintCalc"
         Me.btnBlueprintCalc.SubItemsExpandWidth = 14
@@ -2319,7 +2321,7 @@ Partial Class frmPrism
         '
         Me.btnRigBuilder.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnRigBuilder.Image = CType(resources.GetObject("btnRigBuilder.Image"), System.Drawing.Image)
-        Me.btnRigBuilder.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnRigBuilder.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnRigBuilder.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnRigBuilder.Name = "btnRigBuilder"
         Me.btnRigBuilder.SubItemsExpandWidth = 14
@@ -2341,7 +2343,7 @@ Partial Class frmPrism
         Me.rbQuickCalcs.ContainerControlProcessDialogKey = True
         Me.rbQuickCalcs.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInventionChance, Me.btnQuickProduction})
         Me.rbQuickCalcs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbQuickCalcs.Location = New System.Drawing.Point(745, 0)
+        Me.rbQuickCalcs.Location = New System.Drawing.Point(743, 0)
         Me.rbQuickCalcs.Name = "rbQuickCalcs"
         Me.rbQuickCalcs.Size = New System.Drawing.Size(112, 100)
         Me.rbQuickCalcs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -2362,7 +2364,7 @@ Partial Class frmPrism
         '
         Me.btnInventionChance.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnInventionChance.Image = CType(resources.GetObject("btnInventionChance.Image"), System.Drawing.Image)
-        Me.btnInventionChance.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnInventionChance.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnInventionChance.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnInventionChance.Name = "btnInventionChance"
         Me.btnInventionChance.SubItemsExpandWidth = 14
@@ -2372,7 +2374,7 @@ Partial Class frmPrism
         '
         Me.btnQuickProduction.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnQuickProduction.Image = CType(resources.GetObject("btnQuickProduction.Image"), System.Drawing.Image)
-        Me.btnQuickProduction.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnQuickProduction.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnQuickProduction.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnQuickProduction.Name = "btnQuickProduction"
         Me.btnQuickProduction.SubItemsExpandWidth = 14
@@ -2394,7 +2396,7 @@ Partial Class frmPrism
         Me.rbAnalysisTools.ContainerControlProcessDialogKey = True
         Me.rbAnalysisTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnReports, Me.btnCharts, Me.btnInventionResults})
         Me.rbAnalysisTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbAnalysisTools.Location = New System.Drawing.Point(582, 0)
+        Me.rbAnalysisTools.Location = New System.Drawing.Point(580, 0)
         Me.rbAnalysisTools.Name = "rbAnalysisTools"
         Me.rbAnalysisTools.Size = New System.Drawing.Size(161, 100)
         Me.rbAnalysisTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -2415,7 +2417,7 @@ Partial Class frmPrism
         '
         Me.btnReports.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnReports.Image = CType(resources.GetObject("btnReports.Image"), System.Drawing.Image)
-        Me.btnReports.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnReports.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnReports.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnReports.Name = "btnReports"
         Me.btnReports.SubItemsExpandWidth = 14
@@ -2424,7 +2426,7 @@ Partial Class frmPrism
         'btnCharts
         '
         Me.btnCharts.Image = CType(resources.GetObject("btnCharts.Image"), System.Drawing.Image)
-        Me.btnCharts.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnCharts.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnCharts.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnCharts.Name = "btnCharts"
         Me.btnCharts.SubItemsExpandWidth = 14
@@ -2433,7 +2435,7 @@ Partial Class frmPrism
         'btnInventionResults
         '
         Me.btnInventionResults.Image = CType(resources.GetObject("btnInventionResults.Image"), System.Drawing.Image)
-        Me.btnInventionResults.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnInventionResults.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnInventionResults.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnInventionResults.Name = "btnInventionResults"
         Me.btnInventionResults.SubItemsExpandWidth = 14
@@ -2455,7 +2457,7 @@ Partial Class frmPrism
         Me.rbMarketTools.ContainerControlProcessDialogKey = True
         Me.rbMarketTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOrders, Me.btnJobs, Me.btnContracts})
         Me.rbMarketTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbMarketTools.Location = New System.Drawing.Point(414, 0)
+        Me.rbMarketTools.Location = New System.Drawing.Point(412, 0)
         Me.rbMarketTools.Name = "rbMarketTools"
         Me.rbMarketTools.Size = New System.Drawing.Size(166, 100)
         Me.rbMarketTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -2476,7 +2478,7 @@ Partial Class frmPrism
         '
         Me.btnOrders.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnOrders.Image = CType(resources.GetObject("btnOrders.Image"), System.Drawing.Image)
-        Me.btnOrders.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnOrders.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnOrders.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnOrders.Name = "btnOrders"
         Me.btnOrders.SubItemsExpandWidth = 14
@@ -2486,7 +2488,7 @@ Partial Class frmPrism
         '
         Me.btnJobs.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnJobs.Image = CType(resources.GetObject("btnJobs.Image"), System.Drawing.Image)
-        Me.btnJobs.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnJobs.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnJobs.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnJobs.Name = "btnJobs"
         Me.btnJobs.SubItemsExpandWidth = 14
@@ -2496,7 +2498,7 @@ Partial Class frmPrism
         '
         Me.btnContracts.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnContracts.Image = CType(resources.GetObject("btnContracts.Image"), System.Drawing.Image)
-        Me.btnContracts.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnContracts.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnContracts.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnContracts.Name = "btnContracts"
         Me.btnContracts.SubItemsExpandWidth = 14
@@ -2518,7 +2520,7 @@ Partial Class frmPrism
         Me.rbAssetManagement.ContainerControlProcessDialogKey = True
         Me.rbAssetManagement.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnAssets, Me.btnBPManager, Me.btnRecycler})
         Me.rbAssetManagement.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbAssetManagement.Location = New System.Drawing.Point(247, 0)
+        Me.rbAssetManagement.Location = New System.Drawing.Point(245, 0)
         Me.rbAssetManagement.Name = "rbAssetManagement"
         Me.rbAssetManagement.Size = New System.Drawing.Size(165, 100)
         Me.rbAssetManagement.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -2539,7 +2541,7 @@ Partial Class frmPrism
         '
         Me.btnAssets.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnAssets.Image = CType(resources.GetObject("btnAssets.Image"), System.Drawing.Image)
-        Me.btnAssets.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnAssets.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnAssets.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnAssets.Name = "btnAssets"
         Me.btnAssets.SubItemsExpandWidth = 14
@@ -2549,7 +2551,7 @@ Partial Class frmPrism
         '
         Me.btnBPManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnBPManager.Image = CType(resources.GetObject("btnBPManager.Image"), System.Drawing.Image)
-        Me.btnBPManager.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnBPManager.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnBPManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnBPManager.Name = "btnBPManager"
         Me.btnBPManager.SubItemsExpandWidth = 14
@@ -2559,7 +2561,7 @@ Partial Class frmPrism
         '
         Me.btnRecycler.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnRecycler.Image = CType(resources.GetObject("btnRecycler.Image"), System.Drawing.Image)
-        Me.btnRecycler.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnRecycler.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnRecycler.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnRecycler.Name = "btnRecycler"
         Me.btnRecycler.SubItemsExpandWidth = 14
@@ -2581,7 +2583,7 @@ Partial Class frmPrism
         Me.rbWallet.ContainerControlProcessDialogKey = True
         Me.rbWallet.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnWalletJournal, Me.btnWalletTransactions})
         Me.rbWallet.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbWallet.Location = New System.Drawing.Point(117, 0)
+        Me.rbWallet.Location = New System.Drawing.Point(115, 0)
         Me.rbWallet.Name = "rbWallet"
         Me.rbWallet.Size = New System.Drawing.Size(128, 100)
         Me.rbWallet.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -2602,7 +2604,7 @@ Partial Class frmPrism
         '
         Me.btnWalletJournal.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnWalletJournal.Image = CType(resources.GetObject("btnWalletJournal.Image"), System.Drawing.Image)
-        Me.btnWalletJournal.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnWalletJournal.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnWalletJournal.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnWalletJournal.Name = "btnWalletJournal"
         Me.btnWalletJournal.SubItemsExpandWidth = 14
@@ -2612,7 +2614,7 @@ Partial Class frmPrism
         '
         Me.btnWalletTransactions.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnWalletTransactions.Image = CType(resources.GetObject("btnWalletTransactions.Image"), System.Drawing.Image)
-        Me.btnWalletTransactions.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnWalletTransactions.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnWalletTransactions.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnWalletTransactions.Name = "btnWalletTransactions"
         Me.btnWalletTransactions.SubItemsExpandWidth = 14
@@ -2636,7 +2638,7 @@ Partial Class frmPrism
         Me.rbData.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.rbData.Location = New System.Drawing.Point(0, 0)
         Me.rbData.Name = "rbData"
-        Me.rbData.Size = New System.Drawing.Size(115, 100)
+        Me.rbData.Size = New System.Drawing.Size(113, 100)
         Me.rbData.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbData.TabIndex = 0
         Me.rbData.Text = "Settings && Data"
@@ -2655,7 +2657,7 @@ Partial Class frmPrism
         '
         Me.btnOptions.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnOptions.Image = CType(resources.GetObject("btnOptions.Image"), System.Drawing.Image)
-        Me.btnOptions.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnOptions.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnOptions.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnOptions.Name = "btnOptions"
         Me.btnOptions.SubItemsExpandWidth = 14
@@ -2665,7 +2667,7 @@ Partial Class frmPrism
         '
         Me.btnDownloadAPIData.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
         Me.btnDownloadAPIData.Image = CType(resources.GetObject("btnDownloadAPIData.Image"), System.Drawing.Image)
-        Me.btnDownloadAPIData.ImageFixedSize = New System.Drawing.Size(40, 40)
+        Me.btnDownloadAPIData.ImageFixedSize = New System.Drawing.Size(36, 36)
         Me.btnDownloadAPIData.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
         Me.btnDownloadAPIData.Name = "btnDownloadAPIData"
         Me.btnDownloadAPIData.Text = "Download API Data"
@@ -2701,8 +2703,8 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPrism.Controls.Add(Me.TabControlPanel15)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel15)
         Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel17)
         Me.tabPrism.Controls.Add(Me.TabControlPanel3)
@@ -2926,6 +2928,558 @@ Partial Class frmPrism
         Me.tiPrismHome.AttachedControl = Me.TabControlPanel1
         Me.tiPrismHome.Name = "tiPrismHome"
         Me.tiPrismHome.Text = "Prism Home"
+        '
+        'TabControlPanel15
+        '
+        Me.TabControlPanel15.Controls.Add(Me.pnlRigs)
+        Me.TabControlPanel15.Controls.Add(Me.PSCRigOwners)
+        Me.TabControlPanel15.Controls.Add(Me.lblTotalRigMargin)
+        Me.TabControlPanel15.Controls.Add(Me.lblTotalRigProfit)
+        Me.TabControlPanel15.Controls.Add(Me.lblTotalRigSalePrice)
+        Me.TabControlPanel15.Controls.Add(Me.gpAutoRig)
+        Me.TabControlPanel15.Controls.Add(Me.btnBuildRigs)
+        Me.TabControlPanel15.Controls.Add(Me.btnExportRigBuildList)
+        Me.TabControlPanel15.Controls.Add(Me.btnExportRigList)
+        Me.TabControlPanel15.Controls.Add(Me.nudRigMELevel)
+        Me.TabControlPanel15.Controls.Add(Me.lblRigMELevel)
+        Me.TabControlPanel15.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel15.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel15.Name = "TabControlPanel15"
+        Me.TabControlPanel15.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel15.Size = New System.Drawing.Size(1284, 650)
+        Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel15.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel15.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel15.Style.GradientAngle = 90
+        Me.TabControlPanel15.TabIndex = 15
+        Me.TabControlPanel15.TabItem = Me.tiRigBuilder
+        '
+        'pnlRigs
+        '
+        Me.pnlRigs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pnlRigs.CanvasColor = System.Drawing.SystemColors.Control
+        Me.pnlRigs.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlRigs.Controls.Add(Me.adtRigs)
+        Me.pnlRigs.Controls.Add(Me.ExpandableSplitter1)
+        Me.pnlRigs.Controls.Add(Me.adtRigBuildList)
+        Me.pnlRigs.Location = New System.Drawing.Point(4, 115)
+        Me.pnlRigs.Name = "pnlRigs"
+        Me.pnlRigs.Size = New System.Drawing.Size(1276, 530)
+        Me.pnlRigs.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.pnlRigs.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.pnlRigs.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.pnlRigs.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.pnlRigs.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.pnlRigs.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.pnlRigs.Style.GradientAngle = 90
+        Me.pnlRigs.TabIndex = 71
+        Me.pnlRigs.Text = "PanelEx3"
+        '
+        'adtRigs
+        '
+        Me.adtRigs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtRigs.AllowDrop = True
+        Me.adtRigs.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtRigs.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtRigs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtRigs.Columns.Add(Me.colRigListType)
+        Me.adtRigs.Columns.Add(Me.colRigListQuantity)
+        Me.adtRigs.Columns.Add(Me.colRigListRigPrice)
+        Me.adtRigs.Columns.Add(Me.colRigListSalvagePrice)
+        Me.adtRigs.Columns.Add(Me.colRigListBuildBenefit)
+        Me.adtRigs.Columns.Add(Me.colRigListRigValue)
+        Me.adtRigs.Columns.Add(Me.colRigListSalvageValue)
+        Me.adtRigs.Columns.Add(Me.colRigListTotalBuildBenefit)
+        Me.adtRigs.Columns.Add(Me.colRigListMargin)
+        Me.adtRigs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.adtRigs.DragDropEnabled = False
+        Me.adtRigs.DragDropNodeCopyEnabled = False
+        Me.adtRigs.ExpandWidth = 0
+        Me.adtRigs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtRigs.Location = New System.Drawing.Point(0, 0)
+        Me.adtRigs.Name = "adtRigs"
+        Me.adtRigs.NodesConnector = Me.NodeConnector14
+        Me.adtRigs.NodeStyle = Me.ElementStyle11
+        Me.adtRigs.PathSeparator = ";"
+        Me.adtRigs.Size = New System.Drawing.Size(1276, 259)
+        Me.adtRigs.Styles.Add(Me.ElementStyle11)
+        Me.adtRigs.TabIndex = 66
+        Me.adtRigs.Text = "AdvTree1"
+        '
+        'colRigListType
+        '
+        Me.colRigListType.DisplayIndex = 1
+        Me.colRigListType.Name = "colRigListType"
+        Me.colRigListType.Text = "Rig Type"
+        Me.colRigListType.Width.Absolute = 200
+        '
+        'colRigListQuantity
+        '
+        Me.colRigListQuantity.DisplayIndex = 2
+        Me.colRigListQuantity.Name = "colRigListQuantity"
+        Me.colRigListQuantity.Text = "Quantity"
+        Me.colRigListQuantity.Width.Absolute = 100
+        '
+        'colRigListRigPrice
+        '
+        Me.colRigListRigPrice.DisplayIndex = 3
+        Me.colRigListRigPrice.Name = "colRigListRigPrice"
+        Me.colRigListRigPrice.Text = "Rig Price"
+        Me.colRigListRigPrice.Width.Absolute = 120
+        '
+        'colRigListSalvagePrice
+        '
+        Me.colRigListSalvagePrice.DisplayIndex = 4
+        Me.colRigListSalvagePrice.Name = "colRigListSalvagePrice"
+        Me.colRigListSalvagePrice.Text = "Salvage Price"
+        Me.colRigListSalvagePrice.Width.Absolute = 120
+        '
+        'colRigListBuildBenefit
+        '
+        Me.colRigListBuildBenefit.DisplayIndex = 5
+        Me.colRigListBuildBenefit.Name = "colRigListBuildBenefit"
+        Me.colRigListBuildBenefit.Text = "Build Benefit"
+        Me.colRigListBuildBenefit.Width.Absolute = 120
+        '
+        'colRigListRigValue
+        '
+        Me.colRigListRigValue.DisplayIndex = 6
+        Me.colRigListRigValue.Name = "colRigListRigValue"
+        Me.colRigListRigValue.Text = "Total Rig Value"
+        Me.colRigListRigValue.Width.Absolute = 120
+        '
+        'colRigListSalvageValue
+        '
+        Me.colRigListSalvageValue.DisplayIndex = 7
+        Me.colRigListSalvageValue.Name = "colRigListSalvageValue"
+        Me.colRigListSalvageValue.Text = "Total Salvage Value"
+        Me.colRigListSalvageValue.Width.Absolute = 120
+        '
+        'colRigListTotalBuildBenefit
+        '
+        Me.colRigListTotalBuildBenefit.DisplayIndex = 8
+        Me.colRigListTotalBuildBenefit.Name = "colRigListTotalBuildBenefit"
+        Me.colRigListTotalBuildBenefit.Text = "Total Build Benefit"
+        Me.colRigListTotalBuildBenefit.Width.Absolute = 120
+        '
+        'colRigListMargin
+        '
+        Me.colRigListMargin.DisplayIndex = 9
+        Me.colRigListMargin.Name = "colRigListMargin"
+        Me.colRigListMargin.Text = "% Margin"
+        Me.colRigListMargin.Width.Absolute = 100
+        '
+        'NodeConnector14
+        '
+        Me.NodeConnector14.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle11
+        '
+        Me.ElementStyle11.Class = ""
+        Me.ElementStyle11.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle11.Name = "ElementStyle11"
+        Me.ElementStyle11.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'ExpandableSplitter1
+        '
+        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.ExpandableSplitter1.Location = New System.Drawing.Point(0, 259)
+        Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
+        Me.ExpandableSplitter1.Size = New System.Drawing.Size(1276, 6)
+        Me.ExpandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.ExpandableSplitter1.TabIndex = 65
+        Me.ExpandableSplitter1.TabStop = False
+        '
+        'adtRigBuildList
+        '
+        Me.adtRigBuildList.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtRigBuildList.AllowDrop = True
+        Me.adtRigBuildList.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtRigBuildList.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtRigBuildList.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildType)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildQuantity)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuidRigPrice)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildSalvagePrice)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildBenefit)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildRigValue)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildSalvageValue)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildTotalBenefit)
+        Me.adtRigBuildList.Columns.Add(Me.colRigBuildMargin)
+        Me.adtRigBuildList.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.adtRigBuildList.DragDropEnabled = False
+        Me.adtRigBuildList.DragDropNodeCopyEnabled = False
+        Me.adtRigBuildList.ExpandWidth = 0
+        Me.adtRigBuildList.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtRigBuildList.Location = New System.Drawing.Point(0, 265)
+        Me.adtRigBuildList.Name = "adtRigBuildList"
+        Me.adtRigBuildList.NodesConnector = Me.NodeConnector13
+        Me.adtRigBuildList.NodeStyle = Me.ElementStyle10
+        Me.adtRigBuildList.PathSeparator = ";"
+        Me.adtRigBuildList.Size = New System.Drawing.Size(1276, 265)
+        Me.adtRigBuildList.Styles.Add(Me.ElementStyle10)
+        Me.adtRigBuildList.TabIndex = 64
+        Me.adtRigBuildList.Text = "AdvTree1"
+        '
+        'colRigBuildType
+        '
+        Me.colRigBuildType.DisplayIndex = 1
+        Me.colRigBuildType.Name = "colRigBuildType"
+        Me.colRigBuildType.Text = "Rig Type"
+        Me.colRigBuildType.Width.Absolute = 200
+        '
+        'colRigBuildQuantity
+        '
+        Me.colRigBuildQuantity.DisplayIndex = 2
+        Me.colRigBuildQuantity.Name = "colRigBuildQuantity"
+        Me.colRigBuildQuantity.Text = "Quantity"
+        Me.colRigBuildQuantity.Width.Absolute = 100
+        '
+        'colRigBuidRigPrice
+        '
+        Me.colRigBuidRigPrice.DisplayIndex = 3
+        Me.colRigBuidRigPrice.Name = "colRigBuidRigPrice"
+        Me.colRigBuidRigPrice.Text = "Rig Price"
+        Me.colRigBuidRigPrice.Width.Absolute = 120
+        '
+        'colRigBuildSalvagePrice
+        '
+        Me.colRigBuildSalvagePrice.DisplayIndex = 4
+        Me.colRigBuildSalvagePrice.Name = "colRigBuildSalvagePrice"
+        Me.colRigBuildSalvagePrice.Text = "Salvage Price"
+        Me.colRigBuildSalvagePrice.Width.Absolute = 120
+        '
+        'colRigBuildBenefit
+        '
+        Me.colRigBuildBenefit.DisplayIndex = 5
+        Me.colRigBuildBenefit.Name = "colRigBuildBenefit"
+        Me.colRigBuildBenefit.Text = "Build Benefit"
+        Me.colRigBuildBenefit.Width.Absolute = 120
+        '
+        'colRigBuildRigValue
+        '
+        Me.colRigBuildRigValue.DisplayIndex = 6
+        Me.colRigBuildRigValue.Name = "colRigBuildRigValue"
+        Me.colRigBuildRigValue.Text = "Total Rig Value"
+        Me.colRigBuildRigValue.Width.Absolute = 120
+        '
+        'colRigBuildSalvageValue
+        '
+        Me.colRigBuildSalvageValue.DisplayIndex = 7
+        Me.colRigBuildSalvageValue.Name = "colRigBuildSalvageValue"
+        Me.colRigBuildSalvageValue.Text = "Total Salvage Value"
+        Me.colRigBuildSalvageValue.Width.Absolute = 120
+        '
+        'colRigBuildTotalBenefit
+        '
+        Me.colRigBuildTotalBenefit.DisplayIndex = 8
+        Me.colRigBuildTotalBenefit.Name = "colRigBuildTotalBenefit"
+        Me.colRigBuildTotalBenefit.Text = "Total Build Benefit"
+        Me.colRigBuildTotalBenefit.Width.Absolute = 120
+        '
+        'colRigBuildMargin
+        '
+        Me.colRigBuildMargin.DisplayIndex = 9
+        Me.colRigBuildMargin.Name = "colRigBuildMargin"
+        Me.colRigBuildMargin.Text = "% Margin"
+        Me.colRigBuildMargin.Width.Absolute = 100
+        '
+        'NodeConnector13
+        '
+        Me.NodeConnector13.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle10
+        '
+        Me.ElementStyle10.Class = ""
+        Me.ElementStyle10.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle10.Name = "ElementStyle10"
+        Me.ElementStyle10.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'PSCRigOwners
+        '
+        Me.PSCRigOwners.AllowMultipleSelections = True
+        Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PSCRigOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
+        Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
+        Me.PSCRigOwners.Name = "PSCRigOwners"
+        Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
+        Me.PSCRigOwners.TabIndex = 70
+        '
+        'lblTotalRigMargin
+        '
+        Me.lblTotalRigMargin.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigMargin.AutoSize = True
+        Me.lblTotalRigMargin.BackColor = System.Drawing.Color.Transparent
+        Me.lblTotalRigMargin.Location = New System.Drawing.Point(422, 93)
+        Me.lblTotalRigMargin.Name = "lblTotalRigMargin"
+        Me.lblTotalRigMargin.Size = New System.Drawing.Size(43, 13)
+        Me.lblTotalRigMargin.TabIndex = 69
+        Me.lblTotalRigMargin.Text = "Margin:"
+        '
+        'lblTotalRigProfit
+        '
+        Me.lblTotalRigProfit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigProfit.AutoSize = True
+        Me.lblTotalRigProfit.BackColor = System.Drawing.Color.Transparent
+        Me.lblTotalRigProfit.Location = New System.Drawing.Point(222, 93)
+        Me.lblTotalRigProfit.Name = "lblTotalRigProfit"
+        Me.lblTotalRigProfit.Size = New System.Drawing.Size(64, 13)
+        Me.lblTotalRigProfit.TabIndex = 68
+        Me.lblTotalRigProfit.Text = "Total Profit:"
+        '
+        'lblTotalRigSalePrice
+        '
+        Me.lblTotalRigSalePrice.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigSalePrice.AutoSize = True
+        Me.lblTotalRigSalePrice.BackColor = System.Drawing.Color.Transparent
+        Me.lblTotalRigSalePrice.Location = New System.Drawing.Point(13, 93)
+        Me.lblTotalRigSalePrice.Name = "lblTotalRigSalePrice"
+        Me.lblTotalRigSalePrice.Size = New System.Drawing.Size(84, 13)
+        Me.lblTotalRigSalePrice.TabIndex = 67
+        Me.lblTotalRigSalePrice.Text = "Total Sale Price:"
+        '
+        'gpAutoRig
+        '
+        Me.gpAutoRig.BackColor = System.Drawing.Color.Transparent
+        Me.gpAutoRig.CanvasColor = System.Drawing.SystemColors.Control
+        Me.gpAutoRig.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.gpAutoRig.Controls.Add(Me.btnAutoRig)
+        Me.gpAutoRig.Controls.Add(Me.chkRigMargin)
+        Me.gpAutoRig.Controls.Add(Me.chkRigSalePrice)
+        Me.gpAutoRig.Controls.Add(Me.chkTotalProfit)
+        Me.gpAutoRig.Controls.Add(Me.chkTotalSalePrice)
+        Me.gpAutoRig.Controls.Add(Me.chkRigProfit)
+        Me.gpAutoRig.Location = New System.Drawing.Point(318, 8)
+        Me.gpAutoRig.Name = "gpAutoRig"
+        Me.gpAutoRig.Size = New System.Drawing.Size(515, 76)
+        '
+        '
+        '
+        Me.gpAutoRig.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.gpAutoRig.Style.BackColorGradientAngle = 90
+        Me.gpAutoRig.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.gpAutoRig.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAutoRig.Style.BorderBottomWidth = 1
+        Me.gpAutoRig.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.gpAutoRig.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAutoRig.Style.BorderLeftWidth = 1
+        Me.gpAutoRig.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAutoRig.Style.BorderRightWidth = 1
+        Me.gpAutoRig.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.gpAutoRig.Style.BorderTopWidth = 1
+        Me.gpAutoRig.Style.Class = ""
+        Me.gpAutoRig.Style.CornerDiameter = 4
+        Me.gpAutoRig.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
+        Me.gpAutoRig.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.gpAutoRig.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.gpAutoRig.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
+        '
+        '
+        '
+        Me.gpAutoRig.StyleMouseDown.Class = ""
+        Me.gpAutoRig.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.gpAutoRig.StyleMouseOver.Class = ""
+        Me.gpAutoRig.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.gpAutoRig.TabIndex = 63
+        Me.gpAutoRig.Text = "Automatic Rig Availability Options"
+        '
+        'btnAutoRig
+        '
+        Me.btnAutoRig.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAutoRig.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAutoRig.Location = New System.Drawing.Point(350, 6)
+        Me.btnAutoRig.Name = "btnAutoRig"
+        Me.btnAutoRig.Size = New System.Drawing.Size(150, 23)
+        Me.btnAutoRig.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnAutoRig.TabIndex = 64
+        Me.btnAutoRig.Text = "Auto Rig Availability"
+        '
+        'chkRigMargin
+        '
+        Me.chkRigMargin.AutoSize = True
+        Me.chkRigMargin.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkRigMargin.BackgroundStyle.Class = ""
+        Me.chkRigMargin.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkRigMargin.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkRigMargin.Checked = True
+        Me.chkRigMargin.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkRigMargin.CheckValue = "Y"
+        Me.chkRigMargin.Location = New System.Drawing.Point(246, 6)
+        Me.chkRigMargin.Name = "chkRigMargin"
+        Me.chkRigMargin.Size = New System.Drawing.Size(74, 16)
+        Me.chkRigMargin.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkRigMargin.TabIndex = 69
+        Me.chkRigMargin.Text = "Rig Margin"
+        '
+        'chkRigSalePrice
+        '
+        Me.chkRigSalePrice.AutoSize = True
+        Me.chkRigSalePrice.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkRigSalePrice.BackgroundStyle.Class = ""
+        Me.chkRigSalePrice.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkRigSalePrice.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkRigSalePrice.Location = New System.Drawing.Point(11, 6)
+        Me.chkRigSalePrice.Name = "chkRigSalePrice"
+        Me.chkRigSalePrice.Size = New System.Drawing.Size(88, 16)
+        Me.chkRigSalePrice.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkRigSalePrice.TabIndex = 65
+        Me.chkRigSalePrice.Text = "Rig Sale Price"
+        '
+        'chkTotalProfit
+        '
+        Me.chkTotalProfit.AutoSize = True
+        Me.chkTotalProfit.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkTotalProfit.BackgroundStyle.Class = ""
+        Me.chkTotalProfit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkTotalProfit.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkTotalProfit.Location = New System.Drawing.Point(136, 27)
+        Me.chkTotalProfit.Name = "chkTotalProfit"
+        Me.chkTotalProfit.Size = New System.Drawing.Size(76, 16)
+        Me.chkTotalProfit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkTotalProfit.TabIndex = 68
+        Me.chkTotalProfit.Text = "Total Profit"
+        '
+        'chkTotalSalePrice
+        '
+        Me.chkTotalSalePrice.AutoSize = True
+        Me.chkTotalSalePrice.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkTotalSalePrice.BackgroundStyle.Class = ""
+        Me.chkTotalSalePrice.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkTotalSalePrice.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkTotalSalePrice.Location = New System.Drawing.Point(11, 27)
+        Me.chkTotalSalePrice.Name = "chkTotalSalePrice"
+        Me.chkTotalSalePrice.Size = New System.Drawing.Size(97, 16)
+        Me.chkTotalSalePrice.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkTotalSalePrice.TabIndex = 66
+        Me.chkTotalSalePrice.Text = "Total Sale Price"
+        '
+        'chkRigProfit
+        '
+        Me.chkRigProfit.AutoSize = True
+        Me.chkRigProfit.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkRigProfit.BackgroundStyle.Class = ""
+        Me.chkRigProfit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkRigProfit.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkRigProfit.Location = New System.Drawing.Point(136, 6)
+        Me.chkRigProfit.Name = "chkRigProfit"
+        Me.chkRigProfit.Size = New System.Drawing.Size(67, 16)
+        Me.chkRigProfit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkRigProfit.TabIndex = 67
+        Me.chkRigProfit.Text = "Rig Profit"
+        '
+        'btnBuildRigs
+        '
+        Me.btnBuildRigs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnBuildRigs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnBuildRigs.Location = New System.Drawing.Point(12, 61)
+        Me.btnBuildRigs.Name = "btnBuildRigs"
+        Me.btnBuildRigs.Size = New System.Drawing.Size(150, 23)
+        Me.btnBuildRigs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnBuildRigs.TabIndex = 62
+        Me.btnBuildRigs.Text = "Display Rig Availability"
+        '
+        'btnExportRigBuildList
+        '
+        Me.btnExportRigBuildList.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExportRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportRigBuildList.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnExportRigBuildList.Location = New System.Drawing.Point(1173, 37)
+        Me.btnExportRigBuildList.Name = "btnExportRigBuildList"
+        Me.btnExportRigBuildList.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportRigBuildList.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnExportRigBuildList.TabIndex = 61
+        Me.btnExportRigBuildList.Text = "Export Build List"
+        '
+        'btnExportRigList
+        '
+        Me.btnExportRigList.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExportRigList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportRigList.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnExportRigList.Location = New System.Drawing.Point(1172, 10)
+        Me.btnExportRigList.Name = "btnExportRigList"
+        Me.btnExportRigList.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportRigList.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnExportRigList.TabIndex = 60
+        Me.btnExportRigList.Text = "Export Rig List"
+        '
+        'nudRigMELevel
+        '
+        Me.nudRigMELevel.Location = New System.Drawing.Point(92, 34)
+        Me.nudRigMELevel.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.nudRigMELevel.Name = "nudRigMELevel"
+        Me.nudRigMELevel.Size = New System.Drawing.Size(70, 21)
+        Me.nudRigMELevel.TabIndex = 56
+        '
+        'lblRigMELevel
+        '
+        Me.lblRigMELevel.AutoSize = True
+        Me.lblRigMELevel.BackColor = System.Drawing.Color.Transparent
+        Me.lblRigMELevel.Location = New System.Drawing.Point(12, 36)
+        Me.lblRigMELevel.Name = "lblRigMELevel"
+        Me.lblRigMELevel.Size = New System.Drawing.Size(71, 13)
+        Me.lblRigMELevel.TabIndex = 55
+        Me.lblRigMELevel.Text = "Rig ME Level:"
+        '
+        'tiRigBuilder
+        '
+        Me.tiRigBuilder.AttachedControl = Me.TabControlPanel15
+        Me.tiRigBuilder.Name = "tiRigBuilder"
+        Me.tiRigBuilder.Text = "Rig Builder"
         '
         'TabControlPanel6
         '
@@ -3311,6 +3865,7 @@ Partial Class frmPrism
         Me.dtiReportEndDate.CustomFormat = "yyyy-MM-dd"
         Me.dtiReportEndDate.Format = DevComponents.Editors.eDateTimePickerFormat.[Long]
         Me.dtiReportEndDate.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Right
+        Me.dtiReportEndDate.IsPopupCalendarOpen = False
         Me.dtiReportEndDate.Location = New System.Drawing.Point(99, 81)
         '
         '
@@ -3369,6 +3924,7 @@ Partial Class frmPrism
         Me.dtiReportStartDate.CustomFormat = "yyyy-MM-dd"
         Me.dtiReportStartDate.Format = DevComponents.Editors.eDateTimePickerFormat.[Long]
         Me.dtiReportStartDate.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Right
+        Me.dtiReportStartDate.IsPopupCalendarOpen = False
         Me.dtiReportStartDate.Location = New System.Drawing.Point(99, 54)
         '
         '
@@ -4003,6 +4559,7 @@ Partial Class frmPrism
         Me.dtiInventionEndDate.ButtonDropDown.Visible = True
         Me.dtiInventionEndDate.CustomFormat = "yyyy-MM-dd HH-mm-ss"
         Me.dtiInventionEndDate.Format = DevComponents.Editors.eDateTimePickerFormat.Custom
+        Me.dtiInventionEndDate.IsPopupCalendarOpen = False
         Me.dtiInventionEndDate.Location = New System.Drawing.Point(465, 35)
         '
         '
@@ -4072,6 +4629,7 @@ Partial Class frmPrism
         Me.dtiInventionStartDate.ButtonDropDown.Visible = True
         Me.dtiInventionStartDate.CustomFormat = "yyyy-MM-dd HH-mm-ss"
         Me.dtiInventionStartDate.Format = DevComponents.Editors.eDateTimePickerFormat.Custom
+        Me.dtiInventionStartDate.IsPopupCalendarOpen = False
         Me.dtiInventionStartDate.Location = New System.Drawing.Point(465, 8)
         '
         '
@@ -4540,6 +5098,7 @@ Partial Class frmPrism
         Me.dtiTransEndDate.ButtonDropDown.Visible = True
         Me.dtiTransEndDate.CustomFormat = "yyyy-MM-dd HH-mm-ss"
         Me.dtiTransEndDate.Format = DevComponents.Editors.eDateTimePickerFormat.Custom
+        Me.dtiTransEndDate.IsPopupCalendarOpen = False
         Me.dtiTransEndDate.Location = New System.Drawing.Point(99, 60)
         '
         '
@@ -4609,6 +5168,7 @@ Partial Class frmPrism
         Me.dtiTransStartDate.ButtonDropDown.Visible = True
         Me.dtiTransStartDate.CustomFormat = "yyyy-MM-dd HH-mm-ss"
         Me.dtiTransStartDate.Format = DevComponents.Editors.eDateTimePickerFormat.Custom
+        Me.dtiTransStartDate.IsPopupCalendarOpen = False
         Me.dtiTransStartDate.Location = New System.Drawing.Point(99, 33)
         '
         '
@@ -4921,6 +5481,7 @@ Partial Class frmPrism
         Me.dtiChartEndDate.CustomFormat = "yyyy-MM-dd"
         Me.dtiChartEndDate.Format = DevComponents.Editors.eDateTimePickerFormat.[Long]
         Me.dtiChartEndDate.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Right
+        Me.dtiChartEndDate.IsPopupCalendarOpen = False
         Me.dtiChartEndDate.Location = New System.Drawing.Point(99, 81)
         '
         '
@@ -4979,6 +5540,7 @@ Partial Class frmPrism
         Me.dtiChartStartDate.CustomFormat = "yyyy-MM-dd"
         Me.dtiChartStartDate.Format = DevComponents.Editors.eDateTimePickerFormat.[Long]
         Me.dtiChartStartDate.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Right
+        Me.dtiChartStartDate.IsPopupCalendarOpen = False
         Me.dtiChartStartDate.Location = New System.Drawing.Point(99, 54)
         '
         '
@@ -5048,558 +5610,6 @@ Partial Class frmPrism
         Me.tiCharts.AttachedControl = Me.TabControlPanel10
         Me.tiCharts.Name = "tiCharts"
         Me.tiCharts.Text = "Prism Charts"
-        '
-        'TabControlPanel15
-        '
-        Me.TabControlPanel15.Controls.Add(Me.pnlRigs)
-        Me.TabControlPanel15.Controls.Add(Me.PSCRigOwners)
-        Me.TabControlPanel15.Controls.Add(Me.lblTotalRigMargin)
-        Me.TabControlPanel15.Controls.Add(Me.lblTotalRigProfit)
-        Me.TabControlPanel15.Controls.Add(Me.lblTotalRigSalePrice)
-        Me.TabControlPanel15.Controls.Add(Me.gpAutoRig)
-        Me.TabControlPanel15.Controls.Add(Me.btnBuildRigs)
-        Me.TabControlPanel15.Controls.Add(Me.btnExportRigBuildList)
-        Me.TabControlPanel15.Controls.Add(Me.btnExportRigList)
-        Me.TabControlPanel15.Controls.Add(Me.nudRigMELevel)
-        Me.TabControlPanel15.Controls.Add(Me.lblRigMELevel)
-        Me.TabControlPanel15.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel15.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel15.Name = "TabControlPanel15"
-        Me.TabControlPanel15.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel15.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel15.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel15.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel15.Style.GradientAngle = 90
-        Me.TabControlPanel15.TabIndex = 15
-        Me.TabControlPanel15.TabItem = Me.tiRigBuilder
-        '
-        'pnlRigs
-        '
-        Me.pnlRigs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pnlRigs.CanvasColor = System.Drawing.SystemColors.Control
-        Me.pnlRigs.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.pnlRigs.Controls.Add(Me.adtRigs)
-        Me.pnlRigs.Controls.Add(Me.ExpandableSplitter1)
-        Me.pnlRigs.Controls.Add(Me.adtRigBuildList)
-        Me.pnlRigs.Location = New System.Drawing.Point(4, 115)
-        Me.pnlRigs.Name = "pnlRigs"
-        Me.pnlRigs.Size = New System.Drawing.Size(1276, 530)
-        Me.pnlRigs.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.pnlRigs.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.pnlRigs.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.pnlRigs.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.pnlRigs.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.pnlRigs.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.pnlRigs.Style.GradientAngle = 90
-        Me.pnlRigs.TabIndex = 71
-        Me.pnlRigs.Text = "PanelEx3"
-        '
-        'adtRigs
-        '
-        Me.adtRigs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtRigs.AllowDrop = True
-        Me.adtRigs.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtRigs.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtRigs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtRigs.Columns.Add(Me.colRigListType)
-        Me.adtRigs.Columns.Add(Me.colRigListQuantity)
-        Me.adtRigs.Columns.Add(Me.colRigListRigPrice)
-        Me.adtRigs.Columns.Add(Me.colRigListSalvagePrice)
-        Me.adtRigs.Columns.Add(Me.colRigListBuildBenefit)
-        Me.adtRigs.Columns.Add(Me.colRigListRigValue)
-        Me.adtRigs.Columns.Add(Me.colRigListSalvageValue)
-        Me.adtRigs.Columns.Add(Me.colRigListTotalBuildBenefit)
-        Me.adtRigs.Columns.Add(Me.colRigListMargin)
-        Me.adtRigs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.adtRigs.DragDropEnabled = False
-        Me.adtRigs.DragDropNodeCopyEnabled = False
-        Me.adtRigs.ExpandWidth = 0
-        Me.adtRigs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtRigs.Location = New System.Drawing.Point(0, 0)
-        Me.adtRigs.Name = "adtRigs"
-        Me.adtRigs.NodesConnector = Me.NodeConnector14
-        Me.adtRigs.NodeStyle = Me.ElementStyle11
-        Me.adtRigs.PathSeparator = ";"
-        Me.adtRigs.Size = New System.Drawing.Size(1276, 259)
-        Me.adtRigs.Styles.Add(Me.ElementStyle11)
-        Me.adtRigs.TabIndex = 66
-        Me.adtRigs.Text = "AdvTree1"
-        '
-        'colRigListType
-        '
-        Me.colRigListType.DisplayIndex = 1
-        Me.colRigListType.Name = "colRigListType"
-        Me.colRigListType.Text = "Rig Type"
-        Me.colRigListType.Width.Absolute = 200
-        '
-        'colRigListQuantity
-        '
-        Me.colRigListQuantity.DisplayIndex = 2
-        Me.colRigListQuantity.Name = "colRigListQuantity"
-        Me.colRigListQuantity.Text = "Quantity"
-        Me.colRigListQuantity.Width.Absolute = 100
-        '
-        'colRigListRigPrice
-        '
-        Me.colRigListRigPrice.DisplayIndex = 3
-        Me.colRigListRigPrice.Name = "colRigListRigPrice"
-        Me.colRigListRigPrice.Text = "Rig Price"
-        Me.colRigListRigPrice.Width.Absolute = 120
-        '
-        'colRigListSalvagePrice
-        '
-        Me.colRigListSalvagePrice.DisplayIndex = 4
-        Me.colRigListSalvagePrice.Name = "colRigListSalvagePrice"
-        Me.colRigListSalvagePrice.Text = "Salvage Price"
-        Me.colRigListSalvagePrice.Width.Absolute = 120
-        '
-        'colRigListBuildBenefit
-        '
-        Me.colRigListBuildBenefit.DisplayIndex = 5
-        Me.colRigListBuildBenefit.Name = "colRigListBuildBenefit"
-        Me.colRigListBuildBenefit.Text = "Build Benefit"
-        Me.colRigListBuildBenefit.Width.Absolute = 120
-        '
-        'colRigListRigValue
-        '
-        Me.colRigListRigValue.DisplayIndex = 6
-        Me.colRigListRigValue.Name = "colRigListRigValue"
-        Me.colRigListRigValue.Text = "Total Rig Value"
-        Me.colRigListRigValue.Width.Absolute = 120
-        '
-        'colRigListSalvageValue
-        '
-        Me.colRigListSalvageValue.DisplayIndex = 7
-        Me.colRigListSalvageValue.Name = "colRigListSalvageValue"
-        Me.colRigListSalvageValue.Text = "Total Salvage Value"
-        Me.colRigListSalvageValue.Width.Absolute = 120
-        '
-        'colRigListTotalBuildBenefit
-        '
-        Me.colRigListTotalBuildBenefit.DisplayIndex = 8
-        Me.colRigListTotalBuildBenefit.Name = "colRigListTotalBuildBenefit"
-        Me.colRigListTotalBuildBenefit.Text = "Total Build Benefit"
-        Me.colRigListTotalBuildBenefit.Width.Absolute = 120
-        '
-        'colRigListMargin
-        '
-        Me.colRigListMargin.DisplayIndex = 9
-        Me.colRigListMargin.Name = "colRigListMargin"
-        Me.colRigListMargin.Text = "% Margin"
-        Me.colRigListMargin.Width.Absolute = 100
-        '
-        'NodeConnector14
-        '
-        Me.NodeConnector14.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle11
-        '
-        Me.ElementStyle11.Class = ""
-        Me.ElementStyle11.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle11.Name = "ElementStyle11"
-        Me.ElementStyle11.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'ExpandableSplitter1
-        '
-        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-        Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-        Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
-        Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-        Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
-        Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
-        Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
-        Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-        Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-        Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
-        Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-        Me.ExpandableSplitter1.Location = New System.Drawing.Point(0, 259)
-        Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
-        Me.ExpandableSplitter1.Size = New System.Drawing.Size(1276, 6)
-        Me.ExpandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
-        Me.ExpandableSplitter1.TabIndex = 65
-        Me.ExpandableSplitter1.TabStop = False
-        '
-        'adtRigBuildList
-        '
-        Me.adtRigBuildList.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtRigBuildList.AllowDrop = True
-        Me.adtRigBuildList.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtRigBuildList.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtRigBuildList.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildType)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildQuantity)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuidRigPrice)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildSalvagePrice)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildBenefit)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildRigValue)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildSalvageValue)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildTotalBenefit)
-        Me.adtRigBuildList.Columns.Add(Me.colRigBuildMargin)
-        Me.adtRigBuildList.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.adtRigBuildList.DragDropEnabled = False
-        Me.adtRigBuildList.DragDropNodeCopyEnabled = False
-        Me.adtRigBuildList.ExpandWidth = 0
-        Me.adtRigBuildList.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtRigBuildList.Location = New System.Drawing.Point(0, 265)
-        Me.adtRigBuildList.Name = "adtRigBuildList"
-        Me.adtRigBuildList.NodesConnector = Me.NodeConnector13
-        Me.adtRigBuildList.NodeStyle = Me.ElementStyle10
-        Me.adtRigBuildList.PathSeparator = ";"
-        Me.adtRigBuildList.Size = New System.Drawing.Size(1276, 265)
-        Me.adtRigBuildList.Styles.Add(Me.ElementStyle10)
-        Me.adtRigBuildList.TabIndex = 64
-        Me.adtRigBuildList.Text = "AdvTree1"
-        '
-        'colRigBuildType
-        '
-        Me.colRigBuildType.DisplayIndex = 1
-        Me.colRigBuildType.Name = "colRigBuildType"
-        Me.colRigBuildType.Text = "Rig Type"
-        Me.colRigBuildType.Width.Absolute = 200
-        '
-        'colRigBuildQuantity
-        '
-        Me.colRigBuildQuantity.DisplayIndex = 2
-        Me.colRigBuildQuantity.Name = "colRigBuildQuantity"
-        Me.colRigBuildQuantity.Text = "Quantity"
-        Me.colRigBuildQuantity.Width.Absolute = 100
-        '
-        'colRigBuidRigPrice
-        '
-        Me.colRigBuidRigPrice.DisplayIndex = 3
-        Me.colRigBuidRigPrice.Name = "colRigBuidRigPrice"
-        Me.colRigBuidRigPrice.Text = "Rig Price"
-        Me.colRigBuidRigPrice.Width.Absolute = 120
-        '
-        'colRigBuildSalvagePrice
-        '
-        Me.colRigBuildSalvagePrice.DisplayIndex = 4
-        Me.colRigBuildSalvagePrice.Name = "colRigBuildSalvagePrice"
-        Me.colRigBuildSalvagePrice.Text = "Salvage Price"
-        Me.colRigBuildSalvagePrice.Width.Absolute = 120
-        '
-        'colRigBuildBenefit
-        '
-        Me.colRigBuildBenefit.DisplayIndex = 5
-        Me.colRigBuildBenefit.Name = "colRigBuildBenefit"
-        Me.colRigBuildBenefit.Text = "Build Benefit"
-        Me.colRigBuildBenefit.Width.Absolute = 120
-        '
-        'colRigBuildRigValue
-        '
-        Me.colRigBuildRigValue.DisplayIndex = 6
-        Me.colRigBuildRigValue.Name = "colRigBuildRigValue"
-        Me.colRigBuildRigValue.Text = "Total Rig Value"
-        Me.colRigBuildRigValue.Width.Absolute = 120
-        '
-        'colRigBuildSalvageValue
-        '
-        Me.colRigBuildSalvageValue.DisplayIndex = 7
-        Me.colRigBuildSalvageValue.Name = "colRigBuildSalvageValue"
-        Me.colRigBuildSalvageValue.Text = "Total Salvage Value"
-        Me.colRigBuildSalvageValue.Width.Absolute = 120
-        '
-        'colRigBuildTotalBenefit
-        '
-        Me.colRigBuildTotalBenefit.DisplayIndex = 8
-        Me.colRigBuildTotalBenefit.Name = "colRigBuildTotalBenefit"
-        Me.colRigBuildTotalBenefit.Text = "Total Build Benefit"
-        Me.colRigBuildTotalBenefit.Width.Absolute = 120
-        '
-        'colRigBuildMargin
-        '
-        Me.colRigBuildMargin.DisplayIndex = 9
-        Me.colRigBuildMargin.Name = "colRigBuildMargin"
-        Me.colRigBuildMargin.Text = "% Margin"
-        Me.colRigBuildMargin.Width.Absolute = 100
-        '
-        'NodeConnector13
-        '
-        Me.NodeConnector13.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle10
-        '
-        Me.ElementStyle10.Class = ""
-        Me.ElementStyle10.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle10.Name = "ElementStyle10"
-        Me.ElementStyle10.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'PSCRigOwners
-        '
-        Me.PSCRigOwners.AllowMultipleSelections = True
-        Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PSCRigOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
-        Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
-        Me.PSCRigOwners.Name = "PSCRigOwners"
-        Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
-        Me.PSCRigOwners.TabIndex = 70
-        '
-        'lblTotalRigMargin
-        '
-        Me.lblTotalRigMargin.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigMargin.AutoSize = True
-        Me.lblTotalRigMargin.BackColor = System.Drawing.Color.Transparent
-        Me.lblTotalRigMargin.Location = New System.Drawing.Point(422, 93)
-        Me.lblTotalRigMargin.Name = "lblTotalRigMargin"
-        Me.lblTotalRigMargin.Size = New System.Drawing.Size(43, 13)
-        Me.lblTotalRigMargin.TabIndex = 69
-        Me.lblTotalRigMargin.Text = "Margin:"
-        '
-        'lblTotalRigProfit
-        '
-        Me.lblTotalRigProfit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigProfit.AutoSize = True
-        Me.lblTotalRigProfit.BackColor = System.Drawing.Color.Transparent
-        Me.lblTotalRigProfit.Location = New System.Drawing.Point(222, 93)
-        Me.lblTotalRigProfit.Name = "lblTotalRigProfit"
-        Me.lblTotalRigProfit.Size = New System.Drawing.Size(64, 13)
-        Me.lblTotalRigProfit.TabIndex = 68
-        Me.lblTotalRigProfit.Text = "Total Profit:"
-        '
-        'lblTotalRigSalePrice
-        '
-        Me.lblTotalRigSalePrice.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigSalePrice.AutoSize = True
-        Me.lblTotalRigSalePrice.BackColor = System.Drawing.Color.Transparent
-        Me.lblTotalRigSalePrice.Location = New System.Drawing.Point(13, 93)
-        Me.lblTotalRigSalePrice.Name = "lblTotalRigSalePrice"
-        Me.lblTotalRigSalePrice.Size = New System.Drawing.Size(84, 13)
-        Me.lblTotalRigSalePrice.TabIndex = 67
-        Me.lblTotalRigSalePrice.Text = "Total Sale Price:"
-        '
-        'gpAutoRig
-        '
-        Me.gpAutoRig.BackColor = System.Drawing.Color.Transparent
-        Me.gpAutoRig.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpAutoRig.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.gpAutoRig.Controls.Add(Me.btnAutoRig)
-        Me.gpAutoRig.Controls.Add(Me.chkRigMargin)
-        Me.gpAutoRig.Controls.Add(Me.chkRigSalePrice)
-        Me.gpAutoRig.Controls.Add(Me.chkTotalProfit)
-        Me.gpAutoRig.Controls.Add(Me.chkTotalSalePrice)
-        Me.gpAutoRig.Controls.Add(Me.chkRigProfit)
-        Me.gpAutoRig.Location = New System.Drawing.Point(318, 8)
-        Me.gpAutoRig.Name = "gpAutoRig"
-        Me.gpAutoRig.Size = New System.Drawing.Size(515, 76)
-        '
-        '
-        '
-        Me.gpAutoRig.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpAutoRig.Style.BackColorGradientAngle = 90
-        Me.gpAutoRig.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpAutoRig.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpAutoRig.Style.BorderBottomWidth = 1
-        Me.gpAutoRig.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpAutoRig.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpAutoRig.Style.BorderLeftWidth = 1
-        Me.gpAutoRig.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpAutoRig.Style.BorderRightWidth = 1
-        Me.gpAutoRig.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpAutoRig.Style.BorderTopWidth = 1
-        Me.gpAutoRig.Style.Class = ""
-        Me.gpAutoRig.Style.CornerDiameter = 4
-        Me.gpAutoRig.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpAutoRig.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpAutoRig.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpAutoRig.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpAutoRig.StyleMouseDown.Class = ""
-        Me.gpAutoRig.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpAutoRig.StyleMouseOver.Class = ""
-        Me.gpAutoRig.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpAutoRig.TabIndex = 63
-        Me.gpAutoRig.Text = "Automatic Rig Availability Options"
-        '
-        'btnAutoRig
-        '
-        Me.btnAutoRig.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnAutoRig.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnAutoRig.Location = New System.Drawing.Point(350, 6)
-        Me.btnAutoRig.Name = "btnAutoRig"
-        Me.btnAutoRig.Size = New System.Drawing.Size(150, 23)
-        Me.btnAutoRig.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnAutoRig.TabIndex = 64
-        Me.btnAutoRig.Text = "Auto Rig Availability"
-        '
-        'chkRigMargin
-        '
-        Me.chkRigMargin.AutoSize = True
-        Me.chkRigMargin.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkRigMargin.BackgroundStyle.Class = ""
-        Me.chkRigMargin.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkRigMargin.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkRigMargin.Checked = True
-        Me.chkRigMargin.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRigMargin.CheckValue = "Y"
-        Me.chkRigMargin.Location = New System.Drawing.Point(246, 6)
-        Me.chkRigMargin.Name = "chkRigMargin"
-        Me.chkRigMargin.Size = New System.Drawing.Size(74, 16)
-        Me.chkRigMargin.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkRigMargin.TabIndex = 69
-        Me.chkRigMargin.Text = "Rig Margin"
-        '
-        'chkRigSalePrice
-        '
-        Me.chkRigSalePrice.AutoSize = True
-        Me.chkRigSalePrice.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkRigSalePrice.BackgroundStyle.Class = ""
-        Me.chkRigSalePrice.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkRigSalePrice.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkRigSalePrice.Location = New System.Drawing.Point(11, 6)
-        Me.chkRigSalePrice.Name = "chkRigSalePrice"
-        Me.chkRigSalePrice.Size = New System.Drawing.Size(88, 16)
-        Me.chkRigSalePrice.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkRigSalePrice.TabIndex = 65
-        Me.chkRigSalePrice.Text = "Rig Sale Price"
-        '
-        'chkTotalProfit
-        '
-        Me.chkTotalProfit.AutoSize = True
-        Me.chkTotalProfit.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkTotalProfit.BackgroundStyle.Class = ""
-        Me.chkTotalProfit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkTotalProfit.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkTotalProfit.Location = New System.Drawing.Point(136, 27)
-        Me.chkTotalProfit.Name = "chkTotalProfit"
-        Me.chkTotalProfit.Size = New System.Drawing.Size(76, 16)
-        Me.chkTotalProfit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkTotalProfit.TabIndex = 68
-        Me.chkTotalProfit.Text = "Total Profit"
-        '
-        'chkTotalSalePrice
-        '
-        Me.chkTotalSalePrice.AutoSize = True
-        Me.chkTotalSalePrice.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkTotalSalePrice.BackgroundStyle.Class = ""
-        Me.chkTotalSalePrice.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkTotalSalePrice.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkTotalSalePrice.Location = New System.Drawing.Point(11, 27)
-        Me.chkTotalSalePrice.Name = "chkTotalSalePrice"
-        Me.chkTotalSalePrice.Size = New System.Drawing.Size(97, 16)
-        Me.chkTotalSalePrice.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkTotalSalePrice.TabIndex = 66
-        Me.chkTotalSalePrice.Text = "Total Sale Price"
-        '
-        'chkRigProfit
-        '
-        Me.chkRigProfit.AutoSize = True
-        Me.chkRigProfit.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkRigProfit.BackgroundStyle.Class = ""
-        Me.chkRigProfit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkRigProfit.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkRigProfit.Location = New System.Drawing.Point(136, 6)
-        Me.chkRigProfit.Name = "chkRigProfit"
-        Me.chkRigProfit.Size = New System.Drawing.Size(67, 16)
-        Me.chkRigProfit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkRigProfit.TabIndex = 67
-        Me.chkRigProfit.Text = "Rig Profit"
-        '
-        'btnBuildRigs
-        '
-        Me.btnBuildRigs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnBuildRigs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnBuildRigs.Location = New System.Drawing.Point(12, 61)
-        Me.btnBuildRigs.Name = "btnBuildRigs"
-        Me.btnBuildRigs.Size = New System.Drawing.Size(150, 23)
-        Me.btnBuildRigs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnBuildRigs.TabIndex = 62
-        Me.btnBuildRigs.Text = "Display Rig Availability"
-        '
-        'btnExportRigBuildList
-        '
-        Me.btnExportRigBuildList.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnExportRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportRigBuildList.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnExportRigBuildList.Location = New System.Drawing.Point(1173, 37)
-        Me.btnExportRigBuildList.Name = "btnExportRigBuildList"
-        Me.btnExportRigBuildList.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportRigBuildList.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnExportRigBuildList.TabIndex = 61
-        Me.btnExportRigBuildList.Text = "Export Build List"
-        '
-        'btnExportRigList
-        '
-        Me.btnExportRigList.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnExportRigList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportRigList.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnExportRigList.Location = New System.Drawing.Point(1172, 10)
-        Me.btnExportRigList.Name = "btnExportRigList"
-        Me.btnExportRigList.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportRigList.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnExportRigList.TabIndex = 60
-        Me.btnExportRigList.Text = "Export Rig List"
-        '
-        'nudRigMELevel
-        '
-        Me.nudRigMELevel.Location = New System.Drawing.Point(92, 34)
-        Me.nudRigMELevel.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.nudRigMELevel.Name = "nudRigMELevel"
-        Me.nudRigMELevel.Size = New System.Drawing.Size(70, 21)
-        Me.nudRigMELevel.TabIndex = 56
-        '
-        'lblRigMELevel
-        '
-        Me.lblRigMELevel.AutoSize = True
-        Me.lblRigMELevel.BackColor = System.Drawing.Color.Transparent
-        Me.lblRigMELevel.Location = New System.Drawing.Point(12, 36)
-        Me.lblRigMELevel.Name = "lblRigMELevel"
-        Me.lblRigMELevel.Size = New System.Drawing.Size(71, 13)
-        Me.lblRigMELevel.TabIndex = 55
-        Me.lblRigMELevel.Text = "Rig ME Level:"
-        '
-        'tiRigBuilder
-        '
-        Me.tiRigBuilder.AttachedControl = Me.TabControlPanel15
-        Me.tiRigBuilder.Name = "tiRigBuilder"
-        Me.tiRigBuilder.Text = "Rig Builder"
         '
         'TabControlPanel4
         '
@@ -6477,6 +6487,14 @@ Partial Class frmPrism
         Me.TabControlPanel1.ResumeLayout(False)
         Me.TabControlPanel1.PerformLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControlPanel15.ResumeLayout(False)
+        Me.TabControlPanel15.PerformLayout()
+        Me.pnlRigs.ResumeLayout(False)
+        CType(Me.adtRigs, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.adtRigBuildList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gpAutoRig.ResumeLayout(False)
+        Me.gpAutoRig.PerformLayout()
+        CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel6.ResumeLayout(False)
         Me.TabControlPanel6.PerformLayout()
         CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6515,14 +6533,6 @@ Partial Class frmPrism
         Me.PanelEx2.PerformLayout()
         CType(Me.dtiChartEndDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtiChartStartDate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabControlPanel15.ResumeLayout(False)
-        Me.TabControlPanel15.PerformLayout()
-        Me.pnlRigs.ResumeLayout(False)
-        CType(Me.adtRigs, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.adtRigBuildList, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gpAutoRig.ResumeLayout(False)
-        Me.gpAutoRig.PerformLayout()
-        CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel4.ResumeLayout(False)
         Me.pnlSellOrders.ResumeLayout(False)
         Me.pnlSellOrders.PerformLayout()
