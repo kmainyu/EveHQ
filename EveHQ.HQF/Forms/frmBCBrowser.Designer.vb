@@ -100,7 +100,7 @@ Partial Class frmBCBrowser
         'lblShipType
         '
         Me.lblShipType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblShipType.Font = New System.Drawing.Font("Tahoma", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblShipType.Location = New System.Drawing.Point(137, 3)
         Me.lblShipType.Name = "lblShipType"
@@ -539,8 +539,8 @@ Partial Class frmBCBrowser
         '
         Me.lvwSlots.AllowDrop = True
         Me.lvwSlots.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -713,6 +713,7 @@ Partial Class frmBCBrowser
         '
         Me.colLoadout.DisplayIndex = 1
         Me.colLoadout.Name = "colLoadout"
+        Me.colLoadout.SortingEnabled = False
         Me.colLoadout.Text = "Loadout Name"
         Me.colLoadout.Width.Absolute = 200
         '
@@ -720,6 +721,7 @@ Partial Class frmBCBrowser
         '
         Me.colAuthor.DisplayIndex = 2
         Me.colAuthor.Name = "colAuthor"
+        Me.colAuthor.SortingEnabled = False
         Me.colAuthor.Text = "Author"
         Me.colAuthor.Width.Absolute = 120
         '
@@ -727,6 +729,7 @@ Partial Class frmBCBrowser
         '
         Me.colScore.DisplayIndex = 3
         Me.colScore.Name = "colScore"
+        Me.colScore.SortingEnabled = False
         Me.colScore.Text = "Score"
         Me.colScore.Width.Absolute = 50
         '
@@ -734,6 +737,7 @@ Partial Class frmBCBrowser
         '
         Me.colDate.DisplayIndex = 4
         Me.colDate.Name = "colDate"
+        Me.colDate.SortingEnabled = False
         Me.colDate.Text = "Date"
         Me.colDate.Width.Absolute = 80
         '

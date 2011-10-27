@@ -28,14 +28,14 @@ Partial Class frmRequiredSkills
         Me.btnSetSkillsToRequirements = New DevComponents.DotNetBar.ButtonX()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.adtSkills = New DevComponents.AdvTree.AdvTree()
-        Me.Node1 = New DevComponents.AdvTree.Node()
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.Skill = New DevComponents.DotNetBar.ElementStyle()
         Me.colSkillName = New DevComponents.AdvTree.ColumnHeader()
         Me.colReqLevel = New DevComponents.AdvTree.ColumnHeader()
         Me.colActLevel = New DevComponents.AdvTree.ColumnHeader()
         Me.colHQFLevel = New DevComponents.AdvTree.ColumnHeader()
         Me.colReqdFor = New DevComponents.AdvTree.ColumnHeader()
+        Me.Node1 = New DevComponents.AdvTree.Node()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.Skill = New DevComponents.DotNetBar.ElementStyle()
         CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -46,8 +46,8 @@ Partial Class frmRequiredSkills
         Me.lblQueueTime.Name = "lblQueueTime"
         Me.lblQueueTime.Size = New System.Drawing.Size(118, 13)
         Me.SuperTooltip1.SetSuperTooltip(Me.lblQueueTime, New DevComponents.DotNetBar.SuperTooltipInfo("Estimated Queue Time", "", "Shows an estimate of the time needed to train all the required skills. Optimal ti" & _
-                    "me is the time that can be achieved if relevant learning skills are added to the" & _
-                    " queue.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            "me is the time that can be achieved if relevant learning skills are added to the" & _
+            " queue.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.lblQueueTime.TabIndex = 3
         Me.lblQueueTime.Text = "Estimated Queue Time:"
         '
@@ -84,7 +84,7 @@ Partial Class frmRequiredSkills
         Me.btnSetSkillsToRequirements.Size = New System.Drawing.Size(100, 23)
         Me.btnSetSkillsToRequirements.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.SuperTooltip1.SetSuperTooltip(Me.btnSetSkillsToRequirements, New DevComponents.DotNetBar.SuperTooltipInfo("Set HQF Skills", "", "This option sets the HQF skill set to the required skills. This will bring the se" & _
-                    "lected pilot's skill set up to the minimum required to pilot the ship.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            "lected pilot's skill set up to the minimum required to pilot the ship.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnSetSkillsToRequirements.TabIndex = 7
         Me.btnSetSkillsToRequirements.Text = "Set HQF Skills"
         '
@@ -95,6 +95,7 @@ Partial Class frmRequiredSkills
         'adtSkills
         '
         Me.adtSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtSkills.AllowDrop = True
         Me.adtSkills.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -121,6 +122,46 @@ Partial Class frmRequiredSkills
         Me.adtSkills.TabIndex = 8
         Me.adtSkills.Text = "AdvTree1"
         '
+        'colSkillName
+        '
+        Me.colSkillName.DisplayIndex = 1
+        Me.colSkillName.Name = "colSkillName"
+        Me.colSkillName.SortingEnabled = False
+        Me.colSkillName.Text = "Skill Name"
+        Me.colSkillName.Width.Absolute = 280
+        '
+        'colReqLevel
+        '
+        Me.colReqLevel.DisplayIndex = 2
+        Me.colReqLevel.Name = "colReqLevel"
+        Me.colReqLevel.SortingEnabled = False
+        Me.colReqLevel.Text = "Req Lvl"
+        Me.colReqLevel.Width.Absolute = 50
+        '
+        'colActLevel
+        '
+        Me.colActLevel.DisplayIndex = 3
+        Me.colActLevel.Name = "colActLevel"
+        Me.colActLevel.SortingEnabled = False
+        Me.colActLevel.Text = "Act Lvl"
+        Me.colActLevel.Width.Absolute = 50
+        '
+        'colHQFLevel
+        '
+        Me.colHQFLevel.DisplayIndex = 4
+        Me.colHQFLevel.Name = "colHQFLevel"
+        Me.colHQFLevel.SortingEnabled = False
+        Me.colHQFLevel.Text = "HQF Lvl"
+        Me.colHQFLevel.Width.Absolute = 50
+        '
+        'colReqdFor
+        '
+        Me.colReqdFor.DisplayIndex = 5
+        Me.colReqdFor.Name = "colReqdFor"
+        Me.colReqdFor.SortingEnabled = False
+        Me.colReqdFor.Text = "Required For"
+        Me.colReqdFor.Width.Absolute = 280
+        '
         'Node1
         '
         Me.Node1.Expanded = True
@@ -137,41 +178,6 @@ Partial Class frmRequiredSkills
         Me.Skill.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Skill.Name = "Skill"
         Me.Skill.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'colSkillName
-        '
-        Me.colSkillName.DisplayIndex = 1
-        Me.colSkillName.Name = "colSkillName"
-        Me.colSkillName.Text = "Skill Name"
-        Me.colSkillName.Width.Absolute = 280
-        '
-        'colReqLevel
-        '
-        Me.colReqLevel.DisplayIndex = 2
-        Me.colReqLevel.Name = "colReqLevel"
-        Me.colReqLevel.Text = "Req Lvl"
-        Me.colReqLevel.Width.Absolute = 50
-        '
-        'colActLevel
-        '
-        Me.colActLevel.DisplayIndex = 3
-        Me.colActLevel.Name = "colActLevel"
-        Me.colActLevel.Text = "Act Lvl"
-        Me.colActLevel.Width.Absolute = 50
-        '
-        'colHQFLevel
-        '
-        Me.colHQFLevel.DisplayIndex = 4
-        Me.colHQFLevel.Name = "colHQFLevel"
-        Me.colHQFLevel.Text = "HQF Lvl"
-        Me.colHQFLevel.Width.Absolute = 50
-        '
-        'colReqdFor
-        '
-        Me.colReqdFor.DisplayIndex = 5
-        Me.colReqdFor.Name = "colReqdFor"
-        Me.colReqdFor.Text = "Required For"
-        Me.colReqdFor.Width.Absolute = 280
         '
         'frmRequiredSkills
         '

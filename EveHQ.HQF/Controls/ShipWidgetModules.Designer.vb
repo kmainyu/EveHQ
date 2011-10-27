@@ -71,6 +71,7 @@ Partial Class ShipWidgetModules
         '
         Me.colModuleName.DisplayIndex = 1
         Me.colModuleName.Name = "colModuleName"
+        Me.colModuleName.SortingEnabled = False
         Me.colModuleName.Text = "Module Name"
         Me.colModuleName.Width.Absolute = 190
         '

@@ -159,18 +159,21 @@ Partial Class frmShipEditor
         'colCustomShipName
         '
         Me.colCustomShipName.Name = "colCustomShipName"
+        Me.colCustomShipName.SortingEnabled = False
         Me.colCustomShipName.Text = "Custom Ship Name"
         Me.colCustomShipName.Width.Absolute = 200
         '
         'colCustomShipHull
         '
         Me.colCustomShipHull.Name = "colCustomShipHull"
+        Me.colCustomShipHull.SortingEnabled = False
         Me.colCustomShipHull.Text = "Ship Hull Type"
         Me.colCustomShipHull.Width.Absolute = 175
         '
         'colCustomShipClass
         '
         Me.colCustomShipClass.Name = "colCustomShipClass"
+        Me.colCustomShipClass.SortingEnabled = False
         Me.colCustomShipClass.Text = "Ship Class"
         Me.colCustomShipClass.Width.Absolute = 175
         '
@@ -307,6 +310,7 @@ Partial Class frmShipEditor
         'colCustomShipClassName
         '
         Me.colCustomShipClassName.Name = "colCustomShipClassName"
+        Me.colCustomShipClassName.SortingEnabled = False
         Me.colCustomShipClassName.Text = "Custom Ship Class Name"
         Me.colCustomShipClassName.Width.Absolute = 200
         '

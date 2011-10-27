@@ -22,44 +22,44 @@ Partial Class frmShipEditorAttributes
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnAddBonus = New DevComponents.DotNetBar.ButtonX
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
-        Me.btnEditBonus = New DevComponents.DotNetBar.ButtonX
-        Me.btnDeleteBonus = New DevComponents.DotNetBar.ButtonX
-        Me.btnClearBonuses = New DevComponents.DotNetBar.ButtonX
-        Me.picDescription = New DevComponents.DotNetBar.Controls.ReflectionImage
-        Me.tvwBonuses = New DevComponents.AdvTree.AdvTree
-        Me.colBShipID = New DevComponents.AdvTree.ColumnHeader
-        Me.colBAffectingType = New DevComponents.AdvTree.ColumnHeader
-        Me.colBAffectingID = New DevComponents.AdvTree.ColumnHeader
-        Me.colBAttribute = New DevComponents.AdvTree.ColumnHeader
-        Me.colBAffectedType = New DevComponents.AdvTree.ColumnHeader
-        Me.colBAffectedID = New DevComponents.AdvTree.ColumnHeader
-        Me.colBValue = New DevComponents.AdvTree.ColumnHeader
-        Me.colBBonusType = New DevComponents.AdvTree.ColumnHeader
-        Me.colBStacking = New DevComponents.AdvTree.ColumnHeader
-        Me.colBCalcType = New DevComponents.AdvTree.ColumnHeader
-        Me.colBStatus = New DevComponents.AdvTree.ColumnHeader
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector
-        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle
-        Me.btnLockBonuses = New DevComponents.DotNetBar.ButtonX
-        Me.btnLockAttributes = New DevComponents.DotNetBar.ButtonX
-        Me.picShip = New DevComponents.DotNetBar.Controls.ReflectionImage
-        Me.lblShipID = New DevComponents.DotNetBar.LabelX
-        Me.txtShipName = New DevComponents.DotNetBar.Controls.TextBoxX
-        Me.lblShipName = New DevComponents.DotNetBar.LabelX
-        Me.chkAutoBonusDescription = New DevComponents.DotNetBar.Controls.CheckBoxX
-        Me.txtDescription = New DevComponents.DotNetBar.Controls.TextBoxX
-        Me.lblBaseDescription = New DevComponents.DotNetBar.LabelX
-        Me.cboShipClass = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.lblShipClass = New DevComponents.DotNetBar.LabelX
-        Me.lblShipHull = New DevComponents.DotNetBar.LabelX
-        Me.apg1 = New DevComponents.DotNetBar.AdvPropertyGrid
-        Me.cboShipHull = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.sttBonus = New DevComponents.DotNetBar.SuperTooltip
-        Me.picValidShipName = New DevComponents.DotNetBar.Controls.ReflectionImage
-        Me.btnCancel = New DevComponents.DotNetBar.ButtonX
-        Me.btnAccept = New DevComponents.DotNetBar.ButtonX
+        Me.btnAddBonus = New DevComponents.DotNetBar.ButtonX()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.btnAccept = New DevComponents.DotNetBar.ButtonX()
+        Me.btnCancel = New DevComponents.DotNetBar.ButtonX()
+        Me.picValidShipName = New DevComponents.DotNetBar.Controls.ReflectionImage()
+        Me.btnEditBonus = New DevComponents.DotNetBar.ButtonX()
+        Me.btnDeleteBonus = New DevComponents.DotNetBar.ButtonX()
+        Me.btnClearBonuses = New DevComponents.DotNetBar.ButtonX()
+        Me.picDescription = New DevComponents.DotNetBar.Controls.ReflectionImage()
+        Me.tvwBonuses = New DevComponents.AdvTree.AdvTree()
+        Me.colBShipID = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBAffectingType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBAffectingID = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBAttribute = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBAffectedType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBAffectedID = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBValue = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBBonusType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBStacking = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBCalcType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBStatus = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
+        Me.btnLockBonuses = New DevComponents.DotNetBar.ButtonX()
+        Me.btnLockAttributes = New DevComponents.DotNetBar.ButtonX()
+        Me.picShip = New DevComponents.DotNetBar.Controls.ReflectionImage()
+        Me.lblShipID = New DevComponents.DotNetBar.LabelX()
+        Me.txtShipName = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.lblShipName = New DevComponents.DotNetBar.LabelX()
+        Me.chkAutoBonusDescription = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.txtDescription = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.lblBaseDescription = New DevComponents.DotNetBar.LabelX()
+        Me.cboShipClass = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblShipClass = New DevComponents.DotNetBar.LabelX()
+        Me.lblShipHull = New DevComponents.DotNetBar.LabelX()
+        Me.apg1 = New DevComponents.DotNetBar.AdvPropertyGrid()
+        Me.cboShipHull = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.sttBonus = New DevComponents.DotNetBar.SuperTooltip()
         Me.PanelEx1.SuspendLayout()
         CType(Me.tvwBonuses, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.apg1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -117,6 +117,43 @@ Partial Class frmShipEditorAttributes
         Me.PanelEx1.Style.GradientAngle = 90
         Me.PanelEx1.TabIndex = 16
         '
+        'btnAccept
+        '
+        Me.btnAccept.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAccept.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAccept.Location = New System.Drawing.Point(661, 673)
+        Me.btnAccept.Name = "btnAccept"
+        Me.btnAccept.Size = New System.Drawing.Size(75, 23)
+        Me.btnAccept.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnAccept.TabIndex = 37
+        Me.btnAccept.Text = "Accept"
+        '
+        'btnCancel
+        '
+        Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnCancel.Location = New System.Drawing.Point(742, 673)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btnCancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnCancel.TabIndex = 36
+        Me.btnCancel.Text = "Cancel"
+        '
+        'picValidShipName
+        '
+        '
+        '
+        '
+        Me.picValidShipName.BackgroundStyle.Class = ""
+        Me.picValidShipName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.picValidShipName.BackgroundStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.picValidShipName.Image = Global.EveHQ.HQF.My.Resources.Resources.cross_small
+        Me.picValidShipName.Location = New System.Drawing.Point(350, 97)
+        Me.picValidShipName.Name = "picValidShipName"
+        Me.picValidShipName.ReflectionEnabled = False
+        Me.picValidShipName.Size = New System.Drawing.Size(16, 16)
+        Me.picValidShipName.TabIndex = 35
+        '
         'btnEditBonus
         '
         Me.btnEditBonus.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
@@ -172,7 +209,7 @@ Partial Class frmShipEditorAttributes
         Me.tvwBonuses.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.tvwBonuses.AllowDrop = True
         Me.tvwBonuses.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwBonuses.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -208,12 +245,14 @@ Partial Class frmShipEditorAttributes
         'colBShipID
         '
         Me.colBShipID.Name = "colBShipID"
+        Me.colBShipID.SortingEnabled = False
         Me.colBShipID.Text = "Ship ID"
         Me.colBShipID.Width.Absolute = 60
         '
         'colBAffectingType
         '
         Me.colBAffectingType.Name = "colBAffectingType"
+        Me.colBAffectingType.SortingEnabled = False
         Me.colBAffectingType.Text = "Affecting Type"
         Me.colBAffectingType.Width.Absolute = 80
         '
@@ -268,6 +307,7 @@ Partial Class frmShipEditorAttributes
         'colBStatus
         '
         Me.colBStatus.Name = "colBStatus"
+        Me.colBStatus.SortingEnabled = False
         Me.colBStatus.Text = "Status"
         Me.colBStatus.Width.Absolute = 50
         '
@@ -293,7 +333,7 @@ Partial Class frmShipEditorAttributes
         Me.btnLockBonuses.Size = New System.Drawing.Size(60, 48)
         Me.btnLockBonuses.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.sttBonus.SetSuperTooltip(Me.btnLockBonuses, New DevComponents.DotNetBar.SuperTooltipInfo("", "Lock Bonuses", "This button will lock the bonuses from any changes made to the Ship Hull type. It" & _
-                    " does not affect the ability to edit the Bonuses in the Editor.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.imgInfo1, DevComponents.DotNetBar.eTooltipColor.Yellow, False, True, New System.Drawing.Size(0, 0)))
+            " does not affect the ability to edit the Bonuses in the Editor.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.imgInfo1, DevComponents.DotNetBar.eTooltipColor.Yellow, False, True, New System.Drawing.Size(0, 0)))
         Me.btnLockBonuses.TabIndex = 29
         Me.btnLockBonuses.Text = "Lock Bonuses"
         '
@@ -308,7 +348,7 @@ Partial Class frmShipEditorAttributes
         Me.btnLockAttributes.Size = New System.Drawing.Size(60, 48)
         Me.btnLockAttributes.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.sttBonus.SetSuperTooltip(Me.btnLockAttributes, New DevComponents.DotNetBar.SuperTooltipInfo("", "Lock Attributes", "This button will lock the attributes from any changes made to the Ship Hull type." & _
-                    " It does not affect the ability to edit the Ship Properties in the Editor.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.imgInfo1, DevComponents.DotNetBar.eTooltipColor.Yellow, False, True, New System.Drawing.Size(0, 0)))
+            " It does not affect the ability to edit the Ship Properties in the Editor.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.imgInfo1, DevComponents.DotNetBar.eTooltipColor.Yellow, False, True, New System.Drawing.Size(0, 0)))
         Me.btnLockAttributes.TabIndex = 28
         Me.btnLockAttributes.Text = "Lock Attributes"
         '
@@ -380,7 +420,7 @@ Partial Class frmShipEditorAttributes
         Me.chkAutoBonusDescription.Size = New System.Drawing.Size(274, 16)
         Me.chkAutoBonusDescription.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.sttBonus.SetSuperTooltip(Me.chkAutoBonusDescription, New DevComponents.DotNetBar.SuperTooltipInfo("", "Automatically Add Bonus Info", "This option will automatically parse and add the bonus information to the end of " & _
-                    "the base ship description.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.imgInfo1, DevComponents.DotNetBar.eTooltipColor.Yellow, False, True, New System.Drawing.Size(0, 0)))
+            "the base ship description.", Nothing, Global.EveHQ.HQF.My.Resources.Resources.imgInfo1, DevComponents.DotNetBar.eTooltipColor.Yellow, False, True, New System.Drawing.Size(0, 0)))
         Me.chkAutoBonusDescription.TabIndex = 22
         Me.chkAutoBonusDescription.Text = "Automatically Add Bonus Information to Description"
         '
@@ -401,7 +441,7 @@ Partial Class frmShipEditorAttributes
         Me.txtDescription.TabIndex = 21
         Me.txtDescription.WatermarkColor = System.Drawing.Color.Silver
         Me.txtDescription.WatermarkText = "You can write a description of the new ship here. This will be used for informati" & _
-            "onal purposes only."
+    "onal purposes only."
         '
         'lblBaseDescription
         '
@@ -458,7 +498,7 @@ Partial Class frmShipEditorAttributes
         'apg1
         '
         Me.apg1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.apg1.BackgroundImage = Global.EveHQ.HQF.My.Resources.Resources.imgSigRadius
         Me.apg1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.apg1.Enabled = False
@@ -486,43 +526,6 @@ Partial Class frmShipEditorAttributes
         Me.sttBonus.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.sttBonus.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.sttBonus.PositionBelowControl = False
-        '
-        'picValidShipName
-        '
-        '
-        '
-        '
-        Me.picValidShipName.BackgroundStyle.Class = ""
-        Me.picValidShipName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.picValidShipName.BackgroundStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.picValidShipName.Image = Global.EveHQ.HQF.My.Resources.Resources.cross_small
-        Me.picValidShipName.Location = New System.Drawing.Point(350, 97)
-        Me.picValidShipName.Name = "picValidShipName"
-        Me.picValidShipName.ReflectionEnabled = False
-        Me.picValidShipName.Size = New System.Drawing.Size(16, 16)
-        Me.picValidShipName.TabIndex = 35
-        '
-        'btnCancel
-        '
-        Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnCancel.Location = New System.Drawing.Point(742, 673)
-        Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnCancel.TabIndex = 36
-        Me.btnCancel.Text = "Cancel"
-        '
-        'btnAccept
-        '
-        Me.btnAccept.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnAccept.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnAccept.Location = New System.Drawing.Point(661, 673)
-        Me.btnAccept.Name = "btnAccept"
-        Me.btnAccept.Size = New System.Drawing.Size(75, 23)
-        Me.btnAccept.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnAccept.TabIndex = 37
-        Me.btnAccept.Text = "Accept"
         '
         'frmShipEditorAttributes
         '

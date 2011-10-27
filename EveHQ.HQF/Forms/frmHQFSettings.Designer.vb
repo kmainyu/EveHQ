@@ -920,6 +920,7 @@ Partial Public Class frmHQFSettings
         '
         Me.colAttributeID.DisplayIndex = 1
         Me.colAttributeID.Name = "colAttributeID"
+        Me.colAttributeID.SortingEnabled = False
         Me.colAttributeID.Text = "Attribute ID"
         Me.colAttributeID.Width.Absolute = 100
         '
@@ -927,6 +928,7 @@ Partial Public Class frmHQFSettings
         '
         Me.colAttributeName.DisplayIndex = 2
         Me.colAttributeName.Name = "colAttributeName"
+        Me.colAttributeName.SortingEnabled = False
         Me.colAttributeName.Text = "Attribute Name"
         Me.colAttributeName.Width.Absolute = 400
         '

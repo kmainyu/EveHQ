@@ -175,6 +175,7 @@ Partial Class frmMetaVariations
         '
         Me.colItem.DisplayIndex = 1
         Me.colItem.Name = "colItem"
+        Me.colItem.SortingEnabled = False
         Me.colItem.Text = "Column"
         Me.colItem.Width.Absolute = 150
         '
@@ -182,6 +183,7 @@ Partial Class frmMetaVariations
         '
         Me.colMeta.DisplayIndex = 2
         Me.colMeta.Name = "colMeta"
+        Me.colMeta.SortingEnabled = False
         Me.colMeta.Text = "Column"
         Me.colMeta.Width.Absolute = 150
         '

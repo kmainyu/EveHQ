@@ -100,6 +100,9 @@ Partial Class ShipSlotControl
         Me.colChargeOnly = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.tcStorage = New DevComponents.DotNetBar.TabControl()
+        Me.tcpDroneBay = New DevComponents.DotNetBar.TabControlPanel()
+        Me.btnMergeDrones = New DevComponents.DotNetBar.ButtonX()
+        Me.tiDroneBay = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpBoosters = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnBoosterSlot3 = New DevComponents.DotNetBar.ButtonX()
         Me.btnShowInfo3 = New DevComponents.DotNetBar.ButtonItem()
@@ -132,9 +135,6 @@ Partial Class ShipSlotControl
         Me.cboBoosterSlot3 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboBoosterSlot1 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.tiBoosters = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpDroneBay = New DevComponents.DotNetBar.TabControlPanel()
-        Me.btnMergeDrones = New DevComponents.DotNetBar.ButtonX()
-        Me.tiDroneBay = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpCargoBay = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnMergeCargo = New DevComponents.DotNetBar.ButtonX()
         Me.tiCargoBay = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -175,6 +175,7 @@ Partial Class ShipSlotControl
         Me.ComboItem13 = New DevComponents.Editors.ComboItem()
         Me.tiWHEffects = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.panelFunctions = New DevComponents.DotNetBar.PanelEx()
+        Me.btnAutoSize = New DevComponents.DotNetBar.ButtonX()
         Me.btnRedo = New DevComponents.DotNetBar.ButtonX()
         Me.btnUndo = New DevComponents.DotNetBar.ButtonX()
         Me.adtSlots = New DevComponents.AdvTree.AdvTree()
@@ -200,7 +201,6 @@ Partial Class ShipSlotControl
         Me.Cell11 = New DevComponents.AdvTree.Cell()
         Me.Cell12 = New DevComponents.AdvTree.Cell()
         Me.SlotTip = New DevComponents.DotNetBar.SuperTooltip()
-        Me.btnAutoSize = New DevComponents.DotNetBar.ButtonX()
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
@@ -210,8 +210,8 @@ Partial Class ShipSlotControl
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcStorage.SuspendLayout()
-        Me.tcpBoosters.SuspendLayout()
         Me.tcpDroneBay.SuspendLayout()
+        Me.tcpBoosters.SuspendLayout()
         Me.tcpCargoBay.SuspendLayout()
         Me.tcpRemoteEffects.SuspendLayout()
         Me.tcpHistory.SuspendLayout()
@@ -883,30 +883,30 @@ Partial Class ShipSlotControl
         '
         'ExpandableSplitter1
         '
-        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ExpandableSplitter1.ExpandableControl = Me.tcStorage
-        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
         Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
         Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
         Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
         Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.ExpandableSplitter1.Location = New System.Drawing.Point(0, 400)
         Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
@@ -946,6 +946,45 @@ Partial Class ShipSlotControl
         Me.tcStorage.Tabs.Add(Me.tiHistory)
         Me.tcStorage.Text = "TabControl1"
         '
+        'tcpDroneBay
+        '
+        Me.tcpDroneBay.Controls.Add(Me.btnMergeDrones)
+        Me.tcpDroneBay.Controls.Add(Me.pbDroneBay)
+        Me.tcpDroneBay.Controls.Add(Me.lblDroneBay)
+        Me.tcpDroneBay.Controls.Add(Me.lvwDroneBay)
+        Me.tcpDroneBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpDroneBay.Location = New System.Drawing.Point(0, 23)
+        Me.tcpDroneBay.Name = "tcpDroneBay"
+        Me.tcpDroneBay.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpDroneBay.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpDroneBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpDroneBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+        Me.tcpDroneBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpDroneBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+        Me.tcpDroneBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpDroneBay.Style.GradientAngle = 90
+        Me.tcpDroneBay.TabIndex = 1
+        Me.tcpDroneBay.TabItem = Me.tiDroneBay
+        '
+        'btnMergeDrones
+        '
+        Me.btnMergeDrones.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeDrones.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnMergeDrones.Location = New System.Drawing.Point(977, 7)
+        Me.btnMergeDrones.Name = "btnMergeDrones"
+        Me.btnMergeDrones.Size = New System.Drawing.Size(80, 20)
+        Me.btnMergeDrones.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnMergeDrones.TabIndex = 5
+        Me.btnMergeDrones.Text = "Merge Drones"
+        '
+        'tiDroneBay
+        '
+        Me.tiDroneBay.AttachedControl = Me.tcpDroneBay
+        Me.tiDroneBay.Name = "tiDroneBay"
+        Me.tiDroneBay.Text = "Drone Bay"
+        '
         'tcpBoosters
         '
         Me.tcpBoosters.Controls.Add(Me.btnBoosterSlot3)
@@ -965,10 +1004,10 @@ Partial Class ShipSlotControl
         Me.tcpBoosters.Name = "tcpBoosters"
         Me.tcpBoosters.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpBoosters.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpBoosters.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpBoosters.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpBoosters.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpBoosters.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpBoosters.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpBoosters.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpBoosters.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpBoosters.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpBoosters.Style.GradientAngle = 90
@@ -1206,45 +1245,6 @@ Partial Class ShipSlotControl
         Me.tiBoosters.Name = "tiBoosters"
         Me.tiBoosters.Text = "Boosters"
         '
-        'tcpDroneBay
-        '
-        Me.tcpDroneBay.Controls.Add(Me.btnMergeDrones)
-        Me.tcpDroneBay.Controls.Add(Me.pbDroneBay)
-        Me.tcpDroneBay.Controls.Add(Me.lblDroneBay)
-        Me.tcpDroneBay.Controls.Add(Me.lvwDroneBay)
-        Me.tcpDroneBay.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpDroneBay.Location = New System.Drawing.Point(0, 23)
-        Me.tcpDroneBay.Name = "tcpDroneBay"
-        Me.tcpDroneBay.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpDroneBay.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpDroneBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpDroneBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpDroneBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpDroneBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpDroneBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpDroneBay.Style.GradientAngle = 90
-        Me.tcpDroneBay.TabIndex = 1
-        Me.tcpDroneBay.TabItem = Me.tiDroneBay
-        '
-        'btnMergeDrones
-        '
-        Me.btnMergeDrones.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeDrones.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnMergeDrones.Location = New System.Drawing.Point(977, 7)
-        Me.btnMergeDrones.Name = "btnMergeDrones"
-        Me.btnMergeDrones.Size = New System.Drawing.Size(80, 20)
-        Me.btnMergeDrones.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnMergeDrones.TabIndex = 5
-        Me.btnMergeDrones.Text = "Merge Drones"
-        '
-        'tiDroneBay
-        '
-        Me.tiDroneBay.AttachedControl = Me.tcpDroneBay
-        Me.tiDroneBay.Name = "tiDroneBay"
-        Me.tiDroneBay.Text = "Drone Bay"
-        '
         'tcpCargoBay
         '
         Me.tcpCargoBay.Controls.Add(Me.btnMergeCargo)
@@ -1256,10 +1256,10 @@ Partial Class ShipSlotControl
         Me.tcpCargoBay.Name = "tcpCargoBay"
         Me.tcpCargoBay.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpCargoBay.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpCargoBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpCargoBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpCargoBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpCargoBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpCargoBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpCargoBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpCargoBay.Style.GradientAngle = 90
@@ -1299,10 +1299,10 @@ Partial Class ShipSlotControl
         Me.tcpRemoteEffects.Name = "tcpRemoteEffects"
         Me.tcpRemoteEffects.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpRemoteEffects.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpRemoteEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpRemoteEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpRemoteEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpRemoteEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpRemoteEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpRemoteEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpRemoteEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpRemoteEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpRemoteEffects.Style.GradientAngle = 90
@@ -1371,10 +1371,10 @@ Partial Class ShipSlotControl
         Me.tcpHistory.Name = "tcpHistory"
         Me.tcpHistory.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpHistory.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpHistory.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpHistory.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpHistory.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpHistory.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpHistory.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpHistory.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpHistory.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpHistory.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpHistory.Style.GradientAngle = 90
@@ -1397,10 +1397,10 @@ Partial Class ShipSlotControl
         Me.tcpShipBay.Name = "tcpShipBay"
         Me.tcpShipBay.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpShipBay.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpShipBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpShipBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpShipBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpShipBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpShipBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpShipBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpShipBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpShipBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpShipBay.Style.GradientAngle = 90
@@ -1438,10 +1438,10 @@ Partial Class ShipSlotControl
         Me.tcpFleetEffects.Name = "tcpFleetEffects"
         Me.tcpFleetEffects.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpFleetEffects.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpFleetEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpFleetEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpFleetEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpFleetEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpFleetEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpFleetEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpFleetEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpFleetEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpFleetEffects.Style.GradientAngle = 90
@@ -1554,10 +1554,10 @@ Partial Class ShipSlotControl
         Me.tcpWHEffects.Name = "tcpWHEffects"
         Me.tcpWHEffects.Padding = New System.Windows.Forms.Padding(1)
         Me.tcpWHEffects.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpWHEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpWHEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpWHEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpWHEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.tcpWHEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpWHEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpWHEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.tcpWHEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.tcpWHEffects.Style.GradientAngle = 90
@@ -1675,6 +1675,23 @@ Partial Class ShipSlotControl
         Me.panelFunctions.Style.GradientAngle = 90
         Me.panelFunctions.TabIndex = 7
         '
+        'btnAutoSize
+        '
+        Me.btnAutoSize.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAutoSize.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAutoSize.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAutoSize.FocusCuesEnabled = False
+        Me.btnAutoSize.Image = CType(resources.GetObject("btnAutoSize.Image"), System.Drawing.Image)
+        Me.btnAutoSize.ImageFixedSize = New System.Drawing.Size(32, 32)
+        Me.btnAutoSize.Location = New System.Drawing.Point(887, 3)
+        Me.btnAutoSize.Name = "btnAutoSize"
+        Me.btnAutoSize.Size = New System.Drawing.Size(48, 32)
+        Me.btnAutoSize.SplitButton = True
+        Me.btnAutoSize.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.SlotTip.SetSuperTooltip(Me.btnAutoSize, New DevComponents.DotNetBar.SuperTooltipInfo("", "Autosize Slot Columns", "Automatically resizes all columns to match the size of the contents that they con" & _
+            "tain." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Does not affect the user-selected size.", Nothing, CType(resources.GetObject("btnAutoSize.SuperTooltip"), System.Drawing.Image), DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnAutoSize.TabIndex = 16
+        '
         'btnRedo
         '
         Me.btnRedo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
@@ -1745,6 +1762,7 @@ Partial Class ShipSlotControl
         'colTestHeader1
         '
         Me.colTestHeader1.Name = "colTestHeader1"
+        Me.colTestHeader1.SortingEnabled = False
         Me.colTestHeader1.Text = "Module Name"
         Me.colTestHeader1.Width.Absolute = 150
         Me.colTestHeader1.Width.AutoSizeMinHeader = True
@@ -1915,23 +1933,6 @@ Partial Class ShipSlotControl
         Me.SlotTip.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.SlotTip.PositionBelowControl = False
         '
-        'btnAutoSize
-        '
-        Me.btnAutoSize.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnAutoSize.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAutoSize.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnAutoSize.FocusCuesEnabled = False
-        Me.btnAutoSize.Image = CType(resources.GetObject("btnAutoSize.Image"), System.Drawing.Image)
-        Me.btnAutoSize.ImageFixedSize = New System.Drawing.Size(32, 32)
-        Me.btnAutoSize.Location = New System.Drawing.Point(887, 3)
-        Me.btnAutoSize.Name = "btnAutoSize"
-        Me.btnAutoSize.Size = New System.Drawing.Size(48, 32)
-        Me.btnAutoSize.SplitButton = True
-        Me.btnAutoSize.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.SlotTip.SetSuperTooltip(Me.btnAutoSize, New DevComponents.DotNetBar.SuperTooltipInfo("", "Autosize Slot Columns", "Automatically resizes all columns to match the size of the contents that they con" & _
-            "tain." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Does not affect the user-selected size.", Nothing, CType(resources.GetObject("btnAutoSize.SuperTooltip"), System.Drawing.Image), DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnAutoSize.TabIndex = 16
-        '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1951,10 +1952,10 @@ Partial Class ShipSlotControl
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcStorage.ResumeLayout(False)
-        Me.tcpBoosters.ResumeLayout(False)
-        Me.tcpBoosters.PerformLayout()
         Me.tcpDroneBay.ResumeLayout(False)
         Me.tcpDroneBay.PerformLayout()
+        Me.tcpBoosters.ResumeLayout(False)
+        Me.tcpBoosters.PerformLayout()
         Me.tcpCargoBay.ResumeLayout(False)
         Me.tcpCargoBay.PerformLayout()
         Me.tcpRemoteEffects.ResumeLayout(False)

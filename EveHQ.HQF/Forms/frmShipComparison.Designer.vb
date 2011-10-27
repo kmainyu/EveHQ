@@ -112,8 +112,8 @@ Partial Class frmShipComparison
         Me.adtShips.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.adtShips.AllowDrop = True
         Me.adtShips.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtShips.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -153,6 +153,7 @@ Partial Class frmShipComparison
         '
         Me.colFitting.DisplayIndex = 1
         Me.colFitting.Name = "colFitting"
+        Me.colFitting.SortingEnabled = False
         Me.colFitting.Text = "Fitting Name"
         Me.colFitting.Width.Absolute = 150
         '
@@ -160,6 +161,7 @@ Partial Class frmShipComparison
         '
         Me.colEHP.DisplayIndex = 2
         Me.colEHP.Name = "colEHP"
+        Me.colEHP.SortingEnabled = False
         Me.colEHP.Text = "EHP"
         Me.colEHP.Width.Absolute = 70
         '
@@ -167,6 +169,7 @@ Partial Class frmShipComparison
         '
         Me.colTank.DisplayIndex = 3
         Me.colTank.Name = "colTank"
+        Me.colTank.SortingEnabled = False
         Me.colTank.Text = "Tank"
         Me.colTank.Width.Absolute = 50
         '
@@ -174,6 +177,7 @@ Partial Class frmShipComparison
         '
         Me.colCap.DisplayIndex = 4
         Me.colCap.Name = "colCap"
+        Me.colCap.SortingEnabled = False
         Me.colCap.Text = "Capacitor"
         Me.colCap.Width.Absolute = 100
         '
@@ -181,6 +185,7 @@ Partial Class frmShipComparison
         '
         Me.colVolley.DisplayIndex = 5
         Me.colVolley.Name = "colVolley"
+        Me.colVolley.SortingEnabled = False
         Me.colVolley.Text = "Volley"
         Me.colVolley.Width.Absolute = 50
         '
@@ -188,6 +193,7 @@ Partial Class frmShipComparison
         '
         Me.colDPS.DisplayIndex = 6
         Me.colDPS.Name = "colDPS"
+        Me.colDPS.SortingEnabled = False
         Me.colDPS.Text = "DPS"
         Me.colDPS.Width.Absolute = 50
         '
@@ -195,6 +201,7 @@ Partial Class frmShipComparison
         '
         Me.colSEM.DisplayIndex = 7
         Me.colSEM.Name = "colSEM"
+        Me.colSEM.SortingEnabled = False
         Me.colSEM.Text = "S EM"
         Me.colSEM.Width.Absolute = 40
         '
@@ -202,6 +209,7 @@ Partial Class frmShipComparison
         '
         Me.colSEx.DisplayIndex = 8
         Me.colSEx.Name = "colSEx"
+        Me.colSEx.SortingEnabled = False
         Me.colSEx.Text = "S Ex"
         Me.colSEx.Width.Absolute = 40
         '
@@ -209,6 +217,7 @@ Partial Class frmShipComparison
         '
         Me.colSKi.DisplayIndex = 9
         Me.colSKi.Name = "colSKi"
+        Me.colSKi.SortingEnabled = False
         Me.colSKi.Text = "S Ki"
         Me.colSKi.Width.Absolute = 40
         '
@@ -216,6 +225,7 @@ Partial Class frmShipComparison
         '
         Me.colSTh.DisplayIndex = 10
         Me.colSTh.Name = "colSTh"
+        Me.colSTh.SortingEnabled = False
         Me.colSTh.Text = "S Th"
         Me.colSTh.Width.Absolute = 40
         '
@@ -223,6 +233,7 @@ Partial Class frmShipComparison
         '
         Me.colAEM.DisplayIndex = 11
         Me.colAEM.Name = "colAEM"
+        Me.colAEM.SortingEnabled = False
         Me.colAEM.Text = "A EM"
         Me.colAEM.Width.Absolute = 40
         '
@@ -230,6 +241,7 @@ Partial Class frmShipComparison
         '
         Me.colAEx.DisplayIndex = 12
         Me.colAEx.Name = "colAEx"
+        Me.colAEx.SortingEnabled = False
         Me.colAEx.Text = "A Ex"
         Me.colAEx.Width.Absolute = 40
         '
@@ -237,6 +249,7 @@ Partial Class frmShipComparison
         '
         Me.colAKi.DisplayIndex = 13
         Me.colAKi.Name = "colAKi"
+        Me.colAKi.SortingEnabled = False
         Me.colAKi.Text = "A Ki"
         Me.colAKi.Width.Absolute = 40
         '
@@ -244,6 +257,7 @@ Partial Class frmShipComparison
         '
         Me.colATh.DisplayIndex = 14
         Me.colATh.Name = "colATh"
+        Me.colATh.SortingEnabled = False
         Me.colATh.Text = "A Th"
         Me.colATh.Width.Absolute = 40
         '
