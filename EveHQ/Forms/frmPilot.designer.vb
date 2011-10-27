@@ -110,8 +110,6 @@ Partial Public Class frmPilot
         Me.Node2 = New DevComponents.AdvTree.Node()
         Me.Skill = New DevComponents.DotNetBar.ElementStyle()
         Me.tiSkills = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpStandings = New DevComponents.DotNetBar.TabControlPanel()
-        Me.tiStandings = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpCerts = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtCerts = New DevComponents.AdvTree.AdvTree()
         Me.colCertName = New DevComponents.AdvTree.ColumnHeader()
@@ -121,6 +119,8 @@ Partial Public Class frmPilot
         Me.Node4 = New DevComponents.AdvTree.Node()
         Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
         Me.tsCerts = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpStandings = New DevComponents.DotNetBar.TabControlPanel()
+        Me.tiStandings = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpSkillQueue = New DevComponents.DotNetBar.TabControlPanel()
         Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
         Me.tiSkillQueue = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -143,9 +143,9 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.SuspendLayout()
         Me.tcpSkills.SuspendLayout()
         CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tcpStandings.SuspendLayout()
         Me.tcpCerts.SuspendLayout()
         CType(Me.adtCerts, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tcpStandings.SuspendLayout()
         Me.tcpSkillQueue.SuspendLayout()
         Me.pnlInfo.SuspendLayout()
         Me.grpAccount.SuspendLayout()
@@ -1279,6 +1279,7 @@ Partial Public Class frmPilot
         '
         Me.colSkill.DisplayIndex = 1
         Me.colSkill.Name = "colSkill"
+        Me.colSkill.SortingEnabled = False
         Me.colSkill.Text = "Skill"
         Me.colSkill.Width.Absolute = 300
         '
@@ -1286,6 +1287,7 @@ Partial Public Class frmPilot
         '
         Me.colRank.DisplayIndex = 2
         Me.colRank.Name = "colRank"
+        Me.colRank.SortingEnabled = False
         Me.colRank.Text = "Rank"
         Me.colRank.Width.Absolute = 60
         '
@@ -1294,6 +1296,7 @@ Partial Public Class frmPilot
         Me.colLevel.DisplayIndex = 3
         Me.colLevel.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
         Me.colLevel.Name = "colLevel"
+        Me.colLevel.SortingEnabled = False
         Me.colLevel.Text = "Level"
         Me.colLevel.Width.Absolute = 60
         '
@@ -1301,6 +1304,7 @@ Partial Public Class frmPilot
         '
         Me.colDone.DisplayIndex = 4
         Me.colDone.Name = "colDone"
+        Me.colDone.SortingEnabled = False
         Me.colDone.Text = "% Done"
         Me.colDone.Width.Absolute = 60
         '
@@ -1308,6 +1312,7 @@ Partial Public Class frmPilot
         '
         Me.colSP.DisplayIndex = 5
         Me.colSP.Name = "colSP"
+        Me.colSP.SortingEnabled = False
         Me.colSP.Text = "Skillpoints"
         Me.colSP.Width.Absolute = 120
         '
@@ -1316,6 +1321,7 @@ Partial Public Class frmPilot
         Me.colTime.DisplayIndex = 6
         Me.colTime.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
         Me.colTime.Name = "colTime"
+        Me.colTime.SortingEnabled = False
         Me.colTime.Text = "Time to Level Up"
         Me.colTime.Width.Absolute = 120
         '
@@ -1375,34 +1381,6 @@ Partial Public Class frmPilot
         Me.tiSkills.Name = "tiSkills"
         Me.tiSkills.Text = "Skills"
         '
-        'tcpStandings
-        '
-        Me.tcpStandings.Controls.Add(Me.lvwStandings)
-        Me.tcpStandings.Controls.Add(Me.btnGetStandings)
-        Me.tcpStandings.Controls.Add(Me.lblTypeFilter)
-        Me.tcpStandings.Controls.Add(Me.btExportStandings)
-        Me.tcpStandings.Controls.Add(Me.cboFilter)
-        Me.tcpStandings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpStandings.Location = New System.Drawing.Point(0, 23)
-        Me.tcpStandings.Name = "tcpStandings"
-        Me.tcpStandings.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpStandings.Size = New System.Drawing.Size(933, 665)
-        Me.tcpStandings.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpStandings.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpStandings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpStandings.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpStandings.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpStandings.Style.GradientAngle = 90
-        Me.tcpStandings.TabIndex = 4
-        Me.tcpStandings.TabItem = Me.tiStandings
-        '
-        'tiStandings
-        '
-        Me.tiStandings.AttachedControl = Me.tcpStandings
-        Me.tiStandings.Name = "tiStandings"
-        Me.tiStandings.Text = "Standings"
-        '
         'tcpCerts
         '
         Me.tcpCerts.Controls.Add(Me.adtCerts)
@@ -1454,6 +1432,7 @@ Partial Public Class frmPilot
         '
         Me.colCertName.DisplayIndex = 1
         Me.colCertName.Name = "colCertName"
+        Me.colCertName.SortingEnabled = False
         Me.colCertName.Text = "Certificate Name"
         Me.colCertName.Width.Absolute = 400
         '
@@ -1462,6 +1441,7 @@ Partial Public Class frmPilot
         Me.colCertGrd.DisplayIndex = 2
         Me.colCertGrd.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
         Me.colCertGrd.Name = "colCertGrd"
+        Me.colCertGrd.SortingEnabled = False
         Me.colCertGrd.Text = "Grade"
         Me.colCertGrd.Width.Absolute = 120
         '
@@ -1520,6 +1500,34 @@ Partial Public Class frmPilot
         Me.tsCerts.AttachedControl = Me.tcpCerts
         Me.tsCerts.Name = "tsCerts"
         Me.tsCerts.Text = "Certificates"
+        '
+        'tcpStandings
+        '
+        Me.tcpStandings.Controls.Add(Me.lvwStandings)
+        Me.tcpStandings.Controls.Add(Me.btnGetStandings)
+        Me.tcpStandings.Controls.Add(Me.lblTypeFilter)
+        Me.tcpStandings.Controls.Add(Me.btExportStandings)
+        Me.tcpStandings.Controls.Add(Me.cboFilter)
+        Me.tcpStandings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpStandings.Location = New System.Drawing.Point(0, 23)
+        Me.tcpStandings.Name = "tcpStandings"
+        Me.tcpStandings.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpStandings.Size = New System.Drawing.Size(933, 665)
+        Me.tcpStandings.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpStandings.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpStandings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpStandings.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpStandings.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpStandings.Style.GradientAngle = 90
+        Me.tcpStandings.TabIndex = 4
+        Me.tcpStandings.TabItem = Me.tiStandings
+        '
+        'tiStandings
+        '
+        Me.tiStandings.AttachedControl = Me.tcpStandings
+        Me.tiStandings.Name = "tiStandings"
+        Me.tiStandings.Text = "Standings"
         '
         'tcpSkillQueue
         '
@@ -1711,10 +1719,10 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.ResumeLayout(False)
         Me.tcpSkills.ResumeLayout(False)
         CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tcpStandings.ResumeLayout(False)
-        Me.tcpStandings.PerformLayout()
         Me.tcpCerts.ResumeLayout(False)
         CType(Me.adtCerts, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tcpStandings.ResumeLayout(False)
+        Me.tcpStandings.PerformLayout()
         Me.tcpSkillQueue.ResumeLayout(False)
         Me.pnlInfo.ResumeLayout(False)
         Me.grpAccount.ResumeLayout(False)

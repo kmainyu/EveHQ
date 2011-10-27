@@ -146,7 +146,6 @@ Partial Class DBCLastJournals
         'adtLastTransactions
         '
         Me.adtLastTransactions.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtLastTransactions.AllowDrop = False
         Me.adtLastTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -177,6 +176,7 @@ Partial Class DBCLastJournals
         'colDate
         '
         Me.colDate.Name = "colDate"
+        Me.colDate.SortingEnabled = False
         Me.colDate.Text = "Date"
         Me.colDate.Width.Absolute = 100
         Me.colDate.Width.AutoSize = True
@@ -185,6 +185,7 @@ Partial Class DBCLastJournals
         'colType
         '
         Me.colType.Name = "colType"
+        Me.colType.SortingEnabled = False
         Me.colType.Text = "Type"
         Me.colType.Width.Absolute = 100
         Me.colType.Width.AutoSize = True
@@ -193,6 +194,7 @@ Partial Class DBCLastJournals
         'colAmount
         '
         Me.colAmount.Name = "colAmount"
+        Me.colAmount.SortingEnabled = False
         Me.colAmount.Text = "Amount"
         Me.colAmount.Width.Absolute = 100
         Me.colAmount.Width.AutoSize = True
@@ -201,6 +203,7 @@ Partial Class DBCLastJournals
         'colBalance
         '
         Me.colBalance.Name = "colBalance"
+        Me.colBalance.SortingEnabled = False
         Me.colBalance.Text = "Balance"
         Me.colBalance.Width.Absolute = 100
         Me.colBalance.Width.AutoSize = True

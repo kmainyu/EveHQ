@@ -116,6 +116,7 @@ Partial Class frmModifyPriceGroupItem
         'adtSelection
         '
         Me.adtSelection.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtSelection.AllowDrop = True
         Me.adtSelection.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -146,6 +147,7 @@ Partial Class frmModifyPriceGroupItem
         'colSelectedItems
         '
         Me.colSelectedItems.Name = "colSelectedItems"
+        Me.colSelectedItems.SortingEnabled = False
         Me.colSelectedItems.Text = "Selected Items"
         Me.colSelectedItems.Width.Absolute = 340
         '
@@ -176,6 +178,7 @@ Partial Class frmModifyPriceGroupItem
         'adtItems
         '
         Me.adtItems.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtItems.AllowDrop = True
         Me.adtItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.adtItems.BackColor = System.Drawing.SystemColors.Window
@@ -204,6 +207,7 @@ Partial Class frmModifyPriceGroupItem
         'colGroup
         '
         Me.colGroup.Name = "colGroup"
+        Me.colGroup.SortingEnabled = False
         Me.colGroup.Text = "Market Group/Item"
         Me.colGroup.Width.Absolute = 470
         '

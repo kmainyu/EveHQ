@@ -532,7 +532,7 @@ Partial Class frmMarketOrders
         'gpAllOrders
         '
         Me.gpAllOrders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gpAllOrders.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpAllOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpAllOrders.Controls.Add(Me.lblAllOrderStd)
@@ -587,7 +587,7 @@ Partial Class frmMarketOrders
         'gpBuyOrders
         '
         Me.gpBuyOrders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gpBuyOrders.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpBuyOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpBuyOrders.Controls.Add(Me.lblBuyOrderStd)
@@ -642,7 +642,7 @@ Partial Class frmMarketOrders
         'gpSellOrders
         '
         Me.gpSellOrders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gpSellOrders.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpSellOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpSellOrders.Controls.Add(Me.lblSellOrderStd)
@@ -820,8 +820,8 @@ Partial Class frmMarketOrders
         Me.adtBuyers.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.adtBuyers.AllowDrop = True
         Me.adtBuyers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtBuyers.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -850,6 +850,7 @@ Partial Class frmMarketOrders
         '
         Me.colBuyLocation.DisplayIndex = 1
         Me.colBuyLocation.Name = "colBuyLocation"
+        Me.colBuyLocation.SortingEnabled = False
         Me.colBuyLocation.Text = "Location"
         Me.colBuyLocation.Width.Absolute = 300
         '
@@ -857,6 +858,7 @@ Partial Class frmMarketOrders
         '
         Me.colBuyQty.DisplayIndex = 2
         Me.colBuyQty.Name = "colBuyQty"
+        Me.colBuyQty.SortingEnabled = False
         Me.colBuyQty.Text = "Quantity"
         Me.colBuyQty.Width.Absolute = 120
         '
@@ -864,6 +866,7 @@ Partial Class frmMarketOrders
         '
         Me.colBuyPrice.DisplayIndex = 3
         Me.colBuyPrice.Name = "colBuyPrice"
+        Me.colBuyPrice.SortingEnabled = False
         Me.colBuyPrice.Text = "Price"
         Me.colBuyPrice.Width.Absolute = 120
         '
@@ -872,6 +875,7 @@ Partial Class frmMarketOrders
         Me.colBuyExpiry.DisplayIndex = 4
         Me.colBuyExpiry.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
         Me.colBuyExpiry.Name = "colBuyExpiry"
+        Me.colBuyExpiry.SortingEnabled = False
         Me.colBuyExpiry.Text = "Expires In"
         Me.colBuyExpiry.Width.Absolute = 120
         '
@@ -944,8 +948,8 @@ Partial Class frmMarketOrders
         Me.adtSellers.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.adtSellers.AllowDrop = True
         Me.adtSellers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtSellers.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -974,6 +978,7 @@ Partial Class frmMarketOrders
         '
         Me.colSellLocation.DisplayIndex = 1
         Me.colSellLocation.Name = "colSellLocation"
+        Me.colSellLocation.SortingEnabled = False
         Me.colSellLocation.Text = "Location"
         Me.colSellLocation.Width.Absolute = 300
         '
@@ -981,6 +986,7 @@ Partial Class frmMarketOrders
         '
         Me.colSellQty.DisplayIndex = 2
         Me.colSellQty.Name = "colSellQty"
+        Me.colSellQty.SortingEnabled = False
         Me.colSellQty.Text = "Quantity"
         Me.colSellQty.Width.Absolute = 120
         '
@@ -988,6 +994,7 @@ Partial Class frmMarketOrders
         '
         Me.colSellPrice.DisplayIndex = 3
         Me.colSellPrice.Name = "colSellPrice"
+        Me.colSellPrice.SortingEnabled = False
         Me.colSellPrice.Text = "Price"
         Me.colSellPrice.Width.Absolute = 120
         '
@@ -996,6 +1003,7 @@ Partial Class frmMarketOrders
         Me.colSellExpiry.DisplayIndex = 4
         Me.colSellExpiry.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
         Me.colSellExpiry.Name = "colSellExpiry"
+        Me.colSellExpiry.SortingEnabled = False
         Me.colSellExpiry.Text = "Expires In"
         Me.colSellExpiry.Width.Absolute = 120
         '

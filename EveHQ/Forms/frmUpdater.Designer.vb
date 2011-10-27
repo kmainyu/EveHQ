@@ -30,14 +30,14 @@ Partial Class frmUpdater
         Me.btnRecheckUpdates = New System.Windows.Forms.Button()
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.adtUpdates = New DevComponents.AdvTree.AdvTree()
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.Log = New DevComponents.DotNetBar.ElementStyle()
         Me.colComponent = New DevComponents.AdvTree.ColumnHeader()
         Me.colFunction = New DevComponents.AdvTree.ColumnHeader()
         Me.colVersion = New DevComponents.AdvTree.ColumnHeader()
         Me.colAvailable = New DevComponents.AdvTree.ColumnHeader()
         Me.colDownload = New DevComponents.AdvTree.ColumnHeader()
         Me.colProgress = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.Log = New DevComponents.DotNetBar.ElementStyle()
         Me.LogCentre = New DevComponents.DotNetBar.ElementStyle()
         Me.Centre = New DevComponents.DotNetBar.ElementStyle()
         Me.Cell1 = New DevComponents.AdvTree.Cell()
@@ -105,6 +105,7 @@ Partial Class frmUpdater
         'adtUpdates
         '
         Me.adtUpdates.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtUpdates.AllowDrop = True
         Me.adtUpdates.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -133,6 +134,53 @@ Partial Class frmUpdater
         Me.adtUpdates.TabIndex = 7
         Me.adtUpdates.Text = "AdvTree1"
         '
+        'colComponent
+        '
+        Me.colComponent.Name = "colComponent"
+        Me.colComponent.SortingEnabled = False
+        Me.colComponent.Text = "Component"
+        Me.colComponent.Width.Absolute = 200
+        '
+        'colFunction
+        '
+        Me.colFunction.Name = "colFunction"
+        Me.colFunction.SortingEnabled = False
+        Me.colFunction.StyleNormal = "LogCentre"
+        Me.colFunction.Text = "Function"
+        Me.colFunction.Width.Absolute = 100
+        '
+        'colVersion
+        '
+        Me.colVersion.Name = "colVersion"
+        Me.colVersion.SortingEnabled = False
+        Me.colVersion.StyleNormal = "LogCentre"
+        Me.colVersion.Text = "Version"
+        Me.colVersion.Width.Absolute = 100
+        '
+        'colAvailable
+        '
+        Me.colAvailable.Name = "colAvailable"
+        Me.colAvailable.SortingEnabled = False
+        Me.colAvailable.StyleNormal = "LogCentre"
+        Me.colAvailable.Text = "Available"
+        Me.colAvailable.Width.Absolute = 100
+        '
+        'colDownload
+        '
+        Me.colDownload.Name = "colDownload"
+        Me.colDownload.SortingEnabled = False
+        Me.colDownload.StyleNormal = "LogCentre"
+        Me.colDownload.Text = "Download?"
+        Me.colDownload.Width.Absolute = 70
+        '
+        'colProgress
+        '
+        Me.colProgress.Name = "colProgress"
+        Me.colProgress.SortingEnabled = False
+        Me.colProgress.StyleNormal = "LogCentre"
+        Me.colProgress.Text = "Progress"
+        Me.colProgress.Width.Absolute = 170
+        '
         'NodeConnector1
         '
         Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
@@ -143,47 +191,6 @@ Partial Class frmUpdater
         Me.Log.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Log.Name = "Log"
         Me.Log.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'colComponent
-        '
-        Me.colComponent.Name = "colComponent"
-        Me.colComponent.Text = "Component"
-        Me.colComponent.Width.Absolute = 200
-        '
-        'colFunction
-        '
-        Me.colFunction.Name = "colFunction"
-        Me.colFunction.StyleNormal = "LogCentre"
-        Me.colFunction.Text = "Function"
-        Me.colFunction.Width.Absolute = 100
-        '
-        'colVersion
-        '
-        Me.colVersion.Name = "colVersion"
-        Me.colVersion.StyleNormal = "LogCentre"
-        Me.colVersion.Text = "Version"
-        Me.colVersion.Width.Absolute = 100
-        '
-        'colAvailable
-        '
-        Me.colAvailable.Name = "colAvailable"
-        Me.colAvailable.StyleNormal = "LogCentre"
-        Me.colAvailable.Text = "Available"
-        Me.colAvailable.Width.Absolute = 100
-        '
-        'colDownload
-        '
-        Me.colDownload.Name = "colDownload"
-        Me.colDownload.StyleNormal = "LogCentre"
-        Me.colDownload.Text = "Download?"
-        Me.colDownload.Width.Absolute = 70
-        '
-        'colProgress
-        '
-        Me.colProgress.Name = "colProgress"
-        Me.colProgress.StyleNormal = "LogCentre"
-        Me.colProgress.Text = "Progress"
-        Me.colProgress.Width.Absolute = 170
         '
         'LogCentre
         '

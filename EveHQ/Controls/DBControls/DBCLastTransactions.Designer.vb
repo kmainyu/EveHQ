@@ -22,18 +22,18 @@ Partial Class DBCLastTransactions
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblPilot = New System.Windows.Forms.Label
-        Me.lblTransactionsDisplayCount = New System.Windows.Forms.Label
-        Me.nudEntries = New DevComponents.Editors.IntegerInput
-        Me.btnRefresh = New DevComponents.DotNetBar.ButtonX
-        Me.cboPilotList = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.adtLastTransactions = New DevComponents.AdvTree.AdvTree
-        Me.colDate = New DevComponents.AdvTree.ColumnHeader
-        Me.colType = New DevComponents.AdvTree.ColumnHeader
-        Me.colAmount = New DevComponents.AdvTree.ColumnHeader
-        Me.colBalance = New DevComponents.AdvTree.ColumnHeader
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector
-        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle
+        Me.lblPilot = New System.Windows.Forms.Label()
+        Me.lblTransactionsDisplayCount = New System.Windows.Forms.Label()
+        Me.nudEntries = New DevComponents.Editors.IntegerInput()
+        Me.btnRefresh = New DevComponents.DotNetBar.ButtonX()
+        Me.cboPilotList = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.adtLastTransactions = New DevComponents.AdvTree.AdvTree()
+        Me.colDate = New DevComponents.AdvTree.ColumnHeader()
+        Me.colType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAmount = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBalance = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.AGPContent.SuspendLayout()
         CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudEntries, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -122,7 +122,6 @@ Partial Class DBCLastTransactions
         'btnRefresh
         '
         Me.btnRefresh.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnRefresh.CallBasePaintBackground = True
         Me.btnRefresh.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnRefresh.Location = New System.Drawing.Point(205, 35)
         Me.btnRefresh.Name = "btnRefresh"
@@ -147,11 +146,13 @@ Partial Class DBCLastTransactions
         'adtLastTransactions
         '
         Me.adtLastTransactions.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtLastTransactions.AllowDrop = False
         Me.adtLastTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtLastTransactions.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
         Me.adtLastTransactions.BackgroundStyle.Class = "TreeBorderKey"
         Me.adtLastTransactions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.adtLastTransactions.Columns.Add(Me.colDate)
@@ -173,6 +174,7 @@ Partial Class DBCLastTransactions
         'colDate
         '
         Me.colDate.Name = "colDate"
+        Me.colDate.SortingEnabled = False
         Me.colDate.Text = "Date"
         Me.colDate.Width.Absolute = 100
         Me.colDate.Width.AutoSize = True
@@ -181,6 +183,7 @@ Partial Class DBCLastTransactions
         'colType
         '
         Me.colType.Name = "colType"
+        Me.colType.SortingEnabled = False
         Me.colType.Text = "Type"
         Me.colType.Width.Absolute = 100
         Me.colType.Width.AutoSize = True
@@ -189,6 +192,7 @@ Partial Class DBCLastTransactions
         'colAmount
         '
         Me.colAmount.Name = "colAmount"
+        Me.colAmount.SortingEnabled = False
         Me.colAmount.Text = "Quantity"
         Me.colAmount.Width.Absolute = 100
         Me.colAmount.Width.AutoSize = True
@@ -197,6 +201,7 @@ Partial Class DBCLastTransactions
         'colBalance
         '
         Me.colBalance.Name = "colBalance"
+        Me.colBalance.SortingEnabled = False
         Me.colBalance.Text = "Price"
         Me.colBalance.Width.Absolute = 100
         Me.colBalance.Width.AutoSize = True

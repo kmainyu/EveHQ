@@ -802,30 +802,35 @@ Partial Public Class frmSettings
         'colAccountName
         '
         Me.colAccountName.Name = "colAccountName"
+        Me.colAccountName.SortingEnabled = False
         Me.colAccountName.Text = "Account Name"
         Me.colAccountName.Width.Absolute = 200
         '
         'colAccountVersion
         '
         Me.colAccountVersion.Name = "colAccountVersion"
+        Me.colAccountVersion.SortingEnabled = False
         Me.colAccountVersion.Text = "Key Version"
         Me.colAccountVersion.Width.Absolute = 90
         '
         'colAccountUserID
         '
         Me.colAccountUserID.Name = "colAccountUserID"
+        Me.colAccountUserID.SortingEnabled = False
         Me.colAccountUserID.Text = "User / Key ID"
         Me.colAccountUserID.Width.Absolute = 90
         '
         'colAccountAccessType
         '
         Me.colAccountAccessType.Name = "colAccountAccessType"
+        Me.colAccountAccessType.SortingEnabled = False
         Me.colAccountAccessType.Text = "Access Type"
         Me.colAccountAccessType.Width.Absolute = 90
         '
         'colAccountStatus
         '
         Me.colAccountStatus.Name = "colAccountStatus"
+        Me.colAccountStatus.SortingEnabled = False
         Me.colAccountStatus.Text = "Account Status"
         Me.colAccountStatus.Width.Absolute = 90
         '
@@ -2100,7 +2105,7 @@ Partial Public Class frmSettings
         Me.chkAutoMailAPI.AutoSize = True
         Me.chkAutoMailAPI.Location = New System.Drawing.Point(18, 420)
         Me.chkAutoMailAPI.Name = "chkAutoMailAPI"
-        Me.chkAutoMailAPI.Size = New System.Drawing.Size(303, 17)
+        Me.chkAutoMailAPI.Size = New System.Drawing.Size(304, 17)
         Me.chkAutoMailAPI.TabIndex = 21
         Me.chkAutoMailAPI.Text = "Automatically Check for Mail and Notification XML Updates"
         Me.chkAutoMailAPI.UseVisualStyleBackColor = True
@@ -2143,7 +2148,7 @@ Partial Public Class frmSettings
         Me.chkUseCCPBackup.AutoSize = True
         Me.chkUseCCPBackup.Location = New System.Drawing.Point(152, 52)
         Me.chkUseCCPBackup.Name = "chkUseCCPBackup"
-        Me.chkUseCCPBackup.Size = New System.Drawing.Size(173, 17)
+        Me.chkUseCCPBackup.Size = New System.Drawing.Size(177, 17)
         Me.chkUseCCPBackup.TabIndex = 26
         Me.chkUseCCPBackup.Text = "Use CCP API Server as Backup"
         Me.chkUseCCPBackup.UseVisualStyleBackColor = True
@@ -2153,7 +2158,7 @@ Partial Public Class frmSettings
         Me.chkUseAPIRSServer.AutoSize = True
         Me.chkUseAPIRSServer.Location = New System.Drawing.Point(12, 52)
         Me.chkUseAPIRSServer.Name = "chkUseAPIRSServer"
-        Me.chkUseAPIRSServer.Size = New System.Drawing.Size(130, 17)
+        Me.chkUseAPIRSServer.Size = New System.Drawing.Size(128, 17)
         Me.chkUseAPIRSServer.TabIndex = 25
         Me.chkUseAPIRSServer.Text = "Use API Proxy Server"
         Me.chkUseAPIRSServer.UseVisualStyleBackColor = True
@@ -2195,7 +2200,7 @@ Partial Public Class frmSettings
         Me.chkEnableEveStatus.AutoSize = True
         Me.chkEnableEveStatus.Location = New System.Drawing.Point(19, 31)
         Me.chkEnableEveStatus.Name = "chkEnableEveStatus"
-        Me.chkEnableEveStatus.Size = New System.Drawing.Size(127, 17)
+        Me.chkEnableEveStatus.Size = New System.Drawing.Size(126, 17)
         Me.chkEnableEveStatus.TabIndex = 13
         Me.chkEnableEveStatus.Text = "Enable Server Status"
         Me.chkEnableEveStatus.UseVisualStyleBackColor = True
@@ -2223,7 +2228,7 @@ Partial Public Class frmSettings
         Me.chkAutoAPI.AutoSize = True
         Me.chkAutoAPI.Location = New System.Drawing.Point(18, 397)
         Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(255, 17)
+        Me.chkAutoAPI.Size = New System.Drawing.Size(254, 17)
         Me.chkAutoAPI.TabIndex = 20
         Me.chkAutoAPI.Text = "Automatically Check for Character XML Updates"
         Me.chkAutoAPI.UseVisualStyleBackColor = True
