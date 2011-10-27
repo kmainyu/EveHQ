@@ -279,6 +279,7 @@ Public Class ShipSlotControl
         ' Add the module name column
         Dim MainCol As New DevComponents.AdvTree.ColumnHeader("Module Name")
         MainCol.Name = "colName"
+        MainCol.SortingEnabled = False
         MainCol.Width.Absolute = HQF.Settings.HQFSettings.SlotNameWidth
         MainCol.Width.AutoSizeMinHeader = True
         adtSlots.Columns.Add(MainCol)
@@ -286,6 +287,7 @@ Public Class ShipSlotControl
         For Each UserCol As UserSlotColumn In HQF.Settings.HQFSettings.UserSlotColumns
             If UserCol.Active = True Then
                 Dim SubCol As New DevComponents.AdvTree.ColumnHeader(UserCol.Name)
+                SubCol.SortingEnabled = False
                 SubCol.Name = UserCol.Name
                 SubCol.Width.Absolute = UserCol.Width
                 SubCol.Width.AutoSizeMinHeader = True

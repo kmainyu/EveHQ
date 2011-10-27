@@ -132,6 +132,7 @@ Public Class PrismAssetsControl
         adtAssets.Columns.Clear()
         ' Add the module name column
         Dim MainCol As New DevComponents.AdvTree.ColumnHeader("Asset Name/Location")
+        MainCol.SortingEnabled = False
         MainCol.Name = "AssetName"
         MainCol.DisplayIndex = 1
         MainCol.Width.Absolute = Settings.PrismSettings.SlotNameWidth
@@ -143,6 +144,7 @@ Public Class PrismAssetsControl
         For Each UserCol As UserSlotColumn In Settings.PrismSettings.UserSlotColumns
             ColumnDisplayIDX += 1
             Dim SubCol As New DevComponents.AdvTree.ColumnHeader(UserCol.Description)
+            SubCol.SortingEnabled = False
             SubCol.Name = UserCol.Name
             SubCol.DisplayIndex = ColumnDisplayIDX
             SubCol.Width.Absolute = UserCol.Width

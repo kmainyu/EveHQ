@@ -110,9 +110,11 @@ Public Class frmMetaVariations
         ' Add columns
         adtComparisons.Columns.Clear()
         Dim ItemColumn As New DevComponents.AdvTree.ColumnHeader("Item")
+        ItemColumn.SortingEnabled = False
         ItemColumn.Width.Absolute = 275
         ItemColumn.DisplayIndex = 1
         Dim MetaColumn As New DevComponents.AdvTree.ColumnHeader("Meta")
+        MetaColumn.SortingEnabled = False
         MetaColumn.Width.Absolute = 50
         MetaColumn.DisplayIndex = 2
         adtComparisons.Columns.Add(ItemColumn)
@@ -147,6 +149,7 @@ Public Class frmMetaVariations
             If colRequired = True Then
                 Dim newCol As New DevComponents.AdvTree.ColumnHeader
                 newCol.Text = CType(Attributes.AttributeList(att), Attribute).DisplayName
+                newCol.SortingEnabled = False
                 newCol.Name = att
                 newCol.Tag = CType(Attributes.AttributeList(att), Attribute).UnitName
                 newCol.Width.AutoSize = True

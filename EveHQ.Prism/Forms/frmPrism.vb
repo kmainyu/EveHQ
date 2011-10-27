@@ -4304,10 +4304,12 @@ Public Class frmPrism
                         ' Add items
                         If C.Items.Count > 0 Then
                             Dim ItemCH As New DevComponents.AdvTree.ColumnHeader("Item Name")
+                            ItemCH.SortingEnabled = False
                             ItemCH.Width.Absolute = 300
                             ItemCH.DisplayIndex = 1
                             NewContract.NodesColumns.Add(ItemCH)
                             Dim QtyCH As New DevComponents.AdvTree.ColumnHeader("Quantity")
+                            QtyCH.SortingEnabled = False
                             QtyCH.Width.Absolute = 100
                             QtyCH.DisplayIndex = 2
                             NewContract.NodesColumns.Add(QtyCH)
@@ -7119,6 +7121,7 @@ Public Class frmPrism
         ' Clear and add default column
         adtInventionStats.Columns.Clear()
         Dim TypeNameCol As New DevComponents.AdvTree.ColumnHeader
+        TypeNameCol.SortingEnabled = False
         TypeNameCol.Name = "TypeName"
         TypeNameCol.Text = "Item Type"
         TypeNameCol.Width.Absolute = 250
@@ -7134,6 +7137,7 @@ Public Class frmPrism
             Dim ColIdx As Integer = 0
             For Each installerName As String In Stats.Keys
                 Dim ICol As New DevComponents.AdvTree.ColumnHeader
+                ICol.SortingEnabled = False
                 ColIdx += 1
                 ICol.Name = installerName
                 ICol.Text = installerName
@@ -7158,6 +7162,7 @@ Public Class frmPrism
 
             ' Add the "Average Column"
             Dim AvgCol As New DevComponents.AdvTree.ColumnHeader
+            AvgCol.SortingEnabled = False
             ColIdx += 1
             AvgCol.Name = "Item Average"
             AvgCol.Text = "Item Average"
