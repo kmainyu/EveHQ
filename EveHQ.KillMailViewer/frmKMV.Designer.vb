@@ -381,6 +381,7 @@ Partial Class frmKMV
         '
         Me.colVictim.DisplayIndex = 1
         Me.colVictim.Name = "colVictim"
+        Me.colVictim.SortingEnabled = False
         Me.colVictim.Text = "Victim"
         Me.colVictim.Width.Absolute = 210
         '
@@ -388,6 +389,7 @@ Partial Class frmKMV
         '
         Me.colShip.DisplayIndex = 2
         Me.colShip.Name = "colShip"
+        Me.colShip.SortingEnabled = False
         Me.colShip.Text = "Kill Type"
         Me.colShip.Width.Absolute = 160
         '
@@ -395,6 +397,7 @@ Partial Class frmKMV
         '
         Me.colDate.DisplayIndex = 3
         Me.colDate.Name = "colDate"
+        Me.colDate.SortingEnabled = False
         Me.colDate.Text = "Kill Date"
         Me.colDate.Width.Absolute = 120
         '
