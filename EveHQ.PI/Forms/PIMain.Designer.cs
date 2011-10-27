@@ -81,44 +81,6 @@
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.ct_SelectProduct1 = new DevComponents.DotNetBar.Controls.ComboTree();
             this.ti_PIProductCost = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
-            this.gp_CommodBG = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.cb_HLCommodities = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.tc_CommoditySubmenu = new DevComponents.DotNetBar.TabControl();
-            this.tabControlPanel4 = new DevComponents.DotNetBar.TabControlPanel();
-            this.lv_P1 = new DevComponents.DotNetBar.Controls.ListViewEx();
-            this.ch_p1Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p1Resource = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p1Planets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p1CompIn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ti_ProcessedP1 = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel7 = new DevComponents.DotNetBar.TabControlPanel();
-            this.lv_P4 = new DevComponents.DotNetBar.Controls.ListViewEx();
-            this.ch_p4Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p4inp1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p4inp2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p4inp3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p4Planets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p4UsedFor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ti_AdvancedP4 = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel6 = new DevComponents.DotNetBar.TabControlPanel();
-            this.lv_P3 = new DevComponents.DotNetBar.Controls.ListViewEx();
-            this.ch_p3result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p3inp1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p3inp2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p3inp3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p3planets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p3UsedFor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ti_SpecializedP3 = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel5 = new DevComponents.DotNetBar.TabControlPanel();
-            this.lv_P2 = new DevComponents.DotNetBar.Controls.ListViewEx();
-            this.ch_p2Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p2Input1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p2Input2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_P2ReqPlanets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_p2UsedFor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ti_RefinedP2 = new DevComponents.DotNetBar.TabItem(this.components);
-            this.ti_PIInformation = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel9 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_BGP = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.DesignerSplitPanel = new System.Windows.Forms.SplitContainer();
@@ -167,6 +129,44 @@
             this.labelItem3 = new DevComponents.DotNetBar.LabelItem();
             this.pb_Power = new DevComponents.DotNetBar.ProgressBarItem();
             this.tp_Desginer2 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
+            this.gp_CommodBG = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.cb_HLCommodities = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.tc_CommoditySubmenu = new DevComponents.DotNetBar.TabControl();
+            this.tabControlPanel4 = new DevComponents.DotNetBar.TabControlPanel();
+            this.lv_P1 = new DevComponents.DotNetBar.Controls.ListViewEx();
+            this.ch_p1Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p1Resource = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p1Planets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p1CompIn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ti_ProcessedP1 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel7 = new DevComponents.DotNetBar.TabControlPanel();
+            this.lv_P4 = new DevComponents.DotNetBar.Controls.ListViewEx();
+            this.ch_p4Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p4inp1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p4inp2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p4inp3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p4Planets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p4UsedFor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ti_AdvancedP4 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel6 = new DevComponents.DotNetBar.TabControlPanel();
+            this.lv_P3 = new DevComponents.DotNetBar.Controls.ListViewEx();
+            this.ch_p3result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p3inp1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p3inp2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p3inp3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p3planets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p3UsedFor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ti_SpecializedP3 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel5 = new DevComponents.DotNetBar.TabControlPanel();
+            this.lv_P2 = new DevComponents.DotNetBar.Controls.ListViewEx();
+            this.ch_p2Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p2Input1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p2Input2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_P2ReqPlanets = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_p2UsedFor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ti_RefinedP2 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.ti_PIInformation = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_Overview = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.cbx_PartialOverview = new DevComponents.DotNetBar.Controls.CheckBoxX();
@@ -203,14 +203,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).BeginInit();
-            this.tabControlPanel3.SuspendLayout();
-            this.gp_CommodBG.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).BeginInit();
-            this.tc_CommoditySubmenu.SuspendLayout();
-            this.tabControlPanel4.SuspendLayout();
-            this.tabControlPanel7.SuspendLayout();
-            this.tabControlPanel6.SuspendLayout();
-            this.tabControlPanel5.SuspendLayout();
             this.tabControlPanel9.SuspendLayout();
             this.gp_BGP.SuspendLayout();
             this.DesignerSplitPanel.Panel1.SuspendLayout();
@@ -222,6 +214,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_LinkLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumLinks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bar_Designer)).BeginInit();
+            this.tabControlPanel3.SuspendLayout();
+            this.gp_CommodBG.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).BeginInit();
+            this.tc_CommoditySubmenu.SuspendLayout();
+            this.tabControlPanel4.SuspendLayout();
+            this.tabControlPanel7.SuspendLayout();
+            this.tabControlPanel6.SuspendLayout();
+            this.tabControlPanel5.SuspendLayout();
             this.tabControlPanel2.SuspendLayout();
             this.gp_Overview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).BeginInit();
@@ -233,8 +233,8 @@
             // 
             this.tc_PIMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.tc_PIMain.CanReorderTabs = true;
-            this.tc_PIMain.Controls.Add(this.tabControlPanel8);
             this.tc_PIMain.Controls.Add(this.tabControlPanel9);
+            this.tc_PIMain.Controls.Add(this.tabControlPanel8);
             this.tc_PIMain.Controls.Add(this.tabControlPanel3);
             this.tc_PIMain.Controls.Add(this.tabControlPanel2);
             this.tc_PIMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -265,8 +265,8 @@
             this.tabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
             this.tabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
             this.tabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel8.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel8.Style.GradientAngle = 90;
             this.tabControlPanel8.TabIndex = 4;
             this.tabControlPanel8.TabItem = this.ti_PIProductCost;
@@ -343,8 +343,8 @@
             this.at_PCost2.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
             this.at_PCost2.AllowDrop = true;
             this.at_PCost2.AllowUserToResizeColumns = false;
-            this.at_PCost2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.at_PCost2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.at_PCost2.BackColor = System.Drawing.SystemColors.Window;
             // 
             // 
@@ -373,6 +373,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Name = "columnHeader1";
+            this.columnHeader1.SortingEnabled = false;
             this.columnHeader1.Text = "Name";
             this.columnHeader1.Width.Absolute = 300;
             // 
@@ -380,6 +381,7 @@
             // 
             this.columnHeader2.Editable = false;
             this.columnHeader2.Name = "columnHeader2";
+            this.columnHeader2.SortingEnabled = false;
             this.columnHeader2.Text = "Quantity";
             this.columnHeader2.Width.Absolute = 75;
             // 
@@ -387,6 +389,7 @@
             // 
             this.columnHeader3.Editable = false;
             this.columnHeader3.Name = "columnHeader3";
+            this.columnHeader3.SortingEnabled = false;
             this.columnHeader3.Text = "Cost";
             this.columnHeader3.Width.Absolute = 75;
             // 
@@ -420,8 +423,8 @@
             this.at_PCost1.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
             this.at_PCost1.AllowDrop = true;
             this.at_PCost1.AllowUserToResizeColumns = false;
-            this.at_PCost1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.at_PCost1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.at_PCost1.BackColor = System.Drawing.SystemColors.Window;
             // 
             // 
@@ -450,6 +453,7 @@
             // ch_Name1
             // 
             this.ch_Name1.Name = "ch_Name1";
+            this.ch_Name1.SortingEnabled = false;
             this.ch_Name1.Text = "Name";
             this.ch_Name1.Width.Absolute = 300;
             // 
@@ -457,6 +461,7 @@
             // 
             this.ch_Qty1.Editable = false;
             this.ch_Qty1.Name = "ch_Qty1";
+            this.ch_Qty1.SortingEnabled = false;
             this.ch_Qty1.Text = "Quantity";
             this.ch_Qty1.Width.Absolute = 75;
             // 
@@ -464,6 +469,7 @@
             // 
             this.ch_Cost1.Editable = false;
             this.ch_Cost1.Name = "ch_Cost1";
+            this.ch_Cost1.SortingEnabled = false;
             this.ch_Cost1.Text = "Cost";
             this.ch_Cost1.Width.Absolute = 75;
             // 
@@ -1012,415 +1018,6 @@
             this.ti_PIProductCost.Name = "ti_PIProductCost";
             this.ti_PIProductCost.Text = "Product Cost Matrix";
             // 
-            // tabControlPanel3
-            // 
-            this.tabControlPanel3.Controls.Add(this.gp_CommodBG);
-            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel3.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel3.Name = "tabControlPanel3";
-            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel3.Size = new System.Drawing.Size(1008, 707);
-            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
-            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel3.Style.GradientAngle = 90;
-            this.tabControlPanel3.TabIndex = 3;
-            this.tabControlPanel3.TabItem = this.ti_PIInformation;
-            // 
-            // gp_CommodBG
-            // 
-            this.gp_CommodBG.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_CommodBG.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_CommodBG.Controls.Add(this.cb_HLCommodities);
-            this.gp_CommodBG.Controls.Add(this.tc_CommoditySubmenu);
-            this.gp_CommodBG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_CommodBG.Location = new System.Drawing.Point(1, 1);
-            this.gp_CommodBG.Name = "gp_CommodBG";
-            this.gp_CommodBG.Size = new System.Drawing.Size(1006, 705);
-            // 
-            // 
-            // 
-            this.gp_CommodBG.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_CommodBG.Style.BackColorGradientAngle = 90;
-            this.gp_CommodBG.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_CommodBG.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderBottomWidth = 1;
-            this.gp_CommodBG.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_CommodBG.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderLeftWidth = 1;
-            this.gp_CommodBG.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderRightWidth = 1;
-            this.gp_CommodBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_CommodBG.Style.BorderTopWidth = 1;
-            this.gp_CommodBG.Style.Class = "";
-            this.gp_CommodBG.Style.CornerDiameter = 4;
-            this.gp_CommodBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_CommodBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_CommodBG.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_CommodBG.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_CommodBG.StyleMouseDown.Class = "";
-            this.gp_CommodBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_CommodBG.StyleMouseOver.Class = "";
-            this.gp_CommodBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_CommodBG.TabIndex = 1;
-            // 
-            // cb_HLCommodities
-            // 
-            this.cb_HLCommodities.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_HLCommodities.BackgroundStyle.Class = "";
-            this.cb_HLCommodities.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_HLCommodities.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
-            this.cb_HLCommodities.Checked = true;
-            this.cb_HLCommodities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_HLCommodities.CheckValue = "Y";
-            this.cb_HLCommodities.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_HLCommodities.Location = new System.Drawing.Point(8, 3);
-            this.cb_HLCommodities.Name = "cb_HLCommodities";
-            this.cb_HLCommodities.Size = new System.Drawing.Size(306, 23);
-            this.cb_HLCommodities.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_HLCommodities.TabIndex = 2;
-            this.cb_HLCommodities.Text = "Highlight Commodities In Production from Overview";
-            this.cb_HLCommodities.TextColor = System.Drawing.Color.Navy;
-            this.cb_HLCommodities.CheckedChanged += new System.EventHandler(this.cb_HLCommodities_CheckedChanged);
-            // 
-            // tc_CommoditySubmenu
-            // 
-            this.tc_CommoditySubmenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tc_CommoditySubmenu.CanReorderTabs = true;
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel4);
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel7);
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel6);
-            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel5);
-            this.tc_CommoditySubmenu.Location = new System.Drawing.Point(-1, 32);
-            this.tc_CommoditySubmenu.Name = "tc_CommoditySubmenu";
-            this.tc_CommoditySubmenu.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.tc_CommoditySubmenu.SelectedTabIndex = 0;
-            this.tc_CommoditySubmenu.Size = new System.Drawing.Size(1001, 667);
-            this.tc_CommoditySubmenu.TabIndex = 0;
-            this.tc_CommoditySubmenu.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_ProcessedP1);
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_RefinedP2);
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_SpecializedP3);
-            this.tc_CommoditySubmenu.Tabs.Add(this.ti_AdvancedP4);
-            this.tc_CommoditySubmenu.Text = "tabControl1";
-            // 
-            // tabControlPanel4
-            // 
-            this.tabControlPanel4.Controls.Add(this.lv_P1);
-            this.tabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel4.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel4.Name = "tabControlPanel4";
-            this.tabControlPanel4.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel4.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel4.Style.GradientAngle = 90;
-            this.tabControlPanel4.TabIndex = 1;
-            this.tabControlPanel4.TabItem = this.ti_ProcessedP1;
-            // 
-            // lv_P1
-            // 
-            // 
-            // 
-            // 
-            this.lv_P1.Border.Class = "ListViewBorder";
-            this.lv_P1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p1Result,
-            this.ch_p1Resource,
-            this.ch_p1Planets,
-            this.ch_p1CompIn});
-            this.lv_P1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P1.FullRowSelect = true;
-            this.lv_P1.GridLines = true;
-            this.lv_P1.Location = new System.Drawing.Point(1, 1);
-            this.lv_P1.Name = "lv_P1";
-            this.lv_P1.Size = new System.Drawing.Size(999, 639);
-            this.lv_P1.TabIndex = 0;
-            this.lv_P1.UseCompatibleStateImageBehavior = false;
-            this.lv_P1.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p1Result
-            // 
-            this.ch_p1Result.Text = "P1 Result";
-            this.ch_p1Result.Width = 225;
-            // 
-            // ch_p1Resource
-            // 
-            this.ch_p1Resource.Text = "Resource";
-            this.ch_p1Resource.Width = 200;
-            // 
-            // ch_p1Planets
-            // 
-            this.ch_p1Planets.Text = "Planets Found On";
-            this.ch_p1Planets.Width = 275;
-            // 
-            // ch_p1CompIn
-            // 
-            this.ch_p1CompIn.Text = "Used For:";
-            this.ch_p1CompIn.Width = 600;
-            // 
-            // ti_ProcessedP1
-            // 
-            this.ti_ProcessedP1.AttachedControl = this.tabControlPanel4;
-            this.ti_ProcessedP1.Name = "ti_ProcessedP1";
-            this.ti_ProcessedP1.Text = "(P1) Processed Materials";
-            // 
-            // tabControlPanel7
-            // 
-            this.tabControlPanel7.Controls.Add(this.lv_P4);
-            this.tabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel7.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel7.Name = "tabControlPanel7";
-            this.tabControlPanel7.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel7.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel7.Style.GradientAngle = 90;
-            this.tabControlPanel7.TabIndex = 4;
-            this.tabControlPanel7.TabItem = this.ti_AdvancedP4;
-            // 
-            // lv_P4
-            // 
-            // 
-            // 
-            // 
-            this.lv_P4.Border.Class = "ListViewBorder";
-            this.lv_P4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p4Result,
-            this.ch_p4inp1,
-            this.ch_p4inp2,
-            this.ch_p4inp3,
-            this.ch_p4Planets,
-            this.ch_p4UsedFor});
-            this.lv_P4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P4.FullRowSelect = true;
-            this.lv_P4.GridLines = true;
-            this.lv_P4.Location = new System.Drawing.Point(1, 1);
-            this.lv_P4.Name = "lv_P4";
-            this.lv_P4.Size = new System.Drawing.Size(999, 639);
-            this.lv_P4.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lv_P4.TabIndex = 3;
-            this.lv_P4.UseCompatibleStateImageBehavior = false;
-            this.lv_P4.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p4Result
-            // 
-            this.ch_p4Result.Text = "P4 Result";
-            this.ch_p4Result.Width = 225;
-            // 
-            // ch_p4inp1
-            // 
-            this.ch_p4inp1.Text = "P3 Input 1";
-            this.ch_p4inp1.Width = 150;
-            // 
-            // ch_p4inp2
-            // 
-            this.ch_p4inp2.Text = "P3 Input 2";
-            this.ch_p4inp2.Width = 150;
-            // 
-            // ch_p4inp3
-            // 
-            this.ch_p4inp3.Text = "P1 / P3 Input 3";
-            this.ch_p4inp3.Width = 150;
-            // 
-            // ch_p4Planets
-            // 
-            this.ch_p4Planets.Text = "Planets Required";
-            this.ch_p4Planets.Width = 275;
-            // 
-            // ch_p4UsedFor
-            // 
-            this.ch_p4UsedFor.Text = "Used For:";
-            this.ch_p4UsedFor.Width = 450;
-            // 
-            // ti_AdvancedP4
-            // 
-            this.ti_AdvancedP4.AttachedControl = this.tabControlPanel7;
-            this.ti_AdvancedP4.Name = "ti_AdvancedP4";
-            this.ti_AdvancedP4.Text = "(P4) Advanced Commodities";
-            // 
-            // tabControlPanel6
-            // 
-            this.tabControlPanel6.Controls.Add(this.lv_P3);
-            this.tabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel6.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel6.Name = "tabControlPanel6";
-            this.tabControlPanel6.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel6.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel6.Style.GradientAngle = 90;
-            this.tabControlPanel6.TabIndex = 3;
-            this.tabControlPanel6.TabItem = this.ti_SpecializedP3;
-            // 
-            // lv_P3
-            // 
-            // 
-            // 
-            // 
-            this.lv_P3.Border.Class = "ListViewBorder";
-            this.lv_P3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p3result,
-            this.ch_p3inp1,
-            this.ch_p3inp2,
-            this.ch_p3inp3,
-            this.ch_p3planets,
-            this.ch_p3UsedFor});
-            this.lv_P3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P3.FullRowSelect = true;
-            this.lv_P3.GridLines = true;
-            this.lv_P3.Location = new System.Drawing.Point(1, 1);
-            this.lv_P3.Name = "lv_P3";
-            this.lv_P3.Size = new System.Drawing.Size(999, 639);
-            this.lv_P3.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lv_P3.TabIndex = 2;
-            this.lv_P3.UseCompatibleStateImageBehavior = false;
-            this.lv_P3.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p3result
-            // 
-            this.ch_p3result.Text = "P3 Result";
-            this.ch_p3result.Width = 225;
-            // 
-            // ch_p3inp1
-            // 
-            this.ch_p3inp1.Text = "P2 Input 1";
-            this.ch_p3inp1.Width = 150;
-            // 
-            // ch_p3inp2
-            // 
-            this.ch_p3inp2.Text = "P2 Input 2";
-            this.ch_p3inp2.Width = 150;
-            // 
-            // ch_p3inp3
-            // 
-            this.ch_p3inp3.Text = "P2 Input 3";
-            this.ch_p3inp3.Width = 150;
-            // 
-            // ch_p3planets
-            // 
-            this.ch_p3planets.Text = "Build Planets";
-            this.ch_p3planets.Width = 400;
-            // 
-            // ch_p3UsedFor
-            // 
-            this.ch_p3UsedFor.Text = "Used For:";
-            this.ch_p3UsedFor.Width = 200;
-            // 
-            // ti_SpecializedP3
-            // 
-            this.ti_SpecializedP3.AttachedControl = this.tabControlPanel6;
-            this.ti_SpecializedP3.Name = "ti_SpecializedP3";
-            this.ti_SpecializedP3.Text = "(P3) Specialized Commodities";
-            // 
-            // tabControlPanel5
-            // 
-            this.tabControlPanel5.Controls.Add(this.lv_P2);
-            this.tabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel5.Location = new System.Drawing.Point(0, 26);
-            this.tabControlPanel5.Name = "tabControlPanel5";
-            this.tabControlPanel5.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel5.Size = new System.Drawing.Size(1001, 641);
-            this.tabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
-            this.tabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
-            this.tabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
-            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel5.Style.GradientAngle = 90;
-            this.tabControlPanel5.TabIndex = 2;
-            this.tabControlPanel5.TabItem = this.ti_RefinedP2;
-            // 
-            // lv_P2
-            // 
-            // 
-            // 
-            // 
-            this.lv_P2.Border.Class = "ListViewBorder";
-            this.lv_P2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lv_P2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_p2Result,
-            this.ch_p2Input1,
-            this.ch_p2Input2,
-            this.ch_P2ReqPlanets,
-            this.ch_p2UsedFor});
-            this.lv_P2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv_P2.FullRowSelect = true;
-            this.lv_P2.GridLines = true;
-            this.lv_P2.Location = new System.Drawing.Point(1, 1);
-            this.lv_P2.Name = "lv_P2";
-            this.lv_P2.Size = new System.Drawing.Size(999, 639);
-            this.lv_P2.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lv_P2.TabIndex = 1;
-            this.lv_P2.UseCompatibleStateImageBehavior = false;
-            this.lv_P2.View = System.Windows.Forms.View.Details;
-            // 
-            // ch_p2Result
-            // 
-            this.ch_p2Result.Text = "P2 Result";
-            this.ch_p2Result.Width = 225;
-            // 
-            // ch_p2Input1
-            // 
-            this.ch_p2Input1.Text = "P1 Input 1";
-            this.ch_p2Input1.Width = 150;
-            // 
-            // ch_p2Input2
-            // 
-            this.ch_p2Input2.Text = "P1 Input 2";
-            this.ch_p2Input2.Width = 150;
-            // 
-            // ch_P2ReqPlanets
-            // 
-            this.ch_P2ReqPlanets.Text = "Planet(s) Required for Build";
-            this.ch_P2ReqPlanets.Width = 300;
-            // 
-            // ch_p2UsedFor
-            // 
-            this.ch_p2UsedFor.Text = "Used For:";
-            this.ch_p2UsedFor.Width = 350;
-            // 
-            // ti_RefinedP2
-            // 
-            this.ti_RefinedP2.AttachedControl = this.tabControlPanel5;
-            this.ti_RefinedP2.Name = "ti_RefinedP2";
-            this.ti_RefinedP2.Text = "(P2) Refined Commodities";
-            // 
-            // ti_PIInformation
-            // 
-            this.ti_PIInformation.AttachedControl = this.tabControlPanel3;
-            this.ti_PIInformation.Name = "ti_PIInformation";
-            this.ti_PIInformation.Text = "Planetary Commodities";
-            // 
             // tabControlPanel9
             // 
             this.tabControlPanel9.Controls.Add(this.gp_BGP);
@@ -1433,8 +1030,8 @@
             this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
             this.tabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
             this.tabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel9.Style.GradientAngle = 90;
             this.tabControlPanel9.TabIndex = 5;
             this.tabControlPanel9.TabItem = this.tp_Desginer2;
@@ -1570,8 +1167,8 @@
             // 
             this.at_ProduceView.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
             this.at_ProduceView.AllowDrop = true;
-            this.at_ProduceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.at_ProduceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.at_ProduceView.BackColor = System.Drawing.SystemColors.Window;
             // 
             // 
@@ -1605,6 +1202,7 @@
             // 
             this.prd_Material.Editable = false;
             this.prd_Material.Name = "prd_Material";
+            this.prd_Material.SortingEnabled = false;
             this.prd_Material.Text = "Material Type";
             this.prd_Material.Width.Absolute = 225;
             // 
@@ -1612,6 +1210,7 @@
             // 
             this.prd_Needed.Editable = false;
             this.prd_Needed.Name = "prd_Needed";
+            this.prd_Needed.SortingEnabled = false;
             this.prd_Needed.Text = "Needed";
             this.prd_Needed.Width.Absolute = 70;
             // 
@@ -1619,6 +1218,7 @@
             // 
             this.prd_Producing.Editable = false;
             this.prd_Producing.Name = "prd_Producing";
+            this.prd_Producing.SortingEnabled = false;
             this.prd_Producing.Text = "Producing";
             this.prd_Producing.Width.Absolute = 70;
             // 
@@ -1626,6 +1226,7 @@
             // 
             this.prd_Using.Editable = false;
             this.prd_Using.Name = "prd_Using";
+            this.prd_Using.SortingEnabled = false;
             this.prd_Using.Text = "Using";
             this.prd_Using.Width.Absolute = 70;
             // 
@@ -1633,30 +1234,35 @@
             // 
             this.prd_Delta.Editable = false;
             this.prd_Delta.Name = "prd_Delta";
+            this.prd_Delta.SortingEnabled = false;
             this.prd_Delta.Text = "Delta";
             this.prd_Delta.Width.Absolute = 70;
             // 
             // prd_NeedM3
             // 
             this.prd_NeedM3.Name = "prd_NeedM3";
+            this.prd_NeedM3.SortingEnabled = false;
             this.prd_NeedM3.Text = "Vol Need m3";
             this.prd_NeedM3.Width.Absolute = 70;
             // 
             // prd_ProdM3
             // 
             this.prd_ProdM3.Name = "prd_ProdM3";
+            this.prd_ProdM3.SortingEnabled = false;
             this.prd_ProdM3.Text = "Vol Prod m3";
             this.prd_ProdM3.Width.Absolute = 70;
             // 
             // prd_DeltaM3
             // 
             this.prd_DeltaM3.Name = "prd_DeltaM3";
+            this.prd_DeltaM3.SortingEnabled = false;
             this.prd_DeltaM3.Text = "Delta Vol m3";
             this.prd_DeltaM3.Width.Absolute = 70;
             // 
             // prd_Isk
             // 
             this.prd_Isk.Name = "prd_Isk";
+            this.prd_Isk.SortingEnabled = false;
             this.prd_Isk.Text = "Isk";
             this.prd_Isk.Width.Absolute = 150;
             // 
@@ -1919,7 +1525,7 @@
             this.gp_Planner.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_Planner.TabIndex = 36;
             this.toolTip1.SetToolTip(this.gp_Planner, "Right Click on Open Space to Add a Module. Left Click and Drag a Module to Move i" +
-                    "t Around. Right Click on a Module to Remove it.");
+        "t Around. Right Click on a Module to Remove it.");
             this.gp_Planner.DragOver += new System.Windows.Forms.DragEventHandler(this.gp_Planner_DragOver);
             this.gp_Planner.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gp_Planner_MouseUp);
             // 
@@ -2085,6 +1691,415 @@
             this.tp_Desginer2.Name = "tp_Desginer2";
             this.tp_Desginer2.Text = "Designer";
             // 
+            // tabControlPanel3
+            // 
+            this.tabControlPanel3.Controls.Add(this.gp_CommodBG);
+            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel3.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel3.Name = "tabControlPanel3";
+            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel3.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel3.Style.GradientAngle = 90;
+            this.tabControlPanel3.TabIndex = 3;
+            this.tabControlPanel3.TabItem = this.ti_PIInformation;
+            // 
+            // gp_CommodBG
+            // 
+            this.gp_CommodBG.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_CommodBG.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_CommodBG.Controls.Add(this.cb_HLCommodities);
+            this.gp_CommodBG.Controls.Add(this.tc_CommoditySubmenu);
+            this.gp_CommodBG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_CommodBG.Location = new System.Drawing.Point(1, 1);
+            this.gp_CommodBG.Name = "gp_CommodBG";
+            this.gp_CommodBG.Size = new System.Drawing.Size(1006, 705);
+            // 
+            // 
+            // 
+            this.gp_CommodBG.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_CommodBG.Style.BackColorGradientAngle = 90;
+            this.gp_CommodBG.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_CommodBG.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderBottomWidth = 1;
+            this.gp_CommodBG.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_CommodBG.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderLeftWidth = 1;
+            this.gp_CommodBG.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderRightWidth = 1;
+            this.gp_CommodBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_CommodBG.Style.BorderTopWidth = 1;
+            this.gp_CommodBG.Style.Class = "";
+            this.gp_CommodBG.Style.CornerDiameter = 4;
+            this.gp_CommodBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_CommodBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_CommodBG.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_CommodBG.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_CommodBG.StyleMouseDown.Class = "";
+            this.gp_CommodBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_CommodBG.StyleMouseOver.Class = "";
+            this.gp_CommodBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_CommodBG.TabIndex = 1;
+            // 
+            // cb_HLCommodities
+            // 
+            this.cb_HLCommodities.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_HLCommodities.BackgroundStyle.Class = "";
+            this.cb_HLCommodities.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_HLCommodities.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
+            this.cb_HLCommodities.Checked = true;
+            this.cb_HLCommodities.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_HLCommodities.CheckValue = "Y";
+            this.cb_HLCommodities.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_HLCommodities.Location = new System.Drawing.Point(8, 3);
+            this.cb_HLCommodities.Name = "cb_HLCommodities";
+            this.cb_HLCommodities.Size = new System.Drawing.Size(306, 23);
+            this.cb_HLCommodities.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_HLCommodities.TabIndex = 2;
+            this.cb_HLCommodities.Text = "Highlight Commodities In Production from Overview";
+            this.cb_HLCommodities.TextColor = System.Drawing.Color.Navy;
+            this.cb_HLCommodities.CheckedChanged += new System.EventHandler(this.cb_HLCommodities_CheckedChanged);
+            // 
+            // tc_CommoditySubmenu
+            // 
+            this.tc_CommoditySubmenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tc_CommoditySubmenu.CanReorderTabs = true;
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel4);
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel7);
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel6);
+            this.tc_CommoditySubmenu.Controls.Add(this.tabControlPanel5);
+            this.tc_CommoditySubmenu.Location = new System.Drawing.Point(-1, 32);
+            this.tc_CommoditySubmenu.Name = "tc_CommoditySubmenu";
+            this.tc_CommoditySubmenu.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.tc_CommoditySubmenu.SelectedTabIndex = 0;
+            this.tc_CommoditySubmenu.Size = new System.Drawing.Size(1001, 667);
+            this.tc_CommoditySubmenu.TabIndex = 0;
+            this.tc_CommoditySubmenu.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_ProcessedP1);
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_RefinedP2);
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_SpecializedP3);
+            this.tc_CommoditySubmenu.Tabs.Add(this.ti_AdvancedP4);
+            this.tc_CommoditySubmenu.Text = "tabControl1";
+            // 
+            // tabControlPanel4
+            // 
+            this.tabControlPanel4.Controls.Add(this.lv_P1);
+            this.tabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel4.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel4.Name = "tabControlPanel4";
+            this.tabControlPanel4.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel4.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel4.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel4.Style.GradientAngle = 90;
+            this.tabControlPanel4.TabIndex = 1;
+            this.tabControlPanel4.TabItem = this.ti_ProcessedP1;
+            // 
+            // lv_P1
+            // 
+            // 
+            // 
+            // 
+            this.lv_P1.Border.Class = "ListViewBorder";
+            this.lv_P1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p1Result,
+            this.ch_p1Resource,
+            this.ch_p1Planets,
+            this.ch_p1CompIn});
+            this.lv_P1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P1.FullRowSelect = true;
+            this.lv_P1.GridLines = true;
+            this.lv_P1.Location = new System.Drawing.Point(1, 1);
+            this.lv_P1.Name = "lv_P1";
+            this.lv_P1.Size = new System.Drawing.Size(999, 639);
+            this.lv_P1.TabIndex = 0;
+            this.lv_P1.UseCompatibleStateImageBehavior = false;
+            this.lv_P1.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p1Result
+            // 
+            this.ch_p1Result.Text = "P1 Result";
+            this.ch_p1Result.Width = 225;
+            // 
+            // ch_p1Resource
+            // 
+            this.ch_p1Resource.Text = "Resource";
+            this.ch_p1Resource.Width = 200;
+            // 
+            // ch_p1Planets
+            // 
+            this.ch_p1Planets.Text = "Planets Found On";
+            this.ch_p1Planets.Width = 275;
+            // 
+            // ch_p1CompIn
+            // 
+            this.ch_p1CompIn.Text = "Used For:";
+            this.ch_p1CompIn.Width = 600;
+            // 
+            // ti_ProcessedP1
+            // 
+            this.ti_ProcessedP1.AttachedControl = this.tabControlPanel4;
+            this.ti_ProcessedP1.Name = "ti_ProcessedP1";
+            this.ti_ProcessedP1.Text = "(P1) Processed Materials";
+            // 
+            // tabControlPanel7
+            // 
+            this.tabControlPanel7.Controls.Add(this.lv_P4);
+            this.tabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel7.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel7.Name = "tabControlPanel7";
+            this.tabControlPanel7.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel7.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel7.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel7.Style.GradientAngle = 90;
+            this.tabControlPanel7.TabIndex = 4;
+            this.tabControlPanel7.TabItem = this.ti_AdvancedP4;
+            // 
+            // lv_P4
+            // 
+            // 
+            // 
+            // 
+            this.lv_P4.Border.Class = "ListViewBorder";
+            this.lv_P4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p4Result,
+            this.ch_p4inp1,
+            this.ch_p4inp2,
+            this.ch_p4inp3,
+            this.ch_p4Planets,
+            this.ch_p4UsedFor});
+            this.lv_P4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P4.FullRowSelect = true;
+            this.lv_P4.GridLines = true;
+            this.lv_P4.Location = new System.Drawing.Point(1, 1);
+            this.lv_P4.Name = "lv_P4";
+            this.lv_P4.Size = new System.Drawing.Size(999, 639);
+            this.lv_P4.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lv_P4.TabIndex = 3;
+            this.lv_P4.UseCompatibleStateImageBehavior = false;
+            this.lv_P4.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p4Result
+            // 
+            this.ch_p4Result.Text = "P4 Result";
+            this.ch_p4Result.Width = 225;
+            // 
+            // ch_p4inp1
+            // 
+            this.ch_p4inp1.Text = "P3 Input 1";
+            this.ch_p4inp1.Width = 150;
+            // 
+            // ch_p4inp2
+            // 
+            this.ch_p4inp2.Text = "P3 Input 2";
+            this.ch_p4inp2.Width = 150;
+            // 
+            // ch_p4inp3
+            // 
+            this.ch_p4inp3.Text = "P1 / P3 Input 3";
+            this.ch_p4inp3.Width = 150;
+            // 
+            // ch_p4Planets
+            // 
+            this.ch_p4Planets.Text = "Planets Required";
+            this.ch_p4Planets.Width = 275;
+            // 
+            // ch_p4UsedFor
+            // 
+            this.ch_p4UsedFor.Text = "Used For:";
+            this.ch_p4UsedFor.Width = 450;
+            // 
+            // ti_AdvancedP4
+            // 
+            this.ti_AdvancedP4.AttachedControl = this.tabControlPanel7;
+            this.ti_AdvancedP4.Name = "ti_AdvancedP4";
+            this.ti_AdvancedP4.Text = "(P4) Advanced Commodities";
+            // 
+            // tabControlPanel6
+            // 
+            this.tabControlPanel6.Controls.Add(this.lv_P3);
+            this.tabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel6.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel6.Name = "tabControlPanel6";
+            this.tabControlPanel6.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel6.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel6.Style.GradientAngle = 90;
+            this.tabControlPanel6.TabIndex = 3;
+            this.tabControlPanel6.TabItem = this.ti_SpecializedP3;
+            // 
+            // lv_P3
+            // 
+            // 
+            // 
+            // 
+            this.lv_P3.Border.Class = "ListViewBorder";
+            this.lv_P3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p3result,
+            this.ch_p3inp1,
+            this.ch_p3inp2,
+            this.ch_p3inp3,
+            this.ch_p3planets,
+            this.ch_p3UsedFor});
+            this.lv_P3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P3.FullRowSelect = true;
+            this.lv_P3.GridLines = true;
+            this.lv_P3.Location = new System.Drawing.Point(1, 1);
+            this.lv_P3.Name = "lv_P3";
+            this.lv_P3.Size = new System.Drawing.Size(999, 639);
+            this.lv_P3.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lv_P3.TabIndex = 2;
+            this.lv_P3.UseCompatibleStateImageBehavior = false;
+            this.lv_P3.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p3result
+            // 
+            this.ch_p3result.Text = "P3 Result";
+            this.ch_p3result.Width = 225;
+            // 
+            // ch_p3inp1
+            // 
+            this.ch_p3inp1.Text = "P2 Input 1";
+            this.ch_p3inp1.Width = 150;
+            // 
+            // ch_p3inp2
+            // 
+            this.ch_p3inp2.Text = "P2 Input 2";
+            this.ch_p3inp2.Width = 150;
+            // 
+            // ch_p3inp3
+            // 
+            this.ch_p3inp3.Text = "P2 Input 3";
+            this.ch_p3inp3.Width = 150;
+            // 
+            // ch_p3planets
+            // 
+            this.ch_p3planets.Text = "Build Planets";
+            this.ch_p3planets.Width = 400;
+            // 
+            // ch_p3UsedFor
+            // 
+            this.ch_p3UsedFor.Text = "Used For:";
+            this.ch_p3UsedFor.Width = 200;
+            // 
+            // ti_SpecializedP3
+            // 
+            this.ti_SpecializedP3.AttachedControl = this.tabControlPanel6;
+            this.ti_SpecializedP3.Name = "ti_SpecializedP3";
+            this.ti_SpecializedP3.Text = "(P3) Specialized Commodities";
+            // 
+            // tabControlPanel5
+            // 
+            this.tabControlPanel5.Controls.Add(this.lv_P2);
+            this.tabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel5.Location = new System.Drawing.Point(0, 26);
+            this.tabControlPanel5.Name = "tabControlPanel5";
+            this.tabControlPanel5.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel5.Size = new System.Drawing.Size(1001, 641);
+            this.tabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(179)))), ((int)(((byte)(231)))));
+            this.tabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(237)))), ((int)(((byte)(254)))));
+            this.tabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(97)))), ((int)(((byte)(156)))));
+            this.tabControlPanel5.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel5.Style.GradientAngle = 90;
+            this.tabControlPanel5.TabIndex = 2;
+            this.tabControlPanel5.TabItem = this.ti_RefinedP2;
+            // 
+            // lv_P2
+            // 
+            // 
+            // 
+            // 
+            this.lv_P2.Border.Class = "ListViewBorder";
+            this.lv_P2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lv_P2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_p2Result,
+            this.ch_p2Input1,
+            this.ch_p2Input2,
+            this.ch_P2ReqPlanets,
+            this.ch_p2UsedFor});
+            this.lv_P2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_P2.FullRowSelect = true;
+            this.lv_P2.GridLines = true;
+            this.lv_P2.Location = new System.Drawing.Point(1, 1);
+            this.lv_P2.Name = "lv_P2";
+            this.lv_P2.Size = new System.Drawing.Size(999, 639);
+            this.lv_P2.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lv_P2.TabIndex = 1;
+            this.lv_P2.UseCompatibleStateImageBehavior = false;
+            this.lv_P2.View = System.Windows.Forms.View.Details;
+            // 
+            // ch_p2Result
+            // 
+            this.ch_p2Result.Text = "P2 Result";
+            this.ch_p2Result.Width = 225;
+            // 
+            // ch_p2Input1
+            // 
+            this.ch_p2Input1.Text = "P1 Input 1";
+            this.ch_p2Input1.Width = 150;
+            // 
+            // ch_p2Input2
+            // 
+            this.ch_p2Input2.Text = "P1 Input 2";
+            this.ch_p2Input2.Width = 150;
+            // 
+            // ch_P2ReqPlanets
+            // 
+            this.ch_P2ReqPlanets.Text = "Planet(s) Required for Build";
+            this.ch_P2ReqPlanets.Width = 300;
+            // 
+            // ch_p2UsedFor
+            // 
+            this.ch_p2UsedFor.Text = "Used For:";
+            this.ch_p2UsedFor.Width = 350;
+            // 
+            // ti_RefinedP2
+            // 
+            this.ti_RefinedP2.AttachedControl = this.tabControlPanel5;
+            this.ti_RefinedP2.Name = "ti_RefinedP2";
+            this.ti_RefinedP2.Text = "(P2) Refined Commodities";
+            // 
+            // ti_PIInformation
+            // 
+            this.ti_PIInformation.AttachedControl = this.tabControlPanel3;
+            this.ti_PIInformation.Name = "ti_PIInformation";
+            this.ti_PIInformation.Text = "Planetary Commodities";
+            // 
             // tabControlPanel2
             // 
             this.tabControlPanel2.Controls.Add(this.gp_Overview);
@@ -2097,8 +2112,8 @@
             this.tabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
             this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
             this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right)
-                        | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
             this.tabControlPanel2.Style.GradientAngle = 90;
             this.tabControlPanel2.TabIndex = 2;
             this.tabControlPanel2.TabItem = this.ti_PlanetOverview;
@@ -2177,8 +2192,8 @@
             this.dgv_OverviewSelection.AllowUserToAddRows = false;
             this.dgv_OverviewSelection.AllowUserToDeleteRows = false;
             this.dgv_OverviewSelection.AllowUserToResizeRows = false;
-            this.dgv_OverviewSelection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgv_OverviewSelection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgv_OverviewSelection.BackgroundColor = System.Drawing.Color.White;
             this.dgv_OverviewSelection.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_OverviewSelection.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -2204,8 +2219,8 @@
             // SelectFacility
             // 
             this.SelectFacility.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
-            this.SelectFacility.Checked = false;
-            this.SelectFacility.CheckState = System.Windows.Forms.CheckState.Unchecked;
+            this.SelectFacility.Checked = true;
+            this.SelectFacility.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.SelectFacility.CheckValue = "N";
             this.SelectFacility.HeaderText = "Sel";
             this.SelectFacility.Name = "SelectFacility";
@@ -2273,9 +2288,9 @@
             // 
             // dg_Overview
             // 
-            this.dg_Overview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_Overview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_Overview.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg_Overview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_Overview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -2669,14 +2684,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).EndInit();
-            this.tabControlPanel3.ResumeLayout(false);
-            this.gp_CommodBG.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).EndInit();
-            this.tc_CommoditySubmenu.ResumeLayout(false);
-            this.tabControlPanel4.ResumeLayout(false);
-            this.tabControlPanel7.ResumeLayout(false);
-            this.tabControlPanel6.ResumeLayout(false);
-            this.tabControlPanel5.ResumeLayout(false);
             this.tabControlPanel9.ResumeLayout(false);
             this.gp_BGP.ResumeLayout(false);
             this.DesignerSplitPanel.Panel1.ResumeLayout(false);
@@ -2689,6 +2696,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_LinkLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumLinks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bar_Designer)).EndInit();
+            this.tabControlPanel3.ResumeLayout(false);
+            this.gp_CommodBG.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).EndInit();
+            this.tc_CommoditySubmenu.ResumeLayout(false);
+            this.tabControlPanel4.ResumeLayout(false);
+            this.tabControlPanel7.ResumeLayout(false);
+            this.tabControlPanel6.ResumeLayout(false);
+            this.tabControlPanel5.ResumeLayout(false);
             this.tabControlPanel2.ResumeLayout(false);
             this.gp_Overview.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OverviewSelection)).EndInit();
