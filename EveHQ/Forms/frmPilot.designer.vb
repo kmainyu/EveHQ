@@ -156,59 +156,59 @@ Partial Public Class frmPilot
         '
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails, Me.ToolStripMenuItem1, Me.mnuForceTraining})
         Me.ctxSkills.Name = "ctxSkills"
-        Me.ctxSkills.Size = New System.Drawing.Size(174, 82)
+        Me.ctxSkills.Size = New System.Drawing.Size(175, 82)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(173, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(174, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(171, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(173, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(174, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(171, 6)
         '
         'mnuForceTraining
         '
         Me.mnuForceTraining.Name = "mnuForceTraining"
-        Me.mnuForceTraining.Size = New System.Drawing.Size(173, 22)
+        Me.mnuForceTraining.Size = New System.Drawing.Size(174, 22)
         Me.mnuForceTraining.Text = "Force Skill Training"
         '
         'ctxPic
         '
         Me.ctxPic.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCtxPicGetPortraitFromServer, Me.mnuCtxPicGetPortraitFromLocal, Me.mnuSavePortrait})
         Me.ctxPic.Name = "ctxPic"
-        Me.ctxPic.Size = New System.Drawing.Size(244, 70)
+        Me.ctxPic.Size = New System.Drawing.Size(246, 70)
         '
         'mnuCtxPicGetPortraitFromServer
         '
         Me.mnuCtxPicGetPortraitFromServer.Name = "mnuCtxPicGetPortraitFromServer"
-        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(243, 22)
+        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(245, 22)
         Me.mnuCtxPicGetPortraitFromServer.Text = "Get Portrait from Eve Server"
         '
         'mnuCtxPicGetPortraitFromLocal
         '
         Me.mnuCtxPicGetPortraitFromLocal.Name = "mnuCtxPicGetPortraitFromLocal"
-        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(243, 22)
+        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(245, 22)
         Me.mnuCtxPicGetPortraitFromLocal.Text = "Get Portrait from Eve Installation"
         '
         'mnuSavePortrait
         '
         Me.mnuSavePortrait.Name = "mnuSavePortrait"
-        Me.mnuSavePortrait.Size = New System.Drawing.Size(243, 22)
+        Me.mnuSavePortrait.Size = New System.Drawing.Size(245, 22)
         Me.mnuSavePortrait.Text = "Save Portrait into Image Cache"
         '
         'lblSkills
@@ -237,24 +237,24 @@ Partial Public Class frmPilot
         '
         Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator2, Me.mnuViewCertDetails})
         Me.ctxCerts.Name = "ctxSkills"
-        Me.ctxCerts.Size = New System.Drawing.Size(144, 54)
+        Me.ctxCerts.Size = New System.Drawing.Size(138, 54)
         '
         'mnuCertName
         '
         Me.mnuCertName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuCertName.Name = "mnuCertName"
-        Me.mnuCertName.Size = New System.Drawing.Size(143, 22)
+        Me.mnuCertName.Size = New System.Drawing.Size(137, 22)
         Me.mnuCertName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(143, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(137, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
         'lvwStandings
@@ -306,12 +306,12 @@ Partial Public Class frmPilot
         '
         Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
         Me.ctxStandings.Name = "ctxStandings"
-        Me.ctxStandings.Size = New System.Drawing.Size(192, 26)
+        Me.ctxStandings.Size = New System.Drawing.Size(188, 26)
         '
         'mnuExtrapolateStandings
         '
         Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
-        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(191, 22)
+        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(187, 22)
         Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
         '
         'lblTypeFilter
@@ -1311,6 +1311,7 @@ Partial Public Class frmPilot
         'colSP
         '
         Me.colSP.DisplayIndex = 5
+        Me.colSP.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
         Me.colSP.Name = "colSP"
         Me.colSP.SortingEnabled = False
         Me.colSP.Text = "Skillpoints"
