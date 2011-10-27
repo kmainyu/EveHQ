@@ -23,53 +23,53 @@ Partial Class frmImplants
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmImplants))
-        Me.lblDescription = New System.Windows.Forms.Label
-        Me.lblIBase = New System.Windows.Forms.Label
-        Me.lblITotal = New System.Windows.Forms.Label
-        Me.lblPTotal = New System.Windows.Forms.Label
-        Me.lblPBase = New System.Windows.Forms.Label
-        Me.lblCTotal = New System.Windows.Forms.Label
-        Me.lblCBase = New System.Windows.Forms.Label
-        Me.lblWTotal = New System.Windows.Forms.Label
-        Me.lblWBase = New System.Windows.Forms.Label
-        Me.lblMTotal = New System.Windows.Forms.Label
-        Me.lblMBase = New System.Windows.Forms.Label
-        Me.PictureBox6 = New System.Windows.Forms.PictureBox
-        Me.lblSkillQueueAnalysis = New System.Windows.Forms.Label
-        Me.lblActiveSkillQueueLbl = New System.Windows.Forms.Label
-        Me.lblActiveSkillQueue = New System.Windows.Forms.Label
-        Me.lblActiveQueueTime = New System.Windows.Forms.Label
-        Me.lblRevisedQueueTime = New System.Windows.Forms.Label
-        Me.lblAttribute1 = New System.Windows.Forms.Label
-        Me.lblSkillQueuePointsAnalysis = New System.Windows.Forms.Label
-        Me.lblAttribute2 = New System.Windows.Forms.Label
-        Me.lblAttribute3 = New System.Windows.Forms.Label
-        Me.lblAttribute4 = New System.Windows.Forms.Label
-        Me.lblAttribute5 = New System.Windows.Forms.Label
-        Me.lblAttributePoints5 = New System.Windows.Forms.Label
-        Me.lblAttributePoints4 = New System.Windows.Forms.Label
-        Me.lblAttributePoints3 = New System.Windows.Forms.Label
-        Me.lblAttributePoints2 = New System.Windows.Forms.Label
-        Me.lblAttributePoints1 = New System.Windows.Forms.Label
-        Me.lblTimeSaving = New System.Windows.Forms.Label
-        Me.btnResetImplants = New System.Windows.Forms.Button
-        Me.nudMImplant = New System.Windows.Forms.NumericUpDown
-        Me.nudWImplant = New System.Windows.Forms.NumericUpDown
-        Me.nudCImplant = New System.Windows.Forms.NumericUpDown
-        Me.nudPImplant = New System.Windows.Forms.NumericUpDown
-        Me.nudIImplant = New System.Windows.Forms.NumericUpDown
-        Me.lblPerceptionImplant = New System.Windows.Forms.Label
-        Me.lblCharismaImplant = New System.Windows.Forms.Label
-        Me.lblWillpowerImplant = New System.Windows.Forms.Label
-        Me.lblMemoryImplant = New System.Windows.Forms.Label
-        Me.lblIntelligenceImplant = New System.Windows.Forms.Label
-        Me.PictureBox7 = New System.Windows.Forms.PictureBox
-        Me.PictureBox8 = New System.Windows.Forms.PictureBox
-        Me.PictureBox9 = New System.Windows.Forms.PictureBox
-        Me.PictureBox10 = New System.Windows.Forms.PictureBox
-        Me.PictureBox11 = New System.Windows.Forms.PictureBox
-        Me.gpImplants = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.gpSkillQueue = New DevComponents.DotNetBar.Controls.GroupPanel
+        Me.lblDescription = New System.Windows.Forms.Label()
+        Me.lblIBase = New System.Windows.Forms.Label()
+        Me.lblITotal = New System.Windows.Forms.Label()
+        Me.lblPTotal = New System.Windows.Forms.Label()
+        Me.lblPBase = New System.Windows.Forms.Label()
+        Me.lblCTotal = New System.Windows.Forms.Label()
+        Me.lblCBase = New System.Windows.Forms.Label()
+        Me.lblWTotal = New System.Windows.Forms.Label()
+        Me.lblWBase = New System.Windows.Forms.Label()
+        Me.lblMTotal = New System.Windows.Forms.Label()
+        Me.lblMBase = New System.Windows.Forms.Label()
+        Me.PictureBox6 = New System.Windows.Forms.PictureBox()
+        Me.lblSkillQueueAnalysis = New System.Windows.Forms.Label()
+        Me.lblActiveSkillQueueLbl = New System.Windows.Forms.Label()
+        Me.lblActiveSkillQueue = New System.Windows.Forms.Label()
+        Me.lblActiveQueueTime = New System.Windows.Forms.Label()
+        Me.lblRevisedQueueTime = New System.Windows.Forms.Label()
+        Me.lblAttribute1 = New System.Windows.Forms.Label()
+        Me.lblSkillQueuePointsAnalysis = New System.Windows.Forms.Label()
+        Me.lblAttribute2 = New System.Windows.Forms.Label()
+        Me.lblAttribute3 = New System.Windows.Forms.Label()
+        Me.lblAttribute4 = New System.Windows.Forms.Label()
+        Me.lblAttribute5 = New System.Windows.Forms.Label()
+        Me.lblAttributePoints5 = New System.Windows.Forms.Label()
+        Me.lblAttributePoints4 = New System.Windows.Forms.Label()
+        Me.lblAttributePoints3 = New System.Windows.Forms.Label()
+        Me.lblAttributePoints2 = New System.Windows.Forms.Label()
+        Me.lblAttributePoints1 = New System.Windows.Forms.Label()
+        Me.lblTimeSaving = New System.Windows.Forms.Label()
+        Me.btnResetImplants = New System.Windows.Forms.Button()
+        Me.nudMImplant = New System.Windows.Forms.NumericUpDown()
+        Me.nudWImplant = New System.Windows.Forms.NumericUpDown()
+        Me.nudCImplant = New System.Windows.Forms.NumericUpDown()
+        Me.nudPImplant = New System.Windows.Forms.NumericUpDown()
+        Me.nudIImplant = New System.Windows.Forms.NumericUpDown()
+        Me.lblPerceptionImplant = New System.Windows.Forms.Label()
+        Me.lblCharismaImplant = New System.Windows.Forms.Label()
+        Me.lblWillpowerImplant = New System.Windows.Forms.Label()
+        Me.lblMemoryImplant = New System.Windows.Forms.Label()
+        Me.lblIntelligenceImplant = New System.Windows.Forms.Label()
+        Me.PictureBox7 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox9 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox10 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox11 = New System.Windows.Forms.PictureBox()
+        Me.gpImplants = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.gpSkillQueue = New DevComponents.DotNetBar.Controls.GroupPanel()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMImplant, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudWImplant, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,13 +88,13 @@ Partial Class frmImplants
         'lblDescription
         '
         Me.lblDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDescription.Location = New System.Drawing.Point(15, 9)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(437, 34)
         Me.lblDescription.TabIndex = 0
         Me.lblDescription.Text = "This form allows you to see the effect of changing your implants on a particular " & _
-            "skill queue. It can also be used to see the effect of increasing skills." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+    "skill queue. It can also be used to see the effect of increasing skills." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'lblIBase
         '
@@ -574,6 +574,7 @@ Partial Class frmImplants
         Me.gpImplants.Controls.Add(Me.lblWillpowerImplant)
         Me.gpImplants.Controls.Add(Me.lblITotal)
         Me.gpImplants.Controls.Add(Me.lblPerceptionImplant)
+        Me.gpImplants.IsShadowEnabled = True
         Me.gpImplants.Location = New System.Drawing.Point(12, 46)
         Me.gpImplants.Name = "gpImplants"
         Me.gpImplants.Size = New System.Drawing.Size(250, 430)
@@ -632,6 +633,7 @@ Partial Class frmImplants
         Me.gpSkillQueue.Controls.Add(Me.lblAttributePoints3)
         Me.gpSkillQueue.Controls.Add(Me.lblAttributePoints4)
         Me.gpSkillQueue.Controls.Add(Me.lblSkillQueuePointsAnalysis)
+        Me.gpSkillQueue.IsShadowEnabled = True
         Me.gpSkillQueue.Location = New System.Drawing.Point(268, 46)
         Me.gpSkillQueue.Name = "gpSkillQueue"
         Me.gpSkillQueue.Size = New System.Drawing.Size(225, 430)
@@ -678,6 +680,7 @@ Partial Class frmImplants
         Me.Controls.Add(Me.gpImplants)
         Me.Controls.Add(Me.PictureBox6)
         Me.Controls.Add(Me.lblDescription)
+        Me.DoubleBuffered = True
         Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
