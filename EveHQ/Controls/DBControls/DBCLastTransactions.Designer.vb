@@ -146,6 +146,7 @@ Partial Class DBCLastTransactions
         'adtLastTransactions
         '
         Me.adtLastTransactions.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtLastTransactions.AllowDrop = False
         Me.adtLastTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
