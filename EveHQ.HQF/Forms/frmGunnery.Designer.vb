@@ -22,27 +22,27 @@ Partial Class frmGunnery
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGunnery))
-        Me.lvGuns = New DevComponents.DotNetBar.Controls.ListViewEx
-        Me.colName = New System.Windows.Forms.ColumnHeader
-        Me.colCap = New System.Windows.Forms.ColumnHeader
-        Me.colOptimal = New System.Windows.Forms.ColumnHeader
-        Me.colFalloff = New System.Windows.Forms.ColumnHeader
-        Me.colTracking = New System.Windows.Forms.ColumnHeader
-        Me.colEMDamage = New System.Windows.Forms.ColumnHeader
-        Me.colExDamage = New System.Windows.Forms.ColumnHeader
-        Me.colKiDamage = New System.Windows.Forms.ColumnHeader
-        Me.colThDamage = New System.Windows.Forms.ColumnHeader
-        Me.colDamage = New System.Windows.Forms.ColumnHeader
-        Me.colDPS = New System.Windows.Forms.ColumnHeader
+        Me.lvGuns = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCap = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colOptimal = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colFalloff = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colTracking = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colEMDamage = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colExDamage = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colKiDamage = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colThDamage = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colDamage = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colDPS = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ctxResults = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.lblCPU = New System.Windows.Forms.Label
-        Me.lblPG = New System.Windows.Forms.Label
-        Me.lblDmgMod = New System.Windows.Forms.Label
-        Me.lblROF = New System.Windows.Forms.Label
-        Me.gpStandardInfo = New DevComponents.DotNetBar.Controls.GroupPanel
+        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.lblCPU = New System.Windows.Forms.Label()
+        Me.lblPG = New System.Windows.Forms.Label()
+        Me.lblDmgMod = New System.Windows.Forms.Label()
+        Me.lblROF = New System.Windows.Forms.Label()
+        Me.gpStandardInfo = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.ctxResults.SuspendLayout()
         Me.gpStandardInfo.SuspendLayout()
         Me.SuspendLayout()
@@ -50,8 +50,8 @@ Partial Class frmGunnery
         'lvGuns
         '
         Me.lvGuns.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -172,6 +172,7 @@ Partial Class frmGunnery
         Me.gpStandardInfo.Controls.Add(Me.lblCPU)
         Me.gpStandardInfo.Controls.Add(Me.lblROF)
         Me.gpStandardInfo.Controls.Add(Me.lblDmgMod)
+        Me.gpStandardInfo.IsShadowEnabled = True
         Me.gpStandardInfo.Location = New System.Drawing.Point(12, 12)
         Me.gpStandardInfo.Name = "gpStandardInfo"
         Me.gpStandardInfo.Size = New System.Drawing.Size(875, 56)

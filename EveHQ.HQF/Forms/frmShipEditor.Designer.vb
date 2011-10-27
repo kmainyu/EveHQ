@@ -81,6 +81,7 @@ Partial Class frmShipEditor
         Me.gpShips.Controls.Add(Me.btnAddShip)
         Me.gpShips.Controls.Add(Me.btnDeleteShip)
         Me.gpShips.Controls.Add(Me.btnEditShip)
+        Me.gpShips.IsShadowEnabled = True
         Me.gpShips.Location = New System.Drawing.Point(259, 12)
         Me.gpShips.Name = "gpShips"
         Me.gpShips.Size = New System.Drawing.Size(602, 697)
@@ -235,6 +236,7 @@ Partial Class frmShipEditor
         Me.gpShipClasses.Controls.Add(Me.btnAddClass)
         Me.gpShipClasses.Controls.Add(Me.btnDelete)
         Me.gpShipClasses.Controls.Add(Me.btnEdit)
+        Me.gpShipClasses.IsShadowEnabled = True
         Me.gpShipClasses.Location = New System.Drawing.Point(12, 12)
         Me.gpShipClasses.Name = "gpShipClasses"
         Me.gpShipClasses.Size = New System.Drawing.Size(241, 697)

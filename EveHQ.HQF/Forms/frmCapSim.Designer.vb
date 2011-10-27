@@ -22,39 +22,38 @@ Partial Class frmCapSim
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
-        Me.btnExport = New DevComponents.DotNetBar.ButtonX
-        Me.btnReset = New DevComponents.DotNetBar.ButtonX
-        Me.zgcCapacitor = New ZedGraph.ZedGraphControl
-        Me.btnUpdateEvents = New DevComponents.DotNetBar.ButtonX
-        Me.iiEndTime = New DevComponents.Editors.IntegerInput
-        Me.iiStartTime = New DevComponents.Editors.IntegerInput
-        Me.lblEndTimeOffset = New DevComponents.DotNetBar.LabelX
-        Me.lblStartTimeOffset = New DevComponents.DotNetBar.LabelX
-        Me.gpResults = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.lvwResults = New DevComponents.DotNetBar.Controls.ListViewEx
-        Me.colTime = New System.Windows.Forms.ColumnHeader
-        Me.colEvent = New System.Windows.Forms.ColumnHeader
-        Me.colStartCap = New System.Windows.Forms.ColumnHeader
-        Me.colCapCost = New System.Windows.Forms.ColumnHeader
-        Me.colEndCap = New System.Windows.Forms.ColumnHeader
-        Me.colCapRatio = New System.Windows.Forms.ColumnHeader
-        Me.colCapRate = New System.Windows.Forms.ColumnHeader
-        Me.gpModuleList = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.lvwModules = New DevComponents.DotNetBar.Controls.ListViewEx
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colModuleTime = New System.Windows.Forms.ColumnHeader
-        Me.colModuleCost = New System.Windows.Forms.ColumnHeader
-        Me.colModuleRate = New System.Windows.Forms.ColumnHeader
-        Me.gpCapStats = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.lblStability = New DevComponents.DotNetBar.LabelX
-        Me.lblPeakDelta = New DevComponents.DotNetBar.LabelX
-        Me.lblPeakRate = New DevComponents.DotNetBar.LabelX
-        Me.lblPeakIn = New DevComponents.DotNetBar.LabelX
-        Me.lblPeakOut = New DevComponents.DotNetBar.LabelX
-        Me.lblRecharge = New DevComponents.DotNetBar.LabelX
-        Me.lblCapacity = New DevComponents.DotNetBar.LabelX
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.btnExport = New DevComponents.DotNetBar.ButtonX()
+        Me.btnReset = New DevComponents.DotNetBar.ButtonX()
+        Me.zgcCapacitor = New ZedGraph.ZedGraphControl()
+        Me.btnUpdateEvents = New DevComponents.DotNetBar.ButtonX()
+        Me.iiEndTime = New DevComponents.Editors.IntegerInput()
+        Me.iiStartTime = New DevComponents.Editors.IntegerInput()
+        Me.lblEndTimeOffset = New DevComponents.DotNetBar.LabelX()
+        Me.lblStartTimeOffset = New DevComponents.DotNetBar.LabelX()
+        Me.gpResults = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.lvwResults = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colEvent = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colStartCap = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCapCost = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colEndCap = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCapRatio = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCapRate = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.gpModuleList = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.lvwModules = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colModuleName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colModuleTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colModuleCost = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colModuleRate = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.gpCapStats = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.lblStability = New DevComponents.DotNetBar.LabelX()
+        Me.lblPeakDelta = New DevComponents.DotNetBar.LabelX()
+        Me.lblPeakRate = New DevComponents.DotNetBar.LabelX()
+        Me.lblPeakIn = New DevComponents.DotNetBar.LabelX()
+        Me.lblPeakOut = New DevComponents.DotNetBar.LabelX()
+        Me.lblRecharge = New DevComponents.DotNetBar.LabelX()
+        Me.lblCapacity = New DevComponents.DotNetBar.LabelX()
         Me.PanelEx1.SuspendLayout()
         CType(Me.iiEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.iiStartTime, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -119,13 +118,13 @@ Partial Class frmCapSim
         Me.zgcCapacitor.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.zgcCapacitor.Location = New System.Drawing.Point(0, 352)
         Me.zgcCapacitor.Name = "zgcCapacitor"
-        Me.zgcCapacitor.ScrollGrace = 0
-        Me.zgcCapacitor.ScrollMaxX = 0
-        Me.zgcCapacitor.ScrollMaxY = 0
-        Me.zgcCapacitor.ScrollMaxY2 = 0
-        Me.zgcCapacitor.ScrollMinX = 0
-        Me.zgcCapacitor.ScrollMinY = 0
-        Me.zgcCapacitor.ScrollMinY2 = 0
+        Me.zgcCapacitor.ScrollGrace = 0.0R
+        Me.zgcCapacitor.ScrollMaxX = 0.0R
+        Me.zgcCapacitor.ScrollMaxY = 0.0R
+        Me.zgcCapacitor.ScrollMaxY2 = 0.0R
+        Me.zgcCapacitor.ScrollMinX = 0.0R
+        Me.zgcCapacitor.ScrollMinY = 0.0R
+        Me.zgcCapacitor.ScrollMinY2 = 0.0R
         Me.zgcCapacitor.Size = New System.Drawing.Size(794, 224)
         Me.zgcCapacitor.TabIndex = 8
         '
@@ -201,6 +200,7 @@ Partial Class frmCapSim
         Me.gpResults.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpResults.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpResults.Controls.Add(Me.lvwResults)
+        Me.gpResults.IsShadowEnabled = True
         Me.gpResults.Location = New System.Drawing.Point(12, 193)
         Me.gpResults.Name = "gpResults"
         Me.gpResults.Size = New System.Drawing.Size(663, 153)
@@ -301,6 +301,7 @@ Partial Class frmCapSim
         Me.gpModuleList.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpModuleList.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpModuleList.Controls.Add(Me.lvwModules)
+        Me.gpModuleList.IsShadowEnabled = True
         Me.gpModuleList.Location = New System.Drawing.Point(240, 12)
         Me.gpModuleList.Name = "gpModuleList"
         Me.gpModuleList.Size = New System.Drawing.Size(542, 176)
@@ -391,6 +392,7 @@ Partial Class frmCapSim
         Me.gpCapStats.Controls.Add(Me.lblPeakOut)
         Me.gpCapStats.Controls.Add(Me.lblRecharge)
         Me.gpCapStats.Controls.Add(Me.lblCapacity)
+        Me.gpCapStats.IsShadowEnabled = True
         Me.gpCapStats.Location = New System.Drawing.Point(12, 11)
         Me.gpCapStats.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.gpCapStats.Name = "gpCapStats"

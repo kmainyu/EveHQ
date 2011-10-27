@@ -22,39 +22,39 @@ Partial Class frmDamageAnalysis
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDamageAnalysis))
-        Me.lblAttackerFitting = New System.Windows.Forms.Label
-        Me.lblAttackerPilot = New System.Windows.Forms.Label
-        Me.lblAttacker = New System.Windows.Forms.Label
-        Me.lblTarget = New System.Windows.Forms.Label
-        Me.lblTargetFitting = New System.Windows.Forms.Label
-        Me.lblTargetPilot = New System.Windows.Forms.Label
-        Me.nudVel = New System.Windows.Forms.NumericUpDown
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.nudRange = New System.Windows.Forms.NumericUpDown
-        Me.lblRange = New System.Windows.Forms.Label
-        Me.nudTargetVel = New System.Windows.Forms.NumericUpDown
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.EveSpace1 = New EveHQ.HQF.EveSpace
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.radMovableVel = New System.Windows.Forms.RadioButton
-        Me.nudAttackerVel = New System.Windows.Forms.NumericUpDown
-        Me.radManualVelocity = New System.Windows.Forms.RadioButton
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
-        Me.GroupPanel1 = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.btnOptimalRange = New DevComponents.DotNetBar.ButtonX
-        Me.btnRangeVsHitChance = New DevComponents.DotNetBar.ButtonX
-        Me.cboTargetFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.cboAttackerFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.cboTargetPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.cboAttackerPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.tabStats = New DevComponents.DotNetBar.TabControl
-        Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel
-        Me.lblTurretStats = New DevComponents.DotNetBar.LabelX
+        Me.lblAttackerFitting = New System.Windows.Forms.Label()
+        Me.lblAttackerPilot = New System.Windows.Forms.Label()
+        Me.lblAttacker = New System.Windows.Forms.Label()
+        Me.lblTarget = New System.Windows.Forms.Label()
+        Me.lblTargetFitting = New System.Windows.Forms.Label()
+        Me.lblTargetPilot = New System.Windows.Forms.Label()
+        Me.nudVel = New System.Windows.Forms.NumericUpDown()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.nudRange = New System.Windows.Forms.NumericUpDown()
+        Me.lblRange = New System.Windows.Forms.Label()
+        Me.nudTargetVel = New System.Windows.Forms.NumericUpDown()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.EveSpace1 = New EveHQ.HQF.EveSpace()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.radMovableVel = New System.Windows.Forms.RadioButton()
+        Me.nudAttackerVel = New System.Windows.Forms.NumericUpDown()
+        Me.radManualVelocity = New System.Windows.Forms.RadioButton()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.GroupPanel1 = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.btnOptimalRange = New DevComponents.DotNetBar.ButtonX()
+        Me.btnRangeVsHitChance = New DevComponents.DotNetBar.ButtonX()
+        Me.cboTargetFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboAttackerFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboTargetPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboAttackerPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.tabStats = New DevComponents.DotNetBar.TabControl()
+        Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lblTurretStats = New DevComponents.DotNetBar.LabelX()
         Me.tabTurretStats = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel
-        Me.lblMissileStats = New DevComponents.DotNetBar.LabelX
+        Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lblMissileStats = New DevComponents.DotNetBar.LabelX()
         Me.tabMissileStats = New DevComponents.DotNetBar.TabItem(Me.components)
         CType(Me.nudVel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudRange, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -193,13 +193,13 @@ Partial Class frmDamageAnalysis
         Me.EveSpace1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.EveSpace1.Location = New System.Drawing.Point(3, 5)
         Me.EveSpace1.Name = "EveSpace1"
-        Me.EveSpace1.RangeScale = 1
+        Me.EveSpace1.RangeScale = 1.0R
         Me.EveSpace1.Size = New System.Drawing.Size(350, 350)
         Me.EveSpace1.SourceShip = Nothing
         Me.EveSpace1.TabIndex = 14
         Me.EveSpace1.TargetShip = Nothing
         Me.EveSpace1.UseIntegratedVelocity = False
-        Me.EveSpace1.VelocityScale = 1
+        Me.EveSpace1.VelocityScale = 1.0R
         '
         'Label2
         '
@@ -288,6 +288,7 @@ Partial Class frmDamageAnalysis
         Me.GroupPanel1.Controls.Add(Me.nudAttackerVel)
         Me.GroupPanel1.Controls.Add(Me.nudRange)
         Me.GroupPanel1.Controls.Add(Me.radMovableVel)
+        Me.GroupPanel1.IsShadowEnabled = True
         Me.GroupPanel1.Location = New System.Drawing.Point(12, 63)
         Me.GroupPanel1.Name = "GroupPanel1"
         Me.GroupPanel1.Size = New System.Drawing.Size(362, 506)
@@ -436,7 +437,7 @@ Partial Class frmDamageAnalysis
         Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel1.Style.GradientAngle = 90
         Me.TabControlPanel1.TabIndex = 1
         Me.TabControlPanel1.TabItem = Me.tabTurretStats
@@ -476,7 +477,7 @@ Partial Class frmDamageAnalysis
         Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
         Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                    Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel2.Style.GradientAngle = 90
         Me.TabControlPanel2.TabIndex = 2
         Me.TabControlPanel2.TabItem = Me.tabMissileStats

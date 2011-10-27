@@ -22,46 +22,46 @@ Partial Class frmAddDefenceProfile
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblProfileName = New System.Windows.Forms.Label
-        Me.txtProfileName = New System.Windows.Forms.TextBox
-        Me.lblProfileType = New System.Windows.Forms.Label
-        Me.lblResistInfo = New System.Windows.Forms.Label
-        Me.lblPilotName = New System.Windows.Forms.Label
-        Me.lblFittingName = New System.Windows.Forms.Label
-        Me.txtSEx = New System.Windows.Forms.TextBox
-        Me.lblEXDamage = New System.Windows.Forms.Label
-        Me.txtSKi = New System.Windows.Forms.TextBox
-        Me.lblKIDamage = New System.Windows.Forms.Label
-        Me.txtSTh = New System.Windows.Forms.TextBox
-        Me.lblTHDamage = New System.Windows.Forms.Label
-        Me.txtSEM = New System.Windows.Forms.TextBox
-        Me.lblEmDamage = New System.Windows.Forms.Label
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
-        Me.cboProfileType = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.ComboItem1 = New DevComponents.Editors.ComboItem
-        Me.ComboItem2 = New DevComponents.Editors.ComboItem
-        Me.btnCancel = New DevComponents.DotNetBar.ButtonX
-        Me.btnAccept = New DevComponents.DotNetBar.ButtonX
-        Me.gpManualProfile = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.cboPilotName = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.ComboItem8 = New DevComponents.Editors.ComboItem
-        Me.ComboItem7 = New DevComponents.Editors.ComboItem
-        Me.ComboItem9 = New DevComponents.Editors.ComboItem
-        Me.cboFittingName = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.ComboItem5 = New DevComponents.Editors.ComboItem
-        Me.ComboItem4 = New DevComponents.Editors.ComboItem
-        Me.ComboItem6 = New DevComponents.Editors.ComboItem
-        Me.pbHullDefence = New System.Windows.Forms.PictureBox
-        Me.pbArmorDefence = New System.Windows.Forms.PictureBox
-        Me.pbShieldDefence = New System.Windows.Forms.PictureBox
-        Me.txtAEM = New System.Windows.Forms.TextBox
-        Me.txtATh = New System.Windows.Forms.TextBox
-        Me.txtAKi = New System.Windows.Forms.TextBox
-        Me.txtAEx = New System.Windows.Forms.TextBox
-        Me.txtHEM = New System.Windows.Forms.TextBox
-        Me.txtHTh = New System.Windows.Forms.TextBox
-        Me.txtHKi = New System.Windows.Forms.TextBox
-        Me.txtHEx = New System.Windows.Forms.TextBox
+        Me.lblProfileName = New System.Windows.Forms.Label()
+        Me.txtProfileName = New System.Windows.Forms.TextBox()
+        Me.lblProfileType = New System.Windows.Forms.Label()
+        Me.lblResistInfo = New System.Windows.Forms.Label()
+        Me.lblPilotName = New System.Windows.Forms.Label()
+        Me.lblFittingName = New System.Windows.Forms.Label()
+        Me.txtSEx = New System.Windows.Forms.TextBox()
+        Me.lblEXDamage = New System.Windows.Forms.Label()
+        Me.txtSKi = New System.Windows.Forms.TextBox()
+        Me.lblKIDamage = New System.Windows.Forms.Label()
+        Me.txtSTh = New System.Windows.Forms.TextBox()
+        Me.lblTHDamage = New System.Windows.Forms.Label()
+        Me.txtSEM = New System.Windows.Forms.TextBox()
+        Me.lblEmDamage = New System.Windows.Forms.Label()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.cboProfileType = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem1 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem2 = New DevComponents.Editors.ComboItem()
+        Me.btnCancel = New DevComponents.DotNetBar.ButtonX()
+        Me.btnAccept = New DevComponents.DotNetBar.ButtonX()
+        Me.gpManualProfile = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.txtHEM = New System.Windows.Forms.TextBox()
+        Me.txtHTh = New System.Windows.Forms.TextBox()
+        Me.txtHKi = New System.Windows.Forms.TextBox()
+        Me.txtHEx = New System.Windows.Forms.TextBox()
+        Me.txtAEM = New System.Windows.Forms.TextBox()
+        Me.txtATh = New System.Windows.Forms.TextBox()
+        Me.txtAKi = New System.Windows.Forms.TextBox()
+        Me.txtAEx = New System.Windows.Forms.TextBox()
+        Me.pbHullDefence = New System.Windows.Forms.PictureBox()
+        Me.pbArmorDefence = New System.Windows.Forms.PictureBox()
+        Me.pbShieldDefence = New System.Windows.Forms.PictureBox()
+        Me.cboPilotName = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem8 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem7 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem9 = New DevComponents.Editors.ComboItem()
+        Me.cboFittingName = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem5 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem4 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem6 = New DevComponents.Editors.ComboItem()
         Me.PanelEx1.SuspendLayout()
         Me.gpManualProfile.SuspendLayout()
         CType(Me.pbHullDefence, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -237,7 +237,6 @@ Partial Class frmAddDefenceProfile
         'btnCancel
         '
         Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnCancel.CallBasePaintBackground = True
         Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnCancel.Location = New System.Drawing.Point(332, 334)
         Me.btnCancel.Name = "btnCancel"
@@ -249,7 +248,6 @@ Partial Class frmAddDefenceProfile
         'btnAccept
         '
         Me.btnAccept.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnAccept.CallBasePaintBackground = True
         Me.btnAccept.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnAccept.Location = New System.Drawing.Point(251, 334)
         Me.btnAccept.Name = "btnAccept"
@@ -286,6 +284,7 @@ Partial Class frmAddDefenceProfile
         Me.gpManualProfile.Controls.Add(Me.txtSKi)
         Me.gpManualProfile.Controls.Add(Me.txtSEx)
         Me.gpManualProfile.Controls.Add(Me.lblEXDamage)
+        Me.gpManualProfile.IsShadowEnabled = True
         Me.gpManualProfile.Location = New System.Drawing.Point(11, 69)
         Me.gpManualProfile.Name = "gpManualProfile"
         Me.gpManualProfile.Size = New System.Drawing.Size(396, 259)
@@ -322,6 +321,97 @@ Partial Class frmAddDefenceProfile
         Me.gpManualProfile.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpManualProfile.TabIndex = 7
         Me.gpManualProfile.Text = "Profile Information"
+        '
+        'txtHEM
+        '
+        Me.txtHEM.Location = New System.Drawing.Point(294, 123)
+        Me.txtHEM.Name = "txtHEM"
+        Me.txtHEM.Size = New System.Drawing.Size(75, 21)
+        Me.txtHEM.TabIndex = 62
+        Me.txtHEM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtHTh
+        '
+        Me.txtHTh.Location = New System.Drawing.Point(294, 201)
+        Me.txtHTh.Name = "txtHTh"
+        Me.txtHTh.Size = New System.Drawing.Size(75, 21)
+        Me.txtHTh.TabIndex = 64
+        Me.txtHTh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtHKi
+        '
+        Me.txtHKi.Location = New System.Drawing.Point(294, 175)
+        Me.txtHKi.Name = "txtHKi"
+        Me.txtHKi.Size = New System.Drawing.Size(75, 21)
+        Me.txtHKi.TabIndex = 65
+        Me.txtHKi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtHEx
+        '
+        Me.txtHEx.Location = New System.Drawing.Point(294, 149)
+        Me.txtHEx.Name = "txtHEx"
+        Me.txtHEx.Size = New System.Drawing.Size(75, 21)
+        Me.txtHEx.TabIndex = 66
+        Me.txtHEx.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtAEM
+        '
+        Me.txtAEM.Location = New System.Drawing.Point(213, 123)
+        Me.txtAEM.Name = "txtAEM"
+        Me.txtAEM.Size = New System.Drawing.Size(75, 21)
+        Me.txtAEM.TabIndex = 57
+        Me.txtAEM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtATh
+        '
+        Me.txtATh.Location = New System.Drawing.Point(213, 201)
+        Me.txtATh.Name = "txtATh"
+        Me.txtATh.Size = New System.Drawing.Size(75, 21)
+        Me.txtATh.TabIndex = 59
+        Me.txtATh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtAKi
+        '
+        Me.txtAKi.Location = New System.Drawing.Point(213, 175)
+        Me.txtAKi.Name = "txtAKi"
+        Me.txtAKi.Size = New System.Drawing.Size(75, 21)
+        Me.txtAKi.TabIndex = 60
+        Me.txtAKi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtAEx
+        '
+        Me.txtAEx.Location = New System.Drawing.Point(213, 149)
+        Me.txtAEx.Name = "txtAEx"
+        Me.txtAEx.Size = New System.Drawing.Size(75, 21)
+        Me.txtAEx.TabIndex = 61
+        Me.txtAEx.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'pbHullDefence
+        '
+        Me.pbHullDefence.Image = Global.EveHQ.HQF.My.Resources.Resources.imgStructure
+        Me.pbHullDefence.Location = New System.Drawing.Point(313, 85)
+        Me.pbHullDefence.Name = "pbHullDefence"
+        Me.pbHullDefence.Size = New System.Drawing.Size(32, 32)
+        Me.pbHullDefence.TabIndex = 56
+        Me.pbHullDefence.TabStop = False
+        '
+        'pbArmorDefence
+        '
+        Me.pbArmorDefence.Image = Global.EveHQ.HQF.My.Resources.Resources.imgArmor
+        Me.pbArmorDefence.Location = New System.Drawing.Point(233, 85)
+        Me.pbArmorDefence.Name = "pbArmorDefence"
+        Me.pbArmorDefence.Size = New System.Drawing.Size(32, 32)
+        Me.pbArmorDefence.TabIndex = 55
+        Me.pbArmorDefence.TabStop = False
+        '
+        'pbShieldDefence
+        '
+        Me.pbShieldDefence.Image = Global.EveHQ.HQF.My.Resources.Resources.imgShield
+        Me.pbShieldDefence.Location = New System.Drawing.Point(154, 85)
+        Me.pbShieldDefence.Name = "pbShieldDefence"
+        Me.pbShieldDefence.Size = New System.Drawing.Size(32, 32)
+        Me.pbShieldDefence.TabIndex = 54
+        Me.pbShieldDefence.TabStop = False
         '
         'cboPilotName
         '
@@ -374,97 +464,6 @@ Partial Class frmAddDefenceProfile
         'ComboItem6
         '
         Me.ComboItem6.Text = "NPC"
-        '
-        'pbHullDefence
-        '
-        Me.pbHullDefence.Image = Global.EveHQ.HQF.My.Resources.Resources.imgStructure
-        Me.pbHullDefence.Location = New System.Drawing.Point(313, 85)
-        Me.pbHullDefence.Name = "pbHullDefence"
-        Me.pbHullDefence.Size = New System.Drawing.Size(32, 32)
-        Me.pbHullDefence.TabIndex = 56
-        Me.pbHullDefence.TabStop = False
-        '
-        'pbArmorDefence
-        '
-        Me.pbArmorDefence.Image = Global.EveHQ.HQF.My.Resources.Resources.imgArmor
-        Me.pbArmorDefence.Location = New System.Drawing.Point(233, 85)
-        Me.pbArmorDefence.Name = "pbArmorDefence"
-        Me.pbArmorDefence.Size = New System.Drawing.Size(32, 32)
-        Me.pbArmorDefence.TabIndex = 55
-        Me.pbArmorDefence.TabStop = False
-        '
-        'pbShieldDefence
-        '
-        Me.pbShieldDefence.Image = Global.EveHQ.HQF.My.Resources.Resources.imgShield
-        Me.pbShieldDefence.Location = New System.Drawing.Point(154, 85)
-        Me.pbShieldDefence.Name = "pbShieldDefence"
-        Me.pbShieldDefence.Size = New System.Drawing.Size(32, 32)
-        Me.pbShieldDefence.TabIndex = 54
-        Me.pbShieldDefence.TabStop = False
-        '
-        'txtAEM
-        '
-        Me.txtAEM.Location = New System.Drawing.Point(213, 123)
-        Me.txtAEM.Name = "txtAEM"
-        Me.txtAEM.Size = New System.Drawing.Size(75, 21)
-        Me.txtAEM.TabIndex = 57
-        Me.txtAEM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtATh
-        '
-        Me.txtATh.Location = New System.Drawing.Point(213, 201)
-        Me.txtATh.Name = "txtATh"
-        Me.txtATh.Size = New System.Drawing.Size(75, 21)
-        Me.txtATh.TabIndex = 59
-        Me.txtATh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtAKi
-        '
-        Me.txtAKi.Location = New System.Drawing.Point(213, 175)
-        Me.txtAKi.Name = "txtAKi"
-        Me.txtAKi.Size = New System.Drawing.Size(75, 21)
-        Me.txtAKi.TabIndex = 60
-        Me.txtAKi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtAEx
-        '
-        Me.txtAEx.Location = New System.Drawing.Point(213, 149)
-        Me.txtAEx.Name = "txtAEx"
-        Me.txtAEx.Size = New System.Drawing.Size(75, 21)
-        Me.txtAEx.TabIndex = 61
-        Me.txtAEx.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtHEM
-        '
-        Me.txtHEM.Location = New System.Drawing.Point(294, 123)
-        Me.txtHEM.Name = "txtHEM"
-        Me.txtHEM.Size = New System.Drawing.Size(75, 21)
-        Me.txtHEM.TabIndex = 62
-        Me.txtHEM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtHTh
-        '
-        Me.txtHTh.Location = New System.Drawing.Point(294, 201)
-        Me.txtHTh.Name = "txtHTh"
-        Me.txtHTh.Size = New System.Drawing.Size(75, 21)
-        Me.txtHTh.TabIndex = 64
-        Me.txtHTh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtHKi
-        '
-        Me.txtHKi.Location = New System.Drawing.Point(294, 175)
-        Me.txtHKi.Name = "txtHKi"
-        Me.txtHKi.Size = New System.Drawing.Size(75, 21)
-        Me.txtHKi.TabIndex = 65
-        Me.txtHKi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtHEx
-        '
-        Me.txtHEx.Location = New System.Drawing.Point(294, 149)
-        Me.txtHEx.Name = "txtHEx"
-        Me.txtHEx.Size = New System.Drawing.Size(75, 21)
-        Me.txtHEx.TabIndex = 66
-        Me.txtHEx.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'frmAddDefenceProfile
         '

@@ -22,46 +22,46 @@ Partial Class frmAddDamageProfile
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblProfileName = New System.Windows.Forms.Label
-        Me.txtProfileName = New System.Windows.Forms.TextBox
-        Me.lblProfileType = New System.Windows.Forms.Label
-        Me.lblNPCs = New System.Windows.Forms.Label
-        Me.lblDamageInfo = New System.Windows.Forms.Label
-        Me.lvwNPCs = New DevComponents.DotNetBar.Controls.ListViewEx
-        Me.colNPCs = New System.Windows.Forms.ColumnHeader
-        Me.lblPilotName = New System.Windows.Forms.Label
-        Me.lblFittingName = New System.Windows.Forms.Label
-        Me.txtEXDamage = New System.Windows.Forms.TextBox
-        Me.lblEXDamage = New System.Windows.Forms.Label
-        Me.txtKIDamage = New System.Windows.Forms.TextBox
-        Me.lblKIDamage = New System.Windows.Forms.Label
-        Me.txtTHDamage = New System.Windows.Forms.TextBox
-        Me.lblTHDamage = New System.Windows.Forms.Label
-        Me.txtDPS = New System.Windows.Forms.TextBox
-        Me.lblDPS = New System.Windows.Forms.Label
-        Me.txtEMDamage = New System.Windows.Forms.TextBox
-        Me.lblEmDamage = New System.Windows.Forms.Label
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
-        Me.cboProfileType = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.ComboItem1 = New DevComponents.Editors.ComboItem
-        Me.ComboItem2 = New DevComponents.Editors.ComboItem
-        Me.ComboItem3 = New DevComponents.Editors.ComboItem
-        Me.btnCancel = New DevComponents.DotNetBar.ButtonX
-        Me.btnAccept = New DevComponents.DotNetBar.ButtonX
-        Me.gpManualProfile = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.cboNPC = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.ComboItem11 = New DevComponents.Editors.ComboItem
-        Me.ComboItem10 = New DevComponents.Editors.ComboItem
-        Me.ComboItem12 = New DevComponents.Editors.ComboItem
-        Me.cboPilotName = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.ComboItem8 = New DevComponents.Editors.ComboItem
-        Me.ComboItem7 = New DevComponents.Editors.ComboItem
-        Me.ComboItem9 = New DevComponents.Editors.ComboItem
-        Me.cboFittingName = New DevComponents.DotNetBar.Controls.ComboBoxEx
-        Me.ComboItem5 = New DevComponents.Editors.ComboItem
-        Me.ComboItem4 = New DevComponents.Editors.ComboItem
-        Me.ComboItem6 = New DevComponents.Editors.ComboItem
-        Me.btnAddNPC = New DevComponents.DotNetBar.ButtonX
+        Me.lblProfileName = New System.Windows.Forms.Label()
+        Me.txtProfileName = New System.Windows.Forms.TextBox()
+        Me.lblProfileType = New System.Windows.Forms.Label()
+        Me.lblNPCs = New System.Windows.Forms.Label()
+        Me.lblDamageInfo = New System.Windows.Forms.Label()
+        Me.lvwNPCs = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colNPCs = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lblPilotName = New System.Windows.Forms.Label()
+        Me.lblFittingName = New System.Windows.Forms.Label()
+        Me.txtEXDamage = New System.Windows.Forms.TextBox()
+        Me.lblEXDamage = New System.Windows.Forms.Label()
+        Me.txtKIDamage = New System.Windows.Forms.TextBox()
+        Me.lblKIDamage = New System.Windows.Forms.Label()
+        Me.txtTHDamage = New System.Windows.Forms.TextBox()
+        Me.lblTHDamage = New System.Windows.Forms.Label()
+        Me.txtDPS = New System.Windows.Forms.TextBox()
+        Me.lblDPS = New System.Windows.Forms.Label()
+        Me.txtEMDamage = New System.Windows.Forms.TextBox()
+        Me.lblEmDamage = New System.Windows.Forms.Label()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.cboProfileType = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem1 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem2 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem3 = New DevComponents.Editors.ComboItem()
+        Me.btnCancel = New DevComponents.DotNetBar.ButtonX()
+        Me.btnAccept = New DevComponents.DotNetBar.ButtonX()
+        Me.gpManualProfile = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.cboNPC = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem11 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem10 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem12 = New DevComponents.Editors.ComboItem()
+        Me.cboPilotName = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem8 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem7 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem9 = New DevComponents.Editors.ComboItem()
+        Me.cboFittingName = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ComboItem5 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem4 = New DevComponents.Editors.ComboItem()
+        Me.ComboItem6 = New DevComponents.Editors.ComboItem()
+        Me.btnAddNPC = New DevComponents.DotNetBar.ButtonX()
         Me.PanelEx1.SuspendLayout()
         Me.gpManualProfile.SuspendLayout()
         Me.SuspendLayout()
@@ -326,6 +326,7 @@ Partial Class frmAddDamageProfile
         Me.gpManualProfile.Controls.Add(Me.txtKIDamage)
         Me.gpManualProfile.Controls.Add(Me.txtEXDamage)
         Me.gpManualProfile.Controls.Add(Me.lblEXDamage)
+        Me.gpManualProfile.IsShadowEnabled = True
         Me.gpManualProfile.Location = New System.Drawing.Point(11, 69)
         Me.gpManualProfile.Name = "gpManualProfile"
         Me.gpManualProfile.Size = New System.Drawing.Size(627, 346)
@@ -458,6 +459,7 @@ Partial Class frmAddDamageProfile
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(656, 453)
         Me.Controls.Add(Me.PanelEx1)
+        Me.DoubleBuffered = True
         Me.EnableGlass = False
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog

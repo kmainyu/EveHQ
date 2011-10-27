@@ -611,6 +611,7 @@ Partial Class frmBCBrowser
         Me.gpStatistics.Controls.Add(Me.lblShieldResistsLbl)
         Me.gpStatistics.Controls.Add(Me.lblShieldResists)
         Me.gpStatistics.Controls.Add(Me.lblArmorResistsLbl)
+        Me.gpStatistics.IsShadowEnabled = True
         Me.gpStatistics.Location = New System.Drawing.Point(500, 3)
         Me.gpStatistics.Name = "gpStatistics"
         Me.gpStatistics.Size = New System.Drawing.Size(395, 145)

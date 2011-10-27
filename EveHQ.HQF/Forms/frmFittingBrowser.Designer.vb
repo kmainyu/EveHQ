@@ -22,56 +22,56 @@ Partial Class frmFittingBrowser
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystems", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFittingBrowser))
-        Me.lblShipType = New System.Windows.Forms.Label
-        Me.pbShip = New System.Windows.Forms.PictureBox
-		Me.ctxLoadout = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuViewLoadout = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuCopyURL = New System.Windows.Forms.ToolStripMenuItem
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
-        Me.lblBCStatus = New System.Windows.Forms.ToolStripStatusLabel
-        Me.lblTopicAddress = New System.Windows.Forms.ToolStripStatusLabel
-        Me.LblLoadoutTopicLbl = New System.Windows.Forms.Label
-        Me.lblLoadoutName = New System.Windows.Forms.Label
-        Me.lblLoadoutTopic = New System.Windows.Forms.LinkLabel
-        Me.lvwSlots = New DevComponents.DotNetBar.Controls.ListViewEx
-        Me.btnImport = New DevComponents.DotNetBar.ButtonX
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
-        Me.gpStatistics = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.lblPG = New System.Windows.Forms.Label
-        Me.lblPilot = New System.Windows.Forms.Label
-        Me.lblOptimalRange = New System.Windows.Forms.Label
-        Me.cboPilots = New System.Windows.Forms.ComboBox
-        Me.lblOptimalRangeLbl = New System.Windows.Forms.Label
-        Me.lblProfileName = New System.Windows.Forms.Label
-        Me.lblMaxRange = New System.Windows.Forms.Label
-        Me.cboProfiles = New System.Windows.Forms.ComboBox
-        Me.lblPGLbl = New System.Windows.Forms.Label
-        Me.lblEHPLbl = New System.Windows.Forms.Label
-        Me.LblMaxRangeLbl = New System.Windows.Forms.Label
-        Me.lblTankLbl = New System.Windows.Forms.Label
-        Me.lblCPU = New System.Windows.Forms.Label
-        Me.lblEHP = New System.Windows.Forms.Label
-        Me.lblVelocity = New System.Windows.Forms.Label
-        Me.lblTank = New System.Windows.Forms.Label
-        Me.lblVelocityLbl = New System.Windows.Forms.Label
-        Me.lblVolleyLbl = New System.Windows.Forms.Label
-        Me.lblCPULbl = New System.Windows.Forms.Label
-        Me.lblDPSLbl = New System.Windows.Forms.Label
-        Me.lblCapacitor = New System.Windows.Forms.Label
-        Me.lblDPS = New System.Windows.Forms.Label
-        Me.lblCapLbl = New System.Windows.Forms.Label
-        Me.lblVolley = New System.Windows.Forms.Label
-        Me.lblArmorResists = New System.Windows.Forms.Label
-        Me.lblShieldResistsLbl = New System.Windows.Forms.Label
-        Me.lblShieldResists = New System.Windows.Forms.Label
-        Me.lblArmorResistsLbl = New System.Windows.Forms.Label
+        Me.lblShipType = New System.Windows.Forms.Label()
+        Me.pbShip = New System.Windows.Forms.PictureBox()
+        Me.ctxLoadout = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuViewLoadout = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuCopyURL = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.lblBCStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.lblTopicAddress = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.LblLoadoutTopicLbl = New System.Windows.Forms.Label()
+        Me.lblLoadoutName = New System.Windows.Forms.Label()
+        Me.lblLoadoutTopic = New System.Windows.Forms.LinkLabel()
+        Me.lvwSlots = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.btnImport = New DevComponents.DotNetBar.ButtonX()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.gpStatistics = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.lblPG = New System.Windows.Forms.Label()
+        Me.lblPilot = New System.Windows.Forms.Label()
+        Me.lblOptimalRange = New System.Windows.Forms.Label()
+        Me.cboPilots = New System.Windows.Forms.ComboBox()
+        Me.lblOptimalRangeLbl = New System.Windows.Forms.Label()
+        Me.lblProfileName = New System.Windows.Forms.Label()
+        Me.lblMaxRange = New System.Windows.Forms.Label()
+        Me.cboProfiles = New System.Windows.Forms.ComboBox()
+        Me.lblPGLbl = New System.Windows.Forms.Label()
+        Me.lblEHPLbl = New System.Windows.Forms.Label()
+        Me.LblMaxRangeLbl = New System.Windows.Forms.Label()
+        Me.lblTankLbl = New System.Windows.Forms.Label()
+        Me.lblCPU = New System.Windows.Forms.Label()
+        Me.lblEHP = New System.Windows.Forms.Label()
+        Me.lblVelocity = New System.Windows.Forms.Label()
+        Me.lblTank = New System.Windows.Forms.Label()
+        Me.lblVelocityLbl = New System.Windows.Forms.Label()
+        Me.lblVolleyLbl = New System.Windows.Forms.Label()
+        Me.lblCPULbl = New System.Windows.Forms.Label()
+        Me.lblDPSLbl = New System.Windows.Forms.Label()
+        Me.lblCapacitor = New System.Windows.Forms.Label()
+        Me.lblDPS = New System.Windows.Forms.Label()
+        Me.lblCapLbl = New System.Windows.Forms.Label()
+        Me.lblVolley = New System.Windows.Forms.Label()
+        Me.lblArmorResists = New System.Windows.Forms.Label()
+        Me.lblShieldResistsLbl = New System.Windows.Forms.Label()
+        Me.lblShieldResists = New System.Windows.Forms.Label()
+        Me.lblArmorResistsLbl = New System.Windows.Forms.Label()
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxLoadout.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -96,7 +96,7 @@ Partial Class frmFittingBrowser
         Me.pbShip.Size = New System.Drawing.Size(128, 128)
         Me.pbShip.TabIndex = 3
         Me.pbShip.TabStop = False
-		'
+        '
         'ctxLoadout
         '
         Me.ctxLoadout.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewLoadout, Me.mnuCopyURL})
@@ -173,8 +173,8 @@ Partial Class frmFittingBrowser
         '
         Me.lvwSlots.AllowDrop = True
         Me.lvwSlots.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -269,6 +269,7 @@ Partial Class frmFittingBrowser
         Me.gpStatistics.Controls.Add(Me.lblShieldResistsLbl)
         Me.gpStatistics.Controls.Add(Me.lblShieldResists)
         Me.gpStatistics.Controls.Add(Me.lblArmorResistsLbl)
+        Me.gpStatistics.IsShadowEnabled = True
         Me.gpStatistics.Location = New System.Drawing.Point(12, 160)
         Me.gpStatistics.Name = "gpStatistics"
         Me.gpStatistics.Size = New System.Drawing.Size(395, 145)
