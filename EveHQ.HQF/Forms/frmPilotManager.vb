@@ -775,6 +775,7 @@ Public Class frmPilotManager
         Call Me.LoadImplantGroups()
         cboImplantGroup.SelectedItem = oldImplantGroup
         HQFEvents.StartUpdateImplantComboBox = True
+        ForceUpdate = True
     End Sub
     Private Sub btnEditImplantGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditImplantGroup.Click
         ' Check for some selection on the listview
@@ -802,6 +803,7 @@ Public Class frmPilotManager
                 cboImplantGroup.SelectedItem = newImplantGroup
             End If
             lblCurrentGroup.Text = "Current Group: " & newImplantGroup
+            HQFEvents.StartUpdateImplantComboBox = True
         End If
     End Sub
     Private Sub btnRemoveImplantGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveImplantGroup.Click
