@@ -41,8 +41,8 @@ Public Class frmUpdater
     Dim PatcherLocation As String = ""
     Dim UpdateRequiredStyle As ElementStyle
     Dim UpdateNotRequiredStyle As ElementStyle
+    Dim WithEvents MainUpdateWorker As New BackgroundWorker
     Dim UpdateWorkerList As New SortedList(Of String, BackgroundWorker)
-
 
     ' New variables
     Dim EveHQComponents As New SortedList(Of String, EveHQComponent) ' Stores list of current EveHQ files (not available!)
@@ -51,12 +51,13 @@ Public Class frmUpdater
     Dim NumberOfFilesRequired As Integer = 0
     Dim FilesRequired As New Queue(Of String)
     Dim UpdateQueue As New List(Of String)
+    Dim UpdateAborted As Boolean = False
 
 #Region " Form Opening and Closing Routines"
 
     Private Sub frmUpdater_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If EveHQ.Core.HQ.EveHQIsUpdating = True Then
-            MessageBox.Show("Please wait while the download process is completed before closing the form.", "Update in Progress", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Please wait while the download process is completed before closing the form. If you need to cancel the update, click the Cancel Update button first.", "Update in Progress", MessageBoxButtons.OK, MessageBoxIcon.Information)
             e.Cancel = True
             Exit Sub
         End If
@@ -354,12 +355,12 @@ Public Class frmUpdater
         End If
     End Function
 
-
 #End Region
 
     Private Sub btnStartUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStartUpdate.Click
 
         btnStartUpdate.Enabled = False
+        btnCancelUpdate.Visible = True
         EveHQ.Core.HQ.EveHQIsUpdating = True
         filesTried = 0
 
@@ -441,6 +442,13 @@ Public Class frmUpdater
         End If
 
         lblUpdateStatus.Text = "Status: Downloading updates..."
+        MainUpdateWorker.WorkerReportsProgress = True
+        MainUpdateWorker.WorkerSupportsCancellation = True
+        MainUpdateWorker.RunWorkerAsync()
+
+    End Sub
+
+    Private Sub MainUpdateWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MainUpdateWorker.DoWork
         UpdateWorkerList.Clear()
         NumberOfFilesRequired = FilesRequired.Count
         Do
@@ -455,11 +463,13 @@ Public Class frmUpdater
                 AddHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
                 updateWorker.WorkerReportsProgress = True
                 updateWorker.WorkerSupportsCancellation = True
+                UpdateWorkerList.Add(reqfile, updateWorker)
                 updateWorker.RunWorkerAsync(reqfile)
             End If
-            Application.DoEvents()
+            If MainUpdateWorker.CancellationPending = True Then
+                Exit Do
+            End If
         Loop Until FilesRequired.Count = 0
-
     End Sub
 
     Private Function DownloadFile(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String) As Boolean
@@ -501,6 +511,13 @@ Public Class frmUpdater
                             totalBytes += read
                             percent = CInt(totalBytes / filesize * 100)
                             worker.ReportProgress(percent, FileNeeded)
+                            If worker.CancellationPending = True Then
+                                responseStream.Close()
+                                fs.Flush()
+                                fs.Close()
+                                UpdateWorkerList.Remove(FileNeeded)
+                                Exit Function
+                            End If
                         Loop Until read = 0 'see Note(1)
                         responseStream.Close()
                         fs.Flush()
@@ -513,6 +530,7 @@ Public Class frmUpdater
             filesComplete.Add(FileNeeded, True)
             UpdateQueue.Remove(FileNeeded)
             filesTried += 1
+            UpdateWorkerList.Remove(FileNeeded)
             Return True
         Catch e As WebException
             Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
@@ -704,6 +722,25 @@ Public Class frmUpdater
     Private Sub nudDownloads_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudDownloads.ValueChanged
         EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads = nudDownloads.Value
     End Sub
+
+    Private Sub btnCancelUpdate_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelUpdate.Click
+        UpdateAborted = True
+        ' Cancel the main worker
+        MainUpdateWorker.CancelAsync()
+        ' Cancel all the other workers
+        For Each worker As BackgroundWorker In UpdateWorkerList.Values
+            worker.CancelAsync()
+        Next
+        ' Await cancellation
+        Do
+            Application.DoEvents()
+        Loop Until UpdateWorkerList.Count = 0
+        MessageBox.Show("The EveHQ Update has been cancelled.", "Update Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        EveHQ.Core.HQ.EveHQIsUpdating = False
+        btnCancelUpdate.Visible = False
+        Call Me.ShowUpdates()
+    End Sub
+
 End Class
 
 Public Class EveHQComponent

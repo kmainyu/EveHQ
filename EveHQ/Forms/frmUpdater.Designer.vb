@@ -29,6 +29,7 @@ Partial Class frmUpdater
         Me.tmrUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.btnRecheckUpdates = New System.Windows.Forms.Button()
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.btnCancelUpdate = New System.Windows.Forms.Button()
         Me.nudDownloads = New DevComponents.Editors.IntegerInput()
         Me.lblMaxConcurrentDownloads = New System.Windows.Forms.Label()
         Me.adtUpdates = New DevComponents.AdvTree.AdvTree()
@@ -89,6 +90,7 @@ Partial Class frmUpdater
         '
         Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.btnCancelUpdate)
         Me.PanelEx1.Controls.Add(Me.nudDownloads)
         Me.PanelEx1.Controls.Add(Me.lblMaxConcurrentDownloads)
         Me.PanelEx1.Controls.Add(Me.adtUpdates)
@@ -107,6 +109,17 @@ Partial Class frmUpdater
         Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx1.Style.GradientAngle = 90
         Me.PanelEx1.TabIndex = 7
+        '
+        'btnCancelUpdate
+        '
+        Me.btnCancelUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnCancelUpdate.Location = New System.Drawing.Point(425, 443)
+        Me.btnCancelUpdate.Name = "btnCancelUpdate"
+        Me.btnCancelUpdate.Size = New System.Drawing.Size(100, 22)
+        Me.btnCancelUpdate.TabIndex = 10
+        Me.btnCancelUpdate.Text = "Cancel Update"
+        Me.btnCancelUpdate.UseVisualStyleBackColor = True
+        Me.btnCancelUpdate.Visible = False
         '
         'nudDownloads
         '
@@ -309,4 +322,5 @@ Partial Class frmUpdater
     Friend WithEvents colProgressPDB As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents nudDownloads As DevComponents.Editors.IntegerInput
     Friend WithEvents lblMaxConcurrentDownloads As System.Windows.Forms.Label
+    Friend WithEvents btnCancelUpdate As System.Windows.Forms.Button
 End Class
