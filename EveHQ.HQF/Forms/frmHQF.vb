@@ -26,6 +26,7 @@ Imports System.Xml
 Imports Microsoft.Win32
 Imports DevComponents.AdvTree
 Imports System.Text
+Imports DevComponents.DotNetBar
 
 Public Class frmHQF
 
@@ -321,9 +322,23 @@ Public Class frmHQF
                         Dim nNode As New DevComponents.AdvTree.Node
                         nNode.Text = nodes(nodes.GetUpperBound(0))
                         nNode.Name = pathline
+                        If ShipLists.shipList.ContainsKey(nNode.Text) = True Then
+                            Dim Ship As Ship = CType(ShipLists.shipList(nNode.Text), HQF.Ship)
+                            Dim stt As New DevComponents.DotNetBar.SuperTooltipInfo
+                            stt.HeaderText = Ship.Name
+                            stt.FooterText = "HQF Ship Information - " & Ship.Name
+                            stt.BodyText = "<b>Key Stats:</b><br />" & ControlChars.CrLf
+                            stt.BodyText &= "Slots - High: " & Ship.HiSlots.ToString & ", Mid: " & Ship.MidSlots.ToString & ", Low: " & Ship.LowSlots.ToString & ", Rig: " & Ship.RigSlots.ToString & "<br />"
+                            stt.BodyText &= "Weapons - Turrets: " & Ship.TurretSlots.ToString & ", Launchers: " & Ship.LauncherSlots.ToString & "<br />"
+                            stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & " m/s<br />"
+                            stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+                            stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 64)
+                            stt.FooterImage = My.Resources.imgInfo1
+                            STTShips.SetSuperTooltip(nNode, stt)
+                        End If
                         cNode.Nodes.Add(nNode)
                     End If
-                End If
+                    End If
             End If
         Next
         ' Remove any groups that have no children
@@ -686,6 +701,20 @@ Public Class frmHQF
             tvwShips.Nodes.Clear()
             For Each item As String In shipResults.Values
                 Dim shipNode As New DevComponents.AdvTree.Node
+
+                Dim Ship As Ship = CType(ShipLists.shipList(item), HQF.Ship)
+                Dim stt As New DevComponents.DotNetBar.SuperTooltipInfo
+                stt.HeaderText = Ship.Name
+                stt.FooterText = "HQF Ship Information - " & Ship.Name
+                stt.BodyText = "<b>Key Stats:</b><br />" & ControlChars.CrLf
+                stt.BodyText &= "Slots - High: " & Ship.HiSlots.ToString & ", Mid: " & Ship.MidSlots.ToString & ", Low: " & Ship.LowSlots.ToString & ", Rig: " & Ship.RigSlots.ToString & "<br />"
+                stt.BodyText &= "Weapons - Turrets: " & Ship.TurretSlots.ToString & ", Launchers: " & Ship.LauncherSlots.ToString & "<br />"
+                stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & " m/s<br />"
+                stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+                stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 64)
+                stt.FooterImage = My.Resources.imgInfo1
+                STTShips.SetSuperTooltip(shipNode, stt)
+
                 shipNode.Text = item
                 shipNode.Name = item
                 tvwShips.Nodes.Add(shipNode)

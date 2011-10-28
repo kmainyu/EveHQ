@@ -132,6 +132,7 @@ Partial Class frmHQF
         Me.rbOptions = New DevComponents.DotNetBar.RibbonBar()
         Me.btnOptions = New DevComponents.DotNetBar.ButtonItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
+        Me.STTShips = New DevComponents.DotNetBar.SuperTooltip()
         Me.ctxFittings.SuspendLayout()
         CType(Me.tvwShips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxShipBrowser.SuspendLayout()
@@ -153,7 +154,7 @@ Partial Class frmHQF
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.ToolStripMenuItem7, Me.mnuExportToEve, Me.mnuExportToRequisitions})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(192, 298)
+        Me.ctxFittings.Size = New System.Drawing.Size(192, 276)
         '
         'mnuFittingsFittingName
         '
@@ -1433,6 +1434,12 @@ Partial Class frmHQF
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.SuperTooltip1.PositionBelowControl = False
         '
+        'STTShips
+        '
+        Me.STTShips.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.STTShips.MinimumTooltipSize = New System.Drawing.Size(350, 80)
+        Me.STTShips.PositionBelowControl = False
+        '
         'frmHQF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1578,4 +1585,5 @@ Partial Class frmHQF
 	Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuExportToRequisitions As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnFleetManager As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents STTShips As DevComponents.DotNetBar.SuperTooltip
 End Class
