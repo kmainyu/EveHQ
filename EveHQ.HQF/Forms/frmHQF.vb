@@ -1755,7 +1755,7 @@ Public Class frmHQF
         Dim myNewFitting As New frmModifyFittingName
         Dim fittingName As String = ""
         With myNewFitting
-            .txtFittingName.Text = "" : .txtFittingName.Enabled = True
+            .txtFittingName.Text = fitName : .txtFittingName.Enabled = True : .txtFittingName.SelectionStart = fitName.Length
             .btnAccept.Text = "Copy" : .Tag = "Copy"
             .btnAccept.Tag = shipName
             .Text = "Copy '" & fitName & "' Fitting for " & shipName
@@ -1769,6 +1769,12 @@ Public Class frmHQF
                 Dim NewFit As Fitting = FitToCopy.Clone
                 NewFit.FittingName = fittingName
                 Fittings.FittingList.Add(NewFit.KeyName, NewFit)
+                If Me.CreateNewFittingTab(NewFit) = True Then
+                    Call Me.UpdateFilteredShips()
+                    tabHQF.SelectedTab = tabHQF.Tabs(NewFit.KeyName)
+                    If tabHQF.SelectedTabIndex = 0 Then Call Me.UpdateSelectedTab()
+                    ActiveFitting.ShipSlotCtrl.UpdateEverything()
+                End If
                 Call Me.UpdateFilteredShips()
             Else
                 MessageBox.Show("Unable to copy fitting due to insufficient data!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1866,6 +1872,7 @@ Public Class frmHQF
                 If tabHQF.SelectedTabIndex = 0 Then Call Me.UpdateSelectedTab()
                 ActiveFitting.ShipSlotCtrl.UpdateEverything()
             End If
+            Call Me.UpdateFilteredShips()
         Else
             'MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
