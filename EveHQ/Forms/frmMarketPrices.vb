@@ -28,6 +28,7 @@ Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
 Imports System.ComponentModel
 Imports EveHQ.Core
+Imports ICSharpCode.SharpZipLib.Zip
 
 Public Class frmMarketPrices
     Dim saveLoc As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "MarketXMLs")
@@ -1271,6 +1272,7 @@ Public Class frmMarketPrices
 #Region "Market & Faction Price Feed Routines"
 
     Private Function GetBCPriceFeed(ByVal FeedName As String, ByVal URL As String, ByVal StatusLabel As Label, ByVal RegionID As String, ByVal SuppressProgress As Boolean, ByVal RegionTotal As Integer, ByVal RegionCount As Integer) As Boolean
+
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
@@ -1278,7 +1280,11 @@ Public Class frmMarketPrices
         If SuppressProgress = False Then
             StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
         End If
-        Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml")
+
+        ' Build URL
+        URL &= RegionID & ".xml.gz"
+
+        Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml.gz")
         ServicePointManager.DefaultConnectionLimit = 10
         ServicePointManager.Expect100Continue = False
         Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
@@ -1287,18 +1293,25 @@ Public Class frmMarketPrices
         ' Setup proxy server (if required)
         Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
         request.UserAgent = "EveHQ v" & My.Application.Info.Version.ToString
-        request.Method = "POST"
-        Dim postData As String = "applicationKey=" & EveHQ.Core.HQ.BCAppKey & "&regions=" & RegionID & "&types=0"
-        request.ContentLength = postData.Length
+
+        ' New File Method
+        request.Method = "GET"
         request.ContentType = "application/x-www-form-urlencoded"
         request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-        ' Setup a stream to write the HTTP "POST" data
-        Dim WebEncoding As New ASCIIEncoding()
-        Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
-        Dim newStream As Stream = request.GetRequestStream()
-        newStream.Write(byte1, 0, byte1.Length)
-        newStream.Close()
-        newStream.Dispose()
+
+        ' Old API Method
+        'request.Method = "POST"
+        'Dim postData As String = "applicationKey=" & EveHQ.Core.HQ.BCAppKey & "&regions=" & RegionID & "&types=0"
+        'request.ContentLength = postData.Length
+        'request.ContentType = "application/x-www-form-urlencoded"
+        'request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
+        '' Setup a stream to write the HTTP "POST" data
+        'Dim WebEncoding As New ASCIIEncoding()
+        'Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
+        'Dim newStream As Stream = request.GetRequestStream()
+        'newStream.Write(byte1, 0, byte1.Length)
+        'newStream.Close()
+        'newStream.Dispose()
 
         Try
             If SuppressProgress = False Then
@@ -1341,6 +1354,20 @@ Public Class frmMarketPrices
             If SuppressProgress = False Then
                 StatusLabel.Text = "Download of '" & FeedName & "' Complete!" : StatusLabel.Refresh()
             End If
+            ' Unzip the file
+            Dim ufs As FileStream = New FileStream(localfile, FileMode.Open, FileAccess.Read)
+            Dim compstream As New System.IO.Compression.GZipStream(ufs, System.IO.Compression.CompressionMode.Decompress)
+            Dim sr As New StreamReader(compstream)
+            Dim unzipfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml")
+            Dim sw As New StreamWriter(unzipfile)
+            sw.Write(sr.ReadToEnd)
+            sw.Flush()
+            sw.Close()
+            sw.Dispose()
+            sr.Close()
+            sr.Dispose()
+            ufs.Close()
+            ufs.Dispose()
             Return True
         Catch ex As Exception
             ' Suppress this message for now - just return
@@ -1401,7 +1428,7 @@ Public Class frmMarketPrices
 
             ' Download the correct data file
             If DownloadRequired = True Then
-                Call GetBCPriceFeed("MarketPrices", "http://api.battleclinic.com/xml/eve/market/GetCalculatedCurrentValue.php", lblMarketPriceUpdateStatus, Region, False, TotalRegions, RegionCount)
+                Call GetBCPriceFeed("MarketPrices", "http://eve.static.battleclinic.com/xml/market_data/", lblMarketPriceUpdateStatus, Region, False, TotalRegions, RegionCount)
             End If
 
         Next
@@ -1939,7 +1966,6 @@ Public Class frmMarketPrices
     End Sub
 
 #End Region
-
 
 #Region "Market Worker Routines"
 
