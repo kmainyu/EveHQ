@@ -130,7 +130,31 @@ Public Class frmUpdater
     End Function
 
     Private Sub ShowUpdates()
+
         tmrUpdate.Enabled = False
+
+        ' Set Locations
+        If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
+            BaseLocation = EveHQ.Core.HQ.appDataFolder
+            PatcherLocation = Path.Combine(BaseLocation, "Updater")
+            updateFolder = Path.Combine(BaseLocation, "Updates")
+        Else
+            BaseLocation = Application.StartupPath
+            PatcherLocation = Path.Combine(BaseLocation, "Updater")
+            updateFolder = Path.Combine(BaseLocation, "Updates")
+        End If
+
+        ' Check the updates location
+        If My.Computer.FileSystem.DirectoryExists(updateFolder) = False Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.CreateDirectory(updateFolder)
+        Else
+            ' Clear the existing contents of .tmp files
+            For Each File As String In My.Computer.FileSystem.GetFiles(updateFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.tmp")
+                My.Computer.FileSystem.DeleteFile(File)
+            Next
+        End If
+
         Dim UpdateXML As XmlDocument = FetchUpdateXML()
         If UpdateXML Is Nothing Then
             lblUpdateStatus.Text = "Status: Unable to obtain update file."
@@ -395,17 +419,6 @@ Public Class frmUpdater
             End If
         Next
 
-        ' Set Locations
-        If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-            BaseLocation = EveHQ.Core.HQ.appDataFolder
-            PatcherLocation = Path.Combine(BaseLocation, "Updater")
-            updateFolder = Path.Combine(BaseLocation, "Updates")
-        Else
-            BaseLocation = Application.StartupPath
-            PatcherLocation = Path.Combine(BaseLocation, "Updater")
-            updateFolder = Path.Combine(BaseLocation, "Updates")
-        End If
-
         ' Check for existence of PatcherLocation
         If My.Computer.FileSystem.DirectoryExists(PatcherLocation) = False Then
             My.Computer.FileSystem.CreateDirectory(PatcherLocation)
@@ -431,15 +444,6 @@ Public Class frmUpdater
                 Exit Sub
             End Try
         End Try
-
-        If My.Computer.FileSystem.DirectoryExists(updateFolder) = False Then
-            ' Create the cache folder if it doesn't exist
-            My.Computer.FileSystem.CreateDirectory(updateFolder)
-        Else
-            ' Clear the existing contents and recreate
-            My.Computer.FileSystem.DeleteDirectory(updateFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-            My.Computer.FileSystem.CreateDirectory(updateFolder)
-        End If
 
         lblUpdateStatus.Text = "Status: Downloading updates..."
         MainUpdateWorker.WorkerReportsProgress = True
@@ -483,7 +487,7 @@ Public Class frmUpdater
         Dim pdbFile As String = ""
         Dim localFile As String = ""
         httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
-        localFile = Path.Combine(updateFolder, FileNeeded)
+        localFile = Path.Combine(updateFolder, FileNeeded & ".tmp")
 
         ' Create the request to access the server and set credentials
         ServicePointManager.DefaultConnectionLimit = 10
@@ -529,6 +533,8 @@ Public Class frmUpdater
                 End Using
                 response.Close()
             End Using
+            ' Rename the file now it's complete
+            My.Computer.FileSystem.RenameFile(localFile, FileNeeded)
             filesComplete.Add(FileNeeded, True)
             UpdateQueue.Remove(FileNeeded)
             filesTried += 1
