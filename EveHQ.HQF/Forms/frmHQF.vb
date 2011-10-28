@@ -634,7 +634,7 @@ Public Class frmHQF
                 fittingName = .txtFittingName.Text
             End With
             If myNewFitting.DialogResult = Windows.Forms.DialogResult.Cancel Then
-                MessageBox.Show("Create New Fitting has been cancelled!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                'MessageBox.Show("Create New Fitting has been cancelled!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If fittingName <> "" Then
                     Dim NewFit As New Fitting(shipName, fittingName, HQF.Settings.HQFSettings.DefaultPilot)
