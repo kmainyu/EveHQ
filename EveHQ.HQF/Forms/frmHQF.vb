@@ -1689,7 +1689,7 @@ Public Class frmHQF
         End With
 
         If myNewFitting.DialogResult = Windows.Forms.DialogResult.Cancel Then
-            MessageBox.Show("Rename Fitting has been cancelled!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'MessageBox.Show("Rename Fitting has been cancelled!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             If fittingName <> "" Then
                 Fittings.FittingList.Remove(oldKeyName)
@@ -1734,7 +1734,7 @@ Public Class frmHQF
             fittingName = .txtFittingName.Text
         End With
         If myNewFitting.DialogResult = Windows.Forms.DialogResult.Cancel Then
-            MessageBox.Show("Copy Fitting has been cancelled!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'MessageBox.Show("Copy Fitting has been cancelled!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             If fittingName <> "" Then
                 Dim NewFit As Fitting = FitToCopy.Clone
@@ -1838,7 +1838,7 @@ Public Class frmHQF
                 ActiveFitting.ShipSlotCtrl.UpdateEverything()
             End If
         Else
-            MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
     Private Sub mnuPreviewShip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip2.Click
