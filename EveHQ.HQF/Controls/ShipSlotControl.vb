@@ -804,6 +804,13 @@ Public Class ShipSlotControl
                 If e.Control = True Then
                     Call Me.PasteModuleFromClipboard()
                 End If
+            Case Keys.Space
+                ' Check for key status
+                Dim keyMode As Integer = 0 ' 0=None, 1=Shift, 2=Ctrl, 4=Alt
+                If e.Shift = True Then keyMode += 1
+                If e.Control = True Then keyMode += 2
+                If e.Alt = True Then keyMode += 4
+                Call ChangeModuleState(keyMode)
         End Select
     End Sub
 
@@ -875,14 +882,20 @@ Public Class ShipSlotControl
                 End If
 
                 ' Update the ship data
-                Dim sTime, eTime As Date
-                sTime = Now
                 ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
-                eTime = Now
-                'MessageBox.Show((eTime - sTime).TotalMilliseconds.ToString)
-
+                
             End If
         End If
+    End Sub
+
+    Private Sub ChangeModuleState(KeyMode As integer)
+        If adtSlots.SelectedNodes.Count > 0 Then
+            For Each SelNode As Node In adtSlots.SelectedNodes
+                Call Me.ChangeSingleModuleState(KeyMode, SelNode)
+            Next
+        End If
+        ' Update the ship data
+        ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
     End Sub
 
     ''' <summary>
