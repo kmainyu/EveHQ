@@ -841,6 +841,9 @@
     <None Include="Resources\level_200.gif" />
     <None Include="Resources\level_100.gif" />
     <None Include="Resources\level_000.gif" />
+    <Content Include="_updates2.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="v2.txt" />
     <Content Include="_message.xml">
       <SubType>Designer</SubType>

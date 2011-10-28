@@ -2016,9 +2016,6 @@ Public Class frmEveHQ
     End Sub
     Private Sub ShowUpdateForm()
         Dim myUpdater As New frmUpdater
-        If Screen.PrimaryScreen.Bounds.Height <= 650 Then
-            myUpdater.Height = Screen.PrimaryScreen.Bounds.Height - 100
-        End If
         myUpdater.Show()
     End Sub
     Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
