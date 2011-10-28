@@ -65,7 +65,7 @@ Partial Class frmUpdater
         '
         Me.btnStartUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnStartUpdate.Enabled = False
-        Me.btnStartUpdate.Location = New System.Drawing.Point(637, 443)
+        Me.btnStartUpdate.Location = New System.Drawing.Point(637, 393)
         Me.btnStartUpdate.Name = "btnStartUpdate"
         Me.btnStartUpdate.Size = New System.Drawing.Size(100, 22)
         Me.btnStartUpdate.TabIndex = 5
@@ -79,7 +79,7 @@ Partial Class frmUpdater
         '
         Me.btnRecheckUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnRecheckUpdates.Enabled = False
-        Me.btnRecheckUpdates.Location = New System.Drawing.Point(531, 443)
+        Me.btnRecheckUpdates.Location = New System.Drawing.Point(531, 393)
         Me.btnRecheckUpdates.Name = "btnRecheckUpdates"
         Me.btnRecheckUpdates.Size = New System.Drawing.Size(100, 22)
         Me.btnRecheckUpdates.TabIndex = 6
@@ -100,7 +100,7 @@ Partial Class frmUpdater
         Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelEx1.Location = New System.Drawing.Point(0, 0)
         Me.PanelEx1.Name = "PanelEx1"
-        Me.PanelEx1.Size = New System.Drawing.Size(744, 472)
+        Me.PanelEx1.Size = New System.Drawing.Size(744, 422)
         Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -113,7 +113,7 @@ Partial Class frmUpdater
         'btnCancelUpdate
         '
         Me.btnCancelUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCancelUpdate.Location = New System.Drawing.Point(425, 443)
+        Me.btnCancelUpdate.Location = New System.Drawing.Point(425, 393)
         Me.btnCancelUpdate.Name = "btnCancelUpdate"
         Me.btnCancelUpdate.Size = New System.Drawing.Size(100, 22)
         Me.btnCancelUpdate.TabIndex = 10
@@ -123,30 +123,32 @@ Partial Class frmUpdater
         '
         'nudDownloads
         '
+        Me.nudDownloads.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         '
         '
         '
         Me.nudDownloads.BackgroundStyle.Class = "DateTimeInputBackground"
         Me.nudDownloads.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.nudDownloads.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudDownloads.Location = New System.Drawing.Point(222, 444)
-        Me.nudDownloads.MaxValue = 10
+        Me.nudDownloads.Location = New System.Drawing.Point(216, 394)
+        Me.nudDownloads.MaxValue = 5
         Me.nudDownloads.MinValue = 1
         Me.nudDownloads.Name = "nudDownloads"
         Me.nudDownloads.ShowUpDown = True
         Me.nudDownloads.Size = New System.Drawing.Size(51, 21)
         Me.nudDownloads.TabIndex = 9
-        Me.nudDownloads.Value = 10
+        Me.nudDownloads.Value = 5
         '
         'lblMaxConcurrentDownloads
         '
+        Me.lblMaxConcurrentDownloads.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMaxConcurrentDownloads.AutoSize = True
         Me.lblMaxConcurrentDownloads.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMaxConcurrentDownloads.Location = New System.Drawing.Point(3, 448)
+        Me.lblMaxConcurrentDownloads.Location = New System.Drawing.Point(3, 398)
         Me.lblMaxConcurrentDownloads.Name = "lblMaxConcurrentDownloads"
-        Me.lblMaxConcurrentDownloads.Size = New System.Drawing.Size(213, 13)
+        Me.lblMaxConcurrentDownloads.Size = New System.Drawing.Size(207, 13)
         Me.lblMaxConcurrentDownloads.TabIndex = 8
-        Me.lblMaxConcurrentDownloads.Text = "Maximum Concurrent Downloads (max 10):"
+        Me.lblMaxConcurrentDownloads.Text = "Maximum Concurrent Downloads (max 5):"
         '
         'adtUpdates
         '
@@ -177,7 +179,7 @@ Partial Class frmUpdater
         Me.adtUpdates.NodesConnector = Me.NodeConnector1
         Me.adtUpdates.NodeStyle = Me.Log
         Me.adtUpdates.PathSeparator = ";"
-        Me.adtUpdates.Size = New System.Drawing.Size(734, 411)
+        Me.adtUpdates.Size = New System.Drawing.Size(734, 361)
         Me.adtUpdates.Styles.Add(Me.Log)
         Me.adtUpdates.Styles.Add(Me.LogCentre)
         Me.adtUpdates.Styles.Add(Me.Centre)
@@ -283,7 +285,7 @@ Partial Class frmUpdater
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(744, 472)
+        Me.ClientSize = New System.Drawing.Size(744, 422)
         Me.Controls.Add(Me.PanelEx1)
         Me.DoubleBuffered = True
         Me.EnableGlass = False

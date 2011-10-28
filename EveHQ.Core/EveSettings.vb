@@ -192,10 +192,11 @@ Imports System.Data.OleDb
     Private cPriceGroups As New SortedList(Of String, PriceGroup)
     Private cCorporations As New SortedList(Of String, Corporation)
     Private cMarketDataSource As MarketSite = MarketSite.EveMarketeer
-    Private cMaxUpdateThreads As Integer = 10
+    Private cMaxUpdateThreads As Integer = 5
 
     Public Property MaxUpdateThreads As Integer
         Get
+            If cMaxUpdateThreads = 0 Then cMaxUpdateThreads = 5
             Return cMaxUpdateThreads
         End Get
         Set(value As Integer)

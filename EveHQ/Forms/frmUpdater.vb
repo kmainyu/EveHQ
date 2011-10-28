@@ -450,6 +450,7 @@ Public Class frmUpdater
 
     Private Sub MainUpdateWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MainUpdateWorker.DoWork
         UpdateWorkerList.Clear()
+        UpdateQueue.Clear()
         NumberOfFilesRequired = FilesRequired.Count
         Do
             ' Check if the queue is full
@@ -469,6 +470,7 @@ Public Class frmUpdater
             If MainUpdateWorker.CancellationPending = True Then
                 Exit Do
             End If
+            Application.DoEvents()
         Loop Until FilesRequired.Count = 0
     End Sub
 
@@ -555,10 +557,12 @@ Public Class frmUpdater
             Dim pb As ProgressBarItem = CType(PDBControls(fileName), ProgressBarItem)
             pb.Value = e.ProgressPercentage
             pb.Text = pb.Value.ToString & "%"
+            pb.Refresh()
         Else
             Dim pb As ProgressBarItem = CType(PBControls(fileName), ProgressBarItem)
             pb.Value = e.ProgressPercentage
             pb.Text = pb.Value.ToString & "%"
+            pb.Refresh()
         End If
     End Sub
 
