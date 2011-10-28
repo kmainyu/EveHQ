@@ -18,11 +18,13 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports EveHQ.Core.RSS
+Imports System.ComponentModel
 
 Public Class DBCRSSFeed
     Private ReadOnly feedItems As New ArrayList
     Private ReadOnly feedIDs As New ArrayList
     Public Feeds As New List(Of String)()
+    Dim WithEvents FeedWorker As New BackgroundWorker
 
     Public Sub New()
 
@@ -33,6 +35,7 @@ Public Class DBCRSSFeed
 
         ' Initialise configuration form name
         Me.ControlConfigForm = "EveHQ.DBCRSSFeedConfig"
+        FeedWorker = New BackgroundWorker
 
     End Sub
 
@@ -61,12 +64,15 @@ Public Class DBCRSSFeed
                 Me.SetConfig("RSSFeed", value)
                 Me.SetConfig("ControlConfigInfo", "RSS Feed: " & Me.RSSFeed)
             End If
-            Call Me.ParseFeed(cRSSFeed)
+            cpFeed.IsRunning = True
+            FeedWorker.RunWorkerAsync()
         End Set
     End Property
 #End Region
 
     Private Sub UpdateFeedDisplay()
+        pnlFeedItems.SuspendLayout()
+        pnlFeedItems.Controls.Clear()
         For Each item As FeedItem In feedItems
             Dim RSSItem As New RSSFeedItem
             RSSItem.lblFeedItemTitle.Text = item.Title
@@ -79,8 +85,20 @@ Public Class DBCRSSFeed
             RSSItem.BringToFront()
             lblHeader.Text = "RSS Feed: " & item.Source
         Next
+        pnlFeedItems.ResumeLayout()
     End Sub
 
+#Region "Background Worker Routines"
+
+    Private Sub FeedWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles FeedWorker.DoWork
+        Call Me.ParseFeed(cRSSFeed)
+    End Sub
+
+    Private Sub FeedWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles FeedWorker.RunWorkerCompleted
+        Call Me.UpdateFeedDisplay()
+    End Sub
+
+#End Region
 
 #Region "Feed Parsing Routines"
 
@@ -111,8 +129,6 @@ Public Class DBCRSSFeed
                 feedIDs.Add(item.GUID)
 
             Next
-            ' Update feed display
-            Call Me.UpdateFeedDisplay()
         Catch
             'Suppress any errors 
         End Try
@@ -139,4 +155,5 @@ Public Class DBCRSSFeed
     End Function
 
 #End Region
+
 End Class

@@ -23,9 +23,11 @@ Partial Class DBCRSSFeed
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DBCRSSFeed))
-        Me.pnlFeedItems = New DevComponents.DotNetBar.PanelEx
+        Me.pnlFeedItems = New DevComponents.DotNetBar.PanelEx()
+        Me.cpFeed = New DevComponents.DotNetBar.Controls.CircularProgress()
         Me.AGPContent.SuspendLayout()
         CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlFeedItems.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblHeader
@@ -55,11 +57,12 @@ Partial Class DBCRSSFeed
         'pnlFeedItems
         '
         Me.pnlFeedItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlFeedItems.AutoScroll = True
         Me.pnlFeedItems.CanvasColor = System.Drawing.SystemColors.Control
         Me.pnlFeedItems.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlFeedItems.Controls.Add(Me.cpFeed)
         Me.pnlFeedItems.Location = New System.Drawing.Point(6, 35)
         Me.pnlFeedItems.Name = "pnlFeedItems"
         Me.pnlFeedItems.Size = New System.Drawing.Size(288, 172)
@@ -74,6 +77,19 @@ Partial Class DBCRSSFeed
         Me.pnlFeedItems.Style.GradientAngle = 90
         Me.pnlFeedItems.TabIndex = 15
         '
+        'cpFeed
+        '
+        '
+        '
+        '
+        Me.cpFeed.BackgroundStyle.Class = ""
+        Me.cpFeed.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.cpFeed.Location = New System.Drawing.Point(3, 3)
+        Me.cpFeed.Name = "cpFeed"
+        Me.cpFeed.Size = New System.Drawing.Size(48, 48)
+        Me.cpFeed.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cpFeed.TabIndex = 0
+        '
         'DBCRSSFeed
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -81,9 +97,11 @@ Partial Class DBCRSSFeed
         Me.Name = "DBCRSSFeed"
         Me.AGPContent.ResumeLayout(False)
         CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlFeedItems.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents pnlFeedItems As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents cpFeed As DevComponents.DotNetBar.Controls.CircularProgress
 
 End Class
