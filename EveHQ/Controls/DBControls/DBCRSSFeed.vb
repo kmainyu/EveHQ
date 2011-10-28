@@ -73,18 +73,23 @@ Public Class DBCRSSFeed
     Private Sub UpdateFeedDisplay()
         pnlFeedItems.SuspendLayout()
         pnlFeedItems.Controls.Clear()
-        For Each item As FeedItem In feedItems
-            Dim RSSItem As New RSSFeedItem
-            RSSItem.lblFeedItemTitle.Text = item.Title
-            RSSItem.lblFeedItemTitle.Tag = item.Link
-            Dim itemDate As Date
-            Date.TryParse(item.PubDate, itemDate)
-            RSSItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
-            pnlFeedItems.Controls.Add(RSSItem)
-            RSSItem.Dock = DockStyle.Top
-            RSSItem.BringToFront()
-            lblHeader.Text = "RSS Feed: " & item.Source
-        Next
+        If feedItems.Count > 0 Then
+            pnlFeedItems.Text = ""
+            For Each item As FeedItem In feedItems
+                Dim RSSItem As New RSSFeedItem
+                RSSItem.lblFeedItemTitle.Text = item.Title
+                RSSItem.lblFeedItemTitle.Tag = item.Link
+                Dim itemDate As Date
+                Date.TryParse(item.PubDate, itemDate)
+                RSSItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
+                pnlFeedItems.Controls.Add(RSSItem)
+                RSSItem.Dock = DockStyle.Top
+                RSSItem.BringToFront()
+                lblHeader.Text = "RSS Feed: " & item.Source
+            Next
+        Else
+            pnlFeedItems.Text = "Unable to obtain feed information."
+        End If
         pnlFeedItems.ResumeLayout()
     End Sub
 
