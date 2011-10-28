@@ -284,14 +284,12 @@ namespace EveHQ.PosManager
             endT = DateTime.Now;
             runT = endT.Subtract(startT);
 
+            // Setup poll timer, and give the system a check of 30 seconds to allow full EveHQ Startup
             t_MonitorUpdate = new System.Timers.Timer();
             t_MonitorUpdate.Elapsed += new ElapsedEventHandler(UdateMonitorInformation);
             t_MonitorUpdate.AutoReset = false;
-
-            if (!bgw_APIUpdate.IsBusy)
-            {
-                PlugInData.bgw_APIUpdate.RunWorkerAsync();
-            }
+            t_MonitorUpdate.Interval = 180;
+            t_MonitorUpdate.Enabled = true;
 
             return true;
         }
