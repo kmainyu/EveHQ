@@ -131,6 +131,10 @@ Public Class frmUpdater
 
     Private Sub ShowUpdates()
 
+        FilesRequired.Clear()
+        filesComplete.Clear()
+        filesTried = 0
+
         tmrUpdate.Enabled = False
 
         ' Set Locations
@@ -263,24 +267,38 @@ Public Class frmUpdater
                 newFile.Cells.Add(New Cell(""))
                 chkDownload.CheckBoxPosition = eCheckBoxPosition.Top
                 newFile.Cells(4).HostedItem = chkDownload
-                Dim pbProgress As New ProgressBarItem
-                pbProgress.Name = newFile.Text
-                pbProgress.TextVisible = True
-                pbProgress.Text = "0%"
-                pbProgress.Width = 120
-                newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
-                newFile.Cells(5).HostedItem = pbProgress
-                PBControls.Add(newFile.Text, pbProgress)
+                If IsUpdateFileAvailable(newFile.Text) = False Then
+                    Dim pbProgress As New ProgressBarItem
+                    pbProgress.Name = newFile.Text
+                    pbProgress.TextVisible = True
+                    pbProgress.Text = "0%"
+                    pbProgress.Width = 120
+                    newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                    newFile.Cells(5).HostedItem = pbProgress
+                    PBControls.Add(newFile.Text, pbProgress)
+                Else
+                    newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                    newFile.Cells(5).Text = "File Downloaded"
+                    filesTried += 1
+                    filesComplete.Add(newFile.Text, True)
+                End If
                 ' Check for a PDB file
                 If updateFile.ChildNodes(3).InnerText = "True" Then
-                    Dim pdbProgress As New ProgressBarItem
-                    pdbProgress.Name = newFile.Text
-                    pdbProgress.TextVisible = True
-                    pdbProgress.Text = "0%"
-                    pdbProgress.Width = 120
-                    newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
-                    newFile.Cells(6).HostedItem = pdbProgress
-                    PDBControls.Add(newFile.Text.Remove(newFile.Text.Length - 4, 4) & ".pdb", pdbProgress)
+                    If IsUpdateFileAvailable(newFile.Text.Remove(newFile.Text.Length - 4, 4) & ".pdb") = False Then
+                        Dim pdbProgress As New ProgressBarItem
+                        pdbProgress.Name = newFile.Text
+                        pdbProgress.TextVisible = True
+                        pdbProgress.Text = "0%"
+                        pdbProgress.Width = 120
+                        newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                        newFile.Cells(6).HostedItem = pdbProgress
+                        PDBControls.Add(newFile.Text.Remove(newFile.Text.Length - 4, 4) & ".pdb", pdbProgress)
+                    Else
+                        newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
+                        newFile.Cells(6).Text = "File Downloaded"
+                        filesTried += 1
+                        filesComplete.Add(newFile.Text.Remove(newFile.Text.Length - 4, 4) & ".pdb", True)
+                    End If
                 Else
                     newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
                     newFile.Cells(6).Text = "PDB File Not Required"
@@ -353,6 +371,11 @@ Public Class frmUpdater
 
     End Sub
 
+    Private Function IsUpdateFileAvailable(UpdateFile As String) As Boolean
+        UpdateFile = Path.Combine(updateFolder, UpdateFile)
+        Return My.Computer.FileSystem.FileExists(UpdateFile)
+    End Function
+
     Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
         If localVer = "Not Used" Then
             Return False
@@ -386,7 +409,6 @@ Public Class frmUpdater
         btnStartUpdate.Enabled = False
         btnCancelUpdate.Visible = True
         EveHQ.Core.HQ.EveHQIsUpdating = True
-        filesTried = 0
 
         ' Reset the progress bars
         For Each pb As ProgressBarItem In pbControls.Values
@@ -403,19 +425,21 @@ Public Class frmUpdater
         Next
 
         ' Check which files we are downloading (those that are checked)
-        filesRequired.Clear()
-        filesComplete.Clear()
         For Each item As Node In adtUpdates.Nodes
             If CType(item.Cells(4).HostedItem, CheckBoxItem).Checked = True Then
                 ' Add the main file
-                FilesRequired.Enqueue(item.Text)
+                If item.Cells(5).HostedItem IsNot Nothing Or item.Cells(5).Text = "File Downloaded" Then
+                    FilesRequired.Enqueue(item.Text)
+                End If
                 ' Check for a PDB file
-                If item.Cells(6).HostedItem IsNot Nothing Then
+                If item.Cells(6).HostedItem IsNot Nothing Or item.Cells(6).Text = "File Downloaded" Then
                     FilesRequired.Enqueue(item.Text.Remove(item.Text.Length - 4, 4) & ".pdb")
                 End If
             Else
                 item.Cells(5).HostedItem = Nothing
-                item.Cells(5).Text = "Not selected for download"
+                item.Cells(5).Text = "Not selected"
+                item.Cells(6).HostedItem = Nothing
+                item.Cells(6).Text = "Not selected"
             End If
         Next
 
@@ -456,26 +480,31 @@ Public Class frmUpdater
         UpdateWorkerList.Clear()
         UpdateQueue.Clear()
         NumberOfFilesRequired = FilesRequired.Count
-        Do
-            ' Check if the queue is full
-            If UpdateQueue.Count < EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads Then
-                ' Get a file from the queue
-                Dim reqfile As String = FilesRequired.Dequeue
-                UpdateQueue.Add(reqfile)
-                Dim updateWorker As New System.ComponentModel.BackgroundWorker
-                AddHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
-                AddHandler updateWorker.ProgressChanged, AddressOf UpdateWorker_ProgressChanged
-                AddHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
-                updateWorker.WorkerReportsProgress = True
-                updateWorker.WorkerSupportsCancellation = True
-                UpdateWorkerList.Add(reqfile, updateWorker)
-                updateWorker.RunWorkerAsync(reqfile)
-            End If
-            If MainUpdateWorker.CancellationPending = True Then
-                Exit Do
-            End If
-            Application.DoEvents()
-        Loop Until FilesRequired.Count = 0
+        If FilesRequired.Count <> filesComplete.Count Then
+            Do
+                ' Check if the queue is full
+                If UpdateQueue.Count < EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads Then
+                    ' Get a file from the queue
+                    Dim reqfile As String = FilesRequired.Dequeue
+                    UpdateQueue.Add(reqfile)
+                    Dim updateWorker As New System.ComponentModel.BackgroundWorker
+                    AddHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
+                    AddHandler updateWorker.ProgressChanged, AddressOf UpdateWorker_ProgressChanged
+                    AddHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
+                    updateWorker.WorkerReportsProgress = True
+                    updateWorker.WorkerSupportsCancellation = True
+                    UpdateWorkerList.Add(reqfile, updateWorker)
+                    updateWorker.RunWorkerAsync(reqfile)
+                End If
+                If MainUpdateWorker.CancellationPending = True Then
+                    Exit Do
+                End If
+                Application.DoEvents()
+            Loop Until FilesRequired.Count = 0
+        Else
+            ' Check for the full download scenario
+            Call Me.CheckCompletedUpdates()
+        End If
     End Sub
 
     Private Function DownloadFile(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String) As Boolean
@@ -604,71 +633,67 @@ Public Class frmUpdater
         RemoveHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
         RemoveHandler updateWorker.ProgressChanged, AddressOf UpdateWorker_ProgressChanged
         RemoveHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
+    End Sub
 
+    Private Sub CheckCompletedUpdates()
         If filesTried = NumberOfFilesRequired Then
             If filesComplete.Count = NumberOfFilesRequired Then
                 lblUpdateStatus.Text = "Status: Download complete!"
                 ' Ask the user if they want to update now
-                Dim msg As String = "The download process is complete. Would you like to close and update EveHQ now?"
-                If MessageBox.Show(msg, "Update Now?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
-                    ' Activate the update menu
-                    EveHQ.Core.HQ.AppUpdateAvailable = True
-                    frmEveHQ.btnUpdateEveHQ.Enabled = True
-                    EveHQ.Core.HQ.EveHQIsUpdating = False
-                    Me.Close()
-                Else
-                    ' Try backup here?
-                    If EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate = True Then
-                        EveHQ.Core.HQ.WriteLogEvent("Shutdown: Request to backup EveHQ Settings before update")
-                        Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
-                        Call EveHQ.Core.EveHQBackup.BackupEveHQSettings()
-                    End If
-                    ' Try and download patchfile
-                    Dim patcherFile As String = Path.Combine(PatcherLocation, "EveHQPatcher.exe")
-                    Try
-                        lblUpdateStatus.Text = "Status: Fetching Patcher File!"
-                        Call Me.DownloadPatcherFile("EveHQPatcher.exe")
-                        'MessageBox.Show("Patcher Deployment Successful!", "Patcher Deployment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        tmrUpdate.Enabled = True
-                    Catch Excep As System.Runtime.InteropServices.COMException
-                        Dim errMsg As String = "Unable to copy Patcher to " & ControlChars.CrLf & ControlChars.CrLf & patcherFile & ControlChars.CrLf & ControlChars.CrLf
-                        errMsg &= "Please make sure this file is in the EveHQ program directory before continuing."
-                        MessageBox.Show(errMsg, "Error Copying Patcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Exit Sub
-                    End Try
-                    Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
-                    startInfo.UseShellExecute = True
-                    startInfo.WorkingDirectory = Environment.CurrentDirectory
-                    startInfo.FileName = patcherFile
-                    Dim args As String = " /App;" & ControlChars.Quote & EveHQ.Core.HQ.appFolder & ControlChars.Quote
-                    args &= " /Base;" & ControlChars.Quote & BaseLocation & ControlChars.Quote
-                    If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
-                        args &= " /Local;True"
-                    Else
-                        args &= " /Local;False"
-                    End If
-                    If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
-                        args &= " /DB;" & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.Quote
-                    Else
-                        args &= " /DB;None"
-                    End If
-                    startInfo.Arguments = args
-                    Dim osInfo As OperatingSystem = System.Environment.OSVersion
-                    If osInfo.Version.Major > 5 Then
-                        startInfo.Verb = "runas"
-                    End If
-                    Process.Start(startInfo)
-                    EveHQ.Core.HQ.EveHQIsUpdating = False
-                    EveHQ.Core.HQ.UpdateShutDownRequest = True
-                    EveHQ.Core.HQ.StartShutdownEveHQ = True
-                    Me.Close()
+                Dim msg As String = "The download process is complete. EveHQ will now update - Click OK to continue..."
+                MessageBox.Show(msg, "Ready To Update", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ' Try backup here?
+                If EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate = True Then
+                    EveHQ.Core.HQ.WriteLogEvent("Shutdown: Request to backup EveHQ Settings before update")
+                    Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
+                    Call EveHQ.Core.EveHQBackup.BackupEveHQSettings()
                 End If
+                ' Try and download patchfile
+                Dim patcherFile As String = Path.Combine(PatcherLocation, "EveHQPatcher.exe")
+                Try
+                    lblUpdateStatus.Text = "Status: Fetching Patcher File!"
+                    Call Me.DownloadPatcherFile("EveHQPatcher.exe")
+                    'MessageBox.Show("Patcher Deployment Successful!", "Patcher Deployment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    tmrUpdate.Enabled = True
+                Catch Excep As System.Runtime.InteropServices.COMException
+                    Dim errMsg As String = "Unable to copy Patcher to " & ControlChars.CrLf & ControlChars.CrLf & patcherFile & ControlChars.CrLf & ControlChars.CrLf
+                    errMsg &= "Please make sure this file is in the EveHQ program directory before continuing."
+                    MessageBox.Show(errMsg, "Error Copying Patcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End Try
+                Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
+                startInfo.UseShellExecute = True
+                startInfo.WorkingDirectory = Environment.CurrentDirectory
+                startInfo.FileName = patcherFile
+                Dim args As String = " /App;" & ControlChars.Quote & EveHQ.Core.HQ.appFolder & ControlChars.Quote
+                args &= " /Base;" & ControlChars.Quote & BaseLocation & ControlChars.Quote
+                If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
+                    args &= " /Local;True"
+                Else
+                    args &= " /Local;False"
+                End If
+                If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+                    args &= " /DB;" & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.Quote
+                Else
+                    args &= " /DB;None"
+                End If
+                startInfo.Arguments = args
+                Dim osInfo As OperatingSystem = System.Environment.OSVersion
+                If osInfo.Version.Major > 5 Then
+                    startInfo.Verb = "runas"
+                End If
+                Process.Start(startInfo)
+                EveHQ.Core.HQ.EveHQIsUpdating = False
+                EveHQ.Core.HQ.UpdateShutDownRequest = True
+                EveHQ.Core.HQ.StartShutdownEveHQ = True
+                Me.Close()
             Else
                 MessageBox.Show("There was an error downloading the update files so the process has been aborted. Please try again and if the update continues to fail, please post a bug report.", "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Me.Close()
             End If
         End If
     End Sub
+
 
     Private Sub btnRecheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRecheckUpdates.Click
         btnRecheckUpdates.Enabled = False
