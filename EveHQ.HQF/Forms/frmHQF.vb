@@ -265,12 +265,16 @@ Public Class frmHQF
                             Dim stt As New DevComponents.DotNetBar.SuperTooltipInfo
                             stt.HeaderText = Ship.Name
                             stt.FooterText = "HQF Ship Information - " & Ship.Name
-                            stt.BodyText = "<b>Key Stats:</b><br />" & ControlChars.CrLf
-                            stt.BodyText &= "Slots - High: " & Ship.HiSlots.ToString & ", Mid: " & Ship.MidSlots.ToString & ", Low: " & Ship.LowSlots.ToString & ", Rig: " & Ship.RigSlots.ToString & "<br />"
-                            stt.BodyText &= "Weapons - Turrets: " & Ship.TurretSlots.ToString & ", Launchers: " & Ship.LauncherSlots.ToString & "<br />"
-                            stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & " m/s<br />"
+                            stt.BodyText &= "Slots - Hi:" & Ship.HiSlots.ToString & " Mid:" & Ship.MidSlots.ToString & " Low:" & Ship.LowSlots.ToString & " Rig:" & Ship.RigSlots.ToString & " T:" & Ship.TurretSlots.ToString & " ML:" & Ship.LauncherSlots.ToString & "<br />"
+                            stt.BodyText &= "CPU: " & Ship.CPU.ToString("N0") & ", PG: " & Ship.PG.ToString("N0") & ", Cal: " & Ship.Calibration.ToString("N0") & ", Cap: " & Ship.CapCapacity.ToString("N0") & " (" & Ship.CapRecharge.ToString("N0") & "s)<br />"
+                            stt.BodyText &= "Shield: " & Ship.ShieldCapacity.ToString("N0") & " (" & Ship.ShieldRecharge.ToString("N0") & "s) - EM:" & Ship.ShieldEMResist.ToString("N0") & "% Ex:" & Ship.ShieldExResist.ToString("N0") & "% Ki:" & Ship.ShieldKiResist.ToString("N0") & "% Th:" & Ship.ShieldThResist.ToString("N0") & "%<br />"
+                            stt.BodyText &= "Armor: " & Ship.ArmorCapacity.ToString("N0") & " - EM:" & Ship.ArmorEMResist.ToString("N0") & "% Ex:" & Ship.ArmorExResist.ToString("N0") & "% Ki:" & Ship.ArmorKiResist.ToString("N0") & "% Th:" & Ship.ArmorThResist.ToString("N0") & "%<br />"
+                            stt.BodyText &= "Hull: " & Ship.StructureCapacity.ToString("N0") & " - EM:" & Ship.StructureEMResist.ToString("N0") & "% Ex:" & Ship.StructureExResist.ToString("N0") & "% Ki:" & Ship.StructureKiResist.ToString("N0") & "% Th:" & Ship.StructureThResist.ToString("N0") & "%<br />"
+                            stt.BodyText &= "Targeting: " & (Ship.MaxTargetRange / 1000).ToString("N0") & "km, (" & Ship.MaxLockedTargets.ToString("N0") & "T), Scan Res: " & Ship.ScanResolution.ToString("N0") & "mm, Sensors: " & (Ship.GravSensorStrenth + Ship.LadarSensorStrenth + Ship.MagSensorStrenth + Ship.RadarSensorStrenth).ToString("N0") & "<br />"
+                            stt.BodyText &= "Cargo: " & Ship.CargoBay.ToString("N0") & "m³ Drone Bay: " & Ship.DroneBay.ToString("N0") & "m³ (B/W: " & Ship.DroneBandwidth.ToString("N0") & "Mb/s)<br />"
+                            stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & "m/s, Warp: " & Ship.WarpSpeed.ToString("N0") & "au/s"
                             stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
-                            stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 64)
+                            stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 96)
                             stt.FooterImage = My.Resources.imgInfo1
                             STTShips.SetSuperTooltip(nNode, stt)
                         End If
@@ -644,12 +648,16 @@ Public Class frmHQF
                 Dim stt As New DevComponents.DotNetBar.SuperTooltipInfo
                 stt.HeaderText = Ship.Name
                 stt.FooterText = "HQF Ship Information - " & Ship.Name
-                stt.BodyText = "<b>Key Stats:</b><br />" & ControlChars.CrLf
-                stt.BodyText &= "Slots - High: " & Ship.HiSlots.ToString & ", Mid: " & Ship.MidSlots.ToString & ", Low: " & Ship.LowSlots.ToString & ", Rig: " & Ship.RigSlots.ToString & "<br />"
-                stt.BodyText &= "Weapons - Turrets: " & Ship.TurretSlots.ToString & ", Launchers: " & Ship.LauncherSlots.ToString & "<br />"
-                stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & " m/s<br />"
+                stt.BodyText &= "Slots - Hi:" & Ship.HiSlots.ToString & " Mid:" & Ship.MidSlots.ToString & " Low:" & Ship.LowSlots.ToString & " Rig:" & Ship.RigSlots.ToString & " T:" & Ship.TurretSlots.ToString & " ML:" & Ship.LauncherSlots.ToString & "<br />"
+                stt.BodyText &= "CPU: " & Ship.CPU.ToString("N0") & ", PG: " & Ship.PG.ToString("N0") & ", Cal: " & Ship.Calibration.ToString("N0") & ", Cap: " & Ship.CapCapacity.ToString("N0") & " (" & Ship.CapRecharge.ToString("N0") & "s)<br />"
+                stt.BodyText &= "Shield: " & Ship.ShieldCapacity.ToString("N0") & " (" & Ship.ShieldRecharge.ToString("N0") & "s) - EM:" & Ship.ShieldEMResist.ToString("N0") & "% Ex:" & Ship.ShieldExResist.ToString("N0") & "% Ki:" & Ship.ShieldKiResist.ToString("N0") & "% Th:" & Ship.ShieldThResist.ToString("N0") & "%<br />"
+                stt.BodyText &= "Armor: " & Ship.ArmorCapacity.ToString("N0") & " - EM:" & Ship.ArmorEMResist.ToString("N0") & "% Ex:" & Ship.ArmorExResist.ToString("N0") & "% Ki:" & Ship.ArmorKiResist.ToString("N0") & "% Th:" & Ship.ArmorThResist.ToString("N0") & "%<br />"
+                stt.BodyText &= "Hull: " & Ship.StructureCapacity.ToString("N0") & " - EM:" & Ship.StructureEMResist.ToString("N0") & "% Ex:" & Ship.StructureExResist.ToString("N0") & "% Ki:" & Ship.StructureKiResist.ToString("N0") & "% Th:" & Ship.StructureThResist.ToString("N0") & "%<br />"
+                stt.BodyText &= "Targeting: " & (Ship.MaxTargetRange / 1000).ToString("N0") & "km, (" & Ship.MaxLockedTargets.ToString("N0") & "T), Scan Res: " & Ship.ScanResolution.ToString("N0") & "mm, Sensors: " & (Ship.GravSensorStrenth + Ship.LadarSensorStrenth + Ship.MagSensorStrenth + Ship.RadarSensorStrenth).ToString("N0") & "<br />"
+                stt.BodyText &= "Cargo: " & Ship.CargoBay.ToString("N0") & "m³ Drone Bay: " & Ship.DroneBay.ToString("N0") & "m³ (B/W: " & Ship.DroneBandwidth.ToString("N0") & "Mb/s)<br />"
+                stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & "m/s, Warp: " & Ship.WarpSpeed.ToString("N0") & "au/s"
                 stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
-                stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 64)
+                stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 96)
                 stt.FooterImage = My.Resources.imgInfo1
                 STTShips.SetSuperTooltip(shipNode, stt)
 

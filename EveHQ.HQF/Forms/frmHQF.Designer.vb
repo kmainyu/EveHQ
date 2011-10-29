@@ -1438,7 +1438,7 @@ Partial Class frmHQF
         'STTShips
         '
         Me.STTShips.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.STTShips.MinimumTooltipSize = New System.Drawing.Size(350, 80)
+        Me.STTShips.MinimumTooltipSize = New System.Drawing.Size(400, 100)
         Me.STTShips.PositionBelowControl = False
         '
         'frmHQF
