@@ -1034,11 +1034,12 @@ Partial Class frmHQF
         Me.tabHQF.BackColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(125, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.tabHQF.CanReorderTabs = True
         Me.tabHQF.CloseButtonOnTabsVisible = True
-        Me.tabHQF.Location = New System.Drawing.Point(243, 125)
+        Me.tabHQF.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabHQF.Location = New System.Drawing.Point(234, 0)
         Me.tabHQF.Name = "tabHQF"
         Me.tabHQF.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.tabHQF.SelectedTabIndex = -1
-        Me.tabHQF.Size = New System.Drawing.Size(799, 584)
+        Me.tabHQF.Size = New System.Drawing.Size(814, 721)
         Me.tabHQF.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
         Me.tabHQF.TabIndex = 25
         Me.tabHQF.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.MultilineNoNavigationBox
@@ -1445,8 +1446,8 @@ Partial Class frmHQF
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1284, 721)
-        Me.Controls.Add(Me.tabHQF)
         Me.Controls.Add(Me.rbmc1)
+        Me.Controls.Add(Me.tabHQF)
         Me.Controls.Add(Me.SplitterShips)
         Me.Controls.Add(Me.panelShips)
         Me.Controls.Add(Me.SplitterModules)

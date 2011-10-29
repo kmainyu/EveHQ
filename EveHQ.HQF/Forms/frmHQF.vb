@@ -81,6 +81,24 @@ Public Class frmHQF
 
 #Region "Form Initialisation & Closing Routines"
 
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+        ' Load the settings!
+        Call Settings.HQFSettings.LoadHQFSettings()
+
+        ' Set the panel widths
+        panelShips.Width = Settings.HQFSettings.ShipPanelWidth
+        panelModules.Width = Settings.HQFSettings.ModPanelWidth
+        panelFittings.Height = Settings.HQFSettings.ShipSplitterWidth
+        panelModFilters.Height = Settings.HQFSettings.ModSplitterWidth
+
+    End Sub
+
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
         ' Remove events
@@ -132,16 +150,10 @@ Public Class frmHQF
 
         Me.SuspendLayout()
 
-        ' Load the settings!
-        Call Settings.HQFSettings.LoadHQFSettings()
-
         ' Clear tabs and fitted ship lists, results list
         ShipLists.fittedShipList.Clear()
         LastModuleResults.Clear()
-        tabHQF.Dock = DockStyle.Fill ' Maximize the tab control after allowing for the ribbon merge container
         tabHQF.Tabs.Clear()
-        Me.Show()
-        Me.Refresh()
 
         AddHandler HQFEvents.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
@@ -163,30 +175,6 @@ Public Class frmHQF
 
         ' Set the MetaType Filter
         Call Me.SetMetaTypeFilters()
-
-        ' Create Image Cache
-        ImageHandler.BaseIcons.Clear()
-        Dim IconList As New List(Of String)
-        For Each sMod As ShipModule In ModuleLists.moduleList.Values
-            If sMod.Icon <> "" Then
-                If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
-                    Dim OI As Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Bitmap)
-                    If OI IsNot Nothing Then
-                        ImageHandler.BaseIcons.Add(sMod.Icon, OI)
-                    End If
-                End If
-            End If
-        Next
-        ImageHandler.MetaIcons.Clear()
-        For idx As Integer = 0 To 32
-            Dim OI As Bitmap = CType(My.Resources.ResourceManager.GetObject("Meta" & (2 ^ idx).ToString), Bitmap)
-            If OI IsNot Nothing Then
-                ImageHandler.MetaIcons.Add((2 ^ idx).ToString, OI)
-            End If
-        Next
-        ' Combine the images
-        Call ImageHandler.CombineIcons24()
-        Call ImageHandler.CombineIcons48()
 
         ' Show the groups
         Call Me.ShowShipGroups()
@@ -226,65 +214,15 @@ Public Class frmHQF
             tvwModules.Columns(col).Width.Absolute = HQF.Settings.HQFSettings.ModuleListColWidths(CLng(col))
         Next
 
-        ' Set the panel widths
-        panelShips.Width = Settings.HQFSettings.ShipPanelWidth
-        panelModules.Width = Settings.HQFSettings.ModPanelWidth
-        panelFittings.Height = Settings.HQFSettings.ShipSplitterWidth
-        panelModFilters.Height = Settings.HQFSettings.ModSplitterWidth
-
         Me.ResumeLayout()
 
     End Sub
     Private Sub LoadFittings()
         Call SavedFittings.LoadFittings()
-        'Fittings.FittingList.Clear()
-        'If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
-        '    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Open)
-        '    Dim f As BinaryFormatter = New BinaryFormatter
-        '    Fittings.FittingList = CType(f.Deserialize(s), SortedList)
-        '    s.Close()
-        'End If
-        '' Update Fitting Names
-        'Dim updateList As New SortedList(Of String, String)
-        'For Each fitting As String In Fittings.FittingList.Keys
-        '    If fitting.Contains("Amarr Navy Slicer") Then
-        '        Dim newFit As String = fitting.Replace("Amarr Navy Slicer", "Imperial Navy Slicer")
-        '        updateList.Add(fitting, newFit)
-        '    End If
-        '    If fitting.Contains("Gallente Navy Comet") Then
-        '        Dim newFit As String = fitting.Replace("Gallente Navy Comet", "Federation Navy Comet")
-        '        updateList.Add(fitting, newFit)
-        '    End If
-        'Next
-        'For Each fitting As String In updateList.Keys
-        '    If Fittings.FittingList.ContainsKey(updateList(fitting)) = False Then
-        '        Fittings.FittingList.Add(updateList(fitting), Fittings.FittingList(fitting))
-        '    End If
-        '    If Fittings.FittingList.ContainsKey(fitting) = False Then
-        '        Fittings.FittingList.Remove(fitting)
-        '    End If
-        'Next
-        '' Update Modules
-        'For Each fitting As ArrayList In Fittings.FittingList.Values
-        '    For idx As Integer = 0 To fitting.Count - 1
-        '        fitting(idx) = fitting(idx).ToString.Replace("Amarr Navy", "Imperial Navy")
-        '        fitting(idx) = fitting(idx).ToString.Replace("Gallente Navy", "Federation Navy")
-        '    Next
-        'Next
         Call Me.UpdateFittingsTree(True)
     End Sub
     Private Sub SaveFittings()
         Call SavedFittings.SaveFittings()
-        'Try
-        '    ' Save ships
-        '    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Create)
-        '    Dim f As New BinaryFormatter
-        '    f.Serialize(s, Fittings.FittingList)
-        '    s.Flush()
-        '    s.Close()
-        'Catch ex As Exception
-        '    MessageBox.Show("There was an error saving the fittings file. The error was: " & ex.Message, "Save Fittings Failed :(", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'End Try
     End Sub
     Private Sub ShowShipGroups()
         Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ShipGroups.bin"))
@@ -338,7 +276,7 @@ Public Class frmHQF
                         End If
                         cNode.Nodes.Add(nNode)
                     End If
-                    End If
+                End If
             End If
         Next
         ' Remove any groups that have no children

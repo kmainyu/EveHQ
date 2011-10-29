@@ -85,6 +85,30 @@ Public Class PlugInData
                 PlugInData.UseSerializableData = False
             End If
 
+            ' Create Image Cache
+            ImageHandler.BaseIcons.Clear()
+            Dim IconList As New List(Of String)
+            For Each sMod As ShipModule In ModuleLists.moduleList.Values
+                If sMod.Icon <> "" Then
+                    If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
+                        Dim OI As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Drawing.Bitmap)
+                        If OI IsNot Nothing Then
+                            ImageHandler.BaseIcons.Add(sMod.Icon, OI)
+                        End If
+                    End If
+                End If
+            Next
+            ImageHandler.MetaIcons.Clear()
+            For idx As Integer = 0 To 32
+                Dim OI As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("Meta" & (2 ^ idx).ToString), Drawing.Bitmap)
+                If OI IsNot Nothing Then
+                    ImageHandler.MetaIcons.Add((2 ^ idx).ToString, OI)
+                End If
+            Next
+            ' Combine the images
+            Call ImageHandler.CombineIcons24()
+            Call ImageHandler.CombineIcons48()
+
             Engine.BuildPirateImplants()
             Engine.BuildBoosterPenaltyList()
             Engine.BuildEffectsMap()
