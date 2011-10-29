@@ -85,30 +85,6 @@ Public Class PlugInData
                 PlugInData.UseSerializableData = False
             End If
 
-            ' Create Image Cache
-            ImageHandler.BaseIcons.Clear()
-            Dim IconList As New List(Of String)
-            For Each sMod As ShipModule In ModuleLists.moduleList.Values
-                If sMod.Icon <> "" Then
-                    If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
-                        Dim OI As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Drawing.Bitmap)
-                        If OI IsNot Nothing Then
-                            ImageHandler.BaseIcons.Add(sMod.Icon, OI)
-                        End If
-                    End If
-                End If
-            Next
-            ImageHandler.MetaIcons.Clear()
-            For idx As Integer = 0 To 32
-                Dim OI As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("Meta" & (2 ^ idx).ToString), Drawing.Bitmap)
-                If OI IsNot Nothing Then
-                    ImageHandler.MetaIcons.Add((2 ^ idx).ToString, OI)
-                End If
-            Next
-            ' Combine the images
-            Call ImageHandler.CombineIcons24()
-            Call ImageHandler.CombineIcons48()
-
             Engine.BuildPirateImplants()
             Engine.BuildBoosterPenaltyList()
             Engine.BuildEffectsMap()
@@ -268,6 +244,9 @@ Public Class PlugInData
                 ' Convert the old fittings file to the new version
                 Call SavedFittings.ConvertOldFittingsFile()
 
+                ' Create Image Cache
+                Call GenerateIcons()
+
                 Return True
             Else
                 ' Generate the HQF Cache Data
@@ -284,6 +263,32 @@ Public Class PlugInData
             End If
         End Try
     End Function
+
+    Private Sub GenerateIcons()
+        ' Create Image Cache
+        ImageHandler.BaseIcons.Clear()
+        Dim IconList As New List(Of String)
+        For Each sMod As ShipModule In ModuleLists.moduleList.Values
+            If sMod.Icon <> "" Then
+                If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
+                    Dim OI As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Drawing.Bitmap)
+                    If OI IsNot Nothing Then
+                        ImageHandler.BaseIcons.Add(sMod.Icon, OI)
+                    End If
+                End If
+            End If
+        Next
+        ImageHandler.MetaIcons.Clear()
+        For idx As Integer = 0 To 32
+            Dim OI As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("Meta" & (2 ^ idx).ToString), Drawing.Bitmap)
+            If OI IsNot Nothing Then
+                ImageHandler.MetaIcons.Add((2 ^ idx).ToString, OI)
+            End If
+        Next
+        ' Combine the images
+        Call ImageHandler.CombineIcons24()
+        Call ImageHandler.CombineIcons48()
+    End Sub
 
     Public Function GenerateHQFCacheData() As Boolean
         Try
@@ -315,6 +320,8 @@ Public Class PlugInData
                                                         CustomHQFClasses.ImplementCustomShips()
                                                         ' Convert the old fittings file to the new version
                                                         Call SavedFittings.ConvertOldFittingsFile()
+                                                        ' Generate the icons
+                                                        Call GenerateIcons()
                                                         Return True
                                                     Else
                                                         Return False
