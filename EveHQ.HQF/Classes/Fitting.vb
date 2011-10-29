@@ -2202,6 +2202,19 @@ Imports System.Runtime.Serialization
         Return ClonedFit.Clone
     End Function
 
+    Public Function Clone(ShipSlot As ShipSlotControl, ShipInfo As ShipInfoControl) As Fitting
+        ' Quite an elaborate method due to the fact that properties cannot be marked as non-serialised when
+        ' attempting to clone using a memory stream and binary formatter. So instead, we create an instance
+        ' of a new class which has all but the properties we don't want. The property values are copied,
+        ' then the new class is serialised and deserialised in memory to create a true clone.
+        ' This overloaded method restores the ShipSlot and ShipInfo controls after cloning
+        Dim ClonedFit As New FittingClone(Me)
+        Dim ClonedFitting As Fitting = ClonedFit.Clone
+        ClonedFitting.ShipSlotCtrl = ShipSlot
+        ClonedFitting.ShipInfoCtrl = ShipInfo
+        Return ClonedFitting
+    End Function
+
 #End Region
 
 #Region "Data/BaseShip Conversion Routines"
