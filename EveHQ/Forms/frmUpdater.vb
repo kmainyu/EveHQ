@@ -759,19 +759,19 @@ Public Class frmUpdater
     End Sub
 
     Private Sub btnCancelUpdate_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelUpdate.Click
-        UpdateAborted = True
         ' Cancel the main worker
         MainUpdateWorker.CancelAsync()
         ' Cancel all the other workers
         For Each worker As BackgroundWorker In UpdateWorkerList.Values
             worker.CancelAsync()
         Next
+        UpdateAborted = True
+        EveHQ.Core.HQ.EveHQIsUpdating = False
         ' Await cancellation
         Do
             Application.DoEvents()
         Loop Until UpdateWorkerList.Count = 0
         MessageBox.Show("The EveHQ Update has been cancelled.", "Update Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        EveHQ.Core.HQ.EveHQIsUpdating = False
         btnCancelUpdate.Visible = False
         Call Me.ShowUpdates()
     End Sub
