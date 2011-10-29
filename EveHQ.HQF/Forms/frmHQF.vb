@@ -1201,10 +1201,12 @@ Public Class frmHQF
                     newModule.Image = ImageHandler.IconImage24(shipmod.Icon, shipmod.MetaType)
                     Dim stt As New DevComponents.DotNetBar.SuperTooltipInfo
                     stt.HeaderText = shipmod.Name
-                    stt.FooterText = "Module Info"
                     stt.BodyText = ""
                     If shipmod.SlotType = SlotTypes.Subsystem Then
                         stt.BodyText &= "Slot Modifiers - High: " & shipmod.Attributes("1374") & ", Mid: " & shipmod.Attributes("1375") & ", Low: " & shipmod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+                        stt.FooterText = "Subsystem Module Information"
+                    Else
+                        stt.FooterText = " Meta: " & shipmod.MetaLevel.ToString("N0") & ", CPU: " & shipmod.CPU.ToString("N0") & ", PG: " & shipmod.PG.ToString("N0")
                     End If
                     stt.BodyText &= shipmod.Description
                     stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
