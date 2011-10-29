@@ -1091,7 +1091,7 @@ Partial Class frmHQF
         Me.rbEditor.ContainerControlProcessDialogKey = True
         Me.rbEditor.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEditor})
         Me.rbEditor.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbEditor.Location = New System.Drawing.Point(731, 0)
+        Me.rbEditor.Location = New System.Drawing.Point(722, 0)
         Me.rbEditor.Name = "rbEditor"
         Me.rbEditor.Size = New System.Drawing.Size(53, 100)
         Me.rbEditor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1134,9 +1134,9 @@ Partial Class frmHQF
         Me.rbImport.ContainerControlProcessDialogKey = True
         Me.rbImport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnImport})
         Me.rbImport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbImport.Location = New System.Drawing.Point(536, 0)
+        Me.rbImport.Location = New System.Drawing.Point(524, 0)
         Me.rbImport.Name = "rbImport"
-        Me.rbImport.Size = New System.Drawing.Size(193, 100)
+        Me.rbImport.Size = New System.Drawing.Size(196, 100)
         Me.rbImport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbImport.TabIndex = 3
         Me.rbImport.Text = "Import"
@@ -1206,9 +1206,9 @@ Partial Class frmHQF
         Me.rbExport.ContainerControlProcessDialogKey = True
         Me.rbExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnScreenGrab, Me.btnExportEve, Me.ItemContainer1, Me.btnExportReq})
         Me.rbExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbExport.Location = New System.Drawing.Point(230, 0)
+        Me.rbExport.Location = New System.Drawing.Point(222, 0)
         Me.rbExport.Name = "rbExport"
-        Me.rbExport.Size = New System.Drawing.Size(304, 100)
+        Me.rbExport.Size = New System.Drawing.Size(300, 100)
         Me.rbExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbExport.TabIndex = 2
         Me.rbExport.Text = "Current Fitting Export"
@@ -1331,7 +1331,7 @@ Partial Class frmHQF
         Me.rbTools.ContainerControlProcessDialogKey = True
         Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnPilotManager, Me.btnImplantManager, Me.btnFleetManager})
         Me.rbTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbTools.Location = New System.Drawing.Point(67, 0)
+        Me.rbTools.Location = New System.Drawing.Point(59, 0)
         Me.rbTools.Name = "rbTools"
         Me.rbTools.Size = New System.Drawing.Size(161, 100)
         Me.rbTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1403,7 +1403,7 @@ Partial Class frmHQF
         Me.rbOptions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.rbOptions.Location = New System.Drawing.Point(0, 0)
         Me.rbOptions.Name = "rbOptions"
-        Me.rbOptions.Size = New System.Drawing.Size(65, 100)
+        Me.rbOptions.Size = New System.Drawing.Size(57, 100)
         Me.rbOptions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbOptions.TabIndex = 0
         Me.rbOptions.Text = "Options"
@@ -1434,12 +1434,14 @@ Partial Class frmHQF
         Me.SuperTooltip1.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.SuperTooltip1.PositionBelowControl = False
+        Me.SuperTooltip1.TooltipDuration = 0
         '
         'STTShips
         '
         Me.STTShips.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.STTShips.MinimumTooltipSize = New System.Drawing.Size(400, 100)
         Me.STTShips.PositionBelowControl = False
+        Me.STTShips.TooltipDuration = 0
         '
         'frmHQF
         '
