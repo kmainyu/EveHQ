@@ -79,9 +79,6 @@ Public Class frmUpdater
         ' Set Max Downloads
         nudDownloads.Value = EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads
 
-        ' Temp
-        EveHQ.Core.HQ.EveHQSettings.UpdateURL = "http://www.evehq.net/updatetest/"
-
     End Sub
 
 #End Region
