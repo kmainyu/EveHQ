@@ -829,6 +829,7 @@ Public Class PlugInData
             ModuleLists.moduleList.Clear()
             ModuleLists.moduleListName.Clear()
             Implants.implantList.Clear()
+            Boosters.BoosterList.Clear()
             For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
                 Dim newModule As New ShipModule
                 newModule.ID = row.Item("typeID").ToString
