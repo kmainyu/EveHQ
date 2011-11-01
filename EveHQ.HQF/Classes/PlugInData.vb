@@ -52,6 +52,7 @@ Public Class PlugInData
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try
             ' Check for existance of HQF folder & create if not existing
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for HQF folder...")
             If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
                 Settings.HQFFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "HQF")
             Else
@@ -62,6 +63,7 @@ Public Class PlugInData
             End If
 
             ' Check for cache folder
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for HQF Cache folder...")
             Settings.HQFCacheFolder = Path.Combine(Settings.HQFFolder, "Cache")
             If My.Computer.FileSystem.DirectoryExists(Settings.HQFCacheFolder) = True Then
                 ' Check for last cache version file
@@ -72,30 +74,43 @@ Public Class PlugInData
                     If IsUpdateAvailable(cacheVersion, PlugInData.LastCacheRefresh) = True Then
                         ' Delete the existing cache folder and force a rebuild
                         My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Cache outdated - rebuild of cache data required")
                         PlugInData.UseSerializableData = False
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Cache still relevant - using existing cache data")
                         PlugInData.UseSerializableData = True
                     End If
                 Else
                     ' Delete the existing cache folder and force a rebuild
                     My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    EveHQ.Core.HQ.WriteLogEvent("HQF: Cache version not found - rebuild of cache data required")
                     PlugInData.UseSerializableData = False
                 End If
             Else
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Cache folder not found - rebuild of cache data required")
                 PlugInData.UseSerializableData = False
             End If
 
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Building pirate implant list...")
             Engine.BuildPirateImplants()
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Building booster penalty list...")
             Engine.BuildBoosterPenaltyList()
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Building effects map...")
             Engine.BuildEffectsMap()
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Building ship effects map...")
             Engine.BuildShipEffectsMap()
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Building ship bonuses map...")
             Engine.BuildShipBonusesMap()
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Building subsystems bonuses map...")
             Engine.BuildSubSystemBonusMap()
+
 
             ' Check for the existence of the binary data
             Dim NoSerializableErrors As Boolean = True
 
             If PlugInData.UseSerializableData = True Then
+
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading cache data...")
 
                 If NoSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin")) = True Then
@@ -104,11 +119,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Attributes file successfully loaded")
                         Catch sex As Exception
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Attributes file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Attributes file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -124,11 +142,14 @@ Public Class PlugInData
                                 ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
                                 ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
                             Next
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Ships file successfully loaded")
                         Catch sex As Exception
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Ships file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Ships file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -148,11 +169,14 @@ Public Class PlugInData
                                     End If
                                 End If
                             Next
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Modules file successfully loaded")
                         Catch sex As Exception
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Modules file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Modules file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -164,11 +188,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             Implants.implantList = CType(f.Deserialize(s), SortedList)
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Implants file successfully loaded")
                         Catch sex As Exception
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Implants file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Implants file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -180,11 +207,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             Boosters.BoosterList = CType(f.Deserialize(s), SortedList)
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Boosters file successfully loaded")
                         Catch sex As Exception
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Boosters file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Boosters file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -196,11 +226,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Skills file successfully loaded")
                         Catch sex As Exception
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Skills file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Skills file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -212,11 +245,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             NPCs.NPCList = CType(f.Deserialize(s), SortedList)
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: NPCs file successfully loaded")
                         Catch sex As Exception
                             s.Close()
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening NPCs file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: NPCs file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -233,21 +269,28 @@ Public Class PlugInData
                     End If
                 End If
 
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Building attribute list...")
                 Call Me.BuildAttributeQuickList()
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Building Implant Effects map...")
                 Engine.BuildImplantEffectsMap()
 
                 ' Load any custom ship classes and ships then implement into HQF
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading custom ship data...")
                 CustomHQFClasses.LoadCustomShipClasses()
                 CustomHQFClasses.LoadCustomShips()
                 CustomHQFClasses.ImplementCustomShips()
 
                 ' Convert the old fittings file to the new version
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for old version file...")
                 Call SavedFittings.ConvertOldFittingsFile()
 
                 ' Create Image Cache
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Generating icons...")
                 Call GenerateIcons()
 
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Initialisation complete!")
                 Return True
+
             Else
                 ' Generate the HQF Cache Data
                 Return Me.GenerateHQFCacheData()
