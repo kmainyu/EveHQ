@@ -714,7 +714,6 @@
     <None Include="Resources\EveHQ_starting.ico" />
     <None Include="Resources\EveHQ_offline.ico" />
     <None Include="Resources\Square721BT.TTF" />
-    <None Include="_ChangeLog.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -806,7 +805,6 @@
   <ItemGroup>
     <None Include="Resources\EveHQErrorProf.png" />
     <None Include="Resources\nochar.jpg" />
-    <None Include="OtherVersions.csv" />
     <None Include="Resources\icon79_01.png" />
     <None Include="Resources\icon79_02.png" />
     <None Include="Resources\icon79_03.png" />
@@ -844,7 +842,6 @@
     <Content Include="_updates2.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="v2.txt" />
     <Content Include="_message.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -905,7 +902,7 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->
   <UsingTask TaskName="HgVersionFile" AssemblyFile="..\MSBuildVersioning.dll" />
   <Target Name="BeforeBuild">
