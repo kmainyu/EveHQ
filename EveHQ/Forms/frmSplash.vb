@@ -740,7 +740,8 @@ Public Class frmSplash
 			Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
 			Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
 			request.UserAgent = "EveHQ " & My.Application.Info.Version.ToString
-			request.CachePolicy = policy
+            request.CachePolicy = policy
+            request.Timeout = 10000 ' timeout set to 10s
 			' Setup proxy server (if required)
 			Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
 			' Prepare for a response from the server
