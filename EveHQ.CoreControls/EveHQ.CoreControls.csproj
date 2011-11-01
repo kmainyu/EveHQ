@@ -290,7 +290,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)UpdateSVNRevision.cmd" "$(SolutionDir)" $(ConfigurationName)
-</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
