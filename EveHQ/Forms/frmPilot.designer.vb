@@ -1206,10 +1206,10 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
-        Me.tabPilotInfo.Controls.Add(Me.tcpCerts)
         Me.tabPilotInfo.Controls.Add(Me.tcpStandings)
         Me.tabPilotInfo.Controls.Add(Me.tcpSkillQueue)
+        Me.tabPilotInfo.Controls.Add(Me.tcpCerts)
+        Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
         Me.tabPilotInfo.Location = New System.Drawing.Point(348, 184)
         Me.tabPilotInfo.Name = "tabPilotInfo"
         Me.tabPilotInfo.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -1245,7 +1245,6 @@ Partial Public Class frmPilot
         'adtSkills
         '
         Me.adtSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtSkills.AllowDrop = True
         Me.adtSkills.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -1260,6 +1259,8 @@ Partial Public Class frmPilot
         Me.adtSkills.Columns.Add(Me.colTime)
         Me.adtSkills.ContextMenuStrip = Me.ctxSkills
         Me.adtSkills.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.adtSkills.DragDropEnabled = False
+        Me.adtSkills.DragDropNodeCopyEnabled = False
         Me.adtSkills.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
         Me.adtSkills.KeyboardSearchEnabled = False
         Me.adtSkills.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
@@ -1403,7 +1404,6 @@ Partial Public Class frmPilot
         'adtCerts
         '
         Me.adtCerts.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtCerts.AllowDrop = True
         Me.adtCerts.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -1414,6 +1414,8 @@ Partial Public Class frmPilot
         Me.adtCerts.Columns.Add(Me.colCertGrd)
         Me.adtCerts.ContextMenuStrip = Me.ctxCerts
         Me.adtCerts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.adtCerts.DragDropEnabled = False
+        Me.adtCerts.DragDropNodeCopyEnabled = False
         Me.adtCerts.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
         Me.adtCerts.KeyboardSearchEnabled = False
         Me.adtCerts.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
