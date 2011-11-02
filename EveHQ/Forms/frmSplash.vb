@@ -703,7 +703,6 @@ Public Class frmSplash
 
     Private Sub GetServerMessage(state As Object)
         ' Download the message from the server
-        EveHQ.Core.HQ.WriteLogEvent("Start: Fetching  *** Widgets Finished Loading")
         Dim MsgXML As XmlDocument = FetchMessageXML()
         Try
             If MsgXML IsNot Nothing Then
