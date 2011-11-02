@@ -175,7 +175,17 @@ Imports System.Runtime.Serialization.Formatters.Binary
             ss.Dispose()
 
             ' Step 4
-            My.Computer.FileSystem.RenameFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), "HQFFittings.old")
+            Try
+                My.Computer.FileSystem.RenameFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), "HQFFittings.old")
+            Catch e As Exception
+                ' File exists - try one more rename
+                Try
+                    My.Computer.FileSystem.RenameFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), "HQFFittings.bin.old")
+                Catch ex As Exception
+                    ' Just exit
+                End Try
+            End Try
+
         End If
 
     End Sub

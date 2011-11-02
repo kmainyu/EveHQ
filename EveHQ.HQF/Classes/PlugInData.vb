@@ -259,7 +259,7 @@ Public Class PlugInData
 
                 ' Ask what we want to do in the case of errors during the deserialization process
                 If NoSerializableErrors = False Then
-                    Dim msg As String = "There was an error loading the HQF cache files. Would you like to try and re-generate the cache data to continue?"
+                    Dim msg As String = "There was an error loading one of the HQF cache files. Would you like to try and re-generate the cache data to continue?"
                     Dim reply As DialogResult = MessageBox.Show(msg, "Re-create HQF Cache Data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If reply = DialogResult.Yes Then
                         Return Me.GenerateHQFCacheData
@@ -296,6 +296,7 @@ Public Class PlugInData
                 Return Me.GenerateHQFCacheData()
             End If
         Catch ex As Exception
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Exception occured - " & ex.Message)
             Dim msg As String = "There was an error loading the HQF cache files. Would you like to try and re-generate the cache data to continue?"
             Dim reply As DialogResult = MessageBox.Show(msg, "Re-create HQF Cache Data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
