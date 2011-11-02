@@ -305,12 +305,15 @@ Public Class frmSplash
 
         ' Check for server messages (only if auto-web connections enabled)
         If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = False Then
-            EveHQ.Core.HQ.WriteLogEvent("Start: Fetch Server Messages")
+            EveHQ.Core.HQ.WriteLogEvent("Start: Server Message Thread")
             lblStatus.Text = "> Fetching messages..."
             lblStatus.Refresh()
             ' Store a message ready for when the main form comes up
             Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetServerMessage)
-            EveHQ.Core.HQ.WriteLogEvent("End: Fetch Server Messages")
+            EveHQ.Core.HQ.WriteLogEvent("End: Server Message Thread")
+        Else
+            EveHQ.Core.HQ.WriteLogEvent(" *** Message Finished Loading - AutoWebConnections disabled")
+            MessageLoaded = True
         End If
 
         ' Determine the visual style
@@ -700,6 +703,7 @@ Public Class frmSplash
 
     Private Sub GetServerMessage(state As Object)
         ' Download the message from the server
+        EveHQ.Core.HQ.WriteLogEvent("Start: Fetching  *** Widgets Finished Loading")
         Dim MsgXML As XmlDocument = FetchMessageXML()
         Try
             If MsgXML IsNot Nothing Then
