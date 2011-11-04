@@ -1,6 +1,8 @@
 syntax:glob
 bin/*
 obj/*
+Debug/*
+Release/*
 *.suo
 *.user
 AssemblyInfo.*

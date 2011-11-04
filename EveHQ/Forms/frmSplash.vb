@@ -733,7 +733,7 @@ Public Class frmSplash
 		' Set a default policy level for the "http:" and "https" schemes.
 		Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 		Dim UpdateServer As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL
-		Dim remoteURL As String = UpdateServer & "/_message.xml"
+        Dim remoteURL As String = UpdateServer & "_message.xml"
 		Dim webdata As String = ""
 		Dim UpdateXML As New XmlDocument
 		Try
