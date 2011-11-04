@@ -78,7 +78,6 @@ Partial Class frmUpdater
         'btnRecheckUpdates
         '
         Me.btnRecheckUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRecheckUpdates.Enabled = False
         Me.btnRecheckUpdates.Location = New System.Drawing.Point(531, 393)
         Me.btnRecheckUpdates.Name = "btnRecheckUpdates"
         Me.btnRecheckUpdates.Size = New System.Drawing.Size(100, 22)

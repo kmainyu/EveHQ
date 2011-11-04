@@ -32,7 +32,7 @@ Imports System.ComponentModel
 
 Public Class frmUpdater
 
-    Dim filesComplete As New SortedList
+    Dim FilesComplete As New SortedList(Of String, Boolean)
     Dim filesTried As Integer = 0
     Dim updateFolder As String = ""
     Dim updateRequired As Boolean = False
@@ -52,6 +52,7 @@ Public Class frmUpdater
     Dim FilesRequired As New Queue(Of String)
     Dim UpdateQueue As New List(Of String)
     Dim UpdateAborted As Boolean = False
+    Dim FailedFileCount As Integer = 0
 
 #Region " Form Opening and Closing Routines"
 
@@ -131,6 +132,7 @@ Public Class frmUpdater
         FilesRequired.Clear()
         filesComplete.Clear()
         filesTried = 0
+        FailedFileCount = 0
 
         tmrUpdate.Enabled = False
 
@@ -404,6 +406,7 @@ Public Class frmUpdater
     Private Sub btnStartUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStartUpdate.Click
 
         btnStartUpdate.Enabled = False
+        btnRecheckUpdates.Enabled = False
         btnCancelUpdate.Visible = True
         EveHQ.Core.HQ.EveHQIsUpdating = True
 
@@ -483,15 +486,17 @@ Public Class frmUpdater
                 If UpdateQueue.Count < EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads Then
                     ' Get a file from the queue
                     Dim reqfile As String = FilesRequired.Dequeue
-                    UpdateQueue.Add(reqfile)
-                    Dim updateWorker As New System.ComponentModel.BackgroundWorker
-                    AddHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
-                    AddHandler updateWorker.ProgressChanged, AddressOf UpdateWorker_ProgressChanged
-                    AddHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
-                    updateWorker.WorkerReportsProgress = True
-                    updateWorker.WorkerSupportsCancellation = True
-                    UpdateWorkerList.Add(reqfile, updateWorker)
-                    updateWorker.RunWorkerAsync(reqfile)
+                    If FilesComplete.ContainsKey(reqfile) = False Then
+                        UpdateQueue.Add(reqfile)
+                        Dim updateWorker As New System.ComponentModel.BackgroundWorker
+                        AddHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
+                        AddHandler updateWorker.ProgressChanged, AddressOf UpdateWorker_ProgressChanged
+                        AddHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
+                        updateWorker.WorkerReportsProgress = True
+                        updateWorker.WorkerSupportsCancellation = True
+                        UpdateWorkerList.Add(reqfile, updateWorker)
+                        updateWorker.RunWorkerAsync(reqfile)
+                    End If
                 End If
                 If MainUpdateWorker.CancellationPending = True Then
                     Exit Do
@@ -567,11 +572,15 @@ Public Class frmUpdater
             UpdateWorkerList.Remove(FileNeeded)
             Return True
         Catch e As WebException
-            Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
-            errMsg &= "Status: " & e.Status & ControlChars.CrLf
-            errMsg &= "Message: " & e.Message & ControlChars.CrLf
-            MessageBox.Show(errMsg, "Error Downloading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
+            'errMsg &= "Status: " & e.Status & ControlChars.CrLf
+            'errMsg &= "Message: " & e.Message & ControlChars.CrLf
+            'MessageBox.Show(errMsg, "Error Downloading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            FilesComplete.Add(FileNeeded, False)
+            UpdateQueue.Remove(FileNeeded)
             filesTried += 1
+            FailedFileCount += 1
+            UpdateWorkerList.Remove(FileNeeded)
             worker.CancelAsync()
             Return False
         End Try
@@ -601,28 +610,36 @@ Public Class frmUpdater
     Private Sub UpdateWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
         For Each item As Node In adtUpdates.Nodes
             ' Check main file
-            If filesComplete.Contains(item.Text) = True Then
-                If CBool(filesComplete.Item(item.Text)) = True Then
+            If FilesComplete.ContainsKey(item.Text) = True Then
+                If CBool(FilesComplete.Item(item.Text)) = True Then
                     item.Style = UpdateNotRequiredStyle
-                    item.Cells(5).HostedItem.Text = "Download Complete!" : item.Cells(5).HostedItem.Refresh()
-                    CType(item.Cells(5).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Normal
+                    If item.Cells(5).HostedItem IsNot Nothing Then
+                        item.Cells(5).HostedItem.Text = "Download Complete!" : item.Cells(5).HostedItem.Refresh()
+                        CType(item.Cells(5).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Normal
+                    End If
                 Else
                     item.Style = UpdateRequiredStyle
-                    item.Cells(5).HostedItem.Text = "Download Failed!" : item.Cells(5).HostedItem.Refresh()
-                    CType(item.Cells(5).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Error
+                    If item.Cells(5).HostedItem IsNot Nothing Then
+                        item.Cells(5).HostedItem.Text = "Download Failed!" : item.Cells(5).HostedItem.Refresh()
+                        CType(item.Cells(5).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Error
+                    End If
                 End If
             End If
             ' Check PDB
-            If filesComplete.Contains(item.Text.Remove(item.Text.Length - 4, 4) & ".pdb") = True Then
-                If CBool(filesComplete.Item(item.Text.Remove(item.Text.Length - 4, 4) & ".pdb")) = True Then
+            If FilesComplete.ContainsKey(item.Text.Remove(item.Text.Length - 4, 4) & ".pdb") = True Then
+                If CBool(FilesComplete.Item(item.Text.Remove(item.Text.Length - 4, 4) & ".pdb")) = True Then
                     item.Style = UpdateNotRequiredStyle
-                    item.Cells(6).HostedItem.Text = "Download Complete!" : item.Cells(6).HostedItem.Refresh()
-                    CType(item.Cells(6).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Normal
+                    If item.Cells(6).HostedItem IsNot Nothing Then
+                        item.Cells(6).HostedItem.Text = "Download Complete!" : item.Cells(6).HostedItem.Refresh()
+                        CType(item.Cells(6).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Normal
+                    End If
                 Else
                     item.Style = UpdateRequiredStyle
-                    item.Cells(6).HostedItem.Text = "Download Failed!" : item.Cells(6).HostedItem.Refresh()
-                    CType(item.Cells(6).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Error
-                End If
+                    If item.Cells(6).HostedItem IsNot Nothing Then
+                        item.Cells(6).HostedItem.Text = "Download Failed!" : item.Cells(6).HostedItem.Refresh()
+                        CType(item.Cells(6).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Error
+                    End If
+                    End If
             End If
         Next
         ' Remove event handlers
@@ -630,14 +647,15 @@ Public Class frmUpdater
         RemoveHandler updateWorker.DoWork, AddressOf UpdateWorker_DoWork
         RemoveHandler updateWorker.ProgressChanged, AddressOf UpdateWorker_ProgressChanged
         RemoveHandler updateWorker.RunWorkerCompleted, AddressOf UpdateWorker_RunWorkerCompleted
+        Call Me.CheckCompletedUpdates()
     End Sub
 
     Private Sub CheckCompletedUpdates()
         If filesTried = NumberOfFilesRequired Then
-            If filesComplete.Count = NumberOfFilesRequired Then
+            If FailedFileCount = 0 Then
                 lblUpdateStatus.Text = "Status: Download complete!"
                 ' Ask the user if they want to update now
-                Dim msg As String = "The download process is complete. EveHQ will now update - Click OK to continue..."
+                Dim msg As String = "The download process is complete. EveHQ will now update." & ControlChars.CrLf & ControlChars.CrLf & "Click OK to continue..."
                 MessageBox.Show(msg, "Ready To Update", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 ' Try backup here?
                 If EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate = True Then
@@ -686,14 +704,16 @@ Public Class frmUpdater
                 Me.Close()
             Else
                 MessageBox.Show("There was an error downloading the update files so the process has been aborted. Please try again and if the update continues to fail, please post a bug report.", "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Me.Close()
+                EveHQ.Core.HQ.EveHQIsUpdating = False
+                EveHQ.Core.HQ.UpdateShutDownRequest = True
+                EveHQ.Core.HQ.StartShutdownEveHQ = True
             End If
         End If
+        btnCancelUpdate.Visible = False
+        btnRecheckUpdates.Enabled = True
     End Sub
 
-
     Private Sub btnRecheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRecheckUpdates.Click
-        btnRecheckUpdates.Enabled = False
         Call Me.ShowUpdates()
     End Sub
 
