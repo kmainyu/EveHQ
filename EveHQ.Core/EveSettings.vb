@@ -1858,7 +1858,7 @@ Public Class EveHQSettingsFunctions
             End Try
         End If
 
-        ' Reset the update URL to BitBucket - now permanent?
+        ' Reset the update URL to a temp location
         If EveHQ.Core.HQ.EveHQSettings.UpdateURL <> "http://www.indiceve.com/evehq/updatev2/" Then
             EveHQ.Core.HQ.EveHQSettings.UpdateURL = "http://www.indiceve.com/evehq/updatev2/"
         End If
