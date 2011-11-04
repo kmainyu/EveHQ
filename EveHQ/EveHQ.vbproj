@@ -839,7 +839,7 @@
     <None Include="Resources\level_200.gif" />
     <None Include="Resources\level_100.gif" />
     <None Include="Resources\level_000.gif" />
-    <Content Include="_updates2.xml">
+    <Content Include="_updates.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="_message.xml">
@@ -897,9 +897,6 @@
     <None Include="Resources\WHattribs.txt" />
     <None Include="Resources\WHClasses.txt" />
     <None Include="Resources\WHEffects.txt" />
-    <Content Include="_updates.xml">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
