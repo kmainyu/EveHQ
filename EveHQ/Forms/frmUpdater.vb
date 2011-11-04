@@ -507,8 +507,6 @@ Public Class frmUpdater
             ' Check for the full download scenario
             Call Me.CheckCompletedUpdates()
         End If
-        btnCancelUpdate.Enabled = False
-        btnRecheckUpdates.Enabled = True
     End Sub
 
     Private Function DownloadFile(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String) As Boolean
@@ -712,6 +710,8 @@ Public Class frmUpdater
                 btnCancelUpdate.Enabled = False
                 btnRecheckUpdates.Enabled = True
             End If
+            btnCancelUpdate.Enabled = False
+            btnRecheckUpdates.Enabled = True
         End If
     End Sub
 
