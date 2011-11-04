@@ -274,7 +274,7 @@ Public Class frmHQF
                             stt.BodyText &= "Cargo: " & Ship.CargoBay.ToString("N0") & "m³ Drone Bay: " & Ship.DroneBay.ToString("N0") & "m³ (B/W: " & Ship.DroneBandwidth.ToString("N0") & "Mb/s)<br />"
                             stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & "m/s, Warp: " & Ship.WarpSpeed.ToString("N0") & "au/s"
                             stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
-                            stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 96)
+                            'stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 96)
                             stt.FooterImage = My.Resources.imgInfo1
                             STTShips.SetSuperTooltip(nNode, stt)
                         End If
@@ -657,7 +657,7 @@ Public Class frmHQF
                 stt.BodyText &= "Cargo: " & Ship.CargoBay.ToString("N0") & "m³ Drone Bay: " & Ship.DroneBay.ToString("N0") & "m³ (B/W: " & Ship.DroneBandwidth.ToString("N0") & "Mb/s)<br />"
                 stt.BodyText &= "Max Velocity: " & Ship.MaxVelocity.ToString("N2") & "m/s, Warp: " & Ship.WarpSpeed.ToString("N0") & "au/s"
                 stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
-                stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 96)
+                'stt.BodyImage = EveHQ.Core.ImageHandler.GetImage(Ship.ID, 96)
                 stt.FooterImage = My.Resources.imgInfo1
                 STTShips.SetSuperTooltip(shipNode, stt)
 
