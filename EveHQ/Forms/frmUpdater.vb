@@ -517,7 +517,7 @@ Public Class frmUpdater
         Dim httpURI As String = ""
         Dim pdbFile As String = ""
         Dim localFile As String = ""
-        httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
+        httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & FileNeeded
         localFile = Path.Combine(updateFolder, FileNeeded & ".tmp")
 
         ' Create the request to access the server and set credentials
@@ -722,7 +722,7 @@ Public Class frmUpdater
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
-        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
+        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & FileNeeded
         Dim localFile As String = Path.Combine(PatcherLocation, FileNeeded)
 
         ' Create the request to access the server and set credentials

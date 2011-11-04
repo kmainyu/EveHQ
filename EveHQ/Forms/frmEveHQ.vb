@@ -2121,7 +2121,7 @@ Public Class frmEveHQ
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
-        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
+        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & FileNeeded
         Dim localFile As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, FileNeeded)
 
         ' Create the request to access the server and set credentials
