@@ -407,7 +407,7 @@ Public Class frmUpdater
 
         btnStartUpdate.Enabled = False
         btnRecheckUpdates.Enabled = False
-        btnCancelUpdate.Visible = True
+        btnCancelUpdate.Enabled = True
         EveHQ.Core.HQ.EveHQIsUpdating = True
 
         ' Reset the progress bars
@@ -507,6 +507,8 @@ Public Class frmUpdater
             ' Check for the full download scenario
             Call Me.CheckCompletedUpdates()
         End If
+        btnCancelUpdate.Enabled = False
+        btnRecheckUpdates.Enabled = True
     End Sub
 
     Private Function DownloadFile(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String) As Boolean
@@ -707,10 +709,10 @@ Public Class frmUpdater
                 EveHQ.Core.HQ.EveHQIsUpdating = False
                 EveHQ.Core.HQ.UpdateShutDownRequest = True
                 EveHQ.Core.HQ.StartShutdownEveHQ = True
+                btnCancelUpdate.Enabled = False
+                btnRecheckUpdates.Enabled = True
             End If
         End If
-        btnCancelUpdate.Visible = False
-        btnRecheckUpdates.Enabled = True
     End Sub
 
     Private Sub btnRecheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRecheckUpdates.Click
@@ -789,7 +791,7 @@ Public Class frmUpdater
             Application.DoEvents()
         Loop Until UpdateWorkerList.Count = 0
         MessageBox.Show("The EveHQ Update has been cancelled.", "Update Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        btnCancelUpdate.Visible = False
+        btnCancelUpdate.Enabled = False
         Call Me.ShowUpdates()
     End Sub
 

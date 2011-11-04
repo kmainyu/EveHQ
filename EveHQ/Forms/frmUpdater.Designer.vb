@@ -112,13 +112,13 @@ Partial Class frmUpdater
         'btnCancelUpdate
         '
         Me.btnCancelUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnCancelUpdate.Enabled = False
         Me.btnCancelUpdate.Location = New System.Drawing.Point(425, 393)
         Me.btnCancelUpdate.Name = "btnCancelUpdate"
         Me.btnCancelUpdate.Size = New System.Drawing.Size(100, 22)
         Me.btnCancelUpdate.TabIndex = 10
         Me.btnCancelUpdate.Text = "Cancel Update"
         Me.btnCancelUpdate.UseVisualStyleBackColor = True
-        Me.btnCancelUpdate.Visible = False
         '
         'nudDownloads
         '
