@@ -435,6 +435,10 @@ Public Class frmUpdater
                 If item.Cells(6).HostedItem IsNot Nothing Or item.Cells(6).Text = "File Downloaded" Then
                     FilesRequired.Enqueue(item.Text.Remove(item.Text.Length - 4, 4) & ".pdb")
                 End If
+                ' Check for both downloaded
+                If item.Cells(5).Text = "File Downloaded" And item.Cells(6).Text = "File Downloaded" Then
+                    item.Style = UpdateNotRequiredStyle
+                End If
             Else
                 item.Cells(5).HostedItem = Nothing
                 item.Cells(5).Text = "Not selected"
