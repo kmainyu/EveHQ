@@ -302,6 +302,10 @@ Public Class frmUpdater
                     newFile.Cells.Add(New Cell("", adtUpdates.Styles("Centre")))
                     newFile.Cells(6).Text = "PDB File Not Required"
                 End If
+                ' Check for both downloaded
+                If newFile.Cells(5).Text = "File Downloaded" And newFile.Cells(6).Text = "File Downloaded" Then
+                    newFile.Style = UpdateNotRequiredStyle
+                End If
                 updateRequired = True
             Else
                 Dim chkDownload As New DevComponents.DotNetBar.CheckBoxItem
