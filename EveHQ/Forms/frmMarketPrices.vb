@@ -1849,43 +1849,67 @@ Public Class frmMarketPrices
                         End If
 
                         ' Parse sell data
-                        If Double.TryParse(PriceNode.ChildNodes(8).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MinSell) = False Then
-                            NewPriceData.MinSell = 0
+                        If PriceNode.SelectSingleNode("sell_lowest") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("sell_lowest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MinSell) = False Then
+                                NewPriceData.MinSell = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(12).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MaxSell) = False Then
-                            NewPriceData.MaxSell = 0
+                        If PriceNode.SelectSingleNode("sell_highest") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("sell_highest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MaxSell) = False Then
+                                NewPriceData.MaxSell = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(9).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.AvgSell) = False Then
-                            NewPriceData.AvgSell = 0
+                        If PriceNode.SelectSingleNode("sell_avg") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("sell_avg").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.AvgSell) = False Then
+                                NewPriceData.AvgSell = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(13).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MedSell) = False Then
-                            NewPriceData.MedSell = 0
+                        If PriceNode.SelectSingleNode("sell_geo_mean") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("sell_geo_mean").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MedSell) = False Then
+                                NewPriceData.MedSell = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(15).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.VolSell) = False Then
-                            NewPriceData.VolSell = 0
+                        If PriceNode.SelectSingleNode("supply") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("supply").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.VolSell) = False Then
+                                NewPriceData.VolSell = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(14).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.QtySell) = False Then
-                            NewPriceData.QtySell = 0
+                        If PriceNode.SelectSingleNode("sell_orders") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("sell_orders").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.QtySell) = False Then
+                                NewPriceData.QtySell = 0
+                            End If
                         End If
 
                         ' Parse buy data
-                        If Double.TryParse(PriceNode.ChildNodes(22).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MinBuy) = False Then
-                            NewPriceData.MinBuy = 0
+                        If PriceNode.SelectSingleNode("buy_lowest") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("buy_lowest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MinBuy) = False Then
+                                NewPriceData.MinBuy = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(18).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MaxBuy) = False Then
-                            NewPriceData.MaxBuy = 0
+                        If PriceNode.SelectSingleNode("buy_highest") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("buy_highest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MaxBuy) = False Then
+                                NewPriceData.MaxBuy = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(19).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.AvgBuy) = False Then
-                            NewPriceData.AvgBuy = 0
+                        If PriceNode.SelectSingleNode("buy_avg") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("buy_avg").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.AvgBuy) = False Then
+                                NewPriceData.AvgBuy = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(23).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MedBuy) = False Then
-                            NewPriceData.MedBuy = 0
+                        If PriceNode.SelectSingleNode("buy_geo_mean") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("buy_geo_mean").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MedBuy) = False Then
+                                NewPriceData.MedBuy = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(25).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.VolBuy) = False Then
-                            NewPriceData.VolBuy = 0
+                        If PriceNode.SelectSingleNode("demand") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("demand").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.VolBuy) = False Then
+                                NewPriceData.VolBuy = 0
+                            End If
                         End If
-                        If Double.TryParse(PriceNode.ChildNodes(24).InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.QtyBuy) = False Then
-                            NewPriceData.QtyBuy = 0
+                        If PriceNode.SelectSingleNode("buy_orders") IsNot Nothing Then
+                            If Double.TryParse(PriceNode("buy_orders").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.QtyBuy) = False Then
+                                NewPriceData.QtyBuy = 0
+                            End If
                         End If
 
                         ' Parse all data
