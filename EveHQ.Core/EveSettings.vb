@@ -1491,6 +1491,9 @@ Imports System.Data.OleDb
             Return cQColumns(col, ref)
         End Get
         Set(ByVal value As String)
+            If cQColumns.GetUpperBound(0) < 19 Then
+                ReDim cQColumns(20, 1)
+            End If
             cQColumns(col, ref) = value
         End Set
     End Property
