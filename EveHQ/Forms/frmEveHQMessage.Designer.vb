@@ -46,6 +46,9 @@ Partial Class frmEveHQMessage
         'chkIgnore
         '
         Me.chkIgnore.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
         Me.chkIgnore.BackgroundStyle.Class = ""
         Me.chkIgnore.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkIgnore.Location = New System.Drawing.Point(12, 350)
@@ -57,8 +60,9 @@ Partial Class frmEveHQMessage
         '
         'lblMessage
         '
-        Me.lblMessage.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblMessage.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
