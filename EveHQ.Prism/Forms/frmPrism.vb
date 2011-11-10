@@ -3401,6 +3401,10 @@ Public Class frmPrism
                                     cboWalletJournalDivision.Items.Add(div.ToString.Trim)
                                 Next
                             End If
+                        Else
+                            For div As Integer = 1000 To 1006
+                                cboWalletJournalDivision.Items.Add(div.ToString.Trim)
+                            Next
                         End If
                     Else
                         cboWalletJournalDivision.Items.Add("1000")
@@ -3419,6 +3423,7 @@ Public Class frmPrism
                 cboWalletJournalDivision.SelectedIndex = 0
             Else
                 cboWalletJournalDivision.Items.Add("1000")
+                cboWalletJournalDivision.EndUpdate()
                 cboWalletJournalDivision.SelectedIndex = 0
                 cboWalletJournalDivision.Enabled = False
             End If
@@ -4034,7 +4039,9 @@ Public Class frmPrism
                             End If
                         End If
                     Else
-                        cboWalletTransDivision.Items.Add("1000")
+                        For div As Integer = 1000 To 1006
+                            cboWalletTransDivision.Items.Add(div.ToString.Trim)
+                        Next
                     End If
                 Else
                     If Owner.IsCorp Then
