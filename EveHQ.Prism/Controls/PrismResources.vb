@@ -33,6 +33,7 @@ Public Class PrismResources
     Dim OwnedResources As New SortedList(Of String, SortedList(Of String, Long)) ' ItemID, (Location, Long)
     Dim GroupResources As New SortedList(Of String, Long)
     Dim SwapResources As New SortedList(Of String, SwapResource)
+    Dim ProductionList As New SortedList(Of String, ProductionItem)
 
     Public Property ProductionJob() As Prism.ProductionJob
         Get
@@ -511,6 +512,14 @@ Public Class PrismResources
 
 	Private Sub GetResourcesFromJob(ByVal pJob As ProductionJob)
 
+        ' Set Production List
+        Dim PI As New ProductionItem(pJob.TypeID.ToString, True, pJob.Runs)
+        If ProductionList.ContainsKey(PI.Key) = False Then
+            ProductionList.Add(PI.Key, PI)
+        Else
+            ProductionList(PI.Key).Quantity += PI.Quantity
+        End If
+
 		Dim SR As New SwapResource
 		If pJob.TypeID <> pJob.CurrentBP.ID Then
 			If SwapResources.ContainsKey(pJob.TypeID.ToString) = True Then
@@ -522,40 +531,47 @@ Public Class PrismResources
 			End If
 		End If
 
-		For Each resource As Object In pJob.RequiredResources.Values
-			If TypeOf (resource) Is RequiredResource Then
-				Dim rResource As RequiredResource = CType(resource, RequiredResource)
-				If rResource.TypeCategory <> 16 Then
-					' Add as a "swap" resource - something we can later substitute for lower resources if we have them
-					' Check this is not a blueprint swap!
-					If pJob.TypeID <> pJob.CurrentBP.ID Then
-						If SR.Resources.ContainsKey(rResource.TypeID.ToString) = False Then
-							SR.Resources.Add(rResource.TypeID.ToString, CLng(rResource.PerfectUnits + rResource.WasteUnits))
-						Else
+        For Each resource As Object In pJob.RequiredResources.Values
+            If TypeOf (resource) Is RequiredResource Then
+                Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                If rResource.TypeCategory <> 16 Then
+                    ' Add as a "swap" resource - something we can later substitute for lower resources if we have them
+                    ' Check this is not a blueprint swap!
+                    If pJob.TypeID <> pJob.CurrentBP.ID Then
+                        If SR.Resources.ContainsKey(rResource.TypeID.ToString) = False Then
+                            SR.Resources.Add(rResource.TypeID.ToString, CLng(rResource.PerfectUnits + rResource.WasteUnits))
+                        Else
                             'SR.Resources(rResource.TypeID.ToString) += CLng(rResource.PerfectUnits + rResource.WasteUnits)
-						End If
-					End If
-					' This is a resource so add it
-					If GroupResources.ContainsKey(CStr(rResource.TypeID)) = False Then
-						GroupResources.Add(CStr(rResource.TypeID), CLng((rResource.PerfectUnits + rResource.WasteUnits) * pJob.Runs))
-					Else
+                        End If
+                    End If
+                    ' This is a resource so add it
+                    If GroupResources.ContainsKey(CStr(rResource.TypeID)) = False Then
+                        GroupResources.Add(CStr(rResource.TypeID), CLng((rResource.PerfectUnits + rResource.WasteUnits) * pJob.Runs))
+                    Else
                         GroupResources(CStr(rResource.TypeID)) += CLng((rResource.PerfectUnits + rResource.WasteUnits) * pJob.Runs)
-					End If
-				End If
-			Else
-				' This is another production job
-				Dim subJob As ProductionJob = CType(resource, ProductionJob)
-				' Add as a "swap" resource - something we can later substitute for lower resources if we have them
-				If pJob.TypeID <> pJob.CurrentBP.ID Then
-					If SR.Resources.ContainsKey(subJob.TypeID.ToString) = False Then
-						SR.Resources.Add(subJob.TypeID.ToString, subJob.Runs)
-					Else
-						SR.Resources(subJob.TypeID.ToString) += subJob.Runs
-					End If
-				End If
-				Call Me.GetResourcesFromJob(subJob)
-			End If
-		Next
+                    End If
+                    ' Set Production List
+                    Dim PI2 As New ProductionItem(rResource.TypeID.ToString, False, CLng((rResource.PerfectUnits + rResource.WasteUnits) * pJob.Runs))
+                    If ProductionList.ContainsKey(PI2.Key) = False Then
+                        ProductionList.Add(PI2.Key, PI2)
+                    Else
+                        ProductionList(PI2.Key).Quantity += PI2.Quantity
+                    End If
+                End If
+            Else
+                ' This is another production job
+                Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                ' Add as a "swap" resource - something we can later substitute for lower resources if we have them
+                If pJob.TypeID <> pJob.CurrentBP.ID Then
+                    If SR.Resources.ContainsKey(subJob.TypeID.ToString) = False Then
+                        SR.Resources.Add(subJob.TypeID.ToString, subJob.Runs)
+                    Else
+                        SR.Resources(subJob.TypeID.ToString) += subJob.Runs
+                    End If
+                End If
+                Call Me.GetResourcesFromJob(subJob)
+            End If
+        Next
 	End Sub
 
     Private Sub CheckSwapResources()
@@ -789,6 +805,7 @@ Public Class PrismResources
 #Region "Batch Routines"
 
     Private Sub GetBatchResources()
+        ProductionList.Clear()
         If BatchJob IsNot Nothing Then
             GroupResources.Clear()
             For Each JobName As String In Me.BatchJob.ProductionJobs
@@ -914,5 +931,29 @@ Public Class PrismResources
     End Sub
 
 #End Region
+
+End Class
+
+Public Class ProductionItem
+
+    Dim cKey As String
+    Public ReadOnly Property Key As String
+        Get
+            Return cKey
+        End Get
+    End Property
+
+    Public Property ItemID As String
+
+    Public Property IsBuild As Boolean
+
+    Public Property Quantity As Long
+
+    Public Sub New(ID As String, Build As Boolean, Qty As Long)
+        cKey = ID & "_" & Build.ToString
+        ItemID = ID
+        IsBuild = Build
+        Quantity = Qty
+    End Sub
 
 End Class
