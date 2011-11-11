@@ -60,7 +60,6 @@ Public Class BPMEControl
                 ParentJob.RecalculateResourceRequirements()
                 RaiseEvent ResourcesChanged()
                 If cAssignedJob.CurrentBP.MELevel = nudME.Value Then
-                    nudME.ButtonCustom.Enabled = True
                     nudME.ButtonCustom.Enabled = False
                 Else
                     nudME.ButtonCustom.Enabled = True
