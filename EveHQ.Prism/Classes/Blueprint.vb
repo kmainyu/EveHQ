@@ -326,7 +326,7 @@ End Class
         Return newPJ
     End Function
 
-    Public Sub UpdateProductionJob(ByRef Job As ProductionJob, ComponentIteration As Boolean)
+    Public Sub UpdateProductionJob(ByRef Job As ProductionJob)
         Job.CurrentBP = Me
         Job.TypeID = Me.ID
         Job.TypeName = Me.Name

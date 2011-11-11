@@ -1515,7 +1515,7 @@ Public Class frmBPCalculator
         If CurrentInventionJob.ProductionJob Is Nothing Then
             CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
         Else
-            InventedBP.UpdateProductionJob(CurrentInventionJob.ProductionJob, False)
+            InventedBP.UpdateProductionJob(CurrentInventionJob.ProductionJob)
         End If
     End Sub
 
@@ -1556,6 +1556,7 @@ Public Class frmBPCalculator
 
         Dim DecryptorID As Integer = 0
         Dim DecryptorMod As Double = 0
+        Dim IJ As ProductionJob = currentJob.InventionJob.ProductionJob.Clone
 
         adtInventionProfits.BeginUpdate()
         adtInventionProfits.Nodes.Clear()
@@ -1600,7 +1601,8 @@ Public Class frmBPCalculator
             Dim IBP As BlueprintSelection = CurrentInventionBP.CalculateInventedBPC(InventionBPID, DecryptorID, BPCRuns)
             Dim IA As Double = Math.Max(Math.Round(100 / IC, 4), 1)
             Dim ISC As Double = IA * ICost
-            Dim IJ As ProductionJob = IBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, PPRInvention.BuildResources)
+            IBP.UpdateProductionJob(IJ)
+            'Dim IJ As ProductionJob = IBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, PPRInvention.BuildResources)
             Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
             Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * IJ.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
             Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2) + IJ.Cost + FactoryCost) / BatchQty
