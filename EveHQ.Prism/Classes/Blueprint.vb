@@ -326,6 +326,13 @@ End Class
         Return newPJ
     End Function
 
+    Public Sub UpdateProductionJob(ByRef Job As ProductionJob, ComponentIteration As Boolean)
+        Job.CurrentBP = Me
+        Job.TypeID = Me.ID
+        Job.TypeName = Me.Name
+        Job.RecalculateResourceRequirements()
+    End Sub
+
     Public Function CalculateWasteFactor(ByVal ProdEffSkill As Integer) As Double
         Return CalculateBPWasteFactor(Me.MELevel, ProdEffSkill)
     End Function
