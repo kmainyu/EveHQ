@@ -78,6 +78,10 @@ Imports System.Runtime.Serialization
             BPWF = CurrentBP.CalculateWasteFactor(CInt(Me.OverridingME), Me.PESkill)
         End If
 
+        If Me.SubJobMEs Is Nothing Then
+            Me.SubJobMEs = New SortedList(Of String, Integer)
+        End If
+
         Dim ReqdResources As New SortedList(Of String, Object)
         For Each resource As BlueprintResource In CurrentBP.Resources.Values
             If resource.Activity = 1 And resource.Quantity >= 0 Then
@@ -145,6 +149,12 @@ Imports System.Runtime.Serialization
                     subPJ.ProdImplant = Me.ProdImplant
                     subPJ.AssemblyArray = Me.AssemblyArray
                     subPJ.StartTime = Now
+                    ' Set SubJob ME
+                    If Me.SubJobMEs.ContainsKey(resource.TypeID.ToString) = False Then
+                        Me.SubJobMEs.Add(resource.TypeID.ToString, subBPS.MELevel)
+                    Else
+                        Me.SubJobMEs(resource.TypeID.ToString) = subBPS.MELevel
+                    End If
                     ' Do the iteration on the component BP
                     subPJ.CalculateResourceRequirements(ComponentIteration, BPOwner)
                     ReqdResources.Add(resource.TypeID.ToString, subPJ)
@@ -267,12 +277,12 @@ Imports System.Runtime.Serialization
             Me.RequiredResources.Remove(TypeID.ToString)
 
             Dim BPID As String = PlugInData.Products(TypeID)
-			Dim subBPS As BlueprintSelection = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(BPID))
-			If Me.OverridingME = "" Then
-				subBPS.MELevel = 0
-			Else
-				subBPS.MELevel = CInt(Me.OverridingME)
-			End If
+            Dim subBPS As BlueprintSelection = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(BPID))
+
+            If Me.SubJobMEs.ContainsKey(resource.TypeID.ToString) = True Then
+                subBPS.MELevel = Me.SubJobMEs(resource.TypeID.ToString)
+            End If
+
 			subBPS.PELevel = 0
             subBPS.Runs = -1
             Dim subBPWF As Double = subBPS.CalculateWasteFactor(Me.PESkill)
@@ -292,6 +302,7 @@ Imports System.Runtime.Serialization
             subPJ.ProdImplant = Me.ProdImplant
             subPJ.AssemblyArray = Me.AssemblyArray
             subPJ.StartTime = Now
+            
             ' Do the iteration on the component BP
             subPJ.CalculateResourceRequirements(False, Me.BPOwner)
 
@@ -303,6 +314,10 @@ Imports System.Runtime.Serialization
     End Sub
 
     Public Sub RecalculateResourceRequirements()
+
+        If Me.SubJobMEs Is Nothing Then
+            Me.SubJobMEs = New SortedList(Of String, Integer)
+        End If
 
         Dim MatMod As Double = 1
         If Me.AssemblyArray IsNot Nothing Then
@@ -338,6 +353,12 @@ Imports System.Runtime.Serialization
                 Dim subPJ As ProductionJob = CType(resource, ProductionJob)
                 Dim key As String = subPJ.TypeID.ToString & "_1"
                 Dim BPResource As BlueprintResource = CurrentBP.Resources(key)
+                ' Set SubJob ME
+                If Me.SubJobMEs.ContainsKey(BPResource.TypeID.ToString) = False Then
+                    Me.SubJobMEs.Add(BPResource.TypeID.ToString, subPJ.CurrentBP.MELevel)
+                Else
+                    Me.SubJobMEs(BPResource.TypeID.ToString) = subPJ.CurrentBP.MELevel
+                End If
                 ' Calculate Waste - Mark II!
                 waste = CalculateWasteUnits(BPResource, BPWF, MatMod)
                 subPJ.WasteUnits = waste
