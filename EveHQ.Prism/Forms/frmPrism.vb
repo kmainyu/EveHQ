@@ -4295,7 +4295,11 @@ Public Class frmPrism
                                 NewContract.Text = "Contract ID: " & C.ContractID.ToString
                             End If
                         End If
-                        NewContract.Cells(1).Text = EveHQ.Core.HQ.Stations(C.StartStationID.ToString).stationName
+                        If EveHQ.Core.HQ.Stations.ContainsKey(C.StartStationID.ToString) Then
+                            NewContract.Cells(1).Text = EveHQ.Core.HQ.Stations(C.StartStationID.ToString).stationName
+                        Else
+                            NewContract.Cells(1).Text = "Station ID: " & C.StartStationID.ToString
+                        End If
                         If C.IsIssuer = True Then
                             NewContract.Cells(2).Text = "Issued"
                         Else
@@ -7270,7 +7274,4 @@ Public Class frmPrism
 
 #End Region
 
-    
-
-   
 End Class
