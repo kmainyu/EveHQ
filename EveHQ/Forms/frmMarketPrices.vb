@@ -491,7 +491,11 @@ Public Class frmMarketPrices
         Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Log File Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.Yes Then
             For Each logFile As Node In adtLogs.SelectedNodes
-                My.Computer.FileSystem.DeleteFile(logFile.Tag.ToString, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.DoNothing)
+                Try
+                    My.Computer.FileSystem.DeleteFile(logFile.Tag.ToString, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.DoNothing)
+                Catch ex As Exception
+                    ' File is locked or doesn't exist - jog on
+                End Try
             Next
             Me.ImportLogDetails()
         End If
