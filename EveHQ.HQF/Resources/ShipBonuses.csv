@@ -1001,6 +1001,24 @@
 # Revelation,,,,,,,,,,,
 19720,1,20525,6,4,773;774,0,1,0,-10,15,Capital Energy Turret Cap
 19720,1,20525,10011,4,773;774,0,1,0,-5,15,Capital Energy Turret ROF
+# Revenant,,,,,,,,,,,
+3514,1,24311,37,2,549,0,1,0,10,15,Fighter Max Velocity
+3514,1,24311,37,2,1023,0,1,0,10,15,Fighter Bomber Max Velocity
+3514,1,24311,10063,1,3514,0,1,1,1,15,Warfare Link Bonus
+3514,1,24312,91,4,910,0,1,0,50,15,Capital Energy Transfer Range
+3514,1,24312,87,4,600,0,1,0,50,15,Capital Shield Transfer Range
+3514,1,24312,10005,1,3514,0,1,1,1,15,Fighter Control Bonus
+3514,0,0,64,2,549,0,0,0,100,15,Deployed Fighter Damage
+3514,0,0,263,2,549,0,0,0,100,15,Fighter Shield HP
+3514,0,0,265,2,549,0,0,0,100,15,Fighter Armor HP
+3514,0,0,9,2,549,0,0,0,100,15,Fighter Hull HP
+3514,0,0,212,2,1023,0,0,0,100,15,Deployed Fighter Bomber Damage
+3514,0,0,263,2,1023,0,0,0,100,15,Fighter Bomber Shield HP
+3514,0,0,265,2,1023,0,0,0,100,15,Fighter Bomber Armor HP
+3514,0,0,9,2,1023,0,0,0,100,15,Fighter Bomber Hull HP
+3514,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
+3514,0,0,10007,1,23919,0,0,0,200,15,Fighter Control Range 
+3514,0,0,50,1,24283,0,0,0,-99,15,Drone Control Unit CPU
 # Rhea,,,,,,,,,,,
 28844,1,20526,10004,1,28844,0,1,0,5,15,Cargo Capacity
 28844,1,20526,70,1,28844,0,1,0,-5,15,Agility
