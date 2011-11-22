@@ -749,6 +749,12 @@
 24700,1,12099,64,3,18,0,1,0,10,15,Drone Damage
 24700,1,12099,84,2,62,0,1,0,7.5,15,Armor Repair Amount
 24700,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
+# Naga,,,,,,,,,,,
+4306,1,12099,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+4306,1,12099,54,4,563;566,0,1,0,10,15,Large Hybrid Turret Optimal Range
+4306,0,0,30,4,563;566,0,1,0,-95,15,Large Hybrid Turret PG Usage
+4306,0,0,50,4,563;566,0,1,0,-50,15,Large Hybrid Turret CPU Need
+4306,0,0,6,4,563;566,0,1,0,-50,15,Large Hybrid Turret Cap Use
 # Naglfar,,,,,,,,,,,
 19722,1,20532,51,2,524,0,1,0,-5,15,Citadel Launcher ROF
 19722,1,20532,10016,4,775;776,0,1,0,5,15,Capital Projectile Turret Damage
@@ -841,6 +847,12 @@
 11995,1,3334,274,1,11995,0,1,2,-5,15,Therm Shield Resist
 11995,1,28609,37,2,385;655;772;654,0,1,0,10,15,"Heavy, Assault Missile Velocity"
 11995,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
+# Oracle,,,,,,,,,,,
+4302,1,12099,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
+4302,1,12099,54,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
+4302,0,0,30,4,569;573,0,1,0,-95,15,Large Energy Turret PG Usage
+4302,0,0,50,4,569;573,0,1,0,-50,15,Large Energy Turret CPU Need
+4302,0,0,6,4,569;573,0,1,0,-50,15,Large Energy Turret Cap Use
 # Orca,,,,,,,,,,,
 28606,0,0,1045,2,650,0,0,0,100,15,Tractor Beam Velocity
 28606,0,0,54,2,650,0,0,0,250,15,Tractor Beam Range
@@ -1163,6 +1175,12 @@
 17924,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
 17924,1,3331,160,4,567;570,0,1,0,7.5,15,Small Energy Turret Tracking
 17924,1,3330,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
+# Talos,,,,,,,,,,,
+4308,1,12099,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+4308,1,12099,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking Speed
+4308,0,0,30,4,563;566,0,1,0,-95,15,Large Hybrid Turret PG Usage
+4308,0,0,50,4,563;566,0,1,0,-50,15,Large Hybrid Turret CPU Need
+4308,0,0,6,4,563;566,0,1,0,-50,15,Large Hybrid Turret Cap Use
 # Taranis,,,,,,,,,,,
 11200,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
 11200,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
@@ -1201,6 +1219,11 @@
 591,1,3331,10004,1,591,0,1,0,5,15,Cargo Capacity
 591,1,3331,77,2,54,0,1,0,20,15,Mining Laser Yield
 591,0,0,6,2,54,0,0,0,-60,15,Mining Laser Cap Use
+# Tornado,,,,,,,,,,,
+4310,1,12099,10013,4,576;579,0,1,0,5,15,Large Projectile Turret ROF
+4310,1,12099,158,4,576;579,0,1,0,5,15,Large Projectile Turret Falloff
+4310,0,0,30,4,576;579,0,1,0,-95,15,Large Projectile Turret PG Usage
+4310,0,0,50,4,576;579,0,1,0,-50,15,Large Projectile Turret CPU Need
 # Tristan,,,,,,,,,,,
 593,1,3328,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
 593,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Turret Tracking
