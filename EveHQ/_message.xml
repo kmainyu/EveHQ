@@ -4,7 +4,7 @@
   <title>UPDATE YOUR API KEYS - LAST REMINDER</title>
   <allowIgnore>1</allowIgnore>
   <message>
-  <![CDATA[With effect from EveHQ v2.4 due out sometime after the Eve Crucible patch, legacy API keys will no longer be supported in EveHQ. See <a href="http://forum.battleclinic.com/index.php/topic,154971.0.html">http://forum.battleclinic.com/index.php/topic,154971.0.html</a> for details.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
+  <![CDATA[With effect from EveHQ v2.4 due out sometime after the Eve Crucible patch, legacy API keys will no longer be supported in EveHQ.<br /><br />See <a href="http://forum.battleclinic.com/index.php/topic,154971.0.html">http://forum.battleclinic.com/index.php/topic,154971.0.html</a> for details.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
   <disabledPlugins>
     <plugin name="Invention Calculator" version="3.5.0.0" />
   </disabledPlugins>
