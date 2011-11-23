@@ -196,20 +196,11 @@ Public Class frmKMV
         Do
             ' Let's try and get the killmail details (use the standard caching method for this)
             Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-            Select Case KMAccount.APIKeySystem
-                Case Core.APIKeySystems.Version1
-                    If chkUseCorp.Checked = True Then
-                        KMXML = APIReq.GetAPIXML(EveAPI.APITypes.KillLogCorp, KMAccount.ToAPIAccount, charID, lastKillID, EveAPI.APIReturnMethods.ReturnStandard)
-                    Else
-                        KMXML = APIReq.GetAPIXML(EveAPI.APITypes.KillLogChar, KMAccount.ToAPIAccount, charID, lastKillID, EveAPI.APIReturnMethods.ReturnStandard)
-                    End If
-                Case Core.APIKeySystems.Version2
-                    If KMAccount.APIKeyType = Core.APIKeyTypes.Corporation Then
-                        KMXML = APIReq.GetAPIXML(EveAPI.APITypes.KillLogCorp, KMAccount.ToAPIAccount, charID, lastKillID, EveAPI.APIReturnMethods.ReturnStandard)
-                    Else
-                        KMXML = APIReq.GetAPIXML(EveAPI.APITypes.KillLogChar, KMAccount.ToAPIAccount, charID, lastKillID, EveAPI.APIReturnMethods.ReturnStandard)
-                    End If
-            End Select
+            If KMAccount.APIKeyType = Core.APIKeyTypes.Corporation Then
+                KMXML = APIReq.GetAPIXML(EveAPI.APITypes.KillLogCorp, KMAccount.ToAPIAccount, charID, lastKillID, EveAPI.APIReturnMethods.ReturnStandard)
+            Else
+                KMXML = APIReq.GetAPIXML(EveAPI.APITypes.KillLogChar, KMAccount.ToAPIAccount, charID, lastKillID, EveAPI.APIReturnMethods.ReturnStandard)
+            End If
 
             ' Check for any Errors
             If KMXML IsNot Nothing Then
