@@ -423,39 +423,6 @@ Public Class PilotParseFunctions
         Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
         Select Case cAccount.APIKeySystem
-            Case APIKeySystems.Unknown
-                ' Ignore
-            Case APIKeySystems.Version1
-                Select Case APIReq.LastAPIError
-                    Case -1
-                        If accountXML IsNot Nothing Then
-                            ' Should be full key
-                            cAccount.APIKeyType = Core.APIKeyTypes.Full
-                            cAccount.LastAccountStatusCheck = Now
-                            ' Parse the account information
-                            If accountXML.GetElementsByTagName("createDate").Item(0).InnerText <> "" Then
-                                Dim cd As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("createDate").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                                cAccount.CreateDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cd)
-                                Dim pu As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("paidUntil").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                                cAccount.PaidUntil = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(pu)
-                                cAccount.LogonCount = CLng(accountXML.GetElementsByTagName("logonCount").Item(0).InnerText)
-                                cAccount.LogonMinutes = CLng(accountXML.GetElementsByTagName("logonMinutes").Item(0).InnerText)
-                                If cAccount.PaidUntil < Now Then
-                                    ' Account has expired
-                                    cAccount.APIAccountStatus = APIAccountStatuses.Disabled
-                                Else
-                                    cAccount.APIAccountStatus = APIAccountStatuses.Active
-                                End If
-                            End If
-                        End If
-                    Case 211
-                        ' Account has expired
-                        cAccount.APIAccountStatus = APIAccountStatuses.Disabled
-                    Case 200
-                        ' Should be limited key
-                        cAccount.APIKeyType = Core.APIKeyTypes.Limited
-                        cAccount.APIAccountStatus = APIAccountStatuses.Active
-                End Select
             Case APIKeySystems.Version2
                 Select Case APIReq.LastAPIError
                     Case -1
@@ -484,9 +451,10 @@ Public Class PilotParseFunctions
                         ' Should be limited key
                         cAccount.APIKeyType = Core.APIKeyTypes.Limited
                         cAccount.APIAccountStatus = APIAccountStatuses.Active
+                    Case Else
+                        ' Ignore
                 End Select
-        End Select
-        
+        End Select     
     End Sub
 	Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
 

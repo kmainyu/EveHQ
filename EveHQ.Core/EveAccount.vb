@@ -66,7 +66,7 @@ Imports System.Xml
         Get
             ' Set the key type to version 1 if it is not known
             If cAPIKeySystem = APIKeySystems.Unknown Then
-                cAPIKeySystem = APIKeySystems.Version1
+                cAPIKeySystem = APIKeySystems.Version2
             End If
             Return cAPIKeySystem
         End Get
@@ -183,24 +183,6 @@ Imports System.Xml
 
     Public Sub CheckAPIKey()
         Select Case Me.APIKeySystem
-            Case APIKeySystems.Unknown
-                ' Do nothing because we don't even know what to do here!
-            Case APIKeySystems.Version1
-                ' Old style system
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, Me.ToAPIAccount, EveAPI.APIReturnMethods.BypassCache)
-                Select Case APIReq.LastAPIError
-                    Case -1
-                        ' Should be full key
-                        Me.APIKeyType = Core.APIKeyTypes.Full
-                    Case 200
-                        ' Should be limited key
-                        Me.APIKeyType = Core.APIKeyTypes.Limited
-                    Case Else
-                        ' Still unknown!
-                        Me.APIKeyType = Core.APIKeyTypes.Unknown
-                End Select
-                Me.AccessMask = 0
             Case APIKeySystems.Version2
                 ' New style system
                 Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
@@ -228,8 +210,9 @@ Imports System.Xml
                         ' Still unknown!
                         Me.AccessMask = 0
                 End Select
+            Case Else
+                ' Ignore
         End Select
-
     End Sub
 
     Public Function GetCharactersOnAccount() As List(Of String)
@@ -245,13 +228,6 @@ Imports System.Xml
             Dim CharacterList As XmlNodeList = accountXML.SelectNodes("/eveapi/result/rowset/row")
             For Each Character As XmlNode In CharacterList
                 Select Case Me.APIKeySystem
-                    Case APIKeySystems.Version1
-                        If CharList.Contains(Character.Attributes.GetNamedItem("name").Value) = False Then
-                            CharList.Add(Character.Attributes.GetNamedItem("name").Value)
-                        End If
-                        If CharList.Contains(Character.Attributes.GetNamedItem("corporationName").Value) = False Then
-                            CharList.Add(Character.Attributes.GetNamedItem("corporationName").Value)
-                        End If
                     Case APIKeySystems.Version2
                         If Me.APIKeyType = APIKeyTypes.Corporation Then
                             If CharList.Contains(Character.Attributes.GetNamedItem("corporationName").Value) = False Then
@@ -262,6 +238,8 @@ Imports System.Xml
                                 CharList.Add(Character.Attributes.GetNamedItem("name").Value)
                             End If
                         End If
+                    Case Else
+                        ' Ignore
                 End Select
             Next
         End If

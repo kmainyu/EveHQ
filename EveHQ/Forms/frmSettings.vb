@@ -384,10 +384,10 @@ Public Class frmSettings
         Dim myAccounts As frmModifyEveAccounts = New frmModifyEveAccounts
         With myAccounts
             .Tag = "Add"
-            .txtUserIDV1.Text = "" : .txtUserIDV1.Enabled = True
-            .txtAPIKeyV1.Text = "" : .txtAPIKeyV1.Enabled = True
-            .txtAccountNameV1.Text = "" : .txtAccountNameV1.Enabled = True
-            .btnAcceptV1.Text = "OK"
+            .txtUserIDV2.Text = "" : .txtUserIDV2.Enabled = True
+            .txtAPIKeyV2.Text = "" : .txtAPIKeyV2.Enabled = True
+            .txtAccountNameV2.Text = "" : .txtAccountNameV2.Enabled = True
+            .btnAcceptV2.Text = "OK"
             .Text = "Add New Account"
             .ShowDialog()
         End With
@@ -409,27 +409,15 @@ Public Class frmSettings
                 ' Load the account details into the text boxes
                 Dim selAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(adtAccounts.SelectedNodes(0).Name), Core.EveAccount)
                 Select Case selAccount.APIKeySystem
-                    Case Core.APIKeySystems.Version1, Core.APIKeySystems.Unknown
-                        Dim msg As New StringBuilder
-                        msg.AppendLine("Keys under the old API system can no longer be edited. If you need to update a key, please use the new CAK system.")
-                        MessageBox.Show(msg.ToString, "Cannot Edit Old API Key", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Exit Sub
-                        '.tiV1.Visible = True : .tiV2.Visible = False
-                        '.radVersion1.Checked = True : .radVersion1.Enabled = False : .radVersion2.Enabled = False
-                        '.txtUserIDV1.Text = selAccount.userID : .txtUserIDV1.Enabled = False
-                        '.txtAPIKeyV1.Text = selAccount.APIKey : .txtAPIKeyV1.Enabled = True
-                        '.txtAccountNameV1.Text = selAccount.FriendlyName : .txtAccountNameV1.Enabled = True
-                        '.lblAPIKeyTypeV1.Text = selAccount.APIKeyType.ToString
-                        '.btnAcceptV1.Text = "OK"
                     Case Core.APIKeySystems.Version2
-                        .tiV1.Visible = False : .tiV2.Visible = True
-                        .radVersion2.Checked = True : .radVersion1.Enabled = False : .radVersion2.Enabled = False
                         .txtUserIDV2.Text = selAccount.userID : .txtUserIDV2.Enabled = False
                         .txtAPIKeyV2.Text = selAccount.APIKey : .txtAPIKeyV2.Enabled = True
                         .txtAccountNameV2.Text = selAccount.FriendlyName : .txtAccountNameV2.Enabled = True
                         .lblAPIKeyTypeV2.Text = selAccount.APIKeyType.ToString
                         .lblAPIAccessMask.Text = selAccount.AccessMask.ToString
                         .btnAcceptV2.Text = "OK"
+                    Case Else
+                        ' Ignore
                 End Select
                 .Tag = "Edit"
                 .Text = "Edit '" & selAccount.FriendlyName & "' Account Details"

@@ -208,7 +208,7 @@ Public Class frmPilot
             lblAccountExpiry.ForeColor = Color.Black
             If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(displayPilot.Account) = True Then
                 Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(displayPilot.Account), Core.EveAccount)
-                If (dAccount.APIKeySystem = Core.APIKeySystems.Version1 And dAccount.APIKeyType = Core.APIKeyTypes.Full) Or (dAccount.APIKeySystem = Core.APIKeySystems.Version2 And dAccount.CanUseCharacterAPI(EveAPI.CharacterAccessMasks.AccountStatus)) Then
+                If (dAccount.APIKeySystem = Core.APIKeySystems.Version2 And dAccount.CanUseCharacterAPI(EveAPI.CharacterAccessMasks.AccountStatus)) Then
                     lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
                     lblAccountLogins.Text = "Login Count: " & dAccount.LogonCount & " (" & EveHQ.Core.SkillFunctions.TimeToString(dAccount.LogonMinutes * 60, False) & ")"
                     If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
