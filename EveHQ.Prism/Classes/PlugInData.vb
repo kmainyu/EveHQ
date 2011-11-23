@@ -449,64 +449,9 @@ Public Class PlugInData
 
 #Region "API Helper Routines"
 
-    Public Shared Function GetPilotForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.Pilot
-        If Owner.IsCorp = True Then
-            Select Case Owner.APIVersion
-                Case Core.APIKeySystems.Version1
-                    ' This is a corporation so we need to check determine the corp rep, key type and roles
-                    If Settings.PrismSettings.CorpReps.ContainsKey(Owner.Name) Then
-                        If Settings.PrismSettings.CorpReps(Owner.Name).ContainsKey(APIType) Then
-                            ' Get the corp rep responsible for this corp and API type
-                            Dim SelPilotName As String = Settings.PrismSettings.CorpReps(Owner.Name).Item(APIType)
-                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(SelPilotName) Then
-                                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(SelPilotName), Core.Pilot)
-                                Return selPilot
-                            Else
-                                Return Nothing
-                            End If
-                        Else
-                            Return Nothing
-                        End If
-                    Else
-                        Return Nothing
-                    End If
-                Case Core.APIKeySystems.Version2
-                    ' Not required for version 2 keys
-                    Return Nothing
-                Case Else
-                    Return Nothing
-            End Select
-        Else
-            Return Nothing
-        End If
-    End Function
     Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.EveAccount
         If Owner.IsCorp = True Then
             Select Case Owner.APIVersion
-                Case Core.APIKeySystems.Version1
-                    ' This is a corporation so we need to check determine the corp rep, key type and roles
-                    If Settings.PrismSettings.CorpReps.ContainsKey(Owner.Name) Then
-                        If Settings.PrismSettings.CorpReps(Owner.Name).ContainsKey(APIType) Then
-                            ' Get the corp rep responsible for this corp and API type
-                            Dim SelPilotName As String = Settings.PrismSettings.CorpReps(Owner.Name).Item(APIType)
-                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(SelPilotName) Then
-                                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(SelPilotName), Core.Pilot)
-                                ' Corp rep established, now get the account
-                                If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(selPilot.Account) = True Then
-                                    Dim Account As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(selPilot.Account), Core.EveAccount)
-                                    Return Account
-                                Else
-                                    Return Nothing
-                                End If
-                            Else
-                                Return Nothing
-                            End If
-                        Else
-                            Return Nothing
-                        End If
-                    Else
-                        Return Nothing
-                    End If
                 Case Core.APIKeySystems.Version2
                     Return Owner.Account
                 Case Else
@@ -516,27 +461,10 @@ Public Class PlugInData
             Return Owner.Account
         End If
     End Function
+
     Public Shared Function GetAccountOwnerIDForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As String
         If Owner.IsCorp = True Then
             Select Case Owner.APIVersion
-                Case Core.APIKeySystems.Version1
-                    ' This is a corporation so we need to check determine the corp rep, key type and roles
-                    If Settings.PrismSettings.CorpReps.ContainsKey(Owner.Name) Then
-                        If Settings.PrismSettings.CorpReps(Owner.Name).ContainsKey(APIType) Then
-                            ' Get the corp rep responsible for this corp and API type
-                            Dim SelPilotName As String = Settings.PrismSettings.CorpReps(Owner.Name).Item(APIType)
-                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(SelPilotName) Then
-                                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(SelPilotName), Core.Pilot)
-                                Return selPilot.ID
-                            Else
-                                Return ""
-                            End If
-                        Else
-                            Return ""
-                        End If
-                    Else
-                        Return ""
-                    End If
                 Case Core.APIKeySystems.Version2
                     Return Owner.ID
                 Case Else
