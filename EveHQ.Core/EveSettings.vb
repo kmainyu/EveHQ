@@ -2013,6 +2013,24 @@ Public Class EveHQSettingsFunctions
         ' Set Global APIServerInfo
         EveHQ.Core.HQ.EveHQAPIServerInfo = New EveHQ.EveAPI.APIServerInfo(EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress, EveHQ.Core.HQ.EveHQSettings.APIRSAddress, EveHQ.Core.HQ.EveHQSettings.UseAPIRS, EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup)
 
+        ' Check for unknown or V1 accounts and remove them
+        Dim OldAccountList As New List(Of String)
+        For Each CheckAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+            If CheckAccount.APIKeySystem = APIKeySystems.Unknown Or CheckAccount.APIKeySystem = APIKeySystems.Version1 Then
+                OldAccountList.Add(CheckAccount.userID)
+            End If
+        Next
+        If OldAccountList.Count > 0 Then
+            For Each AccountID As String In OldAccountList
+                EveHQ.Core.HQ.EveHQSettings.Accounts.Remove(AccountID)
+            Next
+            Dim msg As New StringBuilder
+            msg.AppendLine("EveHQ has detected legacy API keys in the settings file. As these are no longer supported, these have been removed.")
+            msg.AppendLine("")
+            msg.AppendLine("You will need to add Customisable API Keys (CAKs) for any characters or corporations removed by this procedure that you wish to continue using.")
+            MessageBox.Show(msg.ToString, "Legacy API Keys Removed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+
         Return True
 
     End Function
