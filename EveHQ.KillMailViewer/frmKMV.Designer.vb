@@ -31,7 +31,6 @@ Partial Class frmKMV
         Me.lblAPIKey = New System.Windows.Forms.Label()
         Me.txtUserID = New System.Windows.Forms.TextBox()
         Me.lblUserID = New System.Windows.Forms.Label()
-        Me.chkUseCorp = New System.Windows.Forms.CheckBox()
         Me.lvwCharacters = New System.Windows.Forms.ListView()
         Me.colCharacterName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.btnFetchKillMails = New System.Windows.Forms.Button()
@@ -148,17 +147,6 @@ Partial Class frmKMV
         Me.lblUserID.TabIndex = 0
         Me.lblUserID.Text = "UserID:"
         '
-        'chkUseCorp
-        '
-        Me.chkUseCorp.AutoSize = True
-        Me.chkUseCorp.BackColor = System.Drawing.Color.Transparent
-        Me.chkUseCorp.Location = New System.Drawing.Point(3, 86)
-        Me.chkUseCorp.Name = "chkUseCorp"
-        Me.chkUseCorp.Size = New System.Drawing.Size(107, 17)
-        Me.chkUseCorp.TabIndex = 7
-        Me.chkUseCorp.Text = "Get Corp Killmails"
-        Me.chkUseCorp.UseVisualStyleBackColor = False
-        '
         'lvwCharacters
         '
         Me.lvwCharacters.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colCharacterName})
@@ -168,7 +156,7 @@ Partial Class frmKMV
         Me.lvwCharacters.HideSelection = False
         Me.lvwCharacters.Location = New System.Drawing.Point(3, 11)
         Me.lvwCharacters.Name = "lvwCharacters"
-        Me.lvwCharacters.Size = New System.Drawing.Size(267, 69)
+        Me.lvwCharacters.Size = New System.Drawing.Size(267, 94)
         Me.lvwCharacters.TabIndex = 6
         Me.lvwCharacters.UseCompatibleStateImageBehavior = False
         Me.lvwCharacters.View = System.Windows.Forms.View.Details
@@ -282,7 +270,6 @@ Partial Class frmKMV
         '
         Me.gpCharacters.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpCharacters.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpCharacters.Controls.Add(Me.chkUseCorp)
         Me.gpCharacters.Controls.Add(Me.lvwCharacters)
         Me.gpCharacters.Controls.Add(Me.btnFetchKillMails)
         Me.gpCharacters.Location = New System.Drawing.Point(547, 12)
@@ -451,7 +438,6 @@ Partial Class frmKMV
         Me.gpAPI.ResumeLayout(False)
         Me.gpAPI.PerformLayout()
         Me.gpCharacters.ResumeLayout(False)
-        Me.gpCharacters.PerformLayout()
         Me.PanelEx1.ResumeLayout(False)
         Me.PanelEx1.PerformLayout()
         CType(Me.adtKillmails, System.ComponentModel.ISupportInitialize).EndInit()
@@ -470,7 +456,6 @@ Partial Class frmKMV
     Friend WithEvents lblKMSummary As System.Windows.Forms.Label
     Friend WithEvents lblKillmailDetails As System.Windows.Forms.Label
     Friend WithEvents txtKillMailDetails As System.Windows.Forms.TextBox
-    Friend WithEvents chkUseCorp As System.Windows.Forms.CheckBox
     Friend WithEvents radUseAPI As System.Windows.Forms.RadioButton
     Friend WithEvents radUseAccount As System.Windows.Forms.RadioButton
     Friend WithEvents cboAccount As System.Windows.Forms.ComboBox

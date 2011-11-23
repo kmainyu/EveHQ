@@ -95,13 +95,6 @@ Public Class frmKMV
                     ' Enable the Fetch Killmails button
                     btnFetchKillMails.Enabled = True
                     ' Check the account - disable the Get Corp Killmails box for v2
-                    If cAccount.APIKeySystem = Core.APIKeySystems.Version2 Then
-                        chkUseCorp.Enabled = False
-                        chkUseCorp.Text = "Get Corp Killmails (Disabled - CAK account in use)"
-                    Else
-                        chkUseCorp.Enabled = True
-                        chkUseCorp.Text = "Get Corp Killmails"
-                    End If
                     Exit For
                 Else
                     MessageBox.Show("The list of characaters in this account is blank. Please connect to the API to get the latest character information.", "Characters required", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -331,11 +324,7 @@ Public Class frmKMV
         Next
         adtKillmails.EndUpdate()
         ' Update the summary label
-        If chkUseCorp.Checked = True Then
-            lblKMSummary.Text = "Corp Killmail Summary for " & charName & " (" & adtKillmails.Nodes.Count & " items)"
-        Else
-            lblKMSummary.Text = "Killmail Summary for " & charName & " (" & adtKillmails.Nodes.Count & " items)"
-        End If
+        lblKMSummary.Text = "Killmail Summary for " & charName & " (" & adtKillmails.Nodes.Count & " items)"
         ' Clear the killmail detail text
         txtKillMailDetails.Text = ""
         EveHQ.Core.AdvTreeSorter.Sort(adtKillmails, 1, True, True)
