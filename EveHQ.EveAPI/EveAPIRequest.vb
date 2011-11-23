@@ -271,11 +271,7 @@ Public Class EveAPIRequest
     Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String = ""
         Dim postdata As String = ""
-        If APIAccount.APIVersion = APIKeyVersions.Version1 Then
-            postdata = "userID=" & APIAccount.userID & "&apiKey=" & APIAccount.APIKey
-        Else
-            postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey
-        End If
+        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey
         cAPILastRequestType = APIType
         Select Case APIType
             Case APITypes.Characters
@@ -307,11 +303,7 @@ Public Class EveAPIRequest
     Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String = ""
         Dim postdata As String = ""
-        If APIAccount.APIVersion = APIKeyVersions.Version1 Then
-            postdata = "userID=" & APIAccount.userID & "&apiKey=" & APIAccount.APIKey & "&characterID=" & charID
-        Else
-            postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID
-        End If
+        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID
         cAPILastRequestType = APIType
         Select Case APIType
             Case APITypes.AccountBalancesChar
@@ -412,11 +404,7 @@ Public Class EveAPIRequest
 	Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal itemID As Long, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String = ""
         Dim postdata As String = ""
-        If APIAccount.APIVersion = APIKeyVersions.Version1 Then
-            postdata = "userID=" & APIAccount.userID & "&apiKey=" & APIAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
-        Else
-            postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
-        End If
+        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
 		cAPILastRequestType = APIType
 		Select Case APIType
 			Case APITypes.POSDetails
@@ -453,11 +441,7 @@ Public Class EveAPIRequest
 	Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal IDs As String, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
 		Dim remoteURL As String = ""
         Dim postdata As String = ""
-        If APIAccount.APIVersion = APIKeyVersions.Version1 Then
-            postdata = "userID=" & APIAccount.userID & "&apiKey=" & APIAccount.APIKey & "&characterID=" & charID
-        Else
-            postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID
-        End If
+        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID
 		cAPILastRequestType = APIType
 		If IDs <> "" Then
 			Select Case APIType
@@ -509,11 +493,7 @@ Public Class EveAPIRequest
     Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String = ""
         Dim postdata As String = ""
-        If APIAccount.APIVersion = APIKeyVersions.Version1 Then
-            postdata = "userID=" & APIAccount.userID & "&apiKey=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
-        Else
-            postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
-        End If
+        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
         cAPILastRequestType = APIType
         If BeforeRefID <> "" Then
             Select Case APIType
@@ -555,11 +535,7 @@ Public Class EveAPIRequest
     Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal fromID As Long, ByVal rowCount As Integer, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String = ""
         Dim postdata As String = ""
-        If APIAccount.APIVersion = APIKeyVersions.Version1 Then
-            postdata = "userID=" & APIAccount.userID & "&apiKey=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
-        Else
-            postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
-        End If
+        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
         cAPILastRequestType = APIType
         If fromID <> 0 Then
             Select Case APIType

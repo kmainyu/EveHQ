@@ -88,18 +88,7 @@ Public Class EveAPIAccount
     ''' </summary>
     ''' <param name="InitialUserID">The userID of the API account</param>
     ''' <param name="InitialAPIKey">The APIKey of the API account</param>
-    ''' <remarks></remarks>
-    Public Sub New(ByVal InitialUserID As String, ByVal InitialAPIKey As String)
-        Me.userID = InitialUserID
-        Me.APIKey = InitialAPIKey
-        Me.cAPIVersion = APIKeyVersions.Version1
-    End Sub
-
-    ''' <summary>
-    ''' Creates a new EveAPIAccount using the userID and APIKey specified
-    ''' </summary>
-    ''' <param name="InitialUserID">The userID of the API account</param>
-    ''' <param name="InitialAPIKey">The APIKey of the API account</param>
+    ''' <param name="InitialVersion">The initial version of the API key</param>
     ''' <remarks></remarks>
     Public Sub New(ByVal InitialUserID As String, ByVal InitialAPIKey As String, ByVal InitialVersion As APIKeyVersions)
         Me.userID = InitialUserID
@@ -111,6 +100,6 @@ End Class
 
 Public Enum APIKeyVersions As Integer
     Unknown = 0
-    Version1 = 1
+    'Version1 = 1
     Version2 = 2
 End Enum
