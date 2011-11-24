@@ -298,6 +298,9 @@ Public Class frmEveHQ
 
         Me.Hide()
 
+        ' Set global AdvTree settings
+        DevComponents.AdvTree.AdvTreeSettings.SelectedScrollIntoViewHorizontal = False
+
         ' Disable resizing of bar
         appStartUp = True
 
