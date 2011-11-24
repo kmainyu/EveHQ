@@ -161,7 +161,7 @@ Partial Class frmAPIChecker
         Me.btnFetchAPI.Size = New System.Drawing.Size(75, 23)
         Me.btnFetchAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnFetchAPI.TabIndex = 13
-        Me.btnFetchAPI.Text = "Get API"
+        Me.btnFetchAPI.Text = "Check API"
         '
         'chkReturnCachedXML
         '
