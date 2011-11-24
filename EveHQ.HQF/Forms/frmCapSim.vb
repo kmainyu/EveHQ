@@ -39,46 +39,37 @@ Public Class frmCapSim
         CSR = Capacitor.CalculateCapStatistics(CalcShip, True)
         CapShip = CalcShip
 
-        ' Determine the maximum sim time
-        If CSR.CapIsDrained = True Then
-            MaxSimTime = CSR.TimeToDrain
-        Else
-            MaxSimTime = CSR.SimulationTime
-        End If
-
-        Me.Text = "Capacitor Simulation Results - Max Time: " & EveHQ.Core.SkillFunctions.TimeToString(MaxSimTime, False)
-
-        ' Populate the Summary Labels
-        lblCapacity.Text = "Capacity: " & CalcShip.CapCapacity & " GJ"
-        lblRecharge.Text = "Recharge Time: " & CalcShip.CapRecharge & " s"
-        lblPeakRate.Text = "Peak Recharge Rate: " & (HQF.Settings.HQFSettings.CapRechargeConstant * CalcShip.CapCapacity / CalcShip.CapRecharge).ToString("N2") & " GJ/s"
-        Dim PI As Double = (CDbl(CalcShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * CalcShip.CapCapacity / CalcShip.CapRecharge)
-        Dim PO As Double = CDbl(CalcShip.Attributes("10049"))
-        lblPeakIn.Text = "Peak In: " & PI.ToString("N2") & " GJ"
-        lblPeakOut.Text = "Peak Out: " & PO.ToString("N2") & " GJ"
-        lblPeakDelta.Text = "Peak Delta: " & (PI - PO).ToString("N2") & " GJ"
-        If CSR.CapIsDrained = False Then
-            lblStability.Text = "Stability: Stable at " & (CSR.MinimumCap / CalcShip.CapCapacity * 100).ToString("N2") & "%"
-        Else
-            lblStability.Text = "Stability: Lasts " & EveHQ.Core.SkillFunctions.TimeToString(CSR.TimeToDrain, False)
-        End If
+        Call Me.UpdateCapData()
 
         ' Add modules
-        lvwModules.BeginUpdate()
-        lvwModules.Items.Clear()
+        adtModules.BeginUpdate()
+        adtModules.Nodes.Clear()
         For Each CM As CapacitorModule In CSR.Modules
-            Dim NewMod As New ListViewItem
+            Dim NewMod As New Node
             NewMod.Text = CM.Name
-            NewMod.SubItems.Add(CM.CycleTime.ToString("N2"))
-            NewMod.SubItems.Add(CM.CapAmount.ToString("N2"))
-            NewMod.SubItems.Add((CM.CapAmount / CM.CycleTime).ToString("N2"))
-            lvwModules.Items.Add(NewMod)
+            NewMod.Cells.Add(New Cell(CM.CycleTime.ToString("N2")))
+            NewMod.Cells.Add(New Cell(CM.CapAmount.ToString("N2")))
+            NewMod.Cells.Add(New Cell((CM.CapAmount / CM.CycleTime).ToString("N2")))
+            NewMod.CheckBoxThreeState = False
+            NewMod.CheckBoxVisible = True
+            NewMod.Checked = CM.IsActive
+            NewMod.Tag = CM
+            adtModules.Nodes.Add(NewMod)
         Next
-        lvwModules.EndUpdate()
+        adtModules.EndUpdate()
 
         ' Set Filter limits
         Call Me.ResetTimeFilter()
 
+    End Sub
+
+    Private Sub adtModules_AfterCheck(sender As Object, e As DevComponents.AdvTree.AdvTreeCellEventArgs) Handles adtModules.AfterCheck
+        For Each CheckNode As Node In adtModules.Nodes
+            CType(CheckNode.Tag, CapacitorModule).IsActive = CheckNode.Checked
+        Next
+        Capacitor.RecalculateCapStatistics(CapShip, True, CSR)
+        Call Me.UpdateCapData()
+        UpdateEventList()
     End Sub
 
     Private Sub iiStartTime_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles iiStartTime.ValueChanged
@@ -89,6 +80,30 @@ Public Class frmCapSim
     Private Sub iiEndTime_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles iiEndTime.ValueChanged
         ' Set the maximum start time to 1 second before
         iiStartTime.MaxValue = iiEndTime.Value - 1
+    End Sub
+
+    Private Sub UpdateCapData()
+        ' Determine the maximum sim time
+        If CSR.CapIsDrained = True Then
+            MaxSimTime = CSR.TimeToDrain
+        Else
+            MaxSimTime = CSR.SimulationTime
+        End If
+        Me.Text = "Capacitor Simulation Results - Max Time: " & EveHQ.Core.SkillFunctions.TimeToString(MaxSimTime, False)
+        ' Populate the Summary Labels
+        lblCapacity.Text = "Capacity: " & CapShip.CapCapacity & " GJ"
+        lblRecharge.Text = "Recharge Time: " & CapShip.CapRecharge & " s"
+        lblPeakRate.Text = "Peak Recharge Rate: " & (HQF.Settings.HQFSettings.CapRechargeConstant * CapShip.CapCapacity / CapShip.CapRecharge).ToString("N2") & " GJ/s"
+        Dim PI As Double = (CDbl(CapShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * CapShip.CapCapacity / CapShip.CapRecharge)
+        Dim PO As Double = CDbl(CapShip.Attributes("10049"))
+        lblPeakIn.Text = "Peak In: " & PI.ToString("N2") & " GJ"
+        lblPeakOut.Text = "Peak Out: " & PO.ToString("N2") & " GJ"
+        lblPeakDelta.Text = "Peak Delta: " & (PI - PO).ToString("N2") & " GJ"
+        If CSR.CapIsDrained = False Then
+            lblStability.Text = "Stability: Stable at " & (CSR.MinimumCap / CapShip.CapCapacity * 100).ToString("N2") & "%"
+        Else
+            lblStability.Text = "Stability: Lasts " & EveHQ.Core.SkillFunctions.TimeToString(CSR.TimeToDrain, False)
+        End If
     End Sub
 
     Private Sub UpdateEventList()

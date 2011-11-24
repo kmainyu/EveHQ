@@ -33,11 +33,6 @@ Partial Class frmCapSim
         Me.lblStartTimeOffset = New DevComponents.DotNetBar.LabelX()
         Me.gpResults = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.gpModuleList = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.lvwModules = New DevComponents.DotNetBar.Controls.ListViewEx()
-        Me.colModuleName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colModuleTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colModuleCost = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colModuleRate = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.gpCapStats = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.lblStability = New DevComponents.DotNetBar.LabelX()
         Me.lblPeakDelta = New DevComponents.DotNetBar.LabelX()
@@ -56,6 +51,13 @@ Partial Class frmCapSim
         Me.colEndCap = New DevComponents.AdvTree.ColumnHeader()
         Me.colCapPercent = New DevComponents.AdvTree.ColumnHeader()
         Me.colCapRechg = New DevComponents.AdvTree.ColumnHeader()
+        Me.adtModules = New DevComponents.AdvTree.AdvTree()
+        Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+        Me.colModName = New DevComponents.AdvTree.ColumnHeader()
+        Me.colCycleTime = New DevComponents.AdvTree.ColumnHeader()
+        Me.colActCost = New DevComponents.AdvTree.ColumnHeader()
+        Me.colRate = New DevComponents.AdvTree.ColumnHeader()
         Me.PanelEx1.SuspendLayout()
         CType(Me.iiEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.iiStartTime, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -63,6 +65,7 @@ Partial Class frmCapSim
         Me.gpModuleList.SuspendLayout()
         Me.gpCapStats.SuspendLayout()
         CType(Me.adtResults, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.adtModules, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'PanelEx1
@@ -245,7 +248,7 @@ Partial Class frmCapSim
         '
         Me.gpModuleList.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpModuleList.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpModuleList.Controls.Add(Me.lvwModules)
+        Me.gpModuleList.Controls.Add(Me.adtModules)
         Me.gpModuleList.IsShadowEnabled = True
         Me.gpModuleList.Location = New System.Drawing.Point(240, 12)
         Me.gpModuleList.Name = "gpModuleList"
@@ -283,48 +286,6 @@ Partial Class frmCapSim
         Me.gpModuleList.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpModuleList.TabIndex = 1
         Me.gpModuleList.Text = "Modules Affecting Capacitor"
-        '
-        'lvwModules
-        '
-        Me.lvwModules.Activation = System.Windows.Forms.ItemActivation.OneClick
-        '
-        '
-        '
-        Me.lvwModules.Border.Class = "ListViewBorder"
-        Me.lvwModules.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.lvwModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleTime, Me.colModuleCost, Me.colModuleRate})
-        Me.lvwModules.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwModules.FullRowSelect = True
-        Me.lvwModules.GridLines = True
-        Me.lvwModules.Location = New System.Drawing.Point(0, 0)
-        Me.lvwModules.Name = "lvwModules"
-        Me.lvwModules.Size = New System.Drawing.Size(536, 154)
-        Me.lvwModules.TabIndex = 0
-        Me.lvwModules.UseCompatibleStateImageBehavior = False
-        Me.lvwModules.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module Name"
-        Me.colModuleName.Width = 200
-        '
-        'colModuleTime
-        '
-        Me.colModuleTime.Text = "Cycle Time"
-        Me.colModuleTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colModuleTime.Width = 100
-        '
-        'colModuleCost
-        '
-        Me.colModuleCost.Text = "Activation Cost"
-        Me.colModuleCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colModuleCost.Width = 100
-        '
-        'colModuleRate
-        '
-        Me.colModuleRate.Text = "Rate (GJ/s)"
-        Me.colModuleRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colModuleRate.Width = 100
         '
         'gpCapStats
         '
@@ -484,7 +445,6 @@ Partial Class frmCapSim
         'adtResults
         '
         Me.adtResults.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtResults.AllowDrop = True
         Me.adtResults.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -498,6 +458,8 @@ Partial Class frmCapSim
         Me.adtResults.Columns.Add(Me.colEndCap)
         Me.adtResults.Columns.Add(Me.colCapPercent)
         Me.adtResults.Columns.Add(Me.colCapRechg)
+        Me.adtResults.DragDropEnabled = False
+        Me.adtResults.DragDropNodeCopyEnabled = False
         Me.adtResults.ExpandWidth = 0
         Me.adtResults.GridLinesColor = System.Drawing.Color.Silver
         Me.adtResults.GridRowLines = True
@@ -571,6 +533,74 @@ Partial Class frmCapSim
         Me.colCapRechg.Text = "Rechg"
         Me.colCapRechg.Width.Absolute = 60
         '
+        'adtModules
+        '
+        Me.adtModules.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtModules.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtModules.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtModules.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtModules.Columns.Add(Me.colModName)
+        Me.adtModules.Columns.Add(Me.colCycleTime)
+        Me.adtModules.Columns.Add(Me.colActCost)
+        Me.adtModules.Columns.Add(Me.colRate)
+        Me.adtModules.DragDropEnabled = False
+        Me.adtModules.DragDropNodeCopyEnabled = False
+        Me.adtModules.ExpandWidth = 0
+        Me.adtModules.GridLinesColor = System.Drawing.Color.Silver
+        Me.adtModules.GridRowLines = True
+        Me.adtModules.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtModules.Location = New System.Drawing.Point(3, 3)
+        Me.adtModules.Name = "adtModules"
+        Me.adtModules.NodesConnector = Me.NodeConnector2
+        Me.adtModules.NodeStyle = Me.ElementStyle2
+        Me.adtModules.PathSeparator = ";"
+        Me.adtModules.Size = New System.Drawing.Size(530, 148)
+        Me.adtModules.Styles.Add(Me.ElementStyle2)
+        Me.adtModules.TabIndex = 0
+        Me.adtModules.Text = "AdvTree1"
+        '
+        'NodeConnector2
+        '
+        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.Class = ""
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'colModName
+        '
+        Me.colModName.Name = "colModName"
+        Me.colModName.SortingEnabled = False
+        Me.colModName.Text = "Module Name"
+        Me.colModName.Width.Absolute = 250
+        '
+        'colCycleTime
+        '
+        Me.colCycleTime.Name = "colCycleTime"
+        Me.colCycleTime.SortingEnabled = False
+        Me.colCycleTime.Text = "Cycle Time"
+        Me.colCycleTime.Width.Absolute = 80
+        '
+        'colActCost
+        '
+        Me.colActCost.Name = "colActCost"
+        Me.colActCost.SortingEnabled = False
+        Me.colActCost.Text = "Act Cost"
+        Me.colActCost.Width.Absolute = 80
+        '
+        'colRate
+        '
+        Me.colRate.Name = "colRate"
+        Me.colRate.SortingEnabled = False
+        Me.colRate.Text = "Rate (GJ/s)"
+        Me.colRate.Width.Absolute = 80
+        '
         'frmCapSim
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -594,6 +624,7 @@ Partial Class frmCapSim
         Me.gpCapStats.ResumeLayout(False)
         Me.gpCapStats.PerformLayout()
         CType(Me.adtResults, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.adtModules, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -606,11 +637,6 @@ Partial Class frmCapSim
     Friend WithEvents lblRecharge As DevComponents.DotNetBar.LabelX
     Friend WithEvents lblCapacity As DevComponents.DotNetBar.LabelX
     Friend WithEvents gpModuleList As DevComponents.DotNetBar.Controls.GroupPanel
-    Friend WithEvents lvwModules As DevComponents.DotNetBar.Controls.ListViewEx
-    Friend WithEvents colModuleName As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colModuleTime As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colModuleCost As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colModuleRate As System.Windows.Forms.ColumnHeader
     Friend WithEvents gpResults As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents iiEndTime As DevComponents.Editors.IntegerInput
     Friend WithEvents iiStartTime As DevComponents.Editors.IntegerInput
@@ -631,4 +657,11 @@ Partial Class frmCapSim
     Friend WithEvents colCapRechg As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents adtModules As DevComponents.AdvTree.AdvTree
+    Friend WithEvents colModName As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colCycleTime As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colActCost As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colRate As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector2 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle2 As DevComponents.DotNetBar.ElementStyle
 End Class
