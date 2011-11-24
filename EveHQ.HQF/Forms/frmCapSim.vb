@@ -22,6 +22,7 @@ Imports System.Windows.Forms
 Imports ZedGraph
 Imports System.Drawing
 Imports System.Text
+Imports DevComponents.AdvTree
 
 Public Class frmCapSim
 
@@ -91,23 +92,23 @@ Public Class frmCapSim
     End Sub
 
     Private Sub UpdateEventList()
-        lvwResults.BeginUpdate()
-        lvwResults.Items.Clear()
+        adtResults.BeginUpdate()
+        adtResults.Nodes.Clear()
         For Each CE As CapacitorEvent In CSR.Events
             If CE.SimTime >= iiStartTime.Value And CE.SimTime <= iiEndTime.Value Then
-                Dim NewEvent As New ListViewItem
+                Dim NewEvent As New Node
                 NewEvent.Text = CE.SimTime.ToString("N2")
-                NewEvent.SubItems.Add(CE.ModuleName)
-                NewEvent.SubItems.Add(CE.StartingCap.ToString("N2"))
-                NewEvent.SubItems.Add((-CE.ActivationCost).ToString("N2"))
+                NewEvent.Cells.Add(New Cell(CE.ModuleName))
+                NewEvent.Cells.Add(New Cell(CE.StartingCap.ToString("N2")))
+                NewEvent.Cells.Add(New Cell((-CE.ActivationCost).ToString("N2")))
                 Dim EndCap As Double = Math.Min(Math.Max(CE.StartingCap - CE.ActivationCost, 0), CapShip.CapCapacity)
-                NewEvent.SubItems.Add(EndCap.ToString("N2"))
-                NewEvent.SubItems.Add((EndCap / CapShip.CapCapacity * 100).ToString("N2") & "%")
-                NewEvent.SubItems.Add(CE.RechargeRate.ToString("N2"))
-                lvwResults.Items.Add(NewEvent)
+                NewEvent.Cells.Add(New Cell(EndCap.ToString("N2")))
+                NewEvent.Cells.Add(New Cell((EndCap / CapShip.CapCapacity * 100).ToString("N2") & "%"))
+                NewEvent.Cells.Add(New Cell(CE.RechargeRate.ToString("N2")))
+                adtResults.Nodes.Add(NewEvent)
             End If
         Next
-        lvwResults.EndUpdate()
+        adtResults.EndUpdate()
         Call Me.UpdateCapGraph()
     End Sub
 
@@ -184,10 +185,10 @@ Public Class frmCapSim
     End Sub
 
     Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
-        Call Me.ExportToClipboard("Capacitor Simulation Results", lvwResults, ControlChars.Tab)
+        Call Me.ExportToClipboard("Capacitor Simulation Results", adtResults, ControlChars.Tab)
     End Sub
 
-    Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As ListView, ByVal sepChar As String)
+    Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As AdvTree, ByVal sepChar As String)
         Dim str As New StringBuilder
         ' Add a line for the current build job
         str.AppendLine(title)
@@ -198,11 +199,11 @@ Public Class frmCapSim
         Next
         str.AppendLine(sourceList.Columns(sourceList.Columns.Count - 1).Text)
         ' Add the details
-        For Each req As ListViewItem In sourceList.Items
+        For Each req As Node In sourceList.Nodes
             For c As Integer = 0 To sourceList.Columns.Count - 2
-                str.Append(req.SubItems(c).Text & sepChar)
+                str.Append(req.Cells(c).Text & sepChar)
             Next
-            str.AppendLine(req.SubItems(sourceList.Columns.Count - 1).Text)
+            str.AppendLine(req.Cells(sourceList.Columns.Count - 1).Text)
         Next
         ' Copy to the clipboard
         Try

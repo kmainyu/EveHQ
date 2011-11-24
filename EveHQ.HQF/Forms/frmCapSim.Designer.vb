@@ -32,14 +32,6 @@ Partial Class frmCapSim
         Me.lblEndTimeOffset = New DevComponents.DotNetBar.LabelX()
         Me.lblStartTimeOffset = New DevComponents.DotNetBar.LabelX()
         Me.gpResults = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.lvwResults = New DevComponents.DotNetBar.Controls.ListViewEx()
-        Me.colTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colEvent = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colStartCap = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colCapCost = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colEndCap = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colCapRatio = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colCapRate = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.gpModuleList = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.lvwModules = New DevComponents.DotNetBar.Controls.ListViewEx()
         Me.colModuleName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -54,12 +46,23 @@ Partial Class frmCapSim
         Me.lblPeakOut = New DevComponents.DotNetBar.LabelX()
         Me.lblRecharge = New DevComponents.DotNetBar.LabelX()
         Me.lblCapacity = New DevComponents.DotNetBar.LabelX()
+        Me.adtResults = New DevComponents.AdvTree.AdvTree()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
+        Me.colTimeOffset = New DevComponents.AdvTree.ColumnHeader()
+        Me.colEventType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colStartCap = New DevComponents.AdvTree.ColumnHeader()
+        Me.colCapAmount = New DevComponents.AdvTree.ColumnHeader()
+        Me.colEndCap = New DevComponents.AdvTree.ColumnHeader()
+        Me.colCapPercent = New DevComponents.AdvTree.ColumnHeader()
+        Me.colCapRechg = New DevComponents.AdvTree.ColumnHeader()
         Me.PanelEx1.SuspendLayout()
         CType(Me.iiEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.iiStartTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpResults.SuspendLayout()
         Me.gpModuleList.SuspendLayout()
         Me.gpCapStats.SuspendLayout()
+        CType(Me.adtResults, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'PanelEx1
@@ -199,7 +202,7 @@ Partial Class frmCapSim
         '
         Me.gpResults.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpResults.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpResults.Controls.Add(Me.lvwResults)
+        Me.gpResults.Controls.Add(Me.adtResults)
         Me.gpResults.IsShadowEnabled = True
         Me.gpResults.Location = New System.Drawing.Point(12, 193)
         Me.gpResults.Name = "gpResults"
@@ -237,64 +240,6 @@ Partial Class frmCapSim
         Me.gpResults.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpResults.TabIndex = 2
         Me.gpResults.Text = "Simulation Results"
-        '
-        'lvwResults
-        '
-        Me.lvwResults.Activation = System.Windows.Forms.ItemActivation.OneClick
-        '
-        '
-        '
-        Me.lvwResults.Border.Class = "ListViewBorder"
-        Me.lvwResults.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.lvwResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colTime, Me.colEvent, Me.colStartCap, Me.colCapCost, Me.colEndCap, Me.colCapRatio, Me.colCapRate})
-        Me.lvwResults.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwResults.FullRowSelect = True
-        Me.lvwResults.GridLines = True
-        Me.lvwResults.Location = New System.Drawing.Point(0, 0)
-        Me.lvwResults.Name = "lvwResults"
-        Me.lvwResults.Size = New System.Drawing.Size(657, 131)
-        Me.lvwResults.TabIndex = 0
-        Me.lvwResults.UseCompatibleStateImageBehavior = False
-        Me.lvwResults.View = System.Windows.Forms.View.Details
-        '
-        'colTime
-        '
-        Me.colTime.Text = "Time Offset"
-        Me.colTime.Width = 80
-        '
-        'colEvent
-        '
-        Me.colEvent.Text = "Event Type"
-        Me.colEvent.Width = 200
-        '
-        'colStartCap
-        '
-        Me.colStartCap.Text = "Start Cap"
-        Me.colStartCap.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colStartCap.Width = 80
-        '
-        'colCapCost
-        '
-        Me.colCapCost.Text = "Cap Amount"
-        Me.colCapCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCapCost.Width = 80
-        '
-        'colEndCap
-        '
-        Me.colEndCap.Text = "End Cap"
-        Me.colEndCap.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colEndCap.Width = 80
-        '
-        'colCapRatio
-        '
-        Me.colCapRatio.Text = "Cap %"
-        Me.colCapRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCapRatio.Width = 50
-        '
-        'colCapRate
-        '
-        Me.colCapRate.Text = "Rechg"
-        Me.colCapRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'gpModuleList
         '
@@ -536,6 +481,96 @@ Partial Class frmCapSim
         Me.lblCapacity.TabIndex = 0
         Me.lblCapacity.Text = "Capacity:"
         '
+        'adtResults
+        '
+        Me.adtResults.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtResults.AllowDrop = True
+        Me.adtResults.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtResults.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtResults.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtResults.Columns.Add(Me.colTimeOffset)
+        Me.adtResults.Columns.Add(Me.colEventType)
+        Me.adtResults.Columns.Add(Me.colStartCap)
+        Me.adtResults.Columns.Add(Me.colCapAmount)
+        Me.adtResults.Columns.Add(Me.colEndCap)
+        Me.adtResults.Columns.Add(Me.colCapPercent)
+        Me.adtResults.Columns.Add(Me.colCapRechg)
+        Me.adtResults.ExpandWidth = 0
+        Me.adtResults.GridLinesColor = System.Drawing.Color.Silver
+        Me.adtResults.GridRowLines = True
+        Me.adtResults.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtResults.Location = New System.Drawing.Point(3, 0)
+        Me.adtResults.Name = "adtResults"
+        Me.adtResults.NodesConnector = Me.NodeConnector1
+        Me.adtResults.NodeStyle = Me.ElementStyle1
+        Me.adtResults.PathSeparator = ";"
+        Me.adtResults.Size = New System.Drawing.Size(651, 127)
+        Me.adtResults.Styles.Add(Me.ElementStyle1)
+        Me.adtResults.TabIndex = 0
+        Me.adtResults.Text = "AdvTree1"
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'colTimeOffset
+        '
+        Me.colTimeOffset.Name = "colTimeOffset"
+        Me.colTimeOffset.SortingEnabled = False
+        Me.colTimeOffset.Text = "Time Offset"
+        Me.colTimeOffset.Width.Absolute = 75
+        '
+        'colEventType
+        '
+        Me.colEventType.Name = "colEventType"
+        Me.colEventType.SortingEnabled = False
+        Me.colEventType.Text = "Event Type"
+        Me.colEventType.Width.Absolute = 180
+        '
+        'colStartCap
+        '
+        Me.colStartCap.Name = "colStartCap"
+        Me.colStartCap.Text = "Start Cap"
+        Me.colStartCap.Width.Absolute = 75
+        '
+        'colCapAmount
+        '
+        Me.colCapAmount.Name = "colCapAmount"
+        Me.colCapAmount.SortingEnabled = False
+        Me.colCapAmount.Text = "Cap Amount"
+        Me.colCapAmount.Width.Absolute = 75
+        '
+        'colEndCap
+        '
+        Me.colEndCap.Name = "colEndCap"
+        Me.colEndCap.SortingEnabled = False
+        Me.colEndCap.Text = "End Cap"
+        Me.colEndCap.Width.Absolute = 75
+        '
+        'colCapPercent
+        '
+        Me.colCapPercent.Name = "colCapPercent"
+        Me.colCapPercent.SortingEnabled = False
+        Me.colCapPercent.Text = "Cap %"
+        Me.colCapPercent.Width.Absolute = 50
+        '
+        'colCapRechg
+        '
+        Me.colCapRechg.Name = "colCapRechg"
+        Me.colCapRechg.SortingEnabled = False
+        Me.colCapRechg.Text = "Rechg"
+        Me.colCapRechg.Width.Absolute = 60
+        '
         'frmCapSim
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -558,6 +593,7 @@ Partial Class frmCapSim
         Me.gpModuleList.ResumeLayout(False)
         Me.gpCapStats.ResumeLayout(False)
         Me.gpCapStats.PerformLayout()
+        CType(Me.adtResults, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -576,14 +612,6 @@ Partial Class frmCapSim
     Friend WithEvents colModuleCost As System.Windows.Forms.ColumnHeader
     Friend WithEvents colModuleRate As System.Windows.Forms.ColumnHeader
     Friend WithEvents gpResults As DevComponents.DotNetBar.Controls.GroupPanel
-    Friend WithEvents lvwResults As DevComponents.DotNetBar.Controls.ListViewEx
-    Friend WithEvents colTime As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colEvent As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colStartCap As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCapCost As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colEndCap As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCapRatio As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCapRate As System.Windows.Forms.ColumnHeader
     Friend WithEvents iiEndTime As DevComponents.Editors.IntegerInput
     Friend WithEvents iiStartTime As DevComponents.Editors.IntegerInput
     Friend WithEvents lblEndTimeOffset As DevComponents.DotNetBar.LabelX
@@ -593,4 +621,14 @@ Partial Class frmCapSim
     Friend WithEvents zgcCapacitor As ZedGraph.ZedGraphControl
     Friend WithEvents btnReset As DevComponents.DotNetBar.ButtonX
     Friend WithEvents btnExport As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents adtResults As DevComponents.AdvTree.AdvTree
+    Friend WithEvents colTimeOffset As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colEventType As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colStartCap As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colCapAmount As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colEndCap As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colCapPercent As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colCapRechg As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
 End Class
