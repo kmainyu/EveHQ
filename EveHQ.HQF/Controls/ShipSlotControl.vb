@@ -3914,7 +3914,6 @@ Public Class ShipSlotControl
     Private Sub cboBoosterSlots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBoosterSlot1.SelectedIndexChanged, cboBoosterSlot2.SelectedIndexChanged, cboBoosterSlot3.SelectedIndexChanged
         Dim cb As ComboBox = CType(sender, ComboBox)
         Dim idx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
-        Dim cblabel As Label = CType(Me.tcStorage.Controls("tcpBoosters").Controls("lblBoosterPenalties" & idx.ToString), Label)
         Dim bt As ButtonX = New ButtonX
         Select Case idx
             Case 1
@@ -3939,7 +3938,6 @@ Public Class ShipSlotControl
                     effectList &= bEffect.AttributeEffect & ", "
                 Next
             End If
-            cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
             tcpBoosters.Refresh()
             bModule.ImplantSlot = 15
             Call Me.ApplyBoosters(cb, bt, idx)
@@ -4282,26 +4280,6 @@ Public Class ShipSlotControl
         Call ShowBoosterInfo(cboBoosterSlot1)
     End Sub
 
-    Private Sub btnPenalty11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty11.Click
-        Call ChangePenalty(cboBoosterSlot1, btnBoosterSlot1, 1, 1)
-    End Sub
-
-    Private Sub btnPenalty21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty21.Click
-        Call ChangePenalty(cboBoosterSlot1, btnBoosterSlot1, 1, 2)
-    End Sub
-
-    Private Sub btnPenalty31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty31.Click
-        Call ChangePenalty(cboBoosterSlot1, btnBoosterSlot1, 1, 3)
-    End Sub
-
-    Private Sub btnPenalty41_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty41.Click
-        Call ChangePenalty(cboBoosterSlot1, btnBoosterSlot1, 1, 4)
-    End Sub
-
-    Private Sub btnRandomPenalty1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRandomPenalty1.Click
-        Call RandomPenalty(cboBoosterSlot1, btnBoosterSlot1, 1)
-    End Sub
-
     Private Sub btnRemoveBooster1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveBooster1.Click
         Call RemoveBooster(cboBoosterSlot1, btnBoosterSlot1, 1)
     End Sub
@@ -4310,52 +4288,12 @@ Public Class ShipSlotControl
         Call ShowBoosterInfo(cboBoosterSlot2)
     End Sub
 
-    Private Sub btnPenalty12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty12.Click
-        Call ChangePenalty(cboBoosterSlot2, btnBoosterSlot2, 2, 1)
-    End Sub
-
-    Private Sub btnPenalty22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty22.Click
-        Call ChangePenalty(cboBoosterSlot2, btnBoosterSlot2, 2, 2)
-    End Sub
-
-    Private Sub btnPenalty32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty32.Click
-        Call ChangePenalty(cboBoosterSlot2, btnBoosterSlot2, 2, 3)
-    End Sub
-
-    Private Sub btnPenalty42_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty42.Click
-        Call ChangePenalty(cboBoosterSlot2, btnBoosterSlot2, 2, 4)
-    End Sub
-
-    Private Sub btnRandomPenalty2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRandomPenalty2.Click
-        Call RandomPenalty(cboBoosterSlot2, btnBoosterSlot2, 2)
-    End Sub
-
     Private Sub btnRemoveBooster2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveBooster2.Click
         Call RemoveBooster(cboBoosterSlot2, btnBoosterSlot2, 2)
     End Sub
 
     Private Sub btnShowInfo3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowInfo3.Click
         Call ShowBoosterInfo(cboBoosterSlot3)
-    End Sub
-
-    Private Sub btnPenalty13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty13.Click
-        Call ChangePenalty(cboBoosterSlot3, btnBoosterSlot3, 3, 1)
-    End Sub
-
-    Private Sub btnPenalty23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty23.Click
-        Call ChangePenalty(cboBoosterSlot3, btnBoosterSlot3, 3, 2)
-    End Sub
-
-    Private Sub btnPenalty33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty33.Click
-        Call ChangePenalty(cboBoosterSlot3, btnBoosterSlot3, 3, 3)
-    End Sub
-
-    Private Sub btnPenalty43_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPenalty43.Click
-        Call ChangePenalty(cboBoosterSlot3, btnBoosterSlot3, 3, 4)
-    End Sub
-
-    Private Sub btnRandomPenalty3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRandomPenalty3.Click
-        Call RandomPenalty(cboBoosterSlot3, btnBoosterSlot3, 3)
     End Sub
 
     Private Sub btnRemoveBooster3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveBooster3.Click
@@ -4368,27 +4306,6 @@ Public Class ShipSlotControl
             Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
             Dim boosterName As String = cb.SelectedItem.ToString
             Dim boosterID As String = CStr(ModuleLists.moduleListName(boosterName))
-            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID), SortedList(Of String, BoosterEffect))
-            If effects IsNot Nothing Then
-                ParentButton.SubItems("btnRandomPenalty" & idx.ToString).Visible = True
-                Dim count As Integer = 0
-                For Each bEffect As BoosterEffect In effects.Values
-                    CType(ParentButton.SubItems("btnPenalty" & (count + 1).ToString & idx.ToString), ButtonItem).Text = bEffect.AttributeEffect
-                    Dim filter As Integer = CInt(Math.Pow(2, count))
-                    CType(ParentButton.SubItems("btnPenalty" & (count + 1).ToString & idx.ToString), ButtonItem).Visible = True
-                    If (bModule.ImplantSlot Or filter) = bModule.ImplantSlot Then
-                        CType(ParentButton.SubItems("btnPenalty" & (count + 1).ToString & idx.ToString), ButtonItem).Checked = True
-                    Else
-                        CType(ParentButton.SubItems("btnPenalty" & (count + 1).ToString & idx.ToString), ButtonItem).Checked = False
-                    End If
-                    count += 1
-                Next
-            Else
-                For count As Integer = 0 To 3
-                    ParentButton.SubItems("btnPenalty" & (count + 1).ToString & idx.ToString).Visible = False
-                Next
-                ParentButton.SubItems("btnRandomPenalty" & idx.ToString).Visible = False
-            End If
             ' Check for related skills
             Dim RelModuleSkills As New ArrayList
             Dim Affects(3) As String
@@ -4458,47 +4375,6 @@ Public Class ShipSlotControl
 
     End Sub
 
-    Private Sub ChangePenalty(ByVal cb As ComboBox, ByVal ParentButton As ButtonX, ByVal ButtonIdx As Integer, ByVal PenaltyIdx As Integer)
-        If cb IsNot Nothing Then
-            Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
-            Dim cblabel As Label = CType(Me.tcStorage.Controls("tcpBoosters").Controls("lblBoosterPenalties" & cbidx.ToString), Label)
-            Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
-            Dim currentFilter As Integer = bModule.ImplantSlot
-            Dim filter As Integer = CInt(Math.Pow(2, PenaltyIdx - 1))
-            If CType(ParentButton.SubItems("btnPenalty" & PenaltyIdx.ToString & ButtonIdx.ToString), ButtonItem).Checked = True Then
-                currentFilter += filter
-            Else
-                currentFilter -= filter
-            End If
-            ' Create a new module
-            Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
-            nModule.ImplantSlot = currentFilter
-            ' Alter the attributes according to the penalties
-            Dim count As Integer = 0
-            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
-            Dim effectList As String = "Penalties: "
-            For Each bEffect As BoosterEffect In effects.Values
-                CType(ParentButton.SubItems("btnPenalty" & (count + 1).ToString & ButtonIdx.ToString), ButtonItem).Text = bEffect.AttributeEffect
-                filter = CInt(Math.Pow(2, count))
-                If (nModule.ImplantSlot Or filter) <> nModule.ImplantSlot Then
-                    ' Reset the attribute
-                    nModule.Attributes(bEffect.AttributeID) = 0
-                Else
-                    effectList &= bEffect.AttributeEffect & ", "
-                End If
-                count += 1
-            Next
-            If effectList.EndsWith(": ") = True Then
-                cblabel.Text = "Penalties: None"
-            Else
-                cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
-            End If
-            tcpBoosters.Refresh()
-            cb.Tag = nModule
-            Call Me.ApplyBoosters(cb, ParentButton, ButtonIdx)
-        End If
-    End Sub
-
     Private Sub ShowBoosterInfo(ByVal cb As ComboBox)
         If cb IsNot Nothing Then
             Dim sModule As ShipModule = CType(cb.Tag, ShipModule)
@@ -4527,53 +4403,7 @@ Public Class ShipSlotControl
             cb.Tag = Nothing
             ToolTip1.SetToolTip(cb, "")
             Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
-            Dim cblabel As Label = CType(Me.tcStorage.Controls("tcpBoosters").Controls("lblBoosterPenalties" & cbidx.ToString), Label)
-            cblabel.Text = "Penalties: "
             tcpBoosters.Refresh()
-            Call Me.ApplyBoosters(cb, ParentButton, ButtonIdx)
-        End If
-    End Sub
-
-    Private Sub RandomPenalty(ByVal cb As ComboBox, ByVal ParentButton As ButtonX, ByVal ButtonIdx As Integer)
-        If cb IsNot Nothing Then
-            Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
-            Dim cblabel As Label = CType(Me.tcStorage.Controls("tcpBoosters").Controls("lblBoosterPenalties" & cbidx.ToString), Label)
-            Dim bModule As ShipModule = CType(cb.Tag, ShipModule)
-            Dim currentfilter As Integer = 0
-            Dim filter As Integer = 0
-            Dim r As New Random(Now.Millisecond * Now.Millisecond)
-            For se As Integer = 1 To 4
-                filter = CInt(Math.Pow(2, se - 1))
-                Dim chance As Double = r.NextDouble()
-                If chance <= CDbl(bModule.Attributes("1089")) Then
-                    currentfilter += filter
-                End If
-            Next
-            ' Create a new module
-            Dim nModule As ShipModule = CType(ModuleLists.moduleList(bModule.ID), ShipModule).Clone
-            nModule.ImplantSlot = currentfilter
-            ' Alter the attributes according to the penalties
-            Dim count As Integer = 0
-            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(nModule.ID), SortedList(Of String, BoosterEffect))
-            Dim effectList As String = "Penalties: "
-            For Each bEffect As BoosterEffect In effects.Values
-                CType(ParentButton.SubItems("btnPenalty" & (count + 1).ToString & ButtonIdx.ToString), ButtonItem).Text = bEffect.AttributeEffect
-                filter = CInt(Math.Pow(2, count))
-                If (nModule.ImplantSlot Or filter) <> nModule.ImplantSlot Then
-                    ' Reset the attribute
-                    nModule.Attributes(bEffect.AttributeID) = 0
-                Else
-                    effectList &= bEffect.AttributeEffect & ", "
-                End If
-                count += 1
-            Next
-            If effectList.EndsWith(": ") = True Then
-                cblabel.Text = "Penalties: None"
-            Else
-                cblabel.Text = effectList.TrimEnd(", ".ToCharArray)
-            End If
-            tcpBoosters.Refresh()
-            cb.Tag = nModule
             Call Me.ApplyBoosters(cb, ParentButton, ButtonIdx)
         End If
     End Sub
