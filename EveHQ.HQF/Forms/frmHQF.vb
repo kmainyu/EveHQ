@@ -2069,7 +2069,7 @@ Public Class frmHQF
         ' Open options form
         Dim mySettings As New frmHQFSettings
         mySettings.ShowDialog()
-        mySettings = Nothing
+        mySettings.Dispose()
         Call Me.UpdateFittingsTree(False)
     End Sub
 

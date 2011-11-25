@@ -33,6 +33,11 @@ Public Class frmHQFSettings
 #Region "Form Opening & Closing"
 
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+
+        If e.CloseReason = CloseReason.None Then
+            e.Cancel = True
+        End If
+
         ' Save Widths
         Dim Cols As New SortedList(Of String, UserSlotColumn)
         For Each UserCol As UserSlotColumn In HQF.Settings.HQFSettings.UserSlotColumns
@@ -48,6 +53,7 @@ Public Class frmHQFSettings
 
         ' Save the profiles
         Call DamageProfiles.SaveProfiles()
+        Call DefenceProfiles.SaveProfiles()
 
         ' Save the settings
         Call Settings.HQFSettings.SaveHQFSettings()
@@ -826,6 +832,7 @@ Public Class frmHQFSettings
         ProfileForm.Tag = "Add"
         ProfileForm.btnAccept.Text = "Add Profile"
         ProfileForm.ShowDialog()
+        ProfileForm.Dispose()
         Call Me.UpdateDamageProfileOptions()
     End Sub
 
@@ -840,6 +847,7 @@ Public Class frmHQFSettings
                 ProfileForm.Tag = editProfile
                 ProfileForm.btnAccept.Text = "Edit Profile"
                 ProfileForm.ShowDialog()
+                ProfileForm.Dispose()
                 Call Me.UpdateDamageProfileOptions()
             End If
         Else
@@ -944,6 +952,7 @@ Public Class frmHQFSettings
         ProfileForm.Tag = "Add"
         ProfileForm.btnAccept.Text = "Add Profile"
         ProfileForm.ShowDialog()
+        ProfileForm.Dispose()
         Call Me.UpdateDefenceProfileOptions()
     End Sub
 
@@ -955,6 +964,7 @@ Public Class frmHQFSettings
             ProfileForm.Tag = editProfile
             ProfileForm.btnAccept.Text = "Edit Profile"
             ProfileForm.ShowDialog()
+            ProfileForm.Dispose()
             Call Me.UpdateDefenceProfileOptions()
         Else
             MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)

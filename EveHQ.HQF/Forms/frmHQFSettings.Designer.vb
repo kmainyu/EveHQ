@@ -202,9 +202,9 @@ Partial Public Class frmHQFSettings
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.gbFittingProtocol)
         Me.gbGeneral.Controls.Add(Me.lblDefaultPilot)
-        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(228, 352)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(582, 496)
+        Me.gbGeneral.Size = New System.Drawing.Size(214, 50)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -831,11 +831,11 @@ Partial Public Class frmHQFSettings
         '
         Me.pnlSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.pnlSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlSettings.Controls.Add(Me.gbDefenceProfiles)
         Me.pnlSettings.Controls.Add(Me.gbGeneral)
         Me.pnlSettings.Controls.Add(Me.gbAttributeColumns)
         Me.pnlSettings.Controls.Add(Me.gbCache)
         Me.pnlSettings.Controls.Add(Me.gbSlotFormat)
-        Me.pnlSettings.Controls.Add(Me.gbDefenceProfiles)
         Me.pnlSettings.Controls.Add(Me.gbDamageProfiles)
         Me.pnlSettings.Controls.Add(Me.gbConstants)
         Me.pnlSettings.Controls.Add(Me.btnClose)
@@ -951,9 +951,9 @@ Partial Public Class frmHQFSettings
         Me.gbDefenceProfiles.Controls.Add(Me.btnResetDefenceProfiles)
         Me.gbDefenceProfiles.Controls.Add(Me.btnAddDefenceProfile)
         Me.gbDefenceProfiles.Controls.Add(Me.lvwDefenceProfiles)
-        Me.gbDefenceProfiles.Location = New System.Drawing.Point(409, 92)
+        Me.gbDefenceProfiles.Location = New System.Drawing.Point(194, 12)
         Me.gbDefenceProfiles.Name = "gbDefenceProfiles"
-        Me.gbDefenceProfiles.Size = New System.Drawing.Size(104, 33)
+        Me.gbDefenceProfiles.Size = New System.Drawing.Size(582, 500)
         Me.gbDefenceProfiles.TabIndex = 33
         Me.gbDefenceProfiles.TabStop = False
         Me.gbDefenceProfiles.Text = "Defence Profiles"

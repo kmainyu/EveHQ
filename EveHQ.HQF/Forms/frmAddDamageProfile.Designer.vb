@@ -285,6 +285,7 @@ Partial Class frmAddDamageProfile
         '
         Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnCancel.Location = New System.Drawing.Point(563, 421)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
@@ -455,8 +456,10 @@ Partial Class frmAddDamageProfile
         '
         'frmAddDamageProfile
         '
+        Me.AcceptButton = Me.btnAccept
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(656, 453)
         Me.Controls.Add(Me.PanelEx1)
         Me.DoubleBuffered = True
