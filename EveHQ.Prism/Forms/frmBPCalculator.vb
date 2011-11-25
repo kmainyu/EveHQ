@@ -55,6 +55,7 @@ Public Class frmBPCalculator
     Dim InventedBP As New BlueprintSelection
     Dim InventionAttempts As Double = 0
     Dim InventionSuccessCost As Double = 0
+    Dim ResetInventedBP As Boolean = False
 
 #End Region
 
@@ -625,6 +626,9 @@ Public Class frmBPCalculator
                 ' Set change flag
                 Me.ProductionChanged = True
             End If
+            ' Reset the invention flag for a new item
+            currentJob.InventionJob = Nothing
+            Me.ResetInventedBP = True
             ' Check if all the invention data is present
             Call BlueprintSelection.CheckForInventionItems(CurrentBP)
             ' Disable the invention tab if we have no inventable items
@@ -1515,7 +1519,12 @@ Public Class frmBPCalculator
         If CurrentInventionJob.ProductionJob Is Nothing Then
             CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
         Else
-            InventedBP.UpdateProductionJob(CurrentInventionJob.ProductionJob)
+            If ResetInventedBP = True Then
+                CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
+                ResetInventedBP = False
+            Else
+                InventedBP.UpdateProductionJob(CurrentInventionJob.ProductionJob)
+            End If
         End If
     End Sub
 
