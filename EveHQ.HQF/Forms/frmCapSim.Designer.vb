@@ -401,13 +401,13 @@ Partial Class frmCapSim
         Me.adtModules.GridLinesColor = System.Drawing.Color.Silver
         Me.adtModules.GridRowLines = True
         Me.adtModules.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtModules.Location = New System.Drawing.Point(3, 3)
+        Me.adtModules.Location = New System.Drawing.Point(3, 0)
         Me.adtModules.Name = "adtModules"
         Me.adtModules.NodesConnector = Me.NodeConnector2
         Me.adtModules.NodeStyle = Me.SlotStyle
         Me.adtModules.PathSeparator = ";"
         Me.adtModules.SelectionBoxStyle = DevComponents.AdvTree.eSelectionStyle.NodeMarker
-        Me.adtModules.Size = New System.Drawing.Size(530, 148)
+        Me.adtModules.Size = New System.Drawing.Size(530, 151)
         Me.adtModules.Styles.Add(Me.SlotStyle)
         Me.adtModules.TabIndex = 0
         Me.adtModules.Text = "AdvTree1"
