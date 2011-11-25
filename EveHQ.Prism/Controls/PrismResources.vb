@@ -859,6 +859,28 @@ Public Class PrismResources
         EveHQ.Core.AdvTreeSorter.Sort(adtBatchResources, 1, True, True)
         adtBatchResources.EndUpdate()
         lblBatchTotals.Text = "Batch Value: " & BatchValue.ToString("N2") & " isk  ,  Batch Volume: " & BatchVolume.ToString("N2") & " m³"
+        Call Me.DisplayProductionList()
+    End Sub
+
+    Private Sub DisplayProductionList()
+        Dim ItemData As EveHQ.Core.EveItem
+        adtProductionList.BeginUpdate()
+        adtProductionList.Nodes.Clear()
+        For Each PI As ProductionItem In ProductionList.Values
+            If PI.IsBuild = True Then
+                ItemData = EveHQ.Core.HQ.itemData(PI.ItemID)
+                If ItemData.Category <> 9 Then
+                    Dim NewPI As New Node(ItemData.Name)
+                    Dim Price As Double = EveHQ.Core.DataFunctions.GetPrice(PI.ItemID)
+                    NewPI.Cells.Add(New Cell(PI.Quantity.ToString("N0")))
+                    NewPI.Cells.Add(New Cell(Price.ToString("N2")))
+                    NewPI.Cells.Add(New Cell((Price * PI.Quantity).ToString("N2")))
+                    adtProductionList.Nodes.Add(NewPI)
+                End If
+            End If
+        Next
+        EveHQ.Core.AdvTreeSorter.Sort(adtProductionList, 1, True, True)
+        adtProductionList.EndUpdate()
     End Sub
 
 #End Region
