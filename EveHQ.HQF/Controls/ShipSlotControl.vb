@@ -856,36 +856,53 @@ Public Class ShipSlotControl
         End If
     End Sub
 
+    Private Sub adtSlots_NodeClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSlots.NodeClick
+        If e.Node.Level = 0 Then
+            adtSlots.SelectedNodes.Clear()
+            For Each SubNode As Node In e.Node.Nodes
+                adtSlots.SelectedNodes.Add(SubNode, eTreeAction.Mouse)
+            Next
+        End If
+    End Sub
+
     Private Sub adtSlots_NodeMouseDown(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSlots.NodeMouseDown
 
         If e.Node IsNot Nothing Then
 
-            If e.Button = Windows.Forms.MouseButtons.Middle Then
+            If e.Node.Level > 0 Then
 
-                ' Check for key status
-                Dim keyMode As Integer = 0 ' 0=None, 1=Shift, 2=Ctrl, 4=Alt
-                If My.Computer.Keyboard.ShiftKeyDown Then keyMode += 1
-                If My.Computer.Keyboard.CtrlKeyDown Then keyMode += 2
-                If My.Computer.Keyboard.AltKeyDown Then keyMode += 4
+                If e.Button = Windows.Forms.MouseButtons.Middle Then
 
-                ' Check which mode, single or multi
-                If adtSlots.SelectedNodes.Count > 1 Then
-                    If e.Node.IsSelected = True Then
-                        For Each SelNode As Node In adtSlots.SelectedNodes
-                            Call Me.ChangeSingleModuleState(keyMode, SelNode)
-                        Next
+                    ' Check for key status
+                    Dim keyMode As Integer = 0 ' 0=None, 1=Shift, 2=Ctrl, 4=Alt
+                    If My.Computer.Keyboard.ShiftKeyDown Then keyMode += 1
+                    If My.Computer.Keyboard.CtrlKeyDown Then keyMode += 2
+                    If My.Computer.Keyboard.AltKeyDown Then keyMode += 4
+
+                    ' Check which mode, single or multi
+                    If adtSlots.SelectedNodes.Count > 1 Then
+                        If e.Node.IsSelected = True Then
+                            For Each SelNode As Node In adtSlots.SelectedNodes
+                                Call Me.ChangeSingleModuleState(keyMode, SelNode)
+                            Next
+                        Else
+                            Call Me.ChangeSingleModuleState(keyMode, e.Node)
+                        End If
                     Else
                         Call Me.ChangeSingleModuleState(keyMode, e.Node)
                     End If
-                Else
-                    Call Me.ChangeSingleModuleState(keyMode, e.Node)
+
+                    ' Update the ship data
+                    ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
+
                 End If
 
-                ' Update the ship data
-                ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
-                
             End If
+
         End If
+
+        'MessageBox.Show(adtSlots.SelectedNodes.Count.ToString)
+
     End Sub
 
     Private Sub ChangeModuleState(KeyMode As integer)
