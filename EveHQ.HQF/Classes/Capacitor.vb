@@ -58,9 +58,9 @@ Public Class Capacitor
                     totalTime += slotMod.Attributes("10012")
                 End If
                 If (slotMod.ModuleState Or 28) = 28 Then
-                    ShipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.CapUsage, totalTime, True))
+                    ShipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.SlotType, slotMod.CapUsage, totalTime, True))
                 Else
-                    ShipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.CapUsage, totalTime, False))
+                    ShipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.SlotType, slotMod.CapUsage, totalTime, False))
                 End If
             End If
         Next
@@ -211,7 +211,7 @@ Public Class Capacitor
         Dim ShipCapResults As New CapSimResults(maxTime)
 
         ' Create a dummy module to trigger an event
-        ShipCapResults.Modules.Add(New CapacitorModule("Recharge Interval", 0, 1, True))
+        ShipCapResults.Modules.Add(New CapacitorModule("Recharge Interval", SlotTypes.Low, 0, 1, True))
 
         ' Do the calculations
         Dim rate As Double = 0
@@ -379,6 +379,7 @@ End Class
 Public Class CapacitorModule
 
     Dim cName As String = ""
+    Dim cSlotType As SlotTypes
     Dim cIsActive As Boolean = False
     Dim cCapAmount As Double = 0
     Dim cCycleTime As Double = 0
@@ -393,6 +394,18 @@ Public Class CapacitorModule
     Public ReadOnly Property Name() As String
         Get
             Return cName
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Gets the slot type for the module
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>The slot type of the module</returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property SlotType As SlotTypes
+        Get
+            Return cSlotType
         End Get
     End Property
 
@@ -457,8 +470,9 @@ Public Class CapacitorModule
     ''' <param name="CapAmount">The capacitor usage per cycle</param>
     ''' <param name="CycleTime">The cycle time of the module</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal Name As String, ByVal CapAmount As Double, ByVal CycleTime As Double, IsActive As Boolean)
+    Public Sub New(ByVal Name As String, ByVal SlotType As SlotTypes, ByVal CapAmount As Double, ByVal CycleTime As Double, IsActive As Boolean)
         Me.cName = Name
+        Me.cSlotType = SlotType
         Me.cCapAmount = CapAmount
         Me.cCycleTime = CycleTime
         Me.cNextTime = 0

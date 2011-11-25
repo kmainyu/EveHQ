@@ -23,6 +23,7 @@ Imports ZedGraph
 Imports System.Drawing
 Imports System.Text
 Imports DevComponents.AdvTree
+Imports DevComponents.DotNetBar
 
 Public Class frmCapSim
 
@@ -41,6 +42,13 @@ Public Class frmCapSim
 
         Call Me.UpdateCapData()
 
+        Dim HiSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+        Dim MidSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+        Dim LowSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+        Dim RigSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+        Dim SubSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+        Dim SelSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+
         ' Add modules
         adtModules.BeginUpdate()
         adtModules.Nodes.Clear()
@@ -54,6 +62,20 @@ Public Class frmCapSim
             NewMod.CheckBoxVisible = True
             NewMod.Checked = CM.IsActive
             NewMod.Tag = CM
+            ' Set Style
+            Select Case CM.SlotType
+                Case SlotTypes.High
+                    NewMod.Style = HiSlotStyle
+                    NewMod.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                Case SlotTypes.Mid
+                    NewMod.Style = MidSlotStyle
+                    NewMod.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                Case SlotTypes.Low
+                    NewMod.Style = LowSlotStyle
+                    NewMod.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+            End Select
+            NewMod.Style.BackColor = Color.FromArgb(255, 255, 255)
+            NewMod.StyleSelected = NewMod.Style
             adtModules.Nodes.Add(NewMod)
         Next
         adtModules.EndUpdate()
