@@ -860,7 +860,7 @@ Public Class ShipSlotControl
         If e.Node.Level = 0 Then
             adtSlots.SelectedNodes.Clear()
             For Each SubNode As Node In e.Node.Nodes
-                adtSlots.SelectedNodes.Add(SubNode, eTreeAction.Mouse)
+                adtSlots.SelectedNodes.Add(SubNode, eTreeAction.Keyboard)
             Next
         End If
     End Sub
@@ -900,8 +900,6 @@ Public Class ShipSlotControl
             End If
 
         End If
-
-        'MessageBox.Show(adtSlots.SelectedNodes.Count.ToString)
 
     End Sub
 
