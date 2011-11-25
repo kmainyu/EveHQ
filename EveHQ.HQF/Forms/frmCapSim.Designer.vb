@@ -121,7 +121,9 @@ Partial Class frmCapSim
         '
         'zgcCapacitor
         '
-        Me.zgcCapacitor.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.zgcCapacitor.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.zgcCapacitor.Location = New System.Drawing.Point(0, 352)
         Me.zgcCapacitor.Name = "zgcCapacitor"
         Me.zgcCapacitor.ScrollGrace = 0.0R
