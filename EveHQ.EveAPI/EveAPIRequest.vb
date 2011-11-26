@@ -207,6 +207,8 @@ Public Class EveAPIRequest
                 remoteURL = "/eve/ConquerableStationList.xml." & cAPIFileExtension
             Case APITypes.ErrorList
                 remoteURL = "/eve/ErrorList.xml." & cAPIFileExtension
+            Case APITypes.FWStats
+                remoteURL = "/eve/FacWarStats.xml." & cAPIFileExtension
             Case APITypes.FWTop100
                 remoteURL = "/eve/FacWarTopStats.xml." & cAPIFileExtension
             Case APITypes.FWMap
@@ -215,6 +217,8 @@ Public Class EveAPIRequest
                 remoteURL = "/server/ServerStatus.xml." & cAPIFileExtension
             Case APITypes.CertificateTree
                 remoteURL = "/eve/CertificateTree.xml." & cAPIFileExtension
+            Case APITypes.CallList
+                remoteURL = "/api/CallList.xml." & cAPIFileExtension
             Case Else
                 cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
@@ -380,6 +384,10 @@ Public Class EveAPIRequest
                 remoteURL = "/char/ContractBids.xml." & cAPIFileExtension
             Case APITypes.ContractBidsCorp
                 remoteURL = "/corp/ContractBids.xml." & cAPIFileExtension
+            Case APITypes.ContactNotifications
+                remoteURL = "/char/ContactNotifications.xml." & cAPIFileExtension
+            Case APITypes.UpcomingCalendarEvents
+                remoteURL = "/char/UpcomingCalendarEvents.xml." & cAPIFileExtension
             Case Else
                 cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
@@ -449,6 +457,8 @@ Public Class EveAPIRequest
 					postData &= "&beforeKillID=" & IDs
                 Case APITypes.MailBodies, APITypes.NotificationTexts
                     postdata &= "&ids=" & IDs
+                Case APITypes.CalendarEventAttendeesChar
+                    postdata &= "eventIDs=" & IDs
             End Select
 		End If
 		Select Case APIType
@@ -460,6 +470,8 @@ Public Class EveAPIRequest
                 remoteURL = "/char/MailBodies.xml." & cAPIFileExtension
             Case APITypes.NotificationTexts
                 remoteURL = "/char/NotificationTexts.xml." & cAPIFileExtension
+            Case APITypes.CalendarEventAttendeesChar
+                remoteURL = "/char/CalendarEventAttendees.xml." & cAPIFileExtension
             Case Else
                 cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
@@ -1154,9 +1166,9 @@ Public Enum APITypes As Integer
 	MailBodies = 53
 	Research = 54
 	AccountStatus = 55
-	'CalendarEventAttendeesChar = 56
+    CalendarEventAttendeesChar = 56
 	'CalendarEventAttendeesCorp = 57
-	'UpcomingCalendarEvents = 58
+    UpcomingCalendarEvents = 58
 	CharacterInfo = 59
 	OutpostList = 60
     OutpostServiceDetail = 61
@@ -1170,6 +1182,9 @@ Public Enum APITypes As Integer
     ContractBidsChar = 69
     ContractBidsCorp = 70
     NotificationTexts = 71
+    ContactNotifications = 72
+    FWStats = 73
+    CallList = 74
 End Enum
 
 ''' <summary>
