@@ -2377,11 +2377,11 @@ Public Class PrismAssetsControl
     Private Sub ExportAssets(ExportType As ExportTypes)
 
         ' Collect all the information
-        Dim AssetExport As New SortedList(Of String, AssetExportResult)
-        Dim AER As New AssetExportResult
+        Dim AssetExport As New SortedList(Of String, AssetExportGroupedResult)
+        Dim AER As New AssetExportGroupedResult
         For Each Asset As AssetItem In assetList.Values
             If AssetExport.ContainsKey(Asset.typeName) = False Then
-                AER = New AssetExportResult
+                AER = New AssetExportGroupedResult
                 AER.TypeName = Asset.typeName
                 AER.Price = Asset.price
                 AssetExport.Add(Asset.typeName, AER)
@@ -2396,7 +2396,7 @@ Public Class PrismAssetsControl
 
         ' Transfer results to something that we can sort
         Dim Assets As New ArrayList
-        For Each Asset As AssetExportResult In AssetExport.Values
+        For Each Asset As AssetExportGroupedResult In AssetExport.Values
             Assets.Add(Asset)
         Next
 
@@ -2458,7 +2458,7 @@ Public Class PrismAssetsControl
             sw.WriteLine(sb.ToString)
 
             ' Write assets
-            For Each Asset As AssetExportResult In Assets
+            For Each Asset As AssetExportGroupedResult In Assets
                 sb = New StringBuilder
                 sb.Append(Asset.TypeName & SepChar)
                 sb.Append(Asset.Locations.ToString & SepChar)
@@ -2487,7 +2487,7 @@ Public Class PrismAssetsControl
     End Sub
 End Class
 
-Public Class AssetExportResult
+Public Class AssetExportGroupedResult
     ' Needs properties to work correctly with sorting
     Public Property TypeName As String
     Public Property Locations As Integer
