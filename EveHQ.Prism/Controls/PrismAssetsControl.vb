@@ -2354,27 +2354,27 @@ Public Class PrismAssetsControl
 
 #Region "Asset Export Routines"
 
-    Private Sub btiItemName_Click(sender As System.Object, e As System.EventArgs) Handles btiItemName.Click
-        Call ExportAssets(ExportTypes.TypeName)
+    Private Sub btiItemName_Click(sender As System.Object, e As System.EventArgs) Handles btiItemNameG.Click
+        Call ExportGroupedAssets(ExportTypes.TypeName)
     End Sub
 
-    Private Sub btiQuantity_Click(sender As System.Object, e As System.EventArgs) Handles btiQuantity.Click
-        Call ExportAssets(ExportTypes.Quantity)
+    Private Sub btiQuantity_Click(sender As System.Object, e As System.EventArgs) Handles btiQuantityG.Click
+        Call ExportGroupedAssets(ExportTypes.Quantity)
     End Sub
 
-    Private Sub btiPrice_Click(sender As System.Object, e As System.EventArgs) Handles btiPrice.Click
-        Call ExportAssets(ExportTypes.Price)
+    Private Sub btiPrice_Click(sender As System.Object, e As System.EventArgs) Handles btiPriceG.Click
+        Call ExportGroupedAssets(ExportTypes.Price)
     End Sub
 
-    Private Sub btiValue_Click(sender As System.Object, e As System.EventArgs) Handles btiValue.Click
-        Call ExportAssets(ExportTypes.Value)
+    Private Sub btiValue_Click(sender As System.Object, e As System.EventArgs) Handles btiValueG.Click
+        Call ExportGroupedAssets(ExportTypes.Value)
     End Sub
 
-    Private Sub btiVolume_Click(sender As System.Object, e As System.EventArgs) Handles btiVolume.Click
-        Call ExportAssets(ExportTypes.Volume)
+    Private Sub btiVolume_Click(sender As System.Object, e As System.EventArgs) Handles btiVolumeG.Click
+        Call ExportGroupedAssets(ExportTypes.Volume)
     End Sub
 
-    Private Sub ExportAssets(ExportType As ExportTypes)
+    Private Sub ExportGroupedAssets(ExportType As ExportTypes)
 
         ' Collect all the information
         Dim AssetExport As New SortedList(Of String, AssetExportGroupedResult)
@@ -2431,9 +2431,9 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportAssets(Assets, ",", sfd.FileName)
+                    Call Me.ExportGroupedAssets(Assets, ",", sfd.FileName)
                 Case 2
-                    Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
+                    Call Me.ExportGroupedAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
         End If
         sfd.Dispose()
@@ -2441,7 +2441,7 @@ Public Class PrismAssetsControl
 
     End Sub
 
-    Private Sub ExportAssets(Assets As ArrayList, SepChar As String, FileName As String)
+    Private Sub ExportGroupedAssets(Assets As ArrayList, SepChar As String, FileName As String)
 
         Try
 
