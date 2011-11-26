@@ -2433,7 +2433,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportGroupedAssets(Assets, ",", sfd.FileName)
+                    Call Me.ExportGroupedAssets(Assets, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportGroupedAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
@@ -2543,7 +2543,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportAssets(Assets, ",", sfd.FileName)
+                    Call Me.ExportAssets(Assets, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
