@@ -24,22 +24,14 @@ Public Class frmAPIChecker
     Dim APIStyle As Integer = 0
 
     Private Sub frmAPIChecker_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Load up account characters into the character combo
-        cboCharacter.BeginUpdate()
-        cboCharacter.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If cPilot.Account <> "" Then
-                cboCharacter.Items.Add(cPilot.Name)
-            End If
-        Next
-        cboCharacter.EndUpdate()
+
         ' Load up the Account combo
-        cboAccount.BeginUpdate()
-        cboAccount.Items.Clear()
+        cboWalletAccount.BeginUpdate()
+        cboWalletAccount.Items.Clear()
         For account As Integer = 1000 To 1006
-            cboAccount.Items.Add(CStr(account))
+            cboWalletAccount.Items.Add(account.ToString)
         Next
-        cboAccount.EndUpdate()
+        cboWalletAccount.EndUpdate()
 
         ' Set default to characters
         cboAPICategory.SelectedIndex = 0
@@ -142,14 +134,12 @@ Public Class frmAPIChecker
                 EveAPI.APITypes.FWMap, _
                 EveAPI.APITypes.ServerStatus, _
                 EveAPI.APITypes.CertificateTree
-                lblCharacter.Enabled = False : cboCharacter.Enabled = False
-                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
                 APIStyle = 1
 
             Case EveAPI.APITypes.NameToID, EveAPI.APITypes.IDToName
-                lblCharacter.Enabled = False : cboCharacter.Enabled = False
-                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
                 If CInt(APIMethods(cboAPIType.SelectedItem)) = EveAPI.APITypes.NameToID Then
                     lblOtherInfo.Text = "Item Name"
@@ -159,8 +149,7 @@ Public Class frmAPIChecker
                 APIStyle = 2
 
             Case EveAPI.APITypes.Characters, EveAPI.APITypes.AccountStatus
-                lblCharacter.Enabled = True : cboCharacter.Enabled = True
-                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
                 APIStyle = 3
 
@@ -199,35 +188,30 @@ Public Class frmAPIChecker
               EveAPI.APITypes.ContactNotifications, _
               EveAPI.APITypes.UpcomingCalendarEvents, _
               EveAPI.APITypes.MemberMedals
-                lblCharacter.Enabled = True : cboCharacter.Enabled = True
-                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
                 APIStyle = 4
 
             Case EveAPI.APITypes.POSDetails, EveAPI.APITypes.OutpostServiceDetail
-                lblCharacter.Enabled = True : cboCharacter.Enabled = True
-                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
                 lblOtherInfo.Text = "ItemID:"
                 APIStyle = 5
 
             Case EveAPI.APITypes.WalletTransChar, EveAPI.APITypes.WalletTransCorp
-                lblCharacter.Enabled = True : cboCharacter.Enabled = True
-                lblAccount.Enabled = True : cboAccount.Enabled = True
+                lblWalletAccount.Enabled = True : cboWalletAccount.Enabled = True
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
                 lblOtherInfo.Text = "Before RefID:"
                 APIStyle = 6
 
             Case EveAPI.APITypes.KillLogChar, EveAPI.APITypes.KillLogChar, EveAPI.APITypes.MailBodies, EveAPI.APITypes.CalendarEventAttendeesChar
-                lblCharacter.Enabled = True : cboCharacter.Enabled = True
-                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
                 lblOtherInfo.Text = "IDs:"
                 APIStyle = 7
 
             Case EveAPI.APITypes.WalletJournalChar, EveAPI.APITypes.WalletJournalCorp
-                lblCharacter.Enabled = True : cboCharacter.Enabled = True
-                lblAccount.Enabled = True : cboAccount.Enabled = True
+                lblWalletAccount.Enabled = True : cboWalletAccount.Enabled = True
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
                 lblOtherInfo.Text = "Before RefID:"
                 APIStyle = 8
@@ -240,11 +224,11 @@ Public Class frmAPIChecker
         Dim pilotAccount As New EveHQ.Core.EveAccount
         ' Check for the info
         If APIStyle > 2 Then
-            If cboCharacter.SelectedItem Is Nothing Then
+            If cboAPIOwner.SelectedItem Is Nothing Then
                 MessageBox.Show("You must select a character to retrieve the requested API.", "Additional Info Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            selpilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboCharacter.SelectedItem.ToString), Core.Pilot)
+            selpilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboAPIOwner.SelectedItem.ToString), Core.Pilot)
             Dim accountName As String = selpilot.Account
             pilotAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
         End If
@@ -255,7 +239,7 @@ Public Class frmAPIChecker
                     Exit Sub
                 End If
             Case 6, 8
-                If cboAccount.SelectedItem Is Nothing Then
+                If cboWalletAccount.SelectedItem Is Nothing Then
                     MessageBox.Show("You must select an account key to retrieve the requested API.", "Additional Info Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
@@ -281,11 +265,11 @@ Public Class frmAPIChecker
             Case 5
                 testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(txtOtherInfo.Text), returnMethod)
             Case 6
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboWalletAccount.SelectedItem.ToString), txtOtherInfo.Text, returnMethod)
             Case 7
                 testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, txtOtherInfo.Text, returnMethod)
             Case 8
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), 0, 256, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboWalletAccount.SelectedItem.ToString), 0, 256, returnMethod)
         End Select
         Try
             wbAPI.Navigate(APIReq.LastAPIFileName)
