@@ -95,7 +95,7 @@ Public Class DBCPilotInfo
     Private Sub UpdatePilotInfo()
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
             ' Update the info
-            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(cPilot)
+            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(cPilot.ID)
             lblCorp.Text = "Member of " & cPilot.Corp
             lblIsk.Text = "Balance: " & cPilot.Isk.ToString("N2")
             Call Me.UpdateTrainingInfo()

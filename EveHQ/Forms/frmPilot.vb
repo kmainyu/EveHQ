@@ -111,7 +111,7 @@ Public Class frmPilot
 
             ' Get image from cache
             Try
-                picPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(displayPilot)
+                picPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(displayPilot.ID)
 
                 Call EveHQ.Core.PilotParseFunctions.SwitchImplants(displayPilot)
 
@@ -776,7 +776,7 @@ Public Class frmPilot
                         Dim myFile As New FileInfo(foundFile)
                         Dim fileData As String() = myFile.Name.Split(New Char(1) {CChar("_"), CChar(".")})
                         If CInt(fileData(1)) >= 128 And CInt(fileData(1)) <= 256 Then
-                            picPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(displayPilot)
+                            picPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(displayPilot.ID)
                             Exit Sub
                         End If
                     End If
@@ -939,6 +939,16 @@ Public Class frmPilot
 
                 If show = True Then
                     Dim newStanding As New Node(Standing.Name)
+                    'Select Case Standing.Type
+                    '    Case Core.StandingType.Agent
+                    '        newStanding.Image = EveHQ.Core.ImageHandler.GetPortraitImage(Standing.ID.ToString, 32)
+                    '    Case Core.StandingType.PlayerCorp
+                    '        newStanding.Image = EveHQ.Core.ImageHandler.GetPortraitImage(Standing.ID.ToString, 32)
+                    '    Case Core.StandingType.Faction
+                    '        newStanding.Image = EveHQ.Core.ImageHandler.GetCorpImage(Standing.ID.ToString, 32)
+                    '    Case Core.StandingType.NPCCorporation
+                    '        newStanding.Image = EveHQ.Core.ImageHandler.GetCorpImage(Standing.ID.ToString, 32)
+                    'End Select
                     newStanding.Cells.Add(New Cell(Standing.ID.ToString))
                     newStanding.Cells.Add(New Cell(Standing.Type.ToString))
                     newStanding.Cells.Add(New Cell(RawStanding.ToString("N2")))

@@ -76,12 +76,12 @@ Public Class CharacterTrainingBlock
 
             ' Draw image
             pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
-            pbPilot.InitialImage = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot)
-            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot)
+            pbPilot.InitialImage = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID)
+            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID)
 
             ' Create pilot image tooltip
             Dim STTI As New DevComponents.DotNetBar.SuperTooltipInfo
-            STTI.BodyImage = New Bitmap(EveHQ.Core.ImageHandler.GetPortraitImage(dPilot), 48, 48)
+            STTI.BodyImage = New Bitmap(EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID), 48, 48)
             STTI.BodyText = "Click the pilot image to view the pilot information for " & dPilot.Name
             STTI.FooterText = "View Pilot Information"
             STTI.FooterImage = My.Resources.Aura32
@@ -104,7 +104,7 @@ Public Class CharacterTrainingBlock
             End If
             ' Set label tooltips
             Dim STTT As New DevComponents.DotNetBar.SuperTooltipInfo
-            STTT.BodyImage = New Bitmap(EveHQ.Core.ImageHandler.GetPortraitImage(dPilot), 48, 48)
+            STTT.BodyImage = New Bitmap(EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID), 48, 48)
             STTT.BodyText = "Click the hyperlink to view the skill training information for " & dPilot.Name
             STTT.FooterText = "View Skill Training Information"
             STTT.FooterImage = My.Resources.SkillBook32
@@ -226,7 +226,7 @@ Public Class CharacterTrainingBlock
                         Dim myFile As New FileInfo(foundFile)
                         Dim fileData As String() = myFile.Name.Split(New Char(1) {CChar("_"), CChar(".")})
                         If CInt(fileData(1)) >= 128 And CInt(fileData(1)) <= 256 Then
-                            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot)
+                            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID)
                             Exit Sub
                         End If
                     End If

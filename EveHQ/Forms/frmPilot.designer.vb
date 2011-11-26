@@ -113,7 +113,6 @@ Partial Public Class frmPilot
         Me.SkillGroup = New DevComponents.DotNetBar.ElementStyle()
         Me.tiSkills = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpSkillQueue = New DevComponents.DotNetBar.TabControlPanel()
-        Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
         Me.tiSkillQueue = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpCerts = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtCerts = New DevComponents.AdvTree.AdvTree()
@@ -128,6 +127,7 @@ Partial Public Class frmPilot
         Me.lblAccountExpiry = New DevComponents.DotNetBar.LabelX()
         Me.LabelX2 = New DevComponents.DotNetBar.LabelX()
         Me.pnlMain = New DevComponents.DotNetBar.PanelEx()
+        Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
         Me.ctxSkills.SuspendLayout()
         Me.ctxPic.SuspendLayout()
         Me.ctxCerts.SuspendLayout()
@@ -1449,15 +1449,6 @@ Partial Public Class frmPilot
         Me.tcpSkillQueue.TabIndex = 3
         Me.tcpSkillQueue.TabItem = Me.tiSkillQueue
         '
-        'sqcEveQueue
-        '
-        Me.sqcEveQueue.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.sqcEveQueue.Location = New System.Drawing.Point(1, 1)
-        Me.sqcEveQueue.Name = "sqcEveQueue"
-        Me.sqcEveQueue.PilotName = ""
-        Me.sqcEveQueue.Size = New System.Drawing.Size(931, 663)
-        Me.sqcEveQueue.TabIndex = 0
-        '
         'tiSkillQueue
         '
         Me.tiSkillQueue.AttachedControl = Me.tcpSkillQueue
@@ -1700,6 +1691,15 @@ Partial Public Class frmPilot
         Me.pnlMain.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlMain.Style.GradientAngle = 90
         Me.pnlMain.TabIndex = 54
+        '
+        'sqcEveQueue
+        '
+        Me.sqcEveQueue.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.sqcEveQueue.Location = New System.Drawing.Point(1, 1)
+        Me.sqcEveQueue.Name = "sqcEveQueue"
+        Me.sqcEveQueue.PilotName = ""
+        Me.sqcEveQueue.Size = New System.Drawing.Size(931, 663)
+        Me.sqcEveQueue.TabIndex = 0
         '
         'frmPilot
         '

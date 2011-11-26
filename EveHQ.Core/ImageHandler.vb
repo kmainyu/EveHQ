@@ -69,13 +69,129 @@ Public Class ImageHandler
         End Try
     End Function
 
-    Public Shared Function GetPortraitImage(ByVal Pilot As EveHQ.Core.Pilot) As Image
+    Public Shared Function GetPortraitImage(ByVal PilotID As String) As Image
         ' Requires a special function due to Bitmap.FromFile not releasing the file handle on a timely basis
         Try
             ' Check for the file first and download it
-            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, Pilot.ID & ".png")
+            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, PilotID & ".png")
             If My.Computer.FileSystem.FileExists(Filename) = False Then
-                Call DownloadPortrait(Pilot.ID.ToString)
+                Call DownloadPortrait(PilotID.ToString)
+            End If
+
+            ' Get the file if it's there
+            If My.Computer.FileSystem.FileExists(Filename) = True Then
+                Dim fs As New FileStream(Filename, FileMode.Open, FileAccess.Read)
+                Dim img As Image = Image.FromStream(fs)
+                Dim ms As New MemoryStream()
+                img.Save(ms, Imaging.ImageFormat.Png)
+                Dim imgClone As Image = Image.FromStream(ms)
+                img.Dispose()
+                fs.Close()
+                fs.Dispose()
+                ms.Dispose()
+                Return imgClone
+            Else
+                Return My.Resources.nochar
+            End If
+        Catch e As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Public Shared Function GetPortraitImage(ByVal PilotID As String, ImageSize As Integer) As Image
+        ' Requires a special function due to Bitmap.FromFile not releasing the file handle on a timely basis
+        Try
+            ' Check for the file first and download it
+            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, PilotID & ".png")
+            If My.Computer.FileSystem.FileExists(Filename) = False Then
+                Call DownloadPortrait(PilotID.ToString)
+            End If
+
+            ' Get the file if it's there
+            If My.Computer.FileSystem.FileExists(Filename) = True Then
+                Dim fs As New FileStream(Filename, FileMode.Open, FileAccess.Read)
+                Dim img As Image = Image.FromStream(fs)
+                Dim ms As New MemoryStream()
+                img.Save(ms, Imaging.ImageFormat.Png)
+                Dim imgClone As Image = Image.FromStream(ms)
+                img.Dispose()
+                fs.Close()
+                fs.Dispose()
+                ms.Dispose()
+                Return CType(New Bitmap(imgClone, ImageSize, ImageSize), Image)
+            Else
+                Return CType(New Bitmap(My.Resources.nochar, ImageSize, ImageSize), Image)
+            End If
+        Catch e As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Public Shared Function GetCorpImage(CorpID As String) As Image
+        ' Requires a special function due to Bitmap.FromFile not releasing the file handle on a timely basis
+        Try
+            ' Check for the file first and download it
+            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, CorpID & ".png")
+            If My.Computer.FileSystem.FileExists(Filename) = False Then
+                Call DownloadCorpImage(CorpID.ToString)
+            End If
+
+            ' Get the file if it's there
+            If My.Computer.FileSystem.FileExists(Filename) = True Then
+                Dim fs As New FileStream(Filename, FileMode.Open, FileAccess.Read)
+                Dim img As Image = Image.FromStream(fs)
+                Dim ms As New MemoryStream()
+                img.Save(ms, Imaging.ImageFormat.Png)
+                Dim imgClone As Image = Image.FromStream(ms)
+                img.Dispose()
+                fs.Close()
+                fs.Dispose()
+                ms.Dispose()
+                Return imgClone
+            Else
+                Return My.Resources.nochar
+            End If
+        Catch e As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Public Shared Function GetCorpImage(CorpID As String, ImageSize As Integer) As Image
+        ' Requires a special function due to Bitmap.FromFile not releasing the file handle on a timely basis
+        Try
+            ' Check for the file first and download it
+            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, CorpID & ".png")
+            If My.Computer.FileSystem.FileExists(Filename) = False Then
+                Call DownloadCorpImage(CorpID.ToString)
+            End If
+
+            ' Get the file if it's there
+            If My.Computer.FileSystem.FileExists(Filename) = True Then
+                Dim fs As New FileStream(Filename, FileMode.Open, FileAccess.Read)
+                Dim img As Image = Image.FromStream(fs)
+                Dim ms As New MemoryStream()
+                img.Save(ms, Imaging.ImageFormat.Png)
+                Dim imgClone As Image = Image.FromStream(ms)
+                img.Dispose()
+                fs.Close()
+                fs.Dispose()
+                ms.Dispose()
+                Return CType(New Bitmap(imgClone, ImageSize, ImageSize), Image)
+            Else
+                Return CType(New Bitmap(My.Resources.nochar, ImageSize, ImageSize), Image)
+            End If
+        Catch e As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Public Shared Function GetAllianceImage(AllianceID As String) As Image
+        ' Requires a special function due to Bitmap.FromFile not releasing the file handle on a timely basis
+        Try
+            ' Check for the file first and download it
+            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, AllianceID & ".png")
+            If My.Computer.FileSystem.FileExists(Filename) = False Then
+                Call DownloadAllianceImage(AllianceID)
             End If
 
             ' Get the file if it's there
@@ -143,6 +259,52 @@ Public Class ImageHandler
             Return Nothing
         End Try
     End Function
+
+    Public Shared Function DownloadCorpImage(ByVal CorporationID As String) As Image
+        Dim PortraitSize As Integer = 256
+        Try
+            Dim RequestPic As WebRequest = WebRequest.Create("https://image.eveonline.com/Corporation/" & CorporationID & "_256.png")
+            ' Setup proxy server (if required)
+            If EveHQ.Core.HQ.RemoteProxy IsNot Nothing Then
+                If EveHQ.Core.HQ.RemoteProxy.ProxyRequired = True Then
+                    RequestPic.Proxy = EveHQ.Core.HQ.RemoteProxy.SetupWebProxy
+                End If
+            End If
+            Dim ResponsePic As WebResponse = RequestPic.GetResponse
+            Dim WebImage As Image = Image.FromStream(ResponsePic.GetResponseStream())
+            ' Save the image into the cache
+            WebImage.Save(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, CorporationID & ".png"), System.Drawing.Imaging.ImageFormat.Png)
+            Return WebImage
+        Catch ex As Exception
+            ' Assume this is because the image was not found - which happens for a lot of the database items
+            ' No need to do anything with the error, just carry on
+            Return Nothing
+        End Try
+    End Function
+
+    Public Shared Function DownloadAllianceImage(ByVal AllianceID As String) As Image
+        Dim PortraitSize As Integer = 256
+        Try
+            Dim RequestPic As WebRequest = WebRequest.Create("https://image.eveonline.com/Alliance/" & AllianceID & "_256.png")
+            ' Setup proxy server (if required)
+            If EveHQ.Core.HQ.RemoteProxy IsNot Nothing Then
+                If EveHQ.Core.HQ.RemoteProxy.ProxyRequired = True Then
+                    RequestPic.Proxy = EveHQ.Core.HQ.RemoteProxy.SetupWebProxy
+                End If
+            End If
+            Dim ResponsePic As WebResponse = RequestPic.GetResponse
+            Dim WebImage As Image = Image.FromStream(ResponsePic.GetResponseStream())
+            ' Save the image into the cache
+            WebImage.Save(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, AllianceID & ".png"), System.Drawing.Imaging.ImageFormat.Png)
+            Return WebImage
+        Catch ex As Exception
+            ' Assume this is because the image was not found - which happens for a lot of the database items
+            ' No need to do anything with the error, just carry on
+            Return Nothing
+        End Try
+    End Function
+
+
 
 End Class
 
