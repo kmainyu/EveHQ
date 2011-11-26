@@ -94,12 +94,7 @@ Partial Class PrismAssetsControl
         Me.RemoveFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.splitterAssets = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.ButtonX1 = New DevComponents.DotNetBar.ButtonX()
-        Me.btiItemName = New DevComponents.DotNetBar.ButtonItem()
-        Me.btiQuantity = New DevComponents.DotNetBar.ButtonItem()
-        Me.btiPrice = New DevComponents.DotNetBar.ButtonItem()
-        Me.btiValue = New DevComponents.DotNetBar.ButtonItem()
-        Me.btiVolume = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnExport = New DevComponents.DotNetBar.ButtonX()
         Me.panelPrismAssets.SuspendLayout()
         CType(Me.adtAssets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxAssets.SuspendLayout()
@@ -112,7 +107,7 @@ Partial Class PrismAssetsControl
         '
         Me.panelPrismAssets.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelPrismAssets.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.panelPrismAssets.Controls.Add(Me.ButtonX1)
+        Me.panelPrismAssets.Controls.Add(Me.btnExport)
         Me.panelPrismAssets.Controls.Add(Me.chkExcludeContracts)
         Me.panelPrismAssets.Controls.Add(Me.btnExportGrouped)
         Me.panelPrismAssets.Controls.Add(Me.btnFilters)
@@ -778,47 +773,16 @@ Partial Class PrismAssetsControl
         '
         Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         '
-        'ButtonX1
+        'btnExport
         '
-        Me.ButtonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.ButtonX1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonX1.AntiAlias = True
-        Me.ButtonX1.AutoExpandOnClick = True
-        Me.ButtonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.ButtonX1.Location = New System.Drawing.Point(1099, 36)
-        Me.ButtonX1.Name = "ButtonX1"
-        Me.ButtonX1.Size = New System.Drawing.Size(150, 23)
-        Me.ButtonX1.SplitButton = True
-        Me.ButtonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.ButtonX1.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btiItemName, Me.btiQuantity, Me.btiPrice, Me.btiValue, Me.btiVolume})
-        Me.STT.SetSuperTooltip(Me.ButtonX1, New DevComponents.DotNetBar.SuperTooltipInfo("", "Export Assets", "Exports the current asset view to a CSV or TSV file. ", Nothing, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.ButtonX1.TabIndex = 57
-        Me.ButtonX1.Text = "Export Assets (Full)"
-        '
-        'btiItemName
-        '
-        Me.btiItemName.Name = "btiItemName"
-        Me.btiItemName.Text = "Order by Item Name"
-        '
-        'btiQuantity
-        '
-        Me.btiQuantity.Name = "btiQuantity"
-        Me.btiQuantity.Text = "Order by Quantity"
-        '
-        'btiPrice
-        '
-        Me.btiPrice.Name = "btiPrice"
-        Me.btiPrice.Text = "Order by Price"
-        '
-        'btiValue
-        '
-        Me.btiValue.Name = "btiValue"
-        Me.btiValue.Text = "Order by Value"
-        '
-        'btiVolume
-        '
-        Me.btiVolume.Name = "btiVolume"
-        Me.btiVolume.Text = "Order by Volume"
+        Me.btnExport.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnExport.Location = New System.Drawing.Point(1099, 35)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(150, 23)
+        Me.btnExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnExport.TabIndex = 57
+        Me.btnExport.Text = "Export Assets (Full)"
         '
         'PrismAssetsControl
         '
@@ -912,11 +876,6 @@ Partial Class PrismAssetsControl
     Friend WithEvents STT As DevComponents.DotNetBar.SuperTooltip
     Friend WithEvents btiPriceG As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents chkExcludeContracts As System.Windows.Forms.CheckBox
-    Friend WithEvents ButtonX1 As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btiItemName As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btiQuantity As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btiPrice As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btiValue As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btiVolume As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents btnExport As DevComponents.DotNetBar.ButtonX
 
 End Class

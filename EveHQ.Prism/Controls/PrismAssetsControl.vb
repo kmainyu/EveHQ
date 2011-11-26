@@ -2354,6 +2354,8 @@ Public Class PrismAssetsControl
 
 #Region "Asset Export Routines"
 
+#Region "Grouped Export"
+
     Private Sub btiItemName_Click(sender As System.Object, e As System.EventArgs) Handles btiItemNameG.Click
         Call ExportGroupedAssets(ExportTypes.TypeName)
     End Sub
@@ -2482,9 +2484,149 @@ Public Class PrismAssetsControl
 
 #End Region
 
-    Private Sub PSCAssetOwners_SelectionChanged()
+#Region "Full Export"
+
+    Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
+        Call Me.ExportAssets()
+    End Sub
+
+    Private Sub ExportAssets()
+
+        ' Collect all the information
+        Dim Assets As New ArrayList
+        For Each Asset As AssetItem In assetList.Values
+            Dim AER As New AssetExportResult
+            AER.Category = Asset.category
+            AER.Constellation = Asset.constellation
+            AER.Group = Asset.group
+            AER.Location = Asset.location
+            AER.MetaLevel = Asset.meta
+            AER.Price = Asset.price
+            AER.Quantity = Asset.quantity
+            AER.Region = Asset.region
+            AER.System = Asset.system
+            AER.SystemSec = Asset.systemsec
+            AER.TypeName = Asset.typeName
+            AER.Value = (Asset.price * Asset.quantity)
+            AER.Volume = CDbl(Asset.volume)
+            Assets.Add(AER)
+        Next
+
+        ' Sort our result depending on the ExportType
+        Dim ResultsSorter As New EveHQ.Core.ClassSorter
+        'Select Case ExportType
+        '    Case ExportTypes.TypeName
+        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("TypeName", Core.SortDirection.Ascending))
+        '    Case ExportTypes.Quantity
+        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Quantity", Core.SortDirection.Ascending))
+        '    Case ExportTypes.Price
+        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Price", Core.SortDirection.Ascending))
+        '    Case ExportTypes.Value
+        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Value", Core.SortDirection.Ascending))
+        '    Case ExportTypes.Volume
+        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Volume", Core.SortDirection.Ascending))
+        'End Select
+        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("TypeName", Core.SortDirection.Ascending))
+        Assets.Sort(ResultsSorter)
+
+        ' Select a location for the export
+        Dim sfd As New SaveFileDialog
+        sfd.Title = "Export Assets"
+        sfd.InitialDirectory = EveHQ.Core.HQ.reportFolder
+        Dim filterText As String = "Comma Separated Variable files (*.csv)|*.csv"
+        filterText &= "|Tab Separated Variable files (*.txt)|*.txt"
+        sfd.Filter = filterText
+        sfd.FilterIndex = 0
+        sfd.AddExtension = True
+        sfd.ShowDialog()
+        sfd.CheckPathExists = True
+        If sfd.FileName <> "" Then
+            Select Case sfd.FilterIndex
+                Case 1
+                    Call Me.ExportAssets(Assets, ",", sfd.FileName)
+                Case 2
+                    Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
+            End Select
+        End If
+        sfd.Dispose()
+        MessageBox.Show("Export of Prism Asset data completed!", "Prism Asset Export", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
     End Sub
+
+    Private Sub ExportAssets(Assets As ArrayList, SepChar As String, FileName As String)
+
+        Try
+
+            Dim sw As New StreamWriter(FileName)
+            Dim sb As New StringBuilder
+
+            ' Write Header
+            sb.Append("TypeName" & SepChar)
+            sb.Append("Category" & SepChar)
+            sb.Append("Group" & SepChar)
+            sb.Append("MetaLevel" & SepChar)
+            sb.Append("Location" & SepChar)
+            sb.Append("System" & SepChar)
+            sb.Append("Constellation" & SepChar)
+            sb.Append("Region" & SepChar)
+            sb.Append("SystemSec" & SepChar)
+            sb.Append("Quantity" & SepChar)
+            sb.Append("Price" & SepChar)
+            sb.Append("Value" & SepChar)
+            sb.Append("Volume" & SepChar)
+            sw.WriteLine(sb.ToString)
+
+            ' Write assets
+            For Each Asset As AssetExportResult In Assets
+                sb = New StringBuilder
+                sb.Append(Asset.TypeName & SepChar)
+                sb.Append(Asset.Category.ToString & SepChar)
+                sb.Append(Asset.Group.ToString & SepChar)
+                sb.Append(Asset.MetaLevel.ToString & SepChar)
+                sb.Append(ControlChars.Quote & Asset.Location.ToString & ControlChars.Quote & SepChar)
+                sb.Append(Asset.System.ToString & SepChar)
+                sb.Append(Asset.Constellation.ToString & SepChar)
+                sb.Append(Asset.Region.ToString & SepChar)
+                sb.Append(Asset.SystemSec.ToString & SepChar)
+                sb.Append(Asset.Quantity.ToString & SepChar)
+                sb.Append(Asset.Price.ToString & SepChar)
+                sb.Append(Asset.Value.ToString & SepChar)
+                sb.Append(Asset.Volume.ToString & SepChar)
+                sw.WriteLine(sb.ToString)
+            Next
+
+            ' Close file
+            sw.Flush()
+            sw.Close()
+            sw.Dispose()
+
+        Catch ex As Exception
+            MessageBox.Show("Error exporting Prism Asset details: " & ex.Message, "Error Exporting Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+    End Sub
+
+#End Region
+   
+
+#End Region
+
+End Class
+
+Public Class AssetExportResult
+    Public Property TypeName As String
+    Public Property Quantity As Long
+    Public Property Price As Double
+    Public Property Value As Double
+    Public Property Volume As Double
+    Public Property Location As String
+    Public Property System As String
+    Public Property Constellation As String
+    Public Property Region As String
+    Public Property SystemSec As String
+    Public Property Group As String
+    Public Property Category As String
+    Public Property MetaLevel As String
 End Class
 
 Public Class AssetExportGroupedResult
@@ -2503,6 +2645,14 @@ Public Enum ExportTypes As Integer
     Price = 2
     Value = 3
     Volume = 4
+    System = 5
+    Constellation = 6
+    Region = 7
+    SecStatus = 8
+    Group = 9
+    Category = 10
+    MetaLevel = 11
+    Location = 12
 End Enum
 
 
