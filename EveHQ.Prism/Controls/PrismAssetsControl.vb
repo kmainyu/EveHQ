@@ -1474,10 +1474,6 @@ Public Class PrismAssetsControl
         End If
     End Sub
 
-    Private Sub ParseContracts()
-
-    End Sub
-
 #End Region
 
 #Region "Asset Context Menu & UI Routines"

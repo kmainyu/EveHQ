@@ -33,7 +33,6 @@ Partial Class PrismAssetsControl
         Me.btiVolumeG = New DevComponents.DotNetBar.ButtonItem()
         Me.btnFilters = New DevComponents.DotNetBar.ButtonX()
         Me.btnRefreshAssets = New DevComponents.DotNetBar.ButtonX()
-        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.lblTotalSelectedAssetValue = New System.Windows.Forms.Label()
         Me.lblTotalAssetsLabel = New System.Windows.Forms.Label()
         Me.adtAssets = New DevComponents.AdvTree.AdvTree()
@@ -95,6 +94,7 @@ Partial Class PrismAssetsControl
         Me.splitterAssets = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
         Me.btnExport = New DevComponents.DotNetBar.ButtonX()
+        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.panelPrismAssets.SuspendLayout()
         CType(Me.adtAssets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxAssets.SuspendLayout()
@@ -214,16 +214,6 @@ Partial Class PrismAssetsControl
         Me.btnRefreshAssets.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnRefreshAssets.TabIndex = 53
         Me.btnRefreshAssets.Text = "Refresh"
-        '
-        'PSCAssetOwners
-        '
-        Me.PSCAssetOwners.AllowMultipleSelections = True
-        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
-        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
-        Me.PSCAssetOwners.Name = "PSCAssetOwners"
-        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
-        Me.PSCAssetOwners.TabIndex = 52
         '
         'lblTotalSelectedAssetValue
         '
@@ -776,6 +766,7 @@ Partial Class PrismAssetsControl
         'btnExport
         '
         Me.btnExport.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnExport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnExport.Location = New System.Drawing.Point(1099, 35)
         Me.btnExport.Name = "btnExport"
@@ -783,6 +774,16 @@ Partial Class PrismAssetsControl
         Me.btnExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnExport.TabIndex = 57
         Me.btnExport.Text = "Export Assets (Full)"
+        '
+        'PSCAssetOwners
+        '
+        Me.PSCAssetOwners.AllowMultipleSelections = True
+        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
+        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
+        Me.PSCAssetOwners.Name = "PSCAssetOwners"
+        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
+        Me.PSCAssetOwners.TabIndex = 52
         '
         'PrismAssetsControl
         '
