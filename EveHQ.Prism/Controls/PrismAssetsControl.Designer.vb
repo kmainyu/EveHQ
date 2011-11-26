@@ -95,6 +95,8 @@ Partial Class PrismAssetsControl
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
         Me.btnExport = New DevComponents.DotNetBar.ButtonX()
         Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
+        Me.AssetRight = New DevComponents.DotNetBar.ElementStyle()
+        Me.AssetCentre = New DevComponents.DotNetBar.ElementStyle()
         Me.panelPrismAssets.SuspendLayout()
         CType(Me.adtAssets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxAssets.SuspendLayout()
@@ -277,6 +279,8 @@ Partial Class PrismAssetsControl
         Me.adtAssets.Size = New System.Drawing.Size(1243, 605)
         Me.adtAssets.Styles.Add(Me.Asset)
         Me.adtAssets.Styles.Add(Me.SelAsset)
+        Me.adtAssets.Styles.Add(Me.AssetRight)
+        Me.adtAssets.Styles.Add(Me.AssetCentre)
         Me.adtAssets.TabIndex = 49
         Me.adtAssets.Text = "AdvTree1"
         '
@@ -785,6 +789,26 @@ Partial Class PrismAssetsControl
         Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
         Me.PSCAssetOwners.TabIndex = 52
         '
+        'AssetRight
+        '
+        Me.AssetRight.BackColorGradientAngle = 90
+        Me.AssetRight.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.AssetRight.Class = ""
+        Me.AssetRight.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.AssetRight.Name = "AssetRight"
+        Me.AssetRight.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
+        Me.AssetRight.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'AssetCentre
+        '
+        Me.AssetCentre.BackColorGradientAngle = 90
+        Me.AssetCentre.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.AssetCentre.Class = ""
+        Me.AssetCentre.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.AssetCentre.Name = "AssetCentre"
+        Me.AssetCentre.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.AssetCentre.TextColor = System.Drawing.SystemColors.ControlText
+        '
         'PrismAssetsControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -878,5 +902,7 @@ Partial Class PrismAssetsControl
     Friend WithEvents btiPriceG As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents chkExcludeContracts As System.Windows.Forms.CheckBox
     Friend WithEvents btnExport As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents AssetRight As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents AssetCentre As DevComponents.DotNetBar.ElementStyle
 
 End Class

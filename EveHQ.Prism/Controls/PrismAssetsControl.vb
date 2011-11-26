@@ -150,13 +150,37 @@ Public Class PrismAssetsControl
             SubCol.Width.Absolute = UserCol.Width
             SubCol.Width.AutoSizeMinHeader = True
             SubCol.Visible = UserCol.Active
+            Select Case UserCol.Name
+                Case "AssetMeta", "AssetVolume", "AssetQuantity", "AssetPrice", "AssetValue"
+                    SubCol.StyleNormal = "AssetCentre"
+                Case Else
+                    SubCol.StyleNormal = "Asset"
+            End Select
             adtAssets.Columns.Add(SubCol)
             AssetColumn.Add(SubCol.Name, ColumnDisplayIDX - 1)
         Next
         NumberOfActiveColumns = ColumnDisplayIDX - 1
     End Sub
+
     ''' <summary>
-    ''' Creates the individual cells of a node based on the Asset data and user columns required
+    ''' Creates the individual cells of a node based on the user columns required
+    ''' </summary>
+    ''' <param name="AssetNode"></param>
+    ''' <remarks></remarks>
+    Private Sub CreateNodeCells(AssetNode As Node)
+        For NewCell As Integer = 1 To NumberOfActiveColumns
+            AssetNode.Cells.Add(New Cell)
+        Next
+        AssetNode.Cells(AssetColumn("AssetMeta")).StyleNormal = adtAssets.Styles("AssetRight")
+        AssetNode.Cells(AssetColumn("AssetVolume")).StyleNormal = adtAssets.Styles("AssetRight")
+        AssetNode.Cells(AssetColumn("AssetQuantity")).StyleNormal = adtAssets.Styles("AssetRight")
+        AssetNode.Cells(AssetColumn("AssetPrice")).StyleNormal = adtAssets.Styles("AssetRight")
+        AssetNode.Cells(AssetColumn("AssetValue")).StyleNormal = adtAssets.Styles("AssetRight")
+
+    End Sub
+
+    ''' <summary>
+    ''' Sets the data in the individual cells of a node based on the Asset data and user columns required
     ''' </summary>
     ''' <param name="AssetData">The data to populate the cell information from</param>
     ''' <param name="AssetNode">The particular node to update</param>
@@ -239,15 +263,15 @@ Public Class PrismAssetsControl
                 Case "AssetLocation"
                     AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.location
                 Case "AssetMeta"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.meta
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Meta
                 Case "AssetVolume"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.volume
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Volume
                 Case "AssetQuantity"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.quantity.ToString("N0")
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Quantity.ToString("N0")
                 Case "AssetPrice"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.price.ToString("N2")
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Price.ToString("N2")
                 Case "AssetValue"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = (AssetData.price * AssetData.quantity).ToString("N2")
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = (AssetData.Price * AssetData.Quantity).ToString("N2")
             End Select
         Next
     End Sub
@@ -453,7 +477,7 @@ Public Class PrismAssetsControl
                             For Each loc In locList
                                 ' Check if the location is already listed
                                 Dim locNode As New Node
-                                For NewCell As Integer = 1 To NumberOfActiveColumns : locNode.Cells.Add(New Cell) : Next
+                                CreateNodeCells(locNode)
                                 Dim addLocation As Boolean = True
                                 Dim StationLocation As String = ""
                                 Dim CorpHangarName As String = "n/a"
@@ -585,7 +609,7 @@ Public Class PrismAssetsControl
                                 End If
 
                                 Dim newAsset As New Node
-                                For NewCell As Integer = 1 To NumberOfActiveColumns : newAsset.Cells.Add(New Cell) : Next
+                                CreateNodeCells(newAsset)
                                 newAsset.Tag = loc.Attributes.GetNamedItem("itemID").Value
                                 Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
                                 Dim flagName As String = PlugInData.itemFlags(flagID).ToString
@@ -598,7 +622,7 @@ Public Class PrismAssetsControl
                                             ' Build the corp division nodes
                                             For div As Integer = 0 To 6
                                                 Dim hangar As New Node
-                                                For NewCell As Integer = 1 To NumberOfActiveColumns : hangar.Cells.Add(New Cell) : Next
+                                                CreateNodeCells(hangar)
                                                 hangar.Text = CStr(divisions.Item(Owner.ID & "_" & (1000 + div).ToString))
                                                 locNode.Nodes.Add(hangar)
                                                 hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
@@ -782,7 +806,7 @@ Public Class PrismAssetsControl
                 End If
 
                 Dim subAsset As New Node
-                For NewCell As Integer = 1 To NumberOfActiveColumns : subAsset.Cells.Add(New Cell) : Next
+                CreateNodeCells(subAsset)
                 subAsset.Tag = subLoc.Attributes.GetNamedItem("itemID").Value
                 Dim subFlagID As Integer = CInt(subLoc.Attributes.GetNamedItem("flag").Value)
                 Dim subFlagName As String = PlugInData.itemFlags(subFlagID).ToString
@@ -795,7 +819,7 @@ Public Class PrismAssetsControl
                             ' Build the corp division nodes
                             For div As Integer = 0 To 6
                                 Dim hangar As New Node
-                                For NewCell As Integer = 1 To NumberOfActiveColumns : hangar.Cells.Add(New Cell) : Next
+                                CreateNodeCells(hangar)
                                 hangar.Text = CStr(divisions.Item(Owner.ID & "_" & (1000 + div).ToString))
                                 parentAsset.Nodes.Add(hangar)
                                 hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
@@ -809,7 +833,7 @@ Public Class PrismAssetsControl
                             ' Build the corp division nodes
                             For div As Integer = 0 To 6
                                 Dim hangar As New Node
-                                For NewCell As Integer = 1 To NumberOfActiveColumns : hangar.Cells.Add(New Cell) : Next
+                                CreateNodeCells(hangar)
                                 hangar.Text = "Corp Division " & div.ToString
                                 parentAsset.Nodes.Add(hangar)
                                 hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
@@ -995,21 +1019,21 @@ Public Class PrismAssetsControl
 
         ' Add the balances to the assets schedule
         Dim node As New Node
-        For NewCell As Integer = 1 To NumberOfActiveColumns : node.Cells.Add(New Cell) : Next
+        CreateNodeCells(node)
         Dim totalCash As Double = 0
         node.Tag = "ISK"
         node.Text = "Cash Balances"
         ' Add the personal balances
         If charWallets.Count > 0 Then
             Dim personalNode As New Node
-            For NewCell As Integer = 1 To NumberOfActiveColumns : personalNode.Cells.Add(New Cell) : Next
+            CreateNodeCells(personalNode)
             personalNode.Tag = "Personal"
             personalNode.Text = "Personal"
             node.Nodes.Add(personalNode)
             Dim personalCash As Double = 0
             For Each pilot As String In charWallets.Keys
                 Dim iskNode As New Node
-                For NewCell As Integer = 1 To NumberOfActiveColumns : iskNode.Cells.Add(New Cell) : Next
+                CreateNodeCells(iskNode)
                 iskNode.Tag = pilot
                 iskNode.Text = pilot
                 personalNode.Nodes.Add(iskNode)
@@ -1022,7 +1046,7 @@ Public Class PrismAssetsControl
         ' Add the corporate balances
         If corpWallets.Count > 0 Then
             Dim corporateNode As New Node
-            For NewCell As Integer = 1 To NumberOfActiveColumns : corporateNode.Cells.Add(New Cell) : Next
+            CreateNodeCells(corporateNode)
             corporateNode.Tag = "Corporate"
             corporateNode.Text = "Corporate"
             node.Nodes.Add(corporateNode)
@@ -1030,14 +1054,14 @@ Public Class PrismAssetsControl
             For Each corpName As String In corpWallets.Keys
                 Dim corpID As String = CStr(corpWallets(corpName))
                 Dim corpNode As New Node
-                For NewCell As Integer = 1 To NumberOfActiveColumns : corpNode.Cells.Add(New Cell) : Next
+                CreateNodeCells(corpNode)
                 corpNode.Tag = corpName
                 corpNode.Text = corpName
                 corporateNode.Nodes.Add(corpNode)
                 Dim divisionCash As Double = 0
                 For key As Integer = 1000 To 1006
                     Dim iskNode As New Node
-                    For NewCell As Integer = 1 To NumberOfActiveColumns : iskNode.Cells.Add(New Cell) : Next
+                    CreateNodeCells(iskNode)
                     Dim idx As String = corpID & "_" & key.ToString
                     If walletDivisions.ContainsKey(idx) Then
                         iskNode.Tag = walletDivisions(idx).ToString
@@ -1071,15 +1095,15 @@ Public Class PrismAssetsControl
         Dim buyValue, sellValue As Double
         ordersNode.Tag = "Orders"
         ordersNode.Text = "Market Orders"
-        For NewCell As Integer = 1 To NumberOfActiveColumns : ordersNode.Cells.Add(New Cell) : Next
+        CreateNodeCells(ordersNode)
         ' Add the Buy Orders node
         buyOrders.Text = "Buy Orders"
         buyOrders.Tag = "Buy Orders"
-        For NewCell As Integer = 1 To NumberOfActiveColumns : buyOrders.Cells.Add(New Cell) : Next
+        CreateNodeCells(buyOrders)
         ' Add the Sell Orders node
         sellOrders.Text = "Sell Orders"
         sellOrders.Tag = "Sell Orders"
-        For NewCell As Integer = 1 To NumberOfActiveColumns : sellOrders.Cells.Add(New Cell) : Next
+        CreateNodeCells(sellOrders)
 
         For Each cPilot As ListViewItem In PSCAssetOwners.ItemList.CheckedItems
             ' Get the owner we will use
@@ -1092,7 +1116,7 @@ Public Class PrismAssetsControl
             For Each ownerOrder As MarketOrder In orderCollection.MarketOrders
                 If ownerOrder.OrderState = MarketOrderState.Open Then
                     Dim orderNode As New Node
-                    For NewCell As Integer = 1 To NumberOfActiveColumns : orderNode.Cells.Add(New Cell) : Next
+                    CreateNodeCells(orderNode)
                     orderNode.Tag = ownerOrder.TypeID
                     If EveHQ.Core.HQ.itemData.ContainsKey(ownerOrder.TypeID.ToString) = True Then
                         Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ownerOrder.TypeID.ToString)
@@ -1229,7 +1253,7 @@ Public Class PrismAssetsControl
         Dim ResearchNode As New Node
         ResearchNode.Tag = "Research"
         ResearchNode.Text = "Assets in Research"
-        For NewCell As Integer = 1 To NumberOfActiveColumns : ResearchNode.Cells.Add(New Cell) : Next
+        CreateNodeCells(ResearchNode)
         Dim ResearchValue As Double = 0
 
         For Each cPilot As ListViewItem In PSCAssetOwners.ItemList.CheckedItems
@@ -1245,7 +1269,7 @@ Public Class PrismAssetsControl
                 For Each Job As IndustryJob In JobList
                     If Job.Completed = 0 Then
                         Dim RNode As New Node
-                        For NewCell As Integer = 1 To NumberOfActiveColumns : RNode.Cells.Add(New Cell) : Next
+                        CreateNodeCells(RNode)
                         RNode.Tag = Job.InstalledItemTypeID.ToString
 
                         Dim ResearchItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(Job.InstalledItemTypeID.ToString)
@@ -1314,7 +1338,7 @@ Public Class PrismAssetsControl
     End Sub
     Private Function DisplayResearchOutput(ByVal ResearchNode As Node, ByVal Job As IndustryJob, ByVal Owner As String) As Double
         Dim RNode As New Node
-        For NewCell As Integer = 1 To NumberOfActiveColumns : RNode.Cells.Add(New Cell) : Next
+        CreateNodeCells(RNode)
         RNode.Tag = Job.OutputTypeID.ToString
 
         Dim ResearchItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(Job.OutputTypeID.ToString)
@@ -1363,7 +1387,7 @@ Public Class PrismAssetsControl
         Dim ContractsValue As Double
         ContractsNode.Tag = "Contracts"
         ContractsNode.Text = "Contracts"
-        For NewCell As Integer = 1 To NumberOfActiveColumns : ContractsNode.Cells.Add(New Cell) : Next
+        CreateNodeCells(ContractsNode)
 
         For Each cPilot As ListViewItem In PSCAssetOwners.ItemList.CheckedItems
             ' Get the owner we will use
@@ -1377,7 +1401,7 @@ Public Class PrismAssetsControl
                 For Each OwnerContract As Contract In ContractsCollection.Values
                     If OwnerContract.Status = ContractStatuses.Outstanding Then
                         Dim ContractNode As New Node
-                        For NewCell As Integer = 1 To NumberOfActiveColumns : ContractNode.Cells.Add(New Cell) : Next
+                        CreateNodeCells(ContractNode)
                         ContractsNode.Nodes.Add(ContractNode)
                         ContractNode.Tag = OwnerContract.ContractID
                         If OwnerContract.Title <> "" Then
@@ -1427,7 +1451,7 @@ Public Class PrismAssetsControl
                             ' Check for search criteria
                             If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And ItemName.ToLower.Contains(searchText.ToLower) = False)) Then
                                 Dim ItemNode As New Node
-                                For NewCell As Integer = 1 To NumberOfActiveColumns : ItemNode.Cells.Add(New Cell) : Next
+                                CreateNodeCells(ItemNode)
                                 ItemNode.Text = ItemName
                                 ItemNode.Tag = typeID
                                 ContractNode.Nodes.Add(ItemNode)
