@@ -799,9 +799,9 @@ Public Class PrismAssetsControl
                                 hangar.Text = CStr(divisions.Item(Owner.ID & "_" & (1000 + div).ToString))
                                 parentAsset.Nodes.Add(hangar)
                                 hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
-                                CorpHangarName = hangar.Text
                             Next
                         End If
+                        CorpHangarName = subFlagName
                     Else
                         ' Don't have a proper division
                         subFlagName = "Corp Division " & accountID.ToString
@@ -813,9 +813,9 @@ Public Class PrismAssetsControl
                                 hangar.Text = "Corp Division " & div.ToString
                                 parentAsset.Nodes.Add(hangar)
                                 hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
-                                CorpHangarName = hangar.Text
                             Next
                         End If
+                        CorpHangarName = subFlagName
                     End If
                 End If
 
