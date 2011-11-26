@@ -478,7 +478,7 @@ Public Class PrismResources
                     If OwnedResources(itemID).Count > 1 Then
                         For Each Location As String In OwnedResources(itemID).Keys
                             If Location <> "TotalOwned" Then
-                                Dim newLoc As New Node(GetLocationName(Location))
+                                Dim newLoc As New Node(Locations.GetLocationNameFromID(Location))
                                 newLoc.Cells.Add(New Cell(""))
                                 newLoc.Cells.Add(New Cell(OwnedResources(itemID).Item(Location).ToString("N0")))
                                 newLoc.Cells.Add(New Cell(""))
@@ -765,35 +765,6 @@ Public Class PrismResources
             End If
         Next
         Return ReqOrders
-    End Function
-
-    Private Function GetLocationName(LocID As String) As String
-        If CDbl(LocID) >= 66000000 Then
-            If CDbl(LocID) < 66014933 Then
-                LocID = (CDbl(LocID) - 6000001).ToString
-            Else
-                LocID = (CDbl(LocID) - 6000000).ToString
-            End If
-        End If
-        If CDbl(LocID) >= 61000000 And CDbl(LocID) <= 61999999 Then
-            If PlugInData.stations.Contains(LocID) = True Then
-                ' Known Outpost
-                Return CType(PlugInData.stations(LocID), Prism.Station).stationName
-            Else
-                ' Unknown outpost!
-                Return "Unknown Outpost"
-            End If
-        Else
-            If CDbl(LocID) < 60000000 Then
-                Return CType(PlugInData.stations(LocID), SolarSystem).Name
-            Else
-                If PlugInData.stations.ContainsKey(LocID) = True Then
-                    Return CType(PlugInData.stations(LocID), Prism.Station).stationName
-                Else
-                    Return "Unknown Location"
-                End If
-            End If
-        End If
     End Function
 
     Private Sub chkAdvancedResourceAllocation_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAdvancedResourceAllocation.CheckedChanged

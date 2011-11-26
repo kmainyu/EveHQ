@@ -4131,7 +4131,7 @@ Public Class frmPrism
                     If BP.LocationDetails Is Nothing Then BP.LocationDetails = "" ' Resets details
                     If BP.LocationID Is Nothing Then BP.LocationID = "0" ' Resets details
                     BPData = PlugInData.Blueprints(BP.TypeID)
-                    LocationName = Me.GetLocationNameFromID(BP.LocationID)
+                    LocationName = Locations.GetLocationNameFromID(BP.LocationID)
                     If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
                         If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = BP.BPType + 1) Then
                             matchCat = False
@@ -4412,55 +4412,6 @@ Public Class frmPrism
             End If
         Next
     End Sub
-    Private Function GetLocationNameFromID(ByVal locID As String) As String
-        If CDbl(locID) >= 66000000 Then
-            If CDbl(locID) < 66014933 Then
-                locID = (CDbl(locID) - 6000001).ToString
-            Else
-                locID = (CDbl(locID) - 6000000).ToString
-            End If
-        End If
-        Dim newLocation As Prism.Station
-        If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
-            If PlugInData.stations.Contains(locID) = True Then
-                ' Known Outpost
-                newLocation = CType(PlugInData.stations(locID), Prism.Station)
-                Return newLocation.stationName
-            Else
-                ' Unknown outpost!
-                newLocation = New Prism.Station
-                newLocation.stationID = CLng(locID)
-                newLocation.stationName = "Unknown Outpost"
-                newLocation.systemID = 0
-                newLocation.constID = 0
-                newLocation.regionID = 0
-                Return newLocation.stationName
-            End If
-        Else
-            If CDbl(locID) < 60000000 Then
-                If PlugInData.stations.Contains(locID) Then
-                    Dim newSystem As SolarSystem = CType(PlugInData.stations(locID), SolarSystem)
-                    Return newSystem.Name
-                Else
-                    Return "Unknown Location"
-                End If
-            Else
-                newLocation = CType(PlugInData.stations(locID), Prism.Station)
-                If newLocation IsNot Nothing Then
-                    Return newLocation.stationName
-                Else
-                    ' Unknown system/station!
-                    newLocation = New Prism.Station
-                    newLocation.stationID = CLng(locID)
-                    newLocation.stationName = "Unknown Location"
-                    newLocation.systemID = 0
-                    newLocation.constID = 0
-                    newLocation.regionID = 0
-                    Return newLocation.stationName
-                End If
-            End If
-        End If
-    End Function
 
     Private Sub btnGetBPJobInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetBPJobInfo.Click
         ' Get the owner BPs
@@ -4673,7 +4624,7 @@ Public Class frmPrism
             Dim locationName As String = ""
             For Each selitem As Node In adtBlueprints.SelectedNodes
                 BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(selitem.Tag.ToString)
-                locationName = Me.GetLocationNameFromID(BP.LocationID)
+                locationName = Locations.GetLocationNameFromID(BP.LocationID)
                 Call Me.UpdateOwnerBPItem(BPForm.OwnerName, locationName, BP, selitem)
             Next
         Else

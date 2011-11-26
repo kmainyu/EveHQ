@@ -34,3 +34,55 @@ Public Class Corporation
     Public CorpID As Long
     Public CorpName As String
 End Class
+
+Public Class Locations
+    Public Shared Function GetLocationNameFromID(ByVal locID As String) As String
+        If CDbl(locID) >= 66000000 Then
+            If CDbl(locID) < 66014933 Then
+                locID = (CDbl(locID) - 6000001).ToString
+            Else
+                locID = (CDbl(locID) - 6000000).ToString
+            End If
+        End If
+        Dim newLocation As Prism.Station
+        If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
+            If PlugInData.stations.Contains(locID) = True Then
+                ' Known Outpost
+                newLocation = CType(PlugInData.stations(locID), Prism.Station)
+                Return newLocation.stationName
+            Else
+                ' Unknown outpost!
+                newLocation = New Prism.Station
+                newLocation.stationID = CLng(locID)
+                newLocation.stationName = "Unknown Outpost"
+                newLocation.systemID = 0
+                newLocation.constID = 0
+                newLocation.regionID = 0
+                Return newLocation.stationName
+            End If
+        Else
+            If CDbl(locID) < 60000000 Then
+                If PlugInData.stations.Contains(locID) Then
+                    Dim newSystem As SolarSystem = CType(PlugInData.stations(locID), SolarSystem)
+                    Return newSystem.Name
+                Else
+                    Return "Unknown Location"
+                End If
+            Else
+                newLocation = CType(PlugInData.stations(locID), Prism.Station)
+                If newLocation IsNot Nothing Then
+                    Return newLocation.stationName
+                Else
+                    ' Unknown system/station!
+                    newLocation = New Prism.Station
+                    newLocation.stationID = CLng(locID)
+                    newLocation.stationName = "Unknown Location"
+                    newLocation.systemID = 0
+                    newLocation.constID = 0
+                    newLocation.regionID = 0
+                    Return newLocation.stationName
+                End If
+            End If
+        End If
+    End Function
+End Class

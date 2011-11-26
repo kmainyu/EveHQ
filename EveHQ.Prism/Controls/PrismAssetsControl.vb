@@ -455,6 +455,8 @@ Public Class PrismAssetsControl
                                 Dim locNode As New Node
                                 For NewCell As Integer = 1 To NumberOfActiveColumns : locNode.Cells.Add(New Cell) : Next
                                 Dim addLocation As Boolean = True
+                                Dim StationLocation As String = ""
+                                Dim CorpHangarName As String = "n/a"
                                 For Each testNode As Node In adtAssets.Nodes
                                     If testNode.Tag.ToString = (loc.Attributes.GetNamedItem("locationID").Value) Then
                                         locNode = testNode
@@ -462,8 +464,8 @@ Public Class PrismAssetsControl
                                         Exit For
                                     End If
                                 Next
+                                Dim locID As String = loc.Attributes.GetNamedItem("locationID").Value
                                 If addLocation = True Then
-                                    Dim locID As String = loc.Attributes.GetNamedItem("locationID").Value
                                     If CDbl(locID) >= 66000000 Then
                                         If CDbl(locID) < 66014933 Then
                                             locID = (CDbl(locID) - 6000001).ToString
@@ -480,6 +482,7 @@ Public Class PrismAssetsControl
                                             locNode.Tag = newLocation.stationID
                                             EveLocation = CType(PlugInData.stations(newLocation.systemID.ToString), SolarSystem)
                                             locNode.Cells(AssetColumn("AssetSystem")).Tag = EveLocation
+                                            StationLocation = newLocation.stationName
                                         Else
                                             ' Unknown outpost!
                                             newLocation = New Prism.Station
@@ -492,6 +495,7 @@ Public Class PrismAssetsControl
                                             locNode.Tag = newLocation.stationID
                                             EveLocation = Nothing
                                             locNode.Cells(AssetColumn("AssetSystem")).Tag = EveLocation
+                                            StationLocation = newLocation.stationName
                                         End If
                                     Else
                                         If CDbl(locID) < 60000000 Then
@@ -500,6 +504,7 @@ Public Class PrismAssetsControl
                                             locNode.Text = newSystem.Name
                                             locNode.Tag = newSystem.ID
                                             locNode.Cells(AssetColumn("AssetSystem")).Tag = EveLocation
+                                            StationLocation = newSystem.Name
                                         Else
                                             newLocation = CType(PlugInData.stations(locID), Prism.Station)
                                             If newLocation IsNot Nothing Then
@@ -507,6 +512,7 @@ Public Class PrismAssetsControl
                                                 locNode.Tag = newLocation.stationID
                                                 EveLocation = CType(PlugInData.stations(newLocation.systemID.ToString), SolarSystem)
                                                 locNode.Cells(AssetColumn("AssetSystem")).Tag = EveLocation
+                                                StationLocation = newLocation.stationName
                                             Else
                                                 ' Unknown system/station!
                                                 newLocation = New Prism.Station
@@ -519,6 +525,7 @@ Public Class PrismAssetsControl
                                                 locNode.Tag = newLocation.stationID
                                                 EveLocation = Nothing
                                                 locNode.Cells(AssetColumn("AssetSystem")).Tag = EveLocation
+                                                StationLocation = newLocation.stationName
                                             End If
                                         End If
                                     End If
@@ -535,6 +542,8 @@ Public Class PrismAssetsControl
                                         locNode.Cells(AssetColumn("AssetSystemSec")).Text = "Unknown"
                                     End If
                                     adtAssets.Nodes.Add(locNode)
+                                Else
+                                    StationLocation = Locations.GetLocationNameFromID(locID)
                                 End If
 
                                 EveLocation = CType(locNode.Cells(AssetColumn("AssetSystem")).Tag, SolarSystem)
@@ -628,7 +637,9 @@ Public Class PrismAssetsControl
 
                                 ' Add the asset to the list of assets
                                 Dim newAssetList As New AssetItem
-                                newAssetList.itemID = newAsset.Tag.ToString
+                                newAssetList.ItemID = newAsset.Tag.ToString
+                                newAssetList.CorpHangar = CorpHangarName
+                                newAssetList.Station = StationLocation
                                 newAssetList.system = locNode.Text
                                 newAssetList.typeID = itemID
                                 newAssetList.typeName = itemName
@@ -665,7 +676,7 @@ Public Class PrismAssetsControl
 
                                 ' Check if this row has child nodes and repeat
                                 If loc.HasChildNodes = True Then
-                                    Call Me.PopulateAssetNode(newAsset, loc, Owner.Name, locNode.Text, Owner, EveLocation)
+                                    Call Me.PopulateAssetNode(newAsset, loc, Owner.Name, locNode.Text, Owner, EveLocation, StationLocation, CorpHangarName)
                                 End If
 
                                 ' Update hangar price if applicable
@@ -717,7 +728,7 @@ Public Class PrismAssetsControl
         End If
 
     End Sub
-    Private Function PopulateAssetNode(ByVal parentAsset As Node, ByVal loc As XmlNode, ByVal assetOwner As String, ByVal location As String, Owner As PrismOwner, ByVal EveLocation As SolarSystem) As Double
+    Private Function PopulateAssetNode(ByVal parentAsset As Node, ByVal loc As XmlNode, ByVal assetOwner As String, ByVal location As String, Owner As PrismOwner, ByVal EveLocation As SolarSystem, ByVal StationLocation As String, CorpHangarName As String) As Double
         Dim subLocList As XmlNodeList
         Dim subLoc As XmlNode
         Dim containerPrice As Double = 0
@@ -808,38 +819,40 @@ Public Class PrismAssetsControl
 
                 ' Add the asset to the list of assets
                 Dim newAssetList As New AssetItem
-                newAssetList.itemID = subAsset.Tag.ToString
-                newAssetList.system = location
-                newAssetList.typeID = ItemID
-                newAssetList.typeName = itemName
-                newAssetList.owner = assetOwner
-                newAssetList.group = groupName
-                newAssetList.category = catName
+                newAssetList.ItemID = subAsset.Tag.ToString
+                newAssetList.CorpHangar = CorpHangarName
+                newAssetList.Station = StationLocation
+                newAssetList.System = location
+                newAssetList.TypeID = ItemID
+                newAssetList.TypeName = itemName
+                newAssetList.Owner = assetOwner
+                newAssetList.Group = groupName
+                newAssetList.Category = catName
                 If EveLocation IsNot Nothing Then
-                    newAssetList.system = EveLocation.Name
-                    newAssetList.constellation = EveLocation.Constellation
-                    newAssetList.region = EveLocation.Region
-                    newAssetList.systemsec = EveLocation.Security.ToString("N2")
+                    newAssetList.System = EveLocation.Name
+                    newAssetList.Constellation = EveLocation.Constellation
+                    newAssetList.Region = EveLocation.Region
+                    newAssetList.SystemSec = EveLocation.Security.ToString("N2")
                 Else
-                    newAssetList.system = "Unknown"
-                    newAssetList.constellation = "Unknown"
-                    newAssetList.region = "Unknown"
-                    newAssetList.systemsec = "Unknown"
+                    newAssetList.System = "Unknown"
+                    newAssetList.Constellation = "Unknown"
+                    newAssetList.Region = "Unknown"
+                    newAssetList.SystemSec = "Unknown"
                 End If
-                newAssetList.location = parentAsset.Text & ": " & subFlagName
-                newAssetList.meta = metaLevel
-                newAssetList.volume = volume
-                newAssetList.quantity = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
+                newAssetList.Location = parentAsset.Text & ": " & subFlagName
+                newAssetList.Meta = metaLevel
+                newAssetList.Volume = volume
+                newAssetList.Quantity = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
                 If subLoc.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
-                    newAssetList.rawquantity = CInt(subLoc.Attributes.GetNamedItem("rawQuantity").Value)
+                    newAssetList.RawQuantity = CInt(subLoc.Attributes.GetNamedItem("rawQuantity").Value)
                 Else
-                    newAssetList.rawquantity = 0
+                    newAssetList.RawQuantity = 0
                 End If
-                newAssetList.price = 0
-                totalAssetCount += newAssetList.quantity
+                newAssetList.Price = 0
+                totalAssetCount += newAssetList.Quantity
 
-                If assetList.ContainsKey(newAssetList.itemID) = False Then
-                    assetList.Add(newAssetList.itemID, newAssetList)
+                If assetList.ContainsKey(newAssetList.ItemID) = False Then
+                    assetList.Add(newAssetList.ItemID, newAssetList)
 
                     If assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
                         parentAsset.Nodes(accountID - 1000).Nodes.Add(subAsset)
@@ -852,7 +865,7 @@ Public Class PrismAssetsControl
                     Call Me.UpdateAssetColumnData(newAssetList, subAsset)
 
                     ' Update hangar price if applicable
-                    containerPrice += (newAssetList.price * newAssetList.quantity)
+                    containerPrice += (newAssetList.Price * newAssetList.Quantity)
                     If AssetIsInHanger = True Then
                         hangarPrice = CDbl(subAsset.Parent.Cells(AssetColumn("AssetValue")).Text)
                         subAsset.Parent.Cells(AssetColumn("AssetValue")).Text = (hangarPrice + linePrice).ToString("N2")
@@ -860,7 +873,7 @@ Public Class PrismAssetsControl
 
                     If subLoc.HasChildNodes = True Then
                         containerPrice -= linePrice
-                        containerPrice += PopulateAssetNode(subAsset, subLoc, assetOwner, location, Owner, EveLocation)
+                        containerPrice += PopulateAssetNode(subAsset, subLoc, assetOwner, location, Owner, EveLocation, StationLocation, CorpHangarName)
                     End If
 
                 End If
@@ -2382,18 +2395,18 @@ Public Class PrismAssetsControl
         Dim AssetExport As New SortedList(Of String, AssetExportGroupedResult)
         Dim AER As New AssetExportGroupedResult
         For Each Asset As AssetItem In assetList.Values
-            If AssetExport.ContainsKey(Asset.typeName) = False Then
+            If AssetExport.ContainsKey(Asset.TypeName) = False Then
                 AER = New AssetExportGroupedResult
-                AER.TypeName = Asset.typeName
-                AER.Price = Asset.price
-                AssetExport.Add(Asset.typeName, AER)
+                AER.TypeName = Asset.TypeName
+                AER.Price = Asset.Price
+                AssetExport.Add(Asset.TypeName, AER)
             Else
-                AER = AssetExport(Asset.typeName)
+                AER = AssetExport(Asset.TypeName)
             End If
             AER.Locations += 1
-            AER.Quantity += Asset.quantity
-            AER.Volume += CDbl(Asset.volume)
-            AER.Value += (Asset.price * Asset.quantity)
+            AER.Quantity += Asset.Quantity
+            AER.Volume += CDbl(Asset.Volume)
+            AER.Value += (Asset.Price * Asset.Quantity)
         Next
 
         ' Transfer results to something that we can sort
@@ -2496,19 +2509,21 @@ Public Class PrismAssetsControl
         Dim Assets As New ArrayList
         For Each Asset As AssetItem In assetList.Values
             Dim AER As New AssetExportResult
-            AER.Category = Asset.category
-            AER.Constellation = Asset.constellation
-            AER.Group = Asset.group
-            AER.Location = Asset.location
-            AER.MetaLevel = Asset.meta
-            AER.Price = Asset.price
-            AER.Quantity = Asset.quantity
-            AER.Region = Asset.region
-            AER.System = Asset.system
-            AER.SystemSec = Asset.systemsec
-            AER.TypeName = Asset.typeName
-            AER.Value = (Asset.price * Asset.quantity)
-            AER.Volume = CDbl(Asset.volume)
+            AER.Category = Asset.Category
+            AER.Constellation = Asset.Constellation
+            AER.CorpHangar = Asset.CorpHangar
+            AER.Group = Asset.Group
+            AER.Location = Asset.Location
+            AER.MetaLevel = Asset.Meta
+            AER.Price = Asset.Price
+            AER.Quantity = Asset.Quantity
+            AER.Region = Asset.Region
+            AER.Station = Asset.Station
+            AER.System = Asset.System
+            AER.SystemSec = Asset.SystemSec
+            AER.TypeName = Asset.TypeName
+            AER.Value = (Asset.Price * Asset.Quantity)
+            AER.Volume = CDbl(Asset.Volume)
             Assets.Add(AER)
         Next
 
@@ -2566,6 +2581,8 @@ Public Class PrismAssetsControl
             sb.Append("Group" & SepChar)
             sb.Append("MetaLevel" & SepChar)
             sb.Append("Location" & SepChar)
+            sb.Append("CorpHangar" & SepChar)
+            sb.Append("Station" & SepChar)
             sb.Append("System" & SepChar)
             sb.Append("Constellation" & SepChar)
             sb.Append("Region" & SepChar)
@@ -2584,6 +2601,8 @@ Public Class PrismAssetsControl
                 sb.Append(Asset.Group.ToString & SepChar)
                 sb.Append(Asset.MetaLevel.ToString & SepChar)
                 sb.Append(ControlChars.Quote & Asset.Location.ToString & ControlChars.Quote & SepChar)
+                sb.Append(ControlChars.Quote & Asset.CorpHangar.ToString & ControlChars.Quote & SepChar)
+                sb.Append(ControlChars.Quote & Asset.Station.ToString & ControlChars.Quote & SepChar)
                 sb.Append(Asset.System.ToString & SepChar)
                 sb.Append(Asset.Constellation.ToString & SepChar)
                 sb.Append(Asset.Region.ToString & SepChar)
