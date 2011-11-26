@@ -799,6 +799,7 @@ Public Class PrismAssetsControl
                                 hangar.Text = CStr(divisions.Item(Owner.ID & "_" & (1000 + div).ToString))
                                 parentAsset.Nodes.Add(hangar)
                                 hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
+                                CorpHangarName = hangar.Text
                             Next
                         End If
                     Else
@@ -812,6 +813,7 @@ Public Class PrismAssetsControl
                                 hangar.Text = "Corp Division " & div.ToString
                                 parentAsset.Nodes.Add(hangar)
                                 hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
+                                CorpHangarName = hangar.Text
                             Next
                         End If
                     End If
