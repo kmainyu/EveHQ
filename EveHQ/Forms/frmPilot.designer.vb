@@ -37,12 +37,6 @@ Partial Public Class frmPilot
         Me.mnuCertName = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem()
-        Me.lvwStandings = New System.Windows.Forms.ListView()
-        Me.colName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colID = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colRawValue = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.colActualValue = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ctxStandings = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuExtrapolateStandings = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblTypeFilter = New System.Windows.Forms.Label()
@@ -97,6 +91,16 @@ Partial Public Class frmPilot
         Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
         Me.picPilot = New System.Windows.Forms.PictureBox()
         Me.tabPilotInfo = New DevComponents.DotNetBar.TabControl()
+        Me.tcpStandings = New DevComponents.DotNetBar.TabControlPanel()
+        Me.adtStandings = New DevComponents.AdvTree.AdvTree()
+        Me.colEntity = New DevComponents.AdvTree.ColumnHeader()
+        Me.colEntityID = New DevComponents.AdvTree.ColumnHeader()
+        Me.colEntityType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colStandingRaw = New DevComponents.AdvTree.ColumnHeader()
+        Me.colStandingActual = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle3 = New DevComponents.DotNetBar.ElementStyle()
+        Me.tiStandings = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpSkills = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtSkills = New DevComponents.AdvTree.AdvTree()
         Me.colSkill = New DevComponents.AdvTree.ColumnHeader()
@@ -105,25 +109,19 @@ Partial Public Class frmPilot
         Me.colDone = New DevComponents.AdvTree.ColumnHeader()
         Me.colSP = New DevComponents.AdvTree.ColumnHeader()
         Me.colTime = New DevComponents.AdvTree.ColumnHeader()
-        Me.Node1 = New DevComponents.AdvTree.Node()
-        Me.SkillGroup = New DevComponents.DotNetBar.ElementStyle()
-        Me.Node2 = New DevComponents.AdvTree.Node()
         Me.Skill = New DevComponents.DotNetBar.ElementStyle()
+        Me.SkillGroup = New DevComponents.DotNetBar.ElementStyle()
         Me.tiSkills = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpSkillQueue = New DevComponents.DotNetBar.TabControlPanel()
+        Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
+        Me.tiSkillQueue = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpCerts = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtCerts = New DevComponents.AdvTree.AdvTree()
         Me.colCertName = New DevComponents.AdvTree.ColumnHeader()
         Me.colCertGrd = New DevComponents.AdvTree.ColumnHeader()
-        Me.Node3 = New DevComponents.AdvTree.Node()
-        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
-        Me.Node4 = New DevComponents.AdvTree.Node()
         Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.tsCerts = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpStandings = New DevComponents.DotNetBar.TabControlPanel()
-        Me.tiStandings = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpSkillQueue = New DevComponents.DotNetBar.TabControlPanel()
-        Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
-        Me.tiSkillQueue = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.pnlInfo = New System.Windows.Forms.FlowLayoutPanel()
         Me.grpAccount = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.lblAccountLogins = New DevComponents.DotNetBar.LabelX()
@@ -141,12 +139,13 @@ Partial Public Class frmPilot
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabPilotInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPilotInfo.SuspendLayout()
+        Me.tcpStandings.SuspendLayout()
+        CType(Me.adtStandings, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcpSkills.SuspendLayout()
         CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tcpSkillQueue.SuspendLayout()
         Me.tcpCerts.SuspendLayout()
         CType(Me.adtCerts, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tcpStandings.SuspendLayout()
-        Me.tcpSkillQueue.SuspendLayout()
         Me.pnlInfo.SuspendLayout()
         Me.grpAccount.SuspendLayout()
         Me.pnlMain.SuspendLayout()
@@ -256,51 +255,6 @@ Partial Public Class frmPilot
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
         Me.mnuViewCertDetails.Size = New System.Drawing.Size(137, 22)
         Me.mnuViewCertDetails.Text = "View Details"
-        '
-        'lvwStandings
-        '
-        Me.lvwStandings.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwStandings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colName, Me.colID, Me.colType, Me.colRawValue, Me.colActualValue})
-        Me.lvwStandings.ContextMenuStrip = Me.ctxStandings
-        Me.lvwStandings.FullRowSelect = True
-        Me.lvwStandings.GridLines = True
-        Me.lvwStandings.Location = New System.Drawing.Point(4, 33)
-        Me.lvwStandings.MultiSelect = False
-        Me.lvwStandings.Name = "lvwStandings"
-        Me.lvwStandings.Size = New System.Drawing.Size(919, 626)
-        Me.lvwStandings.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwStandings.TabIndex = 19
-        Me.lvwStandings.UseCompatibleStateImageBehavior = False
-        Me.lvwStandings.View = System.Windows.Forms.View.Details
-        '
-        'colName
-        '
-        Me.colName.Text = "Entity"
-        Me.colName.Width = 200
-        '
-        'colID
-        '
-        Me.colID.Text = "Entity ID"
-        Me.colID.Width = 100
-        '
-        'colType
-        '
-        Me.colType.Text = "Entity Type"
-        Me.colType.Width = 100
-        '
-        'colRawValue
-        '
-        Me.colRawValue.Text = "Standing Value (Raw)"
-        Me.colRawValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colRawValue.Width = 150
-        '
-        'colActualValue
-        '
-        Me.colActualValue.Text = "Standing Value (Actual)"
-        Me.colActualValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colActualValue.Width = 150
         '
         'ctxStandings
         '
@@ -1207,9 +1161,9 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.Controls.Add(Me.tcpStandings)
+        Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
         Me.tabPilotInfo.Controls.Add(Me.tcpSkillQueue)
         Me.tabPilotInfo.Controls.Add(Me.tcpCerts)
-        Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
         Me.tabPilotInfo.Location = New System.Drawing.Point(348, 184)
         Me.tabPilotInfo.Name = "tabPilotInfo"
         Me.tabPilotInfo.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -1223,6 +1177,115 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.Tabs.Add(Me.tiSkillQueue)
         Me.tabPilotInfo.Tabs.Add(Me.tiStandings)
         Me.tabPilotInfo.Text = "TabControl1"
+        '
+        'tcpStandings
+        '
+        Me.tcpStandings.Controls.Add(Me.adtStandings)
+        Me.tcpStandings.Controls.Add(Me.btnGetStandings)
+        Me.tcpStandings.Controls.Add(Me.lblTypeFilter)
+        Me.tcpStandings.Controls.Add(Me.btExportStandings)
+        Me.tcpStandings.Controls.Add(Me.cboFilter)
+        Me.tcpStandings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpStandings.Location = New System.Drawing.Point(0, 23)
+        Me.tcpStandings.Name = "tcpStandings"
+        Me.tcpStandings.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpStandings.Size = New System.Drawing.Size(933, 665)
+        Me.tcpStandings.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpStandings.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpStandings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpStandings.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpStandings.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpStandings.Style.GradientAngle = 90
+        Me.tcpStandings.TabIndex = 4
+        Me.tcpStandings.TabItem = Me.tiStandings
+        '
+        'adtStandings
+        '
+        Me.adtStandings.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtStandings.AllowDrop = True
+        Me.adtStandings.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtStandings.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtStandings.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtStandings.Columns.Add(Me.colEntity)
+        Me.adtStandings.Columns.Add(Me.colEntityID)
+        Me.adtStandings.Columns.Add(Me.colEntityType)
+        Me.adtStandings.Columns.Add(Me.colStandingRaw)
+        Me.adtStandings.Columns.Add(Me.colStandingActual)
+        Me.adtStandings.ContextMenuStrip = Me.ctxStandings
+        Me.adtStandings.DragDropEnabled = False
+        Me.adtStandings.DragDropNodeCopyEnabled = False
+        Me.adtStandings.ExpandWidth = 0
+        Me.adtStandings.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtStandings.Location = New System.Drawing.Point(4, 33)
+        Me.adtStandings.Name = "adtStandings"
+        Me.adtStandings.NodesConnector = Me.NodeConnector1
+        Me.adtStandings.NodeStyle = Me.ElementStyle3
+        Me.adtStandings.PathSeparator = ";"
+        Me.adtStandings.Size = New System.Drawing.Size(925, 628)
+        Me.adtStandings.Styles.Add(Me.ElementStyle3)
+        Me.adtStandings.TabIndex = 17
+        Me.adtStandings.Text = "AdvTree1"
+        '
+        'colEntity
+        '
+        Me.colEntity.DisplayIndex = 1
+        Me.colEntity.Name = "colEntity"
+        Me.colEntity.SortingEnabled = False
+        Me.colEntity.Text = "Entity Name"
+        Me.colEntity.Width.Absolute = 300
+        '
+        'colEntityID
+        '
+        Me.colEntityID.DisplayIndex = 2
+        Me.colEntityID.Name = "colEntityID"
+        Me.colEntityID.SortingEnabled = False
+        Me.colEntityID.Text = "Entity ID"
+        Me.colEntityID.Width.Absolute = 100
+        '
+        'colEntityType
+        '
+        Me.colEntityType.DisplayIndex = 3
+        Me.colEntityType.Name = "colEntityType"
+        Me.colEntityType.SortingEnabled = False
+        Me.colEntityType.Text = "Entity Type"
+        Me.colEntityType.Width.Absolute = 100
+        '
+        'colStandingRaw
+        '
+        Me.colStandingRaw.DisplayIndex = 4
+        Me.colStandingRaw.Name = "colStandingRaw"
+        Me.colStandingRaw.SortingEnabled = False
+        Me.colStandingRaw.Text = "Raw Standing"
+        Me.colStandingRaw.Width.Absolute = 100
+        '
+        'colStandingActual
+        '
+        Me.colStandingActual.DisplayIndex = 5
+        Me.colStandingActual.Name = "colStandingActual"
+        Me.colStandingActual.SortingEnabled = False
+        Me.colStandingActual.Text = "Actual Standing"
+        Me.colStandingActual.Width.Absolute = 100
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle3
+        '
+        Me.ElementStyle3.Class = ""
+        Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle3.Name = "ElementStyle3"
+        Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'tiStandings
+        '
+        Me.tiStandings.AttachedControl = Me.tcpStandings
+        Me.tiStandings.Name = "tiStandings"
+        Me.tiStandings.Text = "Standings"
         '
         'tcpSkills
         '
@@ -1245,6 +1308,7 @@ Partial Public Class frmPilot
         'adtSkills
         '
         Me.adtSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtSkills.AllowDrop = True
         Me.adtSkills.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -1266,7 +1330,6 @@ Partial Public Class frmPilot
         Me.adtSkills.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.adtSkills.Location = New System.Drawing.Point(1, 1)
         Me.adtSkills.Name = "adtSkills"
-        Me.adtSkills.Nodes.AddRange(New DevComponents.AdvTree.Node() {Me.Node1, Me.Node2})
         Me.adtSkills.NodeSpacing = 1
         Me.adtSkills.NodeStyle = Me.Skill
         Me.adtSkills.PathSeparator = ";"
@@ -1327,13 +1390,14 @@ Partial Public Class frmPilot
         Me.colTime.Text = "Time to Level Up"
         Me.colTime.Width.Absolute = 120
         '
-        'Node1
+        'Skill
         '
-        Me.Node1.Expanded = True
-        Me.Node1.FullRowBackground = True
-        Me.Node1.Name = "Node1"
-        Me.Node1.Style = Me.SkillGroup
-        Me.Node1.Text = "Node1"
+        Me.Skill.BackColorGradientAngle = 45
+        Me.Skill.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.Skill.Class = ""
+        Me.Skill.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.Skill.Name = "Skill"
+        Me.Skill.TextColor = System.Drawing.Color.Black
         '
         'SkillGroup
         '
@@ -1361,176 +1425,11 @@ Partial Public Class frmPilot
         Me.SkillGroup.PaddingTop = 1
         Me.SkillGroup.TextColor = System.Drawing.Color.White
         '
-        'Node2
-        '
-        Me.Node2.Expanded = True
-        Me.Node2.Name = "Node2"
-        Me.Node2.Style = Me.SkillGroup
-        Me.Node2.Text = "Node2"
-        '
-        'Skill
-        '
-        Me.Skill.BackColorGradientAngle = 45
-        Me.Skill.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.Skill.Class = ""
-        Me.Skill.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Skill.Name = "Skill"
-        Me.Skill.TextColor = System.Drawing.Color.Black
-        '
         'tiSkills
         '
         Me.tiSkills.AttachedControl = Me.tcpSkills
         Me.tiSkills.Name = "tiSkills"
         Me.tiSkills.Text = "Skills"
-        '
-        'tcpCerts
-        '
-        Me.tcpCerts.Controls.Add(Me.adtCerts)
-        Me.tcpCerts.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpCerts.Location = New System.Drawing.Point(0, 23)
-        Me.tcpCerts.Name = "tcpCerts"
-        Me.tcpCerts.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpCerts.Size = New System.Drawing.Size(933, 665)
-        Me.tcpCerts.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpCerts.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpCerts.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpCerts.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpCerts.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpCerts.Style.GradientAngle = 90
-        Me.tcpCerts.TabIndex = 2
-        Me.tcpCerts.TabItem = Me.tsCerts
-        '
-        'adtCerts
-        '
-        Me.adtCerts.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtCerts.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtCerts.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtCerts.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtCerts.Columns.Add(Me.colCertName)
-        Me.adtCerts.Columns.Add(Me.colCertGrd)
-        Me.adtCerts.ContextMenuStrip = Me.ctxCerts
-        Me.adtCerts.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.adtCerts.DragDropEnabled = False
-        Me.adtCerts.DragDropNodeCopyEnabled = False
-        Me.adtCerts.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
-        Me.adtCerts.KeyboardSearchEnabled = False
-        Me.adtCerts.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtCerts.Location = New System.Drawing.Point(1, 1)
-        Me.adtCerts.Name = "adtCerts"
-        Me.adtCerts.Nodes.AddRange(New DevComponents.AdvTree.Node() {Me.Node3, Me.Node4})
-        Me.adtCerts.NodeSpacing = 1
-        Me.adtCerts.NodeStyle = Me.ElementStyle2
-        Me.adtCerts.PathSeparator = ";"
-        Me.adtCerts.SelectionBox = False
-        Me.adtCerts.Size = New System.Drawing.Size(931, 663)
-        Me.adtCerts.Styles.Add(Me.ElementStyle2)
-        Me.adtCerts.Styles.Add(Me.ElementStyle1)
-        Me.adtCerts.TabIndex = 39
-        '
-        'colCertName
-        '
-        Me.colCertName.DisplayIndex = 1
-        Me.colCertName.Name = "colCertName"
-        Me.colCertName.SortingEnabled = False
-        Me.colCertName.Text = "Certificate Name"
-        Me.colCertName.Width.Absolute = 400
-        '
-        'colCertGrd
-        '
-        Me.colCertGrd.DisplayIndex = 2
-        Me.colCertGrd.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
-        Me.colCertGrd.Name = "colCertGrd"
-        Me.colCertGrd.SortingEnabled = False
-        Me.colCertGrd.Text = "Grade"
-        Me.colCertGrd.Width.Absolute = 120
-        '
-        'Node3
-        '
-        Me.Node3.Expanded = True
-        Me.Node3.FullRowBackground = True
-        Me.Node3.Name = "Node3"
-        Me.Node3.Style = Me.ElementStyle1
-        Me.Node3.Text = "Node1"
-        '
-        'ElementStyle1
-        '
-        Me.ElementStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(96, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(96, Byte), Integer))
-        Me.ElementStyle1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(32, Byte), Integer), CType(CType(32, Byte), Integer), CType(CType(32, Byte), Integer))
-        Me.ElementStyle1.BackColorGradientAngle = 90
-        Me.ElementStyle1.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.ElementStyle1.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.ElementStyle1.BorderBottomWidth = 1
-        Me.ElementStyle1.BorderColor = System.Drawing.Color.DarkGray
-        Me.ElementStyle1.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.ElementStyle1.BorderLeftWidth = 1
-        Me.ElementStyle1.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.ElementStyle1.BorderRightWidth = 1
-        Me.ElementStyle1.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.ElementStyle1.BorderTopWidth = 1
-        Me.ElementStyle1.Class = ""
-        Me.ElementStyle1.CornerDiameter = 4
-        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle1.Description = "Gray"
-        Me.ElementStyle1.Name = "ElementStyle1"
-        Me.ElementStyle1.PaddingBottom = 1
-        Me.ElementStyle1.PaddingLeft = 1
-        Me.ElementStyle1.PaddingRight = 1
-        Me.ElementStyle1.PaddingTop = 1
-        Me.ElementStyle1.TextColor = System.Drawing.Color.White
-        '
-        'Node4
-        '
-        Me.Node4.Expanded = True
-        Me.Node4.Name = "Node4"
-        Me.Node4.Style = Me.ElementStyle1
-        Me.Node4.Text = "Node2"
-        '
-        'ElementStyle2
-        '
-        Me.ElementStyle2.BackColorGradientAngle = 45
-        Me.ElementStyle2.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.ElementStyle2.Class = ""
-        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle2.Name = "ElementStyle2"
-        Me.ElementStyle2.TextColor = System.Drawing.Color.Black
-        '
-        'tsCerts
-        '
-        Me.tsCerts.AttachedControl = Me.tcpCerts
-        Me.tsCerts.Name = "tsCerts"
-        Me.tsCerts.Text = "Certificates"
-        '
-        'tcpStandings
-        '
-        Me.tcpStandings.Controls.Add(Me.lvwStandings)
-        Me.tcpStandings.Controls.Add(Me.btnGetStandings)
-        Me.tcpStandings.Controls.Add(Me.lblTypeFilter)
-        Me.tcpStandings.Controls.Add(Me.btExportStandings)
-        Me.tcpStandings.Controls.Add(Me.cboFilter)
-        Me.tcpStandings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpStandings.Location = New System.Drawing.Point(0, 23)
-        Me.tcpStandings.Name = "tcpStandings"
-        Me.tcpStandings.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpStandings.Size = New System.Drawing.Size(933, 665)
-        Me.tcpStandings.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpStandings.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpStandings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpStandings.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpStandings.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpStandings.Style.GradientAngle = 90
-        Me.tcpStandings.TabIndex = 4
-        Me.tcpStandings.TabItem = Me.tiStandings
-        '
-        'tiStandings
-        '
-        Me.tiStandings.AttachedControl = Me.tcpStandings
-        Me.tiStandings.Name = "tiStandings"
-        Me.tiStandings.Text = "Standings"
         '
         'tcpSkillQueue
         '
@@ -1564,6 +1463,112 @@ Partial Public Class frmPilot
         Me.tiSkillQueue.AttachedControl = Me.tcpSkillQueue
         Me.tiSkillQueue.Name = "tiSkillQueue"
         Me.tiSkillQueue.Text = "Eve Skill Queue"
+        '
+        'tcpCerts
+        '
+        Me.tcpCerts.Controls.Add(Me.adtCerts)
+        Me.tcpCerts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpCerts.Location = New System.Drawing.Point(0, 23)
+        Me.tcpCerts.Name = "tcpCerts"
+        Me.tcpCerts.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpCerts.Size = New System.Drawing.Size(933, 665)
+        Me.tcpCerts.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpCerts.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpCerts.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpCerts.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpCerts.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpCerts.Style.GradientAngle = 90
+        Me.tcpCerts.TabIndex = 2
+        Me.tcpCerts.TabItem = Me.tsCerts
+        '
+        'adtCerts
+        '
+        Me.adtCerts.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtCerts.AllowDrop = True
+        Me.adtCerts.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtCerts.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtCerts.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtCerts.Columns.Add(Me.colCertName)
+        Me.adtCerts.Columns.Add(Me.colCertGrd)
+        Me.adtCerts.ContextMenuStrip = Me.ctxCerts
+        Me.adtCerts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.adtCerts.DragDropEnabled = False
+        Me.adtCerts.DragDropNodeCopyEnabled = False
+        Me.adtCerts.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
+        Me.adtCerts.KeyboardSearchEnabled = False
+        Me.adtCerts.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtCerts.Location = New System.Drawing.Point(1, 1)
+        Me.adtCerts.Name = "adtCerts"
+        Me.adtCerts.NodeSpacing = 1
+        Me.adtCerts.NodeStyle = Me.ElementStyle2
+        Me.adtCerts.PathSeparator = ";"
+        Me.adtCerts.SelectionBox = False
+        Me.adtCerts.Size = New System.Drawing.Size(931, 663)
+        Me.adtCerts.Styles.Add(Me.ElementStyle2)
+        Me.adtCerts.Styles.Add(Me.ElementStyle1)
+        Me.adtCerts.TabIndex = 39
+        '
+        'colCertName
+        '
+        Me.colCertName.DisplayIndex = 1
+        Me.colCertName.Name = "colCertName"
+        Me.colCertName.SortingEnabled = False
+        Me.colCertName.Text = "Certificate Name"
+        Me.colCertName.Width.Absolute = 400
+        '
+        'colCertGrd
+        '
+        Me.colCertGrd.DisplayIndex = 2
+        Me.colCertGrd.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
+        Me.colCertGrd.Name = "colCertGrd"
+        Me.colCertGrd.SortingEnabled = False
+        Me.colCertGrd.Text = "Grade"
+        Me.colCertGrd.Width.Absolute = 120
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.BackColorGradientAngle = 45
+        Me.ElementStyle2.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.ElementStyle2.Class = ""
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.Color.Black
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(96, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(96, Byte), Integer))
+        Me.ElementStyle1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(32, Byte), Integer), CType(CType(32, Byte), Integer), CType(CType(32, Byte), Integer))
+        Me.ElementStyle1.BackColorGradientAngle = 90
+        Me.ElementStyle1.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.ElementStyle1.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.ElementStyle1.BorderBottomWidth = 1
+        Me.ElementStyle1.BorderColor = System.Drawing.Color.DarkGray
+        Me.ElementStyle1.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.ElementStyle1.BorderLeftWidth = 1
+        Me.ElementStyle1.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.ElementStyle1.BorderRightWidth = 1
+        Me.ElementStyle1.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+        Me.ElementStyle1.BorderTopWidth = 1
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerDiameter = 4
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Description = "Gray"
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.PaddingBottom = 1
+        Me.ElementStyle1.PaddingLeft = 1
+        Me.ElementStyle1.PaddingRight = 1
+        Me.ElementStyle1.PaddingTop = 1
+        Me.ElementStyle1.TextColor = System.Drawing.Color.White
+        '
+        'tsCerts
+        '
+        Me.tsCerts.AttachedControl = Me.tcpCerts
+        Me.tsCerts.Name = "tsCerts"
+        Me.tsCerts.Text = "Certificates"
         '
         'pnlInfo
         '
@@ -1720,13 +1725,14 @@ Partial Public Class frmPilot
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tabPilotInfo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPilotInfo.ResumeLayout(False)
-        Me.tcpSkills.ResumeLayout(False)
-        CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tcpCerts.ResumeLayout(False)
-        CType(Me.adtCerts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcpStandings.ResumeLayout(False)
         Me.tcpStandings.PerformLayout()
+        CType(Me.adtStandings, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tcpSkills.ResumeLayout(False)
+        CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcpSkillQueue.ResumeLayout(False)
+        Me.tcpCerts.ResumeLayout(False)
+        CType(Me.adtCerts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlInfo.ResumeLayout(False)
         Me.grpAccount.ResumeLayout(False)
         Me.pnlMain.ResumeLayout(False)
@@ -1756,12 +1762,6 @@ Partial Public Class frmPilot
     Friend WithEvents cboFilter As System.Windows.Forms.ComboBox
     Friend WithEvents btExportStandings As System.Windows.Forms.Button
     Friend WithEvents btnGetStandings As System.Windows.Forms.Button
-    Friend WithEvents lvwStandings As System.Windows.Forms.ListView
-    Friend WithEvents colName As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colID As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colType As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colRawValue As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colActualValue As System.Windows.Forms.ColumnHeader
     Friend WithEvents ctxStandings As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuExtrapolateStandings As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents picRace As DevComponents.DotNetBar.Controls.ReflectionImage
@@ -1833,15 +1833,19 @@ Partial Public Class frmPilot
     Friend WithEvents colSP As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colTime As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents Skill As DevComponents.DotNetBar.ElementStyle
-    Friend WithEvents Node1 As DevComponents.AdvTree.Node
     Friend WithEvents SkillGroup As DevComponents.DotNetBar.ElementStyle
-    Friend WithEvents Node2 As DevComponents.AdvTree.Node
     Friend WithEvents adtCerts As DevComponents.AdvTree.AdvTree
     Friend WithEvents colCertName As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colCertGrd As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents Node3 As DevComponents.AdvTree.Node
     Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
-    Friend WithEvents Node4 As DevComponents.AdvTree.Node
     Friend WithEvents ElementStyle2 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents adtStandings As DevComponents.AdvTree.AdvTree
+    Friend WithEvents colEntity As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colEntityID As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colEntityType As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colStandingRaw As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colStandingActual As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle3 As DevComponents.DotNetBar.ElementStyle
 
 End Class

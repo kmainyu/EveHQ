@@ -845,30 +845,19 @@ Public Class frmPilot
         End If
 
     End Sub
-    Private Sub lvwStandings_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwStandings.ColumnClick
-        If CInt(lvwStandings.Tag) = e.Column Then
-            Me.lvwStandings.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
-            lvwStandings.Tag = -1
-        Else
-            Me.lvwStandings.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
-            lvwStandings.Tag = e.Column
-        End If
-        ' Call the sort method to manually sort.
-        lvwStandings.Sort()
-    End Sub
     Private Sub btExportStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExportStandings.Click
         Try
             If cboPilots.SelectedItem IsNot Nothing Then
-                If lvwStandings.Items.Count > 0 Then
+                If adtStandings.Nodes.Count > 0 Then
                     ' Export the current list of standings
                     Dim sw As New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "Standings (" & cboPilots.SelectedItem.ToString & ").csv"))
                     sw.WriteLine("Standings Export for " & cboPilots.SelectedItem.ToString & " (dated: " & Now.ToString & ")")
                     sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
-                    For Each iStanding As ListViewItem In lvwStandings.Items
+                    For Each iStanding As Node In adtStandings.Nodes
                         sw.Write(iStanding.Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-                        sw.Write(iStanding.SubItems(1).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-                        sw.Write(iStanding.SubItems(2).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-                        sw.WriteLine(iStanding.SubItems(3).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar & iStanding.SubItems(4).Text)
+                        sw.Write(iStanding.Cells(1).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+                        sw.Write(iStanding.Cells(2).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+                        sw.WriteLine(iStanding.Cells(3).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar & iStanding.Cells(4).Text)
                     Next
                     sw.Flush()
                     sw.Close()
@@ -906,8 +895,8 @@ Public Class frmPilot
             End If
         Next
 
-        lvwStandings.BeginUpdate()
-        lvwStandings.Items.Clear()
+        adtStandings.BeginUpdate()
+        adtStandings.Nodes.Clear()
 
         For Each Standing As EveHQ.Core.PilotStanding In displayPilot.Standings.Values
 
@@ -949,38 +938,41 @@ Public Class frmPilot
                 End Select
 
                 If show = True Then
-                    Dim newStanding As New ListViewItem(Standing.Name)
-                    newStanding.SubItems.Add(Standing.ID.ToString)
-                    newStanding.SubItems.Add(Standing.Type.ToString)
-                    newStanding.SubItems.Add(RawStanding.ToString("N2"))
-                    newStanding.SubItems.Add(EffStanding.ToString("N2"))
-                    newStanding.SubItems(2).Tag = RawStanding
-                    newStanding.SubItems(3).Tag = EffStanding
-                    lvwStandings.Items.Add(newStanding)
+                    Dim newStanding As New Node(Standing.Name)
+                    newStanding.Cells.Add(New Cell(Standing.ID.ToString))
+                    newStanding.Cells.Add(New Cell(Standing.Type.ToString))
+                    newStanding.Cells.Add(New Cell(RawStanding.ToString("N2")))
+                    newStanding.Cells.Add(New Cell(EffStanding.ToString("N2")))
+                    newStanding.Cells(2).Tag = RawStanding
+                    newStanding.Cells(3).Tag = EffStanding
+                    adtStandings.Nodes.Add(newStanding)
                 End If
 
             End If
 
         Next
-
-        lvwStandings.EndUpdate()
-
+        EveHQ.Core.AdvTreeSorter.Sort(adtStandings, New EveHQ.Core.AdvTreeSortResult(5, Core.AdvTreeSortOrder.Descending), False)
+        adtStandings.EndUpdate()
     End Sub
     Private Sub ctxStandings_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxStandings.Opening
-        If lvwStandings.SelectedItems.Count = 0 Then
+        If adtStandings.SelectedNodes.Count = 0 Then
             e.Cancel = True
         End If
     End Sub
     Private Sub mnuExtrapolateStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExtrapolateStandings.Click
-        If lvwStandings.SelectedItems.Count >= 1 Then
-            Dim standingsLine As ListViewItem = lvwStandings.SelectedItems(0)
+        If adtStandings.SelectedNodes.Count >= 1 Then
+            Dim standingsLine As Node = adtStandings.SelectedNodes(0)
             Dim extraStandings As New frmExtraStandings
             extraStandings.Pilot = standingsLine.Name
             extraStandings.Party = standingsLine.Text
-            extraStandings.Standing = CDbl(standingsLine.SubItems(2).Tag)
-            extraStandings.BaseStanding = CDbl(standingsLine.SubItems(3).Tag)
+            extraStandings.Standing = CDbl(standingsLine.Cells(2).Tag)
+            extraStandings.BaseStanding = CDbl(standingsLine.Cells(3).Tag)
             extraStandings.ShowDialog()
         End If
+    End Sub
+    Private Sub adtStandings_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtStandings.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
 
 #End Region
@@ -1032,5 +1024,6 @@ Public Class frmPilot
         End If
     End Sub
 
+  
 End Class
 
