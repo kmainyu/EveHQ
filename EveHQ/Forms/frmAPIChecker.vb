@@ -24,17 +24,6 @@ Public Class frmAPIChecker
     Dim APIStyle As Integer = 0
 
     Private Sub frmAPIChecker_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim APIName As String = ""
-        APIMethods.Clear()
-        ' Load up the API methods into the combobox
-        cboAPIMethod.BeginUpdate()
-        cboAPIMethod.Items.Clear()
-        For Each APIMethod As Integer In [Enum].GetValues(GetType(EveAPI.APITypes))
-            APIName = [Enum].GetName(GetType(EveAPI.APITypes), APIMethod)
-            APIMethods.Add(APIName, APIMethod)
-            cboAPIMethod.Items.Add(APIName)
-        Next
-        cboAPIMethod.EndUpdate()
         ' Load up account characters into the character combo
         cboCharacter.BeginUpdate()
         cboCharacter.Items.Clear()
@@ -52,11 +41,92 @@ Public Class frmAPIChecker
         Next
         cboAccount.EndUpdate()
 
+        ' Set default to characters
+        cboAPICategory.SelectedIndex = 0
+
     End Sub
 
-    Private Sub cboAPIMethod_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAPIMethod.SelectedIndexChanged
+    Private Sub cboAPICategory_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboAPICategory.SelectedIndexChanged
+        ' Update the API Type combo box with relevant APIs
+        APIMethods.Clear()
+        cboAPIType.BeginUpdate()
+        cboAPIType.Items.Clear()
+        Dim APIName As String = ""
+        Select Case cboAPICategory.SelectedItem.ToString
+            Case "Character"
+                ' Update the APIs
+                For Each APIMethod As Integer In [Enum].GetValues(GetType(CharacterAPIs))
+                    APIName = [Enum].GetName(GetType(EveAPI.APITypes), APIMethod)
+                    If APIMethods.ContainsKey(APIName) = False Then
+                        APIMethods.Add(APIName, APIMethod)
+                        cboAPIType.Items.Add(APIName)
+                    End If
+                Next
+                ' Update the character list
+                cboAPIOwner.BeginUpdate()
+                cboAPIOwner.Items.Clear()
+                For Each APIPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                    If APIPilot.Account <> "" Then
+                        cboAPIOwner.Items.Add(APIPilot.Name)
+                    End If
+                Next
+                cboAPIOwner.EndUpdate()
+                cboAPIOwner.Enabled = True
+            Case "Corporation"
+                ' Update the APIs
+                For Each APIMethod As Integer In [Enum].GetValues(GetType(CorporateAPIs))
+                    APIName = [Enum].GetName(GetType(EveAPI.APITypes), APIMethod)
+                    If APIMethods.ContainsKey(APIName) = False Then
+                        APIMethods.Add(APIName, APIMethod)
+                        cboAPIType.Items.Add(APIName)
+                    End If
+                Next
+                ' Update the corporation list
+                cboAPIOwner.BeginUpdate()
+                cboAPIOwner.Items.Clear()
+                For Each APICorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHQSettings.Corporations.Values
+                    If APICorp.Accounts(0) <> "" Then
+                        cboAPIOwner.Items.Add(APICorp.Name)
+                    End If
+                Next
+                cboAPIOwner.EndUpdate()
+                cboAPIOwner.Enabled = True
+            Case "Account"
+                ' Update the APIs
+                For Each APIMethod As Integer In [Enum].GetValues(GetType(AccountAPIs))
+                    APIName = [Enum].GetName(GetType(EveAPI.APITypes), APIMethod)
+                    If APIMethods.ContainsKey(APIName) = False Then
+                        APIMethods.Add(APIName, APIMethod)
+                        cboAPIType.Items.Add(APIName)
+                    End If
+                Next
+                ' Update the account list
+                cboAPIOwner.BeginUpdate()
+                cboAPIOwner.Items.Clear()
+                For Each APIAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                    cboAPIOwner.Items.Add(APIAccount.FriendlyName)
+                Next
+                cboAPIOwner.EndUpdate()
+                cboAPIOwner.Enabled = True
+            Case "Static"
+                ' Update the APIs
+                For Each APIMethod As Integer In [Enum].GetValues(GetType(StaticAPIs))
+                    APIName = [Enum].GetName(GetType(EveAPI.APITypes), APIMethod)
+                    If APIMethods.ContainsKey(APIName) = False Then
+                        APIMethods.Add(APIName, APIMethod)
+                        cboAPIType.Items.Add(APIName)
+                    End If
+                Next
+                ' Remove the list
+                cboAPIOwner.Items.Clear()
+                cboAPIOwner.Enabled = False
+        End Select
+        cboAPIType.EndUpdate()
+    End Sub
+
+    Private Sub cboAPIMethod_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ' Find out the selected APIMethod and determine what information we need
-        Select Case CInt(APIMethods(cboAPIMethod.SelectedItem))
+        Select Case CInt(APIMethods(cboAPIType.SelectedItem))
 
             Case EveAPI.APITypes.AllianceList, _
                 EveAPI.APITypes.RefTypes, _
@@ -81,18 +151,18 @@ Public Class frmAPIChecker
                 lblCharacter.Enabled = False : cboCharacter.Enabled = False
                 lblAccount.Enabled = False : cboAccount.Enabled = False
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
-                If CInt(APIMethods(cboAPIMethod.SelectedItem)) = EveAPI.APITypes.NameToID Then
+                If CInt(APIMethods(cboAPIType.SelectedItem)) = EveAPI.APITypes.NameToID Then
                     lblOtherInfo.Text = "Item Name"
                 Else
                     lblOtherInfo.Text = "Item ID:"
                 End If
                 APIStyle = 2
 
-			Case EveAPI.APITypes.Characters, EveAPI.APITypes.AccountStatus
-				lblCharacter.Enabled = True : cboCharacter.Enabled = True
-				lblAccount.Enabled = False : cboAccount.Enabled = False
-				lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
-				APIStyle = 3
+            Case EveAPI.APITypes.Characters, EveAPI.APITypes.AccountStatus
+                lblCharacter.Enabled = True : cboCharacter.Enabled = True
+                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
+                APIStyle = 3
 
             Case EveAPI.APITypes.AccountBalancesChar, _
               EveAPI.APITypes.AccountBalancesCorp, _
@@ -134,12 +204,12 @@ Public Class frmAPIChecker
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
                 APIStyle = 4
 
-			Case EveAPI.APITypes.POSDetails, EveAPI.APITypes.OutpostServiceDetail
-				lblCharacter.Enabled = True : cboCharacter.Enabled = True
-				lblAccount.Enabled = False : cboAccount.Enabled = False
-				lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
-				lblOtherInfo.Text = "ItemID:"
-				APIStyle = 5
+            Case EveAPI.APITypes.POSDetails, EveAPI.APITypes.OutpostServiceDetail
+                lblCharacter.Enabled = True : cboCharacter.Enabled = True
+                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
+                lblOtherInfo.Text = "ItemID:"
+                APIStyle = 5
 
             Case EveAPI.APITypes.WalletTransChar, EveAPI.APITypes.WalletTransCorp
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
@@ -201,30 +271,32 @@ Public Class frmAPIChecker
         Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         Select Case APIStyle
             Case 1
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), returnMethod)
             Case 2
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), txtOtherInfo.Text.Trim, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), txtOtherInfo.Text.Trim, returnMethod)
             Case 3
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, returnMethod)
             Case 4
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, returnMethod)
             Case 5
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(txtOtherInfo.Text), returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(txtOtherInfo.Text), returnMethod)
             Case 6
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, returnMethod)
             Case 7
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, txtOtherInfo.Text, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, txtOtherInfo.Text, returnMethod)
             Case 8
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), 0, 256, returnMethod)
+                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), 0, 256, returnMethod)
         End Select
         Try
             wbAPI.Navigate(APIReq.LastAPIFileName)
-            lblCurrentlyViewing.Text = "Currently Viewing: " & cboAPIMethod.SelectedItem.ToString
+            lblCurrentlyViewing.Text = "Currently Viewing: " & cboAPIType.SelectedItem.ToString
             lblFileLocation.Text = "Cache File Location: " & APIReq.LastAPIFileName
         Catch ex As Exception
             MessageBox.Show("There was an error trying to display the requested API. The error was: " & ControlChars.CrLf & ex.Message, "Error Requesting API", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+#Region "Enumerations for API Mappings"
 
     ''' <summary>
     ''' A list of all available APIs for characters together with official access masks represented as the log of the actual mask
@@ -328,5 +400,7 @@ Public Class frmAPIChecker
         ServerStatus = EveHQ.EveAPI.APITypes.ServerStatus
         CallList = EveHQ.EveAPI.APITypes.CallList
     End Enum
+
+#End Region
 
 End Class

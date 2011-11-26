@@ -25,8 +25,7 @@ Partial Class frmAPIChecker
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAPIChecker))
         Me.lblCharacter = New System.Windows.Forms.Label()
         Me.cboCharacter = New System.Windows.Forms.ComboBox()
-        Me.lblAPIMethod = New System.Windows.Forms.Label()
-        Me.cboAPIMethod = New System.Windows.Forms.ComboBox()
+        Me.lblAPIType = New System.Windows.Forms.Label()
         Me.cboAccount = New System.Windows.Forms.ComboBox()
         Me.lblAccount = New System.Windows.Forms.Label()
         Me.lblOtherInfo = New System.Windows.Forms.Label()
@@ -38,6 +37,15 @@ Partial Class frmAPIChecker
         Me.chkReturnCachedXML = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.chkReturnActualXML = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.pnlAPIChecker = New DevComponents.DotNetBar.PanelEx()
+        Me.lblAPICategory = New System.Windows.Forms.Label()
+        Me.cboAPICategory = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.ciCharacter = New DevComponents.Editors.ComboItem()
+        Me.ciCorporation = New DevComponents.Editors.ComboItem()
+        Me.ciAccount = New DevComponents.Editors.ComboItem()
+        Me.ciStatic = New DevComponents.Editors.ComboItem()
+        Me.cboAPIType = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblAPIOwner = New System.Windows.Forms.Label()
+        Me.cboAPIOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.pnlAPIChecker.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -45,7 +53,7 @@ Partial Class frmAPIChecker
         '
         Me.lblCharacter.AutoSize = True
         Me.lblCharacter.Enabled = False
-        Me.lblCharacter.Location = New System.Drawing.Point(308, 12)
+        Me.lblCharacter.Location = New System.Drawing.Point(853, 20)
         Me.lblCharacter.Name = "lblCharacter"
         Me.lblCharacter.Size = New System.Drawing.Size(59, 13)
         Me.lblCharacter.TabIndex = 0
@@ -56,37 +64,27 @@ Partial Class frmAPIChecker
         Me.cboCharacter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCharacter.Enabled = False
         Me.cboCharacter.FormattingEnabled = True
-        Me.cboCharacter.Location = New System.Drawing.Point(395, 9)
+        Me.cboCharacter.Location = New System.Drawing.Point(940, 17)
         Me.cboCharacter.Name = "cboCharacter"
         Me.cboCharacter.Size = New System.Drawing.Size(166, 21)
         Me.cboCharacter.Sorted = True
         Me.cboCharacter.TabIndex = 1
         '
-        'lblAPIMethod
+        'lblAPIType
         '
-        Me.lblAPIMethod.AutoSize = True
-        Me.lblAPIMethod.Location = New System.Drawing.Point(12, 12)
-        Me.lblAPIMethod.Name = "lblAPIMethod"
-        Me.lblAPIMethod.Size = New System.Drawing.Size(67, 13)
-        Me.lblAPIMethod.TabIndex = 2
-        Me.lblAPIMethod.Text = "API Method:"
-        '
-        'cboAPIMethod
-        '
-        Me.cboAPIMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboAPIMethod.FormattingEnabled = True
-        Me.cboAPIMethod.Location = New System.Drawing.Point(84, 9)
-        Me.cboAPIMethod.Name = "cboAPIMethod"
-        Me.cboAPIMethod.Size = New System.Drawing.Size(166, 21)
-        Me.cboAPIMethod.Sorted = True
-        Me.cboAPIMethod.TabIndex = 3
+        Me.lblAPIType.AutoSize = True
+        Me.lblAPIType.Location = New System.Drawing.Point(8, 42)
+        Me.lblAPIType.Name = "lblAPIType"
+        Me.lblAPIType.Size = New System.Drawing.Size(55, 13)
+        Me.lblAPIType.TabIndex = 2
+        Me.lblAPIType.Text = "API Type:"
         '
         'cboAccount
         '
         Me.cboAccount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboAccount.Enabled = False
         Me.cboAccount.FormattingEnabled = True
-        Me.cboAccount.Location = New System.Drawing.Point(395, 36)
+        Me.cboAccount.Location = New System.Drawing.Point(940, 44)
         Me.cboAccount.Name = "cboAccount"
         Me.cboAccount.Size = New System.Drawing.Size(166, 21)
         Me.cboAccount.Sorted = True
@@ -96,7 +94,7 @@ Partial Class frmAPIChecker
         '
         Me.lblAccount.AutoSize = True
         Me.lblAccount.Enabled = False
-        Me.lblAccount.Location = New System.Drawing.Point(308, 39)
+        Me.lblAccount.Location = New System.Drawing.Point(853, 47)
         Me.lblAccount.Name = "lblAccount"
         Me.lblAccount.Size = New System.Drawing.Size(50, 13)
         Me.lblAccount.TabIndex = 4
@@ -106,7 +104,7 @@ Partial Class frmAPIChecker
         '
         Me.lblOtherInfo.AutoSize = True
         Me.lblOtherInfo.Enabled = False
-        Me.lblOtherInfo.Location = New System.Drawing.Point(308, 66)
+        Me.lblOtherInfo.Location = New System.Drawing.Point(853, 74)
         Me.lblOtherInfo.Name = "lblOtherInfo"
         Me.lblOtherInfo.Size = New System.Drawing.Size(74, 13)
         Me.lblOtherInfo.TabIndex = 6
@@ -115,7 +113,7 @@ Partial Class frmAPIChecker
         'txtOtherInfo
         '
         Me.txtOtherInfo.Enabled = False
-        Me.txtOtherInfo.Location = New System.Drawing.Point(395, 63)
+        Me.txtOtherInfo.Location = New System.Drawing.Point(940, 71)
         Me.txtOtherInfo.Name = "txtOtherInfo"
         Me.txtOtherInfo.Size = New System.Drawing.Size(166, 21)
         Me.txtOtherInfo.TabIndex = 7
@@ -156,7 +154,7 @@ Partial Class frmAPIChecker
         '
         Me.btnFetchAPI.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnFetchAPI.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnFetchAPI.Location = New System.Drawing.Point(15, 66)
+        Me.btnFetchAPI.Location = New System.Drawing.Point(639, 93)
         Me.btnFetchAPI.Name = "btnFetchAPI"
         Me.btnFetchAPI.Size = New System.Drawing.Size(75, 23)
         Me.btnFetchAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -172,7 +170,7 @@ Partial Class frmAPIChecker
         Me.chkReturnCachedXML.BackgroundStyle.Class = ""
         Me.chkReturnCachedXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkReturnCachedXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkReturnCachedXML.Location = New System.Drawing.Point(15, 36)
+        Me.chkReturnCachedXML.Location = New System.Drawing.Point(639, 17)
         Me.chkReturnCachedXML.Name = "chkReturnCachedXML"
         Me.chkReturnCachedXML.Size = New System.Drawing.Size(143, 16)
         Me.chkReturnCachedXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -188,7 +186,7 @@ Partial Class frmAPIChecker
         Me.chkReturnActualXML.BackgroundStyle.Class = ""
         Me.chkReturnActualXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkReturnActualXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkReturnActualXML.Location = New System.Drawing.Point(164, 36)
+        Me.chkReturnActualXML.Location = New System.Drawing.Point(639, 44)
         Me.chkReturnActualXML.Name = "chkReturnActualXML"
         Me.chkReturnActualXML.Size = New System.Drawing.Size(112, 16)
         Me.chkReturnActualXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -199,13 +197,17 @@ Partial Class frmAPIChecker
         '
         Me.pnlAPIChecker.CanvasColor = System.Drawing.SystemColors.Control
         Me.pnlAPIChecker.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.pnlAPIChecker.Controls.Add(Me.lblAPIMethod)
+        Me.pnlAPIChecker.Controls.Add(Me.cboAPIOwner)
+        Me.pnlAPIChecker.Controls.Add(Me.lblAPIOwner)
+        Me.pnlAPIChecker.Controls.Add(Me.cboAPIType)
+        Me.pnlAPIChecker.Controls.Add(Me.cboAPICategory)
+        Me.pnlAPIChecker.Controls.Add(Me.lblAPICategory)
+        Me.pnlAPIChecker.Controls.Add(Me.lblAPIType)
         Me.pnlAPIChecker.Controls.Add(Me.chkReturnActualXML)
         Me.pnlAPIChecker.Controls.Add(Me.lblCharacter)
         Me.pnlAPIChecker.Controls.Add(Me.chkReturnCachedXML)
         Me.pnlAPIChecker.Controls.Add(Me.cboCharacter)
         Me.pnlAPIChecker.Controls.Add(Me.btnFetchAPI)
-        Me.pnlAPIChecker.Controls.Add(Me.cboAPIMethod)
         Me.pnlAPIChecker.Controls.Add(Me.lblFileLocation)
         Me.pnlAPIChecker.Controls.Add(Me.lblAccount)
         Me.pnlAPIChecker.Controls.Add(Me.lblCurrentlyViewing)
@@ -225,6 +227,82 @@ Partial Class frmAPIChecker
         Me.pnlAPIChecker.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlAPIChecker.Style.GradientAngle = 90
         Me.pnlAPIChecker.TabIndex = 16
+        '
+        'lblAPICategory
+        '
+        Me.lblAPICategory.AutoSize = True
+        Me.lblAPICategory.Location = New System.Drawing.Point(8, 15)
+        Me.lblAPICategory.Name = "lblAPICategory"
+        Me.lblAPICategory.Size = New System.Drawing.Size(76, 13)
+        Me.lblAPICategory.TabIndex = 16
+        Me.lblAPICategory.Text = "API Category:"
+        '
+        'cboAPICategory
+        '
+        Me.cboAPICategory.DisplayMember = "Text"
+        Me.cboAPICategory.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboAPICategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboAPICategory.FormattingEnabled = True
+        Me.cboAPICategory.ItemHeight = 15
+        Me.cboAPICategory.Items.AddRange(New Object() {Me.ciCharacter, Me.ciCorporation, Me.ciAccount, Me.ciStatic})
+        Me.cboAPICategory.Location = New System.Drawing.Point(90, 12)
+        Me.cboAPICategory.Name = "cboAPICategory"
+        Me.cboAPICategory.Size = New System.Drawing.Size(192, 21)
+        Me.cboAPICategory.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboAPICategory.TabIndex = 17
+        '
+        'ciCharacter
+        '
+        Me.ciCharacter.Text = "Character"
+        '
+        'ciCorporation
+        '
+        Me.ciCorporation.Text = "Corporation"
+        '
+        'ciAccount
+        '
+        Me.ciAccount.Text = "Account"
+        '
+        'ciStatic
+        '
+        Me.ciStatic.Text = "Static"
+        '
+        'cboAPIType
+        '
+        Me.cboAPIType.DisplayMember = "Text"
+        Me.cboAPIType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboAPIType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboAPIType.FormattingEnabled = True
+        Me.cboAPIType.ItemHeight = 15
+        Me.cboAPIType.Location = New System.Drawing.Point(90, 39)
+        Me.cboAPIType.Name = "cboAPIType"
+        Me.cboAPIType.Size = New System.Drawing.Size(192, 21)
+        Me.cboAPIType.Sorted = True
+        Me.cboAPIType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboAPIType.TabIndex = 18
+        '
+        'lblAPIOwner
+        '
+        Me.lblAPIOwner.AutoSize = True
+        Me.lblAPIOwner.Location = New System.Drawing.Point(8, 69)
+        Me.lblAPIOwner.Name = "lblAPIOwner"
+        Me.lblAPIOwner.Size = New System.Drawing.Size(63, 13)
+        Me.lblAPIOwner.TabIndex = 19
+        Me.lblAPIOwner.Text = "API Owner:"
+        '
+        'cboAPIOwner
+        '
+        Me.cboAPIOwner.DisplayMember = "Text"
+        Me.cboAPIOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboAPIOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboAPIOwner.FormattingEnabled = True
+        Me.cboAPIOwner.ItemHeight = 15
+        Me.cboAPIOwner.Location = New System.Drawing.Point(90, 66)
+        Me.cboAPIOwner.Name = "cboAPIOwner"
+        Me.cboAPIOwner.Size = New System.Drawing.Size(192, 21)
+        Me.cboAPIOwner.Sorted = True
+        Me.cboAPIOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboAPIOwner.TabIndex = 20
         '
         'frmAPIChecker
         '
@@ -246,8 +324,7 @@ Partial Class frmAPIChecker
     End Sub
     Friend WithEvents lblCharacter As System.Windows.Forms.Label
     Friend WithEvents cboCharacter As System.Windows.Forms.ComboBox
-    Friend WithEvents lblAPIMethod As System.Windows.Forms.Label
-    Friend WithEvents cboAPIMethod As System.Windows.Forms.ComboBox
+    Friend WithEvents lblAPIType As System.Windows.Forms.Label
     Friend WithEvents cboAccount As System.Windows.Forms.ComboBox
     Friend WithEvents lblAccount As System.Windows.Forms.Label
     Friend WithEvents lblOtherInfo As System.Windows.Forms.Label
@@ -259,4 +336,13 @@ Partial Class frmAPIChecker
     Friend WithEvents chkReturnCachedXML As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents chkReturnActualXML As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents pnlAPIChecker As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents cboAPIType As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents cboAPICategory As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents ciCharacter As DevComponents.Editors.ComboItem
+    Friend WithEvents ciCorporation As DevComponents.Editors.ComboItem
+    Friend WithEvents ciAccount As DevComponents.Editors.ComboItem
+    Friend WithEvents ciStatic As DevComponents.Editors.ComboItem
+    Friend WithEvents lblAPICategory As System.Windows.Forms.Label
+    Friend WithEvents cboAPIOwner As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Friend WithEvents lblAPIOwner As System.Windows.Forms.Label
 End Class
