@@ -44,6 +44,7 @@ Partial Class frmAPIChecker
         Me.cboAPIOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboWalletAccount = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.txtOtherInfo = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.chkReturnStandardXML = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.pnlAPIChecker.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -128,15 +129,13 @@ Partial Class frmAPIChecker
         Me.chkReturnCachedXML.BackgroundStyle.Class = ""
         Me.chkReturnCachedXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkReturnCachedXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkReturnCachedXML.Checked = True
-        Me.chkReturnCachedXML.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkReturnCachedXML.CheckValue = "Y"
-        Me.chkReturnCachedXML.Location = New System.Drawing.Point(608, 15)
+        Me.chkReturnCachedXML.Location = New System.Drawing.Point(710, 15)
         Me.chkReturnCachedXML.Name = "chkReturnCachedXML"
-        Me.chkReturnCachedXML.Size = New System.Drawing.Size(143, 16)
+        Me.chkReturnCachedXML.Size = New System.Drawing.Size(82, 16)
         Me.chkReturnCachedXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkReturnCachedXML.TabIndex = 14
-        Me.chkReturnCachedXML.Text = "Return Cached XML Only"
+        Me.chkReturnCachedXML.TabStop = False
+        Me.chkReturnCachedXML.Text = "Cached XML"
         '
         'chkReturnActualXML
         '
@@ -147,17 +146,18 @@ Partial Class frmAPIChecker
         Me.chkReturnActualXML.BackgroundStyle.Class = ""
         Me.chkReturnActualXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkReturnActualXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkReturnActualXML.Location = New System.Drawing.Point(757, 17)
+        Me.chkReturnActualXML.Location = New System.Drawing.Point(798, 15)
         Me.chkReturnActualXML.Name = "chkReturnActualXML"
-        Me.chkReturnActualXML.Size = New System.Drawing.Size(112, 16)
+        Me.chkReturnActualXML.Size = New System.Drawing.Size(76, 16)
         Me.chkReturnActualXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkReturnActualXML.TabIndex = 15
-        Me.chkReturnActualXML.Text = "Return Actual XML"
+        Me.chkReturnActualXML.Text = "Actual XML"
         '
         'pnlAPIChecker
         '
         Me.pnlAPIChecker.CanvasColor = System.Drawing.SystemColors.Control
         Me.pnlAPIChecker.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlAPIChecker.Controls.Add(Me.chkReturnStandardXML)
         Me.pnlAPIChecker.Controls.Add(Me.txtOtherInfo)
         Me.pnlAPIChecker.Controls.Add(Me.cboWalletAccount)
         Me.pnlAPIChecker.Controls.Add(Me.cboAPIOwner)
@@ -287,8 +287,27 @@ Partial Class frmAPIChecker
         Me.txtOtherInfo.Enabled = False
         Me.txtOtherInfo.Location = New System.Drawing.Point(408, 39)
         Me.txtOtherInfo.Name = "txtOtherInfo"
-        Me.txtOtherInfo.Size = New System.Drawing.Size(461, 21)
+        Me.txtOtherInfo.Size = New System.Drawing.Size(466, 21)
         Me.txtOtherInfo.TabIndex = 22
+        '
+        'chkReturnStandardXML
+        '
+        Me.chkReturnStandardXML.AutoSize = True
+        '
+        '
+        '
+        Me.chkReturnStandardXML.BackgroundStyle.Class = ""
+        Me.chkReturnStandardXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkReturnStandardXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkReturnStandardXML.Checked = True
+        Me.chkReturnStandardXML.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkReturnStandardXML.CheckValue = "Y"
+        Me.chkReturnStandardXML.Location = New System.Drawing.Point(596, 15)
+        Me.chkReturnStandardXML.Name = "chkReturnStandardXML"
+        Me.chkReturnStandardXML.Size = New System.Drawing.Size(108, 16)
+        Me.chkReturnStandardXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkReturnStandardXML.TabIndex = 23
+        Me.chkReturnStandardXML.Text = "Standard Caching"
         '
         'frmAPIChecker
         '
@@ -329,4 +348,5 @@ Partial Class frmAPIChecker
     Friend WithEvents lblAPIOwner As System.Windows.Forms.Label
     Friend WithEvents cboWalletAccount As DevComponents.DotNetBar.Controls.ComboBoxEx
     Friend WithEvents txtOtherInfo As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents chkReturnStandardXML As DevComponents.DotNetBar.Controls.CheckBoxX
 End Class

@@ -116,7 +116,7 @@ Public Class frmAPIChecker
         cboAPIType.EndUpdate()
     End Sub
 
-    Private Sub cboAPIMethod_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub cboAPIType_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboAPIType.SelectedIndexChanged
         ' Find out the selected APIMethod and determine what information we need
         Select Case CInt(APIMethods(cboAPIType.SelectedItem))
 
@@ -133,7 +133,8 @@ Public Class frmAPIChecker
                 EveAPI.APITypes.FWTop100, _
                 EveAPI.APITypes.FWMap, _
                 EveAPI.APITypes.ServerStatus, _
-                EveAPI.APITypes.CertificateTree
+                EveAPI.APITypes.CertificateTree, _
+                EveAPI.APITypes.CallList
                 lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
                 APIStyle = 1
@@ -220,18 +221,42 @@ Public Class frmAPIChecker
     End Sub
 
     Private Sub btnFetchAPI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFetchAPI.Click
-        Dim selpilot As New EveHQ.Core.Pilot
-        Dim pilotAccount As New EveHQ.Core.EveAccount
-        ' Check for the info
-        If APIStyle > 2 Then
-            If cboAPIOwner.SelectedItem Is Nothing Then
-                MessageBox.Show("You must select a character to retrieve the requested API.", "Additional Info Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End If
-            selpilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboAPIOwner.SelectedItem.ToString), Core.Pilot)
-            Dim accountName As String = selpilot.Account
-            pilotAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+        ' Check we have an API Selected
+        If cboAPIType.SelectedItem Is Nothing Then
+            MessageBox.Show("You must select an API Type before trying to fetch one!!", "API Type Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
         End If
+
+        ' Check we have an owner selected (if one is required)
+        If cboAPIOwner.SelectedItem Is Nothing And cboAPICategory.SelectedItem.ToString <> "Static" Then
+            MessageBox.Show("You must select an owner to retrieve the requested API.", "API Owner Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        ' Establish which API Account we need to use - if any
+        Dim APIAccount As New EveHQ.Core.EveAccount
+        Dim OwnerID As String = ""
+
+        Select Case cboAPICategory.SelectedItem.ToString
+            Case "Character"
+                APIAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).Account), EveHQ.Core.EveAccount)
+                OwnerID = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).ID
+            Case "Corporation"
+                APIAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(EveHQ.Core.HQ.EveHQSettings.Corporations(cboAPIOwner.SelectedItem.ToString).Accounts(0)), EveHQ.Core.EveAccount)
+                OwnerID = EveHQ.Core.HQ.EveHQSettings.Corporations(cboAPIOwner.SelectedItem.ToString).ID
+            Case "Account"
+                For Each CheckAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                    If CheckAccount.FriendlyName = cboAPIOwner.SelectedItem.ToString Then
+                        APIAccount = CheckAccount
+                        OwnerID = CheckAccount.userID
+                        Exit For
+                    End If
+                Next
+            Case "Static"
+                ' Don't need anything here
+        End Select
+
         Select Case APIStyle
             Case 2, 5
                 If txtOtherInfo.Text = "" Then
@@ -240,43 +265,52 @@ Public Class frmAPIChecker
                 End If
             Case 6, 8
                 If cboWalletAccount.SelectedItem Is Nothing Then
-                    MessageBox.Show("You must select an account key to retrieve the requested API.", "Additional Info Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You must select a wallet account key to retrieve the requested API.", "Additional Info Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
         End Select
         Dim testXML As New XmlDocument
-        Dim returnMethod As EveAPI.APIReturnMethods = EveAPI.APIReturnMethods.ReturnStandard
-        If chkReturnCachedXML.Checked = True Then
-            returnMethod = EveAPI.APIReturnMethods.ReturnCacheOnly
-        End If
-        If chkReturnActualXML.Checked = True Then
-            returnMethod = EveAPI.APIReturnMethods.ReturnActual
+        Dim ReturnMethod As EveAPI.APIReturnMethods = EveAPI.APIReturnMethods.ReturnStandard
+        If chkReturnStandardXML.Checked = True Then
+            ReturnMethod = EveAPI.APIReturnMethods.ReturnStandard
+        Else
+            If chkReturnCachedXML.Checked = True Then
+                ReturnMethod = EveAPI.APIReturnMethods.ReturnCacheOnly
+            Else
+                If chkReturnActualXML.Checked = True Then
+                    ReturnMethod = EveAPI.APIReturnMethods.ReturnActual
+                End If
+            End If
         End If
         Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        Select Case APIStyle
-            Case 1
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), returnMethod)
-            Case 2
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), txtOtherInfo.Text.Trim, returnMethod)
-            Case 3
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, returnMethod)
-            Case 4
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, returnMethod)
-            Case 5
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(txtOtherInfo.Text), returnMethod)
-            Case 6
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboWalletAccount.SelectedItem.ToString), txtOtherInfo.Text, returnMethod)
-            Case 7
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, txtOtherInfo.Text, returnMethod)
-            Case 8
-                testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), pilotAccount.ToAPIAccount, selpilot.ID, CInt(cboWalletAccount.SelectedItem.ToString), 0, 256, returnMethod)
-        End Select
+        Try
+            Select Case APIStyle
+                Case 1
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), ReturnMethod)
+                Case 2
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), txtOtherInfo.Text.Trim, ReturnMethod)
+                Case 3
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), APIAccount.ToAPIAccount, ReturnMethod)
+                Case 4
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), APIAccount.ToAPIAccount, OwnerID, ReturnMethod)
+                Case 5
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), APIAccount.ToAPIAccount, OwnerID, CLng(txtOtherInfo.Text), ReturnMethod)
+                Case 6
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), APIAccount.ToAPIAccount, OwnerID, CInt(cboWalletAccount.SelectedItem.ToString), txtOtherInfo.Text, ReturnMethod)
+                Case 7
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), APIAccount.ToAPIAccount, OwnerID, txtOtherInfo.Text, ReturnMethod)
+                Case 8
+                    testXML = APIReq.GetAPIXML(CType(CInt(APIMethods.Item(cboAPIType.SelectedItem.ToString)), EveAPI.APITypes), APIAccount.ToAPIAccount, OwnerID, CInt(cboWalletAccount.SelectedItem.ToString), 0, 256, ReturnMethod)
+            End Select
+        Catch ex As Exception
+            MessageBox.Show("There was an error trying to retrieve the requested API. The error was: " & ControlChars.CrLf & ex.Message, "Error Requesting API", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
         Try
             wbAPI.Navigate(APIReq.LastAPIFileName)
             lblCurrentlyViewing.Text = "Currently Viewing: " & cboAPIType.SelectedItem.ToString
             lblFileLocation.Text = "Cache File Location: " & APIReq.LastAPIFileName
         Catch ex As Exception
-            MessageBox.Show("There was an error trying to display the requested API. The error was: " & ControlChars.CrLf & ex.Message, "Error Requesting API", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error trying to display the requested API. The error was: " & ControlChars.CrLf & ex.Message, "Error Displaying API", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -387,4 +421,5 @@ Public Class frmAPIChecker
 
 #End Region
 
+    
 End Class
