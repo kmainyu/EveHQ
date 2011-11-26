@@ -2620,6 +2620,8 @@ Public Class AssetExportResult
     Public Property Value As Double
     Public Property Volume As Double
     Public Property Location As String
+    Public Property CorpHangar As String
+    Public Property Station As String
     Public Property System As String
     Public Property Constellation As String
     Public Property Region As String
