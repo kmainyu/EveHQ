@@ -717,6 +717,29 @@ Public Class DataFunctions
 
     End Function
 
+    Public Shared Function WriteContractIDsToDB(ByVal ContractsXML As XmlDocument) As Boolean
+
+        Dim IDList As New List(Of String)
+        Dim ContractList As XmlNodeList = ContractsXML.SelectNodes("/eveapi/result/rowset/row")
+
+        ' Get the installerIDs from the JobXML
+        For Each Contract As XmlNode In ContractList
+            If IDList.Contains(Contract.Attributes.GetNamedItem("acceptorID").Value) = False Then
+                IDList.Add(Contract.Attributes.GetNamedItem("acceptorID").Value)
+            End If
+            If IDList.Contains(Contract.Attributes.GetNamedItem("assigneeID").Value) = False Then
+                IDList.Add(Contract.Attributes.GetNamedItem("assigneeID").Value)
+            End If
+            If IDList.Contains(Contract.Attributes.GetNamedItem("issuerID").Value) = False Then
+                IDList.Add(Contract.Attributes.GetNamedItem("issuerID").Value)
+            End If
+        Next
+
+        ' Write the IDs to the database
+        Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDList)
+
+    End Function
+
     Public Shared Function WriteInventionResultsToDB(ByVal JobXML As XmlDocument) As Boolean
 
         ' Parse the list of jobs

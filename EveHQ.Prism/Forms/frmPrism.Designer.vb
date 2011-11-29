@@ -260,7 +260,6 @@ Partial Class frmPrism
         Me.colRigBuildMargin = New DevComponents.AdvTree.ColumnHeader()
         Me.NodeConnector13 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle10 = New DevComponents.DotNetBar.ElementStyle()
-        Me.PSCRigOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.lblTotalRigMargin = New System.Windows.Forms.Label()
         Me.lblTotalRigProfit = New System.Windows.Forms.Label()
         Me.lblTotalRigSalePrice = New System.Windows.Forms.Label()
@@ -338,7 +337,6 @@ Partial Class frmPrism
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.btnClearBatches = New DevComponents.DotNetBar.ButtonX()
         Me.tiBatchJobs = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.PRPM = New EveHQ.Prism.PrismResources()
         Me.tiProductionManager = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel16 = New DevComponents.DotNetBar.TabControlPanel()
         Me.lblInventionItems = New System.Windows.Forms.Label()
@@ -490,9 +488,13 @@ Partial Class frmPrism
         Me.pbUserBP = New System.Windows.Forms.PictureBox()
         Me.tiBPManager = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.PAC = New EveHQ.Prism.PrismAssetsControl()
         Me.tiAssets = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.colContractIssuer = New DevComponents.AdvTree.ColumnHeader()
+        Me.PSCRigOwners = New EveHQ.Prism.PrismSelectionHostControl()
+        Me.PRPM = New EveHQ.Prism.PrismResources()
+        Me.PAC = New EveHQ.Prism.PrismAssetsControl()
+        Me.colContractAcceptor = New DevComponents.AdvTree.ColumnHeader()
         Me.ctxTransactions.SuspendLayout()
         CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2723,6 +2725,7 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
         Me.tabPrism.Controls.Add(Me.TabControlPanel15)
         Me.tabPrism.Controls.Add(Me.TabControlPanel6)
@@ -2734,7 +2737,6 @@ Partial Class frmPrism
         Me.tabPrism.Controls.Add(Me.TabControlPanel5)
         Me.tabPrism.Controls.Add(Me.TabControlPanel10)
         Me.tabPrism.Controls.Add(Me.TabControlPanel4)
-        Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel8)
         Me.tabPrism.Controls.Add(Me.TabControlPanel9)
         Me.tabPrism.Controls.Add(Me.TabControlPanel2)
@@ -3267,16 +3269,6 @@ Partial Class frmPrism
         Me.ElementStyle10.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle10.Name = "ElementStyle10"
         Me.ElementStyle10.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'PSCRigOwners
-        '
-        Me.PSCRigOwners.AllowMultipleSelections = True
-        Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PSCRigOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
-        Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
-        Me.PSCRigOwners.Name = "PSCRigOwners"
-        Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
-        Me.PSCRigOwners.TabIndex = 70
         '
         'lblTotalRigMargin
         '
@@ -4370,20 +4362,6 @@ Partial Class frmPrism
         Me.tiBatchJobs.AttachedControl = Me.TabControlPanel13
         Me.tiBatchJobs.Name = "tiBatchJobs"
         Me.tiBatchJobs.Text = "Batch Jobs"
-        '
-        'PRPM
-        '
-        Me.PRPM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PRPM.BatchJob = Nothing
-        Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PRPM.InventionBP = Nothing
-        Me.PRPM.Location = New System.Drawing.Point(677, 5)
-        Me.PRPM.Name = "PRPM"
-        Me.PRPM.ProductionJob = Nothing
-        Me.PRPM.Size = New System.Drawing.Size(600, 641)
-        Me.PRPM.TabIndex = 3
         '
         'tiProductionManager
         '
@@ -6079,6 +6057,8 @@ Partial Class frmPrism
         Me.adtContracts.Columns.Add(Me.colContractTransaction)
         Me.adtContracts.Columns.Add(Me.colContractType)
         Me.adtContracts.Columns.Add(Me.colContractStatus)
+        Me.adtContracts.Columns.Add(Me.colContractIssuer)
+        Me.adtContracts.Columns.Add(Me.colContractAcceptor)
         Me.adtContracts.Columns.Add(Me.colContractDateIssued)
         Me.adtContracts.Columns.Add(Me.colContractDateExpired)
         Me.adtContracts.Columns.Add(Me.colContractPrice)
@@ -6135,11 +6115,11 @@ Partial Class frmPrism
         Me.colContractStatus.Name = "colContractStatus"
         Me.colContractStatus.SortingEnabled = False
         Me.colContractStatus.Text = "Status"
-        Me.colContractStatus.Width.Absolute = 150
+        Me.colContractStatus.Width.Absolute = 100
         '
         'colContractDateIssued
         '
-        Me.colContractDateIssued.DisplayIndex = 6
+        Me.colContractDateIssued.DisplayIndex = 8
         Me.colContractDateIssued.Name = "colContractDateIssued"
         Me.colContractDateIssued.SortingEnabled = False
         Me.colContractDateIssued.Text = "Date Issued"
@@ -6147,7 +6127,7 @@ Partial Class frmPrism
         '
         'colContractDateExpired
         '
-        Me.colContractDateExpired.DisplayIndex = 7
+        Me.colContractDateExpired.DisplayIndex = 9
         Me.colContractDateExpired.Name = "colContractDateExpired"
         Me.colContractDateExpired.SortingEnabled = False
         Me.colContractDateExpired.Text = "Expiry Date"
@@ -6155,7 +6135,7 @@ Partial Class frmPrism
         '
         'colContractPrice
         '
-        Me.colContractPrice.DisplayIndex = 8
+        Me.colContractPrice.DisplayIndex = 10
         Me.colContractPrice.Name = "colContractPrice"
         Me.colContractPrice.SortingEnabled = False
         Me.colContractPrice.Text = "Price/Reward"
@@ -6163,7 +6143,7 @@ Partial Class frmPrism
         '
         'colContractVolume
         '
-        Me.colContractVolume.DisplayIndex = 9
+        Me.colContractVolume.DisplayIndex = 11
         Me.colContractVolume.Name = "colContractVolume"
         Me.colContractVolume.SortingEnabled = False
         Me.colContractVolume.Text = "Volume"
@@ -6546,15 +6526,6 @@ Partial Class frmPrism
         Me.TabControlPanel2.TabIndex = 2
         Me.TabControlPanel2.TabItem = Me.tiAssets
         '
-        'PAC
-        '
-        Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PAC.Location = New System.Drawing.Point(1, 1)
-        Me.PAC.Name = "PAC"
-        Me.PAC.Size = New System.Drawing.Size(1282, 648)
-        Me.PAC.TabIndex = 0
-        '
         'tiAssets
         '
         Me.tiAssets.AttachedControl = Me.TabControlPanel2
@@ -6565,6 +6536,53 @@ Partial Class frmPrism
         '
         Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
         Me.NodeConnector1.LineWidth = 0
+        '
+        'colContractIssuer
+        '
+        Me.colContractIssuer.DisplayIndex = 6
+        Me.colContractIssuer.Name = "colContractIssuer"
+        Me.colContractIssuer.Text = "Issuer"
+        Me.colContractIssuer.Width.Absolute = 150
+        '
+        'PSCRigOwners
+        '
+        Me.PSCRigOwners.AllowMultipleSelections = True
+        Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PSCRigOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
+        Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
+        Me.PSCRigOwners.Name = "PSCRigOwners"
+        Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
+        Me.PSCRigOwners.TabIndex = 70
+        '
+        'PRPM
+        '
+        Me.PRPM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PRPM.BatchJob = Nothing
+        Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PRPM.InventionBP = Nothing
+        Me.PRPM.Location = New System.Drawing.Point(677, 5)
+        Me.PRPM.Name = "PRPM"
+        Me.PRPM.ProductionJob = Nothing
+        Me.PRPM.Size = New System.Drawing.Size(600, 641)
+        Me.PRPM.TabIndex = 3
+        '
+        'PAC
+        '
+        Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PAC.Location = New System.Drawing.Point(1, 1)
+        Me.PAC.Name = "PAC"
+        Me.PAC.Size = New System.Drawing.Size(1282, 648)
+        Me.PAC.TabIndex = 0
+        '
+        'colContractAcceptor
+        '
+        Me.colContractAcceptor.DisplayIndex = 7
+        Me.colContractAcceptor.Name = "colContractAcceptor"
+        Me.colContractAcceptor.Text = "Acceptor"
+        Me.colContractAcceptor.Width.Absolute = 150
         '
         'frmPrism
         '
@@ -7142,4 +7160,6 @@ Partial Class frmPrism
     Friend WithEvents colSuccessChance As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colSuccessCost As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colInvProductionCost As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colContractIssuer As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colContractAcceptor As DevComponents.AdvTree.ColumnHeader
 End Class

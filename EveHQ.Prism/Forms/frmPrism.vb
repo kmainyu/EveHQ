@@ -1044,6 +1044,11 @@ Public Class frmPrism
                             APIXML = APIReq.GetAPIXML(EveAPI.APITypes.ContractsChar, pilotAccount.ToAPIAccount, Owner.ID, EveAPI.APIReturnMethods.ReturnStandard)
                         Loop Until Retries >= MaxAPIRetries Or APIReq.LastAPIError <> 0
 
+                        ' Write the contractIDs to the database
+                        If APIXML IsNot Nothing Then
+                            Call Prism.DataFunctions.WriteContractIDsToDB(APIXML)
+                        End If
+
                         If APIXML IsNot Nothing Then
                             ' Get the Node List
                             Dim Contracts As XmlNodeList = APIXML.SelectNodes("/eveapi/result/rowset/row")
@@ -1447,6 +1452,11 @@ Public Class frmPrism
                                 APIXML = APIReq.GetAPIXML(EveAPI.APITypes.ContractsCorp, pilotAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnStandard)
                             Loop Until Retries >= MaxAPIRetries Or APIReq.LastAPIError <> 0
 
+                            ' Write the contractIDs to the database
+                            If APIXML IsNot Nothing Then
+                                Call Prism.DataFunctions.WriteContractIDsToDB(APIXML)
+                            End If
+
                             If APIXML IsNot Nothing Then
                                 ' Get the Node List
                                 Dim Contracts As XmlNodeList = APIXML.SelectNodes("/eveapi/result/rowset/row")
@@ -1533,7 +1543,6 @@ Public Class frmPrism
     End Sub
 
 #End Region
-
 
     Private Function CacheDate(ByVal APIXML As XmlDocument) As DateTime
         ' Get Cache time details
@@ -3240,6 +3249,10 @@ Public Class frmPrism
             Dim ContractList As SortedList(Of Long, Contract) = Contracts.ParseContracts(owner)
 
             If ContractList IsNot Nothing Then
+
+                ' Get InstallerIDs from the database and return list
+                Dim IDList As SortedList(Of Long, String) = Contracts.GetContractIDList(ContractList)
+
                 For Each C As Contract In ContractList.Values
                     ' Setup filter result
                     Dim DisplayContract As Boolean = True
@@ -3272,10 +3285,20 @@ Public Class frmPrism
                         End If
                         NewContract.Cells(3).Text = C.Type.ToString
                         NewContract.Cells(4).Text = C.Status.ToString
-                        NewContract.Cells(5).Text = C.DateIssued.ToString
-                        NewContract.Cells(6).Text = C.DateExpired.ToString
-                        NewContract.Cells(7).Text = C.Price.ToString("N2")
-                        NewContract.Cells(8).Text = C.Volume.ToString("N2")
+                        If IDList.ContainsKey(C.IssuerID) Then
+                            NewContract.Cells(5).Text = IDList(C.IssuerID)
+                        Else
+                            NewContract.Cells(5).Text = C.IssuerID.ToString
+                        End If
+                        If IDList.ContainsKey(C.AcceptorID) Then
+                            NewContract.Cells(6).Text = IDList(C.AcceptorID)
+                        Else
+                            NewContract.Cells(6).Text = C.AcceptorID.ToString
+                        End If
+                        NewContract.Cells(7).Text = C.DateIssued.ToString
+                        NewContract.Cells(8).Text = C.DateExpired.ToString
+                        NewContract.Cells(9).Text = C.Price.ToString("N2")
+                        NewContract.Cells(10).Text = C.Volume.ToString("N2")
 
                         ' Add items
                         If C.Items.Count > 0 Then
