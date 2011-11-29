@@ -1314,125 +1314,29 @@
 1500,2,920,55,3,6,0,0,5,15,Capacitor Recharge Multiplier
 # BOOSTERS,,,,,,,,,,
 548,1,10155,68,2,40,0,0,0,15,Improved Blue Pill - Shield Boost Bonus
-1143,1,10155,263,3,6,0,0,0,15,Improved Blue Pill - Shield Capacity Penalty
-1144,1,10155,54,2,55;53;74,0,0,0,15,Improved Blue Pill - Turret Optimal Range Penalty
-1147,1,10155,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Blue Pill - Explosion Velocity Penalty
-1150,1,10155,482,3,6,0,0,0,15,Improved Blue Pill - Capacitor Capacity Penalty
 848,1,10151,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Explosion Radius Bonus
-616,1,10151,68,2,40,0,0,0,15,Improved Crash - Shield Booster Penalty
-1141,1,10151,265,3,6,0,0,0,15,Improved Crash - Armor HP Penalty
-1148,1,10151,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Missile Velocity Penalty
-1151,1,10151,37,3,6,0,0,0,15,Improved Crash - Max Velocity Penalty
 244,1,15477,160,2,55;53;74,0,0,5,15,Improved Drop - Tracking Speed Bonus
-1142,1,15477,84,2,62,0,0,0,15,Improved Drop - Armor Repair Amount Penalty
-1143,1,15477,263,3,6,0,0,0,15,Improved Drop - Shield Capacity Penalty
-1146,1,15477,158,2,55;53;74,0,0,0,15,Improved Drop - Turret Falloff Penalty
-1151,1,15477,37,3,6,0,0,0,15,Improved Drop - Max Velocity Penalty
 895,1,15480,84,2,62,0,0,0,15,Improved Exile - Armor Repair Bonus
-1141,1,15480,265,3,6,0,0,0,15,Improved Exile - Armor HP Penalty
-1145,1,15480,160,2,55;53;74,0,0,0,15,Improved Exile - Turret Tracking Penalty
-1149,1,15480,107,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Exile - Missile Explosion Radius Penalty
-1150,1,15480,482,3,6,0,0,0,15,Improved Exile - Capacitor Capacity Penalty
 294,1,15461,54,2,55;53;74,0,0,0,15,Improved Frentix - Turret Optimal Range Bonus
-616,1,15461,68,2,40,0,0,0,15,Improved Frentix - Shield Booster Penalty
-1141,1,15461,265,3,6,0,0,0,15,Improved Frentix - Armor HP Penalty
-1145,1,15461,160,2,55;53;74,0,0,0,15,Improved Frentix - Turret Tracking Penalty
-1151,1,15461,37,3,6,0,0,0,15,Improved Frentix - Max Velocity Penalty
 1079,1,15464,482,3,6,0,0,0,15,Improved Mindflood - Capacitor Bonus
-548,1,15464,68,2,40,0,0,0,15,Improved Mindflood - Shield Boost Penalty
-1142,1,15464,84,2,62,0,0,0,15,Improved Mindflood - Armor Repair Amount Penalty
-1144,1,15464,54,2,55;53;74,0,0,0,15,Improved Mindflood - Turret Optimal Range Penalty
-1149,1,15464,107,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Mindflood - Missile Explosion Radius Penalty
 349,1,10165,158,2,55;53;74,0,0,0,15,Improved Soothsayer - Turret Falloff Bonus
-616,1,10165,68,2,40,0,0,0,15,Improved Soothsayer - Shield Booster Penalty
-1142,1,10165,84,2,62,0,0,0,15,Improved Soothsayer - Armor Repair Amount Penalty
-1144,1,10165,54,2,55;53;74,0,0,0,15,Improved Soothsayer - Turret Optimal Range Penalty
-1151,1,10165,37,3,6,0,0,0,15,Improved Soothsayer - Max Velocity Penalty
 554,1,15458,552,3,6,0,0,0,15,Improved Xinstict - Sig Radius Bonus
-1141,1,15458,265,3,6,0,0,0,15,Improved Xinstict - Armor HP Penalty
-1143,1,15458,263,3,6,0,0,0,15,Improved Xinstict - Shield Capacity Penalty
-1146,1,15458,158,2,55;53;74,0,0,0,15,Improved Xinstict - Turret Falloff Penalty
-1148,1,15458,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Xinstict - Missile Velocity Penalty
 548,1,9950,68,2,40,0,0,0,15,Standard Blue Pill - Shield Boost Bonus
-1143,1,9950,263,3,6,0,0,0,15,Standard Blue Pill - Shield Capacity Penalty
-1144,1,9950,54,2,55;53;74,0,0,0,15,Standard Blue Pill - Turret Optimal Range Penalty
-1147,1,9950,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Blue Pill - Explosion Velocity Penalty
-1150,1,9950,482,3,6,0,0,0,15,Standard Blue Pill - Capacitor Capacity Penalty
 848,1,9947,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Explosion Radius Bonus
-616,1,9947,68,2,40,0,0,0,15,Standard Crash - Shield Booster Penalty
-1141,1,9947,265,3,6,0,0,0,15,Standard Crash - Armor HP Penalty
-1148,1,9947,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Missile Velocity Penalty
-1151,1,9947,37,3,6,0,0,0,15,Standard Crash - Max Velocity Penalty
 244,1,15466,160,2,55;53;74,0,0,5,15,Standard Drop - Tracking Speed Bonus
-1142,1,15466,84,2,62,0,0,0,15,Standard Drop - Armor Repair Amount Penalty
-1143,1,15466,263,3,6,0,0,0,15,Standard Drop - Shield Capacity Penalty
-1146,1,15466,158,2,55;53;74,0,0,0,15,Standard Drop - Turret Falloff Penalty
-1151,1,15466,37,3,6,0,0,0,15,Standard Drop - Max Velocity Penalty
 895,1,15479,84,2,62,0,0,0,15,Standard Exile - Armor Repair Bonus
-1141,1,15479,265,3,6,0,0,0,15,Standard Exile - Armor HP Penalty
-1145,1,15479,160,2,55;53;74,0,0,0,15,Standard Exile - Turret Tracking Penalty
-1149,1,15479,107,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Exile - Missile Explosion Radius Penalty
-1150,1,15479,482,3,6,0,0,0,15,Standard Exile - Capacitor Capacity Penalty
 294,1,15460,54,2,55;53;74,0,0,0,15,Standard Frentix - Turret Optimal Range Bonus
-616,1,15460,68,2,40,0,0,0,15,Standard Frentix - Shield Booster Penalty
-1141,1,15460,265,3,6,0,0,0,15,Standard Frentix - Armor HP Penalty
-1145,1,15460,160,2,55;53;74,0,0,0,15,Standard Frentix - Turret Tracking Penalty
-1151,1,15460,37,3,6,0,0,0,15,Standard Frentix - Max Velocity Penalty
 1079,1,15463,482,3,6,0,0,0,15,Standard Mindflood - Capacitor Bonus
-548,1,15463,68,2,40,0,0,0,15,Standard Mindflood - Shield Boost Penalty
-1142,1,15463,84,2,62,0,0,0,15,Standard Mindflood - Armor Repair Amount Penalty
-1144,1,15463,54,2,55;53;74,0,0,0,15,Standard Mindflood - Turret Optimal Range Penalty
-1149,1,15463,107,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Mindflood - Missile Explosion Radius Penalty
 349,1,10164,158,2,55;53;74,0,0,0,15,Standard Soothsayer - Turret Falloff Bonus
-616,1,10164,68,2,40,0,0,0,15,Standard Soothsayer - Shield Booster Penalty
-1142,1,10164,84,2,62,0,0,0,15,Standard Soothsayer - Armor Repair Amount Penalty
-1144,1,10164,54,2,55;53;74,0,0,0,15,Standard Soothsayer - Turret Optimal Range Penalty
-1151,1,10164,37,3,6,0,0,0,15,Standard Soothsayer - Max Velocity Penalty
 554,1,15457,552,3,6,0,0,0,15,Standard Xinstict - Sig Radius Bonus
-1141,1,15457,265,3,6,0,0,0,15,Standard Xinstict - Armor HP Penalty
-1143,1,15457,263,3,6,0,0,0,15,Standard Xinstict - Shield Capacity Penalty
-1146,1,15457,158,2,55;53;74,0,0,0,15,Standard Xinstict - Turret Falloff Penalty
-1148,1,15457,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Xinstict - Missile Velocity Penalty
 548,1,10156,68,2,40,0,0,0,15,Strong Blue Pill - Shield Boost Bonus
-1143,1,10156,263,3,6,0,0,0,15,Strong Blue Pill - Shield Capacity Penalty
-1144,1,10156,54,2,55;53;74,0,0,0,15,Strong Blue Pill - Turret Optimal Range Penalty
-1147,1,10156,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Blue Pill - Explosion Velocity Penalty
-1150,1,10156,482,3,6,0,0,0,15,Strong Blue Pill - Capacitor Capacity Penalty
 848,1,10152,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Explosion Radius Bonus
-616,1,10152,68,2,40,0,0,0,15,Strong Crash - Shield Booster Penalty
-1141,1,10152,265,3,6,0,0,0,15,Strong Crash - Armor HP Penalty
-1148,1,10152,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Missile Velocity Penalty
-1151,1,10152,37,3,6,0,0,0,15,Strong Crash - Max Velocity Penalty
 244,1,15478,160,2,55;53;74,0,0,5,15,Strong Drop - Tracking Speed Bonus
-1142,1,15478,84,2,62,0,0,0,15,Strong Drop - Armor Repair Amount Penalty
-1143,1,15478,263,3,6,0,0,0,15,Strong Drop - Shield Capacity Penalty
-1146,1,15478,158,2,55;53;74,0,0,0,15,Strong Drop - Turret Falloff Penalty
-1151,1,15478,37,3,6,0,0,0,15,Strong Drop - Max Velocity Penalty
 895,1,25349,84,2,62,0,0,0,15,Strong Exile - Armor Repair Bonus
-1141,1,25349,265,3,6,0,0,0,15,Strong Exile - Armor HP Penalty
-1145,1,25349,160,2,55;53;74,0,0,0,15,Strong Exile - Turret Tracking Penalty
-1149,1,25349,107,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Exile - Missile Explosion Radius Penalty
-1150,1,25349,482,3,6,0,0,0,15,Strong Exile - Capacitor Capacity Penalty
 294,1,15462,54,2,55;53;74,0,0,0,15,Strong Frentix - Turret Optimal Range Bonus
-616,1,15462,68,2,40,0,0,0,15,Strong Frentix - Shield Booster Penalty
-1141,1,15462,265,3,6,0,0,0,15,Strong Frentix - Armor HP Penalty
-1145,1,15462,160,2,55;53;74,0,0,0,15,Strong Frentix - Turret Tracking Penalty
-1151,1,15462,37,3,6,0,0,0,15,Strong Frentix - Max Velocity Penalty
 1079,1,15465,482,3,6,0,0,0,15,Strong Mindflood - Capacitor Bonus
-548,1,15465,68,2,40,0,0,0,15,Strong Mindflood - Shield Boost Penalty
-1142,1,15465,84,2,62,0,0,0,15,Strong Mindflood - Armor Repair Amount Penalty
-1144,1,15465,54,2,55;53;74,0,0,0,15,Strong Mindflood - Turret Optimal Range Penalty
-1149,1,15465,107,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Mindflood - Missile Explosion Radius Penalty
 349,1,10166,158,2,55;53;74,0,0,0,15,Strong Soothsayer - Turret Falloff Bonus
-616,1,10166,68,2,40,0,0,0,15,Strong Soothsayer - Shield Booster Penalty
-1142,1,10166,84,2,62,0,0,0,15,Strong Soothsayer - Armor Repair Amount Penalty
-1144,1,10166,54,2,55;53;74,0,0,0,15,Strong Soothsayer - Turret Optimal Range Penalty
-1151,1,10166,37,3,6,0,0,0,15,Strong Soothsayer - Max Velocity Penalty
 554,1,15459,552,3,6,0,0,0,15,Strong Xinstict - Sig Radius Bonus
-1141,1,15459,265,3,6,0,0,0,15,Strong Xinstict - Armor HP Penalty
-1143,1,15459,263,3,6,0,0,0,15,Strong Xinstict - Shield Capacity Penalty
-1146,1,15459,158,2,55;53;74,0,0,0,15,Strong Xinstict - Turret Falloff Penalty
-1148,1,15459,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Xinstict - Missile Velocity Penalty
 548,1,28670,68,2,40,0,0,0,15,Synth Blue Pill - Shield Boost Bonus
 848,1,28672,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Synth Crash - Explosion Radius Bonus
 244,1,28674,160,2,55;53;74,0,0,5,15,Synth Drop - Tracking Speed Bonus
