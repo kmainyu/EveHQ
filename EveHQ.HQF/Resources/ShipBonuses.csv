@@ -209,9 +209,6 @@
 # Catalyst,,,,,,,,,,,
 16240,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
 16240,1,12097,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
-16240,0,0,10011,2,53;55;74,0,0,0,25,15,Energy Turret ROF
-16240,0,0,10012,2,53;55;74,0,0,0,25,15,Hybrid Turret ROF
-16240,0,0,10013,2,53;55;74,0,0,0,25,15,Projectile Turret ROF
 16240,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Celestis,,,,,,,,,,,
 633,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
@@ -257,9 +254,6 @@
 # Coercer,,,,,,,,,,,
 16236,1,12097,160,4,567;570,0,1,0,10,15,Small Energy Turret Tracking
 16236,1,12097,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
-16236,0,0,10011,2,53;55;74,0,0,0,25,15,Energy Turret ROF
-16236,0,0,10012,2,53;55;74,0,0,0,25,15,Hybrid Turret ROF
-16236,0,0,10013,2,53;55;74,0,0,0,25,15,Projectile Turret ROF
 16236,0,0,54,4,567;570,0,0,0,50,15,Small Energy Turret Optimal Range
 # Condor,,,,,,,,,,,
 583,1,3330,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
@@ -268,9 +262,6 @@
 # Cormorant,,,,,,,,,,,
 16238,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
 16238,1,12097,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
-16238,0,0,10011,2,53;55;74,0,0,0,25,15,Energy Turret ROF
-16238,0,0,10012,2,53;55;74,0,0,0,25,15,Hybrid Turret ROF
-16238,0,0,10013,2,53;55;74,0,0,0,25,15,Projectile Turret ROF
 16238,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Covetor,,,,,,,,,,,
 17476,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
@@ -1211,9 +1202,6 @@
 # Thrasher,,,,,,,,,,,
 16242,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
 16242,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
-16242,0,0,10011,2,53;55;74,0,0,0,25,15,Energy Turret ROF
-16242,0,0,10012,2,53;55;74,0,0,0,25,15,Hybrid Turret ROF
-16242,0,0,10013,2,53;55;74,0,0,0,25,15,Projectile Turret ROF
 16242,0,0,54,4,574;577,0,0,0,50,15,Small Projectile Turret Optimal Range
 # Tormentor,,,,,,,,,,,
 591,1,3331,10004,1,591,0,1,0,5,15,Cargo Capacity
