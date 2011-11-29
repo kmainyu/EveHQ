@@ -35,19 +35,29 @@ Public Class frmRequisitions
     Private Sub frmRequisitions_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         ' Check for the Requisitions table
         If EveHQ.Core.RequisitionDataFunctions.CheckForRequisitionsTable() = True Then
-            Call Me.UpdatePilots()
+            Call Me.UpdateAssetOwners()
             Call Me.UpdateFilters()
 			CurrentReqs = EveHQ.Core.RequisitionDataFunctions.PopulateRequisitions("", "", "", "")
 			Call Me.ApplyFilter()
         End If
     End Sub
 
-    Private Sub UpdatePilots()
+    Private Sub UpdateAssetOwners()
         cboAssetSelection.BeginUpdate()
         cboAssetSelection.Items.Clear()
+        ' Add in pilots
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Active = True Then
-                cboAssetSelection.Items.Add(cPilot.Name)
+                If cPilot.Account <> "" Then
+                    cboAssetSelection.Items.Add(cPilot.Name)
+                End If
+            End If
+        Next
+        ' Add in corps
+        For Each cCorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHQSettings.Corporations.Values
+            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(cCorp.Accounts(0)), EveAccount)
+            If cAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.AssetList) = True Then
+                cboAssetSelection.Items.Add(cCorp.Name)
             End If
         Next
         cboAssetSelection.EndUpdate()
@@ -453,63 +463,43 @@ Public Class frmRequisitions
         If cboAssetSelection.SelectedItem IsNot Nothing Then
 
             Dim AssetOwner As String = cboAssetSelection.SelectedItem.ToString
-
+            Dim AssetAccount As New EveHQ.Core.EveAccount
+            Dim OwnerID As String = ""
             Dim IsCorp As Boolean = False
-            If chkUseCorpAssets.Enabled = True And chkUseCorpAssets.Checked = True Then
-                IsCorp = True
-            Else
-                IsCorp = False
-            End If
 
-            ' Establish a list of owners whose assets we are going to query
-            Dim ownerList As New ArrayList
-
-
+            ' Check whether a pilot or a corp
             If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(AssetOwner) = True Then
-                Dim Corp As String = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).Corp
-                ownerList.Add(AssetOwner)
+                AssetAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).Account), EveAccount)
+                OwnerID = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).ID
+                IsCorp = False
             Else
-                ' Go through each pilot and match the corp
-                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                    If cPilot.Corp = AssetOwner Then
-                        ownerList.Add(cPilot.Name)
-                        IsCorp = True
-                    End If
-                Next
+                AssetAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(EveHQ.Core.HQ.EveHQSettings.Corporations(AssetOwner).Accounts(0)), EveAccount)
+                OwnerID = EveHQ.Core.HQ.EveHQSettings.Corporations(AssetOwner).ID
+                IsCorp = True
             End If
 
             ' Clear the current owned resources list
             ownedAssets.Clear()
 
-            ' Iterate through our list of owners
-            For Each Owner As String In ownerList
-
-                ' Fetch the resources owned
-                If Owner <> "" Then
-                    ' Parse the Assets XML
-                    Dim assetXML As New XmlDocument
-                    Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Owner), Core.Pilot)
-                    Dim accountName As String = selPilot.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                    Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-                    If IsCorp = True Then
-                        assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, pilotAccount.ToAPIAccount, selPilot.ID, EveAPI.APIReturnMethods.ReturnCacheOnly)
-                    Else
-                        assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, pilotAccount.ToAPIAccount, selPilot.ID, EveAPI.APIReturnMethods.ReturnCacheOnly)
-                    End If
-                    If assetXML IsNot Nothing Then
-
-                        Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                        If locList.Count > 0 Then
-                            ' Define what we want to obtain
-                            Dim categories, groups As New ArrayList
-                            For Each loc As XmlNode In locList
-                                Call GetAssetQuantitesFromNode(loc, "", categories, groups, ownedAssets)
-                            Next
-                        End If
-                    End If
+            ' Fetch the resources owned
+            ' Parse the Assets XML
+            Dim assetXML As New XmlDocument
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            If IsCorp = True Then
+                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+            Else
+                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+            End If
+            If assetXML IsNot Nothing Then
+                Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                If locList.Count > 0 Then
+                    ' Define what we want to obtain
+                    Dim categories, groups As New ArrayList
+                    For Each loc As XmlNode In locList
+                        Call GetAssetQuantitesFromNode(loc, "", categories, groups, ownedAssets)
+                    Next
                 End If
-            Next
+            End If
         End If
     End Sub
 
@@ -560,26 +550,6 @@ Public Class frmRequisitions
     End Sub
 
     Private Sub cboAssetSelection_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAssetSelection.SelectedIndexChanged
-        If cboAssetSelection.SelectedItem IsNot Nothing Then
-            Dim pilotName As String = cboAssetSelection.SelectedItem.ToString
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(pilotName) = True Then
-                Dim corpName As String = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotName), EveHQ.Core.Pilot).Corp
-                chkUseCorpAssets.Text = "Use Corp Assets (" & corpName & ")"
-                chkUseCorpAssets.Enabled = True
-            Else
-                chkUseCorpAssets.Text = "Use Corp Assets (not available)"
-                chkUseCorpAssets.Checked = False
-                chkUseCorpAssets.Enabled = False
-            End If
-        Else
-            chkUseCorpAssets.Text = "Use Corp Assets (not available)"
-            chkUseCorpAssets.Checked = False
-            chkUseCorpAssets.Enabled = False
-        End If
-        Call Me.UpdateOrderList()
-    End Sub
-
-    Private Sub chkUseCorpAssets_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseCorpAssets.CheckedChanged
         Call Me.UpdateOrderList()
     End Sub
 
