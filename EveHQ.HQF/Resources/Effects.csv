@@ -1015,20 +1015,20 @@
 # Armored Warfare Links,,,,,,,,,,
 833,1,20069,6,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Damage Control - Armor Repairers
 833,1,20069,6,2,325,0,0,0,16,Armored Warfare Link - Damage Control - Armor Transporters
-#833,1,4262,6,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Damage Control II - Armor Repairers
-#833,1,4262,6,2,325,0,0,0,16,Armored Warfare Link - Damage Control II - Armor Transporters
+833,1,4262,6,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Damage Control II - Armor Repairers
+833,1,4262,6,2,325,0,0,0,16,Armored Warfare Link - Damage Control II - Armor Transporters
 833,1,20409,267,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
 833,1,20409,268,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
 833,1,20409,269,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
 833,1,20409,270,3,6,1,0,2,16,Armored Warfare Link - Passive Defense
-#833,1,4264,267,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
-#833,1,4264,268,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
-#833,1,4264,269,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
-#833,1,4264,270,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
+833,1,4264,267,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
+833,1,4264,268,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
+833,1,4264,269,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
+833,1,4264,270,3,6,1,0,2,16,Armored Warfare Link - Passive Defense II
 833,1,22227,73,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Rapid Repair - Armor Repairers
 833,1,22227,73,2,325,0,0,0,16,Armored Warfare Link - Rapid Repair - Armor Transporters
-#833,1,4266,73,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Rapid Repair II - Armor Repairers
-#833,1,4266,73,2,325,0,0,0,16,Armored Warfare Link - Rapid Repair II - Armor Transporters
+833,1,4266,73,4,1049;1050;1051,0,0,0,16,Armored Warfare Link - Rapid Repair II - Armor Repairers
+833,1,4266,73,2,325,0,0,0,16,Armored Warfare Link - Rapid Repair II - Armor Transporters
 # Information Warfare Links,,,,,,,,,,
 1320,1,20406,238,2,201,1,0,0,16,IWL - Electronic Superiority (ECM Strength)
 1320,1,20406,239,2,201,1,0,0,16,IWL - Electronic Superiority (ECM Strength)
@@ -1043,62 +1043,62 @@
 1322,1,20406,351,2,291,1,0,0,16,IWL - Electronic Superiority (Tracking Disruption)
 1322,1,20406,767,2,291,1,0,0,16,IWL - Electronic Superiority (Tracking Disruption)
 1323,1,20406,554,2,379,1,0,0,16,IWL - Electronic Superiority (Target Painters)
-#1320,1,4268,238,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
-#1320,1,4268,239,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
-#1320,1,4268,240,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
-#1320,1,4268,241,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
-#1320,1,4268,238,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
-#1320,1,4268,239,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
-#1320,1,4268,240,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
-#1320,1,4268,241,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
-#1321,1,4268,309,2,208,1,0,0,16,IWL - Electronic Superiority II (Sensor Dampening)
-#1321,1,4268,566,2,208,1,0,0,16,IWL - Electronic Superiority II (Sensor Dampening)
-#1322,1,4268,351,2,291,1,0,0,16,IWL - Electronic Superiority II (Tracking Disruption)
-#1322,1,4268,767,2,291,1,0,0,16,IWL - Electronic Superiority II (Tracking Disruption)
-#1323,1,4268,554,2,379,1,0,0,16,IWL - Electronic Superiority II (Target Painters)
+1320,1,4268,238,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
+1320,1,4268,239,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
+1320,1,4268,240,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
+1320,1,4268,241,2,201,1,0,0,16,IWL - Electronic Superiority II (ECM Strength)
+1320,1,4268,238,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
+1320,1,4268,239,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
+1320,1,4268,240,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
+1320,1,4268,241,2,80,1,0,0,16,IWL - Electronic Superiority II (ECM Burst Strength)
+1321,1,4268,309,2,208,1,0,0,16,IWL - Electronic Superiority II (Sensor Dampening)
+1321,1,4268,566,2,208,1,0,0,16,IWL - Electronic Superiority II (Sensor Dampening)
+1322,1,4268,351,2,291,1,0,0,16,IWL - Electronic Superiority II (Tracking Disruption)
+1322,1,4268,767,2,291,1,0,0,16,IWL - Electronic Superiority II (Tracking Disruption)
+1323,1,4268,554,2,379,1,0,0,16,IWL - Electronic Superiority II (Target Painters)
 833,1,20405,54,2,201;208;291;379,0,0,0,16,IWL - Recon Operation (ECM Mods)
 833,1,20405,142,2,80,0,0,0,16,IWL - Recon Operation (ECM Burst)
-#833,1,4270,54,2,201;208;291;379,0,0,0,16,IWL - Recon Operation II (ECM Mods)
-#833,1,4270,142,2,80,0,0,0,16,IWL - Recon Operation II (ECM Burst)
+833,1,4270,54,2,201;208;291;379,0,0,0,16,IWL - Recon Operation II (ECM Mods)
+833,1,4270,142,2,80,0,0,0,16,IWL - Recon Operation II (ECM Burst)
 833,1,11052,211,3,6,1,0,0,16,IWL - Sensor Integrity (Grav Strength)
 833,1,11052,209,3,6,1,0,0,16,IWL - Sensor Integrity (Ladar Strength)
 833,1,11052,210,3,6,1,0,0,16,IWL - Sensor Integrity (Mag Strength)
 833,1,11052,208,3,6,1,0,0,16,IWL - Sensor Integrity (Radar Strength)
-#833,1,4272,211,3,6,1,0,0,16,IWL - Sensor Integrity II (Grav Strength)
-#833,1,4272,209,3,6,1,0,0,16,IWL - Sensor Integrity II (Ladar Strength)
-#833,1,4272,210,3,6,1,0,0,16,IWL - Sensor Integrity II (Mag Strength)
-#833,1,4272,208,3,6,1,0,0,16,IWL - Sensor Integrity II (Radar Strength)
+833,1,4272,211,3,6,1,0,0,16,IWL - Sensor Integrity II (Grav Strength)
+833,1,4272,209,3,6,1,0,0,16,IWL - Sensor Integrity II (Ladar Strength)
+833,1,4272,210,3,6,1,0,0,16,IWL - Sensor Integrity II (Mag Strength)
+833,1,4272,208,3,6,1,0,0,16,IWL - Sensor Integrity II (Radar Strength)
 # Mining Foreman Links,,,,,,,,,,
 833,1,22553,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency
 833,1,22557,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization
 833,1,22555,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement
-#833,1,4274,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency II
-#833,1,4276,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization II
-#833,1,4278,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement II
+833,1,4274,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency II
+833,1,4276,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization II
+833,1,4278,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement II
 # Siege Warfare Links,,,,,,,,,,
 833,1,20124,73,4,609;610;611;612,0,0,0,16,SiWL - Active Shielding - Shield Boosters
 833,1,20124,73,2,41,0,0,0,16,SiWL - Active Shielding - Shield Transporters
-#833,1,4280,73,4,609;610;611;612,0,0,0,16,SiWL - Active Shielding II - Shield Boosters
-#833,1,4280,73,2,41,0,0,0,16,SiWL - Active Shielding II - Shield Transporters
+833,1,4280,73,4,609;610;611;612,0,0,0,16,SiWL - Active Shielding II - Shield Boosters
+833,1,4280,73,2,41,0,0,0,16,SiWL - Active Shielding II - Shield Transporters
 833,1,22228,6,4,609;610;611;612,0,0,0,16,SiWL - Shield Efficiency - Shield Boosters
 833,1,22228,6,2,41,0,0,0,16,SiWL - Shield Efficiency - Shield Transporters
-#833,1,4282,6,4,609;610;611;612,0,0,0,16,SiWL - Shield Efficiency II - Shield Boosters
-#833,1,4282,6,2,41,0,0,0,16,SiWL - Shield Efficiency II - Shield Transporters
+833,1,4282,6,4,609;610;611;612,0,0,0,16,SiWL - Shield Efficiency II - Shield Boosters
+833,1,4282,6,2,41,0,0,0,16,SiWL - Shield Efficiency II - Shield Transporters
 833,1,20514,271,3,6,1,0,2,16,SiWL - Shield Harmonizing
 833,1,20514,272,3,6,1,0,2,16,SiWL - Shield Harmonizing
 833,1,20514,273,3,6,1,0,2,16,SiWL - Shield Harmonizing
 833,1,20514,274,3,6,1,0,2,16,SiWL - Shield Harmonizing
-#833,1,4284,271,3,6,1,0,2,16,SiWL - Shield Harmonizing II
-#833,1,4284,272,3,6,1,0,2,16,SiWL - Shield Harmonizing II
-#833,1,4284,273,3,6,1,0,2,16,SiWL - Shield Harmonizing II
-#833,1,4284,274,3,6,1,0,2,16,SiWL - Shield Harmonizing II
+833,1,4284,271,3,6,1,0,2,16,SiWL - Shield Harmonizing II
+833,1,4284,272,3,6,1,0,2,16,SiWL - Shield Harmonizing II
+833,1,4284,273,3,6,1,0,2,16,SiWL - Shield Harmonizing II
+833,1,4284,274,3,6,1,0,2,16,SiWL - Shield Harmonizing II
 # Skirmish Warfare Links,,,,,,,,,,
 833,1,20070,552,3,6,0,0,0,16,SkWL - Evasive Maneuvers
 833,1,11017,54,2,52;65,0,0,0,16,SkWL - Interdiction Maneuvers
 833,1,20408,567,2,46,0,0,0,16,SkWL - Rapid Deployment
-#833,1,4286,552,3,6,0,0,0,16,SkWL - Evasive Maneuvers II
-#833,1,4288,54,2,52;65,0,0,0,16,SkWL - Interdiction Maneuvers II
-#833,1,4290,567,2,46,0,0,0,16,SkWL - Rapid Deployment II
+833,1,4286,552,3,6,0,0,0,16,SkWL - Evasive Maneuvers II
+833,1,4288,54,2,52;65,0,0,0,16,SkWL - Interdiction Maneuvers II
+833,1,4290,567,2,46,0,0,0,16,SkWL - Rapid Deployment II
 # Misc Fleet Modules,,,,,,,,,,
 435,1,11014,10063,3,6,0,0,1,12,Command Processor
 # FLEET SHIP EFFECTS,,,,,,,,,,
