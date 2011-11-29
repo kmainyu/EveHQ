@@ -758,6 +758,8 @@ Imports System.Runtime.Serialization
                     Case "Virtue", "Low-grade Virtue"
                         cPirateImplantGroups.Item("Virtue") = CDbl(cPirateImplantGroups.Item("Virtue")) * CDbl(aImplant.Attributes("1284"))
                         cPirateImplantGroups.Item("Low-grade Virtue") = CDbl(cPirateImplantGroups.Item("Low-grade Virtue")) * CDbl(aImplant.Attributes("1284"))
+                    Case "Hardwiring - Genolution Core Augmentation"
+                        cPirateImplantGroups("Hardwiring - Genolution Core Augmentation") = CDbl(cPirateImplantGroups.Item("Hardwiring - Genolution Core Augmentation")) * CDbl(aImplant.Attributes("1799"))
                 End Select
             End If
         Next

@@ -81,6 +81,10 @@ Public Class Engine
                 PirateImplants.Add(group & component, group)
             Next
         Next
+        ' Add other random implants
+        PirateImplantGroups.Add("Hardwiring - Genolution Core Augmentation", 1)
+        PirateImplants.Add("Hardwiring - Genolution Core Augmentation CA-1", "Hardwiring - Genolution Core Augmentation")
+        PirateImplants.Add("Hardwiring - Genolution Core Augmentation CA-2", "Hardwiring - Genolution Core Augmentation")
     End Sub
     Public Shared Sub BuildBoosterPenaltyList()
         ' Fetch the Effects list
