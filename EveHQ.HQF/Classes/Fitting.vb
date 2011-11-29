@@ -1779,7 +1779,11 @@ Imports System.Runtime.Serialization
                                         Dim reloadEffect As Double = 0
                                         If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
                                             If cModule.DatabaseGroup <> "53" Then
-                                                reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                                If cModule.DatabaseGroup = "74" Then
+                                                    reloadEffect = 5 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                                Else
+                                                    reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                                End If
                                             End If
                                         End If
                                         Select Case cModule.DatabaseGroup

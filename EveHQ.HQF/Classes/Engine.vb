@@ -374,7 +374,6 @@ Public Class Engine
 
 #End Region
 
-
 #Region "Supplemental Routines"
 
     Public Shared Function IsUsable(ByVal hPilot As HQFPilot, ByVal shipMod As ShipModule) As Boolean
