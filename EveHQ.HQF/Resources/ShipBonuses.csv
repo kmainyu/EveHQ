@@ -493,8 +493,8 @@
 # Hel,,,,,,,,,,,
 22852,1,24314,54,4,1056,0,1,0,50,15,Capital Armor Transfer Range
 22852,1,24314,87,4,600,0,1,0,50,15,Capital Shield Transporter Range
-22852,1,24314,84,4,1056,0,1,0,5,15,Capital Armor Transfer Amount
-22852,1,24314,68,4,600,0,1,0,5,15,Capital Shield Transporter Amount
+22852,1,24314,84,4,1056,0,1,0,7.5,15,Capital Armor Transfer Amount
+22852,1,24314,68,4,600,0,1,0,7.5,15,Capital Shield Transporter Amount
 22852,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 22852,1,24314,10005,1,22852,0,1,1,3,15,Fighter Control Bonus
 22852,1,24314,10063,1,22852,0,1,1,1,15,Warfare Link Bonus
