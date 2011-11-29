@@ -724,10 +724,7 @@
 623,1,3334,274,1,623,0,1,2,-5,15,Shield Thermal Resistance
 # Moros,,,,,,,,,,,
 19724,1,20531,10015,4,771;772,0,1,0,5,15,Capital Hybrid Turret Damage
-19724,1,20531,263,3,18,0,1,0,20,15,Drone Shield HP
-19724,1,20531,265,3,18,0,1,0,20,15,Drone Armor HP
-19724,1,20531,9,3,18,0,1,0,20,15,Drone Hull HP
-19724,1,20531,64,3,18,0,1,0,20,15,Drone Damage
+19724,1,20531,10012,4,771;772,0,1,0,-5,15,Capital Hybrid Turret ROF
 # Muninn,,,,,,,,,,,
 12015,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 12015,1,3333,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
