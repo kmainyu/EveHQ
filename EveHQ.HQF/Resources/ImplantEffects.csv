@@ -3,7 +3,7 @@
 1083,1,21606,265,3,6,0,0,0,Armor,Akemon's Modified 'Noble' ZET5000
 1083,1,21606,1159,2,329,0,0,0,Armor,Akemon's Modified 'Noble' ZET5000
 1083,1,13209,265,3,6,0,0,1,Armor,Armored Warfare Mindlink
-884,1,13209,833,1,20069;20409;22227,0,0,0,Gang,Armored Warfare Mindlink
+884,1,13209,833,1,20069;20409;22227;4262;4264;4266,0,0,0,Gang,Armored Warfare Mindlink
 548,1,20121,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Alpha
 548,1,20157,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Beta
 548,1,20159,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Delta
@@ -479,12 +479,12 @@
 1083,1,32254,265,3,6,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
 1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
 309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink
-884,1,21889,833,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1310,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1320,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1321,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1322,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1323,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,833,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1310,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1320,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1321,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1322,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1323,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
 1028,1,31974,209,3,6,0,0,0,Electronics;Learning,Jackal Alpha
 1028,1,31975,209,3,6,0,0,0,Electronics;Learning,Jackal Beta
 1028,1,31976,209,3,6,0,0,0,Electronics;Learning,Jackal Delta
@@ -592,7 +592,7 @@
 #,1,,,,,,0,0,Learning,#Memory Augmentation - Standard
 434,1,20700,77,4,1039;464;1040,0,0,0,Industry,Michi's Excavation Augmentor
 434,1,22559,77,2,54;464;483,0,0,1,Industry,Mining Foreman Mindlink
-884,1,22559,833,1,22553;22555;22557,0,0,0,Gang,Mining Foreman Mindlink
+884,1,22559,833,1,22553;22555;22557;4274;4276;4278,0,0,0,Gang,Mining Foreman Mindlink
 #,1,,,,,,0,0,Learning,#Neural Boost - Advanced
 #,1,,,,,,0,0,Learning,#Neural Boost - Basic
 #,1,,,,,,0,0,Learning,#Neural Boost - Elite
@@ -613,9 +613,9 @@
 338,1,32255,479,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
 1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
 337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
-884,1,21888,833,1,20124;22228;20514,0,0,0,Gang,Siege Warfare Mindlink
+884,1,21888,833,1,20124;22228;20514;4280;4282;4284,0,0,0,Gang,Siege Warfare Mindlink
 151,1,21890,70,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
-884,1,21890,833,1,20070;11017;20408,0,0,0,Gang,Skirmish Warfare Mindlink
+884,1,21890,833,1,20070;11017;20408;4286;4288;4290,0,0,0,Gang,Skirmish Warfare Mindlink
 335,1,20499,265,3,6,0,0,0,Armor;Learning,Slave Alpha
 335,1,20499,1159,2,329,0,0,0,Armor;Learning,Slave Alpha
 335,1,20501,265,3,6,0,0,0,Armor;Learning,Slave Beta
