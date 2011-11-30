@@ -1184,7 +1184,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
         "ProductCode" = "8:{D382DB30-D231-4529-8F1C-2AF5D31C6B71}"
-        "PackageCode" = "8:{36706C9A-A160-45DC-B317-655C1154A555}"
+        "PackageCode" = "8:{C9724392-B900-48C9-863F-96CAE7307DF9}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
