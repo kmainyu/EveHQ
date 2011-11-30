@@ -512,6 +512,7 @@
     <None Include="Resources\icon17_04.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ModuleChanges.csv" />
     <None Include="Resources\newItemMarketGroup.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -1532,7 +1533,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->
-   <UsingTask TaskName="HgVersionFile" AssemblyFile="..\MSBuildVersioning.dll" />
+  <UsingTask TaskName="HgVersionFile" AssemblyFile="..\MSBuildVersioning.dll" />
   <Target Name="BeforeBuild">
     <HgVersionFile TemplateFile="My Project\AssemblyInfo.template.vb" DestinationFile="My Project\AssemblyInfo.vb" />
   </Target>

@@ -31,6 +31,7 @@ Public Class PlugInData
     Shared moduleEffectData As DataSet
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
+    Shared ModuleChanges As New SortedList(Of String, String)
     Shared LastCacheRefresh As String = "2.3.0.3648"
 
 #Region "Plug-in Interface Properties and Functions"
@@ -91,6 +92,15 @@ Public Class PlugInData
                 PlugInData.UseSerializableData = False
             End If
 
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for module replacement list...")
+            Dim ModChanges As String = My.Resources.ModuleChanges
+            Dim Mods() As String = ModChanges.Split(ControlChars.CrLf.ToCharArray)
+            For Each ModLine As String In Mods
+                If ModLine <> "" Then
+                    Dim ModData() As String = ModLine.Split(",".ToCharArray)
+                    ModuleChanges.Add(ModData(0).Trim(ControlChars.Quote), ModData(1).Trim(ControlChars.Quote))
+                End If
+            Next
             EveHQ.Core.HQ.WriteLogEvent("HQF: Building pirate implant list...")
             Engine.BuildPirateImplants()
             EveHQ.Core.HQ.WriteLogEvent("HQF: Building booster penalty list...")
