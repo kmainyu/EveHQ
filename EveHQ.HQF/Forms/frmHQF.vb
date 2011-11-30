@@ -2819,14 +2819,14 @@ Public Class frmHQF
                     ShipMod = ShipMod.TrimStart("Drones_Active=".ToCharArray)
                     ShipMod = ShipMod.TrimStart("Drones_Inactive=".ToCharArray)
                 End If
-                ' Check for module replacement
-                If PlugInData.ModuleChanges.ContainsKey(ShipMod) Then
-                    ShipMod = PlugInData.ModuleChanges(ShipMod)
-                End If
                 ' Check for forum format (to shut the fucking whiners up)
                 Dim ModuleMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(ShipMod, "(?<quantity>\d)*x\s(?<module>.+)\s\((?<charge>.+)\)|(?<quantity>\d)*x\s(?<module>.+)")
                 If ModuleMatch.Success = True Then
                     Dim ModName As String = ModuleMatch.Groups.Item("module").Value
+                    ' Check for module replacement
+                    If PlugInData.ModuleChanges.ContainsKey(ModName) Then
+                        ModName = PlugInData.ModuleChanges(ModName)
+                    End If
                     Dim ChargeName As String = ModuleMatch.Groups.Item("charge").Value
                     Dim Quantity As String = ModuleMatch.Groups.Item("quantity").Value
                     If IsNumeric(Quantity) = True Then
@@ -2846,6 +2846,10 @@ Public Class frmHQF
                         End If
                     End If
                 Else
+                    ' Check for module replacement
+                    If PlugInData.ModuleChanges.ContainsKey(ShipMod) Then
+                        ShipMod = PlugInData.ModuleChanges(ShipMod)
+                    End If
                     Dim DroneMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(ShipMod, "(?<module>.+)\sx(?<quantity>\d+)|(?<module>.+)")
                     If DroneMatch.Success = True Then
                         Dim ModName As String = DroneMatch.Groups.Item("module").Value
