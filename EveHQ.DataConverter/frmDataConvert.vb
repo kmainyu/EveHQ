@@ -127,6 +127,79 @@ Public Class frmDataConvert
 
 #End Region
 
+#Region "DB Changes"
+
+    Private Sub btnCompare_Click(sender As System.Object, e As System.EventArgs) Handles btnCompare.Click
+
+        Dim ICS As String = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "; Database = " & txtInitialDB.Text & "; Integrated Security = SSPI;"
+        Dim RCS As String = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "; Database = " & txtRevisedDB.Text & "; Integrated Security = SSPI;"
+
+        Dim strSQL As String = "SELECT typeID, typeName FROM invTypes;"
+
+        Dim IDS As DataSet = GetData(ICS, strSQL)
+        Dim RDS As DataSet = GetData(RCS, strSQL)
+
+        Dim IL As New SortedList(Of String, String)
+        Dim RL As New SortedList(Of String, String)
+
+        If IDS IsNot Nothing And RDS IsNot Nothing Then
+            If IDS.Tables(0).Rows.Count > 0 And RDS.Tables(0).Rows.Count > 0 Then
+                For Each DR As DataRow In IDS.Tables(0).Rows
+                    IL.Add(DR.Item("typeID").ToString, DR.Item("typeName").ToString)
+                Next
+                For Each DR As DataRow In RDS.Tables(0).Rows
+                    RL.Add(DR.Item("typeID").ToString, DR.Item("typeName").ToString)
+                Next
+            End If
+        End If
+
+        Dim Added As New SortedList(Of String, String)
+        Dim Changes As New SortedList(Of String, String)
+        Dim Removed As New SortedList(Of String, String)
+
+        For Each ID As String In IL.Keys
+            If RL.ContainsKey(ID) = True Then
+                If IL(ID) <> RL(ID) Then
+                    Changes.Add(IL(ID), RL(ID))
+                End If
+            End If
+        Next
+
+        Dim str As New StringBuilder
+        str.AppendLine("Old Name" & ControlChars.Tab & "New Name")
+        For Each Item As String In Changes.Keys
+            str.AppendLine(Item & ControlChars.Tab & Changes(Item))
+        Next
+        Clipboard.SetText(str.ToString)
+
+        MessageBox.Show("Comparison Complete - posted to clipboard")
+
+    End Sub
+
+    Private Function GetData(ByVal CS As String, ByVal strSQL As String) As DataSet
+        Dim EveHQData As New DataSet
+        Dim conn As New SqlConnection
+        conn.ConnectionString = CS
+        Try
+            conn.Open()
+            Dim da As New SqlDataAdapter(strSQL, conn)
+            da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+            da.Fill(EveHQData, "EveHQData")
+            conn.Close()
+            Return EveHQData
+        Catch e As Exception
+            EveHQ.Core.HQ.dataError = e.Message
+            Return Nothing
+        Finally
+            If conn.State = ConnectionState.Open Then
+                conn.Close()
+            End If
+        End Try
+
+    End Function
+
+
+#End Region
 
   
 End Class

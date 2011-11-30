@@ -28,15 +28,22 @@ Partial Class frmDataConvert
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog()
         Me.tabSQLCEVersion = New System.Windows.Forms.TabPage()
         Me.pnlDBVersion = New System.Windows.Forms.Panel()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.btnBrowseDB = New System.Windows.Forms.Button()
         Me.lblSourceDB = New System.Windows.Forms.Label()
+        Me.btnBrowseDB = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.tabWH = New System.Windows.Forms.TabPage()
         Me.panelWormholes = New System.Windows.Forms.Panel()
         Me.gbClassLocations = New System.Windows.Forms.GroupBox()
-        Me.btnGenerateWHClassLocations = New System.Windows.Forms.Button()
         Me.btnGenerateWHAttribs = New System.Windows.Forms.Button()
+        Me.btnGenerateWHClassLocations = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.tabDBChanges = New System.Windows.Forms.TabPage()
+        Me.pnlDBChanges = New System.Windows.Forms.Panel()
+        Me.btnCompare = New System.Windows.Forms.Button()
+        Me.lblInitialDB = New System.Windows.Forms.Label()
+        Me.txtInitialDB = New System.Windows.Forms.TextBox()
+        Me.txtRevisedDB = New System.Windows.Forms.TextBox()
+        Me.lblRevisedDB = New System.Windows.Forms.Label()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabSQLCEVersion.SuspendLayout()
         Me.pnlDBVersion.SuspendLayout()
@@ -44,6 +51,8 @@ Partial Class frmDataConvert
         Me.panelWormholes.SuspendLayout()
         Me.gbClassLocations.SuspendLayout()
         Me.TabControl1.SuspendLayout()
+        Me.tabDBChanges.SuspendLayout()
+        Me.pnlDBChanges.SuspendLayout()
         Me.SuspendLayout()
         '
         'FileSystemWatcher1
@@ -78,12 +87,14 @@ Partial Class frmDataConvert
         Me.pnlDBVersion.Size = New System.Drawing.Size(639, 229)
         Me.pnlDBVersion.TabIndex = 0
         '
-        'TextBox1
+        'lblSourceDB
         '
-        Me.TextBox1.Location = New System.Drawing.Point(78, 20)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(464, 21)
-        Me.TextBox1.TabIndex = 5
+        Me.lblSourceDB.AutoSize = True
+        Me.lblSourceDB.Location = New System.Drawing.Point(12, 23)
+        Me.lblSourceDB.Name = "lblSourceDB"
+        Me.lblSourceDB.Size = New System.Drawing.Size(60, 13)
+        Me.lblSourceDB.TabIndex = 7
+        Me.lblSourceDB.Text = "Source DB:"
         '
         'btnBrowseDB
         '
@@ -94,14 +105,12 @@ Partial Class frmDataConvert
         Me.btnBrowseDB.Text = "Browse DB"
         Me.btnBrowseDB.UseVisualStyleBackColor = True
         '
-        'lblSourceDB
+        'TextBox1
         '
-        Me.lblSourceDB.AutoSize = True
-        Me.lblSourceDB.Location = New System.Drawing.Point(12, 23)
-        Me.lblSourceDB.Name = "lblSourceDB"
-        Me.lblSourceDB.Size = New System.Drawing.Size(60, 13)
-        Me.lblSourceDB.TabIndex = 7
-        Me.lblSourceDB.Text = "Source DB:"
+        Me.TextBox1.Location = New System.Drawing.Point(78, 20)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(464, 21)
+        Me.TextBox1.TabIndex = 5
         '
         'tabWH
         '
@@ -137,15 +146,6 @@ Partial Class frmDataConvert
         Me.gbClassLocations.TabStop = False
         Me.gbClassLocations.Text = "Wormhole Class Locations"
         '
-        'btnGenerateWHClassLocations
-        '
-        Me.btnGenerateWHClassLocations.Location = New System.Drawing.Point(19, 31)
-        Me.btnGenerateWHClassLocations.Name = "btnGenerateWHClassLocations"
-        Me.btnGenerateWHClassLocations.Size = New System.Drawing.Size(200, 23)
-        Me.btnGenerateWHClassLocations.TabIndex = 0
-        Me.btnGenerateWHClassLocations.Text = "Generate Class Locations"
-        Me.btnGenerateWHClassLocations.UseVisualStyleBackColor = True
-        '
         'btnGenerateWHAttribs
         '
         Me.btnGenerateWHAttribs.Location = New System.Drawing.Point(19, 60)
@@ -155,16 +155,94 @@ Partial Class frmDataConvert
         Me.btnGenerateWHAttribs.Text = "Generate WH Attribs"
         Me.btnGenerateWHAttribs.UseVisualStyleBackColor = True
         '
+        'btnGenerateWHClassLocations
+        '
+        Me.btnGenerateWHClassLocations.Location = New System.Drawing.Point(19, 31)
+        Me.btnGenerateWHClassLocations.Name = "btnGenerateWHClassLocations"
+        Me.btnGenerateWHClassLocations.Size = New System.Drawing.Size(200, 23)
+        Me.btnGenerateWHClassLocations.TabIndex = 0
+        Me.btnGenerateWHClassLocations.Text = "Generate Class Locations"
+        Me.btnGenerateWHClassLocations.UseVisualStyleBackColor = True
+        '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.tabSQLCEVersion)
         Me.TabControl1.Controls.Add(Me.tabWH)
+        Me.TabControl1.Controls.Add(Me.tabDBChanges)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(653, 261)
         Me.TabControl1.TabIndex = 57
+        '
+        'tabDBChanges
+        '
+        Me.tabDBChanges.Controls.Add(Me.pnlDBChanges)
+        Me.tabDBChanges.Location = New System.Drawing.Point(4, 22)
+        Me.tabDBChanges.Name = "tabDBChanges"
+        Me.tabDBChanges.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabDBChanges.Size = New System.Drawing.Size(645, 235)
+        Me.tabDBChanges.TabIndex = 8
+        Me.tabDBChanges.Text = "DB Changes"
+        Me.tabDBChanges.UseVisualStyleBackColor = True
+        '
+        'pnlDBChanges
+        '
+        Me.pnlDBChanges.BackColor = System.Drawing.SystemColors.Control
+        Me.pnlDBChanges.Controls.Add(Me.txtRevisedDB)
+        Me.pnlDBChanges.Controls.Add(Me.lblRevisedDB)
+        Me.pnlDBChanges.Controls.Add(Me.txtInitialDB)
+        Me.pnlDBChanges.Controls.Add(Me.lblInitialDB)
+        Me.pnlDBChanges.Controls.Add(Me.btnCompare)
+        Me.pnlDBChanges.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pnlDBChanges.Location = New System.Drawing.Point(3, 3)
+        Me.pnlDBChanges.Name = "pnlDBChanges"
+        Me.pnlDBChanges.Size = New System.Drawing.Size(639, 229)
+        Me.pnlDBChanges.TabIndex = 1
+        '
+        'btnCompare
+        '
+        Me.btnCompare.Location = New System.Drawing.Point(85, 67)
+        Me.btnCompare.Name = "btnCompare"
+        Me.btnCompare.Size = New System.Drawing.Size(182, 23)
+        Me.btnCompare.TabIndex = 0
+        Me.btnCompare.Text = "Compare Versions"
+        Me.btnCompare.UseVisualStyleBackColor = True
+        '
+        'lblInitialDB
+        '
+        Me.lblInitialDB.AutoSize = True
+        Me.lblInitialDB.Location = New System.Drawing.Point(14, 16)
+        Me.lblInitialDB.Name = "lblInitialDB"
+        Me.lblInitialDB.Size = New System.Drawing.Size(53, 13)
+        Me.lblInitialDB.TabIndex = 1
+        Me.lblInitialDB.Text = "Initial DB:"
+        '
+        'txtInitialDB
+        '
+        Me.txtInitialDB.Location = New System.Drawing.Point(85, 13)
+        Me.txtInitialDB.Name = "txtInitialDB"
+        Me.txtInitialDB.Size = New System.Drawing.Size(182, 21)
+        Me.txtInitialDB.TabIndex = 2
+        Me.txtInitialDB.Text = "Incarna"
+        '
+        'txtRevisedDB
+        '
+        Me.txtRevisedDB.Location = New System.Drawing.Point(85, 40)
+        Me.txtRevisedDB.Name = "txtRevisedDB"
+        Me.txtRevisedDB.Size = New System.Drawing.Size(182, 21)
+        Me.txtRevisedDB.TabIndex = 4
+        Me.txtRevisedDB.Text = "Crucible"
+        '
+        'lblRevisedDB
+        '
+        Me.lblRevisedDB.AutoSize = True
+        Me.lblRevisedDB.Location = New System.Drawing.Point(14, 43)
+        Me.lblRevisedDB.Name = "lblRevisedDB"
+        Me.lblRevisedDB.Size = New System.Drawing.Size(65, 13)
+        Me.lblRevisedDB.TabIndex = 3
+        Me.lblRevisedDB.Text = "Revised DB:"
         '
         'frmDataConvert
         '
@@ -185,6 +263,9 @@ Partial Class frmDataConvert
         Me.panelWormholes.ResumeLayout(False)
         Me.gbClassLocations.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
+        Me.tabDBChanges.ResumeLayout(False)
+        Me.pnlDBChanges.ResumeLayout(False)
+        Me.pnlDBChanges.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -202,4 +283,11 @@ Partial Class frmDataConvert
     Friend WithEvents gbClassLocations As System.Windows.Forms.GroupBox
     Friend WithEvents btnGenerateWHAttribs As System.Windows.Forms.Button
     Friend WithEvents btnGenerateWHClassLocations As System.Windows.Forms.Button
+    Friend WithEvents tabDBChanges As System.Windows.Forms.TabPage
+    Friend WithEvents pnlDBChanges As System.Windows.Forms.Panel
+    Friend WithEvents txtRevisedDB As System.Windows.Forms.TextBox
+    Friend WithEvents lblRevisedDB As System.Windows.Forms.Label
+    Friend WithEvents txtInitialDB As System.Windows.Forms.TextBox
+    Friend WithEvents lblInitialDB As System.Windows.Forms.Label
+    Friend WithEvents btnCompare As System.Windows.Forms.Button
 End Class
