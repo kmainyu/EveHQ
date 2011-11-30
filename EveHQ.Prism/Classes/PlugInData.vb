@@ -298,7 +298,7 @@ Public Class PlugInData
         ' Load the Station Data From the mapDenormalize table
         NPCCorps.Clear()
         Try
-            Dim strSQL As String = "SELECT itemID, itemName FROM eveNames WHERE typeID=2;"
+            Dim strSQL As String = "SELECT itemID, itemName FROM invUniqueNames WHERE groupID=2;"
             Dim corpData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If corpData IsNot Nothing Then
                 NPCCorps.Clear()
