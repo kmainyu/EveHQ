@@ -105,8 +105,12 @@ Public Class frmItemBrowser
                 itemCatName = EveHQ.Core.HQ.itemCats(itemCatID)
                 itemPublished = CBool(BasicItemData.Tables(0).Rows(0).Item("published"))
                 lblItem.Text = itemTypeName
-				lblID.Text = "ID: " & itemCatID & "/" & itemGroupID & "/" & itemTypeID
-                lblDescription.Text = BasicItemData.Tables(0).Rows(0).Item("description")
+                lblID.Text = "ID: " & itemCatID & "/" & itemGroupID & "/" & itemTypeID
+                If IsDBNull(BasicItemData.Tables(0).Rows(0).Item("description")) = False Then
+                    lblDescription.Text = BasicItemData.Tables(0).Rows(0).Item("description")
+                Else
+                    lblDescription.Text = ""
+                End If
                 times(2) = Now
                 Call GetAttributes(itemTypeID, itemTypeName)
                 Call GetEffects(itemTypeID, itemTypeName)
@@ -128,10 +132,10 @@ Public Class frmItemBrowser
                 Call GetDependencies(itemTypeID, itemTypeName)
                 times(10) = Now
                 System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetEveCentralData, itemTypeID)
-				lblDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
+                lblDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
                 times(11) = Now
                 itemTime = times(11) - times(0)
-				lblStatus.Text = "Last Item retrieved in " & itemTime.TotalSeconds & "s"
+                lblStatus.Text = "Last Item retrieved in " & itemTime.TotalSeconds & "s"
                 btnRequisition.Enabled = itemPublished
                 Dim TimeMsg As String = ""
                 For t As Integer = 1 To 11
@@ -146,7 +150,7 @@ Public Class frmItemBrowser
                 msg &= strSQL
                 MessageBox.Show(msg, "Inconsistent Eve Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-		End If
+        End If
     End Sub
     Private Sub GetVariations(ByVal metaTypeID As Long, ByVal metaTypeName As String)
         Dim eveData As DataSet
@@ -1042,7 +1046,11 @@ Public Class frmItemBrowser
             For Each EffectRow As DataRow In EveData.Tables(0).Rows
                 Dim EffectItem As New ListViewItem
                 EffectItem.Text = EffectRow.Item("effectName")
-                EffectItem.SubItems.Add(EffectRow.Item("description"))
+                If IsDBNull(EffectRow.Item("description")) = False Then
+                    EffectItem.SubItems.Add(EffectRow.Item("description"))
+                Else
+                    EffectItem.SubItems.Add("")
+                End If
                 lstEffects.Items.Add(EffectItem)
             Next
             lstEffects.EndUpdate()
