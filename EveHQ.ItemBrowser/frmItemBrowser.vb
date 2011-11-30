@@ -551,10 +551,12 @@ Public Class frmItemBrowser
         tvwBrowse.Nodes.Clear()
         ' Load up the Browser with categories
         For Each cat As String In EveHQ.Core.HQ.itemCats.Keys
-            newNode = New TreeNode
-            newNode.Name = cat
-            newNode.Text = EveHQ.Core.HQ.itemCats(cat)
-            tvwBrowse.Nodes.Add(newNode)
+            If EveHQ.Core.HQ.itemCats(cat) <> "" Then
+                newNode = New TreeNode
+                newNode.Name = cat
+                newNode.Text = EveHQ.Core.HQ.itemCats(cat)
+                tvwBrowse.Nodes.Add(newNode)
+            End If
         Next
         ' Load up the Browser with groups
         For Each group As String In EveHQ.Core.HQ.itemGroups.Keys
