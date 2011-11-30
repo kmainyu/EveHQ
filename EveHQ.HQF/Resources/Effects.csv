@@ -957,7 +957,7 @@
 64,2,302,10015,2,74,1,0,5,14,Damage Bonus
 # Industrial Core,,,,,,,,,,
 20,1,28583,37,3,6,0,0,0,4,Max Velocity Bonus
-1238,1,28583,833,1,22553;22555;22557,0,0,5,4,Mining Foreman Ganglink Bonus
+1238,1,28583,833,1,22553;22555;22557;4274;4276;4278,0,0,5,4,Mining Foreman Ganglink Bonus
 # Scan Probe Launchers,,,,,,,,,,
 846,2,481,1371,2,479,0,0,0,4,Scan Probe Strength Bonus
 # Siege Module,,,,,,,,,,
