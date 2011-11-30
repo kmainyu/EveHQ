@@ -378,6 +378,11 @@ Public Class frmEveHQ
             End Select
         End If
 
+        If RibbonControl1.QatPositionedBelowRibbon = True Then
+            RibbonControl1.QatPositionedBelowRibbon = False
+            RibbonControl1.QatPositionedBelowRibbon = True
+        End If
+
         ' Start the timers
         If EveHQ.Core.HQ.EveHQSettings.EnableEveStatus = True Then
             tmrEve.Enabled = True
