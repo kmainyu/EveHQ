@@ -95,6 +95,7 @@ Public Class PlugInData
             EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for module replacement list...")
             Dim ModChanges As String = My.Resources.ModuleChanges
             Dim Mods() As String = ModChanges.Split(ControlChars.CrLf.ToCharArray)
+            ModuleChanges.Clear()
             For Each ModLine As String In Mods
                 If ModLine <> "" Then
                     Dim ModData() As String = ModLine.Split(",".ToCharArray)
@@ -113,7 +114,6 @@ Public Class PlugInData
             Engine.BuildShipBonusesMap()
             EveHQ.Core.HQ.WriteLogEvent("HQF: Building subsystems bonuses map...")
             Engine.BuildSubSystemBonusMap()
-
 
             ' Check for the existence of the binary data
             Dim NoSerializableErrors As Boolean = True
@@ -346,35 +346,61 @@ Public Class PlugInData
 
     Public Function GenerateHQFCacheData() As Boolean
         Try
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Generating HQF cache data...")
             ' Populate the Ship data
+            EveHQ.Core.HQ.WriteLogEvent("HQF: Loading attributes...")
             If Me.LoadAttributes = True Then
+                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading skill data...")
                 If Me.LoadSkillData = True Then
+                    EveHQ.Core.HQ.WriteLogEvent("HQF: Loading ship group data...")
                     If Me.LoadShipGroupData = True Then
+                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading market group data...")
                         If Me.LoadMarketGroupData = True Then
+                            EveHQ.Core.HQ.WriteLogEvent("HQF: Loading ship name data...")
                             If Me.LoadShipNameData = True Then
+                                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading ship attribute data...")
                                 If Me.LoadShipAttributeData = True Then
+                                    EveHQ.Core.HQ.WriteLogEvent("HQF: Populating ship lists...")
                                     Call Me.PopulateShipLists()
+                                    EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module data...")
                                     If Me.LoadModuleData = True Then
+                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module effect data...")
                                         If Me.LoadModuleEffectData = True Then
+                                            EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module attribute data...")
                                             If Me.LoadModuleAttributeData = True Then
+                                                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module meta types...")
                                                 If Me.LoadModuleMetaTypes = True Then
+                                                    EveHQ.Core.HQ.WriteLogEvent("HQF: Building module data...")
                                                     If Me.BuildModuleData = True Then
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building attribute lists...")
                                                         Call Me.BuildAttributeQuickList()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building implant effects map...")
                                                         Engine.BuildImplantEffectsMap()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building module effects...")
                                                         Call Me.BuildModuleEffects()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building implant effects...")
                                                         Call Me.BuildImplantEffects()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building ship effects...")
                                                         Call Me.BuildShipEffects()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building subsystem effects...")
                                                         Call Me.BuildSubsystemEffects()
                                                         ' Save the HQF data
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Saving HQF cache data...")
                                                         Call Me.SaveHQFCacheData()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Cleaning up data...")
                                                         Call Me.CleanUpData()
                                                         ' Load any custom ship classes and ships then implement into HQF
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading custom ship classes...")
                                                         CustomHQFClasses.LoadCustomShipClasses()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading custom ships...")
                                                         CustomHQFClasses.LoadCustomShips()
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Implementing custom ships...")
                                                         CustomHQFClasses.ImplementCustomShips()
                                                         ' Convert the old fittings file to the new version
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Checking old fittings file...")
                                                         Call SavedFittings.ConvertOldFittingsFile()
                                                         ' Generate the icons
+                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Generating icons...")
                                                         Call GenerateIcons()
                                                         Return True
                                                     Else
