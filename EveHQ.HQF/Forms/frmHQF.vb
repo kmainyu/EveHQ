@@ -2819,6 +2819,10 @@ Public Class frmHQF
                     ShipMod = ShipMod.TrimStart("Drones_Active=".ToCharArray)
                     ShipMod = ShipMod.TrimStart("Drones_Inactive=".ToCharArray)
                 End If
+                ' Check for module replacement
+                If PlugInData.ModuleChanges.ContainsKey(ShipMod) Then
+                    ShipMod = PlugInData.ModuleChanges(ShipMod)
+                End If
                 ' Check for forum format (to shut the fucking whiners up)
                 Dim ModuleMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(ShipMod, "(?<quantity>\d)*x\s(?<module>.+)\s\((?<charge>.+)\)|(?<quantity>\d)*x\s(?<module>.+)")
                 If ModuleMatch.Success = True Then
