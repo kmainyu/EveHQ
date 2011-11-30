@@ -628,6 +628,7 @@ Public Class frmSplash
             Loop
             Call EveHQ.Core.DataFunctions.LoadSolarSystems()
             Call EveHQ.Core.DataFunctions.LoadStations()
+            Call EveHQ.Core.DataFunctions.CreateCoreCache()
         End If
         EveHQ.Core.HQ.WriteLogEvent(" *** Items Finished Loading")
         ItemsLoaded = True

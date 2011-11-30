@@ -35,6 +35,7 @@ Public Class DataFunctions
     Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Shared SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    Shared LastCacheRefresh As String = "2.4.0.3660"
 
     Public Shared Function CreateEveHQDataDB() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
@@ -2154,6 +2155,12 @@ Public Class DataFunctions
         s.Flush()
         s.Close()
 
+        ' Write the current version
+        Dim sw As New StreamWriter(Path.Combine(CoreCacheFolder, "version.txt"))
+        sw.Write(LastCacheRefresh)
+        sw.Flush()
+        sw.Close()
+
         Return True
 
     End Function
@@ -2171,105 +2178,133 @@ Public Class DataFunctions
             End If
             If My.Computer.FileSystem.DirectoryExists(CoreCacheFolder) = True Then
 
-                ' Get files from dump
-                Dim s As FileStream
-                Dim f As BinaryFormatter
+                ' Check for last cache version file
+                Dim UseCoreCache As Boolean = False
+                If My.Computer.FileSystem.FileExists(Path.Combine(CoreCacheFolder, "version.txt")) = True Then
+                    Dim sr As New StreamReader(Path.Combine(CoreCacheFolder, "version.txt"))
+                    Dim cacheVersion As String = sr.ReadToEnd
+                    sr.Close()
+                    If IsUpdateAvailable(cacheVersion, LastCacheRefresh) = True Then
+                        ' Delete the existing cache folder and force a rebuild
+                        My.Computer.FileSystem.DeleteDirectory(CoreCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        EveHQ.Core.HQ.WriteLogEvent("Core Cache outdated - rebuild of cache data required")
+                        UseCoreCache = False
+                    Else
+                        EveHQ.Core.HQ.WriteLogEvent("Core Cache still relevant - using existing cache data")
+                        UseCoreCache = True
+                    End If
+                Else
+                    ' Delete the existing cache folder and force a rebuild
+                    My.Computer.FileSystem.DeleteDirectory(CoreCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    EveHQ.Core.HQ.WriteLogEvent("Core Cache version file not found - rebuild of cache data required")
+                    UseCoreCache = False
+                End If
 
-                ' Item Data
-                s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.itemData = CType(f.Deserialize(s), SortedList(Of String, EveItem))
-                s.Close()
+                If UseCoreCache = True Then
 
-                ' Item Market Groups
-                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.ItemMarketGroups = CType(f.Deserialize(s), SortedList(Of String, String))
-                s.Close()
+                    ' Get files from dump
+                    Dim s As FileStream
+                    Dim f As BinaryFormatter
 
-                ' Item List
-                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.itemList = CType(f.Deserialize(s), SortedList(Of String, String))
-                s.Close()
+                    ' Item Data
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.itemData = CType(f.Deserialize(s), SortedList(Of String, EveItem))
+                    s.Close()
 
-                ' Item Groups
-                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of String, String))
-                s.Close()
+                    ' Item Market Groups
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.ItemMarketGroups = CType(f.Deserialize(s), SortedList(Of String, String))
+                    s.Close()
 
-                ' Items Cats
-                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.itemCats = CType(f.Deserialize(s), SortedList(Of String, String))
-                s.Close()
+                    ' Item List
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.itemList = CType(f.Deserialize(s), SortedList(Of String, String))
+                    s.Close()
 
-                ' Group Cats
-                s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.groupCats = CType(f.Deserialize(s), SortedList(Of String, String))
-                s.Close()
+                    ' Item Groups
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of String, String))
+                    s.Close()
 
-                ' Cert Categories
-                s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.CertificateCategories = CType(f.Deserialize(s), SortedList(Of String, CertificateCategory))
-                s.Close()
+                    ' Items Cats
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.itemCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                    s.Close()
 
-                ' Cert Classes
-                s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.CertificateClasses = CType(f.Deserialize(s), SortedList(Of String, CertificateClass))
-                s.Close()
+                    ' Group Cats
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.groupCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                    s.Close()
 
-                ' Certs
-                s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.Certificates = CType(f.Deserialize(s), SortedList(Of String, Certificate))
-                s.Close()
+                    ' Cert Categories
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.CertificateCategories = CType(f.Deserialize(s), SortedList(Of String, CertificateCategory))
+                    s.Close()
 
-                ' Unlocks
-                s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.ItemUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                s.Close()
+                    ' Cert Classes
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.CertificateClasses = CType(f.Deserialize(s), SortedList(Of String, CertificateClass))
+                    s.Close()
 
-                ' SkillUnlocks
-                s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.SkillUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                s.Close()
+                    ' Certs
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.Certificates = CType(f.Deserialize(s), SortedList(Of String, Certificate))
+                    s.Close()
 
-                ' CertCerts
-                s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.CertUnlockCerts = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                s.Close()
+                    ' Unlocks
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.ItemUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                    s.Close()
 
-                ' CertSkills
-                s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.CertUnlockSkills = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                s.Close()
+                    ' SkillUnlocks
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.SkillUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                    s.Close()
 
-                ' SolarSystems
-                s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.SolarSystems = CType(f.Deserialize(s), SortedList(Of String, SolarSystem))
-                s.Close()
+                    ' CertCerts
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.CertUnlockCerts = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                    s.Close()
 
-                ' Stations
-                s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Open)
-                f = New BinaryFormatter
-                EveHQ.Core.HQ.Stations = CType(f.Deserialize(s), SortedList(Of String, Station))
-                s.Close()
+                    ' CertSkills
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.CertUnlockSkills = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                    s.Close()
 
-                ' Load price data
-                EveHQ.Core.DataFunctions.LoadMarketPricesFromDB()
-                EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
+                    ' SolarSystems
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.SolarSystems = CType(f.Deserialize(s), SortedList(Of String, SolarSystem))
+                    s.Close()
 
-                Return True
+                    ' Stations
+                    s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Open)
+                    f = New BinaryFormatter
+                    EveHQ.Core.HQ.Stations = CType(f.Deserialize(s), SortedList(Of String, Station))
+                    s.Close()
+
+                    ' Load price data
+                    EveHQ.Core.DataFunctions.LoadMarketPricesFromDB()
+                    EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
+
+                    Return True
+
+                Else
+                    Return False
+                End If
 
             Else
                 Return False
@@ -2280,6 +2315,28 @@ Public Class DataFunctions
             Return False
         End Try
 
+    End Function
+
+    Private Shared Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
+        If localVer = remoteVer Then
+            Return False
+        Else
+            Dim localVers() As String = localVer.Split(CChar("."))
+            Dim remoteVers() As String = remoteVer.Split(CChar("."))
+            Dim requiresUpdate As Boolean = False
+            For ver As Integer = 0 To 3
+                If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
+                    If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
+                        requiresUpdate = True
+                        Exit For
+                    Else
+                        requiresUpdate = False
+                        Exit For
+                    End If
+                End If
+            Next
+            Return requiresUpdate
+        End If
     End Function
 
 #End Region
