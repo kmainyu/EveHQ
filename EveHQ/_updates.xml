@@ -40,7 +40,7 @@
     <file>
       <name>EveHQ.sdf.zip</name>
       <type>Database</type>
-      <version>2.0.1.2</version>
+      <version>2.4.0.0</version>
       <hasDebug>False</hasDebug>
       <description>EveHQ SQLCE Database</description>
     </file>
