@@ -740,9 +740,9 @@
 # Naga,,,,,,,,,,,
 4306,1,12099,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 4306,1,12099,54,4,563;566,0,1,0,10,15,Large Hybrid Turret Optimal Range
-4306,0,0,30,4,563;566,0,1,0,-95,15,Large Hybrid Turret PG Usage
-4306,0,0,50,4,563;566,0,1,0,-50,15,Large Hybrid Turret CPU Need
-4306,0,0,6,4,563;566,0,1,0,-50,15,Large Hybrid Turret Cap Use
+4306,0,0,30,4,563;566,0,0,0,-95,15,Large Hybrid Turret PG Usage
+4306,0,0,50,4,563;566,0,0,0,-50,15,Large Hybrid Turret CPU Need
+4306,0,0,6,4,563;566,0,0,0,-50,15,Large Hybrid Turret Cap Use
 # Naglfar,,,,,,,,,,,
 19722,1,20532,51,2,524,0,1,0,-5,15,Citadel Launcher ROF
 19722,1,20532,10016,4,775;776,0,1,0,5,15,Capital Projectile Turret Damage
@@ -838,9 +838,9 @@
 # Oracle,,,,,,,,,,,
 4302,1,12099,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
 4302,1,12099,54,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
-4302,0,0,30,4,569;573,0,1,0,-95,15,Large Energy Turret PG Usage
-4302,0,0,50,4,569;573,0,1,0,-50,15,Large Energy Turret CPU Need
-4302,0,0,6,4,569;573,0,1,0,-50,15,Large Energy Turret Cap Use
+4302,0,0,30,4,569;573,0,0,0,-95,15,Large Energy Turret PG Usage
+4302,0,0,50,4,569;573,0,0,0,-50,15,Large Energy Turret CPU Need
+4302,0,0,6,4,569;573,0,0,0,-50,15,Large Energy Turret Cap Use
 # Orca,,,,,,,,,,,
 28606,0,0,1045,2,650,0,0,0,100,15,Tractor Beam Velocity
 28606,0,0,54,2,650,0,0,0,250,15,Tractor Beam Range
@@ -1166,9 +1166,9 @@
 # Talos,,,,,,,,,,,
 4308,1,12099,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 4308,1,12099,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking Speed
-4308,0,0,30,4,563;566,0,1,0,-95,15,Large Hybrid Turret PG Usage
-4308,0,0,50,4,563;566,0,1,0,-50,15,Large Hybrid Turret CPU Need
-4308,0,0,6,4,563;566,0,1,0,-50,15,Large Hybrid Turret Cap Use
+4308,0,0,30,4,563;566,0,0,0,-95,15,Large Hybrid Turret PG Usage
+4308,0,0,50,4,563;566,0,0,0,-50,15,Large Hybrid Turret CPU Need
+4308,0,0,6,4,563;566,0,0,0,-50,15,Large Hybrid Turret Cap Use
 # Taranis,,,,,,,,,,,
 11200,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
 11200,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
@@ -1207,8 +1207,8 @@
 # Tornado,,,,,,,,,,,
 4310,1,12099,10013,4,576;579,0,1,0,5,15,Large Projectile Turret ROF
 4310,1,12099,158,4,576;579,0,1,0,5,15,Large Projectile Turret Falloff
-4310,0,0,30,4,576;579,0,1,0,-95,15,Large Projectile Turret PG Usage
-4310,0,0,50,4,576;579,0,1,0,-50,15,Large Projectile Turret CPU Need
+4310,0,0,30,4,576;579,0,0,0,-95,15,Large Projectile Turret PG Usage
+4310,0,0,50,4,576;579,0,0,0,-50,15,Large Projectile Turret CPU Need
 # Tristan,,,,,,,,,,,
 593,1,3328,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
 593,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Turret Tracking
