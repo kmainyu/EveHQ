@@ -33,7 +33,7 @@ Imports System.Data.SqlServerCe
 
 Public Class frmDataConvert
 
-    Dim DBVersion As String = "2.0.1.2"
+    Dim DBVersion As String = "2.4.0.0"
 
 #Region "SQLCE Version Table Routines"
 
