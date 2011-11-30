@@ -8,7 +8,7 @@
 // General Public License originally created by Lhyda Souljacker.
 //
 // This version has been modified pursuant to the GNU General Public 
-// License as of 29 October 2011, and as distributed, it includes or is 
+// License as of 30 November 2011, and as distributed, it includes or is 
 // derivative of works licensed under the GNU General Public License.
 //
 // EveHQ is free software: you can redistribute it and/or modify
@@ -58,5 +58,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.3.0.$REVNUM$")]
-[assembly: AssemblyFileVersion("2.3.0.$REVNUM$")]
+[assembly: AssemblyVersion("2.4.0.$REVNUM$")]
+[assembly: AssemblyFileVersion("2.4.0.$REVNUM$")]
