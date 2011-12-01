@@ -1205,7 +1205,7 @@
 591,1,3331,77,2,54,0,1,0,20,15,Mining Laser Yield
 591,0,0,6,2,54,0,0,0,-60,15,Mining Laser Cap Use
 # Tornado,,,,,,,,,,,
-4310,1,12099,10013,4,576;579,0,1,0,5,15,Large Projectile Turret ROF
+4310,1,12099,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
 4310,1,12099,158,4,576;579,0,1,0,5,15,Large Projectile Turret Falloff
 4310,0,0,30,4,576;579,0,0,0,-95,15,Large Projectile Turret PG Usage
 4310,0,0,50,4,576;579,0,0,0,-50,15,Large Projectile Turret CPU Need
