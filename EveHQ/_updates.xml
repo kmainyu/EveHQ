@@ -61,14 +61,14 @@
     <file>
       <name>EveHQ.HQF.dll</name>
       <type>Plug-in</type>
-      <version>2.4.0.3678</version>
+      <version>2.4.0.3682</version>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
     </file>
     <file>
       <name>EveHQ.RouteMap.dll</name>
       <type>Plug-in</type>
-      <version>2.4.0.3670</version>
+      <version>2.4.0.3679</version>
       <hasDebug>True</hasDebug>
       <description>Routing and Map Manager Plug-in</description>
     </file>
