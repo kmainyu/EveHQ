@@ -345,10 +345,10 @@ End Class
         If Me.WasteFactor <> 0 Then
             If BPMELevel < 0 Then
                 ' This is for negative ME
-                Return ((1 / Me.WasteFactor) * (1 - BPMELevel)) + (0.25 - (0.05 * ProdEffSkill))
+                Return ((Me.WasteFactor / 100) * (1 - BPMELevel)) + (0.25 - (0.05 * ProdEffSkill))
             Else
                 ' This is for zero and positive ME
-                Return ((1 / Me.WasteFactor) / (1 + BPMELevel)) + (0.25 - (0.05 * ProdEffSkill))
+                Return ((Me.WasteFactor / 100) / (1 + BPMELevel)) + (0.25 - (0.05 * ProdEffSkill))
             End If
         End If
     End Function
