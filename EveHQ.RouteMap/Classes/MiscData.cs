@@ -858,7 +858,7 @@ namespace EveHQ.RouteMap
             DataSet corpData;
             Corporation corp;
 
-            strSQL = "SELECT * FROM crpNPCCorporations INNER JOIN eveNames ON crpNPCCorporations.corporationID = eveNames.itemID ORDER BY corporationID;";
+            strSQL = "SELECT * FROM crpNPCCorporations INNER JOIN invUniqueNames ON crpNPCCorporations.corporationID = invUniqueNames.itemID ORDER BY corporationID;";
             corpData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             if (!corpData.Equals(System.DBNull.Value))

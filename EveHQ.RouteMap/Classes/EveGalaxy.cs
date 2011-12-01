@@ -688,9 +688,9 @@ namespace EveHQ.RouteMap
             int rID, cID, sID, atID;
 
             strSQL = "SELECT * ";
-            strSQL += " FROM agtAgents, agtAgentTypes, crpNPCDivisions, eveNames, staStations";
+            strSQL += " FROM agtAgents, agtAgentTypes, crpNPCDivisions, invUniqueNames, staStations";
             strSQL += " WHERE ((agtAgents.agentTypeID = agtAgentTypes.agentTypeID) AND (crpNPCDivisions.divisionID = agtAgents.divisionID)";
-            strSQL += " AND (agtAgents.agentID = eveNames.itemID) AND (staStations.stationID = agtAgents.locationID) AND (staStations.stationID = " + stnID + "));";
+            strSQL += " AND (agtAgents.agentID = invUniqueNames.itemID) AND (staStations.stationID = agtAgents.locationID) AND (staStations.stationID = " + stnID + "));";
             agtData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             //try
