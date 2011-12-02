@@ -311,34 +311,35 @@ Public Class DataFunctions
                 Return -1
         End Select
     End Function
-    Public Shared Function SetDataOnly(ByVal strSQL As String) As Boolean
+    Public Shared Function SetDataOnly(ByVal strSQL As String) As Integer
+        Dim RecordsAffected As Integer = 0
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' SQL CE
                 Try
                     Dim keyCommand As New SqlCeCommand(strSQL, customSQLCEConnection)
-                    keyCommand.ExecuteNonQuery()
-                    Return True
+                    RecordsAffected = keyCommand.ExecuteNonQuery()
+                    Return RecordsAffected
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
                     EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
                     EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
-                    Return False
+                    Return -1
                 End Try
             Case 1 ' MSSQL
                 Try
                     Dim keyCommand As New SqlCommand(strSQL, customSQLConnection)
                     keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
-                    keyCommand.ExecuteNonQuery()
-                    Return True
+                    RecordsAffected = keyCommand.ExecuteNonQuery()
+                    Return RecordsAffected
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
                     EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
                     EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
-                    Return False
+                    Return -1
                 End Try
             Case Else
                 EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
-                Return Nothing
+                Return -1
         End Select
     End Function
     Public Shared Function GetData(ByVal strSQL As String) As DataSet
@@ -994,7 +995,7 @@ Public Class DataFunctions
                 Return True
             End If
         Else
-            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
@@ -1013,7 +1014,7 @@ Public Class DataFunctions
                 Return True
             End If
         Else
-            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
@@ -1063,7 +1064,7 @@ Public Class DataFunctions
                 Return True
             End If
         Else
-            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
@@ -1082,7 +1083,7 @@ Public Class DataFunctions
                 Return True
             End If
         Else
-            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else

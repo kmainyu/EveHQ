@@ -52,6 +52,7 @@ Public Class frmSQLQuery
             WriteQuery = True
         End If
         If WriteQuery = True Then
+            dgvQuery.DataSource = Nothing
             RecordsAffected = EveHQ.Core.DataFunctions.SetData(strSQL)
             If RecordsAffected <> -1 Then
                 lblRowCount.Text = "Records Affected: " & RecordsAffected.ToString("N0")
