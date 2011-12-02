@@ -98,7 +98,7 @@ Public Class frmAssetItemName
 
     Private Function AddAssetItemName(ByVal assetID As String, ByVal assetName As String) As Boolean
         Dim assetSQL As String = "INSERT INTO assetItemNames (itemID, itemName) VALUES (" & assetID & ", '" & assetName & "');"
-        If EveHQ.Core.DataFunctions.SetData(assetSQL) = False Then
+        If EveHQ.Core.DataFunctions.SetData(assetSQL) = -1 Then
             MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else
@@ -108,7 +108,7 @@ Public Class frmAssetItemName
 
     Private Function EditAssetItemName(ByVal assetID As String, ByVal assetName As String) As Boolean
         Dim assetSQL As String = "UPDATE assetItemNames SET itemName='" & assetName & "' WHERE itemID=" & assetID & ";"
-        If EveHQ.Core.DataFunctions.SetData(assetSQL) = False Then
+        If EveHQ.Core.DataFunctions.SetData(assetSQL) = -1 Then
             MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else

@@ -22,29 +22,30 @@ Partial Class frmSQLQuery
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Me.lvwQueries = New DevComponents.DotNetBar.Controls.ListViewEx
-        Me.colQueryName = New System.Windows.Forms.ColumnHeader
-        Me.panelText = New DevComponents.DotNetBar.PanelEx
-        Me.radCustomData = New DevComponents.DotNetBar.Controls.CheckBoxX
-        Me.radStaticData = New DevComponents.DotNetBar.Controls.CheckBoxX
-        Me.lblQueryAmended = New DevComponents.DotNetBar.LabelX
-        Me.txtQuery = New DevComponents.DotNetBar.Controls.TextBoxX
-        Me.lblQueryText = New DevComponents.DotNetBar.LabelX
-        Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter
-        Me.dgvQuery = New System.Windows.Forms.DataGridView
-        Me.rmcSQLQuery = New DevComponents.DotNetBar.RibbonBarMergeContainer
-        Me.rbData = New DevComponents.DotNetBar.RibbonBar
-        Me.btnExportData = New DevComponents.DotNetBar.ButtonItem
-        Me.btnCopyData = New DevComponents.DotNetBar.ButtonItem
-        Me.rbQuery = New DevComponents.DotNetBar.RibbonBar
-        Me.btnExecute = New DevComponents.DotNetBar.ButtonItem
-        Me.btnSave = New DevComponents.DotNetBar.ButtonItem
-        Me.rbQueries = New DevComponents.DotNetBar.RibbonBar
-        Me.btnNew = New DevComponents.DotNetBar.ButtonItem
-        Me.btnRename = New DevComponents.DotNetBar.ButtonItem
-        Me.btnDelete = New DevComponents.DotNetBar.ButtonItem
-        Me.lblRowCount = New DevComponents.DotNetBar.LabelX
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Me.lvwQueries = New DevComponents.DotNetBar.Controls.ListViewEx()
+        Me.colQueryName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.panelText = New DevComponents.DotNetBar.PanelEx()
+        Me.lblRowCount = New DevComponents.DotNetBar.LabelX()
+        Me.radCustomData = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.radStaticData = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.lblQueryAmended = New DevComponents.DotNetBar.LabelX()
+        Me.txtQuery = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.lblQueryText = New DevComponents.DotNetBar.LabelX()
+        Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.dgvQuery = New System.Windows.Forms.DataGridView()
+        Me.rmcSQLQuery = New DevComponents.DotNetBar.RibbonBarMergeContainer()
+        Me.rbData = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnExportData = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnCopyData = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbQuery = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnExecute = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnSave = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbQueries = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnNew = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRename = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnDelete = New DevComponents.DotNetBar.ButtonItem()
+        Me.radWriteCustom = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.panelText.SuspendLayout()
         CType(Me.dgvQuery, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rmcSQLQuery.SuspendLayout()
@@ -77,6 +78,7 @@ Partial Class frmSQLQuery
         '
         Me.panelText.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelText.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelText.Controls.Add(Me.radWriteCustom)
         Me.panelText.Controls.Add(Me.lblRowCount)
         Me.panelText.Controls.Add(Me.radCustomData)
         Me.panelText.Controls.Add(Me.radStaticData)
@@ -96,6 +98,21 @@ Partial Class frmSQLQuery
         Me.panelText.Style.GradientAngle = 90
         Me.panelText.TabIndex = 1
         '
+        'lblRowCount
+        '
+        Me.lblRowCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblRowCount.AutoSize = True
+        '
+        '
+        '
+        Me.lblRowCount.BackgroundStyle.Class = ""
+        Me.lblRowCount.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblRowCount.Location = New System.Drawing.Point(6, 155)
+        Me.lblRowCount.Name = "lblRowCount"
+        Me.lblRowCount.Size = New System.Drawing.Size(92, 16)
+        Me.lblRowCount.TabIndex = 10
+        Me.lblRowCount.Text = "Record Count: n/a"
+        '
         'radCustomData
         '
         Me.radCustomData.AutoSize = True
@@ -105,7 +122,7 @@ Partial Class frmSQLQuery
         Me.radCustomData.BackgroundStyle.Class = ""
         Me.radCustomData.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.radCustomData.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.radCustomData.Location = New System.Drawing.Point(161, 33)
+        Me.radCustomData.Location = New System.Drawing.Point(143, 33)
         Me.radCustomData.Name = "radCustomData"
         Me.radCustomData.Size = New System.Drawing.Size(140, 16)
         Me.radCustomData.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -151,8 +168,8 @@ Partial Class frmSQLQuery
         'txtQuery
         '
         Me.txtQuery.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         '
         '
         '
@@ -406,20 +423,21 @@ Partial Class frmSQLQuery
         Me.btnDelete.SubItemsExpandWidth = 14
         Me.btnDelete.Text = "Delete Query"
         '
-        'lblRowCount
+        'radWriteCustom
         '
-        Me.lblRowCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblRowCount.AutoSize = True
-        '
+        Me.radWriteCustom.AutoSize = True
         '
         '
-        Me.lblRowCount.BackgroundStyle.Class = ""
-        Me.lblRowCount.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.lblRowCount.Location = New System.Drawing.Point(6, 155)
-        Me.lblRowCount.Name = "lblRowCount"
-        Me.lblRowCount.Size = New System.Drawing.Size(92, 16)
-        Me.lblRowCount.TabIndex = 10
-        Me.lblRowCount.Text = "Record Count: n/a"
+        '
+        Me.radWriteCustom.BackgroundStyle.Class = ""
+        Me.radWriteCustom.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.radWriteCustom.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.radWriteCustom.Location = New System.Drawing.Point(289, 33)
+        Me.radWriteCustom.Name = "radWriteCustom"
+        Me.radWriteCustom.Size = New System.Drawing.Size(130, 16)
+        Me.radWriteCustom.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.radWriteCustom.TabIndex = 11
+        Me.radWriteCustom.Text = "Edit Custom Database"
         '
         'frmSQLQuery
         '
@@ -465,4 +483,5 @@ Partial Class frmSQLQuery
     Friend WithEvents radCustomData As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents radStaticData As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents lblRowCount As DevComponents.DotNetBar.LabelX
+    Friend WithEvents radWriteCustom As DevComponents.DotNetBar.Controls.CheckBoxX
 End Class

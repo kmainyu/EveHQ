@@ -66,7 +66,7 @@ Public Class DataFunctions
                 Else
                     EveHQ.Core.HQ.EveHQDataConnectionString += "; Integrated Security = SSPI;"
                 End If
-                If EveHQ.Core.DataFunctions.SetData(strSQL) = True Then
+                If EveHQ.Core.DataFunctions.SetData(strSQL) <> -1 Then
                     EveHQ.Core.HQ.EveHQSettings.DBDataName = "EveHQData"
                     EveHQ.Core.HQ.EveHQDataConnectionString = oldStrConn
                     Return True
@@ -266,7 +266,8 @@ Public Class DataFunctions
                 Return Nothing
         End Select
     End Function
-    Public Shared Function SetData(ByVal strSQL As String) As Boolean
+    Public Shared Function SetData(ByVal strSQL As String) As Integer
+        Dim RecordsAffected As Integer = 0
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' SQL CE
                 Dim conn As New SqlCeConnection
@@ -274,13 +275,13 @@ Public Class DataFunctions
                 Try
                     conn.Open()
                     Dim keyCommand As New SqlCeCommand(strSQL, conn)
-                    keyCommand.ExecuteNonQuery()
-                    Return True
+                    RecordsAffected = keyCommand.ExecuteNonQuery()
+                    Return RecordsAffected
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
                     EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
                     EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
-                    Return False
+                    Return -1
                 Finally
                     If conn.State = ConnectionState.Open Then
                         conn.Close()
@@ -293,13 +294,13 @@ Public Class DataFunctions
                     conn.Open()
                     Dim keyCommand As New SqlCommand(strSQL, conn)
                     keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
-                    keyCommand.ExecuteNonQuery()
-                    Return True
+                    RecordsAffected = keyCommand.ExecuteNonQuery()
+                    Return RecordsAffected
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
                     EveHQ.Core.HQ.WriteLogEvent("Database Error: " & e.Message)
                     EveHQ.Core.HQ.WriteLogEvent("SQL: " & strSQL)
-                    Return False
+                    Return -1
                 Finally
                     If conn.State = ConnectionState.Open Then
                         conn.Close()
@@ -307,7 +308,7 @@ Public Class DataFunctions
                 End Try
             Case Else
                 EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
-                Return Nothing
+                Return -1
         End Select
     End Function
     Public Shared Function SetDataOnly(ByVal strSQL As String) As Boolean
@@ -909,7 +910,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT customPrices_PK PRIMARY KEY (typeID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -955,7 +956,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT marketPrices_PK PRIMARY KEY (typeID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -986,7 +987,7 @@ Public Class DataFunctions
         EveHQ.Core.HQ.CustomPriceList(itemID) = price
         Dim priceSQL As String = "INSERT INTO customPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(SQLTimeFormat, culture) & "');"
         If DBOpen = False Then
-            If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetData(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
@@ -1005,7 +1006,7 @@ Public Class DataFunctions
         EveHQ.Core.HQ.CustomPriceList(itemID) = price
         Dim priceSQL As String = "UPDATE customPrices SET price=" & price.ToString(culture) & ", priceDate='" & Now.ToString(SQLTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
         If DBOpen = False Then
-            If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetData(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
@@ -1026,7 +1027,7 @@ Public Class DataFunctions
             EveHQ.Core.HQ.CustomPriceList.Remove(itemID)
         End If
         Dim priceSQL As String = "DELETE FROM customPrices WHERE typeID=" & itemID & ";"
-        If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+        If EveHQ.Core.DataFunctions.SetData(priceSQL) = -1 Then
             MessageBox.Show("There was an error deleting data from the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else
@@ -1055,7 +1056,7 @@ Public Class DataFunctions
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
         Dim priceSQL As String = "INSERT INTO marketPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString(culture) & ", '" & Now.ToString(SQLTimeFormat, culture) & "');"
         If DBOpen = False Then
-            If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetData(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
@@ -1074,7 +1075,7 @@ Public Class DataFunctions
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
         Dim priceSQL As String = "UPDATE marketPrices SET price=" & price.ToString(culture) & ", priceDate = '" & Now.ToString(SQLTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
         If DBOpen = False Then
-            If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetData(priceSQL) = -1 Then
                 MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
@@ -1095,7 +1096,7 @@ Public Class DataFunctions
             EveHQ.Core.HQ.MarketPriceList.Remove(itemID)
         End If
         Dim priceSQL As String = "DELETE FROM marketPrices WHERE typeID=" & itemID & ";"
-        If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+        If EveHQ.Core.DataFunctions.SetData(priceSQL) = -1 Then
             MessageBox.Show("There was an error deleting data from the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else
@@ -1371,7 +1372,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT eveIDToName_PK PRIMARY KEY (eveID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Eve ID-To-Name database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Eve ID-To-Name Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1379,7 +1380,7 @@ Public Class DataFunctions
             End If
         End If
     End Function
-    Public Shared Function CheckForEveMailTable() As Boolean
+    Public Shared Function CheckForEveMailTable() As Integer
         Dim CreateTable As Boolean = False
         Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
         If tables IsNot Nothing Then
@@ -1398,7 +1399,7 @@ Public Class DataFunctions
             MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
             If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
                 MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
+                Return -1
             Else
                 MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 CreateTable = True
@@ -1424,15 +1425,15 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT eveMail_PK PRIMARY KEY (messageKey)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-                Return True
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+                Return 0
             Else
                 MessageBox.Show("There was an error creating the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Eve Mail Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
+                Return -1
             End If
         End If
     End Function
-    Public Shared Function CheckForEveNotificationTable() As Boolean
+    Public Shared Function CheckForEveNotificationTable() As Integer
         Dim CreateTable As Boolean = False
         Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
         If tables IsNot Nothing Then
@@ -1451,7 +1452,7 @@ Public Class DataFunctions
             MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
             If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
                 MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Custom Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
+                Return -1
             Else
                 MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 CreateTable = True
@@ -1474,16 +1475,16 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT eveNotifications_PK PRIMARY KEY (messageKey)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-                Return True
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+                Return 0
             Else
                 MessageBox.Show("There was an error creating the Eve Notification database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Eve Notification Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
+                Return -1
             End If
         End If
     End Function
 
-    Public Shared Function CheckForEveMailBodyColumn() As Boolean
+    Public Shared Function CheckForEveMailBodyColumn() As Integer
         Dim strSQL As String = "SELECT * FROM eveMail;"
         Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
 
@@ -1495,12 +1496,12 @@ Public Class DataFunctions
             Dim MailSQL As String = "ALTER TABLE eveMail ADD messageBody ntext NULL;"
             Return (EveHQ.Core.DataFunctions.SetData(MailSQL))
         Else
-            Return True
+            Return 0
         End If
 
     End Function
 
-    Public Shared Function CheckForEveNotificationBodyColumn() As Boolean
+    Public Shared Function CheckForEveNotificationBodyColumn() As Integer
         Dim strSQL As String = "SELECT * FROM eveNotifications;"
         Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
 
@@ -1512,7 +1513,7 @@ Public Class DataFunctions
             Dim MailSQL As String = "ALTER TABLE eveNotifications ADD messageBody ntext NULL;"
             Return (EveHQ.Core.DataFunctions.SetData(MailSQL))
         Else
-            Return True
+            Return 0
         End If
 
     End Function
@@ -1631,7 +1632,7 @@ Public Class DataFunctions
                                 uSQL.Append("(" & eveID & ", ")
                                 uSQL.Append("'" & eveName.Replace("'", "''") & "');")
                                 EveHQ.Core.HQ.WriteLogEvent("Writing IDToName data to database")
-                                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = -1 Then
                                     'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
                                 End If
                             End If
@@ -1681,7 +1682,7 @@ Public Class DataFunctions
                 uSQL.Append(strIDInsert)
                 uSQL.Append("(" & eveID & ", ")
                 uSQL.Append("'" & eveName & "');")
-                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = -1 Then
                     'MessageBox.Show("There was an error writing data to the Eve ID database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             Next

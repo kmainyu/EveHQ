@@ -24,6 +24,7 @@ Partial Class PrismAssetsControl
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.panelPrismAssets = New DevComponents.DotNetBar.PanelEx()
+        Me.btnExport = New DevComponents.DotNetBar.ButtonX()
         Me.chkExcludeContracts = New System.Windows.Forms.CheckBox()
         Me.btnExportGrouped = New DevComponents.DotNetBar.ButtonX()
         Me.btiItemNameG = New DevComponents.DotNetBar.ButtonItem()
@@ -33,6 +34,7 @@ Partial Class PrismAssetsControl
         Me.btiVolumeG = New DevComponents.DotNetBar.ButtonItem()
         Me.btnFilters = New DevComponents.DotNetBar.ButtonX()
         Me.btnRefreshAssets = New DevComponents.DotNetBar.ButtonX()
+        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.lblTotalSelectedAssetValue = New System.Windows.Forms.Label()
         Me.lblTotalAssetsLabel = New System.Windows.Forms.Label()
         Me.adtAssets = New DevComponents.AdvTree.AdvTree()
@@ -70,6 +72,8 @@ Partial Class PrismAssetsControl
         Me.NodeConnector6 = New DevComponents.AdvTree.NodeConnector()
         Me.Asset = New DevComponents.DotNetBar.ElementStyle()
         Me.SelAsset = New DevComponents.DotNetBar.ElementStyle()
+        Me.AssetRight = New DevComponents.DotNetBar.ElementStyle()
+        Me.AssetCentre = New DevComponents.DotNetBar.ElementStyle()
         Me.chkExcludeResearch = New System.Windows.Forms.CheckBox()
         Me.chkCorpHangarMode = New System.Windows.Forms.CheckBox()
         Me.chkExcludeOrders = New System.Windows.Forms.CheckBox()
@@ -93,10 +97,6 @@ Partial Class PrismAssetsControl
         Me.RemoveFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.splitterAssets = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.btnExport = New DevComponents.DotNetBar.ButtonX()
-        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
-        Me.AssetRight = New DevComponents.DotNetBar.ElementStyle()
-        Me.AssetCentre = New DevComponents.DotNetBar.ElementStyle()
         Me.panelPrismAssets.SuspendLayout()
         CType(Me.adtAssets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxAssets.SuspendLayout()
@@ -141,6 +141,18 @@ Partial Class PrismAssetsControl
         Me.panelPrismAssets.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.panelPrismAssets.Style.GradientAngle = 90
         Me.panelPrismAssets.TabIndex = 0
+        '
+        'btnExport
+        '
+        Me.btnExport.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnExport.Location = New System.Drawing.Point(1099, 35)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(150, 23)
+        Me.btnExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnExport.TabIndex = 57
+        Me.btnExport.Text = "Export Assets (Full)"
         '
         'chkExcludeContracts
         '
@@ -216,6 +228,16 @@ Partial Class PrismAssetsControl
         Me.btnRefreshAssets.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnRefreshAssets.TabIndex = 53
         Me.btnRefreshAssets.Text = "Refresh"
+        '
+        'PSCAssetOwners
+        '
+        Me.PSCAssetOwners.AllowMultipleSelections = True
+        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
+        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
+        Me.PSCAssetOwners.Name = "PSCAssetOwners"
+        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
+        Me.PSCAssetOwners.TabIndex = 52
         '
         'lblTotalSelectedAssetValue
         '
@@ -513,6 +535,26 @@ Partial Class PrismAssetsControl
         Me.SelAsset.Name = "SelAsset"
         Me.SelAsset.WordWrap = True
         '
+        'AssetRight
+        '
+        Me.AssetRight.BackColorGradientAngle = 90
+        Me.AssetRight.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.AssetRight.Class = ""
+        Me.AssetRight.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.AssetRight.Name = "AssetRight"
+        Me.AssetRight.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
+        Me.AssetRight.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'AssetCentre
+        '
+        Me.AssetCentre.BackColorGradientAngle = 90
+        Me.AssetCentre.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+        Me.AssetCentre.Class = ""
+        Me.AssetCentre.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.AssetCentre.Name = "AssetCentre"
+        Me.AssetCentre.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+        Me.AssetCentre.TextColor = System.Drawing.SystemColors.ControlText
+        '
         'chkExcludeResearch
         '
         Me.chkExcludeResearch.AutoSize = True
@@ -766,48 +808,6 @@ Partial Class PrismAssetsControl
         'STT
         '
         Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        '
-        'btnExport
-        '
-        Me.btnExport.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnExport.Location = New System.Drawing.Point(1099, 35)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(150, 23)
-        Me.btnExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnExport.TabIndex = 57
-        Me.btnExport.Text = "Export Assets (Full)"
-        '
-        'PSCAssetOwners
-        '
-        Me.PSCAssetOwners.AllowMultipleSelections = True
-        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
-        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
-        Me.PSCAssetOwners.Name = "PSCAssetOwners"
-        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
-        Me.PSCAssetOwners.TabIndex = 52
-        '
-        'AssetRight
-        '
-        Me.AssetRight.BackColorGradientAngle = 90
-        Me.AssetRight.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.AssetRight.Class = ""
-        Me.AssetRight.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.AssetRight.Name = "AssetRight"
-        Me.AssetRight.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
-        Me.AssetRight.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'AssetCentre
-        '
-        Me.AssetCentre.BackColorGradientAngle = 90
-        Me.AssetCentre.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.AssetCentre.Class = ""
-        Me.AssetCentre.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.AssetCentre.Name = "AssetCentre"
-        Me.AssetCentre.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.AssetCentre.TextColor = System.Drawing.SystemColors.ControlText
         '
         'PrismAssetsControl
         '

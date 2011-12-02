@@ -84,7 +84,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT inventionResults_PK PRIMARY KEY (resultID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -102,9 +102,9 @@ Public Class DataFunctions
                 ' The DB exists but the table doesn't so we'll create this
                 CreateTable = True
             Else
-				' We have the Db and table so we can return a good result
-				' Check for the upgrade from v1 to v2
-				Call UpgradeAssetItemNameDBTable()
+                ' We have the Db and table so we can return a good result
+                ' Check for the upgrade from v1 to v2
+                Call UpgradeAssetItemNameDBTable()
                 Return True
             End If
         Else
@@ -127,12 +127,12 @@ Public Class DataFunctions
             Dim strSQL As New StringBuilder
             strSQL.AppendLine("CREATE TABLE assetItemNames")
             strSQL.AppendLine("(")
-			strSQL.AppendLine("  itemID         bigint,")
+            strSQL.AppendLine("  itemID         bigint,")
             strSQL.AppendLine("  itemName       nvarchar(100),")
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT assetItemNames_PK PRIMARY KEY (itemID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -140,158 +140,158 @@ Public Class DataFunctions
             End If
         End If
 
-	End Function
+    End Function
 
-	Private Shared Function UpgradeAssetItemNameDBTable() As Boolean
-		Dim strSQL As String = "SELECT * FROM assetItemNames;"
-		Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+    Private Shared Function UpgradeAssetItemNameDBTable() As Boolean
+        Dim strSQL As String = "SELECT * FROM assetItemNames;"
+        Dim ColData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
 
-		' Get the data type
-		Dim dt As Type = ColData.Tables(0).Columns("itemID").DataType
+        ' Get the data type
+        Dim dt As Type = ColData.Tables(0).Columns("itemID").DataType
 
-		If dt Is GetType(Integer) Then
-			' Requires an upgrade!
+        If dt Is GetType(Integer) Then
+            ' Requires an upgrade!
 
-			' Stage 1 - create a new column
-			strSQL = "ALTER TABLE assetItemNames ADD tempItemID bigint NOT NULL DEFAULT 0;"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 1 - create a new column
+            strSQL = "ALTER TABLE assetItemNames ADD tempItemID bigint NOT NULL DEFAULT 0;"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-			' Stage 2 - copy the data into the new column
-			strSQL = "UPDATE assetItemNames SET tempItemID = itemID;"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 2 - copy the data into the new column
+            strSQL = "UPDATE assetItemNames SET tempItemID = itemID;"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-			' Stage 3 - drop the PK
-			strSQL = "ALTER TABLE assetItemNames DROP CONSTRAINT assetItemNames_PK"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 3 - drop the PK
+            strSQL = "ALTER TABLE assetItemNames DROP CONSTRAINT assetItemNames_PK"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-			' Stage 4 - drop the old column
-			strSQL = "ALTER TABLE assetItemNames DROP COLUMN itemID;"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 4 - drop the old column
+            strSQL = "ALTER TABLE assetItemNames DROP COLUMN itemID;"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-			' Stage 5 - recreate the old column
-			strSQL = "ALTER TABLE assetItemNames ADD itemID bigint NOT NULL DEFAULT 0;"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 5 - recreate the old column
+            strSQL = "ALTER TABLE assetItemNames ADD itemID bigint NOT NULL DEFAULT 0;"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-			' Stage 6 - copy the data into the new column
-			strSQL = "UPDATE assetItemNames SET itemID = tempItemID;"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 6 - copy the data into the new column
+            strSQL = "UPDATE assetItemNames SET itemID = tempItemID;"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-			' Stage 7 - recreate the PK
-			strSQL = "ALTER TABLE assetItemNames ADD CONSTRAINT assetItemNames_PK PRIMARY KEY (itemID);"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 7 - recreate the PK
+            strSQL = "ALTER TABLE assetItemNames ADD CONSTRAINT assetItemNames_PK PRIMARY KEY (itemID);"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-			' Stage 8 - drop the temp column
-			strSQL = "ALTER TABLE assetItemNames DROP COLUMN tempItemID;"
-			EveHQ.Core.DataFunctions.SetData(strSQL)
+            ' Stage 8 - drop the temp column
+            strSQL = "ALTER TABLE assetItemNames DROP COLUMN tempItemID;"
+            EveHQ.Core.DataFunctions.SetData(strSQL)
 
-		End If
+        End If
 
-		Return True
-	End Function
+        Return True
+    End Function
 
-	Private Shared Function CheckWalletTransDBTable() As Boolean
-		Dim CreateTable As Boolean = False
-		Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-		If tables IsNot Nothing Then
-			If tables.Contains("walletTransactions") = False Then
-				' The DB exists but the table doesn't so we'll create this
-				CreateTable = True
-			Else
-				' We have the Db and table so we can return a good result
-				Return True
-			End If
-		Else
-			' Database doesn't exist?
-			Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-			msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-			msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-			MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-			If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-				MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			Else
-				MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-				CreateTable = True
-			End If
-		End If
+    Private Shared Function CheckWalletTransDBTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("walletTransactions") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
 
-		' Create the database table 
-		If CreateTable = True Then
-			Dim strSQL As New StringBuilder
-			strSQL.AppendLine("CREATE TABLE walletTransactions")
-			strSQL.AppendLine("(")
-			strSQL.AppendLine("  transID        bigint IDENTITY(1,1),")	' Autonumber for this entry
-			strSQL.AppendLine("  transDate      datetime,")
-			strSQL.AppendLine("  transRef       bigint,") ' Eve Reference ID
-			strSQL.AppendLine("  transKey       nvarchar(100),") ' Unique Key based on date and ref
-			strSQL.AppendLine("  quantity       float,")
-			strSQL.AppendLine("  typeName       nvarchar(100),")
-			strSQL.AppendLine("  typeID         int,")
-			strSQL.AppendLine("  groupID        int,")
-			strSQL.AppendLine("  categoryID     int,")
-			strSQL.AppendLine("  marketgroupID  int,")
-			strSQL.AppendLine("  price          float,")
-			strSQL.AppendLine("  clientID       bigint,")
-			strSQL.AppendLine("  clientName     nvarchar(100),")
-			strSQL.AppendLine("  stationID      bigint,")
-			strSQL.AppendLine("  stationName    nvarchar(100),")
-			strSQL.AppendLine("  transType      nvarchar(5),")	' 1 = Buy, 2=Sell
-			strSQL.AppendLine("  transFor       nvarchar(15),")	 ' 1 = Personal, 2 = Corporation
-			strSQL.AppendLine("  systemID       bigint,")
-			strSQL.AppendLine("  constID        bigint,")
-			strSQL.AppendLine("  regionID       bigint,")
-			strSQL.AppendLine("  charID         bigint,")
-			strSQL.AppendLine("  charName       nvarchar(100),")
-			strSQL.AppendLine("  walletID       int,")
-			strSQL.AppendLine("  importDate     datetime,")
-			strSQL.AppendLine("")
-			strSQL.AppendLine("  CONSTRAINT walletTransactions_PK PRIMARY KEY (transID)")
-			strSQL.AppendLine(")")
-			If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-				Return True
-			Else
-				MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			End If
-		End If
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE walletTransactions")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  transID        bigint IDENTITY(1,1),") ' Autonumber for this entry
+            strSQL.AppendLine("  transDate      datetime,")
+            strSQL.AppendLine("  transRef       bigint,") ' Eve Reference ID
+            strSQL.AppendLine("  transKey       nvarchar(100),") ' Unique Key based on date and ref
+            strSQL.AppendLine("  quantity       float,")
+            strSQL.AppendLine("  typeName       nvarchar(100),")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  groupID        int,")
+            strSQL.AppendLine("  categoryID     int,")
+            strSQL.AppendLine("  marketgroupID  int,")
+            strSQL.AppendLine("  price          float,")
+            strSQL.AppendLine("  clientID       bigint,")
+            strSQL.AppendLine("  clientName     nvarchar(100),")
+            strSQL.AppendLine("  stationID      bigint,")
+            strSQL.AppendLine("  stationName    nvarchar(100),")
+            strSQL.AppendLine("  transType      nvarchar(5),")  ' 1 = Buy, 2=Sell
+            strSQL.AppendLine("  transFor       nvarchar(15),")  ' 1 = Personal, 2 = Corporation
+            strSQL.AppendLine("  systemID       bigint,")
+            strSQL.AppendLine("  constID        bigint,")
+            strSQL.AppendLine("  regionID       bigint,")
+            strSQL.AppendLine("  charID         bigint,")
+            strSQL.AppendLine("  charName       nvarchar(100),")
+            strSQL.AppendLine("  walletID       int,")
+            strSQL.AppendLine("  importDate     datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT walletTransactions_PK PRIMARY KEY (transID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
 
-	End Function
+    End Function
 
-	Public Shared Sub WriteWalletTransactionsToDB(ByVal WalletXML As XmlDocument, ByVal IsCorp As Boolean, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer)
+    Public Shared Sub WriteWalletTransactionsToDB(ByVal WalletXML As XmlDocument, ByVal IsCorp As Boolean, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer)
 
-		If WalletXML IsNot Nothing Then
-			' Get the last referenceID for the wallet
+        If WalletXML IsNot Nothing Then
+            ' Get the last referenceID for the wallet
             Dim LastTrans As Long = GetLastWalletID(WalletTypes.Transactions, CharID, WalletID)
 
             ' Setup the default header
-			Dim strInsert As String = "INSERT INTO walletTransactions (transDate, transRef, transKey, quantity, typeName, typeID, groupID, categoryID, marketGroupID, price, clientID, clientName, stationID, stationName, transType, transFor, systemID, constID, regionID, charID, charName, walletID, importDate) VALUES "
+            Dim strInsert As String = "INSERT INTO walletTransactions (transDate, transRef, transKey, quantity, typeName, typeID, groupID, categoryID, marketGroupID, price, clientID, clientName, stationID, stationName, transType, transFor, systemID, constID, regionID, charID, charName, walletID, importDate) VALUES "
 
-			' Go through each journal entry and see if we should write it
-			Dim TransList As XmlNodeList = WalletXML.SelectNodes("/eveapi/result/rowset/row")
+            ' Go through each journal entry and see if we should write it
+            Dim TransList As XmlNodeList = WalletXML.SelectNodes("/eveapi/result/rowset/row")
 
-			For Each Trans As XmlNode In TransList
-				Dim CurrentTrans As Long = CLng(Trans.Attributes.GetNamedItem("transactionID").Value)
-				' Only write if it's something we haven't seen before i.e. is above our last transaction
-				If CurrentTrans > LastTrans Then
+            For Each Trans As XmlNode In TransList
+                Dim CurrentTrans As Long = CLng(Trans.Attributes.GetNamedItem("transactionID").Value)
+                ' Only write if it's something we haven't seen before i.e. is above our last transaction
+                If CurrentTrans > LastTrans Then
 
-					' Write the details
-					If WriteSingleWalletTransactionToDB(Trans, strInsert, CharID, CharName, WalletID) = False Then
-						MessageBox.Show("There was an error writing data to the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Wallet Transactions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					End If
+                    ' Write the details
+                    If WriteSingleWalletTransactionToDB(Trans, strInsert, CharID, CharName, WalletID) = -1 Then
+                        MessageBox.Show("There was an error writing data to the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Wallet Transactions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End If
 
-				End If
-			Next
-		End If
+                End If
+            Next
+        End If
 
-	End Sub
+    End Sub
 
-	Private Shared Function WriteSingleWalletTransactionToDB(ByVal Trans As XmlNode, ByVal Header As String, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer) As Boolean
+    Private Shared Function WriteSingleWalletTransactionToDB(ByVal Trans As XmlNode, ByVal Header As String, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer) As Integer
 
-		' Create key
-		Dim TransDate As String = Date.ParseExact(Trans.Attributes.GetNamedItem("transactionDateTime").Value, IndustryTimeFormat, culture).ToString("yyyyMMddHHmmss")
-		Dim TransRef As String = CLng(Trans.Attributes.GetNamedItem("transactionID").Value).ToString("D20")
-		Dim TransCharID As String = CharID.ToString("D20")
-		Dim TransKey As String = TransDate & TransRef & TransCharID
+        ' Create key
+        Dim TransDate As String = Date.ParseExact(Trans.Attributes.GetNamedItem("transactionDateTime").Value, IndustryTimeFormat, culture).ToString("yyyyMMddHHmmss")
+        Dim TransRef As String = CLng(Trans.Attributes.GetNamedItem("transactionID").Value).ToString("D20")
+        Dim TransCharID As String = CharID.ToString("D20")
+        Dim TransKey As String = TransDate & TransRef & TransCharID
         Dim TypeGroup, TypeCategory, TypeMarketGroup As Integer
 
         ' Get item ID
@@ -345,67 +345,67 @@ Public Class DataFunctions
 
     End Function
 
-	Private Shared Function CheckWalletJournalDBTable() As Boolean
-		Dim CreateTable As Boolean = False
-		Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
-		If tables IsNot Nothing Then
-			If tables.Contains("walletJournal") = False Then
-				' The DB exists but the table doesn't so we'll create this
-				CreateTable = True
-			Else
-				' We have the Db and table so we can return a good result
-				Return True
-			End If
-		Else
-			' Database doesn't exist?
-			Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-			msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-			msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-			MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-			If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-				MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			Else
-				MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-				CreateTable = True
-			End If
-		End If
+    Private Shared Function CheckWalletJournalDBTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("walletJournal") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
 
-		' Create the database table 
-		If CreateTable = True Then
-			Dim strSQL As New StringBuilder
-			strSQL.AppendLine("CREATE TABLE walletJournal")
-			strSQL.AppendLine("(")
-			strSQL.AppendLine("  transID        bigint IDENTITY(1,1),")	' Autonumber for this entry
-			strSQL.AppendLine("  transDate      datetime,")
-			strSQL.AppendLine("  transRef       bigint,") ' Eve Reference ID
-			strSQL.AppendLine("  transKey       nvarchar(100),") ' Unique Key based on date and ref
-			strSQL.AppendLine("  refTypeID      int,")
-			strSQL.AppendLine("  ownerName1     nvarchar(100),")
-			strSQL.AppendLine("  ownerID1       bigint,")
-			strSQL.AppendLine("  ownerName2     nvarchar(100),")
-			strSQL.AppendLine("  ownerID2       bigint,")
-			strSQL.AppendLine("  argName1       nvarchar(100),")
-			strSQL.AppendLine("  argID1         bigint,")
-			strSQL.AppendLine("  amount         float,")
-			strSQL.AppendLine("  balance        float,")
-			strSQL.AppendLine("  reason         nvarchar(255),")
-			strSQL.AppendLine("  taxID          bigint,")
-			strSQL.AppendLine("  taxAmount      float,")
-			strSQL.AppendLine("  charID         bigint,") ' CharID or CorpID
-			strSQL.AppendLine("  charName       nvarchar(100),") ' Char Name or Corp Name
-			strSQL.AppendLine("  walletID       int,")
-			strSQL.AppendLine("  importDate     datetime,")
-			strSQL.AppendLine("")
-			strSQL.AppendLine("  CONSTRAINT walletJournal_PK PRIMARY KEY (transID)")
-			strSQL.AppendLine(")")
-			If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
-				Return True
-			Else
-				MessageBox.Show("There was an error creating the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Return False
-			End If
-		End If
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE walletJournal")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  transID        bigint IDENTITY(1,1),") ' Autonumber for this entry
+            strSQL.AppendLine("  transDate      datetime,")
+            strSQL.AppendLine("  transRef       bigint,") ' Eve Reference ID
+            strSQL.AppendLine("  transKey       nvarchar(100),") ' Unique Key based on date and ref
+            strSQL.AppendLine("  refTypeID      int,")
+            strSQL.AppendLine("  ownerName1     nvarchar(100),")
+            strSQL.AppendLine("  ownerID1       bigint,")
+            strSQL.AppendLine("  ownerName2     nvarchar(100),")
+            strSQL.AppendLine("  ownerID2       bigint,")
+            strSQL.AppendLine("  argName1       nvarchar(100),")
+            strSQL.AppendLine("  argID1         bigint,")
+            strSQL.AppendLine("  amount         float,")
+            strSQL.AppendLine("  balance        float,")
+            strSQL.AppendLine("  reason         nvarchar(255),")
+            strSQL.AppendLine("  taxID          bigint,")
+            strSQL.AppendLine("  taxAmount      float,")
+            strSQL.AppendLine("  charID         bigint,") ' CharID or CorpID
+            strSQL.AppendLine("  charName       nvarchar(100),") ' Char Name or Corp Name
+            strSQL.AppendLine("  walletID       int,")
+            strSQL.AppendLine("  importDate     datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT walletJournal_PK PRIMARY KEY (transID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
 
     End Function
 
@@ -554,9 +554,9 @@ Public Class DataFunctions
 
 				If WalletJournal.RefID > LastTrans Then
 
-					If WriteSingleWalletJournalToDB(WalletJournal, strInsert, CharID, CharName, WalletID) = False Then
-						MessageBox.Show("There was an error writing data to the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					End If
+                    If WriteSingleWalletJournalToDB(WalletJournal, strInsert, CharID, CharName, WalletID) = -1 Then
+                        MessageBox.Show("There was an error writing data to the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End If
 
 				End If
 
@@ -565,119 +565,119 @@ Public Class DataFunctions
 		End If
 	End Sub
 
-	Public Shared Function WriteSingleWalletJournalToDB(ByVal Trans As WalletJournalItem, ByVal Header As String, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer) As Boolean
+    Public Shared Function WriteSingleWalletJournalToDB(ByVal Trans As WalletJournalItem, ByVal Header As String, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer) As Integer
 
-		Dim IsTax As Boolean = False
+        Dim IsTax As Boolean = False
 
-		' Create key
-		Dim TransDate As String = Trans.JournalDate.ToString("yyyyMMddHHmmss")
-		Dim TransRef As String = Trans.RefID.ToString("D20")
-		Dim TransTypeID As String = Trans.RefTypeID.ToString("D4")
-		Dim TransCharID As String = CharID.ToString("D20")
-		Dim TransKey As String = TransDate & TransRef & TransTypeID & TransCharID
+        ' Create key
+        Dim TransDate As String = Trans.JournalDate.ToString("yyyyMMddHHmmss")
+        Dim TransRef As String = Trans.RefID.ToString("D20")
+        Dim TransTypeID As String = Trans.RefTypeID.ToString("D4")
+        Dim TransCharID As String = CharID.ToString("D20")
+        Dim TransKey As String = TransDate & TransRef & TransTypeID & TransCharID
 
-		' Get amounts
-		Dim amount As Double = Trans.Amount
-		Dim tax As Double = Trans.TaxAmount
-		amount += tax
+        ' Get amounts
+        Dim amount As Double = Trans.Amount
+        Dim tax As Double = Trans.TaxAmount
+        amount += tax
 
-		' Write the details
-		Dim strSQL As New StringBuilder
-		strSQL.Append(Header)
-		strSQL.Append("(")
-		' Start of record
+        ' Write the details
+        Dim strSQL As New StringBuilder
+        strSQL.Append(Header)
+        strSQL.Append("(")
+        ' Start of record
         strSQL.Append("'" & Trans.JournalDate.ToString(SQLTimeFormat, culture) & "',")
-		strSQL.Append(Trans.RefID.ToString & ",")
-		strSQL.Append("'" & TransKey & "',")
-		strSQL.Append(Trans.RefTypeID.ToString & ",")
-		strSQL.Append("'" & Trans.OwnerName1.Replace("'", "''") & "',")
-		strSQL.Append(Trans.OwnerID1 & ",")
-		strSQL.Append("'" & Trans.OwnerName2.Replace("'", "''") & "',")
-		strSQL.Append(Trans.OwnerID2 & ",")
-		strSQL.Append("'" & Trans.ArgName1.Replace("'", "''") & "',")
-		strSQL.Append(Trans.ArgID1 & ",")
-		strSQL.Append(amount.ToString(culture) & ",")
-		strSQL.Append(Trans.Balance.ToString(culture) & ",")
-		strSQL.Append("'" & Trans.Reason.Replace("'", "''") & "',")
+        strSQL.Append(Trans.RefID.ToString & ",")
+        strSQL.Append("'" & TransKey & "',")
+        strSQL.Append(Trans.RefTypeID.ToString & ",")
+        strSQL.Append("'" & Trans.OwnerName1.Replace("'", "''") & "',")
+        strSQL.Append(Trans.OwnerID1 & ",")
+        strSQL.Append("'" & Trans.OwnerName2.Replace("'", "''") & "',")
+        strSQL.Append(Trans.OwnerID2 & ",")
+        strSQL.Append("'" & Trans.ArgName1.Replace("'", "''") & "',")
+        strSQL.Append(Trans.ArgID1 & ",")
+        strSQL.Append(amount.ToString(culture) & ",")
+        strSQL.Append(Trans.Balance.ToString(culture) & ",")
+        strSQL.Append("'" & Trans.Reason.Replace("'", "''") & "',")
 
-		strSQL.Append(Trans.TaxReceiverID & ",")
-		strSQL.Append(Trans.TaxAmount.ToString(culture) & ",")
+        strSQL.Append(Trans.TaxReceiverID & ",")
+        strSQL.Append(Trans.TaxAmount.ToString(culture) & ",")
 
-		strSQL.Append(CharID.ToString & ",")
-		strSQL.Append("'" & CharName.Replace("'", "''") & "',")
-		strSQL.Append(WalletID.ToString & ",")
+        strSQL.Append(CharID.ToString & ",")
+        strSQL.Append("'" & CharName.Replace("'", "''") & "',")
+        strSQL.Append(WalletID.ToString & ",")
         strSQL.Append("'" & Now.ToString(SQLTimeFormat, culture) & "'")
-		' End of record
-		strSQL.Append(");")
+        ' End of record
+        strSQL.Append(");")
 
-		' Check for tax record and write
-		If tax <> 0 Then
-			If WriteTaxJournalToDB(Trans, Header, CharID, CharName, WalletID) = False Then
-				MessageBox.Show("Error writing the tax journal!")
-			End If
-		End If
+        ' Check for tax record and write
+        If tax <> 0 Then
+            If WriteTaxJournalToDB(Trans, Header, CharID, CharName, WalletID) = -1 Then
+                MessageBox.Show("Error writing the tax journal!")
+            End If
+        End If
 
-		' Store the record
-		Return EveHQ.Core.DataFunctions.SetData(strSQL.ToString)
+        ' Store the record
+        Return EveHQ.Core.DataFunctions.SetData(strSQL.ToString)
 
-	End Function
+    End Function
 
-	Private Shared Function WriteTaxJournalToDB(ByVal Trans As WalletJournalItem, ByVal Header As String, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer) As Boolean
+    Private Shared Function WriteTaxJournalToDB(ByVal Trans As WalletJournalItem, ByVal Header As String, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer) As Integer
 
-		' Switch Transaction Ref ID
-		Dim RefID As Integer = Trans.RefTypeID
-		Select Case RefID
-			Case 85
-				RefID = 92
-			Case 33
-				RefID = 93
-			Case 34
-				RefID = 94
-		End Select
+        ' Switch Transaction Ref ID
+        Dim RefID As Integer = Trans.RefTypeID
+        Select Case RefID
+            Case 85
+                RefID = 92
+            Case 33
+                RefID = 93
+            Case 34
+                RefID = 94
+        End Select
 
-		' Create key
-		Dim TransDate As String = Trans.JournalDate.ToString("yyyyMMddHHmmss")
-		Dim TransRef As String = Trans.RefID.ToString("D20")
+        ' Create key
+        Dim TransDate As String = Trans.JournalDate.ToString("yyyyMMddHHmmss")
+        Dim TransRef As String = Trans.RefID.ToString("D20")
         Dim TransTypeID As String = RefID.ToString("D4")
-		Dim TransCharID As String = CharID.ToString("D20")
-		Dim TransKey As String = TransDate & TransRef & TransTypeID & TransCharID
+        Dim TransCharID As String = CharID.ToString("D20")
+        Dim TransKey As String = TransDate & TransRef & TransTypeID & TransCharID
 
-		' Get amounts
-		Dim amount As Double = -Trans.TaxAmount
+        ' Get amounts
+        Dim amount As Double = -Trans.TaxAmount
 
-		' Write the details
-		Dim strSQL As New StringBuilder
-		strSQL.Append(Header)
-		strSQL.Append("(")
-		' Start of record
+        ' Write the details
+        Dim strSQL As New StringBuilder
+        strSQL.Append(Header)
+        strSQL.Append("(")
+        ' Start of record
         strSQL.Append("'" & Trans.JournalDate.ToString(SQLTimeFormat, culture) & "',")
-		strSQL.Append(Trans.RefID.ToString & ",")
-		strSQL.Append("'" & TransKey & "',")
-		strSQL.Append(RefID.ToString & ",")
-		strSQL.Append("'" & Trans.OwnerName1.Replace("'", "''") & "',")
-		strSQL.Append(Trans.OwnerID1 & ",")
-		strSQL.Append("'" & Trans.OwnerName2.Replace("'", "''") & "',")
-		strSQL.Append(Trans.OwnerID2 & ",")
-		strSQL.Append("'" & Trans.ArgName1.Replace("'", "''") & "',")
-		strSQL.Append(Trans.ArgID1 & ",")
-		strSQL.Append(amount.ToString(culture) & ",")
-		strSQL.Append(Trans.Balance.ToString(culture) & ",")
-		strSQL.Append("'" & Trans.Reason.Replace("'", "''") & "',")
+        strSQL.Append(Trans.RefID.ToString & ",")
+        strSQL.Append("'" & TransKey & "',")
+        strSQL.Append(RefID.ToString & ",")
+        strSQL.Append("'" & Trans.OwnerName1.Replace("'", "''") & "',")
+        strSQL.Append(Trans.OwnerID1 & ",")
+        strSQL.Append("'" & Trans.OwnerName2.Replace("'", "''") & "',")
+        strSQL.Append(Trans.OwnerID2 & ",")
+        strSQL.Append("'" & Trans.ArgName1.Replace("'", "''") & "',")
+        strSQL.Append(Trans.ArgID1 & ",")
+        strSQL.Append(amount.ToString(culture) & ",")
+        strSQL.Append(Trans.Balance.ToString(culture) & ",")
+        strSQL.Append("'" & Trans.Reason.Replace("'", "''") & "',")
 
-		strSQL.Append(Trans.TaxReceiverID & ",")
-		strSQL.Append(Trans.TaxAmount.ToString(culture) & ",")
+        strSQL.Append(Trans.TaxReceiverID & ",")
+        strSQL.Append(Trans.TaxAmount.ToString(culture) & ",")
 
-		strSQL.Append(CharID.ToString & ",")
-		strSQL.Append("'" & CharName.Replace("'", "''") & "',")
-		strSQL.Append(WalletID.ToString & ",")
+        strSQL.Append(CharID.ToString & ",")
+        strSQL.Append("'" & CharName.Replace("'", "''") & "',")
+        strSQL.Append(WalletID.ToString & ",")
         strSQL.Append("'" & Now.ToString(SQLTimeFormat, culture) & "'")
-		' End of record
-		strSQL.Append(");")
+        ' End of record
+        strSQL.Append(");")
 
-		' Store the record
-		Return EveHQ.Core.DataFunctions.SetData(strSQL.ToString)
+        ' Store the record
+        Return EveHQ.Core.DataFunctions.SetData(strSQL.ToString)
 
-	End Function
+    End Function
 
     Public Shared Function GetLastWalletID(ByVal WalletType As WalletTypes, ByVal CharID As Integer, ByVal WalletID As Integer) As Long
         Dim strSQL As String = ""
@@ -779,7 +779,7 @@ Public Class DataFunctions
                 uSQL.Append(Job.InstallerID & ", ")
                 uSQL.Append("'" & Job.InstallerName.Replace("'", "''") & "', ")
                 uSQL.Append(Job.result & ");")
-                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = False Then
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = -1 Then
                     'MessageBox.Show("There was an error writing data to the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
                 End If
             End If

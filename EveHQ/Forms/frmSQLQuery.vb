@@ -46,20 +46,31 @@ Public Class frmSQLQuery
 #Region "Query Handling Routines"
     Private Sub ExecuteQuery(ByVal strSQL As String)
         Dim SQLData As New DataSet
+        Dim RecordsAffected As Integer = 0
         If radStaticData.Checked = True Then
             SQLData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Else
+        ElseIf radCustomData.Checked = True Then
             SQLData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Else
+            RecordsAffected = EveHQ.Core.DataFunctions.SetData(strSQL)
         End If
-        If SQLData IsNot Nothing Then
-            If SQLData.Tables.Count > 0 Then
-                dgvQuery.DataSource = SQLData.Tables(0)
-                lblRowCount.Text = "Record Count: " & SQLData.Tables(0).Rows.Count.ToString("N0")
+        If radWriteCustom.Checked = False Then
+            If SQLData IsNot Nothing Then
+                If SQLData.Tables.Count > 0 Then
+                    dgvQuery.DataSource = SQLData.Tables(0)
+                    lblRowCount.Text = "Record Count: " & SQLData.Tables(0).Rows.Count.ToString("N0")
+                Else
+                    MessageBox.Show("Data contains no valid data tables! Please check you have the correct database selected and that your SQL Query is properly formatted.", "SQL Query Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
             Else
-                MessageBox.Show("Data contains no valid data tables! Please check you have the correct database selected and that your SQL Query is properly formatted.", "SQL Query Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Unable to retrieve data! Please check you have the correct database selected and that your SQL Query is properly formatted.", "SQL Query Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Else
-            MessageBox.Show("Unable to retrieve data! Please check you have the correct database selected and that your SQL Query is properly formatted.", "SQL Query Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If RecordsAffected <> -1 Then
+                lblRowCount.Text = "Records Affected: " & RecordsAffected.ToString("N0")
+            Else
+                lblRowCount.Text = "Write Query: Failed - Check SQL syntax and available data."
+            End If
         End If
     End Sub
 

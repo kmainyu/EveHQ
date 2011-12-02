@@ -2596,11 +2596,11 @@ Public Class frmPrism
         Dim reply As DialogResult = MessageBox.Show("Are you really sure you want to delete all the journal entries from the database?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.Yes Then
             Dim strSQL As String = "DELETE * FROM walletJournal;"
-            If EveHQ.Core.DataFunctions.SetData(strSQL) = True Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL) <> -1 Then
                 MessageBox.Show("Reset Complete")
             End If
             strSQL = "DROP TABLE walletJournal;"
-            If EveHQ.Core.DataFunctions.SetData(strSQL) = True Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL) <> -1 Then
                 MessageBox.Show("Table Deletion Complete")
             End If
             Call Prism.DataFunctions.CheckDatabaseTables()
