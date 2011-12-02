@@ -45,7 +45,6 @@ Partial Class frmSQLQuery
         Me.btnNew = New DevComponents.DotNetBar.ButtonItem()
         Me.btnRename = New DevComponents.DotNetBar.ButtonItem()
         Me.btnDelete = New DevComponents.DotNetBar.ButtonItem()
-        Me.radWriteCustom = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.panelText.SuspendLayout()
         CType(Me.dgvQuery, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rmcSQLQuery.SuspendLayout()
@@ -78,7 +77,6 @@ Partial Class frmSQLQuery
         '
         Me.panelText.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelText.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.panelText.Controls.Add(Me.radWriteCustom)
         Me.panelText.Controls.Add(Me.lblRowCount)
         Me.panelText.Controls.Add(Me.radCustomData)
         Me.panelText.Controls.Add(Me.radStaticData)
@@ -88,7 +86,7 @@ Partial Class frmSQLQuery
         Me.panelText.Dock = System.Windows.Forms.DockStyle.Top
         Me.panelText.Location = New System.Drawing.Point(227, 0)
         Me.panelText.Name = "panelText"
-        Me.panelText.Size = New System.Drawing.Size(701, 174)
+        Me.panelText.Size = New System.Drawing.Size(1081, 174)
         Me.panelText.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.panelText.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.panelText.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -158,7 +156,7 @@ Partial Class frmSQLQuery
         Me.lblQueryAmended.BackgroundStyle.Class = ""
         Me.lblQueryAmended.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblQueryAmended.ForeColor = System.Drawing.Color.Red
-        Me.lblQueryAmended.Location = New System.Drawing.Point(609, 12)
+        Me.lblQueryAmended.Location = New System.Drawing.Point(989, 12)
         Me.lblQueryAmended.Name = "lblQueryAmended"
         Me.lblQueryAmended.Size = New System.Drawing.Size(85, 16)
         Me.lblQueryAmended.TabIndex = 7
@@ -178,7 +176,7 @@ Partial Class frmSQLQuery
         Me.txtQuery.Location = New System.Drawing.Point(6, 55)
         Me.txtQuery.Multiline = True
         Me.txtQuery.Name = "txtQuery"
-        Me.txtQuery.Size = New System.Drawing.Size(688, 97)
+        Me.txtQuery.Size = New System.Drawing.Size(1068, 97)
         Me.txtQuery.TabIndex = 1
         '
         'lblQueryText
@@ -224,7 +222,7 @@ Partial Class frmSQLQuery
         Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.ExpandableSplitter1.Location = New System.Drawing.Point(227, 174)
         Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
-        Me.ExpandableSplitter1.Size = New System.Drawing.Size(701, 6)
+        Me.ExpandableSplitter1.Size = New System.Drawing.Size(1081, 6)
         Me.ExpandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
         Me.ExpandableSplitter1.TabIndex = 2
         Me.ExpandableSplitter1.TabStop = False
@@ -242,7 +240,7 @@ Partial Class frmSQLQuery
         Me.dgvQuery.Name = "dgvQuery"
         Me.dgvQuery.ReadOnly = True
         Me.dgvQuery.RowHeadersVisible = False
-        Me.dgvQuery.Size = New System.Drawing.Size(701, 499)
+        Me.dgvQuery.Size = New System.Drawing.Size(1081, 499)
         Me.dgvQuery.TabIndex = 3
         '
         'rmcSQLQuery
@@ -251,7 +249,7 @@ Partial Class frmSQLQuery
         Me.rmcSQLQuery.Controls.Add(Me.rbData)
         Me.rmcSQLQuery.Controls.Add(Me.rbQuery)
         Me.rmcSQLQuery.Controls.Add(Me.rbQueries)
-        Me.rmcSQLQuery.Location = New System.Drawing.Point(107, 291)
+        Me.rmcSQLQuery.Location = New System.Drawing.Point(427, 264)
         Me.rmcSQLQuery.Name = "rmcSQLQuery"
         Me.rmcSQLQuery.RibbonTabText = "SQL Query"
         Me.rmcSQLQuery.Size = New System.Drawing.Size(762, 100)
@@ -423,27 +421,11 @@ Partial Class frmSQLQuery
         Me.btnDelete.SubItemsExpandWidth = 14
         Me.btnDelete.Text = "Delete Query"
         '
-        'radWriteCustom
-        '
-        Me.radWriteCustom.AutoSize = True
-        '
-        '
-        '
-        Me.radWriteCustom.BackgroundStyle.Class = ""
-        Me.radWriteCustom.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.radWriteCustom.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.radWriteCustom.Location = New System.Drawing.Point(289, 33)
-        Me.radWriteCustom.Name = "radWriteCustom"
-        Me.radWriteCustom.Size = New System.Drawing.Size(130, 16)
-        Me.radWriteCustom.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.radWriteCustom.TabIndex = 11
-        Me.radWriteCustom.Text = "Edit Custom Database"
-        '
         'frmSQLQuery
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(928, 679)
+        Me.ClientSize = New System.Drawing.Size(1308, 679)
         Me.Controls.Add(Me.rmcSQLQuery)
         Me.Controls.Add(Me.dgvQuery)
         Me.Controls.Add(Me.ExpandableSplitter1)
@@ -483,5 +465,4 @@ Partial Class frmSQLQuery
     Friend WithEvents radCustomData As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents radStaticData As DevComponents.DotNetBar.Controls.CheckBoxX
     Friend WithEvents lblRowCount As DevComponents.DotNetBar.LabelX
-    Friend WithEvents radWriteCustom As DevComponents.DotNetBar.Controls.CheckBoxX
 End Class
