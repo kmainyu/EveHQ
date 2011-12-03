@@ -1250,6 +1250,7 @@ Public Class frmHQF
         End If
         EveHQ.Core.AdvTreeSorter.Sort(tvwModules, HQF.Settings.HQFSettings.SortedModuleListInfo, False)
         tvwModules.EndUpdate()
+        tvwModules.Nodes(0).EnsureVisible()
         'endTime = Now
         'MessageBox.Show((endTime - startTime).TotalMilliseconds.ToString & "ms", "DisplayModules Time", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
