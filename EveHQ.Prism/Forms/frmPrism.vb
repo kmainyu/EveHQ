@@ -3028,7 +3028,9 @@ Public Class frmPrism
                 End If
                 cboWalletTransDivision.Enabled = True
                 cboWalletTransDivision.EndUpdate()
-                cboWalletTransDivision.SelectedIndex = 0
+                If cboWalletTransDivision.Items.Count > 0 Then
+                    cboWalletTransDivision.SelectedIndex = 0
+                End If
             Else
                 cboWalletTransDivision.Enabled = False
             End If

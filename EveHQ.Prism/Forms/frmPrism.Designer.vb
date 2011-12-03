@@ -219,6 +219,24 @@ Partial Class frmPrism
         Me.btnDownloadAPIData = New DevComponents.DotNetBar.ButtonItem()
         Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
         Me.tabPrism = New DevComponents.DotNetBar.TabControl()
+        Me.TabControlPanel14 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.adtContracts = New DevComponents.AdvTree.AdvTree()
+        Me.colContractTitle = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractLocation = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractTransaction = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractStatus = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractIssuer = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractAcceptor = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractDateIssued = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractDateExpired = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractPrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colContractVolume = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector6 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle9 = New DevComponents.DotNetBar.ElementStyle()
+        Me.cboContractOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblContractOwner = New System.Windows.Forms.Label()
+        Me.tiContracts = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
         Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
@@ -260,6 +278,7 @@ Partial Class frmPrism
         Me.colRigBuildMargin = New DevComponents.AdvTree.ColumnHeader()
         Me.NodeConnector13 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle10 = New DevComponents.DotNetBar.ElementStyle()
+        Me.PSCRigOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.lblTotalRigMargin = New System.Windows.Forms.Label()
         Me.lblTotalRigProfit = New System.Windows.Forms.Label()
         Me.lblTotalRigSalePrice = New System.Windows.Forms.Label()
@@ -337,6 +356,7 @@ Partial Class frmPrism
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.btnClearBatches = New DevComponents.DotNetBar.ButtonX()
         Me.tiBatchJobs = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.PRPM = New EveHQ.Prism.PrismResources()
         Me.tiProductionManager = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel16 = New DevComponents.DotNetBar.TabControlPanel()
         Me.lblInventionItems = New System.Windows.Forms.Label()
@@ -448,22 +468,6 @@ Partial Class frmPrism
         Me.ElementStyle6 = New DevComponents.DotNetBar.ElementStyle()
         Me.pnlOrderStats = New DevComponents.DotNetBar.PanelEx()
         Me.tiMarketOrders = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel14 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.adtContracts = New DevComponents.AdvTree.AdvTree()
-        Me.colContractTitle = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractLocation = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractTransaction = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractType = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractStatus = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractDateIssued = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractDateExpired = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractPrice = New DevComponents.AdvTree.ColumnHeader()
-        Me.colContractVolume = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector6 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle9 = New DevComponents.DotNetBar.ElementStyle()
-        Me.cboContractOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.lblContractOwner = New System.Windows.Forms.Label()
-        Me.tiContracts = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel8 = New DevComponents.DotNetBar.TabControlPanel()
         Me.tiRecycler = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel9 = New DevComponents.DotNetBar.TabControlPanel()
@@ -488,13 +492,9 @@ Partial Class frmPrism
         Me.pbUserBP = New System.Windows.Forms.PictureBox()
         Me.tiBPManager = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.PAC = New EveHQ.Prism.PrismAssetsControl()
         Me.tiAssets = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.colContractIssuer = New DevComponents.AdvTree.ColumnHeader()
-        Me.PSCRigOwners = New EveHQ.Prism.PrismSelectionHostControl()
-        Me.PRPM = New EveHQ.Prism.PrismResources()
-        Me.PAC = New EveHQ.Prism.PrismAssetsControl()
-        Me.colContractAcceptor = New DevComponents.AdvTree.ColumnHeader()
         Me.ctxTransactions.SuspendLayout()
         CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -514,6 +514,8 @@ Partial Class frmPrism
         Me.pnlPrism.SuspendLayout()
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrism.SuspendLayout()
+        Me.TabControlPanel14.SuspendLayout()
+        CType(Me.adtContracts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel1.SuspendLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel15.SuspendLayout()
@@ -560,8 +562,6 @@ Partial Class frmPrism
         Me.pnlBuyOrders.SuspendLayout()
         CType(Me.adtBuyOrders, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlOrderStats.SuspendLayout()
-        Me.TabControlPanel14.SuspendLayout()
-        CType(Me.adtContracts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel8.SuspendLayout()
         Me.TabControlPanel9.SuspendLayout()
         CType(Me.adtBlueprints, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2725,8 +2725,8 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel15)
         Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel17)
@@ -2765,6 +2765,192 @@ Partial Class frmPrism
         Me.tabPrism.Tabs.Add(Me.tiRigBuilder)
         Me.tabPrism.Tabs.Add(Me.tiInventionResults)
         Me.tabPrism.Text = "TabControl2"
+        '
+        'TabControlPanel14
+        '
+        Me.TabControlPanel14.Controls.Add(Me.adtContracts)
+        Me.TabControlPanel14.Controls.Add(Me.cboContractOwner)
+        Me.TabControlPanel14.Controls.Add(Me.lblContractOwner)
+        Me.TabControlPanel14.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel14.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel14.Name = "TabControlPanel14"
+        Me.TabControlPanel14.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel14.Size = New System.Drawing.Size(1284, 650)
+        Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel14.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel14.Style.GradientAngle = 90
+        Me.TabControlPanel14.TabIndex = 14
+        Me.TabControlPanel14.TabItem = Me.tiContracts
+        '
+        'adtContracts
+        '
+        Me.adtContracts.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtContracts.AllowDrop = True
+        Me.adtContracts.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.adtContracts.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtContracts.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtContracts.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtContracts.Columns.Add(Me.colContractTitle)
+        Me.adtContracts.Columns.Add(Me.colContractLocation)
+        Me.adtContracts.Columns.Add(Me.colContractTransaction)
+        Me.adtContracts.Columns.Add(Me.colContractType)
+        Me.adtContracts.Columns.Add(Me.colContractStatus)
+        Me.adtContracts.Columns.Add(Me.colContractIssuer)
+        Me.adtContracts.Columns.Add(Me.colContractAcceptor)
+        Me.adtContracts.Columns.Add(Me.colContractDateIssued)
+        Me.adtContracts.Columns.Add(Me.colContractDateExpired)
+        Me.adtContracts.Columns.Add(Me.colContractPrice)
+        Me.adtContracts.Columns.Add(Me.colContractVolume)
+        Me.adtContracts.DragDropEnabled = False
+        Me.adtContracts.DragDropNodeCopyEnabled = False
+        Me.adtContracts.DropAsChildOffset = 0
+        Me.adtContracts.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtContracts.Location = New System.Drawing.Point(12, 33)
+        Me.adtContracts.Name = "adtContracts"
+        Me.adtContracts.NodesConnector = Me.NodeConnector6
+        Me.adtContracts.NodeStyle = Me.ElementStyle9
+        Me.adtContracts.PathSeparator = ";"
+        Me.adtContracts.Size = New System.Drawing.Size(1260, 611)
+        Me.adtContracts.Styles.Add(Me.ElementStyle9)
+        Me.adtContracts.TabIndex = 33
+        Me.adtContracts.Text = "AdvTree1"
+        '
+        'colContractTitle
+        '
+        Me.colContractTitle.DisplayIndex = 1
+        Me.colContractTitle.Name = "colContractTitle"
+        Me.colContractTitle.SortingEnabled = False
+        Me.colContractTitle.Text = "Contract Title (or ID)"
+        Me.colContractTitle.Width.Absolute = 250
+        '
+        'colContractLocation
+        '
+        Me.colContractLocation.DisplayIndex = 2
+        Me.colContractLocation.Name = "colContractLocation"
+        Me.colContractLocation.SortingEnabled = False
+        Me.colContractLocation.Text = "Contract Location"
+        Me.colContractLocation.Width.Absolute = 350
+        '
+        'colContractTransaction
+        '
+        Me.colContractTransaction.DisplayIndex = 3
+        Me.colContractTransaction.Name = "colContractTransaction"
+        Me.colContractTransaction.SortingEnabled = False
+        Me.colContractTransaction.Text = "Transaction"
+        Me.colContractTransaction.Width.Absolute = 80
+        '
+        'colContractType
+        '
+        Me.colContractType.DisplayIndex = 4
+        Me.colContractType.Name = "colContractType"
+        Me.colContractType.SortingEnabled = False
+        Me.colContractType.Text = "Type"
+        Me.colContractType.Width.Absolute = 100
+        '
+        'colContractStatus
+        '
+        Me.colContractStatus.DisplayIndex = 5
+        Me.colContractStatus.Name = "colContractStatus"
+        Me.colContractStatus.SortingEnabled = False
+        Me.colContractStatus.Text = "Status"
+        Me.colContractStatus.Width.Absolute = 100
+        '
+        'colContractIssuer
+        '
+        Me.colContractIssuer.DisplayIndex = 6
+        Me.colContractIssuer.Name = "colContractIssuer"
+        Me.colContractIssuer.Text = "Issuer"
+        Me.colContractIssuer.Width.Absolute = 150
+        '
+        'colContractAcceptor
+        '
+        Me.colContractAcceptor.DisplayIndex = 7
+        Me.colContractAcceptor.Name = "colContractAcceptor"
+        Me.colContractAcceptor.Text = "Acceptor"
+        Me.colContractAcceptor.Width.Absolute = 150
+        '
+        'colContractDateIssued
+        '
+        Me.colContractDateIssued.DisplayIndex = 8
+        Me.colContractDateIssued.Name = "colContractDateIssued"
+        Me.colContractDateIssued.SortingEnabled = False
+        Me.colContractDateIssued.Text = "Date Issued"
+        Me.colContractDateIssued.Width.Absolute = 125
+        '
+        'colContractDateExpired
+        '
+        Me.colContractDateExpired.DisplayIndex = 9
+        Me.colContractDateExpired.Name = "colContractDateExpired"
+        Me.colContractDateExpired.SortingEnabled = False
+        Me.colContractDateExpired.Text = "Expiry Date"
+        Me.colContractDateExpired.Width.Absolute = 125
+        '
+        'colContractPrice
+        '
+        Me.colContractPrice.DisplayIndex = 10
+        Me.colContractPrice.Name = "colContractPrice"
+        Me.colContractPrice.SortingEnabled = False
+        Me.colContractPrice.Text = "Price/Reward"
+        Me.colContractPrice.Width.Absolute = 125
+        '
+        'colContractVolume
+        '
+        Me.colContractVolume.DisplayIndex = 11
+        Me.colContractVolume.Name = "colContractVolume"
+        Me.colContractVolume.SortingEnabled = False
+        Me.colContractVolume.Text = "Volume"
+        Me.colContractVolume.Width.Absolute = 100
+        '
+        'NodeConnector6
+        '
+        Me.NodeConnector6.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle9
+        '
+        Me.ElementStyle9.Class = ""
+        Me.ElementStyle9.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle9.Name = "ElementStyle9"
+        Me.ElementStyle9.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'cboContractOwner
+        '
+        Me.cboContractOwner.DisplayMember = "Text"
+        Me.cboContractOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboContractOwner.FormattingEnabled = True
+        Me.cboContractOwner.ItemHeight = 15
+        Me.cboContractOwner.Location = New System.Drawing.Point(64, 6)
+        Me.cboContractOwner.Name = "cboContractOwner"
+        Me.cboContractOwner.Size = New System.Drawing.Size(210, 21)
+        Me.cboContractOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboContractOwner.TabIndex = 32
+        '
+        'lblContractOwner
+        '
+        Me.lblContractOwner.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblContractOwner.AutoSize = True
+        Me.lblContractOwner.BackColor = System.Drawing.Color.Transparent
+        Me.lblContractOwner.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblContractOwner.Location = New System.Drawing.Point(12, 10)
+        Me.lblContractOwner.Name = "lblContractOwner"
+        Me.lblContractOwner.Size = New System.Drawing.Size(43, 13)
+        Me.lblContractOwner.TabIndex = 31
+        Me.lblContractOwner.Text = "Owner:"
+        '
+        'tiContracts
+        '
+        Me.tiContracts.AttachedControl = Me.TabControlPanel14
+        Me.tiContracts.Name = "tiContracts"
+        Me.tiContracts.Text = "Contracts"
         '
         'TabControlPanel1
         '
@@ -3269,6 +3455,16 @@ Partial Class frmPrism
         Me.ElementStyle10.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle10.Name = "ElementStyle10"
         Me.ElementStyle10.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'PSCRigOwners
+        '
+        Me.PSCRigOwners.AllowMultipleSelections = True
+        Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PSCRigOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
+        Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
+        Me.PSCRigOwners.Name = "PSCRigOwners"
+        Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
+        Me.PSCRigOwners.TabIndex = 70
         '
         'lblTotalRigMargin
         '
@@ -4362,6 +4558,20 @@ Partial Class frmPrism
         Me.tiBatchJobs.AttachedControl = Me.TabControlPanel13
         Me.tiBatchJobs.Name = "tiBatchJobs"
         Me.tiBatchJobs.Text = "Batch Jobs"
+        '
+        'PRPM
+        '
+        Me.PRPM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PRPM.BatchJob = Nothing
+        Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PRPM.InventionBP = Nothing
+        Me.PRPM.Location = New System.Drawing.Point(677, 5)
+        Me.PRPM.Name = "PRPM"
+        Me.PRPM.ProductionJob = Nothing
+        Me.PRPM.Size = New System.Drawing.Size(600, 641)
+        Me.PRPM.TabIndex = 3
         '
         'tiProductionManager
         '
@@ -6019,178 +6229,6 @@ Partial Class frmPrism
         Me.tiMarketOrders.Name = "tiMarketOrders"
         Me.tiMarketOrders.Text = "Market Orders"
         '
-        'TabControlPanel14
-        '
-        Me.TabControlPanel14.Controls.Add(Me.adtContracts)
-        Me.TabControlPanel14.Controls.Add(Me.cboContractOwner)
-        Me.TabControlPanel14.Controls.Add(Me.lblContractOwner)
-        Me.TabControlPanel14.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel14.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel14.Name = "TabControlPanel14"
-        Me.TabControlPanel14.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel14.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel14.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel14.Style.GradientAngle = 90
-        Me.TabControlPanel14.TabIndex = 14
-        Me.TabControlPanel14.TabItem = Me.tiContracts
-        '
-        'adtContracts
-        '
-        Me.adtContracts.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtContracts.AllowDrop = True
-        Me.adtContracts.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.adtContracts.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtContracts.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtContracts.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtContracts.Columns.Add(Me.colContractTitle)
-        Me.adtContracts.Columns.Add(Me.colContractLocation)
-        Me.adtContracts.Columns.Add(Me.colContractTransaction)
-        Me.adtContracts.Columns.Add(Me.colContractType)
-        Me.adtContracts.Columns.Add(Me.colContractStatus)
-        Me.adtContracts.Columns.Add(Me.colContractIssuer)
-        Me.adtContracts.Columns.Add(Me.colContractAcceptor)
-        Me.adtContracts.Columns.Add(Me.colContractDateIssued)
-        Me.adtContracts.Columns.Add(Me.colContractDateExpired)
-        Me.adtContracts.Columns.Add(Me.colContractPrice)
-        Me.adtContracts.Columns.Add(Me.colContractVolume)
-        Me.adtContracts.DragDropEnabled = False
-        Me.adtContracts.DragDropNodeCopyEnabled = False
-        Me.adtContracts.DropAsChildOffset = 0
-        Me.adtContracts.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtContracts.Location = New System.Drawing.Point(12, 33)
-        Me.adtContracts.Name = "adtContracts"
-        Me.adtContracts.NodesConnector = Me.NodeConnector6
-        Me.adtContracts.NodeStyle = Me.ElementStyle9
-        Me.adtContracts.PathSeparator = ";"
-        Me.adtContracts.Size = New System.Drawing.Size(1260, 611)
-        Me.adtContracts.Styles.Add(Me.ElementStyle9)
-        Me.adtContracts.TabIndex = 33
-        Me.adtContracts.Text = "AdvTree1"
-        '
-        'colContractTitle
-        '
-        Me.colContractTitle.DisplayIndex = 1
-        Me.colContractTitle.Name = "colContractTitle"
-        Me.colContractTitle.SortingEnabled = False
-        Me.colContractTitle.Text = "Contract Title (or ID)"
-        Me.colContractTitle.Width.Absolute = 250
-        '
-        'colContractLocation
-        '
-        Me.colContractLocation.DisplayIndex = 2
-        Me.colContractLocation.Name = "colContractLocation"
-        Me.colContractLocation.SortingEnabled = False
-        Me.colContractLocation.Text = "Contract Location"
-        Me.colContractLocation.Width.Absolute = 350
-        '
-        'colContractTransaction
-        '
-        Me.colContractTransaction.DisplayIndex = 3
-        Me.colContractTransaction.Name = "colContractTransaction"
-        Me.colContractTransaction.SortingEnabled = False
-        Me.colContractTransaction.Text = "Transaction"
-        Me.colContractTransaction.Width.Absolute = 80
-        '
-        'colContractType
-        '
-        Me.colContractType.DisplayIndex = 4
-        Me.colContractType.Name = "colContractType"
-        Me.colContractType.SortingEnabled = False
-        Me.colContractType.Text = "Type"
-        Me.colContractType.Width.Absolute = 100
-        '
-        'colContractStatus
-        '
-        Me.colContractStatus.DisplayIndex = 5
-        Me.colContractStatus.Name = "colContractStatus"
-        Me.colContractStatus.SortingEnabled = False
-        Me.colContractStatus.Text = "Status"
-        Me.colContractStatus.Width.Absolute = 100
-        '
-        'colContractDateIssued
-        '
-        Me.colContractDateIssued.DisplayIndex = 8
-        Me.colContractDateIssued.Name = "colContractDateIssued"
-        Me.colContractDateIssued.SortingEnabled = False
-        Me.colContractDateIssued.Text = "Date Issued"
-        Me.colContractDateIssued.Width.Absolute = 125
-        '
-        'colContractDateExpired
-        '
-        Me.colContractDateExpired.DisplayIndex = 9
-        Me.colContractDateExpired.Name = "colContractDateExpired"
-        Me.colContractDateExpired.SortingEnabled = False
-        Me.colContractDateExpired.Text = "Expiry Date"
-        Me.colContractDateExpired.Width.Absolute = 125
-        '
-        'colContractPrice
-        '
-        Me.colContractPrice.DisplayIndex = 10
-        Me.colContractPrice.Name = "colContractPrice"
-        Me.colContractPrice.SortingEnabled = False
-        Me.colContractPrice.Text = "Price/Reward"
-        Me.colContractPrice.Width.Absolute = 125
-        '
-        'colContractVolume
-        '
-        Me.colContractVolume.DisplayIndex = 11
-        Me.colContractVolume.Name = "colContractVolume"
-        Me.colContractVolume.SortingEnabled = False
-        Me.colContractVolume.Text = "Volume"
-        Me.colContractVolume.Width.Absolute = 100
-        '
-        'NodeConnector6
-        '
-        Me.NodeConnector6.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle9
-        '
-        Me.ElementStyle9.Class = ""
-        Me.ElementStyle9.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle9.Name = "ElementStyle9"
-        Me.ElementStyle9.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'cboContractOwner
-        '
-        Me.cboContractOwner.DisplayMember = "Text"
-        Me.cboContractOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboContractOwner.FormattingEnabled = True
-        Me.cboContractOwner.ItemHeight = 15
-        Me.cboContractOwner.Location = New System.Drawing.Point(64, 6)
-        Me.cboContractOwner.Name = "cboContractOwner"
-        Me.cboContractOwner.Size = New System.Drawing.Size(210, 21)
-        Me.cboContractOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboContractOwner.TabIndex = 32
-        '
-        'lblContractOwner
-        '
-        Me.lblContractOwner.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblContractOwner.AutoSize = True
-        Me.lblContractOwner.BackColor = System.Drawing.Color.Transparent
-        Me.lblContractOwner.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblContractOwner.Location = New System.Drawing.Point(12, 10)
-        Me.lblContractOwner.Name = "lblContractOwner"
-        Me.lblContractOwner.Size = New System.Drawing.Size(43, 13)
-        Me.lblContractOwner.TabIndex = 31
-        Me.lblContractOwner.Text = "Owner:"
-        '
-        'tiContracts
-        '
-        Me.tiContracts.AttachedControl = Me.TabControlPanel14
-        Me.tiContracts.Name = "tiContracts"
-        Me.tiContracts.Text = "Contracts"
-        '
         'TabControlPanel8
         '
         Me.TabControlPanel8.Controls.Add(Me.lblRefineMode)
@@ -6526,6 +6564,15 @@ Partial Class frmPrism
         Me.TabControlPanel2.TabIndex = 2
         Me.TabControlPanel2.TabItem = Me.tiAssets
         '
+        'PAC
+        '
+        Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PAC.Location = New System.Drawing.Point(1, 1)
+        Me.PAC.Name = "PAC"
+        Me.PAC.Size = New System.Drawing.Size(1282, 648)
+        Me.PAC.TabIndex = 0
+        '
         'tiAssets
         '
         Me.tiAssets.AttachedControl = Me.TabControlPanel2
@@ -6536,53 +6583,6 @@ Partial Class frmPrism
         '
         Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
         Me.NodeConnector1.LineWidth = 0
-        '
-        'colContractIssuer
-        '
-        Me.colContractIssuer.DisplayIndex = 6
-        Me.colContractIssuer.Name = "colContractIssuer"
-        Me.colContractIssuer.Text = "Issuer"
-        Me.colContractIssuer.Width.Absolute = 150
-        '
-        'PSCRigOwners
-        '
-        Me.PSCRigOwners.AllowMultipleSelections = True
-        Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PSCRigOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
-        Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
-        Me.PSCRigOwners.Name = "PSCRigOwners"
-        Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
-        Me.PSCRigOwners.TabIndex = 70
-        '
-        'PRPM
-        '
-        Me.PRPM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PRPM.BatchJob = Nothing
-        Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PRPM.InventionBP = Nothing
-        Me.PRPM.Location = New System.Drawing.Point(677, 5)
-        Me.PRPM.Name = "PRPM"
-        Me.PRPM.ProductionJob = Nothing
-        Me.PRPM.Size = New System.Drawing.Size(600, 641)
-        Me.PRPM.TabIndex = 3
-        '
-        'PAC
-        '
-        Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PAC.Location = New System.Drawing.Point(1, 1)
-        Me.PAC.Name = "PAC"
-        Me.PAC.Size = New System.Drawing.Size(1282, 648)
-        Me.PAC.TabIndex = 0
-        '
-        'colContractAcceptor
-        '
-        Me.colContractAcceptor.DisplayIndex = 7
-        Me.colContractAcceptor.Name = "colContractAcceptor"
-        Me.colContractAcceptor.Text = "Acceptor"
-        Me.colContractAcceptor.Width.Absolute = 150
         '
         'frmPrism
         '
@@ -6615,6 +6615,9 @@ Partial Class frmPrism
         Me.pnlPrism.ResumeLayout(False)
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrism.ResumeLayout(False)
+        Me.TabControlPanel14.ResumeLayout(False)
+        Me.TabControlPanel14.PerformLayout()
+        CType(Me.adtContracts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel1.ResumeLayout(False)
         Me.TabControlPanel1.PerformLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6673,9 +6676,6 @@ Partial Class frmPrism
         CType(Me.adtBuyOrders, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlOrderStats.ResumeLayout(False)
         Me.pnlOrderStats.PerformLayout()
-        Me.TabControlPanel14.ResumeLayout(False)
-        Me.TabControlPanel14.PerformLayout()
-        CType(Me.adtContracts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel8.ResumeLayout(False)
         Me.TabControlPanel8.PerformLayout()
         Me.TabControlPanel9.ResumeLayout(False)
