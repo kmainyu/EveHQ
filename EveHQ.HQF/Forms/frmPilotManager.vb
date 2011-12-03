@@ -168,6 +168,7 @@ Public Class frmPilotManager
                                 Dim skillNode As New Node
                                 skillNode.Text = newSkill.Name
                                 skillNode.Tag = newSkill.ID
+                                STT.SetSuperTooltip(skillNode, New SuperTooltipInfo(newSkill.Name, "Skill Description", newSkill.Description, Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow))
                                 hSkill = CType(currentPilot.SkillSet.Item(newSkill.Name), HQFSkill)
                                 If cPilot.PilotSkills.Contains(newSkill.Name) = True Then
                                     Dim mySkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
