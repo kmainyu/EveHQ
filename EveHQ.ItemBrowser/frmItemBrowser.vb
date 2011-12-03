@@ -657,7 +657,7 @@ Public Class frmItemBrowser
                 ItemToolTip1.SetToolTip(Me.picBP, "Show Blueprint")
                 picBP.Visible = True
                 BPWF = EveHQ.Core.DataFunctions.GetBPWF(bpTypeID)
-                BPWFM = ((1 / BPWF) / (1 + nudMELevel.Value))
+                BPWFM = ((BPWF / 100) / (1 + nudMELevel.Value))
                 If displayPilot IsNot Nothing Then
                     BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
                 End If
@@ -798,7 +798,7 @@ Public Class frmItemBrowser
                     ' Check for BPWF
                     If attributes(attNo, 2) = "wasteFactor" Then
                         BPWF = (attributes(attNo, 3))
-                        BPWFM = ((1 / BPWF) / (1 + nudMELevel.Value))
+                        BPWFM = ((BPWF / 100) / (1 + nudMELevel.Value))
                         BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
                     End If
                 Next
