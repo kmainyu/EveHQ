@@ -2625,43 +2625,45 @@ Public Class frmEveHQ
         btnTextTrainingQueue.SubItems.Clear()
         btnTextQueueShoppingList.SubItems.Clear()
 		' Rebuild the queue and shopping list options based on the pilot
-		If cboReportPilot.SelectedItem IsNot Nothing Then
-			Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboReportPilot.SelectedItem.ToString), Core.Pilot)
-			If rPilot IsNot Nothing Then
-				If rPilot.TrainingQueues IsNot Nothing Then
-					For Each qItem As EveHQ.Core.SkillQueue In rPilot.TrainingQueues.Values
-                        Dim queueBtn As New DevComponents.DotNetBar.ButtonItem
-                        queueBtn.CanCustomize = False
-						queueBtn.Text = qItem.Name
-						queueBtn.Name = qItem.Name
-						queueBtn.Image = My.Resources.SkillBook16
-						AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
-						btnHTMLTrainingQueue.SubItems.Add(queueBtn)
-                        queueBtn = New DevComponents.DotNetBar.ButtonItem
-                        queueBtn.CanCustomize = False
-						queueBtn.Text = qItem.Name
-						queueBtn.Name = qItem.Name
-						queueBtn.Image = My.Resources.SkillBook16
-						AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
-						btnHTMLQueueShoppingList.SubItems.Add(queueBtn)
-                        queueBtn = New DevComponents.DotNetBar.ButtonItem
-                        queueBtn.CanCustomize = False
-						queueBtn.Text = qItem.Name
-						queueBtn.Name = qItem.Name
-						queueBtn.Image = My.Resources.SkillBook16
-						AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
-						btnTextTrainingQueue.SubItems.Add(queueBtn)
-                        queueBtn = New DevComponents.DotNetBar.ButtonItem
-                        queueBtn.CanCustomize = False
-						queueBtn.Text = qItem.Name
-						queueBtn.Name = qItem.Name
-						queueBtn.Image = My.Resources.SkillBook16
-						AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
-						btnTextQueueShoppingList.SubItems.Add(queueBtn)
-					Next
-				End If
-			End If
-		End If
+        If cboReportPilot.SelectedItem IsNot Nothing Then
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboReportPilot.SelectedItem.ToString) Then
+                Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboReportPilot.SelectedItem.ToString), Core.Pilot)
+                If rPilot IsNot Nothing Then
+                    If rPilot.TrainingQueues IsNot Nothing Then
+                        For Each qItem As EveHQ.Core.SkillQueue In rPilot.TrainingQueues.Values
+                            Dim queueBtn As New DevComponents.DotNetBar.ButtonItem
+                            queueBtn.CanCustomize = False
+                            queueBtn.Text = qItem.Name
+                            queueBtn.Name = qItem.Name
+                            queueBtn.Image = My.Resources.SkillBook16
+                            AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
+                            btnHTMLTrainingQueue.SubItems.Add(queueBtn)
+                            queueBtn = New DevComponents.DotNetBar.ButtonItem
+                            queueBtn.CanCustomize = False
+                            queueBtn.Text = qItem.Name
+                            queueBtn.Name = qItem.Name
+                            queueBtn.Image = My.Resources.SkillBook16
+                            AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
+                            btnHTMLQueueShoppingList.SubItems.Add(queueBtn)
+                            queueBtn = New DevComponents.DotNetBar.ButtonItem
+                            queueBtn.CanCustomize = False
+                            queueBtn.Text = qItem.Name
+                            queueBtn.Name = qItem.Name
+                            queueBtn.Image = My.Resources.SkillBook16
+                            AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
+                            btnTextTrainingQueue.SubItems.Add(queueBtn)
+                            queueBtn = New DevComponents.DotNetBar.ButtonItem
+                            queueBtn.CanCustomize = False
+                            queueBtn.Text = qItem.Name
+                            queueBtn.Name = qItem.Name
+                            queueBtn.Image = My.Resources.SkillBook16
+                            AddHandler queueBtn.Click, AddressOf Me.ReportsMenuHandler
+                            btnTextQueueShoppingList.SubItems.Add(queueBtn)
+                        Next
+                    End If
+                End If
+            End If
+        End If
 	End Sub
     Private Sub ReportsMenuHandler(ByVal sender As Object, ByVal e As System.EventArgs)
         ' Identify queue name

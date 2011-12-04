@@ -854,6 +854,11 @@ Public Class PrismResources
         adtProductionList.EndUpdate()
     End Sub
 
+    Private Sub adtProductionList_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtProductionList.ColumnHeaderMouseUp
+        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+    End Sub
+
 #End Region
 
 #Region "BPMEControl Functions"
@@ -925,6 +930,7 @@ Public Class PrismResources
 
 #End Region
 
+   
 End Class
 
 Public Class ProductionItem
