@@ -195,6 +195,7 @@ Partial Class frmPilotManager
         '
         'lblSkillQueue
         '
+        Me.lblSkillQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblSkillQueue.AutoSize = True
         Me.lblSkillQueue.BackColor = System.Drawing.Color.Transparent
         Me.lblSkillQueue.Location = New System.Drawing.Point(11, 498)
@@ -248,7 +249,7 @@ Partial Class frmPilotManager
         '
         'lblImplantDescriptionM
         '
-        Me.lblImplantDescriptionM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.lblImplantDescriptionM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblImplantDescriptionM.Location = New System.Drawing.Point(225, 464)
         Me.lblImplantDescriptionM.Multiline = True
@@ -347,8 +348,8 @@ Partial Class frmPilotManager
         Me.tabControlPM.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabControlPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.tabControlPM.Controls.Add(Me.TabControlPanel1)
-        Me.tabControlPM.Controls.Add(Me.TabControlPanel3)
         Me.tabControlPM.Controls.Add(Me.TabControlPanel2)
+        Me.tabControlPM.Controls.Add(Me.TabControlPanel3)
         Me.tabControlPM.Location = New System.Drawing.Point(3, 36)
         Me.tabControlPM.Name = "tabControlPM"
         Me.tabControlPM.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -393,6 +394,9 @@ Partial Class frmPilotManager
         '
         Me.adtSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.adtSkills.AllowDrop = True
+        Me.adtSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtSkills.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -463,8 +467,9 @@ Partial Class frmPilotManager
         'btnImportSkillsFromEFT
         '
         Me.btnImportSkillsFromEFT.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnImportSkillsFromEFT.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnImportSkillsFromEFT.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnImportSkillsFromEFT.Location = New System.Drawing.Point(502, 15)
+        Me.btnImportSkillsFromEFT.Location = New System.Drawing.Point(519, 15)
         Me.btnImportSkillsFromEFT.Name = "btnImportSkillsFromEFT"
         Me.btnImportSkillsFromEFT.Size = New System.Drawing.Size(150, 23)
         Me.btnImportSkillsFromEFT.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -489,6 +494,7 @@ Partial Class frmPilotManager
         '
         'cboSkillQueue
         '
+        Me.cboSkillQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cboSkillQueue.DisplayMember = "Text"
         Me.cboSkillQueue.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cboSkillQueue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -504,6 +510,7 @@ Partial Class frmPilotManager
         'btnSetToSkillQueue
         '
         Me.btnSetToSkillQueue.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnSetToSkillQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSetToSkillQueue.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnSetToSkillQueue.Location = New System.Drawing.Point(203, 498)
         Me.btnSetToSkillQueue.Name = "btnSetToSkillQueue"
@@ -515,6 +522,7 @@ Partial Class frmPilotManager
         'btnAddHQFSkillsToQueue
         '
         Me.btnAddHQFSkillsToQueue.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAddHQFSkillsToQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAddHQFSkillsToQueue.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnAddHQFSkillsToQueue.Location = New System.Drawing.Point(296, 498)
         Me.btnAddHQFSkillsToQueue.Name = "btnAddHQFSkillsToQueue"
@@ -526,6 +534,7 @@ Partial Class frmPilotManager
         'btnUpdateSkills
         '
         Me.btnUpdateSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnUpdateSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdateSkills.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnUpdateSkills.Location = New System.Drawing.Point(387, 499)
         Me.btnUpdateSkills.Name = "btnUpdateSkills"
@@ -537,6 +546,7 @@ Partial Class frmPilotManager
         'btnResetAll
         '
         Me.btnResetAll.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnResetAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnResetAll.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnResetAll.Location = New System.Drawing.Point(478, 499)
         Me.btnResetAll.Name = "btnResetAll"
@@ -548,6 +558,7 @@ Partial Class frmPilotManager
         'btnSetAllToLevel5
         '
         Me.btnSetAllToLevel5.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnSetAllToLevel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSetAllToLevel5.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnSetAllToLevel5.Location = New System.Drawing.Point(569, 499)
         Me.btnSetAllToLevel5.Name = "btnSetAllToLevel5"
@@ -591,6 +602,7 @@ Partial Class frmPilotManager
         '
         'cboImplantFilterM
         '
+        Me.cboImplantFilterM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cboImplantFilterM.DisplayMember = "Text"
         Me.cboImplantFilterM.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cboImplantFilterM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -606,6 +618,7 @@ Partial Class frmPilotManager
         'btnCollapseAllM
         '
         Me.btnCollapseAllM.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnCollapseAllM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCollapseAllM.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnCollapseAllM.Location = New System.Drawing.Point(578, 430)
         Me.btnCollapseAllM.Name = "btnCollapseAllM"
@@ -617,6 +630,7 @@ Partial Class frmPilotManager
         'btnRemoveImplantGroup
         '
         Me.btnRemoveImplantGroup.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnRemoveImplantGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRemoveImplantGroup.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnRemoveImplantGroup.Location = New System.Drawing.Point(147, 497)
         Me.btnRemoveImplantGroup.Name = "btnRemoveImplantGroup"
@@ -628,6 +642,7 @@ Partial Class frmPilotManager
         'btnEditImplantGroup
         '
         Me.btnEditImplantGroup.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnEditImplantGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnEditImplantGroup.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnEditImplantGroup.Location = New System.Drawing.Point(81, 497)
         Me.btnEditImplantGroup.Name = "btnEditImplantGroup"
@@ -639,6 +654,7 @@ Partial Class frmPilotManager
         'btnAddImplantGroup
         '
         Me.btnAddImplantGroup.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAddImplantGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAddImplantGroup.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnAddImplantGroup.Location = New System.Drawing.Point(15, 497)
         Me.btnAddImplantGroup.Name = "btnAddImplantGroup"
@@ -681,6 +697,7 @@ Partial Class frmPilotManager
         'btnCollapseAll
         '
         Me.btnCollapseAll.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnCollapseAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCollapseAll.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnCollapseAll.Location = New System.Drawing.Point(579, 424)
         Me.btnCollapseAll.Name = "btnCollapseAll"
@@ -692,6 +709,7 @@ Partial Class frmPilotManager
         'btnSaveGroup
         '
         Me.btnSaveGroup.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnSaveGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSaveGroup.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnSaveGroup.Location = New System.Drawing.Point(497, 424)
         Me.btnSaveGroup.Name = "btnSaveGroup"
@@ -702,6 +720,7 @@ Partial Class frmPilotManager
         '
         'cboImplantFilter
         '
+        Me.cboImplantFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cboImplantFilter.DisplayMember = "Text"
         Me.cboImplantFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cboImplantFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
