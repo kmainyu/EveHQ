@@ -108,7 +108,7 @@ Public Class frmMarketOrders
     Private Sub CalculateMLStats(ByVal orderList As ArrayList, ByVal orderDate As Date, WriteToDB As Boolean)
         Dim orderDetails(), oDate As String
         Dim issueDate As Date
-        Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss.fff"
+        Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss"
         Dim OldTimeFormat As String = "yyyy-MM-dd"
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim orderExpires As TimeSpan
@@ -146,6 +146,7 @@ Public Class frmMarketOrders
         adtSellers.BeginUpdate() : adtBuyers.BeginUpdate()
         adtSellers.Nodes.Clear() : adtBuyers.Nodes.Clear()
         For Each order As String In orderList
+            order = order.Replace(Chr(0), "")
             orderDetails = order.Split(",".ToCharArray)
             oPrice = Double.Parse(orderDetails(0).Trim, Globalization.NumberStyles.Any, culture)
             oVol = Long.Parse(orderDetails(1).Trim, Globalization.NumberStyles.Any, culture)
