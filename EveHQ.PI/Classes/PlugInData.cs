@@ -749,6 +749,7 @@ namespace EveHQ.PI
             foreach (DataRow ps in schemData.Tables[0].Rows)
             {
                 r = new Reaction();
+                bool AddReaction = true;
                 schemID = Convert.ToInt32(ps.ItemArray[0].ToString());
                 r.typeID = schemID;
                 r.reactName = ps.ItemArray[1].ToString();
@@ -763,6 +764,10 @@ namespace EveHQ.PI
                     c = new Component();
                     compID = Convert.ToInt32(sc.ItemArray[1].ToString());
                     c.ID = compID;
+                    if (EveHQ.Core.HQ.itemData[c.ID.ToString()].Published == false)
+                    {
+                        AddReaction = false;
+                    }
                     c.Qty = Convert.ToInt32(sc.ItemArray[2].ToString());
                     input = Convert.ToInt32(sc.ItemArray[3]);
 
@@ -808,7 +813,10 @@ namespace EveHQ.PI
                         Components.Add(c.Name, new Component(c));
                 }
 
-                Reactions.Add(r.reactName, r);
+                if (AddReaction == true)
+                {
+                    Reactions.Add(r.reactName, r);
+                }
             }
         }
 
