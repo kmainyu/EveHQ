@@ -960,7 +960,7 @@
 1238,1,28583,833,1,22553;22555;22557;4274;4276;4278,0,0,5,4,Mining Foreman Ganglink Bonus
 # Scan Probe Launchers,,,,,,,,,,
 846,2,481,1371,2,479,0,0,0,4,Scan Probe Strength Bonus
-# Siege Module,,,,,,,,,,
+# Siege Modules,,,,,,,,,,
 20,1,20280,37,3,6,0,0,0,4,Max Velocity Bonus
 292,1,20280,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,4,Damage Bonus - EM Missiles
 292,1,20280,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,4,Damage Bonus - Explosive Missiles
@@ -976,7 +976,22 @@
 895,1,20280,84,2,62,0,0,0,4,Armor Repair Amount
 896,1,20280,73,2,62,0,0,0,4,Armor Repair Duration
 897,1,20280,73,2,40,0,0,0,4,Shield Booster Duration
-# Triage Module,,,,,,,,,,
+20,1,4292,37,3,6,0,0,0,4,Max Velocity Bonus
+292,1,4292,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,4,Damage Bonus - EM Missiles
+292,1,4292,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,4,Damage Bonus - Explosive Missiles
+292,1,4292,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,4,Damage Bonus - Kinetic Missiles
+292,1,4292,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,4,Damage Bonus - Thermal Missiles
+292,1,4292,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
+292,1,4292,10014,2,53,0,0,0,4,Damage Bonus - Lasers
+292,1,4292,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
+548,1,4292,68,2,40,1,0,0,4,Shield Boost Bonus
+565,1,4292,564,3,6,0,0,0,4,Scan Resolution Penalty
+767,1,4292,160,2,55;53;74,0,0,0,4,Tracking Speed
+847,1,4292,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396,0,0,0,4,Missile Explosion Velocity
+895,1,4292,84,2,62,0,0,0,4,Armor Repair Amount
+896,1,4292,73,2,62,0,0,0,4,Armor Repair Duration
+897,1,4292,73,2,40,0,0,0,4,Shield Booster Duration
+# Triage Modules,,,,,,,,,,
 20,1,27951,37,3,6,0,0,0,4,Max Velocity Bonus
 548,1,27951,68,2,40,1,0,0,4,Shield Boost Bonus
 565,1,27951,564,3,6,0,0,0,4,Scan Resolution Bonus
@@ -993,6 +1008,22 @@
 1202,1,27951,73,2,585,0,0,0,4,Remote Hull Repair Duration Bonus
 1203,1,27951,90,2,67,0,0,0,4,Energy Transfer Bonus
 1204,1,27951,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
+20,1,4294,37,3,6,0,0,0,4,Max Velocity Bonus
+548,1,4294,68,2,40,1,0,0,4,Shield Boost Bonus
+565,1,4294,564,3,6,0,0,0,4,Scan Resolution Bonus
+895,1,4294,84,2,62,0,0,0,4,Armor Repair Amount
+896,1,4294,73,2,62,0,0,0,4,Armor Repair Duration
+897,1,4294,73,2,40,0,0,0,4,Shield Booster Duration
+1186,1,4294,84,2,325,0,0,0,4,Remote Armor Repair Bonus
+1187,1,4294,73,2,325,0,0,0,4,Remote Armor Repair Duration Bonus
+1188,1,4294,73,2,41,0,0,0,4,Shield Transporter Duration Bonus
+1189,1,4294,68,2,41,0,0,0,4,Shield Transporter Amount Bonus
+1190,1,4294,6,2,201;80;208;65;379;291;52,0,0,0,4,EW Capacitor Need Bonus
+1191,1,4294,10005,3,6,0,0,0,4,Drone Control Bonus
+1201,1,4294,83,2,585,0,0,0,4,Remote Hull Repair Bonus
+1202,1,4294,73,2,585,0,0,0,4,Remote Hull Repair Duration Bonus
+1203,1,4294,90,2,67,0,0,0,4,Energy Transfer Bonus
+1204,1,4294,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
 # Tracking Computers,,,,,,,,,,
 349,2,213,158,2,55;53;74,1,0,0,4,Falloff
 351,2,213,54,2,55;53;74,1,0,0,4,Optimal Range
