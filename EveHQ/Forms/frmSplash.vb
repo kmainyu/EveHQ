@@ -145,6 +145,16 @@ Public Class frmSplash
         End If
         EveHQ.Core.HQ.WriteLogEvent("End: Show Splash Screen")
 
+        If showSettings = True Then
+            EveHQ.Core.EveHQSettingsFunctions.LoadSettings(True)
+            frmSettings.ShowDialog()
+            ' Remove the icons
+            frmEveHQ.EveStatusIcon.Visible = False : frmEveHQ.iconEveHQMLW.Visible = False
+            frmEveHQ.EveStatusIcon.Icon = Nothing : frmEveHQ.iconEveHQMLW.Icon = Nothing
+            frmEveHQ.EveStatusIcon.Dispose() : frmEveHQ.iconEveHQMLW.Dispose()
+            End
+        End If
+
         ' Delete any .old files left over from the last update
         EveHQ.Core.HQ.WriteLogEvent("Start: Old update file check")
         Try
@@ -265,21 +275,11 @@ Public Class frmSplash
         End If
         EveHQ.Core.HQ.WriteLogEvent("End: Set EveHQ backup directory")
 
-        If showSettings = True Then
-            EveHQ.Core.EveHQSettingsFunctions.LoadSettings()
-            frmSettings.ShowDialog()
-            ' Remove the icons
-            frmEveHQ.EveStatusIcon.Visible = False : frmEveHQ.iconEveHQMLW.Visible = False
-            frmEveHQ.EveStatusIcon.Icon = Nothing : frmEveHQ.iconEveHQMLW.Icon = Nothing
-            frmEveHQ.EveStatusIcon.Dispose() : frmEveHQ.iconEveHQMLW.Dispose()
-            End
-        End If
-
         ' Load user settings - this is needed to work out data connection type & update requirements
         EveHQ.Core.HQ.WriteLogEvent("Start: Loading settings")
         lblStatus.Text = "> Loading settings..."
         lblStatus.Refresh()
-        Do While EveHQ.Core.EveHQSettingsFunctions.LoadSettings() = False
+        Do While EveHQ.Core.EveHQSettingsFunctions.LoadSettings(False) = False
             ' Ask if we want to check for a database
             Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
             msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf

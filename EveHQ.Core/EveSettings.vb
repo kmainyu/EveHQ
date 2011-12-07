@@ -1594,8 +1594,8 @@ Public Class EveHQSettingsFunctions
         Call SaveEveHQSettings()
         Call SaveTraining()
     End Sub                  'SaveSettings
-    Public Shared Function LoadSettings() As Boolean
-        If LoadEveHQSettings() = False Then
+    Public Shared Function LoadSettings(ShowRawData As Boolean) As Boolean
+        If LoadEveHQSettings(ShowRawData) = False Then
             Return False
             Exit Function
         End If
@@ -1835,7 +1835,7 @@ Public Class EveHQSettingsFunctions
         EveHQ.Core.HQ.EveHQAPIServerInfo = New EveHQ.EveAPI.APIServerInfo(EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress, EveHQ.Core.HQ.EveHQSettings.APIRSAddress, EveHQ.Core.HQ.EveHQSettings.UseAPIRS, EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup)
     End Sub
 
-    Public Shared Function LoadEveHQSettings() As Boolean
+    Public Shared Function LoadEveHQSettings(ShowRawData As Boolean) As Boolean
         If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin")) = True Then
             Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin"), FileMode.Open)
             Try
@@ -1861,20 +1861,44 @@ Public Class EveHQSettingsFunctions
             End Try
         End If
 
-        ' Reset the update URL to a temp location
-        If EveHQ.Core.HQ.EveHQSettings.UpdateURL <> "http://evehq.indiceve.com/updatev2/" Then
-            EveHQ.Core.HQ.EveHQSettings.UpdateURL = "http://evehq.indiceve.com/updatev2/"
-        End If
+        If ShowRawData = False Then
 
-        ' Check if we were using a v1 database and see if we can automatically set it to v2
-        ' Only required for old Access databases
-        'MessageBox.Show("Updating reference to static database...")
-        'MessageBox.Show("Checking DBFormat..." & EveHQ.Core.HQ.EveHQSettings.DBFormat.ToString)
-        If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
-            'MessageBox.Show("Checking File existence: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) Then
-                Dim DBFI As New FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                If DBFI.Extension = ".mdb" Then
+            ' Reset the update URL to a temp location
+            If EveHQ.Core.HQ.EveHQSettings.UpdateURL <> "http://evehq.indiceve.com/updatev2/" Then
+                EveHQ.Core.HQ.EveHQSettings.UpdateURL = "http://evehq.indiceve.com/updatev2/"
+            End If
+
+            ' Check if we were using a v1 database and see if we can automatically set it to v2
+            ' Only required for old Access databases
+            'MessageBox.Show("Updating reference to static database...")
+            'MessageBox.Show("Checking DBFormat..." & EveHQ.Core.HQ.EveHQSettings.DBFormat.ToString)
+            If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+                'MessageBox.Show("Checking File existence: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) Then
+                    Dim DBFI As New FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                    If DBFI.Extension = ".mdb" Then
+                        'MessageBox.Show("Old Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                        Dim TempFileName As String = "EveHQ.sdf"
+                        ' Check the appdata folder (following an installer setup)
+                        Dim TempFolder As String = EveHQ.Core.HQ.appDataFolder
+                        If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
+                            ' Set the database to the new folder
+                            EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
+                            EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False
+                            'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                        Else
+                            ' Check the app folder (following a zip setup)
+                            TempFolder = EveHQ.Core.HQ.appFolder
+                            If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
+                                ' Set the database to the new folder
+                                EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
+                                EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False
+                                'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                            End If
+                        End If
+                    End If
+                Else
+                    ' Can't find database file - assume it has been overwritten by the v2 installer
                     'MessageBox.Show("Old Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
                     Dim TempFileName As String = "EveHQ.sdf"
                     ' Check the appdata folder (following an installer setup)
@@ -1895,140 +1919,120 @@ Public Class EveHQSettingsFunctions
                         End If
                     End If
                 End If
-            Else
-                ' Can't find database file - assume it has been overwritten by the v2 installer
-                'MessageBox.Show("Old Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                Dim TempFileName As String = "EveHQ.sdf"
-                ' Check the appdata folder (following an installer setup)
-                Dim TempFolder As String = EveHQ.Core.HQ.appDataFolder
-                If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
-                    ' Set the database to the new folder
-                    EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
-                    EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False
-                    'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                Else
-                    ' Check the app folder (following a zip setup)
-                    TempFolder = EveHQ.Core.HQ.appFolder
-                    If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
-                        ' Set the database to the new folder
-                        EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
-                        EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False
-                        'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                    End If
-                End If
             End If
-        End If
 
-        ' Set the database connection string
-        ' Determine if a database format has been chosen before and set it if not
-        If EveHQ.Core.HQ.EveHQSettings.DBFormat = -1 Then
-            EveHQ.Core.HQ.EveHQSettings.DBFormat = 0
-            EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQ.sdf")
-            ' Check for this file!
-            Dim fileExists As Boolean = False
-            Do
-                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) = False Then
-                    Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
-                    msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
-                    msg &= "Would you like to select a file now?" & ControlChars.CrLf
-                    Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                    If reply = Windows.Forms.DialogResult.No Then
-                        Return False
-                        Exit Function
-                    End If
-                    Dim ofd1 As New OpenFileDialog
-                    With ofd1
-                        .Title = "Select SQL CE Data file"
-                        .FileName = ""
-                        .InitialDirectory = EveHQ.Core.HQ.appFolder
-                        .Filter = "SQL CE Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
-                        .FilterIndex = 1
-                        .RestoreDirectory = True
-                        If .ShowDialog() = Windows.Forms.DialogResult.OK Then
-                            EveHQ.Core.HQ.EveHQSettings.DBFilename = .FileName
+            ' Set the database connection string
+            ' Determine if a database format has been chosen before and set it if not
+            If EveHQ.Core.HQ.EveHQSettings.DBFormat = -1 Then
+                EveHQ.Core.HQ.EveHQSettings.DBFormat = 0
+                EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQ.sdf")
+                ' Check for this file!
+                Dim fileExists As Boolean = False
+                Do
+                    If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) = False Then
+                        Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
+                        msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
+                        msg &= "Would you like to select a file now?" & ControlChars.CrLf
+                        Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        If reply = Windows.Forms.DialogResult.No Then
+                            Return False
+                            Exit Function
                         End If
-                    End With
-                Else
-                    fileExists = True
-                End If
-            Loop Until fileExists = True
-            EveHQ.Core.HQ.EveHQSettings.DBUsername = ""
-            EveHQ.Core.HQ.EveHQSettings.DBPassword = ""
-        End If
+                        Dim ofd1 As New OpenFileDialog
+                        With ofd1
+                            .Title = "Select SQL CE Data file"
+                            .FileName = ""
+                            .InitialDirectory = EveHQ.Core.HQ.appFolder
+                            .Filter = "SQL CE Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
+                            .FilterIndex = 1
+                            .RestoreDirectory = True
+                            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                                EveHQ.Core.HQ.EveHQSettings.DBFilename = .FileName
+                            End If
+                        End With
+                    Else
+                        fileExists = True
+                    End If
+                Loop Until fileExists = True
+                EveHQ.Core.HQ.EveHQSettings.DBUsername = ""
+                EveHQ.Core.HQ.EveHQSettings.DBPassword = ""
+            End If
 
-        ' See if people actually bothered to RTFM and install SQLCEv4!
-        Try
-            If EveHQ.Core.DataFunctions.SetEveHQConnectionString() = False Then
-                Return False
-            End If
-            If EveHQ.Core.DataFunctions.SetEveHQDataConnectionString() = False Then
-                Return False
-            End If
-        Catch ex As Exception
-            Dim msg As New StringBuilder
-            msg.AppendLine("Error: " & ex.Message)
-            msg.AppendLine("")
-            msg.AppendLine("An error occurred trying to access the database, with the most common cause being that SQL Compact Edition v4 was not installed as instructed.")
-            msg.AppendLine("")
-            msg.AppendLine("Click OK to close EveHQ where you will be redirected to the SQL Compact Edition download page at http://www.microsoft.com/download/en/details.aspx?id=17876")
-            MessageBox.Show(msg.ToString, "Error Initialising Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ' See if people actually bothered to RTFM and install SQLCEv4!
             Try
-                Process.Start("http://www.microsoft.com/download/en/details.aspx?id=17876")
-                Application.ExitThread()
-            Catch ex2 As Exception
-                ' Do nothing - users have the link
+                If EveHQ.Core.DataFunctions.SetEveHQConnectionString() = False Then
+                    Return False
+                End If
+                If EveHQ.Core.DataFunctions.SetEveHQDataConnectionString() = False Then
+                    Return False
+                End If
+            Catch ex As Exception
+                Dim msg As New StringBuilder
+                msg.AppendLine("Error: " & ex.Message)
+                msg.AppendLine("")
+                msg.AppendLine("An error occurred trying to access the database, with the most common cause being that SQL Compact Edition v4 was not installed as instructed.")
+                msg.AppendLine("")
+                msg.AppendLine("Click OK to close EveHQ where you will be redirected to the SQL Compact Edition download page at http://www.microsoft.com/download/en/details.aspx?id=17876")
+                MessageBox.Show(msg.ToString, "Error Initialising Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Try
+                    Process.Start("http://www.microsoft.com/download/en/details.aspx?id=17876")
+                    Application.ExitThread()
+                Catch ex2 As Exception
+                    ' Do nothing - users have the link
+                End Try
             End Try
-        End Try
 
-        ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
-        If EveHQ.Core.SkillFunctions.LoadEveSkillData() = False Then
-            Return False
-            Exit Function
-        End If
-
-        '  Setup queue columns etc
-        Call InitialiseQueueColumns()
-        Call InitialiseUserColumns()
-        Call InitialiseRemoteProxyServer()
-        If EveHQ.Core.HQ.EveHQSettings.QColumns(0, 0) Is Nothing Then
-            Call ResetColumns()
-        End If
-
-        ' Set Theme stuff
-        If EveHQ.Core.HQ.EveHQSettings.ThemeSetByUser = False Then
-            EveHQ.Core.HQ.EveHQSettings.ThemeStyle = DevComponents.DotNetBar.eStyle.Office2007Black
-            EveHQ.Core.HQ.EveHQSettings.ThemeTint = Drawing.Color.Empty
-        End If
-
-        ' Set up a global price list if not present
-        If EveHQ.Core.HQ.EveHQSettings.PriceGroups.ContainsKey("<Global>") = False Then
-            ' Add a new price group
-            Dim NewPG As New EveHQ.Core.PriceGroup
-            NewPG.Name = "<Global>"
-            NewPG.RegionIDs.Add("10000002")
-            NewPG.PriceFlags = PriceGroupFlags.MinSell
-            EveHQ.Core.HQ.EveHQSettings.PriceGroups.Add(NewPG.Name, NewPG)
-        End If
-
-        ' Set Global APIServerInfo
-        EveHQ.Core.HQ.EveHQAPIServerInfo = New EveHQ.EveAPI.APIServerInfo(EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress, EveHQ.Core.HQ.EveHQSettings.APIRSAddress, EveHQ.Core.HQ.EveHQSettings.UseAPIRS, EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup)
-
-        ' Check for unknown or V1 accounts and remove them
-        Dim OldAccountList As New List(Of String)
-        For Each CheckAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-            If CheckAccount.APIKeySystem = APIKeySystems.Unknown Or CheckAccount.APIKeySystem = APIKeySystems.Version1 Then
-                OldAccountList.Add(CheckAccount.userID)
+            ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
+            If EveHQ.Core.SkillFunctions.LoadEveSkillData() = False Then
+                Return False
+                Exit Function
             End If
-        Next
-        If OldAccountList.Count > 0 Then
-            For Each AccountID As String In OldAccountList
-                EveHQ.Core.HQ.EveHQSettings.Accounts.Remove(AccountID)
+
+            '  Setup queue columns etc
+            Call InitialiseQueueColumns()
+            Call InitialiseUserColumns()
+            Call InitialiseRemoteProxyServer()
+            If EveHQ.Core.HQ.EveHQSettings.QColumns(0, 0) Is Nothing Then
+                Call ResetColumns()
+            End If
+
+            ' Set Theme stuff
+            If EveHQ.Core.HQ.EveHQSettings.ThemeSetByUser = False Then
+                EveHQ.Core.HQ.EveHQSettings.ThemeStyle = DevComponents.DotNetBar.eStyle.Office2007Black
+                EveHQ.Core.HQ.EveHQSettings.ThemeTint = Drawing.Color.Empty
+            End If
+
+            ' Set up a global price list if not present
+            If EveHQ.Core.HQ.EveHQSettings.PriceGroups.ContainsKey("<Global>") = False Then
+                ' Add a new price group
+                Dim NewPG As New EveHQ.Core.PriceGroup
+                NewPG.Name = "<Global>"
+                NewPG.RegionIDs.Add("10000002")
+                NewPG.PriceFlags = PriceGroupFlags.MinSell
+                EveHQ.Core.HQ.EveHQSettings.PriceGroups.Add(NewPG.Name, NewPG)
+            End If
+
+            ' Set Global APIServerInfo
+            EveHQ.Core.HQ.EveHQAPIServerInfo = New EveHQ.EveAPI.APIServerInfo(EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress, EveHQ.Core.HQ.EveHQSettings.APIRSAddress, EveHQ.Core.HQ.EveHQSettings.UseAPIRS, EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup)
+
+            ' Check for unknown or V1 accounts and remove them
+            Dim OldAccountList As New List(Of String)
+            For Each CheckAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                If CheckAccount.APIKeySystem = APIKeySystems.Unknown Or CheckAccount.APIKeySystem = APIKeySystems.Version1 Then
+                    OldAccountList.Add(CheckAccount.userID)
+                End If
             Next
-            Dim msg As New StringBuilder
-            msg.AppendLine("EveHQ has detected legacy API keys in the settings file. As these are no longer supported, these have been removed.")
-            msg.AppendLine("")
-            msg.AppendLine("You will need to add Customisable API Keys (CAKs) for any characters or corporations removed by this procedure that you wish to continue using.")
-            MessageBox.Show(msg.ToString, "Legacy API Keys Removed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If OldAccountList.Count > 0 Then
+                For Each AccountID As String In OldAccountList
+                    EveHQ.Core.HQ.EveHQSettings.Accounts.Remove(AccountID)
+                Next
+                Dim msg As New StringBuilder
+                msg.AppendLine("EveHQ has detected legacy API keys in the settings file. As these are no longer supported, these have been removed.")
+                msg.AppendLine("")
+                msg.AppendLine("You will need to add Customisable API Keys (CAKs) for any characters or corporations removed by this procedure that you wish to continue using.")
+                MessageBox.Show(msg.ToString, "Legacy API Keys Removed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+
         End If
 
         Return True
