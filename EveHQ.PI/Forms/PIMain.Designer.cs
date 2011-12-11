@@ -38,49 +38,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PIMain));
             this.tc_PIMain = new DevComponents.DotNetBar.TabControl();
-            this.tabControlPanel8 = new DevComponents.DotNetBar.TabControlPanel();
-            this.gp_PIProductCost = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.at_PCost2 = new DevComponents.AdvTree.AdvTree();
-            this.columnHeader1 = new DevComponents.AdvTree.ColumnHeader();
-            this.columnHeader2 = new DevComponents.AdvTree.ColumnHeader();
-            this.columnHeader3 = new DevComponents.AdvTree.ColumnHeader();
-            this.nodeConnector2 = new DevComponents.AdvTree.NodeConnector();
-            this.elementStyle2 = new DevComponents.DotNetBar.ElementStyle();
-            this.elementStyle3 = new DevComponents.DotNetBar.ElementStyle();
-            this.elementStyle4 = new DevComponents.DotNetBar.ElementStyle();
-            this.at_PCost1 = new DevComponents.AdvTree.AdvTree();
-            this.ch_Name1 = new DevComponents.AdvTree.ColumnHeader();
-            this.ch_Qty1 = new DevComponents.AdvTree.ColumnHeader();
-            this.ch_Cost1 = new DevComponents.AdvTree.ColumnHeader();
-            this.nodeConnector1 = new DevComponents.AdvTree.NodeConnector();
-            this.elementStyle1 = new DevComponents.DotNetBar.ElementStyle();
-            this.es_CenterAlign = new DevComponents.DotNetBar.ElementStyle();
-            this.es_RightAlign = new DevComponents.DotNetBar.ElementStyle();
-            this.lb_jt2 = new DevComponents.DotNetBar.LabelX();
-            this.lb_jt1 = new DevComponents.DotNetBar.LabelX();
-            this.lb_Profit1 = new DevComponents.DotNetBar.LabelX();
-            this.lb_Profit2 = new DevComponents.DotNetBar.LabelX();
-            this.lb_BuildCost2 = new DevComponents.DotNetBar.LabelX();
-            this.lb_CompBuy2 = new DevComponents.DotNetBar.LabelX();
-            this.lb_BuildCost1 = new DevComponents.DotNetBar.LabelX();
-            this.lb_CompBuy1 = new DevComponents.DotNetBar.LabelX();
-            this.labelX15 = new DevComponents.DotNetBar.LabelX();
-            this.labelX17 = new DevComponents.DotNetBar.LabelX();
-            this.lb_MarketCost2 = new DevComponents.DotNetBar.LabelX();
-            this.labelX19 = new DevComponents.DotNetBar.LabelX();
-            this.labelX13 = new DevComponents.DotNetBar.LabelX();
-            this.labelX11 = new DevComponents.DotNetBar.LabelX();
-            this.lb_MarketCost1 = new DevComponents.DotNetBar.LabelX();
-            this.labelX9 = new DevComponents.DotNetBar.LabelX();
-            this.labelX4 = new DevComponents.DotNetBar.LabelX();
-            this.nud_NumProduct2 = new System.Windows.Forms.NumericUpDown();
-            this.labelX8 = new DevComponents.DotNetBar.LabelX();
-            this.ct_SelectProduct2 = new DevComponents.DotNetBar.Controls.ComboTree();
-            this.labelX3 = new DevComponents.DotNetBar.LabelX();
-            this.nud_NumProduct1 = new System.Windows.Forms.NumericUpDown();
-            this.labelX2 = new DevComponents.DotNetBar.LabelX();
-            this.ct_SelectProduct1 = new DevComponents.DotNetBar.Controls.ComboTree();
-            this.ti_PIProductCost = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel9 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_BGP = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.DesignerSplitPanel = new System.Windows.Forms.SplitContainer();
@@ -129,6 +86,49 @@
             this.labelItem3 = new DevComponents.DotNetBar.LabelItem();
             this.pb_Power = new DevComponents.DotNetBar.ProgressBarItem();
             this.tp_Desginer2 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel8 = new DevComponents.DotNetBar.TabControlPanel();
+            this.gp_PIProductCost = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.at_PCost2 = new DevComponents.AdvTree.AdvTree();
+            this.columnHeader1 = new DevComponents.AdvTree.ColumnHeader();
+            this.columnHeader2 = new DevComponents.AdvTree.ColumnHeader();
+            this.columnHeader3 = new DevComponents.AdvTree.ColumnHeader();
+            this.nodeConnector2 = new DevComponents.AdvTree.NodeConnector();
+            this.elementStyle2 = new DevComponents.DotNetBar.ElementStyle();
+            this.elementStyle3 = new DevComponents.DotNetBar.ElementStyle();
+            this.elementStyle4 = new DevComponents.DotNetBar.ElementStyle();
+            this.at_PCost1 = new DevComponents.AdvTree.AdvTree();
+            this.ch_Name1 = new DevComponents.AdvTree.ColumnHeader();
+            this.ch_Qty1 = new DevComponents.AdvTree.ColumnHeader();
+            this.ch_Cost1 = new DevComponents.AdvTree.ColumnHeader();
+            this.nodeConnector1 = new DevComponents.AdvTree.NodeConnector();
+            this.elementStyle1 = new DevComponents.DotNetBar.ElementStyle();
+            this.es_CenterAlign = new DevComponents.DotNetBar.ElementStyle();
+            this.es_RightAlign = new DevComponents.DotNetBar.ElementStyle();
+            this.lb_jt2 = new DevComponents.DotNetBar.LabelX();
+            this.lb_jt1 = new DevComponents.DotNetBar.LabelX();
+            this.lb_Profit1 = new DevComponents.DotNetBar.LabelX();
+            this.lb_Profit2 = new DevComponents.DotNetBar.LabelX();
+            this.lb_BuildCost2 = new DevComponents.DotNetBar.LabelX();
+            this.lb_CompBuy2 = new DevComponents.DotNetBar.LabelX();
+            this.lb_BuildCost1 = new DevComponents.DotNetBar.LabelX();
+            this.lb_CompBuy1 = new DevComponents.DotNetBar.LabelX();
+            this.labelX15 = new DevComponents.DotNetBar.LabelX();
+            this.labelX17 = new DevComponents.DotNetBar.LabelX();
+            this.lb_MarketCost2 = new DevComponents.DotNetBar.LabelX();
+            this.labelX19 = new DevComponents.DotNetBar.LabelX();
+            this.labelX13 = new DevComponents.DotNetBar.LabelX();
+            this.labelX11 = new DevComponents.DotNetBar.LabelX();
+            this.lb_MarketCost1 = new DevComponents.DotNetBar.LabelX();
+            this.labelX9 = new DevComponents.DotNetBar.LabelX();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
+            this.nud_NumProduct2 = new System.Windows.Forms.NumericUpDown();
+            this.labelX8 = new DevComponents.DotNetBar.LabelX();
+            this.ct_SelectProduct2 = new DevComponents.DotNetBar.Controls.ComboTree();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.nud_NumProduct1 = new System.Windows.Forms.NumericUpDown();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.ct_SelectProduct1 = new DevComponents.DotNetBar.Controls.ComboTree();
+            this.ti_PIProductCost = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_CommodBG = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.cb_HLCommodities = new DevComponents.DotNetBar.Controls.CheckBoxX();
@@ -171,9 +171,6 @@
             this.gp_Overview = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.cbx_PartialOverview = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.dgv_OverviewSelection = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.SelectFacility = new DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn();
-            this.FacilityName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NumberFacility = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
             this.nud_Days = new System.Windows.Forms.NumericUpDown();
             this.labelX10 = new DevComponents.DotNetBar.LabelX();
             this.dg_Overview = new DevComponents.DotNetBar.Controls.DataGridViewX();
@@ -195,14 +192,11 @@
             this.il_SelCat = new System.Windows.Forms.ImageList(this.components);
             this.il_PI_Images = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.SelectFacility = new DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn();
+            this.FacilityName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NumberFacility = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
             ((System.ComponentModel.ISupportInitialize)(this.tc_PIMain)).BeginInit();
             this.tc_PIMain.SuspendLayout();
-            this.tabControlPanel8.SuspendLayout();
-            this.gp_PIProductCost.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).BeginInit();
             this.tabControlPanel9.SuspendLayout();
             this.gp_BGP.SuspendLayout();
             this.DesignerSplitPanel.Panel1.SuspendLayout();
@@ -214,6 +208,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_LinkLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumLinks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bar_Designer)).BeginInit();
+            this.tabControlPanel8.SuspendLayout();
+            this.gp_PIProductCost.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).BeginInit();
             this.tabControlPanel3.SuspendLayout();
             this.gp_CommodBG.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).BeginInit();
@@ -233,10 +233,10 @@
             // 
             this.tc_PIMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.tc_PIMain.CanReorderTabs = true;
+            this.tc_PIMain.Controls.Add(this.tabControlPanel2);
             this.tc_PIMain.Controls.Add(this.tabControlPanel9);
             this.tc_PIMain.Controls.Add(this.tabControlPanel8);
             this.tc_PIMain.Controls.Add(this.tabControlPanel3);
-            this.tc_PIMain.Controls.Add(this.tabControlPanel2);
             this.tc_PIMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tc_PIMain.Location = new System.Drawing.Point(0, 0);
             this.tc_PIMain.Name = "tc_PIMain";
@@ -252,6 +252,679 @@
             this.tc_PIMain.Tabs.Add(this.ti_PIInformation);
             this.tc_PIMain.Tabs.Add(this.ti_PIProductCost);
             this.tc_PIMain.ThemeAware = true;
+            // 
+            // tabControlPanel9
+            // 
+            this.tabControlPanel9.Controls.Add(this.gp_BGP);
+            this.tabControlPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel9.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel9.Name = "tabControlPanel9";
+            this.tabControlPanel9.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel9.Size = new System.Drawing.Size(1008, 707);
+            this.tabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel9.Style.GradientAngle = 90;
+            this.tabControlPanel9.TabIndex = 5;
+            this.tabControlPanel9.TabItem = this.tp_Desginer2;
+            // 
+            // gp_BGP
+            // 
+            this.gp_BGP.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_BGP.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_BGP.Controls.Add(this.DesignerSplitPanel);
+            this.gp_BGP.Controls.Add(this.bar_Designer);
+            this.gp_BGP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_BGP.Location = new System.Drawing.Point(1, 1);
+            this.gp_BGP.Name = "gp_BGP";
+            this.gp_BGP.Size = new System.Drawing.Size(1006, 705);
+            // 
+            // 
+            // 
+            this.gp_BGP.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_BGP.Style.BackColorGradientAngle = 90;
+            this.gp_BGP.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_BGP.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_BGP.Style.BorderBottomWidth = 1;
+            this.gp_BGP.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_BGP.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_BGP.Style.BorderLeftWidth = 1;
+            this.gp_BGP.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_BGP.Style.BorderRightWidth = 1;
+            this.gp_BGP.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_BGP.Style.BorderTopWidth = 1;
+            this.gp_BGP.Style.Class = "";
+            this.gp_BGP.Style.CornerDiameter = 4;
+            this.gp_BGP.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_BGP.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_BGP.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_BGP.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_BGP.StyleMouseDown.Class = "";
+            this.gp_BGP.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_BGP.StyleMouseOver.Class = "";
+            this.gp_BGP.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_BGP.TabIndex = 0;
+            // 
+            // DesignerSplitPanel
+            // 
+            this.DesignerSplitPanel.BackColor = System.Drawing.Color.Transparent;
+            this.DesignerSplitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DesignerSplitPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.DesignerSplitPanel.ForeColor = System.Drawing.Color.Navy;
+            this.DesignerSplitPanel.IsSplitterFixed = true;
+            this.DesignerSplitPanel.Location = new System.Drawing.Point(0, 28);
+            this.DesignerSplitPanel.Name = "DesignerSplitPanel";
+            this.DesignerSplitPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // DesignerSplitPanel.Panel1
+            // 
+            this.DesignerSplitPanel.Panel1.BackColor = System.Drawing.Color.Transparent;
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.lbx_HoursDays);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.ii_NumberOfHoursDays);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.at_ProduceView);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.cb_AdjustNumbersForPartial);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX23);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.pb_PlanetType);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.rb_RunPerHour);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.rtb_PlanetDescription);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX16);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.rb_PerDay);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX14);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.nud_LinkLength);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.nud_NumLinks);
+            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX12);
+            this.DesignerSplitPanel.Panel1.ForeColor = System.Drawing.Color.Navy;
+            this.DesignerSplitPanel.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            // 
+            // DesignerSplitPanel.Panel2
+            // 
+            this.DesignerSplitPanel.Panel2.AutoScroll = true;
+            this.DesignerSplitPanel.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.DesignerSplitPanel.Panel2.Controls.Add(this.gp_Planner);
+            this.DesignerSplitPanel.Panel2.ForeColor = System.Drawing.Color.Navy;
+            this.DesignerSplitPanel.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.DesignerSplitPanel.Size = new System.Drawing.Size(1000, 671);
+            this.DesignerSplitPanel.SplitterDistance = 188;
+            this.DesignerSplitPanel.SplitterWidth = 1;
+            this.DesignerSplitPanel.TabIndex = 58;
+            // 
+            // lbx_HoursDays
+            // 
+            this.lbx_HoursDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbx_HoursDays.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lbx_HoursDays.BackgroundStyle.Class = "";
+            this.lbx_HoursDays.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lbx_HoursDays.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbx_HoursDays.ForeColor = System.Drawing.Color.Navy;
+            this.lbx_HoursDays.Location = new System.Drawing.Point(679, 44);
+            this.lbx_HoursDays.Name = "lbx_HoursDays";
+            this.lbx_HoursDays.Size = new System.Drawing.Size(69, 15);
+            this.lbx_HoursDays.TabIndex = 58;
+            this.lbx_HoursDays.Text = "# of Hours";
+            this.lbx_HoursDays.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.lbx_HoursDays.WordWrap = true;
+            // 
+            // ii_NumberOfHoursDays
+            // 
+            this.ii_NumberOfHoursDays.AllowEmptyState = false;
+            this.ii_NumberOfHoursDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
+            this.ii_NumberOfHoursDays.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.ii_NumberOfHoursDays.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ii_NumberOfHoursDays.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
+            this.ii_NumberOfHoursDays.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Center;
+            this.ii_NumberOfHoursDays.Location = new System.Drawing.Point(688, 59);
+            this.ii_NumberOfHoursDays.MaxValue = 999;
+            this.ii_NumberOfHoursDays.MinValue = 1;
+            this.ii_NumberOfHoursDays.Name = "ii_NumberOfHoursDays";
+            this.ii_NumberOfHoursDays.ShowUpDown = true;
+            this.ii_NumberOfHoursDays.Size = new System.Drawing.Size(50, 21);
+            this.ii_NumberOfHoursDays.TabIndex = 57;
+            this.ii_NumberOfHoursDays.Value = 1;
+            this.ii_NumberOfHoursDays.WatermarkAlignment = DevComponents.Editors.eTextAlignment.Center;
+            this.ii_NumberOfHoursDays.ValueChanged += new System.EventHandler(this.ii_NumberOfHoursDays_ValueChanged);
+            // 
+            // at_ProduceView
+            // 
+            this.at_ProduceView.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
+            this.at_ProduceView.AllowDrop = true;
+            this.at_ProduceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.at_ProduceView.BackColor = System.Drawing.SystemColors.Window;
+            // 
+            // 
+            // 
+            this.at_ProduceView.BackgroundStyle.Class = "TreeBorderKey";
+            this.at_ProduceView.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.at_ProduceView.Columns.Add(this.prd_Material);
+            this.at_ProduceView.Columns.Add(this.prd_Needed);
+            this.at_ProduceView.Columns.Add(this.prd_Producing);
+            this.at_ProduceView.Columns.Add(this.prd_Using);
+            this.at_ProduceView.Columns.Add(this.prd_Delta);
+            this.at_ProduceView.Columns.Add(this.prd_NeedM3);
+            this.at_ProduceView.Columns.Add(this.prd_ProdM3);
+            this.at_ProduceView.Columns.Add(this.prd_DeltaM3);
+            this.at_ProduceView.Columns.Add(this.prd_Isk);
+            this.at_ProduceView.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.at_ProduceView.Location = new System.Drawing.Point(127, 0);
+            this.at_ProduceView.Name = "at_ProduceView";
+            this.at_ProduceView.Nodes.AddRange(new DevComponents.AdvTree.Node[] {
+            this.node1});
+            this.at_ProduceView.NodesConnector = this.nodeConnector3;
+            this.at_ProduceView.NodeStyle = this.NormalProd;
+            this.at_ProduceView.PathSeparator = ";";
+            this.at_ProduceView.Size = new System.Drawing.Size(550, 188);
+            this.at_ProduceView.Styles.Add(this.NormalProd);
+            this.at_ProduceView.Styles.Add(this.OverProd);
+            this.at_ProduceView.Styles.Add(this.UnderProd);
+            this.at_ProduceView.TabIndex = 0;
+            // 
+            // prd_Material
+            // 
+            this.prd_Material.Editable = false;
+            this.prd_Material.Name = "prd_Material";
+            this.prd_Material.SortingEnabled = false;
+            this.prd_Material.Text = "Material Type";
+            this.prd_Material.Width.Absolute = 225;
+            // 
+            // prd_Needed
+            // 
+            this.prd_Needed.Editable = false;
+            this.prd_Needed.Name = "prd_Needed";
+            this.prd_Needed.SortingEnabled = false;
+            this.prd_Needed.Text = "Needed";
+            this.prd_Needed.Width.Absolute = 70;
+            // 
+            // prd_Producing
+            // 
+            this.prd_Producing.Editable = false;
+            this.prd_Producing.Name = "prd_Producing";
+            this.prd_Producing.SortingEnabled = false;
+            this.prd_Producing.Text = "Producing";
+            this.prd_Producing.Width.Absolute = 70;
+            // 
+            // prd_Using
+            // 
+            this.prd_Using.Editable = false;
+            this.prd_Using.Name = "prd_Using";
+            this.prd_Using.SortingEnabled = false;
+            this.prd_Using.Text = "Using";
+            this.prd_Using.Width.Absolute = 70;
+            // 
+            // prd_Delta
+            // 
+            this.prd_Delta.Editable = false;
+            this.prd_Delta.Name = "prd_Delta";
+            this.prd_Delta.SortingEnabled = false;
+            this.prd_Delta.Text = "Delta";
+            this.prd_Delta.Width.Absolute = 70;
+            // 
+            // prd_NeedM3
+            // 
+            this.prd_NeedM3.Name = "prd_NeedM3";
+            this.prd_NeedM3.SortingEnabled = false;
+            this.prd_NeedM3.Text = "Vol Need m3";
+            this.prd_NeedM3.Width.Absolute = 70;
+            // 
+            // prd_ProdM3
+            // 
+            this.prd_ProdM3.Name = "prd_ProdM3";
+            this.prd_ProdM3.SortingEnabled = false;
+            this.prd_ProdM3.Text = "Vol Prod m3";
+            this.prd_ProdM3.Width.Absolute = 70;
+            // 
+            // prd_DeltaM3
+            // 
+            this.prd_DeltaM3.Name = "prd_DeltaM3";
+            this.prd_DeltaM3.SortingEnabled = false;
+            this.prd_DeltaM3.Text = "Delta Vol m3";
+            this.prd_DeltaM3.Width.Absolute = 70;
+            // 
+            // prd_Isk
+            // 
+            this.prd_Isk.Name = "prd_Isk";
+            this.prd_Isk.SortingEnabled = false;
+            this.prd_Isk.Text = "Isk";
+            this.prd_Isk.Width.Absolute = 150;
+            // 
+            // node1
+            // 
+            this.node1.Expanded = true;
+            this.node1.Name = "node1";
+            this.node1.Text = "node1";
+            // 
+            // nodeConnector3
+            // 
+            this.nodeConnector3.LineColor = System.Drawing.SystemColors.ControlText;
+            // 
+            // NormalProd
+            // 
+            this.NormalProd.Class = "";
+            this.NormalProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.NormalProd.Name = "NormalProd";
+            this.NormalProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.NormalProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            // 
+            // OverProd
+            // 
+            this.OverProd.Class = "";
+            this.OverProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.OverProd.Name = "OverProd";
+            this.OverProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.OverProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(195)))), ((int)(((byte)(0)))));
+            // 
+            // UnderProd
+            // 
+            this.UnderProd.Class = "";
+            this.UnderProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.UnderProd.Name = "UnderProd";
+            this.UnderProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.UnderProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            // 
+            // cb_AdjustNumbersForPartial
+            // 
+            this.cb_AdjustNumbersForPartial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_AdjustNumbersForPartial.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.cb_AdjustNumbersForPartial.BackgroundStyle.Class = "";
+            this.cb_AdjustNumbersForPartial.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.cb_AdjustNumbersForPartial.Location = new System.Drawing.Point(677, 93);
+            this.cb_AdjustNumbersForPartial.Name = "cb_AdjustNumbersForPartial";
+            this.cb_AdjustNumbersForPartial.Size = new System.Drawing.Size(19, 19);
+            this.cb_AdjustNumbersForPartial.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_AdjustNumbersForPartial.TabIndex = 35;
+            this.cb_AdjustNumbersForPartial.TextColor = System.Drawing.Color.Navy;
+            this.cb_AdjustNumbersForPartial.CheckedChanged += new System.EventHandler(this.cb_AdjustForPartial_CheckedChanged);
+            // 
+            // labelX23
+            // 
+            this.labelX23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelX23.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX23.BackgroundStyle.Class = "";
+            this.labelX23.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX23.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX23.ForeColor = System.Drawing.Color.Navy;
+            this.labelX23.Location = new System.Drawing.Point(695, 82);
+            this.labelX23.Name = "labelX23";
+            this.labelX23.Size = new System.Drawing.Size(50, 40);
+            this.labelX23.TabIndex = 30;
+            this.labelX23.Text = "Adjust for Partial Input";
+            this.labelX23.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.labelX23.WordWrap = true;
+            // 
+            // pb_PlanetType
+            // 
+            this.pb_PlanetType.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_PlanetType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb_PlanetType.Location = new System.Drawing.Point(1, 1);
+            this.pb_PlanetType.Name = "pb_PlanetType";
+            this.pb_PlanetType.Size = new System.Drawing.Size(125, 125);
+            this.pb_PlanetType.TabIndex = 37;
+            this.pb_PlanetType.TabStop = false;
+            // 
+            // rb_RunPerHour
+            // 
+            this.rb_RunPerHour.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_RunPerHour.BackColor = System.Drawing.Color.Transparent;
+            this.rb_RunPerHour.Checked = true;
+            this.rb_RunPerHour.ForeColor = System.Drawing.Color.Navy;
+            this.rb_RunPerHour.Location = new System.Drawing.Point(680, 2);
+            this.rb_RunPerHour.Name = "rb_RunPerHour";
+            this.rb_RunPerHour.Size = new System.Drawing.Size(68, 19);
+            this.rb_RunPerHour.TabIndex = 31;
+            this.rb_RunPerHour.TabStop = true;
+            this.rb_RunPerHour.Text = "Per Hour";
+            this.rb_RunPerHour.UseVisualStyleBackColor = false;
+            this.rb_RunPerHour.CheckedChanged += new System.EventHandler(this.rb_TimeDurationChange);
+            // 
+            // rtb_PlanetDescription
+            // 
+            this.rtb_PlanetDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtb_PlanetDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rtb_PlanetDescription.ForeColor = System.Drawing.Color.Navy;
+            this.rtb_PlanetDescription.Location = new System.Drawing.Point(750, 2);
+            this.rtb_PlanetDescription.Name = "rtb_PlanetDescription";
+            this.rtb_PlanetDescription.Size = new System.Drawing.Size(249, 185);
+            this.rtb_PlanetDescription.TabIndex = 23;
+            this.rtb_PlanetDescription.Text = "";
+            // 
+            // labelX16
+            // 
+            this.labelX16.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX16.BackgroundStyle.Class = "";
+            this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX16.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX16.ForeColor = System.Drawing.Color.Navy;
+            this.labelX16.Location = new System.Drawing.Point(107, 127);
+            this.labelX16.Name = "labelX16";
+            this.labelX16.Size = new System.Drawing.Size(21, 23);
+            this.labelX16.TabIndex = 54;
+            this.labelX16.Text = "km";
+            this.labelX16.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // rb_PerDay
+            // 
+            this.rb_PerDay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_PerDay.BackColor = System.Drawing.Color.Transparent;
+            this.rb_PerDay.ForeColor = System.Drawing.Color.Navy;
+            this.rb_PerDay.Location = new System.Drawing.Point(680, 19);
+            this.rb_PerDay.Name = "rb_PerDay";
+            this.rb_PerDay.Size = new System.Drawing.Size(68, 19);
+            this.rb_PerDay.TabIndex = 32;
+            this.rb_PerDay.Text = "Per Day";
+            this.rb_PerDay.UseVisualStyleBackColor = false;
+            // 
+            // labelX14
+            // 
+            this.labelX14.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX14.BackgroundStyle.Class = "";
+            this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX14.ForeColor = System.Drawing.Color.Navy;
+            this.labelX14.Location = new System.Drawing.Point(0, 151);
+            this.labelX14.Name = "labelX14";
+            this.labelX14.Size = new System.Drawing.Size(56, 23);
+            this.labelX14.TabIndex = 56;
+            this.labelX14.Text = "# of Links:";
+            this.labelX14.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // nud_LinkLength
+            // 
+            this.nud_LinkLength.BackColor = System.Drawing.Color.White;
+            this.nud_LinkLength.ForeColor = System.Drawing.Color.Navy;
+            this.nud_LinkLength.Location = new System.Drawing.Point(57, 128);
+            this.nud_LinkLength.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nud_LinkLength.Name = "nud_LinkLength";
+            this.nud_LinkLength.Size = new System.Drawing.Size(55, 21);
+            this.nud_LinkLength.TabIndex = 52;
+            this.nud_LinkLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_LinkLength.ThousandsSeparator = true;
+            this.nud_LinkLength.Value = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nud_LinkLength.ValueChanged += new System.EventHandler(this.nud_LinkLength_ValueChanged);
+            // 
+            // nud_NumLinks
+            // 
+            this.nud_NumLinks.BackColor = System.Drawing.Color.White;
+            this.nud_NumLinks.ForeColor = System.Drawing.Color.Navy;
+            this.nud_NumLinks.Location = new System.Drawing.Point(56, 152);
+            this.nud_NumLinks.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.nud_NumLinks.Name = "nud_NumLinks";
+            this.nud_NumLinks.Size = new System.Drawing.Size(55, 21);
+            this.nud_NumLinks.TabIndex = 55;
+            this.nud_NumLinks.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_NumLinks.ThousandsSeparator = true;
+            this.nud_NumLinks.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nud_NumLinks.ValueChanged += new System.EventHandler(this.nud_NumLinks_ValueChanged);
+            // 
+            // labelX12
+            // 
+            this.labelX12.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX12.BackgroundStyle.Class = "";
+            this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX12.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX12.ForeColor = System.Drawing.Color.Navy;
+            this.labelX12.Location = new System.Drawing.Point(0, 127);
+            this.labelX12.Name = "labelX12";
+            this.labelX12.Size = new System.Drawing.Size(56, 23);
+            this.labelX12.TabIndex = 53;
+            this.labelX12.Text = "Av Link Ln:";
+            this.labelX12.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // gp_Planner
+            // 
+            this.gp_Planner.AllowDrop = true;
+            this.gp_Planner.AntiAlias = false;
+            this.gp_Planner.AutoScroll = true;
+            this.gp_Planner.AutoSize = true;
+            this.gp_Planner.BackColor = System.Drawing.Color.Transparent;
+            this.gp_Planner.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_Planner.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_Planner.Location = new System.Drawing.Point(1, 1);
+            this.gp_Planner.MinimumSize = new System.Drawing.Size(2000, 1000);
+            this.gp_Planner.Name = "gp_Planner";
+            this.gp_Planner.Size = new System.Drawing.Size(2000, 1000);
+            // 
+            // 
+            // 
+            this.gp_Planner.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_Planner.Style.BackColorGradientAngle = 90;
+            this.gp_Planner.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_Planner.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Planner.Style.BorderBottomWidth = 1;
+            this.gp_Planner.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_Planner.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Planner.Style.BorderLeftWidth = 1;
+            this.gp_Planner.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Planner.Style.BorderRightWidth = 1;
+            this.gp_Planner.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_Planner.Style.BorderTopWidth = 1;
+            this.gp_Planner.Style.Class = "";
+            this.gp_Planner.Style.CornerDiameter = 4;
+            this.gp_Planner.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_Planner.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_Planner.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_Planner.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_Planner.StyleMouseDown.Class = "";
+            this.gp_Planner.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_Planner.StyleMouseOver.Class = "";
+            this.gp_Planner.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_Planner.TabIndex = 36;
+            this.toolTip1.SetToolTip(this.gp_Planner, "Right Click on Open Space to Add a Module. Left Click and Drag a Module to Move i" +
+        "t Around. Right Click on a Module to Remove it.");
+            this.gp_Planner.DragOver += new System.Windows.Forms.DragEventHandler(this.gp_Planner_DragOver);
+            this.gp_Planner.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gp_Planner_MouseUp);
+            // 
+            // bar_Designer
+            // 
+            this.bar_Designer.AccessibleDescription = "Options (bar_Options)";
+            this.bar_Designer.AccessibleName = "Options";
+            this.bar_Designer.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
+            this.bar_Designer.AntiAlias = true;
+            this.bar_Designer.CanAutoHide = false;
+            this.bar_Designer.CanDockBottom = false;
+            this.bar_Designer.CanDockLeft = false;
+            this.bar_Designer.CanDockRight = false;
+            this.bar_Designer.CanDockTab = false;
+            this.bar_Designer.CanDockTop = false;
+            this.bar_Designer.CanReorderTabs = false;
+            this.bar_Designer.CanUndock = false;
+            this.bar_Designer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.bar_Designer.DockSide = DevComponents.DotNetBar.eDockSide.Document;
+            this.bar_Designer.DockTabAlignment = DevComponents.DotNetBar.eTabStripAlignment.Top;
+            this.bar_Designer.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.labelItem1,
+            this.cb_SelectFacility,
+            this.b_New,
+            this.b_CopyFacility,
+            this.b_RenameFacility,
+            this.b_ExportFacility,
+            this.b_ImportFacility,
+            this.b_DeleteFacility,
+            this.labelItem2,
+            this.pb_CPU,
+            this.labelItem3,
+            this.pb_Power});
+            this.bar_Designer.Location = new System.Drawing.Point(0, 0);
+            this.bar_Designer.Name = "bar_Designer";
+            this.bar_Designer.Size = new System.Drawing.Size(1000, 28);
+            this.bar_Designer.Stretch = true;
+            this.bar_Designer.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.bar_Designer.TabIndex = 30;
+            this.bar_Designer.TabStop = false;
+            this.bar_Designer.Text = "Options";
+            // 
+            // labelItem1
+            // 
+            this.labelItem1.ForeColor = System.Drawing.Color.Navy;
+            this.labelItem1.Name = "labelItem1";
+            this.labelItem1.Text = "Facility";
+            // 
+            // cb_SelectFacility
+            // 
+            this.cb_SelectFacility.ComboWidth = 300;
+            this.cb_SelectFacility.DropDownHeight = 300;
+            this.cb_SelectFacility.DropDownWidth = 300;
+            this.cb_SelectFacility.ItemHeight = 17;
+            this.cb_SelectFacility.Name = "cb_SelectFacility";
+            this.cb_SelectFacility.SelectedIndexChanged += new System.EventHandler(this.cb_Facility_SelectedIndexChanged);
+            // 
+            // b_New
+            // 
+            this.b_New.ForeColor = System.Drawing.Color.Navy;
+            this.b_New.Name = "b_New";
+            this.b_New.Text = "New";
+            this.b_New.Click += new System.EventHandler(this.b_NewFacility_Click);
+            // 
+            // b_CopyFacility
+            // 
+            this.b_CopyFacility.ForeColor = System.Drawing.Color.Navy;
+            this.b_CopyFacility.Name = "b_CopyFacility";
+            this.b_CopyFacility.Text = "Copy";
+            this.b_CopyFacility.Click += new System.EventHandler(this.b_Copy_Click);
+            // 
+            // b_RenameFacility
+            // 
+            this.b_RenameFacility.ForeColor = System.Drawing.Color.Navy;
+            this.b_RenameFacility.Name = "b_RenameFacility";
+            this.b_RenameFacility.Text = "Rename";
+            this.b_RenameFacility.Click += new System.EventHandler(this.b_Rename_Click);
+            // 
+            // b_ExportFacility
+            // 
+            this.b_ExportFacility.ForeColor = System.Drawing.Color.Navy;
+            this.b_ExportFacility.Name = "b_ExportFacility";
+            this.b_ExportFacility.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.b_FileExport,
+            this.b_CopyToClipboard});
+            this.b_ExportFacility.Text = "Export";
+            // 
+            // b_FileExport
+            // 
+            this.b_FileExport.ForeColor = System.Drawing.Color.Navy;
+            this.b_FileExport.Name = "b_FileExport";
+            this.b_FileExport.Text = "Export To File";
+            this.b_FileExport.Click += new System.EventHandler(this.b_ExportToFile_Click);
+            // 
+            // b_CopyToClipboard
+            // 
+            this.b_CopyToClipboard.ForeColor = System.Drawing.Color.Navy;
+            this.b_CopyToClipboard.Name = "b_CopyToClipboard";
+            this.b_CopyToClipboard.Text = "Export To Clipboard";
+            this.b_CopyToClipboard.Click += new System.EventHandler(this.b_ExportToClipboard_Click);
+            // 
+            // b_ImportFacility
+            // 
+            this.b_ImportFacility.ForeColor = System.Drawing.Color.Navy;
+            this.b_ImportFacility.Name = "b_ImportFacility";
+            this.b_ImportFacility.Text = "Import";
+            this.b_ImportFacility.Click += new System.EventHandler(this.b_Import_Click);
+            // 
+            // b_DeleteFacility
+            // 
+            this.b_DeleteFacility.ForeColor = System.Drawing.Color.Navy;
+            this.b_DeleteFacility.Name = "b_DeleteFacility";
+            this.b_DeleteFacility.Text = "Delete";
+            this.b_DeleteFacility.Click += new System.EventHandler(this.b_Delete_Click);
+            // 
+            // labelItem2
+            // 
+            this.labelItem2.ForeColor = System.Drawing.Color.Navy;
+            this.labelItem2.Name = "labelItem2";
+            this.labelItem2.Text = "| CPU";
+            // 
+            // pb_CPU
+            // 
+            this.pb_CPU.AutoCollapseOnClick = false;
+            // 
+            // 
+            // 
+            this.pb_CPU.BackStyle.Class = "";
+            this.pb_CPU.BackStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.pb_CPU.ChunkGradientAngle = 0F;
+            this.pb_CPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error;
+            this.pb_CPU.MenuVisibility = DevComponents.DotNetBar.eMenuVisibility.VisibleAlways;
+            this.pb_CPU.Name = "pb_CPU";
+            this.pb_CPU.RecentlyUsed = false;
+            this.pb_CPU.Text = "Used / Avail";
+            this.pb_CPU.TextVisible = true;
+            this.pb_CPU.Width = 150;
+            // 
+            // labelItem3
+            // 
+            this.labelItem3.ForeColor = System.Drawing.Color.Navy;
+            this.labelItem3.Name = "labelItem3";
+            this.labelItem3.Text = "| Power";
+            // 
+            // pb_Power
+            // 
+            // 
+            // 
+            // 
+            this.pb_Power.BackStyle.Class = "";
+            this.pb_Power.BackStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.pb_Power.ChunkGradientAngle = 0F;
+            this.pb_Power.MenuVisibility = DevComponents.DotNetBar.eMenuVisibility.VisibleAlways;
+            this.pb_Power.Name = "pb_Power";
+            this.pb_Power.RecentlyUsed = false;
+            this.pb_Power.Text = "Used / Avail";
+            this.pb_Power.TextVisible = true;
+            this.pb_Power.Width = 150;
+            // 
+            // tp_Desginer2
+            // 
+            this.tp_Desginer2.AttachedControl = this.tabControlPanel9;
+            this.tp_Desginer2.Name = "tp_Desginer2";
+            this.tp_Desginer2.Text = "Designer";
             // 
             // tabControlPanel8
             // 
@@ -1018,679 +1691,6 @@
             this.ti_PIProductCost.Name = "ti_PIProductCost";
             this.ti_PIProductCost.Text = "Product Cost Matrix";
             // 
-            // tabControlPanel9
-            // 
-            this.tabControlPanel9.Controls.Add(this.gp_BGP);
-            this.tabControlPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel9.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel9.Name = "tabControlPanel9";
-            this.tabControlPanel9.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel9.Size = new System.Drawing.Size(1008, 707);
-            this.tabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
-            this.tabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel9.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel9.Style.GradientAngle = 90;
-            this.tabControlPanel9.TabIndex = 5;
-            this.tabControlPanel9.TabItem = this.tp_Desginer2;
-            // 
-            // gp_BGP
-            // 
-            this.gp_BGP.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_BGP.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_BGP.Controls.Add(this.DesignerSplitPanel);
-            this.gp_BGP.Controls.Add(this.bar_Designer);
-            this.gp_BGP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_BGP.Location = new System.Drawing.Point(1, 1);
-            this.gp_BGP.Name = "gp_BGP";
-            this.gp_BGP.Size = new System.Drawing.Size(1006, 705);
-            // 
-            // 
-            // 
-            this.gp_BGP.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_BGP.Style.BackColorGradientAngle = 90;
-            this.gp_BGP.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_BGP.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_BGP.Style.BorderBottomWidth = 1;
-            this.gp_BGP.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_BGP.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_BGP.Style.BorderLeftWidth = 1;
-            this.gp_BGP.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_BGP.Style.BorderRightWidth = 1;
-            this.gp_BGP.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_BGP.Style.BorderTopWidth = 1;
-            this.gp_BGP.Style.Class = "";
-            this.gp_BGP.Style.CornerDiameter = 4;
-            this.gp_BGP.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_BGP.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_BGP.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_BGP.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_BGP.StyleMouseDown.Class = "";
-            this.gp_BGP.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_BGP.StyleMouseOver.Class = "";
-            this.gp_BGP.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_BGP.TabIndex = 0;
-            // 
-            // DesignerSplitPanel
-            // 
-            this.DesignerSplitPanel.BackColor = System.Drawing.Color.Transparent;
-            this.DesignerSplitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DesignerSplitPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.DesignerSplitPanel.ForeColor = System.Drawing.Color.Navy;
-            this.DesignerSplitPanel.IsSplitterFixed = true;
-            this.DesignerSplitPanel.Location = new System.Drawing.Point(0, 28);
-            this.DesignerSplitPanel.Name = "DesignerSplitPanel";
-            this.DesignerSplitPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // DesignerSplitPanel.Panel1
-            // 
-            this.DesignerSplitPanel.Panel1.BackColor = System.Drawing.Color.Transparent;
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.lbx_HoursDays);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.ii_NumberOfHoursDays);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.at_ProduceView);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.cb_AdjustNumbersForPartial);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX23);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.pb_PlanetType);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.rb_RunPerHour);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.rtb_PlanetDescription);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX16);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.rb_PerDay);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX14);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.nud_LinkLength);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.nud_NumLinks);
-            this.DesignerSplitPanel.Panel1.Controls.Add(this.labelX12);
-            this.DesignerSplitPanel.Panel1.ForeColor = System.Drawing.Color.Navy;
-            this.DesignerSplitPanel.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            // 
-            // DesignerSplitPanel.Panel2
-            // 
-            this.DesignerSplitPanel.Panel2.AutoScroll = true;
-            this.DesignerSplitPanel.Panel2.BackColor = System.Drawing.Color.Transparent;
-            this.DesignerSplitPanel.Panel2.Controls.Add(this.gp_Planner);
-            this.DesignerSplitPanel.Panel2.ForeColor = System.Drawing.Color.Navy;
-            this.DesignerSplitPanel.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.DesignerSplitPanel.Size = new System.Drawing.Size(1000, 671);
-            this.DesignerSplitPanel.SplitterDistance = 188;
-            this.DesignerSplitPanel.SplitterWidth = 1;
-            this.DesignerSplitPanel.TabIndex = 58;
-            // 
-            // lbx_HoursDays
-            // 
-            this.lbx_HoursDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbx_HoursDays.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lbx_HoursDays.BackgroundStyle.Class = "";
-            this.lbx_HoursDays.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbx_HoursDays.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbx_HoursDays.ForeColor = System.Drawing.Color.Navy;
-            this.lbx_HoursDays.Location = new System.Drawing.Point(679, 44);
-            this.lbx_HoursDays.Name = "lbx_HoursDays";
-            this.lbx_HoursDays.Size = new System.Drawing.Size(69, 15);
-            this.lbx_HoursDays.TabIndex = 58;
-            this.lbx_HoursDays.Text = "# of Hours";
-            this.lbx_HoursDays.TextAlignment = System.Drawing.StringAlignment.Center;
-            this.lbx_HoursDays.WordWrap = true;
-            // 
-            // ii_NumberOfHoursDays
-            // 
-            this.ii_NumberOfHoursDays.AllowEmptyState = false;
-            this.ii_NumberOfHoursDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            // 
-            // 
-            // 
-            this.ii_NumberOfHoursDays.BackgroundStyle.Class = "DateTimeInputBackground";
-            this.ii_NumberOfHoursDays.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ii_NumberOfHoursDays.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
-            this.ii_NumberOfHoursDays.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Center;
-            this.ii_NumberOfHoursDays.Location = new System.Drawing.Point(688, 59);
-            this.ii_NumberOfHoursDays.MaxValue = 999;
-            this.ii_NumberOfHoursDays.MinValue = 1;
-            this.ii_NumberOfHoursDays.Name = "ii_NumberOfHoursDays";
-            this.ii_NumberOfHoursDays.ShowUpDown = true;
-            this.ii_NumberOfHoursDays.Size = new System.Drawing.Size(50, 21);
-            this.ii_NumberOfHoursDays.TabIndex = 57;
-            this.ii_NumberOfHoursDays.Value = 1;
-            this.ii_NumberOfHoursDays.WatermarkAlignment = DevComponents.Editors.eTextAlignment.Center;
-            this.ii_NumberOfHoursDays.ValueChanged += new System.EventHandler(this.ii_NumberOfHoursDays_ValueChanged);
-            // 
-            // at_ProduceView
-            // 
-            this.at_ProduceView.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline;
-            this.at_ProduceView.AllowDrop = true;
-            this.at_ProduceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.at_ProduceView.BackColor = System.Drawing.SystemColors.Window;
-            // 
-            // 
-            // 
-            this.at_ProduceView.BackgroundStyle.Class = "TreeBorderKey";
-            this.at_ProduceView.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.at_ProduceView.Columns.Add(this.prd_Material);
-            this.at_ProduceView.Columns.Add(this.prd_Needed);
-            this.at_ProduceView.Columns.Add(this.prd_Producing);
-            this.at_ProduceView.Columns.Add(this.prd_Using);
-            this.at_ProduceView.Columns.Add(this.prd_Delta);
-            this.at_ProduceView.Columns.Add(this.prd_NeedM3);
-            this.at_ProduceView.Columns.Add(this.prd_ProdM3);
-            this.at_ProduceView.Columns.Add(this.prd_DeltaM3);
-            this.at_ProduceView.Columns.Add(this.prd_Isk);
-            this.at_ProduceView.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.at_ProduceView.Location = new System.Drawing.Point(127, 0);
-            this.at_ProduceView.Name = "at_ProduceView";
-            this.at_ProduceView.Nodes.AddRange(new DevComponents.AdvTree.Node[] {
-            this.node1});
-            this.at_ProduceView.NodesConnector = this.nodeConnector3;
-            this.at_ProduceView.NodeStyle = this.NormalProd;
-            this.at_ProduceView.PathSeparator = ";";
-            this.at_ProduceView.Size = new System.Drawing.Size(550, 188);
-            this.at_ProduceView.Styles.Add(this.NormalProd);
-            this.at_ProduceView.Styles.Add(this.OverProd);
-            this.at_ProduceView.Styles.Add(this.UnderProd);
-            this.at_ProduceView.TabIndex = 0;
-            // 
-            // prd_Material
-            // 
-            this.prd_Material.Editable = false;
-            this.prd_Material.Name = "prd_Material";
-            this.prd_Material.SortingEnabled = false;
-            this.prd_Material.Text = "Material Type";
-            this.prd_Material.Width.Absolute = 225;
-            // 
-            // prd_Needed
-            // 
-            this.prd_Needed.Editable = false;
-            this.prd_Needed.Name = "prd_Needed";
-            this.prd_Needed.SortingEnabled = false;
-            this.prd_Needed.Text = "Needed";
-            this.prd_Needed.Width.Absolute = 70;
-            // 
-            // prd_Producing
-            // 
-            this.prd_Producing.Editable = false;
-            this.prd_Producing.Name = "prd_Producing";
-            this.prd_Producing.SortingEnabled = false;
-            this.prd_Producing.Text = "Producing";
-            this.prd_Producing.Width.Absolute = 70;
-            // 
-            // prd_Using
-            // 
-            this.prd_Using.Editable = false;
-            this.prd_Using.Name = "prd_Using";
-            this.prd_Using.SortingEnabled = false;
-            this.prd_Using.Text = "Using";
-            this.prd_Using.Width.Absolute = 70;
-            // 
-            // prd_Delta
-            // 
-            this.prd_Delta.Editable = false;
-            this.prd_Delta.Name = "prd_Delta";
-            this.prd_Delta.SortingEnabled = false;
-            this.prd_Delta.Text = "Delta";
-            this.prd_Delta.Width.Absolute = 70;
-            // 
-            // prd_NeedM3
-            // 
-            this.prd_NeedM3.Name = "prd_NeedM3";
-            this.prd_NeedM3.SortingEnabled = false;
-            this.prd_NeedM3.Text = "Vol Need m3";
-            this.prd_NeedM3.Width.Absolute = 70;
-            // 
-            // prd_ProdM3
-            // 
-            this.prd_ProdM3.Name = "prd_ProdM3";
-            this.prd_ProdM3.SortingEnabled = false;
-            this.prd_ProdM3.Text = "Vol Prod m3";
-            this.prd_ProdM3.Width.Absolute = 70;
-            // 
-            // prd_DeltaM3
-            // 
-            this.prd_DeltaM3.Name = "prd_DeltaM3";
-            this.prd_DeltaM3.SortingEnabled = false;
-            this.prd_DeltaM3.Text = "Delta Vol m3";
-            this.prd_DeltaM3.Width.Absolute = 70;
-            // 
-            // prd_Isk
-            // 
-            this.prd_Isk.Name = "prd_Isk";
-            this.prd_Isk.SortingEnabled = false;
-            this.prd_Isk.Text = "Isk";
-            this.prd_Isk.Width.Absolute = 150;
-            // 
-            // node1
-            // 
-            this.node1.Expanded = true;
-            this.node1.Name = "node1";
-            this.node1.Text = "node1";
-            // 
-            // nodeConnector3
-            // 
-            this.nodeConnector3.LineColor = System.Drawing.SystemColors.ControlText;
-            // 
-            // NormalProd
-            // 
-            this.NormalProd.Class = "";
-            this.NormalProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.NormalProd.Name = "NormalProd";
-            this.NormalProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.NormalProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            // 
-            // OverProd
-            // 
-            this.OverProd.Class = "";
-            this.OverProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.OverProd.Name = "OverProd";
-            this.OverProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.OverProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(195)))), ((int)(((byte)(0)))));
-            // 
-            // UnderProd
-            // 
-            this.UnderProd.Class = "";
-            this.UnderProd.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.UnderProd.Name = "UnderProd";
-            this.UnderProd.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.UnderProd.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            // 
-            // cb_AdjustNumbersForPartial
-            // 
-            this.cb_AdjustNumbersForPartial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_AdjustNumbersForPartial.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.cb_AdjustNumbersForPartial.BackgroundStyle.Class = "";
-            this.cb_AdjustNumbersForPartial.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cb_AdjustNumbersForPartial.Location = new System.Drawing.Point(677, 93);
-            this.cb_AdjustNumbersForPartial.Name = "cb_AdjustNumbersForPartial";
-            this.cb_AdjustNumbersForPartial.Size = new System.Drawing.Size(19, 19);
-            this.cb_AdjustNumbersForPartial.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_AdjustNumbersForPartial.TabIndex = 35;
-            this.cb_AdjustNumbersForPartial.TextColor = System.Drawing.Color.Navy;
-            this.cb_AdjustNumbersForPartial.CheckedChanged += new System.EventHandler(this.cb_AdjustForPartial_CheckedChanged);
-            // 
-            // labelX23
-            // 
-            this.labelX23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelX23.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX23.BackgroundStyle.Class = "";
-            this.labelX23.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX23.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX23.ForeColor = System.Drawing.Color.Navy;
-            this.labelX23.Location = new System.Drawing.Point(695, 82);
-            this.labelX23.Name = "labelX23";
-            this.labelX23.Size = new System.Drawing.Size(50, 40);
-            this.labelX23.TabIndex = 30;
-            this.labelX23.Text = "Adjust for Partial Input";
-            this.labelX23.TextAlignment = System.Drawing.StringAlignment.Center;
-            this.labelX23.WordWrap = true;
-            // 
-            // pb_PlanetType
-            // 
-            this.pb_PlanetType.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_PlanetType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb_PlanetType.Location = new System.Drawing.Point(1, 1);
-            this.pb_PlanetType.Name = "pb_PlanetType";
-            this.pb_PlanetType.Size = new System.Drawing.Size(125, 125);
-            this.pb_PlanetType.TabIndex = 37;
-            this.pb_PlanetType.TabStop = false;
-            // 
-            // rb_RunPerHour
-            // 
-            this.rb_RunPerHour.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rb_RunPerHour.BackColor = System.Drawing.Color.Transparent;
-            this.rb_RunPerHour.Checked = true;
-            this.rb_RunPerHour.ForeColor = System.Drawing.Color.Navy;
-            this.rb_RunPerHour.Location = new System.Drawing.Point(680, 2);
-            this.rb_RunPerHour.Name = "rb_RunPerHour";
-            this.rb_RunPerHour.Size = new System.Drawing.Size(68, 19);
-            this.rb_RunPerHour.TabIndex = 31;
-            this.rb_RunPerHour.TabStop = true;
-            this.rb_RunPerHour.Text = "Per Hour";
-            this.rb_RunPerHour.UseVisualStyleBackColor = false;
-            this.rb_RunPerHour.CheckedChanged += new System.EventHandler(this.rb_TimeDurationChange);
-            // 
-            // rtb_PlanetDescription
-            // 
-            this.rtb_PlanetDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtb_PlanetDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.rtb_PlanetDescription.ForeColor = System.Drawing.Color.Navy;
-            this.rtb_PlanetDescription.Location = new System.Drawing.Point(750, 2);
-            this.rtb_PlanetDescription.Name = "rtb_PlanetDescription";
-            this.rtb_PlanetDescription.Size = new System.Drawing.Size(249, 185);
-            this.rtb_PlanetDescription.TabIndex = 23;
-            this.rtb_PlanetDescription.Text = "";
-            // 
-            // labelX16
-            // 
-            this.labelX16.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX16.BackgroundStyle.Class = "";
-            this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX16.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX16.ForeColor = System.Drawing.Color.Navy;
-            this.labelX16.Location = new System.Drawing.Point(107, 127);
-            this.labelX16.Name = "labelX16";
-            this.labelX16.Size = new System.Drawing.Size(21, 23);
-            this.labelX16.TabIndex = 54;
-            this.labelX16.Text = "km";
-            this.labelX16.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // rb_PerDay
-            // 
-            this.rb_PerDay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rb_PerDay.BackColor = System.Drawing.Color.Transparent;
-            this.rb_PerDay.ForeColor = System.Drawing.Color.Navy;
-            this.rb_PerDay.Location = new System.Drawing.Point(680, 19);
-            this.rb_PerDay.Name = "rb_PerDay";
-            this.rb_PerDay.Size = new System.Drawing.Size(68, 19);
-            this.rb_PerDay.TabIndex = 32;
-            this.rb_PerDay.Text = "Per Day";
-            this.rb_PerDay.UseVisualStyleBackColor = false;
-            // 
-            // labelX14
-            // 
-            this.labelX14.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX14.BackgroundStyle.Class = "";
-            this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX14.ForeColor = System.Drawing.Color.Navy;
-            this.labelX14.Location = new System.Drawing.Point(0, 151);
-            this.labelX14.Name = "labelX14";
-            this.labelX14.Size = new System.Drawing.Size(56, 23);
-            this.labelX14.TabIndex = 56;
-            this.labelX14.Text = "# of Links:";
-            this.labelX14.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // nud_LinkLength
-            // 
-            this.nud_LinkLength.BackColor = System.Drawing.Color.White;
-            this.nud_LinkLength.ForeColor = System.Drawing.Color.Navy;
-            this.nud_LinkLength.Location = new System.Drawing.Point(57, 128);
-            this.nud_LinkLength.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.nud_LinkLength.Name = "nud_LinkLength";
-            this.nud_LinkLength.Size = new System.Drawing.Size(55, 21);
-            this.nud_LinkLength.TabIndex = 52;
-            this.nud_LinkLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_LinkLength.ThousandsSeparator = true;
-            this.nud_LinkLength.Value = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.nud_LinkLength.ValueChanged += new System.EventHandler(this.nud_LinkLength_ValueChanged);
-            // 
-            // nud_NumLinks
-            // 
-            this.nud_NumLinks.BackColor = System.Drawing.Color.White;
-            this.nud_NumLinks.ForeColor = System.Drawing.Color.Navy;
-            this.nud_NumLinks.Location = new System.Drawing.Point(56, 152);
-            this.nud_NumLinks.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.nud_NumLinks.Name = "nud_NumLinks";
-            this.nud_NumLinks.Size = new System.Drawing.Size(55, 21);
-            this.nud_NumLinks.TabIndex = 55;
-            this.nud_NumLinks.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_NumLinks.ThousandsSeparator = true;
-            this.nud_NumLinks.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.nud_NumLinks.ValueChanged += new System.EventHandler(this.nud_NumLinks_ValueChanged);
-            // 
-            // labelX12
-            // 
-            this.labelX12.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX12.BackgroundStyle.Class = "";
-            this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX12.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX12.ForeColor = System.Drawing.Color.Navy;
-            this.labelX12.Location = new System.Drawing.Point(0, 127);
-            this.labelX12.Name = "labelX12";
-            this.labelX12.Size = new System.Drawing.Size(56, 23);
-            this.labelX12.TabIndex = 53;
-            this.labelX12.Text = "Av Link Ln:";
-            this.labelX12.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // gp_Planner
-            // 
-            this.gp_Planner.AllowDrop = true;
-            this.gp_Planner.AntiAlias = false;
-            this.gp_Planner.AutoScroll = true;
-            this.gp_Planner.AutoSize = true;
-            this.gp_Planner.BackColor = System.Drawing.Color.Transparent;
-            this.gp_Planner.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_Planner.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_Planner.Location = new System.Drawing.Point(1, 1);
-            this.gp_Planner.MinimumSize = new System.Drawing.Size(2000, 1000);
-            this.gp_Planner.Name = "gp_Planner";
-            this.gp_Planner.Size = new System.Drawing.Size(2000, 1000);
-            // 
-            // 
-            // 
-            this.gp_Planner.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_Planner.Style.BackColorGradientAngle = 90;
-            this.gp_Planner.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_Planner.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Planner.Style.BorderBottomWidth = 1;
-            this.gp_Planner.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_Planner.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Planner.Style.BorderLeftWidth = 1;
-            this.gp_Planner.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Planner.Style.BorderRightWidth = 1;
-            this.gp_Planner.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_Planner.Style.BorderTopWidth = 1;
-            this.gp_Planner.Style.Class = "";
-            this.gp_Planner.Style.CornerDiameter = 4;
-            this.gp_Planner.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_Planner.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_Planner.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_Planner.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_Planner.StyleMouseDown.Class = "";
-            this.gp_Planner.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_Planner.StyleMouseOver.Class = "";
-            this.gp_Planner.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_Planner.TabIndex = 36;
-            this.toolTip1.SetToolTip(this.gp_Planner, "Right Click on Open Space to Add a Module. Left Click and Drag a Module to Move i" +
-        "t Around. Right Click on a Module to Remove it.");
-            this.gp_Planner.DragOver += new System.Windows.Forms.DragEventHandler(this.gp_Planner_DragOver);
-            this.gp_Planner.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gp_Planner_MouseUp);
-            // 
-            // bar_Designer
-            // 
-            this.bar_Designer.AccessibleDescription = "Options (bar_Options)";
-            this.bar_Designer.AccessibleName = "Options";
-            this.bar_Designer.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
-            this.bar_Designer.AntiAlias = true;
-            this.bar_Designer.CanAutoHide = false;
-            this.bar_Designer.CanDockBottom = false;
-            this.bar_Designer.CanDockLeft = false;
-            this.bar_Designer.CanDockRight = false;
-            this.bar_Designer.CanDockTab = false;
-            this.bar_Designer.CanDockTop = false;
-            this.bar_Designer.CanReorderTabs = false;
-            this.bar_Designer.CanUndock = false;
-            this.bar_Designer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.bar_Designer.DockSide = DevComponents.DotNetBar.eDockSide.Document;
-            this.bar_Designer.DockTabAlignment = DevComponents.DotNetBar.eTabStripAlignment.Top;
-            this.bar_Designer.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.labelItem1,
-            this.cb_SelectFacility,
-            this.b_New,
-            this.b_CopyFacility,
-            this.b_RenameFacility,
-            this.b_ExportFacility,
-            this.b_ImportFacility,
-            this.b_DeleteFacility,
-            this.labelItem2,
-            this.pb_CPU,
-            this.labelItem3,
-            this.pb_Power});
-            this.bar_Designer.Location = new System.Drawing.Point(0, 0);
-            this.bar_Designer.Name = "bar_Designer";
-            this.bar_Designer.Size = new System.Drawing.Size(1000, 28);
-            this.bar_Designer.Stretch = true;
-            this.bar_Designer.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.bar_Designer.TabIndex = 30;
-            this.bar_Designer.TabStop = false;
-            this.bar_Designer.Text = "Options";
-            // 
-            // labelItem1
-            // 
-            this.labelItem1.ForeColor = System.Drawing.Color.Navy;
-            this.labelItem1.Name = "labelItem1";
-            this.labelItem1.Text = "Facility";
-            // 
-            // cb_SelectFacility
-            // 
-            this.cb_SelectFacility.ComboWidth = 300;
-            this.cb_SelectFacility.DropDownHeight = 300;
-            this.cb_SelectFacility.DropDownWidth = 300;
-            this.cb_SelectFacility.ItemHeight = 17;
-            this.cb_SelectFacility.Name = "cb_SelectFacility";
-            this.cb_SelectFacility.SelectedIndexChanged += new System.EventHandler(this.cb_Facility_SelectedIndexChanged);
-            // 
-            // b_New
-            // 
-            this.b_New.ForeColor = System.Drawing.Color.Navy;
-            this.b_New.Name = "b_New";
-            this.b_New.Text = "New";
-            this.b_New.Click += new System.EventHandler(this.b_NewFacility_Click);
-            // 
-            // b_CopyFacility
-            // 
-            this.b_CopyFacility.ForeColor = System.Drawing.Color.Navy;
-            this.b_CopyFacility.Name = "b_CopyFacility";
-            this.b_CopyFacility.Text = "Copy";
-            this.b_CopyFacility.Click += new System.EventHandler(this.b_Copy_Click);
-            // 
-            // b_RenameFacility
-            // 
-            this.b_RenameFacility.ForeColor = System.Drawing.Color.Navy;
-            this.b_RenameFacility.Name = "b_RenameFacility";
-            this.b_RenameFacility.Text = "Rename";
-            this.b_RenameFacility.Click += new System.EventHandler(this.b_Rename_Click);
-            // 
-            // b_ExportFacility
-            // 
-            this.b_ExportFacility.ForeColor = System.Drawing.Color.Navy;
-            this.b_ExportFacility.Name = "b_ExportFacility";
-            this.b_ExportFacility.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.b_FileExport,
-            this.b_CopyToClipboard});
-            this.b_ExportFacility.Text = "Export";
-            // 
-            // b_FileExport
-            // 
-            this.b_FileExport.ForeColor = System.Drawing.Color.Navy;
-            this.b_FileExport.Name = "b_FileExport";
-            this.b_FileExport.Text = "Export To File";
-            this.b_FileExport.Click += new System.EventHandler(this.b_ExportToFile_Click);
-            // 
-            // b_CopyToClipboard
-            // 
-            this.b_CopyToClipboard.ForeColor = System.Drawing.Color.Navy;
-            this.b_CopyToClipboard.Name = "b_CopyToClipboard";
-            this.b_CopyToClipboard.Text = "Export To Clipboard";
-            this.b_CopyToClipboard.Click += new System.EventHandler(this.b_ExportToClipboard_Click);
-            // 
-            // b_ImportFacility
-            // 
-            this.b_ImportFacility.ForeColor = System.Drawing.Color.Navy;
-            this.b_ImportFacility.Name = "b_ImportFacility";
-            this.b_ImportFacility.Text = "Import";
-            this.b_ImportFacility.Click += new System.EventHandler(this.b_Import_Click);
-            // 
-            // b_DeleteFacility
-            // 
-            this.b_DeleteFacility.ForeColor = System.Drawing.Color.Navy;
-            this.b_DeleteFacility.Name = "b_DeleteFacility";
-            this.b_DeleteFacility.Text = "Delete";
-            this.b_DeleteFacility.Click += new System.EventHandler(this.b_Delete_Click);
-            // 
-            // labelItem2
-            // 
-            this.labelItem2.ForeColor = System.Drawing.Color.Navy;
-            this.labelItem2.Name = "labelItem2";
-            this.labelItem2.Text = "| CPU";
-            // 
-            // pb_CPU
-            // 
-            this.pb_CPU.AutoCollapseOnClick = false;
-            // 
-            // 
-            // 
-            this.pb_CPU.BackStyle.Class = "";
-            this.pb_CPU.BackStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.pb_CPU.ChunkGradientAngle = 0F;
-            this.pb_CPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error;
-            this.pb_CPU.MenuVisibility = DevComponents.DotNetBar.eMenuVisibility.VisibleAlways;
-            this.pb_CPU.Name = "pb_CPU";
-            this.pb_CPU.RecentlyUsed = false;
-            this.pb_CPU.Text = "Used / Avail";
-            this.pb_CPU.TextVisible = true;
-            this.pb_CPU.Width = 150;
-            // 
-            // labelItem3
-            // 
-            this.labelItem3.ForeColor = System.Drawing.Color.Navy;
-            this.labelItem3.Name = "labelItem3";
-            this.labelItem3.Text = "| Power";
-            // 
-            // pb_Power
-            // 
-            // 
-            // 
-            // 
-            this.pb_Power.BackStyle.Class = "";
-            this.pb_Power.BackStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.pb_Power.ChunkGradientAngle = 0F;
-            this.pb_Power.MenuVisibility = DevComponents.DotNetBar.eMenuVisibility.VisibleAlways;
-            this.pb_Power.Name = "pb_Power";
-            this.pb_Power.RecentlyUsed = false;
-            this.pb_Power.Text = "Used / Avail";
-            this.pb_Power.TextVisible = true;
-            this.pb_Power.Width = 150;
-            // 
-            // tp_Desginer2
-            // 
-            this.tp_Desginer2.AttachedControl = this.tabControlPanel9;
-            this.tp_Desginer2.Name = "tp_Desginer2";
-            this.tp_Desginer2.Text = "Designer";
-            // 
             // tabControlPanel3
             // 
             this.tabControlPanel3.Controls.Add(this.gp_CommodBG);
@@ -2208,46 +2208,17 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_OverviewSelection.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgv_OverviewSelection.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_OverviewSelection.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_OverviewSelection.Location = new System.Drawing.Point(1, 32);
+            this.dgv_OverviewSelection.MultiSelect = false;
             this.dgv_OverviewSelection.Name = "dgv_OverviewSelection";
             this.dgv_OverviewSelection.RowHeadersVisible = false;
+            this.dgv_OverviewSelection.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_OverviewSelection.Size = new System.Drawing.Size(353, 667);
             this.dgv_OverviewSelection.TabIndex = 18;
+            this.dgv_OverviewSelection.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OverviewSelection_CellContentClick);
             this.dgv_OverviewSelection.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OverviewSelection_CellValueChanged);
-            // 
-            // SelectFacility
-            // 
-            this.SelectFacility.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
-            this.SelectFacility.Checked = true;
-            this.SelectFacility.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.SelectFacility.CheckValue = "N";
-            this.SelectFacility.HeaderText = "Sel";
-            this.SelectFacility.Name = "SelectFacility";
-            this.SelectFacility.Width = 30;
-            // 
-            // FacilityName
-            // 
-            this.FacilityName.HeaderText = "Facility";
-            this.FacilityName.Name = "FacilityName";
-            this.FacilityName.ReadOnly = true;
-            this.FacilityName.Width = 260;
-            // 
-            // NumberFacility
-            // 
-            // 
-            // 
-            // 
-            this.NumberFacility.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
-            this.NumberFacility.BackgroundStyle.Class = "DataGridViewNumericBorder";
-            this.NumberFacility.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.NumberFacility.BackgroundStyle.TextColor = System.Drawing.SystemColors.ControlText;
-            this.NumberFacility.HeaderText = "#";
-            this.NumberFacility.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Left;
-            this.NumberFacility.MaxValue = 99;
-            this.NumberFacility.MinValue = 1;
-            this.NumberFacility.Name = "NumberFacility";
-            this.NumberFacility.Width = 40;
             // 
             // nud_Days
             // 
@@ -2664,6 +2635,40 @@
             // 
             this.toolTip1.IsBalloon = true;
             // 
+            // SelectFacility
+            // 
+            this.SelectFacility.CheckBoxPosition = DevComponents.DotNetBar.eCheckBoxPosition.Right;
+            this.SelectFacility.Checked = true;
+            this.SelectFacility.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.SelectFacility.CheckValue = "N";
+            this.SelectFacility.HeaderText = "Sel";
+            this.SelectFacility.Name = "SelectFacility";
+            this.SelectFacility.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.SelectFacility.Width = 30;
+            // 
+            // FacilityName
+            // 
+            this.FacilityName.HeaderText = "Facility";
+            this.FacilityName.Name = "FacilityName";
+            this.FacilityName.ReadOnly = true;
+            this.FacilityName.Width = 260;
+            // 
+            // NumberFacility
+            // 
+            // 
+            // 
+            // 
+            this.NumberFacility.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
+            this.NumberFacility.BackgroundStyle.Class = "DataGridViewNumericBorder";
+            this.NumberFacility.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.NumberFacility.BackgroundStyle.TextColor = System.Drawing.SystemColors.ControlText;
+            this.NumberFacility.HeaderText = "#";
+            this.NumberFacility.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Left;
+            this.NumberFacility.MaxValue = 99;
+            this.NumberFacility.MinValue = 1;
+            this.NumberFacility.Name = "NumberFacility";
+            this.NumberFacility.Width = 40;
+            // 
             // PIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2678,12 +2683,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PIMain_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.tc_PIMain)).EndInit();
             this.tc_PIMain.ResumeLayout(false);
-            this.tabControlPanel8.ResumeLayout(false);
-            this.gp_PIProductCost.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).EndInit();
             this.tabControlPanel9.ResumeLayout(false);
             this.gp_BGP.ResumeLayout(false);
             this.DesignerSplitPanel.Panel1.ResumeLayout(false);
@@ -2696,6 +2695,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_LinkLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NumLinks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bar_Designer)).EndInit();
+            this.tabControlPanel8.ResumeLayout(false);
+            this.gp_PIProductCost.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.at_PCost1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_NumProduct1)).EndInit();
             this.tabControlPanel3.ResumeLayout(false);
             this.gp_CommodBG.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tc_CommoditySubmenu)).EndInit();
@@ -2855,9 +2860,6 @@
         private DevComponents.Editors.IntegerInput ii_NumberOfHoursDays;
         private DevComponents.DotNetBar.LabelX lbx_HoursDays;
         private DevComponents.DotNetBar.Controls.DataGridViewX dgv_OverviewSelection;
-        private DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn SelectFacility;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FacilityName;
-        private DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn NumberFacility;
         private DevComponents.DotNetBar.Controls.CheckBoxX cbx_PartialOverview;
         private System.Windows.Forms.DataGridViewTextBoxColumn CompName;
         private System.Windows.Forms.DataGridViewTextBoxColumn CompLevel;
@@ -2873,5 +2875,8 @@
         private DevComponents.DotNetBar.ElementStyle OverProd;
         private DevComponents.DotNetBar.ElementStyle UnderProd;
         private DevComponents.AdvTree.ColumnHeader prd_Isk;
+        private DevComponents.DotNetBar.Controls.DataGridViewCheckBoxXColumn SelectFacility;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FacilityName;
+        private DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn NumberFacility;
     }
 }
