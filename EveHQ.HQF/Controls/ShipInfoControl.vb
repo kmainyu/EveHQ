@@ -576,7 +576,7 @@ Public Class ShipInfoControl
 
     Private Sub btnSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSkills.Click
         If reqSkillsCollection.TruePilotSkills.Count > 0 Then
-            Dim myRequiredSkills As New frmRequiredSkills
+            Dim myRequiredSkills As New frmRequiredSkills(Me.ParentFitting.FittingName)
             myRequiredSkills.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem), EveHQ.Core.Pilot)
             myRequiredSkills.Skills = reqSkillsCollection.TruePilotSkills
             myRequiredSkills.ShowDialog()

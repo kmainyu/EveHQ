@@ -404,7 +404,7 @@ Public Class frmPilotManager
     End Sub
 
     Private Sub AddNeededSkillsToQueue()
-        Dim selQ As New EveHQ.Core.frmSelectQueue(currentPilot.PilotName, QueueSkills)
+        Dim selQ As New EveHQ.Core.frmSelectQueue(currentPilot.PilotName, QueueSkills, "HQF: Pilot Manager")
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
     End Sub

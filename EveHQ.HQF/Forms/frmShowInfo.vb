@@ -27,6 +27,7 @@ Public Class frmShowInfo
 
     Dim oldNodeIndex As Integer = -1
     Dim itemType As Object
+    Dim itemName As String = ""
     Dim hPilot As EveHQ.Core.Pilot
     Dim SkillsNeeded As New List(Of String)
     Dim ItemUsable As Boolean = True
@@ -37,6 +38,7 @@ Public Class frmShowInfo
 
         If TypeOf itemObject Is Ship Then
             itemType = CType(itemObject, Ship)
+            itemName = CType(itemObject, Ship).Name
             ' Check if a custom ship
             Dim baseID As String = ""
             If CustomHQFClasses.CustomShipIDs.ContainsKey(itemObject.ID) Then
@@ -48,6 +50,7 @@ Public Class frmShowInfo
         Else
             If TypeOf itemObject Is ShipModule Then
                 itemType = CType(itemObject, ShipModule)
+                itemName = CType(itemObject, ShipModule).Name
                 If itemType.IsDrone = True Then
                     picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(itemObject.ID)
                 Else
@@ -418,7 +421,7 @@ Public Class frmShowInfo
     End Sub
 
     Private Sub lblUsableTime_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblUsableTime.LinkClicked
-        Dim selQ As New EveHQ.Core.frmSelectQueue(hPilot.Name, SkillsNeeded)
+        Dim selQ As New EveHQ.Core.frmSelectQueue(hPilot.Name, SkillsNeeded, "HQF: " & itemName)
         selQ.TopMost = True
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True

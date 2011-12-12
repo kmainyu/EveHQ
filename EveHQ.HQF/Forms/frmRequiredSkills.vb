@@ -26,6 +26,7 @@ Public Class frmRequiredSkills
     Dim TrainedSkillStyle As ElementStyle
     Dim HQFSkillStyle As ElementStyle
     Dim NotTrainedSkillStyle As ElementStyle
+    Dim FittingName As String
 
 #Region "Property Variables"
     Private reqSkills As New ArrayList
@@ -69,10 +70,13 @@ Public Class frmRequiredSkills
 
 #Region "Form Constructor"
 
-    Public Sub New()
+    Public Sub New(Fitting As String)
 
         ' This call is required by the designer.
         InitializeComponent()
+
+        ' Set Fitting Name
+        FittingName = Fitting
 
         ' Set Styles
         TrainedSkillStyle = adtSkills.Styles("Skill").Copy
@@ -214,7 +218,7 @@ Public Class frmRequiredSkills
             qItem.ToLevel = skillLevel
             qItem.Pos = skill + 1
             qItem.Key = qItem.Name & qItem.FromLevel & qItem.ToLevel
-            newQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(nPilot, skillName, skill + 1, newQueue, skillLevel, True, True)
+            newQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(nPilot, skillName, skill + 1, newQueue, skillLevel, True, True, "HQF: " & FittingName)
         Next
 
         ' Build the Queue
@@ -242,7 +246,7 @@ Public Class frmRequiredSkills
         For Each NeededSkill As HQF.ReqSkill In reqSkills
             NeededSkills.Add(NeededSkill.Name & NeededSkill.ReqLevel)
         Next
-        Dim selQ As New EveHQ.Core.frmSelectQueue(reqPilot.Name, NeededSkills)
+        Dim selQ As New EveHQ.Core.frmSelectQueue(reqPilot.Name, NeededSkills, "HQF: " & FittingName)
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
     End Sub
