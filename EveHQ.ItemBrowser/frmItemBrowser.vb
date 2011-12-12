@@ -1656,7 +1656,7 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub AddNeededSkillsToQueue()
-        Dim selQ As New EveHQ.Core.frmSelectQueue(displayPilot.Name, skillsNeeded)
+        Dim selQ As New EveHQ.Core.frmSelectQueue(displayPilot.Name, skillsNeeded, "Item Browser: " & itemTypeName)
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
         Call Me.GenerateSkills(itemTypeID, itemTypeName)
