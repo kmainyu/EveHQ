@@ -631,7 +631,7 @@ Public Class SkillQueueFunctions
                         Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
                         If pilotLevel <> "Y" Then
                             ' Skill is not trained, check training queue
-                            bQueue = AddPreReqSkillToQueue(qPilot, bQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel))
+                            bQueue = AddPreReqSkillToQueue(qPilot, bQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel), curSkill.Notes)
                         End If
                     End If
                 Next
@@ -750,7 +750,7 @@ Public Class SkillQueueFunctions
 
     End Sub
 
-    Public Shared Function AddSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal addSkill As String, ByVal di As Integer, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal planLevel As Integer, ByVal silent As Boolean, ByVal exitIfTrained As Boolean) As EveHQ.Core.SkillQueue
+    Public Shared Function AddSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal addSkill As String, ByVal di As Integer, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal planLevel As Integer, ByVal silent As Boolean, ByVal exitIfTrained As Boolean, ByVal Note As String) As EveHQ.Core.SkillQueue
         ' Check if the skill is already in the list - key names are skill IDs!
         ' NB: include the current training skill!
         Dim newSkill As New ListViewItem
@@ -801,7 +801,7 @@ Public Class SkillQueueFunctions
                         Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
                         If pilotLevel <> "Y" Then
                             ' Skill is not trained, check training queue
-                            nQueue = AddPreReqSkillToQueue(qPilot, nQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel))
+                            nQueue = AddPreReqSkillToQueue(qPilot, nQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel), Note)
                         End If
                     End If
                 Next
@@ -877,11 +877,12 @@ Public Class SkillQueueFunctions
         newTSkill.Pos = di
         keyName = newTSkill.Name & newTSkill.FromLevel & newTSkill.ToLevel
         newTSkill.Key = keyName
+        newTSkill.Notes = Note
         nQueue.Queue.Add(newTSkill, newTSkill.Key)
         Return nQueue
     End Function
 
-    Public Shared Function AddPreReqSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal skillName As String, ByVal fromLevel As Integer, ByVal toLevel As Integer) As EveHQ.Core.SkillQueue
+    Public Shared Function AddPreReqSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal skillName As String, ByVal fromLevel As Integer, ByVal toLevel As Integer, ByVal Note As String) As EveHQ.Core.SkillQueue
         Dim nQueue As EveHQ.Core.SkillQueue = qQueue
         Dim keyName As String = skillName & fromLevel & toLevel
         Dim myNewSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
@@ -920,6 +921,7 @@ Public Class SkillQueueFunctions
             newTSkill.Pos = qQueue.Queue.Count + 1
             keyName = newTSkill.Name & newTSkill.FromLevel & newTSkill.ToLevel
             newTSkill.Key = keyName
+            newTSkill.Notes = Note
             nQueue.Queue.Add(newTSkill, newTSkill.Key)
         End If
 

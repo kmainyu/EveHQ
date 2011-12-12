@@ -23,11 +23,15 @@ Public Class frmSelectQueue
 
     Dim skillsNeeded As New List(Of String)
     Dim displayPilot As New EveHQ.Core.Pilot
+    Dim QueueReason As String = ""
 
-    Public Sub New(ByVal PilotName As String, ByVal QueuedSkills As List(Of String))
+    Public Sub New(ByVal PilotName As String, ByVal QueuedSkills As List(Of String), ByVal Reason As String)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
+
+        ' Set the queue reason
+        QueueReason = Reason
 
         ' Setup the pilot for this form
         displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PilotName), Core.Pilot)
@@ -73,7 +77,7 @@ Public Class frmSelectQueue
                 For Each skill As String In skillsNeeded
                     Dim skillName As String = skill.Substring(0, skill.Length - 1)
                     Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                    qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl, False, True)
+                    qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl, False, True, QueueReason)
                 Next
             Else
                 MessageBox.Show(displayPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)
